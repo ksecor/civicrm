@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -33,7 +33,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -91,7 +91,8 @@ function civicrm_custom_group_create( $params )
     $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
     
     require_once 'CRM/Utils/String.php';
-    if (! trim($params['title'] ) ) {
+    if (! isset( $params['title'] ) ||
+        ! trim($params['title'] ) ) {
         return civicrm_create_error( "Title parameter is required." );
     } 
 
@@ -112,6 +113,11 @@ function civicrm_custom_group_create( $params )
         return civicrm_create_error( $customGroup->_errors[0]['message'] );
     } else {
         $values['is_error'] = 0;
+    }
+    if ( CRM_Utils_Array::value( 'html_type', $params ) ){
+        $params['custom_group_id'] = $customGroup->id;
+        $fieldValues = civicrm_custom_field_create( $params );
+        $values      = array_merge( $values, $fieldValues['result'] );
     }
     return $values;
 }   

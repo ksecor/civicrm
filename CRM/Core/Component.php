@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -30,7 +30,7 @@
  * CiviCRM components
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -54,16 +54,7 @@ class CRM_Core_Component
             $c = array();
             
             $config =& CRM_Core_Config::singleton( );
-            
-            /* FIXME: hack to bypass getComponents, if running upgrade to avoid
-               any serious non-recoverable error which might hinder the
-               upgrade process. */
-            $args = array( );
-            if ( isset( $_GET[$config->userFrameworkURLVar] ) ) {
-                $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
-            }
-
-            $c =& self::getComponents();
+            $c      =& self::getComponents();
 
             foreach( $c as $name => $comp ) {
                 if ( in_array( $name, $config->enableComponents ) ) {
@@ -114,6 +105,21 @@ class CRM_Core_Component
         return self::_info();
     }
 
+    public function &getNames( $translated = false )
+    {
+        $allComponents = self::getComponents();
+        
+        $names = array();
+        foreach ( $allComponents as $name => $comp ) {
+            if( $translated ) {
+                $names[$comp->componentID] = $comp->info['translatedName'];
+            } else {
+                $names[$comp->componentID] = $name;
+            }
+        }
+        return $names;
+    }
+    
     static function invoke( &$args, $type ) 
     {
         $info =& self::_info( );
@@ -156,6 +162,7 @@ class CRM_Core_Component
             $files = array_merge( $files,
                                   $comp->menuFiles( ) );
         }
+        
         return $files;
     }
 
@@ -184,6 +191,12 @@ class CRM_Core_Component
             $cfg->add( $config, $oldMode );
         }
         return;
+    }
+
+    static function getComponentID( $componentName ) {
+        $info =& self::_info( );
+
+        return $info[$componentName]->componentID;
     }
 
     static function &getQueryFields( ) 

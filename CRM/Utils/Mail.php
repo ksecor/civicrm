@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -126,18 +126,15 @@ class CRM_Utils_Mail {
                           $replyTo = null,
                           $html_message = null,
                           $attachments = null ) {
-        $returnPath = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
-                                                   1,
-                                                   'email_return_path' );
+        $returnPath = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_MailSettings', 1, 'return_path', 'is_default');
         if ( ! $returnPath ) {
-            $returnPath = self::_pluckEmailFromHeader($from);
+            $returnPath = self::pluckEmailFromHeader($from);
         }
 
         $headers = array( );  
         $headers['From']                      = $from;
         $headers['To']                        = self::encodeAddressHeader($toDisplayName, $toEmail);  
         $headers['Cc']                        = $cc;
-        $headers['Bcc']                       = $bcc;
         $headers['Subject']                   = self::encodeSubjectHeader($subject);  
         $headers['Content-Type']              = 'text/plain; charset=utf-8';  
         $headers['Content-Disposition']       = 'inline';  
@@ -177,15 +174,17 @@ class CRM_Utils_Mail {
         $msg->headers($headers);
         $message   =& $msg->get();
         $headers =& $msg->headers();
-
-        $mailer =& CRM_Core_Config::getMailer( );  
+        $result = null;
+        $mailer =& CRM_Core_Config::getMailer( );
         CRM_Core_Error::ignoreException( );
-        $result = $mailer->send($to, $headers, $message);
-        CRM_Core_Error::setCallback();
-
-        if ( is_a( $result, 'PEAR_Error' ) ) {
-            $message = 
-'A fatal error occurred when CiviCRM attempted to send an email (via SMTP). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
+        if ( is_object( $mailer ) ) {
+            $result = $mailer->send($to, $headers, $message);
+            CRM_Core_Error::setCallback()
+;
+            if ( is_a( $result, 'PEAR_Error' ) ) {
+                if ( is_a( $mailer , 'Mail_smtp' ) ) {
+                    $message = 
+                    'A error occurred when CiviCRM attempted to send an email (via SMTP). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
 <p>
 This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:
 <ul>
@@ -198,10 +197,23 @@ This is probably related to a problem in your Outbound Email Settings (Administe
 Check <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Outbound+Email+%28SMTP%29">this page for more information.</a>
 <p>
  The mail library returned the following error message: <b>';
-
-            $message .= $result->getMessage( );
-            $message .= '</b><p>';
-            CRM_Core_Error::fatal( $message );
+                } else {
+                    $message = 
+                        'A error occurred when CiviCRM attempted to send an email (via SendMail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
+<p>
+This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:
+<ul>
+<li>Your SendMail path is incorrect.</li>
+<li>Your SendMail agrument is incorrect.</li>
+</ul>
+ The mail library returned the following error message: <b>';
+                }
+                
+                $message .= $result->getMessage( );
+                $message .= '</b><p>';
+                CRM_Core_Session::setStatus( $message );
+                return false;
+            }
         }
         return true;
     }
@@ -241,10 +253,36 @@ Check <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Outbound+Email+
      * @param  string $header  the full name + email address string
      * @return string          the plucked email address
      */
-    private function _pluckEmailFromHeader($header) {
+    function pluckEmailFromHeader($header) {
         preg_match('/<([^<]*)>$/', $header, $matches);
         return $matches[1];
     }
+    
+    /**
+     * Get the Active outBound email 
+     * @return boolean true if valid outBound email configuration found, false otherwise
+     * @access public
+     * @static
+     */
+    static function validOutBoundMail() {
+        require_once "CRM/Core/BAO/Preferences.php";
+        $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
+        if ( $mailingInfo['outBound_option'] == 0 ) {
+            if ( !isset( $mailingInfo['smtpServer'] ) || $mailingInfo['smtpServer'] == '' || 
+                 $mailingInfo['smtpServer'] == 'YOUR SMTP SERVER'|| 
+                 ( $mailingInfo['smtpAuth'] && ( $mailingInfo['smtpUsername'] == '' || $mailingInfo['smtpPassword'] == '' ) ) ) {
+                return false;
+            }
+            return true;
+        } else if ( $mailingInfo['outBound_option'] == 1 ) {
+            if ( ! $mailingInfo['sendmail_path'] || ! $mailingInfo['sendmail_args'] ) {
+                return false;
+            }
+            return true;
+        }
+        return false;        
+    }
+
 }
 
 

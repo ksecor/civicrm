@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -53,7 +53,8 @@ class CRM_Core_Block {
         SEARCH     =  4,
         ADD        =  8,
         CONTRIBUTE = 16,
-        GCC        = 32;
+        GCC        = 32,
+        LANGSWITCH = 64;
     
     /**
      * template file names for the above blocks
@@ -77,6 +78,10 @@ class CRM_Core_Block {
             define('BLOCK_CACHE_GLOBAL', 0x0008);
         }
 
+        if ( ! defined( 'BLOCK_CACHE_PER_PAGE' ) ) {
+            define('BLOCK_CACHE_PER_PAGE', 0x0004);
+        }
+
         if (!(self::$_properties)) {
             self::$_properties = array(
                                        self::SHORTCUTS   => array( 'template'   => 'Shortcuts.tpl',
@@ -85,7 +90,7 @@ class CRM_Core_Block {
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
-                                                                   'pages'      => 'civicrm/*',
+                                                                   'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
                                        self::ADD         => array( 'template'   => 'Add.tpl',
                                                                    'info'       => ts('CiviCRM Quick Add'),
@@ -93,7 +98,7 @@ class CRM_Core_Block {
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
-                                                                   'pages'      => 'civicrm/*',
+                                                                   'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
                                        self::SEARCH      => array( 'template'   => 'Search.tpl',
                                                                    'info'       => ts('CiviCRM Search'),
@@ -101,15 +106,24 @@ class CRM_Core_Block {
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
-                                                                   'pages'      => 'civicrm/*',
+                                                                   'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
                                        self::MENU        => array( 'template'   => 'Menu.tpl',
                                                                    'info'       => ts('CiviCRM Menu'),
                                                                    'subject'    => ts('CiviCRM'),
                                                                    'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_PER_PAGE,
+                                                                   'visibility' => 1,
+                                                                   'pages'      => 'civicrm*',
+                                                                   'region'     => 'left' ),
+                                       self::LANGSWITCH  => array( 'template'   => 'LangSwitch.tpl',
+                                                                   'info'       => ts('CiviCRM Language Switcher'),
+                                                                   'subject'    => '',
+                                                                   'templateValues' => array(),
+                                                                   'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
-                                                                   'pages'      => 'civicrm/*',
+                                                                   'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
                                        );
             // seems like this is needed for drupal 4.7, have not tested
@@ -225,11 +239,11 @@ class CRM_Core_Block {
         } else if ( $id == self::SEARCH ) {
             $urlArray = array(
                 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic',
-                                                              'reset=1', true, null, false ) ,
+                                                              'reset=1', false, null, false ) ,
                 'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
-                                                              'reset=1' ),
+                                                              'reset=1', false ),
                 'dataURL'           => CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                              'reset=1', true, null, false ),
+                                                              'reset=1', false, null, false ),
                 'viewContactURL'    => CRM_Utils_System::url( 'civicrm/contact/view',
                                                               'reset=1' ) ,
             );
@@ -290,6 +304,20 @@ class CRM_Core_Block {
                                                                    'title' => ts('New Group') ) ));
             }
 
+            if ( CRM_Core_Permission::check('access CiviCase') && 
+                 in_array( 'CiviCase', $config->enableComponents ) ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $atype = CRM_Core_OptionGroup::getValue('activity_type', 
+                                                        'Open Case', 
+                                                        'name' );
+                if ( $atype ) {
+                    $shortCuts = 
+                        array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/case',
+                                                              'query' => "reset=1&action=add&atype=$atype",
+                                                              'title' => ts('New Case for New Client') ) ));
+                }
+            }
+
             if ( CRM_Core_Permission::check('access Contact Dashboard')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/user',
                                                                    'query' => 'reset=1',
@@ -308,7 +336,7 @@ class CRM_Core_Block {
             if ( isset( $short['url'] ) ) {
                 $value['url'] = $short['url'];
             } else {
-                $value['url'] = CRM_Utils_System::url( $short['path'], $short['query'] );
+                $value['url'] = CRM_Utils_System::url( $short['path'], $short['query'], false );
             }
             $value['title'] = $short['title'];
             $value['key'] = CRM_Utils_Array::value( 'key', $short );

@@ -52,9 +52,10 @@
             <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}<br />
                 <span class="description">{ts}Membership payment amount. A contribution record will be created for this amount.{/ts}</span></dd>
             <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-            <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>
+            <div id="checkNumber"><dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html}</dd></div>
+	    <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>
             <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
-        </dl>
+	</dl>
         </fieldset>
     {/if}
     {if $membershipMode}
@@ -86,7 +87,7 @@
         <dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
         </fieldset>
      {/if}
-     {if $email}	
+     {if $email and $outBound_option != 2}	
 	 <dl>
 	    <dt>{$form.send_receipt.label}</dt><dd class="html-adjust">{$form.send_receipt.html}<br />
 		<span class="description">{ts}Automatically email a membership confirmation and receipt to {$email}?{/ts}</span></dd>
@@ -116,7 +117,7 @@
     invert              = 0
 }
 {/if}
-{if $email}
+{if $email and $outBound_option != 2}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""
@@ -126,12 +127,22 @@
     invert              = 0
 }
 {/if}
+{if !$membershipMode}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="payment_instrument_id"
+    trigger_value       = '4'
+    target_element_id   ="checkNumber" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
+{/if}
 {literal}
 <script type="text/javascript">
 function checkPayment()
 {
     showHideByValue('record_contribution','','recordContribution','table-row','radio',false);
-    {/literal}{if $email}{literal}
+    {/literal}{if $email and $outBound_option != 2}{literal}
     var record_contribution = document.getElementsByName('record_contribution');
     if ( record_contribution[0].checked ) {
         document.getElementsByName('send_receipt')[0].checked = true;

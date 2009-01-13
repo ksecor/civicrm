@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -56,9 +56,20 @@ class CRM_Admin_Form_Setting_UF extends CRM_Admin_Form_Setting
 
         $this->addElement('text','userFrameworkVersion' ,ts('%1 Version', array( 1 => $uf )));  
         $this->addElement('text','userFrameworkUsersTableName', ts('%1 Users Table Name', array( 1 => $uf )));
+        if ( function_exists('module_exists') &&
+             module_exists('views')           &&
+             $config->dsn != $config->userFrameworkDSN ) {
+            $dsnArray      = DB::parseDSN($config->dsn);
+            $tableNames    = CRM_Core_DAO::GetStorageValues(null, 0, 'Name');
+            $tablePrefixes = '$db_prefix = array(';
+            foreach ( $tableNames as $tableName => $value ) {
+                $tablePrefixes .= "\n  '" . str_pad($tableName . "'", 41) . " => '{$dsnArray['database']}.',";
+            }
+            $tablePrefixes .= "\n);";
+            $this->assign('tablePrefixes', $tablePrefixes);
+        }
+
         parent::buildQuickForm( ); 
     }
 
 }
-
-

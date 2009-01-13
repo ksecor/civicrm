@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -108,7 +108,7 @@ class CRM_Event_BAO_Query
             //event type
             if ( CRM_Utils_Array::value( 'event_type_id', $query->_returnProperties ) ) {
                 $query->_select['event_type']  = "event_type.label as event_type_id";
-                $query->_element['event_type']        = 1;
+                $query->_element['event_type_id']     = 1;
                 $query->_tables['event_type']         = 1;
                 $query->_whereTables['event_type']    = 1;
             }
@@ -116,7 +116,7 @@ class CRM_Event_BAO_Query
             //add status
             if ( CRM_Utils_Array::value( 'participant_status_id', $query->_returnProperties ) ) {
                 $query->_select['participant_status']  = "participant_status.label as participant_status_id";
-                $query->_element['participant_status'] = 1;
+                $query->_element['participant_status_id'] = 1;
                 $query->_tables['civicrm_participant'] = 1;
                 $query->_tables['participant_status'] = 1;
                 $query->_whereTables['civicrm_participant'] = 1;
@@ -126,7 +126,7 @@ class CRM_Event_BAO_Query
             //add role
             if ( CRM_Utils_Array::value( 'participant_role_id', $query->_returnProperties ) ) {
                 $query->_select['participant_role']  = "participant_role.label as participant_role_id";
-                $query->_element['participant_role'] = 1;
+                $query->_element['participant_role_id'] = 1;
                 $query->_tables['civicrm_participant'] = 1;
                 $query->_tables['participant_role'] = 1;
                 $query->_whereTables['civicrm_participant'] = 1;
@@ -488,10 +488,10 @@ class CRM_Event_BAO_Query
     {
         $dataURLEvent     = CRM_Utils_System::url( 'civicrm/ajax/event',
                                                    "reset=1",
-                                                   true, null, false);
+                                                   false, null, false);
         $dataURLEventType = CRM_Utils_System::url( 'civicrm/ajax/eventType',
                                                    "reset=1",
-                                                   true, null, false);
+                                                   false, null, false);
               
         $form->assign( 'dataURLEvent',     $dataURLEvent );
         $form->assign( 'dataURLEventType', $dataURLEventType );
@@ -521,7 +521,7 @@ class CRM_Event_BAO_Query
         
         $dataURLEventFee = CRM_Utils_System::url( 'civicrm/ajax/eventFee',
                                                   "reset=1",
-                                                  true, null, false);
+                                                  false, null, false);
         $form->assign( 'dataURLEventFee', $dataURLEventFee );
         $participantFee  =& $form->add('text', 'participant_fee_level', ts('Fee Level'), $dojoAttributesEventFee );
 
@@ -529,7 +529,7 @@ class CRM_Event_BAO_Query
             $form->assign( 'event_id_value', $eventId->getValue( ) );
         } else {
             $fv  =& $form->getFormValues( );
-            if ( $fv['event_id'] ) {
+            if ( CRM_Utils_Array::value( 'event_id', $fv ) ) {
                 $form->assign( 'event_id_value',  $fv['event_id'] );
             }
         }
@@ -538,7 +538,7 @@ class CRM_Event_BAO_Query
             $form->assign( 'event_type_value',  $eventType->getValue( ) );
         } else {
             $fv  =& $form->getFormValues( );
-            if ( $fv['event_type'] ) {
+            if ( CRM_Utils_Array::value( 'event_type', $fv ) ) {
                 $form->assign( 'event_type_value',  $fv['event_type'] );
             }
         }
@@ -547,7 +547,7 @@ class CRM_Event_BAO_Query
             $form->assign( 'participant_fee_level_value',  $participantFee->getValue( ) );
         } else {
             $fv  =& $form->getFormValues( );
-            if ( $fv['participant_fee_level'] ) {
+            if ( CRM_Utils_Array::value( 'participant_fee_level', $fv ) ) {
                 $form->assign( 'participant_fee_level_value',  $fv['participant_fee'] );
             }
         }

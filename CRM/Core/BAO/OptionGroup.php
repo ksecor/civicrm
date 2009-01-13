@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -174,26 +174,39 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
      */
     static function copyValue( $component, $fromId, $toId, $defaultId = false,  $discountSuffix = null ) 
     {
+        $page = '_page';
+        if ( $component == 'event' ) {
+            //fix for CRM-3391.
+            //as for event we remove 'page' from group name.
+            $page = null;
+        }
+
+        $fromGroupName = 'civicrm_' . $component . $page .'.amount.' . $fromId . $discountSuffix;
+        $toGroupName   = 'civicrm_' . $component . $page .'.amount.' . $toId   . $discountSuffix;
+        
         $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
-                                                      'civicrm_'. $component. '_page.amount.' .$fromId .$discountSuffix, 
+                                                      $fromGroupName, 
                                                       'id', 
                                                       'name' );
         if ( $optionGroupId ) {
             $copyOptionGroup =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionGroup', 
-                                                           array( 'name' => 'civicrm_'.$component.'_page.amount.'.$fromId . $discountSuffix ),
-                                                           array( 'name' => 'civicrm_'.$component.'_page.amount.'.$toId . $discountSuffix ) );
+                                                           array( 'name' => $fromGroupName ),
+                                                           array( 'name' => $toGroupName ) 
+                                                           );
             
             $copyOptionValue =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionValue', 
                                                            array( 'option_group_id' => $optionGroupId ),
-                                                           array( 'option_group_id' => $copyOptionGroup->id ) );
+                                                           array( 'option_group_id' => $copyOptionGroup->id ) 
+                                                           );
             
             if ( $discountSuffix ) {
                 $copyDiscount =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_Discount',
-                                                      array( 'entity_id'       => $fromId,
-                                                             'entity_table'    => 'civicrm_' . $component,
-                                                             'option_group_id' => $optionGroupId ),
-                                                      array( 'entity_id'       => $toId,
-                                                             'option_group_id' => $copyOptionGroup->id ) );
+                                                            array( 'entity_id'       => $fromId,
+                                                                   'entity_table'    => 'civicrm_' . $component,
+                                                                   'option_group_id' => $optionGroupId ),
+                                                            array( 'entity_id'       => $toId,
+                                                                   'option_group_id' => $copyOptionGroup->id ) 
+                                                            );
             }
             
             if ( $defaultId ) {
@@ -217,7 +230,7 @@ AND first.id =%3
                 return $id;
             }
             return false;
-        }  
+        }
     }
 }
 

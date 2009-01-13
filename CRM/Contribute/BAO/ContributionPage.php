@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -65,7 +65,8 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
         // get the amounts and the label
         require_once 'CRM/Core/OptionGroup.php';  
-        CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.amount.{$id}", $values );
+        $values['amount'] = array( );
+        CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.amount.{$id}", $values['amount'], true );
 
         // get the profile ids
         require_once 'CRM/Core/BAO/UFJoin.php'; 
@@ -73,7 +74,15 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                                'entity_id'    => $id );   
         list( $values['custom_pre_id'],
               $values['custom_post_id'] ) = CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
+
+        // add an accounting code also
+        if ( $values['contribution_type_id'] ) {
+            $values['accountingCode'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                     $values['contribution_type_id'],
+                                                                     'accounting_code' );
+        }
     }
+
 
     /**
      * Function to send the emails
@@ -90,7 +99,6 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
     static function sendMail( $contactID, &$values, $isTest = false, $returnMessageText = false ) 
     { 
         require_once "CRM/Core/BAO/UFField.php";
-
         $gIds = array( );
         $params = array( );
         if ( isset( $values['custom_pre_id'] ) ) {
@@ -130,8 +138,12 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         if ( $values['is_email_receipt'] || $values['onbehalf_dupe_alert'] ) {
             $template =& CRM_Core_Smarty::singleton( );
 
+            // get the billing location type
+            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+            $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
+
             require_once 'CRM/Contact/BAO/Contact/Location.php';
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );
             if ( $isTest &&
                  ! empty( $params['custom_pre_id'] ) ) {
                 $params['custom_pre_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
@@ -141,19 +153,24 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                  ! empty( $params['custom_post_id'] ) ) {
                 $params['custom_post_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
             }
+            
+            //for display profile need to get individual contact id,  
+            //hence get it from related_contact if on behalf of org true CRM-3767.
+            $cid = CRM_Utils_Array::value( 'related_contact', $values, $contactID );
+            
             self::buildCustomDisplay( CRM_Utils_Array::value( 'custom_pre_id',
                                                               $values ),
                                       'customPre',
-                                      $contactID ,
+                                      $cid,
                                       $template  ,
                                       $params['custom_pre_id'] );
             self::buildCustomDisplay( CRM_Utils_Array::value( 'custom_post_id',
                                                               $values ),
                                       'customPost',
-                                      $contactID  ,
+                                      $cid,
                                       $template   ,
                                       $params['custom_post_id'] );
-
+            
             // set email in the template here
             $template->assign( 'email', $email );
 
@@ -340,6 +357,9 @@ WHERE entity_table = 'civicrm_contribution_page'
         
         $copy->save( );
         
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::copy( 'ContributionPage', $copy );
+
         return $copy;
     }
 

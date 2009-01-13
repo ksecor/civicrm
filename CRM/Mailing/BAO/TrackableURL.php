@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -62,9 +62,9 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             return $urlCache[$url] . "&qid=$queue_id";
         }
 
-        // hack for basic CRM-1014 and CRM-1151 compliance:
+        // hack for basic CRM-1014 and CRM-1151 and CRM-3492 compliance:
         // let's not replace possible image URLs and CiviMail ones
-        if (preg_match('/\.(png|jpg|jpeg|gif)$/i', $url)
+        if (preg_match('/\.(png|jpg|jpeg|gif|css)[\'"]?$/i', $url)
             or substr_count($url, 'civicrm/extern/')
             or substr_count($url, 'civicrm/mailing/')
             ) {
@@ -77,7 +77,7 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             
             $tracker =& new CRM_Mailing_BAO_TrackableURL();
             if (preg_match('/^href/i',$url)) {
-                $url = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/','$1',$url);
+                $url = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/i','$1',$url);
                 $hrefExists = true;
             }
             

@@ -3,20 +3,28 @@
  * File containing the ezcMailParserOption class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
  * Class containing the basic options for the mail parser.
  *
+ * Example of how to use the parser options:
+ * <code>
+ * $options = new ezcMailParserOptions();
+ * $options->mailClass = 'ezcMail';
+ *
+ * $parser = new ezcMailParser( $options );
+ * </code>
+ *
  * @property int $mailClass
  *           Specifies a class descending from ezcMail which can be returned by the
  *           parser if you plan to use another class instead of ezcMail.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  */
 class ezcMailParserOptions extends ezcBaseOptions
 {
@@ -61,11 +69,8 @@ class ezcMailParserOptions extends ezcBaseOptions
                 }
 
                 // Check if the passed classname actually implements the
-                // correct parent class. We have to do that with reflection
-                // here unfortunately
-                $parentClass = new ReflectionClass( 'ezcMail' );
-                $handlerClass = new ReflectionClass( $propertyValue );
-                if ( 'ezcMail' !== $propertyValue && !$handlerClass->isSubclassOf( $parentClass ) )
+                // correct parent class.
+                if ( 'ezcMail' !== $propertyValue && !in_array( 'ezcMail', class_parents( $propertyValue ) ) )
                 {
                     throw new ezcBaseInvalidParentClassException( 'ezcMail', $propertyValue );
                 }

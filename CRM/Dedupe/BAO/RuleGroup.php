@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2008
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -53,6 +53,11 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
     var $params = array();
 
     /**
+     * if there are no rules in rule group
+     */
+    var $noRules = false;
+
+    /**
      * Return a structure holding the supported tables, fields and their titles
      *
      * @param string $requestedType  the requested contact type
@@ -70,6 +75,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                 'gender.label'                => 'civicrm_contact.gender_id',
                 'individual_prefix.label'     => 'civicrm_contact.prefix_id',
                 'individual_suffix.label'     => 'civicrm_contact.suffix_id',
+                'greeting_type.label'         => 'civicrm_contact.greeting_type_id'
             );
             // the table names we support in dedupe rules - a filter for importableFields()
             $supportedTables = array('civicrm_address', 'civicrm_contact', 'civicrm_email',
@@ -89,7 +95,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                     }
                 }
                 // add custom data fields
-                foreach(CRM_Core_BAO_CustomGroup::getTree($ctype, null, -1) as $key => $cg) {
+                foreach(CRM_Core_BAO_CustomGroup::getTree($ctype, CRM_Core_DAO::$_nullObject, null, -1) as $key => $cg) {
                     if (!is_int($key)) continue;
                     foreach($cg['fields'] as $cf) {
                         $fields[$ctype][$cg['table_name']][$cf['column_name']] = $cf['label'];
@@ -121,6 +127,13 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
             $bao->params = $this->params;
             $queries[] = $bao->sql();
         }
+
+        // if there are no rules in this rule group, add an empty query fulfilling the pattern
+        if ( !$queries ) {
+            $queries = array('SELECT 0 id1, 0 id2, 0 weight LIMIT 0');
+            $this->noRules = true;
+        }
+        
         return 'CREATE TEMPORARY TABLE dedupe ' . implode(' UNION ALL ', $queries);
     }
 
@@ -128,7 +141,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
      * Return the SQL query for getting only the interesting results out of the dedupe table.
      */
     function thresholdQuery() {
-        if ($this->params) {
+        if ( $this->params && !$this->noRules ) { 
             return "SELECT id
                 FROM dedupe JOIN civicrm_contact USING (id)
                 WHERE contact_type = '{$this->contact_type}'

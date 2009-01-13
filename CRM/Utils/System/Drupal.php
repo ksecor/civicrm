@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -149,7 +149,7 @@ class CRM_Utils_System_Drupal {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true,
+    function url($path = null, $query = null, $absolute = false,
                  $fragment = null, $htmlize = true,
                  $frontend = false ) {
         $config        =& CRM_Core_Config::singleton( );
@@ -159,7 +159,8 @@ class CRM_Utils_System_Drupal {
             $fragment = '#'. $fragment;
         }
 
-        $base = $absolute ? $config->userFrameworkBaseURL: '';
+        $relBase = parse_url( $config->userFrameworkBaseURL );
+        $base = $absolute ? $config->userFrameworkBaseURL : $relBase['path'] ;
         $separator = $htmlize ? '&amp;' : '&';
 
         if (! $config->cleanURL ) {
@@ -253,6 +254,13 @@ class CRM_Utils_System_Drupal {
     static function logout( ) {
         module_load_include( 'inc', 'user', 'user.pages' );
         return user_logout( );
+    }
+
+    static function updateCategories( ) {
+        // copied this from profile.module. Seems a bit inefficient, but i dont know a better way
+        // CRM-3600
+        cache_clear_all();
+        menu_rebuild();
     }
 
 }

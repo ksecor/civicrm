@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -50,7 +50,10 @@ class CRM_Mailing_Form_Search extends CRM_Core_Form {
  
         $this->add('date', 'mailing_to', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $this->addRule('mailing_to', ts('Select a valid Sent THROUGH date.'), 'qfDate'); 
-
+        
+        $this->add( 'text', 'sort_name', ts( 'Find mailing created or sent by' ), 
+                    CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        
         $this->addButtons(array( 
                                 array ('type'      => 'refresh', 
                                        'name'      => ts('Search'), 
@@ -63,7 +66,7 @@ class CRM_Mailing_Form_Search extends CRM_Core_Form {
         
         $parent = $this->controller->getParent( );
         if ( ! empty( $params ) ) {
-            $fields = array( 'mailing_name', 'mailing_from', 'mailing_to' );
+            $fields = array( 'mailing_name', 'mailing_from', 'mailing_to', 'sort_name' );
             foreach ( $fields as $field ) {
                 if ( isset( $params[$field] ) &&
                      ! CRM_Utils_System::isNull( $params[$field] ) ) {

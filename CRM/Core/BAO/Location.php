@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -353,6 +353,19 @@ WHERE e.id = %1";
      */
     static function deleteLocationBlocks( $contactId, $locationTypeId ) 
     {
+        // ensure that contactId has a value
+        if ( empty( $contactId ) ||
+             ! CRM_Utils_Rule::positiveInteger( $contactId ) ) {
+            CRM_Core_Error::fatal( );
+        }
+             
+        if ( empty( $locationTypeId ) ||
+             ! CRM_Utils_Rule::positiveInteger( $locationTypeId ) ) {
+            // so we only delete the blocks which DO NOT have a location type Id
+            // CRM-3581
+            $locationTypeId = 'null';
+        }
+
         static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID', 'Email' );
         
         require_once "CRM/Core/BAO/Block.php";
@@ -406,6 +419,50 @@ WHERE e.id = %1";
         }
     }
     
+    /* Function to copy or update location block. 
+     *
+     * @param  int  $locBlockId  location block id.
+     * @param  int  $updateLocBlockId update location block id
+     * @return int  newly created/updated location block id.
+     */
+    static function copyLocBlock( $locBlockId, $updateLocBlockId = null ) 
+    {
+        //get the location info.
+        $defaults = $updateValues = array( );
+        $locBlock = array( 'id' => $locBlockId );
+        CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $locBlock, $defaults );
+        
+        if ( $updateLocBlockId ) {
+            //get the location info for update.
+            $copyLocationParams = array( 'id' => $updateLocBlockId );
+            CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $copyLocationParams, $updateValues );
+            foreach ( $updateValues as $key => $value) {
+                if ( $key != 'id' ) {
+                    $copyLocationParams[$key] = 'null';
+                }
+            }
+        }
+        
+        //copy all location blocks (email, phone, address, etc)
+        foreach ( $defaults as $key => $value ) {
+            if ( $key != 'id') {
+                $tbl  = explode("_", $key);
+                $name = ucfirst( $tbl[0] );
+                $updateParams = null;
+                if ( $updateId = CRM_Utils_Array::value( $key, $updateValues ) ) {
+                    $updateParams = array( 'id' => $updateId );
+                }
+                
+                $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_' . $name, array( 'id' => $value ), $updateParams );
+                $copyLocationParams[$key] = $copy->id;
+            }
+        }
+        
+        $copyLocation =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_LocBlock', 
+                                                    array( 'id' => $locBlock['id'] ), 
+                                                    $copyLocationParams );
+        return $copyLocation->id;
+    }
 }
 
 

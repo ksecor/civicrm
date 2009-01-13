@@ -143,6 +143,12 @@
        <comment>number of options per line for checkbox and radio</comment>
   </field>
   <field>
+       <name>text_length</name>
+       <type>int unsigned</type>
+       <comment>field length if alphanumeric</comment>
+       <add>2.2</add>
+  </field>
+  <field>
        <name>start_date_years</name>
        <type>int unsigned</type>
        <comment>Date may be up to start_date_years years prior to tcurrent date  </comment>

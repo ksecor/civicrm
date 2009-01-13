@@ -318,37 +318,6 @@ function markerError($file, $line, $marker, $tokens)
 
 
 /**
- * returns the POT file header
- *
- * @param string $file  the string containing the file name
- *
- * @return string  the string containing the POT header
- */
-function writeHeader($file)
-{
-    $output = array();
-    $output[] = '# Copyright CiviCRM LLC (c) 2004-2008';
-    $output[] = '# This file is distributed under the same license as the CiviCRM package.';
-    $output[] = '# If you contribute heavily to a translation and deem your work copyrightable,';
-    $output[] = '# make sure you license it to CiviCRM LLC under Academic Free License 3.0.';
-    $output[] = 'msgid ""';
-    $output[] = 'msgstr ""';
-    $output[] = '"Project-Id-Version: CiviCRM 2.0\n"';
-    $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
-    $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
-    $output[] = '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"';
-    $output[] = '"MIME-Version: 1.0\n"';
-    $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
-    $output[] = '"Content-Transfer-Encoding: 8bit\n"';
-    $output[] = '"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"';
-    $output[] = '';
-    $output[] = '';
-    return implode("\n", $output);
-}
-
-
-
-/**
  * stores the string information
  *
  * @param string  $file      the string containing the filename the string's in
@@ -368,7 +337,7 @@ function store($file = 0, $input = 0, $filelist = array(), $get = false)
             $storage[$file][] = $input;
         } else {
             $storage[$file] = array();
-            $storage[$file][0] = writeHeader($file);
+            $storage[$file][0] = '';
             $storage[$file][1] = $filelist;
             $storage[$file][2] = $input;
         }

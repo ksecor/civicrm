@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -44,7 +44,7 @@ class CRM_Bridge_OG_Drupal {
         // first create or update the CiviCRM group
         $groupParams               = $params;
         $groupParams['source']     = CRM_Bridge_OG_Utils::ogSyncName( $params['og_id'] );
-        $groupParams['group_type'] = array('2');
+        $groupParams['group_type'] = array( '2' => 1 );
         self::updateCiviGroup( $groupParams, $op, $groupType );
 
         if ( CRM_Bridge_OG_Utils::aclEnabled( ) ) {

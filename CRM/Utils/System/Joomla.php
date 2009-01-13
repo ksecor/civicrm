@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,11 +55,9 @@ class CRM_Utils_System_Joomla {
 
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'pageTitle', $pageTitle );
-        
-        global $mainframe;
-        if ( $mainframe ) {
-            $mainframe->setPageTitle( $title );
-        }
+
+		$document=& JFactory::getDocument();
+		$document->setTitle($title);
 
         return;
     }

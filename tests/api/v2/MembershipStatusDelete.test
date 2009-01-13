@@ -3,6 +3,15 @@
 require_once 'api/v2/Membership.php';
 
 class TestOfMembershipStatusDelete extends CiviUnitTestCase {
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'MembershipStatus Delete',
+                     'description' => 'Test all MembershipStatus Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
     function setup( ) {
     }
 

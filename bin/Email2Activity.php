@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2008
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -44,8 +44,11 @@ class bin_Email2Activity {
 
     protected $_errorDir;
 
-    function __construct( $dir ) {
+    protected $_context;
+
+    function __construct( $dir, $context = 'activity' ) {
         $this->_mailDir = $dir;
+        $this->_context = strtolower($context);
         // create the error and processed directories
         // sort them by date
         $this->createDir( );
@@ -103,9 +106,18 @@ class bin_Email2Activity {
     }
 
     function process( $file ) {
-        require_once 'api/v2/Activity.php';
-        $result = civicrm_activity_process_email( $this->_mailDir . DIRECTORY_SEPARATOR . $file,
-                                                  EMAIL_ACTIVITY_TYPE_ID );
+        if ( $this->_context == 'activity' ) {
+            require_once 'api/v2/Activity.php';
+            $result = civicrm_activity_process_email( $this->_mailDir . DIRECTORY_SEPARATOR . $file,
+                                                      EMAIL_ACTIVITY_TYPE_ID );
+        } elseif ( $this->_context == 'case' ) {
+            require_once 'CRM/Case/BAO/Case.php';
+            $result = CRM_Case_BAO_Case::recordActivityViaEmail( $this->_mailDir . DIRECTORY_SEPARATOR . $file );
+        } else {
+            echo "Context not supported/set.\n";
+            exit( );
+        }
+
         if ( $result['is_error'] ) {
             rename( $this->_mailDir  . DIRECTORY_SEPARATOR . $file,
                     $this->_errorDir . DIRECTORY_SEPARATOR . $file );
@@ -122,7 +134,7 @@ class bin_Email2Activity {
 }
     
 
-function run( ) {
+function run( $supportedArgs, $context ) {
     session_start( );
 
     require_once '../civicrm.config.php';
@@ -137,9 +149,28 @@ function run( ) {
         $mailDir = $_GET['mailDir'];
     }
 
-    $email = new bin_Email2Activity( $mailDir );
+    if ( array_key_exists( 'context', $_GET ) && 
+         isset($supportedArgs[strtolower($_GET['context'])]) ) {
+        $context = $supportedArgs[strtolower($_GET['context'])];
+    }
+
+    $email = new bin_Email2Activity( $mailDir, $context );
 
     $email->run( );
 }
 
-run( );
+// support command line arguements as well
+$context       = 'activity';
+$supportedArgs = array('case'     => 'case', 
+                       '--case'   => 'case', 
+                       '--case=1' => 'case');
+
+if ( isset($argv[1]) ) {
+    if ( isset( $supportedArgs[strtolower($argv[1])] ) ) {
+        $context = $supportedArgs[strtolower($argv[1])];
+    } else {
+        echo "Context not supported.\n";
+        exit( );
+    }
+}
+run( $supportedArgs, $context );

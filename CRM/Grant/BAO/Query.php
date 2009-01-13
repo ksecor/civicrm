@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -304,9 +304,28 @@ class CRM_Grant_BAO_Query
         $form->add('text', 'grant_amount_high', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'grant_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
         
-        $form->assign( 'validGrant', true );
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $grant = array( 'Grant' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $grant );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('grantGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
         
+        $form->assign( 'validGrant', true );
     }
+    
     static function addShowHide( &$showHide ) 
     {
         $showHide->addHide( 'grantForm' );

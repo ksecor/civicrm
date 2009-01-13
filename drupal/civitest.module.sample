@@ -59,6 +59,11 @@ function civitest_civicrm_custom( $op, $groupID, $entityID, &$params ) {
     if ( $op != 'create' && $op != 'edit' ) {
         return;
     }
+    
+    // this is the custom group i am interested in updating when the row is updated
+    if ( $groupID != 1 ) {
+        return;
+    }
 
     $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
                                               $groupID,
@@ -145,4 +150,130 @@ function civitest_civicrm_dashboard( $contactID ) {
 ",
                   );
 
+}
+
+function civitest_civicrm_buildAmount( $pageType,
+                                      &$form,
+                                      &$amount ) {
+
+    // lets add an arbitrary amount here, just to show folks
+    // the power of a hook :)
+    $amount[1000] = array( 'value'    => 400,
+                           'label'     => 'Hook',
+                           'amount_id' => 1000 );
+    
+
+    // now lets get a bit more ambitious
+    // *GOAL*: lets plan to give 20% discount to students
+    $membershipType  = 'Student';
+    $discountPercent = 20; 
+
+    // get the membership-type-id for the membership-type
+    $membershipTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                     $membershipType,
+                                                     'id',
+                                                     'name' );
+
+    // get the logged in user id 
+    $session =& CRM_Core_Session::singleton();
+    $userID  = $session->get( 'userID' );
+
+    if ( $userID ) {
+        // check if logged in user has 'Student' membership
+        require_once 'CRM/Member/BAO/Membership.php';
+        $membership = CRM_Member_BAO_Membership::getContactMembership( $userID, $membershipTypeId, null );
+        
+        // If logged in contact is a member as on today, modify the amount
+        // to reflect the discount.
+        if ( CRM_Utils_Array::value( 'is_current_member', $membership ) ) {
+            foreach ( $amount as $amountId => $amountInfo ) {
+                $amount[$amountId]['value'] = $amount[$amountId]['value'] - 
+                    ceil($amount[$amountId]['value'] * $discountPercent / 100);
+                $amount[$amountId]['label'] = $amount[$amountId]['label'] . 
+                    "\t - with {$discountPercent}% discount (for $membershipType)";
+            }
+        }
+    }
+}
+
+function civitest_civicrm_aclGroup( $type, $contactID, $tableName, &$allGroups, &$currentGroups ) {
+    // only process saved search
+    if ( $tableName != 'civicrm_saved_search' ) {
+        return;
+    }
+
+    hrd_initialize( );
+
+    $currentGroups = $allGroups;
+
+    if ( ! CRM_Core_Permission::check( 'access secure contacts' ) ) {
+        unset( $currentGroups[HRD_SECURE_GROUP_ID] );
+    }
+
+    $currentGroups = array_keys( $currentGroups );
+}
+
+function civitest_civicrm_tabs( &$tabs, $contactID ) {
+
+    // unset the contribition tab
+    unset( $tabs[1] );
+    
+    // lets rename the contribution tab with a differnt name and put it last
+    // this is just a demo, in the real world, you would create a url which would
+    // return an html snippet etc
+    $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                  "reset=1&snippet=1&force=1&cid=$contactID" );
+    $tabs[] = array( 'id'    => 'mySupercoolTab',
+                     'url'   => $url,
+                     'title' => 'Contribution Tab Renamed',
+                     'weight' => 300 );
+}
+
+
+function civitest_civicrm_tokens( &$tokens ) { 
+    $tokens['contribution'] = array( 'contribution.amount', 'contribution.date' );
+}
+
+function civitest_civicrm_tokenValues( &$values, &$contactIDs ) {
+    if ( is_array( $contactIDs ) ) {
+        $contactIDString = implode( ',', array_values( $contactIDs ) );
+        $single = false;
+    } else {
+        $contactIDString = "( $contactIDs )";
+        $single = true;
+    }
+
+    $query = "
+SELECT sum( total_amount ) as total_amount,
+       contact_id,
+       max( receive_date ) as receive_date
+FROM   civicrm_contribution 
+WHERE  contact_id IN ( $contactIDString )
+AND    is_test = 0
+GROUP BY contact_id
+";
+
+    $dao = CRM_Core_DAO::executeQuery( $query );
+    while ( $dao->fetch( ) ) {
+        if ( $single ) {
+            $value =& $values;
+        } else {
+            if ( ! array_key_exists( $dao->contact_id, $values ) ) {
+                $values[$dao->contact_id] = array( );
+            }
+            $value =& $values[$dao->contact_id];
+        }
+
+        $value['contribution.amount'] = $dao->total_amount;
+        $value['contribution.date'  ] = $dao->receive_date;
+    }
+}
+
+function civitest_civicrm_pageRun( &$page ) {
+    // You can assign variables to the template using:
+    // $page->assign( 'varName', $varValue );
+    // in your template, {$varName} will output the contents of $varValue
+    // you should customize your template if doing so
+
+    $page->assign( 'varName', 'This is a variable assigned by the hook' );
 }

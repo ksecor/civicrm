@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -160,10 +160,17 @@ class CRM_Core_Payment_Form {
             $form->addRule( 'credit_card_exp_date',
                             ts('Credit card expiration date cannot be a past date.'),
                             'currentDate', true );
-        }            
+
+            // also take care of state country widget
+            require_once 'CRM/Core/BAO/Address.php';
+            $stateCountryMap = array( 1 => array( 'country'        => "country_id-{$form->_bltID}"       ,
+                                                  'state_province' => "state_province_id-{$form->_bltID}" ) );
+            CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
+        }
             
         if ( $form->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-            $form->_expressButtonName = $form->getButtonName( $form->buttonType( ), 'express' );
+            $form->_expressButtonName = $form->getButtonName( 'upload', 'express' );
+            $form->assign( 'expressButtonName', $form->_expressButtonName );
             $form->add('image',
                        $form->_expressButtonName,
                        $form->_paymentProcessor['url_button'],

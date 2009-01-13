@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2007-05-07 11:19+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 14:48+0200\n"
 "PO-Revision-Date: 2006-09-09 17:58+0300\n"
 "Last-Translator: \n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -23,7 +23,7 @@ msgid "edit all contacts"
 msgstr "редактировать все контакты"
 
 msgid "import contacts"
-msgstr ""
+msgstr "импортировать контакты"
 
 msgid "edit groups"
 msgstr "редактировать группы"
@@ -32,19 +32,19 @@ msgid "administer CiviCRM"
 msgstr "администрировать CiviCRM"
 
 msgid "access uploaded files"
-msgstr ""
+msgstr "доступ для загруженных файлов"
 
 msgid "profile listings and forms"
-msgstr ""
+msgstr "профиль списков и форм"
 
 msgid "access all custom data"
-msgstr ""
+msgstr "доступ ко всем выбраным данным"
 
 msgid "access CiviCRM"
 msgstr "доступ к CiviCRM"
 
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "доступ Контакт панель"
 
 #: drupal/civicrm.module
 msgid ""
@@ -245,18 +245,3 @@ msgstr ""
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
 msgstr ""
-
-#~ msgid ""
-#~ "For more information please read the configuration and customization "
-#~ "handbook <a href=\"%1\">CiviCRM page</a>."
-#~ msgstr ""
-#~ "Для подробной информации пожалуйста читайте документацию по конфигурации "
-#~ "и настройках <a href=\"%1\">страница CiviCRM</a>."
-
-#, fuzzy
-#~ msgid ""
-#~ "Constituent Relationship Management (CiviCRM %1). Allows sites to manage "
-#~ "contacts, relationships and groups, and track contact activities."
-#~ msgstr ""
-#~ "Constituent Relationship Management (CRM). Позволяет сайтам управлять "
-#~ "контактами, связями и группами, и отслеживать действия с контактами."

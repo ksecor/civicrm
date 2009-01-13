@@ -1,8 +1,6 @@
 <?php
 
-require_once 'SimpleTest/unit_tester.php';
-
-class CiviUnitTestCase extends UnitTestCase {
+class CiviUnitTestCase extends DrupalTestCase {
 
 
     function __construct( ) {
@@ -43,7 +41,7 @@ class CiviUnitTestCase extends UnitTestCase {
             }
             return;
         }
-        
+
         // Otherwise check matches of DAO field values against expected values in $match.
         if ( $object->find( true ) ) {
             $fields =& $object->fields( );
@@ -64,6 +62,8 @@ class CiviUnitTestCase extends UnitTestCase {
         $object->free( );
         $matchSize = count( $match );
         if ( $verifiedCount != $matchSize ) {
+            CRM_Core_Error::debug( 'm', $match );
+            CRM_Core_Error::debug( 'o', $object );
             $this->fail("Did not verify all fields in match array: $daoName, $id. Verified count = $verifiedCount. Match array size = $matchSize");
         }
     }
@@ -172,7 +172,7 @@ class CiviUnitTestCase extends UnitTestCase {
                      'end_date'    => '2007-12-21',
                      'source'      => 'Payment'  );
         foreach ( $pre as $key => $val ) {
-            if ( !$params[$key] ) {
+            if ( ! isset( $params[$key] ) ) {
                 $params[$key] = $val;
             }
         }
@@ -568,6 +568,8 @@ class CiviUnitTestCase extends UnitTestCase {
                             'description' => 'New Test Group Created',
                             'is_active'   => 1,
                             'visibility'  => 'Public User Pages and Listings',
+                            'group_type'  => array( '1' => 1,
+                                                    '2' => 1 ), 
                             );
         }
         require_once 'api/v2/Group.php';
@@ -725,7 +727,7 @@ class CiviUnitTestCase extends UnitTestCase {
      * @param int    $customGroupID
      */
     function customGroupDelete( $customGroupID ) 
-    {
+    { 
         $params['id'] = $customGroupID;
         $result = & civicrm_custom_group_delete($params);
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
@@ -745,17 +747,17 @@ class CiviUnitTestCase extends UnitTestCase {
     {
         require_once 'api/v2/CustomGroup.php';
         $fieldParams = array(
-                        'label'           => $name,
-                        'name'            => $name,
-                        'custom_group_id' => $customGroupID,
-                        'data_type'       => 'String',
-                        'html_type'       => 'Text',
-                        'is_searchable'   =>  1, 
-                        'is_active'        => 1,
-                        );
+                             'label'           => $name,
+                             'name'            => $name,
+                             'custom_group_id' => $customGroupID,
+                             'data_type'       => 'String',
+                             'html_type'       => 'Text',
+                             'is_searchable'   =>  1, 
+                             'is_active'        => 1,
+                             );
         
-        $params = array('fieldParams' =>$fieldParams);
-        $result =& civicrm_custom_field_create($params);
+        $result =& civicrm_custom_field_create($fieldParams);
+        
         if ( civicrm_error( $result ) 
              || !( CRM_Utils_Array::value( 'customFieldId' , $result['result'] ) ) ) {
             CRM_Core_Error::fatal( 'Could not create Custom Field' );
@@ -788,17 +790,14 @@ class CiviUnitTestCase extends UnitTestCase {
     function noteCreate( $cId )
     {
         require_once 'api/v2/Note.php';
-        if ( $params === null ) {
-            $params = array(
-                            'entity_table'  => 'civicrm_contact',
-                            'entity_id'     => $cId,
-                            'note'          => 'hello I am testing Note',
-                            'contact_id'    => $cId,
-                            'modified_date' => date('Ymd'),
-                            'subject'       =>'Test Note', 
-                            );
-        }
-        
+        $params = array(
+                        'entity_table'  => 'civicrm_contact',
+                        'entity_id'     => $cId,
+                        'note'          => 'hello I am testing Note',
+                        'contact_id'    => $cId,
+                        'modified_date' => date('Ymd'),
+                        'subject'       =>'Test Note', 
+                        );
         $note =& civicrm_note_create( $params );
         return $note;
     }
@@ -845,24 +844,18 @@ class CiviUnitTestCase extends UnitTestCase {
         
         $optionGroup = array('domain_id' => 1,
                              'name'      => 'option_group1',
-                             'label'     => 'option_group_label1',
-                             'is_active' => 1
+                             'label'     => 'option_group_label1'
                              );
         
-        $optionValue[] = array ('label'     => 'Label1',
-                                'value'     => 'value1',
-                                'name'      => $name,
-                                'weight'    => 1,
-                                'is_active' => 1
-                                );
+        $optionValue = array ('option_label'     => array('Label1', 'Label2'),
+                              'option_value'     => array( 'value1', 'value2'),
+                              'option_name'      => array( $name.'_1', $name.'_2'),
+                              'option_weight'    => array(1, 2),
+                              );
         
-        $params = array('fieldParams'  => $fieldParams,
-                        'optionGroup'  => $optionGroup,
-                        'optionValue'  => $optionValue,
-                        'customGroup'  => $customGroup,
-                        );
-        
-        $result =& civicrm_custom_field_create($params);     
+        $params = array_merge( $fieldParams, $optionGroup, $optionValue );
+                
+        $result =& civicrm_custom_field_create($params);
         if ( civicrm_error( $result ) 
              || !( CRM_Utils_Array::value( 'customFieldId', $result['result'] ) ) ) {
             CRM_Core_Error::fatal( 'Could not create Custom Field' );

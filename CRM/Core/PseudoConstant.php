@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -40,7 +40,7 @@
  * will be reworked to use caching.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -81,6 +81,13 @@ class CRM_Core_PseudoConstant
      */
     private static $individualSuffix;
     
+    /**
+     * greeting
+     * @var array
+     * @static
+     */
+    private static $greeting;
+
     /**
      * gender
      * @var array
@@ -248,22 +255,43 @@ class CRM_Core_PseudoConstant
      * @var array
      * @static
      */
-    private static $activityStatus;
+    private static $activityStatus = array( );
 
-   /**
+    /**
      * wysiwyg Editor
      * @var array
      * @static
      */
     private static $wysiwygEditor;
 
-   /**
+    /**
      * Mapping Types
      * @var array
      * @static
      */
     private static $mappingType;
 
+    /**
+     * Phone Types
+     * @var array
+     * @static
+     */
+    private static $phoneType;
+
+    /**
+     * Visibility
+     * @var array
+     * @static
+     */
+    private static $visibility;
+    
+    /**
+     * Mail Protocols
+     * @var array
+     * @static
+     */
+    private static $mailProtocol;
+    
     /**
      * populate the object from the database. generic populate
      * method
@@ -376,20 +404,42 @@ class CRM_Core_PseudoConstant
      *
      * @return array - array reference of all activty types.
      */
-    public static function &activityType( $all = true )
+    public static function &activityType( $all = true, $includeCaseActivities = false )
     {
-        // convert to integer for array index
-        $all = $all ? 1 : 0;
-        if ( ! array_key_exists( $all, self::$activityType ) ) {
+        $index        = (int) $all . '_' . (int) $includeCaseActivities;
+        
+        if ( ! array_key_exists( $index, self::$activityType ) ) {
             require_once 'CRM/Core/OptionGroup.php';
             $condition = null;
             if ( !$all ) {
-                $condition = 'AND filter = 0';
-            }
-            self::$activityType[$all] = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
-        }
+                $condition    = 'AND filter = 0';
+            } 
+            $componentClause  = " v.component_id IS NULL";
 
-        return self::$activityType[$all];
+            $componentIds = array( );
+            $compInfo     = CRM_Core_Component::getEnabledComponents( );
+            
+            // build filter for listing activity types only if their 
+            // respective components are enabled
+            foreach ( $compInfo as $compName => $compObj ) {
+                if ( $compName !== 'CiviCase' ) {
+                    $componentIds[] = $compObj->componentID;
+                } else if ( $includeCaseActivities ) {
+                    $componentIds[] = $compObj->componentID;
+                }
+                
+            }
+            
+            if ( count($componentIds) ) {
+                $componentIds     = implode( ',', $componentIds );
+                $componentClause  = " ($componentClause OR v.component_id IN ($componentIds))";
+            }
+            $condition = $condition . ' AND ' . $componentClause;
+            
+            self::$activityType[$index] = CRM_Core_OptionGroup::values( 'activity_type', false, false, 
+                                                                        false, $condition );
+        }
+        return self::$activityType[$index];
     }
 
     /**
@@ -415,6 +465,28 @@ class CRM_Core_PseudoConstant
     }
 
     /**
+     * Get all phone type
+     * The static array phoneType is returned
+     * 
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All phone type - default is to get
+     * only active ones.
+     *
+     * @return array - array reference of all phone types.
+     *
+     */
+    public static function &phoneType( )
+    {
+        if ( ! self::$phoneType ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$phoneType = CRM_Core_OptionGroup::values('phone_type');
+        }
+        return self::$phoneType;
+    }
+    
+    /**
      * Get all Individual Suffix.
      *
      * The static array individualSuffix is returned
@@ -435,7 +507,29 @@ class CRM_Core_PseudoConstant
         }
         return self::$individualSuffix;
     }
-
+    
+    /**
+     * Get all Greeting.
+     *
+     * The static array greeting is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Greeting - default is to get only active ones.
+     *
+     * @return array - array reference of all greetings.
+     *
+     */
+    public static function &greeting( )
+    {
+        if ( ! self::$greeting ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$greeting = CRM_Core_OptionGroup::values('greeting_type');
+        }
+        return self::$greeting;
+    }
+    
     /**
      * Get all Gender.
      *
@@ -484,19 +578,18 @@ class CRM_Core_PseudoConstant
     }
 
     /**
-     * Get all the From Email Address from database.
+     * Get the all From Email Address from database.
      *
-     * The static array imProvider is returned, and if it's
-     * called the first time, the <b>IM DAO</b> is used 
-     * to get all the IM Providers.
+     * The static array $fromEmailAddress is returned, and if it's
+     * called the first time, DAO is used 
+     * to get all the From Email Address
      *
      * Note: any database errors will be trapped by the DAO.
      *
      * @access public
      * @static
      *
-     * @return array - array reference of all IM providers.
-     *
+     * @return array - array reference of all From Email Address.
      */
     public static function &fromEmailAddress( ) 
     {
@@ -506,7 +599,30 @@ class CRM_Core_PseudoConstant
         }        
         return self::$fromEmailAddress;
     }
-
+    
+    /**
+     * Get the all Mail Protocols from database.
+     *
+     * The static array mailProtocol is returned, and if it's
+     * called the first time, the DAO is used 
+     * to get all the Mail Protocol.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all Mail Protocols.
+     */
+    public static function &mailProtocol( ) 
+    {
+        if ( ! self::$mailProtocol ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$mailProtocol = CRM_Core_OptionGroup::values('mail_protocol');
+        }        
+        return self::$mailProtocol;
+    }
+    
     /**
      * Get all the State/Province from database.
      *
@@ -574,9 +690,18 @@ class CRM_Core_PseudoConstant
      */
     public static function &stateProvinceAbbreviation($id = false, $limit = true )
     {
+        if ( $id > 1 ) {
+            $query = "
+SELECT abbreviation
+FROM   civicrm_state_province
+WHERE  id = %1";
+            $params = array( 1 => array( $id, 'Integer' ) );
+            return CRM_Core_DAO::singleValueQuery( $query, $params );
+        }
+
         if (!self::$stateProvinceAbbreviation || !$id ) {
 
-            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
+            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT, unless id is specified
             $whereClause = false;
 
             if ( $limit ) {
@@ -739,16 +864,19 @@ class CRM_Core_PseudoConstant
     *
     * Note: any database errors will be trapped by the DAO.
     *
+    * @param string $groupType     type of group(Access/Mailing) 
+    * @param boolen $excludeHidden exclude hidden groups.
+    *
     * @access public
     * @static
     *
     * @return array - array reference of all groups.
     *
     */
-    public static function &allGroup( $groupType = null )
+    public static function &allGroup( $groupType = null, $excludeHidden = true )
     {
         require_once 'CRM/Contact/BAO/Group.php';
-        $condition = CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
+        $condition = CRM_Contact_BAO_Group::groupTypeCondition( $groupType, $excludeHidden );
 
         if (!self::$group) {
             self::$group = array( );
@@ -800,16 +928,19 @@ class CRM_Core_PseudoConstant
      *
      * Note: any database errors will be trapped by the DAO.
      *
+     * @param string $groupType     type of group(Access/Mailing) 
+     * @param boolen $excludeHidden exclude hidden groups.
+     
      * @access public
      * @static
      *
      * @return array - array reference of all groups.
      *
      */
-    public static function group( $groupType = null )
+    public static function group( $groupType = null, $excludeHidden = true )
     {
         require_once 'CRM/Core/Permission.php';
-        return CRM_Core_Permission::group( $groupType );
+        return CRM_Core_Permission::group( $groupType, $excludeHidden );
     }
 
     /**
@@ -839,6 +970,7 @@ class CRM_Core_PseudoConstant
                 require_once 'CRM/Contact/BAO/Group.php';
                 $condition .= ' AND ' . CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
             }
+            
             self::populate( self::$staticGroup, 'CRM_Contact_DAO_Group', false, 'title', 'is_active', $condition, 'title' );
         }
         return self::$staticGroup;        
@@ -1134,14 +1266,17 @@ class CRM_Core_PseudoConstant
      * @static
      * @return array - array reference of all activty statuses
      */
-    public static function &activityStatus( )
+    public static function &activityStatus( $column = 'label' )
     {
-        if ( ! self::$activityStatus ) {
+        if ( ! array_key_exists($column, self::$activityStatus) ) {
+            self::$activityStatus[$column] = array( );
+
             require_once 'CRM/Core/OptionGroup.php';
-            self::$activityStatus = CRM_Core_OptionGroup::values('activity_status');
+            self::$activityStatus[$column] = CRM_Core_OptionGroup::values('activity_status', false, 
+                                                                          false, false, null, $column);
         }
 
-        return self::$activityStatus;
+        return self::$activityStatus[$column];
     }
 
   /**
@@ -1163,6 +1298,26 @@ class CRM_Core_PseudoConstant
     }
 
     /**
+     * Get all Visibility levels.
+     *
+     * The static array visibility is returned
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all Visibility levels.
+     *
+     */
+    public static function &visibility( )
+    {
+        if ( ! self::$visibility ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$visibility = CRM_Core_OptionGroup::values('visibility');
+        }
+        return self::$visibility;
+    }
+    
+    /**
      * Get all mapping types
      *
      * @return array - array reference of all mapping types
@@ -1176,6 +1331,24 @@ class CRM_Core_PseudoConstant
             self::$mappingType = CRM_Core_OptionGroup::values('mapping_type');
         }
         return self::$mappingType;
+    }
+
+    public static function &stateProvinceForCountry( $countryID ) {
+        $query = "
+SELECT civicrm_state_province.name name, civicrm_state_province.id id
+  FROM civicrm_state_province
+WHERE country_id = %1
+ORDER BY name";
+        $params = array( 1 => array( $countryID, 'Integer' ) );
+
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
+        $result = array( );
+        while ( $dao->fetch( ) ) {
+            $result[$dao->id] = $dao->name;
+        }
+
+        return $result;
     }
 
 }

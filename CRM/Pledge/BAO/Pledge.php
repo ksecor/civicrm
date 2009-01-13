@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -267,7 +267,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         $select = $from = $queryDate = null;
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( true );
         $statusId = array_search( $status, $allStatus);
         
         switch ( $status ) {
@@ -523,7 +523,7 @@ WHERE  $whereCond
         //handle custom data.
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
             require_once 'CRM/Core/BAO/CustomGroup.php';
-            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Pledge', $params['id'] );
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Pledge', CRM_Core_DAO::$_nullObject,$params['id'] );
             $pledgeParams = array( array( 'pledge_id', '=', $params['id'], 0, 0 ) );   
             $customGroup = array(); 
             // retrieve custom data

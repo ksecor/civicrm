@@ -1,5 +1,5 @@
 {* Edit or display Profile fields, when embedded in an online contribution or event registration form. *}
-{if ! empty( $fields )}                                           
+{if ! empty( $fields )}
    {strip} 
    {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if} 
     {assign var=zeroField value="Initial Non Existent Fieldset"} 
@@ -70,12 +70,32 @@
                {assign var="provider" value=$n|cat:"-provider_id"}
                {$form.$provider.html}&nbsp;
              {/if}
-             {$form.$n.html}
+             {if $n eq 'greeting_type'}
+               <table class="form-layout-compressed">
+                  <tr>
+                     <td>{$form.$n.html}</td>
+                     <td id='customGreeting'>
+                     {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}
+                     </td>
+                  </tr>
+               </table> 
+             {elseif $n eq 'group'} 
+		<table id="selector" class="selector" style="width:auto;">
+			<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
+		</table>
+   	     {else}
+               {$form.$n.html}
+             {/if}
              {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
              {if $field.help_post && $action neq 4 && $action neq 1028}
                 <br /><span class="description">{$field.help_post}</span> 
              {/if} 
            </td>
+           {if $field.html_type eq 'Radio' && $form.$fieldName.frozen neq true}
+           <td style="line-height: .75em; margin-top: 1px;">
+               &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
+           </td>
+           {/if}
         </tr> 
     {/if}     
     {/foreach} 
@@ -100,3 +120,29 @@
  
 {/if} {* fields array is not empty *} 
 
+{if $form.greeting_type}
+  {literal}
+    <script type="text/javascript">
+      window.onload = function() {
+        showGreeting();
+      }
+    </script>
+  {/literal}
+{/if}
+{literal}
+  <script type="text/javascript">
+    function showGreeting() {
+       if( document.getElementById("greeting_type").value == 4 ) {
+           show('customGreeting');                   
+       } else {
+           hide('customGreeting');      
+       }     
+    }
+
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
+});
+ 
+  </script>
+{/literal}

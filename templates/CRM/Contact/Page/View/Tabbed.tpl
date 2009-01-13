@@ -7,7 +7,9 @@
 {* View Contact Summary *}
 <div id="contact-name" class="section-hidden section-hidden-border">
    <div>
-    <label><span class="font-size12pt">{$displayName}</span></label>{if $nick_name}&nbsp;&nbsp;({$nick_name}){/if}
+    <label><span class="font-size12pt">{$displayName}</span></label>
+      {if $nick_name}&nbsp;&nbsp;({$nick_name}){/if}
+      {if $legal_name}&nbsp;&nbsp;({$legal_name}){/if}
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" accesskey="E" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
     {/if}
@@ -22,7 +24,8 @@
     <table class="form-layout-compressed">
     <tr>
         {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
-        {if $contactTag}<td><label>{ts}Tags{/ts}:</label></td><td>{$contactTag}</td>{/if}
+        {if $sic_code}<td><label>{ts}SIC Code{/ts}:</label></td><td>{$sic_code}</td>{/if}
+        {if $contactTag}<td><label><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a>:</label></td><td id="tags">{$contactTag}</td>{/if}
         {if !$contactTag}<td colspan="2"></td>{/if}
     </tr>
     <tr>
@@ -61,7 +64,7 @@
    {foreach from=$loc.phone item=phone}
      {if $phone.phone}
         {if $phone.is_primary eq 1}<strong>{/if}
-        {if $phone.phone_type}{$phone.phone_type_display}:{/if} {$phone.phone}
+        {if $phone.phone}{if $phone.phone_type}{$phone.phone_type}{else}{ts}Phone{/ts}{/if}:{/if} {$phone.phone}
         {if $phone.is_primary eq 1}</strong>{/if}
         <br />
      {/if}
@@ -115,11 +118,11 @@
    <div class="col2">
     {*if $config->mapAPIKey AND $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2*}
     {if $config->mapAPIKey AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
-        <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=$contactId&lid=`$loc.location_type_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
+        <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$loc.location_type_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
     {/if}
-    {if $HouseholdName}
-    Household Address:<br />
-    {$HouseholdName}{/if}
+    {if $HouseholdName and $locationIndex eq 1}
+    <strong>Household Address:</strong><br />
+    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$mail_to_household_id`"}">{$HouseholdName}</a>{/if}
     {$loc.address.display|nl2br}
   </div>
   <div class="spacer"></div>
@@ -142,7 +145,7 @@
       {if $privacy_val eq 1}{$privacy_values.$privacy_label} &nbsp; {/if}
     {/foreach}
     {if $is_opt_out}
-      {ts}DO NOT SEND BULK EMAIL{/ts}
+      {ts}No Bulk Emails (User Opt Out){/ts}
     {/if}
     </span>
   </div>
@@ -191,7 +194,7 @@
  </div>
  {/if}
 
- {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+ {include file="CRM/Custom/Page/CustomDataView.tpl"}
 </div>
 
 {foreach from=$allTabs key=tabName item=tabValue}

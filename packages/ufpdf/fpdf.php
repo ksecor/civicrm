@@ -1092,10 +1092,13 @@ function Output($name='',$dest='')
 			//Download file
 			if(ob_get_contents())
 				$this->Error('Some data has already been output, can\'t send PDF file');
-			if(isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'],'MSIE'))
+			if(isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')){
 				header('Content-Type: application/force-download');
-			else
+                                header('Cache-Control: must-revalidate,post-check=0, pre-check=0');
+                                header('Pragma: public');
+			}else{
 				header('Content-Type: application/octet-stream');
+                        }
 			if(headers_sent())
                 $this->Error('Some data has already been output to browser, can\'t send PDF file');
 			header('Content-Length: '.strlen($this->buffer));

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,11 +55,9 @@ class CRM_Dedupe_Finder
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
         $rgBao->id = $rgid;
         $rgBao->contactIds = $cids;
-        if ( ! $rgBao->find(true) ) {
-	  CRM_Core_Error::fatal( ts( "%1 rule for %2 does not exist",
-				     array( 1 => $level,
-					    2 => $ctype ) ) );
-	}
+        if (!$rgBao->find(true)) {
+            CRM_Core_Error::fatal("$level rule for $ctype does not exist");
+        }
 
         $dao =& new CRM_Core_DAO();
         $dao->query($rgBao->tableQuery());
@@ -91,17 +89,15 @@ class CRM_Dedupe_Finder
         $rgBao->params = $params;
         $rgBao->level = $level;
         $rgBao->is_default = 1;
-        if ( ! $rgBao->find(true) ) {
-	  CRM_Core_Error::fatal( ts( "%1 rule for %2 does not exist",
-				     array( 1 => $level,
-					    2 => $ctype ) ) );
-	}
+        if (!$rgBao->find(true)) {
+            CRM_Core_Error::fatal("$level rule for $ctype does not exist");
+        }
         $dao =& new CRM_Core_DAO();
         $dao->query($rgBao->tableQuery());
         $dao->query($rgBao->thresholdQuery());
         $dupes = array();
         while ($dao->fetch()) {
-            $dupes[] = $dao->id;
+            $dupes[] = isset($dao->id) ? $dao->id : NULL;
         }
         $dao->query($rgBao->tableDropQuery());
 
@@ -135,26 +131,18 @@ class CRM_Dedupe_Finder
         if (!$ctype) {
             $dao =& new CRM_Contact_DAO_Contact();
             $dao->id = $cid;
-            if ( ! $dao->find(true) ) {
-	      CRM_Core_Error::fatal( );
-	    }
+            if (!$dao->find(true)) {
+                CRM_Core_Error::fatal("contact id of $cid does not exist");
+            }
             $ctype = $dao->contact_type;
         }
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
         $rgBao->level = $level;
         $rgBao->contact_type = $ctype;
         $rgBao->is_default = 1;
-
-
-
-
-
-
-        if ( ! $rgBao->find(true) ) {
-	  CRM_Core_Error::fatal( ts( "%1 rule for %2 does not exist",
-				     array( 1 => $level,
-					    2 => $ctype ) ) );
-	}
+        if (!$rgBao->find(true)) {
+            CRM_Core_Error::fatal("$level rule for $ctype does not exist");
+        }
         $dupes = self::dupes($rgBao->id, array($cid));
         
         // get the dupes for this cid
@@ -202,7 +190,7 @@ class CRM_Dedupe_Finder
 
         // handle custom data
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $tree =& CRM_Core_BAO_CustomGroup::getTree($ctype, null, -1);
+        $tree =& CRM_Core_BAO_CustomGroup::getTree($ctype, CRM_Core_DAO::$_nullObject, null, -1);
         CRM_Core_BAO_CustomGroup::postProcess($tree, $fields, true);
         foreach($tree as $key => $cg) {
             if (!is_int($key)) continue;
@@ -231,12 +219,15 @@ class CRM_Dedupe_Finder
         }
 
         $params = array();
-        foreach(CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype) as $table => $fields) {
-            // for matching on civicrm_address fields, we also need the location_type_id
-            if ($table == 'civicrm_address') $fields['location_type_id'] = '';
-            foreach($fields as $field => $title) {
-                if ( CRM_Utils_Array::value( $field, $flat ) ) {
-                    $params[$table][$field] = $flat[$field];
+        $supportedFields = CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype);
+        if ( is_array( $supportedFields ) ) {
+            foreach( $supportedFields as $table => $fields) {
+                // for matching on civicrm_address fields, we also need the location_type_id
+                if ($table == 'civicrm_address') $fields['location_type_id'] = '';
+                foreach($fields as $field => $title) {
+                    if ( CRM_Utils_Array::value( $field, $flat ) ) {
+                        $params[$table][$field] = $flat[$field];
+                    }
                 }
             }
         }

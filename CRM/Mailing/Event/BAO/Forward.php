@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,7 +48,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
     /**
      * Create a new forward event, create a new contact if necessary
      */
-    static function &forward($job_id, $queue_id, $hash, $forward_email) {
+    static function &forward($job_id, $queue_id, $hash, $forward_email, $fromEmail = null, $comment = null ) {
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
         if (! $q) {
             return null;
@@ -155,15 +155,25 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $recipient = null;
         $attachments = null;
         $message =& $mailing_obj->compose($job_id, $queue->id, $queue->hash,
-            $queue->contact_id, $forward_email, $recipient, false, null, $attachments);
-
+                                          $queue->contact_id, $forward_email, $recipient, false, null, $attachments, true, $fromEmail );
+        //append comment if added while forwarding.
+        if ( count($comment) ) {
+            $message->_txtbody   = $comment['body_text'].$message->_txtbody;
+            if( CRM_Utils_Array::value('body_html', $comment) ) {
+                $message->_htmlbody  = $comment['body_html'].'<br />---------------Original message---------------------<br />'.$message->_htmlbody;
+            }
+        }
+        
         $body = $message->get();
         $headers = $message->headers();
-
+        
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Core_Error', 'nullHandler' ) );
-        $result = $mailer->send($recipient, $headers, $body);
-        CRM_Core_Error::setCallback();
+        $result = null;
+        if ( is_object( $mailer ) ) {
+            $result = $mailer->send($recipient, $headers, $body);
+            CRM_Core_Error::setCallback();
+        }
 
         $params = array('event_queue_id' => $queue->id,
                         'job_id'        => $job_id,

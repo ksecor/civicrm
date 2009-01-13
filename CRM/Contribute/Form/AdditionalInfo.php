@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -270,31 +270,16 @@ class CRM_Contribute_Form_AdditionalInfo
             $formatted["honor_contact_id"] = 'null';
         }
 
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Contribution', null, $params['id'] );
-            }
-        }
-        
-        if ( ! empty($customData) ) {
-            $formatted['custom'] = $customData;
-        }
-                
         //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution', false, false, 
-                                                             CRM_Utils_Array::value('contribution_type_id', $params ) );
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                     ! CRM_Utils_Array::value( $k, $formatted['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $formatted['custom'],
-                                                                 '', 'Contribution', null, $params['id'] );
-                }
-            }
-        }
-        
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution',
+                                                             false,
+                                                             false, 
+                                                             CRM_Utils_Array::value('contribution_type_id',
+                                                                                    $params ) );
+        $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                      $customFields,
+                                                                      $params['id'],
+                                                                      'Contribution' );
     }
     
     /** 
@@ -310,7 +295,7 @@ class CRM_Contribute_Form_AdditionalInfo
     {
         // Retrieve Contribution Type Name from contribution_type_id
         $params['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
-                                                                        $params['contribution_type_id'] );         
+                                                                        $params['contribution_type_id'] );
         
         // retrieve payment instrument name
         $paymentInstrumentGroup = array();
@@ -390,10 +375,10 @@ class CRM_Contribute_Form_AdditionalInfo
             $params['receipt_from_name'] = $form->userDisplayName;
             $params['receipt_from_email']= $form->userEmail;
             // assigned various dates to the templates
-            $form->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receive_date'])));
-            $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receipt_date'])));
-            $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['thankyou_date'])));
-            $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['cancel_date'])));
+            $form->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receive_date'])) );
+            $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receipt_date'])) );
+            $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['thankyou_date'])));
+            $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format(  $params['cancel_date']))  );
         }
         
         //handle custom data
@@ -438,12 +423,13 @@ class CRM_Contribute_Form_AdditionalInfo
         $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
         $subject = ts('Contribution Receipt');
         require_once 'CRM/Utils/Mail.php';
-        CRM_Utils_Mail::send( $receiptFrom,
-                              $contributorDisplayName,
-                              $contributorEmail,
-                              $subject,
-                              $message);
+        $sendReceipt = CRM_Utils_Mail::send( $receiptFrom,
+                                             $contributorDisplayName,
+                                             $contributorEmail,
+                                             $subject,
+                                             $message);
         
+        return $sendReceipt;
     }
     
 }

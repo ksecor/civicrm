@@ -5,7 +5,7 @@
 <table class="report"> 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/component' q='reset=1'}" id="idComponents">&raquo; {ts}Enable Components{/ts}</a></td>
-    <td>{ts}Enable CiviContribute, CiviPledge, CiviEvent, CiviMember, CiviGrant and/or CiviMail components.{/ts}</td>
+    <td>{ts}Enable CiviContribute, CiviPledge, CiviEvent, CiviMember, CiviMail, CiviCase and/or CiviGrant components.{/ts}</td>
 </tr>
 
 <tr>
@@ -62,7 +62,7 @@
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/misc' q='reset=1'}" id="idMisc">&raquo; {ts}Miscellaneous Settings{/ts}</a></td>
-    <td>{ts}Enable version checking and configure optional CAPTCHA feature for Profile forms.{/ts}</td>
+    <td>{ts}Enable Version Checking, configure Contact Search behavior, and configure optional reCAPTCHA feature to prevent automated abuse of public forms.{/ts}</td>
 </tr>
 
 <tr>

@@ -4,6 +4,14 @@ require_once 'api/v2/CustomGroup.php';
 
 class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase 
 {
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Custom Field Delete',
+                     'description' => 'Test all Custom Field Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setUp() 
     {
@@ -19,7 +27,6 @@ class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase
         $customField =& civicrm_custom_field_delete($params); 
         $this->assertEqual($customField['is_error'], 1);
         $this->assertEqual($customField['error_message'], 'Invalid or no value for Custom Field ID');
-        $this->assertEqual($customGroup['result'], 0);
     }    
     
     function testCustomFieldDelete( )

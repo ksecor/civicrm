@@ -1,3 +1,4 @@
+{if $recaptchaHTML}
   <tr>
      <td class="label">&nbsp;</td>
      <td>
@@ -7,3 +8,4 @@
 </noscript>
      </td>
   </tr>
+{/if}

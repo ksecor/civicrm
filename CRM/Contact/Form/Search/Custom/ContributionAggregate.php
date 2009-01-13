@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -64,9 +64,12 @@ class CRM_Contact_Form_Search_Custom_ContributionAggregate
         $form->add( 'text',
                     'min_amount',
                     ts( 'Aggregate Total Between $' ) );
+        $form->addRule( 'min_amount', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
+
         $form->add( 'text',
                     'max_amount',
                     ts( '...and $' ) );
+        $form->addRule( 'max_amount', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
 
         $form->add( 'date',
                     'start_date',
@@ -98,16 +101,19 @@ class CRM_Contact_Form_Search_Custom_ContributionAggregate
       * Construct the search query
       */       
     function all( $offset = 0, $rowcount = 0, $sort = null,
-                  $includeContactIDs = false ) {
+                  $includeContactIDs = false, $onlyIDs = false ) {
         
         // SELECT clause must include contact_id as an alias for civicrm_contact.id
-        $select  = "
-DISTINCT contact.id as contact_id,
-contact.sort_name as sort_name,
+        if ( $onlyIDs ) {
+            $select  = "DISTINCT contact_a.id as contact_id";
+        } else {
+            $select  = "
+DISTINCT contact_a.id as contact_id,
+contact_a.sort_name as sort_name,
 sum(contrib.total_amount) AS donation_amount,
 count(contrib.id) AS donation_count
 ";
-
+        }
         $from  = $this->from( );
 
         $where = $this->where( $includeContactIDs );
@@ -121,27 +127,29 @@ count(contrib.id) AS donation_count
 SELECT $select
 FROM   $from
 WHERE  $where
-GROUP BY contact.id
+GROUP BY contact_a.id
 $having
 ";
-        // Define ORDER BY for query in $sort, with default value
-        if ( ! empty( $sort ) ) {
-            if ( is_string( $sort ) ) {
-                $sql .= " ORDER BY $sort ";
+        //for only contact ids ignore order.
+        if ( !$onlyIDs ) {
+            // Define ORDER BY for query in $sort, with default value
+            if ( ! empty( $sort ) ) {
+                if ( is_string( $sort ) ) {
+                    $sql .= " ORDER BY $sort ";
+                } else {
+                    $sql .= " ORDER BY " . trim( $sort->orderBy() );
+                }
             } else {
-                $sql .= " ORDER BY " . trim( $sort->orderBy() );
+                $sql .= "ORDER BY donation_amount desc";
             }
-        } else {
-            $sql .= "ORDER BY donation_amount desc";
         }
-
         return $sql;
     }
-
+    
     function from( ) {
         return "
 civicrm_contribution AS contrib,
-civicrm_contact AS contact
+civicrm_contact AS contact_a
 ";
 
     }
@@ -153,7 +161,7 @@ civicrm_contact AS contact
     function where( $includeContactIDs = false ) {
         $clauses = array( );
 
-        $clauses[] = "contrib.contact_id = contact.id";
+        $clauses[] = "contrib.contact_id = contact_a.id";
         $clauses[] = "contrib.is_test = 0";
 
         $startDate = CRM_Utils_Date::format( $this->_formValues['start_date'] );
@@ -177,7 +185,7 @@ civicrm_contact AS contact
         
             if ( ! empty( $contactIDs ) ) {
                 $contactIDs = implode( ', ', $contactIDs );
-                $clauses[] = "contact.id IN ( $contactIDs )";
+                $clauses[] = "contact_a.id IN ( $contactIDs )";
             }
         }
 
@@ -188,11 +196,13 @@ civicrm_contact AS contact
         $clauses = array( );
         $min = CRM_Utils_Array::value( 'min_amount', $this->_formValues );
         if ( $min ) {
+            $min = CRM_Utils_Rule::cleanMoney( $min );
             $clauses[] = "sum(contrib.total_amount) >= $min";
         }
 
         $max = CRM_Utils_Array::value( 'max_amount', $this->_formValues );
         if ( $max ) {
+            $max = CRM_Utils_Rule::cleanMoney( $max );
             $clauses[] = "sum(contrib.total_amount) <= $max";
         }
 
@@ -211,7 +221,7 @@ civicrm_contact AS contact
     }
        
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
-        return $this->all( $offset, $rowcount, $sort );
+        return $this->all( $offset, $rowcount, $sort, false, true );
     }
        
     function &columns( ) {

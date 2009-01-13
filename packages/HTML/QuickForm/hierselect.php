@@ -273,8 +273,19 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      */
     function _createElements()
     {
+        //hack to add id attribute for hier select
+        $attributes = $this->getAttributes();
+        $id = null;
+        if ( isset( $attributes['id'] ) ) {
+            $id = "{$attributes['id']}";
+        }
+
         for ($i = 0; $i < $this->_nbElements; $i++) {
-            $this->_elements[] =& new HTML_QuickForm_select($i, null, array(), $this->getAttributes());
+            if ( isset( $id ) ) {
+                $attributes['id'] = "{$id}_{$i}";
+            }
+
+            $this->_elements[] =& new HTML_QuickForm_select($i, null, array(), $attributes);
         }
     } // end func _createElements
 

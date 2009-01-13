@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -31,7 +31,7 @@
  * and similar across all objects (thus providing both reuse and standards)
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -207,7 +207,7 @@ class CRM_Core_Action {
                 $extra = CRM_Utils_Array::value( 'extra', $link, '' );
                 $url[] = sprintf('<a href="%s" ' . $extra . '>%s</a>',
                                  CRM_Utils_System::url( self::replace( $link['url'], $values ),
-                                                        self::replace( $link['qs'] , $values ) ),
+                                                        self::replace( $link['qs'] , $values ), true ),
                                  $link['name'] );
             }
         }

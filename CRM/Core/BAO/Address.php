@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -138,7 +138,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         if ( $fixAddress ) {
             CRM_Core_BAO_Address::fixAddress( $params );
         }
-        
+
         $address->copyValues($params);
 
         return $address->save( );
@@ -180,20 +180,24 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         // add state_id if state is set
         if ( ( ! isset( $params['state_province_id'] ) || ! is_numeric( $params['state_province_id'] ) )
              && isset( $params['state_province'] ) ) {
-            $state_province       = & new CRM_Core_DAO_StateProvince();
-            $state_province->name = $params['state_province'];
-
-            // add country id if present
-            if ( isset( $params['country_id'] ) ) {
-                $state_province->country_id = $params['country_id'];
+            if ( ! empty( $params['state_province'] ) ) {
+                $state_province       = & new CRM_Core_DAO_StateProvince();
+                $state_province->name = $params['state_province'];
+                
+                // add country id if present
+                if ( isset( $params['country_id'] ) ) {
+                    $state_province->country_id = $params['country_id'];
+                }
+                
+                if ( ! $state_province->find(true) ) {
+                    $state_province->name = null;
+                    $state_province->abbreviation = $params['state_province'];
+                    $state_province->find(true);
+                }
+                $params['state_province_id'] = $state_province->id;
+            } else {
+                $params['state_province_id'] = 'null';
             }
-
-            if ( ! $state_province->find(true) ) {
-                $state_province->name = null;
-                $state_province->abbreviation = $params['state_province'];
-                $state_province->find(true);
-            }
-            $params['state_province_id'] = $state_province->id;
         }
 
             
@@ -211,20 +215,24 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
         //special check to ignore non numeric values if they are not
         //detected by formRule(sometimes happens due to internet latency), also allow user to unselect state/country
-        if ( isset( $params['state_province_id'] ) && ! trim( $params['state_province_id'] ) ) {
-            $params['state_province_id'] = 'null'; 
-        } else if ( ! is_numeric( $params['state_province_id'] ) ||
-                    ( (int ) $params['state_province_id'] < 1000 ) ) {
-            // CRM-3393 ( the hacky 1000 check)
-            $params['state_province_id'] = null; 
+        if ( isset( $params['state_province_id'] ) ) {
+            if ( ! trim( $params['state_province_id'] ) ) {
+                $params['state_province_id'] = 'null'; 
+            } else if ( ! is_numeric( $params['state_province_id'] ) ||
+                        ( (int ) $params['state_province_id'] < 1000 ) ) {
+                // CRM-3393 ( the hacky 1000 check)
+                $params['state_province_id'] = 'null'; 
+            }
         }
 
-        if ( isset( $params['country_id'] ) && ! trim( $params['country_id'] ) ) {
-            $params['country_id'] = 'null'; 
-        } else if ( ! is_numeric( $params['country_id'] ) ||
-                    ( (int ) $params['country_id'] < 1000 ) ) {
-            // CRM-3393 ( the hacky 1000 check)
-            $params['country_id'] = null;
+        if ( isset( $params['country_id'] ) ) {
+            if ( ! trim( $params['country_id'] ) ) {
+                $params['country_id'] = 'null'; 
+            } else if ( ! is_numeric( $params['country_id'] ) ||
+                        ( (int ) $params['country_id'] < 1000 ) ) {
+                // CRM-3393 ( the hacky 1000 check)
+                $params['country_id'] = 'null';
+            }
         }
 
         // add state and country names from the ids
@@ -314,21 +322,20 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params        input parameters to find object
-     * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $blockCount    number of blocks to fetch
+     * @param array   $entityBlock   associated array of fields
+     * @param boolean $microformat   if microformat output is required
+     * @param int     $fieldName     conditional field name
      *
-     * @return void
+     * @return array  $addresses     array with address fields
      * @access public
      * @static
      */
-    static function &getValues( &$entityBlock, $microformat = false )
+    static function &getValues( &$entityBlock, $microformat = false, $fieldName = 'contact_id' )
     {
         $address =& new CRM_Core_BAO_Address();
        
         if ( ! CRM_Utils_Array::value( 'entity_table' , $entityBlock ) ) {
-            $address->contact_id = CRM_Utils_Array::value( 'contact_id' ,$entityBlock );
+            $address->$fieldName = CRM_Utils_Array::value( $fieldName ,$entityBlock );
         } else {
             $addressIds = array();
             $addressIds = self::allEntityAddress($entityBlock );
@@ -338,7 +345,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             } else {
                 return $addresses;
             }
-        }
+        } 
         $address->find( );
 
         while ( $address->fetch( ) ) {
@@ -362,10 +369,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             }
             
             $address->addDisplay( $microformat );
-
-            // FIXME: not sure whether non-DB values are safe to store here
-            // if so, we should store state_province and country as well and
-            // get rid of the relevant CRM_Contact_BAO_Contact::resolveDefaults()'s code
 
             $values['display'] = $address->display;
 
@@ -487,6 +490,43 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
             $locationCount++;
         }
         return $addresses;
+    }
+
+    static function addStateCountryMap( &$stateCountryMap,
+                                        $defaults = null ) {
+
+        // first fix the statecountry map if needed
+        if ( empty( $stateCountryMap ) ) {
+            return;
+        }
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( ! isset( $config->stateCountryMap ) ) {
+            $config->stateCountryMap = array( );
+        }
+
+        $config->stateCountryMap = array_merge( $config->stateCountryMap,
+                                                $stateCountryMap );
+    }
+
+    static function fixAllStateSelects( &$form, &$defaults ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( ! empty(  $config->stateCountryMap ) ) {
+            foreach ( $config->stateCountryMap as $index => $match ) {
+                if ( array_key_exists( 'state_province', $match ) &&
+                     array_key_exists( 'country', $match ) ) {
+                    require_once 'CRM/Contact/Form/Address.php';
+                    CRM_Contact_Form_Address::fixStateSelect( $form,
+                                                              $match['country'],
+                                                              $match['state_province'],
+                                                              CRM_Utils_Array::value( $match['country'],
+                                                                                      $defaults ) );
+                } else {
+                    unset( $config->stateCountryMap[$index] );
+                }
+            }
+        }
     }
 
 }

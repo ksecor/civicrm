@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -52,7 +52,8 @@ class CRM_Utils_Address
                            $format = null,
                            $microformat = false,
                            $mailing = false,
-                           $individualFormat = false )
+                           $individualFormat = false,
+                           $tokenFields = null )
     {
         static $config = null;
         require_once 'CRM/Core/BAO/Preferences.php';
@@ -159,7 +160,14 @@ class CRM_Utils_Address
                 }
             }
         }
-        
+
+        // also sub all token fields
+        if ( $tokenFields ) {
+            foreach ( $tokenFields as $token ) {
+                $replacements["{$token}"] = CRM_Utils_Array::value( "{$token}", $fields );
+            }
+        }
+
         // for every token, replace {fooTOKENbar} with fooVALUEbar if
         // the value is not empty, otherwise drop the whole {fooTOKENbar}
         foreach ($replacements as $token => $value) {

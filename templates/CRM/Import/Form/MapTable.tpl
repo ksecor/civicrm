@@ -1,5 +1,4 @@
 {* Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
-
  <div id="map-field">
     {strip}
     <table class="selector">
@@ -7,15 +6,18 @@
         <tr class="columnheader-dark"><th colspan="4">{ts 1=$savedName}Saved Field Mapping: %1{/ts}</td></tr>
     {/if}
         <tr class="columnheader">
-            {section name=rows loop=$rowDisplayCount}
-		   {if $skipColumnHeader }
-                   { if $smarty.section.rows.iteration == 1 }
-                     <th>{ts}Column Headers{/ts}</th>
-                   {else}
-                     <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
-                   {/if}
-	        {else}
-                  <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
+	    {if $showColNames}	
+	        {assign var="totalRowsDisplay" value=$rowDisplayCount+1}
+	    {else}	
+	        {assign var="totalRowsDisplay" value=$rowDisplayCount}
+	    {/if}	
+            {section name=rows loop=$totalRowsDisplay}
+                { if $smarty.section.rows.iteration == 1 and $showColNames}
+                  <th>{ts}Column Names{/ts}</th>
+                {elseif $showColNames}
+                  <th>{ts 1=$smarty.section.rows.iteration-1}Import Data (row %1){/ts}</th>
+		{else}
+		  <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
                 {/if}
             {/section}
             
@@ -26,10 +28,14 @@
         {section name=cols loop=$columnCount}
             {assign var="i" value=$smarty.section.cols.index}
             <tr style="border-bottom: 1px solid #92B6EC;">
-                         
+
+                {if $showColNames}        
+                    <td class="even-row labels">{$columnNames[$i]}</td>
+                {/if}
+
                 {section name=rows loop=$rowDisplayCount}
                     {assign var="j" value=$smarty.section.rows.index}
-                    <td class="{if $skipColumnHeader AND $smarty.section.rows.iteration == 1}even-row labels{else}odd-row{/if}">{$dataValues[$j][$i]}</td>
+                    <td class="odd-row">{$dataValues[$j][$i]}</td>
                 {/section}
 
                 {* Display mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}

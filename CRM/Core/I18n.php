@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2008
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -75,6 +75,7 @@ class CRM_Core_I18n
                          'af_ZA' => 'Afrikaans',
                          'bg_BG' => 'български',
                          'ca_ES' => 'Català',
+                         'cs_CZ' => 'Česky',
                          'da_DK' => 'dansk',
                          'de_DE' => 'Deutsch',
                          'el_GR' => 'Ελληνικά',
@@ -86,6 +87,7 @@ class CRM_Core_I18n
                          'hi_IN' => 'हिन्दी',
                          'it_IT' => 'Italiano',
                          'he_IL' => 'עברית',
+                         'lt_LT' => 'Lietuvių',
                          'hu_HU' => 'Magyar',
                          'nl_NL' => 'Nederlands',
                          'ja_JP' => '日本語',

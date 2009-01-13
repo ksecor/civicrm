@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -129,31 +129,41 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
             
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'  => ts('Mailing Name'),
+                                                'name'      => ts('Mailing Name'),
                                                 'sort'      => 'name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ), 
                                           array(
-                                                'name' => ts('Status'),
+                                                'name'      => ts('Status'),
                                                 'sort'      => 'status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ), 
+                                                ),
                                           array(
-                                                'name' => ts('Scheduled Date'),
+                                                'name'      => ts('Created By'),
+                                                'sort'      => 'created_by',
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                ),
+                                          array(
+                                                'name'      => ts('Sent By'),
+                                                'sort'      => 'scheduled_by',
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                ),
+                                          array(
+                                                'name'      => ts('Scheduled Date'),
                                                 'sort'      => 'scheduled_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ), 
                                           array(
-                                                'name' => ts('Start Date'),
+                                                'name'      => ts('Start Date'),
                                                 'sort'      => 'start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ), 
                                           array(
-                                                'name' => ts('Completed Date'),
+                                                'name'      => ts('Completed Date'),
                                                 'sort'      => 'end_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
-                                                ), 
-            );
+                                                )
+                                          );
             if ($output != CRM_Core_Selector_Controller::EXPORT) {
                 self::$_columnHeaders[] = array('name' => ts('Action'));
             }
@@ -173,11 +183,15 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
     {
         $params      = array( );
         $whereClause = $this->whereClause( $params );
+
         $query = "
-SELECT count(civicrm_mailing.id)
-  FROM civicrm_mailing
-     LEFT JOIN civicrm_mailing_job ON (civicrm_mailing.id = civicrm_mailing_job.mailing_id AND civicrm_mailing_job.is_test = 0)
-   AND $whereClause";
+SELECT    count(civicrm_mailing.id)
+FROM      civicrm_mailing
+LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id AND civicrm_mailing_job.is_test = 0)
+LEFT JOIN civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
+LEFT JOIN civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
+AND       $whereClause";
+        
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
@@ -195,8 +209,9 @@ SELECT count(civicrm_mailing.id)
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         static $actionLinks = null;
         if (empty($actionLinks)) {
-            $cancelExtra = ts('Are you sure you want to cancel this mailing?');
-            $deleteExtra = ts('Are you sure you want to delete this mailing?');
+            $cancelExtra  = ts('Are you sure you want to cancel this mailing?');
+            $deleteExtra  = ts('Are you sure you want to delete this mailing?');
+            $archiveExtra = ts('Are you sure you want to archive this mailing?');
             $actionLinks = array(
                 CRM_Core_Action::VIEW => array(
                     'name'  => ts('Report'),
@@ -229,8 +244,15 @@ SELECT count(civicrm_mailing.id)
                     'qs'    => 'action=delete&mid=%%mid%%&reset=1',
                     'extra' => 'onclick="if (confirm(\''. $deleteExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Delete Mailing')                    
+                    ),
+                CRM_Core_Action::RENEW => array(
+                    'name'  => ts('Archive'),
+                    'url'   => 'civicrm/mailing/browse/archived',
+                    'qs'    => 'action=renew&mid=%%mid%%&reset=1',
+                    'extra' => 'onclick="if (confirm(\''. $archiveExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
+                    'title' => ts('Archive Mailing')                    
                     )
-            );
+                );
         }
 
         
@@ -239,18 +261,27 @@ SELECT count(civicrm_mailing.id)
         $params = array( );
         $whereClause = ' AND ' . $this->whereClause( $params );
         $rows =& $mailing->getRows($offset, $rowCount, $sort, $whereClause, $params );
-
+        
+        //get the search base mailing Ids, CRM-3711.
+        $searchMailings = $mailing->searchMailingIDs( );
+        
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
                 if (!($row['status'] == 'Not scheduled')) {
                     $actionMask = CRM_Core_Action::VIEW;
-                    $actionMask |= CRM_Core_Action::UPDATE;
+                    if ( !in_array( $row['id'], $searchMailings ) ) {
+                        $actionMask |= CRM_Core_Action::UPDATE;
+                    }
                 } else {
                     $actionMask = CRM_Core_Action::PREVIEW;
                 }
                 if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
                     $actionMask |= CRM_Core_Action::DISABLE;
                 }
+                if ( $row['status'] == 'Complete' && !$row['archived'] ) {
+                    $actionMask |= CRM_Core_Action::RENEW;
+                }
+                
                 $actionMask |= CRM_Core_Action::DELETE;
                
                 $rows[$key]['action'] = 
@@ -334,7 +365,13 @@ SELECT count(civicrm_mailing.id)
                 $this->_parent->assign( 'isSearch', 0 );
             }
         }
- 
+        
+        $createOrSentBy = $this->_parent->get( 'sort_name' );
+        if ( !CRM_Utils_System::isNull( $createOrSentBy ) ) {
+            $clauses[] = '(createdContact.sort_name LIKE %4 OR scheduledContact.sort_name LIKE %4)';
+            $params[4] = array( '%' . $createOrSentBy . '%', 'String' );
+        }
+        
         if ( empty( $clauses ) ) {
             return 1;
         }
@@ -350,8 +387,10 @@ SELECT count(civicrm_mailing.id)
         
         $query = "
    SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
-     FROM civicrm_mailing, civicrm_mailing_job
-    WHERE civicrm_mailing.id = civicrm_mailing_job.mailing_id
+     FROM civicrm_mailing
+LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id)
+LEFT JOIN civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
+LEFT JOIN civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
       AND $whereClause
  ORDER BY LEFT(name, 1)
 ";

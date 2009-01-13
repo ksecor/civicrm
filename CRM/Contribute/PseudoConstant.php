@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -75,7 +75,22 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @var array
      * @static
      */
-    private static $contributionStatus; 
+    private static $contributionStatus;
+
+    /**
+     * pcp status 
+     *
+     * @var array
+     * @static
+     */
+    private static $pcpStatus;
+
+    /**
+     * Personal campaign pages
+     * @var array
+     * @static
+     */
+    private static $pcPage;
 
     /**
      * Get all the contribution types
@@ -112,7 +127,8 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
                                                false, 'title' );
         }
         if ( $id ) {
-            return CRM_Utils_Array::value( $id, self::$contributionPage );
+            $pageTitle = CRM_Utils_Array::value( $id, self::$contributionPage );
+            return $pageTitle;
         }
         return self::$contributionPage;
     }
@@ -210,21 +226,58 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
     }
     
     /**
-     * Get all the contribution types
+     * Get all the contribution statuses
      *
      * @access public
-     * @return array - array reference of all contribution types if any
+     * @return array - array reference of all contribution statuses
      * @static
      */
     public static function &contributionStatus( )
     {
-        self::$contributionStatus = array();
-        if ( ! self::$contributionStatus ) {
+        if ( ! isset( self::$contributionStatus ) ) {
             require_once "CRM/Core/OptionGroup.php";
             self::$contributionStatus = CRM_Core_OptionGroup::values("contribution_status");
         }
         return self::$contributionStatus;
     }
+
+    /**
+     * Get all the pcp status
+     *
+     * @access public
+     * @return array - array reference of all pcp status
+     * @static
+     */
+    public static function &pcpStatus( )
+    {
+        self::$pcpStatus = array();
+        if ( ! self::$pcpStatus ) {
+            require_once "CRM/Core/OptionGroup.php";
+            self::$pcpStatus = CRM_Core_OptionGroup::values("pcp_status");
+        }
+        return self::$pcpStatus;
+    }
+    
+    /**
+     * Get all the Personal campaign pages
+     *
+     * @access public
+     * @return array - array reference of all pcp if any
+     * @static
+     */
+    public static function &pcPage($id = null)
+    {
+        if ( ! self::$pcPage ) {
+            CRM_Core_PseudoConstant::populate( self::$pcPage,
+                                               'CRM_Contribute_DAO_PCP',
+                                               false, 'title' );
+        }
+        if ( $id ) {
+            return CRM_Utils_Array::value( $id, self::$pcPage );
+        }
+        return self::$pcPage;
+    }
+
 }
 
 

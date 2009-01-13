@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -33,7 +33,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -61,11 +61,15 @@ function &civicrm_note_create(&$params)
     if ( !is_array( $params ) ) {
         return civicrm_create_error( 'Params is not an array' );
     }
-    
-    if ( !isset($params['entity_table']) || 
-         !isset($params['entity_id'])    || 
-         !isset($params['note'])         || 
-         !isset($params['contact_id'] ) ) {
+
+    if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
+        if ( !isset($params['entity_table']) || 
+             !isset($params['entity_id'])    || 
+             !isset($params['note'])         || 
+             !isset($params['contact_id'] ) ) {
+            return civicrm_create_error( 'Required parameter missing' );
+        }
+    } else if ( !isset( $params['id'] ) && !isset( $params['contact_id'] ) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
 
@@ -76,6 +80,7 @@ function &civicrm_note_create(&$params)
     }
 
     $ids = array( );
+    $ids = array( 'id' => CRM_Utils_Array::value( 'id', $params ) );
     $noteBAO = CRM_Core_BAO_Note::add( $params, $ids );
    
     if ( is_a( $noteBAO, 'CRM_Core_Error' ) ) {
@@ -90,39 +95,6 @@ function &civicrm_note_create(&$params)
 }
 
 /**
- * Update existing note
- *
- * This api is used for updating an existing note
- * Required parrmeters : id of a note
- * 
- * @param  Array $params  an associative array of name/value property values of civicrm_note
- * 
- * @return array of updated note property values
- * @access public
- */
-
-function &civicrm_note_update(&$params)
-{
-    _civicrm_initialize();
-    if ( !is_array( $params ) ) {
-        $error = civicrm_create_error( 'Parameters is not an array' );
-        return $error;
-    }
-    
-    if ( !isset( $params['id'] ) && !isset( $params['contact_id'] ) ) {
-        $error = civicrm_create_error( 'Required parameter missing' );
-        return $error;
-    } else {
-        $ids = array('id' => $params['id']);
-        $noteBAO = CRM_Core_BAO_Note::add( $params, $ids );   
-
-        $note = array( );
-        _civicrm_object_to_array( $noteBAO, $note );
-        return $note;
-    }
-}
-
-/**
  * Deletes an existing note
  * 
  * This API is used for deleting a note
@@ -132,7 +104,7 @@ function &civicrm_note_update(&$params)
  * @return null
  * @access public
  */
-function &civicrm_note_delete( &$params )
+function civicrm_note_delete( &$params )
 {
     _civicrm_initialize();
     

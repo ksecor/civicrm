@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -40,10 +40,6 @@ require_once 'CRM/Core/Config.php';
 
 /* Cache the real UF, override it with the SOAP environment */
 $config =& CRM_Core_Config::singleton();
-
-$config->userFramework          = 'Soap';
-$config->userFrameworkClass     = 'CRM_Utils_System_Soap';
-$config->userHookClass          = 'CRM_Utils_Hook_Soap';
 
 require_once 'CRM/Utils/Array.php';
 $value = CRM_Utils_Array::value( 'module', $_GET );

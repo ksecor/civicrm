@@ -1,5 +1,4 @@
 {* This file provides the HTML for the on-behalf-of form. Can also be used for related contact edit form. *}
-
 <fieldset id="for_organization"><legend>{$fieldSetTitle}</legend>
 {if $contact_type eq 'Individual'}
 
@@ -137,18 +136,19 @@
             </td>
         </tr>
         {/if}
-        {if $addressSequenceCountry}
+        {if $addressSequence.country}
         <tr>
-            <td>{$form.location.$index.address.country_state.label}</td>
-            <td>{$form.location.$index.address.country_state.html}{if $addressSequenceState} - <span class="tundra"><span id="id_location[1][address][country_state]_1"></span></span>{/if}
-                <br class="spacer"/>
-                <span class="description font-italic">
-                    {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
-                </span>
-            </td>
+            <td>{$form.location.$index.address.country_id.label}</td>
+            <td>{$form.location.$index.address.country_id.html}</td>
         </tr>
         {/if}
-        {if $contactEditMode}
+        {if $addressSequence.state_province}
+        <tr>
+            <td>{$form.location.$index.address.state_province_id.label}</td>
+            <td>{$form.location.$index.address.state_province_id.html}</td>
+        </tr>
+        {/if}
+        {if $contactEditMode and $form.location.$index.address.geo_code_1.label}
         <tr>
             <td>{$form.location.$index.address.geo_code_1.label}, {$form.location.$index.address.geo_code_2.label}</td>
             <td>{$form.location.$index.address.geo_code_1.html}, {$form.location.$index.address.geo_code_2.html}    
@@ -207,42 +207,18 @@
 {literal}
 <script type="text/javascript">
     function loadLocationData( cid ) {
-	    var dataUrl = {/literal}"{$locDataURL}"{literal};
+	var dataUrl = {/literal}"{$locDataURL}"{literal};
         dataUrl = dataUrl + cid;
 
         var result = dojo.xhrGet({
         url: dataUrl,
-        handleAs: "text",
+        handleAs: "json",
         timeout: 5000, //Time in milliseconds
 
         // The LOAD function will be called on a successful response.
         load: function(response, ioArgs) {
-            var fldVal = response.split(";;");
-            for (var i in fldVal) {
-                var elem = fldVal[i].split('::');
-                if ( elem[0] == 'id_location[1][address][country_state]_0' ) {
-                    var countryState = elem[1].split('-');
-                    var country = countryState[0];
-                    var state   = countryState[1];
-
-                    var selector1 = dijit.byId( elem[0] );
-                    var selector2 = dijit.byId( 'id_location[1][address][country_state]_1' );
-    
-                    selector1.store.fetch({
-                        query: {},
-                        onComplete: function(items, request) {
-                            selector1.setValue(country);
-                            selector2.store.fetch({
-                                query: {id:state},
-                                onComplete: function(items, request) {
-                                    selector2.setValue(state);
-                                }
-                            });
-                        }
-                    });
-                } else if ( elem[0] ) {
-                    document.getElementById( elem[0] ).value = elem[1];
-                }
+            for (var i in response) {
+                document.getElementById( i ).value = response[i];
             }
         },
 

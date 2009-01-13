@@ -2401,7 +2401,8 @@ class Contact_Vcard_Build extends PEAR {
             'profile="vcard"; ' .
             'charset=' . $charset
         );
-            
+        header('Cache-Control: must-revalidate,post-check=0, pre-check=0');
+        header('Pragma: public');
         header('Content-Length: ' . strlen($vcard));
         header("Content-Disposition: $disposition; filename=\"$filename\"");
         

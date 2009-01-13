@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -67,10 +67,22 @@ class CRM_Activity_BAO_Query
      */ 
     static function where( &$query ) 
     {
+        $isTest = false;
+        $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 9) == 'activity_' ) {
+                $grouping = $query->_params[$id][3];
                 self::whereClauseSingle( $query->_params[$id], $query );
+                if ( $query->_params[$id][0] == 'activity_test' ) {
+                    $isTest = true;
+                }
             }
+        }
+        
+        if ( $grouping !== null &&
+             !$isTest ) {
+            $values = array( 'activity_test', '=', 0, $grouping, 0 );
+            self::whereClauseSingle( $values, $query );
         }
     }
     
@@ -142,12 +154,21 @@ class CRM_Activity_BAO_Query
         case 'activity_start_date_low':
         case 'activity_start_date_high':
             
-             $query->dateQueryBuilder( $values,
+            $query->dateQueryBuilder( $values,
                                       'civicrm_meeting', 'activity_start_date', 'scheduled_date_time', 'Start Date' );
+            return;
+            
+        case 'activity_test':
+            $query->_where[$grouping][] = " civicrm_activity.is_test $op '$value'";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Find Test Activities";
+            }
+            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
+            
             return;
         }
     }
-
+    
     /*
     static function from( $name, $mode, $side ) 
     {

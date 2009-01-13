@@ -14,7 +14,12 @@
     {if $friendText}
         <div id="tell-a-friend">
             <a href="{$friendURL}" title="{$friendText}" class="button"><span>&raquo; {$friendText}</span></a>
-       </div><br /><br />
+       </div>{if !$linkText}<br /><br />{/if}
+    {/if}  
+    {if $linkText}
+ 	<div>
+            <a href="{$linkTextUrl}" title="{$linkText}" class="button"><span>&raquo; {$linkText}</span></a>
+        </div><br /><br />
     {/if}  
 
     <div id="help">
@@ -25,7 +30,7 @@
                 <div>{ts 1=$email}An email confirmation with these payment instructions has been sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if}.</div>
             {/if}
         {elseif $contributeMode EQ 'notify'}
-            <div>{ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{elseif $paymentProcessor.payment_processor_type EQ 'Payment_Express}DPS Payment Express{else}}PayPal{/if} for processing. Please print this page for your records.{/ts}</div>
+            <div>{ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{elseif $paymentProcessor.payment_processor_type EQ 'Payment_Express'}DPS Payment Express{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
                 <div>{ts 1=$email}An email receipt will be sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if} {ts}once the transaction is processed successfully.{/ts}</div>
             {/if}
@@ -113,7 +118,16 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
-
+    {if $pcpBlock}
+    <div class="header-dark">
+        {ts}Personal Campaign Page{/ts}
+    </div>
+    <div class="display-block">
+	<strong>Display In Roll</strong> : {if $pcp_display_in_roll}{ts}Yes{/ts}<br />{else}{ts}No{/ts}<br />{/if}
+	{if $pcp_roll_nickname}<strong>Nick Name</strong> : {$pcp_roll_nickname}<br />{/if}
+        {if $pcp_personal_note}<strong>Note</strong> : {$pcp_personal_note|truncate}<br />{/if}
+   </div>
+    {/if}
     {if $onBehalfName}
     <div class="header-dark">
         {ts}On Behalf Of{/ts}
@@ -127,7 +141,7 @@
     </div>
     {/if}
 
-    {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary and $amount GT 0}    
+    {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 )}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -140,7 +154,7 @@
     </div>
     {/if}
 
-    {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and $amount GT 0}
+    {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 )}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>

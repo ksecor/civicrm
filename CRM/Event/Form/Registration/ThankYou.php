@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  *
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -61,7 +61,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->assign( 'participantInfo', $participantInfo ); 
         $customGroup = $this->get('customProfile');
         $this->assign( 'customProfile',$customGroup );
-        CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event_page']));
+        CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event']));
     }
 
     /**
@@ -115,14 +115,19 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         foreach ($fields as $name => $dontCare ) {
             if ( isset($this->_params[0][$name]) ) {
                 $defaults[$name] = $this->_params[0][$name];
+                if ( $name == 'greeting_type' ) { 
+                    if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
+                        $defaults['custom_greeting'] = $this->_params[0]['custom_greeting'];
+                    }
+                }
             }
         }
         $this->setDefaults( $defaults );
 
         require_once 'CRM/Friend/BAO/Friend.php';
         
-        $params['entity_id']    = $this->_id;
-        $params['entity_table'] = 'civicrm_event_page';
+        $params['entity_id']    = $this->_eventId;
+        $params['entity_table'] = 'civicrm_event';
         
         CRM_Friend_BAO_Friend::retrieve( $params, $data ) ;
         if ( $data['is_active'] ) {               
@@ -130,10 +135,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
             $this->assign( 'friendText', $friendText );
             if( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                             "eid={$this->_id}&reset=1&action=preview&page=event" );
+                                             "eid={$this->_eventId}&reset=1&action=preview&page=event" );
             } else {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                             "eid={$this->_id}&reset=1&page=event" );   
+                                             "eid={$this->_eventId}&reset=1&page=event" );   
             }                    
             $this->assign( 'friendURL', $url );
         }

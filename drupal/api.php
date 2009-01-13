@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -47,10 +47,14 @@ function civicrm_drupal_create_user ( $email, $rid = null ) {
     }
 
     // If user already exists, return Drupal id
-    $uid = db_result(db_query('SELECT uid FROM {users} WHERE mail = "' . $email . '"'));
+    $uid = db_result(db_query("SELECT uid FROM {users} WHERE mail = '%s'", $email));
     if ( $uid ) {
         return $uid;
     }
+
+    // escape email to prevent sql injection
+    $dao = new CRM_Core_DAO( );
+    $email             = $dao->escape( $email );
 
     // Default values for new user
     $params            = array();

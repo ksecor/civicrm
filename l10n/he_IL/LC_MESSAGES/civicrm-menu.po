@@ -1,0 +1,476 @@
+# Copyright CiviCRM LLC (c) 2004-2008
+# This file is distributed under the same license as the CiviCRM package.
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
+"PO-Revision-Date: 2008-11-07 05:18-0800\n"
+"Last-Translator: Gideon Larionov <atanetfq@gmail.com>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
+
+msgid "Accepted Credit Cards"
+msgstr "כרטיסי אשראי מאושרים"
+
+msgid "Access Control"
+msgstr "בקרת גישה"
+
+msgid "ACL"
+msgstr "הרשאות גישה (Access control List)"
+
+msgid "ACL Roles"
+msgstr "תבניות להרשאות גישה"
+
+msgid "Activities"
+msgstr "פעילויות"
+
+msgid "Activity"
+msgstr "פעילות"
+
+msgid "Activity Types"
+msgstr "סוגי סעילות"
+
+msgid "Additional Info"
+msgstr "מידע נוסף"
+
+msgid "AdditionalInfo Form"
+msgstr "טופס מידע נוסף"
+
+msgid "Address Preferences"
+msgstr "מאפייני (העדפות) כתובת"
+
+msgid "Administer CiviCRM"
+msgstr "ניהול CIviCRM"
+
+msgid "Advanced Search"
+msgstr "חיפוש מתקדם"
+
+msgid "Assign Users to ACL Roles"
+msgstr "שיוך משתמשים לתבנית הרשאות גישה"
+
+msgid "Browse Uploaded files"
+msgstr "עיון בקבצים שהועלו"
+
+msgid "Case"
+msgstr "אירוע"
+
+msgid "Case Types"
+msgstr "סוגי אירועים"
+
+msgid "CiviContribute"
+msgstr ""
+
+msgid "CiviCRM"
+msgstr "CiviCRM"
+
+msgid "CiviCRM Home"
+msgstr "אתר הבית"
+
+msgid "CiviCRM Profile"
+msgstr "פרופיל CiviCRM"
+
+msgid "CiviCRM Profile Create"
+msgstr "צור פרופיל CiviCRM"
+
+msgid "CiviCRM Profile Fields"
+msgstr "שדות פרופיל CiviCRM"
+
+msgid "CiviEvent"
+msgstr "אירועי CiviCRM"
+
+msgid "CiviGrant"
+msgstr "מלגת CiviCRM"
+
+msgid "CiviMail"
+msgstr "דוא\"ל CiviCRM"
+
+msgid "CiviMember"
+msgstr "חבר CiviCRM"
+
+msgid "CiviPledge"
+msgstr "אות CiviCRM"
+
+msgid "Components"
+msgstr "מרכיבים"
+
+msgid "Confirm"
+msgstr "אשר"
+
+msgid "Contact Dashboard"
+msgstr "ניהול אנשי קשר"
+
+msgid "Contacts"
+msgstr "אנשי קשר"
+
+msgid "Contact Summary"
+msgstr "סיכום אנשי קשר"
+
+msgid "Contribution Chart"
+msgstr "תרשים תרומות"
+
+msgid "Contributions"
+msgstr "תרומות"
+
+msgid "Contribution Types"
+msgstr "סוגי תרומות"
+
+msgid "Create New Group"
+msgstr "צור קבוצה חדשה"
+
+msgid "Custom Data"
+msgstr "מידע מותאם אישית"
+
+msgid "Custom Data Fields"
+msgstr "שדות מידע מותאם אישית"
+
+msgid "Custom Field - Move"
+msgstr "שדה מותאם אישית - העברה"
+
+msgid "Custom Field - Options"
+msgstr "שדה מותאם אישית - אפשרויות"
+
+msgid "Custom Searches"
+msgstr "חיפוש מותאם אישית"
+
+msgid "Date Formatting"
+msgstr "פורמט תאריכים"
+
+msgid "Debugging"
+msgstr "תיקון שגיאות"
+
+msgid "Delete Contact"
+msgstr "מחק איש קשר"
+
+msgid "Delete Location"
+msgstr "מחק מיקום"
+
+msgid "Domain Information"
+msgstr ""
+
+msgid "Download Errors"
+msgstr "שיגיאות הורדה"
+
+msgid "Draft and Unscheduled Mailings"
+msgstr "טיוטות ודואר יוצא"
+
+msgid "Edit Related Contact"
+msgstr "עריכת איש קשר מיוחס"
+
+msgid "Email a Contact"
+msgstr ""
+
+msgid "Event Information"
+msgstr "פרטי אירוע"
+
+msgid "Event Participants List"
+msgstr "רשימת משתתפי האירוע"
+
+msgid "Event Registration"
+msgstr "רישום לאירוע"
+
+msgid "Event Types"
+msgstr "סוגי אירוע"
+
+msgid "Export Contacts"
+msgstr "יצוא אנשי קשר"
+
+msgid "File System Paths"
+msgstr "נתיב מערכת קבצים"
+
+msgid "Find and Merge Duplicate Contacts"
+msgstr "מצא ושלב אנשי קשר כפולים"
+
+msgid "Find Contacts"
+msgstr "מצא אנשי קשר"
+
+msgid "Find Contributions"
+msgstr "מצא תרומות"
+
+msgid "Find Grants"
+msgstr "מצא מלגות"
+
+msgid "Find Members"
+msgstr "מצא חברים"
+
+msgid "Find Participants"
+msgstr "מצא משתתפים"
+
+msgid "Find Pledges"
+msgstr "מצא אותות"
+
+#, fuzzy
+msgid "Find Signers"
+msgstr "מצא חותמים"
+
+msgid "From Email Address"
+msgstr "מאת"
+
+msgid "Gender Options"
+msgstr "אפשרויות מין"
+
+msgid "Global Settings"
+msgstr "הגדרות כלליות"
+
+msgid "Grant Types"
+msgstr "סוגי מלגות"
+
+msgid "Group Members"
+msgstr "חברי קבוצה"
+
+msgid "Groups"
+msgstr "קבוצות"
+
+msgid "Headers, Footers, and Automated Messages"
+msgstr "כותרת עליונה ותחתונה, הודעות אוטומטיות"
+
+msgid "Import"
+msgstr "ייבוא"
+
+msgid "Import Contributions"
+msgstr "יבוא תרומות"
+
+msgid "Import/Export Mappings"
+msgstr "יבוא/יצוא מיפוים"
+
+msgid "Import Members"
+msgstr "יבוא חברים"
+
+msgid "Import Participants"
+msgstr "יבוא משתתפים"
+
+#, fuzzy
+msgid "Import Signers"
+msgstr "יבוא חותמים"
+
+msgid "Individual Prefixes (Ms, Mr...)"
+msgstr "תוארים אישיים (מר', גב')"
+
+msgid "Individual Suffixes (Jr, Sr...)"
+msgstr ""
+
+msgid "Instant Messenger Services"
+msgstr "שרותי מסרים מידיים"
+
+msgid "Localization"
+msgstr "תרגומים"
+
+msgid "Location Types (Home, Work...)"
+msgstr "סוגי מיקום (בית, עבודה)"
+
+msgid "Log out"
+msgstr "יציאה / ניתוק"
+
+msgid "Mailer Settings"
+msgstr "הגדרות דואר"
+
+msgid "Mailing Event"
+msgstr ""
+
+msgid "Mailing Report"
+msgstr "דוח הפצת דואר"
+
+msgid "Manage ACLs"
+msgstr "ניהול הרשאות גישה"
+
+msgid "Manage Contribution Pages"
+msgstr "ניהול דפי תרומות"
+
+msgid "Manage Custom Searches"
+msgstr "ניהול חיפוש מותאם אישית"
+
+msgid "Manage Events"
+msgstr "ניהול אירועים"
+
+msgid "Manage Groups"
+msgstr "ניהול קבוצות"
+
+msgid "Manage Pledges"
+msgstr "ניהול אותות"
+
+msgid "Manage Premiums"
+msgstr "ניהול VIP"
+
+msgid "Manage Price Sets"
+msgstr "ניהול מחירונים"
+
+msgid "Map Event Location"
+msgstr ""
+
+msgid "Map Location(s)"
+msgstr ""
+
+msgid "Mapping and Geocoding"
+msgstr ""
+
+msgid "Memberships"
+msgstr "חברות"
+
+msgid "Membership Status Rules"
+msgstr ""
+
+msgid "Membership Types"
+msgstr "סוגי חברות"
+
+msgid "Merge Contact"
+msgstr "אחד איש קשר"
+
+msgid "Message Templates"
+msgstr "תבניות הודעה"
+
+msgid "Miscellaneous"
+msgstr ""
+
+msgid "Mobile Phone Providers"
+msgstr "חברות סלולאר"
+
+msgid "New Activity"
+msgstr "פעילות חדשה"
+
+msgid "New Contact"
+msgstr "איש קשר חדש"
+
+msgid "New Contact Dialog"
+msgstr "דו-שיח חדש"
+
+msgid "New Event"
+msgstr "אירוע חדש"
+
+msgid "New Mailing"
+msgstr "הפצת דואר חדשה"
+
+msgid "New Pledge"
+msgstr "אות חדש"
+
+msgid "Notes"
+msgstr "הערות"
+
+msgid "Option Groups"
+msgstr ""
+
+msgid "Option Values"
+msgstr ""
+
+msgid "Optout"
+msgstr ""
+
+msgid "Participant Role"
+msgstr "תפקיד משתתף"
+
+msgid "Participant Status"
+msgstr "סטטוס משתתף"
+
+msgid "Payment Instruments"
+msgstr "כלי תשלום"
+
+msgid "Payment Processor"
+msgstr "מחולל תשלומים"
+
+msgid "Payment Processor Type"
+msgstr "סוג מחולל תשלומים"
+
+msgid "PledgeBank"
+msgstr ""
+
+msgid "Pledge Payments"
+msgstr ""
+
+msgid "Pledges"
+msgstr ""
+
+msgid "Preferred Communication Methods"
+msgstr "אופן התקשרות מועדף"
+
+msgid "Preview Mailing"
+msgstr "הפצת דואר - תצוגה מקדימה"
+
+msgid "Price Field Options"
+msgstr "אפרויות מחירונים"
+
+msgid "Price Fields"
+msgstr ""
+
+msgid "Price Sets"
+msgstr "מחירונים"
+
+msgid "Registration Page"
+msgstr "דף רישום"
+
+msgid "Relationships"
+msgstr "קשרים"
+
+msgid "Relationship Types"
+msgstr "סוגי קשרים"
+
+msgid "Resubscribe"
+msgstr ""
+
+msgid "Safe File Extension Options"
+msgstr ""
+
+msgid "Scheduled and Sent Mailings"
+msgstr ""
+
+msgid "Search Builder"
+msgstr ""
+
+msgid "Sending Mail"
+msgstr ""
+
+msgid "Simple Search"
+msgstr "חיפוש פשוט"
+
+msgid "Site URLs"
+msgstr "קישורים לאתר"
+
+msgid "Smtp Server"
+msgstr "שרת SMTP"
+
+msgid "Subscribe"
+msgstr "הירשם"
+
+msgid "Sunlight"
+msgstr "צהריים"
+
+msgid "Synchronize Users to Contacts"
+msgstr "סינכרון משתמשים ואנשי קשר"
+
+msgid "System Preferences"
+msgstr "הגדרות מערכת"
+
+msgid "Tags"
+msgstr ""
+
+msgid "Tags (Categories)"
+msgstr ""
+
+msgid "Tell a Friend"
+msgstr "שלח לחבר"
+
+msgid "This should never be seen"
+msgstr ""
+
+msgid "Unsubscribe"
+msgstr ""
+
+msgid "Upcoming Events"
+msgstr "אירועים עתידיים"
+
+msgid "Update Directory Path and URL"
+msgstr ""
+
+msgid "Upgrade 2.0 => 2.1"
+msgstr ""
+
+msgid "User Framework Settings"
+msgstr ""
+
+msgid "View Activity"
+msgstr ""
+
+msgid "View Date Prefences"
+msgstr ""

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -69,11 +69,24 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task
         $profileGID = CRM_Utils_Request::retrieve( 'profileGID', 'Integer',
                                                    $this, false );
         $this->assign( 'profileGID', $profileGID );
+        $seachType = CRM_Utils_Request::retrieve( 'searchType', 'String',
+                                                  $this, false );
 
         $type = 'Contact';
         if ( $cid ) {
             $ids = array( $cid );
             $this->_single     = true;
+            if ( $seachType && ! $profileGID ) {
+                $fragment = '/basic';
+                if ( $seachType == 'advance') {
+                    $fragment = '/advanced';
+                } elseif ( $seachType == 'custom') {
+                    $fragment = '/custom';
+                }
+                $session =& CRM_Core_Session::singleton();
+                $url = CRM_Utils_System::url( 'civicrm/contact/search' . $fragment, 'force=1' );
+                $session->replaceUserContext( $url );
+            }
         } else if ( $eid ) {
             $ids = $eid;
             $type = 'Event';
@@ -144,12 +157,12 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task
         }
 
         if ( empty( $locations ) ) {
-            CRM_Core_Error::statusBounce(ts('This contact\'s primary address does not contain latitude/longitude information and cannot be mapped.'));
+            CRM_Core_Error::statusBounce(ts('This address does not contain latitude/longitude information and cannot be mapped.'));
         }
 
         if ( $addBreadCrumb ) {
             $session =& CRM_Core_Session::singleton(); 
-            $redirect = $session->readUserContext(); 
+            $redirect = $session->readUserContext();
             if ( $type == 'Contact') {
                 $bcTitle = ts('Contact');
             } else {

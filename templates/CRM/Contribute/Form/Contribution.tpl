@@ -41,56 +41,56 @@
         <tr>
             <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
-	{if $contributionMode}
+        {if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
         {/if}
-	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
+        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
         {if $is_test}
         {ts}(test){/ts}
-        {/if}
+        {/if} {help id="id-contribution_type"}
         </td></tr> 
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
-        <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html|crmMoney}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
-	<tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
+        <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html|crmMoney} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.source.label}</td><td>{$form.source.html} {help id="id-contrib_source"}</td></tr>
+
         {if $contributionMode}
-	    {if $email}
-            <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
+            {if $email and $outBound_option != 2}
+                <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
+                <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
             {/if}
-	    <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
+            <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
-            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>	
+            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
         {/if}
-	{if !$contributionMode}
-        <tr><td class="label">{$form.receive_date.label}</td>
-            <td>{if $hideCalender neq true}{$form.receive_date.html}{else}{$receive_date|truncate:10:''|crmDate}{/if}
+        {if !$contributionMode}
+            <tr><td class="label">{$form.receive_date.label}</td>
+                <td>{if $hideCalender neq true}{$form.receive_date.html}{else}{$receive_date|truncate:10:''|crmDate}{/if}
             {if $hideCalender neq true}
                  {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
                  {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_1}
             {/if}
-        </td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
-        <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
-	<tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
-	<tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
-	<tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
-	{if $email}
-            <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
-        {/if}
-	<tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
+            </td></tr>
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
+            <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
+            {if $showCheckNumber || !$isOnline}  
+                <tr id="checkNumber"><td class="label">{$form.check_number.label}</td><td>{$form.check_number.html|crmReplace:class:six}</td></tr>
+            {/if}
+            <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html|crmReplace:class:twelve} {help id="id-trans_id"}</td></tr>
+            {if $email and $outBound_option != 2}
+                <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html} <span class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</span></td></tr>
+            {/if}
+            <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
             <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
-	<tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}
-	{if $contribution_status_id eq 2}{if $is_pay_later }: {ts}Pay Later{/ts} {else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td></tr>
-        {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
-        <tr id="cancelInfo"> 
-           <td>&nbsp;</td> 
-           <td><fieldset><legend>{ts}Cancellation Information{/ts}</legend>
+            <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}
+            {if $contribution_status_id eq 2}{if $is_pay_later }: {ts}Pay Later{/ts} {else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td></tr>
+
+            {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
+            <tr id="cancelInfo"> 
+                <td>&nbsp;</td> 
+                <td><fieldset><legend>{ts}Cancellation Information{/ts}</legend>
                 <table class="form-layout-compressed">
                   <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
                    {if $hideCalendar neq true}
@@ -102,14 +102,35 @@
                   <tr id="cancelReason"><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
                </table>
                </fieldset>
-           </td>
-        </tr>
+               </td>
+            </tr>
         {/if}
+
+        <tr><td class="label">{$form.soft_credit_to.label}</td>
+            <td>
+                <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
+                {$form.soft_credit_to.html} {help id="id-soft_credit"}
+                </div>
+            </td>
+        </tr>
+
       </table>
 
     <div id="customData"></div>
-    {*include custom data js file*}
-    {include file="CRM/common/customData.tpl"}
+	{*include custom data js file*}
+	{include file="CRM/common/customData.tpl"}
+	{literal}
+		<script type="text/javascript">
+			cj(document).ready(function() {
+				{/literal}
+				buildCustomData( '{$customDataType}' );
+				{if $customDataSubType}
+					buildCustomData( '{$customDataType}', {$customDataSubType} );
+				{/if}
+				{literal}
+			});
+		</script>
+	{/literal}	
 
 <div class="form-item" id="additionalInformation">
    {* Additional Detail / Honoree Information / Premium Information  Fieldset *}
@@ -133,7 +154,6 @@
 
     {literal}
     <script type="text/javascript">
-
      function verify( ) {
        var element = document.getElementsByName("is_email_receipt");
         if ( element[0].checked ) {
@@ -155,7 +175,7 @@
 
 
 {if $action neq 8}  
-{if $email}
+{if $email and $outBound_option != 2}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_email_receipt"
     trigger_value       =""
@@ -170,6 +190,14 @@
     trigger_field_id    ="contribution_status_id"
     trigger_value       = '3'
     target_element_id   ="cancelInfo" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="payment_instrument_id"
+    trigger_value       = '4'
+    target_element_id   ="checkNumber" 
     target_element_type ="table-row"
     field_type          ="select"
     invert              = 0

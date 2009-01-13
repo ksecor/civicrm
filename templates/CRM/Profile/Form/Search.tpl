@@ -34,17 +34,23 @@
           {* sort by fails for option per line. Added a variable to iterate through the element array*}
           {assign var="index" value="1"}
           {foreach name=outer key=key item=item from=$form.$n}
-          {if $index < 10}
+          {if $index < 10} {* Hack to skip QF field properties that aren't checkbox elements. *}
               {assign var="index" value=`$index+1`}
           {else}
-              <td class="labels font-light">{$form.$n.$key.html}</td>
-              {if $count == $field.options_per_line}
-                  </tr>
-                   <tr>
-                   {assign var="count" value="1"}
+              {if $field.html_type EQ 'CheckBox' AND  $smarty.foreach.outer.last EQ 1} {* Put 'match ANY / match ALL' checkbox in separate row. *}
+                    </tr>
+                    <tr>
+                        <td class="op-checkbox" colspan="{$field.options_per_line}" style="padding-top: 0px;">{$form.$n.$key.html}</td>
               {else}
-          	       {assign var="count" value=`$count+1`}
-              {/if}
+                    <td class="labels font-light">{$form.$n.$key.html}</td>
+                    {if $count EQ $field.options_per_line}
+                        </tr>
+                        <tr>
+                        {assign var="count" value="1"}
+                    {else}
+                        {assign var="count" value=`$count+1`}
+                    {/if}
+                {/if}
           {/if}
           {/foreach}
         </tr>
@@ -55,7 +61,25 @@
 	{else}
 	        <tr>
         	    <td class="label">{$form.$n.label}</td>
-	            <td class="description">{$form.$n.html}</td>
+                {if $n eq 'greeting_type'}             
+                    <td> 
+                       <table class="form-layout-compressed">
+                         <tr>     
+                           <td class="description">{$form.$n.html}</td>
+                           <td id="customGreeting">
+                             {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;
+                             {$form.custom_greeting.html|crmReplace:class:big}
+                           </td>
+                         </tr>
+                       </table> 
+                    </td>
+		{elseif $n eq 'group'} 
+	 	 <td><table id="selector" class="selector" style="width:auto;">
+			<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
+		 </table></td>
+                {else}
+                    <td class="description">{$form.$n.html}</td>
+                {/if}
         	</tr>
 	{/if}
     {/foreach}
@@ -85,3 +109,30 @@
       </dl>
     </div>
 {/if}
+{if $form.greeting_type}
+  {literal}
+    <script type="text/javascript">
+      window.onload = function() {
+        showGreeting();
+      }
+    </script>
+  {/literal}
+{/if}
+
+{literal}
+<script type="text/javascript">
+   
+    function showGreeting() {
+        if( document.getElementById("greeting_type").value == 4 ) {
+            show('customGreeting');           
+        } else {
+            hide('customGreeting');  
+        }        
+    }
+
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
+});
+</script>
+{/literal}

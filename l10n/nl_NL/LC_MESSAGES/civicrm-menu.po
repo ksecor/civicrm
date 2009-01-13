@@ -1,0 +1,474 @@
+# Copyright CiviCRM LLC (c) 2004-2008
+# This file is distributed under the same license as the CiviCRM package.
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
+"PO-Revision-Date: 2008-12-15 11:32-0800\n"
+"Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
+
+msgid "Accepted Credit Cards"
+msgstr "Geacepteerde Creditcards"
+
+msgid "Access Control"
+msgstr "Toegangscontrole"
+
+msgid "ACL"
+msgstr "ACL"
+
+msgid "ACL Roles"
+msgstr "ACL Rollen"
+
+msgid "Activities"
+msgstr "Activiteiten"
+
+msgid "Activity"
+msgstr "Activiteit"
+
+msgid "Activity Types"
+msgstr "Activiteittypes"
+
+msgid "Additional Info"
+msgstr "Aanvullende informatie"
+
+msgid "AdditionalInfo Form"
+msgstr "Scherm aanvullende informatie"
+
+msgid "Address Preferences"
+msgstr "Adres voorkeuren"
+
+msgid "Administer CiviCRM"
+msgstr "Beheer CiviCRM"
+
+msgid "Advanced Search"
+msgstr "Geavanceerd zoeken"
+
+msgid "Assign Users to ACL Roles"
+msgstr "ACL rollen toekennen aan gebruikers"
+
+msgid "Browse Uploaded files"
+msgstr "Bekijken geuploade bestanden"
+
+msgid "Case"
+msgstr "Zaak"
+
+msgid "Case Types"
+msgstr "Zaak Types"
+
+msgid "CiviContribute"
+msgstr "CiviContribute"
+
+msgid "CiviCRM"
+msgstr "CiviCRM"
+
+msgid "CiviCRM Home"
+msgstr "CiviCRM Home"
+
+msgid "CiviCRM Profile"
+msgstr "CiviCRM Profiel"
+
+msgid "CiviCRM Profile Create"
+msgstr "CiviCRM Profiel Aanmaken"
+
+msgid "CiviCRM Profile Fields"
+msgstr "CiviCRM Profiel Velden"
+
+msgid "CiviEvent"
+msgstr "CiviEvent"
+
+msgid "CiviGrant"
+msgstr "CiviGrant"
+
+msgid "CiviMail"
+msgstr "CiviMail"
+
+msgid "CiviMember"
+msgstr "CiviMember"
+
+msgid "CiviPledge"
+msgstr "CiviPledge"
+
+msgid "Components"
+msgstr "Componenten"
+
+msgid "Confirm"
+msgstr "Bevestig"
+
+msgid "Contact Dashboard"
+msgstr "Overzicht Contact"
+
+msgid "Contacts"
+msgstr "Contacten"
+
+msgid "Contact Summary"
+msgstr "Samenvatting Contacten"
+
+msgid "Contribution Chart"
+msgstr "Bijdragenoverzicht"
+
+msgid "Contributions"
+msgstr "Bijdragen"
+
+msgid "Contribution Types"
+msgstr "Bijdragentypes"
+
+msgid "Create New Group"
+msgstr "Groep aanmaken"
+
+msgid "Custom Data"
+msgstr "Standaard Gegevens"
+
+msgid "Custom Data Fields"
+msgstr "Standaard velden"
+
+msgid "Custom Field - Move"
+msgstr ""
+
+msgid "Custom Field - Options"
+msgstr ""
+
+msgid "Custom Searches"
+msgstr "Standaard Zoeken"
+
+msgid "Date Formatting"
+msgstr "Datum Opmaak"
+
+msgid "Debugging"
+msgstr "Debugging"
+
+msgid "Delete Contact"
+msgstr "Verwijder Contact"
+
+msgid "Delete Location"
+msgstr "Verwijder Locatie"
+
+msgid "Domain Information"
+msgstr "Domein Informatie"
+
+msgid "Download Errors"
+msgstr "Download fouten"
+
+msgid "Draft and Unscheduled Mailings"
+msgstr ""
+
+msgid "Edit Related Contact"
+msgstr ""
+
+msgid "Email a Contact"
+msgstr "E-mail naar een contact"
+
+msgid "Event Information"
+msgstr "Evenement Informatie"
+
+msgid "Event Participants List"
+msgstr "Evenement Deelnemerslijst"
+
+msgid "Event Registration"
+msgstr "Evenement Registratie"
+
+msgid "Event Types"
+msgstr "Evenementtypes"
+
+msgid "Export Contacts"
+msgstr "Exporteer Contacten"
+
+msgid "File System Paths"
+msgstr "File systeem pad"
+
+msgid "Find and Merge Duplicate Contacts"
+msgstr ""
+
+msgid "Find Contacts"
+msgstr "Zoek Contacten"
+
+msgid "Find Contributions"
+msgstr "Zoek Bijdragen"
+
+msgid "Find Grants"
+msgstr "Zoek Vrienden"
+
+msgid "Find Members"
+msgstr "Zoek Leden"
+
+msgid "Find Participants"
+msgstr "Zoek Deelnemers"
+
+msgid "Find Pledges"
+msgstr "Zoek Borgstellingen"
+
+msgid "Find Signers"
+msgstr "Zoek Intekenaars"
+
+msgid "From Email Address"
+msgstr "E-mailadres afzender"
+
+msgid "Gender Options"
+msgstr "Geslacht Opties"
+
+msgid "Global Settings"
+msgstr "Globale Instellingen"
+
+msgid "Grant Types"
+msgstr ""
+
+msgid "Group Members"
+msgstr "Groepsleden"
+
+msgid "Groups"
+msgstr "Groepen"
+
+msgid "Headers, Footers, and Automated Messages"
+msgstr "Headers, Footers en Automatische berichten"
+
+msgid "Import"
+msgstr "Importeer"
+
+msgid "Import Contributions"
+msgstr "Importeer Bijdragen"
+
+msgid "Import/Export Mappings"
+msgstr "Im- of Exporteer mappings"
+
+msgid "Import Members"
+msgstr "Importeer Leden"
+
+msgid "Import Participants"
+msgstr "Importeer Deelnemers"
+
+msgid "Import Signers"
+msgstr "Importeer Intekenaars"
+
+msgid "Individual Prefixes (Ms, Mr...)"
+msgstr "Persoonlijke voorvoegsels"
+
+msgid "Individual Suffixes (Jr, Sr...)"
+msgstr "Persoonlijke achtervoegsels"
+
+msgid "Instant Messenger Services"
+msgstr "Instant Messenger Services"
+
+msgid "Localization"
+msgstr "Lokalisatie"
+
+msgid "Location Types (Home, Work...)"
+msgstr "Locatie types"
+
+msgid "Log out"
+msgstr "Uitloggen"
+
+msgid "Mailer Settings"
+msgstr "Instellingen mailprogramma"
+
+msgid "Mailing Event"
+msgstr ""
+
+msgid "Mailing Report"
+msgstr ""
+
+msgid "Manage ACLs"
+msgstr "Beheer ACL's"
+
+msgid "Manage Contribution Pages"
+msgstr "Beheer Bijdrage Pagina"
+
+msgid "Manage Custom Searches"
+msgstr ""
+
+msgid "Manage Events"
+msgstr "Beheer Evenementen"
+
+msgid "Manage Groups"
+msgstr "Beheer Groepen"
+
+msgid "Manage Pledges"
+msgstr "Beheer Borgstellingen"
+
+msgid "Manage Premiums"
+msgstr "Beheer Geschenken"
+
+msgid "Manage Price Sets"
+msgstr "Beheer Prijs-sets"
+
+msgid "Map Event Location"
+msgstr "Beheer Evenementlocaties"
+
+msgid "Map Location(s)"
+msgstr "Beheer Locatie(s)"
+
+msgid "Mapping and Geocoding"
+msgstr "Mapping en Geocoding"
+
+msgid "Memberships"
+msgstr "Lidmaatschappen"
+
+msgid "Membership Status Rules"
+msgstr "Statusregels Lidmaatschap"
+
+msgid "Membership Types"
+msgstr "Types Lidmaatschap"
+
+msgid "Merge Contact"
+msgstr "Contact samenvoegen"
+
+msgid "Message Templates"
+msgstr "Bericht sjabloon"
+
+msgid "Miscellaneous"
+msgstr "Diversen"
+
+msgid "Mobile Phone Providers"
+msgstr "Mobiele telefoon providers"
+
+msgid "New Activity"
+msgstr "Nieuwe activiteit"
+
+msgid "New Contact"
+msgstr "Nieuw Contact"
+
+msgid "New Contact Dialog"
+msgstr ""
+
+msgid "New Event"
+msgstr "Nieuw Evenement"
+
+msgid "New Mailing"
+msgstr "Nieuwe Mailing"
+
+msgid "New Pledge"
+msgstr "Nieuwe Borgstelling"
+
+msgid "Notes"
+msgstr "Aantekeningen"
+
+msgid "Option Groups"
+msgstr ""
+
+msgid "Option Values"
+msgstr ""
+
+msgid "Optout"
+msgstr "Uitschrijven"
+
+msgid "Participant Role"
+msgstr "Rol Deelnemer"
+
+msgid "Participant Status"
+msgstr "Status Deelneming"
+
+msgid "Payment Instruments"
+msgstr "Betaalwijze"
+
+msgid "Payment Processor"
+msgstr "Betaalmethode"
+
+msgid "Payment Processor Type"
+msgstr "Betaalmethode Type"
+
+msgid "PledgeBank"
+msgstr ""
+
+msgid "Pledge Payments"
+msgstr "Betalingen Borgstelling"
+
+msgid "Pledges"
+msgstr "Borgstellingen"
+
+msgid "Preferred Communication Methods"
+msgstr "Voorkeur methode communicatie"
+
+msgid "Preview Mailing"
+msgstr "Voorvertoon mailing"
+
+msgid "Price Field Options"
+msgstr "Prijsveld Opties"
+
+msgid "Price Fields"
+msgstr "Prijsvelden"
+
+msgid "Price Sets"
+msgstr "Prijs-sets"
+
+msgid "Registration Page"
+msgstr "Registratiepagina"
+
+msgid "Relationships"
+msgstr "Relaties"
+
+msgid "Relationship Types"
+msgstr "Relatietypes"
+
+msgid "Resubscribe"
+msgstr "Heraanmelden"
+
+msgid "Safe File Extension Options"
+msgstr "Opties veilige bestandstypes"
+
+msgid "Scheduled and Sent Mailings"
+msgstr "Geplande en verstuurde mailings"
+
+msgid "Search Builder"
+msgstr "Opbouw zoeken"
+
+msgid "Sending Mail"
+msgstr ""
+
+msgid "Simple Search"
+msgstr "Eenvoudige zoekopdracht"
+
+msgid "Site URLs"
+msgstr "Site URLs"
+
+msgid "Smtp Server"
+msgstr "Smtp Server"
+
+msgid "Subscribe"
+msgstr "Aanmelden"
+
+msgid "Sunlight"
+msgstr ""
+
+msgid "Synchronize Users to Contacts"
+msgstr "Synchroniseer gebruikers met contacten"
+
+msgid "System Preferences"
+msgstr "Systeem voorinstellingen"
+
+msgid "Tags"
+msgstr "Markeringen"
+
+msgid "Tags (Categories)"
+msgstr "Markeringen (Categoriën)"
+
+msgid "Tell a Friend"
+msgstr "Mond tot mond reclame"
+
+msgid "This should never be seen"
+msgstr ""
+
+msgid "Unsubscribe"
+msgstr "Afmelden"
+
+msgid "Upcoming Events"
+msgstr "Evenementen binnenkort"
+
+msgid "Update Directory Path and URL"
+msgstr ""
+
+msgid "Upgrade 2.0 => 2.1"
+msgstr "Upgrade 2.0 naar 2.1"
+
+msgid "User Framework Settings"
+msgstr ""
+
+msgid "View Activity"
+msgstr "Toon activiteit"
+
+msgid "View Date Prefences"
+msgstr "Toon voorkeur datums"

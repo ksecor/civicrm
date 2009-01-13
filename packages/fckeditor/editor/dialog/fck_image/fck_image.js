@@ -1,4 +1,4 @@
-/*
+﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
@@ -39,6 +39,9 @@ dialog.AddTab( 'Info', FCKLang.DlgImgInfoTab ) ;
 if ( !bImageButton && !FCKConfig.ImageDlgHideLink )
 	dialog.AddTab( 'Link', FCKLang.DlgImgLinkTab ) ;
 
+if ( FCKConfig.ImageUpload )
+	dialog.AddTab( 'Upload', FCKLang.DlgLnkUpload ) ;
+
 if ( !FCKConfig.ImageDlgHideAdvanced )
 	dialog.AddTab( 'Advanced', FCKLang.DlgAdvancedTag ) ;
 
@@ -47,6 +50,7 @@ function OnDialogTabChange( tabCode )
 {
 	ShowE('divInfo'		, ( tabCode == 'Info' ) ) ;
 	ShowE('divLink'		, ( tabCode == 'Link' ) ) ;
+	ShowE('divUpload'	, ( tabCode == 'Upload' ) ) ;
 	ShowE('divAdvanced'	, ( tabCode == 'Advanced' ) ) ;
 }
 
@@ -104,6 +108,10 @@ window.onload = function()
 	GetE('divLnkBrowseServer').style.display	= FCKConfig.LinkBrowser		? '' : 'none' ;
 
 	UpdateOriginal() ;
+
+	// Set the actual uploader URL.
+	if ( FCKConfig.ImageUpload )
+		GetE('frmUpload').action = FCKConfig.ImageUploadURL ;
 
 	dialog.SetAutoSize( true ) ;
 
@@ -439,6 +447,10 @@ function SetUrl( url, width, height, alt )
 
 function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
 {
+	// Remove animation
+	window.parent.Throbber.Hide() ;
+	GetE( 'divUpload' ).style.display  = '' ;
+
 	switch ( errorNumber )
 	{
 		case 0 :	// No errors
@@ -491,6 +503,10 @@ function CheckUpload()
 		OnUploadCompleted( 202 ) ;
 		return false ;
 	}
+
+	// Show animation
+	window.parent.Throbber.Show( 100 ) ;
+	GetE( 'divUpload' ).style.display  = 'none' ;
 
 	return true ;
 }

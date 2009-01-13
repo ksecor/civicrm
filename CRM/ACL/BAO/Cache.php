@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -71,6 +71,11 @@ SELECT acl_id
  WHERE contact_id = %1
 ";
         $params = array( 1 => array( $id, 'Integer' ) );
+
+        if ( $id == 0 ) {
+            $query .= " OR contact_id IS NULL";
+        }
+
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         $cache = array( );
@@ -123,7 +128,7 @@ FROM       civicrm_acl_cache c
 INNER JOIN civicrm_acl       a ON c.acl_id = a.id
 ";
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
     }
 
 }

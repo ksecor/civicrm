@@ -5,28 +5,30 @@
   <div class="form-item">
         <dl>
             <dt>{$form.userFrameworkResourceURL.label}</dt><dd>{$form.userFrameworkResourceURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Absolute URL of the location where the civicrm module or component has been installed.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Absolute URL of the location where the civicrm module or component has been installed.{/ts}</dd>
             <dt>&nbsp;</dt><dd class="description">
             <table class="form-layout-compressed">
             <tr><td>
-            <strong>{ts}Drupal Example{/ts}</strong><br />
+            <strong>{ts}Example{/ts}</strong><br />
             {ts 1=http://www.example.com/}If your site's home url is %1 ... then your CiviCRM Resource URL would be:{/ts} 
             <div class="font-italic description">
+            {if $config->userFramework EQ 'Drupal'}
              &nbsp;&nbsp; http://www.example.com/sites/all/modules/civicrm/
-            </div>
-            
-            <strong>{ts}Joomla Example{/ts}</strong><br />
-            {ts 1=http://www.example.com/}If your site's home url is %1 ... then your CiviCRM Resource URL would be:{/ts} 
-            <div class="font-italic description">
+            {elseif $config->userFramework EQ 'Joomla'}
              &nbsp;&nbsp; http://www.example.com/administrator/components/com_civicrm/civicrm/
+            {else}
+             &nbsp;&nbsp; http://www.example.com/
+            {/if}
             </div>
             </td></tr>
             </table>
             </dd>
             <dt>{$form.imageUploadURL.label}</dt><dd>{$form.imageUploadURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}URL of the location for uploaded image files.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}URL of the location for uploaded image files.{/ts}</dd>
+            <dt>{$form.customCSSURL.label}</dt><dd>{$form.customCSSURL.html|crmReplace:class:'huge'}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}URL of the location for your custom civicrm.css File.{/ts}</dd>
             <dt>{$form.enableSSL.label}</dt><dd>{$form.enableSSL.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Redirect online contribution / member / event page requests to a secure (https) URL?{/ts} {help id='enable-ssl'}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Redirect online contribution / member / event page requests to a secure (https) URL?{/ts} {help id='enable-ssl'}</dd>
         </dl>
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>

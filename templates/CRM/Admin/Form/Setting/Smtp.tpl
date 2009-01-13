@@ -55,16 +55,10 @@ function showHideMailOptions()
         hide("bySMTP");
         show("bySendmail");
     } else {
-        document.getElementById('smtpServer').value = '';
-        document.getElementById('smtpPort').value = '';
-        document.getElementsByName('smtpAuth')[1].checked = true;
-        document.getElementById('sendmail_path').value = '';
-        document.getElementById('sendmail_args').value = '';
         hide("bySMTP");
         hide("bySendmail");
         hide("idSendTestMail");
     }
-    
 }
 </script>
 {/literal}

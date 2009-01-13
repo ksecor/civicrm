@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,13 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Event/Form/ManageEvent.php';
-require_once 'CRM/Event/BAO/EventPage.php';
+require_once 'CRM/Event/BAO/Event.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
@@ -86,20 +86,22 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $parentDefaults = parent::setDefaultValues( );
         
         $eventId = $this->_id;
-        $params   = array( 'event_id' => $eventId );
+        $params   = array( );
         $defaults = array( );
+        if ( isset( $eventId ) ) {
+            $params = array( 'id' => $eventId );
+        }
         
-        CRM_Event_BAO_EventPage::retrieve( $params, $defaults );
-        $eventPageId = CRM_Utils_Array::value( 'id', $defaults );
-        
-        if ( isset( $eventPageId ) ) {
+        CRM_Event_BAO_Event::retrieve( $params, $defaults );
+               
+        if ( isset( $eventId ) ) {
             require_once 'CRM/Core/BAO/PriceSet.php';
-            $price_set_id = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageId );
+            $price_set_id = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventId );
             if ( $price_set_id ) {
                 $defaults['price_set_id'] = $price_set_id;
             } else {
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}", $defaults );
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventId}", $defaults );
             }
         }
         
@@ -120,7 +122,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 $defaults["discount_end_date[$i]"] =
                     CRM_Utils_Date::unformat(CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $optionGroupId, 
                                                                           'end_date', 'option_group_id' ));
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$name}", $defaultDiscounts[] );
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventId}.discount.{$name}", $defaultDiscounts[] );
                 $i++;
             }
             //avoid moving up value of lable when some labels don't
@@ -171,7 +173,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         }
         
         $defaults = array_merge( $defaults, $parentDefaults );
-        $defaults['id'] = $eventPageId;
+        $defaults['id'] = $eventId;
         
         if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
             foreach ( $defaults['value'] as $i => $v ) {
@@ -259,10 +261,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $this->addElement('checkbox', 'is_pay_later', ts( 'Enable Pay Later option?' ), null, 
                           array( 'onclick' => "return showHideByValue('is_pay_later','','payLaterOptions','block','radio',false);" ));
         $this->addElement('textarea', 'pay_later_text', ts( 'Pay Later Label' ),  
-                          CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_EventPage', 'pay_later_text' ), 
+                          CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_Event', 'pay_later_text' ), 
                           false );
         $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay Later Instructions' ),  
-                          CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_EventPage', 'pay_later_receipt' ),
+                          CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_Event', 'pay_later_receipt' ),
                           false );
 
         $this->add('text','fee_label',ts('Fee Label'));
@@ -524,7 +526,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     public function postProcess()
     {
-        $params = $ids = array();
+        $params = array( );
         $params = $this->exportValues( );
         
         $this->set( 'discountSection', 0 );
@@ -535,8 +537,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage','#isDiscount') );
             return;
         }
-
-        $params['event_id'] = $ids['event_id'] = $this->_id;
+        
         $params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $params, 0 );
         
         if ( $this->_id ) {
@@ -544,24 +545,16 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             
             // delete all the prior label values in the custom options table
             // and delete a price set if one exists
-            $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'id', 'event_id' );
-            if ( $eventPageId ) {
-                if ( ! CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageId ) ) {
-                    require_once 'CRM/Core/OptionGroup.php';
-                    CRM_Core_OptionGroup::deleteAssoc( "civicrm_event_page.amount.{$eventPageId}" );
-                }
+            if ( ! CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event', $this->_id ) ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                CRM_Core_OptionGroup::deleteAssoc( "civicrm_event.amount.{$this->_id}" );
             }
         }
         
         if ( $params['is_monetary'] ) {
-            //add record in event page 
-            if ( ! $eventPageId ) {
-                $eventPage = CRM_Event_BAO_EventPage::add( $params );
-                $eventPageId = $eventPage->id;
-            }
-
+            
             if ( $params['price_set_id'] ) {
-                CRM_Core_BAO_PriceSet::addTo( 'civicrm_event_page', $eventPageId, $params['price_set_id'] );
+                CRM_Core_BAO_PriceSet::addTo( 'civicrm_event', $this->_id, $params['price_set_id'] );
             } else {
                 // if there are label / values, create custom options for them
                 $labels  = CRM_Utils_Array::value( 'label'  , $params );
@@ -581,15 +574,15 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                     }
                     if ( ! empty( $options ) ) {
                         $params['default_fee_id'] = null;
-                        CRM_Core_OptionGroup::createAssoc( "civicrm_event_page.amount.{$eventPageId}",
+                        CRM_Core_OptionGroup::createAssoc( "civicrm_event.amount.{$this->_id}",
                                                            $options,
                                                            $params['default_fee_id'] );
                     }
                 }
-               
+                
                 if ( $this->_action & CRM_Core_Action::UPDATE ) {
                     //hack for CRM-3088
-                    CRM_Core_OptionGroup::deleteAssoc ("civicrm_event_page.amount.{$eventPageId}.discount.%", "LIKE");
+                    CRM_Core_OptionGroup::deleteAssoc ("civicrm_event.amount.{$this->_id}.discount.%", "LIKE");
                 }
                 if ( $params['is_discount'] == 1 ) {
                     // if there are discounted set of label / values, 
@@ -614,7 +607,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                             if ( ! empty( $discountOptions ) ) {
                                 $params['default_discount_id'] = null;
                                 $discountOptionsGroupId = 
-                                    CRM_Core_OptionGroup::createAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$params[discount_name][$j]}",
+                                    CRM_Core_OptionGroup::createAssoc( "civicrm_event.amount.{$this->_id}.discount.{$params[discount_name][$j]}",
                                                                        $discountOptions,
                                                                        $params['default_discount_id'],
                                                                        $params['discount_name'][$j]);
@@ -623,7 +616,9 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                                                         'entity_table'    => 'civicrm_event',
                                                         'entity_id'       => $this->_id,
                                                         'option_group_id' => $discountOptionsGroupId,
-                                                        'start_date'      => CRM_Utils_Date::format( $params["discount_start_date"][$j]),                                                        'end_date'        => CRM_Utils_Date::format( $params["discount_end_date"][$j])                                                     );                                
+                                                        'start_date'      => CRM_Utils_Date::format( $params["discount_start_date"][$j]),
+                                                        'end_date'        => CRM_Utils_Date::format( $params["discount_end_date"][$j])
+                                                        );                                
                                 require_once 'CRM/Core/BAO/Discount.php';
                                 CRM_Core_BAO_Discount::add($discountParams);
                             }
@@ -638,12 +633,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         
         //update events table
         require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::add($params, $ids);
-        
-        if ( $eventPageId ) {
-            //update event page record with default fee id
-            CRM_Event_BAO_EventPage::add( $params );
-        }
+        $params['id'] = $this->_id;
+        CRM_Event_BAO_Event::add( $params );
     }
     
     /**

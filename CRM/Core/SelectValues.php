@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -31,31 +31,13 @@
  * smart caching scheme on a per domain basis
  * 
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 class CRM_Core_SelectValues 
 {
-
-    /**
-     * greetings
-     * @static
-     */
-    static function &greeting()
-    {
-        static $greeting = null;
-        if (!$greeting) {
-            $greeting = array(
-                'Formal'    => ts('default - Dear [prefix] [first] [last]'),
-                'Informal'  => ts('Dear [first]'),
-                'Honorific' => ts('Dear [prefix] [last]'),
-                'Custom'    => ts('Customized')
-            );
-        }
-        return $greeting;
-    }
-    
+   
     /**CRM/Core/SelectValues.php
      * different types of phones
      * @static
@@ -274,6 +256,9 @@ class CRM_Core_SelectValues
                 'Membership'   => ts('Memberships'),
                 'Event'        => ts('Events'),
                 'Participant'  => ts('Participants'),
+                'ParticipantRole'      => ts('Participants (Role)'),
+                'ParticipantEventName' => ts('Participants (Event Name)'),
+                //'ParticipantEventType' => ts('Participants (Event Type)'),
                 'Pledge'       => ts('Pledges'),
                 'Grant'        => ts('Grants'),
             );
@@ -445,7 +430,7 @@ class CRM_Core_SelectValues
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
             $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
-                                                             array( 'M', 'Y' ) );
+                                                             array( $config->dateformatMonthVar, 'Y' ) );
         } elseif ($type == 'mailing') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
@@ -614,8 +599,26 @@ class CRM_Core_SelectValues
             $values= array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
                                   array( 'display_name', 'checksum', 'contact_id' ) );
             unset($values[0]); 
+            
+            //FIXME:skipping some tokens for time being.
+            $skipTokens = array( 'greeting_type', 'is_bulkmail', 'group', 'tag' );
+           
             foreach($values as $key => $val) {
+                if ( in_array($val, $skipTokens) ) {
+                    continue;
+                } 
+                
                 $tokens[$key] = "{contact.$val}";
+            }
+
+            // might as well get all the hook tokens to
+            require_once 'CRM/Utils/Hook.php';
+            $hookTokens = array( );
+            CRM_Utils_Hook::tokens( $hookTokens );
+            foreach ( $hookTokens as $category => $tokenValues ) {
+                foreach ( $tokenValues as $value ) {
+                    $tokens[] = '{' . $value . '}';
+                }
             }
         }
         return $tokens;

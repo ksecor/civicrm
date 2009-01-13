@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@ require_once 'CRM/Admin/Form.php';
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -85,7 +85,8 @@ class CRM_ACL_Form_EntityRole extends CRM_Admin_Form
     public function postProcess() 
     {
         require_once 'CRM/ACL/BAO/EntityRole.php';        
-
+        require_once 'CRM/ACL/BAO/Cache.php';
+        CRM_ACL_BAO_Cache::resetCache( );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_ACL_BAO_EntityRole::del($this->_id);

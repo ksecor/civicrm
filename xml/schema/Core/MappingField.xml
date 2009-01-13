@@ -70,7 +70,14 @@
        <length>64</length>
        <comment>Phone type, if required</comment>
       <add>1.2</add>
+      <drop>2.2</drop>
   </field>
+  <field>
+       <name>phone_type_id</name>
+       <type>int unsigned</type>
+       <comment>Which type of phone does this number belongs.</comment>
+       <add>2.2</add>
+  </field> 
   <field>
        <name>relationship_type_id</name>
        <type>int unsigned</type>

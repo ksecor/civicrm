@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@ require_once 'CRM/Core/Page/Basic.php';
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -132,16 +132,27 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
                                                                      'reset=1' )) );
         CRM_Utils_System::appendBreadCrumb( $breadCrumb );
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
+        if ( $action & (CRM_Core_Action::ADD | CRM_Core_Action::DELETE) ) {
             $this->edit($action, $id) ;
-        } 
+        }
+
+        if ( $action & (CRM_Core_Action::UPDATE) ) {
+            $this->edit($action, $id) ;
+
+            if ( isset( $id ) ) {
+                $aclName = CRM_Core_DAO::getFieldValue( 'CRM_ACL_DAO_ACL', $id );
+                CRM_Utils_System::setTitle( ts('Edit ACL -  %1', array( 1 => $aclName) ) );
+            }
+        }
+        
+        
         // finally browse the acl's
-         $this->browse();
+        $this->browse();
         
         // parent run 
         parent::run();
     }
-
+    
     /**
      * Browse all acls
      * 

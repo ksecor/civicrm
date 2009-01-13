@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -191,8 +191,8 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         }
 
         // also set the value to null of the table and column
-        $query = "UPDATE $tableName SET $columnName = null WHERE entity_id = %1";
-        $params = array( 1 => array( $entityID, 'Integer' ) );
+        $query = "UPDATE $tableName SET $columnName = null WHERE $columnName = %1";
+        $params = array( 1 => array( $fileID, 'Integer' ) );
         CRM_Core_DAO::executeQuery( $query, $params );
     }
 
@@ -278,11 +278,14 @@ AND       CEF.entity_id    = %2";
 
     }
     
-    static function buildAttachment( &$form, $entityTable, $entityID = null ) {
-        $config =& CRM_Core_Config::singleton( );
-        $numAttachments = $config->maxAttachments;
+    static function buildAttachment( &$form, $entityTable, $entityID = null, $numAttachments = null ) {
 
-        // add 3 attachments
+        if( ! $numAttachments ) {
+            $config =& CRM_Core_Config::singleton( );
+            $numAttachments = $config->maxAttachments;
+        }
+        $form->assign( 'numAttachments', $numAttachments );
+        // add attachments
         for ( $i = 1; $i <= $numAttachments; $i++ ) {
             $form->addElement( 'file', "attachFile_$i", ts('Attach File'), 'size=30 maxlength=60' );
             $form->setMaxFileSize( 2 * 1024 * 1024 );
@@ -383,7 +386,28 @@ AND       CEF.entity_id    = %2";
         for ( $i = 1; $i <= $numAttachments; $i++ ) {
             $names[] = "attachFile_{$i}";
         }
+        $names[] = 'uploadFile';
         return $names;
+    }
+
+    /*
+     * Function to copy/attach an existing file to a different entity
+     * table and id.
+     */
+    static function copyEntityFile( $oldEntityTable, $oldEntityId, $newEntityTable, $newEntityId ) {
+        require_once "CRM/Core/DAO/EntityFile.php";
+        $oldEntityFile =& new CRM_Core_DAO_EntityFile();
+        $oldEntityFile->entity_id    = $oldEntityId;
+        $oldEntityFile->entity_table = $oldEntityTable;
+        $oldEntityFile->find( );
+
+        while ( $oldEntityFile->fetch( ) ) {
+            $newEntityFile =& new CRM_Core_DAO_EntityFile();
+            $newEntityFile->entity_id    = $newEntityId;
+            $newEntityFile->entity_table = $newEntityTable;
+            $newEntityFile->file_id      = $oldEntityFile->file_id;
+            $newEntityFile->save( );
+        }
     }
 }
 

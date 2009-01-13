@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -33,7 +33,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -60,7 +60,9 @@ function crm_create_membership_type($params)
         return _crm_error('Params is not an array.');
     }
     
-    if (!$params["name"] && ! $params['duration_unit'] && ! $params['duration_interval']) {
+    if ( ! isset( $params['name'] ) ||
+         ! isset( $params['duration_unit'] ) ||
+         ! isset( $params['duration_interval'] ) ) {
         return _crm_error('Missing require fileds ( name, duration unit,duration interval)');
     }
     
@@ -69,9 +71,9 @@ function crm_create_membership_type($params)
         return $error;
     }
     
-    $ids['membershipType']   = $params['id'];
-    $ids['memberOfContact']  = $params['member_of_contact_id'];
-    $ids['contributionType'] = $params['contribution_type_id'];
+    $ids['membershipType']   = CRM_Utils_Array::value( 'id', $params );
+    $ids['memberOfContact']  = CRM_Utils_Array::value( 'member_of_contact_id', $params );
+    $ids['contributionType'] = CRM_Utils_Array::value( 'contribution_type_id', $params );
     
     require_once 'CRM/Member/BAO/MembershipType.php';
     $membershipTypeBAO = CRM_Member_BAO_MembershipType::add($params, $ids);
@@ -486,21 +488,15 @@ function crm_update_contact_membership($params)
         
     }
     
-    require_once 'CRM/Member/DAO/MembershipStatus.php';
-    $activityType = "Membership - " . CRM_Core_DAO::getFieldValue(
-                                                                  'CRM_Member_DAO_MembershipStatus',
-                                                                  $membershipBAO->status_id
-                                                                  );
-
     // create activity record only if there is change in the statusID (CRM-2521).
     if ( $oldStatusID != $membershipBAO->status_id ) {
         $activityParams = array( 'source_contact_id'  => $membershipBAO->contact_id,
                                  'source_record_id'   => $membershipBAO->id,
-                                 'activity_type_id'   => $membershipBAO->status_id,
+                                 'activity_type_id'   => array_search('Membership Signup', CRM_Core_PseudoConstant::activityType()),
                                  'subject'            => $activitySummary,
                                  'activity_date_time' => $params['join_date'],
                                  'is_test'            => $membershipBAO->is_test,
-                                 'status_id'          => 1
+                                 'status_id'          => 2
                                  );
         
         require_once 'api/v2/Activity.php';

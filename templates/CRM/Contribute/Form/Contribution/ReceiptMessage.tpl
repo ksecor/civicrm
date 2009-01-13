@@ -44,6 +44,12 @@
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}
+{elseif $membership_amount}
+===========================================================
+{ts}Membership Fee{/ts}
+
+===========================================================
+{ts 1=$membership_name}%1 Membership{/ts}: {$membership_amount|crmMoney}
 {/if}
 {if $receive_date}
 
@@ -72,6 +78,18 @@
 {/if}
 
 {/if}
+{if $pcpBlock}
+===========================================================
+{ts}Personal Campaign Page{/ts}
+
+===========================================================
+{ts}Display In Roll{/ts} : {if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}
+
+{if $pcp_roll_nickname}{ts}Nick Name{/ts} : {$pcp_roll_nickname}{/if}
+
+{if $pcp_personal_note}{ts}Note{/ts} : {$pcp_personal_note}{/if}
+
+{/if}
 {if $onBehalfName}
 ===========================================================
 {ts}On Behalf Of{/ts}
@@ -90,7 +108,7 @@
 
 ===========================================================
 {$email}
-{elseif $amount}
+{elseif $amount GT 0 OR $membership_amount GT 0 }
 ===========================================================
 {ts}Billing Name and Address{/ts}
 
@@ -101,7 +119,7 @@
 {$email}
 {/if} {* End ! is_pay_later condition. *}
 {/if}
-{if $contributeMode eq 'direct' AND !$is_pay_later}
+{if $contributeMode eq 'direct' AND !$is_pay_later AND ( $amount GT 0 OR $membership_amount GT 0 ) }
 
 ===========================================================
 {ts}Credit or Debit Card Information{/ts}

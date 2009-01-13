@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,13 +28,12 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Import/Parser.php';
 
 /**
  * This class summarizes the import results
@@ -116,6 +115,24 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
                                  )
                            );
     }
+    
+    /**
+    * Clean up the import table we used
+    *
+    * @return None
+    * @access public
+    */
+    public function postProcess( ) {
+        $dao = new CRM_Core_DAO( );
+        $db = $dao->getDatabaseConnection( );
+        
+        $importTableName = $this->get( 'importTableName' );
+        // do a basic sanity check here
+        if (strpos( $importTableName, 'civicrm_import_job_' ) === 0) {
+            $query = "DROP TABLE IF EXISTS $importTableName";
+            $db->query( $query );
+        }
+    }
 
     /**
      * Return a descriptive name for the page, used in wizard header
@@ -128,5 +145,3 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
     }
 
 }
-
-

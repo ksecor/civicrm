@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -212,9 +212,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access public
      *
      */
-    static function &links()
+    static function &links( $searchType = null )
     {
-
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
@@ -233,10 +232,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             $config = CRM_Core_Config::singleton( );
             if ( $config->mapAPIKey && $config->mapProvider) {
+                $mapSearch = null;
+                if ( $searchType ) {
+                    $mapSearch = "&searchType={$searchType}";
+                }
                 self::$_links[CRM_Core_Action::MAP] = array(
                                                             'name'     => ts('Map'),
                                                             'url'      => 'civicrm/contact/map',
-                                                            'qs'       => 'reset=1&cid=%%id%%',
+                                                            'qs'       => "reset=1&cid=%%id%%{$mapSearch}",
                                                             'title'    => ts('Map Contact'),
                                                             );
             }
@@ -322,7 +325,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $locationTypes = CRM_Core_PseudoConstant::locationType( );
                 
                 foreach ( $this->_fields as $name => $field ) { 
-                    if ( $field['in_selector'] &&
+                    if ( CRM_Utils_Array::value( 'in_selector', $field ) &&
                          ! in_array( $name, $skipFields ) ) {
                         if ( strpos( $name, '-' ) !== false ) {
                             list( $fieldName, $lType, $type ) = explode( '-', $name );
@@ -332,13 +335,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                             } else {
                                 $locationTypeName = $locationTypes[$lType];
                             }
-                            
+
                             if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
                                 if ( $type ) {
                                     $name = "`$locationTypeName-$fieldName-$type`";
                                 } else {
-                                    $name = "`$locationTypeName-$fieldName-1`";
-                                     }
+                                    $name = "`$locationTypeName-$fieldName`";
+                                }
                             } else {
                                 $name = "`$locationTypeName-$fieldName`";
                             }
@@ -464,7 +467,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $names = array( );
             static $skipFields = array( 'group', 'tag' ); 
             foreach ( $this->_fields as $key => $field ) {
-                if ( $field['in_selector'] && 
+                if ( CRM_Utils_Array::value( 'in_selector', $field ) && 
                      ! in_array( $key, $skipFields ) ) { 
                     if ( strpos( $key, '-' ) !== false ) {
                         list( $fieldName, $id, $type ) = explode( '-', $key );
@@ -477,13 +480,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                 continue;
                             }
                         }                    
-    
+
                         $locationTypeName = str_replace( ' ', '_', $locationTypeName );
                         if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
                             if ( $type ) {
                                 $names[] = "{$locationTypeName}-{$fieldName}-{$type}";
                             } else {
-                                $names[] = "{$locationTypeName}-{$fieldName}-1";
+                                $names[] = "{$locationTypeName}-{$fieldName}";
                             }
                         } else {
                             $names[] = "{$locationTypeName}-{$fieldName}";
@@ -508,9 +511,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             require_once 'CRM/Quest/BAO/Student.php';
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
-
+        $searchType = null;
+        if ( $this->_action == CRM_Core_Action::BASIC ) {
+            $searchType = 'basic';
+        } elseif ( $this->_action == CRM_Core_Action::ADVANCED ) {
+            $searchType = 'advance';
+        }
         require_once 'CRM/Core/OptionGroup.php';
-        $links =& self::links( );
+        $links =& self::links( $searchType );
 
         while ($result->fetch()) {
             $row = array( );
@@ -556,6 +564,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                         $providerName   = $imProviders[$result->$providerId];
                         $row[$property] = $result->$property . " ({$providerName})";
                     }
+                } else if ( $property == 'greeting_type' && $result->custom_greeting && $result->greeting_type_id == 4 ) {
+                    $row[$property] = $result->custom_greeting.' ('.$result->$property.')';
                 } else {
                     $row[$property] = $result->$property;
                 }
@@ -574,7 +584,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 if ( empty( $result->status ) ) {
                     //check explicitly added contact to a Smart Group.
                     $groupID  = CRM_Utils_Array::key( '1', $this->_formValues['group'] );  
-                    $gcParams = array('contact_id' => $row['contact_id'],
+                    $gcParams = array('contact_id' => CRM_Utils_Array::value( 'contact_id', $row ),
                                       'group_id'   => $groupID,
                                       );
                     $gcDefaults = array( );
@@ -604,19 +614,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 // allow components to add more actions
                 CRM_Core_Component::searchAction( $row, $result->contact_id );
                 
-                $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-                switch ($result->contact_type) {
-                case 'Individual' :
-                    $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                    break;
-                case 'Household' :
-                    $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                    break;
-                case 'Organization' :
-                    $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                    break;
-                }
-                $row['contact_type'] = $contact_type;
+
+                require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+                $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+
                 $row['contact_id'  ] = $result->contact_id;
                 $row['sort_name'   ] = $result->sort_name;
                 if ( array_key_exists('id', $row) ) {

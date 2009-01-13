@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -121,18 +121,14 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
     { 
         $className = CRM_Utils_System::getClassName($this);
         $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) 
-             && $className == 'CRM_Event_Form_ManageEvent_EventInfo' ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
-
+        
         $buttons = array( );
         if ( $this->_single ) {
+
+            // make this form an upload since we dont know if the custom data injected dynamically
+            // is of type file etc $uploadNames = $this->get( 'uploadNames' );
             $this->addButtons(array(
-                                    array ( 'type'      => $buttonType,
+                                    array ( 'type'      => 'upload',
                                             'name'      => ts('Save'),
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                             'isDefault' => true   ),
@@ -147,7 +143,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
                                       'name'      => ts('<< Previous'), 
                                       'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' );
             }
-            $buttons[] = array ( 'type'      => $buttonType,
+            $buttons[] = array ( 'type'      => 'upload',
                                  'name'      => ts('Continue >>'),
                                  'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                  'isDefault' => true   );

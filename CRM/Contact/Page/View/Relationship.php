@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -71,8 +71,9 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
         $this->assign( 'viewRelationship', $viewRelationship );
         $viewNote = CRM_Core_BAO_Note::getNote($this->_id);
         $this->assign( 'viewNote', $viewNote );
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship',$this->_id,0,$relType);
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+		
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship', $this, $this->_id,0,$relType);
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
     }
 
    /**
@@ -120,10 +121,22 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
 
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject ) ) {
+            // delete relationship
             CRM_Contact_BAO_Relationship::del( $this->_id);
+
+            // if this is called from case view, we need to redirect back to same page
+            $caseId = CRM_Utils_Request::retrieve( 'caseID', 'Integer', $this );
+
+            if ( $caseId ) {
+                CRM_Core_Session::setStatus( ts('Case Role has been deleted successfuly.'), false );
+                $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer', $this, false );
+                $url = CRM_Utils_System::url('civicrm/contact/view/case', "action=view&reset=1&cid={$cid}&id={$caseId}" );
+                $session->pushUserContext( $url );
+            } 									
+
             CRM_Utils_System::redirect($url);
         }
-        
+
         $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'id'       , $this->_id );
         $controller->process( );

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@ require_once 'CRM/Core/Page/Basic.php';
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -136,6 +136,13 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
             $this->edit($action, $id) ;
         } 
+
+        // reset cache if enabled/disabled
+        if ($action & (CRM_Core_Action::DISABLE|CRM_Core_Action::ENABLE)) {
+            require_once 'CRM/ACL/BAO/Cache.php';
+            CRM_ACL_BAO_Cache::resetCache( );
+        }
+
         // finally browse the acl's
          $this->browse();
         

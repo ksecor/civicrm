@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -161,6 +161,10 @@ class CRM_Core_Page {
 
         self::$_template->assign( 'mode'   , $this->_mode );
         self::$_template->assign( 'tplFile', $this->getTemplateFileName() );
+
+        // invoke the pagRun hook, CRM-3906
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::pageRun( $this );
 
         if ( $this->_print ) {
             if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ||

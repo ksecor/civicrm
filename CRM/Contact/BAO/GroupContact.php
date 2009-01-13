@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -240,20 +240,22 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             // an opt-out of a smart group.
             // if not a member remove to groupContact else keep the count of contacts that are not removed
             if ( $groupContact->find( true ) || $group->saved_search_id ) {
-                $historyParams = array( 'group_id' => $groupId,
-                                        'contact_id' => $contactId,
-                                        'status' => $status,
-                                        'method' => $method,
-                                        'date' => $date,
-                                        'tracking' => $tracking);
-                CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 // remove the contact from the group
-                $groupContact->status     = $status;
-                $groupContact->save( );
                 $numContactsRemoved++;
             } else {
                 $numContactsNotRemoved++;
             }
+            
+            //now we grant the negative membership to contact if not member. CRM-3711
+            $historyParams = array( 'group_id' => $groupId,
+                                    'contact_id' => $contactId,
+                                    'status' => $status,
+                                    'method' => $method,
+                                    'date' => $date,
+                                    'tracking' => $tracking);
+            CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
+            $groupContact->status = $status;
+            $groupContact->save( );
         }
         
         // also reset the acl cache
@@ -324,7 +326,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @param boolean $onlyPublicGroups  true if we want to hide system groups
      *
      * @return array (reference )|int $values the relevant data object values for the contact or
-                                      the total count when $count is true
+     *                                 the total count when $count is true
      *
      * $access public
      */
@@ -669,10 +671,10 @@ AND civicrm_group_contact.group_id = %2";
 
         // check which values has to be add/remove contact from group
         foreach ($allGroup as $key => $varValue) {
-            if (array_key_exists($key, $params) && !array_key_exists($key, $contactGroup) ) {
+            if ( CRM_Utils_Array::value( $key, $params) && !array_key_exists($key, $contactGroup) ) {
                 // add contact to group
                 CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds, $key, $method);
-            } else if (!array_key_exists($key, $params) && array_key_exists($key, $contactGroup) ) {
+            } else if ( !CRM_Utils_Array::value( $key, $params) && array_key_exists($key, $contactGroup) ) {
                 // remove contact from group
                 CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactIds, $key, $method);
             }

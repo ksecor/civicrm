@@ -6,7 +6,16 @@ class TestOfNoteDeleteAPIV2 extends CiviUnitTestCase
     protected $_contactID;
     protected $_noteID;
     protected $_note = array( );
-           
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Note Delete',
+                     'description' => 'Test all Note Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }       
+    
     function setUp( ) 
     {
         $this->_contactID = $this->organizationCreate( );

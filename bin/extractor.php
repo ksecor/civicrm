@@ -3,9 +3,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -42,7 +42,8 @@
  * STDERR.
  */
 
-$modules = array('Contribute', 'Event', 'Mailing', 'Member');
+$modules  = array('Contribute', 'Event', 'Grant', 'Mailing', 'Member', 'Pledge');
+$excluded = array('Bridge', 'Project', 'Touchstone');
 
 $phpModifier    = "-iname '*.php' ";
 $smartyModifier = "-iname '*.tpl' ";
@@ -56,6 +57,10 @@ case 'core':
         $phpModifier    .= " -not -wholename           'CRM/$module/*'";
         $smartyModifier .= " -not -wholename 'templates/CRM/$module/*'";
     }
+    foreach ($excluded as $module) {
+        $phpModifier    .= " -not -wholename           'CRM/$module/*'";
+        $smartyModifier .= " -not -wholename 'templates/CRM/$module/*'";
+    }
     break;
 case 'modules':
     $firstModule     = array_shift($modules);
@@ -64,6 +69,10 @@ case 'modules':
     foreach ($modules as $module) {
         $phpModifier    .= " -or -wholename           'CRM/$module/*'";
         $smartyModifier .= " -or -wholename 'templates/CRM/$module/*'";
+    }
+    foreach ($excluded as $module) {
+        $phpModifier    .= " -not -wholename           'CRM/$module/*'";
+        $smartyModifier .= " -not -wholename 'templates/CRM/$module/*'";
     }
     $phpModifier    .= ' \)';
     $smartyModifier .= ' \)';

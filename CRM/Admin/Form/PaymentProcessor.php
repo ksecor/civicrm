@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id: PaymentProcessor.php 9702 2007-05-29 23:57:16Z lobo $
  *
  */
@@ -80,11 +80,11 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         if ( $this->_id ) {
             $refreshURL = CRM_Utils_System::url( 'civicrm/admin/paymentProcessor',
                                                  "reset=1&action=update&id={$this->_id}",
-                                                 true, null, false );
+                                                 false, null, false );
         } else {
             $refreshURL = CRM_Utils_System::url( 'civicrm/admin/paymentProcessor',
                                                  "reset=1&action=add",
-                                                 true, null, false );
+                                                 false, null, false );
         }
         $this->assign( 'refreshURL', $refreshURL );
 

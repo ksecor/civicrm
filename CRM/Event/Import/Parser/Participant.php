@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -97,7 +97,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $this->_participantRoleIndex   = -1;
         $this->_eventTitleIndex        = -1;
         
-        $index = 1;
+        $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
              
             switch ($key) {
@@ -116,8 +116,8 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             case 'event_title':
                 $this->_eventTitleIndex          = $index;
                 break;
-                $index++;
             }
+            $index++;
         }
     }
     
@@ -163,12 +163,12 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $errorRequired = false;
         $index = -1;
 
-        if ( $this->_eventIndex > 0 && $this->_eventTitleIndex > 0 ) {
+        if ( $this->_eventIndex > -1 && $this->_eventTitleIndex > -1 ) {
             array_unshift($values, ts('Select either EventID OR Event Title'));
             return CRM_Event_Import_Parser::ERROR;
-        } elseif ( $this->_eventTitleIndex > 0 ) {
+        } elseif ( $this->_eventTitleIndex > -1 ) {
             $index = $this->_eventTitleIndex;
-        } elseif ( $this->_eventIndex > 0 ) {
+        } elseif ( $this->_eventIndex > -1 ) {
             $index = $this->_eventIndex;
         }
         $params =& $this->getActiveFieldParams( );
@@ -225,7 +225,6 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         }
         //date-Format part ends
         
-        //$params['contact_type'] =  $this->_contactType;
         $params['contact_type'] = 'Participant';
         //checking error in custom data
         CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
@@ -273,10 +272,10 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                     }
                 }
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                    if ( $customFields[$customFieldID][2] == 'Date' ) {
+                    if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
                         CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
                         unset( $params[$key] );
-                    } else if ( $customFields[$customFieldID][2] == 'Boolean' ) {
+                    } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean' ) {
                         $params[$key] = CRM_Utils_String::strtoboolstr( $val );
                     }
                 }
@@ -324,27 +323,21 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             return CRM_Event_Import_Parser::ERROR;
         }
         if ( $onDuplicate != CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
-            foreach ( $formatted as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                 $value, 'Participant', null, null );
-                }
-            }
-        }
-        
-        if ( $onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          null,
+                                                                          'Participant' );
+        } else {
             if ( $values['participant_id'] ) {
                 require_once 'CRM/Event/BAO/Participant.php';
                 $dao =  new CRM_Event_BAO_Participant();
                 $dao->id = $values['participant_id'];
                 
-                foreach ( $formatted as $key => $value ) {
-                    if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                     $value, 'Participant', null, $values['participant_id'] );
-                    }
-                }
-                
+                $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                              CRM_Core_DAO::$_nullObject,
+                                                                              $values['participant_id'],
+                                                                              'Participant' );
+
                 if ( $dao->find( true ) ) { 
                     $ids = array(
                                  'participant' => $values['participant_id'],
@@ -404,8 +397,8 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             }
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error['error_message']['params'][0]);
-            if ( self::isDuplicate($error) ) {
+            if ( civicrm_duplicate( $error ) ) {
+                $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if ( count( $matchedIDs) >= 1 ) {
                     foreach($matchedIDs as $contactId) {
                         $formatted['contact_id'] = $contactId;
@@ -492,30 +485,5 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
     {
     }
     
-    /**
-     *  function to check if an error is actually a duplicate contact error
-     *  
-     *  @param Array $error A valid Error array
-     *  
-     *  @return true if error is duplicate contact error 
-     *  
-     *  @access public 
-     */
-    function isDuplicate($error)
-    {
-        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
-            return false;
-        }
-        
-        if ( is_array( $error )  && civicrm_error( $error ) ) {
-            $code = $error['error_message']['code'];
-            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
-                return true ;
-            }
-        }
-        
-        return false;     
-
-    }
 }
 

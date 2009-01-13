@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,10 +55,11 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
         //get the data from the session             
         $dataValues         = $this->get('dataValues');
         $mapper             = $this->get('mapper');
+        $softCreditFields   = $this->get('softCreditFields');
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $mismatchCount      = $this->get('unMatchCount');
-        
+
         //get the mapping name displayed if the mappingId is set
         $mappingId = $this->get('loadMappingId');
         if ( $mappingId ) {
@@ -90,7 +91,7 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
         }
 
         
-        $properties = array( 'mapper',
+        $properties = array( 'mapper', 'softCreditFields',
                              'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
@@ -154,30 +155,18 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
        
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
         $mapperKeys = array();
-        $mapperLocType      = array();
+        $mapperSoftCredit      = array();
         $mapperPhoneType    = array();
-        // Note: we keep the multi-dimension array (even thought it's not
-        // needed in the case of contributions import) so that we can merge
-        // the common code with contacts import later and subclass contact
-        // and contribution imports from there
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
-
-            if (is_numeric($mapper[$key][1])) {
-                $mapperLocType[$key] = $mapper[$key][1];
+            if ( isset( $mapper[$key][0] ) && $mapper[$key][0] == 'soft_credit') {
+                $mapperSoftCredit[$key] = $mapper[$key][1];
             } else {
-                $mapperLocType[$key] = null;
+                $mapperSoftCredit[$key] = null;
             }
-            
-            if (!is_numeric($mapper[$key][2])) {
-                $mapperPhoneType[$key] = $mapper[$key][2];
-            } else {
-                $mapperPhoneType[$key] = null;
-            }
-
         }
-
-        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeys ,$mapperLocType ,$mapperPhoneType );
+       
+        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeys, $mapperSoftCredit, $mapperPhoneType );
         
         $mapFields = $this->get('fields');
 

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -175,12 +175,17 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                                                      'id' );
             $urlPath = 'civicrm/contribute/transact';
             $mailParams['module'] = 'contribute';
-        } elseif ( $params['entity_table'] == 'civicrm_event_page' ) {
-            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+        } elseif ( $params['entity_table'] == 'civicrm_event' ) {
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                      $params['entity_id'],
                                                                      'confirm_from_email' );
             $urlPath = 'civicrm/event/info';
             $mailParams['module'] = 'event';
+        } elseif ( $params['entity_table'] == 'civicrm_pcp' ) {
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $params['source_contact_id'],
+                                                                     'email', 'contact_id' );
+            $urlPath = 'civicrm/contribute/pcp/info';
+            $mailParams['module'] = 'contribute';
         } 
 
         $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
@@ -201,7 +206,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      */
     function buildFriendForm( $form )
     {
-        $form->addElement('checkbox', 'is_active', ts( 'Tell A Friend enabled?' ),null,array('onclick' =>"friendBlock(this)") );
+        $form->addElement('checkbox', 'is_active', ts( 'Tell a Friend enabled?' ),null,array('onclick' =>"friendBlock(this)") );
         // name
         $form->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'title'), true);
         

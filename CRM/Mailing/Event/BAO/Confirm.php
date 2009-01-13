@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -84,6 +84,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         
         require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getDomain( );
+        list($domainEmailName, $_) = CRM_Core_BAO_Domain::getNameAndEmail();
         
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         list($display_name, $email) =
@@ -101,15 +102,16 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $component->component_type = 'Welcome';
         
         $component->find(true);
-        
+
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         $headers = array(
                          'Subject'     => $component->subject,
-                         'From'        => ts('\'%1\' <do-not-reply@%2>',
-                                             array( 1 => $domain->email_name,
-                                                    2 => $domain->email_domain)),
+                         'From'        => "\"$domainEmailName\" <do-not-reply@$emailDomain>",
                          'To'          => $email,
-                         'Reply-To'    => "do-not-reply@{$domain->email_domain}",
-                         'Return-Path' => "do-not-reply@{$domain->email_domain}",
+                         'Reply-To'    => "do-not-reply@$emailDomain",
+                         'Return-Path' => "do-not-reply@$emailDomain",
                          );
         
         $html = $component->body_html;
@@ -143,9 +145,10 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         require_once 'CRM/Mailing/BAO/Mailing.php';
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
                                array('CRM_Core_Error', 'nullHandler' ) );
-        $mailer->send($email, $h, $b);
-        CRM_Core_Error::setCallback();
-        
+        if ( is_object( $mailer ) ) {
+            $mailer->send($email, $h, $b);
+            CRM_Core_Error::setCallback();
+        }
         return $group->title;
     }
 }

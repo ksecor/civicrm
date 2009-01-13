@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2007-05-07 11:19+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 14:48+0200\n"
 "PO-Revision-Date: 2007-05-07 11:19+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"

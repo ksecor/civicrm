@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -98,6 +98,20 @@ class CRM_Contact_BAO_SearchCustom {
     static function contactIDSQL( $csID, $ssID ) {
         $customClass = self::customClass( $csID, $ssID );
         return $customClass->contactIDs( );
+    }
+
+    static function &buildFormValues( $args ) {
+        $args = trim( $args );
+
+        $values = explode( "\n", $args );
+        $formValues = array( );
+        foreach ( $values as $value ) {
+            list( $n, $v ) = CRM_Utils_System::explode( '=', $value, 2 );
+            if ( ! empty( $v ) ) {
+                $formValues[$n] = $v;
+            }
+        }
+        return $formValues;
     }
 
     static function fromWhereEmail( $csID, $ssID ) {

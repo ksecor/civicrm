@@ -1,6 +1,6 @@
 	<table class="form-layout">
 		<tr>
-            <td class="font-size12pt">{$form.sort_name.label}</td>
+            <td class="font-size12pt">{$form.sort_name.label} {help id='id-advanced-intro'}</td>
             <td>{$form.sort_name.html}
                 <div class="description font-italic">
                     {ts}Complete OR partial Contact Name.{/ts}
@@ -26,9 +26,14 @@
             <td class="label">{$form.buttons.html}</td>       
         </tr>
 		<tr>
+{if $form.contact_type}
             <td><label>{ts}Contact Type(s){/ts}</label><br />
                 {$form.contact_type.html}
             </td>
+{else}
+            <td>&nbsp;</td>
+{/if}
+{if $form.group}
             {* Choose regular or 'tall' listing-box class for Group select box based on # of groups. *}
             {if $form.group|@count GT 8}
                 {assign var="boxClass" value="listing-box-tall"}
@@ -38,31 +43,38 @@
             <td><label>{ts}Group(s){/ts}</label>
                 <div class="{$boxClass}">
                     {foreach from=$form.group item="group_val"}
-                    <div class="{cycle values="odd-row,even-row"}">
+                    <div class="{cycle values="even-row,odd-row"}">
                     {$group_val.html}
                     </div>
                     {/foreach}
                 </div>
             </td>
-            {* Choose regular or 'tall' listing-box class for Tag select box based on # of groups. *}
-            {if $form.tag|@count GT 8}
-                {assign var="boxClass" value="listing-box-tall"}
-            {else}
-                {assign var="boxClass" value="listing-box"}
-            {/if}
+{else}
+            <td>&nbsp;</td>
+{/if}
+
+{if $form.tag}
             <td colspan="2"><label>{ts}Tag(s){/ts}</label>
-                <div class="{$boxClass}">
+                <div id="Tag" class="listing-box">
+                {* Choose regular or heirarchical style of Tag selection based on # of tags. *}
+                {if $form.tag|@count GT 8}
+                   {include file="CRM/Tag/Form/Search.tpl"}
+                {else}
                     {foreach from=$form.tag item="tag_val"} 
-                    <div class="{cycle values="odd-row,even-row"}">
-                    {$tag_val.html}
-                    </div>
+                      <div class="{cycle values="odd-row,even-row"}">
+                      {$tag_val.html}
+                      </div>
                     {/foreach}
+                {/if}
                 </div>
             </td>
+{else}
+            <td colspan="2">&nbsp;</td>
+{/if}
 	    </tr>
         <tr>
             <td>{$form.privacy.label}</td>
-            <td colspan="3">{$form.privacy.html}
+            <td colspan="3">{$form.privacy.html} {help id="id-privacy"}
             </td>
         </tr>
         <tr>

@@ -91,8 +91,8 @@ ALTER TABLE `civicrm_option_value` MODIFY `label` VARCHAR(255) NULL DEFAULT '' C
 -- Insert new option value for option_group = 'contribution_status'
 
 SELECT @option_cs    := id from civicrm_option_group where name = 'contribution_status';
-INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) VALUES
-( @option_cs, 'Overdue', 6, 6, 1, NULL);
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `weight`, `is_active`, `is_default`) VALUES
+( @option_cs, 'Overdue', 6, 'Overdue', 6, 1, NULL);
 
 
 ALTER TABLE `civicrm_option_group`
@@ -253,3 +253,9 @@ GROUP BY civicrm_option_group.id;
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name` , `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
 VALUES
   (@option_act, 'Address Name', (SELECT @max_val := @max_val+1), 'address_name', NULL, 0, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL);
+
+-- update filter for participant-status option values
+
+SELECT @og_ps_id := id from civicrm_option_group where name = 'participant_status';
+
+UPDATE civicrm_option_value SET filter=1 WHERE option_group_id=@og_ps_id AND label IN ('Registered', 'Attended');

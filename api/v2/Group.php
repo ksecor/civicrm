@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  * http://civicrm.org/node/131
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id: GroupContact.php 12458 2007-11-30 17:00:08Z shot $
  *
  */
@@ -58,19 +58,9 @@ function civicrm_group_add( &$params )
     if ( is_null( $params ) || !is_array( $params ) ||  empty ( $params ) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
-   
+    
     if ( ! CRM_Utils_Array::value('title', $params ) ) {
         return civicrm_create_error( 'Required parameter title missing' );
-    }
-        
-    if ( $groupType = CRM_Utils_Array::value( 'group_type', $params ) ) {
-        $groupType = explode( ',', $groupType );
-        require_once 'CRM/Core/BAO/CustomOption.php';
-        $groupType =
-            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-            implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $groupType ) .
-            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-        $params['group_type'] = $groupType;
     }
     
     $group = CRM_Contact_BAO_Group::create( $params );
@@ -98,8 +88,19 @@ function civicrm_group_get( &$params )
     if ( !is_null( $params ) && !is_array( $params ) ) {
         return civicrm_create_error( 'Params should be array' );
     }
+
+    $returnProperties = array( );
+    foreach ( $params as $n => $v ) {
+        if ( substr( $n, 0, 7 ) == 'return.' ) {
+            $returnProperties[] = substr( $n, 7 );
+        } 
+    }
     
-    $groupObjects = CRM_Contact_BAO_Group::getGroups( $params );
+    if( !empty($returnProperties) ){
+        $returnProperties[] = 'id';
+    }
+    
+    $groupObjects = CRM_Contact_BAO_Group::getGroups( $params, $returnProperties );
     
     if ( count( $groupObjects ) == 0 ) {
         return civicrm_create_error( 'No such group exists' );

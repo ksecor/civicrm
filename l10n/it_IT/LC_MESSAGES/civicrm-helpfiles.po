@@ -4,15 +4,57 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-07-09 06:41-0700\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
+"PO-Revision-Date: 2008-12-02 23:50-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: templates/CRM/Activity/Import/Form/UploadFile.hlp
+msgid ""
+"The Activity Import Wizard allows you to easily upload activity from other "
+"applications into CiviCRM. Contacts must already exist in your CiviCRM "
+"database prior to importing activities for them.\n"
+"        Use Import Contacts to create contact records first, if necessary. "
+"Then you can match activities to contacts by Email Address, CiviCRM Contact "
+"ID, or an External Identifier (see the TIP below)."
+msgstr ""
+
+#: templates/CRM/Activity/Import/Form/UploadFile.hlp
+msgid ""
+"Files to be imported must be in the 'comma-separated-values' format (CSV). "
+"Most applications will allow you to export records in this format. Consult "
+"the documentation for your application if you're not sure how to do this. "
+"Save this file to your local hard drive (or an accessible drive on your "
+"network) - and you are now ready for step 1 (Upload Data)."
+msgstr ""
+"I file da importare devono essere in formato CSV (comma-separated values). "
+"Per creare un file di questo tipo potete usare un foglio di calcolo (come "
+"Excel) ed utilizzare Salva con nome, cambiando il formato del file. Salvate "
+"il file sull'hard disk (o in un punto accessibile della rete) e procedete "
+"con il Passo 1 (Invio dei dati al sistema)."
+
+#: templates/CRM/Activity/Import/Form/UploadFile.hlp
+msgid ""
+"<strong>TIP - Matching Activities to Contact Records</strong><br />\n"
+"        CiviCRM allows you to indicate which contact each activity record "
+"belongs to using either the unique CiviCRM-assigned Contact ID, a unique "
+"External Identifier which you assign, OR your\n"
+"        configured \"strict\" Dedupe Rule set (which uses email addresses by "
+"default). You must include at least one of these values as a column in your "
+"import file.\n"
+"        If you have are synchronizing (or migrating) contacts from another "
+"application to CiviCRM, and that application has assigned a unique ID to "
+"each contact, you can import that value into\n"
+"        CiviCRM's External Identifier field. Then you can use that unique "
+"key as the \"match to contact\" value when importing related data such as "
+"Activities and Contributions.\n"
+"    "
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -152,6 +194,19 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
+"<strong>CiviPledge</strong> - Record and track pledges received from "
+"contributors. Send pledge acknowledgements and payment reminders. Configure "
+"online contribution pages to support self-service pledging and pledge "
+"payments. Refer to the <a href='%1' target='_blank'>CiviPledge "
+"documentation</a> for more info."
+msgstr ""
+"<strong>CiviPledge</strong> - Memorizza gli impegni di pagamento ricevuti "
+"dai contribuenti. Configura le pagine di contributo online per permettere di "
+"prendere impegni di pagamento. Fate riferimento alla <a href='%1' "
+"target='_blank'>Guida di CiviPledge</a> per ulteriori informazioni."
+
+#: templates/CRM/Admin/Form/Setting/Component.hlp
+msgid ""
 "<strong>CiviMail</strong> - A robust mass-mailing component which allows you "
 "to engage your constituents with personalized email blasts and newsletters. "
 "Refer to the <a href='%1' target='_blank'>CiviMail Guide</a> for more info."
@@ -255,8 +310,8 @@ msgstr ""
 msgid ""
 "To remove temporary upload files (civicrm/upload folder), add <em>%1</em>"
 msgstr ""
-"Per rimuovere i file temporanei inviati al sistema (la cartella "
-"civicrm/upload), aggiungere <em>%1</em>"
+"Per rimuovere i file temporanei inviati al sistema (la cartella civicrm/"
+"upload), aggiungere <em>%1</em>"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "To cleanup both, add <em>%1</em>"
@@ -357,6 +412,34 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/DedupeRules.hlp
 msgid ""
+"Manage the rules used to identify potentially duplicate contact records. "
+"Scan for duplicates using a selected rule and merge duplicate contact data "
+"as needed. Click <strong>Edit Rule</strong> to review or modify the rules "
+"for each type of contact. You will generally want to maintain both 'fuzzy' "
+"and 'strict' rules for each contact type."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeRules.hlp
+msgid ""
+"'Strict' rules should be configured with a relatively tight definition of "
+"what constitutes a match (for example... email address + first and last name "
+"for Individuals). The default 'Strict' rule is automatically used when new "
+"contacts are created (including contacts created by constituents during "
+"online contributions, etc.). They are also used when you Import contacts. "
+"You can only have one default 'Strict' rule for each contact type."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeRules.hlp
+msgid ""
+"'Fuzzy' rules should be configured with a looser definition of what "
+"constitutes a 'match'. They are most appropriate for use when you are "
+"scanning the database (from this page). Click <strong>Use Rule</strong> to "
+"scan for duplicate contacts (of that contact type) using the selected rule "
+"(<a href='%1' target='_blank' title='%2'>read more...</a>)."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeRules.hlp
+msgid ""
 "Configure up to five fields to evaluate when searching for 'suspected' "
 "duplicate contact records. For each field, set a numeric <strong>Weight</"
 "strong> which determines the relative importance of a match on that field."
@@ -397,8 +480,8 @@ msgid ""
 msgstr ""
 "Controlla qui la <a href='%1' target='_blank' title='%2'>procedura di "
 "configurazione per ciascun Gestore dei pagamenti</a>. Se non siete sicuri di "
-"quale gesstore usare, vi consigliamo di rivedere i termini, le limitazioni "
-"e le aree coperte sul sito Web dei vari gestori prima di continuare. Se il "
+"quale gesstore usare, vi consigliamo di rivedere i termini, le limitazioni e "
+"le aree coperte sul sito Web dei vari gestori prima di continuare. Se il "
 "vostro gestore preferito non è nella lista, considerate la possibilità di "
 "sviluppare un plugin insieme con un programmatore."
 
@@ -937,6 +1020,85 @@ msgstr ""
 "dei pagamenti reale. Potete inserire qualsiasi valore per il nome utente e "
 "per l'URL del sito."
 
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
+msgid "eWAY CustomerID (TEST account):"
+msgstr "ID negozio (account di TEST)"
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"This is the TEST <strong>eWAYCustomerID</strong> used solely for testing.\n"
+"<br />Use <strong>87654321</strong> unless otherwise advised by eWAY.\n"
+"<br />The test Credit Card number is <strong>4444333322221111</strong> - "
+"this is the only credit card number that will work on the test gateway.\n"
+"<br />The test Total Amount should end in <strong>00</strong> or <strong>08</"
+"strong> to get a successful response (e.g. $10.00 or $10.08) - all other "
+"amounts will return a failed response."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The <strong>URL</strong> for eWAY's TEST Gateway. \n"
+"<br />Use <strong>'https://www.eway.com.au/gateway_cvn/xmltest/testpage."
+"asp'</strong> unless otherwise advised by eWAY."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
+msgid "eWAY CustomerID (LIVE account):"
+msgstr "ID negozio (account LIVE)"
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"This is the LIVE <strong>eWAYCustomerID</strong> associated with your eWAY "
+"account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The <strong>URL</strong> for eWAY's LIVE Gateway. \n"
+"<br />Use <strong>'https://www.eway.com.au/gateway_cvn/xmlpayment.asp'</"
+"strong> unless otherwise advised by eWAY."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Payment Express UserID (Development account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"This is the development user name provided to you by DPS/Payment Express. \n"
+"The test Credit Card number is 4111111111111111 - this is the only credit "
+"card number that will work on the test gateway. The test Total Amount can be "
+"any amount except one that ends in a value of .76 (e.g. $10.76) - all "
+"amounts ending in .76 will return a failed response."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"This is the URL which is used to access the DPS/Payment Express service.  "
+"Generally, you will use https://www.paymentexpress.com/pxpay/pxpay.aspx."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
+msgid "Payment Express UserID (LIVE account):"
+msgstr "ID negozio (account LIVE)"
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "This is the live user name provided to you by DPS/Payment Express."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"This is the URL for accessing the DPS/Payment Express live payment site.  "
+"Generally, you will use https://www.paymentexpress.com/pxpay/pxpay.aspx."
+msgstr ""
+
+#: templates/CRM/common/accesskeys.hlp
+msgid "Use the following key combinations for:"
+msgstr ""
+
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid ""
 "The FROM Name and Email Address are used when automated emails are sent from "
@@ -960,12 +1122,11 @@ msgid ""
 msgstr ""
 "Il dominio email è il dominio internet (es. <code>esempio.org</code>) da "
 "usare nell'indirizzo delle mailing di 'azione' (es. l'indirizzo a cui "
-"rispondere quando si conferma una iscrizione: "
-"<code>subscribe.*@<strong>esempio.org</strong></code>).Il dominio (o, più "
-"propriamente, la macchina a cui punta il record MX per quel dominio) deve "
-"essere configurato in modo da gestire le email in ingresso per CiviMail (in "
-"modo da poter elaborare le azioni, come l'iscrizione, la deiscrizione, l"
-"'opt-out etc)."
+"rispondere quando si conferma una iscrizione: <code>subscribe."
+"*@<strong>esempio.org</strong></code>).Il dominio (o, più propriamente, la "
+"macchina a cui punta il record MX per quel dominio) deve essere configurato "
+"in modo da gestire le email in ingresso per CiviMail (in modo da poter "
+"elaborare le azioni, come l'iscrizione, la deiscrizione, l'opt-out etc)."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Opens documentation in a new window."
@@ -1038,6 +1199,17 @@ msgstr ""
 "CANCELLATI dopo l'unione tra i due."
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
+#, fuzzy
+msgid ""
+"Use <strong>&#37;</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
+"'Volunteer&#37;' as your Activity Type to match any activity whose type is "
+"'Volunteer' + any other words (e.g. Volunteer for Open House)."
+msgstr ""
+"Per una ricerca parziale utilizzare il metacarattere “%”. Ad esempio "
+"“Istituto%” fornirà l'elenco di tutte le organizzazioni che contengono la "
+"parola “Istituto” nel loro nome."
+
+#: templates/CRM/Contact/Form/Search/Advanced.hlp
 msgid ""
 "If multiple boxes are checked for Contact Types, Groups, Tags and Location "
 "Types, the selections are combined as <strong>OR</strong> criteria (e.g. "
@@ -1053,6 +1225,81 @@ msgstr ""
 "sono combinati con il criterio <strong>AND</strong> (cioè selezionando il "
 "Tag 'Donatore' E la nazione 'Messico' vengono restituiti solo i contatti che "
 "soddisfano entrambi i criteri)."
+
+#: templates/CRM/Contact/Form/Search/Advanced.hlp
+msgid ""
+"If you've changed search criteria for this 'smart group' and want to save "
+"your changes, select <strong>Update Smart Group</strong> from the '- more "
+"actions -' drop-down menu, and then click Go."
+msgstr ""
+"Se avete modificato i criteri di ricerca per questo 'smart group' e volete "
+"salvare le modifiche, selezionate <strong>Aggiorna Smart Group</strong> dal "
+"menu a tendina '- altre azioni -', poi cliccate su Vai."
+
+#: templates/CRM/Contact/Form/Search/Advanced.hlp
+msgid ""
+"Contacts with any of the checked privacy options are EXCLUDED from your "
+"search results by default. EXAMPLE: If you check 'Do not phone', and search "
+"for contacts with an address in a specific city - then contacts in that city "
+"who have 'Do not phone' selected as a privacy option will be excluded from "
+"the search results."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Advanced.hlp
+msgid ""
+"If you want to FIND (include) contacts with a particular privacy option set, "
+"then check 'Include contacts who have these privacy option(s)'."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Basic.hlp
+msgid ""
+"Find contacts by partial or full name or email, type of contact, group "
+"membership, and/or tags.\n"
+"    You can then view or edit contact details, print a contact list, or use "
+"the <strong>- more actions -</strong> drop down list to assign tags, add "
+"contacts\n"
+"    to groups, create smart groups, export contact data to a spreadsheet, "
+"and more."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Basic.hlp
+msgid ""
+"Click <strong>Advanced Search</strong> to search by address, demographics, "
+"custom fields, notes, and / or relationships. If you are using "
+"CiviContribute,\n"
+"    CiviEvent or CiviMember - you can also search based on information "
+"stored by these components. For example - you can find all contacts who live "
+"in a specific city\n"
+"    AND have contributed at least %1 within the past 6 months."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Basic.hlp
+msgid ""
+"The members of the <strong>%1</strong> group are listed below. Use 'Find "
+"Members within this Group' to search for specific members. Use the 'Group "
+"Status...' checkboxes to view members with 'Pending' status and/or members "
+"who have been 'Removed' from this group."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Basic.hlp
+msgid ""
+"Click <a href='%1'>Add Members to %2</a> if you want to add new members to "
+"this group."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Basic.hlp
+msgid ""
+"Click <a href='%1'>Edit Smart Group Search Criteria...</a> to change the "
+"search query used for this 'smart' group."
+msgstr ""
+"Cliccate su <a href='%1'>Modifica criteri di ricerca smart group</a> per "
+"modificare la ricerca usata per questo smart group."
+
+#: templates/CRM/Contact/Form/Search/Basic.hlp
+msgid ""
+"Use this Search form to find contacts. Mark the contacts you want to add to "
+"this group. Then click 'Add Contacts to %1'."
+msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
 msgid ""
@@ -1088,28 +1335,41 @@ msgstr ""
 "contatti in cui ... la provincia E' UGUALE a Terni E la città E' UGUALE A "
 "Narni E la data di nascita è successiva al (>) 1 gennaio 1985</em>"
 
-#: templates/CRM/Contact/Page/View/Membership.hlp
+#: templates/CRM/Contact/Form/Task/Email.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
-"Membership status is normally assigned and updated automatically based on "
-"your configured membership status rules. However, if you want to assign a "
-"status manually and bypass automated status setting, check this box. Then "
-"you can select from the available status options."
+"Use tokens when you are sending mail to a number of recipients, and want to "
+"include their name and / or other values from their contact record "
+"automatically within your message."
 msgstr ""
-"Lo stato di iscrizione viene normalmente assegnato e aggiornato "
-"automaticamente in base alle regole di stato dell'iscrizione che sono "
-"configurate nel sistema. Se volete assegnare uno stato manualmente e "
-"bypassare del tutto le impostazioni automatiche dello stato, spuntate questa "
-"casella, e potrete selezionare tra i vari stati disponibili."
 
-#: templates/CRM/Contact/Page/View/Membership.hlp
+#: templates/CRM/Contact/Form/Task/Email.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
-"The status you assign will remain in force, unless it is again modified on "
-"this screen. As long as the Status Override flag is checked, the automated "
-"membership status update script will NOT update this membership record."
+"Place your cursor within the Message box where you want to the token to be "
+"inserted. Then insert the token in that spot by click on the token in this "
+"list."
 msgstr ""
-"Lo stato che avete assegnato rimarrà valido, a meno che non sia modificato "
-"di nuovo in questa schermata. Finché è attivo Forza stato, lo script di "
-"aggiornamento automatico degli stati NON aggiornerà questa iscrizione."
+
+#: templates/CRM/Contact/Form/Task/Email.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp
+msgid ""
+"You can send your email as a simple text-only message, as an HTML formatted "
+"message, or both. Text-only messages are sufficient for most email "
+"communication - and some recipients may prefer not to\n"
+"receive HTML formatted messages."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Email.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp
+msgid ""
+"HTML messages have more visual impact, allow you to include images, and may "
+"be more readable if you are including links to website pages. However, "
+"different email programs\n"
+"may interpret HTML formats differently - so use this option cautiously "
+"unless you have a template format that has been tested with different web "
+"and desktop email programs."
+msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -1176,8 +1436,8 @@ msgid ""
 "select your profile."
 msgstr ""
 "Tornate a questa schermata (<strong>Impostazioni CiviCRM &raquo; Gestione "
-"Pagine Contributi &raquo; Configura &raquo; Elementi "
-"personalizzati</strong>) e selezionate il vostro profilo."
+"Pagine Contributi &raquo; Configura &raquo; Elementi personalizzati</"
+"strong>) e selezionate il vostro profilo."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
@@ -1215,9 +1475,9 @@ msgid ""
 msgstr ""
 "Usate il modulo qui sotto per configurare un Titolo del widget (con un logo "
 "opzionale), il testo del pulsante di contributo, una breve descrizione della "
-"campagna di raccolta fondi e un link alla home page dell'organizzazione "
-"(per chi ne vuole sapere di più). Potete anche modificare lo schema di "
-"colori di default espandendo la sezione 'Modifica colori widget' nel modulo."
+"campagna di raccolta fondi e un link alla home page dell'organizzazione (per "
+"chi ne vuole sapere di più). Potete anche modificare lo schema di colori di "
+"default espandendo la sezione 'Modifica colori widget' nel modulo."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp
 msgid ""
@@ -1279,9 +1539,9 @@ msgstr ""
 "L'importazione dei contributi richiede che esistano già i contatti dei "
 "contribuenti nel database di CiviCRM. Se dovete importare dei contributi da "
 "persone che non sono ancora state inserite in CiviCRM dovrete fare "
-"un'operazione in due passi: per prima cosa, usate <strong>Importa "
-"contatti</strong> per aggiungere i contatti. Se possibile, inserite un 'ID "
-"esterno' univoco per ciascun nuovo contatto, che poi potrete usare per far "
+"un'operazione in due passi: per prima cosa, usate <strong>Importa contatti</"
+"strong> per aggiungere i contatti. Se possibile, inserite un 'ID esterno' "
+"univoco per ciascun nuovo contatto, che poi potrete usare per far "
 "corrispondere i contributi con i contribuenti. Poi tornate a questa "
 "schermata e importate i record dei contributi."
 
@@ -1300,11 +1560,14 @@ msgstr ""
 "'corrispondenza' può essere gestita in diversi modi:"
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#, fuzzy
 msgid ""
 "Include the data fields used for contact 'matching' based on your configured "
-"<strong>Duplicate Matching</strong> rules. For the default duplicate "
-"matching rules, you would include 3 columns in each row with the "
-"contributors' First Name, Last Name and Email Address."
+"<strong>Strict Duplicate Matching</strong> rules. For the default duplicate "
+"matching rules, you would include a column in each row with the "
+"contributors' Email Address."
 msgstr ""
 "Includete i campi di data usati per la corrispondenza dei contatti, "
 "basandovi sulle vostre regole configurate per la <strong>corrispondenza di "
@@ -1343,6 +1606,17 @@ msgstr ""
 "Salvate il file CSV con i vostri contributi e i dati necessari per la "
 "corrispondenza sul vostro hard disk (o su un disco accessibile dalla rete); "
 "ora siete pronti per il Passo 1 (Invia i dati al sistema)."
+
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+msgid ""
+"For each import, you can either INSERT new contribution records, or UPDATE "
+"existing records. You can not do both types of operations in a single import "
+"session. If you are UPDATING existing\n"
+"    contributions, you will need to include a unique identifer to match to "
+"the existing records. This can be either the CiviCRM-assigned contribution "
+"ID, a unique Invoice ID,\n"
+"    or a unique Transaction ID."
+msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "For existing pages"
@@ -1386,6 +1660,42 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "Read more..."
 msgstr "Leggi tutto..."
+
+#: templates/CRM/Contribute/Page/DashBoard.hlp
+msgid ""
+"CiviContribute allows you to create customized page(s) for collecting online "
+"contributions. You can also input and track offline contributions. To enter "
+"contributions manually for individual contacts, use <a href='%1'>Find "
+"Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
+"to their summary page and click on the <strong>New Contribution</strong> "
+"link. You can also <a href='%2'>import batches of offline contributions</a> "
+"from other sources."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.hlp
+msgid ""
+"The <strong>Contribution Summary</strong> table provides a summary of month "
+"and year-to-date contribution totals, and includes shortcuts to view the "
+"contribution details for these commonly used search periods. To run your own "
+"customized searches - click <a href='%1'>Find Contributions</a>. You can "
+"search by Contributor Name, Amount Range, and a variety of other criteria."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.hlp
+msgid ""
+"Click this link to view your contribution totals as a bar or pie chart using "
+"the <a href='%1' target='_blank'>Google Chart API</a>."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.hlp
+msgid ""
+"IMPORTANT: This feature uses Google's public chart-drawing service. Your "
+"monthly and annual contribution totals will be sent over the internet to "
+"Google's servers. No contributor data is sent - only totals. However, if you "
+"are concerned about the privacy of your contribution totals - you should NOT "
+"use this feature. You can remove the link by editing the template file at "
+"templates/CRM/Contribution/Page/Dashboard.tpl."
+msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
 msgid ""
@@ -1458,8 +1768,8 @@ msgid ""
 "Create a custom field group which is 'Used for' <strong>Participants</"
 "strong>."
 msgstr ""
-"Create un gruppo di campi personalizzati 'Usato per' <strong>i "
-"partecipanti</strong>."
+"Create un gruppo di campi personalizzati 'Usato per' <strong>i partecipanti</"
+"strong>."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Create a profile (e.g. 'Participant Information')."
@@ -1484,8 +1794,7 @@ msgstr "Dati richiesti per i partecipanti"
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
 msgid "Participant import data MUST include the following columns:"
 msgstr ""
-"I dati di importazione dei partecipanti DEVONO includere le seguenti "
-"colonne:"
+"I dati di importazione dei partecipanti DEVONO includere le seguenti colonne:"
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
@@ -1514,9 +1823,9 @@ msgid ""
 "Date and any other standard or custom Participant fields."
 msgstr ""
 "I valori validi per lo Stato e il Ruolo possono essere trovati nella sezione "
-"di CiviEvent della schermata di Impostazioni CiviCRM. Potete anche "
-"importare il campo Data di registrazione, l'importo o qualsiasi altro campo "
-"standard o personalizzato del partecipante."
+"di CiviEvent della schermata di Impostazioni CiviCRM. Potete anche importare "
+"il campo Data di registrazione, l'importo o qualsiasi altro campo standard o "
+"personalizzato del partecipante."
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
@@ -1539,10 +1848,10 @@ msgstr ""
 "organizzazione già esista come contatto nel database di CiviCRM. Se dovete "
 "importare le informazioni su partecipanti che non sono già stati inseriti in "
 "CiviCRM lo dovrete fare in due passi. Per prima cosa, usate <strong>Importa "
-"contatti</strong> per aggiungere i contatti; se possibile, inserite anche "
-"un 'ID esterno' univoco per ciascun contatto, da usare poi come "
-"corrispondenza tra partecipante e registrazione all'evento. Poi tornate su "
-"questa schermata e importate i partecipanti."
+"contatti</strong> per aggiungere i contatti; se possibile, inserite anche un "
+"'ID esterno' univoco per ciascun contatto, da usare poi come corrispondenza "
+"tra partecipante e registrazione all'evento. Poi tornate su questa schermata "
+"e importate i partecipanti."
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
@@ -1560,19 +1869,6 @@ msgstr ""
 "per <strong>far corrispondere i partecipanti ai dati di un contatto nel "
 "database di CiviCRM</strong>. Questa 'corrispondenza' può essere gestita in "
 "diversi modi:"
-
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
-#: templates/CRM/Grant/Import/Form/UploadFile.hlp
-msgid ""
-"Include the data fields used for contact 'matching' based on your configured "
-"<strong>Duplicate Matching</strong> rules. For the default duplicate "
-"matching rules, you would include 3 columns in each row with the "
-"participants' First Name, Last Name and Email Address."
-msgstr ""
-"Includete i campi di dati usati per la 'corrispondenza' dei contatti a "
-"seconda delle regole che avete impostato per la <strong>Corrispondenza "
-"duplicati</strong>. Se avete usato le regole predefinite, dovrete includere "
-"tre colonne: Nome, Cognome e Indirizzo Email."
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
@@ -1611,6 +1907,51 @@ msgstr ""
 "corrispondenza dei contatti sul vostro hard disk locale (o su un disco "
 "accessibile via rete), e siete pronti per il passo 1 (Invia i dati al "
 "sistema)."
+
+#: templates/CRM/Event/Import/Form/UploadFile.hlp
+msgid ""
+"If you check the \"Update\" option, you can INSERT new participant records, "
+"and UPDATE existing records during the import session. If you are UPDATING "
+"existing\n"
+"    records (to update participant status after an event, for example), you "
+"will need to include a column containing the unique CiviCRM-assigned "
+"participant ID to match to the existing record.\n"
+"    This value is included whenever you Export participant records from Find "
+"Participants."
+msgstr ""
+
+#: templates/CRM/Event/Page/DashBoard.hlp
+msgid ""
+"CiviEvent allows you to create customized page(s) for constituents to learn "
+"about events and optionally register online. You can create <a href='%"
+"1'><strong>new events</strong></a> and <a href='%2'><strong>manage existing "
+"events</strong></a>."
+msgstr ""
+
+#: templates/CRM/Event/Page/DashBoard.hlp
+msgid ""
+"You can also input and track offline Events. To enter events manually for "
+"individual contacts, use <a href='%1'>Find Contacts</a> to locate the "
+"contact. Then click <strong>View</strong> to go to their summary page and "
+"click on the <strong>New Event</strong> link. You can also <a href='%"
+"2'><strong>import batches of participants</strong></a> from other sources."
+msgstr ""
+"Potete anche immettere e tracciare gli Eventi off-line. Per inserire "
+"manualmente dei contatti in un evento, usate <a href=\"%1\">Trova Contatti</"
+"a> per localizzare i contatti. Poi cliccate <strong>Visualizza</strong> per "
+"andare alla pagina del riassunto e cliccate sul link <strong>Nuovo evento</"
+"strong>. Potete anche <a href=\"%3\"> importare un gruppo di partecipanti</"
+"a> da altre fonti. "
+
+#: templates/CRM/Event/Page/DashBoard.hlp
+msgid ""
+"The Event Summary table provides a summary of up to ten scheduled and recent "
+"<strong>Events</strong>. Click the <strong>Event name</strong> to view the "
+"event as it will be displayed to site visitors. Click the "
+"<strong>Participants count</strong> to see a list of participants. To run "
+"your own customized searches - click <a href='%1'>Find Participants</a>. You "
+"can search by Participant Name, Event, Date Range and Status."
+msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
 msgid "ICalendar Downloads and Feeds"
@@ -1659,8 +2000,8 @@ msgid ""
 "additional parameters in the URL:"
 msgstr ""
 "Per default, entrambi i metodi prendono tutti gli eventi che iniziano oggi o "
-"più tardi. Potete però modificare questa impostazione passando dei "
-"parametri aggiuntivi all'URL:"
+"più tardi. Potete però modificare questa impostazione passando dei parametri "
+"aggiuntivi all'URL:"
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
 msgid ""
@@ -1691,6 +2032,27 @@ msgstr ""
 "tipo di evento è 'Raccolta fondi'."
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
+msgid "HTML Listing"
+msgstr ""
+
+#: templates/CRM/Event/Page/ManageEvent.hlp
+msgid ""
+"CiviEvent provides a page which lists your current and future public events "
+"in a table layout for display in a browser. Point people to this page using "
+"the following URL:"
+msgstr ""
+
+#: templates/CRM/Event/Page/ManageEvent.hlp
+#, fuzzy
+msgid ""
+"You can add links to this page in your Drupal or Joomla menus and on any "
+"content page. You can also use the additional parameters shown above to "
+"filter the events included on the page."
+msgstr ""
+"Potete usare anche i parametri aggiuntivi mostrati sopra per filtrare gli "
+"eventi inclusi nel feed RSS."
+
+#: templates/CRM/Event/Page/ManageEvent.hlp
 msgid "RSS 2.0 Feeds"
 msgstr "Feed RSS 2.0"
 
@@ -1712,6 +2074,58 @@ msgstr ""
 "Potete usare anche i parametri aggiuntivi mostrati sopra per filtrare gli "
 "eventi inclusi nel feed RSS."
 
+#: templates/CRM/Grant/Import/Form/UploadFile.hlp
+msgid ""
+"Include the data fields used for contact 'matching' based on your configured "
+"<strong>Duplicate Matching</strong> rules. For the default duplicate "
+"matching rules, you would include 3 columns in each row with the "
+"participants' First Name, Last Name and Email Address."
+msgstr ""
+"Includete i campi di dati usati per la 'corrispondenza' dei contatti a "
+"seconda delle regole che avete impostato per la <strong>Corrispondenza "
+"duplicati</strong>. Se avete usato le regole predefinite, dovrete includere "
+"tre colonne: Nome, Cognome e Indirizzo Email."
+
+#: templates/CRM/Group/Form/Edit.hlp
+msgid ""
+"\n"
+"    Check 'Access Control' you want to use this group to assign access "
+"permissions to a set of contacts (<a href='%1' target='_blank' title='%"
+"3'>more info...</a>). Check 'Mailing List' if you are using this group as a "
+"mailing list in the <a href='%2' target='_blank' title='%3'>CiviMail "
+"component</a>."
+msgstr ""
+
+#: templates/CRM/Group/Form/Edit.hlp
+msgid ""
+"Select 'User and User Admin Only' if membership in this group is controlled "
+"by authorized CiviCRM users only. If you want to allow contacts to join and "
+"remove themselves from this\n"
+"    group via the Registration and Account Profile forms, select 'Public "
+"User Pages'. If you also want to include group membership search and sharing "
+"in the Profile screens, select\n"
+"    'Public User Pages and Listings'."
+msgstr ""
+
+#: templates/CRM/Group/Form/Edit.hlp
+msgid ""
+"Some organizations find it useful to create a hierarchy of groups. In "
+"CiviCRM, this is done by creating one or more \"Parent\" groups and then "
+"assigning other groups to them. When a user sends a\n"
+"mailing to a \"Parent\", or searches for contacts in a \"Parent\" - all "
+"contacts in the associated child groups are automatically included,"
+msgstr ""
+
+#: templates/CRM/Group/Form/Edit.hlp
+msgid ""
+"EXAMPLE: An organization that has a National office and 5 regional offices "
+"puts constituents in each region into their own group. Then they create a "
+"\"National\" group which is assigned as\n"
+"the \"Parent\" for all regional groups. The National office can now send "
+"mailings (for example) to the \"National\" group - knowing that all members "
+"of the regional groups will be included."
+msgstr ""
+
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
 "Use Groups to organize contacts (e.g. these contacts are members of our "
@@ -1723,10 +2137,6 @@ msgstr ""
 "gruppo composto da tutti i membri dell'organizzazione \"XYZ\"). È inoltre "
 "possibile creare gruppi in base alle caratteristiche dei contatti (e.g.: un "
 "gruppo composto da tutte le persone che abitano a Roma)."
-
-#: templates/CRM/Group/Page/Group.hlp templates/CRM/UF/Page/Group.hlp
-msgid "more info"
-msgstr "ulteriori informazioni"
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1751,8 +2161,7 @@ msgid ""
 msgstr ""
 "Ai gruppi che vengono usati come mailing list dovrebbe venire assegnato il "
 "tipo 'Mailing List'. I gruppi di contatti che vengono usati per il "
-"<strong>controllo degli accessi</strong> devono avere il tipo "
-"corrispondente."
+"<strong>controllo degli accessi</strong> devono avere il tipo corrispondente."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1978,8 +2387,8 @@ msgid ""
 msgstr ""
 "<strong>Se qualcosa va storto</strong> - Se vi accorgete che le vostre "
 "mailing non vengono inviate, chiedete all'amministratore di sistema o al "
-"supporto tecnico di verificare che il programma periodico di invio (il "
-"&quot;cron job&quot;) sia in esecuzione, e con quale frequenza (<a href='%1' "
+"supporto tecnico di verificare che il programma periodico di invio (il &quot;"
+"cron job&quot;) sia in esecuzione, e con quale frequenza (<a href='%1' "
 "title='%2' target='_blank'>per saperne di più...</a>)"
 
 #: templates/CRM/Mailing/Form/Test.hlp
@@ -2017,10 +2426,9 @@ msgid ""
 "the next screen, and again from this screen to return to step 3. After "
 "making your changes, you can send another test and repeat as needed."
 msgstr ""
-"Se dovete effettuare delle modifiche, potete cliccare su "
-"<strong>Precedente</strong> dal passo in cui vi trovate, e poi di nuovo da "
-"questo passo per tornare al passo 3. Dopo aver fatto le modifiche fate altri "
-"test."
+"Se dovete effettuare delle modifiche, potete cliccare su <strong>Precedente</"
+"strong> dal passo in cui vi trovate, e poi di nuovo da questo passo per "
+"tornare al passo 3. Dopo aver fatto le modifiche fate altri test."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Message Formats"
@@ -2062,16 +2470,16 @@ msgid ""
 "messages. Opens a new window.'>how to include required links and contact "
 "information as well as sample messages....</a>"
 msgstr ""
-"Le mailing di CiviMail devono comprendere un <strong>link di "
-"deiscrizione</strong> dalla singola lista, uno per fare <strong>opt-"
-"out</strong> (cioè per non ricevere più email dal sistema), e l'indirizzo di "
-"posta dell'organizzazione. Questi elementi riducono il rischio che la mail "
-"venga classificata come SPAM, e possono essere inclusi nel corpo del "
-"messaggio O in un <strong>piedipagina</strong> (<em>footer</em>) "
-"riutilizzabile. Fate riferimento alla documentazione online per avere "
-"dettagli su <a href='%1' target='_blank' title='Help sui messaggi. Si apre "
-"in una nuova finestra.'>come includere i link richiesti e le informazioni di "
-"contatto, con messaggi di esempio</a>."
+"Le mailing di CiviMail devono comprendere un <strong>link di deiscrizione</"
+"strong> dalla singola lista, uno per fare <strong>opt-out</strong> (cioè per "
+"non ricevere più email dal sistema), e l'indirizzo di posta "
+"dell'organizzazione. Questi elementi riducono il rischio che la mail venga "
+"classificata come SPAM, e possono essere inclusi nel corpo del messaggio O "
+"in un <strong>piedipagina</strong> (<em>footer</em>) riutilizzabile. Fate "
+"riferimento alla documentazione online per avere dettagli su <a href='%1' "
+"target='_blank' title='Help sui messaggi. Si apre in una nuova "
+"finestra.'>come includere i link richiesti e le informazioni di contatto, "
+"con messaggi di esempio</a>."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Upload or Compose On-screen"
@@ -2084,8 +2492,8 @@ msgid ""
 "strong> content directly on the screen."
 msgstr ""
 "Potete usare il vostro editor preferito per creare il contenuto della "
-"mailing sul vostro computer e poi <strong>Caricare il contenuto "
-"pronto</strong> oppure <strong>Comporlo</strong> direttamente a schermo."
+"mailing sul vostro computer e poi <strong>Caricare il contenuto pronto</"
+"strong> oppure <strong>Comporlo</strong> direttamente a schermo."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -2107,9 +2515,9 @@ msgid ""
 "Contribution Amount section, AND you want the membership fee to be handled "
 "as a separate transaction."
 msgstr ""
-"Spuntate questa casella se state includendo sia una sezione di "
-"Iscrizione/Rinnovo sia una di Importo Contributo, e volete che l'iscrizione "
-"sia gestita come una transazione separata."
+"Spuntate questa casella se state includendo sia una sezione di Iscrizione/"
+"Rinnovo sia una di Importo Contributo, e volete che l'iscrizione sia gestita "
+"come una transazione separata."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
@@ -2219,18 +2627,6 @@ msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
 msgid ""
-"Include the data fields used for contact 'matching' based on your configured "
-"<strong>Duplicate Matching</strong> rules. For the default duplicate "
-"matching rules, you would include 3 columns in each row with the members' "
-"First Name, Last Name and Email Address."
-msgstr ""
-"Includete i campi di dati usati per la 'corrispondenza' dei contatti a "
-"seconda delle regole che avete impostato per la <strong>Corrispondenza "
-"duplicati</strong>. Se avete usato le regole predefinite, dovrete includere "
-"tre colonne: Nome, Cognome e Indirizzo Email."
-
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
-msgid ""
 "If you've stored a unique <strong>External Identifier</strong> for each "
 "contact in CiviCRM, you can include that value as a column in your import "
 "file. Memberships will then be matched to contact records using their "
@@ -2251,6 +2647,64 @@ msgstr ""
 "corrispondenza dei contatti sul vostro hard disk locale (o su un disco "
 "accessibile via rete) e siete pronti per il passo 1 (Invia i dati al "
 "sistema)."
+
+#: templates/CRM/Member/Import/Form/UploadFile.hlp
+msgid ""
+"For each import, you can either INSERT new membership records, or UPDATE "
+"existing records. You can not do both types of operations in a single import "
+"session. If you are UPDATING existing\n"
+"    memberships, you will need to include a column containing the unique "
+"CiviCRM-assigned membership ID to match to the existing membership records."
+msgstr ""
+
+#: templates/CRM/Member/Page/DashBoard.hlp
+msgid ""
+"CiviMember allows you to create customized membership types as well as page"
+"(s) for online membership sign-up and renewal. Administrators can create or "
+"modify Membership Types <a href='%2'>here</a>, and configure Online "
+"Contribution Pages which include membership sign-up <a href='%1'>here</a>."
+msgstr ""
+"CiviMember permette di creare tipologie di iscrizioni personalizzate, e "
+"anche una o più pagine per l'iscrizione ed il rinnovo online. Gli "
+"Amministratori possono creare o modificare le Tipologie di Iscrizione <a "
+"href=\"%2\">qui</a>, e configurare le pagine di Contributo Online che "
+"includono la procedura d'iscrizione<a href=\"%1\">qui</a>."
+
+#: templates/CRM/Member/Page/DashBoard.hlp
+msgid ""
+"You can also input and track membership sign-ups offline. To record "
+"memberships manually for individual contacts, use <a href='%1'>Find "
+"Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
+"to their summary page and click on the <strong>Memberships</strong> tab. You "
+"can also <a href='%3'>import batches of membership records</a> from other "
+"sources. Refer to the <a href='%2' target='_blank' title='%4'>CiviMember "
+"Guide</a> for more information."
+msgstr ""
+
+#: templates/CRM/Member/Page/DashBoard.hlp
+msgid ""
+"This table provides a summary of <strong>Membership Signup and Renewal "
+"Activity</strong>, and includes shortcuts to view the details for these "
+"commonly used search criteria. To run your own customized searches - click "
+"<a href='%1'>Find Members</a>. You can search by Member Name, Membership "
+"Type, Status, and Signup Date Ranges."
+msgstr ""
+"Questa tabella fornisce un riassunto dell'attività di iscrizione e rinnovo "
+"dei membri, ed include collegamenti diretti ai dettagli per i criteri di "
+"ricerca più utilizzati. Per eseguire le tue ricerche personalizzate clicca "
+"<a href=\"%1\">Trova Membri</a>. Puoi cercare per Nome Membro, Tipologia di "
+"Iscrizione, Stato, e intervallo di date di iscrizione."
+
+#: templates/CRM/Member/Page/DashBoard.hlp
+msgid ""
+"You can also input and track membership sign-ups offline. To record "
+"memberships manually for individual contacts, use <a href=\"%1\">Find "
+"Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
+"to their summary page and click on the <strong>New Membership</strong> link. "
+"You can also <a href=\"%3\">import batches of membership records</a> from "
+"other sources. Refer to the <a href=\"%2\" target=\"_blank\" title=\"%4"
+"\">CiviMember Guide</a> for more information."
+msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid ""
@@ -2345,6 +2799,63 @@ msgstr ""
 "15 febbraio 2008, la data di inizio iscrizione è il 15 febbraio 2008 e la "
 "data di termine è il 14 febbraio 2009."
 
+#: templates/CRM/Member/Page/Tab.hlp
+msgid ""
+"Membership status is normally assigned and updated automatically based on "
+"your configured membership status rules. However, if you want to assign a "
+"status manually and bypass automated status setting, check this box. Then "
+"you can select from the available status options."
+msgstr ""
+"Lo stato di iscrizione viene normalmente assegnato e aggiornato "
+"automaticamente in base alle regole di stato dell'iscrizione che sono "
+"configurate nel sistema. Se volete assegnare uno stato manualmente e "
+"bypassare del tutto le impostazioni automatiche dello stato, spuntate questa "
+"casella, e potrete selezionare tra i vari stati disponibili."
+
+#: templates/CRM/Member/Page/Tab.hlp
+msgid ""
+"The status you assign will remain in force, unless it is again modified on "
+"this screen. As long as the Status Override flag is checked, the automated "
+"membership status update script will NOT update this membership record."
+msgstr ""
+"Lo stato che avete assegnato rimarrà valido, a meno che non sia modificato "
+"di nuovo in questa schermata. Finché è attivo Forza stato, lo script di "
+"aggiornamento automatico degli stati NON aggiornerà questa iscrizione."
+
+#: templates/CRM/Pledge/Page/Tab.hlp
+msgid ""
+"One or more payment reminders can be emailed to this contributor based on "
+"the values entered in this section. If a \"Self-service Payments Page\"\n"
+"has been selected, the reminder will include a link for the contributor to "
+"make their payment online."
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Tab.hlp
+msgid ""
+"In order for reminders to be sent:\n"
+"<ol>\n"
+"<li>Your site administrator must configure the provided script which updates "
+"pledge payment statuses and sends the reminders (UpdatePledgeRecord.php).</"
+"li>\n"
+"<li>Your site administrator must also configure a \"cron job\" (scheduled "
+"server task) to run this script.</li>\n"
+"<li>This contributor must have a valid email address (and must not have the "
+"\"Do Not Email\" flag checked).</li>\n"
+"</ol>\n"
+"</p>\n"
+msgstr ""
+"Per poter inviare i memorandum:\n"
+"<ol>\n"
+"<li>L'amministratore del sito deve configurare lo script fornio che aggiorna "
+"lo stato degli impegni presi e invia i memorandum (UpdatePledgeRecord.php).</"
+"li>\n"
+"<li>L'amministratore del sito deve configurare anche un  \"cron job"
+"\" (operazione pianificata di sistema) per eseguire lo script.</li>\n"
+"<li>Il contribuente deve avere un indirizzo email valido e non aver spuntato "
+"la casella \"Non inviare email\".</li>\n"
+"</ol>\n"
+"</p>\n"
+
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
 "Profiles may be linked to specific modules, accessed via built-in CiviCRM "
@@ -2374,9 +2885,8 @@ msgid ""
 msgstr ""
 "<strong>CiviContribute</strong> - Quando volete raccogliere informazioni dai "
 "contribuenti attraverso delle pagine di contributo online, potete creare un "
-"profilo e collegarlo alle pagine di contributo come 'elemento "
-"personalizzato di pagina' (<a href='%1'>Configura le pagine di contributo "
-"online</a>)."
+"profilo e collegarlo alle pagine di contributo come 'elemento personalizzato "
+"di pagina' (<a href='%1'>Configura le pagine di contributo online</a>)."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "site root"
@@ -2456,9 +2966,9 @@ msgid ""
 "saving the form code to the desired page(s)."
 msgstr ""
 "Potete controllare la pagina web a cui si viene diretti DOPO aver completato "
-"il form modificando il contenuto dell'input nascosto "
-"<strong>postURL</strong>. Sostituite il valore di default con un qualsiasi "
-"URL completo prima di salvare il codice nelle pagine desiderate."
+"il form modificando il contenuto dell'input nascosto <strong>postURL</"
+"strong>. Sostituite il valore di default con un qualsiasi URL completo prima "
+"di salvare il codice nelle pagine desiderate."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "EXAMPLE:"
@@ -2490,15 +3000,6 @@ msgid ""
 msgstr ""
 "Assicuratevi che il CAPTCHA NON sia abilitato per questo profilo quando "
 "state estraendo il codice HTML per un modulo standalone. Il CAPTCHA richiede "
-"che vengano generate pagine Web dinamiche, e l'invio di un modulo "
-"standalone con incluso il CAPTCHA risulterà sempre in un errore di "
-"validazione di CAPTCHA."
-
-#~ msgid ""
-#~ "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
-#~ "'Volunteer%' as your Activity Type to match any activity whose type is "
-#~ "'Volunteer' + any other words (e.g. Volunteer for Open House)."
-#~ msgstr ""
-#~ "Per una ricerca parziale utilizzare il metacarattere “%”. Ad esempio "
-#~ "“Istituto%” fornirà l'elenco di tutte le organizzazioni che contengono la "
-#~ "parola “Istituto” nel loro nome."
+"che vengano generate pagine Web dinamiche, e l'invio di un modulo standalone "
+"con incluso il CAPTCHA risulterà sempre in un errore di validazione di "
+"CAPTCHA."

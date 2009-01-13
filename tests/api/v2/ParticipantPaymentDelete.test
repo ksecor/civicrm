@@ -7,7 +7,16 @@ class TestOfParticipantPaymentDeleteAPIV2 extends CiviUnitTestCase
     protected $_contactID;
     protected $_participantID;
     protected $_participantPaymentID;
-           
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Participant Payment Delete',
+                     'description' => 'Test all Participant Payment Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }       
+
     function setUp() 
     {
         $event = $this->eventCreate();

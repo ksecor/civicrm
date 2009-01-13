@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,7 +48,8 @@ class CRM_Utils_Token
                                                       'unsubscribe',
                                                       'unsubscribeUrl',
                                                       'resubscribe',
-                                                      'resubscribeUrl'
+                                                      'resubscribeUrl',
+                                                      'subscribeUrl'
                                                       ),
                              'mailing'       => array(
                                                       'name',
@@ -424,29 +425,30 @@ class CRM_Utils_Token
      * @param string $str         The string with tokens to be replaced
      * @param array $contact      Associative array of contact properties
      * @param boolean $html       Replace tokens with HTML or plain text
-     * @param boolean $html       Replace tokens with HTML or plain text
      * @param array $knownTokens  A list of tokens that are known to exist in the email body
      * @return string             The processed string
      * @access public
      * @static
      */
-    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null) 
-    {
+    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null) {
         $key = 'contact';
         if (self::$_tokens[$key] == null) {
             /* This should come from UF */
             self::$_tokens[$key] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                             array( 'display_name', 'checksum', 'contact_id', 'current_employer' ) );
+                             array( 'display_name', 'checksum', 'contact_id',
+                                    'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
         }
 
         // here we intersect with the list of pre-configured valid tokens
         // so that we remove anything we do not recognize
         // I hope to move this step out of here soon and
         // then we will just iterate on a list of tokens that are passed to us
-        if(!$knownTokens || !$knownTokens[$key]) return $str;
+        if ( !$knownTokens || ! CRM_Utils_Array::value( $key, $knownTokens ) ) return $str;
 
-        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact, $html)',$str);
+        $str = preg_replace(self::tokenRegex($key),
+                            'self::getContactTokenReplacement(\'\\1\', $contact, $html)',
+                            $str);
         return $str;
     }
     
@@ -456,7 +458,7 @@ class CRM_Utils_Token
             /* This should come from UF */
             self::$_tokens['contact'] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                             array( 'display_name', 'checksum', 'contact_id', 'current_employer' ) );
+                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
         }
         
         /* Construct value from $token and $contact */
@@ -480,6 +482,39 @@ class CRM_Utils_Token
             $value = str_replace('&amp;', '&', $value);
         }
 
+        return $value;
+    }
+
+    /**
+     * Replace all the hook tokens in $str with information from
+     * $contact.
+     *
+     * @param string $str         The string with tokens to be replaced
+     * @param array $contact      Associative array of contact properties (including hook token values)
+     * @param boolean $html       Replace tokens with HTML or plain text
+     * @return string             The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceHookTokens($str, &$contact, &$categories, $html = false ) {
+
+        foreach ( $categories as $key ) {
+            $str = preg_replace(self::tokenRegex($key),
+                                'self::getHookTokenReplacement(\'\\1\', $contact, $key, $html)',
+                                $str);
+        }
+        return $str;
+    }
+    
+    public function getHookTokenReplacement($token, &$contact, $category, $html = false)
+    {
+        $value = CRM_Utils_Array::value( "{$category}.{$token}", $contact );
+
+        if ( $value &&
+             ! $html ) {
+            $value = str_replace('&amp;', '&', $value);
+        }
+        
         return $value;
     }
 
@@ -614,9 +649,11 @@ class CRM_Utils_Token
             foreach ( $matches as $key => $value ) {
                 $gid = substr($value, 18, -1);
                 $config =& CRM_Core_Config::singleton();
-                require_once 'CRM/Core/BAO/Domain.php';
-                $domain = CRM_Core_BAO_Domain::getDomain( );
-                $str = preg_replace('/'.preg_quote($value).'/','mailto:subscribe.'.$domain->id.'.'.$gid.'@'.$domain->email_domain, $str);
+                require_once 'CRM/Core/BAO/MailSettings.php';
+                $domain    = CRM_Core_BAO_MailSettings::defaultDomain();
+                $localpart = CRM_Core_BAO_MailSettings::defaultLocalpart();
+                // we add the 0.0000000000000000 part to make this match the other email patterns (with action, two ids and a hash)
+                $str = preg_replace('/'.preg_quote($value).'/',"mailto:{$localpart}s.{$gid}.0.0000000000000000@$domain", $str);
             }
         }
         return $str;

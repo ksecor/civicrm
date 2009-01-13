@@ -34,14 +34,14 @@
             <span class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href='%1'>Global Settings &raquo; Mapping</a>){/ts}</span></td></tr>
          <tr><td>&nbsp;</td><td>{$form.is_public.html} {$form.is_public.label}<br />
             <span class="description">{ts}Include this event in iCalendar feeds?{/ts}</span></td></tr>
-         <tr><td>&nbsp</td><td>{$form.is_active.html} {$form.is_active.label}</td></tr> 
+         <tr><td>&nbsp;</td><td>{$form.is_active.html} {$form.is_active.label}</td></tr> 
 
         {if $eventID}
          <tr><td>&nbsp;</td>
             <td class="description">
             {if $config->userFramework EQ 'Drupal'}
                 {ts}When this Event is active, create links to the Event Information page by copying and pasting the following URL:{/ts}<br />
-                <strong>{crmURL p='civicrm/event/info' q="reset=1&id=`$eventID`"}</strong>
+                <strong>{crmURL a=true p='civicrm/event/info' q="reset=1&id=`$eventID`"}</strong>
             {elseif $config->userFramework EQ 'Joomla'}
                 {ts 1=$eventID}When this Event is active, create front-end links to the Event Information page using the Menu Manager. Select <strong>Event Info Page</strong> and enter <strong>%1</strong> for the Event ID.{/ts}
             {/if}
@@ -54,6 +54,18 @@
     <div id="customData"></div>
     {*include custom data js file*}
     {include file="CRM/common/customData.tpl"}	
+	{literal}
+		<script type="text/javascript">
+			cj(document).ready(function() {
+				{/literal}
+				buildCustomData( '{$customDataType}' );
+				{if $customDataSubType}
+					buildCustomData( '{$customDataType}', {$customDataSubType} );
+				{/if}
+				{literal}
+			});
+		</script>
+	{/literal}
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 

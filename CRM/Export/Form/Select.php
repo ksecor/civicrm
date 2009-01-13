@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -56,7 +56,8 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         CONTRIBUTE_EXPORT  = 2,
         MEMBER_EXPORT      = 3,
         EVENT_EXPORT       = 4,
-        PLEDGE_EXPORT      = 5;
+        PLEDGE_EXPORT      = 5,
+        CASE_EXPORT        = 6;
 
     /**
      * current export mode
@@ -74,14 +75,13 @@ class CRM_Export_Form_Select extends CRM_Core_Form
      */
     function preProcess( ) 
     {
-        //special case for custom search, directly give option to download csv file
+         //special case for custom search, directly give option to download csv file
         $customSearchID = $this->get( 'customSearchID' );
         if ( $customSearchID ) {
-            require_once 'CRM/Contact/BAO/Export.php';
-            $export =& new CRM_Contact_BAO_Export( );
-            $export->exportCustom( $this->get( 'customSearchClass' ),
-                                   $this->get( 'formValues' ),
-                                   $this->get( CRM_Utils_Sort::SORT_ORDER ) );
+            require_once 'CRM/Export/BAO/Export.php';
+	    CRM_Export_BAO_Export::exportCustom( $this->get( 'customSearchClass' ),
+						 $this->get( 'formValues' ),
+						 $this->get( CRM_Utils_Sort::SORT_ORDER ) );
         }
 
         $this->_selectAll  = false;
@@ -99,7 +99,7 @@ class CRM_Export_Form_Select extends CRM_Core_Form
             $stateMachine  =& $this->controller->getStateMachine( );
             $formName      = CRM_Utils_System::getClassName($stateMachine);
             $componentName = explode( '_', $formName );
-            $components    = array( 'Contribute', 'Member', 'Event', 'Pledge' );
+            $components    = array( 'Contribute', 'Member', 'Event', 'Pledge', 'Case' );
             
             if ( in_array( $componentName[1], $components ) ) {
                 eval( '$this->_exportMode = self::' . strtoupper( $componentName[1] ) . '_EXPORT;');
@@ -196,9 +196,6 @@ class CRM_Export_Form_Select extends CRM_Core_Form
             $this->set('mappingId', null);
         }
 
-        require_once 'CRM/Contact/BAO/Export.php';
-        $export =& new CRM_Contact_BAO_Export( );
-
         if ( $exportOption == self::EXPORT_ALL ) {
             require_once "CRM/Export/BAO/Export.php";
             CRM_Export_BAO_Export::exportComponents( $this->_selectAll,
@@ -247,6 +244,9 @@ class CRM_Export_Form_Select extends CRM_Core_Form
             break;
         case CRM_Export_Form_Select::PLEDGE_EXPORT : 
             $exportType = 'Export Participant';
+            break;
+        case CRM_Export_Form_Select::CASE_EXPORT : 
+            $exportType = 'Export Case';
             break;
         }
 

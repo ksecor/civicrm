@@ -88,8 +88,10 @@
 	{$form.participant_fee_amount_high.label} &nbsp; {$form.participant_fee_amount_high.html}
      </td> 
 </tr>
+{if $participantGroupTree }
 <tr>
     <td colspan="4">
        {include file="CRM/Custom/Form/Search.tpl" groupTree=$participantGroupTree showHideLinks=false}
     </td>
 </tr>
+{/if}

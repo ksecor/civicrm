@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -98,7 +98,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
     function run($newArgs) {
 
         $this->preProcess();
-        if ( isset( $_GET['runJobs'] ) || $newArgs[2] == 'queue' ) {
+        if ( isset( $_GET['runJobs'] ) || CRM_Utils_Array::value( '2', $newArgs ) == 'queue' ) {
             require_once 'CRM/Mailing/BAO/Job.php';
             CRM_Mailing_BAO_Job::runJobs();
         }
@@ -113,41 +113,45 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         }
 
         $this->search( );
-
-        $config =& CRM_Core_Config::singleton( );
-
-        $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
-
+        
+        $session =& CRM_Core_Session::singleton();
+        $context = $session->readUserContext( );
+        
         if ($this->_action & CRM_Core_Action::DISABLE) {                 
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
                 require_once 'CRM/Mailing/BAO/Job.php';
                 CRM_Mailing_BAO_Job::cancel($this->_mailingId);
-                CRM_Utils_System::redirect($url);
+                CRM_Utils_System::redirect( $context );
             } else {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse',
                                                                ts('Cancel Mailing'),
                                                                $this->_action );
                 $controller->setEmbedded( true );
-                
-                // set the userContext stack
-                $session =& CRM_Core_Session::singleton();
-                $session->pushUserContext( $url );
                 $controller->run( );
             }
         } else if ($this->_action & CRM_Core_Action::DELETE) {
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
                 require_once 'CRM/Mailing/BAO/Mailing.php';
                 CRM_Mailing_BAO_Mailing::del($this->_mailingId);
-                CRM_Utils_System::redirect($url);
+                CRM_Utils_System::redirect($context);
             } else {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse',
                                                                ts('Delete Mailing'),
                                                                $this->_action );
                 $controller->setEmbedded( true );
-                
-                // set the userContext stack
-                $session =& CRM_Core_Session::singleton();
-                $session->pushUserContext( $url );
+                $controller->run( );
+            }
+        } else if ( $this->_action & CRM_Core_Action::RENEW ) {
+            //archive this mailing, CRM-3752.
+            if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
+                //set is_archived to 1
+                CRM_Core_DAO::setFieldValue( 'CRM_Mailing_DAO_Mailing', $this->_mailingId, 'is_archived', true );
+                CRM_Utils_System::redirect($context);
+            } else {
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse',
+                                                               ts('Archive Mailing'),
+                                                               $this->_action );
+                $controller->setEmbedded( true );
                 $controller->run( );
             }
         }
@@ -163,25 +167,45 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                                                         CRM_Core_Selector_Controller::TEMPLATE );
         $controller->setEmbedded( true );
         $controller->run( );
-        $scheduled = null;
-        // hack to display results as per search
+        
+        //hack to display results as per search
         $rows = $controller->getRows($controller);
-        foreach ($rows as $key => $val) {
-            if ($val['status'] == 'Not scheduled') {
+        
+        $notScheduled = $archived = $scheduled = array( );
+        foreach ( $rows as $key => $val ) {
+            if ( $val['archived'] ) {
+                $archived[] = $val;
+            } else if ( $val['status'] == 'Not scheduled' ) {
                 $notScheduled[] = $val;
             } else {
                 $scheduled[] = $val;
             }
         }
-        if ( isset($newArgs[3]) && ($newArgs[3]== 'unscheduled') ) {
-            $unscheduled = true;
+        
+        $urlParams = 'reset=1';
+        $urlString = 'civicrm/mailing/browse';
+        if ( CRM_Utils_Array::value( 3,  $newArgs ) == 'unscheduled' ) {
+            $urlString .= '/unscheduled';
+            $urlParams .= '&scheduled=false';
+            $this->assign('unscheduled', true );
+            $this->assign('rows', $notScheduled );
             CRM_Utils_System::setTitle(ts('Draft and Unscheduled Mailings'));
-            $this->assign('rows', $notScheduled);
-            $this->assign('unscheduled', $unscheduled);
+        } else if ( CRM_Utils_Array::value( 3,  $newArgs ) == 'archived' ) {
+            $urlString .= '/archived';
+            $this->assign('archived', true );
+            $this->assign('rows', $archived );
+            CRM_Utils_System::setTitle(ts('Archived Mailings'));
         } else {
-            CRM_Utils_System::setTitle(ts('Scheduled and Sent Mailings'));
+            $urlString .= '/scheduled';
+            $urlParams .= '&scheduled=true';
             $this->assign('rows', $scheduled);
+            CRM_Utils_System::setTitle(ts('Scheduled and Sent Mailings'));
         }
+        
+        $session =& CRM_Core_Session::singleton( );
+        $url = CRM_Utils_System::url( $urlString, $urlParams );
+        $session->pushUserContext( $url );
+        
         return parent::run( );
     }
 

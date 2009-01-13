@@ -3,8 +3,8 @@
  * File containing the ezcBaseAutoloadOptions class
  *
  * @package Base
- * @version 1.3.1
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -17,10 +17,12 @@
  *           component are loaded as well (except for Exception classes).
  * @property bool $debug
  *           If debug is enabled then the autoload method will show exceptions
- *           when a class can not be found.
+ *           when a class can not be found. Because exceptions are ignored by
+ *           PHP in the autoload handler, you have to catch them in autoload()
+ *           yourself and do something with the exception message.
  *
  * @package Base
- * @version 1.3.1
+ * @version 1.5
  */
 class ezcBaseAutoloadOptions extends ezcBaseOptions
 {

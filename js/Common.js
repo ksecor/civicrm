@@ -1,8 +1,8 @@
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -26,7 +26,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -453,16 +453,20 @@ function checkPerformAction (fldPrefix, form, taskButton) {
     // taskButton TRUE means we don't need to check the 'task' field - it's a button-driven task
     if (taskButton == 1) {
         gotTask = 1;
-    }   
-    
-    else if (document.forms[form].task.selectedIndex) {
-        // Doesn't matter if any rows are checked for New/Update Saved Search tasks
-        if (document.forms[form].task.value == 13 || document.forms[form].task.value == 14) {
-            return true;
-        }
-        gotTask = 1;
+    } else if (document.forms[form].task.selectedIndex) {
+	//force user to select all search contacts, CRM-3711
+	if ( document.forms[form].task.value == 13 || document.forms[form].task.value == 14 || document.forms[form].task.value == 20 ) {
+	    var toggleSelect = document.getElementsByName('toggleSelect');
+	    if ( toggleSelect[0].checked || document.forms[form].radio_ts[0].checked ) {
+		return true;
+	    } else {
+		alert( "Please select all contacts for this action.\n\nTo use the entire set of search results, click the 'all records' radio button." );
+		return false;
+	    }
+	}
+	gotTask = 1; 
     }
-
+    
     if (gotTask == 1) {
         // If user wants to perform action on ALL records and we have a task, return (no need to check further)
         if (document.forms[form].radio_ts[0].checked) {
@@ -471,7 +475,7 @@ function checkPerformAction (fldPrefix, form, taskButton) {
 	
         cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
         if (!cnt) {
-            alert ("Please select one or more contact(s) for this action. \n\nTo use the entire set of search results, click the 'all records' radio button.");
+            alert ("Please select one or more contacts for this action.\n\nTo use the entire set of search results, click the 'all records' radio button.");
             return false;
         }
     } else {

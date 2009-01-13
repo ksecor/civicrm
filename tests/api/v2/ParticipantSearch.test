@@ -11,7 +11,15 @@ class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase
     protected $_participantID3;
     protected $_evnetID;
     
-    
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Participant Search',
+                     'description' => 'Test all Participant Search API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setUp() 
     {
         $event = $this->eventCreate();
@@ -46,11 +54,8 @@ class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase
                         );
         $participant = & civicrm_participant_search($params);
         $this->assertEqual($participant[$this->_participantID]['event_id'], $this->_eventID);
-        $this->assertEqual($participant[$this->_participantID]['participant_status_id'],2);
-        $this->assertEqual($participant[$this->_participantID]['participant_role_id'],1);
         $this->assertEqual($participant[$this->_participantID]['participant_register_date'], '2007-02-19 00:00:00');
         $this->assertEqual($participant[$this->_participantID]['participant_source'],'Wimbeldon');
-        $this->assertEqual($participant[$this->_participantID]['event_level'],'Payment');
     }
     
     function testParticipantSearchContactIdOnly()
@@ -87,11 +92,11 @@ class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase
         // Should 2 participant records since we're passing rowCount = 2.
         $params = array(
                         'event_id'      => $this->_eventID,
-                        'rowCount'      => 6,
+                        'rowCount'      => 3,
                         );
         $participant = & civicrm_participant_search($params);
-        
-        $this->assertEqual( count( $participant ), 6 );
+               
+        $this->assertEqual( count( $participant ), 3 );
     }
     
 }

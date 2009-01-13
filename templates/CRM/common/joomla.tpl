@@ -10,7 +10,11 @@
 {if ! $config->userFrameworkFrontend}
     <link rel="stylesheet" href="{$config->resourceBase}css/joomla.css" type="text/css" />
 {/if}
+{if $config->customCSSURL}
+<link rel="stylesheet" href="{$config->customCSSURL}" type="text/css" />
+{else}
 <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
+{/if}
 <link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
 <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true, usePlainJson: true"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/commonWidgets.js"></script>
@@ -19,6 +23,7 @@
 <script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}"></script> 
 <script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script> 
 
+{include file="CRM/common/jquery.tpl"}
 {include file="CRM/common/dojo.tpl"}
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">
@@ -57,7 +62,7 @@
 <div id="printer-friendly"><a href="{$printerFriendly}" title="{ts}Printer-friendly view of this page.{/ts}"><img src="{$config->resourceBase}i/print_preview.gif" alt="{ts}Printer-friendly view of this page.{/ts}" /></a></div>
 {/if}
 
-{include file="CRM/common/langSwitch.tpl"}
+{*{include file="CRM/common/langSwitch.tpl"}*}
 
     <div class="spacer"></div>
 
@@ -80,4 +85,7 @@
 
   </tr>
 </table>
+
+{* We need to set jquery $ object back to $*}
+<script type="text/javascript">jQuery.noConflict(true);</script>
 </div> {* end crm-container div *}

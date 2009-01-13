@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -75,31 +75,12 @@ class CRM_Upgrade_TwoOne_Form_Step4 extends CRM_Upgrade_Form {
             return false;
         }
         if ( $this->checkVersion( '2.03' ) ) {
-            $this->setVersion( '2.1' );
+            $this->setVersion( $this->latestVersion );
         } else {
             return false;
         } 
 
-        // update config defaults
-        require_once "CRM/Core/DAO/Domain.php";
-        $domain =& new CRM_Core_DAO_Domain();
-        $domain->selectAdd( );
-        $domain->selectAdd( 'config_backend' );
-        $domain->find(true);
-        if ($domain->config_backend) {
-            $defaults   = unserialize($domain->config_backend);
-            // reset components
-            $defaults['enableComponents']   = 
-                array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail' );
-            $defaults['enableComponentIDs'] = array( 1, 6, 2, 3, 4 );
-            $defaults['moneyvalueformat']   = '%!i';
-            $defaults['fieldSeparator']     = ',';
-            $defaults['fatalErrorTemplate'] = 'CRM/common/fatal.tpl';
-            // serialise settings 
-            CRM_Core_BAO_Setting::add($defaults);            
-        }
-        
-        return $this->checkVersion( '2.1' );
+        return $this->checkVersion( $this->latestVersion );
     }
     
     function buildQuickForm( ) {

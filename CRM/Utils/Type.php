@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -148,23 +148,15 @@ class CRM_Utils_Type
             break;
             
         case 'Date':
-            // a null date is valid
-            if ( strlen( trim( $data ) ) == 0 ) {
-                return trim( $data );
-            }
-                
-            if (preg_match('/^\d{8}$/', $data) && CRM_Utils_Rule::mysqlDate($data) ) {
-            return $data;
-            }
-            break;
-            
         case 'Timestamp':
-            // a null timestamp is valid
+            // a null date or timestamp is valid
             if ( strlen( trim( $data ) ) == 0 ) {
                 return trim( $data );
             }
                 
-            if (preg_match('/^\d{14}$/', $data) && CRM_Utils_Rule::mysqlDate($data) ) {
+            if ( ( preg_match('/^\d{8}$/', $data) ||
+                   preg_match('/^\d{14}$/', $data) ) &&
+                 CRM_Utils_Rule::mysqlDate($data) ) {
                 return $data;
             }
             break;
@@ -173,6 +165,7 @@ class CRM_Utils_Type
             CRM_Core_Error::fatal( "Cannot recognize $type for $data" );
             break;
         }
+
 
         if ( $abort ) {
             CRM_Core_Error::fatal( "$data is not of the type $type" );
@@ -186,11 +179,12 @@ class CRM_Utils_Type
      * @param mixed   $data         The variable
      * @param string  $type         The type
      * @param boolean $abort        Should we abort if invalid
+     * @name string   $name	    The name of the attribute
      * @return mixed                The data, escaped if necessary
      * @access public
      * @static
      */
-    public static function validate($data, $type, $abort = true) 
+    public static function validate($data, $type, $abort = true, $name = 'One of parameters ') 
     {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
@@ -257,7 +251,7 @@ class CRM_Utils_Type
         }
 
         if ( $abort ) {
-            CRM_Core_Error::fatal( "$data is not of the type $type" );
+            CRM_Core_Error::fatal( "$name (value: $data) is not of the type $type" );
         }
 
         return null;

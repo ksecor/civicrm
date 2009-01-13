@@ -1,125 +1,119 @@
-{* this template is used for adding/editing/deleting case *} 
-{if $addCaseContact }
-   {include file="CRM/Contact/Form/AddContact.tpl"}
-{else}
+{* Base template for Open Case. May be used for other special activity types at some point ..
+   Note: 1. We will include all the activity fields here however each activity type file may build (via php) only those required by them. 
+         2. Each activity type file can include its case fields in its own template, so that they will be included during activity edit.
+*}
 
-<fieldset>
-{if $action eq 1}
-    <legend>{ts}New Case{/ts}</legend>
-{elseif $action eq 2}
-    <legend>{ts}Edit Case{/ts}</legend>
-{elseif $action eq 8 and !$context}
-    <legend>{ts}Delete Case{/ts}</legend>
-{elseif $action eq 8 and $context}
-    <legend>{ts}Detach Activity From Case{/ts}</legend>
-{/if}
-    <div class="form-item">
-        <table class="form-layout-compressed"> 
-          
-    {if $action eq 8 and $context}
-        <div class="status">{ts}Are you sure you want to detach this case from Activity?{/ts}</div>
-    {elseif $action eq 8 and !$context}
-        <div class="status">{ts}Are you sure you want to delete this case? This action cannot be undone.{/ts}</div> 
-    {else}
-    	    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Enter the case subject{/ts}</td></tr>
-            <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status for this case{/ts}</td></tr>
-
-             <tr>
-            {if $action neq 4 and $search eq false}
-              <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$currentlyViewedContact}</td></tr>            
-             <tr>  
-		 <td class="label">{ts}Add More {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
-                <td>                  
-                   <span id="case_contact_1"></span>
-                   <br />{edit}<span class="description">{ts}You can optionally add this case to someone. Added case will appear in their Contact Dashboard.{/ts}</span>{/edit}
-                </td>
-            {else}
-                <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$caseContacts}</td>
-            {/if}
-             </tr>
-            <tr><td class="label">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td></tr>  
-    	    <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the case {/ts}</td></tr>                    
-            <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
-	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
-    	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=10 trigger=trigger_case_1}       
-                </td>
-            </tr>
-            <tr><td class="label">{$form.end_date.label}</td><td>{$form.end_date.html}
-                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_2}
-    	        {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=10 trigger=trigger_case_2}       
-                </td>
-            </tr>
-           <tr><td class="label">{$form.details.label}</td><td>{$form.details.html}</td></tr>
-     {/if}
-            <tr> {* <tr> for add / edit form buttons *}
-      	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
-    	    </tr>
-       </table>
-    </div>
-</fieldset>
-
-{* Build add contact *}
-{literal}
-<script type="text/javascript">
-{/literal}
-{if $action neq 4 }
-{literal}
-   buildContact( 1, 'case_contact' );
-{/literal}   
-{/if}
-{literal}
-
-var caseContactCount = {/literal}"{$caseContactCount}"{literal}
-
-if ( caseContactCount ) {
-    for ( var i = 1; i <= caseContactCount; i++ ) {
-	buildContact( i, 'case_contact' );
-    }
-}
-
-function buildContact( count, pref )
-{
-    if ( count > 1 ) {
-	prevCount = count - 1;
-    {/literal}
-    {if $action eq 1  OR $action eq 2}
-    {literal}
-	hide( pref + '_' + prevCount + '_show'); 
-    {/literal} 
+{if !$clientName and $action eq 1}
+   <tr><td colspan="2">
+   <fieldset><legend>{ts}New Client{/ts}</legend>
+	<table class="form-layout-compressed" border="0">
+    <tr>
+        <td>{$form.prefix_id.label}<br />{$form.prefix_id.html}</td>
+		<td>{$form.first_name.label}<br />{$form.first_name.html}</td>
+		<td>{$form.last_name.label}<br />{$form.last_name.html}</td>
+		<td>{$form.suffix_id.label}<br />{$form.suffix_id.html}</td>
+	</tr>
+	<tr>
+        <td colspan="2">{$form.location.1.phone.1.phone.label}<br />
+            {$form.location.1.location_type_id.html}&nbsp;{$form.location.1.phone.1.phone_type_id.html}<br />{$form.location.1.phone.1.phone.html}
+        </td>
+        <td colspan="2">{$form.location.2.phone.1.phone.label}<br />
+            {$form.location.2.location_type_id.html}&nbsp;{$form.location.2.phone.1.phone_type_id.html}<br />{$form.location.2.phone.1.phone.html}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">{$form.location.1.email.1.email.label}<br />
+		{$form.location.1.email.1.email.html}</td>
+        <td colspan="2"></td>
+	</tr>
+    {if $isDuplicate}
+    <tr>
+        <td colspan="2">&nbsp;&nbsp;{$form._qf_Case_next_createNew.html}</td>
+        {if $onlyOneDupe}
+        <td colspan="2">&nbsp;&nbsp;{$form._qf_Case_next_assignExisting.html}</td>
+        {/if}
+    </tr>
     {/if}
-    {literal}
-    }
+    </table>
+   </fieldset>
+   </td></tr>
+{/if}
 
-    var dataUrl = {/literal}"{crmURL h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1';
+<fieldset><legend>{if $action eq 8}{ts}Delete Case{/ts}{else}{$activityType}{/if}</legend>
+<table class="form-layout">
+{if $action eq 8 or $action eq 32768 } 
+      <div class="messages status"> 
+        <dl> 
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
+          <dd> 
+          {if $action eq 8}
+            {ts}Click Delete to move this case and all associated activities to the Trash.{/ts} 
+          {else}
+            {ts}Click Restore to retrieve this case and all associated activities from the Trash.{/ts} 
+          {/if}
+          </dd> 
+       </dl> 
+      </div> 
+{else}
+{if $clientName}
+    <tr><td class="label font-size12pt">{ts}Client{/ts}</td><td class="font-size12pt bold view-value">{$clientName}</td></tr>
+{/if}
 
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-	sync: true,
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs) {
-                if (response instanceof Error) {
-		    if (response.dojoType == "cancel") {
-			//The request was canceled by some other JavaScript code.
-			console.debug("Request canceled.");
-		    } else if (response.dojoType == "timeout") {
-			//The request took over 5 seconds to complete.
-			console.debug("Request timed out.");
-		    } else {
-			//Some other error happened.
-			console.error(response);
-		    }
-                } else {
-		    // on success
-		    dojo.byId( pref + '_' + count).innerHTML = response;
-		    dojo.parser.parse( pref + '_' + count );
-		}
-	    }
-	});
-}
-</script>
+{* activity fields *}
+{if $form.medium_id.html and $form.activity_location.html}
+    <tr>
+        <td class="label">{$form.medium_id.label}</td>
+        <td class="view-value">{$form.medium_id.html}&nbsp;&nbsp;&nbsp;{$form.activity_location.label} &nbsp;{$form.activity_location.html}</td>
+    </tr> 
+{/if}
 
-{/literal}
-{/if}      
+{if $form.activity_details.html}
+    <tr>
+        <td class="label">{$form.activity_details.label}<br />{help id="id-details" file="CRM/Case/Form/Case.hlp"}</td>
+        <td class="view-value">{$form.activity_details.html|crmReplace:class:huge40}</td>
+    </tr>
+{/if}
+
+{* custom data group *}
+{if $groupTree}
+    <tr>
+       <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl"}
+
+	    {* Open case custom groups are collapsed by default so that the details field is immediately visible when you go back to edit. But expand them here while first being created. *} 
+		<script type="text/javascript">
+		{foreach from=$groupTree item=cd_edit key=group_id}
+			hide("{$cd_edit.name}_show_{$cgCount}"); show("{$cd_edit.name}_{$cgCount}");
+		{/foreach}
+		</script>
+
+       </td>
+    </tr>    
+{/if}
+
+{if $form.activity_subject.html}
+    <tr><td class="label">{$form.activity_subject.label}<br />{help id="id-activity_subject" file="CRM/Case/Form/Case.hlp"}</td><td>{$form.activity_subject.html}</td></tr>
+{/if}
+
+{* inject activity type-specific form fields *}
+{if $activityTypeFile}
+    {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
+{/if}
+
+{if $form.duration.html}
+    <tr>
+      <td class="label">{$form.duration.label}</td>
+      <td class="view-value">
+        {$form.duration.html}
+         <span class="description">{ts}Total time spent on this activity (in minutes).{/ts}
+      </td>
+    </tr> 
+{/if}
+
+
+{/if}	
+
+    <tr>
+        <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>
+    </tr>
+</table>
+</fieldset>

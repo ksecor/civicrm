@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -66,7 +66,7 @@ class CRM_Import_Field {
      * regexp to match the CSV header of this column/field
      * @var string
      */
-     public $_headerPattern;
+     public $_columnPattern;
 
     /**
      * regexp to match the pattern of data from various column/fields
@@ -124,11 +124,11 @@ class CRM_Import_Field {
 
 
 
-    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $hasLocationType = null, $phoneType = null, $related=null, $relatedContactType=null, $relatedContactDetails=null, $relatedContactLocType=null, $relatedContactPhoneType=null) {
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $columnPattern = '//', $dataPattern = '//', $hasLocationType = null, $phoneType = null, $related=null, $relatedContactType=null, $relatedContactDetails=null, $relatedContactLocType=null, $relatedContactPhoneType=null) {
         $this->_name      = $name;
         $this->_title     = $title;
         $this->_type      = $type;
-        $this->_headerPattern = $headerPattern;
+        $this->_columnPattern = $columnPattern;
         $this->_dataPattern = $dataPattern;
         $this->_hasLocationType = $hasLocationType;
         $this->_phoneType = $phoneType;

@@ -4,38 +4,37 @@
 {ts 1="http://wiki.civicrm.org/confluence//x/ihk"}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href='%1' target='_blank' title='Opens documentation in a new window'>Payment Processor</a> for your site.{/ts}
 </div>
 <div class="form-item">
-   <div id="register">
+    <div id="register">
      <dl>
        <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
        <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable online registration for this event.{/ts}</dd>
      </dl>
-   </div>
-   <div id="register_show">
-    <div id="registrationLink">
+    </div>
+    <div id="registration_blocks">
+     <div id="register_show">
         <dl>
             <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. 'Register Now!').{/ts}</dd>
         </dl>
-    </div>
-    <dl>
-        <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html}<br/>
-          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
-          {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
-        </dd>
-    </dl>
-    <dl>
-        <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}<br/>
-          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
-          {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
-        </dd>
-    </dl>
-    <div id="register">
-    <dl>
-        <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple participant registration for this event.{/ts}</dd>
-    </dl>
-   </div>
-    <div id="registration" class="form-item">
+        <dl>
+            <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html} 
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
+            {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
+            </dd>
+        </dl>
+        <dl>
+            <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
+            {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
+            </dd>
+        </dl>
+        <dl>
+            <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple participant registration for this event.{/ts}</dd>
+        </dl>
+     </div>
+    <div class="spacer"></div>
+    <div id="registration">
         {*Registration Block*}
         <div id="registration_screen_show" class="section-hidden section-hidden-border">
             <a href="#" onclick="hide('registration_screen_show'); show('registration_screen'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Registration Screen{/ts}</label><br />
@@ -122,9 +121,7 @@
         </fieldset>
         </div>
     </div>
-   </div>
-</div> {* End of form-item div *}
-</fieldset>
+    </div> {*end of div registration_blocks*}
     <dl>
     <dt>&nbsp;</dt><dd>
         <div id="crm-submit-buttons">
@@ -132,12 +129,14 @@
         </div>
         </dd>
     </dl>  
+</div> {* End of form-item div *}
+</fieldset>
 
 {include file="CRM/common/showHide.tpl"}
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_online_registration"
 trigger_value       ="" 
-target_element_id   ="register_show" 
+target_element_id   ="registration_blocks" 
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0

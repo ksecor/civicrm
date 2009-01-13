@@ -3,8 +3,8 @@
  * File containing the ezcBaseExtensionNotFoundException class
  *
  * @package Base
- * @version 1.3.1
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -12,7 +12,7 @@
  * ezcBaseExtensionNotFoundException is thrown when a requested PHP extension was not found.
  *
  * @package Base
- * @version 1.3.1
+ * @version 1.5
  */
 class ezcBaseExtensionNotFoundException extends ezcBaseException
 {

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -200,9 +200,6 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         $_showHide->addToTemplate();                
 
-        // is_enter_qty
-        $this->add('checkbox', 'is_enter_qty', ts('Enter Quantity?') );
-
         // is_display_amounts
         $this->add('checkbox', 'is_display_amounts', ts('Display Amount?') );
 
@@ -241,6 +238,9 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
                                        'isDefault' => true),
+                                array ('type'      => 'next',
+                                       'name'      => ts('Save and New'),
+                                       'subName'   => 'new'),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),
                                 )
@@ -486,11 +486,15 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         } else {
             $params['is_enter_qty'] = CRM_Utils_Array::value( 'is_enter_qty', $params, false );
 
-            // fix option_value
-            $value = 1;
-            $params['option_value'] = array( );
-            foreach ( $params['option_name'] as $key => $dontCare ) {
-                $params['option_value'][$key] = $value++;
+            if ($this->_action & CRM_Core_Action::ADD) {
+                // fix option_value
+                $value = 1;
+                $params['option_value'] = array( );
+                if ( isset( $params['option_name'] ) ) {
+                    foreach ( $params['option_name'] as $key => $dontCare ) {
+                        $params['option_value'][$key] = $value++;
+                    }
+                }
             }
         }
         
@@ -504,6 +508,12 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         if( ! is_a( $priceField, 'CRM_Core_Error' ) ) {
             CRM_Core_Session::setStatus(ts('Price Field \'%1\' has been saved.', array(1 => $priceField->label)));
+        }
+        $buttonName = $this->controller->getButtonName( );
+        $session =& CRM_Core_Session::singleton( );
+        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+            CRM_Core_Session::setStatus(ts(' You can add another price set field.'));
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=add&sid=' . $this->_sid));
         }
     }
 }

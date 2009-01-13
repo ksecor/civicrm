@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -138,6 +138,8 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
         require_once 'CRM/Core/BAO/File.php';
         $report['mailing']['attachment'] = CRM_Core_BAO_File::attachmentInfo( 'civicrm_mailing',
                                                                               $this->_mailing_id );
+        $backUrl = CRM_Utils_System::url( 'civicrm/mailing', 'reset=1');
+        $this->assign( 'backUrl', $backUrl );
 
         $this->assign( 'report', $report );
         CRM_Utils_System::setTitle( ts( 'CiviMail Report: %1',

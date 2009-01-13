@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -124,11 +124,16 @@ SELECT p.payment_processor_id
   FROM civicrm_contribution c,
        civicrm_contribution_recur r,
        civicrm_contribution_page  p
- WHERE c.contribution_recur_id = " . CRM_Utils_Type::escape($id, 'Int') ."
+ WHERE c.contribution_recur_id = %1
    AND c.contribution_page_id  = p.id
    AND p.payment_processor_id is not null
  LIMIT 1";
-        $paymentProcessorID =& CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $params = array( 1 => array( $id, 'Integer' ) );
+        $paymentProcessorID =& CRM_Core_DAO::singleValueQuery( $sql,
+                                                               $params );
+        if ( ! $paymentProcessorID ) {
+            return null;
+        }
 
         require_once 'CRM/Core/BAO/PaymentProcessor.php';
         return CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID, $mode );

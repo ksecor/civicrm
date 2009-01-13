@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,8 +38,45 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
-        // check if log file is writable
         $config =& CRM_Core_Config::singleton( );
+
+        // Let's first update the config defaults
+        require_once "CRM/Core/DAO/Domain.php";
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->selectAdd( );
+        $domain->selectAdd( 'config_backend' );
+        $domain->find(true);
+        if ($domain->config_backend) {
+            $defaults   = unserialize($domain->config_backend);
+            // reset components
+            $defaults['enableComponents']   = 
+                array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail' );
+            $defaults['enableComponentIDs'] = array( 1, 6, 2, 3, 4 );
+            $defaults['moneyvalueformat']   = '%!i';
+            $defaults['fieldSeparator']     = ',';
+            $defaults['fatalErrorTemplate'] = 'CRM/common/fatal.tpl';
+
+            // update cms-version
+            if ( $config->userFramework == 'Joomla' ) {
+                $defaults['userFrameworkVersion'] = '1.5';
+                if ( class_exists('JVersion') ) {
+                    $version =& new JVersion;
+                    $defaults['userFrameworkVersion'] = $version->getShortVersion();
+                }
+            } else if ( $config->userFramework == 'Drupal' ) {
+                $defaults['userFrameworkVersion'] = '6.3';
+                if ( defined('VERSION') ) {
+                    $defaults['userFrameworkVersion'] = VERSION;
+                }
+            }
+            // serialise settings 
+            require_once "CRM/Core/BAO/Setting.php";
+            CRM_Core_BAO_Setting::add($defaults);            
+            
+            $config =& CRM_Core_Config::singleton( );
+        }
+        
+        // check if log file is writable
         if ( !is_writable($config->uploadDir . 'CiviCRM.log') ) {
             $errorMessage = ts('Log file CiviCRM.log is not writable. Make sure files directory is writable.', 
                                array( 1 => $config->uploadDir ));
@@ -211,6 +248,18 @@ class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
         // just check the first 10 civicrm tables, rather than checking all 106!
         if ( CRM_Core_DAO::isDBMyISAM( 10 ) ) {
             $errorMessage = ts('Your database is configured to use the MyISAM database engine. CiviCRM  requires InnoDB. You will need to convert any MyISAM tables in your database to InnoDB before proceeding.');
+            return false;
+        }
+
+        // check FK constraint names are in valid format.
+        if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contact',           'domain_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution_page', 'domain_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution_recur','domain_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_membership_status', 'domain_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution',     'contact_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution', 'contribution_type_id')
+            ) {
+            $errorMessage = ts('Database consistency check failed. FK constraint names not in the required format. Please rebuild your 2.0 database to ensure schema integrity.');
             return false;
         }
 

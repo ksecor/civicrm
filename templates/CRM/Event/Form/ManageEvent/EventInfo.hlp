@@ -9,7 +9,7 @@
         {ts}You will need to set Drupal Access Control permissions to include 'view event participants' for any Roles you want to access this listing.{/ts}
         {if $id}
             {ts}Create links to the listing page by copying the following URL, and adding it to the Event Description below and / or as a menu item or links elsewhere on your site:{/ts}<br />
-            <strong>{crmURL p='civicrm/event/participant' q="reset=1&id=`$id`"}</strong>
+            <strong>{crmURL a=true p='civicrm/event/participant' q="reset=1&id=`$id`"}</strong>
         {/if}
     {elseif $config->userFramework EQ 'Joomla'}
         {ts 1=$id}Then create front-end links to the Participant Listing page using the Menu Manager. Select <strong>Participant Listing Page</strong> and enter <strong>%1</strong> for the Event ID.{/ts}

@@ -52,15 +52,19 @@ class HTML_QuickForm_Rule_Required extends HTML_QuickForm_Rule
             $fileType =
                 array_key_exists( 'name', $value ) &&
                 array_key_exists( 'tmp_name', $value );
+            // hack to fix required issue with advcheckbox, but in general if any value is present then
+            // it should pass required check 
+            $return = false;    
             foreach ( $value as $k => $v ) {
                 // dont check type field. Safari3 Beta does not set this
                 if ( $fileType && $k == 'type' ) {
                     continue;
                 }
-                if ( ( string ) $v == '' ) {
-                    return false;
+                if ( ( string ) $v != '' ) {
+                    $return = true;
                 }
             }
+            return $return;
         } else if ((string)$value == '') {
             return false;
         }

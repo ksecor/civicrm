@@ -58,7 +58,7 @@
         {/if}<br />
             <span class="description">{ts}Date of first pledge payment.{/ts}</span></td></tr>
        
-        {if $email}
+        {if $email and $outBound_option != 2}
         {if $form.is_acknowledge }
             <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
             <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
@@ -75,12 +75,8 @@
         
 	    <tr><td class="label">{ts}Pledge Status{/ts}</td><td class="view-value">{$status}<br />
             <span class="description">{ts}Pledges are "Pending" until the first payment is received. Once a payment is received, status is "In Progress" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
+		<tr><td colspan=2>{include file="CRM/Custom/Form/CustomData.tpl"}</td></tr>
        </table>
-   
-      <div id="customData"></div>
-       {*include custom data js file*}
-       {include file="CRM/common/customData.tpl"}
-
 
 {* dojo pane *}
 <div class="form-item" id="additionalInformation">
@@ -127,7 +123,7 @@
     {/literal}
 
 
-{if $email}
+{if $email and $outBound_option != 2}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_acknowledge"
     trigger_value       =""

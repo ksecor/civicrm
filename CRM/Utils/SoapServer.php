@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@
  * This class handles all SOAP client requests.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -169,9 +169,9 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_confirm($contact, $subscribe, $hash);
     }
 
-    public function mailer_event_reply($key, $job, $queue, $hash, $bodyTxt, $rt, $bodyHTML = null ) {
+    public function mailer_event_reply($key, $job, $queue, $hash, $bodyTxt, $rt, $bodyHTML = null, $fullEmail = null) {
         $this->verify($key);
-        return crm_mailer_event_reply($job, $queue, $hash, $bodyTxt, $rt, $bodyHTML );
+        return crm_mailer_event_reply($job, $queue, $hash, $bodyTxt, $rt, $bodyHTML, $fullEmail);
     }
 
     public function mailer_event_forward($key, $job, $queue, $hash, $email) {

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -243,6 +243,11 @@ class CRM_Core_Payment_BaseIPN {
         if ( $membership ) {
             $membership->status_id = 4;
             $membership->save( );
+            
+            //update related Memberships.
+            require_once 'CRM/Member/BAO/Membership.php';
+            $params = array( 'status_id' => 4 );
+            CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $params );
         }
 
         if ( $participant ) {
@@ -276,8 +281,13 @@ class CRM_Core_Payment_BaseIPN {
         if ( $membership ) {
             $membership->status_id = 6;
             $membership->save( );
+            
+            //update related Memberships.
+            require_once 'CRM/Member/BAO/Membership.php';
+            $params = array( 'status_id' => 6 );
+            CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $params );
         }
-
+        
         if ( $participant ) {
             $participant->status_id = 4;
             $participant->save( );
@@ -312,23 +322,32 @@ class CRM_Core_Payment_BaseIPN {
             if ( $values['is_email_receipt'] ) {
                 $contribution->receipt_date = self::$_now;
             }
-
+            
             if ( $membership ) {
                 $format       = '%Y%m%d';
                 require_once 'CRM/Member/BAO/MembershipType.php';  
                 $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
                 
-                $membership->join_date     = 
-                    CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
-                $membership->start_date    = 
-                    CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
-                $membership->end_date      = 
-                    CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
-                $membership->reminder_date = 
-                    CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
-
-                $membership->status_id = 2;
+                //get the status for membership.
+                require_once 'CRM/Member/BAO/MembershipStatus.php';
+                $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dates['start_date'], 
+                                                                                          $dates['end_date'], 
+                                                                                          $dates['join_date'],
+                                                                                          'today', 
+                                                                                          true );
+                
+                $formatedParams = array( 'status_id'     => CRM_Utils_Array::value( 'id', $calcStatus, 2 ),
+                                         'join_date'     => CRM_Utils_Date::customFormat( $dates['join_date'],     $format ),
+                                         'start_date'    => CRM_Utils_Date::customFormat( $dates['start_date'],    $format ),
+                                         'end_date'      => CRM_Utils_Date::customFormat( $dates['end_date'],      $format ),
+                                         'reminder_date' => CRM_Utils_Date::customFormat( $dates['reminder_date'], $format ) ); 
+                
+                $membership->copyValues( $formatedParams );
                 $membership->save( );
+                
+                //update related Memberships.
+                require_once 'CRM/Member/BAO/Membership.php';
+                CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $formatedParams );
             }
         } else {
             // event
@@ -338,11 +357,11 @@ class CRM_Core_Payment_BaseIPN {
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
         
-            $eventParams = array( 'event_id' => $objects['event']->id );
-            $values['event_page'] = array( );
+            $eventParams = array( 'id' => $objects['event']->id );
+            $values['event'] = array( );
 
-            require_once 'CRM/Event/BAO/EventPage.php';
-            CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['event_page'] );
+            require_once 'CRM/Event/BAO/Event.php';
+            CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
 
             //get location details
             $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
@@ -362,7 +381,7 @@ class CRM_Core_Payment_BaseIPN {
 
             $contribution->source                  = ts( 'Online Event Registration' ) . ': ' . $values['event']['title'];
 
-            if ( $values['event_page']['is_email_confirm'] ) {
+            if ( $values['event']['is_email_confirm'] ) {
                 $contribution->receipt_date = self::$_now;
             }
 
@@ -377,7 +396,16 @@ class CRM_Core_Payment_BaseIPN {
         $contribution->fee_amount   = $input['fee_amount'];
         $contribution->net_amount   = $input['net_amount'];
         $contribution->trxn_id      = $input['trxn_id'];
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date);
+        
+        if ( CRM_Utils_Array::value('check_number', $input) ) {
+            $contribution->check_number = $input['check_number'];
+        }
+       
+        if ( CRM_Utils_Array::value('payment_instrument_id', $input) ) {
+            $contribution->payment_instrument_id = $input['payment_instrument_id'];
+        }
+        
         $contribution->save( );
 
         // next create the transaction record
@@ -386,21 +414,24 @@ class CRM_Core_Payment_BaseIPN {
         } else {
             $paymentProcessor = '';
         }
-        $trxnParams = array(
-                            'contribution_id'   => $contribution->id,
-                            'trxn_date'         => isset( $input['trxn_date'] ) ? $input['trxn_date'] : self::$_now,
-                            'trxn_type'         => 'Debit',
-                            'total_amount'      => $input['amount'],
-                            'fee_amount'        => $contribution->fee_amount,
-                            'net_amount'        => $contribution->net_amount,
-                            'currency'          => $contribution->currency,
-                            'payment_processor' => $paymentProcessor,
-                            'trxn_id'           => $contribution->trxn_id,
-                            );
+        if ( $contribution->trxn_id ) {
+            
+            $trxnParams = array(
+                                'contribution_id'   => $contribution->id,
+                                'trxn_date'         => isset( $input['trxn_date'] ) ? $input['trxn_date'] : self::$_now,
+                                'trxn_type'         => 'Debit',
+                                'total_amount'      => $input['amount'],
+                                'fee_amount'        => $contribution->fee_amount,
+                                'net_amount'        => $contribution->net_amount,
+                                'currency'          => $contribution->currency,
+                                'payment_processor' => $paymentProcessor,
+                                'trxn_id'           => $contribution->trxn_id,
+                                );
+            
+            require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+            $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+        }
         
-        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
-      
         //update corresponding pledge payment record
         require_once 'CRM/Core/DAO.php';
         $returnProperties = array( 'id', 'pledge_id' );
@@ -471,11 +502,11 @@ class CRM_Core_Payment_BaseIPN {
                 require_once 'CRM/Event/BAO/Event.php';
                 CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
                 
-                $eventParams = array( 'event_id' => $objects['event']->id );
-                $values['event_page'] = array( );
+                $eventParams = array( 'id' => $objects['event']->id );
+                $values['event'] = array( );
                 
-                require_once 'CRM/Event/BAO/EventPage.php';
-                CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['event_page'] );
+                require_once 'CRM/Event/BAO/Event.php';
+                CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
                 
                 //get location details
                 $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
@@ -543,6 +574,25 @@ class CRM_Core_Payment_BaseIPN {
         if ( $input['component'] == 'contribute' ) {
             $template->assign( 'title', $values['title']);
             $template->assign( 'amount' , $input['amount'] );
+
+            //PCP Info
+            require_once 'CRM/Contribute/DAO/ContributionSoft.php';
+            $softDAO = & new CRM_Contribute_DAO_ContributionSoft();
+            $softDAO->contribution_id =  $contribution->id;
+            if ( $softDAO->find(true) ) {
+                $template->assign( 'pcpBlock'           , true );
+                $template->assign( 'pcp_display_in_roll', $softDAO->pcp_display_in_roll );
+                $template->assign( 'pcp_roll_nickname'  , $softDAO->pcp_roll_nickname );
+                $template->assign( 'pcp_personal_note'  , $softDAO->pcp_personal_note );
+                
+                //assign the pcp page title for email subject
+                require_once 'CRM/Contribute/DAO/PCP.php';
+                $pcpDAO = & new CRM_Contribute_DAO_PCP();
+                $pcpDAO->id = $softDAO->pcp_id;
+                if ( $pcpDAO->find(true) ) {
+                    $template->assign( 'title', $pcpDAO->title );
+                }
+            }
         } else {
             $template->assign( 'title', $values['event']['title']);
             $template->assign( 'totalAmount' , $input['amount'] );
@@ -575,7 +625,6 @@ class CRM_Core_Payment_BaseIPN {
             $values['event']['participant_role'] = $participant_role[$participant->role_id];
 
             $template->assign( 'event', $values['event'] );
-            $template->assign( 'eventPage', $values['event_page'] );
             $template->assign( 'location', $values['location'] );
             $template->assign( 'customPre', $values['custom_pre_id'] );
             $template->assign( 'customPost', $values['custom_post_id'] );
@@ -585,12 +634,12 @@ class CRM_Core_Payment_BaseIPN {
                 $isTest = true;
             }
           
-            require_once "CRM/Event/BAO/EventPage.php";
+            require_once "CRM/Event/BAO/Event.php";
             //to get email of primary participant.
             $primaryEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $participant->contact_id, 'email', 'contact_id' );  
             $primaryAmount[$participant->fee_level.' - '.$primaryEmail] = $participant->fee_amount;
             //build an array of cId/pId of participants
-            $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
+            $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
             unset( $additionalIDs[$participant->id] ); 
             //send receipt to additional participant if exists
             if ( count($additionalIDs) ) {
@@ -611,19 +660,19 @@ class CRM_Core_Payment_BaseIPN {
                     $additional->save( );
                     $additional->free( );
                     $template->assign( 'amount', $amount );
-                    CRM_Event_BAO_EventPage::sendMail( $cId, $values, $pId, $isTest, $returnMessageText );
+                    CRM_Event_BAO_Event::sendMail( $cId, $values, $pId, $isTest, $returnMessageText );
                 } 
             }
             
             //build an array of custom profile and assigning it to template
-            $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, $values, null, $isTest );
+            $customProfile = CRM_Event_BAO_Event::buildCustomProfile( $participant->id, $values, null, $isTest );
             
             if ( count($customProfile) ) {
                 $template->assign( 'customProfile', $customProfile );
             }
             $template->assign( 'isPrimary', 1 );
             $template->assign( 'amount', $primaryAmount );
-            return CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id, $isTest, $returnMessageText );
+            return CRM_Event_BAO_Event::sendMail( $ids['contact'], $values, $participant->id, $isTest, $returnMessageText );
             
         } else {
             if ( $membership ) {

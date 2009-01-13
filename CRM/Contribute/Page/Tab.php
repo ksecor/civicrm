@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -134,7 +134,26 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
             $this->assign('honorRows', $params);
             $this->assign('honor', true);
         }
+
+        //enable/disable soft credit records for test contribution
+        $isTest = 0;
+        if ( CRM_Utils_Request::retrieve( 'isTest', 'Positive', $this ) ) {
+            $isTest = 1;
+        }
+        $this->assign( 'isTest', $isTest ); 
+       
+        $softCreditList = CRM_Contribute_BAO_Contribution::getSoftContributionList( $this->_contactId, $isTest );
+               
+        if( !empty( $softCreditList ) ) {
+            $softCreditTotals = CRM_Contribute_BAO_Contribution::getSoftContributionTotals( $this->_contactId, $isTest );        
+            $this->assign('softCredit', true);
+            $this->assign('softCreditRows', $softCreditList );
+            $this->assign('softCreditTotals', $softCreditTotals );
+        }
+
     }
+    
+
 
     /** 
      * This function is called when action is view
@@ -235,7 +254,7 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
             break;
             
         case 'contribution':
-            $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive', $form, false );
+            $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive', $this, false );
             
             if ($honorId) {
                 $cid = $honorId;
@@ -261,23 +280,29 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
             break;
             
         case 'membership':
-            if ( $session->get( 'action' ) & CRM_Core_Action::VIEW ) {
+            $componentId     =  CRM_Utils_Request::retrieve( 'compId', 'Positive', $this);
+            $componentAction =  CRM_Utils_Request::retrieve( 'compAction', 'Integer', $this );
+
+            if ( $componentAction & CRM_Core_Action::VIEW ) {
                 $action = 'view';
             } else {
                 $action = 'update';
             } 
             $url = CRM_Utils_System::url( 'civicrm/contact/view/membership',
-                                          "reset=1&action={$action}&cid={$this->_contactId}&id={$session->get( 'memberId' )}&context=membership&selectedChild=member" );
+                                          "reset=1&action={$action}&cid={$this->_contactId}&id={$componentId}&context=membership&selectedChild=member" );
             break; 
             
         case 'participant':
-            if ( $session->get( 'action' ) & CRM_Core_Action::VIEW ) {
+            $componentId     =  CRM_Utils_Request::retrieve( 'compId', 'Positive', $this );
+            $componentAction =  CRM_Utils_Request::retrieve( 'compAction', 'Integer', $this );
+            
+            if ( $componentAction == CRM_Core_Action::VIEW ) {
                 $action = 'view';
             } else {
                 $action = 'update';
             } 
             $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',
-                                          "reset=1&action={$action}&id={$session->get( 'participantId' )}&cid={$this->_contactId}&context=participant&selectedChild=event" );
+                                          "reset=1&action={$action}&id={$componentId}&cid={$this->_contactId}&context=participant&selectedChild=event" );
             break;
             
         case 'pledge':
@@ -294,7 +319,7 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
                                           'reset=1&force=1' . $cid );
             break;
         }
-        
+
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $url );
     }

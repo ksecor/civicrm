@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -104,6 +104,12 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                 $fileFieldExists = true;
                 unset($this->_fields[$name]);
             }
+            
+            //fix to reduce size as we are using this field in grid
+            if ( is_array( $field['attributes'] ) && $this->_fields[$name]['attributes']['size'] > 19 ) {
+                //shrink class to "form-text-medium"
+                $this->_fields[$name]['attributes']['size'] = 19;
+            }
         }
 
         $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
@@ -130,7 +136,8 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             foreach ( $this->_fields as $name => $field ) {
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
                     $customValue = CRM_Utils_Array::value( $customFieldID, $customFields );
-                    if ( ( $typeId == $customValue[7] ) || CRM_Utils_System::isNull( $customValue[7] ) ) {
+                    if ( ( $typeId == $customValue['extends_entity_column_value'] ) ||
+                         CRM_Utils_System::isNull( $customValue['extends_entity_column_value'] ) ) {
                         CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $contributionId );
                     }
                 } else {
@@ -164,6 +171,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             return;
         }
         
+        $defaults = array( );
         foreach ($this->_contributionIds as $contributionId) {
             $details[$contributionId] = array( );
             //build sortname
@@ -171,7 +179,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             $sortName[$contributionId] = CRM_Contribute_BAO_Contribution::sortName($contributionId);
             CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $contributionId, 'Contribute' );
         }
-
+        
         $this->assign('sortName', $sortName);
         return $defaults;
     }
@@ -204,20 +212,18 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                     }   
                 }
                 
-                //check for custom data
-                $customData = array( );
-                foreach ( $value as $name => $data ) {                
-                    if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
-                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
-                                                                     $data, 'Contribution',
-                                                                     null, $key );
-                        $value['custom'] = $customData;                    
-                    } 
-                }
+                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $value,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          $key,
+                                                                          'Contribution' );
                 
                 $ids['contribution'] = $key;
                 if ($value['contribution_type']) {
                     $value['contribution_type_id'] = $value['contribution_type'];
+                }
+
+                if ($value['payment_instrument']) {
+                    $value['payment_instrument_id'] = $value['payment_instrument'];
                 }
                 
                 if ($value['contribution_source']) {

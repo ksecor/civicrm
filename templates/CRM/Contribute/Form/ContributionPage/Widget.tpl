@@ -29,7 +29,9 @@
          <tr><td class="label">{$form.title.label}<span class="marker"> *</span></td><td>{$form.title.html}</td></tr>
    	 <tr><td class="label">{$form.url_logo.label}</span></td><td>{$form.url_logo.html}</td></tr>  
  	 <tr><td class="label">{$form.button_title.label}</td><td>{$form.button_title.html}</td></tr>  
-	 <tr><td class="label">{$form.about.label}<span class="marker"> *</span></td><td>{$form.about.html}</td></tr>  
+	 <tr><td class="label">{$form.about.label}<span class="marker"> *</span></td><td>{$form.about.html}
+<br /><span class="description">{ts}Enter content for the about message. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</span>
+</td></tr>  
 	 <tr><td class="label">{$form.url_homepage.label}<span class="marker"> *</span></td><td>{$form.url_homepage.html}</td></tr>  
         </table>
         
@@ -88,7 +90,7 @@
     </div>
 
     <div id="crm-submit-buttons">
-        <dl><dt></dt><dd>{$form._qf_Widget_refresh.html}&nbsp;&nbsp;&nbsp;&nbsp;{$form.buttons.html}</dd></dl>  
+        <dl><dt id="preview">{$form._qf_Widget_refresh.html}</dt><dd>&nbsp;&nbsp;&nbsp;&nbsp;{$form.buttons.html}</dd></dl>  
     </div>
     </fieldset>
 
@@ -100,14 +102,17 @@
 	var is_act = document.getElementsByName('is_active');
   	if ( ! is_act[0].checked) {
            hide('widgetFields');
-	}
+	   hide('preview');
+	} 
     function widgetBlock(chkbox) {
         if (chkbox.checked) {
 	      show('widgetFields');
+	      show('preview');
 	      return;
         } else {
 	      hide('widgetFields');
-          return;
+	      hide('preview');
+              return;
 	   }
     }
 </script>

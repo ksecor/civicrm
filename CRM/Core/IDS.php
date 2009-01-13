@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2008
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -40,9 +40,9 @@ class CRM_Core_IDS {
      * define the threshold for the ids reactions
      */
     private $threshold = array(
-                               'log'      => 10,
-                               'warn'     => 30,
-                               'kick'     => 50
+                               'log'      => 25,
+                               'warn'     => 50,
+                               'kick'     => 75
                                );
 
 
@@ -91,11 +91,12 @@ class CRM_Core_IDS {
     exceptions[]        = __utmz
     exceptions[]        = __utmc
     exceptions[]        = widget_code
-    html[]              = html_message
+    exceptions[]        = html_message
     html[]              = description
     html[]              = intro
     html[]              = thankyou_text
     html[]              = intro_text
+    html[]              = body_text
     html[]              = footer_text
     html[]              = thankyou_text
     html[]              = thankyou_footer
@@ -104,9 +105,25 @@ class CRM_Core_IDS {
     html[]              = help_pre
     html[]              = help_post
     html[]              = msg_html
-    html[]              = widget_code
+    html[]              = confirm_title
+    html[]              = confirm_text
+    html[]              = confirm_footer_text
+    html[]              = confirm_email_text
 ";
             file_put_contents( $configFile, $contents );
+
+            // also create the .htaccess file so we prevent the reading of the log and ini files
+            // via a browser, CRM-3875
+            $htaccessFile = $config->uploadDir . '.htaccess';
+            if ( ! file_exists( $htaccessFile ) ) {
+                $contents = '
+# Protect files and directories from prying eyes.
+<FilesMatch "\.(log|ini)$">
+ Order allow,deny
+</FilesMatch>
+';
+                file_put_contents( $htaccessFile, $contents );
+            }
         }
 
         $init    = IDS_Init::init( $configFile );

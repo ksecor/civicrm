@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -475,7 +475,7 @@ class CRM_Pledge_BAO_Query
         $form->add('date', 'pledge_payment_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('pledge_payment_date_high', ts('Select a valid date.'), 'qfDate'); 
 
-        $form->addElement( 'checkbox', 'pledge_test' , ts( 'Find Test Pledge?' ) );
+        $form->addElement( 'checkbox', 'pledge_test' , ts( 'Find Test Pledges?' ) );
 
         $form->add('text', 'pledge_amount_low', ts('From'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'pledge_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );

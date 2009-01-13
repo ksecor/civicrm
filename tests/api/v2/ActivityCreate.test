@@ -10,6 +10,17 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
 {
     protected $_individualSourceId;
     protected $_individualTargetId;
+
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Activity Create',
+                     'description' => 'Test all Activity Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     
     function setUp() 
     {

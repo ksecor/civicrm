@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  * http://civicrm.org/node/131
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id: Contribute.php 9526 2007-05-12 19:36:28Z deepak $
  *
  */
@@ -99,3 +99,42 @@ function civicrm_tag_delete( &$params )
     return CRM_Core_BAO_Tag::del( $tagID ) ? civicrm_create_success( ) : civicrm_create_error(  ts( 'Could not delete tag' )  );
 }
 
+/**
+ * Get a Tag.
+ * 
+ * This api is used for finding an existing tag.
+ * Either id or name of tag are required parameters for this api.
+ * 
+ * @params  array $params  an associative array of name/value pairs.
+ *
+ * @return  array details of found tag else error
+ * @access public
+ */
+
+function civicrm_tag_get($params) 
+{
+    _civicrm_initialize( );
+    require_once 'CRM/Core/BAO/Tag.php';
+    $tagBAO =& new CRM_Core_BAO_Tag();
+    
+    if ( ! is_array($params) ) {
+        return civicrm_create_error('Params is not an array.');
+    }
+    if ( ! isset($params['id']) && ! isset($params['name']) ) {
+        return civicrm_create_error('Required parameters missing.');
+    }
+    
+    $properties = array('id', 'name', 'description', 'parent_id');
+    foreach ( $properties as $name) {
+        if (array_key_exists($name, $params)) {
+            $tagBAO->$name = $params[$name];
+        }
+    }
+    
+    if ( ! $tagBAO->find(true) ) {
+        return civicrm_create_error('Exact match not found.');
+    }
+
+    _civicrm_object_to_array($tagBAO, $tag);
+    return $tag;
+}

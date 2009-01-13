@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -46,7 +46,14 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
      * @var int
      */
     protected $_id;
-
+    
+    /**
+     * default from email address option value id.
+     *
+     * @var int
+     */
+    protected $_fromEmailId = null;
+    
     /**
      * how many locationBlocks should we display?
      *
@@ -86,40 +93,38 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         if ( isset( $this->_id ) ) {
             $params['id'] = $this->_id ;
             CRM_Core_BAO_Domain::retrieve( $params, $defaults );
+            
+            //get the default domain from email address. fix CRM-3552
+            require_once 'CRM/Utils/Mail.php';
+            require_once 'CRM/Core/OptionValue.php';
+            $optionValues = array( );
+            $grpParams['name'] = 'from_email_address';
+            CRM_Core_OptionValue::getValues( $grpParams, $optionValues );
+            foreach ( $optionValues as $Id => $value ) {
+                if ( $value['is_default'] && $value['is_active'] ) {
+                    $this->_fromEmailId        = $Id;
+                    $defaults['email_name']    = CRM_Utils_Array::value( 1, explode('"', $value['label'] ) );
+                    $defaults['email_address'] = CRM_Utils_Mail::pluckEmailFromHeader( $value['label'] );
+                    break;
+                }
+            }
+            
             unset($params['id']);
             $locParams = $params + array('entity_id' => $this->_id, 'entity_table' => 'civicrm_domain');
             require_once 'CRM/Core/BAO/Location.php';
             CRM_Core_BAO_Location::getValues( $locParams, $defaults);
 
-            //set defaults for country-state dojo widget
+
             if ( ! empty ( $defaults['location'] ) ) {
-                $countries      =& CRM_Core_PseudoConstant::country( );
-                $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
-                
+                $config = CRM_Core_Config::singleton( );
                 foreach ( $defaults['location'] as $key => $value ) {
-                    if ( isset( $value['address'] ) ) {
-                        
-                        // hack, check if we have created a country element
-                        if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                            $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
-                            
-                            if ( !$countryValue && isset($value['address']['country_id']) ) {
-                                $countryValue = $value['address']['country_id'];
-                            }
-                            
-                            $this->assign( "country_{$key}_value"   ,  $countryValue );
-                        }
-                        
-                        if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
-                            $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
-                            
-                            if ( !$stateValue && isset($value['address']['state_province_id']) ) {
-                                $stateValue = $value['address']['state_province_id'];
-                            }
-                            
-                            $this->assign( "state_province_{$key}_value", $stateValue );
-                        }
-                    }
+                    CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                              "location[$key][address][country_id]",
+                                                              "location[$key][address][state_province_id]",
+                                                              CRM_Utils_Array::value( 'country_id',
+                                                                                      CRM_Utils_Array::value( 'address',
+                                                                                                              $value ),
+                                                                                      $config->defaultContactCountry ) );
                 }
             }
         }
@@ -143,12 +148,6 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->add('text', 'email_address', ts('FROM Email Address'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
         $this->addRule( "email_address", ts('Domain Email Address must use a valid email address format (e.g. \'info@example.org\').'), 'email' );
 
-        $this->add('text', 'email_domain', ts('Email Domain'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
-        $this->addRule( "email_domain", ts('Email domain must use a valid internet domain format (e.g. \'example.org\').'), 'domain' );
-
-        $this->add('text', 'email_return_path', ts('Return-Path'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
-        $this->addRule( "email_return_path", ts('Return-Path must use a valid email address format.'), 'email' );
-        
         //blocks to be displayed
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);    
    
@@ -209,7 +208,13 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $errors = array( );
         // check for state/country mapping
         CRM_Contact_Form_Address::formRule($fields, $errors);
-
+        
+        //fix for CRM-3552, 
+        //as we use "fromName"<emailaddresss> format for domain email.
+        if ( strpos( $fields['email_name'], '"' ) !== false ) {
+            $errors['email_name'] = ts( 'Double quotes are not allow in from name.' );
+        }
+        
         return empty($errors) ? true : $errors;
     }    
 
@@ -242,7 +247,33 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         
         require_once 'CRM/Core/BAO/Domain.php';
         CRM_Core_BAO_Domain::edit($params, $this->_id);
-            
+        
+        //set domain from email address, CRM-3552 
+        $emailName = '"' . $params['email_name'] . '"<' . $params['email_address'] . '>';
+        
+        $emailParams = array( 'label'       => $emailName,
+                              'description' => $params['description'],
+                              'is_active'   => 1,
+                              'is_default'  => 1 );
+        
+        $groupParams = array( 'name' => 'from_email_address' );
+        
+        //get the option value wt.
+        if ( $this->_fromEmailId ) {
+            $action = $this->_action;
+            $emailParams['weight'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_fromEmailId, 'weight' );
+        } else {
+            //add from email address.
+            $action = CRM_Core_Action::ADD;
+            require_once 'CRM/Utils/Weight.php';
+            $grpId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 'from_email_address', 'id', 'name' );
+            $fieldValues = array('option_group_id' => $grpId );
+            $emailParams['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues );
+        }
+        
+        require_once 'CRM/Core/OptionValue.php';
+        CRM_Core_OptionValue::addOptionValue( $emailParams, $groupParams, $action, $this->_fromEmailId );
+       
         CRM_Core_Session::setStatus( ts('Domain information for \'%1\' has been saved.', array( 1 => $domain->name )) );
         $session =& CRM_Core_Session::singleton( );
         $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin', 'reset=1' ) );

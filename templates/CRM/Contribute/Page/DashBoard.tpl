@@ -13,7 +13,7 @@
 {/if}
 {capture assign=chartURL}{crmURL p="civicrm/contribute/chart" q="reset=1"}{/capture}
 
-<h3>{ts}Contributions Summary{/ts} {help id="id-contribute-intro"}</h3>
+<h3>{ts}Contribution Summary{/ts} {help id="id-contribute-intro"}</h3>
 <table class="report">
 <tr class="columnheader-dark">
     <th scope="col">{ts}Period{/ts}</th>
@@ -26,7 +26,7 @@
     <td><a href="{$monthToDate.Valid.url}">{ts}view details{/ts}...</a></td>
 </tr>
 <tr>
-    <td><strong>{ts}Current Year-To-Date{/ts}</strong></td>
+    <td><strong>{ts}Current Fiscal Year-To-Date{/ts}</strong></td>
     <td class="label">{if NOT $yearToDate.Valid.amount}{ts}(n/a){/ts}{else}{$yearToDate.Valid.amount|crmMoney}{/if}</td>
     <td class="label">{$yearToDate.Valid.count}</td>
     <td><a href="{$yearToDate.Valid.url}">{ts}view details{/ts}...</a></td>
@@ -36,7 +36,7 @@
     <td class="label">{if NOT $startToDate.Valid.amount}{ts}(n/a){/ts}{else}{$startToDate.Valid.amount|crmMoney}{/if}</td>
     <td class="label">{$startToDate.Valid.count}</td>
     <td><a href="{$startToDate.Valid.url}">{ts}view details{/ts}...</a></td>
-<tr><td colspan="4" class="right" style="padding: 8px 10px 0px 4px; vertical-align: middle;"><a href="{$chartURL}"><img src="{$config->resourceBase}/i/BarGraph.png" alt="{ts}View contribution summary as bar or circle chart"{/ts} /></a> <a href="{$chartURL}">Bar or Pie Chart...</a></td></tr>
+<tr><td colspan="4" class="right" style="padding: 8px 10px 0px 4px; vertical-align: middle;"><a href="{$chartURL}" title="{ts}View contribution summary as bar or pie chart using the Google Chart API{/ts}"><img src="{$config->resourceBase}/i/BarGraph.png" alt="{ts}View contribution summary as bar or pie chart using the Google Chart API{/ts}" /></a> <a href="{$chartURL}" title="{ts}View contribution summary as bar or pie chart{/ts}">Bar or Pie Chart...</a></td></tr>
 </tr>
 </table>
 
@@ -44,7 +44,7 @@
 
 {if $pager->_totalItems}
     <h3>{ts}Recent Contributions{/ts}</h3>
-    <div class="form-item">
+    <div>
         {include file="CRM/Contribute/Form/Selector.tpl" context="dashboard"}
     </div>
 {/if}

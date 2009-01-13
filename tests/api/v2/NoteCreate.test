@@ -6,6 +6,15 @@ class TestOfNoteCreateAPIV2 extends CiviUnitTestCase
 {
     protected $_contactID;
     protected $_params;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Note Create',
+                     'description' => 'Test all Note Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setUp() 
     {
@@ -39,16 +48,6 @@ class TestOfNoteCreateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $result['is_error'], 1 );
         $this->assertFalse( array_key_exists( 'entity_id', $result ) );
         $this->assertEqual( $result['error_message'], 'Required parameter missing' );
-    }
-    
-    function testCreateNoteParamsWithoutTitle( )
-    {
-        unset( $this->_params['subject'] );
-        $result = civicrm_note_create( $this->_params );
-
-        $this->assertNotEqual( $result['is_error'], 1 );
-        $this->assertNotEqual( $result['error_message'], 'Required parameter missing' );
-        civicrm_note_delete( $result );
     }
     
     function testCreateNoteParamsWithoutEntityId( )

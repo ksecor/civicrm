@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2008
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -94,13 +94,14 @@ class Browser_Custom_Group extends CiviTestCase
 
     function tearDown()
     {
+        parent::tearDown( );
         require_once 'CRM/Core/DAO/CustomGroup.php';
         $dao =& new CRM_Core_DAO_CustomGroup();
         $dao->title = $this->params['title'];
-        $dao->find(true);
-
-        require_once 'Custom.php';
-        Custom::deleteGroup($dao);
+        if ( $dao->find( true ) ) {
+            require_once 'Custom.php';
+            Custom::deleteGroup($dao);
+        }
     }
 
 }

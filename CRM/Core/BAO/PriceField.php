@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -251,10 +251,14 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             /* FIXME: failure! */
             return null;
         }
-        
+        $config =& CRM_Core_Config::singleton();
+        $qf->assign('currencySymbol', CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Currency',$config->defaultCurrency,'symbol','name') );
         if (!isset($label)) {
             $label = $field->label;
         }
+	if ( isset($qf->_online) ) {
+	  $useRequired = false;
+	}
 
         switch($field->html_type) {
         case 'Text':
@@ -266,13 +270,17 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                 $label .= '&nbsp;-&nbsp;';
                 $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('name', $customOption[$optionKey]) );
             }
+
+            $js =  array( 'onblur'  => "addPrice('".$label."',this.id);",
+                          'onkeyup' => "addPrice('".$label."',this.id);");
+             
             $element =& $qf->add(
-                                 'text', $elementName, $label, 'size="4"',
-                                 ( $useRequired || ( $useRequired && $field->is_required ) )
+                                 'text', $elementName, $label, array_merge(array('size' =>"4"), $js),
+                                 $useRequired && $field->is_required
                                  );
             
             // integers will have numeric rule applied to them.
-            $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'integer');
+            $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'positiveInteger');
             break;
             
         case 'Radio':
@@ -281,7 +289,8 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             
             if ( !$field->is_required ) {
                 // add "none" option
-                $choice[] = $qf->createElement('radio', null, '', '-none-', '0' );
+                $choice[] = $qf->createElement('radio', null, '', '-none-', '0',
+                                               array('onclick' =>"return addPrice('0',this.id);") );
             }
             
             foreach ($customOption as $opt) {
@@ -289,11 +298,12 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                     $opt['label'] .= '&nbsp;-&nbsp;';
                     $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
-                $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'] );
+                $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'],
+                                               array('onclick' =>"return addPrice('".$opt['label']."',this.id);") );
             }
             $element =& $qf->addGroup($choice, $elementName, $label);
             
-            if ( ( $useRequired || ( $useRequired && $field->is_required) ) ) {
+            if ( $useRequired && $field->is_required ) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
@@ -308,9 +318,11 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                 }
                 $selectOption[$opt['id']] = $opt['label'];
             }
+            $qf->assign('selectarray', html_entity_decode( implode('\',\'',$selectOption ) ));
             $element =& $qf->add('select', $elementName, $label,
                                  array( '' => ts('- select -')) + $selectOption,
-                                 ( ( $useRequired || ($useRequired && $field->is_required) ) ) );
+                                 $useRequired && $field->is_required, 
+                                 array('onchange' =>"return addPrice('',this.id);") );
             break;
             
         case 'CheckBox':
@@ -321,16 +333,17 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                     $opt['label'] .= '&nbsp;-&nbsp;';
                     $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
-                $check[] =& $qf->createElement('checkbox', $opt['id'], null, $opt['label']); 
+                $check[] =& $qf->createElement('checkbox', $opt['id'], null, $opt['label'], 
+                                               array('onclick' =>"return addPrice('".$opt['label']."',this.id);"));
             }
             $element =& $qf->addGroup($check, $elementName, $label);
-            if ( ( $useRequired ||( $useRequired && $field->is_required) ) ) {
-                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
+            if ( $useRequired && $field->is_required ) {
+	      $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
             
         }
-        if ( $qf->_online ) {
+        if ( isset($qf->_online) ) {
             $element->freeze();
         }
     }

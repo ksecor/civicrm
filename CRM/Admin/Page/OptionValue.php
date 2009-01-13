@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -158,7 +158,7 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
             
             // update enable/disable links depending on if it is is_reserved or is_active
             if ($dao->is_reserved) {
-                continue;
+                $action = CRM_Core_Action::UPDATE;
             } else {
                 if ($dao->is_active) {
                     $action -= CRM_Core_Action::ENABLE;

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -237,12 +237,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
             return $csvHeaders;
         } else {
-            $columnHeaders = self::_getColumnHeaders();
-            //unset case if not enabled
-            if ( ! $this->_viewOptions[ts('CiviCase')] ) { 
-                unset( $columnHeaders[1]);
-            }
-            return $columnHeaders;
+            return self::_getColumnHeaders();
         }
         
     }
@@ -255,9 +250,9 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      * @return int Total number of rows 
      * @access public
      */
-    function getTotalCount($action)
-    {
-        return CRM_Activity_BAO_Activity::getNumOpenActivity($this->_contactId, $this->_admin, $this->_context );
+    function getTotalCount($action, $case = null )
+    { 
+        return CRM_Activity_BAO_Activity::getNumOpenActivity($this->_contactId, $this->_admin, $this->_context, $case );
     }
 
 
@@ -360,10 +355,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             self::$_columnHeaders = array(
                                           array('name'      => ts('Type'),
                                                 'sort'      => 'activity_type',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array('name'      => ts('Case'),
-                                                'sort'      => 'case_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('name'      => ts('Subject'),

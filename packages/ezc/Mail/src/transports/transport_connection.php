@@ -3,8 +3,8 @@
  * File containing the ezcMailTransportConnection class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @access private
  */
@@ -17,7 +17,7 @@
  *           Holds the options you can set to the transport connection.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @access private
  */
 class ezcMailTransportConnection
@@ -44,7 +44,8 @@ class ezcMailTransportConnection
     /**
      * Constructs a new connection to the $server using the port $port.
      *
-     * {@link ezcMailTransportOptions for options you can specify for a transport connection.}
+     * {@link ezcMailTransportOptions} for options you can specify for a
+     * transport connection.
      *
      * @todo The @ should be removed when PHP doesn't throw warnings for connect problems.
      *
@@ -198,16 +199,25 @@ class ezcMailTransportConnection
     public function getLine( $trim = false )
     {
         $data = '';
-        $line   = '';
-        $loops  = 0;
+        $line = '';
 
         if ( is_resource( $this->connection ) )
         {
-            while ( ( strpos( $line, self::CRLF ) === false ) && $loops < 100 )
+            // in case there is a problem with the connection fgets() returns false
+            while ( strpos( $data, self::CRLF ) === false )
             {
                 $line = fgets( $this->connection, 512 );
+
+                /* If the mail server aborts the connection, fgets() will
+                 * return false. We need to throw an exception here to prevent
+                 * the calling code from looping indefinitely. */
+                if ( $line === false )
+                {
+                    $this->connection = null;
+                    throw new ezcMailTransportException( 'Could not read from the stream. It was probably terminated by the host.' );
+                }
+
                 $data .= $line;
-                $loops++;
             }
 
             if ( $trim == false )
@@ -220,6 +230,16 @@ class ezcMailTransportConnection
             }
         }
         throw new ezcMailTransportException( 'Could not read from the stream. It was probably terminated by the host.' );
+    }
+
+    /**
+     * Returns if the connection is open.
+     *
+     * @return bool
+     */
+    public function isConnected()
+    {
+        return is_resource( $this->connection );
     }
 
     /**

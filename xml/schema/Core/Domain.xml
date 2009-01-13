@@ -51,6 +51,7 @@
        <length>255</length>
        <comment>The default email name that is used in the from address for all outgoing emails</comment>
        <add>1.9</add>
+       <drop>2.2</drop>
   </field>
   <field>
        <name>email_address</name>
@@ -58,6 +59,7 @@
        <length>255</length>
        <comment>The default email address that is used as the from address for all outgoing emails</comment>
        <add>1.9</add>
+       <drop>2.2</drop>
   </field>
   <field>
        <name>email_domain</name>
@@ -65,6 +67,7 @@
        <length>64</length>
        <comment>The domain from which outgoing email for this domain will appear to originate</comment>
        <add>1.1</add>
+       <drop>2.2</drop>
   </field>
   <field>
        <name>email_return_path</name>
@@ -72,6 +75,7 @@
        <length>64</length>
        <comment>The domain from which outgoing email for this domain will appear to originate</comment>
        <add>1.1</add>
+       <drop>2.2</drop>
   </field>
   <field>
        <name>config_backend</name>

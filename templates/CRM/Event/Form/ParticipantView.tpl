@@ -49,7 +49,7 @@
 	    {/if}
         {/foreach}
          
-        {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}  
+        {include file="CRM/Custom/Page/CustomDataView.tpl"}  
         <dl>
            <dt></dt><dd>{$form.buttons.html} <a href="{crmURL p='civicrm/contact/view/participant' q="reset=1&id=$id&cid=$contact_id&action=update&context=participant"}" accesskey="e">Edit</a>&nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/participant' q="reset=1&id=$id&cid=$contact_id&action=delete&context=participant"}">Delete</a></dd>
         </dl>

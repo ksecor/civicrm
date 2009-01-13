@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -258,12 +258,15 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $subTypes= array();
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
-        
-        $subTypes['Activity']     = CRM_Core_PseudoConstant::activityType();
+		require_once "CRM/Event/PseudoConstant.php";
+                
+        $subTypes['Activity']     = CRM_Core_PseudoConstant::activityType( false, true );
         $subTypes['Contribution'] = CRM_Contribute_PseudoConstant::contributionType( );
         $subTypes['Membership']   = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
         $subTypes['Event']        = CRM_Core_OptionGroup::values('event_type');
-        $subTypes['Participant']  = CRM_Core_OptionGroup::values('participant_role');
+        $subTypes['Participant']  = array( );
+		$subTypes['ParticipantRole'     ] = CRM_Core_OptionGroup::values( 'participant_role' );;
+	    $subTypes['ParticipantEventName'] = CRM_Event_PseudoConstant::event( );
                
         require_once "CRM/Contact/BAO/Relationship.php";
         
@@ -282,17 +285,26 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         foreach ($cSubTypes as $key => $value ) {
             $contactSubTypes[$key] = $key;
         }
-        
+
         $subTypes['Contact']  =  $contactSubTypes;
         foreach ($customGroup as $key => $values ) {
-            $sub  = CRM_Utils_Array::value( 'extends_entity_column_value', $customGroup[$key] );
-            if( $customGroup[$key]['extends'] == 'Relationship' && $customGroup[$key]['extends_entity_column_value']){
+            $sub      = CRM_Utils_Array::value( 'extends_entity_column_value', $customGroup[$key] );
+			$subName  = CRM_Utils_Array::value( 'extends_entity_column_id', $customGroup[$key] );
+            if ( $customGroup[$key]['extends'] == 'Relationship' && CRM_Utils_Array::value('extends_entity_column_value', $customGroup[$key] ) ) {
                 $sub = $sub.'_a_b';
             }
             $type = CRM_Utils_Array::value( 'extends', $customGroup[$key] );
                         
             if ( $sub ) {
-                $customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
+				if ( $type == 'Participant') {
+					if ( $subName == 1 ) {
+						$customGroup[$key]["extends_entity_column_value"] = $subTypes['ParticipantRole'][$sub];
+					} elseif ( $subName == 2 ) {
+						$customGroup[$key]["extends_entity_column_value"] = $subTypes['ParticipantEventName'][$sub];
+					}
+				} else {
+					$customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
+				}
             } else {
                 if ( is_array( CRM_Utils_Array::value( $type, $subTypes ) ) ) {
                     $customGroup[$key]["extends_entity_column_value"] = ts("-- Any --");

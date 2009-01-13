@@ -22,8 +22,8 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Function name to use for translation inplace of the default CiviCRM translate function. {/ts}</dd>
             <dt>{$form.legacyEncoding.label}</dt><dd>{$form.legacyEncoding.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}If import files are NOT encoded as UTF-8, specify an alternate character encoding for these files. The default of <strong>Windows-1252</strong> will work for Excel-created .CSV files on many computers.{/ts}</dd>
-             <dt>{$form.fieldSeparator.label}</dt><dd>{$form.fieldSeparator.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}global CSV-Seperator to enable import and export of different kinds of CSV-files ( For example: ',' ';' ':' '|' ).{/ts}</dd>
+            <dt>{$form.fieldSeparator.label}</dt><dd>{$form.fieldSeparator.html}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Global CSV separator character. Modify this setting to enable import and export of different kinds of CSV files (for example: ',' ';' ':' '|' ).{/ts}</dd>
         </dl>
     </fieldset>
     <fieldset><legend>{ts}Contact Address Fields - Selection Values{/ts}</legend>
@@ -37,17 +37,21 @@
         </dl>
     </fieldset>
     <fieldset><legend>{ts}Multiple Languages Support{/ts}</legend>    
-            {if $form.languageLimit}
-              <dt>&nbsp;</dt><dd class="description">{ts 1="http://documentation.civicrm.org"}This is a multilingual installation. It contains certain schema differences compared to regular installations of CiviCRM. Please <a href="%1">refer to the documentation</a> for details.{/ts}</dd>
-            {else}
-              <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language, then return to this form and add further languages. In order to use this functionality, the installation's database user must have privileges to create triggers (in MySQL 5.0 this means the SUPER privilege).{/ts}</dd>
-              <dt>&nbsp;</dt><dd class="description"><span style="color:red">{$warning}</span>
-              </dd>
-            {/if}
+      <dl>
+        {if $form.languageLimit}
+          <dt>&nbsp;</dt><dd class="description">{ts 1="http://documentation.civicrm.org"}This is a multilingual installation. It contains certain schema differences compared to regular installations of CiviCRM. Please <a href="%1">refer to the documentation</a> for details.{/ts}</dd>
+        {elseif $form.makeMultilingual}
+          <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
+          <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language, then add further languages.{/ts}</dd>
+          <dd class="description"><span style="color:red">{$warning}</span>
+        {else}
+          <dd class="description">{ts}In order to use this functionality, the installation's database user must have privileges to create triggers (in MySQL 5.0 this means the SUPER privilege). This install does not seem to have the required privilege enabled.{/ts}</dd>
+          <dd class="description"><span style="color:red">{$warning}</span>
+        {/if}
+      </dl>
     </fieldset>
-        <dl>
-            <dt></dt><dd>{$form.buttons.html}</dd>
-        </dl>
+    <dl>
+        <dt></dt><dd>{$form.buttons.html}</dd>
+    </dl>
 <div class="spacer"></div>
 </div>

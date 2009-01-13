@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  *
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -148,7 +148,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    ts('Event Type'),
                    array('' => ts('- select -')) + $event,
                    true, 
-                   array('onChange' => "buildCustomData( this.value );") );
+                   array('onChange' => "buildCustomData( 'Event', this.value );") );
         
         $participantRole = CRM_Core_OptionGroup::values('participant_role');
         $this->add('select',
@@ -226,7 +226,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      */
     public function postProcess() 
     {
-        $params = $ids = array();
+        $params = array( );
         $params = $this->controller->exportValues( $this->_name );
         
         //format params
@@ -236,36 +236,17 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
         $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);
         $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
-        $ids['event_id']           = $this->_id;
+        $params['id']              = $this->_id;
 
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Event', null, $this->_id);
-            }
-        }
-        
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
-        //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Event', false, false, 
                                                              CRM_Utils_Array::value( 'event_type_id', $params ) );
-        
-        if ( ! empty( $customFields ) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Event', null, $this->_id);
-                }
-            }
-        }
-        
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_id,
+                                                                   'Event' );
+
         require_once 'CRM/Event/BAO/Event.php';
-        $event =  CRM_Event_BAO_Event::create($params ,$ids);
+        $event =  CRM_Event_BAO_Event::create( $params );
         
         $this->set( 'id', $event->id );
 

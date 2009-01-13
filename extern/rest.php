@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -35,7 +35,13 @@ $rest =& new CRM_Utils_REST();
 
 $config =& CRM_Core_Config::singleton();
 
-header( 'Content-Type: text/xml' );
+if ( isset( $_GET['json'] ) &&
+     $_GET['json'] ) {
+    header( 'Content-Type: text/javascript' );
+} else {
+    header( 'Content-Type: text/xml' );
+}
+
 echo $rest->run( $config );
 
 

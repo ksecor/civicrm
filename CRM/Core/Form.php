@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -31,7 +31,7 @@
  * machine. Each form can also operate in various modes
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -41,6 +41,7 @@ require_once 'HTML/QuickForm/Page.php';
 require_once 'CRM/Utils/Rule.php';
 require_once 'CRM/Utils/Request.php';
 require_once 'CRM/Utils/Weight.php';
+require_once 'CRM/Core/Permission.php';
 require_once 'CRM/Core/Smarty.php';
 require_once 'CRM/Core/Form/Renderer.php';
 require_once 'CRM/Core/SelectValues.php';
@@ -310,9 +311,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
         $this->preProcess();
 
+        $this->assign('translatePermission', CRM_Core_Permission::check('translate CiviCRM'));
+
         if ( $this->controller->_key &&
              $this->controller->_print != CRM_Core_Smarty::PRINT_NOFORM ) {
             $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
+            $this->assign( 'qfKey', $this->controller->_key );
         }
 
         require_once 'CRM/Utils/Hook.php';
@@ -383,6 +387,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                 $this->setDefaultAction( $button['type'] );
             }
             
+            // if button type is upload, set the enctype
+            if ( $button['type'] == 'upload' ) {
+                $this->updateAttributes(array('enctype' => 'multipart/form-data'));
+                $this->setMaxFileSize();
+            }
+
             // hack - addGroup uses an array to express variable spacing, read from the last element
             $spacing[] = CRM_Utils_Array::value('spacing', $button, self::ATTR_SPACING);
         }
@@ -420,7 +430,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     /**
-<     * getter function for title. Should be over-ridden by derived class
+     * getter function for title. Should be over-ridden by derived class
      *
      * @return string
      * @access public
@@ -892,7 +902,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->set( 'uploadNames', $uploadNames );
 
         $config =& CRM_Core_Config::singleton( );
-        $this->controller->addUploadAction( $config->customFileUploadDir, $uploadNames );
+        if ( ! empty( $uploadNames ) ) {
+            $this->controller->addUploadAction( $config->customFileUploadDir, $uploadNames );
+        }
     }
 
     function buttonType( ) {

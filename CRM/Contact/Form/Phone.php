@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -58,13 +58,13 @@ class CRM_Contact_Form_Phone
             CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", ts('another phone'), ts('hide this phone'));
             
             if ( ! $phoneType ) {
-                $phoneType = CRM_Core_SelectValues::phoneType( );
+                $phoneType = CRM_Core_PseudoConstant::phoneType( );
             }
             
-            $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
-                                                                                  "location[$locationId][phone][$i][phone_type]",
-                                                                                  ts('Phone'),
-                                                                                  $phoneType,
+            $location[$locationId]['phone'][$i]['phone_type_id'] = $form->addElement('select',
+                                                                                  "location[$locationId][phone][$i][phone_type_id]",
+                                                                                  $label,
+                                                                                  array('' =>  ts('- select -'))+$phoneType,
                                                                                   null
                                                                                   );
 

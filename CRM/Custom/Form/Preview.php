@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -77,6 +77,11 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
             $params = array('id' => $fieldId);
             $fieldDAO =& new CRM_Core_DAO_CustomField();                    
             CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_CustomField', $params, $defaults);
+            
+            if ( CRM_Utils_Array::value( 'is_view', $defaults ) ) {
+                CRM_Core_Error::statusBounce( ts('This field is view only so it will not display on edit form.') );
+            }
+            
             $this->_groupTree = array();
             $this->_groupTree[0]['id'] = 0;
             $this->_groupTree[0]['fields'] = array();
@@ -137,13 +142,18 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
         foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
-                $fieldId = $field['id'];                
+                // skip all view fields
+                if ( CRM_Utils_Array::value( 'is_view', $field ) ) {
+                    continue;
+                }
+                
+                $fieldId = $field['id'];     
                 //$elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-                 $elementName = 'custom_' . $fieldId;
+                $elementName = 'custom_' . $fieldId;
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
             }
         }
-
+        
         $this->addButtons(array(
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Done with Preview'),

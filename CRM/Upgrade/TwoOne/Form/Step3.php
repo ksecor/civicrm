@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -56,6 +56,27 @@ class CRM_Upgrade_TwoOne_Form_Step3 extends CRM_Upgrade_Form {
                       DROP FOREIGN KEY `FK_civicrm_group_contact_location_id`,
                       DROP location_id";
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        }
+
+        // CRM-3625, profile group_type upgrade
+        $query    = "SELECT id FROM civicrm_uf_group";
+        $ufGroup  = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $ufGroup->fetch( ) ) {
+            $query     = "SELECT distinct `field_type` FROM `civicrm_uf_field` WHERE uf_group_id = %1";
+            $params    = array( 1 => array( $ufGroup->id, 'Integer' ) );
+            $fieldType = CRM_Core_DAO::executeQuery( $query, $params );
+            
+            $types = array();
+            while ( $fieldType->fetch( ) ) {
+                $types[] = $fieldType->field_type;
+            }
+
+            if ( count($types) >= 1 ) {
+                $query     = "UPDATE `civicrm_uf_group` SET group_type = %1 WHERE id = %2";
+                $params    = array( 1 => array( implode(',', $types), 'String' ), 
+                                    2 => array( $ufGroup->id, 'Integer' ) );
+                CRM_Core_DAO::executeQuery( $query, $params );
+            }
         }
         
         $this->setVersion( '2.03' );

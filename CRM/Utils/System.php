@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -39,7 +39,7 @@
  */
 class CRM_Utils_System {
 
-    const VERSION = '2.1';
+    const VERSION = '2.2';
 
     static $_callbacks = null;
 
@@ -165,7 +165,7 @@ class CRM_Utils_System {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true,
+    function url($path = null, $query = null, $absolute = false,
                  $fragment = null, $htmlize = true, $frontend = false ) {
         // we have a valid query and it has not yet been transformed
         if ( $htmlize && ! empty( $query ) && strpos( $query, '&amp;' ) === false ) {
@@ -198,6 +198,15 @@ class CRM_Utils_System {
         return eval( "return {$config->userFrameworkClass}::logout( );" );
     }
 
+    // this is a very drupal specific function for now
+    static function updateCategories( ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Drupal' ) {
+            require_once 'CRM/Utils/System/Drupal.php';
+            CRM_Utils_System_Drupal::updateCategories( );
+        }
+    }
+
     /**
      * What menu path are we currently on. Called for the primary tpl
      *
@@ -225,7 +234,7 @@ class CRM_Utils_System {
 
         return self::url( $p,
                           CRM_Utils_Array::value( 'q' , $params        ),
-                          CRM_Utils_Array::value( 'a' , $params, true  ),
+                          CRM_Utils_Array::value( 'a' , $params, false  ),
                           CRM_Utils_Array::value( 'f' , $params        ),
                           CRM_Utils_Array::value( 'h' , $params, true  ),
                           CRM_Utils_Array::value( 'fe', $params, false ) );
@@ -401,7 +410,45 @@ class CRM_Utils_System {
         return $config->userFrameworkBaseURL;
     }
 
-    static function authenticateScript( $abort = true, $name = null, $pass = null ) {
+    static function authenticateAbort( $message, $abort ) {
+        if ( $abort ) {
+            echo $message;
+            exit( 0 );
+        } else {
+            return false;
+        }
+    }
+
+    static function authenticateKey( $abort = true ) {
+        // also make sure the key is sent and is valid
+        $key = trim( CRM_Utils_Array::value( 'key', $_REQUEST ) );
+
+        if ( ! $key ) {
+            return self::authenticateAbort( "ERROR: You need to send a valid key to execute this file. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+                                            $abort );
+        }
+
+        $siteKey = defined( 'CIVICRM_SITE_KEY' ) ? CIVICRM_SITE_KEY : null;
+        if ( ! $siteKey ||
+             empty( $siteKey ) ) {
+            return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+                                            $abort );
+        }
+
+        if ( strlen( $siteKey ) < 8 ) {
+            return self::authenticateAbort( "ERROR: Site key needs to be greater than 7 characters in civicrm.settings.php. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+                                            $abort );
+        }
+
+        if ( $key !== $siteKey ) {
+            return self::authenticateAbort( "ERROR: Invalid key value sent. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+                                            $abort );
+        }
+
+        return true;
+    }
+
+    static function authenticateScript( $abort = true, $name = null, $pass = null, $storeInSession = true ) {
         // auth to make sure the user has a login/password to do a shell
         // operation
         // later on we'll link this to acl's
@@ -411,21 +458,28 @@ class CRM_Utils_System {
         }
 
         if ( ! $name ) { // its ok to have an empty password
-            if ( $abort ) {
-                echo "ERROR: You need to send a valid user name and password to execute this file\n";
-                exit( 0 );
-            } else {
-                return false;
-            }
+            return self::authenticateAbort( "ERROR: You need to send a valid user name and password to execute this file\n",
+                                            $abort );
+        }
+
+        if ( ! self::authenticateKey( $abort ) ) {
+            return false;
         }
 
         $result = CRM_Utils_System::authenticate( $name, $pass );
         if ( ! $result ) {
-            if ( $abort ) {
-                echo "ERROR: Invalid username and/or password\n";
-                exit( 0 );
+            return self::authenticateAbort( "ERROR: Invalid username and/or password\n",
+                                            $abort );
+        } else if ( $storeInSession ) {
+            // lets store contact id and user id in session
+            list( $userID, $ufID, $randomNumber ) = $result;
+            if ( $userID && $ufID ) {
+                $session =& CRM_Core_Session::singleton( );
+                $session->set( 'ufID'  , $ufID );
+                $session->set( 'userID', $userID );
             } else {
-                return false;
+                return self::authenticateAbort( "ERROR: Unexpected error, could not match userID and contactID",
+                                                $abort );
             }
         }
 
@@ -543,7 +597,9 @@ class CRM_Utils_System {
         return $memory;
     }
 
-    static function download( $name, $mimeType, &$buffer ) {
+    static function download( $name, $mimeType, &$buffer,
+                              $ext = null,
+                              $output = true ) {
         $now       = gmdate('D, d M Y H:i:s') . ' GMT';
 
         header('Content-Type: ' . $mimeType); 
@@ -551,17 +607,24 @@ class CRM_Utils_System {
         
         // lem9 & loic1: IE need specific headers
         $isIE = strstr( $_SERVER['HTTP_USER_AGENT'], 'MSIE' );
+        if ( $ext ) {
+            $fileString = "filename=\"{$name}.{$ext}\"";
+        } else {
+            $fileString = "filename=\"{$name}\"";
+        }
         if ( $isIE ) {
-            header('Content-Disposition: inline; filename="' . $name . '"');
+            header("Content-Disposition: inline; $fileString");
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
         } else {
-            header('Content-Disposition: attachment; filename="' . $name . '"');
+            header("Content-Disposition: attachment; $fileString");
             header('Pragma: no-cache');
         }
-    
-        print $buffer;
-        exit( );
+
+        if ( $output ) {
+            print $buffer;
+            exit( );
+        }
     }
 
     static function xMemory( $title = null ) {

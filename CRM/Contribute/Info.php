@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -33,7 +33,7 @@ require_once 'CRM/Core/Component/Info.php';
  * abstract class.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -47,10 +47,12 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        return  array( 'name'	        => 'CiviContribute',
-                       'translatedName' => ts('CiviContribute'),
-                       'title'          => ts('CiviCRM Contribution Engine'),
-                       'search'         => 1 );
+        return  array( 'name'	              => 'CiviContribute',
+                       'translatedName'       => ts('CiviContribute'),
+                       'title'                => ts('CiviCRM Contribution Engine'),
+                       'search'               => 1,
+                       'showActivitiesInCore' => 1 
+                       );
     }
 
     // docs inherited from interface

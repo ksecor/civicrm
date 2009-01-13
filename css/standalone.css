@@ -12,7 +12,7 @@
 }
 
 #crm-container ul.indented {
-  padding-left:4em;
+  padding-left:3em;
 }
 
 h2 {
@@ -34,3 +34,6 @@ img, a img {
   border:1px solid #aaa;
 }
 
+.crm_blocktitle {
+  font-size:75%;
+}

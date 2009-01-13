@@ -1,10 +1,10 @@
 {* CiviEvent DashBoard (launch page) *}
 {capture assign=newEventURL}{crmURL p="civicrm/event/manage" q="action=add&reset=1"}{/capture}
 {capture assign=configPagesURL}{crmURL p="civicrm/event/manage" q="reset=1"}{/capture}
-{capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1"}{/capture}
-{capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
-{capture assign=rssFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&rss=1"}{/capture}
-{capture assign=htmlFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&html=1"}{/capture}
+{capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1" fe=1 a=1}{/capture}
+{capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1" fe=1 a=1}{/capture}
+{capture assign=rssFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&rss=1" fe=1 a=1}{/capture}
+{capture assign=htmlFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&html=1" fe=1 a=1}{/capture}
 
 {if $eventAdmin}
 <div class="float-right">

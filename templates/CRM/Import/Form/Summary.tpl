@@ -50,7 +50,7 @@
  <table id="summary-counts" class="report">
     <tr><td class="label">{ts}Total Rows{/ts}</td>
         <td class="data">{$totalRowCount}</td>
-        <td class="explanation">{ts}Total number of rows in the uploaded file.{/ts}</td>
+        <td class="explanation">{ts}Total number of rows in the imported data.{/ts}</td>
     </tr>
 
     {if $invalidRowCount }

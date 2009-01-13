@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -50,7 +50,6 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
      */
     public function preProcess( ) 
     {
-
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
         
@@ -60,6 +59,8 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
         $this->set('totalRowCount', $totalRowCount);
 
         $invalidRowCount = $this->get('invalidRowCount');
+        $invalidSoftCreditRowCount = $this->get('invalidSoftCreditRowCount');
+        $validSoftCreditRowCount = $this->get('validSoftCreditRowCount');
         $conflictRowCount = $this->get('conflictRowCount');
         $duplicateRowCount = $this->get('duplicateRowCount');
         $onDuplicate = $this->get('onDuplicate');
@@ -94,7 +95,7 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
         }
         $this->assign('dupeActionString', $dupeActionString);
         
-        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount');
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'validSoftCreditRowCount', 'invalidSoftCreditRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount');
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }

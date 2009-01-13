@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -41,7 +41,8 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
     function setDefaultValues( )
     {
         $defaults = array( );
-      
+        $defaults['eventsByDates'] = 0;
+
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
         if ( !CRM_Utils_Array::value('eventsByDates',$defaults) ) {
@@ -70,7 +71,7 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
         }
        
         $eventsByDates = array();
-        $searchOption  = array( ts('Show Current and Upcoming Events'), ts('Search by Date Range') );
+        $searchOption  = array( ts('Show Current and Upcoming Events'), ts('Search All or by Date Range') );
         $this->addRadio( 'eventsByDates', ts( 'Events by Dates' ), $searchOption, array('onclick' =>"return showHideByValue('eventsByDates','1','id_fromToDates','block','radio',true);"), "<br />");
 
         $this->add('date', 'start_date', ts('From'), CRM_Core_SelectValues::date('relative')); 

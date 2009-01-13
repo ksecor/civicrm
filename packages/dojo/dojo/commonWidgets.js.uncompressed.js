@@ -11781,8 +11781,7 @@ dojo.declare(
 					}
 					// default case:
 					// prevent submit, but allow event to bubble
-					// CiviCRM specific changes, we should not disable submit action -kurund
-					//evt.preventDefault();
+					evt.preventDefault();
 					// fall through
 
 				case dk.TAB:

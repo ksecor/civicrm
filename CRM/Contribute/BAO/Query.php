@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -125,6 +125,13 @@ class CRM_Contribute_BAO_Query
             $query->_whereTables['civicrm_contribution'] = 1;
             $query->_whereTables['contribution_payment_instrument'] = 1;
         }
+
+        if ( CRM_Utils_Array::value( 'check_number', $query->_returnProperties ) ) {
+            $query->_select['contribution_check_number']  = "civicrm_contribution.check_number as contribution_check_number";
+            $query->_element['contribution_check_number'] = 1;
+            $query->_tables['civicrm_contribution'] = 1;
+            $query->_whereTables['civicrm_contribution'] = 1;
+        }
     }
 
     static function where( &$query ) 
@@ -211,6 +218,15 @@ class CRM_Contribute_BAO_Query
             $query->_qill[$grouping ][] = ts( 'Contribution Page - %1', array( 1 => $pages[$cPage] ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
+
+        case 'contribution_pcp_made_through_id':
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $pcPage = $value;
+            $pcpages = CRM_Contribute_PseudoConstant::pcPage( );
+            $query->_where[$grouping][] = "civicrm_contribution_soft.pcp_id = $pcPage";
+            $query->_qill[$grouping ][] = ts( 'Personal Campaign Page - %1', array( 1 => $pcpages[$pcPage] ) );
+            $query->_tables['civicrm_contribution_soft'] = $query->_whereTables['civicrm_contribution_soft'] = 1;
+            return;
             
         case 'contribution_payment_instrument_id':
         case 'contribution_payment_instrument':
@@ -294,6 +310,14 @@ class CRM_Contribute_BAO_Query
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
             return;
+            
+        case 'contribution_check_number':
+            $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.check_number)" : "civicrm_contribution.check_number";
+            $query->_where[$grouping][] = "$wc $op '$value'";
+            $query->_qill[$grouping][]  = "Check Number $op \"$value\"";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
+            return;
 
         case 'contribution_test':
             $query->_where[$grouping][] = " civicrm_contribution.is_test $op '$value'";
@@ -352,6 +376,16 @@ class CRM_Contribute_BAO_Query
             $query->_tables['contribution_participant'] = $query->_whereTables['contribution_participant'] = 1;
             
             return;
+
+        case 'contribution_pcp_display_in_roll':
+            $query->_where[$grouping][] = " civicrm_contribution_soft.pcp_display_in_roll $op '$value'";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Display in Roll";
+            }
+            $query->_tables['civicrm_contribution_soft'] = $query->_whereTables['civicrm_contribution_soft'] = 1;
+            
+            return;
+
         default :
             //all other elements are handle in this case
             $fldName = substr($name, 13 );
@@ -462,6 +496,9 @@ class CRM_Contribute_BAO_Query
             $from .= " $side  JOIN civicrm_participant ON civicrm_participant_payment.participant_id = civicrm_participant.id ";
             break;
 
+        case 'civicrm_contribution_soft':
+            $from = " $side JOIN civicrm_contribution_soft ON civicrm_contribution_soft.contribution_id = civicrm_contribution.id";
+            break;
         }
         return $from;
     }
@@ -482,6 +519,7 @@ class CRM_Contribute_BAO_Query
                                 'total_amount'            => 1,
                                 'accounting_code'         => 1,
                                 'payment_instrument'      => 1,
+                                'check_number'            => 1,
                                 'non_deductible_amount'   => 1,
                                 'fee_amount'              => 1,
                                 'net_amount'              => 1,
@@ -561,13 +599,18 @@ class CRM_Contribute_BAO_Query
                    array( '' => ts( '- select -' ) ) +
                    CRM_Contribute_PseudoConstant::paymentInstrument( ) );
 
+        $form->add('select', 'contribution_pcp_made_through_id', 
+                   ts( 'Personal Campaign Page' ),
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::pcPage( ) );
+        
         $status = array( );
         
         require_once "CRM/Core/OptionGroup.php";
         $statusValues = CRM_Core_OptionGroup::values("contribution_status");
-        // Remove status values that are only used for recurring contributions for now (Failed and In Progress).
-        unset( $statusValues['4']);
+        // Remove status values that are only used for recurring contributions or pledges (In Progress, Overdue).
         unset( $statusValues['5']);
+        unset( $statusValues['6']);
 
         foreach ( $statusValues as $key => $val ) {
             $status[] =  $form->createElement('advcheckbox',$key, null, $val );
@@ -589,7 +632,11 @@ class CRM_Contribute_BAO_Query
         $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );
 
         $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Find Recurring Contributions?' ) );
-
+        $form->addElement('text', 'contribution_check_number', ts('Check Number') );
+        
+        //add field for pcp display in roll search
+        $form->addYesNo( 'contribution_pcp_display_in_roll', ts('Display In Roll ?') );
+        
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $contribution = array( 'Contribution' );

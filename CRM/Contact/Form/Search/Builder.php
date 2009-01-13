@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -179,6 +179,11 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                 } else {
                     if ( substr($v[0], 0, 7) == 'custom_' ) {
                         $type = $fields[$v[0]]['data_type'];
+                        
+                        // hack to handle custom data of type state and country
+                        if ( in_array( $type, array( 'Country', 'StateProvince' )) ) {
+                            $type = "Integer";
+                        }
                     } else {
                         $fldName = $v[0];
                         // FIXME: no idea at this point what to do with this,

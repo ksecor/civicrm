@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,8 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Custom_Form_Group extends CRM_Core_Form {
+class CRM_Custom_Form_Group extends CRM_Core_Form 
+{
 
     /**
      * the group id saved to the session for an update
@@ -85,19 +86,34 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * @access public
      * @static
      */
-    static function formRule(&$fields, &$files, $self) {
+    static function formRule(&$fields, &$files, $self) 
+    {
         $errors = array();
+        if ( empty( $fields['extends'][0] ) ) {
+            $errors['extends'] = ts("You need to select the type of record that this group of custom fields is applicable for.");
+        }
 
         $extends = array('Activity','Relationship','Group','Contribution','Membership', 'Event','Participant');
         if(in_array($fields['extends'][0],$extends) && $fields['style'] == 'Tab' ) {
-            $errors['style'] = 'Display Style should be Inline for this Class';
+            $errors['style'] = ts("Display Style should be Inline for this Class");
         }
 
+        if ( CRM_Utils_Array::value('is_multiple',  $fields ) ) {
+            // if ( isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
+            //      && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
+            //     $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
+            // }
+            
+            if ( $fields['style'] == 'Inline' ) {
+                $errors['style'] = ts("'Multiple custom values' feature is not supported with Inline custom data.");
+            }
+        }
+        
         //checks the given custom group doesnot start with digit
         $title = $fields['title']; 
         if ( ! empty( $title ) ) {
-            $asciiValue = ord($title{0});//gives the ascii value
-            if($asciiValue>=48 && $asciiValue<=57) {
+            $asciiValue = ord( $title{0} );//gives the ascii value
+            if( $asciiValue >= 48 && $asciiValue <= 57 ) {
                 $errors['title'] = ts("Group's Name should not start with digit");
             } 
         }
@@ -143,29 +159,49 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                         'objectExists',
                         array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );   
         
+        //Fix for code alignment, CRM-3058
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
-        $sel1 = CRM_Core_SelectValues::customGroupExtends();
-        $sel2= array();
-        $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType( false );
-        $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
-        $sel2['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
-        $sel2['Event']        = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
-        $sel2['Participant']  = array("" => "-- Any --") + CRM_Core_OptionGroup::values('participant_role');
-        
+        require_once 'CRM/Event/PseudoConstant.php';
         require_once "CRM/Contact/BAO/Relationship.php";
-        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
-        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
-        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
-        $allRelationshipType =array();
-        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
-        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+        require_once 'CRM/Core/OptionGroup.php';
         
-        $sel2['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
+        $sel1 = array( "" => "-- Select --" ) + CRM_Core_SelectValues::customGroupExtends( );
+        $sel2 = array( );
+        $activityType    = CRM_Core_PseudoConstant::activityType( false, true );
+        $eventType       = CRM_Core_OptionGroup::values( 'event_type' );
+        $membershipType  = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
+        $participantRole = CRM_Core_OptionGroup::values( 'participant_role' );
+        $relTypeInd      = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, 'null', null, 'Individual' );
+        $relTypeOrg      = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, 'null', null, 'Organization' );
+        $relTypeHou      = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, 'null', null, 'Household' );
+
+        ksort( $sel1 );
+        asort( $activityType );
+        asort( $eventType );
+        asort( $membershipType );
+        asort( $participantRole );
+        $allRelationshipType = array();
+        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);        
+        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+
+        $sel2['Event']                = array( "" => "-- Any --" ) + $eventType;
+        $sel2['Activity']             = array( "" => "-- Any --" ) + $activityType;
+        $sel2['Membership']           = array( "" => "-- Any --" ) + $membershipType;
+        $sel2['ParticipantRole']      = array( "" => "-- Any --" ) + $participantRole;
+        $sel2['ParticipantEventName'] = array( "" => "-- Any --" ) + CRM_Event_PseudoConstant::event( );
+        //$sel2['ParticipantEventType'] = array( "" => "-- Any --" ) + $eventType;
+        $sel2['Contribution']         = array( "" => "-- Any --" ) + CRM_Contribute_PseudoConstant::contributionType( );
+        $sel2['Relationship']         = array( "" => "-- Any --" ) + $allRelationshipType;
         
         require_once "CRM/Core/Component.php";
         $cSubTypes = CRM_Core_Component::contactSubTypes();
-        
+        $freeze = false;
+        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue('CRM_Core_DAO_CustomGroup', $this->_id, 'is_multiple' ) ) {
+            $freeze = true;
+        }
+        $this->assign( 'freeze', $freeze );
+
         if ( !empty( $cSubTypes ) ) {
             $contactSubTypes = array( );
             foreach($cSubTypes as $key => $value ) {
@@ -183,15 +219,14 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             }
         }
         
-        $sel =& $this->addElement('hierselect', "extends", ts('Used For'), array('onClick' => "showHideStyle();",
-                                                                                 'name'=>"extends[0]"
-                                                                                 ));
-        $sel->setOptions(array($sel1,$sel2));
-        
-        // which entity is this custom data group for ?
-        // for update action only allowed if there are no custom values present for this group.
-        // $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
-        
+        $sel =& $this->addElement('hierselect',
+                                  "extends",
+                                  ts('Used For'),
+                                  array( 'onClick' => "showHideStyle();",
+                                         'name'    => "extends[0]"
+                                         ) );
+        $sel->setOptions( array( $sel1, $sel2 ) );
+       
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $sel->freeze();
             $this->assign('gid', $this->_id);
@@ -213,7 +248,26 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
+        
+        // does this group have multiple record?
+        $multiple = $this->addElement('checkbox', 
+                                      'is_multiple', 
+                                      ts('Does this Custom Data Group allow multiple records?'),
+                                      null,
+                                      array( 'onclick' => "showRange();"));
 
+        // $min_multiple = $this->add('text', 'min_multiple', ts('Minimum number of multiple records'), $attributes['min_multiple'] );
+        // $this->addRule('min_multiple', ts('is a numeric field') , 'numeric');
+        
+        $max_multiple = $this->add('text', 'max_multiple', ts('Maximum number of multiple records'), $attributes['max_multiple'] );
+        $this->addRule('max_multiple', ts('is a numeric field') , 'numeric');
+        
+        if ( $freeze ) {
+            $multiple->freeze();
+            //$min_multiple->freeze();
+            $max_multiple->freeze();
+        }
+       
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -246,6 +300,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomGroup');
+
+            $defaults['is_multiple'] = $defaults['min_multiple'] = $defaults['max_multiple'] = 0;
         }
 
         if (isset($this->_id)) {
@@ -257,16 +313,24 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $defaults['style'] = 'Inline';
         }
 
-        if ( isset ($defaults['extends'] ) ){     
+        if ( isset ($defaults['extends'] ) ) {
             $extends = $defaults['extends'];
             unset($defaults['extends']);
+
             $defaults['extends'][0] = $extends;
-            $defaults['extends'][1] = CRM_Utils_Array::value( 'extends_entity_column_value',
-                                                              $defaults );
+            $defaults['extends'][1]  = CRM_Utils_Array::value( 'extends_entity_column_value', $defaults );
+			
+			$subName = CRM_Utils_Array::value( 'extends_entity_column_id', $defaults );
+			
+			if ( $extends == 'Participant') {
+				if ( $subName == 1 ) {
+					$defaults['extends'][0] = 'ParticipantRole';
+				} elseif ( $subName == 2 ) {
+					$defaults['extends'][0] = 'ParticipantEventName';
+				}
+			}
         }
-        
         return $defaults;
-        
     }
     
     /**

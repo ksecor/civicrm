@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -35,7 +35,7 @@
  * implement the Selector/Api.interface.php class
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -228,7 +228,7 @@ class CRM_Core_Selector_Controller {
         if ( $output == self::TRANSFER ) {
             $params['total'] = $this->_store->get( $this->_prefix . 'rowCount' );
         } else {
-            $params['total'] = $this->_object->getTotalCount($action);
+            $params['total'] = $this->_object->getTotalCount($action, $this->_case );
         }
 
         $this->_total = $params['total'];

@@ -18,6 +18,7 @@
 <xi:include href="LocBlock.xml"             parse="xml" />
 <xi:include href="LocationType.xml"         parse="xml" />
 <xi:include href="Log.xml"                  parse="xml" />
+<xi:include href="MailSettings.xml"         parse="xml" />
 <xi:include href="Mapping.xml"              parse="xml" />
 <xi:include href="MappingField.xml"         parse="xml" />
 <xi:include href="Menu.xml"                 parse="xml" />

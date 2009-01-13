@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,12 +27,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Custom/Form/CustomData.php';
 require_once 'CRM/Core/SelectValues.php';
 
 /**
@@ -85,7 +86,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      *
      * @var array
      */
-    protected $_groupTree;    
+    public $_groupTree;    
 
     /**
      * what blocks should we show and hide.
@@ -124,6 +125,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function preProcess( ) 
     {
+        $this->_cdType = CRM_Utils_Array::value( 'type', $_GET );
+        
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
+ 
         $session = & CRM_Core_Session::singleton( ); 
         // reset action from the session
         $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
@@ -150,6 +159,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
+            // check for add contacts permissions
+            require_once 'CRM/Core/Permission.php';
+            if ( ! CRM_Core_Permission::check( 'add contacts' ) ) {
+                CRM_Utils_System::permissionDenied( );
+                return;
+            }
+
             $this->_contactType = CRM_Utils_Request::retrieve( 'ct', 'String',
                                                                $this, true, null, 'REQUEST' );
             if ( ! in_array( $this->_contactType,
@@ -205,13 +221,23 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName ); 
-
+				
+                // need this for custom data in edit mode	
+                $this->assign('entityID', $this->_contactId );
+                
                 //get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
                 $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid='. $this->_contactId ));
-                return;
+            } else {
+                CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
             }
-            CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
+        }
+        
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            CRM_Custom_Form_CustomData::preProcess( $this, 'null', 'null', 1, $this->_contactType, $this->_contactId );
+            CRM_Custom_Form_CustomData::buildQuickForm( $this );
+            CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
     }
 
@@ -224,6 +250,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+
         $defaults = array( );
         $params   = array( );
 
@@ -271,11 +301,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     $defaults['location'][$i+1]['address'] = array( );
                     if ( $config->defaultContactCountry ) {
                         $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
-                        $defaults['location'][$i+1]['address']['state_province_id'] = ts('- type first letter(s) -');
+                        $locationID = $i+1;
                     }
                 }
             }
-        } else { 
+            require_once 'CRM/Core/OptionGroup.php';
+            $defaults['greeting_type_id'] = CRM_Core_OptionGroup::values( 'greeting_type', true, null, 
+                                                                       null, ' AND v.is_default = 1' );
+        } else {
             // this is update mode
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
@@ -284,7 +317,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $locationExists = array( );
             
             foreach( $contact->location as $index => $loc) {
-                $locationExists[] = $loc['location_type_id'];
+                $locationExists[] = CRM_Utils_Array::value( 'location_type_id', $loc );
                 //to get the billing location
                 $defaults['location'][$index]['is_billing'] = CRM_Utils_Array::value( 'is_billing' ,
                                                                                       $defaults['location'][$index]['address'] );
@@ -340,69 +373,28 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
-            
-            if ( CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) ) {
-                $defaults['employer_option'] = 1;
-            }
-            $this->assign( 'sharedEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
+            $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
-        
-        //set defaults for country-state dojo widget
-        if ( ! empty ( $defaults['location'] ) ) {
-            $countries      =& CRM_Core_PseudoConstant::country( );
-            $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
-            
-            foreach ( $defaults['location'] as $key => $value ) {
-                if ( isset( $value['address'] ) ) {
-                    
-                    // hack, check if we have created a country element
-                    if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                        $countryValue = $this->getElementValue( "location[$key][address][country_id]" ) ;
-                        
-                        if ( !$countryValue && isset($value['address']['country_id']) ) {
-                            $countryValue = $value['address']['country_id'];
-                            
-                        }
-                        
-                        if ( $countryValue ) {
-                            //retrive country by using country code for assigning country name to template
-                            $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
-                                                                    $countryValue, 
-                                                                    'name', 
-                                                                    'id' );
-                            $this->assign( "country" , $country );
-                            $this->assign( "country_{$key}_value" ,  $countryValue );
-                        }
-                    }
-                    
-                    if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
-                        $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
-                        
-                        if ( !$stateValue && isset($value['address']['state_province_id']) ) {
-                            $stateValue = $value['address']['state_province_id'];
-                                                        
-                        }
 
-                        if ( $stateValue ) {
-                            //retrive country by using country code for assigning country name to template
-                            $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
-                                                                  $stateValue, 
-                                                                  'name', 
-                                                                  'id' );
-                            $this->assign( "state" , $state );
-                            $this->assign( "state_province_{$key}_value", $stateValue );
-                        }
-                    }
-                    
-                    if ( isset( $value['address']['display']) ) {
-                        $this->assign( "location_{$key}_address_display", 
-                                       str_replace("\n", "<br/>", $value['address']['display']) );
-                    }
+        //set defaults for country-state widget
+        if ( ! empty ( $defaults['location'] ) ) {
+            foreach ( $defaults['location'] as $key => $value ) {
+                CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                          "location[$key][address][country_id]",
+                                                          "location[$key][address][state_province_id]",
+                                                          CRM_Utils_Array::value( 'country_id',
+                                                                                  CRM_Utils_Array::value( 'address',
+                                                                                                          $value ),
+                                                                                  $config->defaultContactCountry ) );
+
+                if ( isset( $value['address'] ) &&
+                     isset( $value['address']['display']) ) {
+                    $this->assign( "location_{$key}_address_display", 
+                                   str_replace("\n", "<br/>", $value['address']['display']) );
                 }
             }
         }
 
-        CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }
 
@@ -488,6 +480,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function addRules( )
     {
+		// skip adding formRules when custom data is build
+        if ( $this->_cdType ) {
+			return;
+		}
         $this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ), $this->_contactId );
     }
 
@@ -499,6 +495,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Contact');
+        $this->assign('customDataSubType',  $this->_contactType );
+
         require_once 'CRM/Contact/Form/Location.php';
 
         // assign a few constants used by all display elements
@@ -517,7 +521,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         // greeting type
-        $this->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting());
+        $this->addElement('select', 'greeting_type_id', ts('Greeting'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), array( 'onchange' => " showGreeting();") );
 
         // custom greeting
         $this->addElement('text', 'custom_greeting', ts('Custom Greeting'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'custom_greeting' ));
@@ -533,10 +537,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
         $this->assign( 'addressSequence', $addressSequence );
 
-        /* Entering the compact location engine */ 
         $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, $this->_maxLocationBlocks );
-       
-        /* End of locations */
         
         // add note block
         if ( $this->_showNotes &&
@@ -549,11 +550,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         require_once 'CRM/Contact/Form/GroupTag.php';
         $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId, CRM_Contact_Form_GroupTag::ALL );
 
-        //Custom Group Inline Edit form
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId,0,$this->_contactSubType);
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        
         if ( $this->_showNotes ) {
             CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
         }
@@ -569,20 +565,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                           $this->getButtonName( 'next'   , 'sharedHouseholdDuplicate' ),
                           ts( 'Save With Duplicate Household' ) );
 
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
-
+        // make this form an upload since we dont know if the custom data injected dynamically
+        // is of type file etc $uploadNames = $this->get( 'uploadNames' );
         $this->addButtons( array(
-                                 array ( 'type'      => $buttonType,
+                                 array ( 'type'      => 'upload',
                                          'name'      => ts('Save'),
                                          'subName'   => 'view',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => $buttonType,
+                                 array ( 'type'      => 'upload',
                                          'name'      => ts('Save and New'),
                                          'subName'   => 'new' ),
                                  array ( 'type'       => 'cancel',
@@ -607,6 +597,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
+        //if greeting type is not customized, unset previously set custom greeting.
+        if ( CRM_Utils_Array::value('greeting_type_id', $params) != 4 ) {
+            $params['custom_greeting'] = "";
+        }
+ 
         $params['contact_type'] = $this->_contactType;
         
         if ( $this->_contactId ) {
@@ -629,32 +624,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
         
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, $params['contact_type'], null,
-                                                             $this->_contactId, true);
-            }
-        }
-
-        //special case to handle if all checkboxes are unchecked
+        require_once 'CRM/Core/BAO/CustomField.php';
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                     ! CRM_Utils_Array::value( $k, $customData ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
-                                                                 '', $params['contact_type'], null, $this->_contactId);
-                }
-            }
-        }
-    
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_contactId,
+                                                                   $params['contact_type'],
+                                                                   true );
+ 
         if ( $this->_showCommBlock ) {
             // this is a chekbox, so mark false if we dont get a POST value
             $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
@@ -662,27 +639,30 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // copy household address, if use_household_address option (for individual form) is checked
         if ( $this->_contactType == 'Individual' ) {
-            if ( CRM_Utils_Array::value( 'use_household_address', $params ) ) {
-                if ( !$params['shared_option'] && $params['create_household'] ) {
-                    CRM_Contact_Form_Individual::createSharedHousehold( $params );
-                } elseif ( $params['shared_option'] ) {
+            if ( CRM_Utils_Array::value( 'use_household_address', $params ) && 
+                 CRM_Utils_Array::value( 'shared_household',$params ) ) {
+                if ( is_numeric( $params['shared_household'] ) ) {
                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
                 }
-            } else {
+                CRM_Contact_Form_Individual::createSharedHousehold( $params );
+            } else { 
                 $params['mail_to_household_id'] = 'null';
             }
-        } 
+        } else {
+            $params['mail_to_household_id'] = 'null';
+        }
 
         // cleanup unwanted location types
         if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             require_once 'CRM/Core/BAO/Location.php';
             CRM_Core_BAO_Location::cleanupContactLocations( $params );
         }
-
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true,false );
-        
-        if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) ){
+               
+        if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) &&
+             CRM_Utils_Array::value( 'mail_to_household_id',$params ) ) {
             // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
             CRM_Contact_Form_Individual::handleSharedRelation($contact->id , $params );
         }
@@ -720,29 +700,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', 'reset=1&ct=' . $contact->contact_type ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
-        }
-
-        if ( $this->_contactType == 'Individual' ) {
-            if ( isset( $params['employer_option'] ) ) {
-                // create current employer
-                if ( $params['employer_option'] ) {
-                    //selected existing organization
-                    $orgParam = $params['shared_employer'];
-                } else {
-                    // create new org
-                    $orgParam = $params['create_employer'];
-                }
-
-                require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contact->id, 
-                                                                                  $orgParam );
-            } else {
-                //unset if employer id exits
-                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
-                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $contact->id );
-                }
-            }
         }
 
         // now invoke the post hook
@@ -792,7 +749,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $form->add('select', 'preferred_mail_format', ts('Email Format'), CRM_Core_SelectValues::pmf());
 
-        $form->add('checkbox', 'is_opt_out', ts( 'User Opt Out' ) );
+        $form->add('checkbox', 'is_opt_out', ts( 'NO BULK EMAILS (User Opt Out)' ) );
     }
 
 
@@ -808,6 +765,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     static function formRule(&$fields, &$errors)
     {
+
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( $config->civiHRD && ! isset( $fields['tag']) ) {
+            $errors["tag"] = ts('Please select at least one tag.');
+        }
+
         $primaryID = false;
 
         // make sure that at least one field is marked is_primary

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2008
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@ require_once 'CRM/Contact/DAO/GroupContactCache.php';
 class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCache {
 
     const
-        NUM_CONTACTS_TO_INSERT = 5;
+        NUM_CONTACTS_TO_INSERT = 200;
 
     /**
      * Check to see if we have cache entries for this group
@@ -87,9 +87,11 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
     }
 
     static function store( &$groupID, &$values ) {
+        $processed = false;
 
         // to avoid long strings, lets do NUM_CONTACTS_TO_INSERT values at a time
         while ( ! empty( $values ) ) {
+            $processed = true;
             $input = array_splice( $values, 0, self::NUM_CONTACTS_TO_INSERT );
             $str   = implode( ',', $input );
             $sql = "REPLACE INTO civicrm_group_contact_cache (group_id,contact_id) VALUES $str;";
@@ -97,29 +99,58 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
                                         CRM_Core_DAO::$_nullArray );
         }
 
-        // also update the group with cache date information
-        $now = date('YmdHis');
-        $groupIDs = implode( ',', $groupID );
-        $sql = "
+        // only update cache entry if we had any values
+        if ( $processed ) {
+            // also update the group with cache date information
+            $now = date('YmdHis');
+            $groupIDs = implode( ',', $groupID );
+            $sql = "
 UPDATE civicrm_group
 SET    cache_date = $now
 WHERE  id IN ( $groupIDs )
 ";
-        CRM_Core_DAO::executeQuery( $sql,
-                                    CRM_Core_DAO::$_nullArray );
+            CRM_Core_DAO::executeQuery( $sql,
+                                        CRM_Core_DAO::$_nullArray );
+        }
     }
 
-    static function remove( $groupID = null ) {
+    static function remove( $groupID = null, $onceOnly = true ) {
+        static $invoked = false;
+
+        // typically this needs to happy only once per instance
+        // this is especially true in import, where we dont need 
+        // to do this all the time
+        // this optimization is done only when no groupID is passed
+        // i.e. cache is reset for all groups
+        if ( $onceOnly &&
+             $invoked  &&
+             $groupID == null ) {
+            return;
+        }
+        
+        if ( $groupID == null ) {
+            $invoked = true;
+        }
+
+        $config = CRM_Core_Config::singleton( );
+        $smartGroupCacheTimeout = $config->smartGroupCacheTimeout;
+
         if ( ! isset( $groupID ) ) {
             $query = "
 DELETE     g
 FROM       civicrm_group_contact_cache g
 INNER JOIN civicrm_contact c ON c.id = g.contact_id
+WHERE      g.group_id IN (
+    SELECT id
+    FROM   civicrm_group
+    WHERE  TIMESTAMPDIFF(MINUTE, cache_date, NOW()) > $smartGroupCacheTimeout   
+)
 ";
 
             $update = "
 UPDATE civicrm_group g
 SET    cache_date = null
+WHERE  TIMESTAMPDIFF(MINUTE, cache_date, NOW()) > $smartGroupCacheTimeout
 ";
             $params = array( );
         } else if ( is_array( $groupID ) ) {

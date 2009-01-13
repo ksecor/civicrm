@@ -4,7 +4,7 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
+"Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2007-04-18 07:33+0200\n"
 "PO-Revision-Date: 2007-06-03 00:53-0700\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
@@ -40,7 +40,9 @@ msgstr "- Feu servir els botons \\u2039, \\u203a per seleccionar el mes"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- Mantingueu el ratolí premut a qualsevol dels botons anteriors per a una selecció ràpida."
+msgstr ""
+"- Mantingueu el ratolí premut a qualsevol dels botons anteriors per a una "
+"selecció ràpida."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"

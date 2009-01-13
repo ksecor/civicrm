@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -30,7 +30,7 @@
  * PEAR_ErrorStack and use that framework
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -475,11 +475,14 @@ class CRM_Core_Error extends PEAR_ErrorStack {
                                 $callback );
     }
 
-    public static function &createAPIError( $msg ) {
+    public static function &createAPIError( $msg, $data = null ) {
         $values = array( );
         
         $values['is_error']      = 1;
         $values['error_message'] = $msg;
+        if ( $data ) {
+            $values['error_data']    = $data;
+        }
         return $values;
     }
 

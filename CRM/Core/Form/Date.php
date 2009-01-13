@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -62,18 +62,18 @@ Class CRM_Core_Form_Date
         
         require_once "CRM/Utils/System.php";
         if ( CRM_Utils_System::getClassName( $form ) == 'CRM_Activity_Import_Form_UploadFile' ) {
-            $dateText = ts('yyyy-mm-dd OR yyyymmdd OR yyyymmdd hh:mm (1998-12-25 OR 19981225 OR 19981225 10:30)');
+            $dateText = ts('yyyy-mm-dd OR yyyymmdd OR yyyymmdd hh:mm (1998-12-25 OR 19981225 OR 19981225 10:30) OR (2008-9-1 OR 20080901 10:30)');
         } else {
-            $dateText = ts('yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)');
+            $dateText = ts('yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225) OR (2008-9-1 OR 20080901)');
         }
 
         $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, $dateText, self::DATE_yyyy_mm_dd);
 
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yy OR mm-dd-yy (12/25/98 OR 12-25-98)'), self::DATE_mm_dd_yy);
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yyyy OR mm-dd-yyyy (12/25/1998 OR 12-25-1998)'), self::DATE_mm_dd_yyyy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yy OR mm-dd-yy (12/25/98 OR 12-25-98) OR (9/1/08 OR 9-1-08)'), self::DATE_mm_dd_yy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yyyy OR mm-dd-yyyy (12/25/1998 OR 12-25-1998) OR (9/1/2008 OR 9-1-2008)'), self::DATE_mm_dd_yyyy);
         $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('Month dd, yyyy (December 12, 1998)'), self::DATE_Month_dd_yyyy);
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('dd-mon-yy (25-Dec-98)'), self::DATE_dd_mon_yy);
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('dd/mm/yyyy (25/12/1998)'), self::DATE_dd_mm_yyyy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('dd-mon-yy OR dd/mm/yy (25-Dec-98 OR 25/12/98)'), self::DATE_dd_mon_yy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('dd/mm/yyyy (25/12/1998) OR (1/9/2008)'), self::DATE_dd_mm_yyyy);
         $form->addGroup($dateOptions, 'dateFormats', ts('Date Format'), '<br/>');
         $form->setDefaults(array('dateFormats' => self::DATE_yyyy_mm_dd));
     }

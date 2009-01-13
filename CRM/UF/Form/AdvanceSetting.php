@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -70,9 +70,6 @@ class CRM_UF_Form_AdvanceSetting extends CRM_UF_Form_Group {
         // add CAPTCHA To this group ?
         $form->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
         
-        // is this group collapsed or expanded ?
-        $form->addElement('checkbox', 'collapse_display', ts('Collapse profile fieldset on initial display?'));
-        
         // should we display an edit link
         $form->addElement('checkbox', 'is_edit_link', ts('Include profile edit links in search results?'));
 
@@ -86,7 +83,14 @@ class CRM_UF_Form_AdvanceSetting extends CRM_UF_Form_Group {
         if ( $form->_cId = $session->get( 'userID' ) ){
             $form->_cmsId = true;
         }
-        $form->add('checkbox', 'is_cms_user', ts('%1 user account registration option?', array( 1=>$config->userFramework )));
+        //   require_once 'CRM/Member/Import/Parser/Membership.php';
+        $options = array(); 
+        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('No account create option'), 0 );
+        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Give option, but not required'), 1 );
+        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Account creation required'), 2 );
+        
+        $this->addGroup($options, 'is_cms_user', ts('%1 user account registration option?', array( 1=>$config->userFramework )));
+        //$form->add('checkbox', 'is_cms_user', ts('%1 user account registration option?', array( 1=>$config->userFramework )));
         // CRM_UF_Form_Group::setDefaultValues();
     }
 }

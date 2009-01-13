@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -33,7 +33,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -54,7 +54,7 @@ require_once 'api/v2/utils.php';
  * @return array participant id if participant is created/edited otherwise is_error = 1
  * @access public
  */
-function &civicrm_participant_create(&$params)
+function civicrm_participant_create(&$params)
 {
     _civicrm_initialize();
     
@@ -121,7 +121,8 @@ function &civicrm_participant_get( &$params ) {
 
     if ( count( $participant ) != 1 &&
          ! CRM_Utils_Array::value( 'returnFirst', $params ) ) {
-        $error = civicrm_create_error( ts( '%1 participant matching input params', array( 1 => count( $participant ) ) ) );
+        $error = civicrm_create_error( ts( '%1 participant matching input params', array( 1 => count( $participant ) ) ),
+                                       $participant );
         return $error;
     }
 
@@ -162,6 +163,12 @@ function &civicrm_participant_search( &$params ) {
             $inputParams[$n] = $v;
         }
     }
+
+    // add is_test to the clause if not present
+    if ( ! array_key_exists( 'participant_test', $inputParams ) ) {
+        $inputParams['participant_test'] = 0;
+    }
+
     require_once 'CRM/Contact/BAO/Query.php';
     require_once 'CRM/Event/BAO/Query.php';  
     if ( empty( $returnProperties ) ) {
@@ -418,7 +425,8 @@ function civicrm_participant_check_params( &$params )
     
     if( CRM_Event_BAO_Participant::checkDuplicate( $params, $result ) ) {
         $error = CRM_Core_Error::createError( "Found matching records{$params['contact_id']}", CRM_Core_Error::DUPLICATE_PARTICIPANT, 'Fatal',$params['contact_id']);
-        return civicrm_create_error( $error->pop( ) );
+        return civicrm_create_error( $error->pop( ),
+                                     $params['contact_id'] );
     }
     
     return true;

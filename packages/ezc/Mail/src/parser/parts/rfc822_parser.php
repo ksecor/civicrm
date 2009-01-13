@@ -3,8 +3,8 @@
  * File containing the ezcMailRfc822Parser class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -15,7 +15,7 @@
  * Use the RFC822DigestParser to these.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @access private
  */
 class ezcMailRfc822Parser extends ezcMailPartParser
@@ -54,19 +54,11 @@ class ezcMailRfc822Parser extends ezcMailPartParser
     private $bodyParser = null;
 
     /**
-     * Hold the size of the mail part.
-     *
-     * @var int
-     */
-    private $size;
-
-    /**
      * Constructs a new ezcMailRfc822Parser.
      */
     public function __construct()
     {
         $this->headers = new ezcMailHeadersHolder();
-        $this->size = 0;
     }
 
     /**
@@ -79,7 +71,6 @@ class ezcMailRfc822Parser extends ezcMailPartParser
     public function parseBody( $origLine )
     {
         $line = rtrim( $origLine, "\r\n" );
-        $this->size += strlen( $line );
         if ( $this->parserState == self::PARSE_STATE_HEADERS && $line == '' )
         {
             $this->parserState = self::PARSE_STATE_BODY;
@@ -168,7 +159,6 @@ class ezcMailRfc822Parser extends ezcMailPartParser
         {
             $mail->body = $this->bodyParser->finish();
         }
-        $mail->size = $this->size;
         return $mail;
     }
 }

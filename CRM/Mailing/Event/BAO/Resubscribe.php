@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -182,6 +182,9 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         $contacts = CRM_Contact_DAO_Contact::getTableName();
         $email    = CRM_Core_DAO_Email::getTableName();
         $queue    = CRM_Mailing_Event_BAO_Queue::getTableName();
+      
+        //get the default domain email address.
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
         
         $dao =& new CRM_Mailing_BAO_Mailing();
         $dao->query("   SELECT * FROM $mailingTable 
@@ -243,25 +246,29 @@ class CRM_Mailing_Event_BAO_Resubscribe {
             $text = CRM_Utils_Token::replaceMailingTokens($text, $dao, null, $tokens['text']);
             $message->setTxtBody($text);
         }
+
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         $headers = array(
-            'Subject'       => $component->subject,
-            'From'          => ts('\'%1\' <do-not-reply@%2>',
-                                  array(  1 => $domain->email_name,
-                                          2 => $domain->email_domain) ),
-            'To'            => $eq->email,
-            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
-            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
-        );
-
+                         'Subject'       => $component->subject,
+                         'From'          => "\"$domainEmailName\" <do-not-reply@$emailDomain>",
+                         'To'            => $eq->email,
+                         'Reply-To'      => "do-not-reply@$emailDomain",
+                         'Return-Path'   => "do-not-reply@$emailDomain",
+                         );
+        
         $b = $message->get();
-
+        
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
-
+        
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Core_Error', 'nullHandler' ) );
-        $mailer->send($eq->email, $h, $b);
-        CRM_Core_Error::setCallback();
+        if ( is_object( $mailer ) ) {
+            $mailer->send($eq->email, $h, $b);
+            CRM_Core_Error::setCallback();
+        }
     }
 
 }

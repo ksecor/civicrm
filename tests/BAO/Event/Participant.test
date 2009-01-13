@@ -131,6 +131,12 @@ class BAO_Event_Participant extends CiviTestCase
      */
     function testeventFull()
     {
+	require_once 'CRM/Event/BAO/Event.php';
+	CRM_Event_BAO_Event::add(
+                                 $eventParams = array( 'max_participants' => 1 , 
+						       'id'               => $this->_eventId 
+						       ));
+	
         $participantId = Participant::create( $this->_contactId, $this->_eventId);
         $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
         $this->assertEqual( $eventFull, 'This event is full !!!', 'Checking if Event is full.' );
@@ -288,11 +294,6 @@ class BAO_Event_Participant extends CiviTestCase
         if ( !$id ) {
             $id = $this->_contactId;
         }
-        
-        $expectedParams = array('note' => $params['note'] , 'contact_id' => $id);
-        $savedParams = array('entity_table' => 'civicrm_participant' , 'entity_id' => $participant->id);
-
-        $this->assertDBCompareValues('CRM_Core_BAO_Note', $savedParams, $expectedParams );
         
         //Deleting the Participant created by create function in this function
         $deleteParticipant = CRM_Event_BAO_Participant::deleteParticipant( $participant->id );

@@ -1,7 +1,7 @@
 {if $action eq 2 } {* update *}            
     {include file="CRM/Pledge/Form/Payment.tpl"}
 {else}
-<table class="selector">
+<table class="nestedSelector">
   <tr class="columnheader">
     <th>{ts}Scheduled Amount{/ts}</th>
     <th>{ts}Scheduled Date{/ts}</th>

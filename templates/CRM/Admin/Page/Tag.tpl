@@ -14,13 +14,17 @@
         {strip}
         <table cellpadding="0" cellspacing="0" border="0">
 	        <tr class="columnheader">
+	        <th>{ts}Parent ID{/ts}</th>
 	        <th>{ts}Tag{/ts}</th>
+            <th>{ts}ID{/ts}</th>
 	        <th>{ts}Description{/ts}</th>
 	        <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-            <td>{$row.name}</td>	
+            <td>{$row.parent_id}</td>
+            <td>{$row.name}</td>
+            <td>{$row.id}</td>	
             <td>{$row.description} </td>
             <td>{$row.action}</td>
         </tr>

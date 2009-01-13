@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the Archive component.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.2.3
+ * @version 1.3
  * @filesource
  * @package Archive
  */
@@ -15,7 +15,6 @@ return array(
     'ezcArchiveChecksumException'         => 'Archive/exceptions/archive_checksum.php',
     'ezcArchiveEmptyException'            => 'Archive/exceptions/archive_empty.php',
     'ezcArchiveEntryPrefixException'      => 'Archive/exceptions/archive_entry_prefix.php',
-    'ezcArchiveFileException'             => 'Archive/exceptions/file_exception.php',
     'ezcArchiveInternalException'         => 'Archive/exceptions/archive_internal_exception.php',
     'ezcArchiveIoException'               => 'Archive/exceptions/archive_io.php',
     'ezcArchiveUnknownTypeException'      => 'Archive/exceptions/archive_unknown_type.php',
@@ -37,6 +36,7 @@ return array(
     'ezcArchiveGnuHeader'                 => 'Archive/tar/headers/tar_gnu.php',
     'ezcArchiveGnuTar'                    => 'Archive/tar/gnu_tar.php',
     'ezcArchiveMime'                      => 'Archive/archive_mime.php',
+    'ezcArchiveOptions'                   => 'Archive/options/archive.php',
     'ezcArchivePaxHeader'                 => 'Archive/tar/headers/tar_pax.php',
     'ezcArchivePaxTar'                    => 'Archive/tar/pax_tar.php',
     'ezcArchiveStatMode'                  => 'Archive/stat_mode.php',

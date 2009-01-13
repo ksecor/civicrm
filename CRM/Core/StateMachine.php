@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -163,7 +163,7 @@ class CRM_Core_StateMachine {
 
         // the page is valid, process it if we are jumping to the next state
         if ( $type == 'Next' ) {
-            $page->postProcess( );
+            $page->mainProcess( );
             // we get the state again, since postProcess might have changed it
             // this bug took me forever to find :) Lobo
             $state =& $this->_states[$pageName];

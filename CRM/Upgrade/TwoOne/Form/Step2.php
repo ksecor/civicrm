@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -57,7 +57,7 @@ class CRM_Upgrade_TwoOne_Form_Step2 extends CRM_Upgrade_Form {
 SELECT id FROM civicrm_option_group WHERE name = 'safe_file_extension'";
         $sfeGroup = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $sfeGroup->fetch();
-        if ( ! $sfeGroup->id ) {
+        if ( ! isset($sfeGroup->id) ) {
             $query = "
 INSERT INTO civicrm_option_group (name, description, is_reserved, is_active)
 VALUES ('safe_file_extension', 'Safe File Extension', 0, 1)";
@@ -71,32 +71,33 @@ SELECT id FROM civicrm_option_group WHERE name = 'safe_file_extension'";
                 $query = "
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
 VALUES 
-({$dao->id}, 'jpg',  1, NULL, NULL, 0, 0,  1, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'jpeg', 2, NULL, NULL, 0, 0,  2, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'png',  3, NULL, NULL, 0, 0,  3, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'gif',  4, NULL, NULL, 0, 0,  4, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'txt',  5, NULL, NULL, 0, 0,  5, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'pdf',  6, NULL, NULL, 0, 0,  6, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'doc',  7, NULL, NULL, 0, 0,  7, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'xls',  8, NULL, NULL, 0, 0,  8, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'rtf',  9, NULL, NULL, 0, 0,  9, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'csv', 10, NULL, NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'ppt', 11, NULL, NULL, 0, 0, 11, NULL, 0, 0, 1, NULL)
+( %1, 'jpg',  1, NULL, NULL, 0, 0,  1, NULL, 0, 0, 1, NULL),
+( %1, 'jpeg', 2, NULL, NULL, 0, 0,  2, NULL, 0, 0, 1, NULL),
+( %1, 'png',  3, NULL, NULL, 0, 0,  3, NULL, 0, 0, 1, NULL),
+( %1, 'gif',  4, NULL, NULL, 0, 0,  4, NULL, 0, 0, 1, NULL),
+( %1, 'txt',  5, NULL, NULL, 0, 0,  5, NULL, 0, 0, 1, NULL),
+( %1, 'pdf',  6, NULL, NULL, 0, 0,  6, NULL, 0, 0, 1, NULL),
+( %1, 'doc',  7, NULL, NULL, 0, 0,  7, NULL, 0, 0, 1, NULL),
+( %1, 'xls',  8, NULL, NULL, 0, 0,  8, NULL, 0, 0, 1, NULL),
+( %1, 'rtf',  9, NULL, NULL, 0, 0,  9, NULL, 0, 0, 1, NULL),
+( %1, 'csv', 10, NULL, NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
+( %1, 'ppt', 11, NULL, NULL, 0, 0, 11, NULL, 0, 0, 1, NULL)
 ";
-                $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $params = array( 1 => array( $dao->id, 'Integer' ) );
+                $dao    = CRM_Core_DAO::executeQuery( $query, $params );
             }
         } else {
             //fix for CRM-3252
             //delete records from db.
             
-            $labels = "(" . implode( ',', array( "'html'", "'htm'" ) ) . ")";
             $query = "
 DELETE 
 FROM   `civicrm_option_value` 
-WHERE  `option_group_id` = {$sfeGroup->id}
-AND    `label` IN {$labels}
+WHERE  `option_group_id` = %1
+AND    `label` IN ('html', 'htm')
 ";
-            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $params = array( 1 => array( $sfeGroup->id, 'Integer' ) );
+            $dao    = CRM_Core_DAO::executeQuery( $query, $params );
         }
         
         $this->setVersion( '2.02' );

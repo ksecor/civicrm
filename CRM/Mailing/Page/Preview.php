@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -57,6 +57,11 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         $options = array();
         $session->getVars($options, "CRM_Mailing_Controller_Send_$qfKey");
         
+        //get the options if control come from search context, CRM-3711
+        if ( empty( $options ) ) {
+            $session->getVars($options, "CRM_Contact_Controller_Search_$qfKey");
+        }
+        
         // FIXME: the below and CRM_Mailing_Form_Test::testMail()
         // should be refactored
         $fromEmail = null;
@@ -70,6 +75,11 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
 
         CRM_Mailing_BAO_Mailing::tokenReplace($mailing);
         
+        if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+            require_once 'CRM/Core/Smarty/resources/String.php';
+            civicrm_smarty_register_string_resource( );
+        }
+
         // get and format attachments
         require_once 'CRM/Core/BAO/File.php';
         $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',

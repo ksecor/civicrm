@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -67,6 +67,28 @@ class CRM_Export_BAO_Export
         $queryMode        = null; 
         $paymentFields    = false;
 
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
+        
+        $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
+        
+        switch ( $exportMode )  {
+        case CRM_Export_Form_Select::CONTRIBUTE_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
+            break;
+        case CRM_Export_Form_Select::EVENT_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_EVENT;
+            break;
+        case CRM_Export_Form_Select::MEMBER_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_MEMBER;
+            break;
+        case CRM_Export_Form_Select::PLEDGE_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_PLEDGE;
+            break;
+        case CRM_Export_Form_Select::CASE_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_CASE;
+            break;
+        }
+        
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
@@ -107,8 +129,10 @@ class CRM_Export_BAO_Export
                 $returnProperties['membership_id'] = 1;
             } else if ( $exportMode == CRM_Export_Form_Select::PLEDGE_EXPORT ) {
                 $returnProperties['pledge_id'] = 1;
+            } else if ( $exportMode == CRM_Export_Form_Select::CASE_EXPORT ) {
+                $returnProperties['case_id'] = 1;
             }
-        } else {
+         } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
 
@@ -122,34 +146,31 @@ class CRM_Export_BAO_Export
             if ( $primary ) {
                 $returnProperties['location_type'   ] = 1;
                 $returnProperties['im_provider'     ] = 1;
-                $returnProperties['phone_type'      ] = 1;
+                $returnProperties['phone_type_id'   ] = 1;
                 $returnProperties['current_employer'] = 1;
             }
             
             $extraReturnProperties = array( );
             $paymentFields = false;
-            $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
             
-            switch ( $exportMode )  {
-            case CRM_Export_Form_Select::CONTRIBUTE_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
-                break;
-            case CRM_Export_Form_Select::EVENT_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_EVENT;
+            switch ( $queryMode )  {
+            case CRM_Contact_BAO_Query::MODE_EVENT :
                 $paymentFields  = true;
                 $paymentTableId = "participant_id";
                 break;
-            case CRM_Export_Form_Select::MEMBER_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_MEMBER;
+            case CRM_Contact_BAO_Query::MODE_MEMBER :
                 $paymentFields  = true;
                 $paymentTableId = "membership_id";
                 break;
-            case CRM_Export_Form_Select::PLEDGE_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_PLEDGE;
+            case CRM_Contact_BAO_Query::MODE_PLEDGE :
                 require_once 'CRM/Pledge/BAO/Query.php';
                 $extraReturnProperties = CRM_Pledge_BAO_Query::extraReturnProperties( $queryMode );
                 $paymentFields  = true;
                 $paymentTableId = "pledge_payment_id";
+                break;
+            case CRM_Contact_BAO_Query::MODE_CASE :
+                require_once 'CRM/Case/BAO/Query.php';
+                $extraReturnProperties = CRM_Case_BAO_Query::extraReturnProperties( $queryMode );
                 break;
             }
             
@@ -171,6 +192,18 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
+        foreach( $ids as $keys => $values ) {
+            if ( CRM_Utils_Array::value( 'greeting_type', $returnProperties ) ) {
+                $greetingTypeValue = CRM_Core_DAO::getFieldValue(
+                                                                 'CRM_Contact_DAO_Contact', 
+                                                                 $values, 
+                                                                 'greeting_type_id' 
+                                                                ); 
+                if ( $greetingTypeValue == 4 ) {
+                    $returnProperties['custom_greeting'] = 1;   
+                }
+            }
+        }
         //crm_core_error::debug('$returnProperties', $returnProperties ); exit();
         $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
 
@@ -180,12 +213,12 @@ class CRM_Export_BAO_Export
         // by the fields param (CRM-1969), else we limit the contacts outputted to only
         // ones that are part of a group
         if ( CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
-            $groupClause = " ( civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status is NULL ) ";
-            if ( empty( $where ) ) {
-                $where = "WHERE $groupClause";
-            } else {
-                $where .= " AND $groupClause";
-            }
+            $oldClause = "contact_a.id = civicrm_group_contact.contact_id";
+            $newClause = " ( $oldClause AND civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status IS NULL ) ";
+            // total hack for export, CRM-3618
+            $from = str_replace( $oldClause,
+                                 $newClause,
+                                 $from );
         }
 
         if ( $componentClause ) {
@@ -200,7 +233,8 @@ class CRM_Export_BAO_Export
         
         if ( CRM_Utils_Array::value( 'tags'  , $returnProperties ) || 
              CRM_Utils_Array::value( 'groups', $returnProperties ) ||
-             CRM_Utils_Array::value( 'notes' , $returnProperties ) ) { 
+             CRM_Utils_Array::value( 'notes' , $returnProperties ) ||
+             $query->_useGroupBy ) { 
             $queryString .= " GROUP BY contact_a.id";
         }
         
@@ -211,7 +245,7 @@ class CRM_Export_BAO_Export
                 $queryString .= " ORDER BY $order";
             }
         }
-        
+
         //hack for student data
         require_once 'CRM/Core/OptionGroup.php';
         $multipleSelectFields = array( 'preferred_communication_method' => 1 );
@@ -234,6 +268,7 @@ class CRM_Export_BAO_Export
                                      ts('Payment Instrument'), ts('Transaction ID'));
             
             // get payment related in for event and members
+            require_once 'CRM/Contribute/BAO/Contribution.php';
             $paymentDetails = CRM_Contribute_BAO_Contribution::getContributionDetails( $exportMode, $ids );
         }
         
@@ -247,7 +282,7 @@ class CRM_Export_BAO_Export
                 if ( $setHeader ) { 
                     if ( isset( $query->_fields[$field]['title'] ) ) {
                         $headerRows[] = $query->_fields[$field]['title'];
-                    } else if ($field == 'phone_type'){
+                    } else if ($field == 'phone_type_id'){
                         $headerRows[] = 'Phone Type';
                     } else if ( is_array( $value ) && $field == 'location' ) {
                         // fix header for location type case
@@ -257,19 +292,29 @@ class CRM_Export_BAO_Export
                                 $hdr = "{$ltype}-" . $query->_fields[$type[0]]['title'];
                                 
                                 if ( CRM_Utils_Array::value( 1, $type ) ) {
-                                    $hdr .= " " . $type[1];
+                                    $hdr .= " " . CRM_Utils_Array::value( $type[1], $phoneTypes );
                                 }
                                 $headerRows[] = $hdr;
                             }
+                        }
+                    } else if ( substr( $field, 0, 5 ) == 'case_' ) {
+                        if (  $query->_fields['case'][$field]['title'] ) {
+                            $headerRows[] = $query->_fields['case'][$field]['title'];
+                        } else if ( $query->_fields['activity'][$field]['title'] ){
+                            $headerRows[] = $query->_fields['activity'][$field]['title'];
                         }
                     } else {
                         $headerRows[] = $field;
                     }
                 }
-
+                
                 //build row values (data)
                 if ( property_exists( $dao, $field ) ) {
                     $fieldValue = $dao->$field;
+                    // to get phone type from phone type id
+                    if ( $field == 'phone_type_id' ) {
+                        $fieldValue = $phoneTypes[$fieldValue];
+                    }
                 } else {
                     $fieldValue = '';
                 }
@@ -319,7 +364,7 @@ class CRM_Export_BAO_Export
                     $row[$field] = '';             
                 }
             }
-            
+
             //build header only once
             $setHeader = false;
         
@@ -372,6 +417,8 @@ class CRM_Export_BAO_Export
 
         case CRM_Export_Form_Select::PLEDGE_EXPORT : 
             return ts('CiviCRM Pledge Search');
+        case CRM_Export_Form_Select::CASE_EXPORT : 
+            return ts('CiviCRM Case Search');
         }
     }
 
@@ -428,7 +475,7 @@ class CRM_Export_BAO_Export
         $qfKey = CRM_Core_Key::get( $controller );
         
         $fileName = $session->get($varName . 'FileName', "{$controller}_{$qfKey}");
-        
+
         $config =& CRM_Core_Config::singleton( ); 
         
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -441,6 +488,41 @@ class CRM_Export_BAO_Export
         
         exit();
     }
+
+    function exportCustom( $customSearchClass, $formValues, $order ) 
+    {
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $customSearchClass ) . '.php' );
+        eval( '$search = new ' . $customSearchClass . '( $formValues );' );
+      
+        $includeContactIDs = false;
+        if ( $formValues['radio_ts'] == 'ts_sel' ) {
+            $includeContactIDs = true;
+        }
+
+        $sql    = $search->all( 0, 0, $order, $includeContactIDs );
+
+        $columns = $search->columns( );
+
+        $header = array_keys  ( $columns );
+        $fields = array_values( $columns );
+
+        $rows = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $sql,
+                                            CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $row = array( );
+
+            foreach ( $fields as $field ) {
+                $row[$field] = $dao->$field;
+            }
+            $rows[] = $row;
+        }
+
+        require_once 'CRM/Core/Report/Excel.php';
+        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows );
+        exit();
+    }
+
 
 }
 

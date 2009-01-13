@@ -2,9 +2,9 @@
 
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 2.1                                                |
+   | CiviCRM version 2.2                                                |
    +--------------------------------------------------------------------+
-   | Copyright CiviCRM LLC (c) 2004-2008                                |
+   | Copyright CiviCRM LLC (c) 2004-2009                                |
    +--------------------------------------------------------------------+
    | This file is a part of CiviCRM.                                    |
    |                                                                    |
@@ -30,7 +30,7 @@
    *
    *
    * @package CRM
-   * @copyright CiviCRM LLC (c) 2004-2007
+   * @copyright CiviCRM LLC (c) 2004-2009
    * $Id$
    *
    */
@@ -88,6 +88,11 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         if ( CRM_Utils_Array::value( 'register_date', $params ) ) {
             $params['register_date']  = CRM_Utils_Date::isoToMysql($params['register_date']);
         }
+
+        if ( CRM_Utils_Array::value( 'participant_fee_amount', $params ) ) {
+            $params['participant_fee_amount'] = CRM_Utils_Rule::cleanMoney( $params['participant_fee_amount'] );
+        }
+
         $participantBAO =& new CRM_Event_BAO_Participant();
         $participantBAO->copyValues($params);
         $participantBAO->id = CRM_Utils_Array::value( 'id', $params );
@@ -273,7 +278,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
      * @static
      * @access public
      */
-    static function eventFull( $eventId )
+    static function eventFull( $eventId, $isDeference = false )
     {
         require_once 'CRM/Event/PseudoConstant.php';
         $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
@@ -306,6 +311,8 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 } else {
                     return ts( "This event is full !!!" );
                 }
+            } else if ( $isDeference ) {
+                return $dao->max_participants - $dao->total_participants;
             }
         }
         return false;

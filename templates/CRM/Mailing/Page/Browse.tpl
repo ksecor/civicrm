@@ -33,6 +33,8 @@
   <tr class="{cycle values="odd-row,even-row"}">
     <td>{$row.name}</td>
     <td>{$row.status}</td>
+    <td><a href ={crmURL p='civicrm/contact/view' q="reset=1&cid="}{$row.created_id}>{$row.created_by}</a></td>
+    <td><a href ={crmURL p='civicrm/contact/view' q="reset=1&cid="}{$row.scheduled_id}>{$row.scheduled_by}</a></td>	
     <td>{$row.scheduled}</td>
     <td>{$row.start}</td>
     <td>{$row.end}</td>
@@ -71,12 +73,22 @@
             <dd>{ts 1=$crmURL}There are no Unscheduled Mailings. You can <a href='%1'>create and send one</a>.{/ts}</dd>
         </dl>
    </div>
+{elseif $archived}
+    <div class="messages status">
+        <dl>
+            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+            {capture assign=crmURL}{crmURL p='civicrm/mailing/browse/scheduled' q='scheduled=true&reset=1'}{/capture}
+            <dd>{ts 1=$crmURL}There are no Archived Mailings. You can make sent mailings Archive from <a href='%1'>Scheduled or Sent Mailings</a>.{/ts}</dd>
+        </dl>		
+   </div>
 {else}
     <div class="messages status">
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
             {capture assign=crmURL}{crmURL p='civicrm/mailing/send' q='reset=1'}{/capture}
-            <dd>{ts 1=$crmURL}There are no Scheduled or Sent Mailings. You can <a href='%1'>create and send one</a>.{/ts}</dd>
+            {capture assign=archiveURL}{crmURL p='civicrm/mailing/browse/archived' q='reset=1'}{/capture}
+            <dd>{ts 1=$crmURL, 2=$archiveURL}There are no Scheduled or Sent Mailings. You can <a href='%1'>create and send one</a> 
+	    OR You can search from <a href='%2'>Archived Mailings</a>.{/ts}</dd>
         </dl>
    </div>
 {/if}

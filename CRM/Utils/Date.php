@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -103,12 +103,12 @@ class CRM_Utils_Date
             CRM_Utils_Array::value( 's', $date ) != null) {
             // we have time too.. 
             if (CRM_Utils_Array::value( 'h', $date )) {
-                if ($date['A'] == 'PM') {
+                if ($date['A'] == 'PM' or $date['a'] == 'pm') {
                     if ($date['h'] != 12 ) {
                         $date['h'] = $date['h'] + 12;
                     }
                 }
-                if ( CRM_Utils_Array::value( 'A', $date ) == 'AM' &&
+                if ( (CRM_Utils_Array::value( 'A', $date ) == 'AM' or CRM_Utils_Array::value( 'a', $date ) == 'am') &&
                      CRM_Utils_Array::value( 'h', $date ) == 12 ) {
                     $date['h'] = '00';
                 }
@@ -207,13 +207,17 @@ class CRM_Utils_Date
                 $value['h'] -= 12;
                 $value['H'] = $hr;
                 $value['A'] = 'PM';
+                $value['a'] = 'pm';
             } else if( $hr == 0 ) {
                 $value['h'] = 12;
                 $value['A'] = 'AM';
+                $value['a'] = 'am';
             } else if( $hr == 12 ) {
                 $value['A'] = 'PM';
+                $value['a'] = 'pm';
             } else {
                 $value['A'] = 'AM';
+                $value['a'] = 'am';
             }
         }
         
@@ -320,7 +324,7 @@ class CRM_Utils_Date
             return 0;
         }
         
-        if ( CRM_Utils_Array::value( 'A', $v ) == 'PM' ) {
+        if ( CRM_Utils_Array::value( 'A', $v ) == 'PM' or CRM_Utils_Array::value( 'a', $v ) == 'pm') {
             $v['h'] += 12;
         }
         
@@ -570,24 +574,24 @@ class CRM_Utils_Date
         $prevCen = $cen - 1;
 
         if ($params[$dateParam]) {
-            $value = $params[$dateParam];
+            //suppress hh:mm if it exists
+            $value = preg_replace("/(?: [01]\d|2[0-3]|\d):(?:[0-4]\d|5[1-9])/", "", $params[$dateParam] );
         }
         
         switch( $dateType ) {
             
         case 1 :
-            if ( ! preg_match('/^\d\d\d\d-?\d\d-?\d\d$/', $value) ) {
+            if ( ! preg_match('/^\d\d\d\d-?(\d|\d\d)-?(\d|\d\d)$/', $value) ) {
                 return false;
-            } else {
-                return true;
-            }
+            } 
+            break;
         case 2 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d$/', $value) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d$/', $value) ) {
                 return false;
             }
             break;
         case 4 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d$/', $value ) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d\d\d$/', $value ) ) {
                 return false;
             }
             break;
@@ -597,21 +601,44 @@ class CRM_Utils_Date
             }
             break;
         case 16 :
-            if ( ! preg_match('/^\d\d-[A-Za-z]{3}.*-\d\d$/', $value )) {
+            if ( ! preg_match('/^\d\d-[A-Za-z]{3}.*-\d\d$/', $value ) && ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d$/', $value ) ) {
                 return false; 
             }
             break;
         case 32 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d/', $value) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d\d\d/', $value) ) {
                 return false;
             }
             break;
         }
 
+        if ( $dateType == 1 ) {
+            $formattedDate = explode( "-", $value );
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[0];
+                $month  = (int) $formattedDate[1];
+                $day    = (int) $formattedDate[2];
+                
+            } else if ( count($formattedDate) == 1 && ( strlen($value) == 8 ) ){
+                return true;
+            } else { 
+                return false;
+            }
+        }
+
+
         if ( $dateType == 2 || $dateType == 4) {
-            $year   = (int) substr($value,  6, $dateType);
-            $month  = (int) substr($value,  0, 2);
-            $day    = (int) substr($value,  3, 2);
+            $formattedDate = explode( "/", $value );
+            if ( count($formattedDate) != 3 ) {
+                $formattedDate = explode( "-" , $value ); 
+            } 
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[2];
+                $month  = (int) $formattedDate[0];
+                $day    = (int) $formattedDate[1];
+            } else {
+                return false;
+            }    
         }
         if ( $dateType == 8 ) {
             $dateArray = explode(' ',$value);
@@ -640,42 +667,59 @@ class CRM_Utils_Date
         }
         if ( $dateType == 16 ) {
             $dateArray = explode('-',$value);
-            
-            $monthInt = 0;
-            $fullMonths = self::getFullMonthNames();
-            foreach ($fullMonths as $key => $val) {
-                if (strtolower($dateArray[1]) == strtolower($val)) {
-                    $monthInt = $key; 
-                    break;
-                }
+            if ( count ( $dateArray ) != 3 ) {
+                $dateArray = explode('/', $value);
             }
-            if (!$monthInt) {
-                $abbrMonths = self::getAbbrMonthNames();
-                foreach ($abbrMonths as $key => $val) {
-                    if (strtolower(trim($dateArray[1], "." )) == strtolower($val)) {
+
+            if ( count ( $dateArray ) == 3 ) {
+                $monthInt = 0;
+                $fullMonths = self::getFullMonthNames();
+                foreach ( $fullMonths as $key => $val ) {
+                    if ( strtolower( $dateArray[1] ) == strtolower( $val )) {
                         $monthInt = $key; 
                         break;
                     }
                 }
+                if ( !$monthInt ) {
+                    $abbrMonths = self::getAbbrMonthNames();
+                    foreach ( $abbrMonths as $key => $val ) {
+                        if ( strtolower(trim($dateArray[1], "." )) == strtolower( $val )) {
+                            $monthInt = $key; 
+                            break;
+                        }
+                    }
+                }
+                if ( !$monthInt ) {
+                    $monthInt = $dateArray[1];
+                }
+                
+                $year   = (int) $dateArray[2];
+                $day    = (int) $dateArray[0];
+                $month  = (int) $monthInt;
+            } else {
+                return false; 
             }
-            $year   = (int) $dateArray[2];
-            $day    = (int) $dateArray[0];
-            $month  = (int) $monthInt;
         }
         if ( $dateType == 32 ) {
-            $year   = (int) substr($value,  6, 4);
-            $month  = (int) substr($value,  3, 2);
-            $day    = (int) substr($value,  0, 2);
+            $formattedDate = explode( "/", $value );
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[2];
+                $month  = (int) $formattedDate[1];
+                $day    = (int) $formattedDate[0];
+            } else {
+                return false;
+            }
         }
         
         $month = ($month < 10)? "0" . "$month" : $month;
         $day   = ($day < 10)  ? "0" . "$day"   : $day;
 
         $year = (int ) $year;
-        if ( $year < 9 ) {
+        // simple heuristic to determine what century to use
+        // 01 - 09 is always 2000 - 2009
+        // 10 - 99 is always 1910 - 1999
+        if ( $year < 10 ) {
             $year = $cen . '0' . $year;
-        } else if ( $year < 10 ) {
-            $year = $prevCen . '0' . $year;
         } else if ( $year < 100 ) {
             $year = $prevCen . $year;
         }
@@ -684,7 +728,7 @@ class CRM_Utils_Date
             $params[$dateParam] = "$year$month$day";
         }
         //if month is invalid return as error
-        if ( $month !== '00' ) {
+        if ( $month !== '00' && $month <= 12 ) {
             return true;
         }
         return false;

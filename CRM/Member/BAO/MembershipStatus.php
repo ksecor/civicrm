@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -181,15 +181,16 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
     /**
      * Function to find the membership status based on start date, end date, join date & status date. 
      * 
-     * @param  date  $startDate   start date of the member whose membership status is to be calculated. 
-     * @param  date  $endDate     end date of the member whose membership status is to be calculated. 
-     * @param  date  $joinDate    join date of the member whose membership status is to be calculated. 
-     * @param  date  $statusDate  status date of the member whose membership status is to be calculated. 
+     * @param  date    $startDate      start date of the member whose membership status is to be calculated. 
+     * @param  date    $endDate        end date of the member whose membership status is to be calculated. 
+     * @param  date    $joinDate       join date of the member whose membership status is to be calculated. 
+     * @param  date    $statusDate     status date of the member whose membership status is to be calculated. 
+     * @param  boolean $excludeIsAdmin exclude the statuses those having is_admin = 1
      *
      * @return 
      * @static
      */
-    static function getMembershipStatusByDate( $startDate, $endDate, $joinDate, $statusDate = 'today' ) 
+    static function getMembershipStatusByDate( $startDate, $endDate, $joinDate, $statusDate = 'today', $excludeIsAdmin = false ) 
     {
         $membershipDetails = array();
         if ( $statusDate == 'today' ) {
@@ -223,7 +224,18 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
             }
         }
         
-        $query = "SELECT * FROM civicrm_membership_status WHERE is_active=1 ORDER BY weight ASC";
+        //fix for CRM-3570, if we have statuses with is_admin=1,
+        //exclude these statuses from calculatation during import.
+        $where = "is_active = 1";
+        if ( $excludeIsAdmin ) {
+            $where .= " AND is_admin != 1";
+        }
+        
+        $query = "
+ SELECT   * 
+ FROM     civicrm_membership_status 
+ WHERE    {$where} 
+ ORDER BY weight ASC"; 
         
         $membershipStatus =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $hour = $minute = $second = 0;

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  * This file contains the various menus of the CiviCRM module
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -68,22 +68,17 @@ class CRM_Core_Menu
     static function &xmlItems( ) {
         if ( ! self::$_items ) {
             $config =& CRM_Core_Config::singleton( );
-            $coreMenuFiles = array( 'Activity', 'Contact', 'Import', 
-                                    'Profile', 'Admin', 'Group', 'Misc', );
 
-            $files = array( $config->templateDir . 'Menu/Activity.xml',
-                            $config->templateDir . 'Menu/Contact.xml',
-                            $config->templateDir . 'Menu/Custom.xml',
-                            $config->templateDir . 'Menu/Import.xml',
-                            $config->templateDir . 'Menu/Profile.xml',
-                            $config->templateDir . 'Menu/Admin.xml',
-                            $config->templateDir . 'Menu/Group.xml',
-                            $config->templateDir . 'Menu/Misc.xml',
-                            );
+            // We needs this until Core becomes a component
+            $coreMenuFilesNamespace = 'CRM_Core_xml_Menu';
+            $coreMenuFilesPath = str_replace('_', DIRECTORY_SEPARATOR, $coreMenuFilesNamespace );
+            global $civicrm_root;
+            $files = CRM_Utils_File::getFilesByExtension( $civicrm_root . DIRECTORY_SEPARATOR . $coreMenuFilesPath, 'xml' );
 
+            // Grab component menu files
             $files = array_merge( $files,
                                   CRM_Core_Component::xmlMenu( ) );
-
+                                  
             // lets call a hook and get any additional files if needed
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::xmlMenu( $files );
@@ -103,6 +98,13 @@ class CRM_Core_Menu
 
         $xml = simplexml_load_file( $name );
         foreach ( $xml->item as $item ) {
+            
+            //do not expose 'Access Control' link for Joomla, CRM-3550
+            if ( $item->path == 'civicrm/admin/access' &&
+                 $config->userFramework == 'Joomla' ) {
+                continue;
+            }
+            
             if ( ! (string ) $item->path ) {
                 CRM_Core_Error::debug( 'i', $item );
                 CRM_Core_Error::fatal( );
@@ -267,15 +269,13 @@ class CRM_Core_Menu
 
     static function buildNavigation( &$menu ) {
 
-        $components = array( ts( 'CiviContribute' ) => 1,
-                             ts( 'CiviEvent'      ) => 1,
-                             ts( 'CiviMember'     ) => 1,
-                             ts( 'CiviMail'       ) => 1,
-                             ts( 'Import'         ) => 1,
-                             ts( 'CiviGrant'      ) => 1,
-                             ts( 'PledgeBank'     ) => 1,
-                             ts( 'CiviPledge'     ) => 1,
-                             ts( 'Logout'         ) => 1);
+        $compNames = CRM_Core_Component::getNames( true );
+        foreach( $compNames as $donCare => $name ) {
+            $elements[$name] = 1;
+        }
+        // supplement the list with additional non-component positions
+        $elements[ts('Logout')] = 1;
+        $elements[ts('Import')] = 1;
 
         $values = array( );
         foreach ( $menu as $path => $item ) {
@@ -288,14 +288,14 @@ class CRM_Core_Menu
                     ? str_replace(',', '&', $item['path_arguments']) . '&reset=1' : 'reset=1';
                 
                 $value = array( );
-                $value['url'  ]  = CRM_Utils_System::url( $path, $query );
+                $value['url'  ]  = CRM_Utils_System::url( $path, $query, false );
                 $value['title']  = $item['title'];
                 $value['path']   = $path;
                 $value['access_callback' ] = $item['access_callback' ];
                 $value['access_arguments'] = $item['access_arguments'];
                 $value['component_id'    ] = $item['component_id'    ];
                 
-                if ( array_key_exists( $item['title'], $components ) ) {
+                if ( array_key_exists( $item['title'], $elements ) ) {
                     $value['class']  = 'collapsed';
                 } else {
                     $value['class']  = 'leaf';
@@ -340,7 +340,7 @@ class CRM_Core_Menu
                                                                    ','=>'_', '/'=>'_' 
                                                                    )
                                              ),
-                            'url'   => CRM_Utils_System::url( $path, $query ), 
+                            'url'   => CRM_Utils_System::url( $path, $query, false ), 
                             'icon'  => $item['icon'],
                             'extra' => CRM_Utils_Array::value( 'extra', $item ) );
             if ( ! array_key_exists( $item['adminGroup'], $values ) ) {
@@ -420,6 +420,7 @@ class CRM_Core_Menu
         }
 
         // check permissions for the rest
+        require_once 'CRM/Core/Permission.php';
         $activeChildren = array( );
         foreach ( $values as $weight => $v ) {
             if ( CRM_Core_Permission::checkMenuItem( $v ) ) {
@@ -477,6 +478,12 @@ class CRM_Core_Menu
         while ( $newPath = array_shift($pathElements) ) {
             $currentPath = $currentPath ? ($currentPath . '/' . $newPath) : $newPath;
             
+            // when we come accross breadcrumb which involves ids,
+            // we should skip now and later on append dynamically.
+            if ( isset( $menu[$currentPath]['skipBreadcrumb'] ) ) {
+                continue;
+            }
+            
             // add to crumb, if current-path exists in params.
             if ( array_key_exists( $currentPath, $menu ) &&
                  isset( $menu[$currentPath]['title'] ) ) {
@@ -484,7 +491,7 @@ class CRM_Core_Menu
                     '&' . $menu[$currentPath]['path_arguments'] : '';
                 $crumbs[] = array('title' => $menu[$currentPath]['title'], 
                                   'url'   => CRM_Utils_System::url( $currentPath, 
-                                                                    'reset=1' . $urlVar ));
+                                                                    'reset=1' . $urlVar, false ));
             }
         }
         $menu[$path]['breadcrumb'] = $crumbs;
@@ -550,10 +557,6 @@ class CRM_Core_Menu
 
     static function get( $path )
     {
-        if ( $path == 'civicrm/upgrade' ) {
-            return self::getUpgradeItem( $path );
-        }
-
         // return null if menu rebuild
         $config =& CRM_Core_Config::singleton( );
         if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),
@@ -612,6 +615,13 @@ UNION (
             }
         }
         
+        // *FIXME* : hack for 2.1 -> 2.2 upgrades. The below block of code 
+        // can be safely removed for v2.3.
+        if ( $path == 'civicrm/upgrade' ) {
+            $menuPath['page_callback']         = 'CRM_Upgrade_Page_Upgrade';
+            $menuPath['access_arguments'][0][] = 'administer CiviCRM';
+        }
+
         $i18n =& CRM_Core_I18n::singleton();
         $i18n->localizeTitles($menuPath);
         return $menuPath;
@@ -646,18 +656,6 @@ UNION (
             $arr['urlToSession'] = $urlToSession; 
         }
         return $arr;
-    }
-
-    /* Since we won't have the menu table during upgrade, 
-     * for that particular case we 'll return the hard coded menu item 
-     */
-    static function getUpgradeItem( $path )
-    {
-        return $item = array (
-                              'path'            => 'civicrm/upgrade',
-                              'access_callback' => 1,
-                              'page_callback'   => 'CRM_Upgrade_TwoOne_Controller'
-                              );
     }
 }
 

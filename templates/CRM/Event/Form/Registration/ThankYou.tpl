@@ -2,10 +2,10 @@
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
 {/if}
 <div class="form-item">
-    {if $eventPage.thankyou_text} 
+    {if $event.thankyou_text} 
         <div id="intro_text">
             <p>
-            {$eventPage.thankyou_text}
+            {$event.thankyou_text}
             </p>
         </div>
     {/if}
@@ -25,7 +25,7 @@
                 <p>{ts 1=$email}An email with event details has been sent to %1.{/ts}</p>
             {/if}
         {elseif $contributeMode EQ 'notify' and $paidEvent}
-            <p>{ts}Your registration payment has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{elseif $paymentProcessor.payment_processor_type EQ 'Payment_Express}DPS Payment Express{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</p>
+            <p>{ts}Your registration payment has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{elseif $paymentProcessor.payment_processor_type EQ 'Payment_Express'}DPS Payment Express{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</p>
             {if $is_email_confirm}
                 <p>{ts 1=$email}A registration confirmation email will be sent to %1 once the transaction is processed successfully.{/ts}</p>
             {/if}
@@ -42,7 +42,7 @@
         {ts}Event Information{/ts}
     </div>
     <div class="display-block">
-         {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl"}
+         {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl" context="ThankYou"}
     </div>
 
     {if $paidEvent}
@@ -167,17 +167,17 @@
       {/foreach}
     {/if}
 
-    {if $eventPage.thankyou_footer_text}
+    {if $event.thankyou_footer_text}
         <div id="footer_text">
-            <p>{$eventPage.thankyou_footer_text}</p>
+            <p>{$event.thankyou_footer_text}</p>
         </div>
     {/if}
-    {if $event.is_public }
-      <div class="action-link">
-        {capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`"}{/capture}
-        {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&id=`$event.id`"}{/capture}
+    
+    <div class="action-link">
+        <a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$event.id`"}">&raquo; {ts 1=$event.event_title}Back to "%1" event information{/ts}</a>
+    </div>
 
-        <a href="{$icalFile}">&raquo; {ts}Download iCalendar File{/ts}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}iCalendar Feed{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}iCalendar Feed{/ts}" /></a> 
-      </div>
+    {if $event.is_public }
+        {include file="CRM/Event/Page/iCalLinks.tpl"}
     {/if} 
 </div>

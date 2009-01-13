@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
    * Class representing the table relationships
    * 
    * @package CRM 
-   * @copyright CiviCRM LLC (c) 2004-2007 
+   * @copyright CiviCRM LLC (c) 2004-2009 
    * $Id$ 
    * 
    */ 
@@ -70,7 +70,10 @@ class CRM_Core_TableHierarchy {
                          'civicrm_participant'          => '25',
                          'civicrm_event'                => '26',
                          'civicrm_worldregion'          => '27',
-                         'civicrm_pb_signer'            => '28'
+                         'civicrm_case_contact'         => '28',
+                         'civicrm_case'                 => '29',
+                         'case_relationship'            => '30',
+                         'case_relation_type'           => '31'
                          );
 
     static function &info( ) {

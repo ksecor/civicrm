@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -69,6 +69,13 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     protected $_gid; 
     
+    /** 
+     * The group id that we are passing in url
+     * 
+     * @var int 
+     */ 
+    public $_grid;
+
     /** 
      * The title of the category we are editing 
      * 
@@ -118,6 +125,8 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     protected $_ctype = null;
 
+    protected $_defaults = null;
+
     /** 
      * pre processing work done here. 
      * 
@@ -135,13 +144,13 @@ class CRM_Profile_Form extends CRM_Core_Form
         
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
-  
+        $this->_grid     = CRM_Utils_Request::retrieve( 'grid', 'Integer', $this   );
         $this->_context  = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-       
+        
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this, false, 0, 'GET');
         }  
-       
+        
         // if we dont have a gid use the default, else just use that specific gid
         if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) && ! $this->_gid ) {
             $this->_ctype  = CRM_Utils_Request::retrieve( 'ctype', 'String', $this, false, 'Individual', 'REQUEST' );
@@ -158,8 +167,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                null, null,
                                                                false, null,
                                                                $this->_skipPermission );
+            
             //if civimail is enable and email field is absent show status
-            if ( CRM_Core_Permission::access( 'CiviMail' ) && CRM_Utils_Array::value( 'group', $this->_fields ) ) {
+            if ( CRM_Utils_Array::value( 'CiviMail', CRM_Core_Component::getEnabledComponents())&&
+                 CRM_Utils_Array::value( 'group', $this->_fields ) ) {
                 $emailField = false;
                 foreach ( $this->_fields as $name => $values ) {
                     if ( substr( $name, 0, 6 ) == 'email-' ) {
@@ -179,13 +190,13 @@ class CRM_Profile_Form extends CRM_Core_Form
             
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
-
+        
         if( $this->_mode != self::MODE_SEARCH ) {
             CRM_Core_BAO_UFGroup::setRegisterDefaults(  $this->_fields, $defaults );
             $this->setDefaults( $defaults );    
         }
-
-       
+        
+        
         $this->setDefaultsValues();
     }
     
@@ -198,9 +209,9 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     function setDefaultsValues( ) 
     {
-        $defaults = array( );   
+        $this->_defaults = array( );   
         if ( $this->_id ) {
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $this->_defaults, true );
         }
         
         //set custom field defaults
@@ -213,10 +224,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                          'html_type',
                                                          'id' );
                 
-                if ( !isset( $defaults[$name] ) || $htmlType == 'File') {
+                if ( !isset( $this->_defaults[$name] ) || $htmlType == 'File') {
                     CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID,
                                                                   $name,
-                                                                  $defaults,
+                                                                  $this->_defaults,
                                                                   $this->_id,
                                                                   $this->_mode );
                 }
@@ -240,7 +251,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( isset( $customFiles ) ) {
             $this->assign( 'customFiles', $customFiles ); 
         }
-        $this->setDefaults( $defaults );
+        
+        $this->setDefaults( $this->_defaults );
     } 
     
     /**
@@ -264,7 +276,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             $profileType = CRM_Core_BAO_UFField::getProfileType($this->_gid);  
-
+            
             if ( $this->_id ) {
                 $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                             $this->_id, 'contact_type' );
@@ -294,7 +306,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
         
         $session  =& CRM_Core_Session::singleton( );
-
+        
         // should we restrict what we display
         $admin = true;
         if ( $this->_mode == self::MODE_EDIT ) {
@@ -314,10 +326,14 @@ class CRM_Profile_Form extends CRM_Core_Form
             $primaryLocationType = $defaultLocationType->id;
             $anonUser = true; 
         }
-
+        
         $addCaptcha   = array();
         $emailPresent = false;
-
+        
+        // cache the state country fields. based on the results, we could use our javascript solution
+        // in create or register mode
+        $stateCountryMap = array( );
+        
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -334,21 +350,18 @@ class CRM_Profile_Form extends CRM_Core_Form
                 continue;
             }
             
+            list( $prefixName, $index ) = CRM_Utils_System::explode( '-', $name, 2 );
+            if ( $prefixName == 'state_province' || $prefixName == 'country' ) {
+                if ( ! array_key_exists( $index, $stateCountryMap ) ) {
+                    $stateCountryMap[$index] = array( );
+                }
+                $stateCountryMap[$index][$prefixName] = $name;
+            }
+            
             CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
             
             if ($field['add_to_group_id']) {
                 $addToGroupId = $field['add_to_group_id'];
-            }
-            
-            //build show/hide array for uf groups
-            // dont do this if gid is set (i.e. only one group)
-
-            if ( $field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $sBlocks )) {
-                $sBlocks[] = "'id_". $field['group_id']  . "_show'" ; 
-                $hBlocks[] = "'id_". $field['group_id'] ."'"; 
-            } else if ( !$field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $hBlocks )) {
-                $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
-                $sBlocks[] = "'id_". $field['group_id'] ."'";   
             }
             
             //build array for captcha
@@ -390,7 +403,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->assign( "isCaptcha" , true );
             }
         }
-
+        
         if ( $this->_mode != self::MODE_SEARCH ) {
             if ( isset($addToGroupId) ) {
                 $this->add('hidden', "group[$addToGroupId]", 1 );
@@ -398,13 +411,12 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->_addToGroupID = $addToGroupId;
             }
             
-            $showBlocks = implode(",",$sBlocks); 
-            $hideBlocks = implode(",",$hBlocks); 
-            
-            $this->assign( 'showBlocks', $showBlocks ); 
-            $this->assign( 'hideBlocks', $hideBlocks ); 
+            // also do state country js
+            require_once 'CRM/Core/BAO/Address.php';
+            CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap,
+                                                      $this->_defaults );
         }
-
+        
         $action = CRM_Utils_Request::retrieve('action', 'String',$this, false, null );
         if ( $this->_mode == self::MODE_CREATE  ) { 
             require_once 'CRM/Core/BAO/CMSUser.php';
@@ -415,12 +427,16 @@ class CRM_Profile_Form extends CRM_Core_Form
         
         $this->assign( 'groupId', $this->_gid ); 
         
+        // now fix all state country selectors
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
+        
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
         }
-   }
-
+    }
+    
     /**
      * global form rule
      *
@@ -439,29 +455,32 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( empty( $fields ) ) {
             return true;
         }
-       
+        
         $cid = $register = null; 
-
+        
         // hack we use a -1 in options to indicate that its registration 
         if ( $form->_id ) {
             $cid = $form->_id;
             $form->_isUpdateDupe = true;
         }
-
+        
         if ( $form->_mode == CRM_Profile_Form::MODE_REGISTER ) {
             $register = true; 
         } 
-
+        
         // dont check for duplicates during registration validation: CRM-375 
         if ( ! $register ) { 
             // fix for CRM-3240
             if ( CRM_Utils_Array::value( 'email-Primary', $fields ) ) {
                 $fields['email'] = CRM_Utils_Array::value( 'email-Primary', $fields );
             }
-
+            
             $session =& CRM_Core_Session::singleton();
+
+            $ctype = CRM_Core_BAO_UFGroup::getContactType($form->_gid);
+
             require_once 'CRM/Dedupe/Finder.php';
-            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, $ctype);
             if ( $form->_mode == CRM_Profile_Form::MODE_CREATE ) {
                 // fix for CRM-2888
                 $exceptions = array( );
@@ -470,9 +489,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $exceptions = array( $session->get( 'userID' ) );
             }
             $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams,
-                                                    'Individual', 
-                                                    'Strict', 
-                                                    $exceptions );
+                                                     $ctype, 
+                                                     'Strict', 
+                                                     $exceptions );
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
                     if ( ! $form->_id ) {
@@ -483,7 +502,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-
+        
         foreach ($fields as $key => $value) {
             list($fieldName, $locTypeId, $phoneTypeId) = CRM_Utils_System::explode( '-', $key, 3 );
             if ($fieldName == 'state_province' && $fields["country-{$locTypeId}"]) {
@@ -504,7 +523,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
-
+            
             if ($fieldName == 'county' && $fields["state_province-{$locTypeId}"]) {
                 // Validate County - State list            
                 $stateProvinceId = $fields["state_province-{$locTypeId}"];
@@ -525,10 +544,10 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
         }
-
+        
         return empty($errors) ? true : $errors;
     }
-
+    
     /**
      * Process the user submitted custom data values.
      *
@@ -538,26 +557,28 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
-       
+        
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );
         }
-
+        
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
+        
         //used to send subcribe mail to the group which user want.
         //if the civimail component is enable.
         $mailingType = array( );
-        if ( CRM_Core_Permission::access( 'CiviMail' )  && CRM_Utils_Array::value( 'group', $params ) ) {
+        
+        if ( CRM_Utils_Array::value( 'CiviMail', CRM_Core_Component::getEnabledComponents())
+             && CRM_Utils_Array::value( 'group', $params ) ) {
             $result = null;
             foreach ( $params as $name => $values ) {
                 if ( substr( $name, 0, 6 ) == 'email-' ) {
                     $result['email'] = $values ;
                 }
             }
-            
+            $groupSubscribed = array( );
             if ( CRM_Utils_Array::value( 'email' , $result ) ) {
                 require_once 'CRM/Contact/DAO/Group.php';
                 //array of group id, subscribed by contact
@@ -570,15 +591,20 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $contactGroup = array();
                     while( $contactGroups->fetch() ) { 
                         $contactGroup[] = $contactGroups->group_id;
+                        $groupSubscribed[$contactGroups->group_id] = 1;
                     }
                 }
                 foreach ( $params['group'] as $key => $val ) {
+                    if ( ! $val ) {
+                        unset( $params['group'][$key] );
+                        continue;
+                    }
                     $groupTypes = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
                                                                $key, 'group_type', 'id' );
                     $groupType = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                           substr( $groupTypes, 1, -1 ) );
                     //filter group of mailing type and unset it from params
-                    if ( CRM_Utils_Array::key( '2', $groupType ) ) {
+                    if ( in_array( 2, $groupType ) ) {
                         //if group is already subscribed , ignore it 
                         $groupExist = CRM_Utils_Array::key( $key, $contactGroup );
                         if ( ! isset( $groupExist ) ) {
@@ -589,7 +615,11 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-
+        
+        if ( $this->_grid ){
+            $params['group'] = $groupSubscribed;
+        }
+        
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype,
@@ -599,7 +629,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
             CRM_Mailing_Event_BAO_Subscribe::commonSubscribe( $mailingType, $result );
         }
-
+        
         require_once 'CRM/Core/BAO/UFGroup.php'; 
         if ( ! ( $this->_mode == self::MODE_REGISTER ) ) {
             $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($this->_gid,$this->_id,null);
@@ -607,7 +637,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 CRM_Core_BAO_UFGroup::commonSendMail($this->_id, $values);
             }
         }
-
+        
         //create CMS user (if CMS user option is selected in profile)
         if ( CRM_Utils_Array::value( 'cms_create_account', $params ) &&
              $this->_mode == self::MODE_CREATE ) {
@@ -620,10 +650,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                          'reset=1&gid=' . $this->_gid) );
             }
         }
-
+        
         $transaction->commit( );
     }
-
+    
     function getTemplateFileName() {
         if ( $this->_gid ) {
             $templateFile = "CRM/Profile/Form/{$this->_gid}/{$this->_name}.tpl";
@@ -634,5 +664,5 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
         return parent::getTemplateFileName( );
     }
-
+    
 }

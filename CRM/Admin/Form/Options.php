@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -86,6 +86,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         $url = "civicrm/admin/options/{$this->_gName}";
         $params = "group={$this->_gName}&reset=1";
         $session->pushUserContext( CRM_Utils_System::url( $url, $params ) );
+        $this->assign('id', $this->_id);
     }
     
     /**
@@ -115,11 +116,10 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
     public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
-        
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
-        
+
         $this->applyFilter('__ALL__', 'trim');
         
         $this->add('text',
@@ -131,10 +131,6 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                         ts('This Label already exists in the database for this option group. Please select a different Value.'),
                         'optionExists',
                         array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid, 'label' ) );
-        
-        if ( $this->_gName == 'from_email_address' ) {
-            $this->addRule( 'label', ts('Email is not valid.'), 'email' );
-        }
         
         $required = false;
         if ( $this->_gName == 'custom_search' ) {
@@ -152,20 +148,79 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'),
                    true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
+
+        $isReserved = false;
+        if ($this->_id) {
+            $isReserved = (bool) CRM_Core_DAO::getFieldValue('CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved');
+        }
+
+        // If CiviCase enabled AND "Add" mode OR "edit" mode for non-reserved activities, only allow user to pick Core or CiviCase component.
+        // FIXME: Each component should define whether adding new activity types is allowed.
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+        if ($this->_gName == 'activity_type' && in_array("CiviCase", $config->enableComponents) &&
+            ( ($this->_action & CRM_Core_Action::ADD) || ! $isReserved ) ) {
+                require_once 'CRM/Core/Component.php';
+                $caseID = CRM_Core_Component::getComponentID('CiviCase');
+                $components   = array( '' => ts( 'Core' ), $caseID => 'CiviCase' );
+                $this->add( 'select',
+                            'component_id',
+                            ts( 'Component' ),
+                            array( '' => ts( 'Core' ) ) + $components, false );
+        }
+
+        $enabled = $this->add('checkbox', 'is_active', ts('Enabled?'));
         
-        $this->add('checkbox', 'is_active', ts('Enabled?'));
-       
+        if ($isReserved) {
+            $enabled->freeze();
+        }
+        
+        //fix for CRM-3552
+        if ( $this->_gName == 'from_email_address' || $this->_gName == 'greeting_type' ) {
+            $this->assign( 'showDefault', true );
+            $this->add('checkbox', 'is_default', ts('Default Option?'));
+        }
+        
         if ($this->_gName == 'participant_status') {
+            // For Participant Status options, expose the 'filter' field to track which statuses are "Counted", and the Visibility field
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
-            if ( $this->_id ) {
-                if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' ) == 1 ) {
-                    $this->freeze();
-                    $element->unfreeze();
-                } 
+            require_once "CRM/Core/PseudoConstant.php";
+            $this->add( 'select', 'visibility_id', ts('Visibility'), CRM_Core_PseudoConstant::visibility( ) );
+        }
+        
+        $this->addFormRule( array( 'CRM_Admin_Form_Options', 'formRule' ), $this );
+    }
+    
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields the input form values  
+     * @param array $files  the uploaded files if any  
+     * @param array $self   current form object. 
+     *  
+     * @return array array of errors / empty array.   
+     * @access public  
+     * @static  
+     */  
+    static function formRule( &$fields, &$files, $self ) 
+    {
+        $errors = array( );
+        if ( $self->_gName == 'from_email_address' ) {
+            require_once 'CRM/Utils/Mail.php';
+            $formEmail = CRM_Utils_Mail::pluckEmailFromHeader( $fields['label'] );
+            if ( !CRM_Utils_Rule::email( $formEmail ) ) {
+                $errors['label'] = ts( 'Please enter the valid email address.' );
+            }
+            
+            $formName = explode('"', $fields['label'] );
+            if ( !CRM_Utils_Array::value( 1, $formName ) || count( $formName ) != 3 ) {
+                $errors['label'] = ts( 'Please follow the proper format for From Email Address' ); 
             }
         }
+        
+        return $errors;
     }
-           
+    
     /**
      * Function to process the form
      *
@@ -179,6 +234,11 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_OptionValue', $this->_id, $fieldValues);
             
             if( CRM_Core_BAO_OptionValue::del($this->_id) ) {
+                if ( $this->_gName == 'phone_type' ) {
+                    require_once 'CRM/Core/BAO/Phone.php';
+                    CRM_Core_BAO_Phone::setOptionToNull( CRM_Utils_Array::value( 'value', $this->_defaultValues) );
+                }
+                
                 CRM_Core_Session::setStatus( ts('Selected %1 type has been deleted.', array(1 => $this->_GName)) );
             } else {
                 CRM_Core_Session::setStatus( ts('Selected %1 type has not been deleted.', array(1 => $this->_GName)) );

@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-10-05 01:16+0200\n"
 "PO-Revision-Date: 2008-04-29 02:14-0700\n"
 "Last-Translator: Jim Björk <jim.bjoerk@hotmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -41,9 +41,6 @@ msgstr "Delaware"
 msgid "Florida"
 msgstr "Florida"
 
-msgid "Georgia"
-msgstr "Georgien"
-
 msgid "Hawaii"
 msgstr "Hawaii"
 
@@ -71,9 +68,6 @@ msgstr "Louisiana"
 msgid "Maine"
 msgstr "Maine"
 
-msgid "Maryland"
-msgstr "Maryland"
-
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
@@ -88,9 +82,6 @@ msgstr "Mississippi"
 
 msgid "Missouri"
 msgstr "Missouri"
-
-msgid "Montana"
-msgstr "Montana"
 
 msgid "Nebraska"
 msgstr "Nebraska"
@@ -167,23 +158,8 @@ msgstr "Wyoming"
 msgid "District of Columbia"
 msgstr "Columbiadistriktet"
 
-msgid "American Samoa"
-msgstr "Amerikanska Samoa"
-
-msgid "Guam"
-msgstr "Guam"
-
-msgid "Northern Mariana Islands"
-msgstr "Nordmarianerna"
-
-msgid "Puerto Rico"
-msgstr "Puerto Rico"
-
 msgid "Virgin Islands"
 msgstr "Jungfruöarna"
-
-msgid "United States Minor Outlying Islands"
-msgstr "Förenta staternas avlägset belägna öar"
 
 msgid "Armed Forces Europe"
 msgstr "Armed Forces Europe"
@@ -1252,66 +1228,6 @@ msgstr "Hainaut"
 msgid "Liege"
 msgstr "Liege"
 
-msgid "Limburg"
-msgstr ""
-
-msgid "Central and Western"
-msgstr "Centrala och Västra"
-
-msgid "Eastern"
-msgstr "Östra"
-
-msgid "Southern"
-msgstr "Södra"
-
-msgid "Wan Chai"
-msgstr ""
-
-msgid "Kowloon City"
-msgstr ""
-
-msgid "Kwun Tong"
-msgstr ""
-
-msgid "Sham Shui Po"
-msgstr ""
-
-msgid "Wong Tai Sin"
-msgstr ""
-
-msgid "Yau Tsim Mong"
-msgstr ""
-
-msgid "Islands"
-msgstr "Öarna"
-
-msgid "Kwai Tsing"
-msgstr ""
-
-msgid "North"
-msgstr "Norra"
-
-msgid "Sai Kung"
-msgstr ""
-
-msgid "Sha Tin"
-msgstr ""
-
-msgid "Tai Po"
-msgstr ""
-
-msgid "Tsuen Wan"
-msgstr ""
-
-msgid "Tuen Mun"
-msgstr ""
-
-msgid "Yuen Long"
-msgstr ""
-
-msgid "Luxembourg"
-msgstr "Luxemburg"
-
 msgid "Namur"
 msgstr ""
 
@@ -1939,9 +1855,6 @@ msgstr ""
 msgid "Vicebskaja voblasc'"
 msgstr ""
 
-msgid "Belize"
-msgstr "Belize"
-
 msgid "Cayo"
 msgstr ""
 
@@ -2335,9 +2248,6 @@ msgstr ""
 msgid "Sichuan"
 msgstr ""
 
-msgid "Taiwan"
-msgstr ""
-
 msgid "Yunnan"
 msgstr ""
 
@@ -2355,9 +2265,6 @@ msgstr ""
 
 msgid "Xizang"
 msgstr ""
-
-msgid "Hong Kong"
-msgstr "Hong Kong"
 
 msgid "Macau"
 msgstr "Macao"
@@ -2704,20 +2611,19 @@ msgstr ""
 msgid "Dikhil"
 msgstr ""
 
-msgid "Djibouti"
-msgstr "Djibouti"
-
 msgid "Obock"
 msgstr ""
 
 msgid "Tadjoura"
 msgstr ""
 
-msgid "Frederikaberg municipality"
+#, fuzzy
+msgid "Frederiksberg"
 msgstr "Frederika stad"
 
-msgid "Copenhagen municipality"
-msgstr "Köpenhamns Storstad"
+#, fuzzy
+msgid "Copenhagen City"
+msgstr "Köpenhamn"
 
 msgid "Copenhagen"
 msgstr "Köpenhamn"
@@ -2728,7 +2634,7 @@ msgstr ""
 msgid "Roskilde"
 msgstr ""
 
-msgid "Western Zealand"
+msgid "Vestsjælland"
 msgstr ""
 
 msgid "Storstrøm"
@@ -2737,10 +2643,11 @@ msgstr ""
 msgid "Bornholm"
 msgstr ""
 
-msgid "Funen"
-msgstr "Fyn"
+msgid "Fyn"
+msgstr ""
 
-msgid "Southern Jutland"
+#, fuzzy
+msgid "South Jutland"
 msgstr "SydJylland"
 
 msgid "Ribe"
@@ -2749,16 +2656,17 @@ msgstr ""
 msgid "Vejle"
 msgstr ""
 
-msgid "Ringkøbing"
+msgid "Ringkjøbing"
 msgstr ""
 
-msgid "Aarhus"
+msgid "Århus"
 msgstr ""
 
 msgid "Viborg"
 msgstr ""
 
-msgid "Northern Jutland"
+#, fuzzy
+msgid "North Jutland"
 msgstr "NordJylland"
 
 msgid "Distrito Nacional (Santo Domingo)"
@@ -3940,9 +3848,6 @@ msgstr ""
 msgid "Greenwich"
 msgstr ""
 
-msgid "Guernsey"
-msgstr ""
-
 msgid "Gwynedd"
 msgstr ""
 
@@ -3998,9 +3903,6 @@ msgid "Isles of Scilly"
 msgstr ""
 
 msgid "Islington"
-msgstr ""
-
-msgid "Jersey"
 msgstr ""
 
 msgid "Kensington and Chelsea"
@@ -4061,9 +3963,6 @@ msgid "Luton"
 msgstr ""
 
 msgid "Magherafelt"
-msgstr ""
-
-msgid "Manchester"
 msgstr ""
 
 msgid "Medway"
@@ -4492,9 +4391,6 @@ msgstr ""
 msgid "Macenta"
 msgstr ""
 
-msgid "Mali"
-msgstr "Mali"
-
 msgid "Mamou"
 msgstr ""
 
@@ -4716,9 +4612,6 @@ msgstr ""
 
 msgid "Escuintla"
 msgstr ""
-
-msgid "Guatemala"
-msgstr "Guatemala"
 
 msgid "Huehuetenango"
 msgstr ""
@@ -5527,7 +5420,7 @@ msgstr ""
 msgid "Foggia"
 msgstr ""
 
-msgid "Forli"
+msgid "Forlì-Cesena"
 msgstr ""
 
 msgid "Frosinone"
@@ -7177,9 +7070,6 @@ msgstr ""
 msgid "Rodrigues Island"
 msgstr ""
 
-msgid "Male"
-msgstr ""
-
 msgid "Alif"
 msgstr ""
 
@@ -7357,9 +7247,6 @@ msgstr ""
 msgid "Jalisco"
 msgstr ""
 
-msgid "Mexico"
-msgstr "Mexico"
-
 msgid "Michoacin"
 msgstr ""
 
@@ -7463,9 +7350,6 @@ msgid "Maputo"
 msgstr ""
 
 msgid "Cabo Delgado"
-msgstr ""
-
-msgid "Gaza"
 msgstr ""
 
 msgid "Inhambane"
@@ -7629,9 +7513,6 @@ msgstr ""
 
 msgid "Nassarawa"
 msgstr ""
-
-msgid "Niger"
-msgstr "Niger"
 
 msgid "Ogun"
 msgstr ""
@@ -7893,9 +7774,6 @@ msgstr ""
 
 msgid "Loa Santoa"
 msgstr ""
-
-msgid "Panama"
-msgstr "Panama"
 
 msgid "Veraguas"
 msgstr ""
@@ -9045,9 +8923,6 @@ msgstr "Örebro"
 
 msgid "Ostergotlands lan"
 msgstr "Östergötland"
-
-msgid "Saint Helena"
-msgstr "Sankta Helena"
 
 msgid "Ascension"
 msgstr ""
@@ -11434,13 +11309,125 @@ msgstr ""
 msgid "Åland"
 msgstr ""
 
+msgid "Central and Western"
+msgstr "Centrala och Västra"
+
+msgid "Wan Chai"
+msgstr ""
+
+msgid "Kowloon City"
+msgstr ""
+
+msgid "Kwun Tong"
+msgstr ""
+
+msgid "Sham Shui Po"
+msgstr ""
+
+msgid "Wong Tai Sin"
+msgstr ""
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+msgid "Islands"
+msgstr "Öarna"
+
+msgid "Kwai Tsing"
+msgstr ""
+
+msgid "Sai Kung"
+msgstr ""
+
+msgid "Sha Tin"
+msgstr ""
+
+msgid "Tai Po"
+msgstr ""
+
+msgid "Tsuen Wan"
+msgstr ""
+
+msgid "Tuen Mun"
+msgstr ""
+
+msgid "Yuen Long"
+msgstr ""
+
+msgid "Al Manāmah (Al ‘Āşimah)"
+msgstr ""
+
+msgid "Al Janūbīyah"
+msgstr ""
+
+msgid "Al Wusţá"
+msgstr ""
+
+#, fuzzy
+msgid "Ash Shamālīyah"
+msgstr "Ash Shariqah"
+
+#, fuzzy
+msgid "Jenin"
+msgstr "Peqin"
+
+#, fuzzy
+msgid "Tubas"
+msgstr "Quba"
+
+#, fuzzy
+msgid "Tulkarm"
+msgstr "Takhar"
+
+msgid "Nablus"
+msgstr ""
+
+msgid "Qalqilya"
+msgstr ""
+
+#, fuzzy
+msgid "Salfit"
+msgstr "Salta"
+
+msgid "Ramallah and Al-Bireh"
+msgstr ""
+
+#, fuzzy
+msgid "Jericho"
+msgstr "Mexico"
+
+msgid "Jerusalem"
+msgstr ""
+
+msgid "Bethlehem"
+msgstr ""
+
+#, fuzzy
+msgid "Hebron"
+msgstr "Örebro"
+
+#, fuzzy
+msgid "North Gaza"
+msgstr "North Dakota"
+
+msgid "Deir el-Balah"
+msgstr ""
+
+#, fuzzy
+msgid "Khan Yunis"
+msgstr "San Luis"
+
+#, fuzzy
+msgid "Rafah"
+msgstr "Farah"
+
+msgid "Brussels"
+msgstr ""
+
 msgid "North West"
 msgstr ""
 
 msgid "Tyne and Wear"
-msgstr ""
-
-msgid "Isle of Man"
 msgstr ""
 
 msgid "Greater Manchester"
@@ -11477,4 +11464,40 @@ msgid "West Glamorgan"
 msgstr ""
 
 msgid "London"
+msgstr ""
+
+msgid "Carbonia-Iglesias"
+msgstr ""
+
+msgid "Olbia-Tempio"
+msgstr ""
+
+msgid "Medio Campidano"
+msgstr ""
+
+msgid "Ogliastra"
+msgstr ""
+
+msgid "Maryland"
+msgstr "Maryland"
+
+msgid "Montana"
+msgstr "Montana"
+
+msgid "Limburg"
+msgstr ""
+
+msgid "Southern"
+msgstr "Södra"
+
+msgid "North"
+msgstr "Norra"
+
+msgid "Eastern"
+msgstr "Östra"
+
+msgid "Manchester"
+msgstr ""
+
+msgid "Gaza"
 msgstr ""

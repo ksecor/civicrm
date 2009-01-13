@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -97,6 +97,9 @@ class CRM_Core_OptionValue
             $dao->find();
         }
         
+        require_once 'CRM/Core/Component.php';
+        $componentNames = CRM_Core_Component::getNames();
+        $visibilityLabels = CRM_Core_PseudoConstant::visibility( );
         while ( $dao->fetch() ) {
             $optionValue[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $optionValue[$dao->id] );
@@ -109,11 +112,7 @@ class CRM_Core_OptionValue
             
             // update enable/disable links depending on if it is is_reserved or is_active
             if ( $dao->is_reserved ) {
-                if ( $groupParams['name'] == 'participant_status' ) {
-                    $action = CRM_Core_Action::UPDATE;   
-                } else {
-                    continue;
-                }
+                $action = CRM_Core_Action::UPDATE;
             } else {
                 if ( $dao->is_active ) {
                     $action -= CRM_Core_Action::ENABLE;
@@ -121,10 +120,22 @@ class CRM_Core_OptionValue
                     $action -= CRM_Core_Action::DISABLE;
                 }
             }
+            $optionValue[$dao->id]['label']  = htmlspecialchars( $optionValue[$dao->id]['label'] );
             $optionValue[$dao->id]['action'] = CRM_Core_Action::formLink($links, $action, 
                                                                          array('id'    => $dao->id,
                                                                                'gid'   => $optionGroupID,
                                                                                'value' => $dao->value ) );
+            
+            if ( CRM_Utils_Array::value( 'component_id', $optionValue[$dao->id] ) ) {
+                $optionValue[$dao->id]['component_name'] = $componentNames[$optionValue[$dao->id]['component_id']];
+            } else {
+                $optionValue[$dao->id]['component_name'] = 'Core';
+            }
+            
+            if (  CRM_Utils_Array::value( 'visibility_id', $optionValue[$dao->id] ) ) {
+                $optionValue[$dao->id]['visibility_label'] = $visibilityLabels[$optionValue[$dao->id]['visibility_id']];
+            }
+
         }
         return $optionValue;
     }
@@ -161,6 +172,7 @@ class CRM_Core_OptionValue
             }
         } else {
             $optionGroupID = $optionGroup->id;
+            $oldWeight = null;
             if ($optionValueID) {
                 $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionValueID, 'weight', 'id' );
             }
@@ -170,7 +182,7 @@ class CRM_Core_OptionValue
         }
         $params['option_group_id'] = $optionGroupID;
         
-        if ( ($action & CRM_Core_Action::ADD) && !$params['value'] ) {
+        if ( ($action & CRM_Core_Action::ADD) && !CRM_Utils_Array::value( 'value', $params ) ) {
             $fieldValues = array('option_group_id' => $optionGroupID);
             // use the next available value
             /* CONVERT(value, DECIMAL) is used to convert varchar
@@ -182,7 +194,9 @@ class CRM_Core_OptionValue
         if ( ! $params['label'] && $params['name'] ) {
             $params['label'] = $params['name'];
         }
-        if ( ! $params['name'] && $params['label'] ) {
+
+        // set name to label if it's not set - but *only* for ADD action (CRM-3522)
+        if (($action & CRM_Core_Action::ADD) && !CRM_Utils_Array::value( 'name', $params ) && $params['label'] ) {
             $params['name'] = $params['label'];
         }
         if ( $action & CRM_Core_Action::UPDATE ) {
@@ -264,6 +278,9 @@ class CRM_Core_OptionValue
                                                                 'title'=> 'Individual Suffix',
                                                                 'headerPattern' => '/^suffix$/i'
                                                                 ),
+                                   'greeting_type' => array('name' => 'greeting_type',
+                                                            'title'=> 'Greeting Type'
+                                                                )                                     
                                    );
             }
 
@@ -333,7 +350,8 @@ SELECT
    option_value.name        as name,
    option_value.description as description,
    option_value.weight      as weight,
-   option_value.is_active   as is_active ";
+   option_value.is_active   as is_active,
+   option_value.is_default  as is_default";
         
         $from = "
 FROM
@@ -369,7 +387,8 @@ FROM
                                        'name'        => $dao->name,
                                        'description' => $dao->description,
                                        'weight'      => $dao->weight,
-                                       'is_active'   => $dao->is_active );
+                                       'is_active'   => $dao->is_active,
+                                       'is_default'  => $dao->is_default );
         }
     }
 }

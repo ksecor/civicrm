@@ -531,7 +531,10 @@ class UserController extends JController
 		$mailfrom 		= $mainframe->getCfg( 'mailfrom' );
 		$fromname 		= $mainframe->getCfg( 'fromname' );
 		$siteURL		= JURI::base();
-
+		//since civicrm don't have own tokens to use in user
+		//activation email. we have to use com_user tokens.
+		$lang =& JFactory::getLanguage();
+		$lang->load( 'com_user' );
 		$subject 	= sprintf ( JText::_( 'Account details for' ), $name, $sitename);
 		$subject 	= html_entity_decode($subject, ENT_QUOTES);
 

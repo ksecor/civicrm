@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -243,7 +243,7 @@ ORDER BY weight, label
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', 'reset=1&action=browse&fid=' . $this->_fid));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', "reset=1&action=browse&fid={$this->_fid}&gid={$this->_gid}"));
        
         $controller->set('gid', $this->_gid);
         $controller->set('fid', $this->_fid);
@@ -268,21 +268,26 @@ ORDER BY weight, label
     function run()
     {
         require_once 'CRM/Core/BAO/CustomField.php';
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
 
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                                   $this, false, 0);
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this, false, 0);
-
+        
+        //as url contain $gid so append breadcrumb dynamically.
+        $breadcrumb = array( array( 'title' => ts( 'Custom Data Fields' ),
+                                    'url'   => CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&gid=' .$this->_gid)));
+        CRM_Utils_System::appendBreadCrumb( $breadcrumb );
+        
         if ($this->_fid) {
             $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
             $this->assign('fid', $this->_fid);
+            $this->assign('gid', $this->_gid);
             $this->assign('fieldTitle', $fieldTitle);
             CRM_Utils_System::setTitle(ts('%1 - Multiple Choice Options', array(1 => $fieldTitle)));
         }
-
+        
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'

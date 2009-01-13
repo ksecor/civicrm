@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -47,21 +47,25 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
      * @return void  
      * @access public  
      */
-    public function preProcess( ) {
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-
-        $values = array( ); 
-        $ids    = array( ); 
-        $params = array( 'id' => $this->get( 'id' ) ); 
-        CRM_Contribute_BAO_Contribution::getValues( $params, 
-                                                    $values,  
-                                                    $ids );            
-        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );                 
+    public function preProcess( ) 
+    {
+        $id     = $this->get( 'id' );
+        $values = $ids = array( ); 
+        $params = array( 'id' => $id ); 
         
-        if (isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {
-            $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];
-            $dao = &new CRM_Core_DAO();
-            $dao->query($sql);
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        CRM_Contribute_BAO_Contribution::getValues( $params, $values, $ids );            
+
+        $softParams = array( 'contribution_id' => $values['contribution_id'] );
+        if( $softContribution = CRM_Contribute_BAO_Contribution::getSoftContribution( $softParams, true ) ) {
+            $values = array_merge( $values, $softContribution );
+        } 
+        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );
+        
+        if ( CRM_Utils_Array::value( 'honor_contact_id', $values ) ) {
+            $sql    = "SELECT display_name FROM civicrm_contact WHERE id = %1";
+            $params = array( 1 => array( $values['honor_contact_id'], 'Integer' ) );
+            $dao = CRM_Core_DAO::executeQuery( $sql, $params );
             if ( $dao->fetch() ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid=$values[honor_contact_id]" );
                 $values["honor_display"] = "<A href = $url>". $dao->display_name ."</A>"; 
@@ -70,12 +74,22 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
             $values['honor_type'] = $honor[$values['honor_type_id']]; 
         }
         
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ),0,$values['contribution_type_id'] );
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        if ( CRM_Utils_Array::value( 'contribution_recur_id', $values ) ) {
+            $sql    = "SELECT  installments, frequency_interval, frequency_unit FROM civicrm_contribution_recur WHERE id = %1";
+            $params = array( 1 => array( $values['contribution_recur_id'], 'Integer' ) );
+            $dao = CRM_Core_DAO::executeQuery( $sql, $params );
+            if ( $dao->fetch() ) {
+                $values["recur_installments"]       = $dao->installments  ;
+                $values["recur_frequency_unit"]     = $dao->frequency_unit;
+                $values["recur_frequency_interval"] = $dao->frequency_interval;
+            }
+        }
 
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this, $this->get( 'id' ),0,$values['contribution_type_id'] );
+		CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
+        
         $premiumId = null;
-        $id        = $this->get( 'id' );
-        if( $id ) {
+        if ( $id ) {
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $dao = & new CRM_Contribute_DAO_ContributionProduct();
             $dao->contribution_id = $id;
@@ -83,11 +97,9 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
                $premiumId = $dao->id;
                $productID = $dao->product_id; 
             }
-            
         }
         
-        if( $premiumId ) {
-                       
+        if ( $premiumId ) {
             require_once 'CRM/Contribute/DAO/Product.php';
             $productDAO = & new CRM_Contribute_DAO_Product();
             $productDAO->id  = $productID;
@@ -96,11 +108,28 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
             $this->assign('premium' , $productDAO->name );
             $this->assign('option',$dao->product_option);
             $this->assign('fulfilled',$dao->fulfilled_date);
-                     
         }
+
         // Get Note
         $noteValue = CRM_Core_BAO_Note::getNote( $values['id'], 'civicrm_contribution' );
         $values['note'] =  array_values($noteValue);
+
+		// show billing address location details, if exists
+		if ( CRM_Utils_Array::value( 'address_id', $values ) ) {
+			$addressParams  = array( 'id' => CRM_Utils_Array::value( 'address_id', $values ) );	
+			$addressDetails = CRM_Core_BAO_Address::getValues( $addressParams, false, 'id' );
+			$addressDetails = array_values( $addressDetails );
+			$values['billing_name'   ] = str_replace( '', ' ', $addressDetails[0]['address_name']);
+			$values['billing_address'] = $addressDetails[0]['display'];
+		}
+       
+        //get soft credit record if exists.
+        if( $softContribution = CRM_Contribute_BAO_Contribution::getSoftContribution( $softParams ) ) {
+            $softContribution['softCreditToName']   = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $softContribution['soft_credit_to'], 'display_name' );
+            $values = array_merge( $values, $softContribution );
+        } 
+
+		// assign values to the template
         $this->assign( $values ); 
     }
 
@@ -113,7 +142,7 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         $this->addButtons(array(  
-                                array ( 'type'      => 'next',  
+                                array ( 'type'      => 'cancel',  
                                         'name'      => ts('Done'),  
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
                                         'isDefault' => true   )

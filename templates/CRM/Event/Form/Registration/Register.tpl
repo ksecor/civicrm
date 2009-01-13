@@ -3,9 +3,9 @@
 {/if}
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
 <div class="form-item">
-{if $eventPage.intro_text}
+{if $event.intro_text}
     <div id="intro_text">
-        <p>{$eventPage.intro_text}</p>
+        <p>{$event.intro_text}</p>
     </div>
 {/if}
 
@@ -35,7 +35,7 @@
                                 {assign var="count" value=`$count+1`}
                             {/if}
                         {/if}
-                    {/foreach}
+	              {/foreach}
                     </tr>
                 </table>
             </dd>
@@ -50,6 +50,10 @@
             <dd class="description">{$element.help_post}</dd>
         {/if}
     {/foreach}
+<div id="pricelabel" style="display:none">
+<dt>Total Fee(s) </dt>
+<dd id="pricevalue"></dd>
+</div>
 {if $priceSet.help_post}
   <dt>&nbsp;</dt>
   <dd class="description">{$priceSet.help_post}</dd>
@@ -107,52 +111,7 @@
 {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
 
 {if $paidEvent}   
-{if $form.credit_card_number}
-<div id="payment_information">
- <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
-    {if $paymentProcessor.billing_mode & 2}
-      <table class="form-layout-compressed">
-        <tr><td class="description">{ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}</td></tr>
-{if $buttonType eq 'upload'}
-   {assign var=expressButtonName value='_qf_Register_upload_express'}
-{else}
-   {assign var=expressButtonName value='_qf_Register_next_express'}
-{/if}
-        <tr><td>{$form.$expressButtonName.html} <span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information. </span></td></tr>
-      </table>
-    {/if}
-    {if $paymentProcessor.billing_mode & 1}
-      <table class="form-layout-compressed">
-        <tr><td class="label">{$form.credit_card_type.label}</td><td colspan="2">{$form.credit_card_type.html}</td></tr>
-        <tr><td class="label">{$form.credit_card_number.label}</td><td colspan="2">{$form.credit_card_number.html}<br />
-            <span class="description">{ts}Enter numbers only, no spaces or dashes.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.cvv2.label}</td><td style="vertical-align: top;">{$form.cvv2.html}</td><td><img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" /><br />
-            <span class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.credit_card_exp_date.label}</td><td colspan="2">{$form.credit_card_exp_date.html}</td></tr>
-      </table>
-      </fieldset>
-
-      <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>
-      <table class="form-layout-compressed">
-	  <tr><td colspan="2" class="description">{ts}Enter the name as shown on your credit or debit card, and the billing address for this card.{/ts}</td></tr>
-        <tr><td class="label">{$form.billing_first_name.label} </td><td>{$form.billing_first_name.html}</td></tr>
-        <tr><td class="label">{$form.billing_middle_name.label}</td><td>{$form.billing_middle_name.html}</td></tr>
-        <tr><td class="label">{$form.billing_last_name.label} </td><td>{$form.billing_last_name.html}</td></tr>
-	{assign var=n value=street_address-$bltID}
-        <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
-        {assign var=n value=city-$bltID}
-        <tr><td class="label">{$form.$n.label} </td><td>{$form.$n.html}</td></tr>
-        {assign var=n value=state_province_id-$bltID}
-        <tr><td class="label">{$form.$n.label} </td><td>{$form.$n.html}</td></tr>
-        {assign var=n value=postal_code-$bltID}
-        <tr><td class="label">{$form.$n.label} </td><td>{$form.$n.html}</td></tr>
-        {assign var=n value=country_id-$bltID}
-        <tr><td class="label">{$form.$n.label} </td><td>{$form.$n.html}</td></tr>
-       </table> 
-    {/if}
- </fieldset>
-</div>
-{/if}        
+    {include file='CRM/Core/BillingBlock.tpl'} 
 {/if}        
 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPost}   
@@ -176,9 +135,9 @@
      {$form.buttons.html}
    </div>
 
-    {if $eventPage.footer_text}
+    {if $event.footer_text}
         <div id="footer_text">
-            <p>{$eventPage.footer_text}</p>
+            <p>{$event.footer_text}</p>
         </div>
     {/if}
 </div>
@@ -194,3 +153,104 @@
     invert              = 1
 }
 {/if}
+{literal} 
+<script type="text/javascript">
+var totalfee=0;
+var symbol = '{/literal}{$currencySymbol}{literal}';
+if(document.Register.scriptFee.value){
+  totalfee = parseFloat(document.Register.scriptFee.value);
+  document.getElementById('pricelabel').style.display = "block";
+  document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalfee;
+  document.Register.scriptFee.value = parseFloat('0');
+}
+var price = new Array();
+if(document.Register.scriptArray.value){
+  price = document.Register.scriptArray.value.split(',');
+
+}
+function addPrice(priceVal, priceId) {
+  var op  = document.getElementById(priceId).type;
+  var ele = document.getElementById(priceId).name.substr(6);
+  if (op == 'checkbox') {
+    var chek = ele.split('[');
+    ele = chek[0];
+  }
+  if(!price[ele]) {
+    price[ele] = parseFloat('0');
+  }
+  var addprice = 0;
+  var priceset = 0;
+  if(op != 'select-one') {
+    priceset = priceVal.split(symbol);
+  }
+  
+  if (priceset != 0) {
+    var addprice = parseFloat(priceset[1]);
+  }
+  switch(op)
+    {
+    case 'checkbox':
+      if(document.getElementById(priceId).checked) {
+	totalfee   += addprice;
+	price[ele] += addprice;
+      }else{
+	totalfee   -= addprice;
+	price[ele] -= addprice;
+      }
+      break;    
+      
+    case 'radio':
+      totalfee = parseFloat(totalfee) + addprice - parseFloat(price[ele]);
+      price[ele] = addprice;
+      break;
+      
+    case 'text':
+      var textval = parseFloat(document.getElementById(priceId).value);
+      var curval = textval * addprice;
+      if(textval>=0){
+	totalfee = parseFloat(totalfee) + curval - parseFloat(price[ele]);
+	price[ele] = curval;
+      }else {
+	totalfee = parseFloat(totalfee) - parseFloat(price[ele]);	
+	price[ele] = parseFloat('0');
+      }
+
+      break;
+      
+    case 'select-one':
+      var index = parseInt(document.getElementById(priceId).selectedIndex);
+      var myarray = ['','{/literal}{$selectarray}{literal}'];
+      if(index>0) {
+	var selectvalue = myarray[index].split(symbol);
+	totalfee = parseFloat(totalfee) + parseFloat(selectvalue[1]) - parseFloat(price[ele]);
+	price[ele] = parseFloat(selectvalue[1]);
+      }else {
+	totalfee = parseFloat(totalfee) - parseFloat(price[ele]);
+	price[ele] = parseFloat('0');
+      }	
+      break;
+      
+    }//End of swtich loop
+  
+  if( totalfee>0 ){
+    document.getElementById('pricelabel').style.display = "block";
+    document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalfee;
+    document.Register.scriptFee.value = totalfee;
+    document.Register.scriptArray.value = price;
+  } else{
+    document.getElementById('pricelabel').style.display = "none";
+  }
+}
+    function allowParticipant( ) {
+	var additionalParticipant = document.getElementById('additional_participants').value; 
+	var validNumber = "";
+	for( i = 0; i< additionalParticipant.length; i++ ) {
+	    if ( additionalParticipant.charAt(i) >=1 || additionalParticipant.charAt(i) <=9 ) {
+		validNumber += additionalParticipant.charAt(i);
+	    } else {
+		document.getElementById('additional_participants').value = validNumber;
+	    }
+	}
+    }
+</script>
+{/literal} 

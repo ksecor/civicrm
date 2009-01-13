@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -326,23 +326,8 @@ ORDER BY title asc
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
             }
-                        
-            // if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
-//                 $values[$object->id]['children'] = "";
-//                 $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
-//                 foreach ($pgroups as $id){
-//                     if ($values[$object->id]['children'] != ""){
-//                         $values[$object->id]['children'] .= ", ";
-//                     }
-//                     $params = array('id' => $id);
-//                     //                print $id;
-//                     CRM_Contact_BAO_Group::retrieve($params, $default);
-                    
-//                     $values[$object->id]['children'] .= $default['title'];
-//                 }
-//             }
-            
         }
+
         if ( isset( $values ) ) {
             $this->assign( 'rows', $values );
         }
@@ -363,7 +348,7 @@ ORDER BY title asc
         $form->run( );
     }
 
-    function whereClause( &$params, $sortBy = true ) {
+    function whereClause( &$params, $sortBy = true, $excludeHidden = true ) {
         $values =  array( );
 
         $clauses = array( );
@@ -433,7 +418,11 @@ ORDER BY title asc
         if ( empty( $clauses ) ) {
              $clauses[] = 'is_active = 1';
         }
-
+        
+        if ( $excludeHidden ) {
+            $clauses[] = 'is_hidden = 0';
+        }
+        
         return implode( ' AND ', $clauses );
     }
 

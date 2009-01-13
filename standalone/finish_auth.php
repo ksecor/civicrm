@@ -43,7 +43,7 @@ function run() {
             $groupDAO =& new CRM_Contact_DAO_Group();
             $groupDAO->find( );
             while ( $groupDAO->fetch() ) {
-                if ( !$transaction ) {
+                if ( !isset($transaction) ) {
                     $transaction = new CRM_Core_Transaction( );
                 }
                 $group =& new CRM_Contact_BAO_Group();
@@ -52,7 +52,7 @@ function run() {
                 $group->buildClause( );
                 $group->save( );
             }
-            if ( $transaction ) {
+            if ( isset($transaction) ) {
                 $transaction->commit( );
             }
 
@@ -70,12 +70,13 @@ function run() {
             if ( !$allow_login && (!defined('CIVICRM_ALLOW_ALL') || !CIVICRM_ALLOW_ALL ) ) {
                 $session->set( 'msg' , 'You are not allowed to login. Login failed. Contact your Administrator.' );	
                 $session->set( 'goahead', "no" );
-            }
-            CRM_Utils_System_Standalone::getUserID( $user );
-
-            if ( ! $session->get('userID') ) {
-                $session->set( 'msg' , 'You are not authorized to login.' );
-                $session->set( 'goahead', "no" );
+            } else {
+                CRM_Utils_System_Standalone::getUserID( $user );
+                
+                if ( ! $session->get('userID') ) {
+                    $session->set( 'msg' , 'You are not authorized to login.' );
+                    $session->set( 'goahead', "no" );
+                }
             }
 
             header("Location: index.php");

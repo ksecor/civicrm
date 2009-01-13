@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -42,7 +42,7 @@
  * if introducing additional functionality
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -138,7 +138,7 @@ class CRM_Utils_Sort {
         foreach ( $vars as $weight => $value ) {
             $this->_vars[$weight] = array(
                                           'name'      => $value['sort'],
-                                          'direction' => $value['direction'],
+                                          'direction' => CRM_Utils_Array::value( 'direction', $value ),
                                           'title'     => $value['name'],
                                           );
         }

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -71,7 +71,7 @@ class CRM_Dedupe_Merger
                 ),
                 'rel_table_activities' => array(
                     'title'  => ts('Activities'),
-                    'tables' => array('civicrm_activity' ),
+                    'tables' => array('civicrm_activity', 'civicrm_activity_target', 'civicrm_activity_assignment'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=activity'),
                 ),
                 'rel_table_relationships' => array(
@@ -94,6 +94,13 @@ class CRM_Dedupe_Merger
                     'tables' => array('civicrm_entity_tag'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=tag'),
                 ),
+                'rel_table_cases' => array(
+                    'title'  => ts('Cases'),
+                    'tables' => array('civicrm_case_contact'),
+                    // note civicrm_activity is automatically included
+                    // when cases is checked on
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=case'),
+                )
             );
         }
         return $relTables;
@@ -150,7 +157,7 @@ class CRM_Dedupe_Merger
                 'civicrm_activity_target'         => array('target_contact_id'),
                 'civicrm_case_contact'            => array('contact_id'),
                 'civicrm_contact'                 => array('primary_contact_id'),
-                'civicrm_contribution'            => array('contact_id', 'solicitor_id', 'honor_contact_id'),
+                'civicrm_contribution'            => array('contact_id', 'honor_contact_id'),
                 'civicrm_contribution_recur'      => array('contact_id'),
                 'civicrm_entity_tag'              => array('contact_id'),
                 'civicrm_grant'                   => array('contact_id'),
@@ -209,7 +216,7 @@ class CRM_Dedupe_Merger
         if ($tables !== false) {
             // if there are specific tables, sanitize the list
             $affected = array_unique(array_intersect($affected, $tables));
-        } else {
+        } else { 
             // if there aren't any specific tables, don't affect the ones handled by relTables()
             $relTables =& self::relTables();
             $handled = array();
@@ -218,10 +225,10 @@ class CRM_Dedupe_Merger
             }
             $affected = array_diff($affected, $handled);
         }
-
+       
         $mainId  = (int) $mainId;
         $otherId = (int) $otherId;
-
+                
         // use UPDATE IGNORE + DELETE query pair to skip on situations when 
         // there's a UNIQUE restriction on ($field, some_other_field) pair
         foreach ($affected as $table) {

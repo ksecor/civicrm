@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -68,10 +68,10 @@ function smarty_function_help( $params, &$smarty ) {
     $help = $smarty->fetch( $file );
     return <<< EOT
 
-<span dojoType="dijit.form.DropDownButton" class="tundra">
-    <div><img class="action-icon" src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/Help.png" /></div>
+<div class="helpicon"><span dojoType="dijit.form.DropDownButton" class="tundra">
+    <div><img src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/quiz.png" /></div>
     <div dojoType="dijit.TooltipDialog" id="{$id}_help" class="tundra" >$help</div>
-</span>
+</span></div>
 EOT;
 
 }

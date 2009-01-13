@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -31,7 +31,7 @@
  * it need to be defined here first.
  * 
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -247,18 +247,6 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $gettextResourceDir = './l10n/';
 
     /**
-     * Default smtp server and port
-     */
-    public $outbond_option     = 0;
-    public $smtpServer         = 'localhost';
-    public $smtpPort           = 25;
-    public $smtpAuth           = false;
-    public $smtpUsername       = null;
-    public $smtpPassword       = null;
-    public $sendmail_path      = '/usr/sbin/sendmail';
-    public $sendmail_args      = '-i';
-    
-    /**
      * Default user framework
      */
     public $userFramework               = 'Drupal';
@@ -323,7 +311,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      * @var array
      */
     public $enableComponents   = array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail' );
-    public $enableComponentIDs = array( 1, 6, 2, 3, 4 );
+    public $enableComponentIDs = array( 1, 6, 2, 3, 4);
 
     /**
      * Should payments be accepted only via SSL?
@@ -384,9 +372,10 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     /**
      * Some search settings
      */
-    public $includeWildCardInName = 1;
-    public $includeEmailInName    = 1;
-    public $includeNickNameInName = 0;
+    public $includeWildCardInName  = 1;
+    public $includeEmailInName     = 1;
+    public $includeNickNameInName  = 0;
+    public $smartGroupCacheTimeout = 0;
 
     /**
      * Optimization related variables

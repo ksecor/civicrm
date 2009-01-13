@@ -3,8 +3,8 @@
  * File containing the ezcMailParserShutdownHandler class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -21,7 +21,7 @@
  * (if it still exists) when PHP shuts down.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @access private
  */
 class ezcMailParserShutdownHandler
@@ -88,7 +88,12 @@ class ezcMailParserShutdownHandler
         if ( !is_dir( $itemName ) && file_exists( $itemName ) )
         {
             unlink( $itemName );
-            return;
+            return true;
+        }
+
+        if ( !file_exists( $itemName ) )
+        {
+            return true;
         }
 
         $dir = dir( $itemName );

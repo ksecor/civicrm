@@ -2,9 +2,9 @@
 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 2.1                                                | 
+ | CiviCRM version 2.2                                                | 
  +--------------------------------------------------------------------+ 
- | Copyright CiviCRM LLC (c) 2004-2008                                | 
+ | Copyright CiviCRM LLC (c) 2004-2009                                | 
  +--------------------------------------------------------------------+ 
  | This file is a part of CiviCRM.                                    | 
  |                                                                    | 
@@ -29,12 +29,13 @@
  * 
  * 
  * @package CRM 
- * @copyright CiviCRM LLC (c) 2004-2007 
+ * @copyright CiviCRM LLC (c) 2004-2009 
  * $Id$ 
  * 
  */ 
 
-class CRM_Core_BAO_CustomQuery {
+class CRM_Core_BAO_CustomQuery 
+{
 
     const PREFIX = 'custom_value_';
 
@@ -114,7 +115,8 @@ class CRM_Core_BAO_CustomQuery {
                                'Relationship' => 'civicrm_relationship',
                                'Event'        => 'civicrm_event',
                                'Activity'     => 'civicrm_activity',
-                               'Pledge'       => 'civicrm_pledge'
+                               'Pledge'       => 'civicrm_pledge',
+                               'Grant'        => 'civicrm_grant'
                                );
 
     /**
@@ -127,7 +129,8 @@ class CRM_Core_BAO_CustomQuery {
      *
      * @access public
      */
-    function __construct( $ids ) {
+    function __construct( $ids ) 
+    {
         $this->_ids    =& $ids;
 
         $this->_select       = array( ); 
@@ -223,7 +226,8 @@ SELECT label, value
      * @return void
      * @access public
      */   
-    function select( ) {
+    function select( ) 
+    {
         if ( empty( $this->_fields ) ) {
             return;
         }
@@ -246,7 +250,14 @@ SELECT label, value
                 $joinTable = 'civicrm_membership';
             } else if ( $field['extends'] == 'civicrm_pledge' ) {
                 $joinTable = 'civicrm_pledge';
+            } else  if ( $field['extends'] == 'civicrm_activity' ) {
+                $joinTable = 'civicrm_activity';
+            } else  if ( $field['extends'] == 'civicrm_relationship' ) {
+                $joinTable = 'civicrm_relationship';
+            } else  if ( $field['extends'] == 'civicrm_grant' ) {
+                $joinTable = 'civicrm_grant';
             }
+            
             if ( $joinTable ) {
                 $this->_tables[$name] = "\nLEFT JOIN $name ON $name.entity_id = $joinTable.id";
                 if ( $this->_ids[$id] ) {
@@ -269,7 +280,8 @@ SELECT label, value
      * 
      * @access public
      */   
-    function where( ) {
+    function where( ) 
+    {
         //CRM_Core_Error::debug( 'fld', $this->_fields );
         //CRM_Core_Error::debug( 'ids', $this->_ids );
 
@@ -280,10 +292,10 @@ SELECT label, value
                  ! $values ) {
                 continue;
             }
-           
+
             foreach ( $values as $tuple ) {
                 list( $name, $op, $value, $grouping, $wildcard ) = $tuple;
-                
+
                 // fix $value here to escape sql injection attacks
                 $field = $this->_fields[$id];
                 $qillValue = CRM_Core_BAO_CustomField::getDisplayValue( $value, $id, $this->_options );
@@ -304,25 +316,31 @@ SELECT label, value
 
                         //ignoring $op value for checkbox and multi select
                         $sqlValue = array( );
-                        $sqlOP    = ' AND ';
+                        $sqlOP       = ' AND ';
+                        $sqlOPlabel  = ts('match ALL');
                         if ($field['html_type'] == 'CheckBox') {
                             foreach ( $value as $k => $v ) { 
-                                if ( $k == 'CiviCRM_OP_OR' ) {
-                                    $sqlOP = ' OR ';
-                                    continue;
+                                if ( $v ) {
+                                    if ( $k == 'CiviCRM_OP_OR' ) {
+                                        $sqlOP      = ' OR ';
+                                        $sqlOPlabel = ts('match ANY');
+                                        continue;
+                                    }
+                                
+                                    $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                                 }
-                                $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
                             //if user check only 'CiviCRM_OP_OR' check box
                             //of custom checkbox field, then ignore this field.
                             if ( !empty( $sqlValue ) ) {
-                                $this->_where[$grouping][] = implode( $sqlOP, $sqlValue );
-                                $this->_qill[$grouping][]  = "{$field['label']} $op $qillValue ($sqlOP)";
+                                $this->_where[$grouping][] = ' ( ' . implode( $sqlOP, $sqlValue ) . ' ) ';
+                                $this->_qill[$grouping][]  = "{$field['label']} $op $qillValue ( $sqlOPlabel )";
                             }
                         } else { // for multi select
                             foreach ( $value as $k => $v ) { 
                                 if ( $v == 'CiviCRM_OP_OR' ) {
-                                    $sqlOP = ' OR ';
+                                    $sqlOP      = ' OR ';
+                                    $sqlOPlabel = ts('match ANY');
                                     continue;
                                 }
                                 $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
@@ -330,8 +348,8 @@ SELECT label, value
                             //if user select only 'CiviCRM_OP_OR' value
                             //of custom multi select field, then ignore this field.
                             if ( !empty( $sqlValue ) ) {
-                                $this->_where[$grouping][] = implode( $sqlOP, $sqlValue ); 
-                                $this->_qill[$grouping][]  = "$field[label] $op $qillValue ($sqlOP)";
+                                $this->_where[$grouping][] = ' ( ' . implode( $sqlOP, $sqlValue ) . ' ) ';
+                                $this->_qill[$grouping][]  = "$field[label] $op $qillValue ( $sqlOPlabel )";
                             }
                         }                    
                     } else {
@@ -349,40 +367,45 @@ SELECT label, value
                                 $val = "%$val%";
                                 $op  = 'LIKE';
                             }
-			    
-			    //FIX for custom data query fired against no value(NULL/NOT NULL)
-			    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $sql, $op, $val, true );
+
+                            //FIX for custom data query fired against no value(NULL/NOT NULL)
+                            $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $sql, $op, $val, $field['data_type'] );
                             $this->_qill[$grouping][]  = "$field[label] $op $qillValue";
                         }
                     } 
                     continue;
-                
+
                 case 'Int':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
                     } else {
-                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Integer' );
+                        $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'Integer' );
                         $this->_qill[$grouping][]  = $field['label'] . " $op $value";
                     }
                     continue;
-                
+
                 case 'Boolean':
                     $value = (int ) $value;
                     $value = ( $value == 1 ) ? 1 : 0;
-                    $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Integer' );
+                    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'Integer' );
                     $value = $value ? ts('Yes') : ts('No');
                     $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
+                    continue;
+
+                case 'Link':
+                    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'String' );
+                    $this->_qill[$grouping][]  = $field['label'] . " $op $value";
                     continue;
 
                 case 'Float':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
                     } else {                
-                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
+                        $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'Float' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     }
                     continue;                    
-                
+
                 case 'Money':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
                         foreach( $value as $key => $val ) {
@@ -394,30 +417,27 @@ SELECT label, value
                     } else { 
                         $moneyFormat = CRM_Utils_Rule::cleanMoney($value);
                         $value       = $moneyFormat;
-                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
+                        $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'Float' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     }
                     continue;
-                
+
                 case 'Memo':
-                    $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
-                    $this->_where[$grouping][] = "$fieldName {$op} '{$val}'";
+                    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'String' );
                     $this->_qill[$grouping][] = "$field[label] $op $value";
                     continue;
-                
+
                 case 'Date':
                     $fromValue = CRM_Utils_Array::value( 'from', $value );
                     $toValue   = CRM_Utils_Array::value( 'to'  , $value );
+                    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'String' );
                     if ( ! $fromValue && ! $toValue ) {
-                        $date = CRM_Utils_Date::format( $value );
-                        if ( ! $date ) { 
+                        if ( !CRM_Utils_Date::format( $value ) && $op != 'IS NULL' && $op != 'IS NOT NULL' ) {
                             continue; 
                         } 
-                    
-                        $this->_where[$grouping][] = "$fieldName {$op} {$date}";
+
                         $date = CRM_Utils_Date::format( $value, '-' ); 
-                        $this->_qill[$grouping][]  = $field['label'] . " {$op} " . 
-                            CRM_Utils_Date::customFormat( $date ); 
+                        $this->_qill[$grouping][]  = $field['label'] . " {$op} " . CRM_Utils_Date::customFormat( $date ); 
                     } else {
                         $fromDate = CRM_Utils_Date::format( $fromValue );
                         $toDate   = CRM_Utils_Date::format( $toValue   );
@@ -440,30 +460,33 @@ SELECT label, value
                     continue;
                 
                 case 'StateProvince':
-                    $states =& CRM_Core_PseudoConstant::stateProvince();
-                    if ( ! is_numeric( $value ) ) {
-                        $value  = array_search( $value, $states );
-                    }
-                    if ( $value ) {
-                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
-                        $this->_qill[$grouping][]  = $field['label'] . " {$op} {$states[$value]}";
-                    }
-                    continue;
-                
                 case 'Country':
-                    $countries =& CRM_Core_PseudoConstant::country();
-                    if ( ! is_numeric( $value ) ) {
-                        $value  = array_search( $value, $countries );
-                    }
-                    if ( $value ) {
+                    if ( ! is_array( $value ) ) {
                         $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
-                        $this->_qill[$grouping][]  = $field['label'] . " {$op} {$countries[$value]}";
-                    }
+                        $this->_qill[$grouping][]  = $field['label'] . " {$op} {$qillValue}";
+                    } else {
+                        $sqlOP      = ' AND ';
+                        $sqlOPlabel = ts('match ALL');
+                        foreach ( $value as $k => $v ) { 
+                            if ( $v == 'CiviCRM_OP_OR' ) {
+                                $sqlOP = ' OR ';
+                                $sqlOPlabel = ts('match ANY');
+                                continue;
+                            }
+                            $sqlValue[] = "( $fieldName like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
+                        }
+
+                        //if user select only 'CiviCRM_OP_OR' value
+                        //of custom multi select field, then ignore this field.
+                        if ( !empty( $sqlValue ) ) {
+                            $this->_where[$grouping][] = " ( " . implode( $sqlOP, $sqlValue ) . " ) ";
+                            $this->_qill[$grouping][]  = "$field[label] $op $qillValue ( $sqlOPlabel )";
+                        }
+                    }					
                     continue;
                 }
-            
+
             }
-            //CRM_Core_Error::debug( 'w', $this->_where );
         }
     }
 
@@ -475,7 +498,8 @@ SELECT label, value
      * @return  array   array of strings  
      * @access public
      */   
-    function query( ) {
+    function query( ) 
+    {
         $this->select( );
 
         $this->where( );
@@ -485,11 +509,11 @@ SELECT label, value
             $clauses = array( );
             foreach ( $this->_where as $grouping => $values ) {
                 if ( ! empty( $values ) ) {
-                    $clauses[] = implode( ' AND ', $values );
+                    $clauses[] = ' ( ' . implode( ' AND ', $values ) . ' ) ';
                 }
             }
             if ( ! empty( $clauses ) ) {
-                $whereStr = implode( ' OR ', $clauses );
+                $whereStr = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
             }
         }
 
@@ -498,7 +522,8 @@ SELECT label, value
                       $whereStr );
     }
 
-    function searchRange( &$id, &$label, $type, $fieldName, &$value, &$grouping ) {
+    function searchRange( &$id, &$label, $type, $fieldName, &$value, &$grouping ) 
+    {
         $qill = array( );
 
         if ( isset( $value['from'] ) ) {

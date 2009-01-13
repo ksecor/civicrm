@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,7 +48,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     private $_totalAmountIndex;
     private $_contributionTypeIndex;
 
-    //protected $_mapperLocType;
+    protected $_mapperSoftCredit;
     //protected $_mapperPhoneType;
     /**
      * Array of succesfully imported contribution id's
@@ -60,12 +60,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     /**
      * class constructor
      */
-    function __construct( &$mapperKeys,$mapperLocType = null, $mapperPhoneType = null) 
+    function __construct( &$mapperKeys, $mapperSoftCredit = null, $mapperPhoneType = null) 
     {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
-        //$this->_mapperLocType =& $mapperLocType;
-        //$this->_mapperPhoneType =& $mapperPhoneType;
+        $this->_mapperSoftCredit =& $mapperSoftCredit;
     }
 
     /**
@@ -78,16 +77,27 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     {
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $fields =& CRM_Contribute_BAO_Contribution::importableFields( $this->_contactType , false );
-
+        
+        $fields = array_merge( $fields,
+                               array( 'soft_credit' => array( 'title'      => ts('Soft Credit'),
+                                                              'softCredit' => true ) ) );
+                                                          
+        // add pledge fields only if its is enabled
+        if ( CRM_Core_Permission::access( 'CiviPledge' ) ) {
+            $pledgeFields = array( 'pledge_payment' => array( 'title' => ts('Pledge Payment') ),
+                                   'pledge_id'      => array( 'title' => ts('Pledge ID') )
+                                 );
+            
+            $fields = array_merge( $fields, $pledgeFields );
+        }
         foreach ($fields as $name => $field) {
-            $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
+            $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'] );
         }
 
         $this->_newContributions = array();
-
+       
         $this->setActiveFields( $this->_mapperKeys );
-        //$this->setActiveFieldLocationTypes( $this->_mapperLocType );
-        //$this->setActiveFieldPhoneTypes( $this->_mapperPhoneType );
+        $this->setActiveFieldSoftCredit( $this->_mapperSoftCredit ); 
 
         // FIXME: we should do this in one place together with Form/MapField.php
         $this->_contactIdIndex        = -1;
@@ -150,25 +160,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
-        /*if ($response != CRM_Contribute_Import_Parser::VALID) {
-            array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
-            return CRM_Contribute_Import_Parser::ERROR;
-        }*/
-        $errorRequired = false;
-        if ($this->_totalAmountIndex      < 0 or
-            $this->_contributionTypeIndex < 0) {
-            $errorRequired = true;
-        } else {
-            $errorRequired = ! CRM_Utils_Array::value($this->_totalAmountIndex, $values) ||
-                ! CRM_Utils_Array::value($this->_contributionTypeIndex, $values);
-        }
         
-        
-        if ($errorRequired) {
-            array_unshift($values, ts('Missing required fields'));
-            return CRM_Contribute_Import_Parser::ERROR;
-        }
-
         $params =& $this->getActiveFieldParams( );
         require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
@@ -221,7 +213,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         //date-Format part ends
 
-        //$params['contact_type'] =  $this->_contactType;
         $params['contact_type'] =  'Contribution';
         
         //checking error in custom data
@@ -253,13 +244,28 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         if ( $response != CRM_Contribute_Import_Parser::VALID ) {
             return $response;
         }
-        
+        $noSoftCredit = false;
         $params =& $this->getActiveFieldParams( );
-                       
+
+        //params for soft credit contact
+        if ( !empty ( $params['soft_credit'] ) ) {
+            $softParams = $params['soft_credit'];
+        }
+        $formatted = array();
+        //find the contact to which the contribution is soft-credited
+        if ( !empty ( $softParams ) ) {
+            if ( isset( $softParams['contact_id'] ) ) {
+                $softParams['id'] = $softParams['contact_id'];
+                unset($softParams['contact_id']);
+            }
+            $softParams['contact_type']  = $this->_contactType;
+            $formatted['soft_credit_to'] = $noSoftCredit = $this->getSoftCredit($softParams);
+        }
+
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
-        $formatted = array();
+     
         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',$params ) );
         
         foreach ($params as $key => $val) {
@@ -279,10 +285,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     break;
                 }
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                    if ( $customFields[$customFieldID][2] == 'Date' ) {
+                    if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
                         CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
                         unset( $params[$key] );
-                    } else if ( $customFields[$customFieldID][2] == 'Boolean' ) {
+                    } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean' ) {
                         $params[$key] = CRM_Utils_String::strtoboolstr( $val );
                     }
                 }
@@ -321,16 +327,13 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         
         if ( $onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
-            foreach ( $formatted as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                 $value, 'Contribution', null, null );
-                }
-            }
-        }
-
-        //fix for CRM-2219 - Update Contribution
-        if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          null,
+                                                                          'Contribution' );
+        } else {
+            //fix for CRM-2219 - Update Contribution
+            // onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE
             if ( $values['invoice_id'] || $values['trxn_id'] || $values['contribution_id'] ) {
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 $dupeIds = array(
@@ -342,13 +345,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );                 
                 if ( $ids['contribution'] ) {     
                     $formatted['id'] = $ids['contribution'];
-                    foreach ( $formatted as $key => $value ) {
-                        if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                            CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                         $value, 'Contribution', null, $formatted['id'] );
-                        }
-                    }
-
+                    $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                                  CRM_Core_DAO::$_nullObject,
+                                                                                  $formatted['id'],
+                                                                                  'Contribution' );
                      //process note
                     if ( $values['note'] ) {
                         $noteID = array();
@@ -370,7 +370,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         CRM_Core_BAO_Note::add($noteParams, $noteID);
                         unset($formatted['note']);
                     }
-                    
+                                           
                     $newContribution =& CRM_Contribute_BAO_Contribution::create( $formatted , $ids );
                     $this->_newContributions[] = $newContribution->id;
                     return CRM_Contribute_Import_Parser::VALID;
@@ -396,7 +396,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             static $cIndieFields = null;
             if ($cIndieFields == null) {
                 require_once 'CRM/Contact/BAO/Contact.php';
-                //$cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
                 $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
                 $cIndieFields = $cTempIndieFields;
             }
@@ -429,17 +428,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 
                 $value = array($key => $field);
                 if (array_key_exists($key, $cIndieFields)) {
-                    //$value['contact_type'] = 'Individual';
                     $value['contact_type'] = $this->_contactType;
                 }
                 _civicrm_add_formatted_param($value, $contactFormatted);
             }
 
-            //$contactFormatted['contact_type'] = 'Individual';
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error['error_message']['params'][0]);        
-            if ( self::isDuplicate($error) ) {
+            if ( civicrm_duplicate( $error ) ) {
+                $matchedIDs = explode(',',$error['error_message']['params'][0]);        
                 if (count( $matchedIDs) >1) {
                     array_unshift($values,"Multiple matching contact records detected for this row. The contribution was not imported");
                     return CRM_Contribute_Import_Parser::ERROR;
@@ -516,10 +513,33 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             
             $this->_newContributions[] = $newContribution['id'];
+            if ( $noSoftCredit === false ) {
+                array_unshift($values, "No match found for specified Soft Credit contact data. Row was skipped.");
+                return CRM_Contribute_Import_Parser::NO_MATCH;
+            } elseif ( is_numeric ( $noSoftCredit ) ) {
+                return CRM_Contribute_Import_Parser::SOFT_MATCH;
+            }
             return CRM_Contribute_Import_Parser::VALID;
         }
+        
     }
-   
+    
+    /**
+     * Get the array of succesfully imported contribution id's
+     *
+     * @return array
+     * @access public
+     */
+    function &getSoftCredit( $params ) 
+    {
+        $error = _civicrm_duplicate_formatted_contact($params);
+        if ( isset( $error['error_message']['params'][0] )) {
+            $matchedIDs = explode(',',$error['error_message']['params'][0]);
+            return $matchedIDs[0] ? $matchedIDs[0] : false;
+        }
+        return false;   
+     }
+    
     /**
      * Get the array of succesfully imported contribution id's
      *
@@ -540,33 +560,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     function fini( ) 
     {
     }
-
-    /**
-     *  function to check if an error is actually a duplicate contact error
-     *  
-     *  @param Array $error A valid Error array
-     *  
-     *  @return true if error is duplicate contact error 
-     *  
-     *  @access public 
-     */
-    function isDuplicate($error) 
-    {
-        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
-            return false;
-        }
-        
-        if ( is_array( $error )  && civicrm_error( $error ) ) {
-            $code = $error['error_message']['code'];
-            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
-                return true ;
-            }
-        }
-        
-        return false;     
-
-    }
-
 
 }
 

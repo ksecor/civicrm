@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -167,7 +167,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
     {
         $this->_mapperFields = $this->get( 'fields' );
         asort($this->_mapperFields);
-        
+        unset( $this->_mapperFields['participant_is_test'] );
         $this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->_dataValues = $this->get( 'dataValues' );
@@ -231,6 +231,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             $mappingDetails = CRM_Core_BAO_Mapping::retrieve($params, $temp);
             
             $this->assign('loadedMapping', $mappingDetails->name);
+            $this->set('loadedMapping', $savedMapping);
             
             $getMappingName =&  new CRM_Core_DAO_Mapping();
             $getMappingName->id = $savedMapping;
@@ -437,7 +438,8 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-                if ( CRM_Core_BAO_Mapping::checkMapping( $nameField, 'Import Participants' ) ) {
+                $mappingTypeId = CRM_Core_OptionGroup::getValue( 'mapping_type', 'Import Participant', 'name' );
+                if ( CRM_Core_BAO_Mapping::checkMapping( $nameField,  $mappingTypeId ) ) {
                     $errors['saveMappingName'] = ts('Duplicate Import Participant Mapping Name');
                 }
             }
@@ -547,6 +549,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
                 $saveMappingFields->name = $mapper[$i];
                 $saveMappingFields->save();
             }
+            $this->set( 'savedMapping', $saveMappingFields->mapping_id );
         }
         
         require_once 'CRM/Event/Import/Parser/Participant.php';

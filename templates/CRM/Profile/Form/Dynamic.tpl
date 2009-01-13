@@ -37,14 +37,9 @@
         {if $mode eq 8}
             <fieldset>
         {else} 
-           {assign var="groupId" value="id_"|cat:$field.group_id}
 	   {if $context neq 'dialog'}
-              <div id="{$groupId}_show" class="section-hidden section-hidden-border">
-              <a href="#" onclick="hide('{$groupId}_show'); show('{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$field.groupTitle}{/ts}</label><br />
-               </div>
-
-              <div id="{$groupId}">
-              <fieldset><legend><a href="#" onclick="hide('{$groupId}'); show('{$groupId}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$field.groupTitle}{/ts}</legend>
+              <div id="profilewrap{$field.group_id}">
+              <fieldset><legend>{ts}{$field.groupTitle}{/ts}</legend>
            {else}
               <div>
 	      <fieldset><legend>{ts}{$field.groupTitle}{/ts}</legend>
@@ -60,9 +55,9 @@
 
     {assign var=n value=$field.name}
     {if $field.options_per_line}
-	<tr>
+	<tr id="editrow-{$n}">
         <td class="option-label">{$form.$n.label}</td>
-        <td>
+        <td class="edit-value">
 	    {assign var="count" value="1"}
         {strip}
         <table class="form-layout-compressed">
@@ -76,10 +71,10 @@
               <td class="labels font-light">{$form.$n.$key.html}</td>
               {if $count == $field.options_per_line}
                   </tr>
-                   <tr>
+                  <tr>
                    {assign var="count" value="1"}
               {else}
-          	       {assign var="count" value=`$count+1`}
+        	   {assign var="count" value=`$count+1`}
               {/if}
           {/if}
           {/foreach}
@@ -89,24 +84,44 @@
         </td>
     </tr>
 	{else}
-        <tr>
+        <tr id="editrow-{$n}">
            <td class="label">{$form.$n.label}</td>
-           <td>
+           <td class="edit-value">
            {if $n|substr:0:3 eq 'im-'}
              {assign var="provider" value=$n|cat:"-provider_id"}
              {$form.$provider.html}&nbsp;
            {/if}
-           {$form.$n.html}
+           {if $n eq 'greeting_type'}
+               <table class="form-layout-compressed">
+                  <tr>
+                     <td>{$form.$n.html} </td>
+                     <td id="customGreeting">
+                     {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}</td>
+                  </tr>
+               </table> 
+            {elseif $n eq 'group' && $form.group}
+                <table id="selector" class="selector" style="width:auto;">
+                    <tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
+                </table>
+           {else}        
+               {$form.$n.html}
+           {/if}
            </td>
+           {if $field.html_type eq 'Radio' and $form.formName eq 'Edit'}
+                <td style="line-height: .75em; margin-top: 1px;">
+                &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
+                </td>
+           {/if}
         </tr>
-	  {if $form.$n.type eq 'file'}
+        {if $form.$n.type eq 'file'}
 	      <tr><td class="label"></td><td>{$customFiles.$n.displayURL}</td></tr>
 	      <tr><td class="label"></td><td>{$customFiles.$n.deleteURL}</td></tr>
-	  {/if} 
+        {/if} 
 	{/if}
-        {* Show explanatory text for field if not in 'view' mode *}
-        {if $field.help_post && $action neq 4 && $form.$n.html}<tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
-        {/if}
+    {* Show explanatory text for field if not in 'view' mode *}
+    {if $field.help_post && $action neq 4 && $form.$n.html}
+        <tr id="helprow-{$n}"><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
+    {/if}
 
     {/foreach}
 
@@ -143,16 +158,6 @@
 </div> {* end crm-container div *}
 
 <script type="text/javascript">
-  {if $mode ne 8 and $context ne 'dialog' }
-
-    var showBlocks = new Array({$showBlocks});
-    var hideBlocks = new Array({$hideBlocks});
-
-    {* hide and display the appropriate blocks as directed by the php code *}
-    on_load_init_blocks( showBlocks, hideBlocks );
-    
-  {/if}
-
   {if $drupalCms}
   {literal}
     if ( document.getElementsByName("cms_create_account")[0].checked ) {
@@ -175,3 +180,28 @@ field_type          ="radio"
 invert              = 0
 }
 {/if}
+
+{if $form.greeting_type}
+  {literal}
+    <script type="text/javascript">
+      window.onload = function() {
+        showGreeting();
+      }
+  {/literal}
+    </script>
+{/if}
+{literal}
+<script type="text/javascript">
+    function showGreeting() {
+       if( document.getElementById("greeting_type").value == 4 ) {
+           show('customGreeting');                   
+       } else {
+           hide('customGreeting');      
+       }     
+    }
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
+});
+</script>
+{/literal}

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -269,6 +269,12 @@ ORDER BY j.scheduled_date,
         $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
                                                           $mailing->id );
 
+
+        if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+            require_once 'CRM/Core/Smarty/resources/String.php';
+            civicrm_smarty_register_string_resource( );
+        }
+
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {
@@ -282,10 +288,10 @@ ORDER BY j.scheduled_date,
             }
             $mailsProcessed++;
             
-            $fields[$eq->contact_id] = array( 'id'         => $eq->id,
-                                              'hash'       => $eq->hash,
-                                              'contact_id' => $eq->contact_id,
-                                              'email'      => $eq->email );
+            $fields[] = array( 'id'         => $eq->id,
+                               'hash'       => $eq->hash,
+                               'contact_id' => $eq->contact_id,
+                               'email'      => $eq->email );
             if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
                 $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
                 $fields = array( );
@@ -300,14 +306,14 @@ ORDER BY j.scheduled_date,
         // get the return properties
         $returnProperties = $mailing->getReturnProperties( );
         $params = array( );
-        foreach ( array_keys( $fields ) as $contactID ) {
-            $params[] = $contactID;
+        foreach ( $fields as $key => $field ) {
+            $params[] = $field['contact_id'];
         }
 
         $details = $mailing->getDetails($params, $returnProperties);
 
-        foreach ( $fields as $contactID => $field ) {
-            
+        foreach ( $fields as $key => $field ) {
+            $contactID = $field['contact_id'];
             /* Compose the mailing */
             $recipient = null;
             $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],
@@ -317,13 +323,14 @@ ORDER BY j.scheduled_date,
             /* Send the mailing */
             $body    =& $message->get();
             $headers =& $message->headers();
-
+            $result = null;
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
             CRM_Core_Error::ignoreException( );
-            $result = $mailer->send($recipient, $headers, $body, $this->id);
-            CRM_Core_Error::setCallback();
-            
+            if ( is_object( $mailer ) ) {
+                $result = $mailer->send($recipient, $headers, $body, $this->id);
+                CRM_Core_Error::setCallback();
+            }
             $params = array( 'event_queue_id' => $field['id'],
                              'job_id'         => $this->id,
                              'hash'           => $field['hash'] );
@@ -345,7 +352,7 @@ ORDER BY j.scheduled_date,
                                                               'Email',
                                                               'name' );
             $session = & CRM_Core_Session::singleton();
-            $activity = array('source_contact_id'    => $session->get('userID'),
+            $activity = array('source_contact_id'    => $mailing->scheduled_id,
                               'target_contact_id'    => $field['contact_id'],
                               'activity_type_id'     => $activityTypeID,
                               'source_record_id'     => $this->mailing_id,

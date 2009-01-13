@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -59,20 +59,37 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         $domain =& new CRM_Core_DAO_Domain();
         $domain->find(true);
         if ($domain->locales) {
+            // for multi-lingual sites, populate default language drop-down with available languages
             $lcMessages = array();
             foreach ($locales as $loc => $lang) {
                 if (substr_count($domain->locales, $loc)) $lcMessages[$loc] = $lang;
             }
             $this->addElement('select', 'lcMessages', ts('Default Language'), $lcMessages);
+
+            // add language limiter and language adder
             $this->addCheckBox('languageLimit', ts('Available Languages'), array_flip($lcMessages), null, null, null, null, ' &nbsp; ');
             $this->addElement('select', 'addLanguage', ts('Add Language'), array_merge(array('' => ts('- select -')), array_diff($locales, $lcMessages)));
+
         } else {
-            $warning = ts('WARNING: As of CiviCRM 2.1, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function; making a database backup is strongly recommended.');
+            // for single-lingual sites, populate default language drop-down with all languages
+            $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
+
+            $warning = ts('WARNING: As of CiviCRM 2.2, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function; making a database backup is strongly recommended.');
             $this->assign('warning', $warning);
 
-            $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
-            $this->addElement('checkbox', 'makeMultilingual', ts('Enable Multiple Languages'),
-                              null, array('onChange' => "if (this.checked) alert('$warning')"));
+            // test for create view and trigger permissions and if allowed, add the option to go multilingual
+            CRM_Core_Error::ignoreException();
+            $dao = new CRM_Core_DAO;
+            $dao->query('CREATE OR REPLACE VIEW civicrm_domain_view AS SELECT * FROM civicrm_domain');
+            $dao->query('CREATE TRIGGER civicrm_domain_trigger BEFORE INSERT ON civicrm_domain FOR EACH ROW BEGIN END');
+            $dao->query('DROP TRIGGER IF EXISTS civicrm_domain_trigger');
+            $dao->query('DROP VIEW IF EXISTS civicrm_domain_view');
+            CRM_Core_Error::setCallback();
+
+            if (!$dao->_lastError) {
+                $this->addElement('checkbox', 'makeMultilingual', ts('Enable Multiple Languages'),
+                                  null, array('onChange' => "if (this.checked) alert('$warning')"));
+            }
         }
 
         $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
@@ -158,7 +175,12 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
 
         // if we manipulated the language list, return to the localization admin screen
         $return = (bool) ($values['makeMultilingual'] or $values['addLanguage']);
-
+        
+        //cache contact fields retaining localized titles
+        //though we changed localization, so reseting cache.
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );         
+        
         // save all the settings
         parent::commonProcess($values);
 

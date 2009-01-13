@@ -11,7 +11,7 @@
                {else} 
                 {ts}Click the <strong>Continue</strong> button to go to PayPal, where you will select your payment method and complete the contribution.{/ts}
                {/if} 
-            {elseif ! $is_monetary or $amount LE 0.0}
+            {elseif ! $is_monetary or $amount LE 0.0 or $is_pay_later}
                 {ts}To complete this transaction, click the <strong>Continue</strong> button below.{/ts}
             {else}
                 {ts}To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
@@ -83,7 +83,16 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
-
+    {if $pcpBlock}
+    <div class="header-dark">
+        {ts}Personal Campaign Page{/ts}
+    </div>
+    <div class="display-block">
+	<strong>Display In Roll</strong> : {if $pcp_display_in_roll}{ts}Yes{/ts}<br />{else}{ts}No{/ts}<br />{/if}
+	{if $pcp_roll_nickname}<strong>Nick Name</strong> : {$pcp_roll_nickname}<br />{/if}
+        {if $pcp_personal_note}<strong>Note</strong> : {$pcp_personal_note|truncate}<br />{/if}
+    </div>
+    {/if}
     {if $onBehalfName}
     <div class="header-dark">
         {ts}On Behalf Of{/ts}
@@ -97,7 +106,7 @@
     </div>
     {/if}
 
-    {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary and $amount GT 0}    
+    {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) }
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -115,7 +124,7 @@
     </div>
     {/if}
     
-    {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and $amount GT 0}
+    {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) }
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>
@@ -140,15 +149,19 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
   
-    {if $contributeMode NEQ 'notify' and $is_monetary and $amount GT 0} {* In 'notify mode, contributor is taken to processor payment forms next *}
+    {if $contributeMode NEQ 'notify' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) } {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
-        {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
+        {if $is_pay_later}
+            {ts}Your contribution will not be completed until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
+        {else}
+            {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
+        {/if}
         </p>
     </div>
     {/if}
     
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and $amount GT 0 and ! $is_pay_later}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) and ! $is_pay_later}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

@@ -66,6 +66,7 @@ function civicrm_main( &$config ) {
         } else {
             civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql' );
         }
+        civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_acl.mysql' );
     }
     
     // generate backend settings file
@@ -160,7 +161,7 @@ function civicrm_config( &$config ) {
         $params['baseURL']        = civicrm_cms_base( )  . 'standalone/';
     }
 
-    $str = file_get_contents( $tplPath . 'civicrm.settings.php.sample.tpl' );
+    $str = file_get_contents( $tplPath . 'civicrm.settings.php.tpl' );
     foreach ( $params as $key => $value ) { 
         $str = str_replace( '%%' . $key . '%%', $value, $str ); 
     } 
@@ -178,7 +179,12 @@ function civicrm_cms_base( ) {
         $numPrevious = 2;
     }
 
-    $url = 'http://' . $_SERVER['HTTP_HOST'];
+    if ( ! isset( $_SERVER['HTTPS'] ) ||
+         strtolower( $_SERVER['HTTPS'] )  == 'off' ) {
+        $url = 'http://' . $_SERVER['HTTP_HOST'];
+    } else {
+        $url = 'https://' . $_SERVER['HTTP_HOST'];
+    }
 
     $baseURL = $_SERVER['SCRIPT_NAME'];
 

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -76,7 +76,7 @@ class CRM_Utils_Request {
         // hack to detect stuff not yet converted to new style
         if ( ! is_string( $type ) ) {
             CRM_Core_Error::backtrace( );
-            CRM_Utils_Error::fatal( "Please convert retrieve call to use new function signature" );
+            CRM_Core_Error::fatal( "Please convert retrieve call to use new function signature" );
         }
 
         $value = null;
@@ -96,7 +96,7 @@ class CRM_Utils_Request {
 
         require_once 'CRM/Utils/Type.php';
         if ( isset( $value ) &&
-             ( CRM_Utils_Type::validate( $value, $type, $abort ) === null ) ) {
+             ( CRM_Utils_Type::validate( $value, $type, $abort, $name ) === null ) ) {
             $value = null;
         }
         

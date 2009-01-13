@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -63,23 +63,8 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );
 
-        $config  =& CRM_Core_Config::singleton( );
-        $uploadDir = $config->uploadDir;
-
-        require_once 'CRM/Core/BAO/File.php';
-
-        $session =& CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
-        if ( ! empty( $uploadNames ) ) {
-            $uploadNames = array_merge( $uploadNames,
-                                        CRM_Core_BAO_File::uploadNames( ) );
-            
-        } else {
-            $uploadNames = CRM_Core_BAO_File::uploadNames( );
-        }
-
         // add all the actions
-        $this->addActions( $uploadDir, $uploadNames );
+        $this->addActions( );
     }
 
     public function selectorName( ) {

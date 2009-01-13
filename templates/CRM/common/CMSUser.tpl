@@ -1,11 +1,10 @@
 {if $showCMS }{*true if is_cms_user field is set *}
  {* NOTE: We are currently not supporting the Drupal registration mode where user enters their password. But logic is left here for when we figure it out. *}
 
- {capture assign="loginUrl"}{$config->userFrameworkBaseURL}{/capture}
  <fieldset>
     <div class="messages help">
-        {ts}If you would like to create an account on this site, check the box below and enter a user name{/ts}
-        {if $form.cms_pass}{ts}and a password{/ts}{/if}.
+        {if !$isCMS} {ts}If you would like to create an account on this site, check the box below and enter a user name{/ts}
+        {if $form.cms_pass}{ts}and a password{/ts}{/if}{else}{ts}Please enter a user name to create an account{/ts}{/if}.
         {ts 1=$loginUrl}If you already have an account, <a href='%1'>please login</a> before completing this form.{/ts}
     </div>
     <div>{$form.cms_create_account.html} {$form.cms_create_account.label}</div>
@@ -30,13 +29,19 @@
     </div>
   </fieldset>
 
+{literal}
 <script type="text/javascript">
+{/literal}
+{if !$isCMS}
 {literal}
  if ( document.getElementsByName("cms_create_account")[0].checked ) {
      show('details');
   } else {
      hide('details');
   }
+{/literal}
+{/if}
+{literal}
  function showMessage( frm )
  {
    var cId = {/literal}'{$cId}'{literal};
@@ -48,17 +53,17 @@
      alert("Please login if you have an account on this site with the link " + siteName  );
    }
  }
-  {/literal}	
 </script>
-
+{/literal}
+{if !$isCMS}	
 {include file="CRM/common/showHideByFieldValue.tpl" 
-trigger_field_id    ="create_account"
+trigger_field_id    ="cms_create_account"
 trigger_value       =""
 target_element_id   ="details" 
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0
 }
-
+{/if}
 {/if}
 

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -46,6 +46,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     var $_oid         = null;
 
     var $_contactType = null;
+
+    // variable to keep track of location types need overwriting
+    protected $_overwriteLocTypeIds = array( );
 
     // FIXME: QuickForm can't create advcheckboxes with value set to 0 or '0' :(
     // see HTML_QuickForm_advcheckbox::setValues() - but patching that doesn't 
@@ -65,6 +68,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
+        $rgid  = CRM_Utils_Request::retrieve('rgid','Positive', $this, false);
 
         // ensure that oid is not the current user, if so refuse to do the merge
         $session =& CRM_Core_Session::singleton( );
@@ -95,6 +99,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         $this->_cid         = $cid;
         $this->_oid         = $oid;
+        $this->_rgid        = $rgid;
         $this->_contactType = $main['contact_type'];
         $this->addElement('checkbox', 'toggleSelect', null, null, array('onclick' => "return toggleCheckboxVals('move_',this.form);"));
 
@@ -117,14 +122,18 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         foreach ($diffs['contact'] as $field) {
             foreach (array('main', 'other') as $moniker) {
                 $contact =& $$moniker;
-                $value = $contact[$field];
+                $value = CRM_Utils_Array::value( $field, $contact );
                 $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
                 if ($fields[$field]['type'] == CRM_Utils_Type::T_DATE) {
-                    $value = str_replace('-', '', $value);
-                    $label = CRM_Utils_Date::customFormat($label);
+                    if ( $value ) {
+                        $value = str_replace('-', '', $value);
+                        $label = CRM_Utils_Date::customFormat($label);
+                    } else {
+                        $value = "null";
+                    }
                 } elseif ($fields[$field]['type'] == CRM_Utils_Type::T_BOOLEAN) {
-                    if ($label === '0') $label = ts('No');
-                    if ($label === '1') $label = ts('Yes');
+                    if ($label === '0') $label = ts('[ ]');
+                    if ($label === '1') $label = ts('[x]');
                 }
                 $rows["move_$field"][$moniker] = $label;
                 if ($moniker == 'other') {
@@ -140,6 +149,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         require_once 'api/v2/Location.php';
         $locations['main']  =& civicrm_location_get($mainParams);
         $locations['other'] =& civicrm_location_get($otherParams);
+        $mainLoc = array();
+
         foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
             foreach (array('main', 'other') as $moniker) {
                 $location = array();
@@ -173,25 +184,38 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         $locLabel[$moniker]['address'] = $location['address']['display'];
                     }
                 }
-            }
+            } 
+
+            $mainLoc["main_$locTypeId"] = $locLabel['main'];
             if ($locValue['other'] != 0) {
                 foreach (array('email','phone','im','openid','address') as $fieldType) {
-                    $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
                     $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
+                    $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
                     $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
-                    $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
+                    $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", 
+                                      null, null, null, $locValue['other']);
+
+                    $this->_overwriteLocTypeIds[] = $locTypeId;
+
+                    // make sure default location type is always on top
+                    $locTypes       = CRM_Core_PseudoConstant::locationType( );
+                    $defaultLocType = array( $locTypeId => $locTypes[$locTypeId] );
+                    unset($locTypes[$locTypeId]);
+
+                    $this->addElement('select', "location[$fieldType][$locTypeId]", null,  
+                                      $defaultLocType + $locTypes, 
+                                      array('onChange' => "displayMainLoc( this, '$fieldType', '$locTypeId' );") );
                 }
-            }
+            } 
         }
         
         // handle custom fields
-        $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_cid, -1);
-        $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_oid, -1);
+        $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, $this->_cid, -1);
+        $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, $this->_oid, -1);
         if (!isset($diffs['custom'])) $diffs['custom'] = array();
         foreach ($otherTree as $gid => $group) {
             $foundField = false;
             if ( ! isset( $group['fields'] ) ) {
-
                 continue;
             }
 
@@ -201,17 +225,26 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         $rows["custom_group_$gid"]['title'] = $group['title'];
                         $foundField = true;
                     }
-                    // FIXME: is there a better way than getOptionLabel(), one that does not do a roundtrip to the database?
-                    $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomOption::getOptionLabel($fid,  $mainTree[$gid]['fields'][$fid]['customValue']['data'], $field['html_type'], $field['data_type']);
-                    $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomOption::getOptionLabel($fid, $otherTree[$gid]['fields'][$fid]['customValue']['data'], $field['html_type'], $field['data_type']);
+                    if ( is_array( $mainTree[$gid]['fields'][$fid]['customValue'] ) ) {
+                        foreach ( $mainTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
+                            $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                        }
+                    }
+                    if ( is_array( $otherTree[$gid]['fields'][$fid]['customValue'] ) ) {
+                        foreach ( $otherTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
+                            $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                            $value = $values['data'] ? $values['data'] : $this->_qfZeroBug;
+                        }
+                    }
                     $rows["move_custom_$fid"]['title'] = $field['label'];
-                    $value = $field['customValue']['data'] ? $field['customValue']['data'] : $this->_qfZeroBug;
+                    
                     $this->addElement('advcheckbox', "move_custom_$fid", null, null, null, $value);
                 }
             }
         }
 
         $this->assign('rows', $rows);
+        $this->assign('main_loc', json_encode($mainLoc));
 
         // add the related tables and unset the ones that don't sport any of the duplicate contact's info
         $relTables = CRM_Dedupe_Merger::relTables();
@@ -254,6 +287,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     {
         $formValues = $this->exportValues();
 
+        // user can't choose to move cases without activities (CRM-3778)
+        if ( $formValues['move_rel_table_cases'] == '1' && 
+             array_key_exists('move_rel_table_activities', $formValues) ) {
+            $formValues['move_rel_table_activities'] = '1';
+        }
+
         $relTables =& CRM_Dedupe_Merger::relTables();
         $moveTables = array();
         foreach ($formValues as $key => $value) {
@@ -271,17 +310,18 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $names['gender']            = array('newName' => 'gender_id', 'groupName' => 'gender');
         $names['individual_prefix'] = array('newName' => 'prefix_id', 'groupName' => 'individual_prefix');
         $names['individual_suffix'] = array('newName' => 'suffix_id', 'groupName' => 'individual_suffix');
+        $names['greeting_type']     = array('newName' => 'greeting_type_id', 'groupName' => 'greeting_type');
         CRM_Core_OptionGroup::lookupValues($submitted, $names, true);
 
         // FIXME: fix custom fields so they're edible by createProfileContact()
-        $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, null, -1);
+        $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, null, -1);
         foreach ($cgTree as $key => $group) {
             if (!isset($group['fields'])) continue;
             foreach ($group['fields'] as $fid => $field) {
                 $cFields[$fid]['attributes'] = $field;
             }
         }
-
+     
         if (!isset($submitted)) $submitted = array();
         foreach ($submitted as $key => $value) {
             if (substr($key, 0, 7) == 'custom_') {
@@ -318,20 +358,43 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                                   'openid'  => 'OpenID',
                                   'address' => 'Address',
                                   ); 
-            //delete the existing location component first(if exists).
+
+            // indicates if main contact already has any location /w primary data
+            $isMainPrimarySet = 0;
+
+            // delete the existing location component of main contact if - 
+            // 1. location type is same for both duplicate and main contact.
+            // 2. address location found, since address always needs to be replaced.
+            if ( in_array( CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]), 
+                           $this->_overwriteLocTypeIds ) ||
+                 in_array($field, array('address')) ) { 
+                eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
+
+                $dao->contact_id = $this->_cid;
+                $dao->find();
+                $dao->location_type_id = CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]);
+                $dao->delete();
+                $dao->free();
+            }
+
             eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
             $dao->contact_id = $this->_cid;
-            $dao->location_type_id = $locTypeId;
-            $dao->find();
-            $dao->delete();
+            $dao->is_primary = 1;
+            if ( $dao->find(true) ) {
+                $isMainPrimarySet = 1;
+            }
             $dao->free();
+            
             //move duplicate contact's location component.
             eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-            $dao->contact_id = $this->_oid;
+            $dao->contact_id       = $this->_oid;
             $dao->location_type_id = $locTypeId;
             $dao->find();
+
             while ($dao->fetch()) {
-                $dao->contact_id = $this->_cid;
+                $dao->contact_id       = $this->_cid;
+                $dao->location_type_id = CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]);
+                $dao->is_primary       = $isMainPrimarySet ? 0 : 1;
                 $dao->update();
             }
             $dao->free();
@@ -385,7 +448,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             CRM_Contact_BAO_Contact::createProfileContact($submitted, CRM_Core_DAO::$_nullArray, $this->_cid);
         }
         CRM_Core_Session::setStatus(ts('The contacts have been merged.'));
+        $url = CRM_Utils_System::url( 'civicrm/admin/dedupefind', "reset=1&action=update&rgid={$this->_rgid}" );
+        CRM_Utils_System::redirect($url);
     }
 }
-
-

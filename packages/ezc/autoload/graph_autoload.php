@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the Graph component.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.1
+ * @version 1.3
  * @filesource
  * @package Graph
  */
@@ -12,15 +12,14 @@
 return array(
     'ezcGraphException'                             => 'Graph/exceptions/exception.php',
     'ezcGraphDatasetAverageInvalidKeysException'    => 'Graph/exceptions/invalid_keys.php',
-    'ezcGraphReducementFailedException'             => 'Graph/exceptions/reducement_failed.php',
     'ezcGraphErrorParsingDateException'             => 'Graph/exceptions/date_parsing.php',
-    'ezcGraphFlashBitmapBoundingsException'         => 'Graph/exceptions/flash_bitmap_boundings.php',
     'ezcGraphFlashBitmapTypeException'              => 'Graph/exceptions/flash_bitmap_type.php',
     'ezcGraphFontRenderingException'                => 'Graph/exceptions/font_rendering.php',
     'ezcGraphGdDriverUnsupportedImageTypeException' => 'Graph/exceptions/unsupported_image_type.php',
     'ezcGraphInvalidArrayDataSourceException'       => 'Graph/exceptions/invalid_data_source.php',
+    'ezcGraphInvalidAssignementException'           => 'Graph/exceptions/invalid_assignement.php',
+    'ezcGraphInvalidDataException'                  => 'Graph/exceptions/invalid_data.php',
     'ezcGraphInvalidDisplayTypeException'           => 'Graph/exceptions/invalid_display_type.php',
-    'ezcGraphInvalidFontTypeException'              => 'Graph/exceptions/invalid_font.php',
     'ezcGraphInvalidImageFileException'             => 'Graph/exceptions/invalid_image_file.php',
     'ezcGraphMatrixInvalidDimensionsException'      => 'Graph/exceptions/invalid_dimensions.php',
     'ezcGraphMatrixOutOfBoundingsException'         => 'Graph/exceptions/out_of_boundings.php',
@@ -29,6 +28,7 @@ return array(
     'ezcGraphNoSuchDataSetException'                => 'Graph/exceptions/no_such_dataset.php',
     'ezcGraphNoSuchElementException'                => 'Graph/exceptions/no_such_element.php',
     'ezcGraphOutOfLogithmicalBoundingsException'    => 'Graph/exceptions/out_of_logarithmical_boundings.php',
+    'ezcGraphReducementFailedException'             => 'Graph/exceptions/reducement_failed.php',
     'ezcGraphSvgDriverInvalidIdException'           => 'Graph/exceptions/invalid_id.php',
     'ezcGraphTooManyDataSetsExceptions'             => 'Graph/exceptions/too_many_datasets.php',
     'ezcGraphToolsIncompatibleDriverException'      => 'Graph/exceptions/incompatible_driver.php',
@@ -36,7 +36,6 @@ return array(
     'ezcGraphUnknownColorDefinitionException'       => 'Graph/exceptions/unknown_color_definition.php',
     'ezcGraphUnknownFontTypeException'              => 'Graph/exceptions/font_type.php',
     'ezcGraphUnregularStepsException'               => 'Graph/exceptions/unregular_steps.php',
-    'ezcGraphInvalidDataException'                  => 'Graph/exceptions/invalid_data.php',
     'ezcGraphChart'                                 => 'Graph/interfaces/chart.php',
     'ezcGraphChartElement'                          => 'Graph/interfaces/element.php',
     'ezcGraphChartOptions'                          => 'Graph/options/chart.php',
@@ -51,15 +50,18 @@ return array(
     'ezcGraphDriver'                                => 'Graph/interfaces/driver.php',
     'ezcGraphDriverOptions'                         => 'Graph/options/driver.php',
     'ezcGraphLineChart'                             => 'Graph/charts/line.php',
+    'ezcGraphOdometerRenderer'                      => 'Graph/interfaces/odometer_renderer.php',
     'ezcGraphPalette'                               => 'Graph/interfaces/palette.php',
     'ezcGraphRadarRenderer'                         => 'Graph/interfaces/radar_renderer.php',
     'ezcGraphRenderer'                              => 'Graph/interfaces/renderer.php',
     'ezcGraphRendererOptions'                       => 'Graph/options/renderer.php',
+    'ezcGraphStackedBarsRenderer'                   => 'Graph/interfaces/stacked_bar_renderer.php',
     'ezcGraphTransformation'                        => 'Graph/math/transformation.php',
     'ezcGraph'                                      => 'Graph/graph.php',
     'ezcGraphArrayDataSet'                          => 'Graph/datasets/array.php',
     'ezcGraphAxisBoxedLabelRenderer'                => 'Graph/renderer/axis_label_boxed.php',
     'ezcGraphAxisCenteredLabelRenderer'             => 'Graph/renderer/axis_label_centered.php',
+    'ezcGraphAxisContainer'                         => 'Graph/axis/container.php',
     'ezcGraphAxisExactLabelRenderer'                => 'Graph/renderer/axis_label_exact.php',
     'ezcGraphAxisNoLabelRenderer'                   => 'Graph/renderer/axis_label_none.php',
     'ezcGraphAxisRadarLabelRenderer'                => 'Graph/renderer/axis_label_radar.php',
@@ -67,6 +69,8 @@ return array(
     'ezcGraphAxisStep'                              => 'Graph/structs/step.php',
     'ezcGraphBarChart'                              => 'Graph/charts/bar.php',
     'ezcGraphBoundings'                             => 'Graph/math/boundings.php',
+    'ezcGraphCairoDriver'                           => 'Graph/driver/cairo.php',
+    'ezcGraphCairoDriverOptions'                    => 'Graph/options/cairo_driver.php',
     'ezcGraphChartElementBackground'                => 'Graph/element/background.php',
     'ezcGraphChartElementDateAxis'                  => 'Graph/axis/date.php',
     'ezcGraphChartElementLabeledAxis'               => 'Graph/axis/labeled.php',
@@ -77,6 +81,7 @@ return array(
     'ezcGraphChartSingleDataContainer'              => 'Graph/data_container/single.php',
     'ezcGraphContext'                               => 'Graph/structs/context.php',
     'ezcGraphDataSetAveragePolynom'                 => 'Graph/datasets/average.php',
+    'ezcGraphDataSetAxisProperty'                   => 'Graph/datasets/property/axis.php',
     'ezcGraphDataSetBooleanProperty'                => 'Graph/datasets/property/boolean.php',
     'ezcGraphDataSetColorProperty'                  => 'Graph/datasets/property/color.php',
     'ezcGraphDataSetIntProperty'                    => 'Graph/datasets/property/integer.php',
@@ -89,6 +94,8 @@ return array(
     'ezcGraphLineChartOptions'                      => 'Graph/options/line_chart.php',
     'ezcGraphLinearGradient'                        => 'Graph/colors/linear_gradient.php',
     'ezcGraphNumericDataSet'                        => 'Graph/datasets/numeric.php',
+    'ezcGraphOdometerChart'                         => 'Graph/charts/odometer.php',
+    'ezcGraphOdometerChartOptions'                  => 'Graph/options/odometer_chart.php',
     'ezcGraphPaletteBlack'                          => 'Graph/palette/black.php',
     'ezcGraphPaletteEz'                             => 'Graph/palette/ez.php',
     'ezcGraphPaletteEzBlue'                         => 'Graph/palette/ez_blue.php',
@@ -108,6 +115,7 @@ return array(
     'ezcGraphRotation'                              => 'Graph/math/rotation.php',
     'ezcGraphSvgDriver'                             => 'Graph/driver/svg.php',
     'ezcGraphSvgDriverOptions'                      => 'Graph/options/svg_driver.php',
+    'ezcGraphSvgFont'                               => 'Graph/driver/svg_font.php',
     'ezcGraphTools'                                 => 'Graph/tools.php',
     'ezcGraphTranslation'                           => 'Graph/math/translation.php',
     'ezcGraphVector'                                => 'Graph/math/vector.php',

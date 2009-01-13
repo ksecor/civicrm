@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -52,12 +52,12 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
 
         $this->_params = $this->get( 'params' );
         $is_deductible = $this->get('is_deductible');
-        $this->assign('is_deductible',$is_deductible);
-        $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
-        $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
-        $this->assign( 'thankyou_footer' , CRM_Utils_Array::value('thankyou_footer',$this->_values));
-        $this->assign( 'max_reminders', $this->_values['max_reminders']);
-        $this->assign( 'initial_reminder_day', $this->_values['initial_reminder_day']); 
+        $this->assign('is_deductible'        , $is_deductible);
+        $this->assign( 'thankyou_title'      , $this->_values['thankyou_title'] );
+        $this->assign( 'thankyou_text'       , $this->_values['thankyou_text' ] );
+        $this->assign( 'thankyou_footer'     , CRM_Utils_Array::value( 'thankyou_footer'      , $this->_values ));
+        $this->assign( 'max_reminders'       , CRM_Utils_Array::value( 'max_reminders'        , $this->_values ));
+        $this->assign( 'initial_reminder_day', CRM_Utils_Array::value( 'initial_reminder_day' , $this->_values )); 
         CRM_Utils_System::setTitle($this->_values['thankyou_title']);
     }
     
@@ -114,7 +114,19 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             $this->assign( 'honor_email', $params["honor_email"] );
         
         }
-
+        //pcp elements
+        if ( $this->_pcpId ) { 
+            foreach ( array ( 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+                if ( CRM_Utils_Array::value( $val, $this->_params ) ) {
+                    $this->assign( $val, $this->_params[$val]);
+                    $this->assign( 'pcpBlock', true);
+                }
+            }
+        }
+        if ( isset( $this->_linkText) ) {
+            $this->assign( 'linkTextUrl', $linkTextUrl );
+            $this->assign( 'linkText', $linkText );
+        } 
         if ( $membershipTypeID ) {
             $transactionID     = $this->get( 'membership_trx_id' );
             $membershipAmount  = $this->get( 'membership_amount' );
@@ -163,6 +175,11 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                                                                                   $options );
                 } else {
                     $defaults[$name] = $contact[$name];
+                    if ( $name == 'greeting_type' ) {   
+                        if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
+                            $defaults['custom_greeting'] = $contact['custom_greeting'];
+                        }
+                    }
                 } 
             }
         }
@@ -173,16 +190,27 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $values['entity_table'] = 'civicrm_contribution_page';
         
         CRM_Friend_BAO_Friend::retrieve( $values, $data ) ;
-
-        if ( CRM_Utils_Array::value( 'is_active', $data ) ) {               
+        $tellAFriend = false;
+        if ( $this->_pcpId ) {
+            if ( $this->_pcpBlock['is_tellfriend_enabled'] ) {
+                $this->assign( 'friendText', 'Tell a Friend' );
+                $subUrl = "eid={$this->_pcpId}&blockId={$this->_pcpBlock['id']}&page=pcp";
+                $tellAFriend = true;
+            }
+        } else if ( CRM_Utils_Array::value( 'is_active', $data ) ) {               
             $friendText = $data['title'];
             $this->assign( 'friendText', $friendText );
+            $subUrl = "eid={$this->_id}&page=contribution";
+            $tellAFriend = true;
+        }
+
+        if ( $tellAFriend ) {
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                             "eid={$this->_id}&reset=1&action=preview&page=contribution" );
+                                             "reset=1&action=preview&{$subUrl}" );
             } else {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                         "eid={$this->_id}&reset=1&page=contribution" );
+                                         "reset=1&{$subUrl}");
             }
             $this->assign( 'friendURL', $url );
         }

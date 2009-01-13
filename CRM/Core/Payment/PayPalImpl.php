@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /** 
  * 
  * @package CRM 
- * @copyright CiviCRM LLC (c) 2004-2007 
+ * @copyright CiviCRM LLC (c) 2004-2009 
  * $Id$ 
  * 
  */ 
@@ -211,6 +211,8 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $args['state']          = $params['state_province'];
         $args['countryCode']    = $params['country'];
         $args['zip']            = $params['postal_code'];
+        $args['custom']         = CRM_Utils_Array::value( 'accountingCode',
+                                                          $params );
 
         $result = $this->invokeAPI( $args );
 
@@ -322,7 +324,9 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                    'return'             => $returnURL,
                    'rm'                 => 2,
                    'currency_code'      => $params['currencyID'],
-                   'invoice'            => $params['invoiceID'] );
+                   'invoice'            => $params['invoiceID'] ,
+                   'custom'             => CRM_Utils_Array::value( 'accountingCode',
+                                                                   $params ) );
 
         // add name and address if available, CRM-3130
         $otherVars = array( 'first_name'     => 'first_name',
@@ -394,7 +398,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $uri = substr( $uri, 1 );
         $url = $this->_paymentProcessor['url_site'];
         $sub = empty( $params['is_recur'] ) ? 'xclick' : 'subscriptions';
-        $paypalURL = "{$url}{$sub}/$uri";
+        $paypalURL = "{$url}{$sub}?$uri";
 
         CRM_Utils_System::redirect( $paypalURL );
     }

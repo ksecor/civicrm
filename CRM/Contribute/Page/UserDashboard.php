@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -93,19 +93,25 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
         require_once 'api/v2/utils.php';
         $recurRow = array();
         while( $recur->fetch() ) {
-            _civicrm_object_to_array($recur, $values);
-
             $mode = $recur->is_test ? 'test' : 'live';
             $paymentProcessor = CRM_Contribute_BAO_ContributionRecur::getPaymentProcessor( $recur->id,
                                                                                            $mode );
+            if ( ! $paymentProcessor ) {
+                continue;
+            }
+
             $paymentObject =& CRM_Core_Payment::singleton( $mode, 'Contribute', $paymentProcessor );
+            
+            _civicrm_object_to_array($recur, $values);
             $values['cancelSubscriptionUrl'] = $paymentObject->cancelSubscriptionURL( );
 
             $recurRow[] = $values;
+
             //reset $paymentObject for checking other paymenet processor
             //recurring url 
-            $paymentObject = reset( );
+            $paymentObject = null;
         }
+
         $this->assign('recurRows',$recurRow);
 
         if ( ! empty( $recurRow ) ) {

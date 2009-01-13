@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -36,7 +36,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -59,24 +59,32 @@ class CRM_Contact_Form_IM
      * @static
      */
     static function buildIMBlock(&$form, &$location, $locationId, $count) {
-        for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? ts('Instant Messenger (preferred)') : ts('Instant Messenger');
-
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][im]", ts('another IM'), ts('hide this IM'));
-
-            $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select',
-                                                                               "location[$locationId][im][$i][provider_id]",
-                                                                               $label,
-                                                                               array('' => ts('- select service -')) + CRM_Core_PseudoConstant::IMProvider()   );
-
-            $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
-                                                                         "location[$locationId][im][$i][name]",
-                                                                         null,
-                                                                         CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM',
-                                                                                               'name'));
+        require_once 'CRM/Core/BAO/Preferences.php';
+        
+        if ( CRM_Utils_Array::value( 'im', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
+            $form->assign('showIM', true);
+            for ($i = 1; $i <= $count; $i++) {
+                
+                $label = ($i == 1) ? ts('Instant Messenger (preferred)') : ts('Instant Messenger');
+                
+                CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][im]", 
+                                                        ts('another IM'), ts('hide this IM'));
+                
+                $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select',
+                                                                                   "location[$locationId][im][$i][provider_id]",
+                                                                                   $label,
+                                                                                   array('' => ts('- select service -')) +
+                                                                                   CRM_Core_PseudoConstant::IMProvider()
+                                                                                   );
+                $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
+                                                                             "location[$locationId][im][$i][name]",
+                                                                             null,
+                                                                             CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM',
+                                                                                                        'name'));
+            }
         }
-    }
-
+        
+    }    
 }
 
 

@@ -4,6 +4,7 @@
 
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
+{include file="CRM/common/jquery.tpl"}
 {include file="CRM/common/dojo.tpl"}
 
 {if $displayRecent and $recentlyViewed}
@@ -20,7 +21,7 @@
 </div>
 {/if}
 
-{include file="CRM/common/langSwitch.tpl"}
+{*{include file="CRM/common/langSwitch.tpl"}*}
 
 <div class="spacer"></div>
 
@@ -41,4 +42,6 @@
 {include file="CRM/common/footer.tpl"}
 {/if}
 
+{* We need to set jquery $ object back to $*}
+<script type="text/javascript">jQuery.noConflict(true);</script>
 </div> {* end crm-container div *}

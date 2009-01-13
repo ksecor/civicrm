@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -153,6 +153,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
             if ($action & CRM_Core_Action::ENABLE) {
                 require_once "CRM/Core/BAO/UFGroup.php";
                 CRM_Core_BAO_UFGroup::setIsActive($id, 1);
+
+                // update cms integration with registration / my account
+                require_once 'CRM/Utils/System.php';
+                CRM_Utils_System::updateCategories( );
             } else if ( $action & CRM_Core_Action::PROFILE ) { 
                 $this->profile( ); 
             } else if ( $action & CRM_Core_Action::PREVIEW ) { 
@@ -206,6 +210,14 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         $profile  =  trim( $template->fetch( 'CRM/Form/default.tpl' ) ); 
         // not sure how to circumvent our own navigation system to generate the right form url
         $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/edit&amp;gid='.$gid.'&amp;reset=1', $profile );
+
+        // FIXME: (CRM-3587) hack to make standalone profile in joomla work
+        // without administrator login 
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Joomla' ) {
+            $profile = str_replace( '/administrator/index2.php', '/index.php', $profile );
+        }
+
         $this->assign( 'profile', htmlentities( $profile ) );
         //get the title of uf group
         if ($gid) {

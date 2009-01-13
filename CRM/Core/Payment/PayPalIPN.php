@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -147,10 +147,13 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
             // create a contribution and then get it processed
             $contribution =& new CRM_Contribute_DAO_Contribution( );
             $contribution->contact_id = $ids['contact'];
-            $contribution->contribution_type_id  = $contributionType->id;
+            $contribution->contribution_type_id  = $objects['contributionType']->id;
             $contribution->contribution_page_id  = $ids['contributionPage'];
             $contribution->contribution_recur_id = $ids['contributionRecur'];
             $contribution->receive_date          = $now;
+            $contribution->currency              = $objects['contribution']->currency;
+            $contribution->payment_instrument_id = $objects['contribution']->payment_instrument_id;
+            $contribution->amount_level          = $objects['contribution']->amount_level;
 
             $objects['contribution'] =& $contribution;
         }
@@ -229,7 +232,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         $objects = $ids = $input = array( );
         $input['component'] = $component;
 
-        // get the contribution, contact and contributionType ids from the GET params
+        // get the contribution and contact ids from the GET params
         $ids['contact']           = self::retrieve( 'contactID'         , 'Integer', 'GET' , true  );
         $ids['contribution']      = self::retrieve( 'contributionID'    , 'Integer', 'GET' , true  );
         

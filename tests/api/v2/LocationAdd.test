@@ -6,7 +6,16 @@ require_once 'api/v2/Location.php';
 class TestOfLocationAddAPIV2 extends CiviUnitTestCase 
 {
     protected $_contactID;
-    
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Location Add',
+                     'description' => 'Test all Location Add API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }  
+
     function setUp() 
     {
         $this->_contactID = $this->organizationCreate( ) ;
@@ -125,13 +134,13 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
     
     function testAddLocationOrganizationWithAddressEmail()
     {
-        $workPhone = array( 'phone'      => '91-20-276048',
-                            'phone_type' => 'Phone',
-                            'is_primary' => 1
+        $workPhone = array( 'phone'         => '91-20-276048',
+                            'phone_type_id' => 1,
+                            'is_primary'    => 1
                             );
         
-        $workFax = array('phone'      => '91-20-234-657686',
-                         'phone_type' => 'Fax' );
+        $workFax = array('phone'         => '91-20-234-657686',
+                         'phone_type_id' => 3 );
         
         $phone     = array ($workPhone, $workFax);
         
@@ -201,11 +210,11 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
         
         $match['phone'][0] = array( 'is_primary'       => 1,
                                     'phone'            => '91-20-276048',
-                                    'phone_type'       => 'Phone',
+                                    'phone_type_id'    => 1,
                                     'location_type_id' => 3,
                                     'contact_id'       => $this->_contactID );
         $match['phone'][1] = array( 'is_primary'       => 0,                               
-                                    'phone_type'       => 'Fax',                                   
+                                    'phone_type_id'    => 3,
                                     'phone'            => '91-20-234-657686' );
         $match['im'][0] = array( 'name'             => 'Hi',
                                  'is_primary'       => 1,

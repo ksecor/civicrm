@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -314,20 +314,9 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                            array( 'id'  => $result->grant_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
-             $config =& CRM_Core_Config::singleton( );
-             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-             switch ($result->contact_type) {
-             case 'Individual' :
-                 $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                 break;
-             case 'Household' :
-                 $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                 break;
-             case 'Organization' :
-                 $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                 break;
-             }
-             $row['contact_type' ] = $contact_type;
+
+             require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+             $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
 
              $rows[] = $row;
          }

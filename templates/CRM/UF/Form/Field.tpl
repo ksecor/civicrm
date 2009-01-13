@@ -49,7 +49,7 @@
         {/edit}
         <dt id="in_selector_label">{$form.in_selector.label}</dt><dd id="in_selector_html">&nbsp;{$form.in_selector.html}</dd>        
         {edit}
-        <dt id="in_selector_desDt">&nbsp;</dt><dd id="in_selector_desDd" class="description">&nbsp;{ts}Is this field included as a column in the search results table? This setting applies only to fields with 'Public User Pages and Listings' visibility.{/ts}</dd>
+        <dt id="in_selector_desDt">&nbsp;</dt><dd id="in_selector_desDd" class="description">&nbsp;{ts}Is this field included as a column in the search results table? This setting applies only to fields with 'Public User Pages' or 'Public User Pages and Listings' visibility.{/ts}</dd>
         {/edit}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
         {edit}
@@ -83,112 +83,85 @@
 
 {literal}
 <script type="text/javascript">
-    function showLabel( ) {
+function showLabel( ) {
 
-       /* Code to set the Field Label */		
-       if (document.forms.Field['field_name[0]'].options[document.forms.Field['field_name[0]'].selectedIndex].value) { 
-          var labelValue = document.forms.Field['field_name[1]'].options[document.forms.Field['field_name[1]'].selectedIndex].text; 
+    /* Code to set the Field Label */		
+    if (document.forms.Field['field_name[0]'].options[document.forms.Field['field_name[0]'].selectedIndex].value) { 
+        var labelValue = document.forms.Field['field_name[1]'].options[document.forms.Field['field_name[1]'].selectedIndex].text; 
 
-          if (document.forms.Field['field_name[3]'].value) { 
-              labelValue = labelValue + '-' + document.forms.Field['field_name[3]'].options[document.forms.Field['field_name[3]'].selectedIndex].text + ''; 
-          }   
-          if (document.forms.Field['field_name[2]'].value) { 
-              labelValue = labelValue + ' (' + document.forms.Field['field_name[2]'].options[document.forms.Field['field_name[2]'].selectedIndex].text + ')'; 
-           }   
-       } else {
-           labelValue = '';  
-       }
+        if (document.forms.Field['field_name[3]'].value) { 
+            labelValue = labelValue + '-' + document.forms.Field['field_name[3]'].options[document.forms.Field['field_name[3]'].selectedIndex].text + ''; 
+        }   
+        if (document.forms.Field['field_name[2]'].value) { 
+            labelValue = labelValue + ' (' + document.forms.Field['field_name[2]'].options[document.forms.Field['field_name[2]'].selectedIndex].text + ')'; 
+        }   
+    } else {
+        labelValue = '';  
+    }
 
-       var input = document.getElementById('label');
-       input.value = labelValue;
+    var input = document.getElementById('label');
+    input.value = labelValue;
 
-       /* Code to hide searchable attribute for no searchable fields */
-       show("is_search_label");
-       show("is_search_html");
-       show("is_search_desDt");
-       show("is_search_desDd");
-       
-       if (document.getElementsByName("field_name[1]")[0].selectedIndex == -1) {
+    /* Code to hide searchable attribute for no searchable fields */
+    if (document.getElementsByName("field_name[1]")[0].selectedIndex == -1) {
         return;
-       }
-       var field2 = document.getElementsByName("field_name[1]")[0][document.getElementsByName("field_name[1]")[0].selectedIndex].text;
-       var noSearch;
-       {/literal}
-         {foreach from=$noSearchable key=dnc item=val}
-	   {literal}noSearch = "{/literal}{$val}{literal}";
-		if (field2 == noSearch) {
-		     hide("is_search_label");
-		     hide("is_search_html");
-		     hide("is_search_desDt");
-		     hide("is_search_desDd");
-		}
-  	   {/literal}
-	 {/foreach}
-       {literal}
-
-       /* Code to set Profile Field help, from custom data field help */
-        var custom = document.forms.Field['field_name[1]'].value;
-        var fieldId = null;
-
-        if ( custom.substring( 0, 7 ) == 'custom_' ) {
-           fieldId = custom.substring( custom.length, 7);
-        } else {
-           dojo.byId('help_post').value = "";
-	   return;
-	}
-
-	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/custom' h=0 q='id='}"{literal} + fieldId;
-
-        var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
-                }else{
-		   // on success
-                   dojo.byId('help_post').value = response;
-                }
+    }
+    var field2 = document.getElementsByName("field_name[1]")[0][document.getElementsByName("field_name[1]")[0].selectedIndex].text;
+    var noSearch;
+    {/literal}
+    {foreach from=$noSearchable key=dnc item=val}
+        {literal}noSearch = "{/literal}{$val}{literal}";
+        if (field2 == noSearch) {
+            hide("is_search_label");
+            hide("is_search_html");
+            hide("is_search_desDt");
+            hide("is_search_desDd");
         }
-     });
+        {/literal}
+    {/foreach}
+    {literal}
 
+    /* Code to set Profile Field help, from custom data field help */
+    var custom = document.forms.Field['field_name[1]'].value;
+    var fieldId = null;
 
-    } 
+    if ( custom.substring( 0, 7 ) == 'custom_' ) {
+        fieldId = custom.substring( custom.length, 7);
+    } else {
+        dojo.byId('help_post').value = "";
+        return;
+    }
+
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/custom' h=0 }"{literal};
+    cj.post( dataUrl, { id: fieldId }, function(data) {
+       cj('#help_post').val( data );
+    });
+} 
 
 showHideSeletorSearch();
 	
 function showHideSeletorSearch()
 {
-	var vsbl= document.getElementById("visibility").options[document.getElementById("visibility").selectedIndex].text;
-		if ( vsbl == "User and User Admin Only" ){
-			hide("is_search_label");
-			hide("is_search_html");
-		     	hide("is_search_desDt");
-		     	hide("is_search_desDd");
-		   	hide("in_selector_label");
-		     	hide("in_selector_html");
-		     	hide("in_selector_desDt");
-		     	hide("in_selector_desDd");
-		} else {
-	 		show("is_search_label");
-       			show("is_search_html");
-       			show("is_search_desDt");
-	     		show("is_search_desDd");
-			show("in_selector_label");
-			show("in_selector_html");
-			show("in_selector_desDt");
-			show("in_selector_desDd");
-		}	
+    var vsbl= document.getElementById("visibility").options[document.getElementById("visibility").selectedIndex].text;
+    if ( vsbl == "User and User Admin Only" ){
+        hide("is_search_label");
+        hide("is_search_html");
+        hide("is_search_desDt");
+        hide("is_search_desDd");
+        hide("in_selector_label");
+        hide("in_selector_html");
+        hide("in_selector_desDt");
+        hide("in_selector_desDd");
+    } else {
+        show("is_search_label");
+        show("is_search_html");
+        show("is_search_desDt");
+        show("is_search_desDd");
+        show("in_selector_label");
+        show("in_selector_html");
+        show("in_selector_desDt");
+        show("in_selector_desDd");
+    }	
 }
 
 </script> 

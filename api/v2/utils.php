@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,22 +27,45 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
-function _civicrm_initialize( ) {
+function _civicrm_initialize( ) 
+{
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton( );
 }
 
-function &civicrm_create_error( $msg ) {
-    return CRM_Core_Error::createAPIError( $msg );
+function &civicrm_create_error( $msg, $data = null ) 
+{
+    return CRM_Core_Error::createAPIError( $msg, $data );
 }
 
-function civicrm_create_success( $result = 1 ) {
+function civicrm_create_success( $result = 1 ) 
+{
     return CRM_Core_Error::createAPISuccess( $result );
+}
+
+/**
+ *  function to check if an error is actually a duplicate contact error
+ *  
+ *  @param array $error (array of) valid Error values
+ *  
+ *  @return true if error is duplicate contact error, false otherwise 
+ *  
+ *  @access public 
+ */
+function civicrm_duplicate($error)
+{  
+    if ( is_array( $error )  && civicrm_error( $error ) ) {
+        $code = $error['error_message']['code'];
+        if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
+            return true ;
+        }
+    }
+    return false;
 }
 
 /**
@@ -54,7 +77,8 @@ function civicrm_create_success( $result = 1 ) {
  * @static void
  * @access public
  */
-function civicrm_error( $params ) {
+function civicrm_error( $params ) 
+{
     if ( is_array( $params ) ) {
         return ( array_key_exists( 'is_error', $params ) &&
                  $params['is_error'] ) ? true : false;
@@ -62,7 +86,8 @@ function civicrm_error( $params ) {
     return false;
 }
 
-function _civicrm_store_values( &$fields, &$params, &$values ) {
+function _civicrm_store_values( &$fields, &$params, &$values ) 
+{
     $valueFound = false;
     
     foreach ($fields as $name => $field) {
@@ -171,6 +196,17 @@ function _civicrm_add_formatted_param(&$values, &$params)
             $params['suffix'] = $suffixes[$params['suffix_id']];
         } else {
             $params['suffix'] = $values['individual_suffix'];
+        }
+        return true;
+    }
+    
+    if ( isset($values['greeting_type']) ) {
+        if ( $params['greeting_type_id'] ) {
+            $greetings = array( );
+            $greetings = CRM_Core_PseudoConstant::greeting( );
+            $params['greeting_type'] = $greetings[$params['greeting_type_id']];
+        } else {
+            $params['greeting_type'] = $values['greeting_type'];
         }
         return true;
     }
@@ -365,9 +401,6 @@ function _civicrm_add_formatted_param(&$values, &$params)
             if (!array_key_exists($customFieldID, $fields['custom'])) {
                 return civicrm_create_error('Invalid custom field ID');
             } else {
-                //$customData = array( );
-                //CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $customData,
-                //                                             $value, 'Individual', null, null );
                 $params[$key] = $value;
             }
         }
@@ -606,7 +639,7 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
         //Handling Custom Data
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             $values[$key] = $value;
-            $type = $customFields[$customFieldID][3];
+            $type = $customFields[$customFieldID]['html_type'];
             if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                 $mulValues = explode( ',' , $value );
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -724,7 +757,8 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
  * @return array|CRM_Error
  * @access public
  */
-function _civicrm_contribute_formatted_param( &$params, &$values, $create=false ) {
+function _civicrm_contribute_formatted_param( &$params, &$values, $create=false ) 
+{
     // copy all the contribution fields as is
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
@@ -743,7 +777,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
         //Handling Custom Data
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             $values[$key] = $value;
-            $type = $customFields[$customFieldID][3];
+            $type = $customFields[$customFieldID]['html_type'];
             if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                 $mulValues = explode( ',' , $value );
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -853,21 +887,30 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             require_once 'CRM/Contribute/PseudoConstant.php';
             $values['contribution_type_id'] = CRM_Utils_Array::key( ucfirst( $value ),
                                                                     CRM_Contribute_PseudoConstant::contributionType( )
-                                                                    );          
+                                                                    );
+            if ( !CRM_Utils_Array::value( 'contribution_type_id', $values ) ) {
+                return civicrm_create_error("Contribution Type is not valid: $value");
+            }
             break;
         case 'payment_instrument': 
             require_once 'CRM/Core/OptionGroup.php';
             $values['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', $value );
+            if ( !CRM_Utils_Array::value( 'payment_instrument_id', $values ) ) {
+                return civicrm_create_error("Payment Instrument is not valid: $value");
+            }
             break;
         case 'contribution_status_id':  
             require_once 'CRM/Core/OptionGroup.php';
-            if (!$values['contribution_status_id'] = CRM_Core_OptionGroup::getValue( 'contribution_status', $value )) {
+            if ( !$values['contribution_status_id'] = CRM_Core_OptionGroup::getValue( 'contribution_status', $value )) {
                 return civicrm_create_error("Contribution Status is not valid: $value");
             }
             break;
         case 'honor_type_id': 
             require_once 'CRM/Core/OptionGroup.php';
             $values['honor_type_id'] = CRM_Core_OptionGroup::getValue( 'honor_type', $value );
+            if ( !CRM_Utils_Array::value( 'honor_type_id', $values ) ) {
+                return civicrm_create_error("Honor Type is not valid: $value");
+            }
             break;
         default:
             break;
@@ -926,7 +969,7 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
         //Handling Custom Data
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             $values[$key] = $value;
-            $type = $customFields[$customFieldID][3];
+            $type = $customFields[$customFieldID]['html_type'];
             if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                 $mulValues = explode( ',' , $value );
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -1045,7 +1088,7 @@ function _civicrm_activity_formatted_param( &$params, &$values, $create=false)
         //Handling Custom Data
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             $values[$key] = $value;
-            $type = $customFields[$customFieldID][3];
+            $type = $customFields[$customFieldID]['html_type'];
             if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                 $mulValues = explode( ',' , $value );
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);

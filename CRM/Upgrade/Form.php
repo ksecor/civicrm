@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,6 +38,10 @@ require_once 'CRM/Core/Form.php';
 class CRM_Upgrade_Form extends CRM_Core_Form {
 
     protected $_config;
+
+    // we should change this variable to latest version, 
+    // every time we do a release
+    public    $latestVersion = '2.2';
 
     function __construct( $state = null,
                           $action = CRM_Core_Action::NONE,
@@ -138,10 +142,10 @@ SET    version = '$version'
     }
 
     function checkVersion( $version ) {
-        $domainId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
+        $domainID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
                                                  $version, 'id',
                                                  'version' );
-        return $domainId ? true : false; 
+        return $domainID ? true : false; 
     }
 
 

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -51,11 +51,17 @@ class CRM_Core_Standalone {
     static function sidebarLeft( ) {
         $config =& CRM_Core_Config::singleton( );
 
-        $blockIds = array( 1, 2, 4, 8 );
+        require_once 'CRM/Core/Block.php';
+        $blockIds = array( 
+            CRM_Core_Block::MENU,
+            CRM_Core_Block::SHORTCUTS,
+            CRM_Core_Block::SEARCH,
+            CRM_Core_Block::ADD,
+            CRM_Core_Block::LANGSWITCH,
+        );
 
         $blocks = array( );
         foreach ( $blockIds as $id ) {
-            require_once 'CRM/Core/Block.php';
             $blocks[] = CRM_Core_Block::getContent( $id );
         }
 

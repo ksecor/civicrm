@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -334,7 +334,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
                                        $this->_formValues ) ) {
             $this->_formValues["contribution_test"] = 0;
         }
-
+        
         foreach ( array( 'contribution_amount_low', 'contribution_amount_high' ) as $f ) {
             if ( isset( $this->_formValues[$f] ) ) {
                 $this->_formValues[$f] = CRM_Utils_Rule::cleanMoney( $this->_formValues[$f] );

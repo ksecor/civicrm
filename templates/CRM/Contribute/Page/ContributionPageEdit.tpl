@@ -7,7 +7,7 @@
         <dd><p><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">&raquo; {ts}Go to this LIVE Online Contribution page{/ts}</a></p>
         {if $config->userFramework EQ 'Drupal'}
             <p>{ts}Create links to this contribution page by copying and pasting the following URL into any web page.{/ts}:<br />
-            <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
+            <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL a=true p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
         {elseif $config->userFramework EQ 'Joomla'}
             {ts 1=$id}Create front-end links to this contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         {/if}
@@ -56,6 +56,11 @@
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Friend"}" id="idFriend">&raquo; {ts}Tell a Friend{/ts}</a></td>
     <td>{ts}Make it easy for contributors to spread the word to friends and colleagues.{/ts}</td>
 </tr>
+{capture assign=pcpAdminURL}{crmURL p="civicrm/admin/pcp" q="reset=1"}{/capture}
+<tr>
+    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=PCP"}" id="idPcp">&raquo; {ts}Personal Campaign Pages{/ts}</a></td>
+    <td>{ts 1=$pcpAdminURL}Allow constituents to create their own personal fundraising pages and drive traffic to this contribution page. (<a href="%1">Or you can view and manage existing Personal Campaign Pages.</a>){/ts}</td>
+</tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Widget"}" id="idWidget">&raquo; {ts}Contribution Widget{/ts}</a></td>
     <td>{ts}Create a contribution widget which you and your supporters can embed in websites and blogs.{/ts}</td>
@@ -64,7 +69,6 @@
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Premium"}" id="idPremiums">&raquo; {ts}Premiums{/ts}</a></td>
     <td>{ts}Enable a Premiums section (incentives / thank-you gifts) for this page, and configure premiums offered to contributors.{/ts}</td>
 </tr>
-
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}" id="idTest-drive">&raquo; {ts}Test-drive{/ts}</a></td>
     <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live financial transactions will be submitted. However, a contact record will be created or updated and a test contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed. Test contributions are not visible on the Contributions tab, but can be viewed by searching for 'Test Contributions' in the CiviContribute search form.</strong>{/ts}</td>
@@ -75,7 +79,7 @@
     <td>{ts}Review your customized <strong>LIVE</strong> online contribution page here.{/ts}
         {if $config->userFramework EQ 'Drupal'}
             {ts}Use the following URL in links and buttons on any website to send visitors to this live page{/ts}:<br />
-            <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong>
+            <strong>{crmURL a=true p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong>
         {elseif $config->userFramework EQ 'Joomla'}
             {ts 1=$id}When your page is active, create front-end links to the contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         {/if}

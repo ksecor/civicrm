@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -118,7 +118,7 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
         $this->addRule( 'location_count', ts( 'Location count must be a positive integer (e.g. 1 or 2 or ...).' ), 'positiveInteger' );
 
         // address formatting options
-        $this->addElement('text','individual_name_format', ts('Individual Name Format'));
+        $this->addElement('textarea','individual_name_format', ts('Individual Name Format'), array("class"=>"nowrap","wrap"=>"off"));
         $this->addElement('textarea','mailing_format', ts('Mailing Label Format'));  
         $this->addElement('textarea','address_format', ts('Display Format'));  
 

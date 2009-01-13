@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -60,6 +60,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
 
         $this->_searchPane = CRM_Utils_Array::value( 'searchPane', $_GET );
         
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
+
         if ( ! $this->_searchPane || $this->_searchPane == 'basic' ) {
             CRM_Contact_Form_Search_Criteria::basic( $this );
         }
@@ -84,8 +87,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
             unset( $paneNames[ts('Custom Fields')] );
         }
 
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$type] ) {
                 unset( $paneNames[$name] );
@@ -95,22 +96,23 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
         require_once 'CRM/Core/Component.php';
         $components = CRM_Core_Component::getEnabledComponents();
 
+        $componentPanes = array();
         foreach( $components as $name => $component ) {
             if( in_array( $name, array_keys($this->_searchOptions) ) &&
                 $this->_searchOptions[$name] &&
                 CRM_Core_Permission::access( $component->name ) ) {
-                $elem = $component->registerAdvancedSearchPane();
-                // FIXME: we should change the use of $name here
-                // FIXME: to keyword
-                $paneNames[$elem['title']] = $name;
+                $componentPanes[$name] = $component->registerAdvancedSearchPane();
+                $componentPanes[$name]['name'] = $name;
             }
         }
 
-        // FIXME: exception for CiviCase, which is not formally a component
-        // FIXME: consider reworking it for cases project
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
-        if ( $this->_viewOptions['CiviCase'] ) {
-            $paneNames[ts('Cases')] = 'CiviCase';
+        require_once 'CRM/Utils/Sort.php';
+        usort( $componentPanes, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
+
+        foreach( $componentPanes as $name => $pane ) {
+                // FIXME: we should change the use of $name here
+                // FIXME: to keyword
+                $paneNames[$pane['title']] = $pane['name'];
         }
 
         $this->_paneTemplatePath = array( );
@@ -141,8 +143,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                     $this->_paneTemplatePath[$type] = "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
                 }
             }
-        }
-
+        }                
 
         $this->assign( 'allPanes', $allPanes );
 
@@ -176,7 +177,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
      */
     function &setDefaultValues() {
         $defaults = $this->_formValues;
-
         if ( $this->_context === 'amtg' ) {
             $defaults['task'] = CRM_Contact_Task::GROUP_CONTACTS;
         } else {
@@ -239,7 +239,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
-        
+        //search for civicase
+        if ( array_key_exists('case_owner', $this->_formValues ) && ! $this->_formValues['case_owner'] && ! $this->_force ) {
+            $this->_formValues['case_owner']  = 0;
+        } else if ( array_key_exists('case_owner', $this->_formValues ) ) {
+            $this->_formValues['case_owner'] = 1;
+        } 
+
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
         // this filter is reset if we click on the search button

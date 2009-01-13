@@ -3,9 +3,7 @@
   // CiviCRM Front-end Profile - Logic Layer
   //////////////////////////////////////////////////
 
-if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
-	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
-}
+defined('_JEXEC') or die('No direct access allowed'); 
 
 // check for php version and ensure its greater than 5.
 // do a fatal exit if
@@ -62,13 +60,6 @@ function civicrm_invoke( ) {
     $task = CRM_Utils_Array::value( 'task', $_GET, '' );
     $args = explode( '/', trim( $task ) );
 
-    if ( ! empty( $_POST ) ) {
-        if ( count( $_SESSION ) <= 1 ) {
-            $message = 'CiviCRM requires session support for Joomla front-end pages. Please modify index.php in the root folder of your front-end Joomla site <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Configuring+Front-end+Profile+Listings+and+Forms+in+Joomla%21+Sites">as described in the step 3 of this CiviCRM documentation page</a>.';
-            CRM_Core_Error::fatal( $message );
-        }
-    }
-
     // check permission
     if ( ! civicrm_check_permission( $args ) ) {
         echo "You do not have permission to execute this url.";
@@ -89,21 +80,28 @@ function civicrm_check_permission( $args ) {
 
     // all profile and file urls, as well as user dashboard and tell-a-friend are valid
     $arg1 = CRM_Utils_Array::value( 1, $args );
-    $validPaths = array( 'profile', 'user', 'dashboard', 'friend', 'file' );
+    $validPaths = array( 'profile', 'user', 'dashboard', 'friend', 'file', 'ajax' );
     if ( in_array( $arg1 , $validPaths ) ) {
         return true;
     }
-
+    
     $config = CRM_Core_Config::singleton( );
     
     $arg2 = CRM_Utils_Array::value( 2, $args );
     $arg3 = CRM_Utils_Array::value( 3, $args );
 
-    // a transaction page is valid
-    if ( in_array( 'CiviContribute', $config->enableComponents ) &&
-         $arg1 == 'contribute' &&
-         $arg2 == 'transact' ) {
+    // allow editing of related contacts
+    if ( $arg1 == 'contact' &&
+         $arg2 == 'relatedcontact' ) {
         return true;
+    }
+
+    // a contribution page / pcp page                                                                                                                                                                                                     
+    if ( in_array( 'CiviContribute', $config->enableComponents ) ) {
+        if ( $arg1 == 'contribute' &&
+            in_array( $arg2, array( 'transact', 'campaign', 'pcp') ) ) {
+            return true;
+        }
     }
 
     // an event registration page is valid
@@ -125,7 +123,7 @@ function civicrm_check_permission( $args ) {
     if ( $arg1 == 'mailing' &&
          in_array( 'CiviMail', $config->enableComponents ) ) {
         if ( in_array( $arg2,
-                       array( 'forward', 'unsubscribe', 'resubscribe', 'optout' ) ) ) {
+                       array( 'forward', 'unsubscribe', 'resubscribe', 'optout', 'subscribe' ) ) ) {
             return true;
         }
     }

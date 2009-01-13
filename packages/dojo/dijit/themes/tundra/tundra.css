@@ -1,5 +1,10 @@
 
 @import url("../dijit.css");
+
+#crm-container .form-layout .tundra {
+  white-space: normal;
+}
+
 .tundra .dijitSliderDisabled *,
 .tundra .dijitDisabledClickableRegion,	
 .tundra .dijitSpinnerDisabled *,
@@ -313,15 +318,16 @@
 {
 	background: url(images/validationInputBg.gif) repeat-x top left #fff;
 }
+
 .tundra .dijitButtonNode {
-	
-	
-	border:1px solid #c0c0c0;
+	border: 0px none;
+	/* border:1px solid #c0c0c0;
 	border-bottom:1px solid #9b9b9b;
 	border-right:1px solid #9b9b9b;
 	padding: 0.2em;
-	background:#fff url(images/buttonEnabled.png) repeat-x bottom left;
+	background:#fff url(images/buttonEnabled.png) repeat-x bottom left; */
 }
+
 .dj_ie .tundra .dijitButtonNode {
 	zoom: 1;
 }
@@ -389,10 +395,27 @@
 	border-color:#366dba;
 	background: #ededed url(images/buttonActive.png) bottom repeat-x;
 }
+
 .tundra .dijitArrowButtonInner {
 	background:url(images/arrowDown.png) no-repeat center center;
 }
-.tundra .dijitUpArrowButton .dijitArrowButtonInner { background-image:url(images/arrowUp.png); }
+
+.tundra .dijitUpArrowButton .dijitArrowButtonInner {
+	background-image:url(images/arrowUp.png);
+}
+
+.helpicon .tundra .dijitArrowButtonInner {
+	display: none;
+}
+
+.helpicon .tundra .dijitUpArrowButton .dijitArrowButtonInner {
+	display: none;
+}
+
+.helpicon .tundra .dijitReset {
+	background-color: transparent;
+}
+
 .dj_ie6 .tundra .dijitArrowButtonInner {
 	background-image:url(images/arrowDown.gif);
 }
@@ -1032,6 +1055,8 @@
 	border:1px solid #7eabcd;
 	padding:0.45em;	
 	-webkit-border-radius: 6px;
+    width: 80%;
+    margin: 1em;
 }
 .tundra .dijitTooltipConnector {
 	

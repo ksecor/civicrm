@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -199,7 +199,20 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         require_once 'CRM/Contact/BAO/Query.php';      
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
-        
+
+        // also get all token values
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::tokenValues( $details[0], $this->_contactIds );
+
+        $tokens = array( );
+        CRM_Utils_Hook::tokens( $tokens );
+        $tokenFields = array( );
+        foreach ( $tokens as $category => $catTokens ) {
+            foreach ( $catTokens as $token ) {
+                $tokenFields[] = $token;
+            }
+        }
+
         foreach ( $this->_contactIds as $value ) {
             foreach ( $custom as $cfID ) {
                 if ( isset ( $details[0][$value]["custom_{$cfID}"] ) ) {
@@ -207,7 +220,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                         CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$value]["custom_{$cfID}"],$cfID, $details[1] );
                 }
             }
-            $contact = $details['0']["{$value}"];
+            $contact = CRM_Utils_Array::value( $value, $details['0'] );
             
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
@@ -324,7 +337,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         require_once 'CRM/Utils/Address.php';
         foreach ($rows as $id => $row) {
             $row['id'] = $id;
-            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat );
+            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat, $tokenFields );
 
             // CRM-2211: UFPDF doesn't have bidi support; use the PECL fribidi package to fix it.
             // On Ubuntu (possibly Debian?) be aware of http://pecl.php.net/bugs/bug.php?id=12366

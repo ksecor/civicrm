@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -70,10 +70,13 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                                          ) 
     {
         $location = array();
-        
+        $config = CRM_Core_Config::singleton( );
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
             if ( $locationType ) {
-                $location[$locationId]['location_type_id'] =& $form->addElement('select'  , "location[$locationId][location_type_id]", null,  array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+                $location[$locationId]['location_type_id'] =& $form->addElement('select',
+                                                                                "location[$locationId][location_type_id]",
+                                                                                null,
+                                                                                array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
                 
                 $location[$locationId]['is_primary']       =& $form->addElement(
                                                                                 'checkbox', 
@@ -128,6 +131,9 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @access public
      */
     function setShowHideDefaults( &$showHide, $maxLocationBlocks ,$prefixBlock = null, $showHideLocation=true) {
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $blockShow = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
+
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
             if ( $showHideLocation ) {
                 if ( $locationId == 1 ) {
@@ -146,6 +152,14 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             if ( ! $prefixBlock ) {
                 $prefixBlock = self::$_commPrefs ;
             }
+        
+            foreach ( $blockShow as $block => $value ) {
+                $key = array_search( $block, $prefixBlock );
+                if( $key && $value == 0 ) {
+                    unset($prefixBlock[$key]);
+                }
+            }
+            
             foreach ( $prefixBlock as $block ) {
                 for ( $blockId = 1; $blockId <= self::BLOCKS; $blockId++ ) {
                     if ( $blockId != 1 ) {
@@ -170,6 +184,8 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @return void
      */
     function updateShowHide( &$showHide, &$values, $maxLocationBlocks, $prefixBlock = null, $showHideLocation=true ) {
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $blockShow = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
         if ( empty( $values ) || $maxLocationBlocks <= 0 ) {
             return;
         }
@@ -213,10 +229,17 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 $nextLocationId = $locationId + 1;
                 $showHide->addShow( "id_location_{$nextLocationId}_show" );
             }
-            
             if ( ! $prefixBlock ) {
                 $prefixBlock = self::$_commPrefs;
             }
+
+            foreach ( $blockShow as $block => $value ) {
+                $key = array_search( $block, $prefixBlock );
+                if( $key && $value == 0 ) {
+                    unset($prefixBlock[$key]);
+                }
+            }
+            
             foreach ( $prefixBlock as $block ) {
                 $tmpArray = CRM_Utils_Array::value( $block, $values[$locationId] );
                 self::updateShowHideSubBlocks( $showHide, $block, "id_location_{$locationId}",

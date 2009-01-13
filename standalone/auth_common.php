@@ -71,7 +71,8 @@ function &getConsumer() {
 
 function getScheme() {
     $scheme = 'http';
-    if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
+    if ((isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') or
+	(isset($_SERVER['HTTP_SSLPROXY']) and $_SERVER['HTTP_SSLPROXY'])) {
         $scheme .= 's';
     }
     return $scheme;
@@ -96,8 +97,18 @@ function getTrustRoot() {
 }
 
 function getUrlPort() {
-    $server_port = $_SERVER['SERVER_PORT'];
-    $scheme      = getScheme();
+    $scheme = getScheme();
+    if ($_SERVER['HTTP_SSLPROXY']) {
+        $server_port = 443;
+    } else {
+	    $matches = array();
+	    preg_match('/:(\d{1,5})$/',$_SERVER['HTTP_HOST'],$matches);
+	    if (array_key_exists(1, $matches)) {
+	        $server_port = $matches[1];
+	    } else {
+	        $server_port = $_SERVER['SERVER_PORT'];
+	    }
+    }
     
     if ($scheme == 'http' && $server_port == 80) {
         $urlPort = '';

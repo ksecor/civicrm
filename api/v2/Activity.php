@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -32,7 +32,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -86,13 +86,31 @@ function &civicrm_activity_create( &$params )
     if ( ! empty($values['custom']) ) {
         $params['custom'] = $values['custom'];
     }
+
+    if ( ! CRM_Utils_Array::value( 'activity_type_id', $params ) ) {
+        $params['activity_type_id'] = CRM_Core_OptionGroup::getValue( 'activity_type', $params['activity_name'] , 'name' );
+    }
     
     // create activity
     $activity = CRM_Activity_BAO_Activity::create( $params );
-    $activityArray = array( 'is_error' => 0 ); 
+    
+    if ( !is_a( $activity, 'CRM_Core_Error' ) && isset( $activity->id ) ) {
+        $activityArray = array( 'is_error' => 0 ); 
+    } else {
+        $activityArray = array( 'is_error' => 1 ); 
+    }
+    
     _civicrm_object_to_array( $activity, $activityArray);
     
     return $activityArray;
+}
+
+/**
+ * Wrapper to make this function compatible with the REST API
+ *
+ */
+function civicrm_activity_get_contact( $params ) {
+    return civicrm_activities_get_contact( $params );
 }
 
 /**
@@ -101,13 +119,13 @@ function &civicrm_activity_create( &$params )
  * @param  array  $params (reference ) input parameters.
  *
  * @return array (reference)  array of activities / error message.
- * @access public.
+ * @access public
  */
-function &civicrm_activities_get_contact( $params )
+function civicrm_activities_get_contact( $params )
 {
     _civicrm_initialize( );
     
-    $contactId = $params['contact_id']; 
+    $contactId = CRM_Utils_Array::value( 'contact_id', $params ); 
     if ( empty( $contactId ) ) {
         return civicrm_create_error( ts ( "Required parameter not found" ) );
     }
@@ -117,7 +135,7 @@ function &civicrm_activities_get_contact( $params )
     }
     
     $activities =  & _civicrm_activities_get( $contactId );
-    
+       
     if ( $activities ) {
         return civicrm_create_success( $activities );
     } else {
@@ -164,7 +182,7 @@ function &civicrm_activity_update( &$params )
  * @access public
  *
  */
-function &civicrm_activity_delete( &$params ) 
+function civicrm_activity_delete( &$params ) 
 {
     _civicrm_initialize( );
     
@@ -201,6 +219,12 @@ function _civicrm_activity_update( $params )
     $dao->id = $params['id'];
     if ( $dao->find( true ) ) {
         $dao->copyValues( $params );
+        if ( ! isset( $params['activity_date_time'] ) &&
+             isset( $dao->activity_date_time ) ) {
+            // dont update it
+            $dao->activity_date_time = null;
+        }
+
         $dao->save( );
     }
     $activity = array();
@@ -214,7 +238,7 @@ function _civicrm_activity_update( $params )
  * @param int $contactID.
  *
  * @return array (reference)  array of activities.
- * @access public.
+ * @access public
  */
 function &_civicrm_activities_get( $contactID ) 
 {
@@ -320,7 +344,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
         return  civicrm_create_error( ts('Missing Source Contact') );
     } 
     
-    if ( $params['source_contact_id'] && !is_numeric( $params['source_contact_id'] ) ) {
+    if (isset( $params['source_contact_id'] ) && !is_numeric( $params['source_contact_id'] ) ) {
         return  civicrm_create_error( ts('Invalid Source Contact') );
     }
     return null;
@@ -370,4 +394,16 @@ function civicrm_activity_process_email( $file, $activiyTypeID ) {
     // create activity
     require_once 'api/v2/Activity.php';
     return civicrm_activity_create( $params );
+}
+
+/**
+ * Function to retrieve activity types
+ *
+ * @return array $activityTypes activity types keyed by id
+ * @access public
+ */
+function civicrm_activity_get_types( ) {
+    require_once 'CRM/Core/OptionGroup.php';
+    $activityTypes = CRM_Core_OptionGroup::values( 'activity_type' );
+    return $activityTypes;
 }

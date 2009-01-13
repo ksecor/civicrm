@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -102,16 +102,19 @@ class CRM_Core_Permission {
      * Get all groups from database, filtered by permissions
      * for this user
      *
+     * @param string $groupType     type of group(Access/Mailing) 
+     * @param boolen $excludeHidden exclude hidden groups.
+     *
      * @access public
      * @static
      *
      * @return array - array reference of all groups.
      *
      */
-    public static function group( $groupType ) {
+    public static function group( $groupType, $excludeHidden = true ) {
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userPermissionClass ) . '.php' );
-        return eval( 'return ' . $config->userPermissionClass . '::group( $groupType );' );
+        return eval( 'return ' . $config->userPermissionClass . '::group( $groupType, $excludeHidden );' );
     }
 
     public static function customGroup( $type = CRM_Core_Permission::VIEW , $reset = false ) {

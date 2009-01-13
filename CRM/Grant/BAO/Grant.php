@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -209,6 +209,15 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
             CRM_Utils_Hook::pre( 'create', 'Grant', null, $params ); 
         }
         
+	// first clean up all the money fields
+        $moneyFields = array( 'amount_total',
+                              'amount_granted',
+                              'amount_requested' );
+        foreach ( $moneyFields as $field ) {
+	  if ( isset( $params[$field] ) ) {
+                $params[$field] = CRM_Utils_Rule::cleanMoney( $params[$field] );
+            }
+        }
         $grant =& new CRM_Grant_DAO_Grant( );
         $grant->id = CRM_Utils_Array::value( 'grant', $ids );
         
@@ -280,6 +289,12 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
             CRM_Core_BAO_CustomValueTable::store($params['custom'], 'civicrm_grant', $grant->id);
         }
         
+        // check and attach and files as needed
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::processAttachment( $params,
+                                              'civicrm_grant',
+                                              $grant->id );
+
         $transaction->commit( );
         
         return $grant;

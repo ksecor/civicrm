@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -81,11 +81,23 @@ class CRM_Friend_Form extends CRM_Core_Form
             $this->_entityTable = 'civicrm_contribution_page';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'title');
         } elseif ( $page == 'event' ) {
-            $this->_entityTable = 'civicrm_event_page';
+            $this->_entityTable = 'civicrm_event';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_entityId, 'title' );            
-        } elseif ( $page == 'pledge' ) {
-            $this->_entityTable = 'civicrm_pb_pledge';
-            $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_DAO_Pledge', $this->_entityId, 'creator_pledge_desc' );            
+        } elseif ( $page == 'pcp' ) {
+            $this->_pcpBlockId = CRM_Utils_Request::retrieve( 'blockId', 'Positive', $this, true ); 
+            
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_PCPBlock', 'id', 
+                                             $this->_pcpBlockId, $pcpBlock, array( 'is_tellfriend_enabled', 'tellfriend_limit' ) );
+            
+            if ( ! CRM_Utils_Array::value( 'is_tellfriend_enabled', $pcpBlock[$this->_pcpBlockId] ) ) { 
+                CRM_Core_Error::fatal( ts( 'Tell Friend is disable for this Personal Campaign Page' ) );
+            }
+            
+            $this->_mailLimit = $pcpBlock[$this->_pcpBlockId]['tellfriend_limit'];
+            $this->_entityTable = 'civicrm_pcp';
+            $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_entityId, 'title');
+            $this->assign('context', 'pcp');
+            $this->assign('pcpTitle', $this->_title);
         } else {
             CRM_Core_Error::fatal( ts( 'page argument missing or invalid' ) );
         }
@@ -158,7 +170,12 @@ class CRM_Friend_Form extends CRM_Core_Form
         $this->add('textarea', 'suggested_message', ts('Your Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), true);
         
         $friend = array();
-        for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {           
+        $mailLimit = self::NUM_OPTION;
+        if ( $this->_entityTable == 'civicrm_pcp' ) {
+            $mailLimit = $this->_mailLimit;
+        }
+        $this->assign( 'mailLimit', $mailLimit + 1);
+        for ( $i = 1; $i <= $mailLimit; $i++ ) {           
             $this->add('text', "friend[$i][first_name]", ts("Friend's First Name"));           
             $this->add('text', "friend[$i][last_name]", ts("Friend's Last Name")); 
             $this->add('text', "friend[$i][email]", ts("Friend's Email"));
@@ -245,7 +262,10 @@ class CRM_Friend_Form extends CRM_Core_Form
         $defaults['entity_table'] = $this->_entityTable;            
         
         CRM_Friend_BAO_Friend::getValues($defaults);
-       
+        if ( $this->_entityTable == 'civicrm_pcp' ) {
+            $defaults['thankyou_text'] = $defaults['thankyou_title'] = ts( 'Thanks for your Support' );
+            $defaults['thankyou_text'] = ts( 'Thanks for supporting our campaign by spreading the word to your friends.' );
+        }
         CRM_Utils_System::setTitle($defaults['thankyou_title']);
         $this->assign( 'thankYouText'  , $defaults['thankyou_text'] );
    }

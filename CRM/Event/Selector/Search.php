@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -83,6 +83,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'modified_date',
                                  'participant_is_test',
                                  'participant_role_id',
+                                 'participant_register_date',
                                  'participant_fee_amount'
                                  );
 
@@ -314,21 +315,10 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                            array( 'id'  => $result->participant_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
-             $config =& CRM_Core_Config::singleton( );
-             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-             switch ($result->contact_type) {
-             case 'Individual' :
-                 $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                 break;
-             case 'Household' :
-                 $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                 break;
-             case 'Organization' :
-                 $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                 break;
-             }
 
-             $row['contact_type' ] = $contact_type;
+             require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+             $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+                         
              $row['paid'] = CRM_Event_BAO_Event::isMonetary ( $row['event_id'] );
              
              if ( CRM_Utils_Array::value( 'participant_fee_level', $row ) ) {
@@ -385,6 +375,11 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                           array(
                                                 'name'      => ts('Event Date(s)'),
                                                 'sort'      => 'event_start_date',
+                                                'direction' => CRM_Utils_Sort::DESCENDING, 
+                                                ),
+                                          array(
+                                                'name'      => ts('Register Date(s)'),
+                                                'sort'      => 'participant_register_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING, 
                                                 ),
                                           array(

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -229,6 +229,10 @@ WHERE  f.custom_group_id = g.id
         $queryParams = array( 1 => array( $params['fieldId'], 'Integer' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $queryParams );
         if ( $dao->fetch( ) ) {
+            if ( $dao->dataType == 'Money' ) { 
+                require_once 'CRM/Utils/Rule.php';
+                $params['value'] = CRM_Utils_Rule::cleanMoney( $params['value'] );
+            }
             switch ( $dao->htmlType ) {
             case 'Select':
             case 'Radio':

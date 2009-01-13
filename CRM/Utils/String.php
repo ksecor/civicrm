@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -92,8 +92,12 @@ class CRM_Utils_String {
         // replace all white space and non-alpha numeric with $char
         $name = preg_replace('/\s+|\W+/', $char, trim($name) );
 
-        // lets keep variable names short
-        return substr( $name, 0, $len );
+        if ( $len ) {
+            // lets keep variable names short
+            return substr( $name, 0, $len );
+        } else {
+            return $name;
+        }
     }
 
 
@@ -251,9 +255,11 @@ class CRM_Utils_String {
 
         $params = explode( '&', $query );
         foreach ( $params as $p ) {
-            list( $k, $v ) = explode( '=', $p );
-            if ( $k == $urlVar ) {
-                return $v;
+            if ( strpos( $p, '=' ) ) {
+                list( $k, $v ) = explode( '=', $p );
+                if ( $k == $urlVar ) {
+                    return $v;
+                }
             }
         }
         return null;
@@ -324,5 +330,20 @@ class CRM_Utils_String {
             $params['last_name'  ] = $names[2];
         }
     }
+
+    static function &makeArray( $string ) {
+        $string = trim( $string );
+
+        $values = explode( "\n", $string );
+        $result = array( );
+        foreach ( $values as $value ) {
+            list( $n, $v ) = CRM_Utils_System::explode( '=', $value, 2 );
+            if ( ! empty( $v ) ) {
+                $result[trim($n)] = trim($v);
+            }
+        }
+        return $result;
+    }
+
 }
 

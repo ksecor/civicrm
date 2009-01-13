@@ -3,15 +3,15 @@
  * File containing the ezcBase class.
  *
  * @package Base
- * @version 1.3.1
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
  * Base class implements the methods needed to use the eZ components.
  *
  * @package Base
- * @version 1.3.1
+ * @version 1.5
  * @mainclass
  */
 class ezcBase
@@ -46,7 +46,7 @@ class ezcBase
      *
      * @var string
      */
-    protected static $packageDir;
+    protected static $packageDir = null;
 
     /**
      * Stores info with additional paths where autoload files and classes for
@@ -138,7 +138,7 @@ class ezcBase
         // Not cached, so load the autoload from the package.
         // Matches the first and optionally the second 'word' from the classname.
         $fileNames = array();
-        if ( preg_match( "/^([a-z]*)([A-Z][a-z0-9]*)([A-Z][a-z0-9]*)?/", $className, $matches ) !== false )
+        if ( preg_match( "/^([a-z0-9]*)([A-Z][a-z0-9]*)([A-Z][a-z0-9]*)?/", $className, $matches ) !== false )
         {
             $autoloadFile = "";
             // Try to match with both names, if available.
@@ -209,14 +209,19 @@ class ezcBase
     }
 
     /**
-     * Returns the path to the autoload directory. The path depends on
-     * the installation of the ezComponents. The SVN version has different
-     * paths than the PEAR installed version. (For now).
+     * Figures out the base path of the eZ Components installation.
      *
-     * @return string
+     * It stores the path that it finds in a static member variable. The path
+     * depends on the installation method of the eZ Components. The SVN version
+     * has a different path than the PEAR installed version.
      */
     protected static function setPackageDir()
     {
+        if ( ezcBase::$packageDir !== null )
+        {
+            return;
+        }
+
         // Get the path to the components.
         $baseDir = dirname( __FILE__ );
 
@@ -548,7 +553,7 @@ class ezcBase
         if ( $prefix === null )
         {
             $array = array( 'basePath' => $basePath, 'autoloadDirPath' => $autoloadDirPath );
- 
+
             // add info to the list of extra dirs
             ezcBase::$repositoryDirs[] = $array;
         }
@@ -558,10 +563,30 @@ class ezcBase
             {
                 throw new ezcBaseDoubleClassRepositoryPrefixException( $prefix, $basePath, $autoloadDirPath );
             }
- 
+
             // add info to the list of extra dirs, and use the prefix to identify the new repository.
             ezcBase::$repositoryDirs[$prefix] = array( 'basePath' => $basePath, 'autoloadDirPath' => $autoloadDirPath );
         }
+    }
+
+    /**
+     * Returns the base path of the eZ Components installation
+     *
+     * This method returns the base path, including a trailing directory
+     * separator.
+     *
+     * @return string
+     */
+    public static function getInstallationPath()
+    {
+        self::setPackageDir();
+
+        $path = realpath( self::$packageDir );
+        if ( substr( $path, -1 ) !== DIRECTORY_SEPARATOR )
+        {
+            $path .= DIRECTORY_SEPARATOR;
+        }
+        return $path;
     }
 }
 ?>

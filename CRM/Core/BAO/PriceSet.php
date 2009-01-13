@@ -126,18 +126,18 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
             $entity_list = implode( ',', $entities );
             // a single match is sufficient.  limit 1 for performance
             $queryString = "SELECT COUNT(*) AS is_used FROM $table";
-            if ( $table == 'civicrm_event_page' ) {
+            if ( $table == 'civicrm_event' ) {
                 $queryString .= ", civicrm_event";
             }
             $queryString .= " WHERE $table.id IN ( $entity_list )";
-            if ( $table == 'civicrm_event_page' ) {
+            if ( $table == 'civicrm_event' ) {
                 $now = date( 'Y-m-d H:i:s' );
                 $queryString .= " AND civicrm_event.start_date < '$now' AND civicrm_event.end_date > '$now'";
             }
             $queryString .= " LIMIT 1";
             $params = array();
             $is_used = (bool)CRM_Core_DAO::singleValueQuery( $queryString, $params );
-            if ( ! $is_used && $table == 'civicrm_event_page' ) {
+            if ( ! $is_used && $table == 'civicrm_event' ) {
                 // check participant table
                 $queryString = "SELECT COUNT(*) AS is_used FROM civicrm_participant ";
                 $queryString .= "WHERE event_id IN ( $entity_list ) LIMIT 1";
@@ -183,12 +183,12 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
 
         foreach ( $forms as $table => $entities ) {
-            // currently, the only supported table is 'civicrm_event_page'.
+            // currently, the only supported table is 'civicrm_event'.
             // contribution will be significantly different
             switch ($table) {
-            case 'civicrm_event_page':
+            case 'civicrm_event':
                 $eventIdList = implode( ',', $entities );
-                $queryString = "SELECT event_id FROM civicrm_event_page WHERE";
+                $queryString = "SELECT id FROM civicrm_event WHERE";
                 $queryString .= " id IN ($eventIdList)";
                 $crmDAO = CRM_Core_DAO::executeQuery( $queryString );
 
@@ -273,14 +273,14 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
     {
         // remove from all inactive forms
         $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id, true, true );
-        if ( isset( $usedBy['civicrm_event_page'] ) ) {
-            require_once 'CRM/Event/DAO/EventPage.php';
-            foreach ( $usedBy['civicrm_event_page'] as $eventId => $unused ) {
-                $eventPageDAO =& new CRM_Event_DAO_EventPage( );
-                $eventPageDAO->event_id = $eventId;
-                $eventPageDAO->find( );
-                while ( $eventPageDAO->fetch( ) ) {
-                    CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageDAO->id );
+        if ( isset( $usedBy['civicrm_event'] ) ) {
+            require_once 'CRM/Event/DAO/Event.php';
+            foreach ( $usedBy['civicrm_event'] as $eventId => $unused ) {
+                $eventDAO =& new CRM_Event_DAO_Event( );
+                $eventDAO->id = $eventId;
+                $eventDAO->find( );
+                while ( $eventDAO->fetch( ) ) {
+                    CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event', $eventDAO->id );
                 }
             }
         }

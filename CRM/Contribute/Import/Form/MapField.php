@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -95,8 +95,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
      */
     protected $_fieldUsed;
     
-
-    
     /**
      * Attempt to resolve the header with our mapper fields
      *
@@ -110,9 +108,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             /* Skip the first (empty) key/pattern */
             if (empty($re)) continue;
             
-            /* if we've already used this field, move on */
-//             if ($this->_fieldUsed[$key])
-//                 continue;
             /* Scan through the headerPatterns defined in the schema for a
              * match */
             if (preg_match($re, $header)) {
@@ -138,9 +133,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         
         foreach ($patterns as $key => $re) {
             if (empty($re)) continue;
-
-//             if ($this->_fieldUsed[$key])
-//                 continue;
 
             /* Take a vote over the preview data set */
             $hits = 0;
@@ -197,6 +189,11 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
+            
+            //modify field title only for update mode. CRM-3245
+            foreach ( array( 'contribution_id', 'invoice_id', 'trxn_id' ) as $key ) {
+                $this->_mapperFields[$key] .= " (match to contribution record)";
+            }
         } else if ( $this->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP ) {
             unset( $this->_mapperFields['contribution_id'] );
         }
@@ -236,6 +233,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $mappingDetails = CRM_Core_BAO_Mapping::retrieve($params, $temp);
 
             $this->assign('loadedMapping', $mappingDetails->name);
+            $this->set('loadedMapping', $savedMapping);
 
             $getMappingName =&  new CRM_Core_DAO_Mapping();
             $getMappingName->id = $savedMapping;
@@ -274,15 +272,53 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $this->_fieldUsed[$key] = false;
         }
         $this->_location_types = & CRM_Core_PseudoConstant::locationType();
-        $sel1 = $this->_mapperFields;
+        $sel1 = $this->_mapperFields;            
         
         if ( !$this->get('onDuplicate') ) {
             unset($sel1['id']);
             unset($sel1['contribution_id']);
         }
+     
+        // start of soft credit section
+        // get contact type for this import 
+        $contactTypeId = $this->get('contactType');
+        $contactTypes  = array(
+                               CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL   => 'Individual',
+                               CRM_Contribute_Import_Parser::CONTACT_HOUSEHOLD    => 'Household',
+                               CRM_Contribute_Import_Parser::CONTACT_ORGANIZATION => 'Organization'
+                               );
+                               
+        $contactType =  $contactTypes[$contactTypeId];
         
-        $sel2[''] = null;
-
+        // get imporatable fields for contact type                      
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
+        
+        // get the Dedupe rule for this contact type and build soft credit array
+        $ruleParams = array(
+                            'contact_type' => $contacType,
+                            'level' => 'Strict'
+                            );
+        require_once 'CRM/Dedupe/BAO/Rule.php';
+        $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields( $ruleParams );
+        $softCreditFields = array( );
+        if ( is_array($fieldsArray) ) {
+            foreach ( $fieldsArray as $value) {
+                //skip if there is no dupe rule
+                if ( $value == 'none' ) {
+                    continue;
+                }
+                $softCreditFields[$value] = $contactFields[trim($value)]['title'];
+            }
+        }
+        
+        $softCreditFields['contact_id'] = ts('Contact ID');
+        $softCreditFields['external_identifier'] = ts('External Identifier');
+        
+        $sel2['soft_credit'] = $softCreditFields;
+        
+        // end of soft credit section
+        
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
         
@@ -427,7 +463,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $requiredFields = array(
                                     'contribution_contact_id' => ts('Contact ID'),
                                     'total_amount'            => ts('Total Amount'),               
-                                    'contribution_type'       => ts('Contribution Type')
+                                    'contribution_type'    => ts('Contribution Type')
                                     );
             
             
@@ -440,27 +476,44 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                         } else if ( $self->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE && 
                                     ! ( in_array( 'invoice_id', $importKeys ) || in_array( 'trxn_id', $importKeys ) || 
                                         in_array( 'contribution_id', $importKeys ) ) ) {
-                            $errors['_qf_default'] .= ts('Invoice ID or Transaction ID or Contribution ID are the required field in update mode.'). '<br />';
+                            $errors['_qf_default'] .= ts('Invoice ID or Transaction ID or Contribution ID are required to match to the existing contribution records in Update mode.'). '<br />';
                         }
                     } else {
-                        $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+                        if($self->_onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ){
+                            $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+                        }
                     }
                 }
             }
+            
+            //at least one field should be mapped during update.
+            if ( $self->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
+                $atleastOne = false;
+                foreach ( $self->_mapperFields as $key => $field ) {
+                    if ( in_array( $key, $importKeys ) && 
+                         !in_array( $key, array( 'doNotImport', 'contribution_id', 'invoice_id', 'trxn_id' ) ) ) {
+                        $atleastOne = true;
+                        break;
+                    }
+                }
+                if ( !$atleastOne ) {
+                    $errors['_qf_default'] .= ts('At least one contribution field needs to be mapped for update during update mode.').'<br />';
+                }
+            }
         }
-
-
+        
         if ( CRM_Utils_Array::value( 'saveMapping', $fields ) ) {
             $nameField = CRM_Utils_Array::value( 'saveMappingName', $fields );
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-                if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Contributions')){
-                     $errors['saveMappingName'] = ts('Duplicate Import Contribution Mapping Name');
+                $mappingTypeId = CRM_Core_OptionGroup::getValue( 'mapping_type', 'Import Contribution', 'name' );
+                if ( CRM_Core_BAO_Mapping::checkMapping( $nameField, $mappingTypeId ) ) {
+                    $errors['saveMappingName'] = ts('Duplicate Import Contribution Mapping Name');
                 }
             }
         }
-
+        
         if ( !empty($errors) ) {
             if (!empty($errors['saveMappingName'])) {
                 $_flag = 1;
@@ -484,6 +537,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
     public function postProcess()
     {
         $params = $this->controller->exportValues( 'MapField' );
+      
         //reload the mapfield if load mapping is pressed
         if( !empty($params['savedMapping']) ) {            
             $this->set('savedMapping', $params['savedMapping']);
@@ -497,32 +551,26 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $config =& CRM_Core_Config::singleton( );
         $seperator = $config->fieldSeparator;
 
-        $mapperKeys = array( );
-        $mapper     = array( );
+        $mapper = $mapperKeys = $mapperKeysMain = $mapperSoftCredit = $softCreditFields = $mapperPhoneType = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
-        $mapperKeysMain     = array();
-        $mapperLocType      = array();
-        $mapperPhoneType    = array();
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
-            
-            if (is_numeric($mapperKeys[$i][1])) {
-                $mapperLocType[$i] = $mapperKeys[$i][1];
+                       
+            if ( isset( $mapperKeys[$i][0] ) && $mapperKeys[$i][0] == 'soft_credit') {
+                $mapperSoftCredit[$i] = $mapperKeys[$i][1];
+                list( $first, $second ) = explode('_', $mapperSoftCredit[$i] );
+                $softCreditFields[$i] = ucwords( $first . " " .  $second );
             } else {
-                $mapperLocType[$i] = null;
-            }
-
-            if ( !is_numeric($mapperKeys[$i][2])) {
-                $mapperPhoneType[$i] = $mapperKeys[$i][2];
-            } else {
-                $mapperPhoneType[$i] = null;
+                $mapperSoftCredit[$i] = $softCreditFields[$i] = null;
+                $softCreditFields[$i] = null;
             }
         }
+             
+        $this->set( 'mapper'    , $mapper );
+        $this->set( 'softCreditFields', $softCreditFields );
 
-        $this->set( 'mapper'    , $mapper     );
-               
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', $params['mappingId']);
         
@@ -544,8 +592,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $updateMappingFields->id = $mappingFieldsId[$i];
                 $updateMappingFields->mapping_id = $params['mappingId'];
                 $updateMappingFields->column_number = $i;
-
-                list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
                 $updateMappingFields->name = $mapper[$i];
                 $updateMappingFields->save();                
             }
@@ -564,14 +610,13 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $saveMappingFields =& new CRM_Core_DAO_MappingField();
                 $saveMappingFields->mapping_id = $saveMapping->id;
                 $saveMappingFields->column_number = $i;                             
-                
-                list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
                 $saveMappingFields->name = $mapper[$i];
                 $saveMappingFields->save();
             }
+            $this->set( 'savedMapping', $saveMappingFields->mapping_id );
         }
 
-        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
+        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeysMain, $mapperSoftCredit ,$mapperPhoneType );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Contribute_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
         

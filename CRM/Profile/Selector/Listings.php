@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -282,7 +282,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
             foreach ( $this->_fields as $name => $field ) { 
-                if ( $field['in_selector'] &&
+                if (  CRM_Utils_Array::value( 'in_selector', $field ) &&
                      ! in_array( $name, $skipFields ) ) {
 
                     if ( strpos( $name, '-' ) !== false ) {
@@ -301,7 +301,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                             if ( $type ) {
                                 $name = "`$locationTypeName-$fieldName-$type`";
                             } else {
-                                $name = "`$locationTypeName-$fieldName-1`";
+                                $name = "`$locationTypeName-$fieldName`";
                             }
                         } else {
                             $name = "`$locationTypeName-$fieldName`";
@@ -401,7 +401,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         static $skipFields = array( 'group', 'tag' );
 
         foreach ( $this->_fields as $key => $field ) {
-            if ( $field['in_selector'] && 
+            if (  CRM_Utils_Array::value( 'in_selector', $field ) && 
                  ! in_array( $key, $skipFields ) ) { 
                 if ( strpos( $key, '-' ) !== false ) {
                     $value = explode( '-', $key );
@@ -425,7 +425,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                         if ( $type ) {
                             $names[] = "{$locationTypeName}-{$fieldName}-{$type}";
                         } else {
-                            $names[] = "{$locationTypeName}-{$fieldName}-1";
+                            $names[] = "{$locationTypeName}-{$fieldName}";
                         }
                     } else {
                         $names[] = "{$locationTypeName}-{$fieldName}";
@@ -507,10 +507,17 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     }
                 } elseif ( (substr( $name, 0, 8 ) == 'kabissa_') && $accessKabissa ) {
                     $row[] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing($name, $result, false);
-                } else {
+                } elseif ( isset($result->$name ) ){
                     $row[] = $result->$name;
+                } else {
+                    $row[] = '';
                 }
-
+                if ( 
+                    $name == 'greeting_type' && 
+                    $result->custom_greeting && 
+                    ( $result->greeting_type_id == 4 ) ) {
+                        $row[] = $result->custom_greeting.' ('.array_pop($row).')';
+                } 
                 if ( ! empty( $result->$name ) ) {
                     $empty = false;
                 }

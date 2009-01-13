@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -179,13 +179,24 @@ class CRM_Core_BAO_CMSUser
             }elseif (!$action && !$userID ) { 
                 $showUserRegistration = true;
             }
+
             if ( $isCMSUser && $emailPresent ) {                
-                if ( $showUserRegistration ) {  
-                    $extra = array('onclick' => "return showHideByValue('cms_create_account', '', 'details','block','radio',false );");
-                    $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
+                if ( $showUserRegistration ) {
+                    if ( $isCMSUser != 2  ) {
+                        $extra = array(
+                                       'onclick' => "return showHideByValue('cms_create_account','','details','block','radio',false );"
+                                       );
+                        $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
+                        $required = false;       
+                    }else {
+                        $form->add('hidden', 'cms_create_account', 1 );
+                        $required = true;
+                    }
+
+                    $form->assign( 'isCMS', $required );       
                     require_once 'CRM/Core/Action.php';
                     if( ! $userID || $action & CRM_Core_Action::PREVIEW || $action & CRM_Core_Action::PROFILE ) {     
-                        $form->add('text', 'cms_name', ts('Username') );
+                        $form->add('text', 'cms_name', ts('Username'), null, $required );
                         if ( ( $isDrupal && !variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {       
                             $form->add('password', 'cms_pass', ts('Password') );
                             $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );
@@ -198,6 +209,12 @@ class CRM_Core_BAO_CMSUser
             }
             
         } 
+        $loginUrl =  $config->userFrameworkBaseURL;
+        if ( $isJoomla ) {
+            $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
+            $loginUrl .= 'index.php?option=com_user&view=login';
+        }
+        $form->assign( 'loginUrl', $loginUrl );
         $form->assign( 'showCMS', $showCMS ); 
     } 
     
@@ -264,7 +281,7 @@ class CRM_Core_BAO_CMSUser
 
             if ( $isJoomla ) {
                 require_once 'CRM/Core/BAO/UFGroup.php';
-                $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, 'Individual' );
+                $ids = CRM_Core_BAO_UFGroup::findContact( $fields, null, 'Individual' );
                 if ( $ids ) {
                     $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
                 }
@@ -460,7 +477,11 @@ SELECT count(*)
     {
         $acl         = &JFactory::getACL();
         $userParams  = JComponentHelper::getParams('com_users');
+        // get the default usertype
         $userType    = $userParams->get('new_usertype');
+        if ( !$usertype ) {
+            $usertype = 'Registered';
+        }
 
         // Prepare the values for a new Joomla! user.
         $values                 = array();
@@ -470,7 +491,19 @@ SELECT count(*)
         $values['password2']    = $params['cms_confirm_pass'];
         $values['email']        = trim($params[$mail]);
         $values['gid']          = $acl->get_group_id( '', $userType);
+        $values['sendEmail']    = 1; 
         
+        $useractivation = $userParams->get( 'useractivation' );
+        if ( $useractivation == 1 ) { 
+            jimport('joomla.user.helper');
+            // block the User
+            $values['block'] = 1; 
+            $values['activation'] =JUtility::getHash( JUserHelper::genRandomPassword() ); 
+        } else { 
+            // don't block the user
+            $values['block'] = 0; 
+        }
+
         // Get an empty JUser instance.
         $user =& JUser::getInstance( 0 );
         $user->bind( $values );
@@ -480,7 +513,8 @@ SELECT count(*)
             // Error can be accessed via $user->getError();
             return false;
         }
-
+        require_once 'joomla/com_user/controller.php';
+        UserController::_sendMail( $user, $user->password2 );
         return $user->get('id');
     }
 

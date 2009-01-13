@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -31,7 +31,7 @@
  * The default values in general, should reflect production values (minimizes chances of screwing up)
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -268,11 +268,19 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         }
 
         if ( $this->userFramework == 'Joomla' ) {
+            $this->userFrameworkVersion = '1.5';
+            if ( class_exists('JVersion') ) {
+                $version =& new JVersion;
+                $this->userFrameworkVersion = $version->getShortVersion();
+            }
+
             global $mainframe;
-            $this->userFrameworkVersion        = '1.5';
-            
             $dbprefix = $mainframe ? $mainframe->getCfg( 'dbprefix' ) : 'jos_';
             $this->userFrameworkUsersTableName = $dbprefix . 'users';
+        }
+
+        if ( $this->userFramework == 'Drupal' && defined('VERSION') ) {
+            $this->userFrameworkVersion = VERSION;
         }
 
         $this->_initDAO( );
@@ -335,12 +343,12 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         require_once "CRM/Core/BAO/Setting.php";
         $variables = array();
         CRM_Core_BAO_Setting::retrieve($variables);  
-
+        
         // if settings are not available, go down the full path
         if ( empty( $variables ) ) {
             // Step 1. get system variables with their hardcoded defaults
             $variables = get_object_vars($this);
-
+            
             // Step 2. get default values (with settings file overrides if
             // available - handled in CRM_Core_Config_Defaults)
             require_once 'CRM/Core/Config/Defaults.php';
@@ -377,7 +385,8 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                  strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
                 CRM_Utils_System::mapConfigToSSL( );
             }
-            $this->resourceBase = $this->userFrameworkResourceURL;
+            $rrb = parse_url( $this->userFrameworkResourceURL );
+            $this->resourceBase = $rrb['path'];
         } 
             
         if ( !$this->customFileUploadDir ) {
@@ -387,8 +396,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         if ( $this->mapProvider ) {
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
         }
-        
-
     }
 
     /**
@@ -401,23 +408,25 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     static function &getMailer() 
     {
         if ( ! isset( self::$_mail ) ) {
-            $config =& CRM_Core_Config::singleton();
+            require_once "CRM/Core/BAO/Preferences.php";
+            $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();;
+                        
             if ( defined( 'CIVICRM_MAILER_SPOOL' ) &&
                  CIVICRM_MAILER_SPOOL ) {
                 require_once 'CRM/Mailing/BAO/Spool.php';
                 self::$_mail = & new CRM_Mailing_BAO_Spool();
-            } elseif (self::$_singleton->outbond_option == 0) {
-                if ( self::$_singleton->smtpServer == '' ||
-                     ! self::$_singleton->smtpServer ) {
+            } elseif ($mailingInfo['outBound_option'] == 0 ) {
+                if ( $mailingInfo['smtpServer'] == '' ||
+                     ! $mailingInfo['smtpServer'] ) {
                     CRM_Core_Error::fatal( ts( 'There is no valid smtp server setting. Click <a href=\'%1\'>Administer CiviCRM >> Global Settings</a> to set the SMTP Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
                 }
                 
-                $params['host'] = self::$_singleton->smtpServer ? self::$_singleton->smtpServer : 'localhost';
-                $params['port'] = self::$_singleton->smtpPort ? self::$_singleton->smtpPort : 25;
+                $params['host'] = $mailingInfo['smtpServer'] ? $mailingInfo['smtpServer'] : 'localhost';
+                $params['port'] = $mailingInfo['smtpPort'] ? $mailingInfo['smtpPort'] : 25;
                 
-                if (self::$_singleton->smtpAuth) {
-                    $params['username'] = self::$_singleton->smtpUsername;
-                    $params['password'] = self::$_singleton->smtpPassword;
+                if ($mailingInfo['smtpAuth']) {
+                    $params['username'] = $mailingInfo['smtpUsername'];
+                    $params['password'] = $mailingInfo['smtpPassword'];
                     $params['auth']     = true;
                 } else {
                     $params['auth']     = false;
@@ -427,15 +436,18 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 $params['localhost'] = $_SERVER['SERVER_NAME'];
 
                 self::$_mail =& Mail::factory( 'smtp', $params );
-            } elseif (self::$_singleton->outbond_option == 1) {
-                if ( self::$_singleton->sendmail_path == '' ||
-                     ! self::$_singleton->sendmail_path ) {
+            } elseif ($mailingInfo['outBound_option'] == 1) {
+                if ( $mailingInfo['sendmail_path'] == '' ||
+                     ! $mailingInfo['sendmail_path'] ) {
                     CRM_Core_Error::fatal( ts( 'There is no valid sendmail path setting. Click <a href=\'%1\'>Administer CiviCRM >> Global Settings</a> to set the Sendmail Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
                 }
-                $params['sendmail_path'] = self::$_singleton->sendmail_path;
-                $params['sendmail_args'] = self::$_singleton->sendmail_args;
+                $params['sendmail_path'] = $mailingInfo['sendmail_path'];
+                $params['sendmail_args'] = $mailingInfo['sendmail_args'];
                 
                 self::$_mail =& Mail::factory( 'sendmail', $params );
+            } else {
+                CRM_Core_Session::setStatus( ts( 'There is no valid SMTP server Setting Or SendMail path setting. Click <a href=\'%1\'>Administer CiviCRM >> Global Settings</a> to set the OutBound Email.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1'))));
+ 
             }
         }
         return self::$_mail;

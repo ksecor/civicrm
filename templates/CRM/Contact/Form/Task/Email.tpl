@@ -1,27 +1,33 @@
 <div class="form-item">
-{if $config->smtpAuth and ($config->smtpUsername == '' or $config->smtpPassword == '')}
-<div class="status">
-<p>{ts}Your setup enforces SMTP authentication, but does not provide SMTP username and/or password. Please fix your civicrm.settings.php file.{/ts}</p>
-</div>
-{else}
 <fieldset>
 <legend>{ts}Send an Email{/ts}</legend>
 {if $suppressedEmails > 0}
     <div class="status">
-        <p>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts - communication preferences specify DO NOT EMAIL.'}Email will NOT be sent to %count contact - communication preferences specify DO NOT EMAIL.{/ts}</p>
+        <p>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts - (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased).'}Email will NOT be sent to %count contact - (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased).{/ts}</p>
     </div>
 {/if}
-<dl>
-<dt>{$form.fromEmailAddress.label}</dt><dd>{$form.fromEmailAddress.html}</dd>
+<table class="form-layout-compressed">
+<tr>
+    <td class="label">{$form.fromEmailAddress.label}</td><td>{$form.fromEmailAddress.html}</td>
+</tr>
 {if $single eq false}
-<dt>{ts}Recipient(s){/ts}</dt><dd>{$to|escape}</dd>
+    <tr>
+        <td class="label">{ts}Recipient(s){/ts}</td><td>{$to|escape}</td>
+    </tr>
 {else}
-<dt>{$form.to.label}</dt><dd>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</dd>
+    <tr>
+        <td class="label">{$form.to.label}</td><td>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</td>
+    </tr>
 {/if}
-<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
-</dl>
+<tr>
+    <td class="label">{$form.subject.label}</td><td>{$form.subject.html|crmReplace:class:huge}</td>
+</tr>
+</table>
+
 {include file="CRM/Contact/Form/Task/EmailCommon.tpl"}
+
 <div class="spacer"> </div>
+
 <dl>
 {if $single eq false}
     <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
@@ -34,5 +40,4 @@
 <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>
 </fieldset>
-{/if}
 </div>

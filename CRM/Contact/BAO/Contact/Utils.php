@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -209,21 +209,22 @@ UNION
             $organizationId = $organization;
             $exists = true;
         } else {
-            require_once "CRM/Contact/DAO/Contact.php";
-            $contact =& new CRM_Contact_DAO_Contact( );
-            $contact->organization_name = $organization;
-        
-            $contact->find( );
-            $dupeIds = array( );
-            while ( $contact->fetch( ) ) {
-                $dupeIds[$contact->id] = $contact->id;
-            }
+            $orgName = explode('::', $organization );
+            trim($orgName[0]);
 
+            $organizationParams = array();
+            $organizationParams['organization_name'] = $orgName[0];
+
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($organizationParams, 'Organization');
+            
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy');
+            
             // if duplicates are not found create new organization
-            if ( empty($dupeIds) ) {
+            if ( empty($dupeIDs) ) {
                 //create new organization
                 $newOrg = array ( 'contact_type'      => 'Organization',
-                                  'organization_name' => $organization );
+                                  'organization_name' => trim( $orgName[0] ) );
                 
                 $org = CRM_Contact_BAO_Contact::add( $newOrg );
                 $organizationId = $org->id;
@@ -251,7 +252,7 @@ UNION
         } else {
             //if more than one matching organizations found, we
             //add relationships to all those organizations
-            foreach ( $dupeIds as $orgId ) {
+            foreach ( $dupeIDs as $orgId ) {
                 $relationshipParams['contact_check'][$orgId] = 1;
                 CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
                 
@@ -273,12 +274,14 @@ UNION
     static function setCurrentEmployer( $currentEmployerParams )
     {
         foreach( $currentEmployerParams as $contactId => $orgId ) {
-            $query .= "UPDATE civicrm_contact contact_a,civicrm_contact contact_b
+            $query = "UPDATE civicrm_contact contact_a,civicrm_contact contact_b
 SET contact_a.employer_id=contact_b.id, contact_a.organization_name=contact_b.organization_name 
 WHERE contact_a.id ={$contactId} AND contact_b.id={$orgId}; ";
+            
+            //FIXME : currently civicrm mysql_query support only single statement
+            //execution, though mysql 5.0 support multiple statement execution.
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );  
         }
-
-        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );        
     }
 
     /**
@@ -325,13 +328,16 @@ WHERE id={$contactId}; ";
      */
     static function buildOnBehalfForm( &$form, 
                                        $contactType       = 'Individual', 
-                                       $countryDefault    = null,
-                                       $stateDefault      = null,
+                                       $countryID         = null,
+                                       $stateID           = null,
                                        $title             = 'Contact Information',
                                        $contactEditMode   = false,
                                        $maxLocationBlocks = 1 )
     {
-        if ($title == 'Contact Information') $title = ts('Contact Information');
+        if ($title == 'Contact Information') {
+            $title = ts('Contact Information');
+        }
+
         require_once 'CRM/Contact/Form/Location.php';
         $config =& CRM_Core_Config::singleton( );
 
@@ -361,12 +367,12 @@ WHERE id={$contactId}; ";
                                            'onChange'     => 'loadLocationData(this.getValue())'
                                            );
                 $locDataURL = CRM_Utils_System::url( 'civicrm/ajax/permlocation', "cid=", 
-                                                     true, null, false );
+                                                     false, null, false );
                 $form->assign( 'locDataURL', $locDataURL );
                 
                 $dataURL = CRM_Utils_System::url( 'civicrm/ajax/employer', 
                                                   "cid=" . $contactID, 
-                                                  true, null, false );
+                                                  false, null, false );
                 $form->assign( 'employerDataURL', $dataURL );
                 
                 $form->add('text', 'organization_id', 
@@ -399,37 +405,7 @@ WHERE id={$contactId}; ";
 
         }
 
-        // add country state selector using new hs-widget method.
-        $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
-        $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
-                             'url1'         => CRM_Utils_System::url( $config->resourceBase . 'bin/ajax.php', 
-                                                                      'return=countries', false ),
-                             'url2'         => CRM_Utils_System::url( $config->resourceBase . 'bin/ajax.php', 
-                                                                      'return=states', false ),
-                             'default1'     => $countryDefault,
-                             'default2'     => $stateDefault,
-                             'firstInList'  => "true",
-                             );
-        $form->add( 'text', "location[1][address][country_state]", ts( 'Country - State' ), $attributes );
-
-        // remove country & state from address sequence since address.tpl uses old approach 
-        // and not the new hier-select widget approach / method. So we will add them separately 
-        // keeping in mind whether they are found in addressSequence / preferences. 
-
-        $addressSequence = $config->addressSequence();
-
-        $key = array_search( 'country', $addressSequence);
-        if ( $key ) {
-            $form->assign( 'addressSequenceCountry', true );
-        }
-        unset($addressSequence[$key]);
-        
-        $key = array_search( 'state_province', $addressSequence);
-        if ( $key ) {
-            $form->assign( 'addressSequenceState', true );
-        }
-        unset($addressSequence[$key]);
-
+        $addressSequence = $config->addressSequence( );
         $form->assign( 'addressSequence', array_fill_keys($addressSequence, 1) );
 
         //Primary Phone 
@@ -445,8 +421,14 @@ WHERE id={$contactId}; ";
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                      'email'));
         //build the address block
-        $location   = array(); 
+        $location   = array();
         CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1 );
+
+        // also fix the state country selector
+        CRM_Contact_Form_Address::fixStateSelect( $form,
+                                                  "location[1][address][country_id]",
+                                                  "location[1][address][state_province_id]",
+                                                  $countryID );
     }
 
 }

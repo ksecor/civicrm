@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -62,12 +62,14 @@ class CRM_Grant_Form_GrantView extends CRM_Core_Form
         $grantStatus = CRM_Grant_PseudoConstant::grantStatus( );
         $this->assign('grantType',  $grantType[$values['grant_type_id']] );
         $this->assign('grantStatus',$grantStatus[$values['status_id']] );
-        $allGrant = array( 'amount_total','amount_requested','amount_granted',
+        $grantTokens = array( 'amount_total','amount_requested','amount_granted',
                            'rationale','grant_report_received', 'application_received_date', 
                            'decision_date', 'money_transfer_date', 'grant_due_date' );
-        foreach ( $allGrant as $grants ) {
-            $this->assign( $grants, CRM_Utils_Array::value( $grants, $values ) );
+
+        foreach ( $grantTokens as $token ) {
+            $this->assign( $token, CRM_Utils_Array::value( $token, $values ) );
         }
+
         if ( isset( $this->_id ) ) {
             require_once 'CRM/Core/BAO/Note.php';
             $noteDAO               = & new CRM_Core_BAO_Note();
@@ -81,12 +83,15 @@ class CRM_Grant_Form_GrantView extends CRM_Core_Form
         if ( isset( $this->_noteId ) ) {
             $this->assign( 'note', CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' ) );
         }
-        
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this->_id, 0 );
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
-             
-    }
 
+        require_once 'CRM/Core/BAO/File.php';
+        $attachment = CRM_Core_BAO_File::attachmentInfo( 'civicrm_grant',
+                                                         $this->_id );
+        $this->assign( 'attachment', $attachment );
+        
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this, $this->_id, 0 );
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree ); 
+    }
 
     /**
      * Function to build the form

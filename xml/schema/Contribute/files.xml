@@ -6,10 +6,14 @@
 <xi:include href="ContributionPage.xml"     parse="xml" />
 <xi:include href="ContributionProduct.xml"  parse="xml" />
 <xi:include href="ContributionType.xml"     parse="xml" />
+<xi:include href="ContributionSoft.xml"     parse="xml" />
 <xi:include href="FinancialTrxn.xml"        parse="xml" />
 <xi:include href="FinancialTrxn.xml"        parse="xml" />
 <xi:include href="Premium.xml"              parse="xml" />
 <xi:include href="Product.xml"              parse="xml" />
 <xi:include href="PremiumsProduct.xml"      parse="xml" />
 <xi:include href="Widget.xml"               parse="xml" />
+<xi:include href="PCP.xml"                  parse="xml" />
+<xi:include href="PCPBlock.xml"             parse="xml" />
+<xi:include href="ContributionSoft.xml"     parse="xml" />
 </tables>

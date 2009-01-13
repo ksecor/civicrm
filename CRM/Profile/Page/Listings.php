@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -129,7 +129,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         }
         
         foreach ( $this->_fields as $name => $field ) {
-            if ( (substr($name, 0, 6) == 'custom') && $field['is_search_range']) {
+            if ( (substr($name, 0, 6) == 'custom') && CRM_Utils_Array::value( 'is_search_range', $field ) ) {
                 $from = CRM_Utils_Request::retrieve( $name.'_from', 'String',
                                                      $this, false, null, 'REQUEST' );
                 $to = CRM_Utils_Request::retrieve( $name.'_to', 'String',
@@ -154,6 +154,10 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     $value = '%' . $value . '%';
                 }
                 
+            } else if ( CRM_Utils_Array::value( 'html_type', $field ) == 'Multi-Select State/Province' 
+                        || CRM_Utils_Array::value( 'html_type', $field ) == 'Multi-Select Country') {
+                $value = CRM_Utils_Request::retrieve( $name, 'String', $this, false, null, 'REQUEST' );
+                if ( ! is_array($value) ) $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             } else {
                 $value = CRM_Utils_Request::retrieve( $name, 'String',
                                                       $this, false, null, 'REQUEST' );
@@ -168,11 +172,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             }
 
             $customField = CRM_Utils_Array::value( $name, $this->_customFields );
-            
+
             if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
                 if ( $customField ) {
                     // reset checkbox because a form does not send null checkbox values
-                    if ( $customField['html_type'] == 'CheckBox' ) {
+                    if ( in_array( $customField['html_type'], 
+                                   array( 'Multi-Select', 'CheckBox', 'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {
                         // only reset on a POST submission if we dont see any value
                         $value = null;
                         $this->set( $name, $value );
@@ -182,11 +187,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     $this->set( $name, $value );  
                 }
             }
-            
+
             if ( isset( $value ) && $value != null ) {
-                $this->_fields[$name]['value'] = $value;
-                $this->_params[$name] = $value;
-                
+                if ( !is_array( $value) ) {
+                    $value = trim( $value );
+                }
+                $this->_params[$name] = $this->_fields[$name]['value'] = $value;
             }
         }
 

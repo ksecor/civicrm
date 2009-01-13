@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -186,15 +186,20 @@ SELECT     civicrm_email.id as email_id
         require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getDomain();
         
+        //get the default domain email address.
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+       
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $localpart   = CRM_Core_BAO_MailSettings::defaultLocalpart();
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         require_once 'CRM/Utils/Verp.php';
-        $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
-                                                    array( 'confirm',
-                                                           1,
-                                                           $this->contact_id,
-                                                           $this->id,
-                                                           $this->hash )
-                                                    ) . "@{$domain->email_domain}",
-                                           $email);
+        $confirm = implode($config->verpSeparator,
+                           array($localpart . 'c',
+                                 $this->contact_id,
+                                 $this->id,
+                                 $this->hash)
+                          ) . "@$emailDomain";
         
         require_once 'CRM/Contact/BAO/Group.php';
         $group =& new CRM_Contact_BAO_Group();
@@ -206,20 +211,20 @@ SELECT     civicrm_email.id as email_id
         $component->is_default = 1;
         $component->is_active = 1;
         $component->component_type = 'Subscribe';
-
+        
         $component->find(true);
-
+        
         $headers = array(
-            'Subject'   => $component->subject,
-            'From'      => "\"{$domain->email_name}\" <{$domain->email_address}>",
-            'To'        => $email,
-            'Reply-To'  => $confirm,
-            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
-        );
-
+                         'Subject'   => $component->subject,
+                         'From'      => "\"{$domainEmailName}\" <{$domainEmailAddress}>",
+                         'To'        => $email,
+                         'Reply-To'  => $confirm,
+                         'Return-Path'   => "do-not-reply@$emailDomain"
+                         );
+        
         $url = CRM_Utils_System::url( 'civicrm/mailing/confirm',
                                       "reset=1&cid={$this->contact_id}&sid={$this->id}&h={$this->hash}" );
-
+        
         $html = $component->body_html;
 
         if ($component->body_text) {
@@ -257,8 +262,10 @@ SELECT     civicrm_email.id as email_id
         require_once 'CRM/Mailing/BAO/Mailing.php';
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
                                array('CRM_Core_Error', 'nullHandler' ) );
-        $mailer->send($email, $h, $b);
-        CRM_Core_Error::setCallback();
+        if ( is_object( $mailer ) ) {
+            $mailer->send($email, $h, $b);
+            CRM_Core_Error::setCallback();
+        }
     }
 
     /**

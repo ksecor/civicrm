@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -64,7 +64,7 @@ class CRM_Friend_Form_Contribute extends CRM_Contribute_Form_ContributionPage
     public function setDefaultValues( ) 
     {
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
-        CRM_Utils_System::setTitle(ts('Tell A Friend (%1)', array(1 => $title)));       
+        CRM_Utils_System::setTitle(ts('Tell a Friend') . " ($title)");
 
         $defaults = array( );           
         
@@ -79,7 +79,7 @@ class CRM_Friend_Form_Contribute extends CRM_Contribute_Form_ContributionPage
             $defaults['intro'] = ts('Help us spread the word and leverage the power of your contribution by telling your friends. Use the space below to personalize your email message - let your friends know why you support us. Then fill in the name(s) and email address(es) and click \'Send Your Message\'.');
             $defaults['suggested_message'] = ts('Thought you might be interested in learning about and helping this organization. I think they do important work.');
             $defaults['thankyou_text'] = ts('Thanks for telling your friends about us and supporting our efforts. Together we can make a difference.');
-            $defaults['title'] = ts('Tell A Friend');
+            $defaults['title'] = ts('Tell a Friend');
             $defaults['thankyou_title'] = ts('Thanks for Spreading the Word');
         }
         

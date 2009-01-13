@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -108,7 +108,6 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
                             );
             $values = array();
             $ids = array();
-            
             CRM_Core_BAO_Location::getValues($params, $values, true);
             if ( ! CRM_Utils_Array::value( 'location', $values ) ||
                  ! CRM_Utils_Array::value( '1', $values['location'] ) ) {
@@ -149,16 +148,27 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         return $numberDomains > 1 ? true : false;
     }
 
-    static function getNameAndEmail( ) {
-        $domain = new CRM_Core_DAO_Domain( );
-        $domain->selectAdd( );
-        $domain->selectAdd( 'email_name, email_address' );
-        if ( $domain->find( true ) ) {
-            return array( $domain->email_name, $domain->email_address );
+    static function getNameAndEmail( ) 
+    {
+        require_once 'CRM/Core/OptionGroup.php';
+        $formEmailAddress = CRM_Core_OptionGroup::values( 'from_email_address', null, null, null, ' AND is_default = 1' );
+        if ( !empty( $formEmailAddress ) ) {
+            require_once 'CRM/Utils/Mail.php';
+            foreach ( $formEmailAddress as $key => $value ) {
+                $email    = CRM_Utils_Mail::pluckEmailFromHeader( $value );
+                $fromName = CRM_Utils_Array::value( 1, explode('"', $value ) );
+                break;
+            }
+            return array( $fromName, $email );
         }
-        CRM_Core_Error::fatal( );
+        
+        $url = CRM_Utils_System::url( 'civicrm/contact/domain', 
+                                      'action=update&reset=1' );
+        $status = ts( "There is no valid default from email address configured for the domain. You can configure here <a href='%1'>Configure From Email Address.</a>", array( 1 => $url ) );
+        
+        CRM_Core_Error::fatal( $status );
     }
-
+    
 }
 
 

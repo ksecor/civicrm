@@ -20,13 +20,25 @@
 	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />	
             <span class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</span></td>
 	</tr>
-	<tr><td>&nbsp;</td><td>{$form.is_for_organization.html}{$form.is_for_organization.label}<br/>
-	     <span class="description">{ts}If you want to allow the contribution/signup to be done by individuals on behalf of an organization.{/ts}</span></td>
-	</tr>
-	<tr id="for_org_text">
-	<td class="label">{$form.for_organization.label}</td><td>{$form.for_organization.html}<br />
-	    <span class="description">{ts}Text displayed next to the checkbox for the 'contribute/signup on behalf of an organization' option on the contribution form.{/ts}</span></td>
-	</tr>
+	<tr><td>&nbsp;</td><td>{$form.is_organization.html} {$form.is_organization.label}</td></tr>
+	<tr id="for_org_option">
+        <td>&nbsp;</td>
+        <td>
+            <table class="form-layout-compressed">
+            <tr id="for_org_text">
+                <td class="label">{$form.for_organization.label}</td><td>{$form.for_organization.html}<br />
+                    <span class="description">{ts}Text displayed next to the checkbox on the contribution form.{/ts}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>{$form.is_for_organization.html}<br />
+                    <span class="description">{ts}Check 'Required' to force ALL users to contribute/signup on behalf of an organization.{/ts}</span>
+                </td>
+            </tr>
+            </table>
+        </td>
+    </tr>
 	<tr><td class ="label">{$form.intro_text.label}</td><td>{$form.intro_text.html}<br />
 	    <span class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</span></td>
 	</tr>
@@ -36,9 +48,13 @@
 	<tr><td class ="label">{$form.goal_amount.label}</td><td>{$form.goal_amount.html}<br />
 	    <span class="description">{ts}Enter an optional goal amount for this contribution page (e.g. for this 'campaign'). If you enable a contribution widget for this page, the widget will track progress against this goal. Otherwise, the goal will display as 'no limit'.{/ts}</span></td>
 	</tr>
-	<tr><td class ="label">{$form.start_date.label}</td><td>{$form.start_date.html}</td>
+	<tr><td class ="label">{$form.start_date.label}</td><td>{$form.start_date.html}
+	{include file="CRM/common/calendar/desc.tpl" trigger=trigger_settings_1 doTime=1}
+	{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear doTime=1 offset=10 trigger=trigger_settings_1 ampm=1}</td>
 	</tr>
-	<tr><td class ="label">{$form.end_date.label}</td><td>{$form.end_date.html}</td>
+	<tr><td class ="label">{$form.end_date.label}</td><td>{$form.end_date.html}
+	{include file="CRM/common/calendar/desc.tpl" trigger=trigger_settings_2 doTime=1}
+	{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_settings_2 ampm=1}</td>
 	</tr>
 	<tr><td>&nbsp;</td><td>{$form.honor_block_is_active.html}{$form.honor_block_is_active.label}<br />
 	    <span class="description">{ts}If you want to allow contributors to specify a person whom they are honoring with their gift, check this box. An optional Honoree section will be included in the form. Honoree information is automatically saved and linked with the contribution record.{/ts}</span></td>
@@ -59,7 +75,7 @@
     		<span class="description">
         	{if $config->userFramework EQ 'Drupal'}
             	{ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />
-            	<strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
+            	<strong>{crmURL a=true p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
         	{elseif $config->userFramework EQ 'Joomla'}
             	{ts 1=$id}When your page is active, create front-end links to the contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         	{/if}
@@ -82,7 +98,7 @@
 </div>
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="is_for_organization"
+    trigger_field_id    ="is_organization"
     trigger_value       = 1
     target_element_id   ="for_org_text" 
     target_element_type ="table-row"
@@ -90,6 +106,14 @@
     invert              = 0
 }
 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_organization"
+    trigger_value       = 1
+    target_element_id   ="for_org_option" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
 <script type="text/javascript">
  showHonor();
  {literal}

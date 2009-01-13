@@ -23,7 +23,7 @@
  * Drupal module file.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2006
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -43,10 +43,13 @@ function civicrm_html_head()
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
 
-    $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
+    if ( isset( $config->customCSSURL ) && ! empty( $config->customCSSURL ) ) {
+        $head  = "<style type=\"text/css\">@import url({$config->customCSSURL});</style>\n";
+    } else {
+        $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
+    }
 
     // include the below files ONLY if needed, since they are heavy weight ( i.e only for civicrm pages)
-    
     $includeCommon = false;
     if ( arg(0) == 'civicrm' ) {
         $includeCommon = true;
@@ -153,6 +156,8 @@ function civicrm_block($op='list', $delta='0')
 
     // The $op parameter determines what piece of information is being requested.
     require_once 'CRM/Core/Block.php';
+    
+    // CRM_Core_Error::backtrace( "$op, $delta" );
 
     if ($op == 'list') {
         $block = CRM_Core_Block::getInfo();
@@ -225,7 +230,7 @@ function civicrm_initialize( )
         $error = include_once( $settingsFile );
         if ( $error == false ) {
             $failure = true;
-            drupal_set_message( "<strong><p class='error'>Oops! - The CiviCRM settings file (civicrm.settings.php) was not found in the expected location (" . $settingsFile . "). Please review the <a href='http://wiki.civicrm.org/confluence//x/mQ8'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/FAQ#FAQ-install'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
+            drupal_set_message( "<strong><p class='error'>Oops! - The CiviCRM settings file (civicrm.settings.php) was not found in the expected location (" . $settingsFile . "). Please review the <a href='http://wiki.civicrm.org/confluence/x/mQ8'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/FAQ#FAQ-install'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
             return false;
         }
         
@@ -357,6 +362,7 @@ function civicrm_quickreg( )
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) 
 {
+
     if ( $type == 'load' ) {
         return;
     }			
@@ -364,7 +370,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
     if ( ! civicrm_initialize( ) ) {
         return;
     }
-
+	
     switch ( $type ) {
 
     case 'login':
@@ -383,7 +389,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         } else {
             return civicrm_register_data( $edit, $user, $category, false, true );
         }
-        return;
+        break;
 
     case 'insert':
         $config =& CRM_Core_Config::singleton( );
@@ -399,7 +405,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
             CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
                                                civicrm_get_ctype( 'Individual' ) );
         }
-
+        break;
 
     case 'view':
         return civicrm_view_data($user);
@@ -410,16 +416,29 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
              trim( $edit['mail'] ) != trim( $user->mail ) ) {
             require_once 'CRM/Core/BAO/UFMatch.php';
             $contactID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-            CRM_Core_BAO_UFMatch::updateContactEmail( $contactID,
-                                                      trim( $edit['mail'] ) );
+            if ( $contactID ) {
+                CRM_Core_BAO_UFMatch::updateContactEmail( $contactID,
+                                                          trim( $edit['mail'] ) );
+            }
         }
         break;
 
-
-
     case 'form':
+        $inCategory = true;
+        if ( $category ) {
+            $inCategory = false;
+            $categories = civicrm_categories( $account );
+            foreach ( $categories as $cat ) {
+                if ( $category == $cat['name'] ) {
+                    $inCategory = true;
+                    break;
+                }
+            }
+        }
+        
         // only return a form to drupal my account page
-        if ( arg(0) == 'user' &&
+        if ( $inCategory      &&
+             arg(0) == 'user' &&
              arg(2) == 'edit' &&
              arg(3) ) {
             if ( empty( $_POST ) ) {
@@ -432,7 +451,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 
     case 'validate':
         return civicrm_validate_data($edit, $user, $category);
-
+        
     case 'categories':
         return civicrm_categories( $user );
 
@@ -508,6 +527,7 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
 
     $output = array( );
     if ( $html ) {
+        $html = civicrm_add_jquery( $html );
         $index = empty( $category ) ? 'civicrm-profile-register' : $category;
         $output[$index] = array( '#title' => $category,
                                  '#value' => $html,
@@ -556,6 +576,7 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
     }
     
     if ( $html ) {
+        $html = civicrm_add_jquery( $html );
         $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
         $output[$index][] = array( '#title' => $category,
                                    '#value' => $html,
@@ -567,8 +588,6 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
 
 function civicrm_view_data( &$user ) 
 {
-    $data = array( );
-
     require_once 'CRM/Core/BAO/UFMatch.php';
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
@@ -606,25 +625,30 @@ function civicrm_view_data( &$user )
             }
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id, null, true );
             $pageContent = $page->run( );
+
+            // CRM-3537: profile edit link
+            $editURL     = '&raquo; ' . l( "Edit '{$title['title']}'", 
+                                           "user/{$user->uid}/edit/{$title['title']}");
             
             if ( $pageContent ) {
-                $title = 
                 $user->content[$title['title']] =
                     array( '#title'  => $title['title'],
-                           '#value'  => $pageContent,
+                           '#type'   => 'user_profile_category',
                            '#weight' => $weight );
+                $user->content[$title['title']][$title['title']] = 
+                    array(  '#type'  => 'user_profile_item',
+                            '#value' => $pageContent . $editURL );
+
                 $weight += 10;
             }
         }
         
         if ( $contactURL ) {
             $user->content['urls'] = 
-                array( '#title'  => '',
-                       '#value'  => $contactURL,
+                array( '#value'  => $contactURL,
                        '#weight' => $weight );
         }
     }
-
     return;
 }
 
@@ -643,18 +667,13 @@ function civicrm_validate_data($edit, &$user, $title)
 
     require_once 'CRM/Utils/Array.php';
 
-    // if this is an admin creator, dont validate
-    if ( ( $_GET['q'] == 'admin/user/create' ) ||
-         ! CRM_Utils_Array::value( '_qf_default', $_POST ) ) {
-        return true;
-    }
-
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
 
-    $register = ( arg(1) == 'register' ) ? true : false;
+    // check for either user/register or admin/user/user/create
+    $register = ( arg(1) == 'register' || arg(3) == 'create' ) ? true : false;
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-	$errors = CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register );
+    $errors = CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register );
     if ( is_array( $errors ) ) {
         if ( $register ) {
             foreach ( $errors as $name => $error ) {
@@ -693,7 +712,7 @@ function civicrm_enable( ) {
     
     $options = array(
                      'link_title' => 'CiviCRM',
-                     'link_path'  => 'civicrm',
+                     'link_path'  => 'civicrm/dashboard',
                      'module'     => 'civicrm',
                      'options'    => array( 'alter' => true )
                      );
@@ -732,7 +751,6 @@ function civicrm_admin_menu( ) {
                      'title' => 'CiviCRM',
                      'path' => 'civicrm',
                      'weight' => $weight,
-                     'parent_path' => 'CiviCRM'
                      );
 
     require_once 'CRM/Core/Menu.php';
@@ -749,4 +767,19 @@ function civicrm_admin_menu( ) {
   
     return $links;
 
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function civicrm_views_api() {
+    return array(
+                 'api' => 2,
+                 'path' => drupal_get_path('module', 'civicrm') . '/modules/views',
+                 );
+}
+
+function civicrm_add_jquery( &$html ) {
+    $smarty = CRM_Core_Smarty::singleton( );
+    return $smarty->fetch( 'CRM/common/jquery.tpl' ) . $html;
 }

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -38,7 +38,7 @@
  * for other useful tips and suggestions
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -536,15 +536,27 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     }
 
     public function addUploadAction( $uploadDir, $uploadNames ) {
-        if ( ! empty( $uploadDir   ) &&
-             ! empty( $uploadNames ) ) {
-            require_once 'CRM/Core/QuickForm/Action/Upload.php';
-            $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
-                                                              $uploadDir,
-                                                              $uploadNames );
-
-            $this->addAction('upload' , $action );
+        if ( empty( $uploadDir ) ) {
+            $config  =& CRM_Core_Config::singleton( );
+            $uploadDir = $config->uploadDir;
         }
+
+        require_once 'CRM/Core/BAO/File.php';
+        if ( empty( $uploadNames ) ) {
+            $uploadNames = $this->get( 'uploadNames' );
+            if ( ! empty( $uploadNames ) ) {
+                $uploadNames = array_merge( $uploadNames,
+                                            CRM_Core_BAO_File::uploadNames( ) );
+            } else {
+                $uploadNames = CRM_Core_BAO_File::uploadNames( );
+            }
+        }
+
+        require_once 'CRM/Core/QuickForm/Action/Upload.php';
+        $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
+                                                          $uploadDir,
+                                                          $uploadNames );
+        $this->addAction('upload' , $action );
     }
 
     public function setParent( $parent ) {

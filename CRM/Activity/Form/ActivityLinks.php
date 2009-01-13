@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,13 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Form.php';
-
+require_once 'CRM/Core/BAO/Preferences.php';
 
 /**
  * This class generates form components for Activity Links
@@ -51,14 +51,19 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
         $urlParams = "action=add&reset=1&cid={$contactId}&selectedChild=activity&atype=";
         
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
-                                      $urlParams, true, null, false ); 
-
+                                      $urlParams, false, null, false );
+ 
         $activityType = CRM_Core_PseudoConstant::activityType( false );
         
         //unset Phone and Meeting
         unset( $activityType[1] );
         unset( $activityType[2] );
 
+        $this->assign( 'emailSetting', false );
+        require_once 'CRM/Utils/Mail.php';
+        if ( CRM_Utils_Mail::validOutBoundMail() ) { 
+            $this->assign( 'emailSetting', true );
+        }
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'other_activity', ts('Other Activities'),
                    array('' => ts('- select -')) + $activityType,

@@ -26,22 +26,19 @@
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: 'Contact ID', 'Amount').{/ts}
         </dd>
-        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
-        <dt>&nbsp;</dt>
-	
-        <dd class="description">
-            {ts}Select 'Individual' if you are importing contributions made by individual persons.{/ts}
-        </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing contributions made by contacts of that type.{/ts}
+        <dt class="extra-long-fourty">{$form.contactType.label}</dt><dd>{$form.contactType.html}<br />
+            <span class="description">
+                {ts}Select 'Individual' if you are importing contributions made by individual persons.{/ts}
+                {ts}Select 'Organization' or 'Household' if you are importing contributions made by contacts of that type.{/ts}
+            </span>
         </dd> 
-	<dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd>
+        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}{help id="id-onDuplicate"}</dd>
         {include file="CRM/Core/Date.tpl"}  
 {if $savedMapping}
       <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
        <dd> <span>{$form.savedMapping.html}</span> </dd>
       <dt>&nbsp;</dt>
-       <dd class="description">{ts}Select Saved Mapping or Leave blank to create a new One.{/ts}</dd>
+       <dd class="description">{ts}Select a saved field mapping if this file format matches a previous import.{/ts}</dd>
 {/if}
     </dl>
     <div class="spacer"></div>

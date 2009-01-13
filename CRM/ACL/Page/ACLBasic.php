@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@ require_once 'CRM/Core/Page/Basic.php';
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -154,13 +154,15 @@ ORDER BY entity_id
         require_once 'CRM/Core/OptionGroup.php';
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );
 
+        require_once 'CRM/Core/Permission.php';
+        $permissions  = CRM_Core_Permission::basicPermissions( );
         while ( $dao->fetch( ) ) {
             if ( ! array_key_exists( $dao->entity_id, $acl ) ) {
                 $acl[$dao->entity_id] = array();
                 $acl[$dao->entity_id]['name']         = $dao->name;
                 $acl[$dao->entity_id]['entity_id']    = $dao->entity_id;
                 $acl[$dao->entity_id]['entity_table'] = $dao->entity_table;
-                $acl[$dao->entity_id]['object_table'] = $dao->object_table;
+                $acl[$dao->entity_id]['object_table'] = $permissions[$dao->object_table];
                 $acl[$dao->entity_id]['is_active']    = 1;
 
                 if ( $acl[$dao->entity_id]['entity_id'] ) {
@@ -175,7 +177,7 @@ ORDER BY entity_id
                 $acl[$dao->entity_id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                      array('id' => $dao->entity_id));
             } else {
-                $acl[$dao->entity_id]['object_table'] .= ", {$dao->object_table}";
+                $acl[$dao->entity_id]['object_table'] .= ", {$permissions[$dao->object_table]}";
             }
         }
         $this->assign('rows', $acl);

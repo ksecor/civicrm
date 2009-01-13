@@ -1,49 +1,64 @@
 <div id="location" class="form-item">
-<fieldset class="collapsible">
     <table class="form-layout">
-        <tr>
-            <td class="label">{$form.street_address.label}</td>
-            <td>{$form.street_address.html}</td>
-            <td class="label">{$form.city.label}</td>
-            <td>{$form.city.html}</td>
-        </tr>
-        <tr>
-            <td class="label">{$form.state_province.label}</td>
-            <td>{$form.state_province.html|crmReplace:class:big}</td>
-            <td class="label">{$form.country.label}</td>
-            <td>{$form.country.html|crmReplace:class:big}</td>
-        </tr>
+	<tr>
+        <td>
+		{$form.location_type.label}<br />
+        {$form.location_type.html} 
+        <div class="description" >
+            {ts}Location search uses the PRIMARY location for each contact by default.{/ts}<br /> 
+            {ts}To search by specific location types (e.g. Home, Work...), check one or more boxes above.{/ts}
+        </div> 
+        </td>
+        <td colspan="2">{$form.street_address.label}<br />
+            {$form.street_address.html}<br />
+            {$form.city.label}<br />
+            {$form.city.html}
+  	    </td>	   
+    </tr>
+           
+    <tr>
+        <td>
         {if $form.postal_code.html}
-          <tr>
-            <td class="label">{$form.postal_code.label}</td>
-            <td>{$form.postal_code.html}&nbsp;&nbsp;<label>{ts}AND{/ts}</label></td> 
-            <td class="label">{$form.postal_code_low.label}</td>
-            <td>{$form.postal_code_low.html|crmReplace:class:six}</td>
-          </tr>
-          <tr>
-            <td> &nbsp; </td>
-            <td> &nbsp; </td>
-            <td class="label">{$form.postal_code_high.label}</td>
-            <td {$form.postal_code_high.html|crmReplace:class:six}</td>
-          </tr>
-        {/if}
-    	<tr>
-            <td class="label">{$form.location_type.label}</td>
-            <td>{$form.location_type.html} 
-                <div class="description">
-                    {ts}Location search uses the PRIMARY location for each contact by default. To search by specific location types (e.g. Home, Work...), check one or more boxes above.{/ts}
-                </div> 
-            </td>
-            <td class="label">{$form.address_name.label}</td><td>{$form.address_name.html|crmReplace:class:medium}</td>
-        </tr>
-    	<tr>
-            <td class="label">{$form.world_region.label}</td>
-            <td>{$form.world_region.html}</td>
-            <td class="label">{$form.county.label}
-               {$form.county.html|crmReplace:class:big}
-            </td>
-        </tr>
+		<table class="inner-table">
+		   <tr>
+			<td>
+				{$form.postal_code.label}<br />
+                {$form.postal_code.html}
+			</td>
+			<td>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label>{ts}OR{/ts}</label>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td><label>{ts}Postal Code{/ts}</label>
+				{$form.postal_code_low.label|replace:'-':'<br />'}
+		                &nbsp;&nbsp;{$form.postal_code_low.html|crmReplace:class:six}
+                {$form.postal_code_high.label}
+                		&nbsp;&nbsp;{$form.postal_code_high.html|crmReplace:class:six}
+			</td>
+		    </tr>
+		</table>
+        {/if}&nbsp;
+        </td>
+        <td>{$form.state_province.label}<br />
+             {$form.state_province.html|crmReplace:class:big}&nbsp;
+        </td>
+        <td>{$form.country.label}<br />
+            {$form.country.html|crmReplace:class:big}&nbsp;
+        </td>
+    </tr>
+          	
+    <tr>
+	    <td>{$form.world_region.label}<br />
+            {$form.world_region.html}&nbsp;
+	    </td>  
+	    <td>{$form.county.label}<br />
+ 	        {$form.county.html|crmReplace:class:big}&nbsp;
+	    </td>
+        <td colspan="2">{$form.address_name.label}<br />
+            {$form.address_name.html|crmReplace:class:medium}
+	    </td>
+	 </tr>
     </table>
-</fieldset>
 </div>
 

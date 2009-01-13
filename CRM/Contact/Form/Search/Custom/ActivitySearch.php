@@ -2,9 +2,9 @@
 
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 2.0                                                |
+   | CiviCRM version 2.2                                                |
    +--------------------------------------------------------------------+
-   | Copyright CiviCRM LLC (c) 2004-2008                                |
+   | Copyright CiviCRM LLC (c) 2004-2009                                |
    +--------------------------------------------------------------------+
    | This file is a part of CiviCRM.                                    |
    |                                                                    |
@@ -28,7 +28,7 @@
   /**
    *
    * @package CRM
-   * @copyright CiviCRM LLC (c) 2004-2007
+   * @copyright CiviCRM LLC (c) 2004-2009
    * $Id$
    *
    */
@@ -54,6 +54,11 @@ implements CRM_Contact_Form_Search_Interface {
                                  ts('Activity Subject') => 'activity_subject',								
 								 ts('Scheduled By'      )   => 'source_contact',
                                  ts('Scheduled Date') => 'activity_date' );
+
+        $this->_groupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
+                                                       'activity_status', 
+                                                       'id', 
+                                                       'name' );
     }
 
     function buildForm( &$form ) {
@@ -77,7 +82,7 @@ implements CRM_Contact_Form_Search_Interface {
         $activityType =
             array( ''   => ' - select activity - ' ) + 
             CRM_Core_PseudoConstant::activityType( );
-            
+        
         $form->add  ('select', 'activity_type_id', ts('Activity Type'),
                      $activityType,
                      false);
@@ -122,13 +127,16 @@ implements CRM_Contact_Form_Search_Interface {
      * Construct the search query
      */       
     function all( $offset = 0, $rowcount = 0, $sort = null,
-                  $includeContactIDs = false ) {
+                  $includeContactIDs = false, $onlyIDs = false ) {
         
         // SELECT clause must include contact_id as an alias for civicrm_contact.id
-        $select  = "
-contact.id as contact_id,
-contact.sort_name as sort_name,
-contact.contact_type as contact_type,
+        if ( $onlyIDs ) {
+            $select  = "contact_a.id as contact_id"; 
+        } else {
+            $select  = "
+contact_a.id as contact_id,
+contact_a.sort_name as sort_name,
+contact_a.contact_type as contact_type,
 activity.id as activity_id,
 activity.activity_type_id as activity_type_id,
 contact_b.sort_name as source_contact,
@@ -137,9 +145,9 @@ activity.subject as activity_subject,
 activity.activity_date_time as activity_date,
 ov2.label as activity_status
 ";
-
+        }
         $from  = $this->from( );
-
+        
         $where = $this->where( $includeContactIDs );
 
         if ( ! empty( $where ) ) {
@@ -151,17 +159,20 @@ SELECT $select
 FROM   $from
        $where
 ";
-        // Define ORDER BY for query in $sort, with default value
-        if ( ! empty( $sort ) ) {
-            if ( is_string( $sort ) ) {
-                $sql .= " ORDER BY $sort ";
+        //no need to add order when only contact Ids.
+        if ( !$onlyIDs ) {
+            // Define ORDER BY for query in $sort, with default value
+            if ( ! empty( $sort ) ) {
+                if ( is_string( $sort ) ) {
+                    $sql .= " ORDER BY $sort ";
+                } else {
+                    $sql .= " ORDER BY " . trim( $sort->orderBy() );
+                }
             } else {
-                $sql .= " ORDER BY " . trim( $sort->orderBy() );
+                $sql .= "ORDER BY contact_a.sort_name, activity.activity_date_time DESC, activity.activity_type_id, activity.status_id, activity.subject";
             }
-        } else {
-            $sql .= "ORDER BY contact.sort_name, activity_date_time DESC, activity_type, activity_status, activity_subject";
         }
-
+        
         if ( $rowcount > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $rowcount ";
         }
@@ -177,11 +188,11 @@ FROM   $from
 	// Regular JOIN statements here to limit results to contacts who have activities.
     function from( ) {
         return "
-civicrm_contact contact
-JOIN civicrm_activity_target at ON contact.id = at.target_contact_id
+civicrm_contact contact_a
+JOIN civicrm_activity_target at ON contact_a.id = at.target_contact_id
 JOIN civicrm_activity activity ON at.activity_id = activity.id
 JOIN civicrm_option_value ov1 ON activity.activity_type_id = ov1.value AND ov1.option_group_id = 2
-JOIN civicrm_option_value ov2 ON activity.status_id = ov2.value AND ov2.option_group_id = 25
+JOIN civicrm_option_value ov2 ON activity.status_id = ov2.value AND ov2.option_group_id = {$this->_groupId}
 JOIN civicrm_contact contact_b ON activity.source_contact_id = contact_b.id
 ";
 
@@ -197,7 +208,7 @@ JOIN civicrm_contact contact_b ON activity.source_contact_id = contact_b.id
 		$subject = $this->_formValues['activity_subject'];
 		
 		if (! empty($this->_formValues['contact_type']) ) {
-			$clauses[] = "contact.contact_type LIKE '%{$this->_formValues['contact_type']}%'";
+			$clauses[] = "contact_a.contact_type LIKE '%{$this->_formValues['contact_type']}%'";
 		}
 		
 		if (! empty($subject) ) {
@@ -236,7 +247,7 @@ JOIN civicrm_contact contact_b ON activity.source_contact_id = contact_b.id
         
             if ( ! empty( $contactIDs ) ) {
                 $contactIDs = implode( ', ', $contactIDs );
-                $clauses[] = "contact.id IN ( $contactIDs )";
+                $clauses[] = "contact_a.id IN ( $contactIDs )";
             }
         }
 
@@ -254,8 +265,8 @@ JOIN civicrm_contact contact_b ON activity.source_contact_id = contact_b.id
         return $dao->N;
     }
        
-    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
-        return $this->all( $offset, $rowcount, $sort );
+    function contactIDs( $offset = 0, $rowcount = 0, $sort = null ) { 
+        return $this->all( $offset, $rowcount, $sort,  false, true );
     }
        
     function &columns( ) {

@@ -64,6 +64,24 @@
     </tr>
     {/if}
     
+    {if $validSoftCreditRowCount }
+    <tr><td class="label">{ts}Soft Credit Rows Imported{/ts}</td>
+        <td class="data">{$validSoftCreditRowCount}</td>
+        <td class="explanation">{ts}Rows with soft credits assigned.{/ts}</td>
+    </tr>
+    {/if}
+
+    {if $invalidSoftCreditRowCount }
+    <tr class="error"><td class="label">{ts}Invalid Soft Credit Rows (skipped){/ts}</td>
+        <td class="data">{$invalidSoftCreditRowCount}</td>
+        <td class="explanation">{ts}Rows with soft credits to invalid contacts. The soft credits for these rows have been skipped (not imported).{/ts}
+            {if $invalidSoftCreditRowCount}
+                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+            {/if}
+        </td>
+    </tr>
+    {/if}
+    
     {if $unMatchCount }
     <tr class="error"><td class="label">{ts}Mismatched Rows (skipped){/ts}</td>
         <td class="data">{$unMatchCount}</td>

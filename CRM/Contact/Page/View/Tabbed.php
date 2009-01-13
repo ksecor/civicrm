@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,8 +55,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         //Custom Groups Inline
         $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId);
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId);
+
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
 
         // also create the form element for the activity links box
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
@@ -112,7 +113,11 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      * @access public
      */
     function view( ) 
-        {
+    {
+        $session =& CRM_Core_Session::singleton();
+        $url     = CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $this->_contactId );
+        $session->pushUserContext( $url );
+
         $params   = array( );
         $defaults = array( );
         $ids      = array( );
@@ -187,7 +192,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         
         
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true );
-
+        $changeLog = $this->_viewOptions['log'];
+        $this->assign_by_ref( 'changeLog' , $changeLog );
         require_once 'CRM/Core/Component.php';
         $components = CRM_Core_Component::getEnabledComponents();
 
@@ -204,9 +210,15 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                     $i = $component->getKeyword();
                 }
                 $u = $elem['url'];
+               
+                //appending isTest to url for test soft credit CRM-3891. 
+                //FIXME: hack dojo url.
+                $q = "reset=1&snippet=1&force=1&cid={$this->_contactId}"; 
+                if ( CRM_Utils_Request::retrieve('isTest', 'Positive', $this) ) {
+                    $q = $q."&isTest=1";
+                }                
                 $allTabs[] = array( 'id'     =>  $i,
-                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u",
-                                                                       "reset=1&snippet=1&force=1&cid={$this->_contactId}" ),
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u", $q ),
                                     'title'  => $elem['title'],
                                     'weight' => $elem['weight'] );
                 // make sure to get maximum weight, rest of tabs go after
@@ -216,7 +228,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 }
             }
         }
-
+        
         $rest = array( 'activity'      => ts('Activities')    ,
                        'case'          => ts('Cases')         ,
                        'rel'           => ts('Relationships') ,
@@ -234,21 +246,19 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             $this->_viewOptions[$title] = true;
         }
 
-        $this->_viewOptions['case'] = $this->_viewOptions['CiviCase'];
         foreach ( $rest as $k => $v ) {
-            if ( ! $this->_viewOptions[$k] ) {
-                continue;
+            if ( CRM_Utils_Array::value($k, $this->_viewOptions) ) {
+                
+            
+                $allTabs[] = array( 'id'     =>  $k,
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
+                                                                       "reset=1&snippet=1&cid={$this->_contactId}" ),
+                                    'title'  => $v,
+                                    'weight' => $weight );
+                $weight += 10;
             }
-            $allTabs[] = array( 'id'     =>  $k,
-                                'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
-                                                                   "reset=1&snippet=1&cid={$this->_contactId}" ),
-                                'title'  => $v,
-                                'weight' => $weight );
-            $weight += 10;
         }
 
-        //CRM_Core_Error::debug( 's', $allTabs );
-        
         // now add all the custom tabs
         $activeGroups =&
             CRM_Core_BAO_CustomGroup::getActiveGroups( CRM_Contact_BAO_Contact::getContactType($this->_contactId),
@@ -266,10 +276,31 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         // see if any other modules want to add any tabs
         require_once 'CRM/Utils/Hook.php';
-        $hookTabs = CRM_Utils_Hook::links( 'tabs.contact.activity', 'Contact', $this->_contactId );
-        if ( is_array( $hookTabs ) ) {
-            $allTabs = array_merge( $allTabs, $hookTabs );
+        CRM_Utils_Hook::tabs( $allTabs, $this->_contactId );
+
+        if( $config->civiHRD ) {
+            $hrdOrder = array(
+                       'rel'           => 1,
+                       'case'          => 2,
+                       'activity'      => 3,
+                       'participant'   => 4,
+                       'grant'         => 5,
+                       'contribute'    => 6,
+                       'group'         => 7,
+                       'note'          => 8,
+                       'tag'           => 9,
+                       'log'           => 10
+                       );
+
+            foreach( $allTabs as $i => $tab ) {
+                if( array_key_exists( $tab['id'],  $hrdOrder ) ) {
+                    $allTabs[$i]['weight'] = $hrdOrder[$tab['id']];
+                }
+            }
         }
+
+
+
 
         // now sort the tabs based on weight
         require_once 'CRM/Utils/Sort.php';

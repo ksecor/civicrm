@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,13 +29,13 @@
  *
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Event/Form/ManageEvent.php';
-require_once 'CRM/Event/BAO/EventPage.php';
+require_once 'CRM/Event/BAO/Event.php';
 
 /**
  * This class generates form components for processing Event  
@@ -75,8 +75,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
 
         $this->setShowHide( $defaults );
         if ( isset( $eventId ) ) {
-            $params = array( 'event_id' => $eventId );
-            CRM_Event_BAO_EventPage::retrieve( $params, $defaults );
+            $params = array( 'id' => $eventId );
+            CRM_Event_BAO_Event::retrieve( $params, $defaults );
             
             require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',
@@ -122,7 +122,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $this->_showHide->addHide( 'mail' );
             $this->_showHide->addHide( 'thankyou' );
         } else {
-            $this->_showHide->addShow( 'registration' );
             $this->_showHide->addShow( 'confirm' );
             $this->_showHide->addShow( 'mail' );
             $this->_showHide->addShow( 'thankyou' );
@@ -144,8 +143,19 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?'),null,array('onclick' =>"return showHideByValue('is_online_registration','','register_show','block','radio',false);")); 
-        
+        $this->addElement( 'checkbox', 
+                           'is_online_registration', 
+                           ts('Allow Online Registration?'), 
+                           null, 
+                           array( 'onclick' => "return showHideByValue('is_online_registration', 
+                                                                       '', 
+                                                                       'registration_blocks', 
+                                                                       'block', 
+                                                                       'radio', 
+                                                                       false );"
+                                ) 
+                         );
+   
         $this->add('text','registration_link_text',ts('Registration Link Text'));
 
         $this->add( 'date',
@@ -177,12 +187,12 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function buildRegistrationBlock(&$form ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
         $form->add('textarea','intro_text',ts('Introductory Text'), $attributes['intro_text']);
         $form->add('textarea','footer_text',ts('Footer Text'), $attributes['footer_text']);
 
         require_once "CRM/Core/BAO/UFGroup.php";
-        $types    = array( 'Contact', 'Individual','Organization', 'Household','Participant' );
+        $types    = array( 'Contact', 'Individual', 'Participant' );
         $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
 
         $form->add('select', 'custom_pre_id', ts('Include Profile') . '<br />' . ts('(top of page)'),array(''=>'- select -') +  $profiles );
@@ -197,7 +207,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function buildConfirmationBlock(&$form) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
         $form->add('text','confirm_title',ts('Title'), $attributes['confirm_title']);
         $form->add('textarea','confirm_text',ts('Introductory Text'), $attributes['confirm_text']);
         $form->add('textarea','confirm_footer_text',ts('Footer Text'), $attributes['confirm_footer_text']);     
@@ -211,7 +221,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function buildMailBlock(&$form ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
         $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, null, array('onclick' =>"return showHideByValue('is_email_confirm','','confirmEmail','block','radio',false);"));
         $form->add('textarea','confirm_email_text',ts('Text'), $attributes['confirm_email_text']);
         $form->add('text','cc_confirm',ts('CC Confirmation To'));
@@ -225,7 +235,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
 
     function buildThankYouBlock(&$form) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
         $form->add('text','thankyou_title',ts('Title'), $attributes['thankyou_title']);
         $form->add('textarea','thankyou_text',ts('Introductory Text'), $attributes['thankyou_text']);
         $form->add('textarea','thankyou_footer_text',ts('Footer Text'), $attributes['thankyou_footer_text']);
@@ -285,11 +295,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     public function postProcess() 
     {   
-        $params = $ids = array();
+        $params = array();
         $params = $this->exportValues();
-               
-        $eventId = $this->_id;
-        $params['event_id'] = $ids['event_id'] = $eventId;
+        
+        $params['id'] = $this->_id;
 
         //format params
         $params['is_online_registration'] = CRM_Utils_Array::value('is_online_registration', $params, false);
@@ -299,26 +308,25 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         if ( ! $params['is_online_registration'] ) {
             $params['is_email_confirm'] = false;
         }
-
+        
         $params['registration_start_date'] = CRM_Utils_Date::format( $params['registration_start_date'] );
         $params['registration_end_date'] = CRM_Utils_Date::format( $params['registration_end_date'] );
-
+        
         require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::add($params ,$ids);
-       
-        CRM_Event_BAO_EventPage::add( $params );
-       
+        CRM_Event_BAO_Event::add( $params );
+        
+        
         // also update the ProfileModule tables 
         $ufJoinParams = array( 'is_active'    => 1, 
                                'module'       => 'CiviEvent',
                                'entity_table' => 'civicrm_event', 
-                               'entity_id'    => $eventId, 
+                               'entity_id'    => $this->_id, 
                                'weight'       => 1, 
                                'uf_group_id'  => $params['custom_pre_id'] ); 
         
         require_once 'CRM/Core/BAO/UFJoin.php';
         CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
-
+        
         $ufJoinParams['weight'     ] = 2; 
         $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
         CRM_Core_BAO_UFJoin::create( $ufJoinParams );         

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  * Our base DAO class. All DAO classes should inherit from this class.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -484,7 +484,7 @@ class CRM_Core_DAO extends DB_DataObject
         if ( $object->find( true ) ) {
             return ( $daoID && $object->id == $daoID ) ? true : false;
         } else {
-            return true;
+            return false;
         }
     }
 
@@ -521,9 +521,9 @@ LIKE %1
      * @return array
      * @static
      */
-    function getStorageEngines( $tableName = null, $maxTablesToCheck = 0 ) 
+    function getStorageValues( $tableName = null, $maxTablesToCheck = 10, $fieldName = 'Engine' ) 
     {
-        $engines = array();
+        $values = array( );
         $query   = "SHOW TABLE STATUS LIKE %1";
 
         $params = array( );
@@ -538,8 +538,8 @@ LIKE %1
 
         $count = 0;
         while ( $dao->fetch( ) ) {
-            if (! isset($engines[$dao->Engine])) {
-                $engines[$dao->Engine] = 1;
+            if (! isset($values[$dao->$fieldName])) {
+                $values[$dao->$fieldName] = 1;
             }
             $count++;
             if ( $maxTablesToCheck &&
@@ -549,13 +549,13 @@ LIKE %1
         }
         $dao->free( );
         
-        return $engines;
+        return $values;
     }
 
-    static function isDBMyISAM( $maxTablesToCheck = 0 ) 
+    static function isDBMyISAM( $maxTablesToCheck = 10 ) 
     {
         // show error if any of the tables, use 'MyISAM' storage engine. 
-        $engines = self::getStorageEngines( null, $maxTablesToCheck );
+        $engines = self::getStorageValues( null, $maxTablesToCheck );
         if ( array_key_exists('MyISAM', $engines) ) {
             return true;
         }
@@ -848,7 +848,7 @@ FROM   civicrm_domain
      * @static
      * @access public
      */
-    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false )
+    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false, $i18nRewrite = true )
     {
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
@@ -859,7 +859,7 @@ FROM   civicrm_domain
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         //CRM_Core_Error::debug( 'q', $queryStr );
 
-        $dao->query( $queryStr );
+        $dao->query( $queryStr, $i18nRewrite );
 
         if ( $freeDAO ) {
             // we typically do this for insert/update/delete stataments
@@ -877,12 +877,12 @@ FROM   civicrm_domain
      * @static 
      * @access public 
      */ 
-    static function singleValueQuery( $query, $params = array( ), $abort = true ) 
+    static function &singleValueQuery( $query, $params = array( ), $abort = true, $i18nRewrite = true ) 
     {
         $dao =& new CRM_Core_DAO( ); 
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
 
-        $dao->query( $queryStr ); 
+        $dao->query( $queryStr, $i18nRewrite ); 
         
         $result = $dao->getDatabaseResult();
         $ret    = null;

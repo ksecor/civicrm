@@ -31,6 +31,7 @@
         {/if}
         </td>
     </tr>
+    {include file='CRM/common/ReCAPTCHA.tpl'}
     <tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr>
 </table>
 </fieldset>

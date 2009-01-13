@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -110,6 +110,19 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
        } else {
             CRM_Utils_System::setTitle(ts('%1 Options', array(1 => self::$_GName)));
         }
+        if ( self::$_gName == 'from_email_address' || self::$_gName == 'greeting_type' ) {
+            $this->assign( 'showIsDefault', true );
+        }
+        if ( self::$_gName == 'participant_status' ) {
+            $this->assign( 'showCounted', true );
+            $this->assign( 'showVisibility', true );
+        }
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array("CiviCase", $config->enableComponents) && self::$_gName == 'activity_type' ) {
+            $this->assign( 'showComponent', true );
+        }
+            
     }
 
     /**
@@ -198,8 +211,7 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         require_once 'CRM/Core/OptionValue.php';
         
         $groupParams = array( 'name' => self::$_gName );
-        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'weight');
-
+        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'component_id,weight');
         $gName = self::$_gName;
         $returnURL = CRM_Utils_System::url( "civicrm/admin/options/$gName",
                                             "reset=1&group=$gName" );
@@ -207,7 +219,6 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         require_once 'CRM/Utils/Weight.php';
         CRM_Utils_Weight::addOrder( $optionValue, 'CRM_Core_DAO_OptionValue',
                                     'id', $returnURL, $filter );
-        
         $this->assign('rows', $optionValue);
     }
     

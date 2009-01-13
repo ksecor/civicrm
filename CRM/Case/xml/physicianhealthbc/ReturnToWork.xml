@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<CaseType>
+  <name>Return to work</name>
+  <ActivityTypes>
+    <ActivityType>
+      <name>Open Case</name>
+      <max_instances>1</max_instances>
+     </ActivityType>
+    <ActivityType>
+      <name>Beginning of earliest period totally absent from work</name>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Earliest return to any work activity</name>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Beginning of period of attempted full duties</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Beginning of period of restricted duties</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Beginning of period totally absent from work</name>
+    </ActivityType>
+	<ActivityType>
+      <name>Change Case Type</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Status</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Follow up</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign classification - Presenting Problem</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign classification - Specialty Certification</name>
+    </ActivityType>
+  </ActivityTypes>
+  <ActivitySets>
+    <ActivitySet>
+      <name>standard_timeline</name>
+      <label>Standard Timeline</label>
+      <timeline>true</timeline>
+      <ActivityTypes>
+        <ActivityType>
+          <name>Open Case</name>
+          <status>Closed</status>
+        </ActivityType>
+        <ActivityType>
+          <name>Beginning of earliest period totally absent from work</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>0</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Earliest return to any work activity</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>30</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+	<ActivityType>
+          <name>Follow up</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>14</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Beginning of period of restricted duties</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>30</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Beginning of period of attempted full duties</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>30</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+      </ActivityTypes>
+    </ActivitySet>
+  </ActivitySets>
+  <CaseRoles>
+    <RelationshipType>
+        <name>Intake Physician</name>
+        <creator>1</creator>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Case Coordinator</name>
+    </RelationshipType>
+  </CaseRoles>
+</CaseType>

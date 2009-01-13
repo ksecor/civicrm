@@ -6,48 +6,55 @@
 <div class="form-item">
   <fieldset>
     <table class="form-layout-compressed">
-        <tr><td class="label">{$form.from_email.label}</td>
-            <td>{$form.from_name.html}<br /><span class="description">Name</span></td>
-            <td>{$form.from_email.html}<br /><span class="description">Email Address</span></td></tr>
+        <tr><td class="label">{$form.from_email_address.label}</td>
+            <td>{$form.from_email_address.html}</td>
+        </tr>
         <tr><td class="label">{$form.subject.label}</td>
             <td colspan="2">{$form.subject.html|crmReplace:class:huge}</td>
         </tr>
+        <tr><td></td><td colspan="2">{$form.override_verp.label}{$form.override_verp.html}<br /><span class="description">{ts}If checked default VERP address in Reply-To will be override by From address{/ts}</span></td></tr>  
         <tr><td></td><td colspan="2">{$form.upload_type.label} {$form.upload_type.html} {help id="upload-compose"}</td></tr>
     </table>
   </fieldset>
 
   <fieldset id="compose_id"><legend>{ts}Compose On-screen{/ts}</legend>
-	<div>
 	{include file="CRM/Contact/Form/Task/EmailCommon.tpl" upload=1 noAttach=1}
-	</div>
   </fieldset>
 
   <fieldset id="upload_id"><legend>{ts}Upload Content{/ts}</legend>
-        <dl>
-        <dt class="label extra-long-fourty">{$form.textFile.label}</dt>
-        <dd>{$form.textFile.html}<br />
-            <span class="description">{ts}Browse to the <strong>TEXT</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
-        </dd>
-        <dt class="label extra-long-fourty">{$form.htmlFile.label}</dt>
-        <dd>{$form.htmlFile.html}<br />
-            <span class="description">{ts}Browse to the <strong>HTML</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
-        </dd>
-        </dl>
+    <table class="form-layout-compressed">
+        <tr>
+            <td class="label">{$form.textFile.label}</td>
+            <td>{$form.textFile.html}<br />
+                <span class="description">{ts}Browse to the <strong>TEXT</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">{$form.htmlFile.label}</td>
+            <td>{$form.htmlFile.html}<br />
+                <span class="description">{ts}Browse to the <strong>HTML</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
+            </td>
+        </tr>
+    </table>
   </fieldset>
 
   {include file="CRM/Form/attachment.tpl"}
 
   <fieldset><legend>{ts}Header / Footer{/ts}</legend>
-    <dl>
-    <dt class="label extra-long-fourty">{$form.header_id.label}</dt>
-        <dd>{$form.header_id.html}<br />
-            <span class="description">{ts}You may choose to include a pre-configured Header block above your message.{/ts}</span>
-        </dd>
-    <dt class="label extra-long-fourty">{$form.footer_id.label}</dt>
-        <dd>{$form.footer_id.html}<br />
-            <span class="description">{ts}You may choose to include a pre-configured Footer block below your message. This is a good place to include the required unsubscribe, opt-out and postal address tokens.{/ts}</span>
-        </dd>
-    </dl> 
+    <table class="form-layout-compressed">
+        <tr>
+            <td class="label">{$form.header_id.label}</td>
+            <td>{$form.header_id.html}<br />
+                <span class="description">{ts}You may choose to include a pre-configured Header block above your message.{/ts}</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">{$form.footer_id.label}</td>
+            <td>{$form.footer_id.html}<br />
+                <span class="description">{ts}You may choose to include a pre-configured Footer block below your message. This is a good place to include the required unsubscribe, opt-out and postal address tokens.{/ts}</span>
+            </td>
+        </tr>
+    </table> 
   </fieldset>
 
   <dl>

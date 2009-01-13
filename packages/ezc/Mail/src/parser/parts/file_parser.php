@@ -3,8 +3,8 @@
  * File containing the ezcMailFileParser class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -12,7 +12,7 @@
  * Parses application/image/video and audio parts.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @access private
  */
 class ezcMailFileParser extends ezcMailPartParser
@@ -70,7 +70,7 @@ class ezcMailFileParser extends ezcMailPartParser
 
     /**
      * Constructs a new ezcMailFileParser with maintype $mainType subtype $subType
-     * and headers $headers..
+     * and headers $headers.
      *
      * @throws ezcBaseFileNotFoundException
      *         if the file attachment file could not be openened.
@@ -103,6 +103,9 @@ class ezcMailFileParser extends ezcMailPartParser
             $fileName = "filename";
         }
 
+        // clean file name (replace unsafe characters with underscores)
+        $fileName = strtr( $fileName, "/\\\0\"|?*<:;>+[]", '______________' );
+
         $this->fp = $this->openFile( $fileName ); // propagate exception
     }
 
@@ -122,7 +125,10 @@ class ezcMailFileParser extends ezcMailPartParser
         // The filename is now relative, we need to extend it with the absolute path.
         // To provide uniqueness we put the file in a directory based on processID and rand.
         $dirName = ezcMailParser::getTmpDir() . getmypid() . '-' . self::$counter++ . '/';
-        mkdir( $dirName, 0700 );
+        if ( !is_dir( $dirName ) )
+        {
+            mkdir( $dirName, 0700 );
+        }
 
         // remove the directory and the file when PHP shuts down
         ezcMailParserShutdownHandler::registerForRemoval( $dirName );

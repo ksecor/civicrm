@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -84,6 +84,20 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function appendBreadCrumb( $breadCrumbs ) {
+        $template =& CRM_Core_Smarty::singleton( );
+        $bc = $template->get_template_vars( 'breadcrumb' );
+
+        if ( is_array( $breadCrumbs ) ) {
+            foreach ( $breadCrumbs as $crumbs ) {
+                if ( stripos($crumbs['url'], '%%cid%%') ) {
+                    $cid  = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject,
+                                                         false, null, $_GET );
+                    $crumbs['url'] = str_ireplace( '%%cid%%', $cid, $crumbs['url'] );
+                }
+                $bc[] = $crumbs;
+            }
+        }
+        $template->assign_by_ref( 'breadcrumb', $bc );
         return;
     }
 

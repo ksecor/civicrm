@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -77,8 +77,9 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
     function preProcess( ) {
         CRM_Contact_Form_Task_EmailCommon::preProcess( $this );
 
-        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
-                                            $this, false );
+        $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this, false );
+
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, false );
 
         if ( $cid ) {
             CRM_Contact_Form_Task_EmailCommon::preProcessSingle( $this, $cid );
@@ -86,6 +87,9 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             parent::preProcess( );
         }
         $this->assign( 'single', $this->_single );
+
+        // store case id if present
+        CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
     }
     
     /**

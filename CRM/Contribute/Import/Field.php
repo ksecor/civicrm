@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -89,15 +89,20 @@ class CRM_Contribute_Import_Field {
      */
     public $_value;
 
+    /**
+     * this is soft credit field
+     * @var string
+     */
+    public $_softCreditField;
 
-
-    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//') {
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $softCreditField = null ) 
+    {
         $this->_name      = $name;
         $this->_title     = $title;
         $this->_type      = $type;
         $this->_headerPattern = $headerPattern;
         $this->_dataPattern = $dataPattern;
-    
+        $this->_softCreditField = $softCreditField;
         $this->_value     = null;
     }
 
@@ -188,7 +193,7 @@ class CRM_Contribute_Import_Field {
             if (!array_key_exists($customFieldID, $customFields)) {
                 return false;
             }
-            return CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID][2], $this->_value);
+            return CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID]['data_type'], $this->_value);
         }
         
         return true;

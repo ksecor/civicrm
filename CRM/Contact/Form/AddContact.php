@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -43,6 +43,12 @@ class CRM_Contact_Form_AddContact
     {
         $form->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');");
         
+        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
+                                          "reset=1",
+                                          true, null, false );
+        $this->assign('dataUrl',$dataUrl );
+
+
         $attributes = array( 'dojoType'     => 'civicrm.FilteringSelect',
                              'store'        => "contactStore",
                              'style'        => 'border: 1px solid #cfcfcf;',
@@ -53,7 +59,7 @@ class CRM_Contact_Form_AddContact
         
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
                                            "reset=1",
-                                           true, null, false );
+                                           false, null, false );
         
         $form->assign('dataURL',$dataURL );
         $form->addElement('text', "{$fieldName}", ts('Select Contact'), $attributes );

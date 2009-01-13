@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -44,7 +44,9 @@
 function smarty_modifier_crmDate($dateString, $dateFormat = null, $onlyTime = false )
 {
     if ($dateString) {
-        if ( $dateFormat == 0 ) {
+        // this check needs to be type sensitive
+        // CRM-3689, CRM-2441
+        if ( $dateFormat === 0 ) {
             $dateFormat = null;
         }
         if ( $onlyTime ) {

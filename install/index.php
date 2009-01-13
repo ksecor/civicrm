@@ -9,7 +9,7 @@
  * Copyright (c) 2006-7, SilverStripe Limited - www.silverstripe.com
  * All rights reserved.
  *
- * Changes and modifications (c) 2007 by CiviCRM LLC
+ * Changes and modifications (c) 2007-8 by CiviCRM LLC
  *
  */
 
@@ -21,6 +21,11 @@ ini_set('max_execution_time', 300);
 
 // set installation type - drupal / standalone
 session_start();
+
+// unset civicrm session if any
+if ( array_key_exists( 'CiviCRM', $_SESSION ) ) {
+    unset($_SESSION['CiviCRM']);
+}
 
 if ( isset($_GET['mode']) ) {
     $_SESSION['install_type'] = $_GET['mode'];
@@ -44,9 +49,9 @@ if ( ! in_array($installType, array('drupal', 'standalone')) ) {
 if ( $installType == 'drupal' ) {
     // do not check 'sites/all/modules' only since it could be a multi-site
     // install. Rather check for existance of sites & modules in the url
-    if ( ! preg_match('/sites\/[a-zA-Z0-9_.]+\/modules/', $_SERVER['SCRIPT_FILENAME']) ) {
+    if ( ! preg_match('/sites.[a-zA-Z0-9_.]+.modules/', $_SERVER['SCRIPT_FILENAME']) ) {
         $errorTitle = "Oops! Please Correct Your Install Location";
-        $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
+        $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>" . implode(DIRECTORY_SEPARATOR, array('sites', 'all', 'modules')) . "</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
         errorDisplayPage( $errorTitle, $errorMsg );
     }
 }
@@ -70,7 +75,7 @@ if ( $installType == 'drupal' ) {
     } else {
         $drupalConfig = array(
                               "server"   => "localhost",
-                              "username" => "civicrm",
+                              "username" => "drupal",
                               "password" => "",
                               "database" => "drupal",
                               );
@@ -103,9 +108,9 @@ if ( $installType == 'drupal' ) {
 if ($alreadyInstalled ) {
     $errorTitle = "Oops! CiviCRM is Already Installed";
     if ( $installType == 'drupal' ) {
-        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your Drupal root directory]/sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . implode(DIRECTORY_SEPARATOR, array('[your Drupal root directory]', 'sites', 'default')) . "</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     } elseif ( $installType == 'standalone' ) {
-        $errorMsg = "Standalone CiviCRM has already been installed. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]/standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+        $errorMsg = "Standalone CiviCRM has already been installed. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]" . DIRECTORY_SEPARATOR . "standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     }
     errorDisplayPage( $errorTitle, $errorMsg );
 }
@@ -210,6 +215,13 @@ class InstallRequirements {
                                           array("MySQL $dbName Configuration",
                                                 "Can I access/create InnoDB tables in the database",
                                                 "Unable to create InnoDB tables. MySQL InnoDB support is required for CiviCRM but is either not available or not enabled in this MySQL database server." ) );
+                $this->requireMySQLTempTables($databaseConfig['server'],
+                                              $databaseConfig['username'],
+                                              $databaseConfig['password'],
+                                              $databaseConfig['database'], 
+                                              array("MySQL $dbName Configuration",
+                                                    'Can I create temporary tables in the database',
+                                                    'Unable to create temporary tables. This MySQL user is missing the CREATE TEMPORARY TABLES privilege.'));
             }
         }
 	}
@@ -223,7 +235,7 @@ class InstallRequirements {
 
 		$this->errors = null;
 		
-        $this->requirePHPVersion('5.2.1', array("PHP Configuration", "PHP5 installed", null, "PHP version " . phpversion()));
+        $this->requirePHPVersion('5.2.0', array("PHP Configuration", "PHP5 installed", null, "PHP version " . phpversion()));
 
 		// Check that we can identify the root folder successfully
 		$this->requireFile($crmPath . DIRECTORY_SEPARATOR . 'README.txt',
@@ -502,6 +514,28 @@ class InstallRequirements {
         }
     }
 
+  function requireMySQLTempTables($server, $username, $password, $database, $testDetails) {
+    $this->testing($testDetails);
+    $conn = @mysql_connect($server, $username, $password);
+    if (!$conn) {
+      $testDetails[2] = 'Could not login to the database.';
+      $this->error($testDetails);
+      return;
+    }
+
+    if (! @mysql_select_db($database,$conn)) {
+      $testDetails[2] = 'Could not select the database.';
+      $this->error($testDetails);
+      return;
+    }
+
+    $result = mysql_query('CREATE TEMPORARY TABLE civicrm_install_temp_table_test (test text)', $conn);
+    if (!$result) {
+      $this->error($testDetails);
+    }
+    $result = mysql_query('DROP TEMPORARY TABLE civicrm_install_temp_table_test');
+  }
+
 	function requireDatabaseOrCreatePermissions($server, $username, $password, $database, $testDetails, $onlyRequire = false) {
 		$this->testing($testDetails);
 		$conn = @mysql_connect($server, $username, $password);
@@ -514,10 +548,8 @@ class InstallRequirements {
             $this->error($testDetails);
             return;
         } else {
-			if(@mysql_query("CREATE DATABASE testing123")) {
-				mysql_query("DROP DATABASE testing123");
+			if(@mysql_query("CREATE DATABASE $database")) {
 				$okay = "Able to create a new database";
-
 			} else {
 				$testDetails[2] .= " (user '$username' doesn't have CREATE DATABASE permissions.)";
 				$this->error($testDetails);
@@ -556,7 +588,7 @@ class InstallRequirements {
 
 
 	function getBaseDir() {
-		return dirname($_SERVER['SCRIPT_FILENAME']) . '/';
+		return dirname($_SERVER['SCRIPT_FILENAME']) . DIRECTORY_SEPARATOR;
 	}
 	
 	function testing($testDetails) {
@@ -659,9 +691,15 @@ class Installer extends InstallRequirements {
 }
 
 function getSiteDir( $str ) {
-    $pos1    = strpos($_SERVER['SCRIPT_FILENAME'], '/sites/') + 7;
-    $pos2    = strpos($_SERVER['SCRIPT_FILENAME'], '/modules/');
-    $siteDir = substr($_SERVER['SCRIPT_FILENAME'], strpos($_SERVER['SCRIPT_FILENAME'], '/sites/') + 7, ($pos2 - $pos1));
+    $pos1    = strpos($_SERVER['SCRIPT_FILENAME'], 
+                      DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7;
+    $pos2    = strpos($_SERVER['SCRIPT_FILENAME'], 
+                      DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
+    $siteDir = substr($_SERVER['SCRIPT_FILENAME'],
+                      strpos($_SERVER['SCRIPT_FILENAME'], 
+                             DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7, 
+                      ($pos2 - $pos1));
+
     if ( preg_match('/^[a-zA-Z0-9_.]+$/', $siteDir) && ($siteDir != 'all') ) {
         return $siteDir;
     }

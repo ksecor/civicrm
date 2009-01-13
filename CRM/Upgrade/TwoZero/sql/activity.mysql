@@ -246,6 +246,19 @@ SELECT source_contact_id, @ov_id_meeting, subject, scheduled_date_time, (duratio
 FROM civicrm_meeting
 WHERE target_entity_table = 'civicrm_contact';
 
+-- update civicrm_custom_value to reflect the migration of rows
+-- from civicrm_meeting to civicrm_activity  
+
+UPDATE civicrm_custom_value AS cv, civicrm_activity AS ca
+  SET cv.entity_table = 'civicrm_activity', cv.entity_id = ca.id
+  WHERE cv.entity_table = 'civicrm_meeting'
+     AND cv.entity_id = ca.old_meeting_id;
+
+-- delete any remaining rows referencing civicrm_meeting
+-- since they reference a row that no longer exists
+
+DELETE FROM civicrm_custom_value WHERE entity_table = 'civicrm_meeting';
+
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
 SELECT ca.id, cm.target_entity_id
 FROM civicrm_meeting cm, civicrm_activity ca
@@ -265,6 +278,19 @@ INSERT INTO civicrm_activity (source_contact_id, activity_type_id, subject, acti
 SELECT source_contact_id, @ov_id_phonecall, subject, scheduled_date_time, (duration_hours*60)+duration_minutes, phone_id, phone_number, details, IF (status = 'Scheduled', 1, IF (status = 'Left Message', 4, IF (status = 'Unreachable', 5, 2))), id
 FROM civicrm_phonecall 	
 WHERE target_entity_table = 'civicrm_contact';
+
+-- update civicrm_custom_value to reflect the migration of rows
+-- from civicrm_phonecall to civicrm_activity  
+
+UPDATE civicrm_custom_value AS cv, civicrm_activity AS ca
+  SET cv.entity_table = 'civicrm_activity', cv.entity_id = ca.id
+  WHERE cv.entity_table = 'civicrm_phonecall'
+     AND cv.entity_id = ca.old_phonecall_id;
+
+-- delete any remaining rows referencing civicrm_phonecall
+-- since they reference a row that no longer exists
+
+DELETE FROM civicrm_custom_value WHERE entity_table = 'civicrm_phonecall';
 
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
 SELECT ca.id, cp.target_entity_id

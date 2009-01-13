@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,12 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Form.php';
+require_once "CRM/Custom/Form/CustomData.php";
 
 /**
  * This class generates form components for processing a case
@@ -49,7 +50,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      */
     protected $_id;
 
-
     /**
      * the id of the contact associated with this contribution
      *
@@ -57,7 +57,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      * @protected
      */
     protected $_contactID;
-
 
     /** 
      * Function to set variables up before form is built 
@@ -79,7 +78,9 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
                 $this->_noteId = $noteDAO->id;
             }
         }
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this->_id, 0 );
+
+		//build custom data
+        CRM_Custom_Form_Customdata::preProcess( $this, null, null, 1, 'Grant', $this->_id );
     }
     
     function setDefaultValues( ) 
@@ -98,9 +99,8 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             $defaults['application_received_date'] = $now;
         }
         
-        if( $this->_groupTree ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults );
-        }
+		// custom data set defaults
+		$defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
         return $defaults;
     }
     
@@ -112,7 +112,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     {         
-
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Grant/BAO/Grant.php';
         $attributes = CRM_Core_DAO::getAttribute('CRM_Grant_DAO_Grant');
@@ -160,18 +159,18 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->add( 'textarea', 'note', ts('Notes'), $noteAttrib['note'] );
         
         //build custom data
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        CRM_Custom_Form_Customdata::buildQuickForm( $this );
         
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
-        
+        // add attachments part
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::buildAttachment( $this,
+                                            'civicrm_grant',
+                                            $this->_id );
+
+        // make this form an upload since we dont know if the custom data injected dynamically
+        // is of type file etc $uploadNames = $this->get( 'uploadNames' );
         $this->addButtons(array( 
-                                array ( 'type'      => $buttonType,
+                                array ( 'type'      => 'upload',
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'isDefault' => true   ), 
@@ -215,51 +214,38 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         }
         
         // get the submitted form values.  
-        $formValues = $this->controller->exportValues( $this->_name );
-        
-        if (!$formValues['grant_report_received']){
-            $formValues['grant_report_received'] = "null";
+        $params = $this->controller->exportValues( $this->_name );
+
+        if (!$params['grant_report_received']){
+            $params['grant_report_received'] = "null";
         }
         
-        $formValues['contact_id'] = $this->_contactID;
-        $formValues['application_received_date'] = CRM_Utils_Date::format($formValues['application_received_date']);
-        $formValues['decision_date'] = CRM_Utils_Date::format($formValues['decision_date']);
-        $formValues['money_transfer_date'] = CRM_Utils_Date::format($formValues['money_transfer_date']);
-        $formValues['grant_due_date'] = CRM_Utils_Date::format($formValues['grant_due_date']);
+        $params['contact_id'               ] = $this->_contactID;
+        $params['application_received_date'] = CRM_Utils_Date::format($params['application_received_date']);
+        $params['decision_date'            ] = CRM_Utils_Date::format($params['decision_date']);
+        $params['money_transfer_date'      ] = CRM_Utils_Date::format($params['money_transfer_date']);
+        $params['grant_due_date'           ] = CRM_Utils_Date::format($params['grant_due_date']);
      
         $ids['note'] = array( );
         if ( $this->_noteId ) {
             $ids['note']['id']   = $this->_noteId;
         }
-        
-        $customData = array( );
-        foreach ( $formValues as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Grant', null, $this->_id);
-            }
-        }
-        
-        if (! empty($customData) ) {
-            $formValues['custom'] = $customData;
-        }
 
-        //special case to handle if all checkboxes are unchecked
+		// process custom data
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Grant' );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                     ! CRM_Utils_Array::value( $k, $formValues['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $formValues['custom'],
-                                                                 '', 'Grant', null, $this->_id);
-                }
-            }
-        }
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_id,
+                                                                   'Grant' );
+
+        // add attachments as needed
+        CRM_Core_BAO_File::formatAttachment( $params,
+                                             $params,
+                                             'civicrm_grant',
+                                             $this->_id );
 
         require_once 'CRM/Grant/BAO/Grant.php';
-        CRM_Grant_BAO_Grant::create($formValues ,$ids);
-        
+        $grant =& CRM_Grant_BAO_Grant::create($params, $ids);
     }
 }
 

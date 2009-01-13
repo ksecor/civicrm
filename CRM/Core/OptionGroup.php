@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -179,6 +179,11 @@ WHERE  v.option_group_id = g.id
 
     static function getLabel( $groupName, $value ) 
     {
+        if ( empty( $groupName ) ||
+             empty( $value ) ) {
+            return null;
+        }
+
         $query = "
 SELECT  v.label as label ,v.value as value
 FROM   civicrm_option_value v, 
@@ -199,14 +204,18 @@ WHERE  v.option_group_id = g.id
         return null;
     }
 
-    static function getValue( $groupName, $label, $labelField = 'label' ) 
+    static function getValue( $groupName,
+                              $label,
+                              $labelField = 'label',
+                              $labelType  = 'String',
+                              $valueField = 'value' ) 
     {
         if ( empty( $label ) ) {
             return null;
         }
 
         $query = "
-SELECT  v.label as label ,v.value as value
+SELECT  v.label as label ,v.{$valueField} as value
 FROM   civicrm_option_value v, 
        civicrm_option_group g 
 WHERE  v.option_group_id = g.id 
@@ -217,7 +226,7 @@ WHERE  v.option_group_id = g.id
 ";
 
         $p = array( 1 => array( $groupName , 'String' ),
-                    2 => array( $label     , 'String' ) );
+                    2 => array( $label     , $labelType ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
         if ( $dao->fetch( ) ) {
             return $dao->value;
@@ -261,32 +270,42 @@ WHERE  v.option_group_id = g.id
         return $group->id;
     }
     
-    static function getAssoc( $groupName, &$values ) 
+    static function getAssoc( $groupName, &$values, $flip = false, $field = 'name' ) 
     {
         $query = "
-SELECT v.id, v.value, v.label, v.name, v.description, v.weight
+SELECT v.id as amount_id, v.value, v.label, v.name, v.description, v.weight
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
-   AND g.name = %1
+   AND g.$field = %1
 ORDER BY v.weight
 ";
         $params = array( 1 => array( $groupName, 'String' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
 
-        // now extract the amount 
-        $values['value'] = $values['label'] = $values['name'] = array( );
-        $values['description'] = array( ); 
+        $fields = array( 'value', 'label', 'name', 'description', 'amount_id', 'weight' );
+        if ( $flip ) {
+            $values = array( );
+        } else {
+            foreach ( $fields as $field ) {
+                $values[$field] = array( );
+            }
+        }
         $index  = 1; 
          
         while ( $dao->fetch( ) ) { 
-            $values['value'      ][$index] = $dao->value; 
-            $values['label'      ][$index] = $dao->label; 
-            $values['name'       ][$index] = $dao->name; 
-            $values['description'][$index] = $dao->description; 
-            $values['amount_id'  ][$index] = $dao->id;
-            $values['weight'     ][$index] = $dao->weight;
-            $index++; 
+            if ( $flip ) {
+                $value = array( );
+                foreach ( $fields as $field ) {
+                    $value[$field] = $dao->$field;
+                }
+                $values[$dao->amount_id] = $value;
+            } else {
+                foreach ( $fields as $field ) {
+                    $values[$field][$index] = $dao->$field;
+                }
+                $index++; 
+            }
         } 
     }
 

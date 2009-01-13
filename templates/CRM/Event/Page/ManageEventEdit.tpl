@@ -48,7 +48,7 @@
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/event/register' q="reset=1&id=`$id`"}" id="idLive">&raquo; {ts}Live Registration{/ts}</a></td>
     <td>{ts}Review your customized <strong>LIVE</strong> online event registration page here. Use the following URL in links and buttons on any website to send visitors to this live page{/ts}:<br />
-        <strong>{crmURL p='civicrm/event/register' q="reset=1&id=`$id`"}</strong>
+        <strong>{crmURL a=true p='civicrm/event/register' q="reset=1&id=`$id`"}</strong>
     </td>
 </tr>
 {/if}

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -95,7 +95,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
             }
             
             list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
-            CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
+            CRM_Utils_System::setTitle( $displayName, $contactImage . ' ' . $displayName ); 
         } else {
             CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
         }
@@ -126,10 +126,18 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         $params['id'] = $params['contact_id'] = $this->_contactId;
         $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_defaults );
 
-        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, $this->_contactType, 
-                                                         $this->_defaults['location'][1]['address']['country_id'],
-                                                         $this->_defaults['location'][1]['address']['state_province_id'],
-                                                         'Contact Information', true );
+        $address   = CRM_Utils_Array::value( 'address',
+                                             $this->_defaults['location'][1] );
+        $countryID = CRM_Utils_Array::value( 'country_id',
+                                             $address );
+        $stateID   = CRM_Utils_Array::value( 'state_province_id',
+                                             $address );
+        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this,
+                                                         $this->_contactType, 
+                                                         $countryID,
+                                                         $stateID,
+                                                         'Contact Information',
+                                                         true );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -150,23 +158,16 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-        // make widget submit values in the required format for
-        // country & state. 
-        $params['location'][1]['address']['country_id'] = 
-            $params['location'][1]['address']['country_state'][0];
-        $params['location'][1]['address']['state_province_id'] = 
-            $params['location'][1]['address']['country_state'][1];
-        unset($params['location'][1]['address']['country_state']);
         
         $params['location'][1]['is_primary'] = 1;
 	    $params['contact_type']              = $this->_contactType;
         $params['contact_id']                = $this->_contactId;
-        
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            require_once 'CRM/Contact/Form/Household.php';
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 

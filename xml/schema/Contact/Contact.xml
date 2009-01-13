@@ -12,7 +12,7 @@
       <type>int unsigned</type>
       <title>Internal Contact ID</title>
       <import>true</import>
-      <headerPattern>/I(nternal )?C(ontact)?|ID(\s)/i</headerPattern>
+      <headerPattern>/internal|contact?|id$/i</headerPattern>
       <required>true</required>
       <comment>Unique Contact ID</comment>
       <add>1.1</add>
@@ -88,7 +88,7 @@
   <field>
     <name>is_opt_out</name>
     <type>boolean</type>
-    <title>No Bulk Mail (Opted-out)</title>
+    <title>No Bulk Emails (User Opt Out)</title>
     <default>0</default>
     <import>true</import>
     <required>true</required>
@@ -170,7 +170,7 @@
   <field>
        <name>home_URL</name>
        <rule>url</rule>
-       <title>Home URL</title>
+       <title>Website</title>
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
@@ -223,6 +223,18 @@
   <index>
        <name>index_hash</name>
        <fieldName>hash</fieldName>
+       <add>2.1</add>
+  </index>
+  <field>
+      <name>api_key</name>
+      <type>varchar</type>
+      <length>32</length>
+      <comment>API Key for validating requests related to this contact.</comment>
+      <add>2.2</add>
+  </field>
+  <index>
+       <name>index_api_key</name>
+       <fieldName>api_key</fieldName>
        <add>2.1</add>
   </index>
   <field>
@@ -310,11 +322,19 @@
   </index>
   <field>
        <name>greeting_type</name>
-       <type>enum</type>
-       <values>Formal, Informal, Honorific, Custom, Other</values>
+       <type>varchar</type>
+       <length>128</length>
        <import>true</import>
        <comment>Preferred greeting format.</comment>
        <add>1.1</add>
+       <drop>2.2</drop>
+  </field>
+  <field>
+       <name>greeting_type_id</name>
+       <title>Greeting Type</title>
+       <type>int unsigned</type>
+       <comment>FK to civicrm_option_value.id, that has to be valid, registered Greeting type.</comment>
+       <add>2.2</add>
   </field>
   <field>
        <name>custom_greeting</name>

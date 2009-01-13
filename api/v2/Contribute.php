@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  * http://civicrm.org/node/131
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -114,7 +114,8 @@ function &civicrm_contribution_get( &$params ) {
 
     if ( count( $contributions ) != 1 &&
          ! $params['returnFirst'] ) {
-        return civicrm_create_error( ts( '%1 contributions matching input params', array( 1 => count( $contributions ) ) ) );
+        return civicrm_create_error( ts( '%1 contributions matching input params', array( 1 => count( $contributions ) ) ),
+                                     $contributions );
     }
 
     $contributions = array_values( $contributions );
@@ -170,13 +171,18 @@ function &civicrm_contribution_search( &$params ) {
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
-        } elseif ( array_key_exists( $n, $otherVars ) ) {
+        } elseif ( in_array( $n, $otherVars ) ) {
             $$n = $v;
         } else {
             $inputParams[$n] = $v;
         }
     }
     
+    // add is_test to the clause if not present
+    if ( ! array_key_exists( 'contribution_test', $inputParams ) ) {
+        $inputParams['contribution_test'] = 0;
+    }
+
     require_once 'CRM/Contribute/BAO/Query.php';
     require_once 'CRM/Contact/BAO/Query.php';
     if ( empty( $returnProperties ) ) {
@@ -290,7 +296,8 @@ function _civicrm_contribute_duplicate_check( &$params ) {
     if ( $result ) {
         $d = implode( ', ', $duplicates );
         $error = CRM_Core_Error::createError( "Found matching contribution(s):$d", CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', $d);
-        return civicrm_create_error( $error->pop( ) );
+        return civicrm_create_error( $error->pop( ),
+                                     $d );
     } else {
         return array();
     }

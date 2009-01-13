@@ -2,12 +2,21 @@
 
 require_once 'api/v2/Contact.php';
 
-class TestOfContactAPIV2 extends CiviUnitTestCase 
+class TestOfContactAddAPIV2 extends CiviUnitTestCase 
 {
     /**
      * Assume empty database with just civicrm_data
      */
     protected $_contacts   = array();
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Contact Add',
+                     'description' => 'Test all Activity Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setUp() 
     {
@@ -286,6 +295,10 @@ class TestOfContactAPIV2 extends CiviUnitTestCase
     }
     
     private function _assertAttributesEqual( $params, $target ) {
+        if( empty( $params['custom'] ) ){
+            unset( $params['custom'] );
+        }
+        
         foreach( $params as $paramName => $paramValue ) {
             if( isset( $target[$paramName] ) ) {
                 $this->assertEqual( $paramValue, $target[$paramName] );

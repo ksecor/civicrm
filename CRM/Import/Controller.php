@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -49,7 +49,7 @@ class CRM_Import_Controller extends CRM_Core_Controller {
         }
         
         require_once 'CRM/Import/StateMachine.php';
-        $this->_stateMachine =& new CRM_Import_StateMachine( $this, $action );
+        $this->_stateMachine = new CRM_Import_StateMachine( $this, $action );
 
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );

@@ -21,7 +21,7 @@
  <div id = "id_{$groupName}_show" class="section-hidden label{if $smarty.foreach.adminLoop.last eq false} section-hidden-border{/if}">
     <table class="form-layout">
     <tr>
-        <td width="20%" class="font-size11pt" style="vertical-align: top; padding: 0px;">{$group.show} {ts}{$groupName}{/ts}</td>
+        <td width="20%" class="font-size11pt" style="vertical-align: top; padding: 0px;">{$group.show} {$group.title}</td>
         <td width="80%" style="white-space: nowrap; padding: 0px;">
 
             <table class="form-layout" width="100%">
@@ -42,7 +42,7 @@
  </div>
  
  <div id="id_{$groupName}">
-    <fieldset><legend><strong>{$group.hide}{ts}{$groupName}{/ts}</strong></legend>
+    <fieldset><legend><strong>{$group.hide}{$group.title}</strong></legend>
         <table class="form-layout">
                 
         {foreach from=$group.fields item=panelItem  key=panelName name=groupLoop}

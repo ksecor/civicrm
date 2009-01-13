@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2005-10-13 17:52+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2007-04-18 07:33+0200\n"
 "PO-Revision-Date: 2005-10-13 17:52+0200\n"
 "Last-Translator: Janusz Piwowarski <jpiw@go2.pl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -39,7 +39,9 @@ msgstr "- użyj przycisków \\u2039, \\u203a by wybrać miesiąc,"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- przytrzymaj klawisz myszy nad jednym z powyższych przycisków dla szybszego wyboru."
+msgstr ""
+"- przytrzymaj klawisz myszy nad jednym z powyższych przycisków dla szybszego "
+"wyboru."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
@@ -116,4 +118,3 @@ msgstr "ty"
 #: js/lang/calendar-lang.php
 msgid "Time:"
 msgstr "Czas:"
-

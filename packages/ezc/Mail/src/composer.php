@@ -3,8 +3,8 @@
  * File containing the ezcMailComposer class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -35,9 +35,38 @@
  * $mail->htmlText = "<html>Here is the HTML version of your mail with an image: <img src='file://path_to_image.jpg' /></html>";
  * $mail->addAttachment( 'path_to_attachment.file' );
  * $mail->build();
- * $transport = new ezcMailTransportMta();
+ * $transport = new ezcMailMtaTransport();
  * $transport->send( $mail );
  * </code>
+ *
+ * By default, if the htmlText property contains an HTML image tag with file://
+ * in href, that file will be included in the created message.
+ *
+ * Example:
+ * <code>
+ * <img src="file:///home/me/image.jpg" />
+ * </code>
+ *
+ * This can be a security risk if a user links to another file, for example logs
+ * or password files. With the automaticImageInclude option (default value true)
+ * from {@link ezcMailComposerOptions}, the automatic inclusion of files can be
+ * turned off.
+ *
+ * Example:
+ * <code>
+ * $options = new ezcMailComposerOptions();
+ * $options->automaticImageInclude = false; // default value is true
+ *
+ * $mail = new ezcMailComposer( $options );
+ *
+ * // ... add To, From, Subject, etc to $mail
+ * $mail->htmlText = "<html>Here is the image: <img src="file:///etc/passwd" /></html>";
+ *
+ * // ... send $mail
+ * </code>
+ *
+ * After running the above code, the sent mail will not contain the file specified
+ * in the htmlText property.
  *
  * @todo What about character set for the textPart
  *
@@ -50,13 +79,18 @@
  *           client supports HTML.  If the HTML message contains links to
  *           local images and/or files these will be included into the mail
  *           when generateBody is called. Links to local files must start with
- *           "file://" in order to be recognized.
+ *           "file://" in order to be recognized. You can use the option
+ *           automaticImageInclude (default value is true) from
+ *           {@link ezcMailComposerOptions} to turn off the
+ *           automatic inclusion of files in the generated mail.
  * @property string $charset
  *           Contains the character set for both $plainText and $htmlText.
  *           Default value is 'us-ascii'.
+ * @property ezcMailComposerOptions $options
+ *           Options for composing mail. See {@link ezcMailComposerOptions}.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @mainclass
  */
 class ezcMailComposer extends ezcMail
@@ -71,6 +105,13 @@ class ezcMailComposer extends ezcMail
     private $attachments = array();
 
     /**
+     * Holds the options for this class.
+     *
+     * @var ezcMailComposerOptions
+     */
+    protected $options;
+
+    /**
      * Holds the properties of this class.
      *
      * @var array(string=>mixed)
@@ -79,12 +120,21 @@ class ezcMailComposer extends ezcMail
 
     /**
      * Constructs an empty ezcMailComposer object.
+     *
+     * @param ezcMailComposerOptions $options
      */
-    public function __construct()
+    public function __construct( ezcMailComposerOptions $options = null )
     {
         $this->properties['plainText'] = null;
         $this->properties['htmlText'] = null;
         $this->properties['charset'] = 'us-ascii';
+        if ( $options === null )
+        {
+            $options = new ezcMailComposerOptions();
+        }
+
+        $this->options = $options;
+
         parent::__construct();
     }
 
@@ -105,6 +155,15 @@ class ezcMailComposer extends ezcMail
             case 'htmlText':
             case 'charset':
                 $this->properties[$name] = $value;
+                break;
+
+            case 'options':
+                if ( !$value instanceof ezcMailComposerOptions )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcMailComposerOptions' );
+                }
+
+                $this->options = $value;
                 break;
 
             default:
@@ -130,6 +189,9 @@ class ezcMailComposer extends ezcMail
             case 'charset':
                 return $this->properties[$name];
 
+            case 'options':
+                return $this->options;
+
             default:
                 return parent::__get( $name );
         }
@@ -150,6 +212,9 @@ class ezcMailComposer extends ezcMail
             case 'htmlText':
             case 'charset':
                 return isset( $this->properties[$name] );
+
+            case 'options':
+                return isset( $this->options );
 
             default:
                 return parent::__isset( $name );
@@ -308,10 +373,14 @@ class ezcMailComposer extends ezcMail
         $result = false;
         if ( $this->htmlText != '' )
         {
-            // recognize file:// and file:///, pick out the image, add it as a part and then..:)
-            preg_match_all( "/file:\/\/([^ >\'\"]+)/i", $this->htmlText, $matches );
-            // pictures/files can be added multiple times. We only need them once.
-            $matches = array_unique( $matches[1] );
+            $matches = array();
+            if ( $this->options->automaticImageInclude === true )
+            {
+                // recognize file:// and file:///, pick out the image, add it as a part and then..:)
+                preg_match_all( "/<img[\s\*\s]src=[\'\"]file:\/\/([^ >\'\"]+)/i", $this->htmlText, $matches );
+                // pictures/files can be added multiple times. We only need them once.
+                $matches = array_unique( $matches[1] );
+            }
 
             $result = new ezcMailText( $this->htmlText, $this->charset );
             $result->subType = "html";

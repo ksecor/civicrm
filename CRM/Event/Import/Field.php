@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -137,7 +137,7 @@ class CRM_Event_Import_Field
             if (!array_key_exists($customFieldID, $customFields)) {
                 return false;
             }
-            return CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID][2], $this->_value);
+            return CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID]['data_type'], $this->_value);
         }
         return true;
     }

@@ -2,9 +2,9 @@
 /**
  * Include file that can be used for a quick setup of the eZ Components.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.3.1
+ * @version 1.5
  * @filesource
  * @package Base
  */
@@ -13,11 +13,13 @@ $dirParts = explode( DIRECTORY_SEPARATOR, $dir );
 
 if ( $dirParts[count( $dirParts ) - 1] === 'src' )
 {
-    require 'ezc/Base/src/base.php'; // svn, bundle
+    $baseDir = join( DIRECTORY_SEPARATOR, array_slice( $dirParts, 0, -2 ) );
+    require $baseDir . '/Base/src/base.php'; // svn, bundle
 }
 else if ( $dirParts[count( $dirParts ) - 2] === 'ezc' )
 {
-    require 'ezc/Base/base.php'; // pear
+    $baseDir = join( DIRECTORY_SEPARATOR, array_slice( $dirParts, 0, -2 ) );
+    require $baseDir . '/ezc/Base/base.php'; // pear
 }
 else
 {

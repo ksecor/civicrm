@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -102,6 +102,12 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 $fileFieldExists = true;
                 unset($this->_fields[$name]);
             }
+            
+            //fix to reduce size as we are using this field in grid
+            if ( is_array( $field['attributes'] ) && $this->_fields[$name]['attributes']['size'] > 19 ) {
+                //shrink class to "form-text-medium"
+                $this->_fields[$name]['attributes']['size'] = 19;
+            }
         }
 
         $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
@@ -122,13 +128,31 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         
         //fix for CRM-2752
         require_once "CRM/Core/BAO/CustomField.php";
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant' );
+        // get the option value for custom data type 	
+		$this->_roleCustomDataTypeID      = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantRole', 'name' );
+		$this->_eventNameCustomDataTypeID = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantEventName', 'name' );
+		
+		// build custom data getFields array
+		$customFieldsRole  = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, $this->_roleCustomDataTypeID );		    
+		
+        $customFieldsEvent = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, $this->_eventNameCustomDataTypeID );
+        $customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsRole, 
+                                                         CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, null, true ) );
+        $this->_customFields = CRM_Utils_Array::crmArrayMerge( $customFieldsEvent, $customFields );
+
         foreach ( $this->_participantIds as $participantId ) {
             $roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $participantId, 'role_id' ); 
+            $eventId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $participantId, 'event_id' ); 
             foreach ( $this->_fields as $name => $field ) {
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
-                    $customValue = CRM_Utils_Array::value( $customFieldID, $customFields );
-                    if ( ( $roleId == $customValue[7] ) || CRM_Utils_System::isNull( $customValue[7] ) ) {
+                    $customValue = CRM_Utils_Array::value( $customFieldID, $this->_customFields );
+                    if ( ( $this->_roleCustomDataTypeID == $customValue['extends_entity_column_id'] ) &&
+                         ( $roleId == $customValue['extends_entity_column_value'] ) ) {
+                        CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
+                    } else if ( ( $this->_eventNameCustomDataTypeID == $customValue['extends_entity_column_id'] ) &&
+                         ( $eventId == $customValue['extends_entity_column_value'] ) ) {
+                        CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
+                    } else if ( CRM_Utils_System::isNull( $customValue['extends_entity_column_value'] ) ) {
                         CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
                     }
                 } else {
@@ -161,7 +185,8 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         if (empty($this->_fields)) {
             return;
         }
-
+        
+        $defaults = array( );
         foreach ($this->_participantIds as $participantId) {
             $details[$participantId] = array( );
             
@@ -169,7 +194,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             $details[$participantId] = CRM_Event_BAO_Participant::participantDetails( $participantId );
             CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $participantId, 'Event');
         }
-
+        
         $this->assign('details',   $details);
         return $defaults;
     }
@@ -197,16 +222,11 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 }
                 
                 //check for custom data
-                $customData = array( );
-                foreach ( $value as $name => $data ) {                
-                    if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
-                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
-                                                                     $data, 'Participant',
-                                                                     null, $key );
-                        $value['custom'] = $customData;                    
-                    } 
-                }
-                
+                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $value,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          $key,
+                                                                          'Participant' );
+
                 $value['id'] = $key;
                 if ( $value['participant_register_date'] ) {
                     $value['register_date'] = $value['participant_register_date'];

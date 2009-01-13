@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -210,7 +210,9 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
             CRM_Core_Session::setStatus(ts('The Set \'%1\' has been saved.', array(1 => $set->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1&action=add&sid=' . $set->id);
-            CRM_Core_Session::setStatus(ts('Your Set \'%1\' has been added. You can <a href=\'%2\'>add fields</a> to this set now.', array(1 => $set->title, 2 => $url)));
+            CRM_Core_Session::setStatus(ts('Your Set \'%1\' has been added. You can add fields to this set now.', array(1 => $set->title)));
+            $session =& CRM_Core_Session::singleton( );
+            $session->replaceUserContext($url);
         }
     }
 }

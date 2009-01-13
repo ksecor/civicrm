@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  *
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -54,6 +54,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         $this->_lineItem = $this->get( 'lineItem' );
         $participantNo = substr( $this->_name, 12 );
         $participantCnt = $participantNo + 1;
+        $this->assign( 'formId', $participantNo );
         $this->_params = array( );
         $this->_params = $this->get( 'params' );
         $participantTot = $this->_params[0]['additional_participants'] + 1; 
@@ -79,7 +80,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             require_once 'CRM/Core/BAO/Discount.php';
             $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
             
-            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event_page']['default_discount_id']
+            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event']['default_discount_id']
                                                         , 'weight', 'id' );
             
             $defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
@@ -98,6 +99,8 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         $config =& CRM_Core_Config::singleton( );
         $button = substr( $this->controller->getButtonName(), -4 );
         $required = ( $button == 'skip' ) ? false : true;
+        $this->add('hidden','scriptFee',null);
+        $this->add('hidden','scriptArray',null);
         $this->add( 'text',
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
@@ -219,23 +222,18 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
                 
                 if ( ! empty( $this->_values['discount'][$discountId] ) ) {
-                    $params['discount_id'] = $discountId;
-                    $params['amount_level'] = $this->_values['discount'][$discountId]['label']
-                        [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                    $params['discount_id']  = $discountId;
+                    $params['amount_level'] = $this->_values['discount'][$discountId][$params['amount']]['label'];
+                    $params['amount']       = $this->_values['discount'][$discountId][$params['amount']]['value'];
                     
-                    $params['amount'] = $this->_values['discount'][$discountId]['value']
-                        [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
-                    
-                }else if ( empty( $params['priceSetId'] ) ) {
-                    $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
-                                                                                              $this->_values['custom']['amount_id'])];
-                    
-                    $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
-                                                                                              $this->_values['custom']['amount_id'])];
+                } else if ( empty( $params['priceSetId'] ) ) {
+                    $params['amount_level'] = $this->_values['fee'][$params['amount']]['label'];
+                    $params['amount']       = $this->_values['fee'][$params['amount']]['value'];
+
                 } else {
                     $lineItem = array( ); 
                     require_once 'CRM/Event/Form/Registration/Register.php';
-                    CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
+                    CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['fee']['fields'], 
                                                                                  $params, $lineItem );
                     //build the line item..
                     if ( array_key_exists( $addParticipantNum, $this->_lineItem ) ) {
@@ -288,7 +286,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {
         $details = array( );
         for ( $i = 1; $i <= $additionalParticipant; $i++ ) {
-            $details["Participant-{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
+            $details["Participant_{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
                                                   'title'     => "Register Additional Participant {$i}"
                                                   );
         }

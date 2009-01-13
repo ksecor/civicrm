@@ -164,7 +164,7 @@
 </div>
 {/if}
 
-{include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+{include file="CRM/Custom/Page/CustomDataView.tpl"}
 
 <form action="{crmURL p='civicrm/contact/view' q="&cid=`$contactId`&reset=1"}" method="post" id="Print2" >
   <div class="form-item">

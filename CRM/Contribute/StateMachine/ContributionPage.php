@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -39,8 +39,8 @@ require_once 'CRM/Core/StateMachine.php';
  * State machine for managing different states of the Import process.
  *
  */
-class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine {
-
+class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine 
+{
     /**
      * class constructor
      *
@@ -66,7 +66,8 @@ class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine
                               'CRM_Friend_Form_Contribute'                    => null,
                               'CRM_Contribute_Form_ContributionPage_Custom'   => null,
                               'CRM_Contribute_Form_ContributionPage_Premium'  => null,
-                              'CRM_Contribute_Form_ContributionPage_Widget'   => null
+                              'CRM_Contribute_Form_ContributionPage_Widget'   => null,
+                              'CRM_Contribute_Form_ContributionPage_PCP'      => null
                               );
         
         if ( !in_array("CiviMember", $config->enableComponents ) ) {

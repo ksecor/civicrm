@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -129,10 +129,12 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
         require_once 'CRM/Core/BAO/PriceField.php';
         
         foreach ($this->_groupTree as $group) {
-            foreach ($group['fields'] as $field) {
-                $fieldId = $field['id'];                
-                $elementName = 'price_' . $fieldId;
-                CRM_Core_BAO_PriceField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
+            if ( is_array( $group['fields'] ) && !empty( $group['fields'] ) ) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'price_' . $fieldId;
+                    CRM_Core_BAO_PriceField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
+                }
             }
         }
         

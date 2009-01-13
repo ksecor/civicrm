@@ -157,7 +157,7 @@
        <table>civicrm_participant</table> 
        <key>id</key> 
        <add>2.1</add> 
-       <onDelete>SET NULL</onDelete>
+       <onDelete>CASCADE</onDelete>
   </foreignKey> 
   <field> 
       <name>discount_id</name>

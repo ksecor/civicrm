@@ -23,7 +23,9 @@
   <field>
       <name>source_contact_id</name>
       <type>int unsigned</type>
+      <title>Source Contact</title> 
       <required>true</required>
+      <import>true</import>
       <comment>Contact ID of the person scheduling or logging this Activity. Usually the authenticated user.</comment>
       <add>1.1</add>
   </field>
@@ -85,6 +87,7 @@
   <field>
        <name>subject</name>
        <type>varchar</type>
+       <title>Subject</title>
        <length>255</length>
        <comment>The subject/purpose/short description of the activity.</comment>
        <import>true</import>
@@ -103,6 +106,7 @@
   <field>
        <name>activity_date_time</name>
        <import>true</import>
+       <title>Activity Date</title>
        <type>datetime</type>
        <comment>Date and time this activity is scheduled to occur. Formerly named scheduled_date_time.</comment>
        <add>2.0</add>
@@ -177,6 +181,8 @@
       <title>Details</title>
       <import>true</import> 
       <type>text</type>
+      <rows>8</rows>
+      <cols>60</cols>
       <comment>Details about the activity (agenda, notes, etc).</comment>
       <add>1.1</add>
   </field>
@@ -225,8 +231,84 @@
        <default>0</default>
        <import>true</import>
        <add>2.0</add>
-  </field>                                 
-
+  </field>
+  <field>
+       <name>medium_id</name>
+       <title>Activity Medium</title>
+       <type>int unsigned</type>
+       <default>NULL</default>
+       <comment>Activity Medium, Implicit FK to civicrm_option_value where option_group = activity_medium.</comment>
+       <add>2.2</add>
+  </field>
+  <index>
+       <name>index_medium_id</name>
+       <fieldName>medium_id</fieldName>
+       <add>2.2</add>
+  </index>
+  <field>
+       <name>is_auto</name>
+       <title>Auto</title>
+       <type>boolean</type>
+       <default>0</default>
+       <add>2.2</add>
+  </field>     
+  <field> 
+       <name>relationship_id</name>
+       <type>int unsigned</type> 
+       <default>NULL</default>
+       <comment>FK to Relationship ID</comment> 
+       <add>2.2</add> 
+  </field>
+  <foreignKey> 
+       <name>relationship_id</name> 
+       <table>civicrm_relationship</table> 
+       <key>id</key> 
+       <onDelete>SET NULL</onDelete>
+  </foreignKey>               
+  <field>
+       <name>is_current_revision</name>
+       <title>Is this activity a current revision in versioning chain?</title>
+       <type>boolean</type>
+       <default>1</default>
+       <import>true</import>
+       <add>2.2</add>
+  </field>
+  <index>
+       <name>index_is_current_revision</name>
+       <fieldName>is_current_revision</fieldName>
+       <add>2.2</add>
+  </index> 
+  <field>
+      <name>original_id</name>
+      <type>int unsigned</type>
+      <comment>Activity ID of the first activity record in versioning chain.</comment>
+      <add>2.2</add>
+  </field>
+  <foreignKey>
+       <name>original_id</name>
+       <table>civicrm_activity</table>
+       <key>id</key>
+       <add>2.2</add>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <index>
+       <name>UI_original_id</name>
+       <fieldName>original_id</fieldName>
+       <add>2.2</add>
+  </index>    
+  <field>
+       <name>is_deleted</name>
+       <title>Activity is in the Trash</title>
+       <type>boolean</type>
+       <default>0</default>
+       <import>true</import>
+       <add>2.2</add>
+  </field>
+  <index>
+       <name>index_is_deleted</name>
+       <fieldName>is_deleted</fieldName>
+       <add>2.2</add>
+  </index> 
   <field>
        <name>activity_tag1_id</name>
        <type>int unsigned</type>
@@ -270,5 +352,4 @@
        <add>2.1</add>
        <hrd>1</hrd>
   </index>
-
 </table>

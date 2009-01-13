@@ -93,7 +93,7 @@ CRM_Core_Error::debug_log_message( "$contributionPageID is not found" );
         $data->button_title = $widget->button_title;
         $data->button_url = CRM_Utils_System::url( 'civicrm/contribute/transact',
                                                    "reset=1&id=$contributionPageID",
-                                                   true, null, false, true );
+                                                   false, null, false, true );
         $data->about = $widget->about;
 
         $query = "

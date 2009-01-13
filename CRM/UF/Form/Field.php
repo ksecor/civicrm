@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -197,7 +197,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $defaults[ 'field_name' ] = array ( $defaults['field_type'],
                                                 $defaults['field_name'],
                                                 $defaults['location_type_id'],
-                                                CRM_Utils_Array::value( 'phone_type'      , $defaults ) );
+                                                CRM_Utils_Array::value( 'phone_type_id', $defaults ) );
             $this->_gid = $defaults['uf_group_id'];
             
         } else {
@@ -249,7 +249,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset( $fields['Organization'][$key] );
             }
         }
-        
+        unset( $fields['Contact']['contact_type'] );
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
@@ -275,6 +275,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset($participantFields['participant_is_test']);
                 unset($participantFields['event_level']);
                 unset($participantFields['participant_id']);
+                unset($participantFields['participant_is_pay_later']);
                 $fields['Participant'] =& $participantFields;
             }
         }
@@ -376,8 +377,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             }
         } 
         $sel3[''] = null;
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
-        asort($phoneTypes);
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
+        ksort($phoneTypes);
              
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {
@@ -449,8 +450,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), true,array("onChange"=>"showHideSeletorSearch(this.value);") );
         
-        // should the field appear in selector?
-        $this->add('checkbox', 'in_selector', ts('In Selector?'));
+        // should the field appear in selectors (as a column)?
+        $this->add('checkbox', 'in_selector', ts('Results Column?'));
        
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
@@ -485,7 +486,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                 )
                           );
 
-        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ));
+        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ), $this );
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
@@ -505,43 +506,22 @@ class CRM_UF_Form_Field extends CRM_Core_Form
      */
     public function postProcess()
     {
-        $ufGroupDefaults = array( );
-        $ufGroupParams   = array('id' => $this->_gid );
-        $ufGroupIds['ufgroup'] = $this->_gid; 
-        $ids = array( );
-        $ids['uf_group'] = $this->_gid;
-        
+        $ids = array( 'uf_group' => $this->_gid );
         if ($this->_action & CRM_Core_Action::DELETE) {
             $fieldValues = array('uf_group_id' => $this->_gid);
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_UFField', $this->_id, $fieldValues);
-            $ufFieldDefaults = array( );
-            $ufFieldParams   = array( 'id'          => $this->_id,
-                                      'uf_group_id' => $this->_gid 
-                                      );
-            CRM_Core_BAO_UFField::retrieve( $ufFieldParams, $ufFieldDefaults );
-            $deleteFieldType = $ufFieldDefaults['field_type'];
+            $deleted = CRM_Core_BAO_UFField::del( $this->_id );
             
-            CRM_Core_BAO_UFField::del( $this->_id );
-            
-            //check for updating group_type.
-            $ufFields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true );
-            $updateUFGroup = true;
-            
-            foreach( $ufFields as $name => $value ) {
-                if ( $value['field_type'] == $deleteFieldType ) {
-                    $updateUFGroup = false;
-                    break;
+            //update group_type every time. CRM-3608 
+            if ( $this->_gid && $deleted ) { 
+                //get the profile type.
+                $groupType = 'null';
+                $fieldsType = CRM_Core_BAO_UFGroup::calculateGroupType( $this->_gid );
+                if ( !empty( $fieldsType ) ) {
+                    $groupType = implode( ',', $fieldsType );
                 }
-            }
-            
-            if ( $updateUFGroup ) {
-                CRM_Core_BAO_UFGroup::retrieve( $ufGroupParams, $ufGroupDefaults );
-                $groupType = explode( ',', $ufGroupDefaults['group_type'] );
-                $fieldTypeKey = CRM_Utils_Array::key( $deleteFieldType, $groupType );
-                unset( $groupType[$fieldTypeKey] );
-                $ufGroupDefaults['group_type'] = implode( ',', $groupType );
-                //update uf group
-                $ufGroup = CRM_Core_BAO_UFGroup::add( $ufGroupDefaults, $ufGroupIds );
+                //set group type
+                CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'group_type', $groupType );
             }
             
             CRM_Core_Session::setStatus(ts('Selected Profile Field has been deleted.'));
@@ -554,7 +534,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $params['is_searchable'] = 0;
             $params['in_selector']   = 0; 
         }
-       
+        
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['uf_field'] = $this->_id;
@@ -568,24 +548,16 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $ufField = CRM_Core_BAO_UFField::add($params,$ids);
             $name = $this->_selectFields[$ufField->field_name];
             
-            //fix for CRM-3037.
-            $updateUFGroup = false;
-            if ( $this->_gid ) {
-                CRM_Core_BAO_UFGroup::retrieve( $ufGroupParams, $ufGroupDefaults );
-                if ( ! is_null( $ufGroupDefaults['group_type'] ) ) {
-                    $groupType = explode( ',', $ufGroupDefaults['group_type'] );
-                    if ( ! in_array( $params['field_name'][0], $groupType ) ) {
-                        $ufGroupDefaults['group_type'] .= ",".$params['field_name'][0]; 
-                        $updateUFGroup = true;
-                    }
-                } else { 
-                    $ufGroupDefaults['group_type'] = $params['field_name'][0];
-                    $updateUFGroup = true;
+            //update group_type every time. CRM-3608 
+            if ( $this->_gid && is_a( $ufField, 'CRM_Core_DAO_UFField' ) ) {
+                //get the profile type.
+                $groupType = 'null';
+                $fieldsType = CRM_Core_BAO_UFGroup::calculateGroupType( $this->_gid );
+                if ( !empty( $fieldsType ) ) {
+                    $groupType = implode( ',', $fieldsType );
                 }
-                //update uf group
-                if ( $updateUFGroup ) {
-                    $ufGroup = CRM_Core_BAO_UFGroup::add( $ufGroupDefaults, $ufGroupIds );
-                }
+                //set group type
+                CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'group_type', $groupType );
             }
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Field \'%1\' has been saved.', array(1 => $name)));
         }
@@ -606,7 +578,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
      * @static
      * @access public
      */
-    static function formRule( &$fields ) 
+    static function formRule( &$fields, &$files, $self ) 
     {
         $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
         $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
@@ -671,9 +643,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         //fix for CRM-3037
         $fieldType = $fields['field_name'][0];
-        $groupType = explode( ',', 
-                              CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $fields['group_id'], 'group_type' )
-                              );
+        
+        //get the group type. 
+        $groupType = CRM_Core_BAO_UFGroup::calculateGroupType( $self->_gid, CRM_Utils_Array::value( 'field_id', $fields ) );
         
         switch ( $fieldType ) {
             
@@ -696,21 +668,24 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             } 
             break;
         case 'Participant' :
-            if ( in_array( 'Membership', $groupType ) || in_array( 'Contribution', $groupType ) ) {
+            if ( in_array( 'Membership', $groupType ) || in_array( 'Contribution', $groupType )
+                || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
-                    ts( 'Cannot add or update profile field type Participant with combination of Membership or Contribution'); 
+                    ts( 'Cannot add or update profile field type Participant with combination of Membership or Contribution or Household or Organization'); 
             } 
             break;
         case 'Contribution' :
-            if ( in_array( 'Participant', $groupType ) || in_array( 'Membership', $groupType ) ) {
+            if ( in_array( 'Participant', $groupType ) || in_array( 'Membership', $groupType ) 
+                 || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
-                    ts( 'Cannot add or update profile field type Contribution with combination of Membership or Participant'); 
+                    ts( 'Cannot add or update profile field type Contribution with combination of Membership or Participant or Household or Organization'); 
             }  
             break;
         case 'Membership' :
-            if ( in_array( 'Participant', $groupType ) || in_array( 'Contribution', $groupType ) ) {
+            if ( in_array( 'Participant', $groupType ) || in_array( 'Contribution', $groupType )
+                || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
-                    ts( 'Cannot add or update profile field type Membership with combination of Participant or Contribution'); 
+                    ts( 'Cannot add or update profile field type Membership with combination of Participant or Contribution or Household or Organization'); 
             }  
             break;
         }

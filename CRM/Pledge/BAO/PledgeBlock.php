@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -313,10 +313,8 @@ class CRM_Pledge_BAO_PledgeBlock extends CRM_Pledge_DAO_PledgeBlock
             $freqUnitVals  = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pledgeBlock['pledge_frequency_unit'] );
             $freqUnits = array( );
             foreach ( $freqUnitVals as $key => $val ) {
-                $freqUnits[$val]  = ts( '%1', array(1 => $val) );
-                if ( CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock )  ) {
-                    $freqUnits[$val] .= ts('(s)');
-                }
+                // FIXME: this is not localisable
+                $freqUnits[$val] = CRM_Utils_Array::value('is_pledge_interval', $pledgeBlock) ? "{$val}(s)" : $val;
             }
             $form->addElement( 'select', 'pledge_frequency_unit', null, $freqUnits ); 
         }

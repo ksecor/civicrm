@@ -409,7 +409,7 @@
          *    @access public
          */
         function asString() {
-            $scheme = $identity = $host = $path = $encoded = $fragment = '';
+            $scheme = $identity = $host = $path = $encoded = $fragment = $port = '';
             if ($this->_username && $this->_password) {
                 $identity = $this->_username . ':' . $this->_password . '@';
             }
@@ -420,10 +420,13 @@
             if (substr($this->_path, 0, 1) == '/') {
                 $path = $this->normalisePath($this->_path);
             }
+            if ( $this->getPort( ) ) {
+                $port = ':' . $this->getPort( );
+            }
             $encoded = $this->getEncodedRequest();
             $fragment = $this->getFragment() ? '#'. $this->getFragment() : '';
             $coords = $this->getX() === false ? '' : '?' . $this->getX() . ',' . $this->getY();
-            return "$scheme://$identity$host$path$encoded$fragment$coords";
+            return "$scheme://$identity$host$port$path$encoded$fragment$coords";
         }
         
         /**

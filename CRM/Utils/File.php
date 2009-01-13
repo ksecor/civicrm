@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -266,10 +266,25 @@ class CRM_Utils_File {
                            -( strlen( $info['extension'] ) + ( $info['extension'] == '' ? 0 : 1 ) ) );
         if ( ! self::isExtensionSafe( $info['extension'] ) ) {
             // munge extension so it cannot have an embbeded dot in it
-            return CRM_Utils_String::munge( "{$basename}_{$info['extension']}_{$uniqID}" ) . ".unknown";
+            // The maximum length of a filename for most filesystems is 255 chars.  
+            // We'll truncate at 240 to give some room for the extension.
+            return CRM_Utils_String::munge( "{$basename}_{$info['extension']}_{$uniqID}", '_',  240 ) . ".unknown";
         } else {
-            return CRM_Utils_String::munge( "{$basename}_{$uniqID}" ) . ".{$info['extension']}";
+            return CRM_Utils_String::munge( "{$basename}_{$uniqID}", '_',  240 ) . ".{$info['extension']}";
         }
+    }
+
+    static function getFilesByExtension( $path, $ext ) {
+        $path = self::addTrailingSlash( $path );
+        $dh = opendir( $path );
+        $files = array();
+        while( false !== ( $elem = readdir( $dh ) ) ) {
+            if( substr( $elem, -(strlen( $ext ) + 1 ) ) == '.' . $ext ) {
+                $files[] .= $path . $elem;
+            }
+        }
+        closedir( $dh );
+        return $files;
     }
 
 }

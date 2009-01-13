@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -67,13 +67,13 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton( );
         $uid  = $session->get( 'userID' );
         
-        $this->assign( 'contactId', $uid);
         if ( ! $uid) {
             require_once 'CRM/Utils/System.php';
             CRM_Utils_System::setUFMessage( ts( 'We could not find a user id. You must be logged in to access the CiviCRM Home Page and menus.' ) );
             CRM_Core_Error::statusBounce( ts( 'We could not find a user id. You must be logged in to access the CiviCRM Home Page and menus.' ) );
         }
 
+        $this->assign( 'contactId', $uid);
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'view');
         $this->assign( 'action', $this->_action);
@@ -95,13 +95,6 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $this->set( 'displayName' , $displayName );
         $this->set( 'contactImage', $contactImage );
 
-        $languages = array();
-        foreach (CRM_Core_I18n::languages(true) as $code => $language) {
-            $href = CRM_Utils_System::url('civicrm/dashboard', "reset=1&lcMessages=$code");
-            $languages[] = "<a href='$href'>$language</a>";
-        }
-        $this->assign('languages', implode(', ', $languages));
-        
         CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $uid ),

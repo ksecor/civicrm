@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -98,6 +98,9 @@ class CRM_Mailing_Form_Browse extends CRM_Core_Form
             CRM_Mailing_BAO_Mailing::del($this->_mailingId);
         } elseif ( $this->_action & CRM_Core_Action::DISABLE ) {
             CRM_Mailing_BAO_Job::cancel($this->_mailingId);
+        } elseif ( $this->_action & CRM_Core_Action::RENEW ) {
+            //set is_archived to 1
+            CRM_Core_DAO::setFieldValue( 'CRM_Mailing_DAO_Mailing', $this->_mailingId, 'is_archived', true );
         }
     }//end of function
 

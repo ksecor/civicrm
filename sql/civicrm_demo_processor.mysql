@@ -1,7 +1,6 @@
-
---- This script instantiates a PayPal Pro payment processor and assigns it to all existing contribution pages
---- and events for a demo or test site. The processor setup uses a valid test account and a fake live account.
---- This script should be run after sample data is loaded (civicrm_generated.mysql).
+-- This script instantiates a PayPal Pro payment processor and assigns it to all existing contribution pages
+-- and events for a demo or test site. The processor setup uses a valid test account and a fake live account.
+-- This script should be run after sample data is loaded (civicrm_generated.mysql).
 
 INSERT INTO `civicrm_payment_processor` (`id`, `name`, `description`, `payment_processor_type`, `is_active`, `is_default`, `is_test`, `user_name`, `password`, `signature`, `url_site`, `url_api`, `url_recur`, `url_button`, `subject`, `class_name`, `billing_mode`, `is_recur`) VALUES (1, 'PP Pro', '', 'PayPal', 1, 1, 0, 'xxx', 'yyy', 'zzz', 'https://www.paypal.com/', 'https://api-3t.paypal.com/', NULL, 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif', NULL, 'Payment_PayPalImpl', 3, NULL);
 INSERT INTO `civicrm_payment_processor` (`id`, `name`, `description`, `payment_processor_type`, `is_active`, `is_default`, `is_test`, `user_name`, `password`, `signature`, `url_site`, `url_api`, `url_recur`, `url_button`, `subject`, `class_name`, `billing_mode`, `is_recur`) VALUES (2, 'PP Pro', '', 'PayPal', 1, 0, 1, 'dave_api1.northtower.com', 'S5YW42RS7WRWT9AD', 'AUsrQDMAfRs6zQSEYuw3M4QDuTBHAAvpXf7N0jYi8G1UCfKRI2NrvWVM', 'https://www.sandbox.paypal.com/', 'https://api-3t.sandbox.paypal.com/', NULL, 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif', NULL, 'Payment_PayPalImpl', 3, NULL);

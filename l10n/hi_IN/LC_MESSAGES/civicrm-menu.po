@@ -1,0 +1,477 @@
+# Copyright CiviCRM LLC (c) 2004-2008
+# This file is distributed under the same license as the CiviCRM package.
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
+"PO-Revision-Date: 2008-09-26 00:02-0700\n"
+"Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
+
+msgid "Accepted Credit Cards"
+msgstr "स्वीकृत क्रेडिट कार्ड"
+
+msgid "Access Control"
+msgstr ""
+
+msgid "ACL"
+msgstr ""
+
+msgid "ACL Roles"
+msgstr ""
+
+msgid "Activities"
+msgstr "घटनाएँ"
+
+msgid "Activity"
+msgstr "घटना"
+
+msgid "Activity Types"
+msgstr "घटनाएँ प्रकार"
+
+msgid "Additional Info"
+msgstr ""
+
+msgid "AdditionalInfo Form"
+msgstr ""
+
+msgid "Address Preferences"
+msgstr "पता ग्राह्यता"
+
+msgid "Administer CiviCRM"
+msgstr "CiviCRM व्यवस्थापक"
+
+msgid "Advanced Search"
+msgstr "अग्रवर्ती खोज"
+
+msgid "Assign Users to ACL Roles"
+msgstr ""
+
+msgid "Browse Uploaded files"
+msgstr ""
+
+msgid "Case"
+msgstr "मामला"
+
+msgid "Case Types"
+msgstr ""
+
+msgid "CiviContribute"
+msgstr "सिवीकाँन्ट्रीब्यट"
+
+msgid "CiviCRM"
+msgstr "CiviCRM"
+
+msgid "CiviCRM Home"
+msgstr "CiviCRM होम"
+
+msgid "CiviCRM Profile"
+msgstr "CiviCRM प्रोफाइल"
+
+msgid "CiviCRM Profile Create"
+msgstr ""
+
+msgid "CiviCRM Profile Fields"
+msgstr ""
+
+msgid "CiviEvent"
+msgstr "सिवीईव्हेंट"
+
+msgid "CiviGrant"
+msgstr "सिवीग्रांटस्"
+
+msgid "CiviMail"
+msgstr "सिवीमेल"
+
+msgid "CiviMember"
+msgstr "सिवीमेंबर"
+
+msgid "CiviPledge"
+msgstr "सिवीप्लेज"
+
+msgid "Components"
+msgstr "घटक"
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Contact Dashboard"
+msgstr "सम्पर्क दिखावट फलक"
+
+msgid "Contacts"
+msgstr "सदस्य"
+
+msgid "Contact Summary"
+msgstr "संपर्क सारांश"
+
+msgid "Contribution Chart"
+msgstr ""
+
+msgid "Contributions"
+msgstr "योगदान"
+
+msgid "Contribution Types"
+msgstr "योगदान प्रकार"
+
+msgid "Create New Group"
+msgstr "नया समूह बनाये"
+
+msgid "Custom Data"
+msgstr "कस्टम डाटा"
+
+msgid "Custom Data Fields"
+msgstr ""
+
+msgid "Custom Field - Move"
+msgstr ""
+
+msgid "Custom Field - Options"
+msgstr ""
+
+msgid "Custom Searches"
+msgstr ""
+
+msgid "Date Formatting"
+msgstr ""
+
+msgid "Debugging"
+msgstr "दोषमार्जन"
+
+msgid "Delete Contact"
+msgstr ""
+
+msgid "Delete Location"
+msgstr "स्थान मिटाइये"
+
+msgid "Domain Information"
+msgstr "प्रक्षेत्र जानकारी"
+
+msgid "Download Errors"
+msgstr ""
+
+msgid "Draft and Unscheduled Mailings"
+msgstr ""
+
+msgid "Edit Related Contact"
+msgstr ""
+
+msgid "Email a Contact"
+msgstr "संर्पक काे ईमेल भेजे"
+
+msgid "Event Information"
+msgstr "कार्यक्रम जानकारी"
+
+msgid "Event Participants List"
+msgstr ""
+
+msgid "Event Registration"
+msgstr "घटना पंजीकरण"
+
+msgid "Event Types"
+msgstr ""
+
+msgid "Export Contacts"
+msgstr "सदस्य बाहर भेजना"
+
+msgid "File System Paths"
+msgstr "पथ फ़ाइल प्रणाली"
+
+msgid "Find and Merge Duplicate Contacts"
+msgstr ""
+
+msgid "Find Contacts"
+msgstr "सदस्य काे खाेजे"
+
+msgid "Find Contributions"
+msgstr "याेगदान खाेजें"
+
+msgid "Find Grants"
+msgstr ""
+
+msgid "Find Members"
+msgstr "सदस्यों काे खोजें"
+
+msgid "Find Participants"
+msgstr "प्रतिभागियाें काे खाेजें"
+
+msgid "Find Pledges"
+msgstr "वचन काे खोजें"
+
+#, fuzzy
+msgid "Find Signers"
+msgstr "सदस्यों काे खोजें"
+
+msgid "From Email Address"
+msgstr ""
+
+msgid "Gender Options"
+msgstr "लिंग विक्लप"
+
+msgid "Global Settings"
+msgstr "सार्विक अनुकूलन"
+
+msgid "Grant Types"
+msgstr ""
+
+msgid "Group Members"
+msgstr "समूह के सदस्य"
+
+msgid "Groups"
+msgstr "समुह"
+
+msgid "Headers, Footers, and Automated Messages"
+msgstr ""
+
+msgid "Import"
+msgstr "बाहर से लाना"
+
+msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
+msgstr "आयात / निर्यात मिलान"
+
+msgid "Import Members"
+msgstr ""
+
+msgid "Import Participants"
+msgstr ""
+
+#, fuzzy
+msgid "Import Signers"
+msgstr "सदस्यता बनाएँ"
+
+msgid "Individual Prefixes (Ms, Mr...)"
+msgstr "व्यक्तिगत उपसर्ग ( सुश्री श्री .. )"
+
+msgid "Individual Suffixes (Jr, Sr...)"
+msgstr "व्यक्तिगत प्रत्यय ( जूनियर , वरिष्ठ .. )"
+
+msgid "Instant Messenger Services"
+msgstr "इन्स्टैंट मैसेन्जर सेवा"
+
+msgid "Localization"
+msgstr "स्थानीयकरण"
+
+msgid "Location Types (Home, Work...)"
+msgstr "स्थान प्रकार ( घर, काम ... )"
+
+msgid "Log out"
+msgstr ""
+
+msgid "Mailer Settings"
+msgstr ""
+
+msgid "Mailing Event"
+msgstr ""
+
+msgid "Mailing Report"
+msgstr ""
+
+msgid "Manage ACLs"
+msgstr ""
+
+msgid "Manage Contribution Pages"
+msgstr "योगदान प्रबंधित पन्ने"
+
+msgid "Manage Custom Searches"
+msgstr ""
+
+msgid "Manage Events"
+msgstr "कार्यक्रम प्रबंधित"
+
+msgid "Manage Groups"
+msgstr "समूह काे संभालिये"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "रद्द वचन"
+
+msgid "Manage Premiums"
+msgstr "प्रबंधित प्रीमियम"
+
+msgid "Manage Price Sets"
+msgstr ""
+
+msgid "Map Event Location"
+msgstr "कार्यक्रम जगह काे मानचित्र से देखिये"
+
+msgid "Map Location(s)"
+msgstr ""
+
+msgid "Mapping and Geocoding"
+msgstr "मिलान और Geocoding"
+
+msgid "Memberships"
+msgstr "सदस्यता"
+
+msgid "Membership Status Rules"
+msgstr "सदस्यता स्थिति के नियम"
+
+msgid "Membership Types"
+msgstr "सदस्यता प्रकार"
+
+msgid "Merge Contact"
+msgstr ""
+
+msgid "Message Templates"
+msgstr "पत्र नमुना"
+
+msgid "Miscellaneous"
+msgstr "मीला- जुला"
+
+msgid "Mobile Phone Providers"
+msgstr "मोबाइल फोन प्रदाता"
+
+msgid "New Activity"
+msgstr "नयी घटना"
+
+msgid "New Contact"
+msgstr "नया संर्पक"
+
+msgid "New Contact Dialog"
+msgstr ""
+
+msgid "New Event"
+msgstr ""
+
+msgid "New Mailing"
+msgstr ""
+
+msgid "New Pledge"
+msgstr "नया वचन"
+
+msgid "Notes"
+msgstr "नोट"
+
+msgid "Option Groups"
+msgstr ""
+
+msgid "Option Values"
+msgstr ""
+
+msgid "Optout"
+msgstr ""
+
+msgid "Participant Role"
+msgstr "सहभाग की भूमिका"
+
+msgid "Participant Status"
+msgstr "प्रतिभागि की स्थिति"
+
+msgid "Payment Instruments"
+msgstr "भुगतान उपकरण"
+
+msgid "Payment Processor"
+msgstr "प्रोसेसर भुगतान"
+
+msgid "Payment Processor Type"
+msgstr "भुगतान संसाधित्र प्रकार"
+
+msgid "PledgeBank"
+msgstr ""
+
+msgid "Pledge Payments"
+msgstr ""
+
+msgid "Pledges"
+msgstr ""
+
+msgid "Preferred Communication Methods"
+msgstr "पसंदीदा संचार तरीके"
+
+msgid "Preview Mailing"
+msgstr ""
+
+msgid "Price Field Options"
+msgstr ""
+
+msgid "Price Fields"
+msgstr ""
+
+msgid "Price Sets"
+msgstr "मूल्य समूह"
+
+msgid "Registration Page"
+msgstr ""
+
+msgid "Relationships"
+msgstr "संबंध"
+
+msgid "Relationship Types"
+msgstr "संबंध प्रकार"
+
+msgid "Resubscribe"
+msgstr ""
+
+msgid "Safe File Extension Options"
+msgstr ""
+
+msgid "Scheduled and Sent Mailings"
+msgstr ""
+
+msgid "Search Builder"
+msgstr "शाेध बनायिये"
+
+msgid "Sending Mail"
+msgstr ""
+
+msgid "Simple Search"
+msgstr ""
+
+msgid "Site URLs"
+msgstr "साइट URLs"
+
+msgid "Smtp Server"
+msgstr ""
+
+msgid "Subscribe"
+msgstr ""
+
+msgid "Sunlight"
+msgstr ""
+
+msgid "Synchronize Users to Contacts"
+msgstr "उपयोगकर्ता काे संपर्क से सिंक्रनाइज़ करे।"
+
+msgid "System Preferences"
+msgstr "सिस्टिम ग्राह्यता"
+
+msgid "Tags"
+msgstr "लेबल"
+
+msgid "Tags (Categories)"
+msgstr "लेबल ( श्रेणी )"
+
+msgid "Tell a Friend"
+msgstr "दाेस्त काे बतायिएे"
+
+msgid "This should never be seen"
+msgstr ""
+
+msgid "Unsubscribe"
+msgstr ""
+
+msgid "Upcoming Events"
+msgstr ""
+
+msgid "Update Directory Path and URL"
+msgstr ""
+
+msgid "Upgrade 2.0 => 2.1"
+msgstr ""
+
+msgid "User Framework Settings"
+msgstr ""
+
+msgid "View Activity"
+msgstr "क्रिया दृश्य"
+
+msgid "View Date Prefences"
+msgstr ""

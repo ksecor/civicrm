@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -33,7 +33,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -60,7 +60,7 @@ function civicrm_event_create( &$params )
         return civicrm_create_error('Params is not an array');
     }
     
-    if (!$params["title"] || ! $params['event_type_id'] || ! $params['start_date']) {
+    if (! isset( $params['title'] ) || ! isset( $params['event_type_id'] ) || ! isset( $params['start_date'] ) ) {
         return civicrm_create_error('Missing require fields ( title, event type id,start date)');
     }
     
@@ -76,7 +76,7 @@ function civicrm_event_create( &$params )
     
     $ids['eventTypeId'] = $params['event_type_id'];
     $ids['startDate'  ] = $params['start_date'];
-    $ids['event_id']    = $params['event_id'];
+    $ids['event_id']    = CRM_Utils_Array::value( 'event_id', $params );
     
     require_once 'CRM/Event/BAO/Event.php';
     $eventBAO = CRM_Event_BAO_Event::create($params, $ids);
@@ -117,8 +117,8 @@ function civicrm_event_get( &$params )
     $event  =& civicrm_event_search( $params );
     
     if ( count( $event ) != 1 &&
-         ! $event['returnFirst'] ) {
-        return civicrm_create_error( ts( '%1 event matching input params', array( 1 => count( $event ) ) ) );
+         ! CRM_Utils_Array::value( 'returnFirst', $params ) ) {
+        return civicrm_create_error( ts( '%1 events matching input params', array( 1 => count( $event ) ) ) );
     }
     
     if ( civicrm_error( $event ) ) {
@@ -126,6 +126,7 @@ function civicrm_event_get( &$params )
     }
     
     $event = array_values( $event );
+    $event[0]['is_error'] = 0;
     return $event[0];
 }
 /**
@@ -143,29 +144,37 @@ function civicrm_event_search( &$params )
     $inputParams      = array( );
     $returnProperties = array( );
     $otherVars = array( 'sort', 'offset', 'rowCount' );
+
+    $sort = false;
+    $offset = 0;
+    $rowCount = 25;
+    
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[]=substr( $n, 7 );
-        }elseif ( array_key_exists( $n, $otherVars ) ) {
-            $n = $v;
+        } elseif ( in_array( $n, $otherVars ) ) {
+            $$n = $v;
         } else {
             $inputParams[$n] = $v;
         }
     }
+   
     if( !empty($returnProperties ) ) {
         $returnProperties[]='id';
         $returnProperties[]='event_type_id';
     }
+   
     require_once 'CRM/Core/BAO/CustomGroup.php';
     require_once 'CRM/Event/BAO/Event.php';
     $eventDAO = new CRM_Event_BAO_Event( );
     $eventDAO->copyValues( $inputParams );
     $event = array();
-    $returnEvent = array();
     if ( !empty( $returnProperties ) ) {
             $eventDAO->selectAdd( );
             $eventDAO->selectAdd( implode( ',' , $returnProperties ) );
         }
+    $eventDAO->orderBy( $sort );
+    $eventDAO->limit( (int)$offset, (int)$rowCount );
     $eventDAO->find( );
     while ( $eventDAO->fetch( ) ) {
         $event[$eventDAO->id] = array( );
@@ -193,7 +202,7 @@ function civicrm_event_search( &$params )
  * @return boolean        true if success, error otherwise
  * @access public
  */
-function &civicrm_event_delete( &$params ) 
+function civicrm_event_delete( &$params ) 
 {
     if ( empty( $params ) ) {
         return civicrm_create_error( ts( 'No input parameters present' ) );

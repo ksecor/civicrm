@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -61,6 +61,12 @@ class CRM_Core_Config_Defaults
         $this->templateDir =
             $civicrm_root . DIRECTORY_SEPARATOR .
             'templates'   . DIRECTORY_SEPARATOR ;
+            
+        $this->importDataSourceDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'CRM'         . DIRECTORY_SEPARATOR .
+            'Import'      . DIRECTORY_SEPARATOR .
+            'DataSource'  . DIRECTORY_SEPARATOR ;
 
         $this->gettextResourceDir =
             $civicrm_root . DIRECTORY_SEPARATOR .
@@ -143,7 +149,9 @@ class CRM_Core_Config_Defaults
                 // the system for a loop on lobo's macosx box
                 // or in modules
                 global $civicrm_root;
-                $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/";
+                $civicrmDirName = trim(basename($civicrm_root));
+                $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/$civicrmDirName/";
+
                 if ( strpos( $civicrm_root,
                              DIRECTORY_SEPARATOR . 'sites' .
                              DIRECTORY_SEPARATOR . 'all'   .
@@ -157,7 +165,10 @@ class CRM_Core_Config_Defaults
                         $siteName = substr( $civicrm_root,
                                             $startPos + 7,
                                             $endPos - $startPos - 7 );
-                        $defaults['userFrameworkResourceURL'] = $baseURL . "sites/$siteName/modules/civicrm/";
+                        $defaults['userFrameworkResourceURL'] = $baseURL . "sites/$siteName/modules/$civicrmDirName/";
+                        if ( ! isset( $defaults['imageUploadURL'] ) ) {
+                            $defaults['imageUploadURL'] = $baseURL . "sites/$siteName/files/civicrm/persist/contribute/";
+                        }
                     }
                 }
             }
@@ -170,7 +181,7 @@ class CRM_Core_Config_Defaults
                 $tempURL = str_replace( "/administrator/", "/", $baseURL );
                 $defaults['imageUploadURL'] = $tempURL . "media/civicrm/persist/contribute/";
             } else {
-                $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
+                $defaults['imageUploadURL'] = $baseURL . "sites/default/files/civicrm/persist/contribute/";
             }
         }
 
@@ -203,7 +214,7 @@ class CRM_Core_Config_Defaults
         if ( isset( $_GET[$config->userFrameworkURLVar] ) ) {
             $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
         }
-        
+    
         foreach( $defaults['enableComponents'] as $key => $name ) {
             $comp = $config->componentRegistry->get( $name );
             if ( $comp ) {

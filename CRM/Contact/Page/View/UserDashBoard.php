@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -60,7 +60,8 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
      */
     static $_links = null;
 
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
 
         $check = CRM_Core_Permission::check( 'access Contact Dashboard' );
@@ -135,7 +136,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
                 continue;
             }
 
-            if( in_array( $name, array_keys($this->_userOptions) ) &&
+            if( CRM_Utils_Array::value( $name, $this->_userOptions ) &&
                 ( CRM_Core_Permission::access( $component->name ) ||
                   CRM_Core_Permission::check( $elem['perm'][0] ) ) ) {
 
@@ -150,7 +151,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         $sectionName = 'Permissioned Orgs';
         if ( $this->_userOptions[ $sectionName ] ) {
             $dashboardElements[] = array( 'templatePath' => 'CRM/Contact/Page/View/Relationship.tpl',
-                                          'sectionTitle' => 'My Contacts / Organizations',
+                                          'sectionTitle' => ts( 'Your Contacts / Organizations' ),
                                           'weight'       => 40 );
          
             $links =& self::links( );
@@ -161,11 +162,19 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $this->assign( 'currentRelationships',  $currentRelationships  );
         }
 
+        if ( $this->_userOptions['PCP'] ) {
+            require_once 'CRM/Contribute/BAO/PCP.php';
+            $dashboardElements[] = array( 'templatePath' => 'CRM/Contribute/Page/PcpUserDashboard.tpl',
+                                          'sectionTitle' => ts( 'Personal Campaign Pages' ),
+                                          'weight'       => 40 );
+            list( $pcpBlock, $pcpInfo) = CRM_Contribute_BAO_PCP::getPcpDashboardInfo( $this->_contactId );
+            $this->assign( 'pcpBlock', $pcpBlock );
+            $this->assign( 'pcpInfo', $pcpInfo );
+        }
+
         require_once 'CRM/Utils/Sort.php';
         usort( $dashboardElements, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
         $this->assign ( 'dashboardElements', $dashboardElements );
-
-
 
         if ( $this->_userOptions['Groups'] ) {
             $this->assign( 'showGroup', true );

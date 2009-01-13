@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,12 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Upgrade/Form.php';
+require_once 'CRM/Core/BAO/CustomOption.php';
 
 class CRM_Upgrade_TwoZero_Form_Step6 extends CRM_Upgrade_Form {
 
@@ -86,6 +87,69 @@ WHERE id={$res->id}
         }
         $res->free();
 
+        //process to upgrade the price set fields in participant and
+        //contribution tables and also upgrade the line items labels
+        //Fix for CRM-3403
+        $event = $priceField = $lineItemLables = $participant = null;
+        $query = "SELECT civicrm_event.title as title FROM   civicrm_event";
+        $event =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        $eventTitles = array();
+        while ( $event->fetch( ) ) {
+            $eventTitles[] = $event->title;
+        }
+        foreach ( $eventTitles as $level ) {
+            $query1 = "SELECT civicrm_participant_payment.participant_id,civicrm_participant_payment.contribution_id FROM civicrm_participant, civicrm_participant_payment where civicrm_participant.event_level = %1 AND civicrm_participant_payment.participant_id = civicrm_participant.id";
+            $params      = array( 1 => array( $level, 'String' ) );
+            $participant =& CRM_Core_DAO::executeQuery( $query1, $params );
+            while ( $participant->fetch( ) ) {
+                $eventLevel = array();
+                $query2     = "SELECT label, qty FROM civicrm_line_item WHERE entity_id = {$participant->contribution_id} ";
+                $params     = array( 1 => array( $participant->contribution_id, 'Integer' ) );
+                $priceField =& CRM_Core_DAO::executeQuery( $query2, $params );
+                while ( $priceField->fetch( ) ) {
+                    $lineItem = explode( ':',$priceField->label );
+                    if ( ! CRM_Utils_Array::value( 1, $lineItem ) ) {
+                        $lineItem[1] = $lineItem[0].' '.'-'.' '.$priceField->qty;
+                    }
+                    $eventLevel[] = trim($lineItem[1]);
+                }
+
+                $eventLevels = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $eventLevel ) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                
+                $query3 = "UPDATE `civicrm_participant` SET `event_level` = '{$eventLevels}' WHERE `civicrm_participant`.`id` = {$participant->participant_id } ";
+                CRM_Core_DAO::executeQuery( $query3, CRM_Core_DAO::$_nullArray );
+
+                $query4 = "UPDATE `civicrm_contribution` SET `amount_level` = '{$eventLevels}' WHERE `civicrm_contribution`.`id` = {$participant->contribution_id } ";
+                CRM_Core_DAO::executeQuery( $query4, CRM_Core_DAO::$_nullArray );
+            }          
+        }
+        //upgrade the line items labels
+        $query5         = "SELECT label FROM civicrm_line_item WHERE qty = 1 GROUP BY label";
+        $lineItemLables = CRM_Core_DAO::executeQuery( $query5, CRM_Core_DAO::$_nullArray );
+        while ( $lineItemLables->fetch( ) ) {
+            $lineItems   = $lineItemLables->label;
+            $lineItem    = explode( ':',$lineItemLables->label );
+            if ( CRM_Utils_Array::value( 1, $lineItem ) ) {
+                $amountLevel = trim($lineItem[1]);
+                $query6      = "UPDATE `civicrm_line_item` SET `label` = '{$amountLevel}' WHERE `civicrm_line_item`.`label` ='{$lineItems }' ";
+                CRM_Core_DAO::executeQuery( $query6, CRM_Core_DAO::$_nullArray );
+            }
+        }
+        //make object, free
+        $event->free();
+
+        if ( is_object( $priceField ) ) {
+            $priceField->free();
+        }
+        if ( is_object( $participant ) ) {
+            $participant->free();
+        }
+
+        $lineItemLables->free();
+        
         // drop queries
         $sqlFile    = implode( DIRECTORY_SEPARATOR,
                                array( $currentDir, '../sql', 'drop.mysql' ) );

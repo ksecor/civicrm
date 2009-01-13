@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -73,7 +73,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
                   CRM_Core_Action::VIEW  => array(
                       'name'  => ts('Use Rule'),
                       'url'   => 'civicrm/admin/dedupefind',
-                      'qs'    => 'reset=1&rgid=%%id%%',
+                      'qs'    => 'reset=1&rgid=%%id%%&action=preview',
                       'title' => ts('Use DedupeRule'),
                       ),
                   CRM_Core_Action::UPDATE  => array(

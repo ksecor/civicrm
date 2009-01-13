@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -129,9 +129,6 @@ class CRM_Contact_Task {
                                                   'class'  => array( 'CRM_Contact_Form_Task_PickProfile',
                                                                      'CRM_Contact_Form_Task_Batch' ),
                                                   'result' => true ),
-                                  19    => array( 'title'  => ts( 'Record Case for Contacts'  ),
-                                                  'class'  => 'CRM_Case_Form_Case',
-                                                  'result' => true ),
                                   );
            
             //show map action only if map provider and key is set
@@ -149,7 +146,19 @@ class CRM_Contact_Task {
                                            'class'  => 'CRM_Event_Form_Participant',
                                            'result' => true );
             }
-
+            
+            if ( CRM_Core_Permission::access( 'CiviMail' ) ) { 
+                self::$_tasks[20] = array( 'title'  => ts( 'Schedule/Send a Mass Mailing' ),
+                                           'class'  => array( 'CRM_Mailing_Form_Group',
+                                                              'CRM_Mailing_Form_Settings',
+                                                              'CRM_Mailing_Form_Upload',
+                                                              'CRM_Mailing_Form_Test',
+                                                              'CRM_Mailing_Form_Schedule'
+                                                              ),
+                                           'result' => false
+                                           );
+            }
+            
             self::$_tasks += CRM_Core_Component::taskList( );
             asort(self::$_tasks);
         }
@@ -178,9 +187,8 @@ class CRM_Contact_Task {
 
         $config =& CRM_Core_Config::singleton( );
 
-        if ( ! isset( $config->smtpServer ) ||
-             $config->smtpServer == '' ||
-             $config->smtpServer == 'YOUR SMTP SERVER' ) {
+        require_once 'CRM/Utils/Mail.php';
+        if ( !CRM_Utils_Mail::validOutBoundMail() ) { 
             unset( $titles[6] );
         }
         

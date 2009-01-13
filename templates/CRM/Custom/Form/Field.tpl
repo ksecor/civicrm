@@ -74,17 +74,25 @@
     	if ( data_type_id == 5) {
     	     document.getElementById("startDateRange").style.display="block";
     	     document.getElementById("startDateRangeDef").style.display="block";
-	         document.getElementById("endDateRange").style.display="block";
+	     document.getElementById("endDateRange").style.display="block";
     	     document.getElementById("endDateRangeDef").style.display="block";
     	     document.getElementById("incudedDatePart").style.display="block";
     	     document.getElementById("incudedDatePartDef").style.display="block";	
- 	    } else {
+         } else {
     	     document.getElementById("startDateRange").style.display="none";
-   	         document.getElementById("startDateRangeDef").style.display="none";
+   	     document.getElementById("startDateRangeDef").style.display="none";
     	     document.getElementById("endDateRange").style.display="none";
     	     document.getElementById("endDateRangeDef").style.display="none";
-	         document.getElementById("incudedDatePart").style.display="none";
+	     document.getElementById("incudedDatePart").style.display="none";
     	     document.getElementById("incudedDatePartDef").style.display="none";	 	
+    	}
+
+    	if ( data_type_id == 0 ) {
+    	     document.getElementById("textLength").style.display="block";
+    	     document.getElementById("textLengthDef").style.display="block";
+        } else {
+    	     document.getElementById("textLength").style.display="none";
+   	     document.getElementById("textLengthDef").style.display="none";
     	}
 
     	if ( data_type_id == 4 ) {
@@ -92,12 +100,11 @@
     	     document.getElementById("noteColumnsDef").style.display="block";
     	     document.getElementById("noteRows").style.display="block";
     	     document.getElementById("noteRowsDef").style.display="block";
-    
-	    } else {
+        } else {
     	     document.getElementById("noteColumns").style.display="none";
-   	         document.getElementById("noteColumnsDef").style.display="none";
-	         document.getElementById("noteRows").style.display="none";
-	         document.getElementById("noteRowsDef").style.display="none";
+   	     document.getElementById("noteColumnsDef").style.display="none";
+	     document.getElementById("noteRows").style.display="none";
+	     document.getElementById("noteRowsDef").style.display="none";
     	}
 			 
         if ( data_type_id > 3) {
@@ -105,7 +112,11 @@
              document.getElementById("optionsPerLineDef").style.display="none";
         }
 
+{/literal}
+{if $action eq 1}
         clearSearchBoxes( );
+{/if}
+{literal}
     }
 </script>
 {/literal}
@@ -120,6 +131,8 @@
         {/if}
         </dl>
         <div class="spacer"></div>
+
+	<dt id="textLength" {if ( $action eq 1 || $action eq 2 ) && ($form.data_type.value.0.0 == 0)}class="show-block"{else} class="hide-block" {/if}>{$form.text_length.label}</dt><dd id="textLengthDef" {if ( $action eq 1 || $action eq 2 ) && ($form.data_type.value.0.0 == 0)}class="show-block"{else} class="hide-block"{/if}>{$form.text_length.html}</dd> 
 
     {if $action eq 1 or $action eq 2 }
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
@@ -195,6 +208,11 @@
 
 {literal}
 <script type="text/javascript">
+
+      //when page is reload, build show hide boxes
+      //as per data type and html type selected.
+      custom_option_html_type( );
+
       function showSearchRange(chkbox) {
             var html_type = document.getElementsByName("data_type[1]")[0].value;
 	        var data_type = document.getElementsByName("data_type[0]")[0].value;
@@ -208,18 +226,25 @@
         	   }
             }
       }
-
-      function clearSearchBoxes( ) {
-            document.getElementsByName("is_searchable")[0].checked   = false; 
-            document.getElementsByName("is_search_range")[1].checked = true;
-      	    document.getElementById("searchByRange").style.display = "none";
+      
+      //should not clear search boxes for update mode. 
+      function clearSearchBoxes( ) 
+      {
+        {/literal}
+        action = {$action}
+        {literal}
+                         
+        if ( action != 2 ) {
+	    document.getElementsByName("is_searchable")[0].checked   = false; 
+	    document.getElementsByName("is_search_range")[1].checked = true;
+	    document.getElementById("searchByRange").style.display = "none";
+         } 	
       }
 </script>
 {/literal}
-
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
-{if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR ($form.data_type.value.1.0 eq 'Radio' AND $form.data_type.value.0.0 neq 6) OR $form.data_type.value.1.0 eq 'Select' OR $form.data_type.value.1.0 eq 'Multi-Select') }
+{if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR ($form.data_type.value.1.0 eq 'Radio' AND $form.data_type.value.0.0 neq 6) OR $form.data_type.value.1.0 eq 'Select' OR ($form.data_type.value.1.0 eq 'Multi-Select' AND $dontShowLink neq 1 ) ) }
     <div class="action-link">
-        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&action=browse&fid=`$id`"}">&raquo; {ts}View / Edit Multiple Choice Options{/ts}</a>
+        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&action=browse&fid=`$id`&gid=`$gid`"}">&raquo; {ts}View / Edit Multiple Choice Options{/ts}</a>
     </div>
 {/if}

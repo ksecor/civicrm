@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,8 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the field aspect of Custom
  */
-class CRM_Custom_Form_Option extends CRM_Core_Form {
+class CRM_Custom_Form_Option extends CRM_Core_Form 
+{
     /**
      * the custom group id saved to the session for an update
      *
@@ -154,8 +155,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $this->add('hidden', 'optionId', $this->_id);
             
             //hidden field ID for validation use
-            $this->add('hidden', 'fieldId', $this->_fid); 
-        
+            $this->add('hidden', 'fieldId', $this->_fid);         
             
             // label
             $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'), true);
@@ -207,8 +207,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields, &$files, &$form ) {
-
+    static function formRule( &$fields, &$files, &$form ) 
+    {
         $optionLabel   = CRM_Utils_Type::escape( $fields['label'], 'String' );
         $optionValue   = CRM_Utils_Type::escape( $fields['value'], 'String' );
         $fieldId       = $form->_fid;
@@ -415,6 +415,11 @@ SELECT data_type
                 $customField->save(); 
             }           
         } else {            
+            if ( $customField->data_type == 'Money' ) {  
+                require_once 'CRM/Utils/Rule.php';
+                $customOption->value = CRM_Utils_Rule::cleanMoney( $customOption->value );
+            }
+
             if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
                 $customField->default_value = $customOption->value;
                 $customField->save();
@@ -426,8 +431,7 @@ SELECT data_type
         }
 
         $customOption->save();
-        
-        
+             
         CRM_Core_Session::setStatus(ts('Your multiple choice option \'%1\' has been saved', array(1 => $customOption->label)));
     }
 }

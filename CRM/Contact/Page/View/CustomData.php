@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -105,8 +105,8 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         if ( $this->_action == CRM_Core_Action::BROWSE ) {
             //Custom Groups Inline
             $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
-            $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId, $this->_groupId);
-            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId, $this->_groupId);
+            CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
         } else {
             
             $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData',

@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -363,9 +363,6 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
     {
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $this->assign( 'accessContribution', true );
-            $session =& CRM_Core_Session::singleton( );
-            $session->set( 'action', $this->_action );
-            $session->set( 'memberId'  , $this->_id );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), null );  
             $controller->setEmbedded( true );                           
             $controller->reset( );  

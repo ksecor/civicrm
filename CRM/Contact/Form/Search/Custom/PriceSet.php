@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -60,11 +60,13 @@ class CRM_Contact_Form_Search_Custom_PriceSet
     }
 
     function __destruct( ) {
+        /*
         if ( $this->_eventID ) {
             $sql = "DROP TEMPORARY TABLE {$this->_tableName}";
             CRM_Core_DAO::executeQuery( $sql,
                                         CRM_Core_DAO::$_nullArray ) ;
         }
+        */
     }
 
     function buildTempTable( ) {
@@ -88,8 +90,7 @@ CREATE TEMPORARY TABLE {$this->_tableName} (
         
         $sql .= "
 PRIMARY KEY ( id ),
-UNIQUE INDEX unique_contact_id     ( contact_id ),
-UNIQUE INDEX unique_participatn_id ( participant_id )
+UNIQUE INDEX unique_participant_id ( participant_id )
 ) ENGINE=HEAP
 ";
         
@@ -141,20 +142,21 @@ ORDER BY c.id, v.id;
         // first store all the information by option value id
         $rows = array( );
         while ( $dao->fetch( ) ) {
-            $contactID = $dao->contact_id;
-            if ( ! isset( $rows[$contactID] ) ) {
-                $rows[$contactID] = array( );
+            $contactID     = $dao->contact_id;
+            $participantID = $dao->participant_id;
+            if ( ! isset( $rows[$participantID] ) ) {
+                $rows[$participantID] = array( );
             }
 
-            $rows[$contactID][] = "price_field_{$dao->option_value_id} = {$dao->qty}";
+            $rows[$participantID][] = "price_field_{$dao->option_value_id} = {$dao->qty}";
         }
 
-        foreach ( array_keys( $rows ) as $contactID ) {
-            $values = implode( ',', $rows[$contactID] );
+        foreach ( array_keys( $rows ) as $participantID ) {
+            $values = implode( ',', $rows[$participantID] );
             $sql = "
 UPDATE {$this->_tableName}
 SET $values
-WHERE contact_id = $contactID;
+WHERE participant_id = $participantID;
 ";
             CRM_Core_DAO::executeQuery( $sql,
                                         CRM_Core_DAO::$_nullArray );
@@ -169,12 +171,10 @@ SELECT e.id    as id,
        e.title as title,
        p.price_set_id as price_set_id
 FROM   civicrm_event      e,
-       civicrm_event_page ep,
        civicrm_price_set_entity  p
 
-WHERE  p.entity_table = 'civicrm_event_page'
-AND    p.entity_id    = ep.id
-AND    ep.event_id     = e.id
+WHERE  p.entity_table = 'civicrm_event'
+AND    p.entity_id    = e.id
 ";
 
         $params = array( );
@@ -282,7 +282,7 @@ INNER JOIN {$this->_tableName} tempTable ON ( tempTable.contact_id = contact_a.i
     }
 
     function where( $includeContactIDs = false ) {
-        return ' (1) ';
+        return ' ( 1 ) ';
     }
 
     function templateFile( ) {

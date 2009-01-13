@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -61,7 +61,7 @@ class CRM_Contact_Form_Create extends CRM_Core_Form
         
         $orgDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
                                               "org=1",
-                                              true, null, false );
+                                              false, null, false );
         
         $this->assign('orgDataURL',$orgDataURL );
         $this->addElement('text', 'select_contact', ts('Select Existing Organization'),$orgAttributes );

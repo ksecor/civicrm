@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -70,14 +70,6 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
     static function &getValues( $entityBlock ) 
     {
         $getValues =& CRM_Core_BAO_Block::getValues('phone', $entityBlock );
-
-        if ( ! empty( $getValues ) ) {
-            foreach ($getValues as $key => $values ) {
-                foreach ( $values as $k => $v ) {
-                    CRM_Core_DAO_Phone::addDisplayEnums( $getValues[$key][$k] );
-                }
-            }
-        }
         return $getValues;
     }
 
@@ -95,10 +87,14 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
         if ( ! $id ) {
             return null;
         }
-
+        
         $cond = null;
         if ( $type ) {
-            $cond = " AND civicrm_phone.phone_type = '$type'";
+            require_once 'CRM/Core/PseudoConstant.php';
+            $phoneTypeId = array_search( $type, CRM_Core_PseudoConstant::phoneType( ) );
+            if ( $phoneTypeId ) {
+                $cond = " AND civicrm_phone.phone_type_id = $phoneTypeId";
+            }
         }
 
         $query = "
@@ -139,10 +135,14 @@ ORDER BY civicrm_phone.is_primary DESC, civicrm_phone.location_type_id DESC, pho
         if ( empty($entityElements) ) {
             return null;
         }
-      
+        
         $cond = null;
         if ( $type ) {
-            $cond = " AND civicrm_phone.phone_type = '$type'";
+            require_once 'CRM/Core/PseudoConstant.php';
+            $phoneTypeId = array_search( $type, CRM_Core_PseudoConstant::phoneType( ) );
+            if ( $phoneTypeId ) {
+                $cond = " AND civicrm_phone.phone_type_id = $phoneTypeId";
+            }
         }
         
         $entityId    = $entityElements['entity_id'];
@@ -169,6 +169,29 @@ ORDER BY ph.is_primary DESC, phone_id ASC ";
         }
         return $numbers;
     }
-    
+
+    /**
+     * Set NULL to phone, mapping, uffield
+     *
+     * @param $optionId value of option to be deleted
+     * 
+     * return void
+     * @static
+     */
+    static function setOptionToNull( $optionId )
+    {
+        if ( !$optionId ) {
+            return;
+        }
+      
+        $tables = array('civicrm_phone', 'civicrm_mapping_field', 'civicrm_uf_field'); 
+        $params = array( 1 => array( $optionId, 'Integer' ) );
+
+        foreach( $tables as $tableName ) {
+            $query = "UPDATE `{$tableName}` SET `phone_type_id` = NULL WHERE `phone_type_id` = %1";
+            CRM_Core_DAO::executeQuery( $query, $params );
+        }
+
+    } 
 }
 

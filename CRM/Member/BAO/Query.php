@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -288,7 +288,8 @@ class CRM_Member_BAO_Query
                                 'membership_end_date'    => 1,
                                 'membership_source'      => 1,
                                 'status_id'              => 1,
-                                'membership_id'          => 1
+                                'membership_id'          => 1,
+                                'owner_membership_id'    => 1
                                 );
 
             // also get all the custom membership properties

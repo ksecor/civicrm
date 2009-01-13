@@ -4,44 +4,47 @@
     {include file="CRM/UF/Form/Preview.tpl"}
 {else}
     {if $ufField}
-    <div id="field_page">
-     <p></p>
-    {strip}
-    <table class="selector">
-        <tr class="columnheader">
-            <th>{ts}CiviCRM Field Name{/ts}</th>
-            <th>{ts}Visibility{/ts}</th>
-            <th>{ts}Searchable?{/ts}</th>
-            <th>{ts}In Selector?{/ts}</th>
-            <th>{ts}Order{/ts}</th>
-            <th>{ts}Active{/ts}</th>	
-            <th>{ts}Required{/ts}</th>	
-            <th>{ts}View Only{/ts}</th>	
-            <th></th>
-        </tr>
-        {foreach from=$ufField item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}
-            {if NOT $row.is_active}disabled{/if}">
-            <td>{$row.label}<br/>({$row.field_type})</td>
-            <td>{$row.visibility_display}</td>
-            <td>{if $row.is_searchable   eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-            <td>{if $row.in_selector     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-            <td class="nowrap">{$row.weight}</td>
-            <td>{if $row.is_active       eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-            <td>{if $row.is_required     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-            <td>{if $row.is_view         eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-            <td>{$row.action}</td>
-        </tr>
-        {/foreach}
-    </table>
-    {/strip}
-        
-    {if not ($action eq 2 or $action eq 1)}
-            <div class="action-link">
-            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}" class="button"><span>&raquo; {ts}New CiviCRM Profile Field{/ts}</span></a><br/>
-            </div>
-    {/if}
-     </div>
+        <div id="field_page">
+         <p></p>
+        {strip}
+        <table class="selector">
+            <tr class="columnheader">
+                <th>{ts}CiviCRM Field Name{/ts}</th>
+                <th>{ts}Visibility{/ts}</th>
+                <th>{ts}Searchable?{/ts}</th>
+                <th>{ts}In Selector?{/ts}</th>
+                <th>{ts}Order{/ts}</th>
+                <th>{ts}Active{/ts}</th>	
+                <th>{ts}Required{/ts}</th>	
+                <th>{ts}View Only{/ts}</th>	
+                <th></th>
+            </tr>
+            {foreach from=$ufField item=row}
+            <tr class="{cycle values="odd-row,even-row"} {$row.class}
+                {if NOT $row.is_active}disabled{/if}">
+                <td>{$row.label}<br/>({$row.field_type})</td>
+                <td>{$row.visibility_display}</td>
+                <td>{if $row.is_searchable   eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+                <td>{if $row.in_selector     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+                <td class="nowrap">{$row.weight}</td>
+                <td>{if $row.is_active       eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+                <td>{if $row.is_required     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+                <td>{if $row.is_view         eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+                <td>{$row.action}</td>
+            </tr>
+            {/foreach}
+        </table>
+        {/strip}
+            
+        {if not ($action eq 2 or $action eq 1)}
+            <table class="form-layout-compressed">
+            <tr>
+                <td><a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}" class="button"><span>&raquo; {ts}New CiviCRM Profile Field{/ts}</span></a></td>
+                <td><a href="{crmURL p="civicrm/admin/uf/group" q="action=update&id=`$gid`&reset=1"}" class="button"><span>&raquo; {ts}Edit Profile Settings{/ts}</span></a></td>
+            </tr>
+            </table>
+        {/if}
+        </div>
     {else}
         {if $action eq 16}
         {capture assign=crmURL}{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}{/capture}

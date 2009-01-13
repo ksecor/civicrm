@@ -107,5 +107,3 @@ function conf_init() {
 }
 
 include_once conf_init( ) . '/civicrm.settings.php';
-
-

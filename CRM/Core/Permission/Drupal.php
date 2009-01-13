@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -64,17 +64,20 @@ class CRM_Core_Permission_Drupal {
      * Get all groups from database, filtered by permissions
      * for this user
      *
+     * @param string $groupType     type of group(Access/Mailing) 
+     * @param boolen $excludeHidden exclude hidden groups.
+     *
      * @access public
      * @static
      *
      * @return array - array reference of all groups.
      *
      */
-    public static function &group( $groupType = null ) {
+    public static function &group( $groupType = null, $excludeHidden = true ) {
         if ( ! isset( self::$_viewPermissionedGroups ) ) {
             self::$_viewPermissionedGroups = self::$_editPermissionedGroups = array( );
 
-            $groups =& CRM_Core_PseudoConstant::allGroup( $groupType );
+            $groups =& CRM_Core_PseudoConstant::allGroup( $groupType, $excludeHidden );
 
             if ( self::check( 'edit all contacts' ) ) {
                 // this is the most powerful permission, so we return

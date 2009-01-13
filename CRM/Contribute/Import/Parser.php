@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,8 @@ require_once 'CRM/Utils/Type.php';
 
 require_once 'CRM/Contribute/Import/Field.php';
 
-abstract class CRM_Contribute_Import_Parser {
+abstract class CRM_Contribute_Import_Parser 
+{
 
     const
         MAX_ERRORS      = 250,
@@ -49,7 +50,9 @@ abstract class CRM_Contribute_Import_Parser {
         CONFLICT        =  8,
         STOP            = 16,
         DUPLICATE       = 32,
-        MULTIPLE_DUPE   = 64;
+        MULTIPLE_DUPE   = 64,
+        NO_MATCH        = 128,
+        SOFT_MATCH      = 256;
 
     /**
      * various parser modes
@@ -110,10 +113,21 @@ abstract class CRM_Contribute_Import_Parser {
      */
     protected $_validCount;
 
+
     /**
      * running total number of invalid rows
      */
     protected $_invalidRowCount;
+    
+    /**
+     * running total number of valid soft credit rows
+     */
+    protected $_validSoftCreditRowCount;
+
+    /**
+     * running total number of invalid soft credit rows
+     */
+    protected $_invalidSoftCreditRowCount;
 
     /**
      * maximum number of invalid rows to store
@@ -277,8 +291,8 @@ abstract class CRM_Contribute_Import_Parser {
             return false;
         }
 
-        $this->_lineCount  = $this->_warningCount   = 0;
-        $this->_invalidRowCount = $this->_validCount     = 0;
+        $this->_lineCount       = $this->_warningCount = $this->_validSoftCreditRowCount = 0;
+        $this->_invalidRowCount = $this->_validCount   = $this->_invalidSoftCreditRowCount = 0;
         $this->_totalCount = $this->_conflictCount = 0;
     
         $this->_errors   = array();
@@ -342,6 +356,15 @@ abstract class CRM_Contribute_Import_Parser {
                 }
             }
 
+            if ( $returnCode & self::SOFT_MATCH ) {
+                $this->_validSoftCreditRowCount++;
+                $this->_validCount++;
+                if ( $mode == self::MODE_MAPFIELD ) {
+                    $this->_rows[]           = $values;
+                    $this->_activeFieldCount = max( $this->_activeFieldCount, count( $values ) );
+                }
+            }
+    
             if ( $returnCode & self::WARNING ) {
                 $this->_warningCount++;
                 if ( $this->_warningCount < $this->_maxWarningCount ) {
@@ -358,7 +381,11 @@ abstract class CRM_Contribute_Import_Parser {
                     $this->_errors[] = $values;
                 }
             } 
-
+            
+            if ( $returnCode & self::NO_MATCH ) {
+                $this->_invalidSoftCreditRowCount++;
+            } 
+            
             if ( $returnCode & self::CONFLICT ) {
                 $this->_conflictCount++;
                 $recordNumber = $this->_lineCount;
@@ -462,18 +489,11 @@ abstract class CRM_Contribute_Import_Parser {
         }
     }
     
-    /*function setActiveFieldLocationTypes( $elements ) {
+    function setActiveFieldSoftCredit( $elements ) {
         for ($i = 0; $i < count( $elements ); $i++) {
-            $this->_activeFields[$i]->_hasLocationType = $elements[$i];
+            $this->_activeFields[$i]->_softCreditField = $elements[$i];
         }
     }
-    
-    function setActiveFieldPhoneTypes( $elements ) {
-        for ($i = 0; $i < count( $elements ); $i++) {
-            $this->_activeFields[$i]->_phoneType = $elements[$i];
-        }
-    }*/
-    
 
     function setActiveFieldValues( $elements, &$erroneousField ) {    
         $maxCount = count( $elements ) < $this->_activeFieldCount ? count( $elements ) : $this->_activeFieldCount;
@@ -509,26 +529,15 @@ abstract class CRM_Contribute_Import_Parser {
         $params = array( );
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
             if ( isset( $this->_activeFields[$i]->_value ) ) {
-                if (isset( $this->_activeFields[$i]->_hasLocationType)) {
+                if ( isset( $this->_activeFields[$i]->_softCreditField ) ) {
                     if (! isset($params[$this->_activeFields[$i]->_name])) {
                         $params[$this->_activeFields[$i]->_name] = array();
                     }
-                    
-                    $value = array(
-                        $this->_activeFields[$i]->_name => 
-                                $this->_activeFields[$i]->_value,
-                        'location_type_id' => 
-                                $this->_activeFields[$i]->_hasLocationType);
-                    
-                    if (isset( $this->_activeFields[$i]->_phoneType)) {
-                        $value['phone_type'] =
-                            $this->_activeFields[$i]->_phoneType;
-                    }
-                    
-                    $params[$this->_activeFields[$i]->_name][] = $value;
+                    $params[$this->_activeFields[$i]->_name][$this->_activeFields[$i]->_softCreditField] = $this->_activeFields[$i]->_value;
                 }
+                
                 if (!isset($params[$this->_activeFields[$i]->_name])) {
-                    if ( !isset($this->_activeFields[$i]->_related) ) {
+                    if ( !isset($this->_activeFields[$i]->_softCreditField ) ) {
                         $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
                     }
                 }
@@ -573,8 +582,6 @@ abstract class CRM_Contribute_Import_Parser {
         if ( empty( $name ) ) {
             $this->_fields['doNotImport'] =& new CRM_Contribute_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
         } else {
-            
-            //$tempField = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             $tempField = CRM_Contact_BAO_Contact::importableFields('All', null );
             if (! array_key_exists ($name,$tempField) ) {
                 $this->_fields[$name] =& new CRM_Contribute_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
@@ -620,6 +627,8 @@ abstract class CRM_Contribute_Import_Parser {
         $store->set( 'totalRowCount'    , $this->_totalCount     );
         $store->set( 'validRowCount'    , $this->_validCount     );
         $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
+        $store->set( 'invalidSoftCreditRowCount'  , $this->_invalidSoftCreditRowCount     );
+        $store->set( 'validSoftCreditRowCount'  , $this->_validSoftCreditRowCount     );
         $store->set( 'conflictRowCount', $this->_conflictCount );
         
         switch ($this->_contactType) {
@@ -669,10 +678,10 @@ abstract class CRM_Contribute_Import_Parser {
             $header[$key] = "\"$value\"";
         }
         $output[] = implode(',', $header);
-
+        
         foreach ($data as $datum) {
             foreach ($datum as $key => $value) {
-                if ( is_array($value) ) {
+                if ( is_array($value[0]) ) {
                     foreach($value[0] as $k1=>$v1) {
                         if ($k1 == 'location_type_id') {
                             continue;
