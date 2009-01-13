@@ -1108,7 +1108,8 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         } else {
             $queryString = "SELECT MAX(civicrm_uf_join.weight) as new_weight
                             FROM civicrm_uf_join
-                            WHERE civicrm_uf_join.uf_group_id = %1";
+                            WHERE civicrm_uf_join.uf_group_id = %1
+                            AND ( entity_id IS NULL OR entity_id <= 0 )";
             $p[1] = array( $ufGroupId, 'Integer' );
         }
         
