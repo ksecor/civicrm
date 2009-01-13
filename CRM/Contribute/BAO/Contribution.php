@@ -726,9 +726,14 @@ WHERE  civicrm_contribution.contact_id = civicrm_contact.id
 
         $config =& CRM_Core_Config::singleton( );
         $startDate = $endDate = null;
-        $year     = date( 'Y' );
+
+        $currentMonth = date( 'm' );
+        if ( (int ) $config->fiscalYearStart['M']  >= $currentMonth ) {
+            $year     = date( 'Y' ) - 1;
+        } else {
+            $year     = date( 'Y' );
+        }
         $nextYear = $year + 1;
-        
         if ( $config->fiscalYearStart ) {
             if ( $config->fiscalYearStart['M'] < 10 ) {
                 $config->fiscalYearStart['M'] = '0' . $config->fiscalYearStart['M'];
