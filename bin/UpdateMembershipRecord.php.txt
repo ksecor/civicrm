@@ -113,7 +113,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                 //since we are calculating status here so no
                 //need to calculate again in BAO::create( );
                 $deceasedMembership = array( 'id'                 => $dao->membership_id,
-                                             'status_id'          =>  $deceasedStatusId,
+                                             'status_id'          => array_search( 'Deceased', $allStatus ),
                                              'contact_id'         => $dao->contact_id,
                                              'membership_type_id' => $dao->membership_type_id,
                                              'join_date'          => $dao->join_date,
