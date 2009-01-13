@@ -551,7 +551,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $config =& CRM_Core_Config::singleton( );
         $seperator = $config->fieldSeparator;
 
-        $mapper = $mapperKeys = $mapperKeysMain = $mapperSoftCredit = $mapperPhoneType = array( );
+        $mapper = $mapperKeys = $mapperKeysMain = $mapperSoftCredit = $softCreditFields = $mapperPhoneType = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
@@ -564,12 +564,13 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $softCreditFields[$i] = ucwords( $first . " " .  $second );
             } else {
                 $mapperSoftCredit[$i] = $softCreditFields[$i] = null;
+                $softCreditFields[$i] = null;
             }
         }
              
         $this->set( 'mapper'    , $mapper );
         $this->set( 'softCreditFields', $softCreditFields );
-        
+
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', $params['mappingId']);
         
