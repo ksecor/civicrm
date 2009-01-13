@@ -35,20 +35,16 @@
  */
 
 require_once '../civicrm.config.php';
-require_once 'CRM/Core/Config.php';
-
-require_once 'CRM/Member/BAO/Membership.php';
-require_once 'CRM/Contact/DAO/Contact.php';
-require_once "CRM/Core/BAO/MessageTemplates.php";
-require_once "CRM/Member/BAO/MembershipType.php";
 require_once 'CRM/Member/BAO/MembershipLog.php';
-require_once "CRM/Utils/Date.php";
-require_once 'api/utils.php';
-
-require_once "api/Membership.php";
-require_once 'api/v2/Contact.php';
-require_once 'api/Relationship.php';
-require_once 'api/Event.php';
+require_once 'CRM/Member/BAO/Membership.php';
+require_once 'CRM/Core/BAO/MessageTemplates.php';
+require_once 'CRM/Core/Config.php';
+require_once 'CRM/Member/BAO/MembershipType.php';
+require_once 'CRM/Utils/Date.php';
+require_once 'CRM/Utils/System.php';
+require_once 'api/v2/Membership.php';
+require_once 'CRM/Member/PseudoConstant.php';
+require_once 'CRM/Contact/BAO/Contact.php';
 
 class CRM_UpdateMembershipRecord {
     
@@ -57,30 +53,35 @@ class CRM_UpdateMembershipRecord {
         $config =& CRM_Core_Config::singleton();
 
         // this does not return on failure
-        require_once 'CRM/Utils/System.php';
         CRM_Utils_System::authenticateScript( true );
     }
     
     public function updateMembershipStatus( )
     {
+
         $query = "
 SELECT civicrm_membership.id                 as membership_id,
        civicrm_membership.is_override        as is_override,
        civicrm_membership.reminder_date      as reminder_date,
        civicrm_membership.membership_type_id as membership_type_id,
        civicrm_membership.status_id          as status_id,
-       civicrm_contact.id                    as contact_id
+       civicrm_membership.join_date          as join_date,
+       civicrm_membership.start_date         as start_date,
+       civicrm_membership.end_date           as end_date,
+       civicrm_membership.source             as source,
+       civicrm_contact.id                    as contact_id,
+       civicrm_contact.is_deceased           as is_deceased
 FROM   civicrm_membership, civicrm_contact
 WHERE  civicrm_membership.contact_id = civicrm_contact.id
 ";
         $params = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-
+        
         $today = date( "Y-m-d" );
         $count = 0;
         while ( $dao->fetch( ) ) {
             echo ".";
-
+            
             /**
             $count++;
             echo $dao->contact_id . ', '. CRM_Utils_System::memory( ) . "<p>\n";
@@ -94,24 +95,81 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                 exit( );
             }
             **/
-
-            /* Update the membership records of deceased contacts as Expired */
-            if ( ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $dao->contact_id, 'is_deceased' ) == 1 ) ) {
-                crm_update_contact_membership( array( 'id'        => $dao->membership_id,
-                                                      'status_id' => CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', 'Deceased', 'id', 'name' ) ) );
+            
+            //get all active statuses of membership, CRM-3984
+            $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
+            
+            //need to handle related memberships records.
+            //we have deleted during parent membership processing.
+            $objectExists = CRM_Core_DAO::objectExists( $dao->membership_id, 
+                                                        'CRM_Member_DAO_Membership', 
+                                                        $dao->membership_id, 'id' );
+            if ( !$objectExists ) {
                 continue;
             }
-
-            /* Update only those membership records, where status is NOT - Pending OR Cancelled. */
-            if ( ! $dao->is_override &&
-                 ! in_array( $dao->status_id,
-                             array( 5, 6 ) ) ) {
-                $newStatus = crm_calc_membership_status( $dao->membership_id );
-                if ( $newStatus ) {
-                    crm_update_contact_membership( array('id'        => $dao->membership_id,
-                                                         'status_id' => $newStatus['id']) );
+            
+            //update membership record to Deceased if contact is deceased
+            if ( $dao->is_deceased ) { 
+                //since we are calculating status here so no
+                //need to calculate again in BAO::create( );
+                $deceasedMembership = array( 'id'                 => $dao->membership_id,
+                                             'status_id'          =>  $deceasedStatusId,
+                                             'contact_id'         => $dao->contact_id,
+                                             'membership_type_id' => $dao->membership_type_id,
+                                             'join_date'          => $dao->join_date,
+                                             'start_date'         => $dao->start_date,
+                                             'end_date'           => $dao->end_date,
+                                             'reminder_date'      => $dao->reminder_date,
+                                             'source'             => $dao->source,
+                                             'skipStatusCal'      => true );
+                
+                //create activity when status changed. CRM-2521.
+                //as BAO::create( ) create activity so let BAO handle it.
+                if ( $dao->status_id !=  array_search( 'Deceased', $allStatus ) ) {
+                    $deceasedMembership['createActivity'] = true; 
+                }
+                
+                civicrm_contact_membership_create( $deceasedMembership );
+                continue;
+            }
+            
+            //update membership records where status is NOT - Pending OR Cancelled.
+            //as well as membership is not override.
+            //skipping Expired membership records -> reduced extra processing( kiran ) 
+            if ( !$dao->is_override &&
+                 !in_array( $dao->status_id, array( array_search( 'Pending', $allStatus ),
+                                                    array_search( 'Cancelled', $allStatus ),
+                                                    array_search( 'Expired', $allStatus ) ) ) ) {
+                
+                //get the membership status as per id.
+                $newStatus = civicrm_membership_status_calc( array( 'membership_id' => $dao->membership_id ) );
+                
+                if ( !$newStatus['is_error'] ) {
+                    //take all params that need to save for
+                    //related memberships records. since BAO::create( )
+                    //will delete existing and create new records. 
+                    //also we are calculating status here, so no
+                    //need to calculate again in BAO::create( )
+                    $memParams = array( 'id'                 => $dao->membership_id,
+                                        'status_id'          => $newStatus['id'],
+                                        'contact_id'         => $dao->contact_id,
+                                        'membership_type_id' => $dao->membership_type_id,
+                                        'join_date'          => $dao->join_date,
+                                        'start_date'         => $dao->start_date,
+                                        'end_date'           => $dao->end_date,
+                                        'reminder_date'      => $dao->reminder_date,
+                                        'source'             => $dao->source,
+                                        'skipStatusCal'      => true );
+                    
+                    //create activity when status changed. CRM-2521.
+                    //as BAO::create create activity so let BAO handle it.
+                    if ( $newStatus['id'] != $dao->status_id ) {
+                        $memParams['createActivity'] = true; 
+                    }
+                    civicrm_contact_membership_create( $memParams );
                 }
             }
+            
             //convert date from string format to timestamp format
             $reminder_date = CRM_Utils_DATE::unixTime( $dao->reminder_date );
             $today_date    = CRM_Utils_DATE::unixTime( $today );
@@ -124,7 +182,6 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                 $memType->id = $dao->membership_type_id;
                 if ( $memType->find( true ) &&
                      $memType->renewal_msg_id ) {
-                    require_once 'CRM/Contact/BAO/Contact.php';
                     $toEmail  = CRM_Contact_BAO_Contact::getPrimaryEmail( $dao->contact_id );
                     
                     if ( $toEmail ) {
@@ -141,12 +198,9 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                             // CRM-3406
                             // at some point we might decide to do something
                         }
-                
                         
-                        //Set membership reminder date to NULL since we've sent the reminder.
-                        crm_update_contact_membership( array('id'             => $dao->membership_id,
-                                                             'reminder_date'  => 'null' ) );
-                        
+                        //set membership reminder date to NULL since we've sent the reminder.
+                        CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_Membership', $dao->membership_id, 'reminder_date', 'null');
                         
                         //insert the log record.
                         $memb = new CRM_Member_BAO_Membership( );
@@ -162,8 +216,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                                                'modified_date'         => date("Ymd"),
                                                'renewal_reminder_date' => date("Ymd") );
                             
-                            $dontCare = null;
-                            CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
+                            CRM_Member_BAO_MembershipLog::add( $logParams, CRM_Core_DAO::$_nullArray );
                         }
                         $memb->free( );
                     }

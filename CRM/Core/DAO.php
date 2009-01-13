@@ -484,7 +484,7 @@ class CRM_Core_DAO extends DB_DataObject
         if ( $object->find( true ) ) {
             return ( $daoID && $object->id == $daoID ) ? true : false;
         } else {
-            return true;
+            return false;
         }
     }
 

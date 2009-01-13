@@ -374,38 +374,29 @@ function civicrm_contact_membership_create(&$params)
     if (is_a($error, 'CRM_Core_Error') ) {
         return civicrm_create_error( 'Membership is not created' );
     }
-     
+
     $params = array_merge($values,$params);
-    require_once 'CRM/Member/BAO/Membership.php';
+    
+    require_once 'CRM/Core/Action.php';
+    $action = CRM_Core_Action::ADD;
+    
     //for edit membership id should be present
     if ( CRM_Utils_Array::value( 'id', $params ) ) {
         $ids = array( 'membership' => $params['id'],
                       'user_id'    => $params['contact_id'] );
+        $action = CRM_Core_Action::UPDATE;
     }
     
+    //need to pass action to handle related memberships. 
+    $params['action'] = $action;    
+    
+    require_once 'CRM/Member/BAO/Membership.php';
     $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids, true);
     
     if ( array_key_exists( 'is_error', $membershipBAO ) ) {
         // In case of no valid status for given dates, $membershipBAO
         // is going to contain 'is_error' => "Error Message"
         return civicrm_create_error( ts( 'The membership can not be saved, no valid membership status for given dates' ) );
-    }
-    
-    if ( ! is_a( $membershipBAO, 'CRM_Core_Error') ) {
-      require_once 'CRM/Core/Action.php';
-        $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
-                                                                   $membershipBAO->id,
-                                                                   $params['contact_id'],
-                                                                   CRM_Core_Action::ADD
-                                                                   );
-    }
-    
-    foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
-        $params['contact_id'         ] = $contactId;
-        $params['owner_membership_id'] = $membershipBAO->id;
-        unset( $params['id'] );
-        
-        CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
     }
     
     $membership = array();
@@ -416,7 +407,6 @@ function civicrm_contact_membership_create(&$params)
     
     return $values;
 }
-
 
 /**
  * Get conatct membership record.

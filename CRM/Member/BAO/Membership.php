@@ -71,7 +71,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     static function &add(&$params, &$ids) 
     {
         require_once 'CRM/Utils/Hook.php';
-       
+        
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Membership', $ids['membership'], $params );
         } else {
@@ -79,7 +79,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         
         // converting dates to mysql format
-        if ( $params['join_date'] ) {
+        if ( isset( $params['join_date'] ) ) {
             $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
         }
         if ( isset( $params['start_date'] ) ) {
@@ -121,7 +121,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                'modified_id'   => CRM_Utils_Array::value( 'userId', $ids ),
                                'modified_date' => date('Ymd')
                                );
-       
+        
         require_once 'CRM/Member/BAO/MembershipLog.php';
         CRM_Member_BAO_MembershipLog::add($membershipLog, CRM_Core_DAO::$_nullArray);
         
@@ -186,7 +186,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
     { 
-        if ( ! isset( $params['is_override'] ) ) {
+        
+        // no need to calculate status again 
+        // as we done in membership update cron, CRM-3984
+        if ( !isset( $params['is_override'] ) && !CRM_Utils_Array::value( 'skipStatusCal', $params )  ) {
             require_once 'CRM/Utils/Date.php';
             $startDate = $endDate = $joinDate = null;
             if ( isset( $params['start_date'] ) ) {
@@ -272,18 +275,23 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         
         // add activity record only during create mode and renew mode
-        if ( !CRM_Utils_Array::value( 'membership', $ids ) || $activityType == 'Membership Renewal' ) {
+        // also add activity if status changed CRM-3984 and CRM-2521
+        if ( !CRM_Utils_Array::value( 'membership', $ids ) || 
+             $activityType == 'Membership Renewal' ||
+             CRM_Utils_Array::value( 'createActivity', $params ) ) {
+            
             if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
                 CRM_Core_DAO::commonRetrieveAll( 'CRM_Member_DAO_Membership', 
                                                  'id', 
                                                  $membership->id, 
                                                  $data, 
                                                  array( 'contact_id', 'membership_type_id', 'source' ) );
-
+                
                 $membership->contact_id         = $data[$membership->id]['contact_id'];
                 $membership->membership_type_id = $data[$membership->id]['membership_type_id'];
-                $membership->source             = $data[$membership->id]['source'];
+                $membership->source             = CRM_Utils_Array::value( 'source', $data[$membership->id] );
             }
+            
             require_once 'CRM/Activity/BAO/Activity.php';
             CRM_Activity_BAO_Activity::addActivity( $membership, $activityType );
         }

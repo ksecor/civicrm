@@ -1044,13 +1044,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
             
             if ( $activity->owner_membership_id ) {
-                $cid         = CRM_Core_DAO::getFieldValue( 
-                                                           'CRM_Member_DAO_Membership', 
-                                                           $activity->owner_membership_id,
-                                                           'contact_id' );
-                $displayName = CRM_Core_DAO::getFieldValue( 
-                                                           'CRM_Contact_DAO_Contact',
-                                                           $cid, 'display_name' );
+                $query = "
+SELECT  display_name 
+  FROM  civicrm_contact, civicrm_membership  
+ WHERE  civicrm_contact.id    = civicrm_membership.contact_id
+   AND  civicrm_membership.id = $activity->owner_membership_id
+";
+                $displayName = CRM_Core_DAO::singleValueQuery( $query );
                 $subject .= " (by {$displayName})";
             }
             
@@ -1104,7 +1104,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'subject'            => $subject,
                                  'activity_date_time' => $date,
                                  'is_test'            => $activity->is_test,
-                                 'status_id'          => 2
+                                 'status_id'          => CRM_Core_OptionGroup::getValue( 'activity_status', 
+                                                                                         'Completed', 
+                                                                                         'name' )
                                  );
         
         require_once 'api/v2/Activity.php';
