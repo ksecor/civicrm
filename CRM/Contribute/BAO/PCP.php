@@ -393,11 +393,12 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         list ($name, $address) = 
             CRM_Contact_BAO_Contact_Location::getEmailDetails( $pcpInfo['contact_id'] );
 
+        // get pcp block info
+        list($blockId, $eid) = self::getPcpBlockEntityId( $pcpId );
+        $params = array( 'id' => $blockId );
+        CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $params, $pcpBlockInfo);
+
         if ( $pcpStatus[$newStatus] == 'Approved' ) {
-            list($blockId, $eid) = self::getPcpBlockEntityId( $pcpId );
-            $params = array( 'id' => $blockId );
-            CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $params, $pcpBlockInfo);
-            
             $template->assign( 'isTellFriendEnabled', $pcpBlockInfo['is_tellfriend_enabled'] );
             if ( $pcpBlockInfo['is_tellfriend_enabled'] ) {
                 $pcpTellFriendURL = CRM_Utils_System::url('civicrm/friend', 
@@ -411,9 +412,7 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
                                                 true, null, false);
             $template->assign( 'pcpInfoURL', $pcpInfoURL );
         }
-
-        $pcpNotifyEmailAddress = self::getPcpNotifyEmail( $pcpId );
-        $template->assign( 'pcpNotifyEmailAddress', $pcpNotifyEmailAddress );
+        $template->assign( 'pcpNotifyEmailAddress', $pcpBlockInfo['notify_email'] );
 
         // get appropriate message
         $template->assign( 'returnContent', $pcpStatus[$newStatus] );
@@ -529,28 +528,6 @@ FROM civicrm_pcp pcp
 LEFT JOIN civicrm_contribution_page as cp ON ( cp.id =  pcp.contribution_page_id )
 WHERE pcp.id = %1";
         
-        $params = array( 1 => array( $pcpId, 'Integer' ) );
-        return CRM_Core_DAO::singleValueQuery( $query, $params );
-    }
-
-    /**
-     * Function to get pcp notify email
-     * 
-     * @param int $id campaign page id
-     *
-     * @return String
-     * @access public
-     * @static
-     *
-     */
-    static function getPcpNotifyEmail( $pcpId ) 
-    {
-        $query = "
-SELECT pb.notify_email as notifyEmail
-FROM civicrm_pcp pcp 
-LEFT JOIN civicrm_pcp_block pb ON ( pb.entity_id = pcp.contribution_page_id AND pb.entity_table = 'civicrm_contribution_page' )
-WHERE pcp.id = %1";
-
         $params = array( 1 => array( $pcpId, 'Integer' ) );
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
