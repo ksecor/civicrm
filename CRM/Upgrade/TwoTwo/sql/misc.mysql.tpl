@@ -376,7 +376,7 @@ INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) V
 
 -- ======== CiviCase Related Upgrade ==========
 -- Insert the CiviCase Component
-INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES ( 7,'CiviCase','CRM_Case' );
+INSERT INTO `civicrm_component` ( `name`, `namespace`) VALUES ( 'CiviCase','CRM_Case' );
 
 -- CRM-3667 case mapping
 SELECT @option_group_id_mt := max(id) from civicrm_option_group where name = 'mapping_type';
