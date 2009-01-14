@@ -37,27 +37,9 @@
           <status>Closed</status>
         </ActivityType>
         <ActivityType>
-          <name>Notify service provider</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>2</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-		<ActivityType>
-          <name>Facilitate first appointment</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>2</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
           <name>Survey client satisfaction Referral to counselor</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>21</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Follow up</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>14</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>

@@ -11,7 +11,7 @@
       <name>Notify selected referral target</name>
     </ActivityType>
     <ActivityType>
-      <name>Call client and deliver names</name>
+      <name>Facilitate first appointment</name>
     </ActivityType>
     <ActivityType>
       <name>Survey client satisfaction Referral to family doctor</name>
@@ -43,15 +43,9 @@
           <reference_select>newest</reference_select>
         </ActivityType>
 		<ActivityType>
-          <name>Call client and deliver names</name>
+          <name>Facilitate first appointment</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>2</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-		<ActivityType>
-          <name>Follow up</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>14</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
@@ -67,6 +61,9 @@
     <RelationshipType>
         <name>Intake Physician</name>
         <creator>1</creator>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Family Doctor</name>
     </RelationshipType>
   </CaseRoles>
 </CaseType>

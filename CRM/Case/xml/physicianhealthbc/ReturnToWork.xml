@@ -8,21 +8,24 @@
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
-      <name>Beginning of earliest period totally absent from work</name>
+      <name>Record beginning of earliest total absence</name>
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
-      <name>Earliest return to any work activity</name>
+      <name>Record earliest return to work activity</name>
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
-      <name>Beginning of period of attempted full duties</name>
+      <name>Record beginning of period of attempted full duties</name>
     </ActivityType>
     <ActivityType>
-      <name>Beginning of period of restricted duties</name>
+      <name>Record beginning of period of restricted duties</name>
     </ActivityType>
     <ActivityType>
-      <name>Beginning of period totally absent from work</name>
+      <name>Record beginning of period total absence</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Sign case coordination agreement</name>
     </ActivityType>
 	<ActivityType>
       <name>Change Case Type</name>
@@ -51,13 +54,19 @@
           <status>Closed</status>
         </ActivityType>
         <ActivityType>
-          <name>Beginning of earliest period totally absent from work</name>
+          <name>Record beginning of earliest total absence</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <name>Earliest return to any work activity</name>
+          <name>Sign case coordination agreement</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>7</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Record earliest return to work activity</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>30</reference_offset>
           <reference_select>newest</reference_select>
@@ -69,13 +78,13 @@
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <name>Beginning of period of restricted duties</name>
+          <name>Record beginning of period of restricted duties</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>30</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <name>Beginning of period of attempted full duties</name>
+          <name>Record beginning of period of attempted full duties</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>30</reference_offset>
           <reference_select>newest</reference_select>

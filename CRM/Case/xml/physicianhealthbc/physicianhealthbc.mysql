@@ -11,6 +11,10 @@ UPDATE civicrm_location_type SET `is_default` = 1 WHERE `name` = 'Work';
 SELECT @ptId        := max(id) from civicrm_option_group where name = 'phone_type';
 UPDATE civicrm_option_value SET `is_default` = 1 WHERE `option_group_id` = @ptId AND `name` = 'Voicemail';
 
+-- Update dedupe matching rules to not require email.
+DELETE FROM civicrm_dedupe_rule WHERE id='3';
+UPDATE civicrm_dedupe_rule_group SET threshold='11' where id='1';
+
 -- /*******************************************************
 -- *
 -- * Case Types
@@ -66,9 +70,9 @@ VALUES
     (@option_group_id_activity_type, 'Debrief intervention', (SELECT @max_val := @max_val+1), 'Debrief intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Record what the result was. Did the problem person obtain help?', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Facilitate first appointment', (SELECT @max_val := @max_val+1), 'Facilitate first appointment',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Do not give names in writing (AB)', 0, 0, 1, 7 ),     
     (@option_group_id_activity_type, 'Survey client satisfaction (Counselor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to counselor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Notify selected referral target', (SELECT @max_val := @max_val+1), 'Notify selected referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Call family doc to let MOA know that name has been given out, and call might come in. Remind MOA of code word. Record target name in assigned to field.', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Notify selected referral target', (SELECT @max_val := @max_val+1), 'Notify selected referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Call family doctor to let MOA know that name has been given out, and call might come in. Remind MOA of code word. Record target name in assigned to field.', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Call client and deliver names', (SELECT @max_val := @max_val+1), 'Call client and deliver names',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),     
-    (@option_group_id_activity_type, 'Survey client satisfaction (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to family doctor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Confirm which family doc was selected in the assigned to field (to keep stats on how many successful referrals generated, etc) and if satisfied.', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Survey client satisfaction (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to family doctor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Confirm which family doctor was selected in the assigned to field (to keep stats on how many successful referrals generated, etc) and if satisfied.', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Determine needs and preferences', (SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to specialist',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'What is the type of specialist? Where does the caller live? Any restrictions like travel, schedule? Put some of these details into the subject field so it\'s visible from Manage Case.', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Prescreen referral target', (SELECT @max_val := @max_val+1), 'Prescreen referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Survey client satisfaction (Specialist referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to specialist',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
@@ -84,11 +88,12 @@ VALUES
     (@option_group_id_activity_type, 'Review prescribing privileges', (SELECT @max_val := @max_val+1), 'Review prescribing privileges',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Review hospital privileges', (SELECT @max_val := @max_val+1), 'Review hospital privileges',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Summarize case for discharge', (SELECT @max_val := @max_val+1), 'Summarize case for discharge',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Beginning of earliest period totally absent from work', (SELECT @max_val := @max_val+1), 'Beginning of earliest period totally absent from work',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Earliest return to any work activity', (SELECT @max_val := @max_val+1), 'Earliest return to any work activity',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Beginning of period of restricted duties', (SELECT @max_val := @max_val+1), 'Beginning of period of restricted duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Beginning of period of attempted full duties', (SELECT @max_val := @max_val+1), 'Beginning of period of attempted full duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-    (@option_group_id_activity_type, 'Beginning of period totally absent from work', (SELECT @max_val := @max_val+1), 'Beginning of period totally absent from work',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Record beginning of earliest total absence', (SELECT @max_val := @max_val+1), 'Record beginning of earliest total absence',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Record earliest return to work activity', (SELECT @max_val := @max_val+1), 'Record earliest return to work activity',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Sign case coordination agreement', (SELECT @max_val := @max_val+1), 'Sign case coordination agreement',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Record beginning of period of restricted duties', (SELECT @max_val := @max_val+1), 'Record beginning of period of restricted duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Record beginning of period of attempted full duties', (SELECT @max_val := @max_val+1), 'Record beginning of period of attempted full duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Record beginning of period total absence', (SELECT @max_val := @max_val+1), 'Record beginning of period total absence',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'This activity type is used to record a transition to total absence from work AFTER a trial of restricted duty, or full duty. It indicates a type of relapse.', 0, 0, 1, 7 ),
     (@option_group_id_activity_type, 'Notify service provider', (SELECT @max_val := @max_val+1), 'Notify service provider',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
     (@option_group_id_activity_type, 'Assign classification - Presenting Problem', (SELECT @max_val := @max_val+1), 'Assign classification - Presenting Problem',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Use when the original problems have changed. So technically this is not the Presenting Problem, but it seems to be the common way of describing this.', 0, 0, 1, 7 ),  
     (@option_group_id_activity_type, 'Assign classification - Specialty Certification', (SELECT @max_val := @max_val+1), 'Assign classification - Specialty Certification',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );
@@ -113,6 +118,7 @@ SELECT @at24       := max(value) from civicrm_option_value where name = 'Notify 
 SELECT @at25       := max(value) from civicrm_option_value where name = 'Assign classification - Presenting Problem';
 SELECT @at26       := max(value) from civicrm_option_value where name = 'Assign classification - Specialty Certification';
 SELECT @at27       := max(value) from civicrm_option_value where name = 'Review prescribing privileges';
+SELECT @at28       := max(value) from civicrm_option_value where name = 'Survey client satisfaction Referral to family doctor';
 
 -- /*******************************************************
 -- *
@@ -549,6 +555,26 @@ CREATE TABLE `civicrm_value_review_presc_priv_1` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+--
+-- Survey client satisfaction Referral to family doctor
+--
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`) 
+ VALUES ('Survey_Client_Satisfaction_fam_doc','Family Doctor Referral Satisfaction Survey','Activity',NULL,@at28,'Inline',0,'','',5,1,'civicrm_value_sat_survey_fam_doc_1',0,0,0);
+SELECT @cg_ssfd := max(id) from civicrm_custom_group where name = 'Survey_Client_Satisfaction_fam_doc';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+ VALUES
+ (@cg_ssfd,'Satisfied?','Boolean','Radio',NULL,1,1,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'satisfied_1',NULL);
+
+CREATE TABLE `civicrm_value_sat_survey_fam_doc_1` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `satisfied_1`  tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_sat_survey_fam_doc_1_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 -- 
 -- Skeleton Classification
 --
@@ -756,13 +782,38 @@ SELECT @iR            := max(id) from civicrm_relationship_type where name_b_a =
 
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved, is_active )
  VALUES
- ('Community Mentor is', 'Community Mentor', 'Community Mentor', 'Individual', 'Individual', 0, 1);
+ ('Community Mentor is', 'Community Mentor', 'Community Mentor', 'Individual', 'Individual', 0, 1),
+ ('Family Doctor is', 'Family Doctor', 'Family Doctor', 'Individual', 'Individual', 0, 1),
+ ('Medical School is', 'Medical School of', 'Medical School', 'Individual', 'Organization', 0, 1),
+ ('Treatment Facility is', 'Treatment Facility for', 'Treatment Facility', 'Individual', 'Organization', 0, 1);
 
 -- Types of specialists
 INSERT INTO `civicrm_relationship_type` (`name_a_b`, `name_b_a`, `description`, `contact_type_a`, `contact_type_b`, `is_reserved`, `is_active`)
  VALUES ('Psychiatrist is','Psychiatrist','Psychiatrist','Individual','Individual',0,1),
 		('Addiction Specialist is','Addiction Specialist','Addiction Specialist','Individual','Individual',0,1),
 		('Other Specialist is','Other Specialist','Other Specialist','Individual','Individual',0,1);
+
+
+-- ********************************************************************************
+-- * Custom contact-related fields for CPHN indicators
+-- ********************************************************************************
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES
+	('Contact_related_CPHN_indicators','Contact-related CPHN indicators','Contact',NULL,NULL,'Inline',0,'','',6,1,'civicrm_value_contact_related_cphn_indicators_13',0,0,0);
+SELECT @cg_contactCPHN := id FROM civicrm_custom_group where name = 'Contact_related_CPHN_indicators';
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+ VALUES 
+	(@cg_contactCPHN,'Year of graduation from medical school','Int','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,4,NULL,NULL,'MdY',60,4,'year_of_graduation_from_medical__53',NULL);
+
+CREATE TABLE `civicrm_value_contact_related_cphn_indicators_13` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `year_of_graduation_from_medical__53` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_contact_related_cphn_indicators_13_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 
 -- ********************************************************************************
@@ -786,9 +837,6 @@ INSERT INTO `civicrm_relationship_type` (`name_a_b`, `name_b_a`, `description`, 
 -- So as a workaround there's an additional php script you need to run after this, AFTER visiting the home page for the first time.
 -- ****** END AWKWARD ******
 
--- Update dedupe matching rules to not require email.
-DELETE FROM civicrm_dedupe_rule WHERE id='3';
-UPDATE civicrm_dedupe_rule_group SET threshold='11' where id='1';
 
 -- Update number of allowed locations
 UPDATE civicrm_preferences set location_count='2';
