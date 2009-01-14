@@ -185,7 +185,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                                              'civicrm_pcp',
                                              $pcp->id );
 
-        $pageStatus = isset( $this->_pageId ) ? 'updated' : 'created';
+        $pageStatus = isset( $this->_pageId ) ? ts('updated') : ts('created');
         $statusId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $pcp->id, 'status_id' );
      
         //send notification of PCP create/update.
@@ -200,7 +200,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             } else {
                 $this->assign ( 'mode', 'Add');
             }
-            
+            require_once 'CRM/Core/OptionGroup.php';
             $pcpStatus = CRM_Core_OptionGroup::getLabel( 'pcp_status', $statusId );
             $this->assign( 'pcpStatus', $pcpStatus );
             
@@ -240,16 +240,15 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                                        $notifyParams['notify_email'],
                                        $subject,
                                        $message ) ) {
-                $notifyStatus = " Notification about this action has been sent to Administrator."; 
+                $notifyStatus = ts(' Notification about this action has been sent to Administrator.'); 
             }
         }
         
         CRM_Core_BAO_File::processAttachment( $params, 'civicrm_pcp', $pcp->id );
         CRM_Core_Session::setStatus( ts( "Your Personal Contribution Page has been %1 %2.%3", array(1 => $pageStatus, 2 => $approvalMessage, 3 => $notifyStatus)) );
         if ( ! $this->_pageId ) {
-            $url = CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$pcp->id );
+            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$pcp->id ) );
         } 
-        $session->pushUserContext( $url );
     }
 }
 

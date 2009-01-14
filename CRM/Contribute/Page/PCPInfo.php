@@ -234,15 +234,14 @@ AND is_test = 0";
         }
         
         if ( $single ){
-            require_once 'CRM/Core/Controller/Simple.php'; 
+            require_once 'CRM/Core/Controller/Simple.php';
             $controller =& new CRM_Core_Controller_Simple( $form, $subForm, $action); 
-            $session =& CRM_Core_Session::singleton(); 
-            $session->pushUserContext( CRM_Utils_System::url(CRM_Utils_System::currentPath( ),'reset=1&id='.$this->_id ));
             $controller->set('id', $this->_id); 
             $controller->set('single', true );
             $controller->process(); 
             return $controller->run();
         }
+        $session->pushUserContext( CRM_Utils_System::url(CRM_Utils_System::currentPath( ),'reset=1&id='.$this->_id ));
         parent::run();
     }
     
