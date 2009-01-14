@@ -501,7 +501,7 @@ class CRM_Utils_Rule
      * @param string $value     the value of the field we are checking
      * @param array  $options   the daoName and fieldName (optional )
      *
-     * @return boolean     false if object exists
+     * @return boolean     true if object exists
      * @access public
      * @static
      */
@@ -512,10 +512,7 @@ class CRM_Utils_Rule
             $name = $options[2];
         }
         
-        if ( CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, $name ) ) ) {
-            return false;
-        }
-        return true;
+        return CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, $name ) );
     }
     
     static function optionExists( $value, $options ) 
@@ -527,7 +524,6 @@ class CRM_Utils_Rule
     static function creditCardNumber( $value, $type ) 
     {
         require_once 'Validate/Finance/CreditCard.php';
-
         return Validate_Finance_CreditCard::number( $value, $type );
     }
 
