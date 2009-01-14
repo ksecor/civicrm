@@ -93,6 +93,7 @@
       
       </td>
     </tr>
+   {if $linkText} 
     <tr>
         <td colspan="2">
             <div class="action-link">
@@ -100,6 +101,7 @@
             </div>
         </td>
     </tr>
+   {/if}
   </table>
 
 </div>
