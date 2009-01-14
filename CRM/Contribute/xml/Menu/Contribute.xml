@@ -118,6 +118,14 @@
      <weight>530</weight>
   </item>
   <item>
+     <path>civicrm/contribute/pcp/manage</path>
+     <title>Personal Campaign Pages</title>
+     <page_callback>CRM_Contribute_Page_PCP</page_callback>
+     <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
+     <page_type>1</page_type>
+     <weight>540</weight>
+  </item>
+  <item>
      <path>civicrm/contribute/additionalinfo</path>
      <title>AdditionalInfo Form</title>
      <page_callback>CRM_Contribute_Form_AdditionalInfo</page_callback>
