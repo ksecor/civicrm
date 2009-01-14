@@ -388,21 +388,30 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         unset($name, $address);
 
         // get recipient (supporter) name and email
-        $supporterId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $pcpId, 'contact_id' );
+        $params = array( 'id' => $pcpId );
+        CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCP', $params, $pcpInfo);
         list ($name, $address) = 
-            CRM_Contact_BAO_Contact_Location::getEmailDetails( $supporterId );
+            CRM_Contact_BAO_Contact_Location::getEmailDetails( $pcpInfo['contact_id'] );
 
         if ( $pcpStatus[$newStatus] == 'Approved' ) {
             list($blockId, $eid) = self::getPcpBlockEntityId( $pcpId );
-            $pcpTellFriendURL    = CRM_Utils_System::url('civicrm/friend', 
-                                                         "reset=1&eid=$eid&blockId=$blockId&page=pcp", true);
-            $template->assign( 'pcpTellFriendURL', $pcpTellFriendURL );
+            $params = array( 'id' => $blockId );
+            CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $params, $pcpBlockInfo);
             
-            $pcpInfoURL = CRM_Utils_System::url('civicrm/contribute/pcp/info', 
-                                                "reset=1&id=$pcpId", true);
-            $template->assign( 'pcpInfoURL', $pcpInfoURL );
+            $template->assign( 'isTellFriendEnabled', $pcpBlockInfo['is_tellfriend_enabled'] );
+            if ( $pcpBlockInfo['is_tellfriend_enabled'] ) {
+                $pcpTellFriendURL = CRM_Utils_System::url('civicrm/friend', 
+                                                          "reset=1&eid=$eid&blockId=$blockId&page=pcp", 
+                                                          true, null, false);
+                $template->assign( 'pcpTellFriendURL', $pcpTellFriendURL );
+            }
 
+            $pcpInfoURL = CRM_Utils_System::url('civicrm/contribute/pcp/info', 
+                                                "reset=1&id=$pcpId", 
+                                                true, null, false);
+            $template->assign( 'pcpInfoURL', $pcpInfoURL );
         }
+
         $pcpNotifyEmailAddress = self::getPcpNotifyEmail( $pcpId );
         $template->assign( 'pcpNotifyEmailAddress', $pcpNotifyEmailAddress );
 

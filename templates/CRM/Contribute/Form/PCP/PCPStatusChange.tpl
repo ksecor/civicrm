@@ -6,15 +6,17 @@ Your Personal Campaign Page
 
 Your personal campaign page has been approved and is now live. 
 
+{if $isTellFriendEnabled}
 Promote your fundraising page:
-&raquo; {$pcpTellFriendURL}
+{$pcpTellFriendURL}
 
+{/if}
 View and update your page:
-&raquo; {$pcpInfoURL}
+{$pcpInfoURL}
 
 {if $pcpNotifyEmailAddress}
 Questions? Send email to:
-&raquo; <a href="mailto:{$pcpNotifyEmailAddress}">{$pcpNotifyEmailAddress}</a>
+{$pcpNotifyEmailAddress}
 {/if}
 
 {* Rejected message *}
@@ -28,7 +30,7 @@ which prevented us from approving the page. We are sorry for any inconvenience.
 
 {if $pcpNotifyEmailAddress}
 Please contact our site administrator for more information: 
-&raquo; <a href="mailto:{$pcpNotifyEmailAddress}">{$pcpNotifyEmailAddress}</a>
+{$pcpNotifyEmailAddress}
 {/if}
 
 {/if}
