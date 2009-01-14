@@ -192,9 +192,11 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $pcpParams   = array( 'entity_table' => 'civicrm_contribution_page', 'entity_id' => $pcp->contribution_page_id );
         $notifyParams = array( );
         $notifyStatus = "";
-        if ( CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $pcpParams, $notifyParams, array('notify_email')) ) {
+        CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $pcpParams, $notifyParams, array('notify_email'));
+
+        if ( CRM_Utils_Array::value('notify_email', $notifyParams) ) {
             $this->assign( 'pcpTitle', $pcp->title );
-          
+            
             if( $this->_pageId ) {
                 $this->assign ( 'mode', 'Update');
             } else {

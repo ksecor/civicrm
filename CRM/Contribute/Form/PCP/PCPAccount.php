@@ -203,7 +203,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         foreach( $fields as $key => $value ) {
             if ( strpos($key, 'email-') !== false ) {
                 $UFMatchId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFMatch', $self->_contactID, 'id', 'contact_id' );
-                if ( !CRM_Utils_Rule::objectExists($value, array('CRM_Core_DAO_UFMatch', $UFMatchId, 'uf_name')) ) {
+                if ( CRM_Utils_Rule::objectExists($value, array('CRM_Core_DAO_UFMatch', $UFMatchId, 'uf_name')) ) {
                     $errors[$key] = ts( 'There is already an user associated with this email address. Please enter different email address.' );   
                 }
             }
