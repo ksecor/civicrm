@@ -12,6 +12,9 @@
             <td>
                 <label>{ts}Status{/ts}:</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
             </td>
+            <td>
+                <label>{ts}Case #{/ts}:</label>&nbsp;{$caseID}
+            </td>
         </tr>
     </table>
     <table class="form-layout">
