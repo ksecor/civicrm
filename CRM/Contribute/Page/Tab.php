@@ -119,7 +119,7 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
         $params =  CRM_Contribute_BAO_Contribution::getHonorContacts( $this->_contactId );
         if ( ! empty($params) ) {
             foreach($params as $ids => $honorId){
-                $contributionId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $honorId['honorId'],'id','contact_id' );
+                $contributionId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $this->_contactId,'id','honor_contact_id' );
                 $subType     = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorId['type'], 'id','name' );
                 $params[$ids]['action'] = CRM_Core_Action::formLink(self::honorLinks( ), $action, 
                                                                     array('cid'              => $honorId['honorId'],
