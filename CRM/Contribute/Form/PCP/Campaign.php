@@ -162,7 +162,9 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         }
         $session =& CRM_Core_Session::singleton( );
         $contactID = isset( $this->_contactID ) ? $this->_contactID : $session->get('userID');
-        $conatctID = isset( $contactID ) ? $contactID : $this->get('contactID');
+        if( ! $contactID ) {
+            $contactID = $this->get('contactID');
+        }
         $params['contact_id']           = $contactID;
         $params['contribution_page_id'] = $this->get('contribution_page_id') ? $this->get('contribution_page_id') : $this->_contriPageId;
         

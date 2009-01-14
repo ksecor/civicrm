@@ -58,11 +58,14 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
     public function preProcess()  
     {
         $session =& CRM_Core_Session::singleton( );
-        $this->_contactID = $session->get( 'userID' );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
         $this->_pageId = CRM_Utils_Request::retrieve( 'pageId', 'Positive', $this );
         $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-     
+        if ( $this->_id ){
+            $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'contact_id' );   
+        }
+
+        $this->_contactID = isset( $contactID ) ? $contactID : $session->get( 'userID' );     
         if ( ! $this->_pageId ) {
             $this->_pageId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'contribution_page_id' );
         }
