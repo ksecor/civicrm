@@ -237,6 +237,7 @@ WHERE     openid = %1";
 
                 $contactId = CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray );
                 $ufmatch->contact_id     = $contactId;
+                $ufmatch->uf_name        = $uniqId;
             }
 
             $ufmatch->save( );
