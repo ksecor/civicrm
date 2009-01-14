@@ -334,10 +334,22 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
             $is_active = 2;
             break;
         }
+
         CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'status_id', $is_active );
-        
+
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $pcpTitle  = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'title' );
+        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+        $pcpStatus = $pcpStatus[$is_active]; 
+
+        CRM_Core_Session::setStatus("$pcpTitle status has been updated to $pcpStatus.");
+
         // send status change mail
-        self::sendStatusUpdate( $id, $is_active );
+        $result = self::sendStatusUpdate( $id, $is_active );
+
+        if ( $result ) {
+            CRM_Core_Session::setStatus("A mail has also been sent to supporter informing the status update.");
+        }
     }
 
     /**
@@ -352,8 +364,7 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
      *
      */
     static function sendStatusUpdate( $pcpId, $newStatus ) {
-        require_once 'CRM/Core/OptionGroup.php';
-        $pcpStatus = CRM_Core_OptionGroup::values( 'pcp_status' );
+        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
 
         if ( ! isset($pcpStatus[$newStatus]) ) {
             return false;
@@ -393,7 +404,7 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
 
         }
         $pcpNotifyEmailAddress = self::getPcpNotifyEmail( $pcpId );
-        $template->assign( 'pcpNotifyEmailAddress', 'mailto:' . $pcpNotifyEmailAddress );
+        $template->assign( 'pcpNotifyEmailAddress', $pcpNotifyEmailAddress );
 
         // get appropriate message
         $template->assign( 'returnContent', $pcpStatus[$newStatus] );
