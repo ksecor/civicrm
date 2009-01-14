@@ -186,14 +186,14 @@ function addPrice(priceVal, priceId) {
   var priceset = 0;
   if(op != 'select-one') {
     priceset = priceVal.split(symbol);
-  
+  }
+
+  if (priceset != 0) {
     var priceArray = priceset[1].split(',');
     var Actualprice= "";
     for( i=0 ;i<priceArray.length ; i++ ){
       Actualprice =Actualprice+priceArray[i]; 
     }
-  }
-  if (priceset != 0) {
     var addprice = parseFloat(Actualprice);
   }
   switch(op)
