@@ -86,7 +86,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
      */
     function buildQuickForm( ) 
     {
-        $this->addElement( 'checkbox', 'is_active', ts('Enable Personal Campaign Pages (for this contribution page)?'), null, array('onclick' => "pcpBlock(this)") );
+        $this->addElement( 'checkbox', 'is_active', ts('Enable Personal Campaign Pages (for this contribution page)?'), null, array('onclick' => "return showHideByValue('is_active',true,'pcpFields','table-row','radio',false);" ) );
 	
         $this->addElement( 'checkbox', 'is_approval_needed', ts('Approval required') );
         
@@ -101,7 +101,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
 
         $this->add('select', 'supporter_profile_id', ts( 'Supporter profile' ), array( '' => ts( '- select -' ) ) + $profile ); 
         
-        $this->addElement( 'checkbox', 'is_tellfriend_enabled', ts("Allow 'Tell a friend' functionality") );
+        $this->addElement( 'checkbox', 'is_tellfriend_enabled', ts("Allow 'Tell a friend' functionality"), null, array('onclick' => "return showHideByValue('is_tellfriend_enabled',true,'tflimit','table-row','radio',false);" ) );
         
         $this->add( 'text', 
                     'tellfriend_limit', 
