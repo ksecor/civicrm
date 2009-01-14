@@ -103,15 +103,18 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
         if ( $processed ) {
             // also update the group with cache date information
             $now = date('YmdHis');
-            $groupIDs = implode( ',', $groupID );
-            $sql = "
+        } else {
+            $now = 'null';
+        }
+
+        $groupIDs = implode( ',', $groupID );
+        $sql = "
 UPDATE civicrm_group
 SET    cache_date = $now
 WHERE  id IN ( $groupIDs )
 ";
-            CRM_Core_DAO::executeQuery( $sql,
-                                        CRM_Core_DAO::$_nullArray );
-        }
+        CRM_Core_DAO::executeQuery( $sql,
+                                    CRM_Core_DAO::$_nullArray );
     }
 
     static function remove( $groupID = null, $onceOnly = true ) {
