@@ -253,19 +253,19 @@ class BAO_Core_CustomValueTable extends CiviTestCase
                               'dataType' => 'String',
                               'htmlType' => 'Text'
                               );
+
         $customField = Custom::createField( $params, $fields );
 
-        $params = array( 'entityI'     => 102,
-                         'custom_5_-1' => 'First String',
+        $params = array( 'entityID'                       => $contactID,
+                         'custom_'.$customField->id.'_-1' => 'First String',
                          );
         $error = CRM_Core_BAO_CustomValueTable::setValues( $params );
-	//        CRM_Core_Error::debug( $error );
         
-        $newParams = array( 'entityID'    => $contactID,
-                            'custom_5'    => 1 );
+        $newParams = array( 'entityID'                  => $contactID,
+                            'custom_'.$customField->id  => 1 );
         $result = CRM_Core_BAO_CustomValueTable::getValues( $newParams );
         
-        $this->assertEqual( $params['custom_5_-1'], $result['custom_5_1'] );
+        $this->assertEqual( $params['custom_'.$customField->id.'_-1'], $result['custom_'.$customField->id] );
         $this->assertEqual( $params['entityID'], $result['entityID'] );
 	
 	Custom::deleteField( $customField );        
