@@ -17,24 +17,17 @@
 
 	<div id="pcpFields">
 		<dl>
-			<dt>{$form.is_approval_needed.label}</dt><dd>{$form.is_approval_needed.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Administrator will need to approve new Personal Campaign Pages before they are available publically.{/ts}</dd>
+			<dt>{$form.is_approval_needed.label}</dt><dd>{$form.is_approval_needed.html} {help id="id-approval_needed"}</dd>
 
-			<dt>{$form.supporter_profile_id.label} <span class="marker"> *</span></dt><dd>{$form.supporter_profile_id.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}This profile is used to collect or update basic information (e.g. name and email address) from users while they are creating a Personal Campaign Page. The profile will include creating a user account if they don't already have one.{/ts}</dd>
+           	<dt>{$form.notify_email.label}</dt><dd>{$form.notify_email.html} {help id="id-notify"}</dd>
 
-			<dt>{$form.is_tellfriend_enabled.label}</dt><dd>{$form.is_tellfriend_enabled.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Can the "owner" of a Personal Campaign Page use the Tell-a-Friend function to invite people to visit their page and make a contribution?{/ts}</dd>
+			<dt>{$form.supporter_profile_id.label} <span class="marker"> *</span></dt><dd>{$form.supporter_profile_id.html} {help id="id-supporter_profile"}</dd>
 
-			<dt>{$form.tellfriend_limit.label}</dt><dd>{$form.tellfriend_limit.html|crmReplace:class:four}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}How many recipients can they send emails to at one time? You may want to limit this to prevent large mail blasts from being sent.{/ts}</dd>
+			<dt>{$form.is_tellfriend_enabled.label}</dt><dd>{$form.is_tellfriend_enabled.html} {help id="id-is_tellfriend"}</dd>
 
-			<dt>{$form.link_text.label}</dt><dd>{$form.link_text.html|crmReplace:class:huge}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Text of the link inviting constituents to create a Personal Contribution Page. This link will appear on the Contribution Thank-you page as well as on each Personal Campaign Page.{/ts}</dd>
-           
-           	<dt>{$form.notify_email.label}</dt><dd>{$form.notify_email.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Notification will be sent to this email address whenever a Personal Campaign Page linked to this contribution page is either created or updated.{/ts}</dd>   
+			<dt>{$form.tellfriend_limit.label}</dt><dd>{$form.tellfriend_limit.html|crmReplace:class:four} {help id="id-tellfriend_limit"}</dd>
 
+			<dt>{$form.link_text.label}</dt><dd>{$form.link_text.html|crmReplace:class:huge} {help id="id-link_text"}</dd>
 		</dl>
 	</div>
 	<div class="spacer"></div>

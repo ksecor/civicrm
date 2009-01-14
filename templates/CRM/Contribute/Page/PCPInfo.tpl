@@ -1,11 +1,20 @@
 {* this template is used for displaying PCP information *} 
 {if $owner}
+{capture assign="contribPageURL"}{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$pcp.contribution_page_id`"}{/capture}
 <div class="messages status">
   <dl>
 	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}PCPInfo{/ts}"/></dt>
-	<dd><p><strong>Personal Campaign Page</strong></p></dd>
-    <dd><p>This is a preview of your Personal Campaign Page (PCP) in support of <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id="}{$pcp.contribution_page_id}"><strong>"{$pageName}"</strong></a> campaign{if $owner.start_date}, which is active from <strong>{$owner.start_date|truncate:10:''|crmDate}</strong> until <strong>{$owner.end_date|truncate:10:''|crmDate}</strong>.{else}.<br />{/if} Current status of your PCP is: <strong {if $owner.status ne 'Approved' }class=disabled {/if}>{$owner.status}</strong>.</p><p><strong>You can perform following actions on your page:</strong></p></dd>
-	 <dd> <table class="form-layout-compressed"> 
+	<dd><p><strong>{ts}Personal Fundraiser View{/ts}</strong> - {ts 1=$contribPageURL 2=$pageName}This is a preview of your Personal Campaign Page in support of <a href="%1"><strong>"%2"</strong></a>.{/ts}</p></dd>
+    <dt></dt>
+    <dd>
+        {ts}The current status of your page is{/ts}: <strong {if $pcp.status_id NEQ 2}class=disabled {/if}>{$owner.status}</strong>.
+        {if $pcp.status_id NEQ 2}<br /><span class="description">{ts}You will receive an email notification when your page is Approved and you can begin promoting your campaign.{/ts}</span>{/if}
+        {if $owner.start_date}<br />{ts}This campaign is active from{/ts} <strong>{$owner.start_date|truncate:10:''|crmDate}</strong> {ts}until{/ts} <strong>{$owner.end_date|truncate:10:''|crmDate}</strong>.{/if}
+    </dd>
+    <dt></dt>
+    <dd>
+        <table class="form-layout-compressed">
+        <tr><td colspan="2"><strong>{ts}You can{/ts}:</strong></td></tr>
 		{foreach from = $links key = k item = v}
           <tr>
             <td style="padding:0px 5px 0px 0px;">
@@ -16,6 +25,8 @@
         {/foreach}
   	   </table>
 	</dd>
+	<dt><img src="{$config->resourceBase}i/Bulb.png" alt="{ts}Tip{/ts}"/></dt>
+    <dd><strong>{ts}Tip{/ts}</strong> - <span class="description">{ts}You must be logged in to your account to access the editing options above. (If you visit this page without logging in, you will be viewing the page in "live" mode - as your visitors and friends see it.){/ts}</span></dd>
  </dl>
 </div>
 {/if}
