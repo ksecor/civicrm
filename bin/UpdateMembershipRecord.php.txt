@@ -59,6 +59,9 @@ class CRM_UpdateMembershipRecord {
     public function updateMembershipStatus( )
     {
 
+        //get all active statuses of membership, CRM-3984
+        $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
+        
         $query = "
 SELECT civicrm_membership.id                 as membership_id,
        civicrm_membership.is_override        as is_override,
@@ -96,15 +99,9 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             }
             **/
             
-            //get all active statuses of membership, CRM-3984
-            $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
-            
             //need to handle related memberships records.
             //we have deleted during parent membership processing.
-            $objectExists = CRM_Core_DAO::objectExists( $dao->membership_id, 
-                                                        'CRM_Member_DAO_Membership', 
-                                                        $dao->membership_id, 'id' );
-            if ( !$objectExists ) {
+            if ( !CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', $dao->membership_id, 'contact_id' ) ) {
                 continue;
             }
             
