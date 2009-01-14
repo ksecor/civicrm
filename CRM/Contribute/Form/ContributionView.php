@@ -126,9 +126,12 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
         //get soft credit record if exists.
         if( $softContribution = CRM_Contribute_BAO_Contribution::getSoftContribution( $softParams ) ) {
             $softContribution['softCreditToName']   = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $softContribution['soft_credit_to'], 'display_name' );
+            //hack to avoid dispalyName conflict 
+            //for viewing softcredit record.
+            $softContribution['displayName']   =   CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $values['contact_id'], 'display_name' );
             $values = array_merge( $values, $softContribution );
         } 
-
+        
 		// assign values to the template
         $this->assign( $values ); 
     }

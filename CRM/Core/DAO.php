@@ -474,7 +474,6 @@ class CRM_Core_DAO extends DB_DataObject
      */
     static function objectExists( $value, $daoName, $daoID, $fieldName = 'name' ) 
     {
-        $args = func_get_args( );
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
         $object->$fieldName = $value;
@@ -484,7 +483,7 @@ class CRM_Core_DAO extends DB_DataObject
         if ( $object->find( true ) ) {
             return ( $daoID && $object->id == $daoID ) ? true : false;
         } else {
-            return false;
+            return true;
         }
     }
 

@@ -12,7 +12,7 @@
 		<td class="label">{$form.intro_text.label}</td>
 		<td>
             {$form.intro_text.html|crmReplace:class:big}<br />
-            <span class="description">{ts}Introduce the campaign and why you're supporting it. This text will appear first on the page.{/ts}</span>
+            <span class="description">{ts}Introduce the campaign and why you're supporting it. This text will appear at the top of your personal page AND at the top of the main campaign contribution page when people make a contribution through your page.{/ts}</span>
         </td>
 	</tr>
 	<tr>

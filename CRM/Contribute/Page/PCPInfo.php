@@ -112,11 +112,11 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             $link  = CRM_Contribute_BAO_PCP::pcpLinks( );
             unset($link['all'][CRM_Core_Action::ENABLE]);
             $hints = array(
-                           CRM_Core_Action::UPDATE  => ts('Allows you to change the contents and appearance of your page as well as your personal information'),
-                           CRM_Core_Action::BROWSE  => ts('Allows you to update your contact information'),
-                           CRM_Core_Action::DETACH  => ts('Inform your friends about your Personal Campaign!'),
-                           CRM_Core_Action::DISABLE => ts('De-activates the page'),
-                           CRM_Core_Action::DELETE  => ts('Removes the page (this cannot be undone!)'),
+                           CRM_Core_Action::UPDATE  => ts('Change the content and appearance of your page'),
+                           CRM_Core_Action::DETACH  => ts('Send emails inviting your friends to support your campaign!'),
+                           CRM_Core_Action::BROWSE  => ts('Update your personal contact information'),
+                           CRM_Core_Action::DISABLE => ts('De-activate the page (you can re-activate it later)'),
+                           CRM_Core_Action::DELETE  => ts('Remove the page (this cannot be undone!)'),
                            );
             CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_PCPBlock', $pcpInfo['contribution_page_id'], 
                                              'entity_id', $blockValues, array('is_tellfriend_enabled') );
@@ -124,7 +124,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             $blockId = array_pop( $blockValues );
             $replace = array( 'id'    => $this->_id,
                               'block' => $blockId['id'] );
-            if ( !CRM_Utils_Array::value( 'is_tellfriend_enabled', $blockId ) || CRM_Utils_Array::value( 'status_id', $pcpInfo )!= 2 ){
+            if ( !CRM_Utils_Array::value( 'is_tellfriend_enabled', $blockId ) || CRM_Utils_Array::value( 'status_id', $pcpInfo )!= $approvedId ){
                 unset($link['all'][CRM_Core_Action::DETACH]);   
             }
             
@@ -234,15 +234,14 @@ AND is_test = 0";
         }
         
         if ( $single ){
-            require_once 'CRM/Core/Controller/Simple.php'; 
+            require_once 'CRM/Core/Controller/Simple.php';
             $controller =& new CRM_Core_Controller_Simple( $form, $subForm, $action); 
-            $session =& CRM_Core_Session::singleton(); 
-            $session->pushUserContext( CRM_Utils_System::url(CRM_Utils_System::currentPath( ),'reset=1&id='.$this->_id ));
             $controller->set('id', $this->_id); 
             $controller->set('single', true );
             $controller->process(); 
             return $controller->run();
         }
+        $session->pushUserContext( CRM_Utils_System::url(CRM_Utils_System::currentPath( ),'reset=1&id='.$this->_id ));
         parent::run();
     }
     

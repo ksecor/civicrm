@@ -145,6 +145,7 @@ CREATE TABLE civicrm_pcp_block (
      tellfriend_limit int unsigned   DEFAULT NULL COMMENT 'Maximum recipient fields allowed in tell a friend',
      link_text varchar(255)   DEFAULT NULL COMMENT 'Link text for PCP.',
      is_active tinyint   DEFAULT 1 COMMENT 'Is Personal Campaign Page Block enabled/active?',
+     notify_email varchar(255) collate utf8_unicode_ci default NULL COMMENT 'If set, notification is automatically emailed to this email-address on create/update Personal Campaign Page.',
      PRIMARY KEY ( id ),      
      CONSTRAINT FK_civicrm_pcp_block_entity_id FOREIGN KEY (entity_id) REFERENCES civicrm_contribution_page(id)   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
@@ -375,7 +376,7 @@ INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) V
 
 -- ======== CiviCase Related Upgrade ==========
 -- Insert the CiviCase Component
-INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES ( 7,'CiviCase','CRM_Case' );
+INSERT INTO `civicrm_component` ( `name`, `namespace`) VALUES ( 'CiviCase','CRM_Case' );
 
 -- CRM-3667 case mapping
 SELECT @option_group_id_mt := max(id) from civicrm_option_group where name = 'mapping_type';

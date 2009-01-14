@@ -254,16 +254,16 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
                                                                                 'qs'    => 'action=update&reset=1&id=%%pcpId%%',
                                                                                 'title' => ts('Configure')
                                                                                 ),
+                                             CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell Friends'),
+                                                                               'url'   => 'civicrm/friend',
+                                                                               'qs'    => 'eid=%%pcpId%%&blockId=%%pcpBlock%%&reset=1&page=pcp',
+                                                                               'title' => ts('Tell Friends')
+                                                                               ),
                                              CRM_Core_Action::BROWSE => array ( 'name'  => ts('Update Contact Information'),
                                                                                 'url'   => 'civicrm/contribute/pcp/info',
                                                                                 'qs'    => 'action=browse&reset=1&id=%%pcpId%%',
                                                                                 'title' => ts('Update Contact Information')
                                                                                 ),
-                                             CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell a Friend'),
-                                                                               'url'   => 'civicrm/friend',
-                                                                               'qs'    => 'eid=%%pcpId%%&blockId=%%pcpBlock%%&reset=1&page=pcp',
-                                                                               'title' => ts('Tell a Friend')
-                                                                               ),
                                              CRM_Core_Action::ENABLE => array ( 'name'  => ts('Enable'),
                                                                                 'url'   => 'civicrm/contribute/pcp',
                                                                                 'qs'    => 'action=enable&reset=1&id=%%pcpId%%',
@@ -334,10 +334,22 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
             $is_active = 2;
             break;
         }
+
         CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'status_id', $is_active );
-        
+
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $pcpTitle  = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'title' );
+        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+        $pcpStatus = $pcpStatus[$is_active]; 
+
+        CRM_Core_Session::setStatus("$pcpTitle status has been updated to $pcpStatus.");
+
         // send status change mail
-        self::sendStatusUpdate( $id, $is_active );
+        $result = self::sendStatusUpdate( $id, $is_active );
+
+        if ( $result ) {
+            CRM_Core_Session::setStatus("A mail has also been sent to supporter informing the status update.");
+        }
     }
 
     /**
@@ -352,8 +364,7 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
      *
      */
     static function sendStatusUpdate( $pcpId, $newStatus ) {
-        require_once 'CRM/Core/OptionGroup.php';
-        $pcpStatus = CRM_Core_OptionGroup::values( 'pcp_status' );
+        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
 
         if ( ! isset($pcpStatus[$newStatus]) ) {
             return false;
@@ -377,23 +388,31 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         unset($name, $address);
 
         // get recipient (supporter) name and email
-        $supporterId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $pcpId, 'contact_id' );
+        $params = array( 'id' => $pcpId );
+        CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCP', $params, $pcpInfo);
         list ($name, $address) = 
-            CRM_Contact_BAO_Contact_Location::getEmailDetails( $supporterId );
+            CRM_Contact_BAO_Contact_Location::getEmailDetails( $pcpInfo['contact_id'] );
+
+        // get pcp block info
+        list($blockId, $eid) = self::getPcpBlockEntityId( $pcpId );
+        $params = array( 'id' => $blockId );
+        CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $params, $pcpBlockInfo);
 
         if ( $pcpStatus[$newStatus] == 'Approved' ) {
-            list($blockId, $eid) = self::getPcpBlockEntityId( $pcpId );
-            $pcpTellFriendURL    = CRM_Utils_System::url('civicrm/friend', 
-                                                         "reset=1&eid=$eid&blockId=$blockId&page=pcp", true);
-            $template->assign( 'pcpTellFriendURL', $pcpTellFriendURL );
-            
-            $pcpInfoURL = CRM_Utils_System::url('civicrm/contribute/pcp/info', 
-                                                "reset=1&id=$pcpId", true);
-            $template->assign( 'pcpInfoURL', $pcpInfoURL );
+            $template->assign( 'isTellFriendEnabled', $pcpBlockInfo['is_tellfriend_enabled'] );
+            if ( $pcpBlockInfo['is_tellfriend_enabled'] ) {
+                $pcpTellFriendURL = CRM_Utils_System::url('civicrm/friend', 
+                                                          "reset=1&eid=$eid&blockId=$blockId&page=pcp", 
+                                                          true, null, false);
+                $template->assign( 'pcpTellFriendURL', $pcpTellFriendURL );
+            }
 
+            $pcpInfoURL = CRM_Utils_System::url('civicrm/contribute/pcp/info', 
+                                                "reset=1&id=$pcpId", 
+                                                true, null, false);
+            $template->assign( 'pcpInfoURL', $pcpInfoURL );
         }
-        $pcpNotifyEmailAddress = self::getPcpNotifyEmail( $pcpId );
-        $template->assign( 'pcpNotifyEmailAddress', 'mailto:' . $pcpNotifyEmailAddress );
+        $template->assign( 'pcpNotifyEmailAddress', $pcpBlockInfo['notify_email'] );
 
         // get appropriate message
         $template->assign( 'returnContent', $pcpStatus[$newStatus] );
@@ -509,28 +528,6 @@ FROM civicrm_pcp pcp
 LEFT JOIN civicrm_contribution_page as cp ON ( cp.id =  pcp.contribution_page_id )
 WHERE pcp.id = %1";
         
-        $params = array( 1 => array( $pcpId, 'Integer' ) );
-        return CRM_Core_DAO::singleValueQuery( $query, $params );
-    }
-
-    /**
-     * Function to get pcp notify email
-     * 
-     * @param int $id campaign page id
-     *
-     * @return String
-     * @access public
-     * @static
-     *
-     */
-    static function getPcpNotifyEmail( $pcpId ) 
-    {
-        $query = "
-SELECT pb.notify_email as notifyEmail
-FROM civicrm_pcp pcp 
-LEFT JOIN civicrm_pcp_block pb ON ( pb.entity_id = pcp.contribution_page_id AND pb.entity_table = 'civicrm_contribution_page' )
-WHERE pcp.id = %1";
-
         $params = array( 1 => array( $pcpId, 'Integer' ) );
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }

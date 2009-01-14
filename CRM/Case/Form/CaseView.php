@@ -153,6 +153,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 			$this->add( 'checkbox', 'activity_deleted' , ts( 'Deleted Activities' ) );
 		}
 
+                                                                                     
 		//get case related relationships (Case Role)
         $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $this->_contactID, $this->_caseID );
         $this->assign('caseRelationships', $caseRelationships);
@@ -172,6 +173,38 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         
         $this->add('select', 'reporter_id',  ts( 'Reporter/Role' ), $reporters );
 
+		// Include other relationships
+		$relClient = CRM_Contact_BAO_Relationship::getRelationship($this->_contactID,
+									CRM_Contact_BAO_Relationship::CURRENT,
+									0, 0, 0, null, null, false);
+		$session =& CRM_Core_Session::singleton();
+		$relUser = CRM_Contact_BAO_Relationship::getRelationship($session->get('userID'),
+									CRM_Contact_BAO_Relationship::CURRENT,
+									0, 0, 0, null, null, false);		
+
+		// Now remove ones that are also roles so they don't show up twice. Also remove the client itself.
+		// We conveniently already have the required list of cids in the reporters variable.
+		$clientRelationships = array();
+		$userRelationships = array();
+		foreach($relClient as $r)
+		{
+			$cid = $r['cid'];
+			if (($cid != $this->_contactID) && (! array_key_exists($cid, $reporters)))
+			{
+				$clientRelationships[] = $r;
+			}
+		}
+		foreach($relUser as $r)
+		{
+			$cid = $r['cid'];
+			if (($cid != $this->_contactID) && (! array_key_exists($cid, $reporters)))
+			{
+				$userRelationships[] = $r;
+			}
+		}
+        $this->assign('clientRelationships', $clientRelationships);
+        $this->assign('userRelationships', $userRelationships);
+		
         $this->addButtons(array(  
                                 array ( 'type'      => 'cancel',  
                                         'name'      => ts('Done'),  

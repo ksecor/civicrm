@@ -136,6 +136,12 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
         $dao->entity_id    = $this->_id;
         $dao->delete( );
 
+        //next delete the pcp block fields
+        require_once 'CRM/Contribute/DAO/PCPBlock.php';
+        $dao =& new CRM_Contribute_DAO_PCPBlock( );
+        $dao->entity_table = 'civicrm_contribution_page';
+        $dao->entity_id    = $this->_id;
+        $dao->delete( );
 
         // finally delete the contribution page
         require_once 'CRM/Contribute/DAO/ContributionPage.php';

@@ -184,7 +184,10 @@ class CRM_Event_Form_EventFees
                     $optionId = CRM_Core_BAO_PriceField::getOptionId( $values['optionLabel'], $priceField->id );
                     
                     //get the checked optioned values.
-                    $optionValue = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionId, 'value');
+                    $optionValue = null;
+                    if ( $optionId ) {
+                        $optionValue = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionId, 'name' );
+                    }
                     
                     //get the total as per fields.
                     if ( CRM_Utils_Array::value( $priceField->id, $priceOptionValues ) === null ) {

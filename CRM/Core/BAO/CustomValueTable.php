@@ -276,7 +276,7 @@ class CRM_Core_BAO_CustomValueTable
                                  'custom_group_id' => $customValue['custom_group_id'],
                                  'table_name'      => $customValue['table_name'],
                                  'column_name'     => $customValue['column_name'],
-                                 'is_multiple'     => $customValue['is_multiple'],
+                                 'is_multiple'     => CRM_Utils_Array::value( 'is_multiple', $customValue ),
                                  'file_id'         => $customValue['file_id'],
                                  );
             
@@ -285,7 +285,7 @@ class CRM_Core_BAO_CustomValueTable
                     $cvParam['type'] = 'Timestamp';
                 }
 
-                if ($customValue['id']) {
+                if ( CRM_Utils_Array::value( 'id', $customValue ) ) {
                     $cvParam['id'] = $customValue['id'];
                 }
                 if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {

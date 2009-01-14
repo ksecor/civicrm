@@ -58,11 +58,14 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
     public function preProcess()  
     {
         $session =& CRM_Core_Session::singleton( );
-        $this->_contactID = $session->get( 'userID' );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
         $this->_pageId = CRM_Utils_Request::retrieve( 'pageId', 'Positive', $this );
         $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-     
+        if ( $this->_id ){
+            $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'contact_id' );   
+        }
+
+        $this->_contactID = isset( $contactID ) ? $contactID : $session->get( 'userID' );     
         if ( ! $this->_pageId ) {
             $this->_pageId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'contribution_page_id' );
         }
@@ -202,8 +205,8 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         require_once "CRM/Utils/Rule.php";
         foreach( $fields as $key => $value ) {
             if ( strpos($key, 'email-') !== false ) {
-                $UFMatchId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFMatch', $self->_contactID, 'id', 'contact_id' );
-                if ( !CRM_Utils_Rule::objectExists($value, array('CRM_Core_DAO_UFMatch', $UFMatchId, 'uf_name')) ) {
+                $ufContactId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFMatch', $value, 'contact_id', 'uf_name' );
+                if ( $ufContactId && $ufContactId != $self->_contactID ) {
                     $errors[$key] = ts( 'There is already an user associated with this email address. Please enter different email address.' );   
                 }
             }
@@ -231,12 +234,6 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         $this->set('contactID', $contactID);
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
         CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params, $contactID, 'email' );
-        if ( $this->_single ) {
-            $session =& CRM_Core_Session::singleton( );
-            CRM_Core_Session::setStatus( ts( "Your Conact Information has been updated.") );
-            $url = CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$this->_id );
-            $session->pushUserContext( $url );
-        }
     }
 }
 ?>

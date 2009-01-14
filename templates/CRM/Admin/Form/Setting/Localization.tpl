@@ -31,9 +31,9 @@
             <dt>{$form.defaultContactCountry.label}</dt><dd>{$form.defaultContactCountry.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This value is selected by default when adding a new contact address.{/ts}</dd>
             <dt>{$form.countryLimit.label}</dt><dd>{$form.countryLimit.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Which countries are available in the Country selection field when adding or editing contact addresses. To include ALL countries, leave the right-hand box empty.{/ts}</dd>
+            <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Which countries are available in the Country selection field when adding or editing contact addresses. Profile and Custom 'Country' fields also use this setting. To include ALL countries, leave the right-hand box empty.{/ts}</dd>
             <dt>{$form.provinceLimit.label}</dt><dd>{$form.provinceLimit.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Which countries' states and/or provinces are available in the State / Province selection field <strong>for Custom Fields and Profile forms</strong>. (Standard contact address editing forms automatically display corresponding state / province options for the selected country.){/ts}</dd>
+            <dt class="extra-long-sixty">&nbsp;</dt><dd class="description">{ts}State/province listings are populated dynamically based on the selected Country for all standard contact address editing forms, as well as for <strong>Profile forms which include both a Country and a State/Province field</strong>.  This setting controls which countries' states and/or provinces are available in the State / Province selection field <strong>for Custom Fields</strong> or for Profile forms which do NOT include a Country field.{/ts}</dd>
         </dl>
     </fieldset>
     <fieldset><legend>{ts}Multiple Languages Support{/ts}</legend>    

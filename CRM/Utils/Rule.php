@@ -511,6 +511,7 @@ class CRM_Utils_Rule
         if ( isset($options[2]) ) {
             $name = $options[2];
         }
+        
         return CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, $name ) );
     }
     
@@ -523,7 +524,6 @@ class CRM_Utils_Rule
     static function creditCardNumber( $value, $type ) 
     {
         require_once 'Validate/Finance/CreditCard.php';
-
         return Validate_Finance_CreditCard::number( $value, $type );
     }
 

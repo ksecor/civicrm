@@ -490,21 +490,23 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         #$params[] = array( 'group', 'IN', $groupIds, 0, 0 );
         #$params[] = array( 'group', '=', array($group->id => true), 0, 0 );
 
-        if ( $status ) {
-            $params[] = array( 'group_contact_status', '=', array($status => true), 0, 0 );
-        } else {
-            $params[] = array( 'group_contact_status', '=',
-                               array('Added' => true, 'Removed' => true, 'Pending' => true),
-                               0, 0 );
-        }
+        // if ( $status ) {
+        //     $params[] = array( 'group_contact_status', '=', array($status => true), 0, 0 );
+        // } else {
+        //     $params[] = array( 'group_contact_status', '=',
+        //                        array('Added' => true, 'Removed' => true, 'Pending' => true),
+        //                        0, 0 );
+        // }
 
         require_once 'CRM/Core/BAO/Email.php';
         require_once 'CRM/Contact/BAO/Contact.php';
         $tables = array(
-            self::getTableName() => true,
+            // we should not add double civicrm_group_contact clause since we are already 
+            // adding civicrm_group_contact-'id'
+            //self::getTableName() => true,
+            //CRM_Contact_BAO_Group::getTableName() => true,
             CRM_Core_BAO_Email::getTableName() => true,
             CRM_Contact_BAO_Contact::getTableName() => true, 
-            CRM_Contact_BAO_Group::getTableName() => true,
         );
 
         $inner = array( );
@@ -528,7 +530,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         
         //CRM_Core_Error::debug( 'q', $query );
-        
+
         $dao =& new CRM_Contact_DAO_Contact( );
         $dao->query( $query );
         

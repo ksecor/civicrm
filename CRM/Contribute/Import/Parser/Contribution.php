@@ -246,7 +246,12 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         $noSoftCredit = false;
         $params =& $this->getActiveFieldParams( );
-
+        
+        if ( isset ( $params['pledge_payment'] ) ) {
+            $pledgeParams['pledge_payment'] = $params['pledge_payment'];
+            $pledgeParams['pledge_id'] = $params['pledge_id'];
+        }
+               
         //params for soft credit contact
         if ( !empty ( $params['soft_credit'] ) ) {
             $softParams = $params['soft_credit'];
@@ -370,9 +375,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         CRM_Core_BAO_Note::add($noteParams, $noteID);
                         unset($formatted['note']);
                     }
-                                           
+                    
                     $newContribution =& CRM_Contribute_BAO_Contribution::create( $formatted , $ids );
                     $this->_newContributions[] = $newContribution->id;
+                    if ( !empty ( $softParams ) && $noSoftCredit === false ) {
+                        array_unshift($values, "No match found for specified Soft Credit contact data. Row was skipped.");
+                        return CRM_Contribute_Import_Parser::NO_MATCH;
+                    } elseif ( is_numeric ( $noSoftCredit ) ) {
+                        return CRM_Contribute_Import_Parser::SOFT_MATCH;
+                    }
                     return CRM_Contribute_Import_Parser::VALID;
                 } else {
                     $labels = array(
@@ -513,7 +524,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             
             $this->_newContributions[] = $newContribution['id'];
-            if ( $noSoftCredit === false ) {
+            
+            //params for pledge payment assoc w/ the contribution
+            if ( !empty ( $pledgeParams ) ) {
+                $pledgeParams['contact_id'] = $params['contact_id'];
+                $pledgeParams['scheduled_amount'] = $params['total_amount'];
+                $this->matchPledgePayment($pledgeParams);
+            }
+            
+            if ( !empty ( $softParams ) && $noSoftCredit === false ) {
                 array_unshift($values, "No match found for specified Soft Credit contact data. Row was skipped.");
                 return CRM_Contribute_Import_Parser::NO_MATCH;
             } elseif ( is_numeric ( $noSoftCredit ) ) {
@@ -523,9 +542,34 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         
     }
+
+    /**
+     * Get the pledge payment id against which the contribution is made
+     *
+     * @return array
+     * @access public
+     */
+    function &matchPledgePayment( $params ) 
+    {
+        if ( CRM_Utils_String::strtoboolstr( $params['pledge_payment'] ) ) {
+            if ( isset ( $params['pledge_id'] ) ) {
+                require_once 'CRM/Contribute/PseudoConstant.php';
+                $params['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ) );
+                
+                require_once 'CRM/Pledge/BAO/Payment.php';
+                CRM_Pledge_BAO_Payment::retrieve( $params, $defaults );
+                if ( isset ( $defaults['id'] ) ) {
+                    CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $params['pledge_id'], array($defaults['id']), 1  );
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;   
+     }
     
     /**
-     * Get the array of succesfully imported contribution id's
+     * Get succesfully matched contact id(for soft credits)
      *
      * @return array
      * @access public
