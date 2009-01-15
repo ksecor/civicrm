@@ -1,5 +1,5 @@
 {* Approved message *}
-{if $returnContent eq 'Approved'}
+{if $pcpStatus eq 'Approved'}
 ============================
 Your Personal Campaign Page
 ============================
@@ -20,7 +20,7 @@ Questions? Send email to:
 {/if}
 
 {* Rejected message *}
-{else if $returnContent eq 'Rejected'}
+{else if $pcpStatus eq 'Rejected'}
 ============================
 Your Personal Campaign Page
 ============================

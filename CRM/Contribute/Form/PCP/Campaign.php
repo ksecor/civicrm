@@ -179,7 +179,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
 
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $params['status_id'] = $approval_needed ? 1 : 2;
-            $approvalMessage     = $approval_needed ? ts('but requires administrator review before you can begin your fundraising efforts. You will receive an email as soon as the review process is complete') : ts('and is ready to use. Click the Tell Friends link below to being promoting your fundraising campaign.');
+            $approvalMessage     = $approval_needed ? ts('but requires administrator review before you can begin your fundraising efforts. You will receive an email confirmation shortly which includes a link to return to this page.') : ts('and is ready to use. Click the Tell Friends link below to being promoting your fundraising campaign.');
         }
         
         $params['id'] = $this->_pageId;
@@ -265,7 +265,17 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         }
         
         CRM_Core_BAO_File::processAttachment( $params, 'civicrm_pcp', $pcp->id );
-        CRM_Core_Session::setStatus( ts( "Your Personal Campaign Page has been %1 %2.%3", array(1 => $pageStatus, 2 => $approvalMessage, 3 => $notifyStatus)) );
+
+        // send email notification to supporter, if initial setup / add mode.
+        if ( ! $this->_pageId ) {
+            CRM_Contribute_BAO_PCP::sendStatusUpdate( $pcp->id, $statusId, true );
+            if ( $approvalMessage ) {
+                $notifyStatus .= ' You will receive a second email as soon as the review process is complete.';
+            }
+        }
+
+        CRM_Core_Session::setStatus( ts( "Your Personal Campaign Page has been %1 %2 %3", 
+                                         array(1 => $pageStatus, 2 => $approvalMessage, 3 => $notifyStatus)) );
         if ( ! $this->_pageId ) {
             $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$pcp->id ) );
         } 
