@@ -54,8 +54,9 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
         $domain =& new CRM_Core_DAO_Domain();
         $domain->find(true);
         $multilingual = (bool) $domain->locales;
+        $locales      = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
         $smarty->assign('multilingual', $multilingual);
-        $smarty->assign('locales', explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales));
+        $smarty->assign('locales',      $locales);
 
         // we didn't call CRM_Core_BAO_Setting::retrieve(), so we need to set $dbLocale by hand
         if ($multilingual) {
@@ -66,6 +67,11 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
         file_put_contents($sqlFile, $smarty->fetch($tplFile));
 
         $this->source( $sqlFile );
+
+        if ($multilingual) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
+        }
 
         $this->setVersion( '2.12' );
     }

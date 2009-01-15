@@ -144,6 +144,59 @@ class CRM_Core_I18n_Schema
     }
 
     /**
+     * Rebuild multilingual indices, views and triggers (useful for upgrades)
+     *
+     * @param $locales array  locales to be rebuilt
+     * @return void
+     */
+    static function rebuildMultilingualSchema($locales)
+    {
+        $indices =& CRM_Core_I18n_SchemaStructure::indices();
+        $tables  =& CRM_Core_I18n_SchemaStructure::tables();
+        $queries = array();
+        $dao = new CRM_Core_DAO;
+
+        // get all of the already existing indices
+        $existing = array();
+        foreach (array_keys($indices) as $table) {
+            $existing[$table] = array();
+            $dao->query("SHOW INDEX FROM $table", false);
+            while ($dao->fetch()) {
+                if (preg_match('/_[a-z][a-z]_[A-Z][A-Z]$/', $dao->Key_name)) {
+                    $existing[$table][] = $dao->Key_name;
+                }
+            }
+        }
+
+        // from all of the CREATE INDEX queries fetch the ones creating missing indices
+        foreach ($locales as $locale) {
+            foreach (array_keys($indices) as $table) {
+                $allQueries = self::createIndexQueries($locale, $table);
+                foreach ($allQueries as $name => $query) {
+                    if (!in_array("{$name}_{$locale}", $existing[$table])) {
+                        $queries[] = $query;
+                    }
+                }
+            }
+        }
+
+        // rebuild views
+        foreach ($locales as $locale) {
+            foreach ($tables as $table) {
+                $queries[] = self::createViewQuery($locale, $table, $dao);
+            }
+        }
+
+        // rebuild triggers
+        $last = array_pop($locales);
+        $queries = array_merge($queries, self::createTriggerQueries($locales, $last));
+
+        foreach ($queries as $query) {
+            $dao->query($query, false);
+        }
+    }
+
+    /**
      * Rewrite SQL query to use views to access tables with localized columns.
      *
      * @param $query string  the query for rewrite
@@ -185,7 +238,7 @@ class CRM_Core_I18n_Schema
                 if (isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
             }
             $cols = implode(', ', $index['field']);
-            $queries[] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
+            $queries[$index['name']] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
         }
         return $queries;
     }
