@@ -53,8 +53,15 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
 
         $domain =& new CRM_Core_DAO_Domain();
         $domain->find(true);
-        $smarty->assign('multilingual', (bool) $domain->locales);
+        $multilingual = (bool) $domain->locales;
+        $smarty->assign('multilingual', $multilingual);
         $smarty->assign('locales', explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales));
+
+        // we didn't call CRM_Core_BAO_Setting::retrieve(), so we need to set $dbLocale by hand
+        if ($multilingual) {
+            global $dbLocale;
+            $dbLocale = "_{$config->lcMessages}";
+        }
 
         file_put_contents($sqlFile, $smarty->fetch($tplFile));
 
