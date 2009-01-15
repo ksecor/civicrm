@@ -74,31 +74,11 @@ class CRM_Core_I18n_Schema
                 $queries[] = "ALTER TABLE {$table} DROP {$column}";
             }
 
-            // add views
-            $cols = array();
-            $dao->query("DESCRIBE {$table}", false);
-            while ($dao->fetch()) {
-                if (!in_array($dao->Field, array_keys($columns[$table]))) {
-                    $cols[] = $dao->Field;
-                }
-            }
-            foreach ($hash as $column => $_) {
-                $cols[] = "{$column}_{$locale} {$column}";
-            }
-            $queries[] = "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT ". implode(', ', $cols) . " FROM {$table}";
+            // add view
+            $queries[] = self::createViewQuery($locale, $table, $dao, false);
 
             // add new indices
-            if (isset($indices[$table])) {
-                foreach ($indices[$table] as $index) {
-                    $unique = $index['unique'] ? 'UNIQUE' : '';
-                    foreach ($index['field'] as $i => $col) {
-                        // if a given column is localizable, extend its name with the locale
-                        if (isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
-                    }
-                    $cols = implode(', ', $index['field']);
-                    $queries[] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
-                }
-            }
+            $queries = array_merge($queries, self::createIndexQueries($locale, $table));
         }
 
         // execute the queries without i18n rewriting
@@ -142,37 +122,88 @@ class CRM_Core_I18n_Schema
                 $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}_{$source}";
             }
 
-            // add views
-            $cols = array();
-            $dao->query("DESCRIBE {$table}", false);
-            while ($dao->fetch()) {
-                if (!preg_match('/_[a-z][a-z]_[A-Z][A-Z]$/', $dao->Field)) {
-                    $cols[] = $dao->Field;
-                }
-            }
-            foreach ($hash as $column => $_) {
-                $cols[] = "{$column}_{$locale} {$column}";
-            }
-            $queries[] = "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT ". implode(', ', $cols) . " FROM {$table}";
+            // add view
+            $queries[] = self::createViewQuery($locale, $table, $dao);
 
             // add new indices
-            if (isset($indices[$table])) {
-                foreach ($indices[$table] as $index) {
-                    $unique = $index['unique'] ? 'UNIQUE' : '';
-                    foreach ($index['field'] as $i => $col) {
-                        // if a given column is localizable, extend its name with the locale
-                        if (isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
-                    }
-                    $cols = implode(', ', $index['field']);
-                    $queries[] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
-                }
-            }
+            $queries = array_merge($queries, self::createIndexQueries($locale, $table));
         }
 
-        // take care of civicrm_contact.{display,sort}_name...
-        $namesTrigger = array();
-        foreach (array_merge($locales, array($locale)) as $loc) {
+        // add triggers
+        $queries = array_merge($queries, self::createTriggerQueries($locales, $locale));
 
+        // execute the queries without i18n rewriting
+        foreach ($queries as $query) {
+            $dao->query($query, false);
+        }
+
+        // update civicrm_domain.locales
+        $locales[] = $locale;
+        $domain->locales = implode(CRM_Core_DAO::VALUE_SEPARATOR, $locales);
+        $domain->save();
+    }
+
+    /**
+     * Rewrite SQL query to use views to access tables with localized columns.
+     *
+     * @param $query string  the query for rewrite
+     * @return string        the rewritten query
+     */
+    static function rewriteQuery($query)
+    {
+        static $tables = null;
+        if ($tables === null) {
+            $tables =& CRM_Core_I18n_SchemaStructure::tables();
+        }
+        global $dbLocale;
+        foreach ($tables as $table) {
+            $query = preg_replace("/([^'\"])({$table})([^_'\"])/", "\\1\\2{$dbLocale}\\3", $query);
+        }
+        // uncomment the below to rewrite the civicrm_value_* queries
+        // $query = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $query);
+        return $query;
+    }
+
+    /**
+     * CREATE INDEX queries for a given locale and table
+     *
+     * @param $locale string  locale for which the queries should be created
+     * @param $table string   table for which the queries should be created
+     * @return array          array of CREATE INDEX queries
+     */
+    private function createIndexQueries($locale, $table)
+    {
+        $indices =& CRM_Core_I18n_SchemaStructure::indices();
+        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        if (!isset($indices[$table])) return array();
+
+        $queries = array();
+        foreach ($indices[$table] as $index) {
+            $unique = $index['unique'] ? 'UNIQUE' : '';
+            foreach ($index['field'] as $i => $col) {
+                // if a given column is localizable, extend its name with the locale
+                if (isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
+            }
+            $cols = implode(', ', $index['field']);
+            $queries[] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
+        }
+        return $queries;
+    }
+
+    /**
+     * CREATE TRIGGER queries for a given set of locales
+     *
+     * @param $locales array  array of current database locales
+     * @param $locale string  new locale to add
+     * @return array          array of CREATE TRIGGER queries
+     */
+    private function createTriggerQueries($locales, $locale)
+    {
+        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        $queries = array();
+        $namesTrigger = array();
+
+        foreach (array_merge($locales, array($locale)) as $loc) {
             $namesTrigger[] = "IF NEW.contact_type = 'Household' THEN";
             $namesTrigger[] = "SET NEW.display_name_{$loc} = NEW.household_name_{$loc};";
             $namesTrigger[] = "SET NEW.sort_name_{$loc} = NEW.household_name_{$loc};";
@@ -225,36 +256,33 @@ class CRM_Core_I18n_Schema
 
             $queries[] = implode(' ', $trigger);
         }
-
-        // execute the queries without i18n rewriting
-        foreach ($queries as $query) {
-            $dao->query($query, false);
-        }
-
-        // update civicrm_domain.locales
-        $locales[] = $locale;
-        $domain->locales = implode(CRM_Core_DAO::VALUE_SEPARATOR, $locales);
-        $domain->save();
+        return $queries;
     }
 
     /**
-     * Rewrite SQL query to use views to access tables with localized columns.
+     * CREATE VIEW query for a given locale and table
      *
-     * @param $query string  the query for rewrite
-     * @return string        the rewritten query
+     * @param $locale string  locale of the view
+     * @param $table string   table of the view
+     * @param $dao object     a DAO object to run DESCRIBE queries
+     * @return array          array of CREATE INDEX queries
      */
-    static function rewriteQuery($query)
+    private function createViewQuery($locale, $table, &$dao)
     {
-        static $tables = null;
-        if ($tables === null) {
-            $tables =& CRM_Core_I18n_SchemaStructure::tables();
+        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        $cols = array();
+        $dao->query("DESCRIBE {$table}", false);
+        while ($dao->fetch()) {
+            // view non-internationalized columns directly
+            if (!in_array($dao->Field, array_keys($columns[$table])) and
+                !preg_match('/_[a-z][a-z]_[A-Z][A-Z]$/', $dao->Field)) {
+                $cols[] = $dao->Field;
+            }
         }
-        global $dbLocale;
-        foreach ($tables as $table) {
-            $query = preg_replace("/([^'\"])({$table})([^_'\"])/", "\\1\\2{$dbLocale}\\3", $query);
+        // view intrernationalized columns through an alias
+        foreach ($columns[$table] as $column => $_) {
+            $cols[] = "{$column}_{$locale} {$column}";
         }
-        // uncomment the below to rewrite the civicrm_value_* queries
-        // $query = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $query);
-        return $query;
+        return "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT ". implode(', ', $cols) . " FROM {$table}";
     }
 }
