@@ -429,6 +429,7 @@ class CRM_Utils_System {
         }
 
         $siteKey = defined( 'CIVICRM_SITE_KEY' ) ? CIVICRM_SITE_KEY : null;
+        
         if ( ! $siteKey ||
              empty( $siteKey ) ) {
             return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",

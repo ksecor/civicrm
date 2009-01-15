@@ -55,11 +55,12 @@ class CRM_Utils_System_Standalone {
     }
     
     /**
-     * Authenticate the user; dummy for now, not sure how this will
-     * work with OpenID
-     * 
-     * *** BIG FAT WARNING: THIS CURRENTLY LETS EVERYONE AND THEIR DOG IN!!
-     * IT DOES ZERO AUTHENTICATION! ***
+     * Eventually we should use OAuth here, since this is mainly
+     * for API authentication.
+     *
+     * For now let's just verify that they passed in a valid
+     * OpenID. The API layer verifies a valid API key later anyway,
+     * so we don't duplicate that effort here.
      *
      * @param string $name     the user name
      * @param string $password the password for the above user name
@@ -70,7 +71,31 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function authenticate( $name, $password ) {
-        return true;
+        // check that we got a valid URL
+        $options = array( 'domain_check'    => false,
+                          'allowed_schemes' => array( 'http', 'https' ) );
+        require_once 'Validate.php';
+        $validUrl = Validate::uri( $name, $options );
+        if ( !$validUrl ) {
+            return false;
+        }
+        
+        // we got a valid URL, see if it's allowed to login
+        require_once 'CRM/Core/BAO/OpenID.php';
+        $allowLogin = CRM_Core_BAO_OpenID::isAllowedToLogin( $name );
+        if ( !$allowLogin ) {
+            return false;
+        }
+        
+        // ask something about the speed of unladen swallows
+        require_once 'CRM/Standalone/User.php';
+        $user = new CRM_Standalone_User( $name );
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Standalone', 'Individual' );
+        require_once 'CRM/Core/Session.php';
+        $session = CRM_Core_Session::singleton();
+        $returnArray = array( $session->get('userID'), $session->get('ufID'), mt_rand() );
+        return $returnArray;
     }
 
     /**
