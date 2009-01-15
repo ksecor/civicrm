@@ -527,9 +527,12 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             
             //params for pledge payment assoc w/ the contribution
             if ( !empty ( $pledgeParams ) ) {
-                $pledgeParams['contact_id'] = $params['contact_id'];
+                $pledgeParams['contact_id'] = $newContribution['contact_id'];
                 $pledgeParams['scheduled_amount'] = $params['total_amount'];
-                $this->matchPledgePayment($pledgeParams);
+                $r = $this->matchPledgePayment($pledgeParams, $values );
+                if ( $r == 'fail' ) {
+                    return CRM_Contribute_Import_Parser::ERROR;
+                }
             }
             
             if ( !empty ( $softParams ) && $noSoftCredit === false ) {
@@ -549,13 +552,21 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
      * @return array
      * @access public
      */
-    function &matchPledgePayment( $params ) 
+    function &matchPledgePayment( $params, &$values ) 
     {
+        CRM_Core_Error::debug( '$params', $params );
         if ( CRM_Utils_String::strtoboolstr( $params['pledge_payment'] ) ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+
+            $pledgeStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+            
             if ( isset ( $params['pledge_id'] ) ) {
-                require_once 'CRM/Contribute/PseudoConstant.php';
-                $params['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ) );
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'] ,'contact_id' ) != $params['pledge_id']) {
+                    array_unshift($values, "Invalid Pledge ID provided. Contribution row was skipped.");
+                    return 'fail';
+                }
                 
+                $params['status_id'] = array_search( 'Pending', $pledgeStatus );
                 require_once 'CRM/Pledge/BAO/Payment.php';
                 CRM_Pledge_BAO_Payment::retrieve( $params, $defaults );
                 if ( isset ( $defaults['id'] ) ) {
@@ -563,10 +574,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     return true;
                 }
                 return false;
-            }
+            } 
         }
         return false;   
-     }
+    }
     
     /**
      * Get succesfully matched contact id(for soft credits)
