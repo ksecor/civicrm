@@ -110,9 +110,9 @@ DROP TABLE civicrm_event_page;
 
 -- CRM-3546
 {if $multilingual}
-  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale}{/foreach}) VALUES ('visibility' {foreach from=$locales item=locale}, 'Visibility'{/foreach});
+  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_reserved, is_active) VALUES ('visibility' {foreach from=$locales item=locale}, 'Visibility',{/foreach} 0, 1);
 {else}
-  INSERT INTO civicrm_option_group (name, description) VALUES ('visibility', 'Visibility');
+  INSERT INTO civicrm_option_group (name, description, is_reserved, is_active) VALUES ('visibility', 'Visibility', 0, 1);
 {/if}
 
 SELECT @option_group_id_vis := max(id) from civicrm_option_group where name = 'visibility';
@@ -191,9 +191,9 @@ CREATE TABLE civicrm_contribution_soft (
 
 -- fixed for CRM-2105 Greeting Type
 {if $multilingual}
-  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale}{/foreach}) VALUES ('greeting_type' {foreach from=$locales item=locale}, 'Greeting Type'{/foreach});
+  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_reserved, is_active) VALUES ('greeting_type' {foreach from=$locales item=locale}, 'Greeting Type',{/foreach} 0, 1);
 {else}
-  INSERT INTO civicrm_option_group (name, description) VALUES ('greeting_type', 'Greeting Type');
+  INSERT INTO civicrm_option_group (name, description, is_reserved, is_active) VALUES ('greeting_type', 'Greeting Type', 0, 1);
 {/if}
 
 SELECT @option_group_id_gr  := max(id) from civicrm_option_group where name = 'greeting_type';
@@ -258,9 +258,9 @@ UPDATE civicrm_preferences SET address_options  = CONCAT(address_options, '1314
 
 -- * Fix for CRM-3248
 {if $multilingual}
-  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale}{/foreach}) VALUES ('phone_type' {foreach from=$locales item=locale}, 'Phone Type'{/foreach});
+  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_reserved, is_active) VALUES ('phone_type' {foreach from=$locales item=locale}, 'Phone Type',{/foreach} 0, 1);
 {else}
-  INSERT INTO civicrm_option_group (name, description) VALUES ('phone_type', 'Phone Type');
+  INSERT INTO civicrm_option_group (name, description, is_reserved, is_active) VALUES ('phone_type', 'Phone Type', 0, 1);
 {/if}
 
 SELECT @option_group_id_pt := max(id) from civicrm_option_group where name = 'phone_type';
@@ -285,9 +285,9 @@ SELECT @option_group_id_pt := max(id) from civicrm_option_group where name = 'ph
 
 -- * Fix for CRM-3869
 {if $multilingual}
-  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_active) VALUES ('mail_protocol' {foreach from=$locales item=locale}, 'Mail Protocol',{/foreach} 1);
+  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_reserved, is_active) VALUES ('mail_protocol' {foreach from=$locales item=locale}, 'Mail Protocol',{/foreach} 0, 1);
 {else}
-  INSERT INTO civicrm_option_group (name, description, is_active) VALUES ('mail_protocol', 'Mail Protocol', 1);
+  INSERT INTO civicrm_option_group (name, description, is_reserved, is_active) VALUES ('mail_protocol', 'Mail Protocol', 0, 1);
 {/if}
 
 SELECT @option_group_id_mp := max(id) from civicrm_option_group where name = 'mail_protocol';
@@ -465,8 +465,9 @@ SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.op
 -- Encounter Medium Option Values for Case Activities
 {if $multilingual}
   INSERT INTO civicrm_option_group
-    (name,               {foreach from=$locales item=locale}label_{$locale},    description_{$locale},{/foreach}                                                   is_reserved) VALUES
-    ('encounter_medium', {foreach from=$locales item=locale}'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)',{/foreach} 1);
+    (name, {foreach from=$locales item=locale}label_{$locale}, description_{$locale},{/foreach} is_reserved, is_active) 
+    VALUES
+    ('encounter_medium', {foreach from=$locales item=locale}'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)',{/foreach} 1, 1);
   SELECT @option_group_id_medium := max(id) FROM civicrm_option_group WHERE name = 'encounter_medium';
   INSERT INTO civicrm_option_value
     (option_group_id,         {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name,          is_default, weight, is_reserved) VALUES
@@ -477,8 +478,9 @@ SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.op
     (@option_group_id_medium, {foreach from=$locales item=locale}'Letter Mail',{/foreach}   5,     'letter_mail', 0,          5,      1);
 {else}
   INSERT INTO civicrm_option_group
-    (name,               label,              description,                                                             is_reserved) VALUES
-    ('encounter_medium', 'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)', 1);
+    (name, label, description, is_reserved, is_active ) 
+    VALUES
+    ('encounter_medium', 'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)', 1, 1);
   SELECT @option_group_id_medium := max(id) FROM civicrm_option_group WHERE name = 'encounter_medium';
   INSERT INTO civicrm_option_value
     (option_group_id,         label,         value, name,          is_default, weight, is_reserved) VALUES
