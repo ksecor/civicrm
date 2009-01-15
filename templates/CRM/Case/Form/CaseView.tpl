@@ -124,8 +124,8 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 					return false;
 				}
 
-				var sourceContact = {/literal}"{$contactID}"{literal}
-				var caseID        = {/literal}"{$caseID}"{literal}
+				var sourceContact = {/literal}"{$contactID}"{literal};
+				var caseID        = {/literal}"{$caseID}"{literal};
 
 				var v1 = cj("#rel_contact_id").val( );
 
@@ -223,8 +223,9 @@ hide('otherRel');
 {/literal}
 
 <div id="addRoleDialog">
-    {ts}Relationship type (TODO: Should be a combobox.){/ts}
-    <input type="text" id="role_type" /><br /><br />
+{$form.role_type.label}<br />
+{$form.role_type.html}
+<br /><br />
     {ts}Begin typing last name of contact.{/ts}<br/>
     <input type="text" id="role_contact"/>
     <input type="hidden" id="role_contact_id" value="">
@@ -235,8 +236,6 @@ hide('otherRel');
 
 cj("#addRoleDialog").hide( );
 function addRole() {
-alert("Work in progress. Doesn't quite work yet.");
-
     cj("#addRoleDialog").show( );
 
 	cj("#addRoleDialog").dialog({
@@ -274,8 +273,8 @@ alert("Work in progress. Doesn't quite work yet.");
 					return false;
 				}
 
-				var sourceContact = {/literal}"{$contactID}"{literal}
-				var caseID        = {/literal}"{$caseID}"{literal}
+				var sourceContact = {/literal}"{$contactID}"{literal};
+				var caseID        = {/literal}"{$caseID}"{literal};
 				var relID         = null;
 
 				var v1 = cj("#role_contact_id").val( );
@@ -285,10 +284,16 @@ alert("Work in progress. Doesn't quite work yet.");
 					return false;
 				}
 
+				var v2 = cj("#role_type").val();
+				if ( ! v2 ) {
+					alert('Select valid type from the list.');
+					return false;
+				}
+				
 				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
-                cj.post( postUrl, { rel_contact: v1, rel_type: 14, contact_id: sourceContact, rel_id: relID, case_id: caseID },
+                cj.post( postUrl, { rel_contact: v1, rel_type: v2, contact_id: sourceContact, rel_id: relID, case_id: caseID },
                     function( data ) {
-                    		alert('Yay!');
+                    		// empty on purpose
                         }, 'json' 
                     );
 

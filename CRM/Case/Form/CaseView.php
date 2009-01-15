@@ -190,7 +190,21 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 			}
 		}
         $this->assign('clientRelationships', $clientRelationships);
-		
+
+/*require_once 'CRM/Contact/BAO/Relationship.php';
+$baoRel =& new CRM_Contact_BAO_Relationship();
+$rt = $baoRel->getRelationType('Individual');
+*/
+$relType = CRM_Core_PseudoConstant::relationshipType();
+$rt = array();
+foreach ($relType as $k => $v)
+{
+	$rt[$k] = $v['name_b_a'];
+}
+
+// CRM_Core_Error::debug('XX', $rt);
+$this->add('select', 'role_type',  ts( 'Relationship Type' ), array( '' => ts( '- select type -' ) ) + $rt );
+	
         $this->addButtons(array(  
                                 array ( 'type'      => 'cancel',  
                                         'name'      => ts('Done'),  
