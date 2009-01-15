@@ -215,7 +215,10 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
     function postProcess( ) 
     {
         //to reset quickform elements of next (pcp) page.
-        $this->controller->resetPage( 'PCP' );
+        if ( $this->controller->getNextName('Widget') == 'PCP' ) {
+            $this->controller->resetPage( 'PCP' );
+        }
+     
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
         
