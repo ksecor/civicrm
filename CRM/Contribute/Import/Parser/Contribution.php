@@ -554,7 +554,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
      */
     function &matchPledgePayment( $params, &$values ) 
     {
-        CRM_Core_Error::debug( '$params', $params );
         if ( CRM_Utils_String::strtoboolstr( $params['pledge_payment'] ) ) {
             require_once 'CRM/Contribute/PseudoConstant.php';
 
