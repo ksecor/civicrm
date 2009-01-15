@@ -377,6 +377,7 @@ INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) V
 -- ======== CiviCase Related Upgrade ==========
 -- Insert the CiviCase Component
 INSERT INTO `civicrm_component` ( `name`, `namespace`) VALUES ( 'CiviCase','CRM_Case' );
+SELECT @caseCompId := id FROM `civicrm_component` where `name` like 'CiviCase';
 
 -- CRM-3667 case mapping
 SELECT @option_group_id_mt := max(id) from civicrm_option_group where name = 'mapping_type';
@@ -424,19 +425,19 @@ SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.op
 {if $multilingual}
   INSERT INTO civicrm_option_value
     (option_group_id,                {foreach from=$locales item=locale}label_{$locale},{/foreach}      value,                           name,                 weight,                          component_id) VALUES
-    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Open Case',{/foreach}          (SELECT @max_val := @max_val+1), 'Open Case',          (SELECT @max_val := @max_val+1), 7),
-    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Follow up',{/foreach}          (SELECT @max_val := @max_val+1), 'Follow up',          (SELECT @max_val := @max_val+1), 7),
-    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Change Case Type',{/foreach}   (SELECT @max_val := @max_val+1), 'Change Case Type',   (SELECT @max_val := @max_val+1), 7),  
-    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Change Case Status',{/foreach} (SELECT @max_val := @max_val+1), 'Change Case Status', (SELECT @max_val := @max_val+1), 7),  
-    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Close Case',{/foreach}         (SELECT @max_val := @max_val+1), 'Close Case',         (SELECT @max_val := @max_val+1), 7);
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Open Case',{/foreach}          (SELECT @max_val := @max_val+1), 'Open Case',          (SELECT @max_val := @max_val+1), @caseCompId),
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Follow up',{/foreach}          (SELECT @max_val := @max_val+1), 'Follow up',          (SELECT @max_val := @max_val+1), @caseCompId),
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Change Case Type',{/foreach}   (SELECT @max_val := @max_val+1), 'Change Case Type',   (SELECT @max_val := @max_val+1), @caseCompId),  
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Change Case Status',{/foreach} (SELECT @max_val := @max_val+1), 'Change Case Status', (SELECT @max_val := @max_val+1), @caseCompId),  
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Close Case',{/foreach}         (SELECT @max_val := @max_val+1), 'Close Case',         (SELECT @max_val := @max_val+1), @caseCompId);
 {else}
   INSERT INTO civicrm_option_value
     (option_group_id,                label,                value,                           name,                 weight,                          component_id) VALUES
-    (@option_group_id_activity_type, 'Open Case',          (SELECT @max_val := @max_val+1), 'Open Case',          (SELECT @max_val := @max_val+1), 7),
-    (@option_group_id_activity_type, 'Follow up',          (SELECT @max_val := @max_val+1), 'Follow up',          (SELECT @max_val := @max_val+1), 7),
-    (@option_group_id_activity_type, 'Change Case Type',   (SELECT @max_val := @max_val+1), 'Change Case Type',   (SELECT @max_val := @max_val+1), 7),  
-    (@option_group_id_activity_type, 'Change Case Status', (SELECT @max_val := @max_val+1), 'Change Case Status', (SELECT @max_val := @max_val+1), 7),  
-    (@option_group_id_activity_type, 'Close Case',         (SELECT @max_val := @max_val+1), 'Close Case',         (SELECT @max_val := @max_val+1), 7);
+    (@option_group_id_activity_type, 'Open Case',          (SELECT @max_val := @max_val+1), 'Open Case',          (SELECT @max_val := @max_val+1), @caseCompId),
+    (@option_group_id_activity_type, 'Follow up',          (SELECT @max_val := @max_val+1), 'Follow up',          (SELECT @max_val := @max_val+1), @caseCompId),
+    (@option_group_id_activity_type, 'Change Case Type',   (SELECT @max_val := @max_val+1), 'Change Case Type',   (SELECT @max_val := @max_val+1), @caseCompId),
+    (@option_group_id_activity_type, 'Change Case Status', (SELECT @max_val := @max_val+1), 'Change Case Status', (SELECT @max_val := @max_val+1), @caseCompId),  
+    (@option_group_id_activity_type, 'Close Case',         (SELECT @max_val := @max_val+1), 'Close Case',         (SELECT @max_val := @max_val+1), @caseCompId);
 {/if}
 
 -- Encounter Medium Option Values for Case Activities
