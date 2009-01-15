@@ -232,9 +232,9 @@ $indices = serialize($indices);
 $beautifier->setInputString(
     file_get_contents("$phpCodePath/header.txt") . "
     class CRM_Core_I18n_SchemaStructure {
-        static function columns() { return unserialize('$columns'); }
-        static function indices() { return unserialize('$indices'); }
-        static function tables()  { return array_keys(self::columns()); }
+        static function &columns() { static \$result = null; if (!\$result) \$result = unserialize('$columns');     return \$result; }
+        static function &indices() { static \$result = null; if (!\$result) \$result = unserialize('$indices');     return \$result; }
+        static function &tables()  { static \$result = null; if (!\$result) \$result = array_keys(self::columns()); return \$result; }
     }");
 $beautifier->setOutputFile("$phpCodePath/CRM/Core/I18n/SchemaStructure.php");
 $beautifier->process();
