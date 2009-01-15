@@ -150,7 +150,7 @@ AND is_test = 0";
            
         if( $file_id = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_EntityFile', $this->_id , 'file_id', 'entity_id') ) {
             $image = '<img align="right" style="margin: 10px;" src="'.CRM_Utils_System::url( 'civicrm/file', 
-                                                         "reset=1&id=$file_id&eid=$this->_id" ).'"width=150 height=150/>';
+                                                         "reset=1&id=$file_id&eid={$this->_id}" ) . '" />';
             $this->assign('image', $image);
         }
 

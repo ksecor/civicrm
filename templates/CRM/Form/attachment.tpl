@@ -22,7 +22,7 @@
     <div id="attachments" class="section-shown">
     <fieldset><legend><a href="#" onclick="hide('attachments'); show('attachments_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{$attachTitle}</legend>
         {if $context EQ 'pcpCampaign'}
-            <div class="description">{ts}You can upload a picture or image to include on your page. Your file should be in .jpg, .gif, or .png format.{/ts}</div>
+            <div class="description">{ts}You can upload a picture or image to include on your page. Your file should be in .jpg, .gif, or .png format. Recommended image size is 250 x 250 pixels. Maximum size is 360 x 360 pixels.{/ts}</div>
         {/if}
         <table class="form-layout-compressed">
             <tr>
