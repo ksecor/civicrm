@@ -50,5 +50,8 @@
         <name>Intake Physician</name>
         <creator>1</creator>
     </RelationshipType>
+    <RelationshipType>
+        <name>Family Doctor</name>
+    </RelationshipType>	  
   </CaseRoles>
 </CaseType>

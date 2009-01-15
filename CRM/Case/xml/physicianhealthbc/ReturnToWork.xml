@@ -100,5 +100,8 @@
     <RelationshipType>
         <name>Case Coordinator</name>
     </RelationshipType>
+    <RelationshipType>
+        <name>Family Doctor</name>
+    </RelationshipType>	  
   </CaseRoles>
 </CaseType>

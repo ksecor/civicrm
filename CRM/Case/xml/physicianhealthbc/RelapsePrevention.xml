@@ -111,6 +111,9 @@
         <name>Case Coordinator</name>
     </RelationshipType>
     <RelationshipType>
+        <name>Family Doctor</name>
+    </RelationshipType>	  
+    <RelationshipType>
         <name>Community Mentor</name>
     </RelationshipType>
   </CaseRoles>
