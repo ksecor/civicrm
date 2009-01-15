@@ -60,9 +60,6 @@
         <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="action=add&reset=1"}" id="newCiviCRMProfile" class="button"><span>&raquo; {ts}New CiviCRM Profile{/ts}</span></a>
         </div>
-        {* <div class="action-link">
-            <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1&action=profile"}">&raquo;  {ts}Get HTML for All Active Profiles{/ts}</a>
-        </div> *}
         {/if}
          {/strip}
         </div>

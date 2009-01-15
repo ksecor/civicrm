@@ -41,6 +41,7 @@
             <tr>
                 <td><a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}" class="button"><span>&raquo; {ts}New CiviCRM Profile Field{/ts}</span></a></td>
                 <td><a href="{crmURL p="civicrm/admin/uf/group" q="action=update&id=`$gid`&reset=1"}" class="button"><span>&raquo; {ts}Edit Profile Settings{/ts}</span></a></td>
+                <td style="vertical-align: top"><a href="{crmURL p="civicrm/admin/uf/group" q="action=preview&id=`$gid`&reset=1&field=0"}">&raquo; {ts}Preview this profile (all fields){/ts}</a></td>
             </tr>
             </table>
         {/if}
