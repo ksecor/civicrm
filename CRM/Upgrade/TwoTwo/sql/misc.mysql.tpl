@@ -283,6 +283,28 @@ SELECT @option_group_id_pt := max(id) from civicrm_option_group where name = 'ph
     (@option_group_id_pt, 'Voicemail', 5,     'Voicemail', 5);
 {/if}
 
+-- * Fix for CRM-3869
+{if $multilingual}
+  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_active) VALUES ('mail_protocol' {foreach from=$locales item=locale}, 'Mail Protocol',{/foreach} 1);
+{else}
+  INSERT INTO civicrm_option_group (name, description, is_active) VALUES ('mail_protocol', 'Mail Protocol', 1);
+{/if}
+
+SELECT @option_group_id_mp := max(id) from civicrm_option_group where name = 'mail_protocol';
+
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name,       weight) VALUES
+    (@option_group_id_mp, {foreach from=$locales item=locale}'IMAP',{/foreach}          1,     'IMAP',     1),
+    (@option_group_id_mp, {foreach from=$locales item=locale}'Maildir',{/foreach}       2,     'Maildir',  2),
+    (@option_group_id_mp, {foreach from=$locales item=locale}'POP3',{/foreach}          3,     'POP3',     3);
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     label,       value, name,       weight) VALUES
+    (@option_group_id_mp, 'IMAP' ,     1,     'IMAP',     1),
+    (@option_group_id_mp, 'Maildir',   2,     'Maildir',  2),
+    (@option_group_id_mp, 'POP3'   ,   3,     'POP3',     3);
+{/if}
 
 ALTER TABLE `civicrm_phone`         ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
 ALTER TABLE `civicrm_mapping_field` ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
