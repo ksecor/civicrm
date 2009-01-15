@@ -348,7 +348,7 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         $result = self::sendStatusUpdate( $id, $is_active );
 
         if ( $result ) {
-            CRM_Core_Session::setStatus("A mail has also been sent to supporter informing the status update.");
+            CRM_Core_Session::setStatus("An email has been sent to the supporter informing them of the status change.");
         }
     }
 
