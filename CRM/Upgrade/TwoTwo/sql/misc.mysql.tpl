@@ -110,7 +110,7 @@ DROP TABLE civicrm_event_page;
 
 -- CRM-3546
 {if $multilingual}
-  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_reserved, is_active) VALUES ('visibility' {foreach from=$locales item=locale}, 'Visibility',{/foreach} 0, 1);
+  INSERT INTO civicrm_option_group (name, {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active) VALUES ('visibility', {foreach from=$locales item=locale}'Visibility',{/foreach} 0, 1);
 {else}
   INSERT INTO civicrm_option_group (name, description, is_reserved, is_active) VALUES ('visibility', 'Visibility', 0, 1);
 {/if}
@@ -191,7 +191,7 @@ CREATE TABLE civicrm_contribution_soft (
 
 -- fixed for CRM-2105 Greeting Type
 {if $multilingual}
-  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_reserved, is_active) VALUES ('greeting_type' {foreach from=$locales item=locale}, 'Greeting Type',{/foreach} 0, 1);
+  INSERT INTO civicrm_option_group (name, {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active) VALUES ('greeting_type', {foreach from=$locales item=locale}'Greeting Type',{/foreach} 0, 1);
 {else}
   INSERT INTO civicrm_option_group (name, description, is_reserved, is_active) VALUES ('greeting_type', 'Greeting Type', 0, 1);
 {/if}
@@ -258,7 +258,7 @@ UPDATE civicrm_preferences SET address_options  = CONCAT(address_options, '1314
 
 -- * Fix for CRM-3248
 {if $multilingual}
-  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_reserved, is_active) VALUES ('phone_type' {foreach from=$locales item=locale}, 'Phone Type',{/foreach} 0, 1);
+  INSERT INTO civicrm_option_group (name, {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active) VALUES ('phone_type', {foreach from=$locales item=locale}'Phone Type',{/foreach} 0, 1);
 {else}
   INSERT INTO civicrm_option_group (name, description, is_reserved, is_active) VALUES ('phone_type', 'Phone Type', 0, 1);
 {/if}
@@ -285,7 +285,7 @@ SELECT @option_group_id_pt := max(id) from civicrm_option_group where name = 'ph
 
 -- * Fix for CRM-3869
 {if $multilingual}
-  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale},{/foreach} is_reserved, is_active) VALUES ('mail_protocol' {foreach from=$locales item=locale}, 'Mail Protocol',{/foreach} 0, 1);
+  INSERT INTO civicrm_option_group (name, {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active) VALUES ('mail_protocol', {foreach from=$locales item=locale}'Mail Protocol',{/foreach} 0, 1);
 {else}
   INSERT INTO civicrm_option_group (name, description, is_reserved, is_active) VALUES ('mail_protocol', 'Mail Protocol', 0, 1);
 {/if}
