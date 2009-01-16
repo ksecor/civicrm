@@ -421,6 +421,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   civicrm_activity.activity_type_id,
                   cov_type.label as case_type,
                   cov_status.label as case_status,
+                  cov_status.label as case_status_name,
                   civicrm_activity.status_id,
                   case_relation_type.name_b_a as case_role, ";
         if ( $type == 'upcoming' ) {
@@ -552,6 +553,7 @@ AND civicrm_case.is_deleted     = 0";
                                'case_type',
                                'status_id',
                                'case_status',
+                               'case_status_name',
                                'activity_type_id',
                                'case_role', 
                                );
