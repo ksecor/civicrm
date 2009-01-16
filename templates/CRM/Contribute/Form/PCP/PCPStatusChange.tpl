@@ -2,6 +2,7 @@
 {if $pcpStatus eq 'Approved'}
 ============================
 {ts}Your Personal Campaign Page{/ts}
+
 ============================
 
 {ts}Your personal campaign page has been approved and is now live.{/ts} 
@@ -23,6 +24,7 @@
 {else if $pcpStatus eq 'Rejected'}
 ============================
 {ts}Your Personal Campaign Page{/ts}
+
 ============================
 
 {ts}Your personal campaign page has been reviewed. There were some issues with the content
