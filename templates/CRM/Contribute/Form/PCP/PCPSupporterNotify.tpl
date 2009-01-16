@@ -39,5 +39,7 @@ You can still preview your page prior to approval:
 {$pcpInfoURL}
 
 {/if}
+{if $pcpNotifyEmailAddress}
 Questions? Send email to:
 {$pcpNotifyEmailAddress}
+{/if}
