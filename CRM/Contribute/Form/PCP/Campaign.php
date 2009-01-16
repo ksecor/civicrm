@@ -269,7 +269,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         // send email notification to supporter, if initial setup / add mode.
         if ( ! $this->_pageId ) {
             CRM_Contribute_BAO_PCP::sendStatusUpdate( $pcp->id, $statusId, true );
-            if ( $approvalMessage ) {
+            if ( $approvalMessage && CRM_Utils_Array::value( 'status_id', $params ) == 1 ) {
                 $notifyStatus .= ' You will receive a second email as soon as the review process is complete.';
             }
         }

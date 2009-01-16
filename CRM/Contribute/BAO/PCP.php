@@ -388,12 +388,15 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         $contribPageTitle = self::getPcpContributionPageTitle( $pcpId );
         $subject  = "Your Personal Campaign Page for $contribPageTitle";
 
-        // get sender's name and email
-        $session     =& CRM_Core_Session::singleton( );
-        list ($name, $address) = 
-            CRM_Contact_BAO_Contact_Location::getEmailDetails( $session->get( 'userID' ) );
-        $receiptFrom = "\"$name\" <$address>";
-        unset($name, $address);
+        //get the default domain email address.
+        require_once 'CRM/Core/BAO/Domain.php';
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+        
+        if ( !$domainEmailAddress || $domainEmailAddress == 'info@FIXME.ORG') {
+            CRM_Core_Error::fatal( ts( 'The site administrator needs to enter a valid \'FROM Email Address\' in Administer CiviCRM &raquo; Configure &raquo; Domain Information. The email address used may need to be a valid mail account with your email service provider.' ) );
+        }
+            
+        $receiptFrom = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
 
         // get recipient (supporter) name and email
         $params = array( 'id' => $pcpId );
