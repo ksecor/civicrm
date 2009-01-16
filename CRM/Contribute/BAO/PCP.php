@@ -424,8 +424,10 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
                                             "reset=1&id=$pcpId", 
                                             true, null, false);
         $template->assign( 'pcpInfoURL', $pcpInfoURL );
-        $template->assign( 'pcpNotifyEmailAddress', $pcpBlockInfo['notify_email'] );
-
+        if ( $emails = CRM_Utils_Array::value( 'notify_email', $pcpBlockInfo ) ) {
+            $emailArray = explode(',', $emails );
+            $template->assign( 'pcpNotifyEmailAddress', $emailArray[0] );
+        }
         // get appropriate message based on status
         $template->assign( 'pcpStatus', $pcpStatus[$newStatus] );
         $message       = $template->fetch( $emailTemplate );
