@@ -1,35 +1,35 @@
 {* Approved message *}
 {if $pcpStatus eq 'Approved'}
 ============================
-Your Personal Campaign Page
+{ts}Your Personal Campaign Page{/ts}
 ============================
 
-Your personal campaign page has been approved and is now live. 
+{ts}Your personal campaign page has been approved and is now live.{/ts} 
 
 {if $isTellFriendEnabled}
-Promote your fundraising page:
+{ts}Promote your fundraising page{/ts}:
 {$pcpTellFriendURL}
 
 {/if}
-View and update your page:
+{ts}View and update your page{/ts}:
 {$pcpInfoURL}
 
 {if $pcpNotifyEmailAddress}
-Questions? Send email to:
+{ts}Questions? Send email to{/ts}:
 {$pcpNotifyEmailAddress}
 {/if}
 
 {* Rejected message *}
 {else if $pcpStatus eq 'Rejected'}
 ============================
-Your Personal Campaign Page
+{ts}Your Personal Campaign Page{/ts}
 ============================
 
-Your personal campaign page has been reviewed. There were some issues with the content
-which prevented us from approving the page. We are sorry for any inconvenience.
+{ts}Your personal campaign page has been reviewed. There were some issues with the content
+which prevented us from approving the page. We are sorry for any inconvenience.{/ts}
 
 {if $pcpNotifyEmailAddress}
-Please contact our site administrator for more information: 
+{ts}Please contact our site administrator for more information{/ts}: 
 {$pcpNotifyEmailAddress}
 {/if}
 
