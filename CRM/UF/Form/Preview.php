@@ -137,6 +137,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, null, CRM_Profile_Form::MODE_REGISTER );
             }
         }
+        
+        //set default for country.
+        CRM_Core_BAO_UFGroup::setRegisterDefaults( $this->_fields, $defaults );
+        
         return $defaults;
     }
 
