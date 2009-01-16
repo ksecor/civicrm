@@ -190,7 +190,7 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
     }
 
     function activityTypes( $activityTypesXML, $maxInst = false ) {
-        $activityTypes =& $this->allActivityTypes( );
+        $activityTypes =& $this->allActivityTypes( true, true );
         $result = array( );
         foreach ( $activityTypesXML as $activityTypeXML ) {
             foreach ( $activityTypeXML as $recordXML ) {

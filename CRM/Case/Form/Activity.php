@@ -105,6 +105,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         $clientName = $this->_getDisplayNameById( $this->_currentlyViewedContactId );
         $this->assign( 'client_name', $clientName );
+        // set context for pushUserContext and for statusBounce
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                     "reset=1&action=view&cid={$this->_currentlyViewedContactId}&id={$this->_caseId}&show=1" );
         
         if ( !$this->_activityId ) { 
             // check if activity count is within the limit
@@ -116,29 +119,28 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                 $activityCount = CRM_Case_BAO_Case::getCaseActivityCount( $this->_caseId, $this->_activityTypeId );
                 if ( $activityCount >= $activityInst[$this->_activityTypeName] ) {
                     if ( $activityInst[$this->_activityTypeName] == 1 ) {
+                        $atArray = array('activity_type_id' =>
+                                         $this->_activityTypeId);
                         $activities = 
                             CRM_Case_BAO_Case::getCaseActivity( $this->_caseId, 
-                                                                array('activity_type_id' => 
-                                                                      $this->_activityTypeId), 
+                                                                $atArray, 
                                                                 $this->_currentUserId );
                         $activities = array_keys($activities);
                         $activities = $activities[0];
                         $editUrl    = 
                             CRM_Utils_System::url( 'civicrm/case/activity', 
-                                                   "reset=1&cid={$this->_currentlyViewedContactId}&id={$this->_caseId}&aid={$activities}" );
+                                                   "reset=1&cid={$this->_currentlyViewedContactId}&caseid={$this->_caseId}&action=update&id={$activities}" );
                     }
                     CRM_Core_Error::statusBounce( ts("You can not add another '%1' activity to this case. %2", 
                                                      array( 1 => $this->_activityTypeName,
-                                                            2 => "Do you want to <a href='$editUrl'>edit the existing activity</a> ?" )) );
+                                                            2 => "Do you want to <a href='$editUrl'>edit the existing activity</a> ?" )),
+                                                   $url);
                 }
             }
         }
 
         CRM_Utils_System::setTitle( $this->_activityTypeName );
 
-        // set context
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                      "reset=1&action=view&cid={$this->_currentlyViewedContactId}&id={$this->_caseId}&show=1" );
         $session =& CRM_Core_Session::singleton( );
         $session->pushUserContext( $url );
     }
