@@ -33,15 +33,16 @@
  *
  */
 
-class CRM_Utils_Hook_Standalone {
+require_once 'CRM/Utils/Hook.php';
+
+class CRM_Utils_Hook_Standalone extends CRM_Utils_Hook {
 
     static function invoke( $numParams,
                             &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
                             $fnSuffix ) {
-        require_once 'CRM/Utils/Hook/Joomla.php';
-        CRM_Utils_Hook_Joomla::invoke( $numParams,
-                                       $arg1, $arg2, $arg3, $arg4, $arg5,
-                                       $fnSuffix, 'standalone' );
+        require_once 'standalone/hooks.php';
+        return parent::invoke( $numParams, $arg1, $arg2, $arg3, $arg4, $arg5,
+                        $fnSuffix, 'standalone' );
     }
 
 }

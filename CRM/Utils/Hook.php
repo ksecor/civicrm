@@ -375,4 +375,24 @@ class CRM_Utils_Hook {
                   '::invoke( 2, $objectName, $object, $null, $null, $null, \'civicrm_copy\' );' );
     }
 
+    static function invoke( $numParams,
+                            &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
+                            $fnSuffix, $fnPrefix ) {
+        $result = array( );
+        $fnName = "{$fnPrefix}_{$fnSuffix}";
+        if ( function_exists( $fnName ) ) {
+            if ( $numParams == 1 ) {
+                $result = $fnName( $arg1 );
+            } else if ( $numParams == 2 ) {
+                $result = $fnName( $arg1, $arg2 );
+            } else if ( $numParams == 3 ) {
+                $result = $fnName( $arg1, $arg2, $arg3 );
+            } else if ( $numParams == 4 ) {
+                $result = $fnName( $arg1, $arg2, $arg3, $arg4 );
+            } else if ( $numParams == 5 ) {
+                $result = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
+            }
+        }
+        return empty( $result ) ? true : $result;
+    }
 }

@@ -32,8 +32,10 @@
  * $Id$
  *
  */
+ 
+require_once 'CRM/Utils/Hook.php';
 
-class CRM_Utils_Hook_Soap {
+class CRM_Utils_Hook_Soap extends CRM_Utils_Hook {
 
     /** 
      * This hook will be called on any operation on some core CiviCRM 
