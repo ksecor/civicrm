@@ -564,6 +564,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 $ufFieldDAO =& new CRM_Core_DAO_UFField();
                 $ufFieldDAO->field_name = $field;
                 $ufFieldDAO->location_type_id = $ufField->location_type_id;
+                $ufFieldDAO->uf_group_id = $ufField->uf_group_id;
                     
                 if ( $ufFieldDAO->find( true ) ) {
                     if ( $field == 'country' && $ufFieldDAO->weight > $ufField->weight ) {
@@ -573,9 +574,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                     }
                 } 
             }
-
-            //crm_core_error::debug( '$showBestResult', $showBestResult );
-            //exit();
             
             //update group_type every time. CRM-3608 
             if ( $this->_gid && is_a( $ufField, 'CRM_Core_DAO_UFField' ) ) {
@@ -591,12 +589,13 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Field \'%1\' has been saved.', array(1 => $name)));
         }
         $buttonName = $this->controller->getButtonName( );
+
         $session =& CRM_Core_Session::singleton( );
-        $session->set( 'showBestResult', $showBestResult );
-        
         if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
             CRM_Core_Session::setStatus(ts(' You can add another profile field.'));
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/field', "reset=1&action=add&gid={$this->_gid}&sbr={$showBestResult}"));
+        } else {
+            $session->set( 'showBestResult', $showBestResult );
         }
     }
     
