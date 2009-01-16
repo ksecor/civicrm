@@ -202,7 +202,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $notifyStatus = "";
         CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $pcpParams, $notifyParams, array('notify_email'));
 
-        if ( CRM_Utils_Array::value('notify_email', $notifyParams) ) {
+        if ( $emails = CRM_Utils_Array::value('notify_email', $notifyParams) ) {
             $this->assign( 'pcpTitle', $pcp->title );
             
             if( $this->_pageId ) {
@@ -252,14 +252,23 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             }
             
             $emailFrom = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
+            //if more than one email present for PCP notification ,
+            //first email take it as To and other as CC and First email
+            //address should be sent in users email receipt for
+            //support purpose.
+            $emailArray = explode(',' ,$emails );
+            $to = $emailArray[0];
+            unset( $emailArray[0] );
+            $cc = implode(',', $emailArray );
             
             require_once 'Mail/mime.php';
             require_once 'CRM/Utils/Mail.php';
             if ( CRM_Utils_Mail::send( $emailFrom,
                                        "",
-                                       $notifyParams['notify_email'],
+                                       $to,
                                        $subject,
-                                       $message ) ) {
+                                       $message,
+                                       $cc ) ) {
                 $notifyStatus = ts(' A notification email has been sent to the site administrator.'); 
             }
         }
