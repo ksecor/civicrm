@@ -67,6 +67,9 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         CRM_Utils_System::setTitle($pcpInfo['title']);
         $this->assign('pcp', $pcpInfo );
 
+        if ( empty( $pcpInfo ) ) {
+            CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/user','reset=1') );
+        }
         require_once 'CRM/Contribute/PseudoConstant.php';
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
         $approvedId = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
