@@ -13,7 +13,7 @@
                 <label>{ts}Status{/ts}:</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
             </td>
             <td>
-                <label>{ts}Case #{/ts}:</label>&nbsp;{$caseID}
+                <label>{ts}Case ID{/ts}:</label>&nbsp;{$caseID}
             </td>
         </tr>
     </table>
@@ -195,6 +195,7 @@ cj(document).ready(function(){
  <fieldset>
   <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Client's Relationships{/ts}</legend>
 
+  {if $clientRelationships}
     <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
 	
     <table class="report">
@@ -213,6 +214,17 @@ cj(document).ready(function(){
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
     </table>
+  {else}
+    <div class="messages status">
+      <dl>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+        <dd>
+          {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}{/capture}
+          {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}
+        </dd>
+      </dl>
+    </div>
+  {/if}
  </fieldset>
 </div>
 {literal}
