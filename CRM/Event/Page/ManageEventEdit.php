@@ -75,6 +75,17 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title');
         CRM_Utils_System::setTitle(ts('Configure Event - %1', array(1 => $title)));
 
+        require_once 'CRM/Event/PseudoConstant.php';
+        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
+        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" );
+        
+        $findParticipants['statusCounted'] = implode( '/', array_values( $statusTypes ) );
+        $findParticipants['statusNotCounted'] = implode( '/', array_values( $statusTypesPending ) );
+        $findParticipants['urlCounted'] = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$this->_id&status=true" );
+        $findParticipants['urlNotCounted'] = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$this->_id&status=false" );
+        
+        $this->assign('findParticipants', $findParticipants);
+        
         $participantListingID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                            $this->_id,
                                                            'participant_listing_id' );

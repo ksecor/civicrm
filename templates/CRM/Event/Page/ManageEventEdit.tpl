@@ -1,7 +1,8 @@
 <div id="help">
     {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-    {ts 1="http://wiki.civicrm.org/confluence//x/4Cs" 2=$docURLTitle}Use the links below to update features and content for this Event. Refer to the <a href='%1' target='_blank' title='%2'>Event Administration documentation</a> for more information.{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/4Cs" 2=$docURLTitle}You can update the features and content for this event from here. Refer to the <a href='%1' target='_blank' title='%2'>Event Administration documentation</a> for more information.{/ts}
 </div>
+{ts}Participants{/ts}: <a href="{$findParticipants.urlCounted}" title="{ts}Find participants with counted statuses{/ts}">{$findParticipants.statusCounted}</a>, <a href="{$findParticipants.urlNotCounted}" title="{ts}Find participants with NOT counted statuses{/ts}">{$findParticipants.statusNotCounted}</a>
 <table class="report"> 
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=EventInfo"}" id="idEventInformationandSettings">&raquo; {ts}Event Information and Settings{/ts}</a></td>
