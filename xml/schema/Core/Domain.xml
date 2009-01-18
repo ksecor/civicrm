@@ -89,7 +89,7 @@
   <field>
        <name>version</name>
        <type>varchar</type>
-       <length>8</length>
+       <length>32</length>
        <comment>The civicrm version this instance is running</comment>
        <add>2.0</add>
   </field>
