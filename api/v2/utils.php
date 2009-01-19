@@ -924,7 +924,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                     $contactType->external_identifier = $params['soft_credit']['external_identifier'];
                 }
                 if ( $contactType->find(true) ) {
-                    if ( $params['soft_credit']['contact_type'] != $contactType->contact_type ) {
+                    if ( $params['contact_type'] != $contactType->contact_type ) {
                         return civicrm_create_error("Soft Credit Contact Type is wrong: $contactType->contact_type");
                     } else {
                         $values['soft_credit_to'] = $contactType->id;
