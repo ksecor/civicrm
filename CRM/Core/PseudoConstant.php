@@ -1347,7 +1347,13 @@ ORDER BY name";
         while ( $dao->fetch( ) ) {
             $result[$dao->id] = $dao->name;
         }
-
+        // localise the stateProvince names if in an non-en_US locale
+        $config = CRM_Core_Config::singleton( );
+        if ( $config->lcMessages != '' and $config->lcMessages != 'en_US' ) {
+            $i18n =& CRM_Core_I18n::singleton();
+            $i18n->localizeArray( $result );
+            asort( $result );
+        }
         return $result;
     }
 
