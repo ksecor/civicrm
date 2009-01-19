@@ -389,23 +389,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     }
                     
                     $newContribution =& CRM_Contribute_BAO_Contribution::create( $formatted , $ids );
-                    $this->_newContributions[] = $newContribution->id;
-                    
-                    // process pledge payment assoc w/ the contribution
-                    if ( CRM_Utils_Array::value( 'pledge_payment_id', $formatted ) &&
-                         CRM_Utils_Array::value( 'pledge_id', $formatted ) ) {
-                        //get completed status
-                        $completeStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Completed', 'name' );
-
-                        require_once 'CRM/Pledge/BAO/Payment.php';
-                        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $formatted['pledge_id'], array( $formatted['pledge_payment_id'] ),  $completeStatusID );
-                        return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT;
-                    }
+                    $this->_newContributions[] = $newContribution->id;                    
                     
                     //return soft valid since we need to show how soft credits were added
                     if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
                         return CRM_Contribute_Import_Parser::SOFT_MATCH;
                     }
+                    
+                    // process pledge payment assoc w/ the contribution
+                    return self::processPledgePayments( $formatted );
+                    
                     return CRM_Contribute_Import_Parser::VALID;
                 } else {
                     $labels = array(
@@ -504,22 +497,14 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     }
                     
                     $this->_newContributions[] = $newContribution['id'];
-                    
-                    // process pledge payment assoc w/ the contribution
-                    if ( CRM_Utils_Array::value( 'pledge_payment_id', $formatted ) &&
-                         CRM_Utils_Array::value( 'pledge_id', $formatted ) ) {
-                        //get completed status
-                        $completeStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Completed', 'name' );
-
-                        require_once 'CRM/Pledge/BAO/Payment.php';
-                        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $formatted['pledge_id'], array( $formatted['pledge_payment_id'] ),  $completeStatusID );
-                        return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT;
-                    }
-                    
+                                      
                     //return soft valid since we need to show how soft credits were added
                     if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
                         return CRM_Contribute_Import_Parser::SOFT_MATCH;
                     }
+                    
+                    // process pledge payment assoc w/ the contribution
+                    return self::processPledgePayments( $formatted );
                     
                     return CRM_Contribute_Import_Parser::VALID;
                 }
@@ -575,22 +560,14 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             
             $this->_newContributions[] = $newContribution['id'];
-            
-            // process pledge payment assoc w/ the contribution
-            if ( CRM_Utils_Array::value( 'pledge_payment_id', $formatted ) &&
-                 CRM_Utils_Array::value( 'pledge_id', $formatted ) ) {
-                //get completed status
-                $completeStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Completed', 'name' );
                     
-                require_once 'CRM/Pledge/BAO/Payment.php';
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $formatted['pledge_id'], array( $formatted['pledge_payment_id'] ),  $completeStatusID );
-                return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT;
-            }
-            
             //return soft valid since we need to show how soft credits were added
             if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
                 return CRM_Contribute_Import_Parser::SOFT_MATCH;
             }
+            
+            // process pledge payment assoc w/ the contribution
+            return self::processPledgePayments( $formatted );
             
             return CRM_Contribute_Import_Parser::VALID;
         }
@@ -621,6 +598,21 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
      }
     
+    /**
+     *  Function to process pledge payments
+     */
+    function processPledgePayments( &$formatted ) {
+        if ( CRM_Utils_Array::value( 'pledge_payment_id', $formatted ) &&
+             CRM_Utils_Array::value( 'pledge_id', $formatted ) ) {
+            //get completed status
+            $completeStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Completed', 'name' );
+
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $formatted['pledge_id'], array( $formatted['pledge_payment_id'] ),  $completeStatusID );
+            return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT;
+        }
+    }
+
     /**
      * Get the array of succesfully imported contribution id's
      *
