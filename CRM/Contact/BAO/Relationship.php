@@ -531,10 +531,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         }
 
         if ($relationshipId) {
-            $queryString .= "AND id !=". CRM_Utils_Type::escape($relationshipId, 'Integer');
+            $queryString .= " AND id !=". CRM_Utils_Type::escape($relationshipId, 'Integer');
         }
         
-
         $relationship =& new CRM_Contact_BAO_Relationship();
         $relationship->query($queryString);
         $relationship->fetch( );
