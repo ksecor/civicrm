@@ -925,7 +925,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 }
                 if ( $contactType->find(true) ) {
                     if ( $params['contact_type'] != $contactType->contact_type ) {
-                        return civicrm_create_error("Soft Credit Contact Type is wrong: $contactType->contact_type");
+                        return civicrm_create_error("Soft Credit Contact Type is wrong: $contactType->contact_type", 'soft_credit' );
                     } else {
                         $values['soft_credit_to'] = $contactType->id;
                     }
@@ -944,12 +944,12 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
 
                     // check if only one contact is found
                     if ( count( $matchedIDs ) > 1 ) {
-                        return civicrm_create_error( $error['error_message']['message'] );
+                        return civicrm_create_error( $error['error_message']['message'], 'soft_credit' );
                     } else {
                         $values['soft_credit_to'] = $matchedIDs[0];
                     }
                 } else {
-                    return civicrm_create_error( 'No match found for specified Soft Credit contact data. Row was skipped.' ); 
+                    return civicrm_create_error( 'No match found for specified Soft Credit contact data. Row was skipped.', 'soft_credit' ); 
                 }
             }
             break;
@@ -963,9 +963,9 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                  $pledgeDetails = CRM_Pledge_BAO_Pledge::getContactPledges( $contributionContactID );
 
                  if ( empty( $pledgeDetails ) ) {
-                     return civicrm_create_error( 'No open pledges found for this contact. Contribution row was skipped.' );
+                     return civicrm_create_error( 'No open pledges found for this contact. Contribution row was skipped.', 'pledge_payment' );
                  } else if ( count( $pledgeDetails ) > 1 ) {
-                     return civicrm_create_error( 'This contact has more than one open pledge. Unable to determine which pledge to apply the contribution to. Contribution row was skipped.' );
+                     return civicrm_create_error( 'This contact has more than one open pledge. Unable to determine which pledge to apply the contribution to. Contribution row was skipped.', 'pledge_payment' );
                  } 
 
                  // this mean we have only one pending / in progress pledge
@@ -979,14 +979,14 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
              if ( $pledgePaymentDetails[0]['amount'] == $params['total_amount'] ) {
                  $values['pledge_payment_id'] = $pledgePaymentDetails[0]['id'];
              } else {
-                 return civicrm_create_error( 'Contribution and Pledge Payment amount mismatch for this record. Contribution row was skipped.' );
+                 return civicrm_create_error( 'Contribution and Pledge Payment amount mismatch for this record. Contribution row was skipped.', 'pledge_payment' );
              }
              
             break;
         case 'pledge_id':
             $contributionContactID = $params['contribution_contact_id'];
             if ( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'] ,'contact_id' ) != $contributionContactID ) {
-                return civicrm_create_error( 'Invalid Pledge ID provided. Contribution row was skipped.');
+                return civicrm_create_error( 'Invalid Pledge ID provided. Contribution row was skipped.', 'pledge_payment' );
             } else {
                 $values['pledge_id'] = $params['pledge_id'];
             }

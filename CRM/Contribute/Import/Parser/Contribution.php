@@ -313,6 +313,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         
         if ( $formatError ) {
             array_unshift($values, $formatError['error_message']);
+            if ( CRM_Utils_Array::value( 'error_data', $formatError ) == 'soft_credit' ) {
+                return CRM_Contribute_Import_Parser::SOFT_CREDIT_ERROR;
+            } else if ( CRM_Utils_Array::value( 'error_data', $formatError ) == 'pledge_payment' ) {
+                return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT_ERROR;
+            }
             return CRM_Contribute_Import_Parser::ERROR;
         }
         
@@ -375,8 +380,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     $this->_newContributions[] = $newContribution->id;                    
                     
                     //return soft valid since we need to show how soft credits were added
-                    if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
-                        return CRM_Contribute_Import_Parser::SOFT_MATCH;
+                    if ( CRM_Utils_Array::value( 'soft_credit_to', $formatted ) ) {
+                        return CRM_Contribute_Import_Parser::SOFT_CREDIT;
                     }
                     
                     // process pledge payment assoc w/ the contribution
@@ -482,8 +487,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     $this->_newContributions[] = $newContribution['id'];
                                       
                     //return soft valid since we need to show how soft credits were added
-                    if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
-                        return CRM_Contribute_Import_Parser::SOFT_MATCH;
+                    if ( CRM_Utils_Array::value( 'soft_credit_to', $formatted ) ) {
+                        return CRM_Contribute_Import_Parser::SOFT_CREDIT;
                     }
                     
                     // process pledge payment assoc w/ the contribution
@@ -545,8 +550,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $this->_newContributions[] = $newContribution['id'];
                     
             //return soft valid since we need to show how soft credits were added
-            if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
-                return CRM_Contribute_Import_Parser::SOFT_MATCH;
+            if ( CRM_Utils_Array::value( 'soft_credit_to', $formatted ) ) {
+                return CRM_Contribute_Import_Parser::SOFT_CREDIT;
             }
             
             // process pledge payment assoc w/ the contribution

@@ -60,8 +60,14 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
 
         $invalidRowCount = $this->get('invalidRowCount');
         $invalidSoftCreditRowCount = $this->get('invalidSoftCreditRowCount');
+        if ( $invalidSoftCreditRowCount ) {
+            $this->set('downloadSoftCreditErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=6&realm=contribution'));
+        }
         $validSoftCreditRowCount = $this->get('validSoftCreditRowCount');
         $invalidPledgePaymentRowCount = $this->get('invalidPledgePaymentRowCount');
+        if ( $invalidPledgePaymentRowCount ) {
+            $this->set('downloadPledgePaymentErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=5&realm=contribution'));
+        }
         $validPledgePaymentRowCount   = $this->get('validPledgePaymentRowCount');
         $conflictRowCount = $this->get('conflictRowCount');
         $duplicateRowCount = $this->get('duplicateRowCount');
@@ -93,11 +99,11 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
         
             /* only subtract dupes from succesful import if we're skipping */
             $this->set('validRowCount', $totalRowCount - $invalidRowCount -
-                    $conflictRowCount - $duplicateRowCount - $mismatchCount);
+                    $conflictRowCount - $duplicateRowCount - $mismatchCount - $invalidSoftCreditRowCount - $invalidPledgePaymentRowCount );
         }
         $this->assign('dupeActionString', $dupeActionString);
         
-        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'validSoftCreditRowCount', 'invalidSoftCreditRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount', 'validPledgePaymentRowCount', 'invalidPledgePaymentRowCount' );
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'validSoftCreditRowCount', 'invalidSoftCreditRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount', 'validPledgePaymentRowCount', 'invalidPledgePaymentRowCount', 'downloadPledgePaymentErrorRecordsUrl', 'downloadSoftCreditErrorRecordsUrl' );
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }

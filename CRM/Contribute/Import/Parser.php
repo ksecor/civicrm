@@ -42,18 +42,20 @@ abstract class CRM_Contribute_Import_Parser
 {
 
     const
-        MAX_ERRORS      = 250,
-        MAX_WARNINGS    = 25,
-        VALID           =  1,
-        WARNING         =  2,
-        ERROR           =  4,
-        CONFLICT        =  8,
-        STOP            = 16,
-        DUPLICATE       = 32,
-        MULTIPLE_DUPE   = 64,
-        NO_MATCH        = 128,
-        SOFT_MATCH      = 256,
-        PLEDGE_PAYMENT  = 512;
+        MAX_ERRORS       = 250,
+        MAX_WARNINGS     = 25,
+        VALID            =  1,
+        WARNING          =  2,
+        ERROR            =  3,
+        CONFLICT         =  4,
+        STOP             =  5,
+        DUPLICATE        =  6,
+        MULTIPLE_DUPE    =  7,
+        NO_MATCH         =  8,
+        SOFT_CREDIT      =  9,
+        SOFT_CREDIT_ERROR = 10,
+        PLEDGE_PAYMENT    = 11,
+        PLEDGE_PAYMENT_ERROR = 12;
 
     /**
      * various parser modes
@@ -114,7 +116,6 @@ abstract class CRM_Contribute_Import_Parser
      */
     protected $_validCount;
 
-
     /**
      * running total number of invalid rows
      */
@@ -149,7 +150,17 @@ abstract class CRM_Contribute_Import_Parser
      * array of error lines, bounded by MAX_ERROR
      */
     protected $_errors;
+    
+    /**
+     * array of pledge payment error lines, bounded by MAX_ERROR
+     */
+    protected $_pledgePaymentErrors;
 
+    /**
+     * array of pledge payment error lines, bounded by MAX_ERROR
+     */
+    protected $_softCreditErrors;
+    
     /**
      * total number of conflict lines
      */
@@ -229,7 +240,20 @@ abstract class CRM_Contribute_Import_Parser
      */
     protected $_errorFileName;
 
+    /**
+     * filename of pledge payment error data
+     *
+     * @var string
+     */
+    protected $_pledgePaymentErrorsFileName;
 
+    /**
+     * filename of soft credit error data
+     *
+     * @var string
+     */
+    protected $_softCreditErrorsFileName;
+    
     /**
      * filename of conflict data
      *
@@ -309,6 +333,8 @@ abstract class CRM_Contribute_Import_Parser
         $this->_errors   = array();
         $this->_warnings = array();
         $this->_conflicts = array();
+        $this->_pledgePaymentErrors = array();
+        $this->_softCreditErrors = array();
 
         $this->_fileSize = number_format( filesize( $fileName ) / 1024.0, 2 );
         
@@ -359,7 +385,7 @@ abstract class CRM_Contribute_Import_Parser
             }
 
             // note that a line could be valid but still produce a warning
-            if ( $returnCode & self::VALID ) {
+            if ( $returnCode == self::VALID ) {
                 $this->_validCount++;
                 if ( $mode == self::MODE_MAPFIELD ) {
                     $this->_rows[]           = $values;
@@ -367,7 +393,7 @@ abstract class CRM_Contribute_Import_Parser
                 }
             }
 
-            if ( $returnCode & self::SOFT_MATCH ) {
+            if ( $returnCode == self::SOFT_CREDIT ) {
                 $this->_validSoftCreditRowCount++;
                 $this->_validCount++;
                 if ( $mode == self::MODE_MAPFIELD ) {
@@ -376,7 +402,7 @@ abstract class CRM_Contribute_Import_Parser
                 }
             }
     
-            if ( $returnCode & self::PLEDGE_PAYMENT ) {
+            if ( $returnCode == self::PLEDGE_PAYMENT ) {
                 $this->_validPledgePaymentRowCount++;
                 $this->_validCount++;
                 if ( $mode == self::MODE_MAPFIELD ) {
@@ -385,14 +411,14 @@ abstract class CRM_Contribute_Import_Parser
                 }
             }
             
-            if ( $returnCode & self::WARNING ) {
+            if ( $returnCode == self::WARNING ) {
                 $this->_warningCount++;
                 if ( $this->_warningCount < $this->_maxWarningCount ) {
                     $this->_warningCount[] = $line;
                 }
             } 
 
-            if ( $returnCode & self::ERROR ) {
+            if ( $returnCode == self::ERROR ) {
                 $this->_invalidRowCount++;
                 if ( $this->_invalidRowCount < $this->_maxErrorCount ) {
                     $recordNumber = $this->_lineCount;
@@ -402,11 +428,27 @@ abstract class CRM_Contribute_Import_Parser
                 }
             } 
             
-            if ( $returnCode & self::NO_MATCH ) {
-                $this->_invalidSoftCreditRowCount++;
+            if ( $returnCode == self::PLEDGE_PAYMENT_ERROR ) {
+                $this->_invalidPledgePaymentRowCount++;
+                if ( $this->_invalidPledgePaymentRowCount < $this->_maxErrorCount ) {
+                    $recordNumber = $this->_lineCount;
+                    if ($this->_haveColumnHeader) $recordNumber--;
+                    array_unshift($values, $recordNumber);
+                    $this->_pledgePaymentErrors[] = $values;
+                }
             } 
             
-            if ( $returnCode & self::CONFLICT ) {
+            if ( $returnCode == self::SOFT_CREDIT_ERROR ) {
+                $this->_invalidSoftCreditRowCount++;
+                if ( $this->_invalidSoftCreditRowCount < $this->_maxErrorCount ) {
+                    $recordNumber = $this->_lineCount;
+                    if ($this->_haveColumnHeader) $recordNumber--;
+                    array_unshift($values, $recordNumber);
+                    $this->_softCreditErrors[] = $values;
+                }
+            }
+            
+            if ( $returnCode == self::CONFLICT ) {
                 $this->_conflictCount++;
                 $recordNumber = $this->_lineCount;
                 if ($this->_haveColumnHeader) $recordNumber--;
@@ -414,8 +456,8 @@ abstract class CRM_Contribute_Import_Parser
                 $this->_conflicts[] = $values;
             } 
             
-            if ( $returnCode & self::DUPLICATE ) {
-                if ( $returnCode & self::MULTIPLE_DUPE ) {
+            if ( $returnCode == self::DUPLICATE ) {
+                if ( $returnCode == self::MULTIPLE_DUPE ) {
                     /* TODO: multi-dupes should be counted apart from singles
                      * on non-skip action */
                 }
@@ -431,7 +473,7 @@ abstract class CRM_Contribute_Import_Parser
 
             // we give the derived class a way of aborting the process
             // note that the return code could be multiple code or'ed together
-            if ( $returnCode & self::STOP ) {
+            if ( $returnCode == self::STOP ) {
                 break;
             }
 
@@ -460,6 +502,25 @@ abstract class CRM_Contribute_Import_Parser
                 $this->_errorFileName = $fileName . '.errors';
                 self::exportCSV($this->_errorFileName, $headers, $this->_errors);
             }
+            
+            if ( $this->_invalidPledgePaymentRowCount ) {
+                // removed view url for invlaid contacts
+                $headers = array_merge( array(  ts('Line Number'),
+                                                ts('Reason')), 
+                                        $customHeaders);
+                $this->_pledgePaymentErrorsFileName = $fileName . '.pledgePaymentErrors';
+                self::exportCSV( $this->_pledgePaymentErrorsFileName, $headers, $this->_pledgePaymentErrors );
+            }
+            
+            if ( $this->_invalidSoftCreditRowCount ) {
+                // removed view url for invlaid contacts
+                $headers = array_merge( array(  ts('Line Number'),
+                                                ts('Reason')), 
+                                        $customHeaders);
+                $this->_softCreditErrorsFileName = $fileName . '.softCreditErrors';
+                self::exportCSV( $this->_softCreditErrorsFileName, $headers, $this->_softCreditErrors );
+            }
+            
             if ($this->_conflictCount) {
                 $headers = array_merge( array(  ts('Line Number'),
                                                 ts('Reason')), 
@@ -671,6 +732,14 @@ abstract class CRM_Contribute_Import_Parser
         }
         if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
             $store->set( 'dataValues', $this->_rows );
+        }
+
+        if ( $this->_invalidPledgePaymentRowCount ) {
+            $store->set( 'pledgePaymentErrorsFileName', $this->_pledgePaymentErrorsFileName );
+        }
+
+        if ( $this->_invalidSoftCreditRowCount ) {
+            $store->set( 'softCreditErrorsFileName', $this->_softCreditErrorsFileName );
         }
 
         if ($mode == self::MODE_IMPORT) {

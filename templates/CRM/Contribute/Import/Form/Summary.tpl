@@ -76,25 +76,25 @@
         <td class="data">{$invalidSoftCreditRowCount}</td>
         <td class="explanation">{ts}Rows with soft credits to invalid contributions. The soft credits for these rows have been skipped (not imported).{/ts}
             {if $invalidSoftCreditRowCount}
-                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+                <p><a href="{$downloadSoftCreditErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
             {/if}
         </td>
     </tr>
     {/if}
     
     {if $validPledgePaymentRowCount }
-    <tr><td class="label">{ts}Pledge Payment Rows Imported{/ts}</td>
+    <tr><td class="label">{ts}Pledge Payments Applied{/ts}</td>
         <td class="data">{$validPledgePaymentRowCount}</td>
         <td class="explanation">{ts}Rows with pledge payment assigned.{/ts}</td>
     </tr>
     {/if}
 
     {if $invalidPledgePaymentRowCount }
-    <tr class="error"><td class="label">{ts}Invalid Soft Credit Rows (skipped){/ts}</td>
+    <tr class="error"><td class="label">{ts}Invalid Pledge Payment Rows (skipped){/ts}</td>
         <td class="data">{$invalidPledgePaymentRowCount}</td>
         <td class="explanation">{ts}Rows with pledge payments to invalid contributions. The pledge payment for these rows have been skipped (not imported).{/ts}
             {if $invalidPledgePaymentRowCount}
-                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+                <p><a href="{$downloadPledgePaymentErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
             {/if}
         </td>
     </tr>
