@@ -1033,10 +1033,15 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
 
             if ( $replacement !== $to['email'] ) {
                 $caseId = $replacement;
+                //if caseId is invalid, return as error file
+                if( !CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case', $caseId, 'id') ) {
+                    return CRM_Core_Error::createAPIError( ts( 'Invalid case ID ( %1 ) in TO: field.',
+                                                               array( 1 => $caseId ) ) );  
+                }
             } else {
                 continue;
             }
-
+            
             $contactDetails = self::getRelatedContacts( $caseId );
 
             if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
@@ -1072,7 +1077,10 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
 
                 $caseParams = array( 'activity_id' => $activity->id,
                                      'case_id'     => $caseId   );
-                CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+                self::processCaseActivity( $caseParams );
+            } else {
+                return CRM_Core_Error::createAPIError( ts( 'FROM email %1 doesn\'t belong to related case',
+                                                           array( 1 => $result['from']['email'] ) ) );   
             }
         } 
     }
