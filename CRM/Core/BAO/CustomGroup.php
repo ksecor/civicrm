@@ -1473,15 +1473,16 @@ SELECT $select
         case 'Money':
 			if ( $htmlType == 'Text' ) {
 				$retValue = (float)$value;
-				break;
 			}
+            break;
 
         case 'String':
         case 'Int':
             if ( $htmlType == 'Text' ) {
                 $retValue = $value;
-                break;
             }			
+            break;
+
         case 'StateProvince':
         case 'Country':
     		//added check for Multi-Select in the below if-statement
