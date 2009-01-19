@@ -106,6 +106,10 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                             
                             if ( $isMultilingual ) {
                                 require_once 'CRM/Core/I18n/Schema.php';
+                                require_once 'CRM/Core/DAO/Domain.php';
+                                $domain =& new CRM_Core_DAO_Domain();
+                                $domain->find(true);
+                                $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
                                 CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
                             }
                         }

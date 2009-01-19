@@ -61,6 +61,10 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
         
         if ( $isMultilingual ) {
             require_once 'CRM/Core/I18n/Schema.php';
+            require_once 'CRM/Core/DAO/Domain.php';
+            $domain =& new CRM_Core_DAO_Domain();
+            $domain->find(true);
+            $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
             CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
         }
 
