@@ -94,6 +94,13 @@
       <add>2.3</add> 
   </field>
   <field> 
+      <name>max_items_user</name> 
+      <type>int unsigned</type> 
+      <default>NULL</default>
+      <comment>Maximum number of items that can be added to the auction per user.</comment> 
+      <add>2.3</add> 
+  </field>
+  <field> 
       <name>event_id</name> 
       <type>int unsigned</type>                 
       <comment>Event this auction is linked to</comment> 

@@ -17,6 +17,20 @@
        <autoincrement>true</autoincrement> 
   </primaryKey>
   <field>
+      <name>auction_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to civicrm_auction for this item</comment>
+       <add>2.3</add>
+  </field>
+  <foreignKey>
+       <name>auction_id</name>
+       <table>civicrm_auction</table>
+       <key>id</key>
+       <add>2.3</add>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
       <name>donor_id</name>
       <type>int unsigned</type>
       <required>true</required>
@@ -45,7 +59,6 @@
   </index>
   <field>
        <name>title</name>
-       <uniqueName>item_name</uniqueName>
        <title>Item Name</title>
        <type>varchar</type>
        <length>255</length>
@@ -88,14 +101,6 @@
       <comment>Full or relative URL to uploaded image - fullsize.</comment>   
       <add>2.3</add>   
   </field>     
-   <field> 
-      <name>thumbnail</name>
-      <title>Thumbnail</title>
-      <type>varchar</type> 
-      <length>255</length>
-      <comment>Full or relative URL to image thumbnail.</comment> 
-      <add>2.3</add> 
-  </field> 
   <field>     
       <name>quantity</name>  
       <title>Quantity</title>
@@ -182,6 +187,7 @@
       <name>is_approved</name>
       <title>Is Approved?</title>
       <type>boolean</type> 
+      <default>0</default>
       <required>true</required> 
       <add>2.3</add>  
   </field>

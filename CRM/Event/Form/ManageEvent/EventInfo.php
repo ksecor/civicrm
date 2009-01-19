@@ -181,7 +181,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->addRule('end_date', ts('Please select a valid end date.'), 'qfDate');
      
         $this->add('text','max_participants', ts('Max Number of Participants'));
-        $this->addRule('max_participants', ts('is a positive field') , 'positiveInteger');
+        $this->addRule('max_participants', ts('Max participants should be a positive number') , 'positiveInteger');
         $this->add('textarea','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
@@ -226,12 +226,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      */
     public function postProcess() 
     {
-        $params = array( );
         $params = $this->controller->exportValues( $this->_name );
         
         //format params
         $params['start_date']      = CRM_Utils_Date::format($params['start_date']);
         $params['end_date'  ]      = CRM_Utils_Date::format($params['end_date']);
+
         $params['is_map'    ]      = CRM_Utils_Array::value('is_map', $params, false);
         $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
         $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);

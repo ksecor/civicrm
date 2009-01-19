@@ -84,4 +84,17 @@
       <comment>Number of items this bid won.</comment>  
       <add>2.3</add>  
   </field>
+  <field> 
+      <name>contribution_id</name> 
+      <type>int unsigned</type> 
+      <comment>FK to contribution table.</comment> 
+      <add>2.3</add> 
+  </field>
+  <foreignKey> 
+       <name>contribution_id</name> 
+       <table>civicrm_contribution</table> 
+       <key>id</key> 
+       <add>2.3</add> 
+       <onDelete>SET NULL</onDelete>
+  </foreignKey>
 </table>
