@@ -407,18 +407,20 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
-            if ($cIndieFields == null) {
+            static $defaultLocationId = null;
+            
+            if ( $cIndieFields == null ) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
                 $cIndieFields = $cTempIndieFields;
-                
-                require_once 'CRM/Contact/BAO/Query.php';
-                $locationFields = CRM_Contact_BAO_Query::$_locationSpecificFields;
 
                 require_once "CRM/Core/BAO/LocationType.php";
                 $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
                 $defaultLocationId = $defaultLocation->id;
             }
+            
+            require_once 'CRM/Contact/BAO/Query.php';
+            $locationFields = CRM_Contact_BAO_Query::$_locationSpecificFields;
             
             foreach ($params as $key => $field) {
                 if ($field == null || $field === '') {
