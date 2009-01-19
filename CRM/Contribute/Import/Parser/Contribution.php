@@ -381,6 +381,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         unset($formatted['note']);
                     }
                     
+                    //need to check existing soft credit contribution, CRM-3968
+                    if ( CRM_Utils_Array::value( 'soft_credit_to', $formatted ) ) {
+                        $dupeSoftCredit = array( 'contact_id'      => $formatted['soft_credit_to'], 
+                                                 'contribution_id' => $ids['contribution'] );
+                        $existingSoftCredit = CRM_Contribute_BAO_Contribution::getSoftContribution( $dupeSoftCredit );
+                        if ( CRM_Utils_Array::value( 'soft_credit_id', $existingSoftCredit ) ) {
+                            $formatted['softID'] = $existingSoftCredit['soft_credit_id'];
+                        }
+                    }
+                    
                     $newContribution =& CRM_Contribute_BAO_Contribution::create( $formatted , $ids );
                     $this->_newContributions[] = $newContribution->id;
                     
