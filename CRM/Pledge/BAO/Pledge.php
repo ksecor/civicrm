@@ -422,7 +422,7 @@ WHERE  $whereCond
      * 
      * @param object $form form object.
      * @param array  $params (reference ) an assoc array of name/value pairs.
-     * @access public. 
+     * @access public 
      * @return None.
      */ 
     function sendAcknowledgment( &$form, $params )
@@ -642,6 +642,41 @@ WHERE  $whereCond
 
         return self::$_exportableFields;
     }
-    
+
+    /**
+     * Function to get pending or in progress pledges
+     *  
+     * @param int $contactID contact id
+     *
+     * @return array associated array of pledge id(s)
+     * @static
+     */
+    static function getContactPledges( $contactID )
+    {
+        $pledgeStatuses = CRM_Core_OptionGroup::values( 'contribution_status');
+
+        //get pending and in progress status
+        $status[] = array_search( 'Pending', $pledgeStatuses );
+        $status[] = array_search( 'In Progress', $pledgeStatuses );
+
+        $statusClause = " IN (" . implode( ',', $status ) .")";    
+
+        $query = "
+SELECT civicrm_pledge.id id
+FROM civicrm_pledge
+WHERE civicrm_pledge.status_id  {$statusClause}        
+  AND civicrm_pledge.contact_id = %1
+";
+
+        $params[1] = array( $contactID, 'Integer' );
+        $pledge = CRM_Core_DAO::executeQuery( $query, $params );
+
+        $pledgeDetails = array( );
+        while ( $pledge->fetch( ) ) {
+            $pledgeDetails[] = $pledge->id;
+        }
+
+        return $pledgeDetails;
+    }    
 }
 

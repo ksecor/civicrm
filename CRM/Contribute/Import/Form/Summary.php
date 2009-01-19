@@ -61,6 +61,8 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
         $invalidRowCount = $this->get('invalidRowCount');
         $invalidSoftCreditRowCount = $this->get('invalidSoftCreditRowCount');
         $validSoftCreditRowCount = $this->get('validSoftCreditRowCount');
+        $invalidPledgePaymentRowCount = $this->get('invalidPledgePaymentRowCount');
+        $validPledgePaymentRowCount   = $this->get('validPledgePaymentRowCount');
         $conflictRowCount = $this->get('conflictRowCount');
         $duplicateRowCount = $this->get('duplicateRowCount');
         $onDuplicate = $this->get('onDuplicate');
@@ -95,7 +97,7 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
         }
         $this->assign('dupeActionString', $dupeActionString);
         
-        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'validSoftCreditRowCount', 'invalidSoftCreditRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount');
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'validSoftCreditRowCount', 'invalidSoftCreditRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount', 'validPledgePaymentRowCount', 'invalidPledgePaymentRowCount' );
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }

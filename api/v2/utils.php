@@ -932,6 +932,44 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 }
             }
             break;
+        case 'pledge_payment':
+             $contributionContactID = $params['contribution_contact_id'];
+             if ( isset( $params['pledge_id'] ) ) {
+                $values['pledge_id'] = $params['pledge_id']; 
+             } else {
+                 // check if there are any pledge related to this contact, with payments pending or in progress
+                 require_once 'CRM/Pledge/BAO/Pledge.php';
+                 $pledgeDetails = CRM_Pledge_BAO_Pledge::getContactPledges( $contributionContactID );
+
+                 if ( empty( $pledgeDetails ) ) {
+                     return civicrm_create_error( 'No open pledges found for this contact. Contribution row was skipped.' );
+                 } else if ( count( $pledgeDetails ) > 1 ) {
+                     return civicrm_create_error( 'This contact has more than one open pledge. Unable to determine which pledge to apply the contribution to. Contribution row was skipped.' );
+                 } 
+
+                 // this mean we have only one pending / in progress pledge
+                 $values['pledge_id'] = $pledgeDetails[0];
+             }
+                    
+             //we need to check if oldest payment amount equal to contribution amount
+             require_once 'CRM/Pledge/BAO/Payment.php';
+             $pledgePaymentDetails = CRM_Pledge_BAO_Payment::getOldestPledgePayment( $values['pledge_id'] );
+             
+             if ( $pledgePaymentDetails[0]['amount'] == $params['total_amount'] ) {
+                 $values['pledge_payment_id'] = $pledgePaymentDetails[0]['id'];
+             } else {
+                 return civicrm_create_error( 'Contribution and Pledge Payment amount mismatch for this record. Contribution row was skipped.' );
+             }
+             
+            break;
+        case 'pledge_id':
+            $contributionContactID = $params['contribution_contact_id'];
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'] ,'contact_id' ) != $contributionContactID ) {
+                return civicrm_create_error( 'Invalid Pledge ID provided. Contribution row was skipped.');
+            } else {
+                $values['pledge_id'] = $params['pledge_id'];
+            }
+            break;
         default:
             break;
         }

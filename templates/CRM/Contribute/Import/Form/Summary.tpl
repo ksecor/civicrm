@@ -74,7 +74,7 @@
     {if $invalidSoftCreditRowCount }
     <tr class="error"><td class="label">{ts}Invalid Soft Credit Rows (skipped){/ts}</td>
         <td class="data">{$invalidSoftCreditRowCount}</td>
-        <td class="explanation">{ts}Rows with soft credits to invalid contacts. The soft credits for these rows have been skipped (not imported).{/ts}
+        <td class="explanation">{ts}Rows with soft credits to invalid contributions. The soft credits for these rows have been skipped (not imported).{/ts}
             {if $invalidSoftCreditRowCount}
                 <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
             {/if}
@@ -82,6 +82,23 @@
     </tr>
     {/if}
     
+    {if $validPledgePaymentRowCount }
+    <tr><td class="label">{ts}Pledge Payment Rows Imported{/ts}</td>
+        <td class="data">{$validPledgePaymentRowCount}</td>
+        <td class="explanation">{ts}Rows with pledge payment assigned.{/ts}</td>
+    </tr>
+    {/if}
+
+    {if $invalidPledgePaymentRowCount }
+    <tr class="error"><td class="label">{ts}Invalid Soft Credit Rows (skipped){/ts}</td>
+        <td class="data">{$invalidPledgePaymentRowCount}</td>
+        <td class="explanation">{ts}Rows with pledge payments to invalid contributions. The pledge payment for these rows have been skipped (not imported).{/ts}
+            {if $invalidPledgePaymentRowCount}
+                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+            {/if}
+        </td>
+    </tr>
+    {/if}
     {if $unMatchCount }
     <tr class="error"><td class="label">{ts}Mismatched Rows (skipped){/ts}</td>
         <td class="data">{$unMatchCount}</td>

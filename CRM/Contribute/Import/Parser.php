@@ -52,7 +52,8 @@ abstract class CRM_Contribute_Import_Parser
         DUPLICATE       = 32,
         MULTIPLE_DUPE   = 64,
         NO_MATCH        = 128,
-        SOFT_MATCH      = 256;
+        SOFT_MATCH      = 256,
+        PLEDGE_PAYMENT  = 512;
 
     /**
      * various parser modes
@@ -128,6 +129,16 @@ abstract class CRM_Contribute_Import_Parser
      * running total number of invalid soft credit rows
      */
     protected $_invalidSoftCreditRowCount;
+
+    /**
+     * running total number of valid pledge payment rows
+     */
+    protected $_validPledgePaymentRowCount;
+
+    /**
+     * running total number of invalid pledge payment rows
+     */
+    protected $_invalidPledgePaymentRowCount;
 
     /**
      * maximum number of invalid rows to store
@@ -291,8 +302,8 @@ abstract class CRM_Contribute_Import_Parser
             return false;
         }
 
-        $this->_lineCount       = $this->_warningCount = $this->_validSoftCreditRowCount = 0;
-        $this->_invalidRowCount = $this->_validCount   = $this->_invalidSoftCreditRowCount = 0;
+        $this->_lineCount       = $this->_warningCount = $this->_validSoftCreditRowCount   = $this->_validPledgePaymentRowCount = 0;
+        $this->_invalidRowCount = $this->_validCount   = $this->_invalidSoftCreditRowCount = $this->_invalidPledgePaymentRowCount = 0;
         $this->_totalCount = $this->_conflictCount = 0;
     
         $this->_errors   = array();
@@ -365,6 +376,15 @@ abstract class CRM_Contribute_Import_Parser
                 }
             }
     
+            if ( $returnCode & self::PLEDGE_PAYMENT ) {
+                $this->_validPledgePaymentRowCount++;
+                $this->_validCount++;
+                if ( $mode == self::MODE_MAPFIELD ) {
+                    $this->_rows[]           = $values;
+                    $this->_activeFieldCount = max( $this->_activeFieldCount, count( $values ) );
+                }
+            }
+            
             if ( $returnCode & self::WARNING ) {
                 $this->_warningCount++;
                 if ( $this->_warningCount < $this->_maxWarningCount ) {
@@ -422,7 +442,6 @@ abstract class CRM_Contribute_Import_Parser
         }
 
         fclose( $fd );
-
         
         if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
             $customHeaders = $mapper;
@@ -627,8 +646,10 @@ abstract class CRM_Contribute_Import_Parser
         $store->set( 'totalRowCount'    , $this->_totalCount     );
         $store->set( 'validRowCount'    , $this->_validCount     );
         $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
-        $store->set( 'invalidSoftCreditRowCount'  , $this->_invalidSoftCreditRowCount     );
-        $store->set( 'validSoftCreditRowCount'  , $this->_validSoftCreditRowCount     );
+        $store->set( 'invalidSoftCreditRowCount', $this->_invalidSoftCreditRowCount );
+        $store->set( 'validSoftCreditRowCount', $this->_validSoftCreditRowCount );
+        $store->set( 'invalidPledgePaymentRowCount', $this->_invalidPledgePaymentRowCount );
+        $store->set( 'validPledgePaymentRowCount', $this->_validPledgePaymentRowCount );
         $store->set( 'conflictRowCount', $this->_conflictCount );
         
         switch ($this->_contactType) {
