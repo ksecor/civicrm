@@ -51,7 +51,7 @@
         <table class="form-layout-compressed">
             {* handle CiviPledge fields *} 
             {if $civiPledge}
-            <tr><th scope="row" class="label" width="20%"">{$form.is_pledge_active.label}</th>
+            <tr><th scope="row" class="label" width="20%">{$form.is_pledge_active.label}</th>
                 <td>{$form.is_pledge_active.html}<br />
                     <span class="description">{ts}Check this box if you want to give users the option to make a Pledge (a commitment to contribute a fixed amount on a recurring basis).{/ts}</span>
                 </td>

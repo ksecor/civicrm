@@ -77,13 +77,13 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Settings'),
                                                                           'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=update&id=%%id%%',
+                                                                          'qs'    => 'action=update&id=%%id%%&context=group',
                                                                           'title' => ts('Edit CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Preview'),
                                                                           'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=preview&id=%%id%%&field=0',
+                                                                          'qs'    => 'action=preview&id=%%id%%&field=0&context=group',
                                                                           'title' => ts('Edit CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
@@ -160,7 +160,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
             } else if ( $action & CRM_Core_Action::PROFILE ) { 
                 $this->profile( ); 
             } else if ( $action & CRM_Core_Action::PREVIEW ) { 
-                $this->preview( $id ); 
+                $this->preview( $id, $action ); 
             } else if ( $action & CRM_Core_Action::COPY ) {
                 $this->copy( );
             }
@@ -243,10 +243,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
     {
         // create a simple controller for editing uf data
         $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Group', ts('CiviCRM Profile Group'), $action);
-        
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/', 'action=browse'));
+        $this->setContext( $id, $action );
         $controller->set('id', $id);
         $controller->setEmbedded(true);
         $controller->process();
@@ -308,12 +305,34 @@ class CRM_UF_Page_Group extends CRM_Core_Page
     function preview( $id ) 
     {
       $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Preview', ts('CiviCRM Profile Group Preview'),null);   
-      $session =& CRM_Core_Session::singleton();
-      $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/', 'action=browse'));
+      $this->setContext( $id, $action );
       $controller->set('id', $id);
       $controller->setEmbedded(true);
       $controller->process();
       $controller->run();
+    }
+    
+    function setContext( $id, $action ) 
+    {
+        $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        
+        //we need to differentiate context for update and preview profile.
+        if ( !$context && !( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::PREVIEW ) ) ) {
+            $context = 'group';
+        }
+        
+        switch ( $context ) {
+        case 'group':
+            $url = CRM_Utils_System::url( 'civicrm/admin/uf/group', 'reset=1&action=browse' );
+            break;
+        case 'field' :
+            $url = CRM_Utils_System::url( 'civicrm/admin/uf/group/field',
+                                          "reset=1&action=browse&gid={$id}" );
+            break;
+        }
+        
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
     }
 }
 

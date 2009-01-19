@@ -118,7 +118,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $caseRoles    = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
         $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
 
-        $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
+        $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes', true );
         // remove Open Case activity type since we're inside an existing case
         $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
         unset( $aTypes[$openCaseID] );
@@ -173,19 +173,14 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         
         $this->add('select', 'reporter_id',  ts( 'Reporter/Role' ), $reporters );
 
-		// Include other relationships
+		// Include client relationships
 		$relClient = CRM_Contact_BAO_Relationship::getRelationship($this->_contactID,
 									CRM_Contact_BAO_Relationship::CURRENT,
 									0, 0, 0, null, null, false);
-		$session =& CRM_Core_Session::singleton();
-		$relUser = CRM_Contact_BAO_Relationship::getRelationship($session->get('userID'),
-									CRM_Contact_BAO_Relationship::CURRENT,
-									0, 0, 0, null, null, false);		
 
 		// Now remove ones that are also roles so they don't show up twice. Also remove the client itself.
 		// We conveniently already have the required list of cids in the reporters variable.
 		$clientRelationships = array();
-		$userRelationships = array();
 		foreach($relClient as $r)
 		{
 			$cid = $r['cid'];
@@ -194,17 +189,16 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 				$clientRelationships[] = $r;
 			}
 		}
-		foreach($relUser as $r)
-		{
-			$cid = $r['cid'];
-			if (($cid != $this->_contactID) && (! array_key_exists($cid, $reporters)))
-			{
-				$userRelationships[] = $r;
-			}
-		}
         $this->assign('clientRelationships', $clientRelationships);
-        $this->assign('userRelationships', $userRelationships);
-		
+
+		$relType = CRM_Core_PseudoConstant::relationshipType();
+		$roleTypes = array();
+		foreach ($relType as $k => $v)
+		{
+			$roleTypes[$k] = $v['name_b_a'];
+		}
+		$this->add('select', 'role_type',  ts( 'Relationship Type' ), array( '' => ts( '- select type -' ) ) + $roleTypes );
+	
         $this->addButtons(array(  
                                 array ( 'type'      => 'cancel',  
                                         'name'      => ts('Done'),  

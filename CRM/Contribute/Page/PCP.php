@@ -245,7 +245,7 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
      * @return string
      * @access public
      */
-        function deleteName( ) 
+    function deleteName( ) 
     {
         return ts('Delete Personal Campaign Page');
     }

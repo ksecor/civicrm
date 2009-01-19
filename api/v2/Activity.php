@@ -63,7 +63,7 @@ require_once 'CRM/Core/DAO/OptionGroup.php';
  *                             pairs to insert in new contact.
  * @param string $activity_type Which class of contact is being created.
  *            Valid values = 'SMS', 'Meeting', 'Event', 'PhoneCall'.
- *                            '
+ *                            
  * @return CRM_Activity|CRM_Error Newly created Activity object
  * 
  */
@@ -103,6 +103,27 @@ function &civicrm_activity_create( &$params )
     _civicrm_object_to_array( $activity, $activityArray);
     
     return $activityArray;
+}
+
+function civicrm_activity_get( $params ) {
+    _civicrm_initialize( );
+    
+    $activityId = $params['activity_id'];
+    if ( empty( $activityId ) ) {
+        return civicrm_create_error( ts ("Required parameter not found" ) );
+    }
+    
+    if ( !is_numeric( $activityId ) ) {
+        return civicrm_create_error( ts ( "Invalid activity Id" ) );
+    }
+    
+    $activity = _civicrm_activity_get( $activityId );
+    
+    if ( $activity ) {
+        return civicrm_create_success( $activity );
+    } else {
+        return civicrm_create_error( ts( 'Invalid Data' ) );
+    }
 }
 
 /**
@@ -234,15 +255,31 @@ function _civicrm_activity_update( $params )
 }
 
 /**
+ * Retrieve a specific Activity by Id.
+ *
+ * @param int $activityId
+ *
+ * @return array (reference)  activity object
+ * @access public
+ */
+function _civicrm_activity_get( $activityId ) {
+    $dao = new CRM_Activity_BAO_Activity();
+    $dao->activity_id = $activityId;
+    $dao->find( true );
+    $activity = array();
+    _civicrm_object_to_array( $dao, $activity );
+    return $activity;
+}
+
+/**
  * Retrieve a set of Activities specific to given contact Id.
  * @param int $contactID.
  *
  * @return array (reference)  array of activities.
  * @access public
  */
-function &_civicrm_activities_get( $contactID ) 
+function &_civicrm_activities_get( $contactID, $type = 'all' ) 
 {
-    $activities = array();
     $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
     
     //handle custom data.

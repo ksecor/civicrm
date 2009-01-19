@@ -147,9 +147,12 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
                 }
             }
             
-            if ( $email = CRM_Utils_Array::value( 'notify_email', $params ) ) {
-                if ( !CRM_Utils_Rule::email($email) ) {
-                    $errors['notify_email'] = ts( 'A valid Notify Email address must be specified' );
+            if ( $emails = CRM_Utils_Array::value( 'notify_email', $params ) ) {
+                $emailArray = explode(',' ,$emails );
+                foreach( $emailArray as $email ) {
+                    if ( $email && !CRM_Utils_Rule::email( trim( $email ) ) ) {
+                        $errors['notify_email'] = ts( 'A valid Notify Email address must be specified' );
+                    }
                 }    
             }
         }

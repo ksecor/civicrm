@@ -13,7 +13,7 @@
                 <label>{ts}Status{/ts}:</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
             </td>
             <td>
-                <label>{ts}Case #{/ts}:</label>&nbsp;{$caseID}
+                <label>{ts}Case ID{/ts}:</label>&nbsp;{$caseID}
             </td>
         </tr>
     </table>
@@ -35,6 +35,9 @@
 <div id="caseRole" class="section-shown">
  <fieldset>
   <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Roles{/ts}</legend>
+
+    <div><a href="Javascript:addRole()">Add new role</a></div>
+
     <table class="report">
     	<tr class="columnheader">
     		<th>{ts}Role{/ts}</th>
@@ -64,7 +67,7 @@
         </tr>
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
-    </table>
+    </table>    
  </fieldset>
 </div>
 <div id="dialog">
@@ -121,8 +124,8 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 					return false;
 				}
 
-				var sourceContact = {/literal}"{$contactID}"{literal}
-				var caseID        = {/literal}"{$caseID}"{literal}
+				var sourceContact = {/literal}"{$contactID}"{literal};
+				var caseID        = {/literal}"{$caseID}"{literal};
 
 				var v1 = cj("#rel_contact_id").val( );
 
@@ -185,18 +188,19 @@ cj(document).ready(function(){
 {/literal}
 
 <div id="otherRel_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('otherRel_show'); show('otherRel'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Other Relationships{/ts}</label><br />
+  <a href="#" onclick="hide('otherRel_show'); show('otherRel'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Client's Relationships{/ts}</label><br />
 </div>
 
 <div id="otherRel" class="section-shown">
  <fieldset>
-  <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
+  <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Client's Relationships{/ts}</legend>
 
+  {if $clientRelationships}
     <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
 	
     <table class="report">
     	<tr class="columnheader">
-    		<th>{ts}Client Relationship{/ts}</th>
+    		<th>{ts}Relationship{/ts}</th>
     		<th>{ts}Name{/ts}</th>
     		<th>{ts}Phone{/ts}</th>
     		<th>{ts}Email{/ts}</th>
@@ -210,29 +214,116 @@ cj(document).ready(function(){
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
     </table>
-
-    <table class="report">
-    	<tr class="columnheader">
-    		<th>{ts}My Relationship{/ts}</th>
-    		<th>{ts}Name{/ts}</th>
-    		<th>{ts}Phone{/ts}</th>
-    		<th>{ts}Email{/ts}</th>
-    	</tr>
-        {foreach from=$userRelationships item=row key=relId}
-        <tr>
-            <td class="label">{$row.relation}</td>
-            <td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a></td>
-            <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&action=add&atype=3&cid=`$row.cid`&caseid=`$caseID`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
-        </tr>
-		{assign var=rowNumber value = `$rowNumber+1`}
-        {/foreach}
-    </table>
+  {else}
+    <div class="messages status">
+      <dl>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+        <dd>
+          {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}{/capture}
+          {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}
+        </dd>
+      </dl>
+    </div>
+  {/if}
  </fieldset>
 </div>
 {literal}
 <script type="text/javascript">
 show('otherRel_show');
 hide('otherRel');
+</script>
+{/literal}
+
+<div id="addRoleDialog">
+{$form.role_type.label}<br />
+{$form.role_type.html}
+<br /><br />
+    {ts}Begin typing last name of contact.{/ts}<br/>
+    <input type="text" id="role_contact"/>
+    <input type="hidden" id="role_contact_id" value="">
+</div>
+
+{literal}
+<script type="text/javascript">
+
+cj("#addRoleDialog").hide( );
+function addRole() {
+    cj("#addRoleDialog").show( );
+
+	cj("#addRoleDialog").dialog({
+		title: "Add Role",
+		modal: true, 
+		overlay: { 
+			opacity: 0.5, 
+			background: "black" 
+		},
+
+		open:function() {
+			cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+
+			/* set defaults if editing */
+			cj("#role_contact").val( "" );
+			cj("#role_contact_id").val( null );
+
+			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
+
+			cj("#role_contact").autocomplete( contactUrl, {
+				width: 260,
+				selectFirst: false 
+			});
+			
+			cj("#role_contact").focus();
+			cj("#role_contact").result(function(event, data, formatted) {
+				cj("input[@id=role_contact_id]").val(data[1]);
+			});		    
+		},
+
+		buttons: { 
+			"Ok": function() { 	    
+				if ( ! cj("#role_contact").val( ) ) {
+					alert('Select valid contact from the list.');
+					return false;
+				}
+
+				var sourceContact = {/literal}"{$contactID}"{literal};
+				var caseID        = {/literal}"{$caseID}"{literal};
+				var relID         = null;
+
+				var v1 = cj("#role_contact_id").val( );
+
+				if ( ! v1 ) {
+					alert('Select valid contact from the list.');
+					return false;
+				}
+
+				var v2 = cj("#role_type").val();
+				if ( ! v2 ) {
+					alert('Select valid type from the list.');
+					return false;
+				}
+				
+				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
+                cj.post( postUrl, { rel_contact: v1, rel_type: v2, contact_id: sourceContact, rel_id: relID, case_id: caseID },
+                    function( data ) {
+                    		// empty on purpose
+                        }, 'json' 
+                    );
+
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy");
+				
+				window.location.reload(); 
+			},
+
+			"Cancel": function() { 
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy"); 
+			} 
+		} 
+
+	});
+}
+
 </script>
 {/literal}
 

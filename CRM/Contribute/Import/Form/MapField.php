@@ -328,22 +328,22 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
             $jsSet = false;
-            if( $this->get('savedMapping') ) {                                              
+            if ( $this->get('savedMapping') ) {                                              
                 if ( isset($mappingName[$i]) ) {
                     if ( $mappingName[$i] != ts('- do not import -')) {                                
                         
                         $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);
-                        
-                        if ( ! isset($locationId) || ! $locationId ) { 
+                        // reusing contact_type field array for soft credit
+                        $softField = isset($mappingContactType[$i]) ? $mappingContactType[$i] : 0;
+                         
+                        if ( !$softField ) { 
                             $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
                         }
-
-                        if ( ! isset($phoneType) || ! $phoneType ) {
-                            $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-                        }
                         
+                        $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
                         $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
                         $defaults["mapper[$i]"] = array( $mappingHeader[0], 
+                                                         ( $softField ) ? $softField : "",
                                                          (isset($locationId)) ? $locationId : "", 
                                                          (isset($phoneType)) ? $phoneType : "" );    
                         $jsSet = true;
@@ -403,7 +403,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $session =& CRM_Core_Session::singleton( );
             $session->setStatus( null ); 
         }
-        
+                    
         $this->setDefaults( $defaults );       
 
         $this->addButtons( array(
@@ -586,17 +586,20 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                     $mappingFieldsId[$mappingFields->column_number] = $mappingFields->id;
                 }
             }
-                
+                    
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {
                 $updateMappingFields =& new CRM_Core_DAO_MappingField();
                 $updateMappingFields->id = $mappingFieldsId[$i];
                 $updateMappingFields->mapping_id = $params['mappingId'];
                 $updateMappingFields->column_number = $i;
                 $updateMappingFields->name = $mapper[$i];
+                
+                //reuse contact_type field in db to store fields associated with soft credit
+                $updateMappingFields->contact_type = isset($mapperSoftCredit[$i]) ? $mapperSoftCredit[$i] : null;
                 $updateMappingFields->save();                
             }
         }
-        
+
         //Saving Mapping Details and Records
         if ( CRM_Utils_Array::value('saveMapping', $params)) {
             $mappingParams = array('name'            => $params['saveMappingName'],
@@ -611,6 +614,9 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $saveMappingFields->mapping_id = $saveMapping->id;
                 $saveMappingFields->column_number = $i;                             
                 $saveMappingFields->name = $mapper[$i];
+                
+                //reuse contact_type field in db to store fields associated with soft credit
+                $saveMappingFields->contact_type = isset($mapperSoftCredit[$i]) ? $mapperSoftCredit[$i] : null;
                 $saveMappingFields->save();
             }
             $this->set( 'savedMapping', $saveMappingFields->mapping_id );

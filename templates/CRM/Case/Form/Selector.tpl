@@ -13,7 +13,9 @@
     <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
   {/if}
 
-  {if ! $single}
+  {if $single}
+    <th>{ts}ID{/ts}</th>
+  {else}
     <th></th>
   {/if}
 
@@ -33,7 +35,8 @@
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
 
-  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
+  {* FIXME: Styling for Urgent and Resolved case status should be based on option_value.name NOT .label so translated sites function properly. dgg *}
+  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id EQ 'Urgent' } disabled{elseif $row.case_status_id EQ 'Resolved'}status-completed{/if}'>
     {if $context eq 'Search' }
         {assign var=cbName value=$row.checkbox}
         <td>{$form.$cbName.html}</td> 
@@ -56,8 +59,10 @@
                              return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
     {/if}	
-    {if ! $single }	
-    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a></td>
+    {if $single }
+        <td>{$row.case_id}</td>
+    {else}
+    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a><br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
     {/if}
 
     <td>{$row.case_status_id}</td>

@@ -39,8 +39,6 @@
  */
 class CRM_Utils_System {
 
-    const VERSION = '2.2';
-
     static $_callbacks = null;
 
     /**
@@ -429,6 +427,7 @@ class CRM_Utils_System {
         }
 
         $siteKey = defined( 'CIVICRM_SITE_KEY' ) ? CIVICRM_SITE_KEY : null;
+        
         if ( ! $siteKey ||
              empty( $siteKey ) ) {
             return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
@@ -766,8 +765,27 @@ class CRM_Utils_System {
         return $url;
     }
 
+    /**
+     * Function to return the latest civicrm version.
+     *
+     * @return string civicrm version
+     * @access public
+     */
     static function version( ) {
-        return self::VERSION;
+        static $version;
+        
+        if ( ! $version ) {
+            $config  =& CRM_Core_Config::singleton( );
+            $verFile = implode( DIRECTORY_SEPARATOR, 
+                                array(dirname(__FILE__), '..', '..', 'civicrm-version.txt') );
+            if ( $str = file_get_contents( $verFile ) ) {
+                $parts   = explode( ' ', $str );
+                $version = trim( $parts[0] );
+            } else {
+                CRM_Core_Error::fatal('Unable to locate civicrm-version.txt file. Make sure it exists.');
+            }
+        }
+        return $version;
     }
 
     static function getAllHeaders( ) {

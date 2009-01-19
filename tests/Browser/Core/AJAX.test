@@ -171,31 +171,17 @@ class Browser_Core_AJAX extends CiviTestCase
   }
   
   /**
-   * Test case for state()
-   */
-  function testState( )
-  {
-      $this->civiGet('civicrm/ajax/state', '?name=California*&start=0&count=10');
-      $this->assertWantedRaw( 'California', 'Returns json object.' );
-  } 
-  
-  /**
    * Test case for states()
    */
   function testStates( )
   {
-      $this->civiGet('civicrm/ajax/state', 'name=Cal*&start=0&count=10');
-      $this->assertWantedRaw( 'California', 'Returns json object.' );
+      //country.id of 'South Africa' is 1196
+      $this->civiGet('civicrm/ajax/jqState', '?_value=1196&start=0&count=10');
+      $this->assertWantedRaw( 'Free State',    'Returns json object.' );
+      $this->assertWantedRaw( 'Gauteng',       'Returns json object.' );
+      $this->assertWantedRaw( 'Western Cape',  'Returns json object.' );
+      $this->assertWantedRaw( 'Northern Cape', 'Returns json object.' );
   } 
-  
-  /**
-   * Test case for country()
-   */
-  function testCountry( )
-  {
-      $this->civiGet('civicrm/ajax/country', '?name=United States*&start=0&count=10');
-      $this->assertWantedRaw( 'United States', 'Returns json object.' );
-  }
   
   /**
    * Test case for message Template()
@@ -216,37 +202,6 @@ class Browser_Core_AJAX extends CiviTestCase
       $this->assertWantedRaw( 'Text Message^AHTML Message^ATest Message Subject', 'Returns json object.' );
       //Now cleanup The DB.
       CRM_Core_BAO_MessageTemplates::del( $messageTemplate->id );
-  }
-  
-  /**
-   * Test case for caseSubject( )
-   */
-  function testCaseSubject( )
-  {
-      $params = array(
-                      'first_name'     => 'Sarah',
-                      'last_name'      => 'Jones'
-                      );
-      $contactId = Contact::createIndividual( $params );
-      
-      //create test case.
-      $caseParams = array( 'subject'      => 'Test Case',
-                           'status_id'    => 1,
-                           'case_type_id' => 1,
-                           'start_date'   => '20080604',
-                           'contact_id'   => $contactId  
-                           );
-      
-      require_once 'CRM/Case/BAO/Case.php';
-      $testCase = CRM_Case_BAO_Case::create( $caseParams );
-      $caseId = $testCase->id; 
-      
-      $this->civiGet('civicrm/ajax/caseSubject', "?c={$contactId}&name=Test Case*&start=0&count=10");
-      $this->assertWantedRaw( 'Test Case', 'Returns json object.' );
-      
-      //cleanup DB by deleting records.
-      CRM_Case_BAO_Case::deleteCase( $caseId );
-      Contact::delete( $contactId );
   }
 
   /**

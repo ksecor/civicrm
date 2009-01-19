@@ -61,3 +61,8 @@
 </dl>
 </div>
 </fieldset>
+<script type="text/javascript">
+    // Always open attachment div by default for this form
+    hide('attachments_show');
+    show('attachments');
+</script>

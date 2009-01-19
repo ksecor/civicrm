@@ -343,11 +343,11 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             $name  = count( $parts ) > 1 ? $parts[0] : $p;
             if ( isset( $otherVars[$name] ) ) {
                 $value = $params[$p];
-                if ( $name == 'state_province' ) {
-                    $stateName = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value );
-                    $value     = $stateName;
-                }
                 if ( $value ) {
+                    if ( $name == 'state_province' ) {
+                        $stateName = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value );
+                        $value     = $stateName;
+                    }
                     $paypalParams[$otherVars[$name]] = $value;
                 }
             }

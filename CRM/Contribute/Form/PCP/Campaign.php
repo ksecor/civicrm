@@ -139,8 +139,14 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             $errors['goal_amount'] = ts('Goal Amount should be a numeric value greater than zero.');
         }
         if ( strlen($fields['donate_link_text']) >= 64 ){
-            $errors['donate_link_text'] = ts('Button Text cannot be greater than 64 Characters.');
+            $errors['donate_link_text'] = ts('Button Text must be less than 64 characters.');
         }
+        if ( isset($files['attachFile_1']) ) {
+            list( $width, $height ) = getimagesize( $files['attachFile_1']['tmp_name'] );
+            if ( $width > 360 || $height > 360 ) {
+                $errors['attachFile_1'] = "Your picture or image file can not be larger than 360 x 360 pixels in size." . " The dimensions of the image you've selected is ". $width." x ". $height . ". Please shrink or crop the file or find another smaller image and try again.";
+            }
+        }       
         return $errors;
     }
     
@@ -173,7 +179,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
 
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $params['status_id'] = $approval_needed ? 1 : 2;
-            $approvalMessage     = $approval_needed ? ts('but requires Admin Approval') : ts('and Ready to Use');
+            $approvalMessage     = $approval_needed ? ts('but requires administrator review before you can begin your fundraising efforts. You will receive an email confirmation shortly which includes a link to return to this page.') : ts('and is ready to use. Click the Tell Friends link below to being promoting your fundraising campaign.');
         }
         
         $params['id'] = $this->_pageId;
@@ -196,7 +202,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $notifyStatus = "";
         CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $pcpParams, $notifyParams, array('notify_email'));
 
-        if ( CRM_Utils_Array::value('notify_email', $notifyParams) ) {
+        if ( $emails = CRM_Utils_Array::value('notify_email', $notifyParams) ) {
             $this->assign( 'pcpTitle', $pcp->title );
             
             if( $this->_pageId ) {
@@ -246,20 +252,39 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             }
             
             $emailFrom = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
+            //if more than one email present for PCP notification ,
+            //first email take it as To and other as CC and First email
+            //address should be sent in users email receipt for
+            //support purpose.
+            $emailArray = explode(',' ,$emails );
+            $to = $emailArray[0];
+            unset( $emailArray[0] );
+            $cc = implode(',', $emailArray );
             
             require_once 'Mail/mime.php';
             require_once 'CRM/Utils/Mail.php';
             if ( CRM_Utils_Mail::send( $emailFrom,
                                        "",
-                                       $notifyParams['notify_email'],
+                                       $to,
                                        $subject,
-                                       $message ) ) {
-                $notifyStatus = ts(' Notification about this action has been sent to Administrator.'); 
+                                       $message,
+                                       $cc ) ) {
+                $notifyStatus = ts(' A notification email has been sent to the site administrator.'); 
             }
         }
         
         CRM_Core_BAO_File::processAttachment( $params, 'civicrm_pcp', $pcp->id );
-        CRM_Core_Session::setStatus( ts( "Your Personal Contribution Page has been %1 %2.%3", array(1 => $pageStatus, 2 => $approvalMessage, 3 => $notifyStatus)) );
+
+        // send email notification to supporter, if initial setup / add mode.
+        if ( ! $this->_pageId ) {
+            CRM_Contribute_BAO_PCP::sendStatusUpdate( $pcp->id, $statusId, true );
+            if ( $approvalMessage && CRM_Utils_Array::value( 'status_id', $params ) == 1 ) {
+                $notifyStatus .= ' You will receive a second email as soon as the review process is complete.';
+            }
+        }
+
+        CRM_Core_Session::setStatus( ts( "Your Personal Campaign Page has been %1 %2 %3", 
+                                         array(1 => $pageStatus, 2 => $approvalMessage, 3 => $notifyStatus)) );
         if ( ! $this->_pageId ) {
             $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$pcp->id ) );
         } 

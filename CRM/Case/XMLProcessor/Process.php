@@ -51,7 +51,7 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
     }
 
     function get( $caseType,
-                  $fieldSet ) {
+                  $fieldSet, $isLabel = false ) {
         $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
@@ -66,7 +66,7 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         case 'ActivitySets':
             return $this->activitySets( $xml->ActivitySets );
         case 'ActivityTypes':
-            return $this->activityTypes( $xml->ActivityTypes );
+            return $this->activityTypes( $xml->ActivityTypes, false, $isLabel );
         }
     }
 
@@ -189,18 +189,23 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         return true;
     }
 
-    function activityTypes( $activityTypesXML, $maxInst = false ) {
-        $activityTypes =& $this->allActivityTypes( );
+    function activityTypes( $activityTypesXML, $maxInst = false, $isLabel = false ) {
+        $activityTypes =& $this->allActivityTypes( true, true );
         $result = array( );
         foreach ( $activityTypesXML as $activityTypeXML ) {
             foreach ( $activityTypeXML as $recordXML ) {
                 $activityTypeName = (string ) $recordXML->name;
                 $maxInstances     = (string ) $recordXML->max_instances;
                 $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName, $activityTypes );
-                
+                              
                 if ( $activityTypeInfo['id'] ) {
                     if ( !$maxInst ) {
-                        $result[$activityTypeInfo['id']] = $activityTypeName;
+                        //if we want,labels of activities should be returned.
+                        if ( $isLabel ) {
+                            $result[$activityTypeInfo['id']] = $activityTypeInfo['label'];
+                        } else {
+                            $result[$activityTypeInfo['id']] = $activityTypeName;
+                        }
                     } else {
                         if ( $maxInstances ) {
                             $result[$activityTypeName] = $maxInstances;

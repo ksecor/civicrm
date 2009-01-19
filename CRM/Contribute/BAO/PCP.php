@@ -348,22 +348,26 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         $result = self::sendStatusUpdate( $id, $is_active );
 
         if ( $result ) {
-            CRM_Core_Session::setStatus("A mail has also been sent to supporter informing the status update.");
+            CRM_Core_Session::setStatus("A notification email has been sent to the supporter.");
         }
     }
 
     /**
-     * Function to send status change mail to campaign page supporter.
+     * Function to send notfication email to supporter 
+     * 1. when their PCP status is changed by site admin.
+     * 2. when supporter initially creates a Personal Campaign Page ($isInitial set to true).
      * 
-     * @param int $pcpId     campaign page id
-     * @param int $newStatus pcp status id
+     * @param int $pcpId      campaign page id
+     * @param int $newStatus  pcp status id
+     * @param int $isInitial  is it the first time, campaign page has been created by the user
      *
      * @return null
      * @access public
      * @static
      *
      */
-    static function sendStatusUpdate( $pcpId, $newStatus ) {
+    static function sendStatusUpdate( $pcpId, $newStatus, $isInitial = false ) {
+        require_once 'CRM/Contribute/PseudoConstant.php';
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
 
         if ( ! isset($pcpStatus[$newStatus]) ) {
@@ -373,19 +377,26 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         require_once 'CRM/Utils/Mail.php';
         require_once 'Mail/mime.php';
         require_once 'CRM/Contact/BAO/Contact/Location.php';        
-        $emailTemplate = 'CRM/Contribute/Form/PCP/PCPStatusChange.tpl';
         $template      =& CRM_Core_Smarty::singleton( );
+
+        $emailTemplate = 'CRM/Contribute/Form/PCP/PCPStatusChange.tpl';
+        if ( $isInitial ) {
+            $emailTemplate = 'CRM/Contribute/Form/PCP/PCPSupporterNotify.tpl';
+        }
 
         // set appropriate subject
         $contribPageTitle = self::getPcpContributionPageTitle( $pcpId );
         $subject  = "Your Personal Campaign Page for $contribPageTitle";
 
-        // get sender's name and email
-        $session     =& CRM_Core_Session::singleton( );
-        list ($name, $address) = 
-            CRM_Contact_BAO_Contact_Location::getEmailDetails( $session->get( 'userID' ) );
-        $receiptFrom = "\"$name\" <$address>";
-        unset($name, $address);
+        //get the default domain email address.
+        require_once 'CRM/Core/BAO/Domain.php';
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+        
+        if ( !$domainEmailAddress || $domainEmailAddress == 'info@FIXME.ORG') {
+            CRM_Core_Error::fatal( ts( 'The site administrator needs to enter a valid \'FROM Email Address\' in Administer CiviCRM &raquo; Configure &raquo; Domain Information. The email address used may need to be a valid mail account with your email service provider.' ) );
+        }
+            
+        $receiptFrom = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
 
         // get recipient (supporter) name and email
         $params = array( 'id' => $pcpId );
@@ -398,24 +409,27 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         $params = array( 'id' => $blockId );
         CRM_Core_DAO::commonRetrieve('CRM_Contribute_DAO_PCPBlock', $params, $pcpBlockInfo);
 
+        // assign urls required in email template
         if ( $pcpStatus[$newStatus] == 'Approved' ) {
             $template->assign( 'isTellFriendEnabled', $pcpBlockInfo['is_tellfriend_enabled'] );
             if ( $pcpBlockInfo['is_tellfriend_enabled'] ) {
-                $pcpTellFriendURL = CRM_Utils_System::url('civicrm/friend', 
-                                                          "reset=1&eid=$eid&blockId=$blockId&page=pcp", 
-                                                          true, null, false);
+                $pcpTellFriendURL = 
+                    CRM_Utils_System::url('civicrm/friend', 
+                                          "reset=1&eid=$eid&blockId=$blockId&page=pcp", 
+                                          true, null, false);
                 $template->assign( 'pcpTellFriendURL', $pcpTellFriendURL );
             }
-
-            $pcpInfoURL = CRM_Utils_System::url('civicrm/contribute/pcp/info', 
-                                                "reset=1&id=$pcpId", 
-                                                true, null, false);
-            $template->assign( 'pcpInfoURL', $pcpInfoURL );
         }
-        $template->assign( 'pcpNotifyEmailAddress', $pcpBlockInfo['notify_email'] );
-
-        // get appropriate message
-        $template->assign( 'returnContent', $pcpStatus[$newStatus] );
+        $pcpInfoURL = CRM_Utils_System::url('civicrm/contribute/pcp/info', 
+                                            "reset=1&id=$pcpId", 
+                                            true, null, false);
+        $template->assign( 'pcpInfoURL', $pcpInfoURL );
+        if ( $emails = CRM_Utils_Array::value( 'notify_email', $pcpBlockInfo ) ) {
+            $emailArray = explode(',', $emails );
+            $template->assign( 'pcpNotifyEmailAddress', $emailArray[0] );
+        }
+        // get appropriate message based on status
+        $template->assign( 'pcpStatus', $pcpStatus[$newStatus] );
         $message       = $template->fetch( $emailTemplate );
         
         return CRM_Utils_Mail::send( $receiptFrom,

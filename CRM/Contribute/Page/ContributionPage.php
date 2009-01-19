@@ -198,6 +198,14 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                                CRM_Core_Action::DELETE );
                 $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                                   $this, false, 0);
+                $query = "SELECT ccp.title
+FROM civicrm_contribution_page ccp JOIN civicrm_pcp cp ON ccp.id = cp.contribution_page_id
+WHERE cp.contribution_page_id = {$id}";
+                if ( $pageTitle = CRM_Core_DAO::singleValueQuery( $query ) ) {
+                    CRM_Core_Session::setStatus(" The '{$pageTitle}' cannot be deleted! You must Delete all Personal Campaign Page(s) related with this contribution page prior to deleting the page." );
+                    CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin/contribute','reset=1') );   
+                }
+
                 $controller->set('id', $id);
                 $controller->process( );
                 return $controller->run( );

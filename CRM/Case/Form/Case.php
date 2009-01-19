@@ -141,8 +141,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::DELETE || $this->_action & CRM_Core_Action::RENEW ) {
             return true;
         }
-        CRM_Custom_Form_Customdata::setDefaultValues( $this );
         eval('$defaults = CRM_Case_Form_Activity_'. $this->_activityTypeFile. '::setDefaultValues($this);');
+        $defaults = array_merge( $defaults, CRM_Custom_Form_Customdata::setDefaultValues( $this ) );
         return $defaults;
     }
 

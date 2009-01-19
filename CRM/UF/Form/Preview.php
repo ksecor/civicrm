@@ -137,6 +137,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, null, CRM_Profile_Form::MODE_REGISTER );
             }
         }
+        
+        //set default for country.
+        CRM_Core_BAO_UFGroup::setRegisterDefaults( $this->_fields, $defaults );
+        
         return $defaults;
     }
 
@@ -160,8 +164,21 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
+        // cache the state country fields. based on the results, we could use our javascript solution
+        // in create or register mode
+        $stateCountryMap = array( );
+
         foreach ($this->_fields as $name => $field ) {
             $required = $field['is_required'];
+            
+            // array build for using it for ajax state-county widget
+            list( $prefixName, $index ) = CRM_Utils_System::explode( '-', $name, 2 );
+            if ( $prefixName == 'state_province' || $prefixName == 'country' ) {
+                if ( ! array_key_exists( $index, $stateCountryMap ) ) {
+                    $stateCountryMap[$index] = array( );
+                }
+                $stateCountryMap[$index][$prefixName] = $name;
+            }
             
             if ( substr($field['name'],0,14) === 'state_province' ) {
                 $this->add('select', $name, $field['title'],
@@ -320,6 +337,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             $captcha->add( $this );
             $this->assign( 'addCAPTCHA' , true );
         }
+        
+        // also do state country js
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
         
         $this->addButtons(array(
                                 array ('type'      => 'cancel',

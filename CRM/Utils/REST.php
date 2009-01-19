@@ -244,7 +244,7 @@ class CRM_Utils_REST
             return self::error("Valid session, or user api_key required");
         }
 
-        return self::$process( $args, $restInterface );
+        return self::process( $args, $restInterface );
     }
 
     function process( &$args, $restInterface = true ) {

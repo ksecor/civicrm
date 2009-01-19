@@ -177,6 +177,12 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                                     'id', $returnURL, $filter );
         
         $this->assign('ufField', $ufField);
+        
+        // retrieve showBestResult from session
+        $session =& CRM_Core_Session::singleton( );
+        $showBestResult = $session->get( 'showBestResult');
+        $this->assign( 'showBestResult', $showBestResult );
+        $session->set( 'showBestResult', false );
     }
 
 
@@ -186,7 +192,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
      * editing would involved modifying existing fields + adding data to new fields.
      *
      * @param string $action the action to be invoked
-
+     *
      * @return void
      * @access public
      */

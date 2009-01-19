@@ -524,11 +524,16 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                      .  " ) OR ( contact_id_a = " . CRM_Utils_Type::escape($contactId, 'Integer')
                      .  " AND contact_id_b = " . CRM_Utils_Type::escape($id, 'Integer')
                      .  " ) ) ";
+
+        //if caseId is provided, include it duplicate checking.
+        if ( $caseId = CRM_Utils_Array::value('case_id', $params) ) {
+            $queryString .= " AND case_id = " . CRM_Utils_Type::escape($caseId, 'Integer');   
+        }
+
         if ($relationshipId) {
-            $queryString .= "AND id !=". CRM_Utils_Type::escape($relationshipId, 'Integer');
+            $queryString .= " AND id !=". CRM_Utils_Type::escape($relationshipId, 'Integer');
         }
         
-
         $relationship =& new CRM_Contact_BAO_Relationship();
         $relationship->query($queryString);
         $relationship->fetch( );

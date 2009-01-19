@@ -112,6 +112,7 @@ class CRM_Utils_Address
                       'middle_name'            => CRM_Utils_Array::value( 'middle_name', $fields ),
                       'last_name'              => CRM_Utils_Array::value( 'last_name', $fields ),
                       'individual_suffix'      => CRM_Utils_Array::value( 'individual_suffix', $fields ),
+                      'address_name'           => CRM_Utils_Array::value( 'address_name', $fields ),
                       'street_address'         => CRM_Utils_Array::value( 'street_address', $fields ),
                       'supplemental_address_1' => CRM_Utils_Array::value( 'supplemental_address_1', $fields ),
                       'supplemental_address_2' => CRM_Utils_Array::value( 'supplemental_address_2', $fields ),
@@ -127,7 +128,8 @@ class CRM_Utils_Address
         } else {
             $replacements =
                 array(
-                      'street_address'         => "<span class=\"street-address\">" . $fields['street_address'] . "</span>",
+                      'address_name'           => "<span class=\"address-name\">" .     $fields['address_name'] . "</span>",
+                      'street_address'         => "<span class=\"street-address\">" .   $fields['street_address'] . "</span>",
                       'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
                       'supplemental_address_2' => $fields['supplemental_address_2'],
                       'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
