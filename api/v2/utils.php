@@ -481,6 +481,7 @@ function _civicrm_duplicate_formatted_contact(&$params)
         require_once 'CRM/Dedupe/Finder.php';
         $dedupeParams = CRM_Dedupe_Finder::formatParams($params, $params['contact_type']);
         $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, $params['contact_type'], 'Strict');
+            
         if ( !empty($ids) ) {
             $ids = implode( ',', $ids );
             $error = CRM_Core_Error::createError( "Found matching contacts: $ids",
@@ -910,6 +911,26 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             $values['honor_type_id'] = CRM_Core_OptionGroup::getValue( 'honor_type', $value );
             if ( !CRM_Utils_Array::value( 'honor_type_id', $values ) ) {
                 return civicrm_create_error("Honor Type is not valid: $value");
+            }
+            break;
+        case 'soft_credit':
+            //import contribution record according to select contact type
+            require_once 'CRM/Contact/DAO/Contact.php';
+            $contactType =& new CRM_Contact_DAO_Contact();
+            //when insert mode check contact id or external identifire
+            if ( $params['soft_credit']['contact_id'] || $params['soft_credit']['external_identifier'] ) {
+                if ( $params['soft_credit']['contact_id'] ) {
+                    $contactType->id = $params['soft_credit']['contact_id'];
+                } else if( $params['soft_credit']['external_identifier'] ) {
+                    $contactType->external_identifier = $params['soft_credit']['external_identifier'];
+                }
+                if ( $contactType->find(true) ) {
+                    if ( $params['contact_type'] != $contactType->contact_type ) {
+                        return civicrm_create_error("Soft Credit Contact Type is wrong: $contactType->contact_type");
+                    } else {
+                        $values['soft_credit_to'] = $contactType->id;
+                    }
+                }
             }
             break;
         default:
