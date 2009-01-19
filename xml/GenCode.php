@@ -133,6 +133,10 @@ foreach ($locales as $locale) {
     $data .= $smarty->fetch('civicrm_currency.tpl');
     $data .= $smarty->fetch('civicrm_data.tpl');
 
+    if ( isset($argv[2]) ) {
+        $data .= " UPDATE civicrm_domain SET version = '{$argv[2]}';";
+    }
+
     // write the initialize base-data sql script
     $filename = 'civicrm_data';
     if ($locale != 'en_US') $filename .= ".$locale";
