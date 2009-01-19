@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-12-21 21:34-0800\n"
+"PO-Revision-Date: 2009-01-18 23:39-0800\n"
 "Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Spendenseite - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "Honor name like - '%1'"
-msgstr "\"Zu Ehren von\" Name wie - \"%1\""
+msgstr "\"Zu Ehren von\" Name wie - '%1'"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
@@ -66,11 +66,11 @@ msgstr "Zu Ehren von"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Text"
-msgstr "'Später zahlen' Text"
+msgstr "\"Später zahlen\"  Text"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Receipt"
-msgstr "'Später zahlen' Beleg"
+msgstr "\"Später zahlen\" Beleg"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -134,7 +134,7 @@ msgstr "Quittungsdatum"
 #: CRM/Contribute/DAO/Contribution.php CRM/Event/DAO/Participant.php
 #: CRM/Member/DAO/Membership.php
 msgid "Is Pay Later"
-msgstr "Ist 'Später zahlen'"
+msgstr "Ist \"Später zahlen\""
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/DAO/Pledge.php
@@ -201,7 +201,7 @@ msgstr "Titel des Buttons"
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "About"
-msgstr "Über"
+msgstr "About"
 
 #: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -405,7 +405,7 @@ msgstr "Nachbereitung"
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Edit Premium"
-msgstr "Premiumspender bearbeiten"
+msgstr "Premium bearbeiten"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Preview Premium"
@@ -599,7 +599,7 @@ msgstr "Body Text"
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
-msgstr "\"%1\" <nicht-antworten@%2>"
+msgstr "'%1' <nicht-antworten@%2>"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
 msgid "Bounce Reason"
@@ -822,8 +822,8 @@ msgid ""
 "This Premium is being linked to <a href='%1'>Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
-"Diese Prämie ist verknüpft mit einer <a href=\"%1\">Onlinespendenseite</a>. "
-"Bitte entfernen Sie die Verknüpfung, um diese Prämie zu löschen."
+"Diese Premium ist verknüpft mit einer <a href='%1'>Online Spendenseite</a>. "
+"Bitte entfernen Sie die Verknüpfung, um diese Premium zu löschen."
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "Selected Option"
@@ -1016,11 +1016,11 @@ msgstr "Premium aktiv"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Title for Premiums section"
-msgstr "Titel für die Prämien-Sektion"
+msgstr "Titel für die Premium Abschnitt"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Intro Text"
-msgstr "Prämien-Einführungstext"
+msgstr "Premium Einführungstext"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Contact Email"
@@ -1032,7 +1032,7 @@ msgstr "Premium Kontakt Telefon"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Display Min Contribution"
-msgstr "Premiums Anzeige der Mindest-Spende"
+msgstr "Premium Anzeige der Mindest-Spende"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Product Name"
@@ -1088,7 +1088,7 @@ msgstr "Hintergrund Farbe"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color About Link"
-msgstr "Farbe für 'Über'-Link"
+msgstr "Farbe für About-Link"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Homepage Link"
@@ -1292,8 +1292,7 @@ msgstr "Die Anzahl der Raten muss eine ganze Zahl sein."
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "The premium you have selected requires a minimum contribution of %1"
 msgstr ""
-"Die Prämie, die Sie ausgewählt haben, bedarf einer Mindestzuwendung in Höhe "
-"von %1"
+"Die Premium, die Sie ausgewählt haben, verlangt eine Mindestspende von %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -1395,7 +1394,7 @@ msgstr "Das Feld \"Unterstützungsintervall\" muss > 0 sein."
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
 msgstr ""
-"Das ausgewählte Prämienprodukt ist von dieser Spendenseite entfernt worden."
+"Das ausgewählte Premium Produkt ist von dieser Spendenseite entfernt worden."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Select the Product"
@@ -1570,11 +1569,11 @@ msgstr "Ich spende im Namen einer Organisation."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums (%1)"
-msgstr "Prämien (%1)"
+msgstr "Premium (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums Section Enabled?"
-msgstr "Abschnitt \"Dankeschön\"-Prämien aktivieren?"
+msgstr "Premium Abschnitt aktiviert?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Please enter a valid email address for Contact Email"
@@ -1729,7 +1728,7 @@ msgstr "Rahmenfarbe"
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "About Link Color"
-msgstr "Farbe für 'Über'-Link"
+msgstr "Farbe für About-Link"
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Homepage Link Color"
@@ -1749,7 +1748,7 @@ msgstr "\"Titel\" ist ein Pflichtfeld."
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "About is a required field."
-msgstr "\"Über uns\" ist ein Pflichtfeld."
+msgstr "About ist ein Pflichtfeld."
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "URL to Home Page is a required field."
@@ -1961,7 +1960,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "The Premium '%1' has been saved."
-msgstr "Die Premium \"%1\" wurde gespeichert."
+msgstr "Die Premium '%1' wurde gespeichert."
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contributor Name or Email"
@@ -3800,14 +3799,12 @@ msgstr ""
 
 #: CRM/Member/Form/Membership.php
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
-#, fuzzy
 msgid "Membership Organization and Type"
-msgstr "Mitglieder zu Organisation hinzufügen"
+msgstr "Mitgliedschaft Organisation und Typ"
 
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid "Join Date"
-msgstr "Datum des Eintritts"
+msgstr "Betritts Datum"
 
 #: CRM/Member/Form/Membership.php
 #, fuzzy
@@ -4920,13 +4917,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-#, fuzzy
 msgid ""
 "Use this form to select a premium to be offered on this Online Contribution "
 "Page."
 msgstr ""
-"Benutzen Sie dieses Formular um den Namen, die Beschreibung und mehr für "
-"eine eigene Spendenseite einzugeben."
+"Benutzen Sie dieses Formular um eine Premium auszuwählen, welche auf dieser "
+"online Spendenseite angeboten wird."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Add Products to This Page"
@@ -4938,17 +4934,20 @@ msgid "Remove Products from this Page"
 msgstr "Kontakte von Gruppe entfernen"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to remove this premium product from this Contribution "
 "page?"
-msgstr "Sind Sie sicher, dass sie die Notiz löschen möchten?"
+msgstr ""
+"Sind Sie sicher, dieses Premium Produkt von der Spendenseite zu löschen?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Pick a premium to include on this Contribution Page. Use <a href='%1'>Manage "
 "Premiums</a> to create or enable additional premium choices for your site."
 msgstr ""
+"Wähle ein Premium welche in diese Spendenseite aufzunehmen ist. Verwende <a "
+"href='%1'>Verwalte Premium</a> um zusätzliche Premium Auswahl für diese "
+"homepage zu erstellen oder zu aktivieren."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -5550,7 +5549,7 @@ msgstr "Kontakte zu Organisation hinzufügen"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "For information about this premium, contact:"
-msgstr ""
+msgstr "Kontaktiere für Informationen über dieses Premium:"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
@@ -6618,7 +6617,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/Tab.tpl
 #, fuzzy
 msgid "Submit Credit / Debit Card Contribution"
-msgstr "Beiträge bearbeiten"
+msgstr "Übermittle Spende per Kredit/Debit Karte"
 
 #: templates/CRM/Contribute/Page/Tab.tpl
 #, fuzzy
