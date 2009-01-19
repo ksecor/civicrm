@@ -292,47 +292,30 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $indieFields = $tempIndieFields;
         }
         
-        $values = array();
-            
+        $paramValues = array();            
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
-            $values[$key] = $field;
+            $paramValues[$key] = $field;
         }
         //import contribution record according to select contact type
         if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP && 
-             ( $values['contribution_contact_id'] || $values['external_identifier'] ) ) {
-            $values['contact_type'] = $this->_contactType;
+             ( $paramValues['contribution_contact_id'] || $paramValues['external_identifier'] ) ) {
+            $paramValues['contact_type'] = $this->_contactType;
         } else if( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE && 
-                   ( $values['contribution_id'] || $values['trxn_id'] || $values['invoice_id'] ) ) {
-            $values['contact_type'] = $this->_contactType;
+                   ( $paramValues['contribution_id'] || $values['trxn_id'] || $paramValues['invoice_id'] ) ) {
+            $paramValues['contact_type'] = $this->_contactType;
         } else if ( !empty( $params['soft_credit'] ) ) {
-            $values['contact_type'] = $this->_contactType;
+            $paramValues['contact_type'] = $this->_contactType;
         }
-        $formatError = _civicrm_contribute_formatted_param($values, $formatted, true);
+        $formatError = _civicrm_contribute_formatted_param( $paramValues, $formatted, true);
         
         if ( $formatError ) {
             array_unshift($values, $formatError['error_message']);
             return CRM_Contribute_Import_Parser::ERROR;
         }
         
-        // process soft credits
-        if ( !empty ( $params['soft_credit'] ) && !$formatted['soft_credit_to'] ) {
-            $softParams = $params['soft_credit'];
-            
-            // get the contact id from dupicate contact rule, if more than one contact is returned
-            // we should return error, since current interface allows only one-one mapping
-            $softParams['contact_type']  = $this->_contactType;
-            $softCreditErrorMessage = $this->getSoftCredit( $softParams, $formatted );
-                    
-            if ( $softCreditErrorMessage ) {
-                $formatted['soft_credit'] = $values['soft_credit'] = implode( ' ', $params['soft_credit'] );
-                array_unshift( $values, $softCreditErrorMessage );
-                return CRM_Contribute_Import_Parser::ERROR;
-            }
-        }
-            
         if ( $onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
             $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                           CRM_Core_DAO::$_nullObject,
@@ -573,31 +556,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         
     }
-    
-    /**
-     * Get succesfully matched contact id(for soft credits)
-     *
-     * @return array
-     * @access public
-     */
-    function &getSoftCredit( $params, &$values ) 
-    {
-        $error = _civicrm_duplicate_formatted_contact($params);
-
-        if ( isset( $error['error_message']['params'][0] )) {
-            $matchedIDs = explode(',',$error['error_message']['params'][0]);
-            
-            // check if only one contact is found
-            if ( count( $matchedIDs ) > 1 ) {
-                return $error['error_message']['message'];
-            } else {
-                $values['soft_credit_to'] = $matchedIDs[0];
-            }
-        } else {
-            return ts('No match found for specified Soft Credit contact data. Row was skipped.'); 
-        }
-     }
-    
+        
     /**
      *  Function to process pledge payments
      */

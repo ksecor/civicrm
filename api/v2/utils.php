@@ -930,6 +930,27 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                         $values['soft_credit_to'] = $contactType->id;
                     }
                 }
+            } else {
+                // get the contact id from dupicate contact rule, if more than one contact is returned
+                // we should return error, since current interface allows only one-one mapping
+
+                $softParams = $params['soft_credit'];
+                $softParams['contact_type']  = $params['contact_type'];
+                    
+                $error = _civicrm_duplicate_formatted_contact( $softParams );
+
+                if ( isset( $error['error_message']['params'][0] ) ) {
+                    $matchedIDs = explode(',',$error['error_message']['params'][0]);
+
+                    // check if only one contact is found
+                    if ( count( $matchedIDs ) > 1 ) {
+                        return civicrm_create_error( $error['error_message']['message'] );
+                    } else {
+                        $values['soft_credit_to'] = $matchedIDs[0];
+                    }
+                } else {
+                    return civicrm_create_error( 'No match found for specified Soft Credit contact data. Row was skipped.' ); 
+                }
             }
             break;
         case 'pledge_payment':
