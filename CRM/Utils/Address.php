@@ -127,7 +127,8 @@ class CRM_Utils_Address
         } else {
             $replacements =
                 array(
-                      'street_address'         => "<span class=\"street-address\">" . $fields['street_address'] . "</span>",
+                      'address_name'           => "<span class=\"address-name\">" .     $fields['address_name'] . "</span>",
+                      'street_address'         => "<span class=\"street-address\">" .   $fields['street_address'] . "</span>",
                       'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
                       'supplemental_address_2' => $fields['supplemental_address_2'],
                       'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
