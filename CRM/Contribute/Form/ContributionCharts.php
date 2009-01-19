@@ -207,7 +207,9 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                     $yearUrls = array( );
                     foreach ( $values['coords'] as $year => $value )  {
                         $startDate       = CRM_Utils_Date::format( array( 'Y' => $year ) );
-                        $endDate         = date( 'Ymd', mktime(0, 0, 0, 13, 0, $year ) );
+                        if ( $year ) {
+                            $endDate     = date( 'Ymd', mktime(0, 0, 0, 13, 0, $year ) );
+                        }
                         $yearUrls[$year] = CRM_Utils_System::url( 'civicrm/contribute/search',
                                                                   "reset=1&force=1&status=1&start={$startDate}&end={$endDate}&test=0");
                     }
