@@ -92,14 +92,17 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                             $sqlFile   = implode( DIRECTORY_SEPARATOR, 
                                                   array(dirname(__FILE__), '..', 'Incremental', 
                                                         'sql', $rev . '.mysql') );
-                            
-                            $isMultilingual = $upgrade->processLocales( $sqlFile );
-                            
-                            if ( ! file_exists($sqlFile) ) {
-                                CRM_Core_Error::fatal('sqlfile not found.');
-                            }
+                            $tplFile = "$sqlFile.tpl";
 
-                            $upgrade->source( $sqlFile );
+                            $isMultilingual = false;
+                            if ( file_exists( $tplFile ) ) {
+                                $isMultilingual = $upgrade->processLocales( $tplFile );
+                            } else {
+                                if ( ! file_exists($sqlFile) ) {
+                                    CRM_Core_Error::fatal("sqlfile - $rev.mysql not found.");
+                                }
+                                $upgrade->source( $sqlFile );
+                            }
                             
                             if ( $isMultilingual ) {
                                 require_once 'CRM/Core/I18n/Schema.php';
