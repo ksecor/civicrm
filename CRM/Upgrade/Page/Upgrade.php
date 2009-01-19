@@ -45,12 +45,19 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
         $latestVer  = CRM_Utils_System::version();
-        $currentRev = CRM_Core_BAO_Domain::version();
+        $currentVer = CRM_Core_BAO_Domain::version();
 
+        // hack to make past ver compatible /w new incremental upgrade process
+        $convertVer = array( '2.2' => '2.2.alpha1',
+                             '2.1' => '2.1.0'     );
+        if ( isset($convertVer[$currentVer]) ) {
+            $currentVer = $convertVer[$currentVer];
+        }
+        
         CRM_Utils_System::setTitle(ts('Upgrade CiviCRM to Version %1', 
                                       array( 1 => $latestVer )));
         
-        $upgrade    =& new CRM_Upgrade_Form( );
+        $upgrade  =& new CRM_Upgrade_Form( );
 
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1', 
@@ -60,23 +67,23 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $template->assign( 'cancelURL', 
                           CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
 
-        if ( $upgrade->sortRevision($currentRev, $latestVer) >= 0 ) {
+        if ( $upgrade->sortRevision($currentVer, $latestVer) >= 0 ) {
             $message = ts( 'Your database has already been upgraded to CiviCRM %1',
                            array( 1 => $latestVer ) );
             $template->assign( 'upgraded', true );
         } else {
             $message   = ts('CiviCRM upgrade was successful.');
-            $template->assign( 'currentVersion',  $currentRev);
+            $template->assign( 'currentVersion',  $currentVer);
             $template->assign( 'newVersion',      $latestVer );
             $template->assign( 'upgradeTitle',   ts('Upgrade CiviCRM from v %1 To v %2', 
-                                                    array( 1=> $currentRev, 2=> $latestVer ) ) );
+                                                    array( 1=> $currentVer, 2=> $latestVer ) ) );
             $template->assign( 'upgraded', false );
 
             if ( CRM_Utils_Array::value('upgrade', $_POST) ) {
                 $revisions = $upgrade->getRevisionSequence();
                 foreach ( $revisions as $rev ) {
-                    // proceed only if $currentRev < $rev
-                    if ( $upgrade->sortRevision($currentRev, $rev) < 0 ) {
+                    // proceed only if $currentVer < $rev
+                    if ( $upgrade->sortRevision($currentVer, $rev) < 0 ) {
                         
                         $phpFunctionName = 'upgrade_' . str_replace( '.', '_', $rev );
                         if ( is_callable(array('CRM_Upgrade_Page_Upgrade', "$phpFunctionName")) ) {
@@ -86,33 +93,15 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                                                   array(dirname(__FILE__), '..', 'Incremental', 
                                                         'sql', $rev . '.mysql') );
                             
-                            if ( file_exists("$sqlFile.tpl") ) {
-                                $tplFile = "$sqlFile.tpl";
-                                
-                                $config =& CRM_Core_Config::singleton();
-                                $smarty = new Smarty;
-                                $smarty->compile_dir = $config->templateCompileDir;
-                                
-                                $domain =& new CRM_Core_DAO_Domain();
-                                $domain->find(true);
-                                $multilingual = (bool) $domain->locales;
-                                $locales      = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
-                                $smarty->assign('multilingual', $multilingual);
-                                $smarty->assign('locales',      $locales);
-                                
-                                // we didn't call CRM_Core_BAO_Setting::retrieve(), so we need to set $dbLocale by hand
-                                if ($multilingual) {
-                                    global $dbLocale;
-                                    $dbLocale = "_{$config->lcMessages}";
-                                }
-                                file_put_contents($sqlFile, $smarty->fetch($tplFile));
-                            }
+                            $isMultilingual = $upgrade->processLocales( $sqlFile );
                             
-                            if ( file_exists("$sqlFile") || file_exists("$sqlFile.tpl") ) {
-                                $upgrade->source( $sqlFile );
+                            if ( ! file_exists($sqlFile) ) {
+                                CRM_Core_Error::fatal('sqlfile not found.');
                             }
+
+                            $upgrade->source( $sqlFile );
                             
-                            if ($multilingual) {
+                            if ( $isMultilingual ) {
                                 require_once 'CRM/Core/I18n/Schema.php';
                                 CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
                             }

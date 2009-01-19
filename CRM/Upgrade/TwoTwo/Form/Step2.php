@@ -44,31 +44,19 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
     }
 
     function upgrade( ) {
-        $sqlFile = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), '..', 'sql', 'misc.mysql'));
-        $tplFile = "$sqlFile.tpl";
+        $sqlFile   = implode( DIRECTORY_SEPARATOR, 
+                              array( dirname(__FILE__), '..', '..', 
+                                     'Incremental', 'sql', '2.2.alpha1.mysql' ) );
 
-        $config =& CRM_Core_Config::singleton();
-        $smarty = new Smarty;
-        $smarty->compile_dir = $config->templateCompileDir;
-
-        $domain =& new CRM_Core_DAO_Domain();
-        $domain->find(true);
-        $multilingual = (bool) $domain->locales;
-        $locales      = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
-        $smarty->assign('multilingual', $multilingual);
-        $smarty->assign('locales',      $locales);
-
-        // we didn't call CRM_Core_BAO_Setting::retrieve(), so we need to set $dbLocale by hand
-        if ($multilingual) {
-            global $dbLocale;
-            $dbLocale = "_{$config->lcMessages}";
+        $isMultilingual = $this->processLocales( $sqlFile );
+                            
+        if ( ! file_exists($sqlFile) ) {
+            CRM_Core_Error::fatal('sqlfile not found.');
         }
 
-        file_put_contents($sqlFile, $smarty->fetch($tplFile));
-
         $this->source( $sqlFile );
-
-        if ($multilingual) {
+                            
+        if ( $isMultilingual ) {
             require_once 'CRM/Core/I18n/Schema.php';
             CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
         }

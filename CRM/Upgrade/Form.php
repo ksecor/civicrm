@@ -71,11 +71,8 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     function source( $fileName ) {
         require_once 'CRM/Utils/File.php';
 
-        $domainIDStmt = "SELECT @domain_id := 1;\n";
-
         CRM_Utils_File::sourceSQLFile( $this->_config->dsn,
-                                       $fileName,
-                                       $domainIDStmt );
+                                       $fileName );
     }
     
     function preProcess( ) {
@@ -171,7 +168,9 @@ SET    version = '$version'
         $sqlFilePattern = '/^(\d{1,2}\.\d{1,2}\.(\d{1,2}|\w{4,7}))\.(my)?sql(\.tpl)?$/i';
         foreach ($sqlFiles as $file) {
             if ( preg_match($sqlFilePattern, $file, $matches) ) {
-                $revList[] = $matches[1];
+                if ( ! in_array($matches[1], $revList) ) {
+                    $revList[] = $matches[1];
+                }
             }
         }
 
@@ -182,7 +181,33 @@ SET    version = '$version'
         usort($revList, array('CRM_Upgrade_Form', "sortRevision"));
         return $revList;
     }
-    
+
+    function processLocales( $sqlFile ) {
+        $multilingual = false;
+        $tplFile = "$sqlFile.tpl";
+        
+        if ( file_exists( $tplFile ) ) {
+            $config =& CRM_Core_Config::singleton();
+            $smarty = new Smarty;
+            $smarty->compile_dir = $config->templateCompileDir;
+            
+            $domain =& new CRM_Core_DAO_Domain();
+            $domain->find(true);
+            $multilingual = (bool) $domain->locales;
+            $locales      = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+            $smarty->assign('multilingual', $multilingual);
+            $smarty->assign('locales',      $locales);
+                                
+            // we didn't call CRM_Core_BAO_Setting::retrieve(), so we need to set $dbLocale by hand
+            if ($multilingual) {
+                global $dbLocale;
+                $dbLocale = "_{$config->lcMessages}";
+            }
+            file_put_contents($sqlFile, $smarty->fetch($tplFile));
+        }
+         
+        return $multilingual;
+    }
 }
 
 
