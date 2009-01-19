@@ -118,7 +118,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $caseRoles    = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
         $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
 
-        $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
+        $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes', true );
         // remove Open Case activity type since we're inside an existing case
         $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
         unset( $aTypes[$openCaseID] );
