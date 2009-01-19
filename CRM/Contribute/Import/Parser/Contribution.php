@@ -310,6 +310,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         } else if( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE && 
                    ( $values['contribution_id'] || $values['trxn_id'] || $values['invoice_id'] ) ) {
             $values['contact_type'] = $this->_contactType;
+        } else if ( !empty( $params['soft_credit'] ) ) {
+            $values['contact_type'] = $this->_contactType;
         }
         $formatError = _civicrm_contribute_formatted_param($values, $formatted, true);
        
