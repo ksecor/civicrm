@@ -199,6 +199,8 @@ AND    ac.case_id = %1
 
     function &getActivityInfo( $clientID, $activityID, $anyActivity = false ) {
         static $activityInfos = array( );
+
+        require_once 'CRM/Core/OptionGroup.php';
         
         $index = $clientID . '_' . $activityID . '_' . (int) $anyActivity;
 
