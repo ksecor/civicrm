@@ -411,8 +411,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 require_once 'CRM/Contact/BAO/Contact.php';
                 $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
                 $cIndieFields = $cTempIndieFields;
-            }
+                
+                require_once 'CRM/Contact/BAO/Query.php';
+                $locationFields = CRM_Contact_BAO_Query::$_locationSpecificFields;
 
+                require_once "CRM/Core/BAO/LocationType.php";
+                $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
+                $defaultLocationId = $defaultLocation->id;
+            }
+            
             foreach ($params as $key => $field) {
                 if ($field == null || $field === '') {
                     continue;
@@ -439,13 +446,19 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 }
                 
                 $value = array($key => $field);
-                if (array_key_exists($key, $cIndieFields)) {
+                
+                // check if location related field, then we need to add primary location type
+                if ( in_array($key, $locationFields) ) {
+                    $value['location_type_id'] = $defaultLocationId;
+                } else if (array_key_exists($key, $cIndieFields)) {
                     $value['contact_type'] = $this->_contactType;
                 }
-                _civicrm_add_formatted_param($value, $contactFormatted);
+
+              _civicrm_add_formatted_param($value, $contactFormatted);
             }
 
             $contactFormatted['contact_type'] = $this->_contactType;
+            
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);        
@@ -500,7 +513,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 if ( !$disp && CRM_Utils_Array::value('external_identifier',$params) ) {
                     $disp = $params['external_identifier'];
                 }
-                
+                    
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Contribute_Import_Parser::ERROR;
             }
