@@ -580,7 +580,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
              CRM_Utils_Array::value( 'pledge_id', $formatted ) ) {
             //get completed status
             $completeStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Completed', 'name' );
-
+            
+            //need to update payment record to map contribution_id
+            CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Payment', $formatted['pledge_payment_id'], 
+                                         'contribution_id', $formatted['contribution_id'] );
+            
             require_once 'CRM/Pledge/BAO/Payment.php';
             CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $formatted['pledge_id'], array( $formatted['pledge_payment_id'] ),  $completeStatusID );
             return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT;
