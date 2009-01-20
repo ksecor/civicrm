@@ -85,7 +85,7 @@
     {if $validPledgePaymentRowCount }
     <tr><td class="label">{ts}Pledge Payments Applied{/ts}</td>
         <td class="data">{$validPledgePaymentRowCount}</td>
-        <td class="explanation">{ts}Rows with pledge payment assigned.{/ts}</td>
+        <td class="explanation">{ts}Rows with pledge payment applied.{/ts}</td>
     </tr>
     {/if}
 

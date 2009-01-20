@@ -984,12 +984,24 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
              
             break;
         case 'pledge_id':
-            $contributionContactID = $params['contribution_contact_id'];
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'] ,'contact_id' ) != $contributionContactID ) {
-                return civicrm_create_error( 'Invalid Pledge ID provided. Contribution row was skipped.', 'pledge_payment' );
-            } else {
-                $values['pledge_id'] = $params['pledge_id'];
+            // we need to check if pledge id belongs to imported contact
+            $contributionContactID = null;
+            if ( CRM_Utils_Array::value( 'contribution_contact_id', $params ) ) {
+                $contributionContactID = $params['contribution_contact_id'];
+            } else if ( CRM_Utils_Array::value( 'external_identifier', $params ) ) {
+                require_once 'CRM/Contact/DAO/Contact.php';
+                $contact =& new CRM_Contact_DAO_Contact();
+                $contact->external_identifier = $params['external_identifier'];
+                $contact->find(true);
+                $contributionContactID = $contact->id;
             }
+            
+            if ( $contributionContactID && 
+                 CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'] ,'contact_id' ) != $contributionContactID ) {
+                return civicrm_create_error( 'Invalid Pledge ID provided. Contribution row was skipped.', 'pledge_payment' );
+            }
+            
+            $values['pledge_id'] = $params['pledge_id'];
             break;
         default:
             break;

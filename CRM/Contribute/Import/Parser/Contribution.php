@@ -310,7 +310,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $paramValues['contact_type'] = $this->_contactType;
         }
         $formatError = _civicrm_contribute_formatted_param( $paramValues, $formatted, true);
-        
+
         if ( $formatError ) {
             array_unshift($values, $formatError['error_message']);
             if ( CRM_Utils_Array::value( 'error_data', $formatError ) == 'soft_credit' ) {
@@ -320,7 +320,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             return CRM_Contribute_Import_Parser::ERROR;
         }
-        
+
         if ( $onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
             $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                           CRM_Core_DAO::$_nullObject,
@@ -405,7 +405,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 }               
             }
         }
-       
+
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             static $defaultLocationId = null;
@@ -461,7 +461,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
 
             $contactFormatted['contact_type'] = $this->_contactType;
-            
+
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);        
@@ -471,6 +471,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
+                    
+                    // since contact id is retrieved based on dupe rule, this is special case when we need to check
+                    // passed pledge id belongs to this contact.
+                    if ( CRM_Utils_Array::value( 'pledge_id', $formatted ) &&
+                         CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $formatted['pledge_id'] ,'contact_id' ) != $cid ) {
+                        array_unshift( $values, 'Invalid Pledge ID provided. Contribution row was skipped.' );
+                        return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT_ERROR;
+                    }
+                    
                     $newContribution = civicrm_contribution_format_create( $formatted );
                     if ( civicrm_error( $newContribution ) ) { 
                         if ( is_array( $newContribution['error_message'] ) ) {
