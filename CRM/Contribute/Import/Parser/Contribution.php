@@ -299,6 +299,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             $paramValues[$key] = $field;
         }
+        
         //import contribution record according to select contact type
         if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP && 
              ( $paramValues['contribution_contact_id'] || $paramValues['external_identifier'] ) ) {
@@ -310,7 +311,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $paramValues['contact_type'] = $this->_contactType;
         }
         $formatError = _civicrm_contribute_formatted_param( $paramValues, $formatted, true);
-
+        
         if ( $formatError ) {
             array_unshift($values, $formatError['error_message']);
             if ( CRM_Utils_Array::value( 'error_data', $formatError ) == 'soft_credit' ) {
@@ -329,13 +330,13 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         } else {
             //fix for CRM-2219 - Update Contribution
             // onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE
-            if ( $values['invoice_id'] || $values['trxn_id'] || $values['contribution_id'] ) {
+            if ( $paramValues['invoice_id'] || $paramValues['trxn_id'] || $paramValues['contribution_id'] ) {
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 $dupeIds = array(
-                                 'id'         => CRM_Utils_Array::value('contribution_id', $values),
-                                 'trxn_id'    => CRM_Utils_Array::value('trxn_id',   $values),
-                                 'invoice_id' => CRM_Utils_Array::value('invoice_id',$values)
-                                 );              
+                                 'id'         => CRM_Utils_Array::value('contribution_id', $paramValues ),
+                                 'trxn_id'    => CRM_Utils_Array::value('trxn_id',         $paramValues ),
+                                 'invoice_id' => CRM_Utils_Array::value('invoice_id',      $paramValues )
+                                 );
                 
                 $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );                 
                 if ( $ids['contribution'] ) {     
@@ -344,8 +345,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                                                                                   CRM_Core_DAO::$_nullObject,
                                                                                   $formatted['id'],
                                                                                   'Contribution' );
-                     //process note
-                    if ( $values['note'] ) {
+                    //process note
+                    if ( $paramValues['note'] ) {
                         $noteID = array();
                         $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $ids['contribution'], 'contact_id' );                       
                         require_once 'CRM/Core/BAO/Note.php';
@@ -358,7 +359,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                                                
                         $noteParams = array(
                                             'entity_table' => 'civicrm_contribution', 
-                                            'note'         => $values['note'], 
+                                            'note'         => $paramValues['note'], 
                                             'entity_id'    => $ids['contribution'],
                                             'contact_id'   => $contactID
                                             );
