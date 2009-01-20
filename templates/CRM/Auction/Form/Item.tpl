@@ -1,8 +1,12 @@
 <div class="form-item"> 
 <fieldset><legend>{ts}Item Information{/ts}</legend>
     <table class="form-layout-compressed">
+         <tr><td class="label">{ts}Auction{/ts}</td><td>{$auctionTitle}</td></tr>
+         <tr><td class="label">{ts}Donor{/ts}</td><td>{$donorName}</td></tr>
          <tr><td class="label">{$form.title.label}</td><td>{$form.title.html}</td></tr>
          <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>
+         <tr><td class="label">{$form.url.label}</td><td>{$form.url.html}</td></tr>
+         <tr><td class="label">{$form.auction_item_type_id.label}</td><td>{$form.auction_item_type_id.html}</td></tr>
 
          <tr><td class="label">{$form.quantity.label}</td><td>{$form.quantity.html|crmReplace:class:four}<br />
          <tr><td class="label">{$form.retail_value.label}</td><td>{$form.retail_value.html|crmReplace:class:four}<br />

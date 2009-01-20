@@ -38,8 +38,16 @@ require_once 'CRM/Core/Page.php';
 /**
  * Page for displaying list of auctions
  */
-class CRM_Auction_Page_Manage extends CRM_Core_Page
+class CRM_Auction_Page_Item extends CRM_Core_Page
 {
+    /**
+     * the id of the auction for this item
+     *
+     * @var int
+     * @protected
+     */
+    public $_aid;
+
     /**
      * The action links that we need to display for the browse screen
      *
@@ -63,44 +71,37 @@ class CRM_Auction_Page_Manage extends CRM_Core_Page
     {
         if (!(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this Auction?');
-            $deleteExtra = ts('Are you sure you want to delete this Auction?');
-            $copyExtra = ts('Are you sure you want to make a copy of this Auction?');
+            $disableExtra = ts('Are you sure you want to disable this Item?');
+            $deleteExtra = ts('Are you sure you want to delete this Item?');
+            $copyExtra = ts('Are you sure you want to make a copy of this Item?');
 
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit'),
                                                                           'url'   => 'civicrm/auction/item/add',
-                                                                          'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                          'title' => ts('Edit Auction') 
+                                                                          'qs'    => 'action=update&id=%%id%%&aid=%%aid%%&reset=1',
+                                                                          'title' => ts('Edit Item') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => CRM_Utils_System::currentPath( ),
-                                                                          'qs'    => 'action=disable&id=%%id%%',
+                                                                          'qs'    => 'action=disable&id=%%id%%&aid=%%aid%%',
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                          'title' => ts('Disable Auction') 
+                                                                          'title' => ts('Disable Item') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'url'   => CRM_Utils_System::currentPath( ),
-                                                                          'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable Auction') 
+                                                                          'qs'    => 'action=enable&id=%%id%%&aid=%%aid%%',
+                                                                          'title' => ts('Enable Item') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
                                                                           'url'   => 'civicrm/auction/item/add',
-                                                                          'qs'    => 'action=delete&id=%%id%%&reset=1',
+                                                                          'qs'    => 'action=delete&id=%%id%%&aid=%%aid%%&reset=1',
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
-                                                                          'title' => ts('Delete Auction') 
+                                                                          'title' => ts('Delete Item') 
                                                                           ),
-                                        CRM_Core_Action::COPY     => array(
-                                                                           'name'  => ts('Copy Auction'),
-                                                                           'url'   => CRM_Utils_System::currentPath( ),
-                                                                           'qs'    => 'reset=1&action=copy&id=%%id%%',
-                                                                           'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
-                                                                           'title' => ts('Copy Auction') 
-                                                                          )
                                         );
         }
         return self::$_actionLinks;
@@ -127,7 +128,9 @@ class CRM_Auction_Page_Manage extends CRM_Core_Page
         $this->assign('action', $action);
         $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                           $this, false, 0);
-        
+
+        $this->_aid = CRM_Utils_Request::retrieve( 'aid', 'Positive', $this, true );
+
         // set breadcrumb to append to 2nd layer pages
         $breadCrumb = array ( array('title' => ts('Manage Items'),
                                     'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
@@ -135,16 +138,16 @@ class CRM_Auction_Page_Manage extends CRM_Core_Page
 
         // what action to take ?
         if ($action & CRM_Core_Action::DISABLE ) {
-            require_once 'CRM/Auction/BAO/Item.php';
-            CRM_Auction_BAO_Item::setIsActive($id ,0);
+            require_once 'CRM/Auction/BAO/Auction.php';
+            CRM_Auction_BAO_Auction::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {
-            require_once 'CRM/Auction/BAO/Item.php';
-            CRM_Auction_BAO_Item::setIsActive($id ,1); 
+            require_once 'CRM/Auction/BAO/Auction.php';
+            CRM_Auction_BAO_Auction::setIsActive($id ,1); 
         } else if ($action & CRM_Core_Action::DELETE ) {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Auction_Form_Item_Delete',
-                                                           'Delete Item',
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Auction_Form_Auction_Delete',
+                                                           'Delete Auction',
                                                            $action );
             $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                               $this, false, 0);
@@ -172,7 +175,6 @@ class CRM_Auction_Page_Manage extends CRM_Core_Page
      */
     function browse()
     {
-
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
@@ -202,22 +204,28 @@ class CRM_Auction_Page_Manage extends CRM_Core_Page
         $this->pager( $whereClause, $params );
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
-        // get all custom groups sorted by weight
-        $auctions = array();
              
         $query = "
-  SELECT *
-    FROM civicrm_auction
+  SELECT i.*, c.display_name as donorName
+    FROM civicrm_auction_item i, 
+         civicrm_contact c
    WHERE $whereClause
-ORDER BY start_date desc
+     AND auction_id = {$this->_aid}
+     AND i.donor_id = c.id
    LIMIT $offset, $rowCount";
         
         $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Auction_DAO_Item' );
      
+        // get all custom groups sorted by weight
+        $items = array();
+        $auctionItemTypes = CRM_Core_OptionGroup::values( 'auction_item_type' );
         while ($dao->fetch()) {
-            $auctions[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $auctions[$dao->id]);
-            
+            $items[$dao->id] = array();
+            CRM_Core_DAO::storeValues( $dao, $items[$dao->id]);
+
+            $items[$dao->id]['donorName'] = $dao->donorName;
+            $items[$dao->id]['auction_item_type'] = CRM_Utils_Array::value( $dao->auction_type_id, $auctionItemTypes );
+
             // form all action links
             $action = array_sum(array_keys($this->links()));
             
@@ -227,14 +235,34 @@ ORDER BY start_date desc
                 $action -= CRM_Core_Action::DISABLE;
             }
             
-            $auctions[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                      array('id' => $dao->id));
+            $items[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(),
+                                                                   $action, 
+                                                                   array( 'id'  => $dao->id,
+                                                                          'aid' => $this->_aid ) );
         }
-        $this->assign('rows', $auctions);
+        $this->assign('rows', $items);
     }
     
+    /**
+     * This function is to make a copy of a Auction, including
+     * all the fields in the event wizard
+     *
+     * @return void
+     * @access public
+     */
+    function copy( )
+    {
+        $id = CRM_Utils_Request::retrieve('id', 'Positive', $this, true, 0, 'GET');
+        
+        require_once 'CRM/Auction/BAO/Auction.php';
+        CRM_Auction_BAO_Auction::copy( $id );
+
+        return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage', 'reset=1' ) );
+    }
+
+
     function search( ) {
-        $form = new CRM_Core_Controller_Simple( 'CRM_Auction_Form_SearchItem', ts( 'Search Items' ), CRM_Core_Action::ADD );
+        $form = new CRM_Core_Controller_Simple( 'CRM_Auction_Form_SearchAuction', ts( 'Search Auctions' ), CRM_Core_Action::ADD );
         $form->setEmbedded( true );
         $form->setParent( $this );
         $form->process( );
@@ -263,7 +291,7 @@ ORDER BY start_date desc
         // dont do a the below assignment when doing a 
         // AtoZ pager clause
         if ( $sortBy ) {
-            if ( count( $clauses ) > 1 || $auctionByDates  ) {
+            if ( count( $clauses ) > 1 ) {
                 $this->assign( 'isSearch', 1 );
             } else {
                 $this->assign( 'isSearch', 0 );
@@ -292,7 +320,7 @@ ORDER BY start_date desc
 
         $query = "
 SELECT count(id)
-  FROM civicrm_auction_item
+  FROM civicrm_auction
  WHERE $whereClause";
 
         $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
@@ -306,7 +334,7 @@ SELECT count(id)
         
         $query = "
    SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
-     FROM civicrm_auction_item
+     FROM civicrm_auction
     WHERE $whereClause
  ORDER BY LEFT(title, 1)
 ";

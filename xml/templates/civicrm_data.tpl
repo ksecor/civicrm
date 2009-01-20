@@ -153,7 +153,7 @@ VALUES
    ('custom_data_type'              , '{ts escape="sql"}Custom Data Type{/ts}'                   , 0, 1),  
    ('visibility'                    , '{ts escape="sql"}Visibility{/ts}'                         , 0, 1),
    ('mail_protocol'                 , '{ts escape="sql"}Mail Protocol{/ts}'                      , 0, 1),
-   ('auction_type'                  , '{ts escape="sql"}Auction Type{/ts}'                       , 0, 1);
+   ('auction_item_type'             , '{ts escape="sql"}Auction Item Type{/ts}'                  , 0, 1);
   
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -196,7 +196,7 @@ SELECT @option_group_id_fma            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_cdt            := max(id) from civicrm_option_group where name = 'custom_data_type';
 SELECT @option_group_id_vis            := max(id) from civicrm_option_group where name = 'visibility';
 SELECT @option_group_id_mp             := max(id) from civicrm_option_group where name = 'mail_protocol';
-SELECT @option_group_id_atype          := max(id) from civicrm_option_group where name = 'auction_type';
+SELECT @option_group_id_aitype         := max(id) from civicrm_option_group where name = 'auction_item_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
@@ -470,9 +470,9 @@ VALUES
   (@option_group_id_mp, 'POP3',    3, 'POP3',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL ),
 
 -- auction types
-  (@option_group_id_atype, '{ts escape="sql"}Live{/ts}'  , 1, 'Live'  ,  NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_atype, '{ts escape="sql"}Silent{/ts}', 2, 'Silent',  NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_atype, '{ts escape="sql"}Raffle{/ts}', 3, 'Raffle',  NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL);
+  (@option_group_id_aitype, '{ts escape="sql"}Live{/ts}'  , 1, 'Live'  ,  NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_aitype, '{ts escape="sql"}Silent{/ts}', 2, 'Silent',  NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_aitype, '{ts escape="sql"}Raffle{/ts}', 3, 'Raffle',  NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL);
   
 -- /*******************************************************
 -- *

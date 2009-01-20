@@ -50,6 +50,22 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
      */
     public $_id;
 
+    /**
+     * the id of the auction for this item
+     *
+     * @var int
+     * @protected
+     */
+    public $_aid;
+
+    /**
+     * the id of the person donating this item
+     *
+     * @var int
+     * @protected
+     */
+    public $_donorID;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -59,7 +75,8 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
     function preProcess( ) {
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false);
 
-        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_id  = CRM_Utils_Request::retrieve( 'id' , 'Positive', $this );
+        $this->_aid = CRM_Utils_Request::retrieve( 'aid', 'Positive', $this, true );
 
         if ( ( $this->_action & CRM_Core_Action::VIEW   ||
                $this->_action & CRM_Core_Action::UPDATE ||
@@ -67,6 +84,25 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
              ! $this->_id ) {
             CRM_Core_Error::fatal( );
         }
+
+        require_once 'CRM/Auction/BAO/Auction.php';
+        $params = array( 'id' => $this->_aid );
+        $this->_auctionValues = array( );
+        CRM_Auction_BAO_Auction::retrieve( $params, $this->_auctionValues );
+
+        $this->assign( 'auctionTitle', $this->_auctionValues['auction_title'] );
+
+        // set donor id etc
+        $session =& CRM_Core_Session::singleton( );
+        $this->_donorID =  $session->get( 'userID' );
+        $this->assign( 'donorName',
+                       CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $this->_donorID,
+                                                    'display_name' ) );
+
+        // also set user context
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/auction/item',
+                                                          "reset=1&aid={$this->_aid}" ) );
 
     }
 
@@ -87,7 +123,8 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             CRM_Auction_BAO_Item::retrieve( $params, $defaults );
         } else {
-            $defaults['is_active'] = 1;
+            $defaults['is_active']       = 1;
+            $defaults['auction_type_id'] = 1;
         }
 
         return $defaults;
@@ -113,6 +150,17 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
         $this->addWysiwyg( 'description',
                            ts('Complete Description'),
                            $attributes['description'] );
+
+        $auctionTypes = CRM_Core_OptionGroup::values( 'auction_item_type' );
+        $this->add( 'select', 'auction_item_type_id', ts( 'Item Type' ),
+                    array(''=>ts( '- select -' )) + $auctionTypes );
+
+        $this->add( 'text', 'url', ts( 'Item URL' ),
+                    array_merge( $attributes['description'],
+                                 array('onfocus' => "if (!this.value) this.value='http://'; else return false",
+                                       'onblur'  => "if ( this.value == 'http://') this.value=''; else return false")
+                                 ) );
+                                 
 
         $this->_checkboxes = array( 'is_active'      => ts( 'Is Active?' ),
                                     'is_group'       => ts( 'Does this item have other items associated with it?' ), );
@@ -221,15 +269,12 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name );
         
         $params['id'] = $this->_id;
+        $params['auction_id'] = $this->_aid;
 
-        // set donor id etc
-        $session =& CRM_Core_Session::singleton( );
-        $donorID =  $session->get( 'userID' );
-
-        $params['donor_id'] = $donorID;
+        $params['donor_id'] = $this->_donorID;
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
-            $params['creator_id']   = $donorID;
+            $params['creator_id']   = $this->_donorID;
             $params['created_date'] = date( 'YmdHis' );
         }
 
@@ -238,7 +283,11 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
             $params[$name] = CRM_Utils_Array::value($name, $params, false);
         }
 
+        // does this auction require approval
+        $params['is_approved'] = $this->_auctionValues['is_approval_needed'] ? 0 : 1;
+        
         CRM_Auction_BAO_Item::add( $params );
+
     }
     
 }

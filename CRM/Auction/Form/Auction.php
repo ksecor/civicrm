@@ -132,9 +132,9 @@ class CRM_Auction_Form_Auction extends CRM_Core_Form
             $this->addRule( $name, ts('Please select a valid date.'), 'qfDate');
         }
 
-        $this->_checkboxes = array( 'is_active'        => ts( 'Is Active?' ),
-                                    'is_item_approval' => ts( 'Do items need to be approved?' ),
-                                    'is_item_groups'   => ts( 'Can items be grouped?' ), );
+        $this->_checkboxes = array( 'is_active'          => ts( 'Is Active?' ),
+                                    'is_approval_needed' => ts( 'Do items need to be approved?' ),
+                                    'is_item_groups'     => ts( 'Can items be grouped?' ), );
 
         foreach ( $this->_checkboxes as $name => $title ) {
             $this->addElement( 'checkbox', 

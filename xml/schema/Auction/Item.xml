@@ -45,16 +45,16 @@
        <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field> 
-      <name>auction_type_id</name> 
+      <name>auction_item_type_id</name> 
       <type>int unsigned</type> 
-      <title>Auction Type ID</title>  
+      <title>Auction Item Type ID</title>  
       <default>0</default>                
-      <comment>Auction Type ID.Implicit FK to civicrm_option_value where option_group = auction_type.</comment> 
+      <comment>Auction Type ID.Implicit FK to civicrm_option_value where option_group = auction_item_type.</comment> 
       <add>2.3</add> 
   </field> 
   <index>
-    <name>index_auction_type_id</name>
-    <fieldName>auction_type_id</fieldName>
+    <name>index_auction_item_type_id</name>
+    <fieldName>auction_item_type_id</fieldName>
     <add>2.3</add>
   </index>
   <field>
@@ -75,6 +75,14 @@
       <localizable>true</localizable>
       <comment>Optional description of the product/premium.</comment>
       <add>2.3</add>
+  </field>
+  <field>
+       <name>url</name>
+       <type>varchar</type>
+       <length>128</length>
+       <import>true</import>
+       <comment>optional URL of website to associate with item.</comment>
+       <add>1.1</add>
   </field>
   <field> 
       <name>sku</name> 
