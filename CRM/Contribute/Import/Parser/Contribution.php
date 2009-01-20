@@ -311,7 +311,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $paramValues['contact_type'] = $this->_contactType;
         } else if ( CRM_Utils_Array::value( 'pledge_payment', $paramValues ) ) {
             $paramValues['contact_type'] = $this->_contactType;
-            //need to pass $onDuplicate to check import mode.
+        }
+        
+        //need to pass $onDuplicate to check import mode.
+        if ( CRM_Utils_Array::value( 'pledge_payment', $paramValues ) ) {
             $paramValues['onDuplicate'] = $onDuplicate;
         }
 
