@@ -953,10 +953,44 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 }
             }
             break;
-        case 'pledge_payment':
-             $contributionContactID = $params['contribution_contact_id'];
+            
+        case 'pledge_payment':            
+        case 'pledge_id':
+            // first get the contact id for given contribution record.
+            if ( CRM_Utils_Array::value( 'contribution_contact_id', $params ) ) {
+                $contributionContactID = $params['contribution_contact_id'];
+            } else if ( CRM_Utils_Array::value( 'external_identifier', $params ) ) {
+                require_once 'CRM/Contact/DAO/Contact.php';
+                $contact =& new CRM_Contact_DAO_Contact();
+                $contact->external_identifier = $params['external_identifier'];
+                if ( $contact->find(true) ) {
+                    $contributionContactID = $params['contribution_contact_id'] = $values['contribution_contact_id'] = $contact->id;
+                } else {
+                    return civicrm_create_error( 'No match found for specified contact in contribution data. Row was skipped.', 'pledge_payment' );
+                }
+            } else {
+                // we  need to get contribution contact using de dupe
+                $error = civicrm_check_contact_dedupe( $params );
+
+                if ( isset( $error['error_message']['params'][0] ) ) {
+                    $matchedIDs = explode(',',$error['error_message']['params'][0]);
+
+                    // check if only one contact is found
+                    if ( count( $matchedIDs ) > 1 ) {
+                        return civicrm_create_error( $error['error_message']['message'], 'pledge_payment' );
+                    } else {
+                        $contributionContactID = $params['contribution_contact_id'] = $values['contribution_contact_id'] = $matchedIDs[0];
+                    }
+                } else {
+                    return civicrm_create_error( 'No match found for specified contact in contribution data. Row was skipped.', 'pledge_payment' ); 
+                }
+            }
+
              if ( isset( $params['pledge_id'] ) ) {
-                $values['pledge_id'] = $params['pledge_id']; 
+                 if ( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'] ,'contact_id' ) != $contributionContactID ) {
+                     return civicrm_create_error( 'Invalid Pledge ID provided. Contribution row was skipped.', 'pledge_payment' );
+                 }
+                 $values['pledge_id'] = $params['pledge_id']; 
              } else {
                  // check if there are any pledge related to this contact, with payments pending or in progress
                  require_once 'CRM/Pledge/BAO/Pledge.php';
@@ -1000,32 +1034,13 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
              } else {
                  return civicrm_create_error( 'Contribution and Pledge Payment amount mismatch for this record. Contribution row was skipped.', 'pledge_payment' );
              }
-             
             break;
-        case 'pledge_id':
-            // we need to check if pledge id belongs to imported contact
-            $contributionContactID = null;
-            if ( CRM_Utils_Array::value( 'contribution_contact_id', $params ) ) {
-                $contributionContactID = $params['contribution_contact_id'];
-            } else if ( CRM_Utils_Array::value( 'external_identifier', $params ) ) {
-                require_once 'CRM/Contact/DAO/Contact.php';
-                $contact =& new CRM_Contact_DAO_Contact();
-                $contact->external_identifier = $params['external_identifier'];
-                $contact->find(true);
-                $contributionContactID = $contact->id;
-            }
-            
-            if ( $contributionContactID && 
-                 CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'] ,'contact_id' ) != $contributionContactID ) {
-                return civicrm_create_error( 'Invalid Pledge ID provided. Contribution row was skipped.', 'pledge_payment' );
-            }
-            
-            $values['pledge_id'] = $params['pledge_id'];
-            break;
+
         default:
             break;
         }
     }
+    
     if ( array_key_exists( 'note', $params ) ) {
         $values['note'] = $params['note'];
     }
@@ -1230,3 +1245,65 @@ function _civicrm_activity_formatted_param( &$params, &$values, $create=false)
     return null;
 }
 
+/**
+ *  Function to check duplicate contacts based on de-deupe parameters
+ */
+function civicrm_check_contact_dedupe( &$params ) {
+    static $cIndieFields = null;
+    static $defaultLocationId = null;
+    
+    if ( $cIndieFields == null ) {
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $contactType );
+        $cIndieFields = $cTempIndieFields;
+
+        require_once "CRM/Core/BAO/LocationType.php";
+        $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
+        $defaultLocationId = $defaultLocation->id;
+    }
+    
+    require_once 'CRM/Contact/BAO/Query.php';
+    $locationFields = CRM_Contact_BAO_Query::$_locationSpecificFields;
+    
+    $contactType = $params['contact_type'] ;
+    foreach ( $params as $key => $field ) {
+        if ($field == null || $field === '') {
+            continue;
+        }
+        if (is_array($field)) {
+            foreach ($field as $value) {
+                $break = false;
+                if ( is_array($value) ) {
+                    foreach ($value as $name => $testForEmpty) {
+                        if ($name !== 'phone_type' &&
+                            ($testForEmpty === '' || $testForEmpty == null)) {
+                            $break = true;
+                            break;
+                        }
+                    }
+                } else {
+                    $break = true;
+                }
+                if ( !$break ) {    
+                    _civicrm_add_formatted_param($value, $contactFormatted );
+                }
+            }
+            continue;
+        }
+        
+        $value = array($key => $field);
+        
+        // check if location related field, then we need to add primary location type
+        if ( in_array($key, $locationFields) ) {
+            $value['location_type_id'] = $defaultLocationId;
+        } else if (array_key_exists($key, $cIndieFields)) {
+            $value['contact_type'] = $contactType;
+        }
+
+      _civicrm_add_formatted_param( $value, $contactFormatted );
+    }
+
+    $contactFormatted['contact_type'] = $contactType;
+
+    return _civicrm_duplicate_formatted_contact( $contactFormatted );
+} 

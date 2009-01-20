@@ -309,7 +309,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $paramValues['contact_type'] = $this->_contactType;
         } else if ( !empty( $params['soft_credit'] ) ) {
             $paramValues['contact_type'] = $this->_contactType;
+        } else if ( CRM_Utils_Array::value( 'pledge_payment', $paramValues ) ) {
+            $paramValues['contact_type'] = $this->_contactType;
         }
+        
         $formatError = _civicrm_contribute_formatted_param( $paramValues, $formatted, true);
         
         if ( $formatError ) {
@@ -408,62 +411,9 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
 
         if ( $this->_contactIdIndex < 0 ) {
-            static $cIndieFields = null;
-            static $defaultLocationId = null;
-            
-            if ( $cIndieFields == null ) {
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
-                $cIndieFields = $cTempIndieFields;
+            //retrieve contact id using contact dedupe rule
+            $error = civicrm_check_contact_dedupe( $paramValues );
 
-                require_once "CRM/Core/BAO/LocationType.php";
-                $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
-                $defaultLocationId = $defaultLocation->id;
-            }
-            
-            require_once 'CRM/Contact/BAO/Query.php';
-            $locationFields = CRM_Contact_BAO_Query::$_locationSpecificFields;
-            
-            foreach ($params as $key => $field) {
-                if ($field == null || $field === '') {
-                    continue;
-                }
-                if (is_array($field)) {
-                    foreach ($field as $value) {
-                        $break = false;
-                        if ( is_array($value) ) {
-                            foreach ($value as $name => $testForEmpty) {
-                                if ($name !== 'phone_type' &&
-                                    ($testForEmpty === '' || $testForEmpty == null)) {
-                                    $break = true;
-                                    break;
-                                }
-                            }
-                        } else {
-                            $break = true;
-                        }
-                        if ( !$break ) {    
-                            _civicrm_add_formatted_param($value, $contactFormatted);
-                        }
-                    }
-                    continue;
-                }
-                
-                $value = array($key => $field);
-                
-                // check if location related field, then we need to add primary location type
-                if ( in_array($key, $locationFields) ) {
-                    $value['location_type_id'] = $defaultLocationId;
-                } else if (array_key_exists($key, $cIndieFields)) {
-                    $value['contact_type'] = $this->_contactType;
-                }
-
-              _civicrm_add_formatted_param($value, $contactFormatted);
-            }
-
-            $contactFormatted['contact_type'] = $this->_contactType;
-
-            $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);        
                 if (count( $matchedIDs) >1) {
@@ -472,14 +422,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
-                    
-                    // since contact id is retrieved based on dupe rule, this is special case when we need to check
-                    // passed pledge id belongs to this contact.
-                    if ( CRM_Utils_Array::value( 'pledge_id', $formatted ) &&
-                         CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $formatted['pledge_id'] ,'contact_id' ) != $cid ) {
-                        array_unshift( $values, 'Invalid Pledge ID provided. Contribution row was skipped.' );
-                        return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT_ERROR;
-                    }
                     
                     $newContribution = civicrm_contribution_format_create( $formatted );
                     if ( civicrm_error( $newContribution ) ) { 
@@ -580,13 +522,14 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
              CRM_Utils_Array::value( 'pledge_id', $formatted ) ) {
             //get completed status
             $completeStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Completed', 'name' );
+                        
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $formatted['pledge_id'], array( $formatted['pledge_payment_id'] ),  $completeStatusID );
             
             //need to update payment record to map contribution_id
             CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Payment', $formatted['pledge_payment_id'], 
                                          'contribution_id', $formatted['contribution_id'] );
             
-            require_once 'CRM/Pledge/BAO/Payment.php';
-            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $formatted['pledge_id'], array( $formatted['pledge_payment_id'] ),  $completeStatusID );
             return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT;
         }
     }
