@@ -959,11 +959,14 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             //get total amount of from import fields
             $totalAmount = CRM_Utils_Array::value( 'total_amount', $params );
             
+            $onDuplicate = CRM_Utils_Array::value( 'onDuplicate', $params );
+            
             //we need to get contact id $contributionContactID to
             //retrieve pledge details as well as to validate pledge ID
             
             //first need to check for update mode  
-            if ( $params['contribution_id'] || $params['trxn_id'] ||$params['invoice_id'] ) {
+            if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE && 
+                 ( $params['contribution_id'] || $params['trxn_id'] ||$params['invoice_id'] ) ) {
                 $contribution =& new  CRM_Contribute_DAO_Contribution();
                 if ( $params['contribution_id'] ) {
                     $contribution->id = $params['contribution_id'];
