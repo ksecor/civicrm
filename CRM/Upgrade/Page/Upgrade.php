@@ -86,12 +86,12 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                     if ( version_compare($currentVer, $rev) < 0 ) {
                         
                         $phpFunctionName = 'upgrade_' . str_replace( '.', '_', $rev );
-                        if ( is_callable(array('CRM_Upgrade_Page_Upgrade', "$phpFunctionName")) ) {
+                        if ( is_callable(array($this, $phpFunctionName)) ) {
                             eval("\$this->{$phpFunctionName}('$rev');");
                         } else   {
-                            $sqlFile   = implode( DIRECTORY_SEPARATOR, 
-                                                  array(dirname(__FILE__), '..', 'Incremental', 
-                                                        'sql', $rev . '.mysql') );
+                            $sqlFile = implode( DIRECTORY_SEPARATOR, 
+                                                array(dirname(__FILE__), '..', 'Incremental', 
+                                                      'sql', $rev . '.mysql') );
                             $tplFile = "$sqlFile.tpl";
 
                             $isMultilingual = false;
@@ -113,20 +113,20 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                                 CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
                             }
                         }
-                        $upgrade->setVersion( $rev );
-                        $template->assign( 'upgraded', true );
-                        
-                        // also cleanup the templates_c directory
-                        $config =& CRM_Core_Config::singleton( );
-                        $config->cleanup( 1 );
-                        
-                        // clean the session. Note: In case of standalone this makes the user logout. 
-                        // So skip this step for standalone. 
-                        if ( $config->userFramework !== 'Standalone' ) {
-                            $session =& CRM_Core_Session::singleton( );
-                            $session->reset( 2 );
-                        }
                     }
+                }
+                $upgrade->setVersion( $rev );
+                $template->assign( 'upgraded', true );
+                
+                // also cleanup the templates_c directory
+                $config =& CRM_Core_Config::singleton( );
+                $config->cleanup( 1 );
+                
+                // clean the session. Note: In case of standalone this makes the user logout. 
+                // So skip this step for standalone. 
+                if ( $config->userFramework !== 'Standalone' ) {
+                    $session =& CRM_Core_Session::singleton( );
+                    $session->reset( 2 );
                 }
             }
         }
