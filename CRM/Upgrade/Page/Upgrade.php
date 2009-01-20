@@ -67,7 +67,7 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $template->assign( 'cancelURL', 
                           CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
 
-        if ( $upgrade->sortRevision($currentVer, $latestVer) >= 0 ) {
+        if ( version_compare($currentVer, $latestVer) >= 0 ) {
             $message = ts( 'Your database has already been upgraded to CiviCRM %1',
                            array( 1 => $latestVer ) );
             $template->assign( 'upgraded', true );
@@ -83,7 +83,7 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                 $revisions = $upgrade->getRevisionSequence();
                 foreach ( $revisions as $rev ) {
                     // proceed only if $currentVer < $rev
-                    if ( $upgrade->sortRevision($currentVer, $rev) < 0 ) {
+                    if ( version_compare($currentVer, $rev) < 0 ) {
                         
                         $phpFunctionName = 'upgrade_' . str_replace( '.', '_', $rev );
                         if ( is_callable(array('CRM_Upgrade_Page_Upgrade', "$phpFunctionName")) ) {

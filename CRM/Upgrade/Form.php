@@ -144,21 +144,6 @@ SET    version = '$version'
         return $domainID ? true : false; 
     }
 
-    public function sortRevision( $rev1, $rev2 ) {
-        $pattAlphanumeric = '/^(\d{1,2}\.\d{1,2})\.\w{4,7}$/i';
-        $pattNumeric      = '/^(\d{1,2}\.\d{1,2})(\.(\d{1,2}))?$/';
-        if ( preg_match($pattAlphanumeric, $rev1, $matches1) && 
-             preg_match($pattNumeric,      $rev2, $matches2)  ) {
-            return ($matches1[1] > $matches2[1]) ? 1 : -1;
-        } else if ( preg_match($pattNumeric,      $rev1, $matches1) &&
-                    preg_match($pattAlphanumeric, $rev2, $matches2)  ) {
-            return ($matches1[1] >= $matches2[1]) ? 1 : -1;
-        } else {
-            if ( $rev1 == $rev2 )  return 0;
-            return ($rev1 < $rev2) ? -1 : 1;
-        }
-    }
-
     function getRevisionSequence( ) {
         $revList  = array();
         $sqlDir   = implode( DIRECTORY_SEPARATOR, 
@@ -175,10 +160,10 @@ SET    version = '$version'
         }
 
         // sample test list
-        /* $revList = array('2.1.0', '2.2.beta2', '2.2.beta1', '2.2.alpha1', */
-        /*                  '2.2.alpha3', '2.2.0', '2.2.2', '2.1.alpha1', '2.1.3'); */
+/*         $revList = array('2.1.0', '2.2.beta2', '2.2.beta1', '2.2.alpha1', */
+/*                          '2.2.alpha3', '2.2.0', '2.2.2', '2.1.alpha1', '2.1.3'); */
 
-        usort($revList, array('CRM_Upgrade_Form', "sortRevision"));
+        usort($revList, 'version_compare');
         return $revList;
     }
 
