@@ -956,6 +956,12 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             
         case 'pledge_payment':            
         case 'pledge_id':
+            
+            //giving respect to pledge_payment flag.
+            if ( !CRM_Utils_Array::value( 'pledge_payment', $params ) ) {
+                continue;
+            }
+            
             //get total amount of from import fields
             $totalAmount = CRM_Utils_Array::value( 'total_amount', $params );
             

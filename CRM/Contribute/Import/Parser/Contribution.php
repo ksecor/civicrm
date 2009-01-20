@@ -272,6 +272,9 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 case  'thankyou_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     break;
+                case  'pledge_payment':
+                    $params[$key] = CRM_Utils_String::strtobool( $val );
+                    break;
                 }
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
                     if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
@@ -317,7 +320,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         if ( CRM_Utils_Array::value( 'pledge_payment', $paramValues ) ) {
             $paramValues['onDuplicate'] = $onDuplicate;
         }
-
+        
         $formatError = _civicrm_contribute_formatted_param( $paramValues, $formatted, true);
         
         if ( $formatError ) {
