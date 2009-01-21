@@ -1,4 +1,3 @@
-{debug}
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
