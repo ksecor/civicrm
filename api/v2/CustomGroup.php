@@ -106,7 +106,11 @@ function civicrm_custom_group_create( $params )
     
     require_once 'CRM/Core/BAO/CustomGroup.php';
     $customGroup = CRM_Core_BAO_CustomGroup::create($params);                             
-       
+
+    // reset the cache
+    require_once 'CRM/Core/BAO/Cache.php';
+    CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
+    
     _civicrm_object_to_array( $customGroup, $values );
     
     if ( is_a( $customGroup, 'CRM_Core_Error' ) ) { 
@@ -193,11 +197,24 @@ function civicrm_custom_field_create( $params )
     if (is_a($error, 'CRM_Core_Error')) {
         return civicrm_create_error( $error->_errors[0]['message'] );
     }
-    
+
+    // Array created for passing options in params
+    if ( isset( $params['option_values'] ) && is_array( $params['option_values'] ) ) {
+        foreach ( $params['option_values'] as $key => $value ){
+            $params['option_label'][$value['weight']]  = $value['label'];
+            $params['option_value'][$value['weight']]  = $value['value'];
+            $params['option_status'][$value['weight']] = $value['is_active'];
+            $params['option_weight'][$value['weight']] = $value['weight'];
+        }
+    }
     require_once 'CRM/Core/BAO/CustomField.php';
     $customField = CRM_Core_BAO_CustomField::create($params);  
         
     $values['customFieldId'] = $customField->id;
+
+    // reset the cache
+    require_once 'CRM/Core/BAO/Cache.php';
+    CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
     
     if ( is_a( $customField, 'CRM_Core_Error' ) && is_a( $column, 'CRM_Core_Error' )  ) {
         return civicrm_create_error( $customField->_errors[0]['message'] );
