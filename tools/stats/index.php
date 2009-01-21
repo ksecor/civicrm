@@ -96,6 +96,34 @@ foreach ($charts as $chart) {
         print "<p><img src='{$result['url']}' /> <img src='{$result['last']}' /></p>"; break;
     }
 }
+
+$fields = array('Activity', 'Case', 'Contact', 'Contribution', 'ContributionPage', 'ContributionProduct', 'Discount', 'Event', 'Friend', 'Grant', 'Mailing', 'Membership', 'MembershipBlock', 'Participant', 'Pledge', 'PledgeBlock', 'PriceSetEntity', 'Relationship', 'UFGroup', 'Widget');
+
+mysql_query('CREATE TEMPORARY TABLE latest_ids SELECT MAX(id) id FROM stats GROUP BY hash');
+mysql_query('CREATE INDEX latest_ids_id ON latest_ids (id)');
+mysql_query('CREATE TEMPORARY TABLE latest_stats SELECT * FROM stats WHERE id IN (SELECT * FROM latest_ids)');
+
+foreach ($fields as $field) {
+    $stat = mysql_fetch_object(mysql_query("SELECT MAX(`$field`) max, ROUND(AVG(`$field`)) avg FROM latest_stats"));
+    $tops = mysql_query("SELECT `$field` field, COUNT(*) count FROM latest_stats WHERE `$field` IS NOT NULL GROUP BY field ORDER BY count DESC LIMIT 3");
+    print "<h2>$field</h2>";
+    print "<p>max: {$stat->max}, avg: {$stat->avg}, most popular counts: ";
+    while ($top = mysql_fetch_object($tops)) {
+        print "{$top->field} ({$top->count}), ";
+    }
+    print '</p>';
+    print '<table><tr><th colspan="3">range</th><th>count</th></tr>';
+    $high = -1;
+    $pieces = $stat->max > 10 ? 10 : $stat->max;
+    for ($i = 1; $i <= $pieces; $i++) {
+        $low  = $high + 1;
+        $high = round($i * $stat->max / $pieces);
+        $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high"));
+        print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>$count->count</td></tr>";
+    }
+    print '</table>';
+}
+
 ?>
 </body>
 </html>
