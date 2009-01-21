@@ -295,7 +295,7 @@ function _civicrm_contribute_duplicate_check( &$params ) {
     $result = CRM_Contribute_BAO_Contribution::checkDuplicate( $params,$duplicates ); 
     if ( $result ) {
         $d = implode( ', ', $duplicates );
-        $error = CRM_Core_Error::createError( "Found matching contribution(s):$d", CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', $d);
+        $error = CRM_Core_Error::createError( "Duplicate error - existing contribution record(s) have a matching Transaction ID or Invoice ID. Contribution record ID(s) are: $d", CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', $d);
         return civicrm_create_error( $error->pop( ),
                                      $d );
     } else {
