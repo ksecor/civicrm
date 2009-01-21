@@ -343,7 +343,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
         //either name OR id is present
         if ( isset( $params['activity_name'] ) ) {
             require_once "CRM/Core/PseudoConstant.php";
-            $activityTypes  =& CRM_Core_PseudoConstant::activityType( );
+            $activityTypes  =& CRM_Core_PseudoConstant::activityType( true, false, true );
             $activityId     = array_search( $params['activity_name'], $activityTypes );
             
             if ( ! $activityId ) { 
@@ -453,7 +453,7 @@ function civicrm_activity_get_types( ) {
  *
  * @access public
  */
-function civicrm_activity_type_create( $params ) {
+function civicrm_activity_type_create( &$params ) {
     require_once 'CRM/Core/OptionGroup.php';
     
     if ( ! isset( $params['label'] ) || ! isset( $params['weight'] ) ) {
@@ -472,4 +472,16 @@ function civicrm_activity_type_create( $params ) {
     $activityType = array();
     _civicrm_object_to_array( $activityObject, $activityType );
     return $activityType;
+}
+
+/**
+ * Function to delete activity type
+ * @activityTypeId int   activity type id to delete
+ * @return boolen
+ *
+ * @access public
+ */
+function civicrm_activity_type_delete( $activityTypeId ) {
+    require_once 'CRM/Core/BAO/OptionGroup.php';
+    return CRM_Core_BAO_OptionValue::del( $activityTypeId );
 }
