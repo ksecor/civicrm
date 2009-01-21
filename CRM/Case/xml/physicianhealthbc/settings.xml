@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Settings>
+	<!-- At the moment this is the only setting.
+		List the group whose members should appear as contacts on all Manage Case screens.
+		Only one group name is supported for now. -->
+	<group name="PermanentCaseContacts" />
+</Settings>

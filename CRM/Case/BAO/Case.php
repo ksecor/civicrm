@@ -1181,6 +1181,41 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         $case->save( );
         return true;
     }
+    
+    static function getGlobalContacts(&$groupName, &$globalGroupId)
+    {
+    	$globalContacts = array();
+    	
+   		require_once 'CRM/Case/XMLProcessor/Settings.php';
+   		require_once 'CRM/Contact/BAO/Group.php';
+//   		require_once 'CRM/Contact/BAO/GroupContact.php';
+   		require_once 'api/v2/Contact.php';
+   		$settingsProcessor = new CRM_Case_XMLProcessor_Settings();
+   		$settings = $settingsProcessor->run();
+   		if (! empty($settings)) {
+   			$groupName = $settings['groupname'];
+   			if ($groupName) {
+				$searchParams = array('name' => $groupName);   				
+				$results = array();
+   				CRM_Contact_BAO_Group::retrieve($searchParams, $results);
+				if ($results) {
+/*					$globalContacts = CRM_Contact_BAO_GroupContact::getGroupContacts(
+						$gobj, null, 'Added', null, null, null, true);
+*/
+					$globalGroupId = $results['id'];
+					$searchParams = array( 'group' => array($globalGroupId => 1),
+                           'return.sort_name'    => 1,
+                           'return.email'    => 1,
+                           'return.phone'    => 1
+                           );
+        
+					$globalContacts = civicrm_contact_search( $searchParams );
+				}
+
+   			}
+   		}
+   		return $globalContacts;
+    }
 }
 
    

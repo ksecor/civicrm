@@ -37,6 +37,7 @@ require_once 'CRM/Core/Form.php';
 require_once "CRM/Core/PseudoConstant.php";
 require_once "CRM/Case/PseudoConstant.php";
 require_once 'CRM/Case/XMLProcessor/Process.php';
+require_once 'CRM/Case/BAO/Case.php';
 
 /**
  * This class generates view mode for CiviCase
@@ -179,6 +180,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 									0, 0, 0, null, null, false);
 
 		// Now remove ones that are also roles so they don't show up twice. Also remove the client itself.
+		// We need to do this because otherwise EVERY role will show up twice, since every role is also a client relationship.
 		// We conveniently already have the required list of cids in the reporters variable.
 		$clientRelationships = array();
 		foreach($relClient as $r)
@@ -191,6 +193,15 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 		}
         $this->assign('clientRelationships', $clientRelationships);
 
+		// Now global contact list that appears on all cases.
+		$globalGroupName = null;
+		$globalGroupId = null;
+		$relGlobal = CRM_Case_BAO_Case::getGlobalContacts($globalGroupName, $globalGroupId);
+        $this->assign('globalRelationships', $relGlobal);
+        $this->assign('globalGroupName', $globalGroupName);
+        $this->assign('globalGroupId', $globalGroupId);
+        
+		// List of relationship types
 		$relType = CRM_Core_PseudoConstant::relationshipType();
 		$roleTypes = array();
 		foreach ($relType as $k => $v)
