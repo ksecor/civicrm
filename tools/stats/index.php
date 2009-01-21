@@ -99,19 +99,31 @@ foreach ($charts as $chart) {
 
 $fields = array('Activity', 'Case', 'Contact', 'Contribution', 'ContributionPage', 'ContributionProduct', 'Discount', 'Event', 'Friend', 'Grant', 'Mailing', 'Membership', 'MembershipBlock', 'Participant', 'Pledge', 'PledgeBlock', 'PriceSetEntity', 'Relationship', 'UFGroup', 'Widget');
 
-mysql_query('CREATE TEMPORARY TABLE latest_ids SELECT MAX(id) id FROM stats GROUP BY hash');
+$year = date('Y');
+$month = date('n') - 1;
+if ($month == 0) {
+    $year--;
+    $month = 12;
+}
+
+mysql_query("CREATE TEMPORARY TABLE latest_ids SELECT MAX(id) id FROM stats WHERE YEAR(time) = $year AND MONTH(time) = $month GROUP BY hash");
 mysql_query('CREATE INDEX latest_ids_id ON latest_ids (id)');
 mysql_query('CREATE TEMPORARY TABLE latest_stats SELECT * FROM stats WHERE id IN (SELECT * FROM latest_ids)');
 
 foreach ($fields as $field) {
-    $stat = mysql_fetch_object(mysql_query("SELECT MAX(`$field`) max, ROUND(AVG(`$field`)) avg FROM latest_stats"));
-    $tops = mysql_query("SELECT `$field` field, COUNT(*) count FROM latest_stats WHERE `$field` IS NOT NULL GROUP BY field ORDER BY count DESC LIMIT 3");
+    $tops = mysql_query("SELECT `$field` field, COUNT(*) count FROM latest_stats WHERE `$field` IS NOT NULL GROUP BY field ORDER BY count DESC LIMIT 5");
     print "<h2>$field</h2>";
-    print "<p>max: {$stat->max}, avg: {$stat->avg}, most popular counts: ";
+    print '<p>five most popular counts: ';
+    $first = $second = null;
     while ($top = mysql_fetch_object($tops)) {
-        print "{$top->field} ({$top->count}), ";
+        if ($first !== null and $second === null) $second = $top->field;
+        if ($first === null) $first = $top->field;
+        print "{$top->field}&nbsp;" . strtolower($field) . "s&nbsp;({$top->count}&nbsp;installs), ";
     }
     print '</p>';
+
+    $stat = mysql_fetch_object(mysql_query("SELECT MAX(`$field`) max, ROUND(AVG(`$field`)) avg FROM latest_stats"));
+    print "<h3>$field with all counts – max: {$stat->max}, avg: {$stat->avg}</h3>";
     print '<table><tr><th colspan="3">range</th><th>count</th></tr>';
     $high = -1;
     $pieces = $stat->max > 10 ? 10 : $stat->max;
@@ -119,6 +131,32 @@ foreach ($fields as $field) {
         $low  = $high + 1;
         $high = round($i * $stat->max / $pieces);
         $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high"));
+        print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>$count->count</td></tr>";
+    }
+    print '</table>';
+
+    $stat = mysql_fetch_object(mysql_query("SELECT MAX(`$field`) max, ROUND(AVG(`$field`)) avg FROM latest_stats WHERE `$field` != $first"));
+    print "<h3>$field sans the $first count – max: {$stat->max}, avg: {$stat->avg}</h3>";
+    print '<table><tr><th colspan="3">range</th><th>count</th></tr>';
+    $high = -1;
+    $pieces = $stat->max > 10 ? 10 : $stat->max;
+    for ($i = 1; $i <= $pieces; $i++) {
+        $low  = $high + 1;
+        $high = round($i * $stat->max / $pieces);
+        $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high AND `$field` != $first"));
+        print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>$count->count</td></tr>";
+    }
+    print '</table>';
+
+    $stat = mysql_fetch_object(mysql_query("SELECT MAX(`$field`) max, ROUND(AVG(`$field`)) avg FROM latest_stats WHERE `$field` != $first AND `$field` != $second"));
+    print "<h3>$field sans the $first and $second counts – max: {$stat->max}, avg: {$stat->avg}</h3>";
+    print '<table><tr><th colspan="3">range</th><th>count</th></tr>';
+    $high = -1;
+    $pieces = $stat->max > 10 ? 10 : $stat->max;
+    for ($i = 1; $i <= $pieces; $i++) {
+        $low  = $high + 1;
+        $high = round($i * $stat->max / $pieces);
+        $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high AND `$field` != $first AND `$field` != $second"));
         print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>$count->count</td></tr>";
     }
     print '</table>';
