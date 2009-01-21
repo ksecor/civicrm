@@ -647,12 +647,11 @@ class Installer extends InstallRequirements {
     }
 
 	function install($config) {
-            ?>
-            <h1>Installing CiviCRM...</h1>
-                 <p>I am now running through the installation steps (this should take a few minutes)</p>
-                 <p>If you receive a fatal error, refresh this page to continue the installation
-                 <?php
-                 flush();
+        echo "<h1>Installing CiviCRM...</h1>
+              <p>I am now running through the installation steps (this should take a few minutes)</p>
+              <p>If you receive a fatal error, refresh this page to continue the installation";
+
+        flush();
 
 		// Load the sapphire runtime
 		echo "<li>Building database schema and setup files...</li>";
@@ -663,31 +662,32 @@ class Installer extends InstallRequirements {
                                           $config['mysql']['username'],
                                           $config['mysql']['password'],
                                           $config['mysql']['database'] );
-		// Build database
+        // Build database
         require_once 'civicrm.php';
         civicrm_main( $config );
+
+        // clean output
+        ob_clean();
 
         if(! $this->errors) {
             global $installType;
 
+            $successTitle = "Installed CiviCRM successfully";
             if ( $installType == 'drupal' ) {
                 $drupalURL     = civicrm_cms_base( );
-                echo "<p>Installed CiviCRM successfully.  I will now try and direct you to 
-					<a href=\"$drupalURL\">Drupal Home</a> to confirm that the installation was successful.</p>
-					<script>setTimeout(function() { window.location.href = '$drupalURL'; }, 1000);</script>
-					";
+                $successMsg   = "<li>Now go ahead and enable CiviCRM module from Drupal >> Site Building >> Modules</li>
+                                 <li>Please review the initial steps for configuring your new CiviCRM installation <a target='blank' href='http://wiki.civicrm.org/confluence/x/VITB'>here</a></li>
+                                 <li>Click <a target='blank' href=\"$drupalURL\">here</a> for Drupal Home.</li>";
             } elseif ( $installType == 'standalone' ) {
                 $standaloneURL = civicrm_cms_base( ) . 'standalone/';
-                echo "<p>Installed CiviCRM successfully.  I will now try and direct you to 
-					<a href=\"$standaloneURL\">Standalone Home</a> to confirm that the installation was successful.</p>
-					<script>setTimeout(function() { window.location.href = '$standaloneURL'; }, 1000);</script>
-					";
+                $successMsg   = "<li>Please review the initial steps for configuring your new CiviCRM installation <a target='blank' href='http://wiki.civicrm.org/confluence/x/VITB'>here</a></li>
+                                 <li>Click <a href=\"$standaloneURL\">here</a> for Standalone Home.</li>";
             }
+            errorDisplayPage( $successTitle, $successMsg );
         }
 		
 		return $this->errors;
-	}
-	
+	}	
 }
 
 function getSiteDir( $str ) {
