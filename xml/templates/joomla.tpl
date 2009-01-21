@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="2.1">
+<install type="component" version="2.2.alpha2">
   <name>CiviCRM</name>
   <creationDate>04/01/2008</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>
   <authorUrl>civicrm.org</authorUrl>
-  <version>2.1</version>
+  <version>2.2.alpha2</version>
   <description>CiviCRM</description>
   <files>
       <filename>civicrm.php</filename>
