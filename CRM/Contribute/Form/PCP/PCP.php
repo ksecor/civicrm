@@ -36,7 +36,7 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * Page for displaying list of contribution types
+ * Administer Personal Campaign Pages - Search form
  */
 class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
 {
