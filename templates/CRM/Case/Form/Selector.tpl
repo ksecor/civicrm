@@ -1,3 +1,4 @@
+{debug}
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
@@ -14,7 +15,7 @@
   {/if}
 
   {if $single}
-    <th scope="col">{ts}ID{/ts}</th><th scope="col"></th>
+    <th scope="col">{ts}ID{/ts}</th>
   {else}
     <th></th>
   {/if}
@@ -41,26 +42,26 @@
         {assign var=cbName value=$row.checkbox}
         <td>{$form.$cbName.html}</td> 
     {/if}
-    {if $context != 'case'}	
-      {if $single }
+    {if $single }
         <td>{$row.case_id}</td>
-      {/if}
-    <td>
-	<span id="{$list}{$row.case_id}_show">
-	    <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
-                             buildCaseDetails('{$list}{$row.case_id}','{$row.contact_id}'); 
-                             hide('{$list}{$row.case_id}_show');
-                             show('minus{$list}{$row.case_id}_hide');
-                             show('{$list}{$row.case_id}_hide','table-row');
-                             return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
-	</span>
-	<span id="minus{$list}{$row.case_id}_hide">
-	    <a href="#" onclick="hide('caseDetails{$list}{$row.case_id}'); 
-                             show('{$list}{$row.case_id}_show', 'table-row');
-                             hide('{$list}{$row.case_id}_hide');
-                             hide('minus{$list}{$row.case_id}_hide');
-                             return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
-	</td>
+    {/if}
+    {if $context != 'case'}	
+        <td>
+        <span id="{$list}{$row.case_id}_show">
+            <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
+                                 buildCaseDetails('{$list}{$row.case_id}','{$row.contact_id}'); 
+                                 hide('{$list}{$row.case_id}_show');
+                                 show('minus{$list}{$row.case_id}_hide');
+                                 show('{$list}{$row.case_id}_hide','table-row');
+                                 return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+        </span>
+        <span id="minus{$list}{$row.case_id}_hide">
+            <a href="#" onclick="hide('caseDetails{$list}{$row.case_id}'); 
+                                 show('{$list}{$row.case_id}_show', 'table-row');
+                                 hide('{$list}{$row.case_id}_hide');
+                                 hide('minus{$list}{$row.case_id}_hide');
+                                 return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+        </td>
     {/if}	
   
     {if !$single}
