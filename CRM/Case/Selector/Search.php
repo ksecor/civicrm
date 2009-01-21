@@ -382,7 +382,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                 'sort'      => 'case_scheduled_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('desc'      => ts('Actions') ),
+                                          array('name'      => ts('Actions') ),
                                           );
             
             if ( ! $this->_single ) {
