@@ -79,9 +79,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $fields =& CRM_Contribute_BAO_Contribution::importableFields( $this->_contactType , false );
         
         $fields = array_merge( $fields,
-                               array( 'soft_credit' => array( 'title'      => ts('Soft Credit'),
-                                                              'softCredit' => true ) ) );
-                                                          
+                               array( 'soft_credit' => array( 'title'         => ts('Soft Credit'),
+                                                              'softCredit'    => true,
+                                                              'headerPattern' => '/Soft Credit/i' ) ) );
+        
         // add pledge fields only if its is enabled
         if ( CRM_Core_Permission::access( 'CiviPledge' ) ) {
             $pledgeFields = array( 'pledge_payment' => array( 'title' => ts('Pledge Payment'),
