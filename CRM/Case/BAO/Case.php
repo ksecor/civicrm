@@ -605,7 +605,6 @@ AND civicrm_case.is_deleted     = 0";
      */
     function getCasesSummary( $allCases = true, $userID )
     {
-    
         require_once 'CRM/Core/OptionGroup.php';
         $caseStatuses = CRM_Core_OptionGroup::values( 'case_status' );
         $caseTypes    = CRM_Core_OptionGroup::values( 'case_type' );
@@ -613,31 +612,36 @@ AND civicrm_case.is_deleted     = 0";
      
         // get statuses as headers for the table
         $caseSummary['headers'] = $caseStatuses;
-
+        
         // build rows with actual data
         $rows = array();
-        $myCaseFrom  = $myCaseWhere = $myCaseFromClause = $myCaseWhereClause = '';
+        $myGroupByClause = $mySelectClause = $myCaseFromClause = $myCaseWhereClause = '';
         
-        if ( !$allCases ) {
-            $myCaseFromClause = " 
- LEFT JOIN civicrm_relationship case_relationship 
-           ON ( case_relationship.case_id  = civicrm_case.id )";
-            
+        if( $allCases ) {
+            $userID = 'null';
+            $all = 1;
+        } else {
+            $all = 0;
             $myCaseWhereClause = " AND case_relationship.contact_id_b = {$userID}";
+            $myGroupByClause   = " GROUP BY CONCAT(case_relationship.case_id,'-',case_relationship.contact_id_b)";
         }
-
+        
         $seperator = self::VALUE_SEPERATOR;
    
         $query = "
-SELECT case_status.label AS case_status, status_id, case_type.label AS case_type, REPLACE(case_type_id,'{$seperator}','') AS case_type_id
-FROM civicrm_case {$myCaseFromClause}
+SELECT case_status.label AS case_status, status_id, case_type.label AS case_type, 
+REPLACE(case_type_id,'{$seperator}','') AS case_type_id, case_relationship.contact_id_b
+FROM civicrm_case
 LEFT JOIN civicrm_option_group option_group_case_type ON ( option_group_case_type.name = 'case_type' )
 LEFT JOIN civicrm_option_value case_type ON ( civicrm_case.case_type_id = case_type.value
 AND option_group_case_type.id = case_type.option_group_id )
 LEFT JOIN civicrm_option_group option_group_case_status ON ( option_group_case_status.name = 'case_status' )
 LEFT JOIN civicrm_option_value case_status ON ( civicrm_case.status_id = case_status.value
 AND option_group_case_status.id = case_status.option_group_id )
-WHERE is_deleted =0 {$myCaseWhereClause}";
+LEFT JOIN civicrm_relationship case_relationship ON ( case_relationship.case_id  = civicrm_case.id 
+AND case_relationship.contact_id_b = {$userID})
+WHERE is_deleted =0 
+{$myCaseWhereClause} {$myGroupByClause}";
         
         $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while( $res->fetch() ) {
@@ -646,7 +650,7 @@ WHERE is_deleted =0 {$myCaseWhereClause}";
             } else {
                 $rows[$res->case_type][$res->case_status] = array( 'count' => 1,
                                                                    'url'   => CRM_Utils_System::url( 'civicrm/case/search',
-                                                                                                     "reset=1&force=1&status={$res->status_id}&type={$res->case_type_id}" ) 
+                                                                                                     "reset=1&force=1&status={$res->status_id}&type={$res->case_type_id}&all={$all}" ) 
                                                                    );
             }
         }

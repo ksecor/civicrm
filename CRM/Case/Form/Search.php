@@ -480,6 +480,10 @@ class CRM_Case_Form_Search extends CRM_Core_Form
             $this->_defaults['case_start_date_high'  ] = $date;
         }
 
+        if ( !$all = CRM_Utils_Request::retrieve( 'all', 'Positive', $this ) ) {
+            $this->_formValues['case_mycases'] = 0;
+        }
+
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
