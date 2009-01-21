@@ -107,7 +107,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp', $this->_pageId, $maxAttachments );
         
         $this->addElement( 'checkbox', 'is_thermometer', ts('Progress Bar') );
-        $this->addElement( 'checkbox', 'is_honor_roll', ts('Honour Roll'), null);
+        $this->addElement( 'checkbox', 'is_honor_roll', ts('Honor Roll'), null);
         $this->addElement( 'checkbox', 'is_active', ts('Active') );
 
         $this->addButtons( array(

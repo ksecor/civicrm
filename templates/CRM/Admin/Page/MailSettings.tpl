@@ -10,6 +10,7 @@
       <table cellpadding="0" cellspacing="0" border="0">
         <tr class="columnheader">
             <th>{ts}Name{/ts}</th>
+            <th>{ts}Server{/ts}</th>
             <th>{ts}Username{/ts}</th>
             <th>{ts}Localpart{/ts}</th>
             <th>{ts}Domain{/ts}</th>
@@ -24,6 +25,7 @@
         {foreach from=$rows item=row}
           <tr id='rowid{$row.id}' class="{cycle values="odd-row,even-row"}">
               <td>{$row.name}</td>	
+              <td>{$row.server}</td>	
               <td>{$row.username}</td>	
               <td>{$row.localpart}</td>	
               <td>{$row.domain}</td>
