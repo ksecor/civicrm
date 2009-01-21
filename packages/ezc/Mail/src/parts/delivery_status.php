@@ -3,7 +3,7 @@
  * File containing the ezcMailDeliveryStatus class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -34,17 +34,10 @@
  *           Holds the recipients of the delivery-status message.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  */
 class ezcMailDeliveryStatus extends ezcMailPart
 {
-    /**
-     * Holds the properties of this class.
-     *
-     * @var array(string=>mixed)
-     */
-    private $properties = array();
-
     /**
      * Constructs a new DeliveryStatus part.
      */

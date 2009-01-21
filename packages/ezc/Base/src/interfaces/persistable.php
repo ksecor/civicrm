@@ -3,7 +3,7 @@
  * File containing the ezcBasePersistable interface
  *
  * @package Base
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -12,7 +12,7 @@
  * to be used by the PersistentObject and Search components.
  *
  * @package Base
- * @version 1.5
+ * @version 1.6
  */
 interface ezcBasePersistable
 {

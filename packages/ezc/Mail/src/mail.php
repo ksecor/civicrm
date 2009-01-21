@@ -3,7 +3,7 @@
  * File containing the ezcMail class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -64,7 +64,7 @@
  * @apichange Remove the support for the deprecated property messageID.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @mainclass
  */
 class ezcMail extends ezcMailPart
@@ -93,13 +93,6 @@ class ezcMail extends ezcMailPart
      * Base 64 encoding.
      */
     const BASE64 = "base64";
-
-    /**
-     * Holds the properties of this class.
-     *
-     * @var array(string=>mixed)
-     */
-    private $properties = array();
 
     /**
      * Constructs an empty ezcMail object.
@@ -432,7 +425,10 @@ class ezcMail extends ezcMailPart
         {
             case 'ezcMail':
             case 'ezcMailComposer':
-                $this->walkParts( $context, $mail->body );
+                if ( $mail->body !== null )
+                {
+                    $this->walkParts( $context, $mail->body );
+                }
                 break;
 
             case 'ezcMailMultipartMixed':
@@ -472,6 +468,25 @@ class ezcMail extends ezcMailPart
                     call_user_func( $context->callbackFunction, $context, $mail );
                 }
                 break;
+
+            default:
+                // for cases where a custom mail class has been specified with $parser->options->mailClass
+                if ( in_array( 'ezcMail', class_parents( $className ) ) )
+                {
+                    if ( $mail->body !== null )
+                    {
+                        $this->walkParts( $context, $mail->body );
+                    }
+                }
+
+                // for cases where a custom file class has been specified with $parser->options->fileClass
+                if ( in_array( 'ezcMailFile', class_parents( $className ) ) )
+                {
+                    if ( empty( $context->filter ) || in_array( $className, $context->filter ) )
+                    {
+                        call_user_func( $context->callbackFunction, $context, $mail );
+                    }
+                }
         }
         $context->level--;
     }

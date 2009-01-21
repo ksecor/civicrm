@@ -3,7 +3,7 @@
  * File containing the ezcMailImapTransport class.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -46,13 +46,13 @@
  *
  * Work with mailboxes:
  *  - get the list of mailboxes of the user ({@link listMailboxes()})
- *  - create a mailbox ({@link createMailbox()}
- *  - rename a mailbox ({@link renameMailbox()}
- *  - delete a mailbox ({@link deleteMailbox()}
- *  - append a message to a mailbox ({@link append()}
+ *  - create a mailbox ({@link createMailbox()})
+ *  - rename a mailbox ({@link renameMailbox()})
+ *  - delete a mailbox ({@link deleteMailbox()})
+ *  - append a message to a mailbox ({@link append()})
  *  - select a mailbox ({@link selectMailbox()})
  *  - get the status of messages in the current mailbox ({@link status()})
- *  - get the number of messages with a certain flag ({@link countByFlag()}
+ *  - get the number of messages with a certain flag ({@link countByFlag()})
  *
  * Work with message numbers (on the currently selected mailbox):
  *  - get the message numbers and sizes of all the messages ({@link listMessages()})
@@ -119,7 +119,7 @@
  *           Holds the options you can set to the IMAP transport.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @mainclass
  */
 class ezcMailImapTransport
@@ -1688,6 +1688,7 @@ class ezcMailImapTransport
             throw new ezcMailInvalidLimitException( $offset, $count );
         }
 
+        $range = array();
         if ( $this->options->uidReferencing )
         {
             $uids = array_values( $this->listUniqueIdentifiers() );

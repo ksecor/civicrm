@@ -3,7 +3,7 @@
  * File containing the ezcMailFilePart class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -30,7 +30,7 @@
  *           Setting this also sets the header Content-ID.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  */
 abstract class ezcMailFilePart extends ezcMailPart
 {
@@ -66,13 +66,6 @@ abstract class ezcMailFilePart extends ezcMailPart
      * mail to the recipients.
      */
     const DISPLAY_INLINE = "inline";
-
-    /**
-     * Holds the properties of this class.
-     *
-     * @var array(string=>mixed)
-     */
-    protected $properties = array();
 
     /**
      * Constructs a new attachment with $fileName.
@@ -190,8 +183,14 @@ abstract class ezcMailFilePart extends ezcMailPart
      */
     private function setHeaderContentType()
     {
+        $fileName = basename( $this->fileName );
+        if ( $this->contentDisposition !== null && $this->contentDisposition->fileName !== null )
+        {
+            $fileName = $this->contentDisposition->fileName;
+        }
+
         $this->setHeader( 'Content-Type',
-                          $this->contentType . '/' . $this->mimeType . '; ' . 'name="' . basename( $this->fileName ) . '"' );
+                          $this->contentType . '/' . $this->mimeType . '; ' . 'name="' . $fileName . '"' );
     }
 
     /**
@@ -200,20 +199,23 @@ abstract class ezcMailFilePart extends ezcMailPart
      * Does not set the fileNameCharSet and fileNameLanguage properties of the
      * Content-Disposition header. For this purpose set directly
      * $this->contentDisposition with an object of class ezcMailContentDispositionHeader.
-     *
      */
     private function setHeaderContentDisposition()
     {
-        if ( $this->contentDisposition == null )
-        {
-            $this->contentDisposition = new ezcMailContentDispositionHeader();
-        }
         if ( !isset( $this->dispositionType ) )
         {
             $this->dispositionType = self::DISPLAY_ATTACHMENT;
         }
-        $this->contentDisposition->disposition = $this->dispositionType;
-        $this->contentDisposition->fileName = basename( $this->fileName );
+        if ( $this->contentDisposition == null )
+        {
+            $this->contentDisposition = new ezcMailContentDispositionHeader();
+
+            // modified for issue #14025: set the file name and disposition
+            // only if the contentDisposition was null (to not overwrite
+            // the value set by the user)
+            $this->contentDisposition->disposition = $this->dispositionType;
+            $this->contentDisposition->fileName = basename( $this->fileName );
+        }
     }
 
     /**

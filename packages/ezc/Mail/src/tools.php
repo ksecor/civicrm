@@ -3,7 +3,7 @@
  * File containing the ezcMailTools class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -13,7 +13,7 @@
  * and ensuring correct line-breaks in the mail.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @mainclass
  */
 class ezcMailTools
@@ -27,6 +27,26 @@ class ezcMailTools
      * Reply to all.
      */
     const REPLY_ALL = 1;
+
+    /**
+     * Server to use for validateEmailAddressMx(). Change this if this server
+     * cannot be used with your Internet Service Provider.
+     *
+     * Default value: 'smtp.ez.no'.
+     *
+     * @var string
+     */
+    public static $mxValidateServer = 'smtp.ez.no';
+
+    /**
+     * Email address to use for validateEmailAddressMx(). Change this if this
+     * address cannot be used with your Internet Service Provider.
+     *
+     * Default value: 'postmaster@ez.no'.
+     *
+     * @var string
+     */
+    public static $mxValidateAddress = 'postmaster@ez.no';
 
     /**
      * Holds the unique ID's.
@@ -290,7 +310,16 @@ class ezcMailTools
      *
      * If $checkMxRecords is true, then an MX records check will be performed
      * also, by sending a test mail (RCPT TO) to $address using the MX records
-     * found for the domain part of $address.
+     * found for the domain part of $address. MX record checking does not work
+     * on Windows due to the lack of getmxrr() and checkdnsrr() PHP functions.
+     * The ezcBaseFunctionalityNotSupportedException is thrown in this case.
+     *
+     * If checking against MX records, set these values before performing the
+     * check, to ensure the MX record checks work properly:
+     * <code>
+     * ezcMailTools::$mxValidateServer = 'your.mail.server'; // default 'smtp.ez.no'
+     * ezcMailTools::$mxValidateAddress = 'email@mail.server'; // default 'postmaster@ez.no'
+     * </code>
      *
      * The input email address $address should be trimmed from white spaces
      * and/or quotes around it before calling this function (if needed).
@@ -300,14 +329,17 @@ class ezcMailTools
      *   localpart@domainpart
      * </code>
      *
-     * The localpart has these rules:
+     * The localpart has these rules, and these rules are just an approximation of
+     * the rules in RFC2822:
      *  - allowed characters: . + ~ / ' - _ ` ^ $ % & ! ' | {
      *  - the dot (.) cannot be the first or the last character
      *  - the double-quote character (") can only surround the localpart (so
      *    if it appears it must be the first and the last character of localpart)
      *  - spaces are allowed if the localpart is surrounded in double-quotes
      *  - other ASCII characters (even from the extended-ASCII set) are allowed
-     *    if the localparts is surrounded in double-quotes
+     *    if the localparts is surrounded in double-quotes (the function
+     *    ezcMailTools::composeEmailAddress will encode it when using it
+     *    in a mail header)
      *  - the double-quotes character (") cannot be escaped to appear in a
      *    localpart surrounded by double quotes (so "john"doe"@example.com is not
      *    a valid email address)
@@ -319,13 +351,16 @@ class ezcMailTools
      * See also the test files (in the "Mail/tests/tools/data" directory) for
      * examples of correct and incorrect email addresses.
      *
+     * @throws ezcBaseFunctionalityNotSupportedException
+     *         if $checkMxRecords is true and getmxrr() or checkdnsrr() functions
+     *         are missing (e.g. on Windows)
      * @param string $address
      * @param bool $checkMxRecords
      * @return bool
      */
     public static function validateEmailAddress( $address, $checkMxRecords = false )
     {
-        $pattern = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]{2,}))$/';
+        $pattern = '/^((\"[^\"\f\n\r\t\v\b]+\")|([A-Za-z0-9_\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[A-Za-z0-9_\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]{2,}))$/';
 
         if ( preg_match( $pattern, $address ) )
         {
@@ -357,11 +392,29 @@ class ezcMailTools
      *  - a test mail (RCPT TO) is tried to be sent to $address
      *  - if one test mail succeeds, then the address is valid, else invalid
      *
+     * Set these values before calling this function, to ensure the MX record
+     * checks work properly:
+     * <code>
+     * ezcMailTools::$mxValidateServer = 'your.mail.server'; // default 'smtp.ez.no'
+     * ezcMailTools::$mxValidateAddress = 'email@mail.server'; // default 'postmaster@ez.no'
+     * </code>
+     *
+     * MX record checking does not work on Windows due to the lack of getmxrr()
+     * and checkdnsrr() PHP functions. The ezcBaseFunctionalityNotSupportedException
+     * is thrown in this case.
+     *
+     * @throws ezcBaseFunctionalityNotSupportedException
+     *         if getmxrr() or checkdnsrr() functions are missing (e.g. on Windows)
      * @param string $address
      * @return bool
      */
     protected static function validateEmailAddressMx( $address )
     {
+        if ( !ezcBaseFeatures::hasFunction( 'getmxrr' ) || !ezcBaseFeatures::hasFunction( 'checkdnsrr' ) )
+        {
+            throw new ezcBaseFunctionalityNotSupportedException( 'Checking DNS records', 'getmxrr() or checkdnsrr() missing' );
+        }
+
         $timeoutOpen = 3; // for fsockopen()
         $timeoutConnection = 5; // for stream_set_timeout()
 
@@ -390,8 +443,8 @@ class ezcMailTools
             if ( ( $numberOfMx = count( $mx ) ) > 0 )
             {
                 $smtp = array(
-                               "HELO smtp.ez.no",
-                               "MAIL FROM: <postmaster@ez.no>",
+                               "HELO " . self::$mxValidateServer,
+                               "MAIL FROM: <" . self::$mxValidateAddress . ">",
                                "RCPT TO: <{$address}>",
                                "QUIT",
                              );
@@ -682,6 +735,48 @@ class ezcMailTools
                 return false;
         }
         return true;
+    }
+
+    /**
+     * Replaces HTML embedded "cid:" references with replacements from $contentIdArray.
+     *
+     * The method matches all "cid:" references in the $htmlText and then loops
+     * over each match. For each match the found content ID is looked-up as key
+     * in the $contentIdArray and the value is then inserted as replacement for
+     * the "cid:" reference.
+     *
+     * <code>
+     * <?php
+     * $contentIdArray = array( 'consoletools-table.png@1421450' => 'http://localhost/consoletools-table.jpg' );
+     * $text = "<html> Embedded image: <img src='cid:consoletools-table.png@1421450'/> </html>";
+     * $htmlBody = ezcMailTools::replaceContentIdRefs( $text, $contentIdArray );
+     * // $htmlBody is now: 
+     * // <html> Embedded image: <img src='http://localhost/consoletools-table.jpg'/> </html>
+     * ?>
+     * </code>
+     *
+     * The $contentIdArray can be build by iterating over all parts in the
+     * mail, and for each ezcMailFilePart that you find: 1. copy the associated
+     * file (fileName property of the ezcMailFilePart object) to your webroot;
+     * 2. add an element to the array with the key created from the contentId
+     * property from the ezcMailFilePart object. See the tutorial for an
+     * example of this.
+     *
+     * @param string $htmlText
+     * @param array(string=>string) $contentIdArray
+     * @return string
+     */
+    static function replaceContentIdRefs( $htmlText, $contentIdArray )
+    {
+        preg_match_all( '@src=[\'"](cid:(.*?))[\'"]@', $htmlText, $matches );
+        for ( $i = 0; $i < count( $matches[0] ); $i++ )
+        {
+            if ( isset( $contentIdArray[$matches[2][$i]] ) )
+            {
+                $htmlText = str_replace( $matches[1][$i], $contentIdArray[$matches[2][$i]], $htmlText );
+            }
+        }
+        return $htmlText;
     }
 }
 ?>

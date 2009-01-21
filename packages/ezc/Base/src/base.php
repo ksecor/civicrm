@@ -3,7 +3,7 @@
  * File containing the ezcBase class.
  *
  * @package Base
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -11,7 +11,7 @@
  * Base class implements the methods needed to use the eZ components.
  *
  * @package Base
- * @version 1.5
+ * @version 1.6
  * @mainclass
  */
 class ezcBase
@@ -25,6 +25,16 @@ class ezcBase
      * Used for dependency checking, to check for a PHP version.
      */
     const DEP_PHP_VERSION = "version";
+
+    /**
+     * Denotes the production mode
+     */
+    const MODE_PRODUCTION = 0;
+
+    /**
+     * Denotes the development mode
+     */
+    const MODE_DEVELOPMENT = 1;
     
     /**
      * Indirectly it determines the path where the autoloads are stored.
@@ -47,6 +57,12 @@ class ezcBase
      * @var string
      */
     protected static $packageDir = null;
+
+    /**
+     * Contains which development mode is used. It's "development" by default,
+     * because of backwards compatibility reasons.
+     */
+    private static $runMode = self::MODE_DEVELOPMENT;
 
     /**
      * Stores info with additional paths where autoload files and classes for
@@ -587,6 +603,41 @@ class ezcBase
             $path .= DIRECTORY_SEPARATOR;
         }
         return $path;
+    }
+
+    /**
+     * Sets the development mode to the one specified.
+     *
+     * @param int $runMode
+     */
+    public static function setRunMode( $runMode )
+    {
+        if ( !in_array( $runMode, array( ezcBase::MODE_PRODUCTION, ezcBase::MODE_DEVELOPMENT ) ) )
+        {
+            throw new ezcBaseValueException( 'runMode', $runMode, 'ezcBase::MODE_PRODUCTION or ezcBase::MODE_DEVELOPMENT' );
+        }
+
+        self::$runMode = $runMode;
+    }
+
+    /**
+     * Returns the current development mode.
+     *
+     * @return int
+     */
+    public static function getRunMode()
+    {
+        return self::$runMode;
+    }
+
+    /**
+     * Returns true when we are in development mode.
+     *
+     * @return bool
+     */
+    public static function inDevMode()
+    {
+        return self::$runMode == ezcBase::MODE_DEVELOPMENT;
     }
 }
 ?>

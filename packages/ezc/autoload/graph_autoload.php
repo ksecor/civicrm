@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.3
+ * @version 1.4
  * @filesource
  * @package Graph
  */
@@ -21,6 +21,7 @@ return array(
     'ezcGraphInvalidDataException'                  => 'Graph/exceptions/invalid_data.php',
     'ezcGraphInvalidDisplayTypeException'           => 'Graph/exceptions/invalid_display_type.php',
     'ezcGraphInvalidImageFileException'             => 'Graph/exceptions/invalid_image_file.php',
+    'ezcGraphInvalidStepSizeException'              => 'Graph/exceptions/invalid_step_size.php',
     'ezcGraphMatrixInvalidDimensionsException'      => 'Graph/exceptions/invalid_dimensions.php',
     'ezcGraphMatrixOutOfBoundingsException'         => 'Graph/exceptions/out_of_boundings.php',
     'ezcGraphNoDataException'                       => 'Graph/exceptions/no_data.php',

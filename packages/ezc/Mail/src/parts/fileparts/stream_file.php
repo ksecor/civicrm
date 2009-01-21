@@ -3,7 +3,7 @@
  * File containing the ezcMailStreamFile class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -18,7 +18,7 @@
  *           is available, otherwise they are set to application/octet-stream.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  */
 class ezcMailStreamFile extends ezcMailFilePart
 {
