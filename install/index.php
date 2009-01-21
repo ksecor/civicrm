@@ -51,7 +51,7 @@ if ( $installType == 'drupal' ) {
     // install. Rather check for existance of sites & modules in the url
     if ( ! preg_match('/sites.[a-zA-Z0-9_.]+.modules/', $_SERVER['SCRIPT_FILENAME']) ) {
         $errorTitle = "Oops! Please Correct Your Install Location";
-        $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>" . implode(DIRECTORY_SEPARATOR, array('sites', 'all', 'modules')) . "</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
+        $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>" . implode(DIRECTORY_SEPARATOR, array('sites', 'all', 'modules')) . "</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/2.+Install' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
         errorDisplayPage( $errorTitle, $errorMsg );
     }
 }
@@ -108,9 +108,9 @@ if ( $installType == 'drupal' ) {
 if ($alreadyInstalled ) {
     $errorTitle = "Oops! CiviCRM is Already Installed";
     if ( $installType == 'drupal' ) {
-        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . implode(DIRECTORY_SEPARATOR, array('[your Drupal root directory]', 'sites', 'default')) . "</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . implode(DIRECTORY_SEPARATOR, array('[your Drupal root directory]', 'sites', 'default')) . "</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/2.+Install' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     } elseif ( $installType == 'standalone' ) {
-        $errorMsg = "Standalone CiviCRM has already been installed. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]" . DIRECTORY_SEPARATOR . "standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+        $errorMsg = "Standalone CiviCRM has already been installed. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]" . DIRECTORY_SEPARATOR . "standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/2.+Install' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     }
     errorDisplayPage( $errorTitle, $errorMsg );
 }
@@ -127,7 +127,7 @@ if ( $installType == 'drupal' ) {
     if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
          ( strpos( $civicrm_version, 'Drupal' ) === false ) ) {
         $errorTitle = "Oops! Incorrect CiviCRM Version";
-        $errorMsg = "This installer can only be used for the Drupal PHP5 version of CiviCRM. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
+        $errorMsg = "This installer can only be used for the Drupal PHP5 version of CiviCRM. Refer to the online <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/2.+Install' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
         errorDisplayPage( $errorTitle, $errorMsg );
     }
     
@@ -139,7 +139,7 @@ if ( $installType == 'drupal' ) {
     
     if ( !defined('VERSION') or version_compare(VERSION, '6.0') < 0 ) {
         $errorTitle = "Oops! Incorrect Drupal Version";
-        $errorMsg = "This version of CiviCRM can only be used with Drupal 6.x. Please ensure that '$drupalVersionFile' exists if you are running Drupal 6.0 and over. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM.";
+        $errorMsg = "This version of CiviCRM can only be used with Drupal 6.x. Please ensure that '$drupalVersionFile' exists if you are running Drupal 6.0 and over. Refer to the online <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/2.+Install' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM.";
         errorDisplayPage( $errorTitle, $errorMsg );
     }
 }
@@ -672,19 +672,29 @@ class Installer extends InstallRequirements {
 
         if(! $this->errors) {
             global $installType;
+            echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+            echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">';
+            echo '<head>';
+            echo '<title>CiviCRM Installed</title>';
             echo '<link rel="stylesheet" type="text/css" href="template.css" />';
-            echo '<div style="padding: 1em;"><p class="good">Installed CiviCRM successfully</p>';
+            echo '</head>';
+            echo '<body>';
+            echo '<div style="padding: 1em;"><p class="good">CiviCRM has been successfully installed</p>';
+            echo '<ul>';
             if ( $installType == 'drupal' ) {
                 $drupalURL     = civicrm_cms_base( );
-                echo "<li>Now go ahead and enable CiviCRM module from Drupal >> Site Building >> Modules</li>
-                      <li>Please review the initial steps for configuring your new CiviCRM installation <a target='_blank' href='http://wiki.civicrm.org/confluence/x/VITB'>here</a></li>
-                      <li>Click <a target='_blank' href=\"$drupalURL\">here</a> for Drupal Home.</li>";
+                echo "<li>Now enable the CiviCRM module from Administer >> Site Building >> Modules</li>
+                      <li>You can review the initial steps for configuring your new CiviCRM installation <a target='_blank' href='http://wiki.civicrm.org/confluence/display/CRMDOC/Configuring+a+New+Site'>here</a></li>
+                      <li>Click <a target='_blank' href=\"$drupalURL\">here</a> to go to your Drupal home page.</li>";
             } elseif ( $installType == 'standalone' ) {
                 $standaloneURL = civicrm_cms_base( ) . 'standalone/';
-                echo  "<li>Please review the initial steps for configuring your new CiviCRM installation <a target='_blank' href='http://wiki.civicrm.org/confluence/x/VITB'>here</a></li>
-                       <li>Click <a href=\"$standaloneURL\">here</a> for Standalone Home.</li>";
+                echo  "<li>Please review the initial steps for configuring your new CiviCRM installation <a target='_blank' href='http://wiki.civicrm.org/confluence/display/CRMDOC/Configuring+a+New+Site'>here</a></li>
+                       <li>Click <a href=\"$standaloneURL\">here</a> to go to your CiviCRM Standalone home page.</li>";
             }
-            echo "</div>";
+            echo '</ul>';
+            echo '</div>';
+            echo '</body>';
+            echo '</html>';
         }
 		
 		return $this->errors;

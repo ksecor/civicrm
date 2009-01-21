@@ -238,7 +238,7 @@ function civicrm_initialize( )
         $error = include_once( 'CRM/Core/Config.php' );
         if ( $error == false ) {
             $failure = true;
-            drupal_set_message( "<strong><p class='error'>Oops! - The path for including CiviCRM code files is not set properly. Most likely there is an error in the <em>civicrm_root</em> setting in your CiviCRM settings file ($settingsFile).</p><p> &raquo; civicrm_root is currently set to: <em>$civicrm_root</em>.</p><p>Please review the <a href='http://wiki.civicrm.org/confluence//x/mQ8'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/FAQ#FAQ-install'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
+            drupal_set_message( "<strong><p class='error'>Oops! - The path for including CiviCRM code files is not set properly. Most likely there is an error in the <em>civicrm_root</em> setting in your CiviCRM settings file ($settingsFile).</p><p> &raquo; civicrm_root is currently set to: <em>$civicrm_root</em>.</p><p>Please review the <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/2.+Install' target='_blank'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/8.+FAQ#8.FAQ-install' target='_blank'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/Installation+and+Configuration+Trouble-shooting' target='_blank'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
             return false;
         }
 
