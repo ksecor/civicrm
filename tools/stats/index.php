@@ -99,11 +99,15 @@ foreach ($charts as $chart) {
 
 $fields = array('Activity', 'Case', 'Contact', 'Contribution', 'ContributionPage', 'ContributionProduct', 'Discount', 'Event', 'Friend', 'Grant', 'Mailing', 'Membership', 'MembershipBlock', 'Participant', 'Pledge', 'PledgeBlock', 'PriceSetEntity', 'Relationship', 'UFGroup', 'Widget');
 
-$year = date('Y');
-$month = date('n') - 1;
-if ($month == 0) {
-    $year--;
-    $month = 12;
+$year  = date('Y');
+$month = date('n');
+
+if (!$_GET['current']) {
+    $month--;
+    if ($month == 0) {
+        $year--;
+        $month = 12;
+    }
 }
 
 mysql_query("CREATE TEMPORARY TABLE latest_ids SELECT MAX(id) id FROM stats WHERE YEAR(time) = $year AND MONTH(time) = $month GROUP BY hash");
