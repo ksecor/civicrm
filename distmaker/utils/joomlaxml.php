@@ -14,11 +14,17 @@ if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
 }
 $targetDirLength = strlen( $targetDir );
 
+if( isset( $GLOBALS['_SERVER']['DM_VERSION'] ) ) {
+    $version = $GLOBALS['_SERVER']['DM_VERSION'];
+} else {
+    $version = $argv[3];
+}
+
 ini_set('include_path', ini_get('include_path') . ":$sourceCheckoutDir/packages");
 require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'Smarty/Smarty.class.php';
 
-generateJoomlaConfig( );
+generateJoomlaConfig( $version );
 
 /**
  * This function creates destination directory
@@ -34,7 +40,7 @@ function createDir( $dir, $perm = 0755 ) {
     }
 }
 
-function generateJoomlaConfig( ) {
+function generateJoomlaConfig( $version ) {
     global $targetDir, $sourceCheckoutDir;
 
     $smarty =& new Smarty( );
@@ -42,6 +48,7 @@ function generateJoomlaConfig( ) {
     $smarty->compile_dir  = '/tmp/templates_c';
     createDir( $smarty->compile_dir );
 
+    $smarty->assign( 'CiviCRMVersion', $version );
     $xml = $smarty->fetch( 'joomla.tpl' );
     
     $output = $targetDir . '/joomla/civicrm.xml';

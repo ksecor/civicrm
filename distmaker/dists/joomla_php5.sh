@@ -79,7 +79,7 @@ mkdir com_civicrm/admin/civicrm
 
 cp -r -p civicrm/* com_civicrm/admin/civicrm
 
-$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
+$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php $DM_SOURCEDIR $DM_TMPDIR/com_civicrm/admin/civicrm $DM_VERSION
 
 # copying back end code to admin folder
 cp com_civicrm/admin/civicrm/joomla/admin.civicrm.php        com_civicrm/admin
