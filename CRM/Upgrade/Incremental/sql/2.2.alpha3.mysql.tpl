@@ -1,3 +1,4 @@
+-- Do not make any changes to this file once alpha3 is tagged
 -- CRM-3546 CRM-2105 CRM-3248 CRM-3869 CRM-4013
  
  {if $multilingual}
