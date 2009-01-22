@@ -111,6 +111,7 @@ class CRM_Admin_Form_MailSettings extends CRM_Admin_Form
         $fields = array( 'name', 
                          'domain',          
                          'localpart',
+                         'server',
                          'return_path',
                          'protocol',
                          'port',
