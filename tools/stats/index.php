@@ -117,6 +117,9 @@ if (!$_GET['current']) {
 mysql_query("CREATE TEMPORARY TABLE latest_ids SELECT MAX(id) id FROM stats WHERE YEAR(time) = $year AND MONTH(time) = $month GROUP BY hash");
 mysql_query('CREATE INDEX latest_ids_id ON latest_ids (id)');
 mysql_query('CREATE TEMPORARY TABLE latest_stats SELECT * FROM stats WHERE id IN (SELECT * FROM latest_ids)');
+foreach ($fields as $field) {
+    mysql_query("CREATE INDEX latest_stats_$field ON latest_stats (`$field`)");
+}
 
 foreach ($fields as $field) {
     $tops = mysql_query("SELECT `$field` field, COUNT(*) count FROM latest_stats WHERE `$field` IS NOT NULL GROUP BY field ORDER BY count DESC LIMIT 5");
@@ -140,7 +143,7 @@ foreach ($fields as $field) {
         $high = round($i * $stat->max / $pieces);
         $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high"));
         if ($count->count) {
-            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>($i%)</td><td>$count->count</td></tr>";
+            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>(" . $i * 100 / $pieces . "%)</td><td>$count->count</td></tr>";
         }
     }
     print '</table>';
@@ -155,7 +158,7 @@ foreach ($fields as $field) {
         $high = round($i * $stat->max / $pieces);
         $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high AND `$field` != $first"));
         if ($count->count) {
-            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>($i%)</td><td>$count->count</td></tr>";
+            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>(" . $i * 100 / $pieces . "%)</td><td>$count->count</td></tr>";
         }
     }
     print '</table>';
@@ -170,7 +173,7 @@ foreach ($fields as $field) {
         $high = round($i * $stat->max / $pieces);
         $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high AND `$field` != $first AND `$field` != $second"));
         if ($count->count) {
-            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>($i%)</td><td>$count->count</td></tr>";
+            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>(" . $i * 100 / $pieces . "%)</td><td>$count->count</td></tr>";
         }
     }
     print '</table>';
