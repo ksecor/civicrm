@@ -1085,7 +1085,7 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
                                      'case_id'     => $caseId   );
                 self::processCaseActivity( $caseParams );
             } else {
-                return CRM_Core_Error::createAPIError( ts( 'FROM email %1 doesn\'t belong to related case',
+                return CRM_Core_Error::createAPIError( ts( 'FROM email contact %1 doesn\'t have a relationship to the referenced case.',
                                                            array( 1 => $result['from']['email'] ) ) );   
             }
         } 
