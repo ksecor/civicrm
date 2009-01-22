@@ -668,7 +668,7 @@ class Installer extends InstallRequirements {
         civicrm_main( $config );
 
         // clean output
-        ob_clean();
+        @ob_clean();
 
         if(! $this->errors) {
             global $installType;
