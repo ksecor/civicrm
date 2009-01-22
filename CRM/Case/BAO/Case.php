@@ -1045,7 +1045,9 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             } else {
                 continue;
             }
-            
+
+// TODO: May want to replace this with a call to getRelatedAndGlobalContacts() when this feature is revisited.
+// (Or for efficiency call the global one outside the loop and then union with this each time.)            
             $contactDetails = self::getRelatedContacts( $caseId );
 
             if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
@@ -1188,7 +1190,6 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
     	
    		require_once 'CRM/Case/XMLProcessor/Settings.php';
    		require_once 'CRM/Contact/BAO/Group.php';
-//   		require_once 'CRM/Contact/BAO/GroupContact.php';
    		require_once 'api/v2/Contact.php';
    		$settingsProcessor = new CRM_Case_XMLProcessor_Settings();
    		$settings = $settingsProcessor->run();
@@ -1199,9 +1200,6 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 				$results = array();
    				CRM_Contact_BAO_Group::retrieve($searchParams, $results);
 				if ($results) {
-/*					$globalContacts = CRM_Contact_BAO_GroupContact::getGroupContacts(
-						$gobj, null, 'Added', null, null, null, true);
-*/
 					$globalGroupId = $results['id'];
 					$searchParams = array( 'group' => array($globalGroupId => 1),
                            'return.sort_name'    => 1,
@@ -1216,6 +1214,29 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
    		}
    		return $globalContacts;
     }
+
+	/* 
+	 * Convenience function to get both case contacts and global in one array
+	 */
+	static function getRelatedAndGlobalContacts($caseId)
+	{
+		$values = self::getRelatedContacts($caseId);
+		$dummy1 = null;
+		$dummy2 = null;
+		$values2 = self::getGlobalContacts($dummy1, $dummy2);
+		
+		foreach($values2 as $k => $v)
+		{
+			$values[$k]['id'] = $k;
+			$values[$k]['name'] = $v['sort_name'];
+			$values[$k]['email'] = $v['email'];
+			// if they are both a role and a global contact, then don't overwrite the role name
+			if (empty($values[$k]['role'])) {
+				$values[$k]['role']= ts('(Global)');
+			}
+		}
+		
+		return $values;
+	}   
 }
 
-   
