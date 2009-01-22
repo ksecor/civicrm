@@ -1,5 +1,3 @@
-DOOPA{docURL page="Profiles Admin"}
-
 <table class="no-border">
 <tr>
    <td>
