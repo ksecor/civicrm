@@ -84,6 +84,12 @@ case true:
     print '<p><a href="?">drop partial data for current month</a></p>'; break;
 }
 
+$fields = array('Activity', 'Case', 'Contact', 'Contribution', 'ContributionPage', 'ContributionProduct', 'Discount', 'Event', 'Friend', 'Grant', 'Mailing', 'Membership', 'MembershipBlock', 'Participant', 'Pledge', 'PledgeBlock', 'PriceSetEntity', 'Relationship', 'UFGroup', 'Widget');
+
+print '<p>jump to comonent stats: ';
+foreach ($fields as $field) print "<a href='#$field'>$field</a> ";
+print '</p>';
+
 foreach ($charts as $chart) {
     switch ($chart['type']) {
     case 'trend':
@@ -96,8 +102,6 @@ foreach ($charts as $chart) {
         print "<p><img src='{$result['url']}' /> <img src='{$result['last']}' /></p>"; break;
     }
 }
-
-$fields = array('Activity', 'Case', 'Contact', 'Contribution', 'ContributionPage', 'ContributionProduct', 'Discount', 'Event', 'Friend', 'Grant', 'Mailing', 'Membership', 'MembershipBlock', 'Participant', 'Pledge', 'PledgeBlock', 'PriceSetEntity', 'Relationship', 'UFGroup', 'Widget');
 
 $year  = date('Y');
 $month = date('n');
@@ -116,7 +120,7 @@ mysql_query('CREATE TEMPORARY TABLE latest_stats SELECT * FROM stats WHERE id IN
 
 foreach ($fields as $field) {
     $tops = mysql_query("SELECT `$field` field, COUNT(*) count FROM latest_stats WHERE `$field` IS NOT NULL GROUP BY field ORDER BY count DESC LIMIT 5");
-    print "<h2>$field</h2>";
+    print "<h2 id='$field'>$field</h2>";
     print '<p>five most popular counts: ';
     $first = $second = null;
     while ($top = mysql_fetch_object($tops)) {
@@ -128,40 +132,46 @@ foreach ($fields as $field) {
 
     $stat = mysql_fetch_object(mysql_query("SELECT MAX(`$field`) max, ROUND(AVG(`$field`)) avg FROM latest_stats"));
     print "<h3>$field with all counts – max: {$stat->max}, avg: {$stat->avg}</h3>";
-    print '<table><tr><th colspan="3">range</th><th>count</th></tr>';
+    print '<table><tr><th colspan="4">range</th><th>count</th></tr>';
     $high = -1;
-    $pieces = $stat->max > 10 ? 10 : $stat->max;
+    $pieces = $stat->max > 100 ? 100 : $stat->max;
     for ($i = 1; $i <= $pieces; $i++) {
         $low  = $high + 1;
         $high = round($i * $stat->max / $pieces);
         $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high"));
-        print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>$count->count</td></tr>";
+        if ($count->count) {
+            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>($i%)</td><td>$count->count</td></tr>";
+        }
     }
     print '</table>';
 
     $stat = mysql_fetch_object(mysql_query("SELECT MAX(`$field`) max, ROUND(AVG(`$field`)) avg FROM latest_stats WHERE `$field` != $first"));
     print "<h3>$field sans the $first count – max: {$stat->max}, avg: {$stat->avg}</h3>";
-    print '<table><tr><th colspan="3">range</th><th>count</th></tr>';
+    print '<table><tr><th colspan="4">range</th><th>count</th></tr>';
     $high = -1;
-    $pieces = $stat->max > 10 ? 10 : $stat->max;
+    $pieces = $stat->max > 100 ? 100 : $stat->max;
     for ($i = 1; $i <= $pieces; $i++) {
         $low  = $high + 1;
         $high = round($i * $stat->max / $pieces);
         $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high AND `$field` != $first"));
-        print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>$count->count</td></tr>";
+        if ($count->count) {
+            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>($i%)</td><td>$count->count</td></tr>";
+        }
     }
     print '</table>';
 
     $stat = mysql_fetch_object(mysql_query("SELECT MAX(`$field`) max, ROUND(AVG(`$field`)) avg FROM latest_stats WHERE `$field` != $first AND `$field` != $second"));
     print "<h3>$field sans the $first and $second counts – max: {$stat->max}, avg: {$stat->avg}</h3>";
-    print '<table><tr><th colspan="3">range</th><th>count</th></tr>';
+    print '<table><tr><th colspan="4">range</th><th>count</th></tr>';
     $high = -1;
-    $pieces = $stat->max > 10 ? 10 : $stat->max;
+    $pieces = $stat->max > 100 ? 100 : $stat->max;
     for ($i = 1; $i <= $pieces; $i++) {
         $low  = $high + 1;
         $high = round($i * $stat->max / $pieces);
         $count = mysql_fetch_object(mysql_query("SELECT COUNT(*) count FROM latest_stats WHERE `$field` BETWEEN $low AND $high AND `$field` != $first AND `$field` != $second"));
-        print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>$count->count</td></tr>";
+        if ($count->count) {
+            print "<tr style='text-align: right'><td>$low</td><td>–</td><td>$high</td><td>($i%)</td><td>$count->count</td></tr>";
+        }
     }
     print '</table>';
 }
