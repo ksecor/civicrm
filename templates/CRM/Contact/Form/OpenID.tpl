@@ -14,6 +14,8 @@
              {if $allowed_to_login neq 1}
 	            <span>{$form.location.$index.openid.1.allowed_to_login.html}</span>
              {/if}
+             <br/>
+             <span class="description font-italic">{ts}Full OpenID URL, ex: http://me.myopenid.com/{/ts}</span>
             {* Link to add a field. *}
             <span id="id_location_{$index}_openid_2_show" class="add-remove-link">
                 {$form.location.$index.openid.2.show.html}
