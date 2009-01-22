@@ -2,9 +2,9 @@
 -- CRM-3546 CRM-2105 CRM-3248 CRM-3869 CRM-4013
  
  {if $multilingual}
-   REPLACE INTO civicrm_option_group (name, {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active) VALUES ('mail_protocol', {foreach from=$locales item=locale}'Mail Protocol',{/foreach} 0, 1 );
+   INSERT INTO civicrm_option_group (name, {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active) VALUES ('mail_protocol', {foreach from=$locales item=locale}'Mail Protocol',{/foreach} 0, 1 );
  {else}
-   REPLACE INTO civicrm_option_group (name, description, is_reserved, is_active ) VALUES ('mail_protocol', 'Mail Protocol', 0, 1 );
+   INSERT INTO civicrm_option_group (name, description, is_reserved, is_active ) VALUES ('mail_protocol', 'Mail Protocol', 0, 1 );
  {/if}
  
  UPDATE civicrm_option_group SET is_reserved = 0, is_active = 1 WHERE name IN( 'mail_protocol', 'visibility', 'greeting_type', 'phone_type' );

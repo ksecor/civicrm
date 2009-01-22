@@ -283,13 +283,6 @@ SELECT @option_group_id_pt := max(id) from civicrm_option_group where name = 'ph
     (@option_group_id_pt, 'Voicemail', 5,     'Voicemail', 5);
 {/if}
 
--- * Fix for CRM-3869
-{if $multilingual}
-  INSERT INTO civicrm_option_group (name, {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active) VALUES ('mail_protocol', {foreach from=$locales item=locale}'Mail Protocol',{/foreach} 0, 1 );
-{else}
-  INSERT INTO civicrm_option_group (name, description, is_reserved, is_active ) VALUES ('mail_protocol', 'Mail Protocol', 0, 1 );
-{/if}
-
 ALTER TABLE `civicrm_phone`         ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
 ALTER TABLE `civicrm_mapping_field` ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
 ALTER TABLE `civicrm_uf_field`      ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
