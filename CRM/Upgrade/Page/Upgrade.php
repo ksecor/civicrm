@@ -89,6 +89,13 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                         if ( is_callable(array($this, $phpFunctionName)) ) {
                             eval("\$this->{$phpFunctionName}('$rev');");
                         } else   {
+                            // we need to check for fresh or upgrade for intermidiate release
+                            $phpFunctionName = 'checkDBState_' . str_replace( '.', '_', $latestVer );
+                            eval("\$skipSQL = \$this->{$phpFunctionName}( );");
+                            if (  $skipSQL ) {
+                                continue;
+                            }
+                                
                             $sqlFile = implode( DIRECTORY_SEPARATOR, 
                                                 array(dirname(__FILE__), '..', 'Incremental', 
                                                       'sql', $rev . '.mysql') );
@@ -165,6 +172,26 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         }
     }
 
+    /**
+     * This is blank since we don't do anything
+     */
+    function upgrade_2_2_alpha2( $rev ) {
+
+    }
+    
+    /**
+     * This function should check if if need to skip current sql file
+     * Name of this function will change according to the latest release 
+     *   
+     */
+    function checkDBState_2_2_alpha3( ) {
+        // we need to have one condition statement that will tell us if its fresh or upgrade
+        if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup','mail_protocol','id','name' ) ) {
+            return true;
+        }
+        return false;
+    }
+    
     function upgrade_2_1_2( $rev ) {
         require_once "CRM/Upgrade/TwoOne/Form/TwoOneTwo.php";
         $formName = "CRM_Upgrade_TwoOne_Form_TwoOneTwo";
