@@ -202,11 +202,13 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $this->assign('globalGroupId', $globalGroupId);
         
 		// List of relationship types
-		$relType = CRM_Core_PseudoConstant::relationshipType();
+		require_once 'CRM/Contact/BAO/Relationship.php';
+		$baoRel =& new CRM_Contact_BAO_Relationship();
+		$relType = $baoRel->getRelationType('Individual');
 		$roleTypes = array();
 		foreach ($relType as $k => $v)
 		{
-			$roleTypes[$k] = $v['name_b_a'];
+			$roleTypes[substr($k,0,strpos($k,'_'))] = $v;
 		}
 		$this->add('select', 'role_type',  ts( 'Relationship Type' ), array( '' => ts( '- select type -' ) ) + $roleTypes );
 	
