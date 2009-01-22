@@ -322,23 +322,22 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             $indieFields = $tempIndieFields;
         }
 
-        $values    = array();
-        
+        $formatValues = array( );
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
             
-            $values[$key] = $field;
+            $formatValues[$key] = $field;
         }
-       
-        $formatError = _civicrm_membership_formatted_param( $values, $formatted, true);
+        
+        $formatError = _civicrm_membership_formatted_param( $formatValues, $formatted, true);
         
         if ( $formatError ) {
             array_unshift($values, $formatError['error_message']);
             return CRM_Member_Import_Parser::ERROR;
         }
-
+        
         if ( $onDuplicate != CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
             $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                           CRM_Core_DAO::$_nullObject,
@@ -351,47 +350,46 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                 array_unshift($values, "Required parameter missing: Status");
                 return CRM_Member_Import_Parser::ERROR;
             }
-
-            if ( $values['membership_id'] ) {
+            
+            if ( $formatValues['membership_id'] ) {
                 require_once 'CRM/Member/BAO/Membership.php';
                 $dao =  new CRM_Member_BAO_Membership();
-                $dao->id = $values['membership_id'];
+                $dao->id = $formatValues['membership_id'];
                 $dates = array('join_date','start_date','end_date');
                 foreach ( $dates as $v ) {
                     if ( !$formatted[$v] ) {
-                        $formatted[$v] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership' , $values['membership_id'], $v );
+                        $formatted[$v] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', $formatValues['membership_id'], $v );
                     }
                 }
-
+                
                 $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                               CRM_Core_DAO::$_nullObject,
-                                                                              $values['membership_id'],
+                                                                              $formatValues['membership_id'],
                                                                               'Membership' );
                 if ( $dao->find( true ) ) { 
-                    $ids = array(
-                                 'membership' => $values['membership_id'],
-                                 'userId'     => $session->get('userID')
-                                 );
+                    $ids = array( 'membership' => $formatValues['membership_id'],
+                                  'userId'     => $session->get('userID') );
+                    
                     $newMembership =& CRM_Member_BAO_Membership::create( $formatted , $ids, true );
                     if ( civicrm_error( $newMembership ) ) {
-                        array_unshift($values, $newMembership['is_error']." for Membership ID ". $values['membership_id'].". Row was skipped.");
+                        array_unshift($values, $newMembership['is_error']." for Membership ID ". $formatValues['membership_id'].". Row was skipped.");
                         return CRM_Member_Import_Parser::ERROR;
                     } else {
                         $this->_newMemberships[] = $newMembership->id;
                         return CRM_Member_Import_Parser::VALID;
                     }
                 } else {
-                    array_unshift($values,"Matching Membership record not found for Membership ID ". $values['membership_id'].". Row was skipped.");
+                    array_unshift($values,"Matching Membership record not found for Membership ID ". $formatValues['membership_id'].". Row was skipped.");
                     return CRM_Member_Import_Parser::ERROR;
                 }
             }
         }
-
+        
         //Format dates
         $startDate  = CRM_Utils_Date::customFormat($formatted['start_date'],'%Y-%m-%d');
         $endDate    = CRM_Utils_Date::customFormat($formatted['end_date'],'%Y-%m-%d');
         $joinDate   = CRM_Utils_Date::customFormat($formatted['join_date'],'%Y-%m-%d');          
-
+        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -399,7 +397,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                 $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType);
                 $cIndieFields = $cTempIndieFields;
             }
-
+            
             foreach ($params as $key => $field) {
                 if ($field == null || $field === '') {
                     continue;
@@ -434,7 +432,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-                    
+            
             if ( civicrm_duplicate( $error ) ) { 
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if (count( $matchedIDs) >1) {                   
@@ -470,11 +468,11 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                         $formatted['status_id'] = $calcStatus['id'];
                     } elseif ( !$formatted['is_override'] || !isset($formatted['is_override']) ) { 
                         if ( empty( $calcStatus ) ) {
-                            array_unshift($values,"Status in import row (" .$values['status_id'].") does not match calculated status based on your configured Membership Status Rules. Record was not imported.");
+                            array_unshift($values,"Status in import row (" . $formatValues['status_id'].") does not match calculated status based on your configured Membership Status Rules. Record was not imported.");
                             return CRM_Member_Import_Parser::ERROR;
                         } else if ( $formatted['status_id'] != $calcStatus['id'] ) { 
                             //Status Hold" is either NOT mapped or is FALSE  
-                            array_unshift($values,"Status in import row (" .$values['status_id'].") does not match calculated status based on your configured Membership Status Rules (".$calcStatus['name']."). Record was not imported.");
+                            array_unshift($values,"Status in import row (" . $formatValues['status_id'].") does not match calculated status based on your configured Membership Status Rules (".$calcStatus['name']."). Record was not imported.");
                             return CRM_Member_Import_Parser::ERROR;
                         }
                     }
@@ -518,12 +516,12 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             }
             
         } else {
-            if ( $values['external_identifier'] ) {
+            if ( $formatValues['external_identifier'] ) {
                 $checkCid = new CRM_Contact_DAO_Contact();
-                $checkCid->external_identifier = $values['external_identifier'];
+                $checkCid->external_identifier = $formatValues['external_identifier'];
                 $checkCid->find(true);
                 if ($checkCid->id != $formatted['contact_id']) {
-                    array_unshift($values, "Mismatch of External identifier :" . $values['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
+                    array_unshift($values, "Mismatch of External identifier :" . $formatValues['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
                     return CRM_Member_Import_Parser::ERROR;
                 }
             }
@@ -553,11 +551,11 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                 $formatted['status_id'] = $calcStatus['id'];
             } else if ( !$formatted['is_override'] || !isset($formatted['is_override']) ) {
                 if ( empty( $calcStatus ) ) {
-                    array_unshift($values,"Status in import row (" .$values['status_id'].") does not match calculated status based on your configured Membership Status Rules. Record was not imported.");
+                    array_unshift($values,"Status in import row (" . $formatValues['status_id'].") does not match calculated status based on your configured Membership Status Rules. Record was not imported.");
                     return CRM_Member_Import_Parser::ERROR;
                 } else if ( $formatted['status_id'] != $calcStatus['id'] ) { 
                     //Status Hold" is either NOT mapped or is FALSE  
-                    array_unshift($values,"Status in import row (" .$values['status_id'].") does not match calculated status based on your configured Membership Status Rules (".$calcStatus['name']."). Record was not imported.");
+                    array_unshift($values,"Status in import row (" . $formatValues['status_id'].") does not match calculated status based on your configured Membership Status Rules (".$calcStatus['name']."). Record was not imported.");
                     return CRM_Member_Import_Parser::ERROR;
                 }
             }
@@ -572,7 +570,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             return CRM_Member_Import_Parser::VALID;
         }
     }
-   
+    
     /**
      * Get the array of succesfully imported membership id's
      *
