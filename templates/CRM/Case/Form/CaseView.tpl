@@ -195,6 +195,8 @@ cj(document).ready(function(){
  <fieldset>
   <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
 
+  <br />
+  
   {if $clientRelationships}
     <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
 	
@@ -220,7 +222,7 @@ cj(document).ready(function(){
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         <dd>
           {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}{/capture}
-          {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}
+          {ts 1=$crmURL}There are no Relationships entered for this client. You can <a accesskey="N" href='%1'>add one</a>.{/ts}
         </dd>
       </dl>
     </div>
@@ -229,7 +231,7 @@ cj(document).ready(function(){
   <br /><br />
   
   {if $globalRelationships}
-    <div><a href="{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupId`"}" title="{ts}Add to global contacts{/ts}">{ts}Add to global contacts{/ts}</a></div>
+    <div><a href="{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}" title="{ts}Add members to {$globalGroupInfo.title}{/ts}">{ts}Add members to {$globalGroupInfo.title}{/ts}</a></div>
 	
     <table class="report">
     	<tr class="columnheader">
@@ -245,20 +247,13 @@ cj(document).ready(function(){
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
     </table>
-  {else}
+  {elseif $globalGroupInfo.id}
     <div class="messages status">
       <dl>
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-        <dd>
-          {if $globalGroupId}
-            {capture assign=crmURL}{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupId`"}{/capture}
-            {ts 1=$crmURL}There are no Global Contacts. You can <a href='%1'>add one</a>.{/ts}
-          {elseif $globalGroupName}
-            {capture assign=crmURL}{crmURL p='civicrm/group/add' q="reset=1"}{/capture}
-            {ts 1=$crmURL}There is no group named {$globalGroupName}. You can <a href='%1'>create it</a>.{/ts}            
-          {else}
-            {ts}Global Contacts are not enabled. To enable Global Contacts, you must first configure the group name in the CiviCase settings file.{/ts} 
-          {/if}
+        <dd>          
+          {capture assign=crmURL}{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}{/capture}
+          {ts 1=$crmURL}The group {$globalGroupInfo.title} has no members. You can <a href='%1'>add one</a>.{/ts}
         </dd>
       </dl>
     </div>

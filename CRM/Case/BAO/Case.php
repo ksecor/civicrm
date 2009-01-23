@@ -1184,7 +1184,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         return true;
     }
     
-    static function getGlobalContacts(&$groupName, &$globalGroupId)
+    static function getGlobalContacts(&$groupInfo)
     {
     	$globalContacts = array();
     	
@@ -1194,14 +1194,15 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
    		$settingsProcessor = new CRM_Case_XMLProcessor_Settings();
    		$settings = $settingsProcessor->run();
    		if (! empty($settings)) {
-   			$groupName = $settings['groupname'];
-   			if ($groupName) {
-				$searchParams = array('name' => $groupName);   				
+   			$groupInfo['name'] = $settings['groupname'];
+   			if ($groupInfo['name']) {
+				$searchParams = array('name' => $groupInfo['name']);   				
 				$results = array();
    				CRM_Contact_BAO_Group::retrieve($searchParams, $results);
 				if ($results) {
-					$globalGroupId = $results['id'];
-					$searchParams = array( 'group' => array($globalGroupId => 1),
+					$groupInfo['id'] = $results['id'];
+					$groupInfo['title'] = $results['title'];
+					$searchParams = array( 'group' => array($groupInfo['id'] => 1),
                            'return.sort_name'    => 1,
                            'return.email'    => 1,
                            'return.phone'    => 1
@@ -1221,9 +1222,8 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 	static function getRelatedAndGlobalContacts($caseId)
 	{
 		$values = self::getRelatedContacts($caseId);
-		$dummy1 = null;
-		$dummy2 = null;
-		$values2 = self::getGlobalContacts($dummy1, $dummy2);
+		$groupInfo = array();
+		$values2 = self::getGlobalContacts($groupInfo);
 		
 		foreach($values2 as $k => $v)
 		{
@@ -1232,7 +1232,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 			$values[$k]['email'] = $v['email'];
 			// if they are both a role and a global contact, then don't overwrite the role name
 			if (empty($values[$k]['role'])) {
-				$values[$k]['role']= ts('(Global)');
+				$values[$k]['role']= $groupInfo['title'];
 			}
 		}
 		
