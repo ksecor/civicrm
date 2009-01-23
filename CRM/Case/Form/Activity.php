@@ -178,7 +178,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
         if ( $this->_caseType ) {
             $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-            $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
+            $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes', true );
             
             // remove Open Case activity type since we're inside an existing case
             $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
