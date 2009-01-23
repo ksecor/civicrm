@@ -1,5 +1,3 @@
-{capture assign=newItemURL}{crmURL p="civicrm/auction/item/add" q="action=add&reset=1"}{/capture}
-
 <a accesskey="N" href="{$newItemURL}" id="newAddItem" class="button"><span>&raquo; {ts}New Item{/ts}</span></a>
 <div class="right">
 </div>

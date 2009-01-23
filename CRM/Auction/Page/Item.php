@@ -78,7 +78,7 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit'),
-                                                                          'url'   => 'civicrm/auction/item/add',
+                                                                          'url'   => 'civicrm/auction/item',
                                                                           'qs'    => 'action=update&id=%%id%%&aid=%%aid%%&reset=1',
                                                                           'title' => ts('Edit Item') 
                                                                           ),
@@ -137,7 +137,17 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
                                                                       'reset=1' )) );
 
         // what action to take ?
-        if ($action & CRM_Core_Action::DISABLE ) {
+        if ($action & CRM_Core_Action::ADD ) {
+            require_once 'CRM/Auction/Controller/Item.php';
+            $controller =& new CRM_Auction_Controller_Item( 'Add Item', $action );
+            return $controller->run( );
+        } else if ($action & CRM_Core_Action::UPDATE ) {
+            require_once 'CRM/Auction/Controller/Item.php';
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Auction_Form_Item',
+                                                           'Update Item',
+                                                           $action );
+            return $controller->run( );
+        } else if ($action & CRM_Core_Action::DISABLE ) {
             require_once 'CRM/Auction/BAO/Auction.php';
             CRM_Auction_BAO_Auction::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {
@@ -175,6 +185,9 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
      */
     function browse()
     {
+        $this->assign('newItemURL', CRM_Utils_System::url( 'civicrm/auction/item', 
+                                                           'reset=1&action=add&aid=' . $this->_aid ));
+
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
@@ -242,7 +255,7 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
         }
         $this->assign('rows', $items);
     }
-    
+
     /**
      * This function is to make a copy of a Auction, including
      * all the fields in the event wizard

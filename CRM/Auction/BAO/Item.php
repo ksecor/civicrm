@@ -173,4 +173,29 @@ class CRM_Auction_BAO_Item extends CRM_Auction_DAO_Auction
         return $result;
     }
 
+    /**
+     * Function to check if email is enabled for a given profile 
+     * 
+     * @param int $id profile id
+     *
+     * @return boolean
+     * @access public
+     * @static
+     *
+     */
+    static function isEmailInProfile( $profileId ) 
+    {
+        $query="
+SELECT field_name
+FROM civicrm_uf_field
+WHERE field_name like 'email%' And is_active = 1 And uf_group_id = %1";
+
+        $params = array( 1 => array( $profileId, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        if ( ! $dao->fetch() ){
+            return true;
+        }
+        return false;
+    }
+
 }    
