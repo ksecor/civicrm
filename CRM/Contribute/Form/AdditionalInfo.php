@@ -246,10 +246,12 @@ class CRM_Contribute_Form_AdditionalInfo
         }
         
         foreach ( array( 'non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' ) as $f ) {
-            $formatted[$f] = CRM_Utils_Rule::cleanMoney( $params[$f] );
+            if ( CRM_Utils_Array::value( $f, $params ) ) {
+                $formatted[$f] = CRM_Utils_Rule::cleanMoney( $params[$f] );
+            }
         }
         
-        if ( ! CRM_Utils_System::isNull( $params['thankyou_date'] ) ) {
+        if ( CRM_Utils_Array::value('thankyou_date', $params ) && ! CRM_Utils_System::isNull( $params['thankyou_date'] ) ) {
             $formatted['thankyou_date']['H'] = '00';
             $formatted['thankyou_date']['i'] = '00';
             $formatted['thankyou_date']['s'] = '00';
@@ -278,7 +280,7 @@ class CRM_Contribute_Form_AdditionalInfo
                                                                                     $params ) );
         $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                       $customFields,
-                                                                      $params['id'],
+                                                                      CRM_Utils_Array::value( 'id',$params, null ),
                                                                       'Contribution' );
     }
     

@@ -98,7 +98,7 @@ function getTrustRoot() {
 
 function getUrlPort() {
     $scheme = getScheme();
-    if ($_SERVER['HTTP_SSLPROXY']) {
+    if ( array_key_exists('HTTP_SSLPROXY', $_SERVER ) ) {
         $server_port = 443;
     } else {
 	    $matches = array();

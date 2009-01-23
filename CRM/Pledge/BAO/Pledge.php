@@ -159,7 +159,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
        
         $paymentParams = array( );
         $paymentParams['status_id'] = $params['status_id'];
-        if ( $params['installment_amount'] ) {
+        if ( CRM_Utils_Array::value( 'installment_amount', $params ) ) {
             $params['amount'] = $params['installment_amount'] * $params['installments'];
         }
         
@@ -207,7 +207,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
             $paymentKeys = array( 'amount', 'installments', 'scheduled_date', 'frequency_unit',
                                   'frequency_day', 'frequency_interval', 'contribution_id', 'installment_amount' );
             foreach ( $paymentKeys as $key ) {
-                $paymentParams[$key] = $params[$key];               
+                $paymentParams[$key] = CRM_Utils_Array::value( $key, $params, null );               
             }
             CRM_Pledge_BAO_Payment::create( $paymentParams );
         }

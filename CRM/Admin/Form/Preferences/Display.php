@@ -91,7 +91,6 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
 
         $this->_params = $this->controller->exportValues( $this->_name );
         $this->_config->editor_id = $this->_params['wysiwyg_editor'];
-        $this->_config->location_count = $this->_params['location_count'];
 
         parent::postProcess( );
     }//end of function

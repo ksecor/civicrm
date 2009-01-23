@@ -77,7 +77,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
     public function postProcess() {
         $formValues   = $this->controller->exportValues($this->_name);
 
-        if ( $formValues['sendTestEmail'] ) {
+        if ( CRM_Utils_Array::value( 'sendTestEmail', $formValues ) ) {
             if ( $formValues['outBound_option'] == 2 ) {
                 CRM_Core_Session::setStatus( ts('You have selected "Disable Outbound Email". A test email can not be sent.') );
             } else {
