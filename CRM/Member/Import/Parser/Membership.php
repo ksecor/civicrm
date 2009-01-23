@@ -301,6 +301,9 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                         CRM_Import_Parser_Contact::addToErrorMsg('End Date', $errorMessage);
                     } 
                     break;
+                case  'is_override':
+                    $params[$key] = CRM_Utils_String::strtobool( $val );
+                    break;
                 }
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
                     if ( $customFields[$customFieldID][2] == 'Date' ) {
@@ -346,7 +349,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         } else {
             //fix for CRM-2219 Update Membership
             // onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE
-            if ( $formatted['is_override'] && ! $formatted['status_id']) {
+            if ( CRM_Utils_Array::value('is_override', $formatted ) && 
+                 !CRM_Utils_Array::value( 'status_id', $formatted ) ) {
                 array_unshift($values, "Required parameter missing: Status");
                 return CRM_Member_Import_Parser::ERROR;
             }
@@ -455,7 +459,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     //fix for CRM-3570, exclude the statuses those having is_admin = 1
                     //now user can import is_admin if is override is true.
                     $excludeIsAdmin = false;
-                    if ( !$formatted['is_override'] || !isset($formatted['is_override']) ) {
+                    if ( !CRM_Utils_Array::value('is_override', $formatted ) ) {
                         $formatted['exclude_is_admin'] = $excludeIsAdmin = true;
                     }
                     $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate,
@@ -466,7 +470,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     
                     if ( ! $formatted['status_id']) {                        
                         $formatted['status_id'] = $calcStatus['id'];
-                    } elseif ( !$formatted['is_override'] || !isset($formatted['is_override']) ) { 
+                    } elseif ( !CRM_Utils_Array::value('is_override', $formatted ) ) { 
                         if ( empty( $calcStatus ) ) {
                             array_unshift($values,"Status in import row (" . $formatValues['status_id'].") does not match calculated status based on your configured Membership Status Rules. Record was not imported.");
                             return CRM_Member_Import_Parser::ERROR;
@@ -538,7 +542,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             //fix for CRM-3570, exclude the statuses those having is_admin = 1
             //now user can import is_admin if is override is true.
             $excludeIsAdmin = false;
-            if ( !$formatted['is_override'] || !isset($formatted['is_override']) ) {
+            if ( !CRM_Utils_Array::value('is_override', $formatted ) ) {
                 $formatted['exclude_is_admin'] = $excludeIsAdmin = true;
             }
             require_once 'CRM/Member/BAO/MembershipStatus.php';
@@ -549,7 +553,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                                                                                       $excludeIsAdmin );
             if ( ! $formatted['status_id']) {
                 $formatted['status_id'] = $calcStatus['id'];
-            } else if ( !$formatted['is_override'] || !isset($formatted['is_override']) ) {
+            } else if ( !CRM_Utils_Array::value('is_override', $formatted ) ) {
                 if ( empty( $calcStatus ) ) {
                     array_unshift($values,"Status in import row (" . $formatValues['status_id'].") does not match calculated status based on your configured Membership Status Rules. Record was not imported.");
                     return CRM_Member_Import_Parser::ERROR;

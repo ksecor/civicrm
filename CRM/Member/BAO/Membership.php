@@ -186,10 +186,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
     { 
-        
-        // no need to calculate status again 
+        // no need to calculate status again
         // as we done in membership update cron, CRM-3984
-        if ( !isset( $params['is_override'] ) && !CRM_Utils_Array::value( 'skipStatusCal', $params )  ) {
+        if ( !CRM_Utils_Array::value( 'is_override', $params ) && 
+             !CRM_Utils_Array::value( 'skipStatusCal', $params ) ) {
             require_once 'CRM/Utils/Date.php';
             $startDate = $endDate = $joinDate = null;
             if ( isset( $params['start_date'] ) ) {
