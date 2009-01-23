@@ -69,7 +69,15 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         if ( ! $this->_pageId ) {
             $this->_pageId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'contribution_page_id' );
         }
-
+        $config =& CRM_Core_Config::singleton( );
+        //redirect back to online Contribution page, we allow only logged in
+        //user to configure the PCP account and Page in standalone installation.
+        if ( $config->userFramework == 'Standalone' && !$this->_contactID ) {
+            CRM_Core_Error::statusBounce( ts("You must login with your OpenID provider before you can create a Personal Campaign Page."),
+                                          CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                 "reset=1&id={$this->_pageId}",
+                                                                 false, null, false, true ) );
+        }
         $this->_single = $this->get( 'single' );
         
         if ( !$this->_single ) {
