@@ -230,7 +230,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
                 }
             }
         }
-        $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $this->_fields, $this->_contactID, $addToGroups );
+        $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $this->_fields, $this->_contactID );
         $this->set('contactID', $contactID);
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
         CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params, $contactID, 'email' );

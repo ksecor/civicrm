@@ -252,7 +252,7 @@ WHERE  v.option_group_id = g.id
                 $value->option_group_id = $group->id;
                 $value->label           = $v['label'];
                 $value->value           = $v['value'];
-                $value->name            = $v['name'];
+                $value->name            = CRM_Utils_Array::value( 'name', $v );
                 $value->description     = CRM_Utils_Array::value( 'description', $v );
                 $value->weight          = $v['weight'];
                 $value->is_default      = $v['is_default'];
@@ -264,7 +264,7 @@ WHERE  v.option_group_id = g.id
                 }
             }
         } else {
-            $defaultID = 'null';   
+            return $defaultID = 'null';   
         }
         
         return $group->id;

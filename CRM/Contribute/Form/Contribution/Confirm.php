@@ -673,8 +673,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'amount_level'          => CRM_Utils_Array::value( 'amount_level', $params ),
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
-                               'source'                =>
-                               ( ! $online || $params['source'] ) ? $params['source'] : $params['description'],
+                               'source'                => ( ! $online || CRM_Utils_Array::value( 'source', $params ) ) ? 
+                               CRM_Utils_Array::value( 'source', $params ) : CRM_Utils_Array::value( 'description', $params ),
                                'is_pay_later'          => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                );
         if ( ! $online && isset($params['thankyou_date'] ) ) {
@@ -836,7 +836,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                         'civicrm_contribution',
                                                         $contribution->id,
                                                         'Contribution' );
-            CRM_Core_Session::setStatus( $status );
         } else {
             //handle custom data.
             $params['contribution_id'] = $contribution->id;

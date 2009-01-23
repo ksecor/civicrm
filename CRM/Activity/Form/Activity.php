@@ -701,7 +701,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         //set activity type id
-        if ( ! $params['activity_type_id'] ) {
+        if ( ! CRM_Utils_Array::value( 'activity_type_id', $params ) ) {
             $params['activity_type_id']   = $this->_activityTypeId;
         }
         

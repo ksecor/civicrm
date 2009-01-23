@@ -65,7 +65,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCPBlock', $params, $defaults );
         }
 
-        if ( !$defaults['id'] ) { 
+        if ( ! CRM_Utils_Array::value( 'id', $defaults ) ) { 
             $defaults['is_approval_needed']    = 1;
             $defaults['is_tellfriend_enabled'] = 1;
             $defaults['tellfriend_limit']      = 5;

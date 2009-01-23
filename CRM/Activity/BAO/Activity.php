@@ -676,7 +676,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                         $text,
                         $matches,
                         PREG_PATTERN_ORDER);
-        
+        $messageToken = $subjectToken = null;
         if ( $matches[1] ) {
             foreach ( $matches[1] as $token ) {
                 list($type,$name) = split( '\.', $token, 2 );
