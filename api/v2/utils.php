@@ -1269,6 +1269,7 @@ function civicrm_check_contact_dedupe( &$params ) {
     static $cIndieFields = null;
     static $defaultLocationId = null;
     
+    $contactType = $params['contact_type'] ;
     if ( $cIndieFields == null ) {
         require_once 'CRM/Contact/BAO/Contact.php';
         $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $contactType );
@@ -1282,7 +1283,6 @@ function civicrm_check_contact_dedupe( &$params ) {
     require_once 'CRM/Contact/BAO/Query.php';
     $locationFields = CRM_Contact_BAO_Query::$_locationSpecificFields;
     
-    $contactType = $params['contact_type'] ;
     foreach ( $params as $key => $field ) {
         if ($field == null || $field === '') {
             continue;

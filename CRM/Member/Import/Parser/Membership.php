@@ -395,47 +395,10 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         $joinDate   = CRM_Utils_Date::customFormat($formatted['join_date'],'%Y-%m-%d');          
         
         if ( $this->_contactIdIndex < 0 ) {
-            static $cIndieFields = null;
-            if ($cIndieFields == null) {
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType);
-                $cIndieFields = $cTempIndieFields;
-            }
             
-            foreach ($params as $key => $field) {
-                if ($field == null || $field === '') {
-                    continue;
-                }
-                if (is_array($field)) {
-                    foreach ($field as $value) {
-                        $break = false;
-                        if ( is_array($value) ) { 
-                            foreach ($value as $name => $testForEmpty) {
-                                if ($name !== 'phone_type' &&
-                                    ($testForEmpty === '' || $testForEmpty == null)) {
-                                    $break = true;
-                                    break;
-                                }
-                            }
-                        } else {  
-                            $break = true;
-                        }
-                        if (! $break) {    
-                            _civicrm_add_formatted_param($value, $contactFormatted);
-                        }
-                    }
-                    continue;
-                }
-                
-                $value = array($key => $field);
-                if (array_key_exists($key, $cIndieFields)) {
-                    $value['contact_type'] = $this->_contactType;
-                } 
-                _civicrm_add_formatted_param($value, $contactFormatted);
-            }
-            
-            $contactFormatted['contact_type'] = $this->_contactType;
-            $error = _civicrm_duplicate_formatted_contact($contactFormatted);
+            //retrieve contact id using contact dedupe rule
+            $formatValues['contact_type'] = $this->_contactType;
+            $error = civicrm_check_contact_dedupe( $formatValues );
             
             if ( civicrm_duplicate( $error ) ) { 
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);
