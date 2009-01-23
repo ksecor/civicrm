@@ -841,7 +841,8 @@ abstract class CRM_Import_Parser {
                              ${statusFieldName}Msg = ?
                       WHERE  $primaryKeyName       = ?";
             $args = array( $params[$statusFieldName], 
-                           $params["${statusFieldName}Msg"], $id );
+                           CRM_Utils_Array::value( "${statusFieldName}Msg", $params ), 
+                           $id );
         
             //print "Running query: $query<br/>With arguments: ".$params[$statusFieldName].", ".$params["${statusFieldName}Msg"].", $id<br/>";
         

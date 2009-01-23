@@ -279,7 +279,9 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         }
         
         foreach ( array( 'name', 'group_id', 'search_id', 'search_args' ) as $n ) {
-            $params[$n] = $values[$n];
+            if ( CRM_Utils_Array::value( $n, $values ) ) {
+                $params[$n] = $values[$n];
+            }
         }
         
         $qf_Group_submit = $this->controller->exportValue($this->_name, '_qf_Group_submit');

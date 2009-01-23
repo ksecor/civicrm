@@ -130,11 +130,11 @@ class CRM_Friend_Form extends CRM_Core_Form
         $defaults['entity_table'] = $this->_entityTable;   
          
         CRM_Friend_BAO_Friend::getValues($defaults);
-        CRM_Utils_System::setTitle($defaults['title']);
+        CRM_Utils_System::setTitle(CRM_Utils_Array::value( 'title', $defaults ) );
 
-        $this->assign( 'title',   $defaults['title'] );
-        $this->assign( 'intro',   $defaults['intro'] );
-        $this->assign( 'message', $defaults['suggested_message'] );
+        $this->assign( 'title',   CRM_Utils_Array::value( 'title', $defaults ) );
+        $this->assign( 'intro',   CRM_Utils_Array::value( 'intro', $defaults ) );
+        $this->assign( 'message', CRM_Utils_Array::value( 'suggested_message', $defaults ) );
         
         require_once "CRM/Contact/BAO/Contact.php";
         list( $fromName, $fromEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $this->_contactID );
