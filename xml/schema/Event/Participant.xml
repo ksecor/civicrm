@@ -13,6 +13,7 @@
       <required>true</required> 
       <comment>Participant Id</comment> 
       <import>true</import>
+      <headerPattern>/(^(participant(.)?)?id$)/i</headerPattern>
       <add>1.7</add> 
   </field> 
   <primaryKey> 
