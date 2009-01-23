@@ -152,6 +152,7 @@ require_once 'CRM/Core/Lock.php';
 $lock = new CRM_Core_Lock('CiviMailProcessor');
 
 if ($lock->isAcquired()) {
+    // if there are named sets of settings, use them - otherwise use the default (null)
     $names = is_array($_REQUEST['names']) ? $_REQUEST['names'] : array(null);
     foreach ($names as $name) {
         CiviMailProcessor::process($name);

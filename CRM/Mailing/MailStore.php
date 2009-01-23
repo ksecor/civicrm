@@ -58,11 +58,11 @@ class CRM_Mailing_MailStore
 
         case 'IMAP':
             require_once 'CRM/Mailing/MailStore/Imap.php';
-            return new CRM_Mailing_MailStore_Imap($dao->server, $dao->username, $dao->password, $dao->is_ssl, $dao->source);
+            return new CRM_Mailing_MailStore_Imap($dao->server, $dao->username, $dao->password, (bool) $dao->is_ssl, $dao->source);
 
         case 'POP3':
             require_once 'CRM/Mailing/MailStore/Pop3.php';
-            return new CRM_Mailing_MailStore_Pop3($dao->server, $dao->username, $dao->password, $dao->is_ssl);
+            return new CRM_Mailing_MailStore_Pop3($dao->server, $dao->username, $dao->password, (bool) $dao->is_ssl);
 
         case 'Maildir':
             require_once 'CRM/Mailing/MailStore/Maildir.php';
