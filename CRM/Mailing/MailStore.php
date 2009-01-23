@@ -86,7 +86,23 @@ class CRM_Mailing_MailStore
      */
     function allMails()
     {
-        $set = $this->_transport->fetchAll();
+        return $this->fetchNext(0);
+    }
+
+    /**
+     * Return the next X messages from the mail store
+     *
+     * @param int $count  number of messages to fetch (0 to fetch all)
+     * @return array      array of ezcMail objects
+     */
+    function fetchNext($count = 1)
+    {
+        if (!isset($this->_offset)) $this->_offset = 1;
+        try {
+            $set = $this->_transport->fetchFromOffset($this->_offset, $count);
+        } catch (ezcMailOffsetOutOfRangeException $e) {
+            return array();
+        }
         $mails = array();
         $parser = new ezcMailParser;
         foreach ($set->getMessageNumbers() as $nr) {
@@ -94,6 +110,7 @@ class CRM_Mailing_MailStore
             $single = $parser->parseMail($this->_transport->fetchByMessageNr($nr));
             $mails[$nr] = $single[0];
         }
+        $this->_offset += $count;
         return $mails;
     }
 

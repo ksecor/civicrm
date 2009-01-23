@@ -54,11 +54,13 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
     }
 
     /**
-     * Return all emails in the mail store
+     * Return the next X messages from the mail store
+     * FIXME: in CiviCRM 2.2 this always returns all the emails
      *
-     * @return array  array of ezcMail objects
+     * @param int $count  number of messages to fetch FIXME: ignored in CiviCRM 2.2 (assumed to be 0, i.e., fetch all)
+     * @return array      array of ezcMail objects
      */
-    function allMails()
+    function fetchNext($count = 0)
     {
         $mails = array();
         $parser = new ezcMailParser;
