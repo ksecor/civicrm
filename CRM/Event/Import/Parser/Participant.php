@@ -314,14 +314,17 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         }
         
         $formatError = _civicrm_participant_formatted_param( $formatValues, $formatted, true );
-        if ( !CRM_Utils_Rule::integer($formatted['event_id']) ) {
-            array_unshift($values, ts('Invalid value for Event ID') );
-            return CRM_Event_Import_Parser::ERROR;
-        }
+        
         if ( $formatError ) {
             array_unshift($values, $formatError['error_message']);
             return CRM_Event_Import_Parser::ERROR;
         }
+        
+        if ( !CRM_Utils_Rule::integer($formatted['event_id']) ) {
+            array_unshift($values, ts('Invalid value for Event ID') );
+            return CRM_Event_Import_Parser::ERROR;
+        }
+        
         if ( $onDuplicate != CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
             $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                           CRM_Core_DAO::$_nullObject,
