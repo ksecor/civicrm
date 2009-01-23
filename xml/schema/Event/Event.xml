@@ -22,7 +22,7 @@
       <type>varchar</type>     
       <import>true</import>
       <title>Event Title</title>
-      <headerPattern>/^title$/i</headerPattern>
+      <headerPattern>/(event.)?title$/i</headerPattern>
       <length>255</length>  
       <localizable>true</localizable>
       <comment>Event Title (e.g. Fall Fundraiser Dinner)</comment>

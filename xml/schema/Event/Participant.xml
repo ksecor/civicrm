@@ -41,6 +41,7 @@
       <type>int unsigned</type> 
       <title>Event</title>
       <import>true</import>
+      <headerPattern>/event id$/i</headerPattern>
       <default>0</default>
       <comment>FK to Event ID</comment> 
       <add>1.7</add> 
@@ -55,7 +56,7 @@
       <name>status_id</name> 
       <uniqueName>participant_status_id</uniqueName>
       <title>Participant Status</title>
-      <headerPattern>/^status$/i</headerPattern>
+      <headerPattern>/(participant.)?(status)$/i</headerPattern>
       <import>true</import>
       <type>int unsigned</type> 
       <default>1</default>
@@ -71,7 +72,7 @@
       <name>role_id</name> 
       <uniqueName>participant_role_id</uniqueName>
       <title>Participant Role</title>
-      <headerPattern>/^role$/i</headerPattern>
+      <headerPattern>/(participant.)?(role)$/i</headerPattern>
       <import>true</import>
       <type>int unsigned</type> 
       <default>NULL</default>
@@ -97,7 +98,7 @@
       <name>source</name>
       <uniqueName>participant_source</uniqueName>
       <title>Participant Source</title>  
-      <headerPattern>/^source$/i</headerPattern>
+      <headerPattern>/(participant.)?(source)$/i</headerPattern>
       <import>true</import>
       <type>varchar</type>     
       <length>128</length>  
@@ -131,6 +132,7 @@
       <type>boolean</type>
       <default>0</default>
       <import>true</import>
+      <headerPattern>/(is.)?(pay(.)?later)$/i</headerPattern>
       <add>2.1</add> 
   </field>
   <field>    

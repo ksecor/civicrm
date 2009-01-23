@@ -344,8 +344,9 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             require_once 'CRM/Core/DAO/Note.php';
             $tmpFields     = CRM_Event_DAO_Participant::import( );
 
-            $note          = array( 'participant_note' => array( 'title' => 'Participant Note',
-                                                                 'name'  => 'participant_note'));
+            $note          = array( 'participant_note' => array( 'title'         => 'Participant Note',
+                                                                 'name'          => 'participant_note',
+                                                                 'headerPattern' => '/(participant.)?note$/i'));
 
             $tmpConatctField = array( );
             if ( !$onlyParticipant ) {
