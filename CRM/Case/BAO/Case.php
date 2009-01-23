@@ -131,24 +131,9 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $transaction->rollback( );
             return $case;
         }
-        $session = & CRM_Core_Session::singleton();
-        $id = $session->get('userID');
-        if ( !$id ) {
-            $id = $params['contact_id'];
-        } 
-
-        // Log the information on successful add/edit of Case
-        require_once 'CRM/Core/BAO/Log.php';
-        $logParams = array(
-                           'entity_table'  => 'civicrm_case',
-                           'entity_id'     => $case->id,
-                           'modified_id'   => $id,
-                           'modified_date' => date('YmdHis')
-                           );
-        
-        CRM_Core_BAO_Log::add( $logParams );
         $transaction->commit( );
-        
+        //we are not creating log for case
+        //since case log can be tracked using log for activity.
         return $case;
     }
 
