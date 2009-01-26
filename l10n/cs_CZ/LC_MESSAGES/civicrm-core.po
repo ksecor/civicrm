@@ -6,13 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-12-16 10:46+0100\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2009-01-19 18:02-0800\n"
+"Last-Translator: HoKe <hoke@cmail.cz>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_data.tpl
@@ -27,7 +28,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Group"
-msgstr ""
+msgstr "Skupina"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
@@ -38,7 +39,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/ActivityView.tpl
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
-msgstr ""
+msgstr "Pohled"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
@@ -55,7 +56,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php CRM/Core/DAO/Discount.php
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
@@ -70,11 +71,11 @@ msgstr ""
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
-msgstr ""
+msgstr "Vytvořit"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: CRM/ACL/Page/EntityRole.php CRM/Activity/Form/Activity.php
@@ -98,7 +99,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Delete"
-msgstr ""
+msgstr "Smazat"
 
 #: CRM/ACL/DAO/ACL.php CRM/Core/DAO/CustomGroup.php
 msgid "Grant"
@@ -106,20 +107,20 @@ msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Upravit datum"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid "Role"
-msgstr ""
+msgstr "Role"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 msgid "- select role -"
-msgstr ""
+msgstr "- vybrat roly -"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "Everyone"
-msgstr ""
+msgstr "kdokoli"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MessageTemplates.php
@@ -135,7 +136,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Enabled?"
-msgstr ""
+msgstr "Povoleno?"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 msgid "Selected ACL has been deleted."
@@ -170,7 +171,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php CRM/ACL/Page/ACL.php
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/ActivityLinks.php
@@ -188,32 +189,32 @@ msgstr ""
 #: CRM/Custom/Form/MoveField.php CRM/Import/Form/UploadFile.php
 #: CRM/UF/Form/AdvanceSetting.php CRM/UF/Form/Preview.php
 msgid "- select -"
-msgstr ""
+msgstr "- vybrat -"
 
 #: CRM/ACL/Form/ACL.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: xml/templates/civicrm_data.tpl
 msgid "Events"
-msgstr ""
+msgstr "Události"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Groups"
-msgstr ""
+msgstr "Všechny skupiny"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Custom Groups"
-msgstr ""
+msgstr "Všechny uživatelské skupiny"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Profiles"
-msgstr ""
+msgstr "Všechny profily"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr ""
+msgstr "Všechny události"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 #: CRM/Activity/Selector/Activity.php
@@ -222,33 +223,33 @@ msgstr ""
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/Price/Page/Set.tpl
 msgid "Event"
-msgstr ""
+msgstr "Událost"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Přiděleno"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Contact/Form/GroupContact.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "- select group -"
-msgstr ""
+msgstr "- vybrat skupinu -"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
-msgstr ""
+msgstr "Opravdu chcete zablokovat tato rozšířená práva ACL?"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 msgid "Edit ACL"
-msgstr ""
+msgstr "Upravit ACL"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 msgid "Delete ACL"
-msgstr ""
+msgstr "Smazat ACL"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -261,7 +262,7 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Disable"
-msgstr ""
+msgstr "Zakázat"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -273,26 +274,26 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
-msgstr ""
+msgstr "Povolit"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr ""
+msgstr "Vlastní skupina"
 
 #: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
-msgstr ""
+msgstr "- neimportovat -"
 
 #: CRM/Activity/BAO/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/Page/AJAX/Mapper.php
 msgid "Membership"
-msgstr ""
+msgstr "Členství"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php CRM/Contact/BAO/Query.php
 msgid "or"
-msgstr ""
+msgstr "nebo"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
@@ -301,12 +302,13 @@ msgstr ""
 #: templates/CRM/Case/Form/CaseActivity.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
 msgid "Activity Type"
-msgstr ""
+msgstr "Druh činnosti"
 
 #: CRM/Activity/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 msgid "Activity Medium"
 msgstr ""
 
+# Druh přestupku
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Violation Type"
@@ -325,15 +327,15 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Subject"
-msgstr ""
+msgstr "Předmět"
 
 #: CRM/Activity/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 msgid "Content"
-msgstr ""
+msgstr "Obsah"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 msgid "Start Date - From"
-msgstr ""
+msgstr "Počáteční datum - od"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -343,7 +345,7 @@ msgstr ""
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Core/BAO/UFGroup.php
 msgid "Select a valid date."
-msgstr ""
+msgstr "Vybrat platné datum"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php
@@ -352,23 +354,23 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
-msgstr ""
+msgstr "Do"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 msgid "Duration"
-msgstr ""
+msgstr "Trvání"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Location"
-msgstr ""
+msgstr "Lokalita"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Case/DAO/Case.php CRM/Contact/Form/Task/EmailCommon.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
@@ -399,7 +401,7 @@ msgstr ""
 #: CRM/Profile/Form/ForwardMailing.php CRM/Standalone/Form/Register.php
 #: CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
@@ -409,19 +411,19 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 #: CRM/Activity/Form/Activity.php CRM/Core/BAO/CustomField.php
 #: CRM/Friend/Form.php templates/CRM/Case/Form/CaseActivity.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr ""
+msgstr "Od"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
+msgstr "Vložil"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
 msgid "Case Activity Type"
@@ -429,7 +431,7 @@ msgstr ""
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
 msgid "-select-"
-msgstr ""
+msgstr "-vybrat-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -442,7 +444,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 msgid "Done"
-msgstr ""
+msgstr "Hotovo"
 
 #: CRM/Activity/Form/Activity.php CRM/Admin/Form/DedupeRules.php
 #: CRM/Admin/Form.php CRM/Admin/Form/Preferences.php
@@ -458,12 +460,12 @@ msgstr ""
 #: CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl
 #: templates/CRM/Core/I18n/Form.tpl
 msgid "Save"
-msgstr ""
+msgstr "Uložit"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr ""
+msgstr "Uložit mapování pole"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Admin/Form/LocationType.php
 #: CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php
@@ -503,22 +505,22 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Name"
-msgstr ""
+msgstr "Jméno"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
-msgstr ""
+msgstr "Aktualizovat mapování pole"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
-msgstr ""
+msgstr "Uložit mapování nového pole"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
-msgstr ""
+msgstr "Mapování pro pole %1"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid ""
@@ -531,7 +533,7 @@ msgstr ""
 #: CRM/Export/Form/Map.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php
 msgid "<< Previous"
-msgstr ""
+msgstr "<< Předchozí"
 
 #: CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/UploadFile.php
@@ -539,107 +541,108 @@ msgstr ""
 #: CRM/Import/Form/MapField.php CRM/Import/Form/Mapper.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
-msgstr ""
+msgstr "Následující >>"
 
+# události
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
-msgstr ""
+msgstr "Datum činnosti"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr ""
+msgstr "Jméno/název je nezbytný k uložení importního mapování"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
-msgstr ""
+msgstr "Duplikovat název importního mapování"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
-msgstr ""
+msgstr "Porovnat pole"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
-msgstr ""
+msgstr "Importovat nyní >>"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Custom/Page/Group.php
 #: CRM/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
 #: CRM/UF/Page/Group.php
 msgid "Preview"
-msgstr ""
+msgstr "Náhled"
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been updated with the imported data."
-msgstr ""
+msgstr "Záznamy byly aktualizovány importovanými daty."
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been filled in with the imported data."
-msgstr ""
+msgstr "Záznamy byly naplněny importovanými daty."
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have not been imported."
-msgstr ""
+msgstr "Tyto záznamy nebyly importovany."
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Summary"
-msgstr ""
+msgstr "Souhrn"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
-msgstr ""
+msgstr "Importovat datový soubor"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
-msgstr ""
+msgstr "Platný soubor musí být nahrán."
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
-msgstr ""
+msgstr "Velikost souboru nesmí přesáhnout %1 MB (%2 B)"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
-msgstr ""
+msgstr "Vstupní soubor musí být ve formátu CSV"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
-msgstr ""
+msgstr "První řádek obsahuje názvy sloupců"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
-msgstr ""
+msgstr "Přeskočit"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovat"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Fill"
-msgstr ""
+msgstr "Naplnit"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "Možnosti mapování"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr ""
+msgstr "Nahrát data"
 
 #: CRM/Activity/Import/Parser/Activity.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
-msgstr ""
+msgstr "Chybí nutná pole"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
-msgstr ""
+msgstr "Číslo řádky"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
-msgstr ""
+msgstr "Důvod"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/Page/View/Case.php
 msgid "Delete Activity"
-msgstr ""
+msgstr "Smazat činnost"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/Page/View/DashBoard.php
 msgid "CiviCase"
@@ -657,7 +660,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Sunlight.tpl xml/templates/civicrm_data.tpl
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: CRM/Activity/Selector/Activity.php
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Core/DAO/Menu.php
@@ -666,37 +669,37 @@ msgstr ""
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Type"
-msgstr ""
+msgstr "Druh"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/Form/Search/Criteria.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "With"
-msgstr ""
+msgstr "s"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/Selector.php
 #: CRM/Profile/Selector/Listings.php
 msgid "Actions"
-msgstr ""
+msgstr "Činnost"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Dedupe/DAO/RuleGroup.php
 msgid "Fuzzy"
-msgstr ""
+msgstr "Neurčitý"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Dedupe/DAO/RuleGroup.php
 msgid "Strict"
-msgstr ""
+msgstr "Přesný"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Dedupe/DAO/RuleGroup.php
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid "Level"
-msgstr ""
+msgstr "Úroveň"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/Options.php
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomField.php
@@ -710,7 +713,7 @@ msgstr ""
 #: templates/CRM/Price/Form/OptionFields.tpl
 #: templates/CRM/Price/Page/Option.tpl
 msgid "Weight"
-msgstr ""
+msgstr "Váha"
 
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
 #: CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/PaymentProcessor.php
@@ -719,7 +722,7 @@ msgstr ""
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Group/Form/Edit.php
 #: CRM/Import/Form/Preview.php CRM/Price/Form/Field.php CRM/Price/Form/Set.php
 msgid "Name already exists in Database."
-msgstr ""
+msgstr "Název v databazi již existuje."
 
 #: CRM/Admin/Form/Options.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/LineItem.php CRM/Core/DAO/OptionGroup.php
@@ -729,14 +732,14 @@ msgstr ""
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Label"
-msgstr ""
+msgstr "Označení"
 
 #: CRM/Admin/Form/Options.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid "is a numeric field"
-msgstr ""
+msgstr "je numerické pole"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
@@ -745,7 +748,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Title"
-msgstr ""
+msgstr "Nadpis"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/MappingField.php
 #: CRM/Custom/Form/Field.php CRM/Standalone/OpenID/DAO/Settings.php
@@ -753,7 +756,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
-msgstr ""
+msgstr "Hodnota"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
 msgid "Option Grouping Name"
@@ -761,15 +764,15 @@ msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 msgid "Settings - Payment Processor"
-msgstr ""
+msgstr "Nastavení - Proces placení"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Site URL"
-msgstr ""
+msgstr "URL stránky"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php
 msgid "Enter a valid URL"
-msgstr ""
+msgstr "Vložit platnou URL"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
@@ -777,54 +780,54 @@ msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
-msgstr ""
+msgstr "Tlačítko URL"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "API URL"
-msgstr ""
+msgstr "API URL"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Billing Mode"
-msgstr ""
+msgstr "Způsob účtování"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_data.tpl
 msgid "User Name"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_data.tpl
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_data.tpl
 msgid "Signature"
-msgstr ""
+msgstr "Podpis"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Contact/Form/Search/Advanced.php
 #: xml/templates/civicrm_data.tpl
 msgid "Address Fields"
-msgstr ""
+msgstr "Adresa"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Core/DAO/Preferences.php
 msgid "Individual Name Format"
-msgstr ""
+msgstr "Osobní formát jména"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Minute Increment"
-msgstr ""
+msgstr "Minutový přírustek"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Format"
-msgstr ""
+msgstr "Formát"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
-msgstr ""
+msgstr "Hodnota musí být kladné číslo"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -839,26 +842,26 @@ msgstr ""
 #: CRM/Admin/Form/Setting/Localization.php
 #: CRM/Contact/Form/Search/Custom/Group.php
 msgid "Add >>"
-msgstr ""
+msgstr "Přidat >>"
 
 #: CRM/Admin/Form/Setting/Localization.php
 #: CRM/Contact/Form/Search/Custom/Group.php
 msgid "<< Remove"
-msgstr ""
+msgstr "<< Odstranit "
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Group/Page/Group.php
 msgid "Edit Group"
-msgstr ""
+msgstr "Upravit skupinu"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Custom/Page/Option.php
 #: CRM/Price/Page/Option.php
 msgid "Edit Option"
-msgstr ""
+msgstr "Upravit možnost"
 
 #: CRM/Admin/Page/Options.php CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
-msgstr ""
+msgstr "Upravit %1"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl xml/templates/civicrm_data.tpl
@@ -884,7 +887,7 @@ msgstr ""
 #: templates/CRM/Case/Form/CaseActivity.tpl
 #: templates/CRM/Contact/Page/View/Case.tpl
 msgid "Start Date"
-msgstr ""
+msgstr "Začátek"
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php

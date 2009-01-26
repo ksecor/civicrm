@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-01-12 11:18-0800\n"
-"Last-Translator: Marius-C. Hammerich <hammerich@mc-it.net>\n"
+"PO-Revision-Date: 2009-01-19 22:57-0800\n"
+"Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1878,7 +1878,7 @@ msgstr "Die Gruppe \"%1\" wurde gelöscht."
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 msgid "Field Label"
-msgstr "Feldname"
+msgstr "Feld Label"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
 #: CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
@@ -1921,11 +1921,11 @@ msgstr "Ungültiger Eingabewert für \"Land\"."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Duplicate Option label"
-msgstr "Doppelte Auswahlkennzeichnung"
+msgstr "Duplikat Option Label"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option label cannot be empty"
-msgstr "Auswahlkennzeichnung kann nicht leer sein"
+msgstr "Option Label kann nicht leer sein"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option value cannot be empty"
@@ -2334,7 +2334,7 @@ msgstr "Bei doppelten Einträgen"
 
 #: CRM/Activity/Import/Parser/Activity.php
 msgid "Please select either Activity Type ID OR Activity Type Label."
-msgstr "Bitte entweder Aktivitäts Typ ID oder Aktivitäts Typ Label wählen."
+msgstr "Bitte entweder Aktivitäts Typ ID ODER Aktivitäts Typ Label wählen."
 
 #: CRM/Activity/Import/Parser.php
 msgid "View Activity History URL"
@@ -2459,8 +2459,8 @@ msgid ""
 "This Label already exists in the database for this option group. Please "
 "select a different Value."
 msgstr ""
-"Diese Bezeichnung existiert bereits für diese Optionsgruppe in der "
-"Datenbank. Bitte wählen Sie einen anderen Wert."
+"Dieser Label existiert bereits für diese Optionsgruppe in der Datenbank. "
+"Bitte wählen Sie einen anderen Wert."
 
 #: CRM/Admin/Form/Options.php templates/CRM/Admin/Page/Options.tpl
 msgid "Counted?"
@@ -2524,19 +2524,19 @@ msgstr "Geben Sie eine positive Ganzzahl ein"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "User Name Label"
-msgstr "Benutzername - Bezeichnung"
+msgstr "Benutzer Name Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Password Label"
-msgstr "Passwort - Bezeichnung"
+msgstr "Passwort Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Signature Label"
-msgstr "Signatur - Bezeichnung"
+msgstr "Signatur Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Subject Label"
-msgstr "Betreff - Bezeichnung"
+msgstr "Betreff  Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "PHP class name"
@@ -2600,7 +2600,7 @@ msgstr "Orte-Anzahl muss eine positive Ganzzahl sein (zB 1, 2, 3, ....)"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
-msgstr "Adresslabel-Format"
+msgstr "Email Label Format"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Display Format"
@@ -2663,11 +2663,11 @@ msgstr "WYSIWYG Editor"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-A to B"
-msgstr "Beziehungsbezeichnung: A zu B"
+msgstr "Beziehungs Label  A zu B"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-B to A"
-msgstr "Beziehungsbezeichnung: B zu A"
+msgstr "Beziehungs Label B zu A"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Selected Relationship type has been deleted."
@@ -2833,7 +2833,7 @@ msgstr "VERP Trennzeichen"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
-msgstr "Mengenbegrenzung für Versand"
+msgstr "Mengenbegrenzung für Massen Email Versand"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Limit"
@@ -4461,7 +4461,7 @@ msgstr "Kontakte mit Tags versehen"
 
 #: CRM/Contact/Form/Task/Batch.php
 msgid "Batch Update"
-msgstr "Gruppe aktualisieren"
+msgstr "Batch aktualisieren"
 
 #: CRM/Contact/Form/Task/Batch.php
 msgid "Update Contact(s)"
@@ -4812,7 +4812,7 @@ msgstr "Email Versand Label"
 
 #: CRM/Contact/Task.php templates/CRM/Contact/Form/Task/PickProfile.tpl
 msgid "Batch Update via Profile"
-msgstr "Batch aktualisierung via Profile"
+msgstr "Batch Aktualisierung via Profile"
 
 #: CRM/Contact/Task.php
 msgid "Record Case for Contacts"
@@ -5648,19 +5648,19 @@ msgstr "Zahluns Prozessors Titel"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for User Name if used"
-msgstr "User Label, falls verwendet"
+msgstr "User Name Label, falls verwendet"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for password"
-msgstr "Label für Passwort"
+msgstr "Passwort Label"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for Signature"
-msgstr "Label für Unterschrift"
+msgstr "Unterschrift Label"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for Subject"
-msgstr "Label für Betreff"
+msgstr "Betreff Label"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Default Live Site URL"
@@ -7286,7 +7286,7 @@ msgstr "Doppelte Options Wert"
 
 #: CRM/Price/Form/Option.php
 msgid "Duplicate option label"
-msgstr "Doppelter Options Label"
+msgstr "Duplikat Option Label"
 
 #: CRM/Price/Form/Option.php
 msgid "%1 option has been deleted."
@@ -10213,9 +10213,9 @@ msgid ""
 "(s). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
-"Standortsarten bieten eine gute möglichkeit die verschiedenen Standorte "
-"eines Kontakts zu bezeichnen. CiviCRM beinhaltet schon einige häufig "
-"benutzte Arten (Zuhause und Arbeit). Administratoren können eigene Standorte "
+"Standort Arten bieten gute Labels um die verschiedenen Standorte eines "
+"Kontakts zu bezeichnen. CiviCRM beinhaltet schon einige häufig benutzte "
+"Arten (Zuhause und Arbeit). Administratoren können eigene Standorte "
 "hinzufügen (z.B. Schule, Hauptbüro)."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -11548,9 +11548,8 @@ msgstr[0] "Email wurde zu Kontakten gesendet: %1"
 msgstr[1] "Email wurde zu Kontakten gesendet: %1"
 
 #: templates/CRM/Contact/Form/Task/Label.tpl
-#, fuzzy
 msgid "Label Contact(s)"
-msgstr "Kontakte markieren"
+msgstr "Kontakte bezeichnen"
 
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "There are no records selected for Print."
@@ -12464,12 +12463,12 @@ msgid ""
 "when the field is presented."
 msgstr ""
 "Geben Sie bis zu zehn (10) Multiple Choise Optionen in diese Tabelle ein "
-"(klicken Sie auf 'eine weitere Option' für jede neue Auswahlmöglichkeit)."
-"Wenn Sie wünschen, können Sie eine der Optionen als Standardantwort "
-"auswählen. Die Option 'Label' wir im Formular dargestellt, wohingegen die "
-"Option 'Wert' im Kontaktdatensatz gespeichert wird. Das Label und der Wert "
-"können das Selbe, aber auch unterschiedlich sein. Inaktive Optionen werden "
-"bei der Darstellung nicht angezeigt."
+"(klicken Sie auf 'eine weitere Option' für jede neue "
+"Auswahlmöglichkeit).Wenn Sie wünschen, können Sie eine der Optionen als "
+"Standardantwort auswählen. Die Option 'Label' wir im Formular dargestellt, "
+"wohingegen die Option 'Wert' im Kontaktdatensatz gespeichert wird. Das Label "
+"und der Wert können gleich oder unterschiedlich sein. Inaktive Optionen "
+"werden bei der Darstellung nicht angezeigt."
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
@@ -13260,7 +13259,7 @@ msgstr ""
 "Auswahl 'Label' wir im Formular dargestellt, der Auswahl Wert wird im "
 "Kontakt Datensatz gespeichert. Label und  Wert können gleich oder "
 "unterschiedlich sein. Inaktive Auswahlen werden versteckt, wenn das Feld "
-"angezigt wird."
+"angezeigt wird."
 
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Amount"
@@ -13638,8 +13637,8 @@ msgid ""
 "The field label displayed on the form (over-ride the default field label "
 "here, if desired)."
 msgstr ""
-"Der im Formular angezeigte Feld Name (übersteuere dadurch den standard Feld "
-"Namen, falls erwünscht)"
+"Der im Formular angezeigte Feld Label (übersteuere dadurch den standard Feld "
+"Label falls erwünscht)"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Are users required to complete this field?"
