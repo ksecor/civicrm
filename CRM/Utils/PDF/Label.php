@@ -59,8 +59,8 @@ class CRM_Utils_PDF_Label extends UFPDF {
     protected  $averyLabels =
         array (
                '5160' => array('name' => '5160', 'paper-size' => 'letter', 'metric' => 'mm',
-                               'lMargin' => 1.762, 'tMargin' => 10.7, 'NX' => 3, 'NY' => 10,
-                               'SpaceX' => 3.175, 'SpaceY' => 0, 'width' => 66.675, 'height' => 25.4,
+                               'lMargin' => 4.7625, 'tMargin' => 12.7, 'NX' => 3, 'NY' => 10,
+                               'SpaceX' => 3.96875, 'SpaceY' => 0, 'width' => 65.875, 'height' => 25.4,
                                'font-size' => 8),
                '5161' => array('name' => '5161', 'paper-size' => 'letter', 'metric' => 'mm',  
                                'lMargin' => 0.967, 'tMargin' => 10.7, 'NX' => 2, 'NY' => 10, 
