@@ -40,6 +40,9 @@ class CRM_Mailing_MailStore
     // flag to decide whether to print debug messages
     var $_debug = true;
 
+    // the number of fetched messages
+    var $_fetched = 0;
+
     /**
      * Return the proper mail store implementation, based on config settings
      *
@@ -92,18 +95,16 @@ class CRM_Mailing_MailStore
     /**
      * Return the next X messages from the mail store
      *
-     * @param int $count            number of messages to fetch (0 to fetch all)
-     * @param bool $uidReferencing  whether we're called with IMAP's UID referencing
-     * @return array                array of ezcMail objects
+     * @param int $count  number of messages to fetch (0 to fetch all)
+     * @return array      array of ezcMail objects
      */
-    function fetchNext($count = 1, $uidReferencing = false)
+    function fetchNext($count = 1)
     {
-        static $fetched = 0;
-        if ($uidReferencing) {
+        if ($this->_transport->options->uidReferencing) {
             $uids = $this->_transport->listUniqueIdentifiers();
-            $offset = $uids[$fetched+1];
+            $offset = $uids[$this->_fetched+1];
         } else {
-            $offset = $fetched + 1;
+            $offset = $this->_fetched + 1;
         }
         try {
             $set = $this->_transport->fetchFromOffset($offset, $count);
@@ -117,7 +118,7 @@ class CRM_Mailing_MailStore
             $single = $parser->parseMail($this->_transport->fetchByMessageNr($nr));
             $mails[$nr] = $single[0];
         }
-        $fetched += $count;
+        $this->_fetched += $count;
         return $mails;
     }
 

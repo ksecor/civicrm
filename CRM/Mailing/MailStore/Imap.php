@@ -72,18 +72,6 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
     }
 
     /**
-     * Return the next X messages from the mail store - this is just 
-     * a wrapper for parent that passes proper uidReferencing value
-     *
-     * @param int $count            number of messages to fetch (0 to fetch all)
-     * @return array                array of ezcMail objects
-     */
-    function fetchNext($count = 1)
-    {
-        return parent::fetchNext($count, $this->_transport->options->uidReferencing);
-    }
-
-    /**
      * Move the specified message to the ignored folder
      *
      * @param integer $nr  number of the message to move
