@@ -1,10 +1,8 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
 {include file="CRM/common/WizardHeader.tpl"}
 
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/LCQ" 2=$docURLTitle}Use this form to configure Contribution Amount options. You can give contributors the ability to enter their own contribution amounts - and/or provide a fixed list of amounts. For fixed amounts, you can enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.). If you allow people to enter their own dollar amounts, you can also set minimum and maximum values. Depending on your choice of Payment Processor, you may be able to offer a recurring contribution option (<a href='%1' target='_blank' title='%2'>more info...</a>).{/ts}
+    {ts}Use this form to configure Contribution Amount options. You can give contributors the ability to enter their own contribution amounts - and/or provide a fixed list of amounts. For fixed amounts, you can enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.). If you allow people to enter their own dollar amounts, you can also set minimum and maximum values. Depending on your choice of Payment Processor, you may be able to offer a recurring contribution option.{/ts} {docURL page="PayPal Website Payments Standard and Recurring Contributions"}
 </div>
  
 <div class="form-item">
@@ -12,7 +10,7 @@
     {if !$paymentProcessor}
         {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
         <div class="status message">
-                {ts 1=$ppUrl 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/ihk"}No Payment Processor has been configured / enabled for your site. Unless you are only using CiviContribute to solicit non-monetary / in-kind contributions, you will need to <a href='%1'>configure a Payment Processor</a>. Then return to this screen and assign the processor to this Contribution Page. (<a href='%3' target='_blank' title='%2'>read more...</a>){/ts}
+                {ts 1=$ppUrl}No Payment Processor has been configured / enabled for your site. Unless you are only using CiviContribute to solicit non-monetary / in-kind contributions, you will need to <a href='%1'>configure a Payment Processor</a>. Then return to this screen and assign the processor to this Contribution Page.{/ts} {docURL page="CiviContribute Payment Processor Configuration"}
         </div>
     {/if}
     <table class="form-layout-compressed">  
@@ -23,7 +21,7 @@
         {if $paymentProcessor}
         <tr><th scope="row" class="label" width="20%">{$form.payment_processor_id.label}</th>
             <td>{$form.payment_processor_id.html}<br />
-            <span class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only). (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</span></td>
+            <span class="description">{ts}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only).{/ts} {docURL page="CiviContribute Payment Processor Configuration"}</span></td>
         </tr>
         {/if}
         <tr><th scope="row" class="label">{$form.amount_block_is_active.label}</th>

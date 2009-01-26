@@ -124,9 +124,8 @@
     </dl>{*End of dl*}
     <div class="spacer"></div>
     <fieldset><legend>{ts}Renewal Reminders{/ts}</legend>
-    {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
         <div class="description">
-            {ts 1="http://wiki.civicrm.org/confluence//x/2yk" 2=$docURLTitle}If you would like Membership Renewal Reminder emails sent to members automatically, you need to create a reminder message template and you need to configure and periodically run a 'cron' job on your server (<a href='%1' target='_blank' title='%2'>more info...</a>).{/ts}
+            {ts}If you would like Membership Renewal Reminder emails sent to members automatically, you need to create a reminder message template and you need to configure and periodically run a 'cron' job on your server.{/ts} {docURL page="Membership Types"}
         </div>
         {if $noMsgTemplates}
             {capture assign=msgTemplate}{crmURL p='civicrm/admin/messageTemplates' q="action=add&reset=1"}{/capture}

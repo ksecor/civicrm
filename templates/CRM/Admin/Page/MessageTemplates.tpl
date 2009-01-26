@@ -1,4 +1,3 @@
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 {capture assign=crmURL}{crmURL p='civicrm/admin/messageTemplates' q="action=add&reset=1"}{/capture}
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/MessageTemplates.tpl"}

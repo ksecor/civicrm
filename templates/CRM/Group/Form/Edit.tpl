@@ -1,5 +1,4 @@
 {* this template is used for adding/editing group (name and description only)  *}
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <fieldset><legend>{ts}Group Settings{/ts}</legend>
     <div id="help">
     {if $action eq 2}

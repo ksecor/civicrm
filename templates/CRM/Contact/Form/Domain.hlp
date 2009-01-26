@@ -11,11 +11,6 @@
 {ts}The FROM Name and Email Address are used when automated emails are sent from this domain (e.g. subscribe and unsubscribe confirmations...). This Name and Email Address are also used as the default 'sender' values when you create a new CiviMail Mailing.{/ts}
 {/htxt}
 
-{htxt id="email-domain"}
-{ts}The Email Domain is the internet domain (e.g., <code>example.org</code>) to be used in the address of 'action' mailings (e.g. the reply-to address when confirming a subsciption: <code>subscribe.*@<strong>example.org</strong></code>). This domain (or, more properly, the machine that this domain's MX record points to) must be configured to handle incoming CiviMail emails (so it can process the 'actions' like subscribe, optOut, etc.).{/ts} <a href="http://wiki.civicrm.org/confluence//x/sBk" target="_blank" title="{ts}Opens documentation in a new window.{/ts}">{ts}Read more{/ts}...</a>
-{/htxt}
-
-
 {htxt id="return-path"}
 {ts}Use the Return Path field if you need to populate the <code>Return-Path</code> mail header element with a fixed value (e.g., <code>myuser@example.org</code>). Enter a fully qualified email address which belongs to a valid SMTP account in your domain. This address will not be seen by 'typical' email clients. Consult with your SMTP provider what address to put in here so that the SMTP server accepts outgoing mail from CiviMail. If this field is left blank, the <code>From</code> email address will be used as the <code>Return-Path</code>.{/ts}
 {/htxt}

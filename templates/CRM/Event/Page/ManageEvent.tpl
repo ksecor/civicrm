@@ -3,8 +3,6 @@
 {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
 {capture assign=rssFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&rss=1"}{/capture}
 {capture assign=htmlFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&html=1"}{/capture}
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-
 
 {if $action eq 1 or $action eq 2 }
     {include file="CRM/Event/Page/ManageEventEdit.tpl"}

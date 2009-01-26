@@ -2,8 +2,7 @@
    {include file="CRM/Member/Form/MembershipType.tpl"}
 {else}
     <div id="help">
-        {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-        <p>{ts 1="http://wiki.civicrm.org/confluence//x/1is" 2=$docURLTitle}Membership types are used to categorize memberships. You can define an unlimited number of types. Each type incorporates a 'name' (Gold Member, Honor Society Member...), a description, a minimum fee (can be $0), and a duration (can be 'lifetime'). Each member type is specifically linked to the membership entity (organization) - e.g. Bay Area Chapter (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}</p>
+        <p>{ts}Membership types are used to categorize memberships. You can define an unlimited number of types. Each type incorporates a 'name' (Gold Member, Honor Society Member...), a description, a minimum fee (can be $0), and a duration (can be 'lifetime'). Each member type is specifically linked to the membership entity (organization) - e.g. Bay Area Chapter.{/ts} {docURL page="CiviMember Admin"}</p>
     </div>
 {/if}
 

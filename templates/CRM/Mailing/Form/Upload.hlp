@@ -5,7 +5,7 @@
 <p>{ts}If you create only an <strong>HTML</strong> version, CiviMail will automatically create a <strong>TEXT</strong> version for your recipients who have chosen NOT to receive HTML email.{/ts}</p>
 
 <h1>{ts}Required Elements{/ts}</h1>
-<p>{ts 1="http://wiki.civicrm.org/confluence//x/nC"}CiviMail email messages must include an <strong>unsubscribe</strong> link, an <strong>opt-out</strong> link, and the <strong>postal address</strong> of your organization. These elements help reduce the chances of your email being categorized as SPAM. They can be included in the main message body OR in a re-usabe <strong>message footer</strong>. Refer to the online documentation for details on <a href='%1' target='_blank' title='Help on messages. Opens a new window.'>how to include required links and contact information as well as sample messages....</a>{/ts}</p>
+<p>{ts}CiviMail email messages must include an <strong>unsubscribe</strong> link, an <strong>opt-out</strong> link, and the <strong>postal address</strong> of your organization. These elements help reduce the chances of your email being categorized as SPAM. They can be included in the main message body OR in a re-usabe <strong>message footer</strong>. Refer to the online documentation for details on how to include required links and contact information as well as sample messages.{/ts} {docURL page="Sample CiviMail Messages"}</p>
 {/htxt}
 
 {htxt id="upload-compose"}

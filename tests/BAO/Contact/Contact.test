@@ -142,7 +142,7 @@ class BAO_Contact_Contact extends CiviTestCase
                                    'job_title'             => 'software Developer',
                                    'gender_id'             => 1,
                                    'is_deceased'           => 1,
-                                   'home_URL'              => 'http://wiki.civicrm.org',
+                                   'home_URL'              => 'http://docs.civicrm.org',
                                    'contact_source'        => 'test update contact',
                                    'external_identifier'   => 111111111,
                                    'preferred_mail_format' => 'Both',

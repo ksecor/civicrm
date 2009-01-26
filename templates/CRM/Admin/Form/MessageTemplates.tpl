@@ -1,5 +1,4 @@
 {* this template is used for adding/editing/deleting Message Templates *}
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 {capture assign=tokenDocsRepeated}{docURL page="Mail-merge Tokens for Contact Data" text="token documentation"}{/capture}
 <div id="help">
     {ts}Use this form to add or edit re-usable message templates.{/ts} {help id="id-msgTplIntro"}
