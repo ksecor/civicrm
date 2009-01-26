@@ -93,9 +93,10 @@ class CiviMailProcessor {
 
                 // handle the action by passing it to the proper API call
                 // FIXME: leave only one-letter cases when dropping legacy support
-                switch($action) {
+                switch ($action) {
                 case 'b':
                 case 'bounce':
+                    $text = '';
                     if ($mail->body instanceof ezcMailText) {
                         $text = $mail->body->text;
                     } elseif ($mail->body instanceof ezcMailMultipart) {
