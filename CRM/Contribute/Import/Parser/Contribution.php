@@ -79,13 +79,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $fields =& CRM_Contribute_BAO_Contribution::importableFields( $this->_contactType , false );
         
         $fields = array_merge( $fields,
-                               array( 'soft_credit' => array( 'title'      => ts('Soft Credit'),
-                                                              'softCredit' => true ) ) );
-                                                          
+                               array( 'soft_credit' => array( 'title'         => ts('Soft Credit'),
+                                                              'softCredit'    => true,
+                                                              'headerPattern' => '/Soft Credit/i' ) ) );
+        
         // add pledge fields only if its is enabled
         if ( CRM_Core_Permission::access( 'CiviPledge' ) ) {
-            $pledgeFields = array( 'pledge_payment' => array( 'title' => ts('Pledge Payment') ),
-                                   'pledge_id'      => array( 'title' => ts('Pledge ID') )
+            $pledgeFields = array( 'pledge_payment' => array( 'title' => ts('Pledge Payment'),
+                                                              'headerPattern' => '/Pledge Payment/i' ),
+                                   'pledge_id'      => array( 'title' => ts('Pledge ID'),
+                                                              'headerPattern' => '/Pledge ID/i')
                                  );
             
             $fields = array_merge( $fields, $pledgeFields );
@@ -246,12 +249,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
 
         $params =& $this->getActiveFieldParams( );            
-        
-        if ( isset ( $params['pledge_payment'] ) ) {
-            $pledgeParams['pledge_payment'] = $params['pledge_payment'];
-            $pledgeParams['pledge_id'] = $params['pledge_id'];
-        }
-        
+                
         $formatted = array( );
                
         //for date-Formats
@@ -275,6 +273,9 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 case  'thankyou_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     break;
+                case  'pledge_payment':
+                    $params[$key] = CRM_Utils_String::strtobool( $val );
+                    break;
                 }
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
                     if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
@@ -295,45 +296,44 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $indieFields = $tempIndieFields;
         }
         
-        $values = array();
-            
+        $paramValues = array();            
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
-            $values[$key] = $field;
+            $paramValues[$key] = $field;
         }
+        
         //import contribution record according to select contact type
         if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP && 
-             ( $values['contribution_contact_id'] || $values['external_identifier'] ) ) {
-            $values['contact_type'] = $this->_contactType;
+             ( $paramValues['contribution_contact_id'] || $paramValues['external_identifier'] ) ) {
+            $paramValues['contact_type'] = $this->_contactType;
         } else if( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE && 
-                   ( $values['contribution_id'] || $values['trxn_id'] || $values['invoice_id'] ) ) {
-            $values['contact_type'] = $this->_contactType;
+                   ( $paramValues['contribution_id'] || $values['trxn_id'] || $paramValues['invoice_id'] ) ) {
+            $paramValues['contact_type'] = $this->_contactType;
+        } else if ( !empty( $params['soft_credit'] ) ) {
+            $paramValues['contact_type'] = $this->_contactType;
+        } else if ( CRM_Utils_Array::value( 'pledge_payment', $paramValues ) ) {
+            $paramValues['contact_type'] = $this->_contactType;
         }
-        $formatError = _civicrm_contribute_formatted_param($values, $formatted, true);
-       
+        
+        //need to pass $onDuplicate to check import mode.
+        if ( CRM_Utils_Array::value( 'pledge_payment', $paramValues ) ) {
+            $paramValues['onDuplicate'] = $onDuplicate;
+        }
+        
+        $formatError = _civicrm_contribute_formatted_param( $paramValues, $formatted, true);
+        
         if ( $formatError ) {
             array_unshift($values, $formatError['error_message']);
+            if ( CRM_Utils_Array::value( 'error_data', $formatError ) == 'soft_credit' ) {
+                return CRM_Contribute_Import_Parser::SOFT_CREDIT_ERROR;
+            } else if ( CRM_Utils_Array::value( 'error_data', $formatError ) == 'pledge_payment' ) {
+                return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT_ERROR;
+            }
             return CRM_Contribute_Import_Parser::ERROR;
         }
-        
-        // process soft credits
-        if ( !empty ( $params['soft_credit'] ) && !$formatted['soft_credit_to'] ) {
-            $softParams = $params['soft_credit'];
-            
-            // get the contact id from dupicate contact rule, if more than one contact is returned
-            // we should return error, since current interface allows only one-one mapping
-            $softParams['contact_type']  = $this->_contactType;
-            $softCreditErrorMessage = $this->getSoftCredit( $softParams, $formatted );
-                    
-            if ( $softCreditErrorMessage ) {
-                $formatted['soft_credit'] = $values['soft_credit'] = implode( ' ', $params['soft_credit'] );
-                array_unshift( $values, $softCreditErrorMessage );
-                return CRM_Contribute_Import_Parser::ERROR;
-            }
-        }
-        
+
         if ( $onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
             $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                           CRM_Core_DAO::$_nullObject,
@@ -342,13 +342,13 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         } else {
             //fix for CRM-2219 - Update Contribution
             // onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE
-            if ( $values['invoice_id'] || $values['trxn_id'] || $values['contribution_id'] ) {
+            if ( $paramValues['invoice_id'] || $paramValues['trxn_id'] || $paramValues['contribution_id'] ) {
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 $dupeIds = array(
-                                 'id'         => CRM_Utils_Array::value('contribution_id', $values),
-                                 'trxn_id'    => CRM_Utils_Array::value('trxn_id',   $values),
-                                 'invoice_id' => CRM_Utils_Array::value('invoice_id',$values)
-                                 );              
+                                 'id'         => CRM_Utils_Array::value('contribution_id', $paramValues ),
+                                 'trxn_id'    => CRM_Utils_Array::value('trxn_id',         $paramValues ),
+                                 'invoice_id' => CRM_Utils_Array::value('invoice_id',      $paramValues )
+                                 );
                 
                 $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );                 
                 if ( $ids['contribution'] ) {     
@@ -357,8 +357,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                                                                                   CRM_Core_DAO::$_nullObject,
                                                                                   $formatted['id'],
                                                                                   'Contribution' );
-                     //process note
-                    if ( $values['note'] ) {
+                    //process note
+                    if ( $paramValues['note'] ) {
                         $noteID = array();
                         $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $ids['contribution'], 'contact_id' );                       
                         require_once 'CRM/Core/BAO/Note.php';
@@ -371,7 +371,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                                                
                         $noteParams = array(
                                             'entity_table' => 'civicrm_contribution', 
-                                            'note'         => $values['note'], 
+                                            'note'         => $paramValues['note'], 
                                             'entity_id'    => $ids['contribution'],
                                             'contact_id'   => $contactID
                                             );
@@ -379,13 +379,27 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         unset($formatted['note']);
                     }
                     
+                    //need to check existing soft credit contribution, CRM-3968
+                    if ( CRM_Utils_Array::value( 'soft_credit_to', $formatted ) ) {
+                        $dupeSoftCredit = array( 'contact_id'      => $formatted['soft_credit_to'], 
+                                                 'contribution_id' => $ids['contribution'] );
+                        $existingSoftCredit = CRM_Contribute_BAO_Contribution::getSoftContribution( $dupeSoftCredit );
+                        if ( CRM_Utils_Array::value( 'soft_credit_id', $existingSoftCredit ) ) {
+                            $formatted['softID'] = $existingSoftCredit['soft_credit_id'];
+                        }
+                    }
+                    
                     $newContribution =& CRM_Contribute_BAO_Contribution::create( $formatted , $ids );
-                    $this->_newContributions[] = $newContribution->id;
+                    $this->_newContributions[] = $newContribution->id;                    
                     
                     //return soft valid since we need to show how soft credits were added
-                    if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
-                        return CRM_Contribute_Import_Parser::SOFT_MATCH;
+                    if ( CRM_Utils_Array::value( 'soft_credit_to', $formatted ) ) {
+                        return CRM_Contribute_Import_Parser::SOFT_CREDIT;
                     }
+                    
+                    // process pledge payment assoc w/ the contribution
+                    return self::processPledgePayments( $formatted );
+                    
                     return CRM_Contribute_Import_Parser::VALID;
                 } else {
                     $labels = array(
@@ -404,62 +418,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 }               
             }
         }
-       
+
         if ( $this->_contactIdIndex < 0 ) {
-            static $cIndieFields = null;
-            if ($cIndieFields == null) {
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
-                $cIndieFields = $cTempIndieFields;
-                
-                require_once 'CRM/Contact/BAO/Query.php';
-                $locationFields = CRM_Contact_BAO_Query::$_locationSpecificFields;
+            //retrieve contact id using contact dedupe rule
+            $error = civicrm_check_contact_dedupe( $paramValues );
 
-                require_once "CRM/Core/BAO/LocationType.php";
-                $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
-                $defaultLocationId = $defaultLocation->id;
-            }
-            
-            foreach ($params as $key => $field) {
-                if ($field == null || $field === '') {
-                    continue;
-                }
-                if (is_array($field)) {
-                    foreach ($field as $value) {
-                        $break = false;
-                        if ( is_array($value) ) {
-                            foreach ($value as $name => $testForEmpty) {
-                                if ($name !== 'phone_type' &&
-                                    ($testForEmpty === '' || $testForEmpty == null)) {
-                                    $break = true;
-                                    break;
-                                }
-                            }
-                        } else {
-                            $break = true;
-                        }
-                        if ( !$break ) {    
-                            _civicrm_add_formatted_param($value, $contactFormatted);
-                        }
-                    }
-                    continue;
-                }
-                
-                $value = array($key => $field);
-                
-                // check if location related field, then we need to add primary location type
-                if ( in_array($key, $locationFields) ) {
-                    $value['location_type_id'] = $defaultLocationId;
-                } else if (array_key_exists($key, $cIndieFields)) {
-                    $value['contact_type'] = $this->_contactType;
-                }
-
-              _civicrm_add_formatted_param($value, $contactFormatted);
-            }
-
-            $contactFormatted['contact_type'] = $this->_contactType;
-            
-            $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);        
                 if (count( $matchedIDs) >1) {
@@ -468,6 +431,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
+                    
                     $newContribution = civicrm_contribution_format_create( $formatted );
                     if ( civicrm_error( $newContribution ) ) { 
                         if ( is_array( $newContribution['error_message'] ) ) {
@@ -482,11 +446,14 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     }
                     
                     $this->_newContributions[] = $newContribution['id'];
-                    
+                                      
                     //return soft valid since we need to show how soft credits were added
-                    if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
-                        return CRM_Contribute_Import_Parser::SOFT_MATCH;
+                    if ( CRM_Utils_Array::value( 'soft_credit_to', $formatted ) ) {
+                        return CRM_Contribute_Import_Parser::SOFT_CREDIT;
                     }
+                    
+                    // process pledge payment assoc w/ the contribution
+                    return self::processPledgePayments( $formatted );
                     
                     return CRM_Contribute_Import_Parser::VALID;
                 }
@@ -542,83 +509,40 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             
             $this->_newContributions[] = $newContribution['id'];
-            
-            //params for pledge payment assoc w/ the contribution
-            if ( !empty ( $pledgeParams ) ) {
-                $pledgeParams['contact_id'] = $newContribution['contact_id'];
-                $pledgeParams['scheduled_amount'] = $params['total_amount'];
-                $r = $this->matchPledgePayment($pledgeParams, $values );
-                if ( $r == 'fail' ) {
-                    return CRM_Contribute_Import_Parser::ERROR;
-                }
-            }
-            
+                    
             //return soft valid since we need to show how soft credits were added
-            if ( !empty ( $softParams ) && !$softCreditErrorMessage ) {
-                return CRM_Contribute_Import_Parser::SOFT_MATCH;
+            if ( CRM_Utils_Array::value( 'soft_credit_to', $formatted ) ) {
+                return CRM_Contribute_Import_Parser::SOFT_CREDIT;
             }
+            
+            // process pledge payment assoc w/ the contribution
+            return self::processPledgePayments( $formatted );
             
             return CRM_Contribute_Import_Parser::VALID;
         }
         
     }
-
+        
     /**
-     * Get the pledge payment id against which the contribution is made
-     *
-     * @return array
-     * @access public
+     *  Function to process pledge payments
      */
-    function &matchPledgePayment( $params, &$values ) 
-    {
-        if ( CRM_Utils_String::strtoboolstr( $params['pledge_payment'] ) ) {
-            require_once 'CRM/Contribute/PseudoConstant.php';
-
-            $pledgeStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+    function processPledgePayments( &$formatted ) {
+        if ( CRM_Utils_Array::value( 'pledge_payment_id', $formatted ) &&
+             CRM_Utils_Array::value( 'pledge_id', $formatted ) ) {
+            //get completed status
+            $completeStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Completed', 'name' );
+                        
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $formatted['pledge_id'], array( $formatted['pledge_payment_id'] ),  $completeStatusID );
             
-            if ( isset ( $params['pledge_id'] ) ) {
-                if ( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'] ,'contact_id' ) != $params['pledge_id']) {
-                    array_unshift($values, "Invalid Pledge ID provided. Contribution row was skipped.");
-                    return 'fail';
-                }
-                
-                $params['status_id'] = array_search( 'Pending', $pledgeStatus );
-                require_once 'CRM/Pledge/BAO/Payment.php';
-                CRM_Pledge_BAO_Payment::retrieve( $params, $defaults );
-                if ( isset ( $defaults['id'] ) ) {
-                    CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $params['pledge_id'], array($defaults['id']), 1  );
-                    return true;
-                }
-                return false;
-            } 
+            //need to update payment record to map contribution_id
+            CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Payment', $formatted['pledge_payment_id'], 
+                                         'contribution_id', $formatted['contribution_id'] );
+            
+            return CRM_Contribute_Import_Parser::PLEDGE_PAYMENT;
         }
-        return false;   
     }
-    
-    /**
-     * Get succesfully matched contact id(for soft credits)
-     *
-     * @return array
-     * @access public
-     */
-    function &getSoftCredit( $params, &$values ) 
-    {
-        $error = _civicrm_duplicate_formatted_contact($params);
 
-        if ( isset( $error['error_message']['params'][0] )) {
-            $matchedIDs = explode(',',$error['error_message']['params'][0]);
-            
-            // check if only one contact is found
-            if ( count( $matchedIDs ) > 1 ) {
-                return $error['error_message']['message'];
-            } else {
-                $values['soft_credit_to'] = $matchedIDs[0];
-            }
-        } else {
-            return ts('No match found for specified Soft Credit contact data. Row was skipped.'); 
-        }
-     }
-    
     /**
      * Get the array of succesfully imported contribution id's
      *

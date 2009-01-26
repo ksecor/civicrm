@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-12-03 04:36-0800\n"
-"Last-Translator: Lydia Bindrich <lyd@cogitor.de>\n"
+"PO-Revision-Date: 2009-01-19 23:06-0800\n"
+"Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,22 +65,21 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-#, fuzzy
 msgid ""
 "The following tokens are available to format Mailing Labels. Address fields "
 "are taken from the contact's <strong>primary</strong> location."
 msgstr ""
-"Zum formatieren von Mailing Labels sind folgende Tokens verfügbar. Adress-"
-"Felder werden von der Hauptadresse übernommen."
+"Zum formatieren von Mailing Labels sind folgende Tokens verfügbar. Adress "
+"Felder werden von der <strong>ersten</strong>Adresse des Kontakts "
+"übernommen."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-#, fuzzy
 msgid ""
 "Used for mailing labels only. Replaced by the configurable Individual Name "
 "format for individuals and the display name for Organizations and Households."
 msgstr ""
-"Wird nur für Mailing Labels verwendet. Ersetzt durch das konfigurierbare "
-"individuelle Namensformat für Individuen und dem Anzeigenname für "
+"Wird nur für Mailing Labels verwendet. Wird ersetzt durch das "
+"konfigurierbare individuelle Namensformat für Personen und Anzeigenname für "
 "Organisationen und Haushalte."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
@@ -100,16 +99,15 @@ msgid "City."
 msgstr "Stadt."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-#, fuzzy
 msgid ""
 "County name. If you want to include the county in your mailing labels, the "
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
-"Bundesland. Wenn sie das Bundesland in Ihrem mailing label? haben wollen, "
-"müssen Sie <strong>Include Counties</strong> auf dieser Seite anwählen. Die "
-"Namen der Bundesländer müssen in der civicrm_county Tabelle in Ihrer "
-"Datenbank vorhanden ggf. hinzugefügt werden."
+"Bundesland. Wenn sie das Bundesland in Ihrem mailing Label haben wollen, "
+"müssen sie <strong>Bundesländer einfügen</strong> auf dieser Seite anwählen. "
+"Die Namen der Bundesländer müssen in der civicrm_county Tabelle in Ihrer "
+"Datenbank  hinzugefügt werden."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>abbreviation</strong>."
@@ -154,14 +152,13 @@ msgstr ""
 "Datenbank hinzugefügt werden."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-#, fuzzy
 msgid ""
 "The following tokens are available to control the format of individuals' "
 "contact names when they are included in <strong>mailing labels</strong>."
 msgstr ""
-"Die folgenden Tokens werden zur Kontrolle des Formats von Kontaktnamen "
-"(Individuen) verwendet, wenn sie in <strong>Mailing Labels</strong> "
-"hinzugefügt werden."
+"Die folgenden Tokens sind zur Steuerung des Formats von Kontakt Namen von "
+"Personen verfügbar, wenn sie in <strong>Mailing Labels</strong> hinzugefügt "
+"sind."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.)."
@@ -1636,12 +1633,13 @@ msgid ""
 "click on the <strong>New Event</strong> link. You can also <a href='%"
 "2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
-"Sie können auch Veranstaltungen offline verwalten und eingeben. Um "
-"Veranstaltungen manuell einzufügen suchen Sie mittels <a href='%1'>Finde "
-"Kontakte</a> den Kontakt. Danach klicken Sie auf <strong>Betrachten</strong> "
-"um zur Übersichtsseite zu gelanden und klicken Sie dort auf den Link: "
-"<strong>neue Veranstaltung</strong>. Sie können zudem von anderen Quellen "
-"eine <a href='%2'><strong>Reihe von Teilnehmern importieren</strong></a>."
+"Sie können Veranstaltungen auch offline verwalten und eingeben. Um "
+"Veranstaltungen für einzelne Kontakte von Hand einzufügen suche mittels <a "
+"href='%1'>Finde Kontakte</a> den Kontakt. Danach auf "
+"<strong>Betrachten</strong> klicken um zur Übersichtsseite zu gelanden; dort "
+"auf den Link: <strong>neue Veranstaltung</strong> klicken. Sie können zudem "
+"von anderen Quellen eine <a href='%2'><strong>Reihe von Teilnehmern "
+"importieren</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.hlp
 msgid ""

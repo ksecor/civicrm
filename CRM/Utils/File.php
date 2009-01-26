@@ -204,7 +204,7 @@ class CRM_Utils_File {
     }
 
 
-    function sourceSQLFile( $dsn, $fileName, $prefix = null ) {
+    function sourceSQLFile( $dsn, $fileName, $prefix = null, $isQueryString = false ) {
         require_once 'DB.php';
 
         $db  =& DB::connect( $dsn );
@@ -212,8 +212,13 @@ class CRM_Utils_File {
             die( "Cannot open $dsn: " . $db->getMessage( ) );
         }
 
-        $string = $prefix . file_get_contents( $fileName );
-        
+        if ( ! $isQueryString ) {
+            $string = $prefix . file_get_contents( $fileName );
+        } else {
+            // use filename as query string
+            $string = $prefix . $fileName;
+        }
+
         //get rid of comments starting with # and --
         $string = preg_replace("/^#[^\n]*$/m", "\n", $string );
         $string = preg_replace("/^\-\-[^\n]*$/m", "\n", $string );

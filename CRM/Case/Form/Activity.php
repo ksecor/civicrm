@@ -178,7 +178,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
         if ( $this->_caseType ) {
             $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-            $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
+            $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes', true );
             
             // remove Open Case activity type since we're inside an existing case
             $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
@@ -206,7 +206,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->add('date', 'due_date_time', ts('Due Date'), CRM_Core_SelectValues::date('activityDatetime'), true);
         $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
         
-        $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedContacts( $this->_caseId );
+        $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedAndGlobalContacts( $this->_caseId );
         if ( ! empty($this->_relatedContacts) ) {
             $checkBoxes = array( );
             foreach ( $this->_relatedContacts as $id => $row ) {

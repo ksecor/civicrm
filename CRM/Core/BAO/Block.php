@@ -244,6 +244,7 @@ class CRM_Core_BAO_Block
         $name = ucfirst( $blockName );
 
         $entityElements = array( );
+        $contactId      = null;
         //get existing block ids if exist for this contact
         if ( !$entity ) {
             $contactId = $params[$blockName]['contact_id'];

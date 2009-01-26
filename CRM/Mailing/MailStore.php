@@ -52,15 +52,17 @@ class CRM_Mailing_MailStore
         $name ? $dao->name = $name : $dao->is_default = 1;
         if (!$dao->find(true)) throw new Exception("Could not find entry named $name in civicrm_mail_settings");
 
-        switch ($dao->protocol) {
+        $protocols =& CRM_Core_PseudoConstant::mailProtocol();
+
+        switch ($protocols[$dao->protocol]) {
 
         case 'IMAP':
             require_once 'CRM/Mailing/MailStore/Imap.php';
-            return new CRM_Mailing_MailStore_Imap($dao->server, $dao->username, $dao->password, $dao->is_ssl, $dao->source);
+            return new CRM_Mailing_MailStore_Imap($dao->server, $dao->username, $dao->password, (bool) $dao->is_ssl, $dao->source);
 
         case 'POP3':
             require_once 'CRM/Mailing/MailStore/Pop3.php';
-            return new CRM_Mailing_MailStore_Pop3($dao->server, $dao->username, $dao->password, $dao->is_ssl);
+            return new CRM_Mailing_MailStore_Pop3($dao->server, $dao->username, $dao->password, (bool) $dao->is_ssl);
 
         case 'Maildir':
             require_once 'CRM/Mailing/MailStore/Maildir.php';
@@ -84,7 +86,23 @@ class CRM_Mailing_MailStore
      */
     function allMails()
     {
-        $set = $this->_transport->fetchAll();
+        return $this->fetchNext(0);
+    }
+
+    /**
+     * Return the next X messages from the mail store
+     *
+     * @param int $count  number of messages to fetch (0 to fetch all)
+     * @return array      array of ezcMail objects
+     */
+    function fetchNext($count = 1)
+    {
+        if (!isset($this->_offset)) $this->_offset = 1;
+        try {
+            $set = $this->_transport->fetchFromOffset($this->_offset, $count);
+        } catch (ezcMailOffsetOutOfRangeException $e) {
+            return array();
+        }
         $mails = array();
         $parser = new ezcMailParser;
         foreach ($set->getMessageNumbers() as $nr) {
@@ -92,6 +110,7 @@ class CRM_Mailing_MailStore
             $single = $parser->parseMail($this->_transport->fetchByMessageNr($nr));
             $mails[$nr] = $single[0];
         }
+        $this->_offset += $count;
         return $mails;
     }
 

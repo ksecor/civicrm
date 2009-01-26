@@ -749,7 +749,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $params['action'] = $this->_action;
             $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         }
-        if ( $formValues['send_receipt'] ) {
+        if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
                                          $params['membership_type_id'], 
@@ -758,7 +758,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
 
         $receiptSend = false;
-        if ( $formValues['send_receipt'] ) {
+        if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
             $receiptSend = true;
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();

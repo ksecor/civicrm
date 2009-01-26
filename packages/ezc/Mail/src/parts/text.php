@@ -3,7 +3,7 @@
  * File containing the ezcMailText class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -38,17 +38,10 @@
  *                the conversion to UTF-8 when parsing incomming mail.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  */
 class ezcMailText extends ezcMailPart
 {
-    /**
-     * Holds the properties of this class.
-     *
-     * @var array(string=>mixed)
-     */
-    private $properties = array();
-
     /**
      * Constructs a new TextPart with the given $text, $charset and $encoding.
      *

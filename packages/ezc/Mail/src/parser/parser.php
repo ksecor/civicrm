@@ -3,7 +3,7 @@
  * File containing the ezcMailParser class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -11,14 +11,21 @@
 /**
  * Parses a mail in RFC822 format to an ezcMail structure.
  *
- * If you want to use your own mail class (extended from {@link ezcMail}),
+ * By default an object of class {@link ezcMail} is returned by the parser. If
+ * you want to use your own mail class (which extends {@link ezcMail}),
  * use {@link ezcMailParserOption}. Example:
+ *
  * <code>
  * $options = new ezcMailParserOptions();
- * $options->mailClass = 'MyMailClass';
+ * $options->mailClass = 'myCustomMailClass'; // extends ezcMail
  *
  * $parser = new ezcMailParser( $options );
- * // if you want to use MyMailClass which extends ezcMail
+ * </code>
+ *
+ * Another way to do this is:
+ * <code>
+ * $parser = new ezcMailParser();
+ * $parser->options->mailClass = 'myCustomMailClass'; // extends ezcMail
  * </code>
  *
  * File attachments will be written to disk in a temporary directory.
@@ -26,11 +33,28 @@
  * when PHP ends execution. If you want to keep the file you should move it
  * to another directory.
  *
+ * By default objects of class {@link ezcMailFile} are created to handle file
+ * attachments. If you want to use your own file class (which extends
+ * {@link ezcMailFile}), use {@link ezcMailParserOption}. Example:
+ *
+ * <code>
+ * $options = new ezcMailParserOptions();
+ * $options->fileClass = 'myCustomFileClass'; // extends ezcMailFile
+ *
+ * $parser = new ezcMailParser( $options );
+ * </code>
+ *
+ * Another way to do this is:
+ * <code>
+ * $parser = new ezcMailParser();
+ * $parser->options->fileClass = 'myCustomFileClass'; // extends ezcMailFile
+ * </code>
+ *
  * @property ezcMailParserOptions $options
  *           Holds the options you can set to the mail parser.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @mainclass
  */
 class ezcMailParser

@@ -455,7 +455,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
 
         $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType', $renewMembership->membership_type_id, 'name');
 
-        if ( $formValues['record_contribution'] || $this->_mode ) {
+        if ( CRM_Utils_Array::value( 'record_contribution', $formValues ) || $this->_mode ) {
             //building contribution params 
             $contributionParams = array( );
             $config =& CRM_Core_Config::singleton();
@@ -498,7 +498,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             }
         }
 
-        if ( $formValues['send_receipt'] ) {
+        if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
                                          $params['membership_type_id'],
@@ -507,7 +507,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
         
         $receiptSend = false;
-        if ( $formValues['send_receipt'] ) {
+        if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
             $receiptSend = true;
             // Retrieve the name and email of the contact - this will be the TO for receipt email
             list( $this->_contributorDisplayName, 

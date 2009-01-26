@@ -58,6 +58,7 @@ function initTagTree() {
         //update summary tab 
         tagLabels = tagsArray.join(', ');
         cj("#tags").html( tagLabels );
+        cj("#tagLink").show( );
     });
 };
 {/literal}

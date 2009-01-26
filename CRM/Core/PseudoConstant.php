@@ -404,11 +404,11 @@ class CRM_Core_PseudoConstant
      *
      * @return array - array reference of all activty types.
      */
-    public static function &activityType( $all = true, $includeCaseActivities = false )
+    public static function &activityType( $all = true, $includeCaseActivities = false, $reset = false )
     {
         $index        = (int) $all . '_' . (int) $includeCaseActivities;
         
-        if ( ! array_key_exists( $index, self::$activityType ) ) {
+        if ( ! array_key_exists( $index, self::$activityType ) || $reset ) {
             require_once 'CRM/Core/OptionGroup.php';
             $condition = null;
             if ( !$all ) {
@@ -1347,7 +1347,13 @@ ORDER BY name";
         while ( $dao->fetch( ) ) {
             $result[$dao->id] = $dao->name;
         }
-
+        // localise the stateProvince names if in an non-en_US locale
+        $config = CRM_Core_Config::singleton( );
+        if ( $config->lcMessages != '' and $config->lcMessages != 'en_US' ) {
+            $i18n =& CRM_Core_I18n::singleton();
+            $i18n->localizeArray( $result );
+            asort( $result );
+        }
         return $result;
     }
 

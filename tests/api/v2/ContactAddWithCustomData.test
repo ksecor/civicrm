@@ -7,111 +7,120 @@ require_once 'api/v2/CustomGroup.php';
 class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase 
 {
     private $_ids  = array( );
-    private $_cgId = null;
-    private $_cid  = null; 
-    
+    private $_cid  = null;
+    private $_customGroupId = null;
+    private $_customFieldId = null;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Contact Add With Custom Data',
+                     'description' => 'Test all Custom Data Addition / Updation API methods.',
+                     'group'       => 'CiviCRM API Tests',
+        );
+    }
     function setUp( )
     {
-        $cg          = $this->createCustomGroup( );
-        $this->_cgId = $cg['id'];
-        $this->_ids  = $this->createCustomField( $cg );
+        $customGroup = $this->createCustomGroup( );
+        $this->_customGroupId = $customGroup['id'];
+        $this->_ids  = $this->createCustomField( );
     }
-    
+
     function tearDown( )
     {
-        $this->customFieldDelete( $this->_ids[0] );
-        $this->customFieldDelete( $this->_ids[1] );
-        $this->customGroupDelete( $this->_cgId );
+        if ( $this->_customFieldId ) {
+            $this->customFieldDelete( $this->_customFieldId );
+        }
+
+        if ( $this->_ids ) {
+            $this->customFieldDelete( $this->_ids['0'] );
+            $this->customFieldDelete( $this->_ids['1'] );
+        }
+
+        $this->customGroupDelete( $this->_customGroupId );
         $this->contactDelete( $this->_cid );
     }
-    
+
     function createCustomGroup( )
     {
-        $params = array( 'domain_id'        => 1,
+        $params = array(
                          'title'            => 'Test Custom Group',
-                         'class_name'       => 'Individual',
-                         'weight'           => 4,
-                         'collapse_display' => 1,
+                         'extends'          => array ( 'Individual' ),
+                         'weight'           => 5,
                          'style'            => 'Inline',
-                         'is_active'        => 1
-                         );
+                         'is_active'        => 1,
+                         'max_multiple'     => 0
+        );
         $customGroup =& civicrm_custom_group_create($params);
-        
+
         return $customGroup;
     }
-    
-    function createCustomField( &$cg )
+
+    function createCustomField( )
     {
-        $fieldParams = array('custom_group_id' => $cg['id'],
-                             'label'           => 'Choose Color',
-                             'html_type'       => 'Select',
-                             'data_type'       => 'String',
-                             'weight'          => 4,
-                             'is_required'     => 1,
-                             'is_searchable'   => 0,
-                             'is_active'       => 1
-                             );
-        
-        $optionGroup = array('domain_id' => 1,
-                             'label'     => 'Choose Color',
-                             'is_active' => 1
-                             );
-        
         $optionValue[] = array (
                                 'label'     => 'Red',
                                 'value'     => 'R',
                                 'weight'    => 1,
                                 'is_active' => 1
-                                );
+        );
         $optionValue[] = array (
                                 'label'     => 'Yellow',
                                 'value'     => 'Y',
                                 'weight'    => 2,
                                 'is_active' => 1
-                                );
+        );
         $optionValue[] = array (
                                 'label'     => 'Green',
                                 'value'     => 'G',
                                 'weight'    => 3,
                                 'is_active' => 1
-                                );
-        
-        $params = array('fieldParams' => $fieldParams,
-                        'optionGroup' => $optionGroup,
-                        'optionValue' => $optionValue,
-                        'customGroup' => $cg,
-                        );
-        
-        
-        
-        //$params = array('fieldParams' => $fieldParams);
-        $customField  =& civicrm_custom_field_create($params);
-        
+        );
+
+        $params = array(
+                        'label'           => 'Color Choser',
+                        'html_type'       => 'Select',
+                        'data_type'       => 'String',
+                        'weight'          => 4,
+                        'is_required'     => 1,
+                        'is_searchable'   => 0,
+                        'is_active'       => 1,
+                        'option_values'   => $optionValue,
+                        'custom_group_id' => $this->_customGroupId,
+        );
+
+        $customField  =& civicrm_custom_field_create( $params );
+
         $ids = array( );
         $ids[] = $customField['result']['customFieldId'];
-        
-        $fieldParams  = array('custom_group_id' => $cg['id'],
-                              'label'           => 'Enter idea in once sentence',
-                              'html_type'       => 'Text',
-                              'data_type'       => 'String',
-                              'default_value'   => 'xyz',
-                              'weight'          => 4,
-                              'is_required'     => 1,
-                              'is_searchable'   => 0,
-                              'is_active'       => 1
-                              );
-        
-        $params       = array('fieldParams' => $fieldParams);
-        $customField  =& civicrm_custom_field_create($params);
+
+        $params  = array(
+                          'custom_group_id' => $this->_customGroupId,
+                          'label'           => 'Enter idea in once sentence',
+                          'html_type'       => 'Text',
+                          'data_type'       => 'String',
+                          'default_value'   => 'xyz',
+                          'weight'          => 4,
+                          'is_required'     => 1,
+                          'is_searchable'   => 0,
+                          'is_active'       => 1
+        );
+
+        $customField  =& civicrm_custom_field_create( $params );
         $ids[] = $customField['result']['customFieldId'];
         return $ids;
     }
-    
-    function testCreateIndividualwithAll() 
+
+    function atestCreateIndividualwithSingleValueCustomData( )
     {
-        // Create contact
+        $custom_params = array (
+                                "custom_{$this->_ids[0]}" => 'R',
+                                "custom_{$this->_ids[1]}" => 'Information for custom field of type alphanumeric - text'
+        );
+        
+        // Create contact params
         $params = array('first_name'    => 'abc' . time( ),
-                        'last_name'     => 'xyz' . time( ), 
+                        'last_name'     => 'xyz' . time( ),
                         'contact_type'  => 'Individual',
                         'phone'         => '999999',
                         'phone_type'    => 'Phone',
@@ -123,42 +132,44 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
                         'preferred_communication_method' => array(
                                                                   '2' => 1,
                                                                   '3' => 1,
-                                                                  '4' => 1,
-                                                                  ),
-                        "custom_{$this->_ids[0]}"     => 'R',
-                        "custom_{$this->_ids[1]}"     => 'Information for custom field of type alphanumeric - text'
-                        );
+                                                                  '4' => 1 )
+        );
+        $params = array_merge( $params, $custom_params );
         $contact    =& civicrm_contact_add($params);
+
         $this->_cid = $contact['contact_id'];
         $this->assertNotNull( $contact['contact_id'] );
-                
-        // Get the contact values
-        $retrieve = array( 'contact_id'           => $contact['contact_id'],
+
+        // Params for fetchin values
+        $retrieve = array( 'id'                   => $contact['contact_id'],
                            'return.first_name'    => 1,
                            'return.last_name'     => 1,
                            'return.phone'         => 1,
                            'return.email'         => 1,
                            "return.custom_{$this->_ids[0]}"  => 1,
                            "return.custom_{$this->_ids[1]}"  => 1
-                           );
-        $getContact = civicrm_contact_get( $retrieve );
-                
+        );
+
+        // Fetched Contact
+        $getContact = civicrm_contact_get ( $retrieve );
         $this->assertEqual( $getContact['first_name']   , $params['first_name']    );
         $this->assertEqual( $getContact['last_name']    , $params['last_name']     );
         $this->assertEqual( $getContact[ "custom_{$this->_ids[0]}"], $params["custom_{$this->_ids[0]}"]  );
         $this->assertEqual( $getContact[ "custom_{$this->_ids[1]}"], $params["custom_{$this->_ids[1]}"]  );
-        
-        // Update the contact
-        $oParams                                = array( );
-        $oParams["custom_{$this->_ids[1]}"]     = 'Different information for custom field of type alphanumeric - text' ;
-        $oParams['email']                       = 'man7+custom@yahoo.com' ;
-        $oParams['phone']                       = '123-4567' ;
-        $oParams['contact_id']                  = $contact['contact_id'] ;
-        $oParams['first_name']                  = 'Check';
-        $oParams['contact_type']                = 'Individual';
-        
-        $updated    =& civicrm_contact_add($oParams);
-                
+
+        // Parmas to update the contact
+        $params = array(
+                        "custom_{$this->_ids[1]}" => 'Different information for custom field of type alpha - text',
+                        'email'                   => 'man7+custom@yahoo.com',
+                        'phone'                   => '123-4567',
+                        'contact_id'              => $contact['contact_id'],
+                        'first_name'              => 'Check',
+                        'contact_type'            => 'Individual'
+        );
+
+        // Updated Contact
+        $updated    =& civicrm_contact_add( $params );
+
         $retrieve = array( 'contact_id'           => $contact['contact_id'],
                            'return.first_name'    => 1,
                            'return.last_name'     => 1,
@@ -166,11 +177,97 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
                            'return.email'         => 1,
                            "return.custom_{$this->_ids[0]}"  => 1,
                            "return.custom_{$this->_ids[1]}"  => 1
-                           );
+        );
+
+        // Fetched Contact
         $getContact = civicrm_contact_get( $retrieve );
-                
-        $this->assertEqual(    $getContact[ "custom_{$this->_ids[0]}"], $params["custom_{$this->_ids[0]}"]  );
-        $this->assertEqual(    $getContact[ "custom_{$this->_ids[1]}"], $oParams["custom_{$this->_ids[1]}"]  );
-        $this->assertNotEqual( $getContact[ "custom_{$this->_ids[1]}"], $params["custom_{$this->_ids[1]}"]  );
+        $this->assertEqual(    $getContact[ "custom_{$this->_ids[0]}"], $custom_params["custom_{$this->_ids[0]}"]  );
+        $this->assertNotEqual( $getContact[ "custom_{$this->_ids[1]}"], $custom_params["custom_{$this->_ids[1]}"]  );
+        $this->assertEqual(    $getContact[ "custom_{$this->_ids[1]}"], $params["custom_{$this->_ids[1]}"]  );
+    }
+
+    function testCreateIndividualwithMultiValueCustomData( )
+    {
+        $optionValue[] = array (
+                                'label'     => 'Red',
+                                'value'     => '500',
+                                'weight'    => 1,
+                                'is_active' => 1
+        );
+        $optionValue[] = array (
+                                'label'     => 'Orange',
+                                'value'     => '400',
+                                'weight'    => 2,
+                                'is_active' => 1
+        );
+        $optionValue[] = array (
+                                'label'     => 'Green',
+                                'value'     => '300',
+                                'weight'    => 3,
+                                'is_active' => 1
+        );
+        $optionValue[] = array (
+                                'label'     => 'Yellow',
+                                'value'     => '200',
+                                'weight'    => 4,
+                                'is_active' => 1
+        );
+        $optionValue[] = array (
+                                'label'     => 'Purple',
+                                'value'     => '100',
+                                'weight'    => 5,
+                                'is_active' => 1
+        );
+        $optionValue[] = array (
+                                'label'     => 'Blue',
+                                'value'     => '50',
+                                'weight'    => 6,
+                                'is_active' => 1
+        );
+        
+        // Params for custom data of Check Box type
+        $params = array(
+                        'label'           => 'Choose Color',
+                        'html_type'       => 'CheckBox',
+                        'data_type'       => 'String',
+                        'weight'          => 5,
+                        'is_required'     => 1,
+                        'is_searchable'   => 0,
+                        'is_active'       => 1,
+                        'option_values'   => $optionValue,
+                        'custom_group_id' => $this->_customGroupId,
+        );
+
+        // Custom Field Creation
+        $customField  =& civicrm_custom_field_create($params);
+        $this->_customFieldId = $customField['result']['customFieldId'];
+
+        // Contact Creation
+        $this->_cid = Contact::createIndividual();
+
+        // Params for contact updation
+        $params = array(
+                         'contact_id'                     => $this->_cid,
+                         'contact_type'                   => 'Individual',
+                         "custom_{$this->_customFieldId}" => array( '50' => 1, '400' => 1 )
+        );
+
+        // Updated Contact
+        $updatedContact    =& civicrm_contact_add($params);
+
+        // Params for Conact retrieval
+        $retrieve = array(
+                            'id'                                    => $this->_cid,
+                            'return.first_name'                     => 1,
+                            'return.last_name'                      => 1,
+                            "return.custom_{$this->_customFieldId}" => 1
+        );
+
+        // Retrieved Contact
+        $getContact = civicrm_contact_get( $retrieve );
+        $this->assertEqual(    $getContact['first_name'], 'John' );
+        $this->assertEqual(    $getContact['last_name'], 'Doe' );
+        $this->assertNotNULL(  $getContact[ "custom_{$this->_customFieldId}"] );
+        $this->assertEqual(    $getContact[ "custom_{$this->_customFieldId}"], '50400'  );
     }
 }

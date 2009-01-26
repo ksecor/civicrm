@@ -65,7 +65,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCPBlock', $params, $defaults );
         }
 
-        if ( !$defaults['id'] ) { 
+        if ( ! CRM_Utils_Array::value( 'id', $defaults ) ) { 
             $defaults['is_approval_needed']    = 1;
             $defaults['is_tellfriend_enabled'] = 1;
             $defaults['tellfriend_limit']      = 5;
@@ -90,8 +90,13 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
 	
         $this->addElement( 'checkbox', 'is_approval_needed', ts('Approval required') );
         
-        $profile = array( );
-        CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 2, $profiles, array ( 'title', 'is_active' ) );
+        $profile        = array( );
+        $isUserRequired = null;
+        $config         =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework != 'Standalone' ) {
+            $isUserRequired = 2;            
+        } 
+        CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', $isUserRequired, $profiles, array ( 'title', 'is_active' ) );
         if ( !empty( $profiles ) ) {
             foreach ( $profiles as $key => $value ) {
                 if ( $value['is_active'] ) $profile[$key] = $value['title'];

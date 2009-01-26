@@ -115,7 +115,7 @@
       <type>decimal</type>  
       <required>true</required>
       <import>true</import>
-      <headerPattern>/total(.?am(ou)?nt)?/i</headerPattern>
+      <headerPattern>/^total|(.?^am(ou)?nt)/i</headerPattern>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
       <comment>Total amount of this contribution. Use market value for non-monetary gifts.</comment>  
       <add>1.3</add>  
@@ -295,6 +295,7 @@
       <type>int unsigned</type>
       <default>1</default>
       <import>true</import>
+      <headerPattern>/status/i</headerPattern>
       <add>1.6</add>
   </field>
   <field>

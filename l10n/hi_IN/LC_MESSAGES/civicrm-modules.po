@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-09-26 01:28-0700\n"
+"PO-Revision-Date: 2009-01-22 03:43-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1914,9 +1914,8 @@ msgid "The Premium '%1' has been saved."
 msgstr ""
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Contributor Name or Email"
-msgstr "योगदान तिथि से"
+msgstr "योगदानकर्ता का नाम या ईमेल"
 
 #: CRM/Contribute/Form/Task/Batch.php
 msgid "Batch Update for Contributions"
@@ -2626,9 +2625,8 @@ msgid "Select a valid Event TO date."
 msgstr ""
 
 #: CRM/Event/Form/Search.php
-#, fuzzy
 msgid "Participant Name or Email"
-msgstr "सहभाग की भूमिका"
+msgstr "सहभागकर्ता का नाम या ईमेल"
 
 #: CRM/Event/Form/Search.php
 msgid "Please select valid event."
@@ -3998,9 +3996,8 @@ msgid "The membership type '%1' has been saved."
 msgstr "सदस्याता प्रकार '%1' सुरक्षित कर दिया है।"
 
 #: CRM/Member/Form/Search.php
-#, fuzzy
 msgid "Member Name or Email"
-msgstr "नाम आैर ईमेल"
+msgstr "सदस्य का नाम या ईमेल"
 
 #: CRM/Member/Form/Task/Batch.php
 #, fuzzy
@@ -5569,9 +5566,8 @@ msgstr ""
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Member/Form/Membership.tpl
 #: templates/CRM/Member/Form/MembershipView.tpl
-#, fuzzy
 msgid "Incomplete Transaction"
-msgstr "पूर्ण वर्णन"
+msgstr "अधूरी गतिविधि"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Cancellation Information"
@@ -5608,7 +5604,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Are contributions of this type tax-deductible?"
-msgstr ""
+msgstr "क्या इस प्रकार के योगदान पर कर-काट है?"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "pending"
@@ -5767,7 +5763,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Please print this confirmation for your records."
-msgstr ""
+msgstr "कृपया अपने रिकॉर्ड के लिए यह पुष्टि प्रिंट किजिऐं।"
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
@@ -5780,19 +5776,19 @@ msgstr "पंजीकरण शुल्क"
 
 #: templates/CRM/Contribute/Form/SearchContribution.tpl
 msgid "Find Contribution Pages"
-msgstr ""
+msgstr "याेगदान पेज खोजें"
 
 #: templates/CRM/Contribute/Form/SearchContribution.tpl
 msgid "Complete OR partial Contribution Page title."
-msgstr ""
+msgstr "पूरा या आंशिक याेगदान पेज शीर्षक"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "No matching contributions found."
-msgstr ""
+msgstr "कोई मेल खाता योगदान मिला नही।"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "if you are searching by contributor name, check your spelling"
-msgstr ""
+msgstr "अगर आप योगदानकर्ता के नाम से खोज कर रहे हैं, अपनी वर्तनी की जाँच करें"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid ""
@@ -5806,9 +5802,8 @@ msgid "(Recurring Contribution)"
 msgstr "( पुनरावृत्ति योगदान )"
 
 #: templates/CRM/Contribute/Form/Selector.tpl
-#, fuzzy
 msgid "Find more contributions"
-msgstr "याेगदान खाेजें"
+msgstr "अधिक योगदान खोजें"
 
 #: templates/CRM/Contribute/Form/Selector.tpl
 msgid "View all contributions from this contact"
@@ -6213,7 +6208,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Contributions Summary"
-msgstr ""
+msgstr "योगदान सारांश"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
@@ -6223,7 +6218,7 @@ msgstr "अवधि"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
-msgstr ""
+msgstr "चालू माह से दिनांक"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "(n/a)"
@@ -6231,21 +6226,21 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "view details"
-msgstr ""
+msgstr "विवरण देखें"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Year-To-Date"
-msgstr ""
+msgstr "चालू वर्ष से दिनांक"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Cumulative"
-msgstr ""
+msgstr "संचयी"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "(since inception)"
-msgstr ""
+msgstr "स्थापना के बाद से"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
@@ -6275,7 +6270,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "Min Contribution"
-msgstr ""
+msgstr "न्यूनतम याेगदान"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
@@ -6335,18 +6330,16 @@ msgid "Record Contribution (Check, Cash, EFT ...)"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/Tab.tpl
-#, fuzzy
 msgid "Submit Credit / Debit Card Contribution"
-msgstr "क्रेडिट या डेबिट कार्ड जानकारी"
+msgstr "भेजें क्रेडिट / डेबिट कार्ड याेगदान"
 
 #: templates/CRM/Contribute/Page/Tab.tpl
 msgid "No contributions have been recorded from this contact."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/Tab.tpl templates/CRM/Pledge/Page/Tab.tpl
-#, fuzzy
 msgid "Contributions made in honor of %1"
-msgstr "योगदान पन्ना - %1"
+msgstr "योगदान %1 के सम्मान में किया"
 
 #: templates/CRM/Contribute/Page/UserDashboard.tpl
 msgid "Received date"
@@ -6391,7 +6384,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/EventFees.tpl
 msgid "Payment Information"
-msgstr ""
+msgstr "भुगतान सूचना"
 
 #: templates/CRM/Event/Form/EventFees.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
@@ -6401,20 +6394,20 @@ msgstr ""
 
 #: templates/CRM/Event/Form/EventFees.tpl
 msgid "Registration Confirmation and Receipt"
-msgstr ""
+msgstr "पंजीकरण पुष्टिकरण और रसीद"
 
 #: templates/CRM/Event/Form/EventFees.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
 msgid "Registration Confirmation"
-msgstr ""
+msgstr "पंजीकरण पुष्टिकरण"
 
 #: templates/CRM/Event/Form/EventFees.tpl
 msgid "Send Confirmation and Receipt"
-msgstr ""
+msgstr "पुष्टि और रसीद भेजें"
 
 #: templates/CRM/Event/Form/EventFees.tpl
 msgid "Send Confirmation"
-msgstr ""
+msgstr "पुष्टि भेजें"
 
 #: templates/CRM/Event/Form/EventFees.tpl
 msgid ""
@@ -6547,13 +6540,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-#, fuzzy
 msgid "another discount set"
-msgstr "एक और फोन"
+msgstr "एक और छूट सेट"
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid "Discounted Fees"
-msgstr ""
+msgstr "रियायती शुल्क"
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
@@ -6564,7 +6556,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid "Event Location and Contact Information"
-msgstr ""
+msgstr "घटना स्थान और संपर्क करने संबंधी जानकारी"
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid ""
@@ -6605,7 +6597,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Registration Screen"
-msgstr ""
+msgstr "पंजीकरण स्क्रीन"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -6632,7 +6624,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Confirmation Screen"
-msgstr ""
+msgstr "पुष्टिकरण स्क्रीन"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -6650,7 +6642,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Thank-you Screen"
-msgstr ""
+msgstr "धन्यवाद स्क्रीन"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Page title for registration Thank-you screen."
@@ -6668,7 +6660,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Confirmation Email"
-msgstr ""
+msgstr "पुष्टिकरण ईमेल"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -6683,7 +6675,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "FROM name for email."
-msgstr ""
+msgstr "ईमेल के लिए नाम से।"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -6711,15 +6703,15 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl templates/CRM/Event/Page/Tab.tpl
 msgid "New Event Registration"
-msgstr ""
+msgstr "नई घटना पंजीकरण"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Delete Event Registration"
-msgstr ""
+msgstr "घटना पंजीकरण हटाएँ"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Edit Event Registration"
-msgstr ""
+msgstr "घटना पंजीकरण संपादित करें"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid ""
@@ -6736,19 +6728,19 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Participant Name"
-msgstr ""
+msgstr "भागीदार का नाम"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Include past event(s) in this select list."
-msgstr ""
+msgstr "इस चयन सूची में पिछले घटनायाे काे शामिल करें।"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Source for this registration (if applicable)."
-msgstr ""
+msgstr "इस पंजीकरण के लिए स्रोत (यदि लागू हो)।"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "View Participant"
-msgstr ""
+msgstr "भागीदार देखें"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
@@ -6758,7 +6750,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
-msgstr ""
+msgstr "घटना स्तर"
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid ""
@@ -6795,20 +6787,20 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
 msgid "Map this Location"
-msgstr ""
+msgstr "इस स्थान का नक्शा"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
 msgid "Total Price"
-msgstr ""
+msgstr "कुल मूल्य"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Event Total"
-msgstr ""
+msgstr "घटना कुल"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive Your Event Registration Page"
-msgstr ""
+msgstr "आपका घटना पंजीकरण पृष्ठ का परीक्षण करे"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid ""
@@ -6824,29 +6816,29 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Event Information and Location"
-msgstr ""
+msgstr "घटना सूचना और स्थान"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Event Contacts:"
-msgstr ""
+msgstr "घटना संपर्क:"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Download iCalendar File:"
-msgstr ""
+msgstr "डाउनलोड iCalendar फाईल:"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Each"
-msgstr ""
+msgstr "प्रत्येक"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
-msgstr ""
+msgstr "घटना पंजीकरन - परीक्षण-ड्राइव पुष्टि / रसीद"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid ""
 "This is a test-drive registration. No live financial transaction has "
 "occurred."
-msgstr ""
+msgstr "यह एक परीक्षण ड्राइव पंजीकरण है। वित्तीय लेनदेन नहीं हुआ है।"
 
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Register additional people for this event"
@@ -7368,7 +7360,7 @@ msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid "Complete OR partial name OR email."
-msgstr ""
+msgstr "पूरा या आंशिक नाम या ईमेल"
 
 #: templates/CRM/Grant/Form/Selector.tpl
 msgid "List more Grants"
@@ -7470,7 +7462,7 @@ msgstr ""
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "New Mailing Component"
-msgstr ""
+msgstr "नया मेलिंग घटक"
 
 #: templates/CRM/Mailing/Form/Group.tpl
 msgid ""
@@ -7496,7 +7488,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Search.tpl
 msgid "Find Mailings"
-msgstr ""
+msgstr "डाक शाेध"
 
 #: templates/CRM/Mailing/Form/Search.tpl
 #, fuzzy
@@ -8061,7 +8053,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid "New Membership Type"
-msgstr ""
+msgstr "नया सदस्यता प्रकार"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -8071,7 +8063,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "e.g. 'Student', 'Senior', 'Honor Society'..."
-msgstr ""
+msgstr "उदाहरण 'छात्र', 'सीनियर', 'ऑनर सोसाइटी' ..."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -8193,36 +8185,35 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Join date"
-msgstr ""
+msgstr "शामिल होंने कि तिथि"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Start date"
-msgstr ""
+msgstr "आरम्भ तिथि"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "End date"
-msgstr ""
+msgstr "अंतिम तिथि"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Reminder date"
-msgstr ""
+msgstr "अनुस्मारक तिथि"
 
 #: templates/CRM/Member/Form/Search/Common.tpl
 msgid "Membership Type(s)"
-msgstr ""
+msgstr "सदस्यता प्रकार"
 
 #: templates/CRM/Member/Form/Search/EmptyResults.tpl
 msgid "if you are searching by member name, check your spelling"
-msgstr ""
+msgstr "क्या आप सदस्य के नाम से खोज कर रहे हैं, अपनी वर्तनी की जाँच करें"
 
 #: templates/CRM/Member/Form/Selector.tpl
 msgid "View all memberships for this contact"
-msgstr ""
+msgstr "इस संपर्क के लिए सारे सदस्यता देखे"
 
 #: templates/CRM/Member/Form/Selector.tpl
-#, fuzzy
 msgid "Find more members"
-msgstr "सदस्यों काे खोजें"
+msgstr "अधिक सदस्य खोजें"
 
 #: templates/CRM/Member/Form/Task/Batch.tpl
 msgid ""
@@ -8240,13 +8231,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/Task/PickProfile.tpl
-#, fuzzy
 msgid "Batch Update Members via Profile"
-msgstr "सामूहिक अद्यतन द्वारा प्रोफाइल"
+msgstr "सामूहिक सदस्य अद्यतन द्वारा प्रोफाइल"
 
 #: templates/CRM/Member/Form/Task.tpl
 msgid "Number of selected members: %1"
-msgstr ""
+msgstr "चयनित सदस्यों की संख्या: %1"
 
 #: templates/CRM/Member/Import/Form/Preview.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
@@ -8340,19 +8330,19 @@ msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Membership Summary"
-msgstr ""
+msgstr "सदस्यता सारांश"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Members by Type"
-msgstr ""
+msgstr "प्रकार के सदस्य"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Current #"
-msgstr ""
+msgstr "वर्तमान #"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Totals (all types)"
-msgstr ""
+msgstr "कुल (सभी प्रकार)"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Recent Memberships"
@@ -8414,9 +8404,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Page/Tab.tpl
-#, fuzzy
 msgid "Submit Credit / Debit Card Membership"
-msgstr "क्रेडिट या डेबिट कार्ड जानकारी"
+msgstr "क्रेडिट / डेबिट कार्ड सदस्यता भेजें"
 
 #: templates/CRM/Member/Page/Tab.tpl
 msgid ""
@@ -8429,9 +8418,8 @@ msgid "Active Memberships"
 msgstr "सक्रिय सदस्यताएँ"
 
 #: templates/CRM/Member/Page/Tab.tpl
-#, fuzzy
 msgid "Pending and Inactive Memberships"
-msgstr "निष्क्रिय सदस्यताएँ"
+msgstr "लंबित और निष्क्रिय सदस्यताएँ"
 
 #: templates/CRM/Member/Page/Tab.tpl
 msgid ""
@@ -8443,21 +8431,20 @@ msgstr ""
 
 #: templates/CRM/Member/Page/UserDashboard.tpl
 msgid "Renew Now"
-msgstr ""
+msgstr "तुरंत नवीनीकृत"
 
 #: templates/CRM/Member/Page/UserDashboard.tpl
 msgid "Expired / Inactive Memberships"
-msgstr ""
+msgstr "निश्वासित / निष्क्रिय सदस्यताएँ"
 
 #: templates/CRM/Member/Page/UserDashboard.tpl
 msgid "There are no memberships on record for you."
-msgstr ""
+msgstr "आपके लिए सदस्यता रिकॉर्ड नही हैं।"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Dear %1"
-msgstr "नया %1"
+msgstr "प्रिय %1"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 msgid ""
@@ -8477,9 +8464,8 @@ msgid "Pledge Received"
 msgstr "वचन मिल गया"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-#, fuzzy
 msgid "Payment Schedule"
-msgstr "भुगतान स्थिति"
+msgstr "भुगतान अनुसूची"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 msgid "%1 every %2 %3 for %4 installments."
@@ -8528,13 +8514,12 @@ msgstr "वचन के द्वारा"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
-#, fuzzy
 msgid "installments of"
-msgstr "किश्तों"
+msgstr "किश्तों की"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "day of the period"
-msgstr ""
+msgstr "इस अवधि के दिन"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "This applies to weekly, monthly and yearly payments."

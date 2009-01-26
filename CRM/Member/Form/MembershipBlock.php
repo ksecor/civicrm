@@ -177,7 +177,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
                 require_once "CRM/Contribute/DAO/ContributionPage.php";
                 $amountBlock = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $contributionPageId, 'amount_block_is_active' );
                 
-                if ( !$amountBlock &&  $params['is_separate_payment'] ) {
+                if ( !$amountBlock &&  CRM_Utils_Array::value( 'is_separate_payment', $params ) ) {
                     $errors['is_separate_payment'] = ts( 'Please enable the contribution amount section to use this option.' );
                 }
             }

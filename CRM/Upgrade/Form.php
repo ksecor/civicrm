@@ -68,11 +68,11 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
         return true;
     }
     
-    function source( $fileName ) {
+    function source( $fileName, $isQueryString = false ) {
         require_once 'CRM/Utils/File.php';
 
         CRM_Utils_File::sourceSQLFile( $this->_config->dsn,
-                                       $fileName );
+                                       $fileName, null, $isQueryString );
     }
     
     function preProcess( ) {
@@ -144,21 +144,6 @@ SET    version = '$version'
         return $domainID ? true : false; 
     }
 
-    public function sortRevision( $rev1, $rev2 ) {
-        $pattAlphanumeric = '/^(\d{1,2}\.\d{1,2})\.\w{4,7}$/i';
-        $pattNumeric      = '/^(\d{1,2}\.\d{1,2})(\.(\d{1,2}))?$/';
-        if ( preg_match($pattAlphanumeric, $rev1, $matches1) && 
-             preg_match($pattNumeric,      $rev2, $matches2)  ) {
-            return ($matches1[1] > $matches2[1]) ? 1 : -1;
-        } else if ( preg_match($pattNumeric,      $rev1, $matches1) &&
-                    preg_match($pattAlphanumeric, $rev2, $matches2)  ) {
-            return ($matches1[1] >= $matches2[1]) ? 1 : -1;
-        } else {
-            if ( $rev1 == $rev2 )  return 0;
-            return ($rev1 < $rev2) ? -1 : 1;
-        }
-    }
-
     function getRevisionSequence( ) {
         $revList  = array();
         $sqlDir   = implode( DIRECTORY_SEPARATOR, 
@@ -175,37 +160,33 @@ SET    version = '$version'
         }
 
         // sample test list
-        /* $revList = array('2.1.0', '2.2.beta2', '2.2.beta1', '2.2.alpha1', */
-        /*                  '2.2.alpha3', '2.2.0', '2.2.2', '2.1.alpha1', '2.1.3'); */
+/*         $revList = array('2.1.0', '2.2.beta2', '2.2.beta1', '2.2.alpha1', */
+/*                          '2.2.alpha3', '2.2.0', '2.2.2', '2.1.alpha1', '2.1.3'); */
 
-        usort($revList, array('CRM_Upgrade_Form', "sortRevision"));
+        usort($revList, 'version_compare');
         return $revList;
     }
 
-    function processLocales( $sqlFile ) {
-        $multilingual = false;
-        $tplFile = "$sqlFile.tpl";
+    function processLocales( $tplFile ) {
+        $config =& CRM_Core_Config::singleton();
+        $smarty = new Smarty;
+        $smarty->compile_dir = $config->templateCompileDir;
         
-        if ( file_exists( $tplFile ) ) {
-            $config =& CRM_Core_Config::singleton();
-            $smarty = new Smarty;
-            $smarty->compile_dir = $config->templateCompileDir;
-            
-            $domain =& new CRM_Core_DAO_Domain();
-            $domain->find(true);
-            $multilingual = (bool) $domain->locales;
-            $locales      = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
-            $smarty->assign('multilingual', $multilingual);
-            $smarty->assign('locales',      $locales);
-                                
-            // we didn't call CRM_Core_BAO_Setting::retrieve(), so we need to set $dbLocale by hand
-            if ($multilingual) {
-                global $dbLocale;
-                $dbLocale = "_{$config->lcMessages}";
-            }
-            file_put_contents($sqlFile, $smarty->fetch($tplFile));
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->find(true);
+        $multilingual = (bool) $domain->locales;
+        $locales      = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+        $smarty->assign('multilingual', $multilingual);
+        $smarty->assign('locales',      $locales);
+        
+        // we didn't call CRM_Core_BAO_Setting::retrieve(), so we need to set $dbLocale by hand
+        if ($multilingual) {
+            global $dbLocale;
+            $dbLocale = "_{$config->lcMessages}";
         }
-         
+
+        $this->source( $smarty->fetch($tplFile), true );
+        
         return $multilingual;
     }
 }

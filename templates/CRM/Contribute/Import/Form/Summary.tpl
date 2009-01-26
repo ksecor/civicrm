@@ -65,23 +65,40 @@
     {/if}
     
     {if $validSoftCreditRowCount }
-    <tr><td class="label">{ts}Soft Credit Rows Imported{/ts}</td>
+    <tr><td class="label">{ts}Soft Credits{/ts}</td>
         <td class="data">{$validSoftCreditRowCount}</td>
-        <td class="explanation">{ts}Rows with soft credits assigned.{/ts}</td>
+        <td class="explanation">{ts}Rows where a soft credit was successfully assigned to a contact.{/ts}</td>
     </tr>
     {/if}
 
     {if $invalidSoftCreditRowCount }
-    <tr class="error"><td class="label">{ts}Invalid Soft Credit Rows (skipped){/ts}</td>
+    <tr class="error"><td class="label">{ts}Unmatched Soft Credit Rows (skipped){/ts}</td>
         <td class="data">{$invalidSoftCreditRowCount}</td>
-        <td class="explanation">{ts}Rows with soft credits to invalid contacts. The soft credits for these rows have been skipped (not imported).{/ts}
+        <td class="explanation">{ts}Rows with a requested soft credit assignment where no matching contact was found (based on the supplied soft credit contact data). These contribution rows have been skipped (not imported).{/ts}
             {if $invalidSoftCreditRowCount}
-                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+                <p><a href="{$downloadSoftCreditErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
             {/if}
         </td>
     </tr>
     {/if}
     
+    {if $validPledgePaymentRowCount }
+    <tr><td class="label">{ts}Pledge Payments Applied{/ts}</td>
+        <td class="data">{$validPledgePaymentRowCount}</td>
+        <td class="explanation">{ts}Rows with a pledge payment successfully applied.{/ts}</td>
+    </tr>
+    {/if}
+
+    {if $invalidPledgePaymentRowCount }
+    <tr class="error"><td class="label">{ts}Invalid Pledge Payment Rows (skipped){/ts}</td>
+        <td class="data">{$invalidPledgePaymentRowCount}</td>
+        <td class="explanation">{ts}Rows marked as pledge payments where the contributor and / or contribution amount could not be matched to a pending pledge payment. These contribution rows have been skipped (not imported).{/ts}
+            {if $invalidPledgePaymentRowCount}
+                <p><a href="{$downloadPledgePaymentErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+            {/if}
+        </td>
+    </tr>
+    {/if}
     {if $unMatchCount }
     <tr class="error"><td class="label">{ts}Mismatched Rows (skipped){/ts}</td>
         <td class="data">{$unMatchCount}</td>
@@ -117,7 +134,7 @@
     
     <tr><td class="label">{ts}Records Imported{/ts}</td>
         <td class="data">{$validRowCount}</td>
-        <td class="explanation">{ts}Rows imported successfully.{/ts}</td>
+        <td class="explanation">{ts}Total number of rows imported successfully.{/ts}</td>
     </tr>
 
  </table>

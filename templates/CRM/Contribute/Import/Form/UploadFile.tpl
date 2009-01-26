@@ -5,12 +5,8 @@
  {include file="CRM/common/WizardHeader.tpl"}
  
  <div id="help">
-    <p>
     {ts}The Contribution Import Wizard allows you to easily upload contributions from other applications into CiviCRM.{/ts}
-    </p>
-    <p>
     {ts}Files to be imported must be in the 'comma-separated-values' format (CSV) and must contain data needed to match the contribution to an existing contact in your CiviCRM database.{/ts} {help id='upload'}
-    </p>
  </div>    
 
  <div id="upload-file" class="form-item">

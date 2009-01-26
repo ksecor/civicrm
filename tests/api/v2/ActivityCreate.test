@@ -122,14 +122,21 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
      */
     function testOtherActivityCreate( )
     {
-        $params = array(
+        $activity_params = array (
+				  'label'       => 'Voice Chat',
+				  'description' => 'Conduct Live Chatting.',
+				  'weight'      => 13,
+				  'is_active'   => 1,
+				  );
+
+        $activity_type =  civicrm_activity_type_create( $activity_params ); $params = array(
                         'source_contact_id'   => $this->_individualSourceId,
                         'subject'             => 'let test other activities',
                         'activity_date_time'  => date('Ymd'),
                         'location'            => 'Pensulvania',
                         'details'             => 'other activity details',
                         'status_id'           => 1,
-                        'activity_name'       => 'Interview',
+                        'activity_name'       => 'Voice Chat',
                         );
  
         $result = & civicrm_activity_create( $params );
@@ -140,6 +147,7 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $result['location'], 'Pensulvania' );
         $this->assertEqual( $result['details'], 'other activity details' );
         $this->assertEqual( $result['status_id'], 1 );
+	civicrm_activity_type_delete( $activity_type['id'] );
     }
 
     /**

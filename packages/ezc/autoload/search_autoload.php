@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.0
+ * @version 1.0.2
  * @filesource
  * @package Search
  */
@@ -18,6 +18,7 @@ return array(
     'ezcSearchDoesNotProvideDefinitionException' => 'Search/exceptions/does_not_provide_definition.php',
     'ezcSearchFieldNotDefinedException'          => 'Search/exceptions/field_not_defined.php',
     'ezcSearchIncompleteStateException'          => 'Search/exceptions/incomplete_state.php',
+    'ezcSearchNetworkException'                  => 'Search/exceptions/network.php',
     'ezcSearchQueryVariableParameterException'   => 'Search/exceptions/query_variable_parameter.php',
     'ezcSearchTransactionException'              => 'Search/exceptions/transaction.php',
     'ezcSearchQuery'                             => 'Search/interfaces/query.php',

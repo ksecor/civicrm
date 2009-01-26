@@ -186,10 +186,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
     { 
-        
-        // no need to calculate status again 
+        // no need to calculate status again
         // as we done in membership update cron, CRM-3984
-        if ( !isset( $params['is_override'] ) && !CRM_Utils_Array::value( 'skipStatusCal', $params )  ) {
+        if ( !CRM_Utils_Array::value( 'is_override', $params ) && 
+             !CRM_Utils_Array::value( 'skipStatusCal', $params ) ) {
             require_once 'CRM/Utils/Date.php';
             $startDate = $endDate = $joinDate = null;
             if ( isset( $params['start_date'] ) ) {
@@ -1097,7 +1097,7 @@ AND civicrm_membership.is_test = %2";
 
                 if ( empty( $membership->source ) ) {
                     if ( $form ) {
-                        if ( $form->_params['membership_source'] ) {
+                        if ( CRM_Utils_Array( 'membership_source', $form->_params ) ) {
                             $memParams['source'] = $form->_params['membership_source'];
                         } else {
                             $memParams['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
@@ -1402,7 +1402,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             // Reminder should be sent only to the direct membership
             unset( $params['reminder_date'] );
             // unset the custom value ids
-            if ( is_array( $params['custom'] ) ) {
+            if ( is_array( CRM_Utils_Array::value( 'custom', $params ) ) ) {
                 foreach ( $params['custom'] as $k => $v ) {
                     unset( $params['custom'][$k]['id'] );
                 }
@@ -1418,7 +1418,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                 // past relationship
                 $params['status_id'          ] = $membership->status_id;
                 
-                if ( ( $params['action'] & CRM_Core_Action::UPDATE ) && 
+                if ( ( CRM_Utils_Array::value( 'action', $params ) & CRM_Core_Action::UPDATE ) && 
                      ( $relationshipStatus == CRM_Contact_BAO_Relationship::PAST ) ) {
                     // FIXME : While updating/ renewing the
                     // membership, if the relationship is PAST then

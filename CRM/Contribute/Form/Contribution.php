@@ -1011,7 +1011,7 @@ WHERE  contribution_id = {$this->_id}
                     $params[$d] = 'null';
                 }
             }
-            if ( $formValues['is_email_receipt'] ) {
+            if ( CRM_Utils_Array::value( 'is_email_receipt', $formValues ) ) {
                 $params['receipt_date'] = date("Y-m-d");
             }
             if ( $params["contribution_status_id"] == 3 ) {
@@ -1134,7 +1134,7 @@ WHERE  contribution_id = {$this->_id}
             }
             
             //send receipt mail.
-            if ( $contribution->id && $formValues['is_email_receipt'] ) {
+            if ( $contribution->id && CRM_Utils_Array::value( 'is_email_receipt', $formValues ) ) {
                 $formValues['contact_id']      = $this->_contactID;
                 $formValues['contribution_id'] = $contribution->id;
                 $sendReceipt = CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $formValues );
@@ -1152,7 +1152,7 @@ WHERE  contribution_id = {$this->_id}
             } 
             
             $statusMsg = ts('The contribution record has been saved.');
-            if ( $formValues['is_email_receipt'] && $sendReceipt ) {
+            if ( CRM_Utils_Array::value( 'is_email_receipt', $formValues ) && $sendReceipt ) {
                 $statusMsg .= ' ' . ts('A receipt has been emailed to the contributor.');
             }
             CRM_Core_Session::setStatus( $statusMsg );

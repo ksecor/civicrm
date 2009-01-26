@@ -14,7 +14,7 @@
   {/if}
 
   {if $single}
-    <th>{ts}ID{/ts}</th>
+    <th scope="col">{ts}ID{/ts}</th>
   {else}
     <th></th>
   {/if}
@@ -37,34 +37,36 @@
 
   {* FIXME: Styling for Urgent and Resolved case status should be based on option_value.name NOT .label so translated sites function properly. dgg *}
   <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id EQ 'Urgent' } disabled{elseif $row.case_status_id EQ 'Resolved'}status-completed{/if}'>
-    {if $context eq 'Search' }
+    {if $context eq 'Search' && !$single}
         {assign var=cbName value=$row.checkbox}
         <td>{$form.$cbName.html}</td> 
     {/if}
-    {if $context != 'case'}	
-	<td>
-	<span id="{$list}{$row.case_id}_show">
-	    <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
-                             buildCaseDetails('{$list}{$row.case_id}','{$row.contact_id}'); 
-                             hide('{$list}{$row.case_id}_show');
-                             show('minus{$list}{$row.case_id}_hide');
-                             show('{$list}{$row.case_id}_hide','table-row');
-                             return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
-	</span>
-	<span id="minus{$list}{$row.case_id}_hide">
-	    <a href="#" onclick="hide('caseDetails{$list}{$row.case_id}'); 
-                             show('{$list}{$row.case_id}_show', 'table-row');
-                             hide('{$list}{$row.case_id}_hide');
-                             hide('minus{$list}{$row.case_id}_hide');
-                             return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
-	</td>
-    {/if}	
     {if $single }
         <td>{$row.case_id}</td>
-    {else}
+    {/if}
+    {if $context != 'case'}	
+        <td>
+        <span id="{$list}{$row.case_id}_show">
+            <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
+                                 buildCaseDetails('{$list}{$row.case_id}','{$row.contact_id}'); 
+                                 hide('{$list}{$row.case_id}_show');
+                                 show('minus{$list}{$row.case_id}_hide');
+                                 show('{$list}{$row.case_id}_hide','table-row');
+                                 return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+        </span>
+        <span id="minus{$list}{$row.case_id}_hide">
+            <a href="#" onclick="hide('caseDetails{$list}{$row.case_id}'); 
+                                 show('{$list}{$row.case_id}_show', 'table-row');
+                                 hide('{$list}{$row.case_id}_hide');
+                                 hide('minus{$list}{$row.case_id}_hide');
+                                 return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+        </td>
+    {/if}	
+  
+    {if !$single}
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a><br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
     {/if}
-
+    
     <td>{$row.case_status_id}</td>
     <td>{$row.case_type_id}</td>
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>

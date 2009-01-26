@@ -3,7 +3,7 @@
  * File containing the ezcMailRfc822Digest class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -32,17 +32,10 @@
  *           The mail object to digest.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  */
 class ezcMailRfc822Digest extends ezcMailPart
 {
-    /**
-     * Holds the properties of this class.
-     *
-     * @var array(string=>mixed)
-     */
-    private $properties = array();
-
     /**
      * Constructs a new ezcMailDigest with the mail $mail.
      *

@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.2
+ * @version 1.3
  * @filesource
  * @package Workflow
  */
@@ -34,6 +34,7 @@ return array(
     'ezcWorkflowVisitor'                          => 'Workflow/interfaces/visitor.php',
     'ezcWorkflow'                                 => 'Workflow/workflow.php',
     'ezcWorkflowConditionAnd'                     => 'Workflow/conditions/and.php',
+    'ezcWorkflowConditionInArray'                 => 'Workflow/conditions/in_array.php',
     'ezcWorkflowConditionIsAnything'              => 'Workflow/conditions/is_anything.php',
     'ezcWorkflowConditionIsArray'                 => 'Workflow/conditions/is_array.php',
     'ezcWorkflowConditionIsBool'                  => 'Workflow/conditions/is_bool.php',
@@ -84,6 +85,7 @@ return array(
     'ezcWorkflowUtil'                             => 'Workflow/util.php',
     'ezcWorkflowVariableHandler'                  => 'Workflow/interfaces/variable_handler.php',
     'ezcWorkflowVisitorNodeCollector'             => 'Workflow/visitors/node_collector.php',
+    'ezcWorkflowVisitorReset'                     => 'Workflow/visitors/reset.php',
     'ezcWorkflowVisitorVerification'              => 'Workflow/visitors/verification.php',
     'ezcWorkflowVisitorVisualization'             => 'Workflow/visitors/visualization.php',
     'ezcWorkflowVisitorVisualizationOptions'      => 'Workflow/options/visitor_visualization.php',

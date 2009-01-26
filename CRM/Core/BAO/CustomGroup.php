@@ -1391,24 +1391,25 @@ SELECT $select
                         $details[$groupID][$values['id']]['help_post']        = CRM_Utils_Array::value('help_post', $group); 
                         $details[$groupID][$values['id']]['collapse_display'] = CRM_Utils_Array::value('collapse_display', $group);
                         
-                        $details[$groupID][$values['id']]['fields'][$k] = array( 'field_title'      => CRM_Utils_Array::value('label', $properties) ,
-                                                                                 'field_type'       => CRM_Utils_Array::value('html_type',
-                                                                                                                              $properties),
-                                                                                 'field_value'      =>
-                                                                                 self::formatCustomValues( $values,
-                                                                                                           CRM_Utils_Array::value('html_type',
-                                                                                                                                  $properties), 
-                                                                                                           CRM_Utils_Array::value('data_type',
-                                                                                                                                  $properties),
-                                                                                                           CRM_Utils_Array::value('option_group_id', 
-                                                                                                                                  $properties),
-                                                                                                           CRM_Utils_Array::value('date_parts',
-                                                                                                                                  $properties),
-                                                                                                           CRM_Utils_Array::value('options_per_line',
-                                                                                                                                  $properties)
-                                                                                                           ),
-                                                                                 'options_per_line' => CRM_Utils_Array::value('options_per_line',
-                                                                                                                              $properties) ) ;
+                        $details[$groupID][$values['id']]['fields'][$k] = 
+                            array( 'field_title'      => CRM_Utils_Array::value('label', $properties) ,
+                                   'field_type'       => CRM_Utils_Array::value('html_type',
+                                                                                $properties),
+                                   'field_value'      =>
+                                   self::formatCustomValues( $values,
+                                                             CRM_Utils_Array::value('html_type',
+                                                                                    $properties), 
+                                                             CRM_Utils_Array::value('data_type',
+                                                                                    $properties),
+                                                             CRM_Utils_Array::value('option_group_id', 
+                                                                                    $properties),
+                                                             CRM_Utils_Array::value('date_parts',
+                                                                                    $properties),
+                                                             CRM_Utils_Array::value('options_per_line',
+                                                                                    $properties)
+                                                             ),
+                                   'options_per_line' => CRM_Utils_Array::value('options_per_line',
+                                                                                $properties) ) ;
                     }
                 } else {
                     $details[$groupID][0]['title']             = CRM_Utils_Array::value('title', $group);  
@@ -1473,15 +1474,16 @@ SELECT $select
         case 'Money':
 			if ( $htmlType == 'Text' ) {
 				$retValue = (float)$value;
-				break;
+                break;
 			}
 
         case 'String':
         case 'Int':
-            if ( $htmlType == 'Text' ) {
+            if ( in_array($htmlType, array('Text', 'TextArea')) ) {
                 $retValue = $value;
                 break;
-            }			
+            }
+
         case 'StateProvince':
         case 'Country':
     		//added check for Multi-Select in the below if-statement
@@ -1508,13 +1510,16 @@ SELECT $select
     			break;
 
             case 'Select': 
-    			$query = "
-    				SELECT label, value
-    				FROM civicrm_option_value
-    				WHERE option_group_id = %1
-    				ORDER BY weight ASC, label ASC";
-    			$params = array( 1 => array( $option_group_id, 'Integer' ) );
-    			$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+    			$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                if ( $option_group_id ) {
+                    $query = "
+    				    SELECT label, value
+    				    FROM civicrm_option_value
+    				    WHERE option_group_id = %1
+    				    ORDER BY weight ASC, label ASC";
+                    $params = array( 1 => array( $option_group_id, 'Integer' ) );
+                    $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+                }
     			break;
 
             case 'CheckBox': 
@@ -1522,13 +1527,15 @@ SELECT $select
                 $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
     
             default:
-    			$query = "
-    				SELECT label, value
-    				FROM civicrm_option_value
-    				WHERE option_group_id = %1
-    				ORDER BY weight ASC, label ASC";
-    			$params = array( 1 => array( $option_group_id, 'Integer' ) );
-    			$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+                if ( $option_group_id ) {
+                    $query = "
+    				    SELECT label, value
+    				    FROM civicrm_option_value
+    				    WHERE option_group_id = %1
+    				    ORDER BY weight ASC, label ASC";
+                    $params = array( 1 => array( $option_group_id, 'Integer' ) );
+                    $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+                }
     		}
     		
             $retValue = null;

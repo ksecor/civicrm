@@ -75,8 +75,8 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             $defaults['is_active'] = 1;
         }
      
-        $this->_contactID    = $defaults['contact_id'];
-        $this->_contriPageId = $defaults['contribution_page_id'];
+        $this->_contactID    = CRM_Utils_Array::value( 'contact_id', $defaults );
+        $this->_contriPageId = CRM_Utils_Array::value( 'contribution_page_id', $defaults );
         return $defaults;
     }
     
@@ -107,7 +107,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp', $this->_pageId, $maxAttachments );
         
         $this->addElement( 'checkbox', 'is_thermometer', ts('Progress Bar') );
-        $this->addElement( 'checkbox', 'is_honor_roll', ts('Honour Roll'), null);
+        $this->addElement( 'checkbox', 'is_honor_roll', ts('Honor Roll'), null);
         $this->addElement( 'checkbox', 'is_active', ts('Active') );
 
         $this->addButtons( array(
@@ -176,7 +176,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         
         $approval_needed = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', 
                                                         $params['contribution_page_id'], 'is_approval_needed', 'entity_id' );
-
+        $approvalMessage = null;
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $params['status_id'] = $approval_needed ? 1 : 2;
             $approvalMessage     = $approval_needed ? ts('but requires administrator review before you can begin your fundraising efforts. You will receive an email confirmation shortly which includes a link to return to this page.') : ts('and is ready to use. Click the Tell Friends link below to being promoting your fundraising campaign.');

@@ -1129,7 +1129,7 @@ AND    civicrm_contact.id = %1";
         $phoneReset = array( );
         $imLoc      = 0; 
         $imReset    = array( );
-
+        
         foreach ($params as $key => $value) {
             $fieldName = $locTypeId = $typeId = null;
             list($fieldName, $locTypeId, $typeId) = CRM_Utils_System::explode('-', $key, 3);
@@ -1303,37 +1303,14 @@ AND    civicrm_contact.id = %1";
             $data['contact_type'] = 'Individual';
         }
 
-        //get the custom fields for the contact
-        $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
-
-        $studentFieldPresent = 0;
-        // fix all the custom field checkboxes which are empty
-        foreach ($fields as $name => $field ) {
-            if ( CRM_Core_Permission::access( 'Quest' ) ) {
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            $studentFieldPresent = 0;
+            foreach ($fields as $name => $field ) {
                 // check if student fields present
                 require_once 'CRM/Quest/BAO/Student.php';
                 if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Student::exportableFields()) ) {
-                   $studentFieldPresent = 1;
+                    $studentFieldPresent = 1;
                 }
-            }
-
-            $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
-            // if there is a custom field of type checkbox,multi-select and it has not been set
-            // then set it to null, thanx to html protocol
-            if ( $cfID &&
-                 ( $customFields[$cfID]['html_type'] == 'CheckBox' || 
-                   $customFields[$cfID]['html_type'] == 'Multi-Select' || 
-                   $customFields[$cfID]['html_type'] == 'Radio' ) &&
-                 !CRM_Utils_Array::value( $cfID, $data['custom'] ) ) {
-                
-                $str = "custom_value_{$cfID}_id";
-                $customOptionValueId = $contactDetails[$str] ? $contactDetails[$str] : NULL;
-                CRM_Core_BAO_CustomField::formatCustomField( $cfID,
-                                                             $data['custom'], 
-                                                             '',
-                                                             $data['contact_type'],
-                                                             $customOptionValueId,
-                                                             $contactID );
             }
         }
        
@@ -1364,7 +1341,7 @@ AND    civicrm_contact.id = %1";
                 CRM_Contact_BAO_SubscriptionHistory::create($shParams);
             }
         }
-
+                
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $data['contact_type'] != 'Student' ) {
             $contact =& self::create( $data );

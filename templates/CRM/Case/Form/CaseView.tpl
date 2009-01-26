@@ -188,13 +188,15 @@ cj(document).ready(function(){
 {/literal}
 
 <div id="otherRel_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('otherRel_show'); show('otherRel'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Client's Relationships{/ts}</label><br />
+  <a href="#" onclick="hide('otherRel_show'); show('otherRel'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Other Relationships{/ts}</label><br />
 </div>
 
 <div id="otherRel" class="section-shown">
  <fieldset>
-  <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Client's Relationships{/ts}</legend>
+  <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
 
+  <br />
+  
   {if $clientRelationships}
     <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
 	
@@ -220,11 +222,43 @@ cj(document).ready(function(){
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         <dd>
           {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}{/capture}
-          {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}
+          {ts 1=$crmURL}There are no Relationships entered for this client. You can <a accesskey="N" href='%1'>add one</a>.{/ts}
         </dd>
       </dl>
     </div>
   {/if}
+
+  <br /><br />
+  
+  {if $globalRelationships}
+    <div><a href="{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}" title="{ts}Add members to {$globalGroupInfo.title}{/ts}">{ts}Add members to {$globalGroupInfo.title}{/ts}</a></div>
+	
+    <table class="report">
+    	<tr class="columnheader">
+    		<th>{ts}Name{/ts}</th>
+    		<th>{ts}Phone{/ts}</th>
+    		<th>{ts}Email{/ts}</th>
+    	</tr>
+        {foreach from=$globalRelationships item=row key=relId}
+        <tr>
+            <td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.contact_id`"}" title="view contact record">{$row.sort_name}</a></td>
+            <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&action=add&atype=3&cid=`$row.contact_id`&caseid=`$caseID`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
+        </tr>
+		{assign var=rowNumber value = `$rowNumber+1`}
+        {/foreach}
+    </table>
+  {elseif $globalGroupInfo.id}
+    <div class="messages status">
+      <dl>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+        <dd>          
+          {capture assign=crmURL}{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}{/capture}
+          {ts 1=$crmURL}The group {$globalGroupInfo.title} has no members. You can <a href='%1'>add one</a>.{/ts}
+        </dd>
+      </dl>
+    </div>
+  {/if}
+
  </fieldset>
 </div>
 {literal}

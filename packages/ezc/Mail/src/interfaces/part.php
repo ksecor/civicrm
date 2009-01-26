@@ -3,7 +3,7 @@
  * File containing the ezcMailPart class.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -33,7 +33,7 @@
  *                extending this class and its derivals.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  */
 abstract class ezcMailPart
 {
@@ -64,7 +64,7 @@ abstract class ezcMailPart
      *
      * @var array(string=>mixed)
      */
-    private $properties = array();
+    protected $properties = array();
 
     /**
      * Constructs a new mail part.
@@ -158,6 +158,10 @@ abstract class ezcMailPart
      * Getting headers is case insensitive. Getting the header
      * 'Message-Id' will match both 'Message-ID' and 'MESSAGE-ID'
      * as well as 'Message-Id'.
+     *
+     * The raw value is MIME-encoded, so if you want to decode it,
+     * use {@link ezcMailTools::mimeDecode()} or implement your own
+     * MIME-decoding function.
      *
      * @param string $name
      * @return string

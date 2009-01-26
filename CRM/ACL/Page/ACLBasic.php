@@ -162,7 +162,7 @@ ORDER BY entity_id
                 $acl[$dao->entity_id]['name']         = $dao->name;
                 $acl[$dao->entity_id]['entity_id']    = $dao->entity_id;
                 $acl[$dao->entity_id]['entity_table'] = $dao->entity_table;
-                $acl[$dao->entity_id]['object_table'] = $permissions[$dao->object_table];
+                $acl[$dao->entity_id]['object_table'] = CRM_Utils_Array::value( $dao->object_table, $permissions );
                 $acl[$dao->entity_id]['is_active']    = 1;
 
                 if ( $acl[$dao->entity_id]['entity_id'] ) {
@@ -176,7 +176,7 @@ ORDER BY entity_id
     
                 $acl[$dao->entity_id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                      array('id' => $dao->entity_id));
-            } else {
+            } else if ( CRM_Utils_Array::value( $dao->object_table, $permissions ) ) {
                 $acl[$dao->entity_id]['object_table'] .= ", {$permissions[$dao->object_table]}";
             }
         }

@@ -554,6 +554,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->assign('dataUrl',$dataUrl );
 
         $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
+        //allow to edit sourcecontactfield field if context is civicase.
+        if ( $this->_context == 'caseActivity' ) {
+            $admin = true;
+        }
+        
         $this->assign('admin', $admin);
 
         $sourceContactField =& $this->add( $this->_fields['source_contact_id']['type'],
@@ -696,7 +701,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         //set activity type id
-        if ( ! $params['activity_type_id'] ) {
+        if ( ! CRM_Utils_Array::value( 'activity_type_id', $params ) ) {
             $params['activity_type_id']   = $this->_activityTypeId;
         }
         

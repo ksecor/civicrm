@@ -180,6 +180,9 @@ class CRM_Core_Config_Defaults
                 // we need to remove the administrator/ from the end
                 $tempURL = str_replace( "/administrator/", "/", $baseURL );
                 $defaults['imageUploadURL'] = $tempURL . "media/civicrm/persist/contribute/";
+            } else if ( $config->userFramework == 'Standalone' ) {
+                //for standalone no need of sites/defaults directory
+                $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
             } else {
                 $defaults['imageUploadURL'] = $baseURL . "sites/default/files/civicrm/persist/contribute/";
             }

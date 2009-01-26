@@ -131,24 +131,9 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $transaction->rollback( );
             return $case;
         }
-        $session = & CRM_Core_Session::singleton();
-        $id = $session->get('userID');
-        if ( !$id ) {
-            $id = $params['contact_id'];
-        } 
-
-        // Log the information on successful add/edit of Case
-        require_once 'CRM/Core/BAO/Log.php';
-        $logParams = array(
-                           'entity_table'  => 'civicrm_case',
-                           'entity_id'     => $case->id,
-                           'modified_id'   => $id,
-                           'modified_date' => date('YmdHis')
-                           );
-        
-        CRM_Core_BAO_Log::add( $logParams );
         $transaction->commit( );
-        
+        //we are not creating log for case
+        //since case log can be tracked using log for activity.
         return $case;
     }
 
@@ -605,7 +590,6 @@ AND civicrm_case.is_deleted     = 0";
      */
     function getCasesSummary( $allCases = true, $userID )
     {
-    
         require_once 'CRM/Core/OptionGroup.php';
         $caseStatuses = CRM_Core_OptionGroup::values( 'case_status' );
         $caseTypes    = CRM_Core_OptionGroup::values( 'case_type' );
@@ -613,31 +597,36 @@ AND civicrm_case.is_deleted     = 0";
      
         // get statuses as headers for the table
         $caseSummary['headers'] = $caseStatuses;
-
+        
         // build rows with actual data
         $rows = array();
-        $myCaseFrom  = $myCaseWhere = $myCaseFromClause = $myCaseWhereClause = '';
+        $myGroupByClause = $mySelectClause = $myCaseFromClause = $myCaseWhereClause = '';
         
-        if ( !$allCases ) {
-            $myCaseFromClause = " 
- LEFT JOIN civicrm_relationship case_relationship 
-           ON ( case_relationship.case_id  = civicrm_case.id )";
-            
+        if( $allCases ) {
+            $userID = 'null';
+            $all = 1;
+        } else {
+            $all = 0;
             $myCaseWhereClause = " AND case_relationship.contact_id_b = {$userID}";
+            $myGroupByClause   = " GROUP BY CONCAT(case_relationship.case_id,'-',case_relationship.contact_id_b)";
         }
-
+        
         $seperator = self::VALUE_SEPERATOR;
    
         $query = "
-SELECT case_status.label AS case_status, status_id, case_type.label AS case_type, REPLACE(case_type_id,'{$seperator}','') AS case_type_id
-FROM civicrm_case {$myCaseFromClause}
+SELECT case_status.label AS case_status, status_id, case_type.label AS case_type, 
+REPLACE(case_type_id,'{$seperator}','') AS case_type_id, case_relationship.contact_id_b
+FROM civicrm_case
 LEFT JOIN civicrm_option_group option_group_case_type ON ( option_group_case_type.name = 'case_type' )
 LEFT JOIN civicrm_option_value case_type ON ( civicrm_case.case_type_id = case_type.value
 AND option_group_case_type.id = case_type.option_group_id )
 LEFT JOIN civicrm_option_group option_group_case_status ON ( option_group_case_status.name = 'case_status' )
 LEFT JOIN civicrm_option_value case_status ON ( civicrm_case.status_id = case_status.value
 AND option_group_case_status.id = case_status.option_group_id )
-WHERE is_deleted =0 {$myCaseWhereClause}";
+LEFT JOIN civicrm_relationship case_relationship ON ( case_relationship.case_id  = civicrm_case.id 
+AND case_relationship.contact_id_b = {$userID})
+WHERE is_deleted =0 
+{$myCaseWhereClause} {$myGroupByClause}";
         
         $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while( $res->fetch() ) {
@@ -646,7 +635,7 @@ WHERE is_deleted =0 {$myCaseWhereClause}";
             } else {
                 $rows[$res->case_type][$res->case_status] = array( 'count' => 1,
                                                                    'url'   => CRM_Utils_System::url( 'civicrm/case/search',
-                                                                                                     "reset=1&force=1&status={$res->status_id}&type={$res->case_type_id}" ) 
+                                                                                                     "reset=1&force=1&status={$res->status_id}&type={$res->case_type_id}&all={$all}" ) 
                                                                    );
             }
         }
@@ -1033,10 +1022,17 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
 
             if ( $replacement !== $to['email'] ) {
                 $caseId = $replacement;
+                //if caseId is invalid, return as error file
+                if( !CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case', $caseId, 'id') ) {
+                    return CRM_Core_Error::createAPIError( ts( 'Invalid case ID ( %1 ) in TO: field.',
+                                                               array( 1 => $caseId ) ) );  
+                }
             } else {
                 continue;
             }
 
+// TODO: May want to replace this with a call to getRelatedAndGlobalContacts() when this feature is revisited.
+// (Or for efficiency call the global one outside the loop and then union with this each time.)            
             $contactDetails = self::getRelatedContacts( $caseId );
 
             if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
@@ -1072,7 +1068,10 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
 
                 $caseParams = array( 'activity_id' => $activity->id,
                                      'case_id'     => $caseId   );
-                CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+                self::processCaseActivity( $caseParams );
+            } else {
+                return CRM_Core_Error::createAPIError( ts( 'FROM email contact %1 doesn\'t have a relationship to the referenced case.',
+                                                           array( 1 => $result['from']['email'] ) ) );   
             }
         } 
     }
@@ -1169,6 +1168,60 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         $case->save( );
         return true;
     }
+    
+    static function getGlobalContacts(&$groupInfo)
+    {
+    	$globalContacts = array();
+    	
+   		require_once 'CRM/Case/XMLProcessor/Settings.php';
+   		require_once 'CRM/Contact/BAO/Group.php';
+   		require_once 'api/v2/Contact.php';
+   		$settingsProcessor = new CRM_Case_XMLProcessor_Settings();
+   		$settings = $settingsProcessor->run();
+   		if (! empty($settings)) {
+   			$groupInfo['name'] = $settings['groupname'];
+   			if ($groupInfo['name']) {
+				$searchParams = array('name' => $groupInfo['name']);   				
+				$results = array();
+   				CRM_Contact_BAO_Group::retrieve($searchParams, $results);
+				if ($results) {
+					$groupInfo['id'] = $results['id'];
+					$groupInfo['title'] = $results['title'];
+					$searchParams = array( 'group' => array($groupInfo['id'] => 1),
+                           'return.sort_name'    => 1,
+                           'return.email'    => 1,
+                           'return.phone'    => 1
+                           );
+        
+					$globalContacts = civicrm_contact_search( $searchParams );
+				}
+
+   			}
+   		}
+   		return $globalContacts;
+    }
+
+	/* 
+	 * Convenience function to get both case contacts and global in one array
+	 */
+	static function getRelatedAndGlobalContacts($caseId)
+	{
+		$values = self::getRelatedContacts($caseId);
+		$groupInfo = array();
+		$values2 = self::getGlobalContacts($groupInfo);
+		
+		foreach($values2 as $k => $v)
+		{
+			$values[$k]['id'] = $k;
+			$values[$k]['name'] = $v['sort_name'];
+			$values[$k]['email'] = $v['email'];
+			// if they are both a role and a global contact, then don't overwrite the role name
+			if (empty($values[$k]['role'])) {
+				$values[$k]['role']= $groupInfo['title'];
+			}
+		}
+		
+		return $values;
+	}   
 }
 
-   

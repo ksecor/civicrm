@@ -62,13 +62,12 @@ class CRM_Utils_PChart
         if ( empty( $params ) ) {
             return;
         }
-        
-        //get the currency.
-        $currency = $config->defaultCurrency;
-        
         //configure the directory for pChart.
         $config =& CRM_Core_Config::singleton( );
-        
+
+        //get the currency.
+        $currency      = $config->defaultCurrency;
+           
         $pChartPath    = str_replace( 'templates', 'packages', $config->templateDir ) ;
         $pChartPath   .= 'pChart/Fonts/';
         $uploadDirURL  = str_replace( 'persist/contribute/', 'upload/pChart/', $config->imageUploadURL);

@@ -343,7 +343,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
         //either name OR id is present
         if ( isset( $params['activity_name'] ) ) {
             require_once "CRM/Core/PseudoConstant.php";
-            $activityTypes  =& CRM_Core_PseudoConstant::activityType( );
+            $activityTypes  =& CRM_Core_PseudoConstant::activityType( true, false, true );
             $activityId     = array_search( $params['activity_name'], $activityTypes );
             
             if ( ! $activityId ) { 
@@ -435,7 +435,7 @@ function civicrm_activity_process_email( $file, $activiyTypeID ) {
 
 /**
  * Function to retrieve activity types
- *
+ * 
  * @return array $activityTypes activity types keyed by id
  * @access public
  */
@@ -443,4 +443,45 @@ function civicrm_activity_get_types( ) {
     require_once 'CRM/Core/OptionGroup.php';
     $activityTypes = CRM_Core_OptionGroup::values( 'activity_type' );
     return $activityTypes;
+}
+
+/**
+ * Function to create activity type
+ * @params array   $params  associated array of fields
+ *                 $params['option_value_id'] is required for updation of activity type
+ * @return array $activityType created / updated activity type
+ *
+ * @access public
+ */
+function civicrm_activity_type_create( &$params ) {
+    require_once 'CRM/Core/OptionGroup.php';
+    
+    if ( ! isset( $params['label'] ) || ! isset( $params['weight'] ) ) {
+        return civicrm_create_error( ts( 'Required parameter "label / weight" not found' ) );
+    }
+        
+    $action = 1;
+    $groupParams = array ( 'name' => 'activity_type' );
+
+    if ( $optionValueID = CRM_Utils_Array::value ( 'option_value_id', $params ) ){
+        $action = 2;
+    }
+
+    require_once 'CRM/Core/OptionValue.php';  
+    $activityObject = CRM_Core_OptionValue::addOptionValue( $params, $groupParams, $action, $optionValueID );
+    $activityType = array();
+    _civicrm_object_to_array( $activityObject, $activityType );
+    return $activityType;
+}
+
+/**
+ * Function to delete activity type
+ * @activityTypeId int   activity type id to delete
+ * @return boolen
+ *
+ * @access public
+ */
+function civicrm_activity_type_delete( $activityTypeId ) {
+    require_once 'CRM/Core/BAO/OptionGroup.php';
+    return CRM_Core_BAO_OptionValue::del( $activityTypeId );
 }

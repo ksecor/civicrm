@@ -296,7 +296,7 @@ class CRM_Contact_Form_Task_EmailCommon
         
         // process message template
         require_once 'CRM/Core/BAO/MessageTemplates.php';
-        if ( $formValues['saveTemplate'] || $formValues['updateTemplate']) {
+        if ( CRM_Utils_Array::value( 'saveTemplate', $formValues ) || CRM_Utils_Array::value( 'updateTemplate', $formValues ) ) {
             $messageTemplate = array( 'msg_text'    => $formValues['text_message'],
                                       'msg_html'    => $formValues['html_message'],
                                       'msg_subject' => $formValues['subject'],
@@ -323,7 +323,7 @@ class CRM_Contact_Form_Task_EmailCommon
             $email     = CRM_Contact_BAO_Contact_Location::getEmailDetails($contactId);
             $allEmails = CRM_Core_BAO_Email::allEmails($contactId);
 
-            if ( $allEmails[$email[1]]['is_primary'] && $allEmails[$email[1]]['on_hold'] ) {
+            if ( $allEmails[$email[3]]['is_primary'] && $allEmails[$email[3]]['on_hold'] ) {
                 $displayName = CRM_Contact_BAO_Contact::displayName($contactId);
                 $contactLink = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$contactId");
                 unset($form->_contactIds[$item]);

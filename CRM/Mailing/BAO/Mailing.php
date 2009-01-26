@@ -1234,7 +1234,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         $mg =& new CRM_Mailing_DAO_Group();
         foreach( array( 'groups', 'mailings' ) as $entity ) {
             foreach( array( 'include', 'exclude', 'base' ) as $type ) {                
-                if( is_array( $params[$entity][$type] ) ) {                    
+                if( CRM_Utils_Array::value( $type, $params[$entity] ) && is_array( $params[$entity][$type] ) ) {                    
                     foreach( $params[$entity][$type] as $entityId ) {
                         $mg->reset( );
                         $mg->mailing_id = $mailing->id;                        

@@ -54,7 +54,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $is_deductible = $this->get('is_deductible');
         $this->assign('is_deductible'        , $is_deductible);
         $this->assign( 'thankyou_title'      , $this->_values['thankyou_title'] );
-        $this->assign( 'thankyou_text'       , $this->_values['thankyou_text' ] );
+        $this->assign( 'thankyou_text'       , CRM_Utils_Array::value( 'thankyou_text'        , $this->_values ));
         $this->assign( 'thankyou_footer'     , CRM_Utils_Array::value( 'thankyou_footer'      , $this->_values ));
         $this->assign( 'max_reminders'       , CRM_Utils_Array::value( 'max_reminders'        , $this->_values ));
         $this->assign( 'initial_reminder_day', CRM_Utils_Array::value( 'initial_reminder_day' , $this->_values )); 
@@ -107,11 +107,11 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             require_once "CRM/Core/PseudoConstant.php";
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
             $honor  = CRM_Core_PseudoConstant::honor( );             
-            $this->assign( 'honor_type', $honor[$params["honor_type_id"]] );
-            $this->assign( 'honor_prefix', $prefix[$params["honor_prefix_id"]] );
+            $this->assign( 'honor_type',       $honor[$params["honor_type_id"]] );
+            $this->assign( 'honor_prefix',     $prefix[$params["honor_prefix_id"]] );
             $this->assign( 'honor_first_name', $params["honor_first_name"] );
-            $this->assign( 'honor_last_name', $params["honor_last_name"] );
-            $this->assign( 'honor_email', $params["honor_email"] );
+            $this->assign( 'honor_last_name',  $params["honor_last_name"] );
+            $this->assign( 'honor_email',      $params["honor_email"] );
         
         }
         //pcp elements

@@ -199,6 +199,8 @@ AND    ac.case_id = %1
 
     function &getActivityInfo( $clientID, $activityID, $anyActivity = false ) {
         static $activityInfos = array( );
+
+        require_once 'CRM/Core/OptionGroup.php';
         
         $index = $clientID . '_' . $activityID . '_' . (int) $anyActivity;
 
@@ -214,6 +216,10 @@ WHERE      a.id = %1
             $params = array( 1 => array( $activityID, 'Integer' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $params );
             if ( $dao->fetch( ) ) {
+                //if activity type is email get info of all activities.
+                if ( $dao->activity_type_id == CRM_Core_OptionGroup::getValue( 'activity_type', 'Email', 'name' ) ) {
+                    $anyActivity = true;
+                }
                 $activityTypes    = $this->allActivityTypes( false, $anyActivity );
                 $activityTypeInfo = null;
 

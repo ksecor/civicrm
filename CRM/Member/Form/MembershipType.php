@@ -357,6 +357,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                     $params[$per] = 'null';
                 }
             }
+            $oldWeight = null;
             $ids['memberOfContact'] = $params['contact_check'];
             if ($this->_id) {
                 $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'weight', 'id' );

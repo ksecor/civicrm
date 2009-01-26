@@ -88,7 +88,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                                    CRM_Utils_Array::value( 'contribution', $ids ) ) ) {
             $error =& CRM_Core_Error::singleton( ); 
             $d = implode( ', ', $duplicates );
-            $error->push( CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', array( $d ), "Found matching contribution(s): $d" );
+            $error->push( CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', array( $d ), "Duplicate error - existing contribution record(s) have a matching Transaction ID or Invoice ID. Contribution record ID(s) are: $d" );
             return $error;
         }
 

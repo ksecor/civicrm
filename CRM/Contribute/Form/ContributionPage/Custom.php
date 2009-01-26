@@ -151,7 +151,7 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
     static function formRule( &$fields, &$files, $contributionPageId ) 
     {  
         $errors = array( );  
-        
+        $preProfileType = $postProfileType = null;
         // for membership profile make sure Membership section is enabled
         // get membership section for this contribution page
         require_once 'CRM/Member/DAO/MembershipBlock.php';

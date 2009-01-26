@@ -533,7 +533,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                     $params['scheduled_date'] = CRM_Utils_Date::isoToMysql( $this->_values[$d] );
                 }
                 $params[$d] = CRM_Utils_Date::isoToMysql( $this->_values[$d]);
-            } else if ( !CRM_Utils_System::isNull( $formValues[$d] ) ) {
+            } else if ( CRM_Utils_Array::value( $d, $formValues ) && !CRM_Utils_System::isNull( $formValues[$d] ) ) {
                 $formValues[$d]['H'] = '00';
                 $formValues[$d]['i'] = '00';
                 $formValues[$d]['s'] = '00';             
@@ -546,7 +546,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             }
         }
         
-        if ( $formValues['is_acknowledge'] ) {
+        if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) ) {
             $params['acknowledge_date'] = date("Y-m-d");
         }
         

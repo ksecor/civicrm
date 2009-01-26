@@ -20,6 +20,9 @@
 	<tr><td class="label">{$form.name.label}</td><td>{$form.name.html}</td></tr>
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Name of this group of settings.{/ts}</td></tr>
 
+	<tr><td class="label">{$form.server.label}</td><td>{$form.server.html}</td></tr>
+	<tr><td class="label">&nbsp;</td><td class="description">{ts}Name or IP address of mail server machine.{/ts}</td></tr>
+
 	<tr><td class="label">{$form.username.label}</td><td>{$form.username.html}</td></tr>
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Username to use when polling (for IMAP and POP3).{/ts}</td></tr>
 

@@ -288,11 +288,13 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             /*
              * Remove any parent groups requested to be removed
              */
-            $parentGroupIds = explode( ',', $this->_groupValues['parents'] );
-            foreach ( $parentGroupIds as $parentGroupId ) {
-                if ( isset( $params["remove_parent_group_$parentGroupId"] ) ) {
-                    CRM_Contact_BAO_GroupNesting::remove( $parentGroupId, $group->id );
-                    $updateNestingCache = true;
+            if ( CRM_Utils_Array::value( 'parents', $this->_groupValues ) ) {
+                $parentGroupIds = explode( ',', $this->_groupValues['parents'] );
+                foreach ( $parentGroupIds as $parentGroupId ) {
+                    if ( isset( $params["remove_parent_group_$parentGroupId"] ) ) {
+                        CRM_Contact_BAO_GroupNesting::remove( $parentGroupId, $group->id );
+                        $updateNestingCache = true;
+                    }
                 }
             }
             

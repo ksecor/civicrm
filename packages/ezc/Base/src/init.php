@@ -3,7 +3,7 @@
  * File containing the ezcBaseInit class.
  *
  * @package Base
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -61,7 +61,7 @@
  * component's class ezcConfigurationManager).
  *
  * @package Base
- * @version 1.5
+ * @version 1.6
  */
 class ezcBaseInit
 {

@@ -391,5 +391,39 @@ WHERE  civicrm_pledge_payment.id = {$paymentId}
 ";
         $dao = CRM_Core_DAO::executeQuery( $query );
     }
+    
+    /**
+     * Function to get oldest pending or in progress pledge payments
+     *  
+     * @param int $pledgeID pledge id
+     *
+     * @return array associated array of pledge details
+     * @static
+     */
+    static function getOldestPledgePayment( $pledgeID )
+    {
+        //get pending status
+        $pendingStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Pending', 'name' );  
+        
+        $query = "
+SELECT civicrm_pledge_payment.id id, civicrm_pledge_payment.scheduled_amount amount
+FROM civicrm_pledge, civicrm_pledge_payment
+WHERE civicrm_pledge.id = civicrm_pledge_payment.pledge_id
+  AND civicrm_pledge_payment.status_id = {$pendingStatusID}        
+  AND civicrm_pledge.id = %1
+ORDER BY civicrm_pledge_payment.scheduled_date ASC
+LIMIT 0, 1  
+";
+
+        $params[1] = array( $pledgeID, 'Integer' );
+        $payment = CRM_Core_DAO::executeQuery( $query, $params );
+        $paymentDetails = array( );
+        while ( $payment->fetch( ) ) {
+            $paymentDetails[] = array( 'id'     => $payment->id,
+                                       'amount' => $payment->amount);
+        }
+
+        return $paymentDetails;
+    }
 }
 

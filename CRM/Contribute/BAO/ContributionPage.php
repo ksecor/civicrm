@@ -216,7 +216,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             }
 
             // send duplicate alert, if dupe match found during on-behalf-of processing.
-            if ( $values['onbehalf_dupe_alert'] ) {
+            if ( CRM_Utils_Array::value( 'onbehalf_dupe_alert', $values ) ) {
                 $systemFrom = '"Automatically Generated" <' . $values['receipt_from_email'] . '>';
                 $template->assign('onBehalfID', $contactID);
                 

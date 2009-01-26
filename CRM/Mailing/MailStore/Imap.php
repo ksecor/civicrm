@@ -56,7 +56,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
 
         if ($this->_debug) print "connecting to $host, authenticating as $username and selecting $folder\n";
 
-        $options = array('ssl' => $ssl, 'uidReferencing' => true);
+        $options = array('ssl' => $ssl);
         $this->_transport = new ezcMailImapTransport($host, null, $options);
         $this->_transport->authenticate($username, $password);
         $this->_transport->selectMailbox($folder);

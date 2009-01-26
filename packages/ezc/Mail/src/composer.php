@@ -3,7 +3,7 @@
  * File containing the ezcMailComposer class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
@@ -68,6 +68,29 @@
  * After running the above code, the sent mail will not contain the file specified
  * in the htmlText property.
  *
+ * The file name in the attachment can be different than the file name on disk, by
+ * passing an {@link ezcMailContentDispositionHeader} object to the function
+ * addAttachment(). Example:
+ * <code>
+ * $mail = new ezcMailComposer();
+ * $mail->from = new ezcMailAddress( 'john@example.com', 'John Doe' );
+ * $mail->addTo( new ezcMailAddress( 'cindy@example.com', 'Cindy Doe' ) );
+ * $mail->subject = "Example of an HTML email with attachments and custom attachment file name";
+ * $mail->plainText = "Here is the text version of the mail. This is displayed if the client can not understand HTML";
+ * $mail->htmlText = "<html>Here is the HTML version of your mail with an image: <img src='file://path_to_image.jpg' /></html>";
+ *
+ * $disposition = new ezcMailContentDispositionHeader();
+ * $disposition->fileName = 'custom name for attachment.txt';
+ * $disposition->fileNameCharSet = 'utf-8'; // if using non-ascii characters in the file name
+ * $disposition->disposition = 'attachment'; // default value is 'inline'
+ *
+ * $mail->addAttachment( 'path_to_attachment.file', null, null, null, $disposition );
+ * $mail->build();
+ *
+ * $transport = new ezcMailMtaTransport();
+ * $transport->send( $mail );
+ * </code>
+ *
  * @todo What about character set for the textPart
  *
  * @property string $plainText
@@ -90,7 +113,7 @@
  *           Options for composing mail. See {@link ezcMailComposerOptions}.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @mainclass
  */
 class ezcMailComposer extends ezcMail
@@ -110,13 +133,6 @@ class ezcMailComposer extends ezcMail
      * @var ezcMailComposerOptions
      */
     protected $options;
-
-    /**
-     * Holds the properties of this class.
-     *
-     * @var array(string=>mixed)
-     */
-    private $properties = array();
 
     /**
      * Constructs an empty ezcMailComposer object.
@@ -227,10 +243,14 @@ class ezcMailComposer extends ezcMail
      * If $content is specified, $fileName is not checked if it exists.
      * $this->attachments will also contain in this case the $content,
      * $contentType and $mimeType.
+     *
+     * The $contentType (default = application) and $mimeType (default =
+     * octet-stream) control the complete mime-type of the attachment.
+     *
      * If $contentDisposition is specified, the attached file will have its
-     * Content-Disposition header set according to the $contentDisposition object
-     * and the filename of the attachment in the generated mail will be the one from
-     * the $contentDisposition object.
+     * Content-Disposition header set according to the $contentDisposition
+     * object and the filename of the attachment in the generated mail will be
+     * the one from the $contentDisposition object.
      * 
      * @throws ezcBaseFileNotFoundException
      *         if $fileName does not exists.
@@ -304,23 +324,25 @@ class ezcMailComposer extends ezcMail
         }
 
         // build all attachments
-        // special case, mail with no text and one attachment
+        // special case, mail with no text and one attachment.
+        // A fix for issue #14220 was added by wrapping the attachment in
+        // an ezcMailMultipartMixed part
         if ( $mainPart == false && count( $this->attachments ) == 1 )
         {
             if ( isset( $this->attachments[0][1] ) )
             {
                 if ( is_resource( $this->attachments[0][1] ) )
                 {
-                    $mainPart = new ezcMailStreamFile( $this->attachments[0][0], $this->attachments[0][1], $this->attachments[0][2], $this->attachments[0][3] );
+                    $mainPart = new ezcMailMultipartMixed( new ezcMailStreamFile( $this->attachments[0][0], $this->attachments[0][1], $this->attachments[0][2], $this->attachments[0][3] ) );
                 }
                 else
                 {
-                    $mainPart = new ezcMailVirtualFile( $this->attachments[0][0], $this->attachments[0][1], $this->attachments[0][2], $this->attachments[0][3] );
+                    $mainPart = new ezcMailMultipartMixed( new ezcMailVirtualFile( $this->attachments[0][0], $this->attachments[0][1], $this->attachments[0][2], $this->attachments[0][3] ) );
                 }
             }
             else
             {
-                $mainPart = new ezcMailFile( $this->attachments[0][0], $this->attachments[0][2], $this->attachments[0][3] );
+                $mainPart = new ezcMailMultipartMixed( new ezcMailFile( $this->attachments[0][0], $this->attachments[0][2], $this->attachments[0][3] ) );
             }
             $mainPart->contentDisposition = $this->attachments[0][4];
         }

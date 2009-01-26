@@ -451,7 +451,13 @@ class CRM_Export_BAO_Export
         } else if ($type == 4) {
             $varName = 'mismatch';
             $saveFileName = 'Import_Mismatch.csv';
-        }else {
+        } else if ($type == 5) {
+            $varName = 'pledgePaymentErrors';
+            $saveFileName = 'Import_Pledge_Payment_Errors.csv';
+        } else if ($type == 6) {
+            $varName = 'softCreditErrors';
+            $saveFileName = 'Import_Soft_Credit_Errors.csv';
+        } else {
             /* FIXME we should have an error here */
             return;
         }
@@ -475,7 +481,7 @@ class CRM_Export_BAO_Export
         $qfKey = CRM_Core_Key::get( $controller );
         
         $fileName = $session->get($varName . 'FileName', "{$controller}_{$qfKey}");
-
+        
         $config =& CRM_Core_Config::singleton( ); 
         
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

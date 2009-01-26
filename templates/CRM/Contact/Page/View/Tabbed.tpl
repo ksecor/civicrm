@@ -25,8 +25,7 @@
     <tr>
         {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
         {if $sic_code}<td><label>{ts}SIC Code{/ts}:</label></td><td>{$sic_code}</td>{/if}
-        {if $contactTag}<td><label><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a>:</label></td><td id="tags">{$contactTag}</td>{/if}
-        {if !$contactTag}<td colspan="2"></td>{/if}
+        <td id='tagLink'><label><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a>:</label></td><td id="tags">{$contactTag}</td>
     </tr>
     <tr>
         {if $job_title}<td><label>{ts}Job Title{/ts}:</label></td><td>{$job_title}</td>{/if}
@@ -203,9 +202,10 @@ class ="tundra" {if $tabValue.id eq $selectedChild} selected="true"{/if} style="
 {/foreach}
 </div>
 
-{literal}
- <script type="text/javascript">
 
+ <script type="text/javascript">
+   {if !$contactTag}cj("#tagLink").hide( );{/if}    
+{literal}
    init_blocks = function( ) {
 {/literal}
       var showBlocks = new Array({$showBlocks});
@@ -213,9 +213,8 @@ class ="tundra" {if $tabValue.id eq $selectedChild} selected="true"{/if} style="
 {literal}
       on_load_init_blocks( showBlocks, hideBlocks );
   }
-
   dojo.addOnLoad( init_blocks );
- </script>
 {/literal}
+ </script>
 
 {/if}

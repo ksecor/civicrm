@@ -47,17 +47,24 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
         $sqlFile   = implode( DIRECTORY_SEPARATOR, 
                               array( dirname(__FILE__), '..', '..', 
                                      'Incremental', 'sql', '2.2.alpha1.mysql' ) );
+        $tplFile = "$sqlFile.tpl";
 
-        $isMultilingual = $this->processLocales( $sqlFile );
-                            
-        if ( ! file_exists($sqlFile) ) {
-            CRM_Core_Error::fatal('sqlfile not found.');
+        $isMultilingual = false;
+        if ( file_exists( $tplFile ) ) {
+            $isMultilingual = $this->processLocales( $tplFile );
+        } else {
+            if ( ! file_exists($sqlFile) ) {
+                CRM_Core_Error::fatal("sqlfile - $rev.mysql not found.");
+            }
+            $this->source( $sqlFile );
         }
-
-        $this->source( $sqlFile );
-                            
+        
         if ( $isMultilingual ) {
             require_once 'CRM/Core/I18n/Schema.php';
+            require_once 'CRM/Core/DAO/Domain.php';
+            $domain =& new CRM_Core_DAO_Domain();
+            $domain->find(true);
+            $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
             CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
         }
 

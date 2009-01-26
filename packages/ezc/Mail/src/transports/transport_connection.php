@@ -3,7 +3,7 @@
  * File containing the ezcMailTransportConnection class
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @access private
@@ -17,7 +17,7 @@
  *           Holds the options you can set to the transport connection.
  *
  * @package Mail
- * @version 1.5
+ * @version 1.6
  * @access private
  */
 class ezcMailTransportConnection

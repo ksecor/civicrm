@@ -243,7 +243,8 @@ class CRM_Case_BAO_Query
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
 
-        case 'case_owner':
+        case 'case_owner': 
+        case 'case_mycase'  : 
             if ( $value == 0 ) {
                 $session =& CRM_Core_Session::singleton();
                 $userID  = $session->get('userID');

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-12-01 21:29-0800\n"
+"PO-Revision-Date: 2009-01-22 04:12-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "संपादन करना"
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
 msgid "Entity Table"
-msgstr "इकाई टेबल "
+msgstr "इकाई टेबल"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -289,7 +289,7 @@ msgstr ""
 #: CRM/Activity/BAO/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/Page/AJAX/Mapper.php
 msgid "Membership"
-msgstr ""
+msgstr "सदस्यता"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php CRM/Contact/BAO/Query.php
 msgid "or"
@@ -306,12 +306,12 @@ msgstr "क्रिया का प्रकार"
 
 #: CRM/Activity/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 msgid "Activity Medium"
-msgstr ""
+msgstr "घटना माध्यम"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Violation Type"
-msgstr ""
+msgstr "उल्लंघन प्रकार"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/DAO/Activity.php
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
@@ -425,9 +425,8 @@ msgid "Added By"
 msgstr "जोड़ा द्वारा"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Case Activity Type"
-msgstr "क्रिया का प्रकार"
+msgstr "प्रकरण घटना प्रकार"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
 msgid "-select-"
@@ -644,9 +643,8 @@ msgid "Delete Activity"
 msgstr "घटनाएँ मिटाएँ"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/Page/View/DashBoard.php
-#, fuzzy
 msgid "CiviCase"
-msgstr "मामला"
+msgstr "सिवीकेस"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
@@ -690,17 +688,16 @@ msgstr "क्रिया"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Dedupe/DAO/RuleGroup.php
 msgid "Fuzzy"
-msgstr ""
+msgstr "फजी"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Dedupe/DAO/RuleGroup.php
 msgid "Strict"
-msgstr ""
+msgstr "सख्त"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Dedupe/DAO/RuleGroup.php
 #: templates/CRM/Admin/Page/DedupeRules.tpl
-#, fuzzy
 msgid "Level"
-msgstr "सूचक पत्र"
+msgstr "स्तर"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/Options.php
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomField.php
@@ -875,14 +872,12 @@ msgid "Case Status"
 msgstr "मामले कि स्थिती"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
-#, fuzzy
 msgid "Case Sub Type"
-msgstr "मामले का प्रकार"
+msgstr "प्रकरण उप प्रकार"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
-#, fuzzy
 msgid "Violation"
-msgstr "स्थान"
+msgstr "उल्लंघन"
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
@@ -1082,9 +1077,8 @@ msgid "Legal Name"
 msgstr "याेग्य नाम"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "अभिनन्दन"
+msgstr "कस्टम ग्रीटिंग"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1140,9 +1134,8 @@ msgid "Where Clause"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "लेबल चुने"
+msgstr "टेबल्स चुने"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -1181,9 +1174,8 @@ msgstr "प्रशासन"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Address.php xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Address Name"
-msgstr "पता"
+msgstr "पता का नाम"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
@@ -1313,11 +1305,10 @@ msgid "Website"
 msgstr "वेबसाइट"
 
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Task/Delete.php
-#, fuzzy
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "'%1' - cannot be deleted."
-msgstr "प्रवेश उपयोगकर्ता खाते का संपर्क रिकार्ड - ' %1' - हटाए नहीं जा सकता है।"
+msgstr "प्रवेश उपयोगकर्ता खाते का संपर्क रिकार्ड - %1 - हटाए नहीं जा सकता है।"
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomGroup.php CRM/Core/BAO/CustomOption.php
@@ -1483,7 +1474,7 @@ msgstr "प्रतिभागि"
 #: CRM/Contact/Form/Search/Custom/Group.php CRM/Core/DAO/Cache.php
 #: CRM/Custom/Form/Group.php
 msgid "Group Name"
-msgstr ""
+msgstr "समूह नाम"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_data.tpl
@@ -2632,11 +2623,11 @@ msgstr "याेजना - साइट ग्राह्यता"
 
 #: CRM/Admin/Form/Preferences/Display.php
 msgid "Viewing Contacts"
-msgstr ""
+msgstr "संपर्क देखना"
 
 #: CRM/Admin/Form/Preferences/Display.php
 msgid "Editing Contacts"
-msgstr ""
+msgstr "संपर्क संपादन"
 
 #: CRM/Admin/Form/Preferences/Display.php xml/templates/civicrm_data.tpl
 msgid "WYSIWYG Editor"
@@ -2896,7 +2887,7 @@ msgstr "अपने परिवर्तनों को सहेज ले �
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP"
-msgstr ""
+msgstr "एसएमटीपी"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Sendmail"
@@ -2924,23 +2915,23 @@ msgstr "सेंडमेल तर्क"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Server"
-msgstr "SMTP परिसेवक"
+msgstr "एसएमटीपी परिसेवक"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Port"
-msgstr "SMTP पोर्ट"
+msgstr "एसएमटीपी पोर्ट"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Authentication?"
-msgstr ""
+msgstr "प्रमाणीकरण?"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Username"
-msgstr "SMTP उपयोगकर्ता नाम"
+msgstr "एसएमटीपी उपयोगकर्ता नाम"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Password"
-msgstr "SMTP पासवर्ड"
+msgstr "एसएमटीपी पासवर्ड"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 #, fuzzy
@@ -2987,9 +2978,8 @@ msgid "%1 Users Table Name"
 msgstr ""
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
-#, fuzzy
 msgid "Settings - Update Directory Path and URL"
-msgstr "याेजना - अपलाेड निर्देशिका"
+msgstr "रूपरेखाएँ - अद्यतन निर्देशिका पथ और यूआरएल"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "This function only works when CiviCRM is installed in sites/all/modules"
@@ -2997,11 +2987,11 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "New Base URL"
-msgstr ""
+msgstr "नई बेस यूआरएल"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "New Base Directory"
-msgstr ""
+msgstr "नई बेस निर्देशिका"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "%1 directory does not exist or cannot be written by webserver"
@@ -3013,15 +3003,15 @@ msgstr "याेजना - संसाधन URLs"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "CiviCRM Resource URL"
-msgstr ""
+msgstr "CiviCRM संसाधन यूआरएल"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Image Upload URL"
-msgstr ""
+msgstr "छवि अपलोड यूआरएल"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Force Secure URLs (SSL)"
-msgstr ""
+msgstr "सुरक्षित यूआरएल (SSL)"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "You need to set up a secure server before you can enable SSL"
@@ -3433,9 +3423,8 @@ msgid "Tagged %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Name or Email "
-msgstr "नाम आैर ईमेल"
+msgstr "नाम या ईमेल"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
@@ -4023,9 +4012,8 @@ msgid "Demographics"
 msgstr "जनांकिकीय"
 
 #: CRM/Contact/Form/Search/Basic.php
-#, fuzzy
 msgid "Name or Email"
-msgstr "नाम आैर ईमेल"
+msgstr "नाम या ईमेल"
 
 #: CRM/Contact/Form/Search/Basic.php
 #, fuzzy
@@ -4739,7 +4727,7 @@ msgstr ""
 
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Dashboard - %1"
-msgstr ""
+msgstr "दिखावट फलक - %1"
 
 #: CRM/Contact/Page/View/UserDashBoard.php xml/templates/civicrm_data.tpl
 msgid "My Contacts / Organizations"
@@ -4751,9 +4739,8 @@ msgid "Edit Contact Information"
 msgstr "अतिरिक्त जानकारी"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
-#, fuzzy
 msgid "Dashboard"
-msgstr "डैशबोर्ड"
+msgstr "दिखावट फलक"
 
 #: CRM/Contact/Selector/Custom.php
 msgid "CiviCRM Custom Search"
@@ -5618,17 +5605,14 @@ msgid "Return Url Args"
 msgstr ""
 
 #: CRM/Core/DAO/Menu.php
-#, fuzzy
 msgid "Page Type"
-msgstr "मामले का प्रकार"
+msgstr "पृष्ठ प्रकार"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Msg Title"
 msgstr "संदेशा शीर्षक"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Msg Subject"
 msgstr "संदेशा विषय"
 
@@ -5642,9 +5626,8 @@ msgid "Msg Html"
 msgstr ""
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Is Active"
-msgstr "घटनाएँ"
+msgstr "सक्रिय है"
 
 #: CRM/Core/DAO/OpenID.php
 #, fuzzy
@@ -5767,7 +5750,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Preferences.php xml/templates/civicrm_data.tpl
 msgid "User Dashboard Options"
-msgstr ""
+msgstr "प्रयोक्ता दिखावट फलक विकल्प"
 
 #: CRM/Core/DAO/Preferences.php
 #, fuzzy
@@ -9114,7 +9097,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "New Payment Processor"
-msgstr ""
+msgstr "नया भुगतान प्रोसेसर"
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid ""
@@ -9124,27 +9107,27 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid "Processor Details for Live Payments"
-msgstr ""
+msgstr "लाइव पृष्ठ के लिये भुगतान प्रोसेसर का विवरण"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 msgid "New Payment Procesor Type"
-msgstr ""
+msgstr "नया भुगतान प्रोसेसर का प्रकार"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 msgid "Edit Payment Procesor Type"
-msgstr ""
+msgstr "भुगतान प्रोसेसर प्रकार संपादन"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 msgid "Delete Payment Procesor Type"
-msgstr ""
+msgstr "भुगतान प्रोसेसर प्रकार मिटाऐ"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Display"
-msgstr ""
+msgstr "पता प्रदर्शन"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Editing"
-msgstr ""
+msgstr "पता संपादन"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
@@ -9159,7 +9142,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Standardization"
-msgstr ""
+msgstr "पता मानकीकरण"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
@@ -9175,15 +9158,15 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "USPS-provided User ID."
-msgstr ""
+msgstr "USPS-प्रयोक्ता द्वारा प्रदान की हुई आईडी"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "USPS-provided web service URL."
-msgstr ""
+msgstr "USPS-प्रयोक्ता द्वारा प्रदान की हुई वेब सेवा यूआरएल"
 
 #: templates/CRM/Admin/Form/PreferencesDate.tpl
 msgid "Edit Date Settings"
-msgstr ""
+msgstr "दिनांक सेटिंग्स संपादित करें"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -9235,11 +9218,11 @@ msgstr ""
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "New Relationship Type"
-msgstr ""
+msgstr "नए संबंध प्रकार"
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "Delete Relationship Type"
-msgstr ""
+msgstr "संबंध प्रकार मिटाऐ"
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid ""
@@ -9288,11 +9271,11 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid "Date Display"
-msgstr ""
+msgstr "दिनांक प्रदर्शन"
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid "Date Input Fields"
-msgstr ""
+msgstr "दिनांक इनपुट फील्ड्स"
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid ""
@@ -9302,11 +9285,11 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid "Advanced Date Input Settings"
-msgstr ""
+msgstr "उन्नत दिनांक इनपुट सेटिंग्स"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid "Debugging and Error Handling"
-msgstr ""
+msgstr "Debugging और त्रुटि हैंडलिंग"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid ""
@@ -9484,7 +9467,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid "Enter your Google API Key OR your Yahoo Application ID."
-msgstr ""
+msgstr "गुगल API कुंजी या याहू आवेदन आईडी दर्ज करें।"
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
 msgid ""
@@ -9606,13 +9589,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
-#, fuzzy
 msgid "Settings - Outbound Email"
-msgstr "आउटबाउंड ईमेल ( SMTP )"
+msgstr "रूपरेखाएँ - आउटबाउंड ईमेल"
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid "SMTP Configuration"
-msgstr ""
+msgstr "एसएमटीपी विन्यास"
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid "Enter the SMTP server (machine) name. EXAMPLE: smtp.example.com"
@@ -9635,9 +9617,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
-#, fuzzy
 msgid "Sendmail Configuration"
-msgstr "संपर्कों काे ईमेल भेजें"
+msgstr "सेंडमेल विन्यास"
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid "Enter the Sendmail Path. EXAMPLE: /usr/sbin/sendmail"
@@ -9649,12 +9630,11 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid "CMS Settings"
-msgstr ""
+msgstr "CMS सेटिंग्स"
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
-#, fuzzy
 msgid "Views integration settings"
-msgstr "%1 एकीकरण सेटिंग्स"
+msgstr "दर्शाव एकीकरण सेटिंग्स"
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid ""
@@ -9681,9 +9661,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
-#, fuzzy
 msgid "Old Base Directory"
-msgstr "अपलाेड निर्देशिका"
+msgstr "ओल्ड बेस निर्देशिका"
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid ""
@@ -9694,7 +9673,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid "Old Base URL"
-msgstr ""
+msgstr "ओल्ड बेस यूआरएल"
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid ""
@@ -9778,7 +9757,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "Drupal Access Control"
-msgstr ""
+msgstr "द्रुपल प्रवेश नियंत्रण"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -9794,7 +9773,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "1. Manage Roles"
-msgstr ""
+msgstr "१. प्रबंधित भूमिकाओं"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -9804,7 +9783,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "2. Manage ACLs"
-msgstr ""
+msgstr "२. प्रबंधित ACLs"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -9815,7 +9794,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "3. Assign Users to CiviCRM ACL Roles"
-msgstr ""
+msgstr "३. CiviCRM ACL भूमिका उपयोगकर्ता को निरुपित करे"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -9825,7 +9804,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "4. Manage Core ACLs"
-msgstr ""
+msgstr "४. प्रबंधित कोर ACLs"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "Core ACLs define the primitive ACLs that control access to your site."
@@ -9836,6 +9815,8 @@ msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
 msgstr ""
+"CiviCRM का एक नया संस्करण उपलब्ध है: %1 ( फ़िलहाल यह साइट  %2 पर चल रहा है "
+")।"
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
@@ -9852,6 +9833,8 @@ msgid ""
 "Administer your CiviCRM site using the links on this page. Click %1 for "
 "descriptions of the options in each section."
 msgstr ""
+"अपने CiviCRM साइट प्रशासन के लिये इस पेज पर लिंक का उपयोग करे। प्रत्येक "
+"अनुभाग में विकल्पों के विवरण के लिए %1 क्लिक करें।"
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 #, fuzzy
@@ -10377,41 +10360,47 @@ msgstr ""
 
 #: templates/CRM/Case/Form/CaseView.tpl
 msgid "View Case Record Details"
-msgstr ""
+msgstr "प्रकरण रिकॉर्ड का विवरण देखें"
 
 #: templates/CRM/common/accesskeys.tpl
 msgid "Access Keys:"
-msgstr ""
+msgstr "प्रवेश कुंजी:"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Calendar"
-msgstr ""
+msgstr "दिनदर्शिका"
 
 #: templates/CRM/common/CMSUser.tpl
 msgid ""
 "If you would like to create an account on this site, check the box below and "
 "enter a user name"
 msgstr ""
+"यदि आप इस साइट पर एक खाता बनाने चाहते है। नीचे दिए गए बॉक्स की जाँच करें और "
+"एक उपयोगकर्ता नाम दर्ज करे।"
 
 #: templates/CRM/common/CMSUser.tpl
 msgid "and a password"
-msgstr ""
+msgstr "और एक कूटशब्द"
 
 #: templates/CRM/common/CMSUser.tpl
 msgid ""
 "If you already have an account, <a href='%1'>please login</a> before "
 "completing this form."
 msgstr ""
+"यदि आप का पहले से ही एक खाता है, ताे इस प्रपत्र को पूरा करने से पहले <a "
+"href='%1'>कृपया प्रवेश करे</a>"
 
 #: templates/CRM/common/CMSUser.tpl
 msgid ""
 "Your preferred username; punctuation is not allowed except for periods, "
 "hyphens, and underscores."
 msgstr ""
+"आपका पसंदीदा उपयोक्तानाम; विराम अवधि, हाइफ़न और रेखांकित के अलावा की अनुमति "
+"नहीं है।"
 
 #: templates/CRM/common/CMSUser.tpl
 msgid "Provide a password for the new account in both fields."
-msgstr ""
+msgstr "दोनों क्षेत्रों में नए खाते के लिए एक पासवर्ड प्रदान करें।"
 
 #: templates/CRM/common/displaySearchCriteria.tpl
 msgid "AND"
@@ -10422,9 +10411,8 @@ msgid "...AND..."
 msgstr ""
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/joomla.tpl
-#, fuzzy
 msgid "Print this page."
-msgstr "इस पन्ने का छापाई याेग्य दृश्य।"
+msgstr "इस पन्ने काे छापिएँ"
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/joomla.tpl
 msgid "Printer-friendly view of this page."
@@ -10432,39 +10420,39 @@ msgstr "इस पन्ने का छापाई याेग्य दृ�
 
 #: templates/CRM/common/fatal.tpl
 msgid "unrecoverable error"
-msgstr ""
+msgstr "अप्राप्य त्रुटि"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Sorry. A non-recoverable error has occurred."
-msgstr ""
+msgstr "खेद। एक अवसूलीय त्रुटि हो गई।"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Error Code:"
-msgstr ""
+msgstr "त्रुटि कोड:"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Database Error Code:"
-msgstr ""
+msgstr "डाटाबेस त्रुटि कोड:"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Main Menu"
-msgstr ""
+msgstr "मुख्य मेनू"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Return to home page."
-msgstr ""
+msgstr "मुख पृष्ठ पर वापस जाएँ।"
 
 #: templates/CRM/common/footer.tpl
 msgid "External ID"
-msgstr ""
+msgstr "विदेश आईडी"
 
 #: templates/CRM/common/footer.tpl
 msgid "CiviCRM ID"
-msgstr ""
+msgstr "CiviCRM आईडी"
 
 #: templates/CRM/common/footer.tpl
 msgid "Last Change by"
-msgstr ""
+msgstr "अंतिम बदल द्वारा"
 
 #: templates/CRM/common/footer.tpl
 msgid "View Change Log"
@@ -10477,10 +10465,14 @@ msgid ""
 "source</a>. <a href='%4'>View issues and report bugs</a>. <a href='%"
 "5'>Online documentation</a>."
 msgstr ""
+"CiviCRM %1 द्वारा संचालित। CiviCRM खुलेआम <a href='%2'>GNU Affero जनरल "
+"पब्लिक लाइसेंस (GNU AGPL)</a> के अंतर्गत उपलब्ध है। <a href='%3'>डाउनलोड "
+"स्रोत</a>। <a href='%4'>मुद्दों देखें और त्रुटि रिपोर्ट</a>। <a "
+"href='%5'>ऑनलाइन दस्तावेज़ीकरण</a>।"
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"
-msgstr ""
+msgstr "प्रति पृष्ठ पंक्तियाँ:"
 
 #: templates/CRM/common/recentlyViewed.tpl
 msgid "Recently Viewed:"
@@ -10489,38 +10481,35 @@ msgstr "हाल में देखे हुुएे:"
 #: templates/CRM/common/searchResultTasks.tpl
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "smart group"
-msgstr ""
+msgstr "स्मार्ट समूह"
 
 #: templates/CRM/common/searchResultTasks.tpl
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "%count Result"
 msgid_plural "%count Results"
-msgstr[0] "राशि अनुरोधित"
-msgstr[1] "राशि अनुरोधित"
+msgstr[0] "%गिनती परिणाम"
+msgstr[1] "%गिनती परिणाम"
 
 #: templates/CRM/common/searchResultTasks.tpl
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "Select Records"
-msgstr "परिवार संबन्धी चुने"
+msgstr "रिकार्ड चुनें"
 
 #: templates/CRM/common/searchResultTasks.tpl
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "The found record"
 msgid_plural "All %count records"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "पाये गये रिकॉर्ड"
+msgstr[1] "सभी %गिनती रिकॉर्ड"
 
 #: templates/CRM/common/searchResultTasks.tpl
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "Selected records only"
-msgstr "- रिकार्ड प्रकार चुने -"
+msgstr "चयनित रिकार्ड ही"
 
 #: templates/CRM/common/WizardHeader.tpl
 msgid "(step %1 of %2)"
-msgstr ""
+msgstr "(चरण %1 से %2)"
 
 #: templates/CRM/Contact/Form/AddContact.tpl
 #: templates/CRM/Contact/Form/CustomData.tpl
@@ -10540,12 +10529,11 @@ msgstr ""
 #: templates/CRM/Custom/Form/Search.tpl templates/CRM/Profile/Form/Dynamic.tpl
 #: templates/CRM/Profile/Form/Search.tpl
 msgid "open section"
-msgstr ""
+msgstr "खुला अनुभाग"
 
 #: templates/CRM/Contact/Form/AddContact.tpl
-#, fuzzy
 msgid "Add Contact"
-msgstr "संपर्क जोड़ें: %1"
+msgstr "संपर्क जोड़ें"
 
 #: templates/CRM/Contact/Form/Address/address_name.tpl
 msgid ""
@@ -10578,13 +10566,13 @@ msgstr ""
 #: templates/CRM/Contact/Form/Address/street_address.tpl
 #: templates/CRM/Contact/Form/OnBehalfOf.tpl
 msgid "Street number, street name, apartment/unit/suite - OR P.O. box"
-msgstr ""
+msgstr "स्ट्रीट नंबर, सड़क का नाम है, अपार्टमेंट/यूनिट/सूट - या P.O. बॉक्स"
 
 #: templates/CRM/Contact/Form/Address/supplemental_address_1.tpl
 #: templates/CRM/Contact/Form/Address/supplemental_address_2.tpl
 msgid ""
 "Supplemental address info, e.g. c/o, department name, building name, etc."
-msgstr ""
+msgstr "पूरक पता जानकारी, उदाहरणार्थ c/o, विभाग का नाम, इमारत का नाम, आदि।"
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl xml/templates/civicrm_data.tpl
 msgid "Communication Preferences"
@@ -10592,19 +10580,23 @@ msgstr "संचार वरीयताएँ"
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid "Select the preferred method of communicating with this contact."
-msgstr ""
+msgstr "इस संपर्क से संप्रेषण के चयन का प्राथमिकता विधि।"
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid ""
 "Select the email format preferred by this contact. Select 'Both' to send "
 "HTML and Text formats."
 msgstr ""
+"इस संपर्क द्वारा पसंद किया ईमेल प्रारूप चुनें। एचटीएमएल और पाठ प्रारूप "
+"'दोनों' भेजने के लिए चुनें।"
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid ""
 "This option indicates if the user has INTENTIONALLY opted out of email. "
 "Please set or reset with care."
 msgstr ""
+"यदि उपयोगकर्ता जानबूझकर इस ईमेल काे बाहर का विकल्प चुना है। कृपया सेट या "
+"रीसेट देखभाल से करे।"
 
 #: templates/CRM/Contact/Form/CustomData.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -10622,12 +10614,12 @@ msgstr ""
 #: templates/CRM/Custom/Form/Search.tpl templates/CRM/Profile/Form/Dynamic.tpl
 #: templates/CRM/Profile/Form/Search.tpl
 msgid "close section"
-msgstr ""
+msgstr "अनुभाग बंद करे"
 
 #: templates/CRM/Contact/Form/CustomData.tpl
 #: templates/CRM/Custom/Form/CustomData.tpl
 msgid "Attached File"
-msgstr ""
+msgstr "संलग्न संचिका"
 
 #: templates/CRM/Contact/Form/DeleteLocation.tpl
 msgid ""
@@ -10647,15 +10639,15 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "System-generated Mail Settings"
-msgstr ""
+msgstr "सिस्टम-उत्पन्न मेल सेटिंग्स"
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "CiviMail Domain Address"
-msgstr ""
+msgstr "सिवीमेल डोमेन पता"
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "Additional Domain Contact Information"
-msgstr ""
+msgstr "अतिरिक्त डोमेन संबंधी संपर्क करने जानकारी"
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid ""
@@ -10665,7 +10657,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "Edit Domain Information"
-msgstr ""
+msgstr "डोमेन जानकारी संपादित करें"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
@@ -10692,13 +10684,16 @@ msgstr "मुख्य स्थान"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Additional Location"
-msgstr ""
+msgstr "अतिरिक्त स्थान"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid ""
 "Check this option if you want to use a shared household address for this "
 "individual. You can either select an existing household, or create a new one."
 msgstr ""
+"यदि आप इस व्यक्ति के लिए एक साझा घर के पते का उपयोग करना चाहते हैं तो इस "
+"विकल्प की जाँच करें। आप या तो एक मौजूदा घर, या एक नया एक बनाने को चुन सकते "
+"हैं।"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid ""
@@ -10706,15 +10701,16 @@ msgid ""
 "households. If the household doesn't exist yet, type in the new household "
 "name."
 msgstr ""
+"उपलब्ध परिवारों को देखने के लिए घर के नाम के पहले अक्षर दर्ज करें. यदि "
+"परिवार अस्तित्व में नहीं है, नया परिवार नाम सुचित करे।"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Shared Household Address"
-msgstr ""
+msgstr "साझा परिवार संबन्धी पता"
 
 #: templates/CRM/Contact/Form/Location.tpl
-#, fuzzy
 msgid "New Contact Record"
-msgstr "नया संर्पक"
+msgstr "नया संपर्क रिकार्ड"
 
 #: templates/CRM/Contact/Form/Merge.tpl
 msgid ""
@@ -11089,13 +11085,12 @@ msgid "Number of selected contacts: %1"
 msgstr ""
 
 #: templates/CRM/Contact/Page/CustomSearch.tpl
-#, fuzzy
 msgid "Use this search"
-msgstr "यह ईमेल छिपाइये"
+msgstr "इस खोज का उपयोग करें"
 
 #: templates/CRM/Contact/Page/CustomSearch.tpl
 msgid "There are currently no Custom Searches."
-msgstr ""
+msgstr "वर्तमान में कोई कस्टम खोज नही हैं।"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Saved Search"
@@ -13445,44 +13440,36 @@ msgid "Household Name and State"
 msgstr "पारिवारिक नाम"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Contribution Aggregate"
-msgstr "योगदान पृष्ठ"
+msgstr "योगदान सकल"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Basic Search"
-msgstr "सम्पर्क शाेध"
+msgstr "आधारभूत खोज"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Include / Exclude Contacts in a Group / Tag"
-msgstr "संपर्क समूह से जोड़ें"
+msgstr "शामिल / अपवर्जित संपर्क समूह / टैग में"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Postal Mailing"
-msgstr "डाक मेल"
+msgstr "पोस्टल डाक"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Proximity Search"
-msgstr "कस्टम खोज"
+msgstr "निकटता खोज"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Event Aggregate"
-msgstr "घटना शुल्क"
+msgstr "घटना सकल"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Activity Search"
-msgstr "गतिविधि विषय"
+msgstr "गतिविधि खोज"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Price Set Details for Event Participants"
-msgstr "कार्यक्रम के लिये सामूहिक अद्यतन"
+msgstr "घटना प्रतिभागियों के लिए मूल्य सेट विवरण"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Scheduled"
@@ -13525,73 +13512,60 @@ msgid "Name and Email"
 msgstr "नाम आैर ईमेल"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Contact"
-msgstr "सदस्य बाहर भेजना"
+msgstr "आयात संपर्क"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Import Activity"
 msgstr "घटना बाहर से मंगवाएे"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Contribution"
-msgstr "योगदान नष्ट"
+msgstr "योगदान आयात"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Membership"
-msgstr "सदस्यता बनाएँ"
+msgstr "सदस्यता आयात"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Participant"
-msgstr "प्रतिभागियों काे निर्यात करे"
+msgstr "प्रतिभागि आयात"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Contact"
-msgstr "सदस्य बाहर भेजना"
+msgstr "निर्यात संपर्क"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Contribution"
-msgstr "योगदान नष्ट"
+msgstr "योगदान निर्यात"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Membership"
-msgstr "सदस्यता संपादन"
+msgstr "सदस्यता निर्यात"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Participant"
-msgstr "प्रतिभागियों काे निर्यात करे"
+msgstr "प्रतिभागि निर्यात"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Pledge"
-msgstr "निर्यात प्रकार"
+msgstr "वचन निर्यात"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "daily"
-msgstr "दिन"
+msgstr "दैनिक"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "weekly"
-msgstr "हफ्ते"
+msgstr "साप्ताहिक"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "monthly"
-msgstr "माह"
+msgstr "मासिक"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "yearly"
-msgstr "साल"
+msgstr "वार्षिक"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Current"
@@ -13606,9 +13580,8 @@ msgid "Expired"
 msgstr "निश्वासित"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Deceased"
-msgstr "मिल गया"
+msgstr "मृतक"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Dummy Payment Processor"
