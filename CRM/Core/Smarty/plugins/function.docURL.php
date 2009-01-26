@@ -60,8 +60,18 @@ function smarty_function_docURL( $params, &$smarty ) {
         $params['text'] = ts( '(learn more...)' );
     }
     
+    if ( ! isset( $params['style'] ) ) {
+        $params['style'] = '';
+    } else {
+        $style = "style=\"{$params['style']}\"";
+    }
+
     $link = $docBaseURL . str_replace( ' ', '+', $params['page'] );
-    
-    return "<a href=\"{$link}\" title=\"{$params['title']}\">{$params['text']}</a>";
+
+    if ( isset( $params['URLonly'] ) && $params['URLonly'] == true ) {
+        return $link;
+    } else {
+        return "<a href=\"{$link}\" $style target=\"_blank\" title=\"{$params['title']}\">{$params['text']}</a>";
+    }
     
 }
