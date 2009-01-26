@@ -1,20 +1,21 @@
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+{capture assign=tokenDocLink}{docURL page="Mail-merge Tokens for Contact Data"}{/capture}
+{capture assign=memberTypesDocLink}{docURL page="Membership Types"}{/capture}
 
 {htxt id="id-intro"}
-{ts 1="http://wiki.civicrm.org/confluence//x/gCY" 2="http://wiki.civicrm.org/confluence//x/2yk" 3=$docURLTitle}
-    <p>Message templates allow you to save and re-use messages with layouts.
-    You can use them when sending email to one or more contacts. If you are using the CiviMail component - you can use templates for your
-    messages. If you are using the CiviMember component, you will need to create one or more message templates for membership renewal reminders (<a href="%2" target="_blank" title="%3">read more...</a>).</p>
-    
-    <p>You may include tokens to represent fields (like a contact's "first name") in the message subject and body. These will be replaced with the actual value of the corresponding
-    field in the outgoing message EXAMPLE: Dear {ldelim}contact.first_name{rdelim} (<a href="%1" target="_blank" title="%3">read more...</a>).</p>
-{/ts}
+<p>
+{ts}Message templates allow you to save and re-use messages with layouts. You can use them when sending email to one or more contacts. If you are using the CiviMail component - you can use templates for your messages. If you are using the CiviMember component, you will need to create one or more message templates for membership renewal reminders.
+{/ts} {$memberTypesDocLink}
+</p>
+
+<p>
+{ts}You may include tokens to represent fields (like a contact's "first name") in the message subject and body. These will be replaced with the actual value of the corresponding field in the outgoing message EXAMPLE: Dear {ldelim}contact.first_name{rdelim}.
+{/ts} {$tokenDocLink}
+</p>
 {/htxt}
 
-{assign var="tokenDocLink" value="http://wiki.civicrm.org/confluence//x/gCY"}
 {htxt id="id-msgTplIntro"}
-    {ts 1=$tokenDocLink 2=$docURLTitle}Use this form to add or edit re-usable message templates. Once you save a message template, you can use it when sending mail to
-    one or more contacts. If you are using the CiviMember component, you can also use a message template to send Membership Renewal Reminders. You may include tokens to represent
-    fields (like a contact's "first name") in the message subject and body. These will be replaced with the actual value of the corresponding field in the outgoing message.
-    EXAMPLE: Dear{ldelim}contact.first_name{rdelim} (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}
+<p>
+{ts}Use this form to add or edit re-usable message templates. Once you save a message template, you can use it when sending mail to one or more contacts. If you are using the CiviMember component, you can also use a message template to send Membership Renewal Reminders. You may include tokens to represent fields (like a contact's "first name") in the message subject and body. These will be replaced with the actual value of the corresponding field in the outgoing message. EXAMPLE: Dear{ldelim}contact.first_name{rdelim}.
+{/ts} {$tokenDocLink}
+</p>
 {/htxt}

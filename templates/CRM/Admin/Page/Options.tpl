@@ -1,4 +1,4 @@
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+
 <div id="help">
   {if $gName eq "gender"}
     {ts}CiviCRM is pre-configured with standard options for individual gender (e.g. Male, Female, Transgender). You can use this page to customize these options and add new options as needed for your installation.{/ts}
@@ -18,9 +18,10 @@
     {ts}This page lists the credit card options that will be offered to contributors using your Online Contribution pages. You will need to verify which cards are accepted by your chosen Payment Processor and update these entries accordingly.{/ts}<br /><br />
     {ts}IMPORTANT: This page does NOT control credit card/payment method choices for sites and/or contributors using the PayPal Express service (e.g. where billing information is collected on the Payment Processor's website).{/ts}
   {elseif $gName eq "acl_role"}
+    {capture assign=docLink}{docURL page="Access Control" text="Access Control Documentation"}{/capture}
     {capture assign=aclURL}{crmURL p='civicrm/acl' q='reset=1'}{/capture}
     {capture assign=erURL}{crmURL p='civicrm/acl/entityrole' q='reset=1'}{/capture}
-    {ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACLs allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts), and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href='%1' target='_blank' title='%2'>Access Control Documentation</a> for more info.{/ts}<br /><br />
+    {ts 1=$docLink}ACLs allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts), and a <strong>Role</strong> that has permission to do this operation. Refer to the %1 for more info.{/ts}<br /><br />
     {ts 1=$aclURL 2=$erURL}You can add or modify your ACL Roles below. You can create ACL&rsquo;s and grant permission to roles <a href='%1'>here</a>... and you can assign role(s) to CiviCRM contacts who are users of your site <a href='%2'>here</a>.{/ts}
   {elseif $gName eq 'event_type'}
     {ts}Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.{/ts}

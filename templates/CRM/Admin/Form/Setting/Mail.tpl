@@ -1,5 +1,6 @@
+{capture assign=docLink}{docURL page="CiviMail Admin" text="CiviMail Administration Guide"}{/capture}
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence/display/CRMDOC/CiviMail+Admin"}These settings are used to configure mailer properties for the optional CiviMail component. They are NOT used for the built-in 'Send Email to Contacts' feature. Refer to the <a href='%1' target='_blank' title='CiviMail Guide (opens in a new window)'>CiviMail Guide</a> for more information.{/ts}
+    {ts 1=$docLink}These settings are used to configure mailer properties for the optional CiviMail component. They are NOT used for the built-in 'Send Email to Contacts' feature. Refer to the %1 for more information.{/ts}
 </div>
 <div class="form-item">
 <fieldset><legend>{ts}CiviMail Configuration{/ts}</legend>

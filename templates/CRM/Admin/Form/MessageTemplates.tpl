@@ -1,6 +1,6 @@
 {* this template is used for adding/editing/deleting Message Templates *}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-{assign var="tokenDocLink" value="http://wiki.civicrm.org/confluence//x/gCY"}
+{capture assign=tokenDocsRepeated}{docURL page="Mail-merge Tokens for Contact Data" text="token documentation"}{/capture}
 <div id="help">
     {ts}Use this form to add or edit re-usable message templates.{/ts} {help id="id-msgTplIntro"}
 </div>
@@ -11,7 +11,7 @@
       <div class="messages status">
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-          <dd>    
+          <dd>
           {ts}Do you want to delete this message template?{/ts}
           </dd>
        </dl>
@@ -27,19 +27,19 @@
         <tr>
             <td class="label">{$form.msg_subject.label}</td>
             <td>{$form.msg_subject.html}
-                <br /><span class="description">{ts}Subject for email message.{/ts} {ts 1=$tokenDocLink 2=$docURLTitle}Tokens may be included (<a href='%1' target='_blank' title='%2'>token documentation</a>).{/ts}
+                <br /><span class="description">{ts}Subject for email message.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
             </td>
         </tr>
         <tr>
             <td colspan="2">{$form.msg_text.label}<br />
                             {$form.msg_text.html|crmReplace:class:huge}<br />
-                            <span class="description">{ts}Text formatted message.{/ts} {ts 1=$tokenDocLink 2=$docURLTitle}Tokens may be included (<a href='%1' target='_blank' title='%2'>token documentation</a>).{/ts}
+                            <span class="description">{ts}Text formatted message.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
             </td>
         </tr>
         <tr>
             <td colspan="2">{$form.msg_html.label}<br />
                             {$form.msg_html.html}<br />
-                            <span class="description">{ts}You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is 'HTML' or 'Both'.{/ts} {ts 1=$tokenDocLink 2=$docURLTitle}Tokens may be included (<a href='%1' target='_blank' title='%2'>token documentation</a>).{/ts}
+                            <span class="description">{ts}You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is 'HTML' or 'Both'.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
             </td>
         </tr>
         <tr>

@@ -1,6 +1,6 @@
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+{capture assign=docLink}{docURL page="Global Settings" text="Administration Documentation"}{/capture}
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/OSk" 2=$docURLTitle}Use the links below to configure or modify the global settings for CiviCRM for this site. Refer to the <a href='%1' target='_blank' title='%2'>Administration Documentation</a> for details on settings and options.{/ts}
+    {ts 1=$docLink}Use the links below to configure or modify the global settings for CiviCRM for this site. Refer to the %1 for details on settings and options.{/ts}
 </div>
 <table class="report"> 
 <tr>
