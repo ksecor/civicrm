@@ -79,7 +79,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function markIgnored($nr)
     {
-        if ($this->_debug) print "setting $nr as seen and moving to the ignored mailbox\n";
+        if ($this->_debug) print "setting $nr as seen and moving it to the ignored mailbox\n";
         $this->_transport->setFlag($nr, 'SEEN');
         $this->_transport->copyMessages($nr, $this->_ignored);
         $this->_transport->delete($nr);
@@ -93,7 +93,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function markProcessed($nr)
     {
-        if ($this->_debug) print "setting $nr as seen and moving to the processed mailbox\n";
+        if ($this->_debug) print "setting $nr as seen and moving it to the processed mailbox\n";
         $this->_transport->setFlag($nr, 'SEEN');
         $this->_transport->copyMessages($nr, $this->_processed);
         $this->_transport->delete($nr);
