@@ -56,7 +56,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
 
         if ($this->_debug) print "connecting to $host, authenticating as $username and selecting $folder\n";
 
-        $options = array('ssl' => $ssl);
+        $options = array('ssl' => $ssl, 'uidReferencing' => true);
         $this->_transport = new ezcMailImapTransport($host, null, $options);
         $this->_transport->authenticate($username, $password);
         $this->_transport->selectMailbox($folder);
@@ -69,6 +69,18 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
 
         if (!in_array($this->_ignored,   $boxes)) $this->_transport->createMailbox($this->_ignored);
         if (!in_array($this->_processed, $boxes)) $this->_transport->createMailbox($this->_processed);
+    }
+
+    /**
+     * Return the next X messages from the mail store - this is just 
+     * a wrapper for parent that passes proper uidReferencing value
+     *
+     * @param int $count            number of messages to fetch (0 to fetch all)
+     * @return array                array of ezcMail objects
+     */
+    function fetchNext($count = 1)
+    {
+        return parent::fetchNext($count, $this->_transport->options->uidReferencing);
     }
 
     /**

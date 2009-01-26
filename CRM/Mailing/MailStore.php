@@ -92,14 +92,21 @@ class CRM_Mailing_MailStore
     /**
      * Return the next X messages from the mail store
      *
-     * @param int $count  number of messages to fetch (0 to fetch all)
-     * @return array      array of ezcMail objects
+     * @param int $count            number of messages to fetch (0 to fetch all)
+     * @param bool $uidReferencing  whether we're called with IMAP's UID referencing
+     * @return array                array of ezcMail objects
      */
-    function fetchNext($count = 1)
+    function fetchNext($count = 1, $uidReferencing = false)
     {
-        if (!isset($this->_offset)) $this->_offset = 1;
+        static $fetched = 0;
+        if ($uidReferencing) {
+            $uids = $this->_transport->listUniqueIdentifiers();
+            $offset = $uids[$fetched+1];
+        } else {
+            $offset = $fetched + 1;
+        }
         try {
-            $set = $this->_transport->fetchFromOffset($this->_offset, $count);
+            $set = $this->_transport->fetchFromOffset($offset, $count);
         } catch (ezcMailOffsetOutOfRangeException $e) {
             return array();
         }
@@ -110,7 +117,7 @@ class CRM_Mailing_MailStore
             $single = $parser->parseMail($this->_transport->fetchByMessageNr($nr));
             $mails[$nr] = $single[0];
         }
-        $this->_offset += $count;
+        $fetched += $count;
         return $mails;
     }
 
