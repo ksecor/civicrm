@@ -40,9 +40,6 @@ class CRM_Mailing_MailStore
     // flag to decide whether to print debug messages
     var $_debug = true;
 
-    // the number of fetched messages
-    var $_fetched = 0;
-
     /**
      * Return the proper mail store implementation, based on config settings
      *
@@ -101,14 +98,13 @@ class CRM_Mailing_MailStore
     function fetchNext($count = 1)
     {
         if (isset($this->_transport->options->uidReferencing) and $this->_transport->options->uidReferencing) {
-            $uids = $this->_transport->listUniqueIdentifiers();
-            $offset = $uids[$this->_fetched+1];
+            $offset = array_shift($this->_transport->listUniqueIdentifiers());
         } else {
-            $offset = $this->_fetched + 1;
+            $offset = 1;
         }
         try {
             $set = $this->_transport->fetchFromOffset($offset, $count);
-            if ($this->_debug) print "fetched $count messages\n";
+            if ($this->_debug) print "fetching $count messages\n";
         } catch (ezcMailOffsetOutOfRangeException $e) {
             if ($this->_debug) print "got to the end of the mailbox\n";
             return array();
@@ -120,7 +116,6 @@ class CRM_Mailing_MailStore
             $single = $parser->parseMail($this->_transport->fetchByMessageNr($nr));
             $mails[$nr] = $single[0];
         }
-        $this->_fetched += $count;
         return $mails;
     }
 
