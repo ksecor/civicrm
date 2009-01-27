@@ -108,7 +108,9 @@ class CRM_Mailing_MailStore
         }
         try {
             $set = $this->_transport->fetchFromOffset($offset, $count);
+            if ($this->_debug) print "fetched $count messages\n";
         } catch (ezcMailOffsetOutOfRangeException $e) {
+            if ($this->_debug) print "got to the end of the mailbox\n";
             return array();
         }
         $mails = array();
