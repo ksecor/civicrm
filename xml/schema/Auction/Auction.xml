@@ -113,6 +113,18 @@
        <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field> 
+      <name>donor_profile_id</name> 
+      <type>int unsigned</type>                 
+      <comment>Profile to be used for donor account creation.</comment> 
+      <add>2.3</add> 
+  </field> 
+  <foreignKey> 
+       <name>donor_profile_id</name> 
+       <table>civicrm_uf_group</table> 
+       <key>id</key> 
+       <onDelete>SET NULL</onDelete>
+  </foreignKey>
+  <field> 
       <name>is_active</name> 
       <type>boolean</type>
       <default>0</default>                

@@ -92,9 +92,10 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
 
         $this->assign( 'auctionTitle', $this->_auctionValues['auction_title'] );
 
-        // set donor id etc
+        // set donor id
         $session =& CRM_Core_Session::singleton( );
-        $this->_donorID =  $session->get( 'userID' );
+        $this->_donorID = $this->get('donorID');
+
         $this->assign( 'donorName',
                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                     $this->_donorID,
@@ -217,9 +218,16 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
             $buttons = array( array ( 'type'      => 'upload',
                                       'name'      => ts('Save'),
                                       'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                      'isDefault' => true   ),
-                              array ( 'type'      => 'cancel',
-                                      'name'      => ts('Cancel') ) );
+                                      'isDefault' => true   ) );
+            
+            $session =& CRM_Core_Session::singleton();
+            if ( $session->get('userID') ) {
+                $buttons[] = array ( 'type'      => 'next',
+                                     'name'      => ts('Save and New'),
+                                     'subName'   => 'new' );
+            }
+            $buttons[] = array ( 'type'      => 'cancel',
+                                 'name'      => ts('Cancel') );
         }
         $this->addButtons( $buttons );
 
@@ -288,7 +296,12 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
         
         CRM_Auction_BAO_Item::add( $params );
 
+        if ( $this->controller->getButtonName( ) == $this->getButtonName( 'next', 'new' ) ) {
+            $session =& CRM_Core_Session::singleton( );
+            //CRM_Core_Session::setStatus(ts(' You can add another profile field.'));
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/auction/item',
+                                                               "reset=1&action=add&aid={$this->_aid}"));
+        }
     }
-    
 }
 

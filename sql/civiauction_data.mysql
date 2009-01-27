@@ -1,0 +1,38 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.3deb1ubuntu1.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jan 27, 2009 at 04:02 PM
+-- Server version: 5.0.51
+-- PHP Version: 5.2.4-2ubuntu5.4
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `civicrm_trunk`
+--
+
+INSERT INTO `civicrm_contact` (`contact_type`, `sort_name`, `display_name`, `first_name`, `last_name`) 
+VALUES
+('Individual', 'Mouse Micky', 'Mouse Micky', 'Mickey', 'Mouse');
+
+SELECT @donorID := id FROM `civicrm_contact` where `display_name` like 'Mouse Micky';
+
+--
+-- Dumping data for table `civicrm_auction`
+--
+
+INSERT INTO `civicrm_auction` (`id`, `title`, `description`, `start_date`, `end_date`, `item_start_date`, `item_end_date`, `is_approval_needed`, `is_item_groups`, `max_items`, `max_items_user`, `event_id`, `donor_profile_id`, `is_active`) VALUES
+(1, 'collectibles', 'collectibles such as stamps, coins, classic cars, fine art, and luxury real estate', NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, 1, 2, 1);
+
+SELECT @auctionID := id FROM `civicrm_auction` where `title` like 'collectibles';
+
+--
+-- Dumping data for table `civicrm_auction_item`
+--
+
+INSERT INTO `civicrm_auction_item` (`auction_id`, `donor_id`, `auction_item_type_id`, `title`, `description`, `url`, `sku`, `options`, `image`, `quantity`, `retail_value`, `min_bid_value`, `min_bid_increment`, `buy_now_value`, `is_active`, `is_group`, `parent_id`, `creator_id`, `created_date`, `is_approved`, `approver_id`, `approval_date`) VALUES
+(@auctionID, @donorID, 3, 'coins', '<p>Frequently collected coins include those that were in circulation for only a brief time, coins minted with errors, or especially beautiful or historically interesting pieces.</p>', NULL, NULL, NULL, NULL, 5, 60.00, 15.00, 3.00, 55.00, 1, 0, NULL, NULL, NULL, 1, NULL, '2009-01-22 14:48:58'),
+(@auctionID, @donorID, 2, 'Stamps', '<p>Collections such as covers (envelopes or packages with stamps on them).</p>', NULL, NULL, NULL, NULL, 200, 500.00, 600.00, 50.00, 700.00, 1, 0, NULL, @donorID, '2009-01-27 14:27:28', 1, NULL, NULL),
+(@auctionID, @donorID, 1, 'Classic car', '<p>Term frequently used to describe an older car, but the exact meaning is subject to differences in opinion.</p>', NULL, NULL, NULL, NULL, 25, 3000.00, 2800.00, 100.00, 3500.00, 1, 0, NULL, @donorID, '2009-01-27 15:56:49', 1, NULL, NULL);

@@ -74,6 +74,12 @@ class CRM_Auction_Page_Manage extends CRM_Core_Page
                                                                           'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                           'title' => ts('Edit Auction') 
                                                                           ),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Items'),
+                                                                          'url'   => 'civicrm/auction/item',
+                                                                          'qs'    => 'aid=%%id%%&reset=1',
+                                                                          'title' => ts('Manage Items') 
+                                                                          ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => CRM_Utils_System::currentPath( ),

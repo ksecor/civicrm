@@ -40,16 +40,21 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Auction_Form_ItemAccount extends CRM_Core_Form
 {
+    /**
+     * the id of the auction for which item needs to be updated/added.
+     *
+     * @var int
+     * @protected
+     */
     public  $_aid = null;
-    public  $_id     = null;
 
-    /** 
-     * are we in single form mode or wizard mode?
-     * 
-     * @var boolean
-     * @access protected 
-     */ 
-    public $_single;
+    /**
+     * the id of the item we are processing
+     *
+     * @var int
+     * @protected
+     */
+    public  $_id  = null;
 
     public function preProcess()  
     {
@@ -58,11 +63,10 @@ class CRM_Auction_Form_ItemAccount extends CRM_Core_Form
         $this->_aid    = CRM_Utils_Request::retrieve( 'aid', 'Positive', $this );
         $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
 
-        if ( $this->_id ){
-            $donorID = CRM_Core_DAO::getFieldValue( 'CRM_Auction_DAO_Item', $this->_id, 'donor_id' );   
+        if ( $session->get( 'userID' ) ) {
+            $this->_donorID = $session->get( 'userID' );     
         }
 
-        $this->_donorID = isset( $donorID ) ? $donorID : $session->get( 'userID' );     
         if ( ! $this->_aid ) {
             $this->_aid = CRM_Core_DAO::getFieldValue( 'CRM_Auction_DAO_Item', $this->_id, 'auction_id' );
         }
@@ -76,13 +80,14 @@ class CRM_Auction_Form_ItemAccount extends CRM_Core_Form
         if ( ! $this->_donorID ) {
             return;
         }
+
         foreach ( $this->_fields as $name => $dontcare) {
             $fields[$name] = 1;
         }
         
         require_once "CRM/Core/BAO/UFGroup.php";
         CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_donorID, $fields, $this->_defaults );
-        
+
         //set custom field defaults
         require_once "CRM/Core/BAO/CustomField.php";
         foreach ( $this->_fields as $name => $field ) {
@@ -105,25 +110,29 @@ class CRM_Auction_Form_ItemAccount extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     {
-        // FIXME: hard code profile for now, since we don't have schema ready to store profile id
-        $id = 2;
+        $profileID = CRM_Core_DAO::getFieldValue( 'CRM_Auction_DAO_Auction', 
+                                                  $this->_aid, 'donor_profile_id' );
+        if ( ! $profileID ) {
+            CRM_Core_Error::fatal('Profile not configured for this auction.');
+        }
 
         require_once 'CRM/Auction/BAO/Item.php';
-        if ( CRM_Auction_BAO_Item::isEmailInProfile( $id ) ){
+        if ( CRM_Auction_BAO_Item::isEmailInProfile( $profileID ) ){
             $this->assign('profileDisplay', true);
         }
+
         $fields = null;
         require_once "CRM/Core/BAO/UFGroup.php";
         if ( $this->_donorID ) {
-            if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $this->_donorID)  ) {
-                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD );
+            if ( CRM_Core_BAO_UFGroup::filterUFGroups($profileID, $this->_donorID)  ) {
+                $fields = CRM_Core_BAO_UFGroup::getFields( $profileID, false,CRM_Core_Action::ADD );
             }
             $this->addFormRule( array( 'CRM_Auction_Form_ItemAccount', 'formRule' ), $this ); 
         } else {
             require_once 'CRM/Core/BAO/CMSUser.php';
-            CRM_Core_BAO_CMSUser::buildForm( $this, $id , true );
-
-            $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD );
+            CRM_Core_BAO_CMSUser::buildForm( $this, $profileID , true );
+            
+            $fields = CRM_Core_BAO_UFGroup::getFields( $profileID, false,CRM_Core_Action::ADD );
         }
         
         if ( $fields ) {
@@ -151,23 +160,10 @@ class CRM_Auction_Form_ItemAccount extends CRM_Core_Form
             }
         }
 
-/*         require_once "CRM/Auction/PseudoConstant.php"; */
-/*         $this->assign( 'campaignName', CRM_Auction_PseudoConstant::contributionPage( $this->_aid ) ); */
-        
-        if ( $this->_single ) {
-            $button = array ( array ( 'type'      => 'next',
-                                      'name'      => ts('Save'), 
-                                      'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                      'isDefault' => true   ),
-                              array ( 'type' => 'cancel',
-                                      'name' => ts('Cancel'))
-                              );
-        }else {
-            $button[] = array ( 'type'      => 'next',
-                                'name'      => ts('Continue >>'), 
-                                'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                'isDefault' => true   );
-        }
+        $button[] = array ( 'type'      => 'next',
+                            'name'      => ts('Continue >>'), 
+                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                            'isDefault' => true   );
         
         $this->addButtons( $button );
     }
@@ -207,15 +203,17 @@ class CRM_Auction_Form_ItemAccount extends CRM_Core_Form
     public function postProcess( )  
     {
         $params  = $this->controller->exportValues( $this->getName() );
-        if ( ! $this->_donorID && isset( $params['cms_create_account'] ) ) {
+        if ( ! $this->_donorID ) {
             foreach( $params as $key => $value ) {
                 if ( substr( $key , 0,5 ) == 'email' && ! empty( $value ) )  {
                     $params['email'] = $value;
                 }
             }
         }
-        $donorID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $this->_fields, $this->_donorID, $addToGroups );
-        $this->set('contactID', $donorID);
+        $donorID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $this->_fields, 
+                                                                   $this->_donorID, $addToGroups );
+        $this->set('donorID', $donorID);
+
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
         CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params, $donorID, 'email' );
     }
