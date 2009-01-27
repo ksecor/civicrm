@@ -166,7 +166,8 @@ class CRM_Core_BAO_CMSUser
         // if cms is drupal having version greater than equal to 5.1
         // we also need email verification enabled, else we dont do it
         // then showCMS will true
-        if ( ( $isDrupal  && variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {
+        if ( ( $isDrupal  && variable_get('user_email_verification', TRUE ) && variable_get('user_register', TRUE ) ) 
+              OR ( $isJoomla ) ) {
             if ( $gid ) {                                        
                 $isCMSUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
             } 
