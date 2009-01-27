@@ -981,7 +981,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while ( $dao->fetch( ) ) {
             $activities[$dao->activity_id]['source_contact_id'][] = $contactId;
         }         
-        
+        $activityIds = array( );
         // Then look up the activity details for each activity_id we saw above
         foreach ( $activities as $activityId => $dummy ) {
             $activityIds[] = $activityId;
