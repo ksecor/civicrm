@@ -100,7 +100,7 @@ class CRM_Mailing_MailStore
      */
     function fetchNext($count = 1)
     {
-        if ($this->_transport->options->uidReferencing) {
+        if (isset($this->_transport->options->uidReferencing) and $this->_transport->options->uidReferencing) {
             $uids = $this->_transport->listUniqueIdentifiers();
             $offset = $uids[$this->_fetched+1];
         } else {
