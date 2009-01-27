@@ -188,7 +188,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     { 
         // no need to calculate status again
         // as we done in membership update cron, CRM-3984
-        if ( !CRM_Utils_Array::value( 'is_override', $params ) && 
+        if ( !isset( $params['is_override'] ) && 
              !CRM_Utils_Array::value( 'skipStatusCal', $params ) ) {
             require_once 'CRM/Utils/Date.php';
             $startDate = $endDate = $joinDate = null;
@@ -201,7 +201,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             if ( isset( $params['join_date'] ) ) {
                 $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y%m%d');
             }
-            
+
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             //fix for CRM-3570, during import exclude the statuses those having is_admin = 1
             $excludeIsAdmin = CRM_Utils_Array::value('exclude_is_admin', $params, false );
@@ -223,7 +223,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
             $params['status_id'] = $calcStatus['id'];
         }
-        
+            
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
