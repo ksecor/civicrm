@@ -569,9 +569,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         if ( $sourceContactField->getValue( ) ) {
             $this->assign( 'source_contact',  $sourceContactField->getValue( ) );
-        } else if ( $this->_sourceContactId ) {
+        } else if ( $this->_currentUserId ) {
             // we're setting currently LOGGED IN user as source for this activity
-            $this->assign( 'source_contact', $this->_sourceContactId );
+            $this->assign( 'source_contact_value', self::_getDisplayNameById($this->_currentUserId) ); 
         }
 
         //need to assign custom data type and subtype to the template
