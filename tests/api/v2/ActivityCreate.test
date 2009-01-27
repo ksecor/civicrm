@@ -129,7 +129,8 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
 				  'is_active'   => 1,
 				  );
 
-        $activity_type =  civicrm_activity_type_create( $activity_params ); $params = array(
+        $activity_type =  civicrm_activity_type_create( $activity_params ); 
+	$params = array(
                         'source_contact_id'   => $this->_individualSourceId,
                         'subject'             => 'let test other activities',
                         'activity_date_time'  => date('Ymd'),
