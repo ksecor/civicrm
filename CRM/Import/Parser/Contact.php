@@ -190,7 +190,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
 
         $this->_updateWithId = false;
-        if ( in_array('id',$this->_mapperKeys) || $this->_externalIdentifierIndex > 0 ) {
+        if ( in_array('id',$this->_mapperKeys) || ($this->_externalIdentifierIndex >= 0 && $this->_onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) ) {
             $this->_updateWithId = true;
         }
     }
@@ -712,8 +712,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $contact           = array( 'contact_id' => $params[$key]['id'] );
                         $defaults          = array( );
                         $relatedNewContact = CRM_Contact_BAO_Contact::retrieve( $contact, $defaults );
-                    } else {
-                        //fixed for CRM-3146
+                    } else if ( !isset ($params[$key]['external_identifier']) && $onDuplicate != CRM_Import_Parser::DUPLICATE_UPDATE ) {
+                        //fixed for CRM-3146, CRM-4024.
                         if ( ( $this->_contactType == 'Individual'   || 
                                $this->_contactType == 'Household'    ||
                                $this->_contactType == 'Organization' ) && $onDuplicate == CRM_Import_Parser::DUPLICATE_NOCHECK ) {
@@ -722,6 +722,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
                         $relatedNewContact = $this->createContact( $formatting, $contactFields, 
                                                                    $onDuplicate, null, false );
+                    }  else {
+                        $message ="No contact ID found for this External Identifier:".$params[$key]['external_identifier'] ;
+                        array_unshift($values, $message);
+                        $this->_retCode = CRM_Import_Parser::NO_MATCH; 
                     }
                     
                     if ( is_object( $relatedNewContact ) || ( $relatedNewContact instanceof CRM_Contact_BAO_Contact ) ) {
