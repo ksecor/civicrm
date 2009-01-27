@@ -277,3 +277,99 @@ function civitest_civicrm_pageRun( &$page ) {
 
     $page->assign( 'varName', 'This is a variable assigned by the hook' );
 }
+
+/*
+ * The hook_nodeapi implementation to set the node title to that of event title.
+ * Could also be used set the title to anything we want. 
+ *
+ */
+function civicrm_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+    if ($op == 'load' && $node->type == 'event') {
+        $node->title = civicrm_cck_event_field_values('title', $node->field_title[0]['value']);
+    }
+}
+
+/*
+ * The function to pull out event data from civicrm for cck fields related to event. 
+ *
+ */
+function civicrm_cck_event_field_values($field, $index = null) {
+    static $eventInfo;
+    if ( ! $eventInfo ) {
+        if ( ! civicrm_initialize( ) ) {
+            return;
+        }
+        require_once 'api/v2/Event.php';
+        $params    = array( );
+        $eventInfo = civicrm_event_search( $params );
+    }
+
+    if ( strpos($_GET['q'], 'edit') || 
+         strpos($_GET['q'], 'add')  ) {
+        $isAppend = true;
+    }
+    if ( isset( $index ) ) {
+        $isAppend = false;
+    }
+
+    $retArray = array( );
+    switch( $field ) {
+    case 'when': 
+        foreach ( $eventInfo as $info ) {
+            $str = "{$info['start_date']} >  through > {$info['end_date']}";
+            $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+        }
+        break;
+
+    case 'location': 
+        foreach ( $eventInfo as $info ) {
+            $params = array( 'entity_id' => $info['id'],'entity_table' => 'civicrm_event');
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::getValues( $params, $values, true );
+            $str = $values['location'][1]['address']['display'];
+            $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+        }
+        break;
+
+    case 'register_link': 
+        foreach ( $eventInfo as $info ) {
+            $str = '<a href="' . 
+                CRM_Utils_System::url( 'civicrm/event/register', 
+                                       "id={$info['id']}&reset=1", true ) . 
+                '">&raquo; Register Now</a>';
+            $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+        }
+        break;
+
+    case 'feeblock' : 
+        require_once 'CRM/Core/BAO/Discount.php';
+        require_once 'CRM/Core/OptionGroup.php';
+        foreach ( $eventInfo as $info ) {
+            $discountId = CRM_Core_BAO_Discount::findSet( $info['id'], 'civicrm_event' );
+            if ( $discountId ) {
+                CRM_Core_OptionGroup::getAssoc( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount',
+                                                                             $discountId, 'option_group_id' ),
+                                                $feeBlock, true, 'id' );
+            } else {
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$info['id']}", $feeBlock, true );
+            }
+            
+            $feeLabels = array();
+            foreach ( $feeBlock as $block ) {
+                $feeLabels[] = $block['label'] . "  $" . $block['value'];
+            }
+            $str  = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . implode($feeLabels, '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+            $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+        }
+        break;
+
+    default:
+        foreach ( $eventInfo as $info ) {
+            if ( isset($info[$field]) ) {
+                $str = $info[$field];
+                $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+            }
+        }
+    }
+    return empty($retArray) ? array() : isset($index) ? $retArray[$index] : $retArray;
+}
