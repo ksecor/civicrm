@@ -477,10 +477,10 @@ SELECT count(*)
     {
         $userParams = &JComponentHelper::getParams('com_users');
 
-		// If user registration is not allowed, don't do anything.
-		if (!$userParams->get('allowUserRegistration')) {
-			return false;
-		}
+        // If user registration is not allowed, don't do anything.
+        if (!$userParams->get('allowUserRegistration')) {
+            return false;
+        }
         // get the default usertype
         $userType = $userParams->get('new_usertype');
         if ( !$usertype ) {
