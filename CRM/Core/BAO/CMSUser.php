@@ -475,13 +475,19 @@ SELECT count(*)
      */
     static function createJoomlaUser( &$params, $mail ) 
     {
-        $acl         = &JFactory::getACL();
-        $userParams  = JComponentHelper::getParams('com_users');
+        $userParams = &JComponentHelper::getParams('com_users');
+
+		// If user registration is not allowed, don't do anything.
+		if (!$userParams->get('allowUserRegistration')) {
+			return false;
+		}
         // get the default usertype
-        $userType    = $userParams->get('new_usertype');
+        $userType = $userParams->get('new_usertype');
         if ( !$usertype ) {
             $usertype = 'Registered';
         }
+
+        $acl = &JFactory::getACL();
 
         // Prepare the values for a new Joomla! user.
         $values                 = array();
