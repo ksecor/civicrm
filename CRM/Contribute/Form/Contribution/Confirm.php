@@ -203,7 +203,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->assign("honor_last_name",$params["honor_last_name"]);
             $this->assign("honor_email",$params["honor_email"]);
         }
-        $this->assign('receiptFromEmail',$this->_values['receipt_from_email']);
+        $this->assign('receiptFromEmail', CRM_Utils_Array::value( 'receipt_from_email', $this->_values ) );
         $amount_block_is_active = $this->get( 'amount_block_is_active');
         $this->assign('amount_block_is_active', $amount_block_is_active );
 

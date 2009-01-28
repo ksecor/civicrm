@@ -405,7 +405,9 @@ WHERE e.id = %1";
         if ( !empty( $locations ) ) {
             $existingLocationTypes = array( );
             foreach ( $locations as $key => $value ) {
-                $existingLocationTypes[ $value['location_type_id'] ] = $value['location_type_id'];
+                if ( CRM_Utils_Array::value( 'location_type_id', $value ) ) {
+                    $existingLocationTypes[ $value['location_type_id'] ] = $value['location_type_id'];
+                }
             }
         }
         

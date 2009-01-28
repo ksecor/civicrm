@@ -88,7 +88,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $productID    = $this->get ('productID');
         $option       = $this->get ('option');
         $membershipTypeID = $this->get ('membershipTypeID');
-        $this->assign('receiptFromEmail',$this->_values['receipt_from_email']);
+        $this->assign('receiptFromEmail', CRM_Utils_Array::value( 'receipt_from_email', $this->_values ) );
         
         if ( $productID ) {
             require_once 'CRM/Contribute/BAO/Premium.php';  
