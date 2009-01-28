@@ -106,6 +106,11 @@ SET
 -- *
 -- *******************************************************/
 
+{if $multilingual}
+  {foreach from=$locales item=locale}
+     DROP VIEW civicrm_event_page_{$locale};
+  {/foreach}
+{/if}
 DROP TABLE civicrm_event_page;
 
 -- CRM-3546
