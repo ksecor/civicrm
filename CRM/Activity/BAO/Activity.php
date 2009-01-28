@@ -1006,10 +1006,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while ( $dao->fetch( ) ) {
             $activities[$dao->activity_id]['source_contact_id'] = $dao->source_contact_id;
             if ( $dao->target_contact_id ) {
-                $activities[$dao->activity_id]['targets'][]     = $dao->target_contact_id;
+                $activities[$dao->activity_id]['targets'][$dao->target_contact_id]    = $dao->target_contact_id;
             }
             if ( isset( $dao->assignee_contact_id ) ) {
-                $activities[$dao->activity_id]['asignees'][]    = $dao->assignee_contact_id;
+                $activities[$dao->activity_id]['asignees'][$dao->assignee_contact_id] = $dao->assignee_contact_id;
             }
             $activities[$dao->activity_id]['activity_type_id']  = $dao->activity_type_id;
             $activities[$dao->activity_id]['subject']           = $dao->subject;
