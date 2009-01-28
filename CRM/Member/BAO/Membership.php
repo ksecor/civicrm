@@ -186,9 +186,13 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
     { 
-        // no need to calculate status again
-        // as we done in membership update cron, CRM-3984
-        if ( !isset( $params['is_override'] ) && 
+        // always cal status if is_override/skipStatusCal is not true.
+        // giving respect to is_override during import.  CRM-4012
+        
+        // To skip status cal we should use 'skipStatusCal'.
+        // eg pay later membership, membership update cron CRM-3984
+        
+        if ( !CRM_Utils_Array::value( 'is_override', $params ) && 
              !CRM_Utils_Array::value( 'skipStatusCal', $params ) ) {
             require_once 'CRM/Utils/Date.php';
             $startDate = $endDate = $joinDate = null;
@@ -1020,13 +1024,18 @@ AND civicrm_membership.is_test = %2";
         $format       = '%Y%m%d';
         $ids          = array();
         
+        //get all active statuses of membership.
+        require_once 'CRM/Member/PseudoConstant.php';
+        $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
+        
         if ( $currentMembership = 
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test, $form->_membershipId ) ) {
             $activityType = 'Membership Renewal';
             $form->set("renewal_mode", true );
             
             // Do NOT do anything to membership with status : PENDING/CANCELLED (CRM-2395)
-            if ( in_array($currentMembership['status_id'], array( 5, 6 )) ) {
+            if ( in_array($currentMembership['status_id'],  array( array_search( 'Pending', $allStatus ),
+                                                                   array_search( 'Cancelled', $allStatus ) ) ) ) {
                 $membership =& new CRM_Member_DAO_Membership();
                 $membership->id = $currentMembership['id'];
                 $membership->find(true);
@@ -1157,14 +1166,17 @@ AND civicrm_membership.is_test = %2";
                                                                                );  
             } else {
                 // if IPN/Pay-Later set status to: PENDING
-                $status = array( 'id' => 5 );
+                $status = array( 'id' => array_search( 'Pending', $allStatus ) );
             }
-
+            
             $memParams['status_id']     = $status['id'];
-            $memParams['is_override']   = false;
+            
+            //as we are giving status to pending and want to
+            //skip status cal in create(); so need to pass 'skipStatusCal' 
+            $memParams['skipStatusCal'] = true;
             $memParams['is_pay_later']  = $form->_params['is_pay_later'];
         }
-        
+            
         // create / renew membership
         $ids['userId'] = $contactID;
         
