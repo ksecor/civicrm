@@ -193,7 +193,7 @@ class CRM_Utils_Mail {
                             '<li>' . ts('Your SMTP server is just not responding right now (it is down for some reason).') . '</li>' .
                         '</ul>' .
                         '<p>' . ts('Check <a href="%1">this page for more information.</a>', array(1 => CRM_Utils_System::docURL2('Outbound Email (SMTP)', true))) . '</p>' .
-                        '<p>' . ts('The mail library returned the following error message:') . $result->getMessage() . '</p>';
+                        '<p>' . ts('The mail library returned the following error message:') . ' <b>' . $result->getMessage() . '</b></p>';
                 } else {
                     $message =
                         '<p>' . ts('A error occurred when CiviCRM attempted to send an email (via Sendmail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.') . '</p>' .
@@ -202,7 +202,7 @@ class CRM_Utils_Mail {
                             '<li>' . ts('Your Sendmail path is incorrect.')     . '</li>' .
                             '<li>' . ts('Your Sendmail argument is incorrect.') . '</li>' .
                         '</ul>' .
-                        '<p>' . ts('The mail library returned the following error message:') . $result->getMessage() . '</p>';
+                        '<p>' . ts('The mail library returned the following error message:') . ' <b>' . $result->getMessage() . '</b></p>';
                 }
                 CRM_Core_Session::setStatus( $message );
                 return false;
