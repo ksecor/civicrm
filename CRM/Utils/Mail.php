@@ -196,11 +196,11 @@ class CRM_Utils_Mail {
                         '<p>' . ts('The mail library returned the following error message:') . $result->getMessage() . '</p>';
                 } else {
                     $message =
-                        '<p>' . ts('A error occurred when CiviCRM attempted to send an email (via SendMail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.') . '</p>' .
+                        '<p>' . ts('A error occurred when CiviCRM attempted to send an email (via Sendmail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.') . '</p>' .
                         '<p>' . ts('This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:') . '</p>' .
                         '<ul>' .
-                            '<li>' . ts('Your SendMail path is incorrect.')     . '</li>' .
-                            '<li>' . ts('Your SendMail argument is incorrect.') . '</li>' .
+                            '<li>' . ts('Your Sendmail path is incorrect.')     . '</li>' .
+                            '<li>' . ts('Your Sendmail argument is incorrect.') . '</li>' .
                         '</ul>' .
                         '<p>' . ts('The mail library returned the following error message:') . $result->getMessage() . '</p>';
                 }
