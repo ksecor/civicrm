@@ -424,9 +424,15 @@ function civicrm_participant_check_params( &$params )
     $result = array( );
     
     if( CRM_Event_BAO_Participant::checkDuplicate( $params, $result ) ) {
-        $error = CRM_Core_Error::createError( "Found matching records{$params['contact_id']}", CRM_Core_Error::DUPLICATE_PARTICIPANT, 'Fatal',$params['contact_id']);
+        $participantID = array_pop( $result );
+        
+        $error = CRM_Core_Error::createError( "Found matching participant record.", 
+                                              CRM_Core_Error::DUPLICATE_PARTICIPANT, 
+                                              'Fatal', $participantID );
+        
         return civicrm_create_error( $error->pop( ),
-                                     $params['contact_id'] );
+                                     array( 'contactID'     => $params['contact_id'],
+                                            'participantID' => $participantID ) );
     }
     
     return true;
