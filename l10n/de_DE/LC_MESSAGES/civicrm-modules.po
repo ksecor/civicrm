@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-01-19 23:32-0800\n"
+"PO-Revision-Date: 2009-01-26 13:55-0800\n"
 "Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -5942,16 +5942,15 @@ msgstr[1] ""
 "nicht aktualisiert."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href='%1'>Download Mismatched Contributions</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
-"Sie können <a href=\"%1\">Fehler herrunterladen</a>. Sie können diese dann "
-"korrigieren, und die neue Datei mit den korrigierten Daten importieren."
+"Sie können <a href=\"%1\">Nicht passende Spenden herrunterladen</a>. Sie "
+"können diese dann korrigieren, und die neue Datei mit den korrigierten Daten "
+"importieren."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected invalid data and/or formatting errors in one record. "
 "This record has not been imported."
@@ -5959,11 +5958,11 @@ msgid_plural ""
 "CiviCRM has detected invalid data and/or formatting errors in %count "
 "records. These records have not been imported."
 msgstr[0] ""
-"CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
-"importiert."
+"CiviCRM hat ungültige Daten und/oder Formattierungs Fehler in einem "
+"Datensatz  gefunden, er wurde nihct importiert."
 msgstr[1] ""
-"CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
-"importiert."
+"CiviCRM hat ungültige Daten und/oder Formattierungs Fehler in %count "
+"Datensätzen gefunden, welche nicht importiert wurden."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Event/Import/Form/Summary.tpl
@@ -5976,7 +5975,6 @@ msgstr ""
 "korrigieren, und die neue Datei mit den korrigierten Daten importieren."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing contribution records. This record have not "
@@ -5986,15 +5984,13 @@ msgid_plural ""
 "this data file or relative to existing contribution records. These records "
 "have not been imported."
 msgstr[0] ""
-"CiviCRM hat %1 Datensätze gefunden die die gleichen Emailadressen in der "
-"Datei oder wie existierende Kontakte haben. Diese Datensätze wurden nicht "
-"importiert. CiviCRM erlaubt nicht mehrere Kontakte mit der kleine primären "
-"Emailadresse zu speichern."
+"CiviCRM hat einen Datensatz  mit widersprüchlichen Transaktions ID innerhalb "
+"der Datei  oder relativ zu einem bestehenden Spenden Datensatz "
+"gefunden.Dieser Datensatz wurden nicht importiert."
 msgstr[1] ""
-"CiviCRM hat %1 Datensätze gefunden die die gleichen Emailadressen in der "
-"Datei oder wie existierende Kontakte haben. Diese Datensätze wurden nicht "
-"importiert. CiviCRM erlaubt nicht mehrere Kontakte mit der kleine primären "
-"Emailadresse zu speichern."
+"CiviCRM hat %count Datensätze mit wiedersprüchlichen Transaktions ID's "
+"innerhalb der Datei oder relativ zu bestehenden Spenden Datensätzen "
+"gefunden. Diese Datensätze wurden nicht importiert."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Event/Import/Form/Summary.tpl
@@ -6006,7 +6002,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "contribution record."
@@ -6014,11 +6009,11 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
 msgstr[0] ""
-"CiviCRM hat %1 Datensätze gefunden die schon als CiviCRM-Kontakt gespeichert "
-"sind."
+"CiviCRM hat einen Datensatz gefunden, welcher ein Duplikat zu einem "
+"bestehenden CiviCRM Spenden Datensatz ist."
 msgstr[1] ""
-"CiviCRM hat %1 Datensätze gefunden die schon als CiviCRM-Kontakt gespeichert "
-"sind."
+"CiviCRM hat %count Datensätze gefunden, welche Duplikate zu bestehenden "
+"CiviCRM Spenden Datensätze sind."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Event/Import/Form/Summary.tpl
@@ -6036,18 +6031,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows with mismatched contribution IDs... (NOT updated)."
-msgstr "Zeilen mit widersprüchlichen Emailadressen (nicht importiert)"
+msgstr "Zeilen mit widersprüchlichen Spenden ID (nicht aktualisiert)."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Download Mismatched Contributions"
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows which are duplicates of existing CiviCRM contribution records."
-msgstr "Zeilen die doppelt schon als CiviCRM Kontakt gespeichert sind."
+msgstr "Zeilen welche Duplikate bestehender CiviCRM Spenden Datensätze sind."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 msgid ""
@@ -6064,13 +6057,12 @@ msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: 'Contact ID', 'Amount')."
 msgstr ""
-"Wählen Sie diese Box aus, wenn die erste Zeile Ihrer Datei die Feldnamen "
-"beinhaltet (Beispielsweise: \"Vorname\", \"Nachname\", \"Email\")."
+"Markiere diese Box, wenn die erste Zeile der Datei  Feldnamen beinhaltet "
+"(Beispielsweise: 'Vorname', 'Nachname', 'Email')."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 msgid ""
@@ -6090,18 +6082,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
-#, fuzzy
 msgid ""
 "There are currently no accepted credit cards configured for this site. You "
 "can <a href='%1'>add one now</a>."
 msgstr ""
-"Es sind keine Marken für diesen Kontakt eingegeben. Sie können aber <a href="
-"\"%1\">eine hinzufügen</a>."
+"Aktuell sind keine akzeptierte Credit Karten für diese Homepage "
+"konfiguriert. Sie können <a href='%1'>eine hinzufügen</a>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Go to this LIVE Online Contribution page"
-msgstr "Ist diese Spendenseite aktiv?"
+msgstr "Geh zu dieser produktiven online Spenden Seite"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -6129,7 +6119,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid ""
 "Use the links below to update features and content for this Online "
 "Contribution Page, as well as to run through the contribution process in "
@@ -6137,9 +6126,10 @@ msgid ""
 "title='%2'>CiviContribute Administration Documentation</a> for more "
 "information."
 msgstr ""
-"Benutzen Sie die untenstehenden Links um Features und Inhalte für eine "
-"Veranstaltung zu aktualisieren. In der <a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">Dokumentation der Veranstaltungsadministration</a> finden Sie "
+"Benutzen sie den untenstehenden Link um Features und Inhalte für diese "
+"Online Spenden Seite zu aktualisieren. Ebenfalls um den Spenden Porzess im "
+"<strong> Test Modus</strong> zu verwenden. Siehe <a href='%1' "
+"target='_blank' title='%2'> Dokumentation Civi Spenden Verwaltung </a>für "
 "mehr Information."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -6152,9 +6142,10 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Select the payment processor to be used for this contribution page."
-msgstr "Bitte wählen Sie einen Payment Prozessor auf der Spenden-Seite aus"
+msgstr ""
+"Wähle den Zahlungs Prozessor, der für diese Spendenseite verwendet werden "
+"soll."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -6175,9 +6166,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Membership Settings"
-msgstr "Gruppenauflistung"
+msgstr "Mitgliedschafts Konfiguration"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Configure membership sign-up and renewal options."
@@ -6203,9 +6193,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Contribution Widget"
-msgstr "Zuwendungsseite"
+msgstr "Spenden Widget"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -6233,9 +6222,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Live Contribution Page"
-msgstr "Neue Spendenseite"
+msgstr "produktive Spenden Seite"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -6261,7 +6249,6 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "New Contribution Page"
 msgstr "Neue Spendenseite"
 
@@ -6275,27 +6262,25 @@ msgid "Or you can <a href='%1'>browse all available Contribution Pages</a>."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
-#, fuzzy
 msgid ""
 "No contribution pages have been created yet. Click <a accesskey=\"N\" href='%"
 "1'>here</a> to create a new contribution page using the step-by-step wizard."
 msgstr ""
-"Diese Zuwendung wurde bereits übermittelt. Klicken Sie<a href=\"%1\">hier</"
-"a> wenn Sie einen weitere Spende tätigen möchten. "
+"Keine Spendenseite wurde erstellt. Klick <a accesskey=\"N\" "
+"href='%1'>hier></a> um eine neue Spendenseite unter verwendung eines Schritt "
+"um Schritt Helfers zu erstellen, "
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
-#, fuzzy
 msgid "Current Year-to-Date"
-msgstr "Startdatum"
+msgstr "Aktuelle Datum Jahrzahl"
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "Avg Amount"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
-#, fuzzy
 msgid "Total Cancelled Amount"
-msgstr "Gesamtbetrag"
+msgstr "Total anullierter Betrag"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid ""
@@ -6308,26 +6293,23 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
-#, fuzzy
 msgid "Acctg Code"
-msgstr "Iso Code"
+msgstr "Acctg Code"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Deductible?"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
-#, fuzzy
 msgid ""
 "There are no Contribution Types entered. You can <a href='%1'>add one</a>."
 msgstr ""
-"Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
+"Es gibt keine eingegebenen Spenden Typen. Sie können <a href=\"%1\">einen "
 "hinzufügen</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "Contributions Summary"
-msgstr "Kontaktzusammenfassung"
+msgstr "Spenden Zusammenfassung"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
@@ -6344,9 +6326,8 @@ msgid "(n/a)"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "view details"
-msgstr "Details"
+msgstr "Ansichts Details"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Year-To-Date"
@@ -6363,10 +6344,11 @@ msgid "(since inception)"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "View contribution summary as bar or pie chart using the Google Chart API"
-msgstr "Primärer Standort für diesen Kontakt"
+msgstr ""
+"Zeige die Spenden Zusammenfassung als Balken oder als Kuchen Diagramm unter "
+"Verwendung des Google Diagramm API."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Recent Contributions"
@@ -6390,27 +6372,24 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Min Contribution"
-msgstr "Kontakte finden"
+msgstr "Mindest Spende"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#, fuzzy
 msgid ""
 "No premium products have been created for your site. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
-"Es wurden noch keine eigenen Datengruppen erstellt. Sie können <a href=\"%1"
-"\">eine hinzufügen</a>."
+"Es wurden keine Premium Produkte für die Homepage erstellt.  Sie können <a "
+"href=\"%1\">eines hinzufügen</a>."
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
-#, fuzzy
 msgid ""
 "There are no custom Payment Instruments entered. You can <a href='%1'>add "
 "one</a>."
 msgstr ""
-"Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
-"hinzufügen</a>."
+"Es wurden keine individuelle Zahlungs Instrumente  eingegeben. Sie können <a "
+"href=\"%1\">eines hinzufügen</a>."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid ""
@@ -6422,9 +6401,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Offer Another Premium on this Contribution Page"
-msgstr "Neue Spendenseite"
+msgstr "Biete eine weitere Premium auf dieser Spenden Seite an."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 #, fuzzy
