@@ -421,8 +421,10 @@ class CRM_Utils_System {
         // also make sure the key is sent and is valid
         $key = trim( CRM_Utils_Array::value( 'key', $_REQUEST ) );
 
+        $docAdd = "More info at:" . CRM_Utils_System::docURL2( "Command-line Script Configuration", true ); 
+
         if ( ! $key ) {
-            return self::authenticateAbort( "ERROR: You need to send a valid key to execute this file. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+            return self::authenticateAbort( "ERROR: You need to send a valid key to execute this file. " . $docAdd . "\n",
                                             $abort );
         }
 
@@ -430,17 +432,17 @@ class CRM_Utils_System {
         
         if ( ! $siteKey ||
              empty( $siteKey ) ) {
-            return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+            return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php. " . $docAdd . "\n",
                                             $abort );
         }
 
         if ( strlen( $siteKey ) < 8 ) {
-            return self::authenticateAbort( "ERROR: Site key needs to be greater than 7 characters in civicrm.settings.php. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+            return self::authenticateAbort( "ERROR: Site key needs to be greater than 7 characters in civicrm.settings.php. " . $docAdd . "\n",
                                             $abort );
         }
 
         if ( $key !== $siteKey ) {
-            return self::authenticateAbort( "ERROR: Invalid key value sent. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+            return self::authenticateAbort( "ERROR: Invalid key value sent. " . $docAdd . "\n",
                                             $abort );
         }
 
@@ -850,6 +852,90 @@ class CRM_Utils_System {
      */
     static function refererPath( ) {
         return CRM_Utils_Array::value( 'HTTP_REFERER', $_SERVER );
+    }
+    
+    /**
+     * Returns documentation URL base
+     *
+     * @return string documentation url
+     * @access public
+     */
+    static function getDocBaseURL( ) {
+        // FIXME: move this to configuration at some stage
+        return 'http://wiki.civicrm.org/confluence/display/CRMUPCOMING/';
+    }
+
+    /**
+     * Returns URL or link to documentation page, based on provided parameters.
+     * For use in PHP code.
+     * WARNING: Always returns URL, if ts function is not defined ($URLonly has no effect).
+     *
+     * @param string  $page    Title of documentation wiki page
+     * @param boolean $URLonly Whether function should return URL only or whole link (default)
+     * @param string  $text    Text of HTML link (no effect if $URLonly = false)
+     * @param string  $title   Tooltip text for HTML link (no effect if $URLonly = false)
+     * @param string  $style   Style attribute value for HTML link (no effect if $URLonly = false)
+     *
+     * @return string URL or link to documentation page, based on provided parameters
+     * @access public
+     */
+    static function docURL2( $page, $URLonly = false, $text = null, $title = null, $style = null ) {
+        // if ts function doesn't exist, it means that CiviCRM hasn't been fully initialised yet -
+        // return just the URL, no matter what other parameters are defined
+        if( ! function_exists( ts ) ) {
+            $docBaseURL = self::getDocBaseURL( );
+            return $docBaseURL . str_replace( ' ', '+', $page );
+        } else {
+            $params = array();
+            $params[ 'page' ] = $page;
+            $params[ 'URLonly' ] = $URLonly;
+            $params[ 'text' ] = $text;
+            $params[ 'title' ] = $title;        
+            $params[ 'style' ] = $style;
+            return self::docURL( $params );
+        }
+    }
+
+
+    /**
+     * Returns URL or link to documentation page, based on provided parameters.
+     * For use in templates code.
+     *
+     * @param array $params An array of parameters (see CRM_Utils_System::docURL2 method for names)
+     *
+     * @return string URL or link to documentation page, based on provided parameters
+     * @access public
+     */
+    static function docURL( $params ) {
+
+        if ( ! isset( $params['page'] ) ) {
+            return;
+        }
+
+        $docBaseURL = self::getDocBaseURL( );
+
+        if ( ! isset( $params['title'] ) && $params['title'] === null ) {
+            $params['title'] = ts( 'Opens documentation in a new window.' );
+        }
+
+        if ( ! isset( $params['text'] )  && $params['text'] === null ) {
+            $params['text'] = ts( '(learn more...)' );
+        }
+    
+        if ( ! isset( $params['style'] ) || $params['style'] === null ) {
+            $params['style'] = '';
+        } else {
+            $style = "style=\"{$params['style']}\"";
+        }
+
+        $link = $docBaseURL . str_replace( ' ', '+', $params['page'] );
+
+        if ( isset( $params['URLonly'] ) && $params['URLonly'] == true ) {
+            return $link;
+        } else {
+            return "<a href=\"{$link}\" $style target=\"_blank\" title=\"{$params['title']}\">{$params['text']}</a>";
+        }
+
     }
 
 }

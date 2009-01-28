@@ -184,7 +184,7 @@ class CRM_Utils_Mail {
             if ( is_a( $result, 'PEAR_Error' ) ) {
                 if ( is_a( $mailer , 'Mail_smtp' ) ) {
                     $message = 
-                    'A error occurred when CiviCRM attempted to send an email (via SMTP). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
+                    ts('A error occurred when CiviCRM attempted to send an email (via SMTP). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
 <p>
 This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:
 <ul>
@@ -194,19 +194,19 @@ This is probably related to a problem in your Outbound Email Settings (Administe
 <li>Your SMTP server is just not responding right now (it is down for some reason).
 </ul>
 <p>
-Check <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Outbound+Email+%28SMTP%29">this page for more information.</a>
+Check <a href="%1">this page for more information.</a>
 <p>
- The mail library returned the following error message: <b>';
+ The mail library returned the following error message: <b>', array( 1 => CRM_Utils_System::docURL2( 'Outbound Email (SMTP)', true ) ) );
                 } else {
                     $message = 
-                        'A error occurred when CiviCRM attempted to send an email (via SendMail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
+                        ts('A error occurred when CiviCRM attempted to send an email (via SendMail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
 <p>
 This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:
 <ul>
 <li>Your SendMail path is incorrect.</li>
-<li>Your SendMail agrument is incorrect.</li>
+<li>Your SendMail argument is incorrect.</li>
 </ul>
- The mail library returned the following error message: <b>';
+ The mail library returned the following error message: <b>');
                 }
                 
                 $message .= $result->getMessage( );

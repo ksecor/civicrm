@@ -87,15 +87,21 @@ function civicrm_html_head()
  */
 function civicrm_help($section)
 {	
+    if ( ! civicrm_initialize( ) ) {
+        return;
+    }
+    require_once 'CRM/Utils/System.php';
+    $docLinkAdmin = CRM_Utils_System::docURL2( "Administrator's Guide", true );
+    $docLinkAccess = CRM_Utils_System::docURL2( "Access Control", true );
     switch ($section) {
     case 'admin/help#civicrm':
       $output = '<p>'. t('The CiviCRM module stores information on the universe of people associated with a community and on their interactions such as emails, donations, petitions, events, etc. It can act as a stand alone contact management system or it can be integrated with mass mailer, volunteer management, petition, and event finding. CiviCRM enables organizations to maintain all these activities in a single database, creating efficiencies and new opportunities for communities to better communicate and benefit from relationships with their community members.') .'</p>';
       $output .= '<p>'. t('The CiviCRM module allows you to create contacts, or import them from other sources. You can record relationships between contacts, such as indicating they live in the same household. There are two types of groups of contacts. You can create static groups which have a set list of contacts. You can also create dynamic (smart) groups based on characteristics that contacts have in common. For example, you could create a group of all contacts who live in California AND who have volunteered for your organization within the past year. The CiviCRM module also allows for tagging for less formal categorization of contacts or groups. You can easily extend CiviCRM to record community member information which is specific to your community or organization using custom fields. For example, you can create a set of fields to track volunteer skills and preferences. CiviCRM profile gives you a way to allow community members (\'users\') to update their own information, as well as share some of that information with others. Finally, you can configure custom activity types such as volunteering or attending events.') .'</p>';
       $output .= '<p>' . t('You can:') . '</p>';
       $output .= '<ul>';
-      $output .= '<li>' . t('read the <a href="!1">CiviCRM Administrator Guide</a>.', array('!1' => 'http://wiki.civicrm.org/confluence//x/0Cc')) . '</li>';
+      $output .= '<li>' . t('read the <a href="!1">CiviCRM Administrator Guide</a>.', array('!1' => $docLinkAdmin)) . '</li>';
       $output .= '<li>' . t('enable CiviCRM blocks at <a href="!1">Administer &raquo; Site Building &raquo; Blocks</a>.', array('!1' => url('admin/build/block'))) . '</li>';
-      $output .= '<li>' . t('read about <a href="!1">CiviCRM access permissions</a> and set access permissions at <a href="!2">Administer CiviCRM &raquo; Access Control</a>.', array('!1' => 'http://wiki.civicrm.org/confluence//x/SyU', '!2' => url('civicrm/admin/access', array('query' => 'reset=1')))) . '</li>';
+      $output .= '<li>' . t('read about <a href="!1">CiviCRM access permissions</a> and set access permissions at <a href="!2">Administer CiviCRM &raquo; Access Control</a>.', array('!1' => $docLinkAccess, '!2' => url('civicrm/admin/access', array('query' => 'reset=1')))) . '</li>';
       $output .= '<li>' . t('find contacts by name, email address, group membership and or tagging at <a href="!1">Find Contacts</a>.', array('!1' => url('civicrm/contact/search/basic', array('query' => 'reset=1')))) . '</li>';
       $output .= '<li>' . t('do complex searches based on tags, group membership, location, activities and custom fields at <a href="!1">Advanced Search</a>.', array('!1' => url('civicrm/contact/search/advanced', array('query' => 'reset=1')))) . '</li>';
       $output .= '<li>' . t('create or manage groups at <a href="!1">Manage Groups</a>.', array('!1' => url('civicrm/group', array('query' => 'reset=1')))) . '</li>';
@@ -228,9 +234,22 @@ function civicrm_initialize( )
             $settingsFile = conf_init( ) . '/civicrm.settings.php';
         }
         $error = include_once( $settingsFile );
+
+	// get ready for problems
+        require_once 'CRM/Utils/System.php';
+        $docLinkInstall = CRM_Utils_System::docURL2( "Installation and Upgrades", true );
+        $docLinkFaq = CRM_Utils_System::docURL2( "Frequently Asked Questions", true );
+        $docLinkTrouble = CRM_Utils_System::docURL2( "Installation and Configuration Trouble-shooting", true );
+	$errorMsgAdd = t("Please review the <a href='!1'>Installation Instructions</a>, <a href='!2'>Installation FAQs</a> and <a href='!3'>Trouble-shooting</a> documentation for assistance.</strong></p>", 
+                          array('!1' => $docLinkInstall, '!2' => $docLinkFaq, '!3' => $docLinkTrouble ) );
+
+
         if ( $error == false ) {
             $failure = true;
-            drupal_set_message( "<strong><p class='error'>Oops! - The CiviCRM settings file (civicrm.settings.php) was not found in the expected location (" . $settingsFile . "). Please review the <a href='http://wiki.civicrm.org/confluence/x/mQ8'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/FAQ#FAQ-install'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
+	    drupal_set_message( "<strong><p class='error'>" . 
+                                t("Oops! - The CiviCRM settings file (civicrm.settings.php) was not found in the expected location ") . 
+                                "(" . $settingsFile . "). </p><p class='error'>" .
+                                $errorMsgAdd . '</p></strong>' );
             return false;
         }
         
@@ -238,7 +257,12 @@ function civicrm_initialize( )
         $error = include_once( 'CRM/Core/Config.php' );
         if ( $error == false ) {
             $failure = true;
-            drupal_set_message( "<strong><p class='error'>Oops! - The path for including CiviCRM code files is not set properly. Most likely there is an error in the <em>civicrm_root</em> setting in your CiviCRM settings file ($settingsFile).</p><p> &raquo; civicrm_root is currently set to: <em>$civicrm_root</em>.</p><p>Please review the <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/2.+Install' target='_blank'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/8.+FAQ#8.FAQ-install' target='_blank'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/Installation+and+Configuration+Trouble-shooting' target='_blank'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
+            drupal_set_message( "<strong><p class='error'>" . 
+                                t("Oops! - The path for including CiviCRM code files is not set properly. Most likely there is an error in the <em>civicrm_root</em> setting in your CiviCRM settings file (!1).", 
+                                   array( '!1' => $settingsFile ) ) .
+                                "</p><p class='error'> &raquo; " . 
+                                t("civicrm_root is currently set to: <em>!1</em>.", array( '!1' => $civicrm_root ) ) . 
+                                "</p><p class='error'>" .  $errorMsgAdd . "</p></strong>" );
             return false;
         }
 

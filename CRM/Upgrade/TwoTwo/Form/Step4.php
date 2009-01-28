@@ -105,11 +105,7 @@ class CRM_Upgrade_TwoTwo_Form_Step4 extends CRM_Upgrade_Form {
     }
     
     function getTemplateMessage( ) {
-        if ( $this->_config->userFramework == 'Drupal' ) {
-            $upgradeDoc = 'http://wiki.civicrm.org/confluence/x/7IFH';
-        } else {
-            $upgradeDoc = 'http://wiki.civicrm.org/confluence/x/SoJH';
-        }
-        return '<p><strong>' . ts('Your CiviCRM database has been successfully upgraded to v2.2.') . '</strong></p><p>' . ts('Please be sure to follow the remaining steps in the <a href=\'%1\' target=\'_blank\'><strong>Upgrade Instructions</strong></a>.', array( 1 => $upgradeDoc )) . '</p><p>' . ts('Thank you for using CiviCRM.') . '</p>';
+        $upgradeDoc = CRM_Utils_System::docURL2( 'Installation and Upgrades', true, 'Documentation online' );
+        return '<p><strong>' . ts('Your CiviCRM database has been successfully upgraded to v2.2.') . '</strong></p><p>' . ts('Please be sure to follow the remaining steps in the upgrade instructions specific to your version of CiviCRM: %1.', array( 1 => $upgradeDoc )) . '</p><p>' . ts('Thank you for using CiviCRM.') . '</p>';
     }
 }

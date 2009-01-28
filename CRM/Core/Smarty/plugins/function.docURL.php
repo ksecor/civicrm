@@ -44,34 +44,11 @@
  * @access public
  */
 function smarty_function_docURL( $params, &$smarty ) {
-
-    if ( ! isset( $params['page'] ) || 
-         ! isset( $smarty ) ) {
+    if ( ! isset( $smarty ) ) {
         return;
-    }
-
-    $docBaseURL = 'http://wiki.civicrm.org/confluence/display/CRMUPCOMING/';
-
-    if ( ! isset( $params['title'] ) ) {
-        $params['title'] = ts( 'Opens documentation in a new window.' );
-    }
-
-    if ( ! isset( $params['text'] ) ) {
-        $params['text'] = ts( '(learn more...)' );
-    }
-    
-    if ( ! isset( $params['style'] ) ) {
-        $params['style'] = '';
     } else {
-        $style = "style=\"{$params['style']}\"";
-    }
-
-    $link = $docBaseURL . str_replace( ' ', '+', $params['page'] );
-
-    if ( isset( $params['URLonly'] ) && $params['URLonly'] == true ) {
-        return $link;
-    } else {
-        return "<a href=\"{$link}\" $style target=\"_blank\" title=\"{$params['title']}\">{$params['text']}</a>";
+        require_once 'CRM/Utils/System.php';
+        return CRM_Utils_System::docURL( $params );
     }
     
 }

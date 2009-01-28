@@ -412,8 +412,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
     function invokeAPI( $args ) {
 
         if ( empty( $this->_paymentProcessor['url_api'] ) ) {
-            CRM_Core_Error::fatal( ts( 'Please set the API URL. Please refer to the <a href="%1">documentation</a> for more details',
-                                       array( 1 => 'http://wiki.civicrm.org/confluence/display/CRMDOC/Upgrade+Drupal+Sites+to+2.0#UpgradeDrupalSitesto2.0-12.UpdatePayPalProcessorSettings' ) ) );
+            CRM_Core_Error::fatal( ts( 'Please set the API URL. Please refer to the documentation for more details' ) );
         }
 
         //setting the curl parameters.

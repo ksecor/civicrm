@@ -416,7 +416,7 @@ class BAO_Contact_Contact extends CiviTestCase
                                                                                  ),
                                                                    ),
                                                'openid'  => array (
-                                                                   '1' => array ( 'openid'      => 'http://wiki.civicrm.org' ),
+                                                                   '1' => array ( 'openid'      => 'http://openid.civicrm.org' ),
                                                                    ),
                                                'im'      => array (
                                                                    '1' => array ( 'name'        => 'john.doe',
@@ -456,7 +456,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $compareParams = array( 'email'                  => 'john.doe@example.org' );
         $this->assertDBCompareValues('CRM_Core_DAO_Email', $searchParams, $compareParams );
         //Now check DB for updated openid
-        $compareParams = array ( 'openid'                => 'http://wiki.civicrm.org' );
+        $compareParams = array ( 'openid'                => 'http://openid.civicrm.org' );
         $this->assertDBCompareValues('CRM_Core_DAO_OpenID', $searchParams, $compareParams );
         //Now check DB for updated IM
         $compareParams = array( 'name'                   => 'john.doe',

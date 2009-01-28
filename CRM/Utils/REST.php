@@ -194,7 +194,8 @@ class CRM_Utils_REST
         //  This used to be done in the authenticate function, but that was bad...trust me
         // first check for civicrm site key
         if ( ! CRM_Utils_System::authenticateKey( false ) ) {
-            return self::error( 'Could not authenticate user, invalid site key. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.' );
+            $docLink = CRM_Utils_System::docURL2( "Command-line Script Configuration", true );
+            return self::error( 'Could not authenticate user, invalid site key. More info at: ' . $docLink );
         }
 	
         require_once 'CRM/Utils/Request.php';
