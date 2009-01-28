@@ -1105,12 +1105,14 @@ AND civicrm_membership.is_test = %2";
                 $memParams['log_start_date'] = CRM_Utils_Date::customFormat( $dates['log_start_date'], $format );
 
                 if ( empty( $membership->source ) ) {
-                    if ( $form ) {
-                        if ( CRM_Utils_Array( 'membership_source', $form->_params ) ) {
-                            $memParams['source'] = $form->_params['membership_source'];
-                        } else {
-                            $memParams['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-                        }
+                    if ( CRM_Utils_Array::value( 'membership_source', $form->_params ) ) {
+                        $currentMembership['source'] = $form->_params['membership_source'];
+                    } else if ( CRM_Utils_Array::value( 'title', $form->_values ) ) {
+                        $currentMembership['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                    } else {
+                        $currentMembership['source'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', 
+                                                                                    $currentMembership['id'],
+                                                                                    'source');  
                     }
                 }
                 
