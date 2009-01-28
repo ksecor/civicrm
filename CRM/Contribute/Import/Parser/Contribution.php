@@ -418,16 +418,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 }               
             }
         }
-
+        
         if ( $this->_contactIdIndex < 0 ) {
             // set the contact type if its not set
             if ( !isset( $paramValues['contact_type'] ) ) {    
-                $paramValues['contact_type'] = $this->_contactType;    
+                $paramValues['contact_type'] = $this->_contactType;
             }
 
             //retrieve contact id using contact dedupe rule
             $error = civicrm_check_contact_dedupe( $paramValues );
-
+            
             if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);        
                 if (count( $matchedIDs) >1) {
@@ -462,6 +462,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     
                     return CRM_Contribute_Import_Parser::VALID;
                 }
+            } else if ( CRM_Utils_Array::value( 'is_error', $error )  ) { 
+                //check for no match found for given ids.
+                array_unshift( $values, $error['error_message']);
+                return CRM_Contribute_Import_Parser::ERROR;
             } else {
                 // Using new Dedupe rule.
                 $ruleParams = array(
@@ -485,18 +489,18 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 if ( !$disp && CRM_Utils_Array::value('external_identifier',$params) ) {
                     $disp = $params['external_identifier'];
                 }
-                    
+                
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Contribute_Import_Parser::ERROR;
             }
-           
+            
         } else {
-            if ( $values['external_identifier'] ) {
+            if ( $paramValues['external_identifier'] ) { 
                 $checkCid = new CRM_Contact_DAO_Contact();
-                $checkCid->external_identifier = $values['external_identifier'];
+                $checkCid->external_identifier = $paramValues['external_identifier'];
                 $checkCid->find(true);
                 if ($checkCid->id != $formatted['contact_id']) {
-                    array_unshift($values, "Mismatch of External identifier :" . $values['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
+                    array_unshift($values, "Mismatch of External identifier :" . $paramValues['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
                     return CRM_Contribute_Import_Parser::ERROR;
                 }
             }

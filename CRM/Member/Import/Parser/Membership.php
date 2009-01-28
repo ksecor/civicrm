@@ -84,7 +84,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         $this->_newMemberships = array();
 
         $this->setActiveFields( $this->_mapperKeys );
-
+        
         // FIXME: we should do this in one place together with Form/MapField.php
         $this->_contactIdIndex        = -1;
         $this->_membershipTypeIndex   = -1;
@@ -395,9 +395,9 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         $joinDate   = CRM_Utils_Date::customFormat($formatted['join_date'],'%Y-%m-%d');          
         
         if ( $this->_contactIdIndex < 0 ) {
-            
             //retrieve contact id using contact dedupe rule
             $formatValues['contact_type'] = $this->_contactType;
+            
             $error = civicrm_check_contact_dedupe( $formatValues );
             
             if ( civicrm_duplicate( $error ) ) { 
@@ -454,6 +454,10 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     return CRM_Member_Import_Parser::VALID;
                 }
                 
+            } else if ( CRM_Utils_Array::value( 'is_error', $error )  ) {
+                //check for no match found for given ids.
+                array_unshift( $values, $error['error_message']);
+                return CRM_Member_Import_Parser::ERROR;
             } else {   
                 // Using new Dedupe rule.
                 $ruleParams = array(
