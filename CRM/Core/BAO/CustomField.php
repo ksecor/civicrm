@@ -659,40 +659,24 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
         case 'Select State/Province':
             //Add State
-            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                $stateOption = array('' => '') + CRM_Core_PseudoConstant::stateProvince();
-            } else { 
-                $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
-            }
+            $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
             $qf->add('select', $elementName, $label, $stateOption, (($useRequired && $field->is_required) && !$search));
             break;
         case 'Multi-Select State/Province':
             //Add Multi-select State/Province
-            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                $stateOption = array('' => '') + CRM_Core_PseudoConstant::stateProvince();
-            } else {
-                $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
-            }
+            $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
             $qf->addElement('select', $elementName, $label, $stateOption, array("size"=>"5","multiple"));
             break;
             
         case 'Select Country':
             //Add Country
-            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                $countryOption = array('' => '') + CRM_Core_PseudoConstant::country();
-	    } else {
-                $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
-            }
+            $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
             $qf->add('select', $elementName, $label, $countryOption, (($useRequired && $field->is_required) && !$search));
             break;
 
         case 'Multi-Select Country':
             //Add Country
-            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                $countryOption = array('' => '') + CRM_Core_PseudoConstant::country();
-            } else {
-                $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
-            }
+            $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
             $qf->addElement('select', $elementName, $label, $countryOption, array("size"=>"5","multiple"));
             break;
         

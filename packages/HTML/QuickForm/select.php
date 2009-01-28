@@ -521,10 +521,12 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         $value = array();
         if (is_array($this->_values)) {
             foreach ($this->_values as $key => $val) {
-                foreach ($this->_options as $oKey => $oVal ) {
-                    if (0 == strcmp($val, $this->_options[$oKey]['attr']['value'])) {
-                        $value[$key] = $oVal['text'];
-                        break;
+                if ( $val ) {
+                    foreach ($this->_options as $oKey => $oVal ) {
+                        if (0 == strcmp($val, $this->_options[$oKey]['attr']['value'])) {
+                            $value[$key] = $oVal['text'];
+                            break;
+                        }
                     }
                 }
             }

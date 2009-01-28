@@ -132,7 +132,7 @@
 {literal}
   <script type="text/javascript">
     function showGreeting() {
-       if( document.getElementById("greeting_type").value == 4 ) {
+       if( document.getElementById("greeting_type") && document.getElementById("greeting_type").value == 4 ) {
            show('customGreeting');                   
        } else {
            hide('customGreeting');      
