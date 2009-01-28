@@ -807,11 +807,13 @@ WHERE civicrm_event.is_active = 1
         
         if ( ! $returnMessageText ) {
             //send notification email if field values are set (CRM-1941)
-            foreach ( $gIds as $gId ) {
+            foreach ( $gIds as $key => $gId ) {
                 if ( $gId ) {
                     $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
                     if ( $email ) {
-                        $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params );         
+                        $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, 
+                                                                             $contactID, 
+                                                                             $params[$key] );         
                         CRM_Core_BAO_UFGroup::commonSendMail( $contactID, $val );
                     }
                 }

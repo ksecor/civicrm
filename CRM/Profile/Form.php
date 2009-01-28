@@ -629,12 +629,19 @@ class CRM_Profile_Form extends CRM_Core_Form
             require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
             CRM_Mailing_Event_BAO_Subscribe::commonSubscribe( $mailingType, $result );
         }
-        
+
         require_once 'CRM/Core/BAO/UFGroup.php'; 
-        if ( ! ( $this->_mode == self::MODE_REGISTER ) ) {
-            $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($this->_gid,$this->_id,null);
-            if ( ! is_null( $values['email'] ) ) {
-                CRM_Core_BAO_UFGroup::commonSendMail($this->_id, $values);
+        $ufGroups = array( );
+        if ( $this->_gid ) {
+            $ufGroups[$this->_gid] =  1;
+        } else if ( $this->_mode == self::MODE_REGISTER ) {
+            $ufGroups = & CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
+        }
+        
+        foreach( $ufGroups as $gId => $val ) {
+            if ( $notify = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' ) ) {
+                $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $this->_id, null );
+                CRM_Core_BAO_UFGroup::commonSendMail(  $this->_id, $values );
             }
         }
         
