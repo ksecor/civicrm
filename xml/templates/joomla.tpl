@@ -9,7 +9,6 @@
   <version>{$CiviCRMVersion}</version>
   <description>CiviCRM</description>
   <files folder="site">
-  	  <filename>civicrm.settings.php</filename>
 	  <filename>civicrm.php</filename>
 	  <filename>civicrm.html.php</filename>
 	  <folder>views</folder>
@@ -44,7 +43,6 @@
       <filename>install.civicrm.php</filename>
       <filename>uninstall.civicrm.php</filename>
       <filename>configure.php</filename>
-      <filename>civicrm.settings.php</filename>
       <filename>civicrm.zip</filename>
     </files>
   </administration>
