@@ -209,6 +209,13 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             //fix for CRM-3570, during import exclude the statuses those having is_admin = 1
             $excludeIsAdmin = CRM_Utils_Array::value('exclude_is_admin', $params, false );
+            
+            //CRM-3724 always skip is_admin if is_override != true.
+            if ( !$excludeIsAdmin && 
+                 !CRM_Utils_Array::value( 'is_override', $params ) ) {
+                $excludeIsAdmin = true;
+            }
+            
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate, 
                                                                                       'today', $excludeIsAdmin );            
             if ( empty( $calcStatus ) ) {
@@ -1158,14 +1165,14 @@ AND civicrm_membership.is_test = %2";
             if ( !$pending ) {
                 require_once 'CRM/Member/BAO/MembershipStatus.php';
                 $status =
-                    CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
-                                                                               CRM_Utils_Date::customFormat( $dates['start_date'],
-                                                                                                             $statusFormat ),
-                                                                               CRM_Utils_Date::customFormat( $dates['end_date'],
-                                                                                                             $statusFormat ),
-                                                                               CRM_Utils_Date::customFormat( $dates['join_date'],
-                                                                                                             $statusFormat )
-                                                                               );  
+                    CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat( $dates['start_date'],
+                                                                                                              $statusFormat ),
+                                                                                CRM_Utils_Date::customFormat( $dates['end_date'],
+                                                                                                              $statusFormat ),
+                                                                                CRM_Utils_Date::customFormat( $dates['join_date'],
+                                                                                                              $statusFormat ),
+                                                                                'today', true
+                                                                                );
             } else {
                 // if IPN/Pay-Later set status to: PENDING
                 $status = array( 'id' => array_search( 'Pending', $allStatus ) );
