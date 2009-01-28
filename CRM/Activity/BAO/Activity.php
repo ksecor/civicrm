@@ -990,14 +990,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return array( array() );
         }
         $activityIds = implode( ',', $activityIds );
+        $query = "SELECT     activity.id as activity_id, source_contact_id, target_contact_id, assignee_contact_id, activity_type_id, 
+                             subject, location, activity_date_time, details, status_id
+                  FROM       civicrm_activity activity
+                  LEFT JOIN  civicrm_activity_target target ON activity.id = target.activity_id
+                  LEFT JOIN  civicrm_activity_assignment assignment ON activity.id = assignment.activity_id
+                  WHERE      activity.id IN ($activityIds)";
 
-        $query = "SELECT * FROM civicrm_activity activity
-                  LEFT JOIN     civicrm_activity_target target
-                  ON            activity.id = target.activity_id
-                  LEFT JOIN     civicrm_activity_assignment assignment
-                  ON            activity.id = assignment.activity_id
-                  WHERE         activity.id IN ($activityIds)";
-                
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         require_once 'CRM/Core/OptionGroup.php';
@@ -1005,21 +1004,21 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activityStatuses = CRM_Core_OptionGroup::values('activity_status');
         
         while ( $dao->fetch( ) ) {
-            $activities[$activityId]['source_contact_id'] = $dao->source_contact_id;
+            $activities[$dao->activity_id]['source_contact_id'] = $dao->source_contact_id;
             if ( $dao->target_contact_id ) {
-                $activities[$activityId]['targets'][]     = $dao->target_contact_id;
+                $activities[$dao->activity_id]['targets'][]     = $dao->target_contact_id;
             }
-            if ( isset( $dao->asignee_contact_id ) ) {
-                $activities[$activityId]['asignees'][]    = $dao->asignee_contact_id;
+            if ( isset( $dao->assignee_contact_id ) ) {
+                $activities[$dao->activity_id]['asignees'][]    = $dao->assignee_contact_id;
             }
-            $activities[$activityId]['activity_type_id']  = $dao->activity_type_id;
-            $activities[$activityId]['subject']           = $dao->subject;
-            $activities[$activityId]['location']          = $dao->location;
-            $activities[$activityId]['activity_date_time']= $dao->activity_date_time;
-            $activities[$activityId]['details']           = $dao->details;
-            $activities[$activityId]['status_id']         = $dao->status_id;
-            $activities[$activityId]['activity_name']     = $activityTypes[$dao->activity_type_id];
-            $activities[$activityId]['status']            = $activityStatuses[$dao->status_id];                                                                              
+            $activities[$dao->activity_id]['activity_type_id']  = $dao->activity_type_id;
+            $activities[$dao->activity_id]['subject']           = $dao->subject;
+            $activities[$dao->activity_id]['location']          = $dao->location;
+            $activities[$dao->activity_id]['activity_date_time']= $dao->activity_date_time;
+            $activities[$dao->activity_id]['details']           = $dao->details;
+            $activities[$dao->activity_id]['status_id']         = $dao->status_id;
+            $activities[$dao->activity_id]['activity_name']     = $activityTypes[$dao->activity_type_id];
+            $activities[$dao->activity_id]['status']            = $activityStatuses[$dao->status_id];                                 
         }
         return $activities;
     }
