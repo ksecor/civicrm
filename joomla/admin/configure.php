@@ -83,6 +83,11 @@ require_once '$configFile';
                         $string );
 
     if ( ! $civicrmUpgrade ) {
+        $sqlPath = 
+            $adminPath . DIRECTORY_SEPARATOR . 
+            'civicrm'  . DIRECTORY_SEPARATOR .
+            'sql';
+
         civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm.mysql'     );
         civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
     }
