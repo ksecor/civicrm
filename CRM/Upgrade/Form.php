@@ -184,10 +184,31 @@ SET    version = '$version'
             global $dbLocale;
             $dbLocale = "_{$config->lcMessages}";
         }
-
+        
         $this->source( $smarty->fetch($tplFile), true );
+
+        if ( $multilingual ) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
+        }
         
         return $multilingual;
+    }
+
+    function processSQL( $rev ) {
+        $sqlFile = implode( DIRECTORY_SEPARATOR, 
+                            array(dirname(__FILE__), 'Incremental', 
+                                  'sql', $rev . '.mysql') );
+        $tplFile = "$sqlFile.tpl";
+
+        if ( file_exists( $tplFile ) ) {
+            $this->processLocales( $tplFile );
+        } else {
+            if ( ! file_exists($sqlFile) ) {
+                CRM_Core_Error::fatal("sqlfile - $rev.mysql not found.");
+            }
+            $this->source( $sqlFile );
+        }
     }
 }
 

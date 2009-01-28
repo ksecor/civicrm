@@ -154,7 +154,7 @@
             <td>{$form.location.$index.address.geo_code_1.html}, {$form.location.$index.address.geo_code_2.html}    
                 <br class="spacer"/>
                 <span class="description font-italic">
-                    {ts 1="http://wiki.civicrm.org/confluence//x/Ois" 2=$docURLTitle}Latitude and longitude may be automatically populated by enabling a Mapping Provider (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}</span>
+                    {ts}Latitude and longitude may be automatically populated by enabling a Mapping Provider.{/ts} {docURL page="Mapping and Geocoding"}</span>
             </td>
         </tr>
         {/if}

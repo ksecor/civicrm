@@ -14,7 +14,7 @@
 	<dl>
         {if $gName eq 'custom_search'}
             <dt>{ts}Custom Search Path{/ts}</dt><dd>{$form.label.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Enter the "class path" for this custom search here.{/ts} (<a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Custom+Search+Components">{ts}more info{/ts}....</a>)</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Enter the "class path" for this custom search here.{/ts} {docURL page="Custom Search Components"}</dd>
         {elseif $gName eq 'from_email_address'}
             <dt>{ts}FROM Email Address{/ts} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_option_value' field='label' id=$id}{/if}</dt><dd>{$form.label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Include double-quotes (&quot;) around the name and angle-brackets (&lt; &gt;) around the email address.<br />EXAMPLE: <em>&quot;Client Services&quot; &lt;clientservices@example.org&gt;</em>{/ts}</dd>

@@ -3,8 +3,7 @@
    {include file="CRM/Member/Form/MembershipStatus.tpl"}
 {else}
     <div id="help">
-        {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-        <p>{ts 1="http://wiki.civicrm.org/confluence//x/1is" 2=$docURLTitle}CiviMember automatically calculates the current status of each contact's membership based on the status names and rules configured here. The status 'rule' tells CiviMember what status to assign based on the start and end dates of a given membership. For example, the default <strong>Grace</strong> status rule says: 'assign Grace status if the membership period ended sometime within the past month.' (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}
+        <p>{ts}CiviMember automatically calculates the current status of each contact's membership based on the status names and rules configured here. The status 'rule' tells CiviMember what status to assign based on the start and end dates of a given membership. For example, the default <strong>Grace</strong> status rule says: 'assign Grace status if the membership period ended sometime within the past month.'{/ts} {docURL page="CiviMember Admin"}
         <p>{ts 1=$crmURL}The status rules provided by default may be sufficient for your organization. However, you can easily change the status names and/or adjust the rules by clicking the Edit links below. Or you can <a href='%1'>add a new status and rule</a>.{/ts}
     </div>
 {/if}

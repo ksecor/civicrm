@@ -70,6 +70,7 @@ LEFT JOIN  civicrm_email       ON ( civicrm_contact.id = civicrm_email.contact_i
 
         $whereClause = "
 WHERE    civicrm_event.id = %1
+AND      civicrm_participant.is_test = 0
 AND      civicrm_participant.status_id IN ( 1, 2 )";
         $params = array( 1 => array( $this->_id, 'Integer' ) );
         $this->pager( $fromClause, $whereClause, $params );

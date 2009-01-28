@@ -186,8 +186,12 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
     { 
-        // no need to calculate status again
-        // as we done in membership update cron, CRM-3984
+        // always cal status if is_override/skipStatusCal is not true.
+        // giving respect to is_override during import.  CRM-4012
+        
+        // To skip status cal we should use 'skipStatusCal'.
+        // eg pay later membership, membership update cron CRM-3984
+        
         if ( !CRM_Utils_Array::value( 'is_override', $params ) && 
              !CRM_Utils_Array::value( 'skipStatusCal', $params ) ) {
             require_once 'CRM/Utils/Date.php';
@@ -201,10 +205,17 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             if ( isset( $params['join_date'] ) ) {
                 $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y%m%d');
             }
-            
+
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             //fix for CRM-3570, during import exclude the statuses those having is_admin = 1
             $excludeIsAdmin = CRM_Utils_Array::value('exclude_is_admin', $params, false );
+            
+            //CRM-3724 always skip is_admin if is_override != true.
+            if ( !$excludeIsAdmin && 
+                 !CRM_Utils_Array::value( 'is_override', $params ) ) {
+                $excludeIsAdmin = true;
+            }
+            
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate, 
                                                                                       'today', $excludeIsAdmin );            
             if ( empty( $calcStatus ) ) {
@@ -223,7 +234,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
             $params['status_id'] = $calcStatus['id'];
         }
-        
+            
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
@@ -1020,13 +1031,18 @@ AND civicrm_membership.is_test = %2";
         $format       = '%Y%m%d';
         $ids          = array();
         
+        //get all active statuses of membership.
+        require_once 'CRM/Member/PseudoConstant.php';
+        $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
+        
         if ( $currentMembership = 
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test, $form->_membershipId ) ) {
             $activityType = 'Membership Renewal';
             $form->set("renewal_mode", true );
             
             // Do NOT do anything to membership with status : PENDING/CANCELLED (CRM-2395)
-            if ( in_array($currentMembership['status_id'], array( 5, 6 )) ) {
+            if ( in_array($currentMembership['status_id'],  array( array_search( 'Pending', $allStatus ),
+                                                                   array_search( 'Cancelled', $allStatus ) ) ) ) {
                 $membership =& new CRM_Member_DAO_Membership();
                 $membership->id = $currentMembership['id'];
                 $membership->find(true);
@@ -1096,12 +1112,14 @@ AND civicrm_membership.is_test = %2";
                 $memParams['log_start_date'] = CRM_Utils_Date::customFormat( $dates['log_start_date'], $format );
 
                 if ( empty( $membership->source ) ) {
-                    if ( $form ) {
-                        if ( CRM_Utils_Array( 'membership_source', $form->_params ) ) {
-                            $memParams['source'] = $form->_params['membership_source'];
-                        } else {
-                            $memParams['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-                        }
+                    if ( CRM_Utils_Array::value( 'membership_source', $form->_params ) ) {
+                        $currentMembership['source'] = $form->_params['membership_source'];
+                    } else if ( CRM_Utils_Array::value( 'title', $form->_values ) ) {
+                        $currentMembership['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                    } else {
+                        $currentMembership['source'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', 
+                                                                                    $currentMembership['id'],
+                                                                                    'source');  
                     }
                 }
                 
@@ -1147,24 +1165,27 @@ AND civicrm_membership.is_test = %2";
             if ( !$pending ) {
                 require_once 'CRM/Member/BAO/MembershipStatus.php';
                 $status =
-                    CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
-                                                                               CRM_Utils_Date::customFormat( $dates['start_date'],
-                                                                                                             $statusFormat ),
-                                                                               CRM_Utils_Date::customFormat( $dates['end_date'],
-                                                                                                             $statusFormat ),
-                                                                               CRM_Utils_Date::customFormat( $dates['join_date'],
-                                                                                                             $statusFormat )
-                                                                               );  
+                    CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat( $dates['start_date'],
+                                                                                                              $statusFormat ),
+                                                                                CRM_Utils_Date::customFormat( $dates['end_date'],
+                                                                                                              $statusFormat ),
+                                                                                CRM_Utils_Date::customFormat( $dates['join_date'],
+                                                                                                              $statusFormat ),
+                                                                                'today', true
+                                                                                );
             } else {
                 // if IPN/Pay-Later set status to: PENDING
-                $status = array( 'id' => 5 );
+                $status = array( 'id' => array_search( 'Pending', $allStatus ) );
             }
-
+            
             $memParams['status_id']     = $status['id'];
-            $memParams['is_override']   = false;
+            
+            //as we are giving status to pending and want to
+            //skip status cal in create(); so need to pass 'skipStatusCal' 
+            $memParams['skipStatusCal'] = true;
             $memParams['is_pay_later']  = $form->_params['is_pay_later'];
         }
-        
+            
         // create / renew membership
         $ids['userId'] = $contactID;
         

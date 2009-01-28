@@ -435,12 +435,18 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // send copy to selected contacts.        
         $mailStatus = '';
         if ( array_key_exists('contact_check', $params) ) {
-            $mailToContacts = array();
+           
+            $mailToContacts = array( );
             foreach( $params['contact_check'] as $cid => $dnc ) {
                 $mailToContacts[$cid] = $this->_relatedContacts[$cid];
             }
+            
+            //include attachments while sendig a copy of activity.
+            $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity',
+                                                              $activity->id );
+            
             $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
-                                                           $activity->id, $mailToContacts );
+                                                           $activity->id, $mailToContacts, $attachments );
             $mailStatus = "A copy of the activity has also been sent to selected contacts(s).";
         }
 

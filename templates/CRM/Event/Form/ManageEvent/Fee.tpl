@@ -7,7 +7,7 @@
     {if !$paymentProcessor}
         {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
         <div class="status message">
-                {ts 1=$ppUrl 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/ihk"}No Payment Processor has been configured / enabled for your site. If this is a <strong>paid event</strong> AND you want users to be able to <strong>register online</strong>, you will need to <a href='%1'>configure a Payment Processor</a> first. Then return to this screen and assign the processor to this event. (<a href='%3' target='_blank' title='%2'>read more...</a>){/ts}
+                {ts 1=$ppUrl}No Payment Processor has been configured / enabled for your site. If this is a <strong>paid event</strong> AND you want users to be able to <strong>register online</strong>, you will need to <a href='%1'>configure a Payment Processor</a> first. Then return to this screen and assign the processor to this event.{/ts} {docURL page="CiviContribute Payment Processor Configuration"}
         </div>
     {/if}
     <dl>
@@ -20,7 +20,7 @@
         <div id="paymentProcessor">
             <dl>
               <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}If you want users to be able to register online for this event, select a payment processor to use. (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}If you want users to be able to register online for this event, select a payment processor to use.{/ts} {docURL page="CiviContribute Payment Processor Configuration"}</dd>
             </dl>
         </div>
         {/if}

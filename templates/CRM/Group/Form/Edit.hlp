@@ -1,6 +1,8 @@
 {htxt id="id-group-type"}
-<p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2="http://wiki.civicrm.org/confluence//x/DCg" 3=$docURLTitle}
-    Check 'Access Control' you want to use this group to assign access permissions to a set of contacts (<a href='%1' target='_blank' title='%3'>more info...</a>). Check 'Mailing List' if you are using this group as a mailing list in the <a href='%2' target='_blank' title='%3'>CiviMail component</a>.{/ts}</p>
+{capture assign=docLinkAccess}{docURL page="Access Control"}{/capture}
+{capture assign=docLinkMail}{docURL page="CiviMail" text="CiviMail component"}{/capture}
+
+<p>{ts 1=$docLinkAccess 2=$docLinkMail}Check 'Access Control' if you want to use this group to assign access permissions to a set of contacts. %1 Check 'Mailing List' if you are using this group as a mailing list in the %2.{/ts}</p>
 {/htxt} 
 
 {htxt id="id-group-visibility"}

@@ -240,8 +240,13 @@ abstract class CRM_Import_Parser {
      */
 
     public $_contactType;
+    /**
+     * on duplicate
+     *
+     * @var int
+     */
+    public $_onDuplicate;
     
-
     function __construct() {
         $this->_maxLinesToProcess = 0;
         $this->_maxErrorCount = self::MAX_ERRORS;
@@ -262,7 +267,8 @@ abstract class CRM_Import_Parser {
                   $timeout = CRM_Import_Parser::DEFAULT_TIMEOUT ) {
 
         // TODO: Make the timeout actually work
-
+        $this->_onDuplicate = $onDuplicate;
+        
         switch ($contactType) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';

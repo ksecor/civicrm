@@ -97,10 +97,16 @@ class CRM_Mailing_MailStore
      */
     function fetchNext($count = 1)
     {
-        if (!isset($this->_offset)) $this->_offset = 1;
+        if (isset($this->_transport->options->uidReferencing) and $this->_transport->options->uidReferencing) {
+            $offset = array_shift($this->_transport->listUniqueIdentifiers());
+        } else {
+            $offset = 1;
+        }
         try {
-            $set = $this->_transport->fetchFromOffset($this->_offset, $count);
+            $set = $this->_transport->fetchFromOffset($offset, $count);
+            if ($this->_debug) print "fetching $count messages\n";
         } catch (ezcMailOffsetOutOfRangeException $e) {
+            if ($this->_debug) print "got to the end of the mailbox\n";
             return array();
         }
         $mails = array();
@@ -110,7 +116,6 @@ class CRM_Mailing_MailStore
             $single = $parser->parseMail($this->_transport->fetchByMessageNr($nr));
             $mails[$nr] = $single[0];
         }
-        $this->_offset += $count;
         return $mails;
     }
 

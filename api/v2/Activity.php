@@ -281,7 +281,7 @@ function _civicrm_activity_get( $activityId ) {
 function &_civicrm_activities_get( $contactID, $type = 'all' ) 
 {
     $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
-    
+   
     //handle custom data.
     require_once 'CRM/Core/BAO/CustomGroup.php';
     foreach ( $activities as $activityId => $values ) {

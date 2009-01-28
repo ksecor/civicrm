@@ -162,7 +162,16 @@ class CRM_Core_BAO_CMSUser
         
         $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
         $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
-        
+        //if CMS is configured for not to allow creating new CMS user,
+        //don't build the form,Fixed for CRM-4036
+        if ( $isJoomla ) {
+            $userParams = &JComponentHelper::getParams('com_users');
+            if ( !$userParams->get('allowUserRegistration') ) {
+                return false;
+            }
+        } else if ( $isDrupal && ! variable_get('user_register', TRUE ) ) {
+            return false;
+        }
         // if cms is drupal having version greater than equal to 5.1
         // we also need email verification enabled, else we dont do it
         // then showCMS will true
@@ -475,13 +484,15 @@ SELECT count(*)
      */
     static function createJoomlaUser( &$params, $mail ) 
     {
-        $acl         = &JFactory::getACL();
-        $userParams  = JComponentHelper::getParams('com_users');
+        $userParams = &JComponentHelper::getParams('com_users');
+
         // get the default usertype
-        $userType    = $userParams->get('new_usertype');
+        $userType = $userParams->get('new_usertype');
         if ( !$usertype ) {
             $usertype = 'Registered';
         }
+
+        $acl = &JFactory::getACL();
 
         // Prepare the values for a new Joomla! user.
         $values                 = array();

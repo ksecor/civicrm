@@ -174,7 +174,7 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
             }
             if (! empty($dataErrors)) {
                 $errors['body_'.$type] = 
-                    ts('The following errors were detected in %1 message:', array(1 => $type)) . '<ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence/display/CRMDOC/CiviMail+Action+Tokens">' . ts('More information on tokens...') . '</a>';
+                    ts('The following errors were detected in %1 message:', array(1 => $type)) . '<ul>' . implode('', $dataErrors) . '</ul><br /><a href="' . CRM_Utils_System::docURL2('CiviMail Action Tokens', true) . '">' . ts('More information on tokens...') . '</a>';
             }
         }
         

@@ -1,5 +1,6 @@
 {htxt id='proc-type'}
-{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Review the <a href='%1' target='_blank' title='%2'>configuration procedures for each Payment Processor here</a>. If you're not sure which processor to use - we recommend reviewing terms, limitations and coverage areas on each processor's website before proceeding. If your preferred processor is not in the list, consider partnering with a developer and contributing a plugin.{/ts}
+{capture assign=docLink}{docURL page="CiviContribute Payment Processor Configuration" text="configuration procedures for each Payment Processor"}{/capture}
+{ts 1=$docLink}Review the %1 first. If you're not sure which processor to use - we recommend reviewing terms, limitations and coverage areas on each processor's website before proceeding. If your preferred processor is not in the list, consider partnering with a developer and contributing a plugin.{/ts}
 {/htxt}
 
 {htxt id='AuthNet_AIM-live-user-name'}

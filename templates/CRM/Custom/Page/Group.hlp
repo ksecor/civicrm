@@ -1,5 +1,5 @@
 {htxt id="id-group_intro"}
-    {ts}Use Custom Data Groups to add sets of logically related fields to a specific type of CiviCRM record (e.g. contact records, contribution records, etc.). Use this form to set the title, the type of record the fields will be used for, and group-level help. You will then be able to add any number of fields to the group.{/ts} <a href="http://wiki.civicrm.org/confluence/x/WyQ" title="{ts}Opens documentation in a new window.{/ts}" target="_blank">(learn more...)</a>
+    {ts}Use Custom Data Groups to add sets of logically related fields to a specific type of CiviCRM record (e.g. contact records, contribution records, etc.). Use this form to set the title, the type of record the fields will be used for, and group-level help. You will then be able to add any number of fields to the group.{/ts} {docURL page="Custom Data Fields & Custom Data Groups Admin"}
 {/htxt}
 {htxt id="id-title"}
     {ts}For 'inline' display custom groups, this title will appear as the fieldset legend. If you choose the 'tab' display style (which is available for Contact record custom fields), the title will be used for the navigation tab.{/ts}

@@ -1,4 +1,3 @@
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 {capture assign=newPageURL}{crmURL q='action=add&reset=1'}{/capture}
 {htxt id="id-intro"}
 <div id="help">
@@ -10,6 +9,6 @@
     <li>{ts}If your page is enabled, click <strong>Live Page</strong> to view to the page in <strong>live mode</strong>.{/ts}</li>
     </ul>
     <p>{ts 1=$newPageURL}Click <a href='%1'>New Contribution Page</a> to create and configure a new online contribution page using the step-by-step wizard.{/ts}</p>
-    <p><a href="http://wiki.civicrm.org/confluence//x/1Cs" target="_blank" title="$docURLTitle">{ts}Read more...{/ts}</a>
+    <p>{docURL page="CiviContribute Admin"}</p>
 </div>
 {/htxt}

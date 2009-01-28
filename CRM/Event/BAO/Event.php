@@ -610,7 +610,9 @@ WHERE civicrm_event.is_active = 1
         
             $info                     = array( );
             $info['event_id'     ]    = $dao->event_id;
-            $info['uid'          ]    = "CiviCRM_EventID_" . $dao->event_id . "@" . $config->userFrameworkBaseURL;
+            $info['uid'          ]    = 
+	      "CiviCRM_EventID_{$dao->event_id}_" . md5( uniqid( rand( ), true ) ) .
+	      "@{$config->userFrameworkBaseURL}";
             $info['title'        ]    = $dao->title;
             $info['summary'      ]    = $dao->summary;
             $info['description'  ]    = $dao->description;
@@ -641,7 +643,7 @@ WHERE civicrm_event.is_active = 1
             CRM_Utils_String::append( $address, ', ',
                                       CRM_Utils_Address::format($addrFields) );
             $info['location'     ] = $address;
-            $info['url'          ] = CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $dao->event_id, false, null, false );
+            $info['url'          ] = CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $dao->event_id, true, null, false );
            
             $all[] = $info;
         }

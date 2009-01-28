@@ -142,7 +142,7 @@ class BAO_Contact_Contact extends CiviTestCase
                                    'job_title'             => 'software Developer',
                                    'gender_id'             => 1,
                                    'is_deceased'           => 1,
-                                   'home_URL'              => 'http://wiki.civicrm.org',
+                                   'home_URL'              => 'http://docs.civicrm.org',
                                    'contact_source'        => 'test update contact',
                                    'external_identifier'   => 111111111,
                                    'preferred_mail_format' => 'Both',
@@ -416,7 +416,7 @@ class BAO_Contact_Contact extends CiviTestCase
                                                                                  ),
                                                                    ),
                                                'openid'  => array (
-                                                                   '1' => array ( 'openid'      => 'http://wiki.civicrm.org' ),
+                                                                   '1' => array ( 'openid'      => 'http://openid.civicrm.org' ),
                                                                    ),
                                                'im'      => array (
                                                                    '1' => array ( 'name'        => 'john.doe',
@@ -456,7 +456,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $compareParams = array( 'email'                  => 'john.doe@example.org' );
         $this->assertDBCompareValues('CRM_Core_DAO_Email', $searchParams, $compareParams );
         //Now check DB for updated openid
-        $compareParams = array ( 'openid'                => 'http://wiki.civicrm.org' );
+        $compareParams = array ( 'openid'                => 'http://openid.civicrm.org' );
         $this->assertDBCompareValues('CRM_Core_DAO_OpenID', $searchParams, $compareParams );
         //Now check DB for updated IM
         $compareParams = array( 'name'                   => 'john.doe',

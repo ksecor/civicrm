@@ -913,7 +913,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
      * @return void
      * @access public
      */
-    static function sendActivityCopy( $clientId, $activityId, $contacts )
+    static function sendActivityCopy( $clientId, $activityId, $contacts, $attachments = null )
     {   
         require_once 'CRM/Utils/Mail.php';
         require_once 'CRM/Contact/BAO/Contact/Location.php';        
@@ -954,7 +954,12 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
                                               $displayName,
                                               $email,
                                               $subject,
-                                              $message
+                                              $message,
+                                              null,
+                                              null,
+                                              null,
+                                              null,
+                                              $attachments
                                               );
         }
         return $result;

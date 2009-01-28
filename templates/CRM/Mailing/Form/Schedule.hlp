@@ -1,5 +1,4 @@
 {htxt id="sending"}
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <h1>{ts}Scheduling and Sending Mailings{/ts}</h1>
 <p>
     {ts}You can schedule mailings to be sent starting at a specific date and time, OR you can request that they be sent as soon as possible by checking &quot;Send Immediately&quot;.{/ts}
@@ -8,6 +7,6 @@
     {ts}Clicking <strong>Done</strong> adds this mailing to the mailing queue. An automated task which runs periodically on your server processes mailings in the queue, and starts actually sending out your mail.{/ts}
 </p>
 <p>
-    {ts 1="http://wiki.civicrm.org/confluence//x/vyM" 2=$docURLTitle}<strong>Trouble-shooting Tip</strong> - If you find that your mailings are not being sent, ask the system administrator or technical support contact for your site to verify that the automated task (&quot;cron job&quot;) is running - and how frequently. (<a href='%1' title='%2' target='_blank'>more info...</a>){/ts}
+    {ts}<strong>Trouble-shooting Tip</strong> - If you find that your mailings are not being sent, ask the system administrator or technical support contact for your site to verify that the automated task (&quot;cron job&quot;) is running - and how frequently.{/ts} {docURL page="CiviMail Installation"}
 </p>
 {/htxt}

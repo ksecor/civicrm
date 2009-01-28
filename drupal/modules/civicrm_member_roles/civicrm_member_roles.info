@@ -4,3 +4,4 @@ description = "Synchronize CiviCRM Contacts with Membership Status to a specifie
 dependencies[] = civicrm
 package = CiviCRM
 core = 6.x
+version = 2.1
