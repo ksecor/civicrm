@@ -915,16 +915,16 @@ class CRM_Utils_System {
 
         $docBaseURL = self::getDocBaseURL( );
 
-        if ( ! isset( $params['title'] ) && $params['title'] === null ) {
+        if (!isset($params['title']) or $params['title'] === null) {
             $params['title'] = ts( 'Opens documentation in a new window.' );
         }
 
-        if ( ! isset( $params['text'] )  && $params['text'] === null ) {
+        if (!isset($params['text']) or $params['text'] === null) {
             $params['text'] = ts( '(learn more...)' );
         }
     
         if ( ! isset( $params['style'] ) || $params['style'] === null ) {
-            $params['style'] = '';
+            $style = '';
         } else {
             $style = "style=\"{$params['style']}\"";
         }
