@@ -5,7 +5,7 @@
 		</message>
   </layout>
   <state>
-	<name>Dashboard</name>
+    <name>Dashboard</name>
     <creationDate>04/01/2008</creationDate>
     <copyright>(C) CiviCRM LLC</copyright>
     <author>CiviCRM LLC</author>
@@ -13,11 +13,9 @@
     <authorUrl>civicrm.org</authorUrl>
     <version>2.1</version>
     <description>CiviCRM Dashboard</description>
-	<params>
-	   <param name="task" type="hidden" default="civicrm/user" />
-	    <param name="reset" type="hidden" size="5" default="1"  />
-	</params>
-	
-	
-   </state>
+    <params>
+      <param name="task" type="hidden" default="civicrm/user" />
+      <param name="reset" type="hidden" size="5" default="1"  />
+    </params>
+  </state>
 </metadata>
