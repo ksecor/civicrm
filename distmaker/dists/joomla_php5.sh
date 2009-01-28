@@ -75,26 +75,32 @@ cd $DM_TMPDIR;
 
 mkdir com_civicrm
 mkdir com_civicrm/admin
+mkdir com_civicrm/site
 mkdir com_civicrm/admin/civicrm
 
-cp -r -p civicrm/* com_civicrm/admin/civicrm
+# cp -r -p civicrm/* com_civicrm/admin/civicrm
 
-$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php $DM_SOURCEDIR $DM_TMPDIR/com_civicrm/admin/civicrm $DM_VERSION
+$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php $DM_SOURCEDIR com_civicrm $DM_VERSION
 
 # copying back end code to admin folder
-cp com_civicrm/admin/civicrm/joomla/admin.civicrm.php        com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/configure.php            com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/install.civicrm.php      com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/toolbar.civicrm.php      com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/toolbar.civicrm.html.php com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/uninstall.civicrm.php    com_civicrm/admin
+cp civicrm/joomla/admin/admin.civicrm.php        com_civicrm/admin
+cp civicrm/joomla/admin/configure.php            com_civicrm/admin
+cp civicrm/joomla/admin/install.civicrm.php      com_civicrm/admin
+cp civicrm/joomla/admin/toolbar.civicrm.php      com_civicrm/admin
+cp civicrm/joomla/admin/toolbar.civicrm.html.php com_civicrm/admin
+cp civicrm/joomla/admin/uninstall.civicrm.php    com_civicrm/admin
+cp civicrm/joomla/admin/civicrm.settings.php     com_civicrm/admin
 
 # copying front end code
-cp com_civicrm/admin/civicrm/joomla/civicrm.html.php      com_civicrm
-cp com_civicrm/admin/civicrm/joomla/civicrm.php           com_civicrm
-cp com_civicrm/admin/civicrm/joomla/civicrm.xml           com_civicrm
+cp civicrm/joomla/site/civicrm.html.php      com_civicrm/site
+cp civicrm/joomla/site/civicrm.php           com_civicrm/site
+cp civicrm/joomla/site/civicrm.settings.php  com_civicrm/site
+cp civicrm/joomla/site/index.html            com_civicrm/site
+cp -r civicrm/joomla/site/views              com_civicrm/site
 
-$DM_ZIP -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
+$DM_ZIP -q -r -9 com_civicrm/admin/civicrm.zip civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
+
+$DM_ZIP -q -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql' -x 'com_civicrm/admin/civicrm'
 
 # clean up
 rm -rf com_civicrm

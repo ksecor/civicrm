@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="{$CiviCRMVersion}">
+<install method="upgrade" type="component" version="{$CiviCRMVersion}">
   <name>CiviCRM</name>
-  <creationDate>04/01/2008</creationDate>
+  <creationDate>01/20/2009</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>
   <authorUrl>civicrm.org</authorUrl>
   <version>{$CiviCRMVersion}</version>
   <description>CiviCRM</description>
-  <files>
-      <filename>civicrm.php</filename>
-      <filename>civicrm.html.php</filename>
+  <files folder="site">
+  	  <filename>civicrm.settings.php</filename>
+	  <filename>civicrm.php</filename>
+	  <filename>civicrm.html.php</filename>
+	  <filename>index.html</filename>	  
+	  <folder>views</folder>
   </files>
   <params>
     <param name="task" type="list" default="civicrm/profile" label="Choose CiviCRM task">
@@ -58,7 +61,8 @@
       <filename>install.civicrm.php</filename>
       <filename>uninstall.civicrm.php</filename>
       <filename>configure.php</filename>
-      <folder>civicrm</folder>
+      <filename>civicrm.settings.php</filename>
+      <filename>civicrm.zip</filename>
     </files>
   </administration>
 </install>
