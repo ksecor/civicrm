@@ -886,12 +886,13 @@ class CRM_Utils_System {
             $docBaseURL = self::getDocBaseURL( );
             return $docBaseURL . str_replace( ' ', '+', $page );
         } else {
-            $params = array();
-            $params[ 'page' ] = $page;
-            $params[ 'URLonly' ] = $URLonly;
-            $params[ 'text' ] = $text;
-            $params[ 'title' ] = $title;        
-            $params[ 'style' ] = $style;
+            $params = array(
+                'page'    => $page,
+                'URLonly' => $URLonly,
+                'text'    => $text,
+                'title'   => $title,
+                'style'   => $style,
+            );
             return self::docURL( $params );
         }
     }
