@@ -90,15 +90,11 @@ require_once '$configFile';
 
         civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm.mysql'     );
         civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
+        
+        // now also build the menu
+        require_once 'CRM/Core/Menu.php';
+        CRM_Core_Menu::store( );
     }
-    
-    // now also build the menu
-    require_once 'CRM/Core/Config.php';
-    $config =& CRM_Core_Config::singleton();
-
-    // now also build the menu
-    require_once 'CRM/Core/Menu.php';
-    CRM_Core_Menu::store( );
 }
 
 function civicrm_source( $fileName ) {
