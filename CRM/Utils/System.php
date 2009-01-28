@@ -882,7 +882,7 @@ class CRM_Utils_System {
     static function docURL2( $page, $URLonly = false, $text = null, $title = null, $style = null ) {
         // if ts function doesn't exist, it means that CiviCRM hasn't been fully initialised yet -
         // return just the URL, no matter what other parameters are defined
-        if( ! function_exists( ts ) ) {
+        if (!function_exists('ts')) {
             $docBaseURL = self::getDocBaseURL( );
             return $docBaseURL . str_replace( ' ', '+', $page );
         } else {
