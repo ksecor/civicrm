@@ -441,9 +441,12 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $this->set( 'renewDate', $changeToday );
         }
         $this->_membershipId = $this->_id;
+        
+        // check for test membership.
+        $isTestMembership = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership', $this->_membershipId, 'is_test' );
         $renewMembership = CRM_Member_BAO_Membership::renewMembership( $this->_contactID, 
                                                                        $this->_memType,
-                                                                       0, $this, null );
+                                                                       $isTestMembership, $this, null );
         
         $endDate = CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::format( $renewMembership->end_date ) );
         

@@ -103,7 +103,7 @@ class CRM_Utils_Date
             CRM_Utils_Array::value( 's', $date ) != null) {
             // we have time too.. 
             if (CRM_Utils_Array::value( 'h', $date )) {
-                if ($date['A'] == 'PM' or $date['a'] == 'pm') {
+                if ( CRM_Utils_Array::value( 'A', $date ) == 'PM' or CRM_Utils_Array::value( 'a', $date ) == 'pm') {
                     if ($date['h'] != 12 ) {
                         $date['h'] = $date['h'] + 12;
                     }

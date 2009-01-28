@@ -135,7 +135,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             }
         }
 
-        if ( $values['is_email_receipt'] || $values['onbehalf_dupe_alert'] ) {
+        if ( CRM_Utils_Array::value( 'is_email_receipt', $values )  || CRM_Utils_Array::value( 'onbehalf_dupe_alert', $values ) ) {
             $template =& CRM_Core_Smarty::singleton( );
 
             // get the billing location type

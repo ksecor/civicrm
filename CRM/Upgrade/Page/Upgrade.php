@@ -48,8 +48,10 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $currentVer = CRM_Core_BAO_Domain::version();
 
         // hack to make past ver compatible /w new incremental upgrade process
-        $convertVer = array( '2.2' => '2.2.alpha1',
-                             '2.1' => '2.1.0'     );
+        $convertVer = array( '2.1'      => '2.1.0',
+                             '2.2'      => '2.2.alpha1',
+                             '2.2.alph' => '2.2.alpha2',
+                             );
         if ( isset($convertVer[$currentVer]) ) {
             $currentVer = $convertVer[$currentVer];
         }
@@ -89,40 +91,12 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                         if ( is_callable(array($this, $phpFunctionName)) ) {
                             eval("\$this->{$phpFunctionName}('$rev');");
                         } else   {
-                            // we need to check for fresh or upgrade for intermidiate release
-                            $phpFunctionName = 'checkDBState_' . str_replace( '.', '_', $latestVer );
-                            eval("\$skipSQL = \$this->{$phpFunctionName}( );");
-                            if (  $skipSQL ) {
-                                continue;
-                            }
-                                
-                            $sqlFile = implode( DIRECTORY_SEPARATOR, 
-                                                array(dirname(__FILE__), '..', 'Incremental', 
-                                                      'sql', $rev . '.mysql') );
-                            $tplFile = "$sqlFile.tpl";
-
-                            $isMultilingual = false;
-                            if ( file_exists( $tplFile ) ) {
-                                $isMultilingual = $upgrade->processLocales( $tplFile );
-                            } else {
-                                if ( ! file_exists($sqlFile) ) {
-                                    CRM_Core_Error::fatal("sqlfile - $rev.mysql not found.");
-                                }
-                                $upgrade->source( $sqlFile );
-                            }
-                            
-                            if ( $isMultilingual ) {
-                                require_once 'CRM/Core/I18n/Schema.php';
-                                require_once 'CRM/Core/DAO/Domain.php';
-                                $domain =& new CRM_Core_DAO_Domain();
-                                $domain->find(true);
-                                $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
-                                CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
-                            }
+                            $upgrade->processSQL( $rev );
                         }
+                        $upgrade->setVersion( $rev );
                     }
                 }
-                $upgrade->setVersion( $rev );
+                $upgrade->setVersion( $latestVer );
                 $template->assign( 'upgraded', true );
                 
                 // also cleanup the templates_c directory
@@ -172,26 +146,6 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         }
     }
 
-    /**
-     * This is blank since we don't do anything
-     */
-    function upgrade_2_2_alpha2( $rev ) {
-
-    }
-    
-    /**
-     * This function should check if if need to skip current sql file
-     * Name of this function will change according to the latest release 
-     *   
-     */
-    function checkDBState_2_2_alpha3( ) {
-        // we need to have one condition statement that will tell us if its fresh or upgrade
-        if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup','mail_protocol','id','name' ) ) {
-            return true;
-        }
-        return false;
-    }
-    
     function upgrade_2_1_2( $rev ) {
         require_once "CRM/Upgrade/TwoOne/Form/TwoOneTwo.php";
         $formName = "CRM_Upgrade_TwoOne_Form_TwoOneTwo";
@@ -215,5 +169,18 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         }
     }
 
+    /**
+     * This function should check if if need to skip current sql file
+     * Name of this function will change according to the latest release 
+     *   
+     */
+    function upgrade_2_2_alpha3( $rev ) {
+        // skip processing sql file, if fresh install -
+        if ( ! CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup','mail_protocol','id','name' ) ) {
+            $upgrade  =& new CRM_Upgrade_Form( );
+            $upgrade->processSQL( $rev );
+        }
+        return true;
+    }
 }
 

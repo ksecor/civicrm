@@ -158,11 +158,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $discountId  = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
             
             if ( $discountId ) {
-                $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", 
-                                                            $this->_values['event']['default_discount_id'],
-                                                            'weight', 'id' );
+                if ( isset( $this->_values['event']['default_discount_id'] ) ) {    
+                    $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", 
+                                                                $this->_values['event']['default_discount_id'],
+                                                                'weight', 'id' );
                 
-                $this->_defaults['amount'] = key( array_slice( $this->_values['discount'][$discountId], $discountKey-1, $discountKey, true) );
+                    $this->_defaults['amount'] = key( array_slice( $this->_values['discount'][$discountId], $discountKey-1, $discountKey, true) );
+                }
             }
         }
         

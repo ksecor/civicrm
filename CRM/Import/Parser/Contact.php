@@ -712,20 +712,20 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $contact           = array( 'contact_id' => $params[$key]['id'] );
                         $defaults          = array( );
                         $relatedNewContact = CRM_Contact_BAO_Contact::retrieve( $contact, $defaults );
-                    } else if ( !isset ($params[$key]['external_identifier']) && $onDuplicate != CRM_Import_Parser::DUPLICATE_UPDATE ) {
+                    } else if ( isset ($params[$key]['external_identifier']) && $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
+                        $message ="No contact ID found for this External Identifier:".$params[$key]['external_identifier']." in related contact." ;
+                        array_unshift($values, $message);
+                        $this->_retCode = CRM_Import_Parser::NO_MATCH; 
+                    }  else {
                         //fixed for CRM-3146, CRM-4024.
                         if ( ( $this->_contactType == 'Individual'   || 
                                $this->_contactType == 'Household'    ||
                                $this->_contactType == 'Organization' ) && $onDuplicate == CRM_Import_Parser::DUPLICATE_NOCHECK ) {
                             $onDuplicate = CRM_Import_Parser::DUPLICATE_FILL;
                         }
-
+                        
                         $relatedNewContact = $this->createContact( $formatting, $contactFields, 
                                                                    $onDuplicate, null, false );
-                    }  else {
-                        $message ="No contact ID found for this External Identifier:".$params[$key]['external_identifier'] ;
-                        array_unshift($values, $message);
-                        $this->_retCode = CRM_Import_Parser::NO_MATCH; 
                     }
                     
                     if ( is_object( $relatedNewContact ) || ( $relatedNewContact instanceof CRM_Contact_BAO_Contact ) ) {
