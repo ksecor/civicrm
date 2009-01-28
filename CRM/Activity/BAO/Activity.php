@@ -987,7 +987,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activityIds[] = $activityId;
         }
         if ( count( $activityIds ) < 1 ) {
-            return array( array() );
+            return array( );
         }
         $activityIds = implode( ',', $activityIds );
         $query = "SELECT     activity.id as activity_id, source_contact_id, target_contact_id, assignee_contact_id, activity_type_id, 
