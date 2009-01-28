@@ -420,6 +420,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
 
         if ( $this->_contactIdIndex < 0 ) {
+            // set the contact type if its not set
+            if ( !isset( $paramValues['contact_type'] ) ) {    
+                $paramValues['contact_type'] = $this->_contactType;    
+            }
+
             //retrieve contact id using contact dedupe rule
             $error = civicrm_check_contact_dedupe( $paramValues );
 
