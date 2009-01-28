@@ -963,7 +963,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                   WHERE  target_contact_id = $contactId";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $activities[$dao->activity_id]['targets'][] = $contactId;
+            $activities[$dao->activity_id]['targets'][$contactId] = $contactId;
         }
         
         // Then get activities where contactId is an asignee
@@ -971,7 +971,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                   WHERE  assignee_contact_id = $contactId";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $activities[$dao->activity_id]['asignees'][] = $contactId;
+            $activities[$dao->activity_id]['asignees'][$contactId] = $contactId;
         }
         
         // Then get activities that contactId created
