@@ -548,7 +548,15 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     foreach ($matchedIDs  as $contactId) {
                         $newContact = $this->createContact( $formatted, $contactFields, 
                                                             $onDuplicate, $contactId, false );
-                        $this->_retCode = CRM_Import_Parser::VALID;
+                        
+                        if ( is_a( $newContact, 'CRM_Contact_BAO_Contact' ) ) {
+                            $this->_retCode = CRM_Import_Parser::VALID;
+                        } else {
+                            $errorMessage = ts( "Input parameter missing or corrupt" );
+                            $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
+                            $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
+                            return CRM_Import_Parser::ERROR; 
+                        }
                     }
                 }
             } else if ( CRM_Utils_Array::value( 'is_error', $error ) ) {
