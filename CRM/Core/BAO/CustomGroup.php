@@ -1440,10 +1440,10 @@ SELECT $select
         if ( !isset( $value ) ) {
             return; 
         }
-		$freezeString = "";
-		$freezeStringChecked = "";
-	
-		switch ( $dataType ) {
+        $freezeString = "";
+        $freezeStringChecked = "";
+
+        switch ( $dataType ) {
 
         case 'Date':
             $parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
@@ -1451,16 +1451,16 @@ SELECT $select
             break;	
 
         case 'Boolean':
-			if ( $value == '1' ) {
-				$retValue = $freezeStringChecked . ts('Yes') . "\n";
-			} else {
-				$retValue = $freezeStringChecked . ts('No') . "\n";
-			}
-			break;
+            if ( $value == '1' ) {
+                $retValue = $freezeStringChecked . ts('Yes') . "\n";
+            } else {
+                $retValue = $freezeStringChecked . ts('No') . "\n";
+            }
+            break;
 
         case 'Link': 
-			$retValue = CRM_Utils_System::formatWikiURL( $value );
-			break;	  
+            $retValue = CRM_Utils_System::formatWikiURL( $value );
+            break;	  
 
         case 'File':
             $retValue = $values;
@@ -1472,10 +1472,10 @@ SELECT $select
 
         case 'Float':
         case 'Money':
-			if ( $htmlType == 'Text' ) {
-				$retValue = (float)$value;
+            if ( $htmlType == 'Text' ) {
+                $retValue = (float)$value;
                 break;
-			}
+            }
 
         case 'String':
         case 'Int':
@@ -1486,58 +1486,58 @@ SELECT $select
 
         case 'StateProvince':
         case 'Country':
-    		//added check for Multi-Select in the below if-statement
-    		$customData[] = $value;
+            //added check for Multi-Select in the below if-statement
+            $customData[] = $value;
 
-    		//form custom data for multiple-valued custom data
-    		switch ( $htmlType ) {
+            //form custom data for multiple-valued custom data
+            switch ( $htmlType ) {
             case 'Multi-Select Country':	 
             case 'Select Country':	 
-    			$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-    			$query = "
-    				SELECT id as value, name as label  
-    				FROM civicrm_country";
-    			$coDAO  = CRM_Core_DAO::executeQuery( $query );
-    			break;
+                $customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                $query = "
+                    SELECT id as value, name as label  
+                    FROM civicrm_country";
+                $coDAO  = CRM_Core_DAO::executeQuery( $query );
+                break;
 
             case 'Select State/Province':  
             case 'Multi-Select State/Province':
-    			$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-    			$query = "
-    				SELECT id as value, name as label  
-    				FROM civicrm_state_province";
-    			$coDAO  = CRM_Core_DAO::executeQuery( $query );
-    			break;
+                $customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                $query = "
+                    SELECT id as value, name as label  
+                    FROM civicrm_state_province";
+                $coDAO  = CRM_Core_DAO::executeQuery( $query );
+                break;
 
             case 'Select': 
-    			$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                $customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
                 if ( $option_group_id ) {
                     $query = "
-    				    SELECT label, value
-    				    FROM civicrm_option_value
-    				    WHERE option_group_id = %1
-    				    ORDER BY weight ASC, label ASC";
+                        SELECT label, value
+                        FROM civicrm_option_value
+                        WHERE option_group_id = %1
+                        ORDER BY weight ASC, label ASC";
                     $params = array( 1 => array( $option_group_id, 'Integer' ) );
                     $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
                 }
-    			break;
+                break;
 
             case 'CheckBox': 
             case 'Multi-Select':
                 $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
-    
+
             default:
                 if ( $option_group_id ) {
                     $query = "
-    				    SELECT label, value
-    				    FROM civicrm_option_value
-    				    WHERE option_group_id = %1
-    				    ORDER BY weight ASC, label ASC";
+                        SELECT label, value
+                        FROM civicrm_option_value
+                        WHERE option_group_id = %1
+                        ORDER BY weight ASC, label ASC";
                     $params = array( 1 => array( $option_group_id, 'Integer' ) );
                     $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
                 }
-    		}
-    		
+            }
+
             $retValue = null;
             while ( $coDAO->fetch( ) ) {
                 //to show only values that are checked
@@ -1553,8 +1553,8 @@ SELECT $select
                     }
                 }
             }
-			break;
-		}
+            break;
+        }
 
         //special case for option per line formatting
         if ( $optionPerLine > 1 && is_array( $retValue ) ) {
@@ -1566,11 +1566,11 @@ SELECT $select
                 if ( $displayString ) {
                     $displayString .=  ",&nbsp;";
                 }
-            
+
                 $displayString .= $val;
                 $rowCounter++; 
                 $fieldCounter++;
-            
+
                 if ( ( $rowCounter == $optionPerLine ) || ( $fieldCounter == count( $retValue ) ) ) {
                     $displayValues[] = $displayString;
                     $displayString = null;
@@ -1579,8 +1579,8 @@ SELECT $select
             }
             $retValue = $displayValues;
         }
-    
+
         $retValue = isset($retValue) ? $retValue : null ;
-		return $retValue;
-	}
+        return $retValue;
+    }
 }
