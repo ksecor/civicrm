@@ -35,7 +35,7 @@ function run() {
 
         $sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
         $sreg      = $sreg_resp->contents();
-
+        $sreg['email'] = empty( $sreg['email'] ) ? '' : $sreg['email'];
         if ( $session->get('new_install') == true ) {
             // update group clause
             require_once 'CRM/Core/Transaction.php';
