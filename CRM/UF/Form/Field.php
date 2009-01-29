@@ -666,7 +666,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                     }
                 } 
                 if ( ! $emailField ) {
-                    $errors['field_name'] = ts( 'You need to add an email field before you add a Group(s) when CiviMail is enabled.' );
+                    $errors['field_name'] = ts( 'You need to include an Email field in this Profile before you add the Group(s) field when CiviMail is enabled. This ensures that an opt-in confirmation email can be sent to contacts when they join a group.' );
                 }
             }
         }
