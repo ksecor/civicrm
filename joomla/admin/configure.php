@@ -7,7 +7,7 @@ global $civicrmUpgrade;
 $civicrmUpgrade = false;
 
 function civicrm_setup( ) {
-    global $adminPath;
+    global $adminPath, $compileDir;
 
     $adminPath =
         JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR .
