@@ -898,6 +898,11 @@ AND civicrm_membership.is_test = %2";
             $invoiceID = md5(uniqid(rand(), true));
             $tempParams['invoiceID'] = $invoiceID;
 
+            //we don't allow recurring membership.CRM-3781.
+            if( CRM_Utils_Array::value('is_recur', $tempParams) ) {
+                $tempParams['is_recur'] = 0;
+            }
+            
             if ($form->_values['is_monetary'] && !$form->_params['is_pay_later']) {
                 require_once 'CRM/Core/Payment.php';
                 $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
