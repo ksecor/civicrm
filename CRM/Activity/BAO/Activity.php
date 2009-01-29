@@ -263,7 +263,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( empty( $params['id'] ) ) {
             unset( $params['id'] );
         }
-
+        if( ! empty( $params['target_contact_id'] ) ) {
+            $params['target_contact_id']   =  array_unique( $params['target_contact'] );
+        }
+        if( ! empty( $params['assignee_contact_id'] ) ) {
+            $params['assignee_contact_id'] = array_unique( $params['assignee_contact'] );
+        }
         $activity->copyValues( $params );
 
         // start transaction        
