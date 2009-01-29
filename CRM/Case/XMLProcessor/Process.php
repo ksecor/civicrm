@@ -43,7 +43,10 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
-            CRM_Core_Error::fatal( "xml file could not be retrieved for case type = '$caseType'." );
+            require_once 'CRM/Utils/System.php';
+            $docLink = CRM_Utils_System::docURL2( "CiviCase Configuration" );
+            CRM_Core_Error::fatal( ts("Configuration file could not be retrieved for case type = '%1' %2.",
+                                      array( 1 => $caseType, 2 => $docLink) ) );
             return false;
         }
 
@@ -55,8 +58,10 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
-            CRM_Core_Error::fatal( ts("Unable to load configuration file for the referenced case type: '%1'", 
-                                      array( 1 => $caseType ) ) );
+            require_once 'CRM/Utils/System.php';
+            $docLink = CRM_Utils_System::docURL2( "CiviCase Configuration" );
+            CRM_Core_Error::fatal( ts("Unable to load configuration file for the referenced case type: '%1' %2.", 
+                                      array( 1 => $caseType, 2 => $docLink ) ) );
             return false;
         }
 
@@ -260,7 +265,10 @@ AND        ca.case_id = %3
         $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName, $activityTypes );
 
         if ( ! $activityTypeInfo ) {
-            CRM_Core_Error::fatal( "Activity type '$activityTypeName' found in config file, is not present in the db. Please investigate." );
+            require_once 'CRM/Utils/System.php';
+            $docLink = CRM_Utils_System::docURL2( "CiviCase Configuration" );
+            CRM_Core_Error::fatal( ts("Activity type '$activityTypeName' found in case configuration file is not present in the database %1",
+                                      array( 1 => $docLink) ) );
             return false;
         }
         $activityTypeID = $activityTypeInfo['id'];
