@@ -44,12 +44,7 @@ AND table_schema = "' . $jConfig->getValue('config.db') .'" ');
 }
 
 function civicrm_write_file( $name, &$buffer ) {
-    $fd  = fopen( $name, "w" );
-    if ( ! $fd ) {
-        die( "Cannot open $name" );
-    }
-    fputs( $fd, $buffer );
-    fclose( $fd );
+    JFile::write( $name, $buffer );
 }
 
 function civicrm_main( ) {
@@ -94,9 +89,12 @@ require_once '$configFile';
         
         civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm.mysql'     );
         civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
-        
+
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+
         // now also build the menu
-        require_once 'CRM/Core/Menu.php';
+`        require_once 'CRM/Core/Menu.php';
         CRM_Core_Menu::store( );
     }
 }
@@ -112,7 +110,7 @@ function civicrm_source( $fileName ) {
         die( "Cannot open $dsn: " . $db->getMessage( ) );
     }
 
-    $string = file_get_contents( $fileName );
+    $string = JFile::read( $fileName );
 
     //get rid of comments starting with # and --
     $string = preg_replace("/^#[^\n]*$/m", "\n", $string );
@@ -155,12 +153,12 @@ function civicrm_config( $frontend = false ) {
         $params['baseURL']  = $liveSite . '/';
     }
 
-    $str = file_get_contents( $adminPath  . DIRECTORY_SEPARATOR . 
-                              'civicrm'   . DIRECTORY_SEPARATOR . 
-                              'templates' . DIRECTORY_SEPARATOR . 
-                              'CRM'       . DIRECTORY_SEPARATOR . 
-                              'common'    . DIRECTORY_SEPARATOR . 
-                              'civicrm.settings.php.tpl' );
+    $str = JFile::read( $adminPath  . DIRECTORY_SEPARATOR . 
+                        'civicrm'   . DIRECTORY_SEPARATOR . 
+                        'templates' . DIRECTORY_SEPARATOR . 
+                        'CRM'       . DIRECTORY_SEPARATOR . 
+                        'common'    . DIRECTORY_SEPARATOR . 
+                        'civicrm.settings.php.tpl' );
     foreach ( $params as $key => $value ) { 
         $str = str_replace( '%%' . $key . '%%', $value, $str ); 
     } 
