@@ -292,12 +292,12 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         
         // get imporatable fields for contact type                      
         require_once 'CRM/Contact/BAO/Contact.php';
-        $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
+        $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
         
         // get the Dedupe rule for this contact type and build soft credit array
         $ruleParams = array(
-                            'contact_type' => $contacType,
-                            'level' => 'Strict'
+                            'contact_type' => $contactType,
+                            'level'        => 'Strict'
                             );
         require_once 'CRM/Dedupe/BAO/Rule.php';
         $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields( $ruleParams );
@@ -572,7 +572,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $this->set( 'softCreditFields', $softCreditFields );
 
         // store mapping Id to display it in the preview page 
-        $this->set('loadMappingId', $params['mappingId']);
+        $this->set('loadMappingId', CRM_Utils_Array::value( 'mappingId', $params ) );
         
         //Updating Mapping Records
         if ( CRM_Utils_Array::value('updateMapping', $params)) {
