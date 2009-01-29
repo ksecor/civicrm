@@ -17,6 +17,14 @@ function civicrm_setup( ) {
     $jConfig =& JFactory::getConfig( );
     set_time_limit(4000);
 
+    // ensure that the site has native zip, else abort
+    if ( ! function_exists('zip_open') ||
+         ! function_exists('zip_read') ) {
+        echo "Your PHP version is missing  zip functionality. Please ask your system administrator / hosting provider to recompile PHP with zip support.<p>";
+        echo "You will need to uninstall CiviCRM from the Joomla Extension Manager.<p>";
+        exit( );
+    }
+
     // Path to the archive
     $archivename = $adminPath . DIRECTORY_SEPARATOR . 'civicrm.zip';
 
