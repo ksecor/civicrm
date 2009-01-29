@@ -542,33 +542,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             
             $error = _civicrm_duplicate_formatted_contact($formatted);
             
-            if ( civicrm_duplicate($error) ) { 
+            if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode( ',', $error['error_message']['params'][0] );
                 if ( count( $matchedIDs) >= 1 ) {
-                    $updateflag = true;
                     foreach ($matchedIDs  as $contactId) {
-                        if ($params['id'] == $contactId) {
-                            $paramsValues = array('contact_id'=>$contactId);
-                            $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                        $params['id'],
-                                                                        'contact_type' );
-                            if ($formatted['contact_type'] == $contactType ) {
-                                $newContact = $this->createContact( $formatted, $contactFields, 
-                                                                    $onDuplicate, $contactId, false );
-                                $updateflag = false; 
-                                $this->_retCode = CRM_Import_Parser::VALID;
-                            } else {
-                                $message = "Mismatched contact Types :";
-                                array_unshift($values, $message);
-                                $updateflag = false;
-                                $this->_retCode = CRM_Import_Parser::NO_MATCH;
-                            }
-                        } 
-                    }
-                    if ( $updateflag ) {
-                        $message = "Mismatched contact IDs OR Mismatched contact Types :" ;
-                        array_unshift($values, $message);
-                        $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                        $newContact = $this->createContact( $formatted, $contactFields, 
+                                                            $onDuplicate, $contactId, false );
+                        $this->_retCode = CRM_Import_Parser::VALID;
                     }
                 }
             } else if ( CRM_Utils_Array::value( 'is_error', $error ) ) {
