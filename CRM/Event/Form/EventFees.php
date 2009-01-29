@@ -123,9 +123,10 @@ class CRM_Event_Form_EventFees
             $fields = $priceOptionValues = array( );
             
             if ( CRM_Utils_Array::value( 'fee_level', $defaults[$form->_pId] ) ) {
-                $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
-                                       substr( $defaults[$form->_pId]['fee_level'], 1, -1 ) );
-                
+                $tmp_id = substr( $defaults[$form->_pId]['fee_level'], 
+                                  strchr($defaults[$form->_pId]['fee_level'], '.') );
+                $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $tmp_id );
+
                 //FIXME we need to reevaluate mapping of price set
                 //fields to option group and values.
                 //since custom fields option values may get
