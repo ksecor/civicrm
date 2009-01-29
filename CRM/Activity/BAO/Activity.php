@@ -264,10 +264,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             unset( $params['id'] );
         }
         if( ! empty( $params['target_contact_id'] ) ) {
-            $params['target_contact_id']   =  array_unique( $params['target_contact'] );
+            $params['target_contact_id']   =  array_unique( $params['target_contact_id'] );
         }
         if( ! empty( $params['assignee_contact_id'] ) ) {
-            $params['assignee_contact_id'] = array_unique( $params['assignee_contact'] );
+            $params['assignee_contact_id'] = array_unique( $params['assignee_contact_id'] );
         }
         $activity->copyValues( $params );
 
