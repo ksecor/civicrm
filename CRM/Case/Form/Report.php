@@ -89,12 +89,13 @@ class CRM_Case_Form_Report extends CRM_Core_Form
         
         $includeActivites = array( 1 => ts( 'Include All Activities' ),
                                    2 => ts( 'Include Missing Activities Only' ) );
-        $this->addRadio( 'include_activities',
+        $includeActivitesGroup = $this->addRadio( 'include_activities',
                          null,
                          $includeActivites,
                          null,
                          '&nbsp;',
                          true );
+        $includeActivitesGroup->setValue(1);
 
         $this->add('checkbox',
                    'is_redact',
