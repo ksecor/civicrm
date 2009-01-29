@@ -92,9 +92,9 @@ require_once '$configFile';
 
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton( );
-
+        
         // now also build the menu
-`        require_once 'CRM/Core/Menu.php';
+        require_once 'CRM/Core/Menu.php';
         CRM_Core_Menu::store( );
     }
 }
