@@ -26,6 +26,7 @@
       <title>Source Contact</title> 
       <required>true</required>
       <import>true</import>
+      <headerPattern>/(activity.)?source(.contact(.id)?)?/i</headerPattern>
       <comment>Contact ID of the person scheduling or logging this Activity. Usually the authenticated user.</comment>
       <add>1.1</add>
   </field>
@@ -56,6 +57,7 @@
        <type>int unsigned</type>
        <required>true</required>
        <default>1</default>
+       <headerPattern>/(activity.)?type(.id$)/i</headerPattern>
        <comment>FK to civicrm_option_value.id, that has to be valid, registered activity type.</comment>
        <add>1.1</add>
   </field>
@@ -91,6 +93,7 @@
        <length>255</length>
        <comment>The subject/purpose/short description of the activity.</comment>
        <import>true</import>
+       <headerPattern>/(activity.)?subject/i</headerPattern>
        <add>1.1</add>
        <modify>2.0</modify>
   </field>
@@ -108,6 +111,7 @@
        <import>true</import>
        <title>Activity Date</title>
        <type>datetime</type>
+       <headerPattern>/(activity.)?date(.time$)?/i</headerPattern>
        <comment>Date and time this activity is scheduled to occur. Formerly named scheduled_date_time.</comment>
        <add>2.0</add>
   </field>  
@@ -140,6 +144,7 @@
       <title>Duration</title> 
       <import>true</import>
       <type>int unsigned</type>
+      <headerPattern>/(activity.)?duration(s)?$/i</headerPattern>
       <comment>Planned or actual duration of activity expressed in minutes. Conglomerate of former duration_hours and duration_minutes.</comment>
       <add>2.0</add>
   </field>
@@ -150,6 +155,7 @@
       <import>true</import>
       <type>varchar</type>
       <length>255</length>
+      <headerPattern>/(activity.)?location$/i</headerPattern>
       <comment>Location of the activity (optional, open text).</comment>
       <add>1.1</add>
   </field>
@@ -183,6 +189,7 @@
       <type>text</type>
       <rows>8</rows>
       <cols>60</cols>
+      <headerPattern>/(activity.)?detail(s)?$/i</headerPattern>
       <comment>Details about the activity (agenda, notes, etc).</comment>
       <add>1.1</add>
   </field>
@@ -200,6 +207,7 @@
       <name>status_id</name>
       <title>Activity Status Label</title>
       <import>true</import>
+      <headerPattern>/(activity.)?status(.label$)?/i</headerPattern>
       <type>int unsigned</type>
       <comment>ID of the status this activity is currently in. Foreign key to civicrm_option_value.</comment>
       <add>2.0</add>
@@ -230,6 +238,7 @@
        <type>boolean</type>
        <default>0</default>
        <import>true</import>
+       <headerPattern>/(is.)?test(.activity)?/i</headerPattern>
        <add>2.0</add>
   </field>
   <field>
@@ -271,6 +280,7 @@
        <type>boolean</type>
        <default>1</default>
        <import>true</import>
+       <headerPattern>/(is.)?(current.)?(revision|version(ing)?)/i</headerPattern>
        <add>2.2</add>
   </field>
   <index>
@@ -302,6 +312,7 @@
        <type>boolean</type>
        <default>0</default>
        <import>true</import>
+       <headerPattern>/(activity.)?(trash|deleted)/i</headerPattern>
        <add>2.2</add>
   </field>
   <index>
