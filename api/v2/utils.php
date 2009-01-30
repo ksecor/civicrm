@@ -475,8 +475,6 @@ function _civicrm_duplicate_formatted_contact(&$params)
                                                   CRM_Core_Error::DUPLICATE_CONTACT, 
                                                   'Fatal', $contact->id );
             return civicrm_create_error( $error->pop( ) );
-        } else {
-            return civicrm_create_error( "No matching conatct found with given contact ID OR External Identifier" );
         }
     } else {
         require_once 'CRM/Dedupe/Finder.php';

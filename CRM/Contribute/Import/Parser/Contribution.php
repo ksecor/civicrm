@@ -462,10 +462,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     
                     return CRM_Contribute_Import_Parser::VALID;
                 }
-            } else if ( CRM_Utils_Array::value( 'is_error', $error )  ) { 
-                //check for no match found for given ids.
-                array_unshift( $values, $error['error_message']);
-                return CRM_Contribute_Import_Parser::ERROR;
             } else {
                 // Using new Dedupe rule.
                 $ruleParams = array(

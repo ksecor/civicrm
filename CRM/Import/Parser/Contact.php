@@ -539,30 +539,57 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         $relationship = false;
         // Support Match and Update Via Contact ID
         if ( $this->_updateWithId && $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
-            
+            if ( $params['id'] &&  $params['external_identifier'] ) {
+                $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $params['external_identifier'], 'id',
+                                                    'external_identifier' );
+                if ( $cid !=  $params['id'] ) {
+                    $message ="Mismatched External Id for".$params['id'] ;
+                    array_unshift($values, $message);
+                    $this->_retCode = CRM_Import_Parser::NO_MATCH;  
+                }
+            } else if ( $params['external_identifier'] ) {
+                $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $params['external_identifier'], 'id',
+                                                    'external_identifier' );
+                if ( $cid ) {
+                    $params['id'] =  $cid; 
+                } else {
+                    $message ="No contact ID found for this External Identifier:".$params['external_identifier'] ;
+                    array_unshift($values, $message);
+                    $this->_retCode = CRM_Import_Parser::NO_MATCH; 
+                }  
+            } 
             $error = _civicrm_duplicate_formatted_contact($formatted);
-            
-            if ( civicrm_duplicate( $error ) ) {
+            if ( civicrm_duplicate($error) ) { 
                 $matchedIDs = explode( ',', $error['error_message']['params'][0] );
                 if ( count( $matchedIDs) >= 1 ) {
+                    $updateflag = true;
                     foreach ($matchedIDs  as $contactId) {
-                        $newContact = $this->createContact( $formatted, $contactFields, 
-                                                            $onDuplicate, $contactId, false );
-                        
-                        if ( is_a( $newContact, 'CRM_Contact_BAO_Contact' ) ) {
-                            $this->_retCode = CRM_Import_Parser::VALID;
-                        } else {
-                            $errorMessage = ts( "Input parameter missing or corrupt" );
-                            $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
-                            $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                            return CRM_Import_Parser::ERROR; 
-                        }
+                        if ($params['id'] == $contactId) {
+                            $paramsValues = array('contact_id'=>$contactId);
+                            $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                        $params['id'],
+                                                                        'contact_type' );
+                            if ($formatted['contact_type'] == $contactType ) {
+                                $newContact = $this->createContact( $formatted, $contactFields, 
+                                                                    $onDuplicate, $contactId, false );
+                                $updateflag = false; 
+                                $this->_retCode = CRM_Import_Parser::VALID;
+                            } else {
+                                $message = "Mismatched contact Types :";
+                                array_unshift($values, $message);
+                                $updateflag = false;
+                                $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                            }
+                        } 
+                    }
+                    if ( $updateflag ) {
+                        $message = "Mismatched contact IDs OR Mismatched contact Types :" ;
+                        array_unshift($values, $message);
+                        $this->_retCode = CRM_Import_Parser::NO_MATCH;
                     }
                 }
-            } else if ( CRM_Utils_Array::value( 'is_error', $error ) ) {
-                //check for no match found error for given ids.
-                array_unshift( $values, $error['error_message'] );
-                $this->_retCode = CRM_Import_Parser::NO_MATCH;
             } else {
                 $contactType = null;
                 if ( CRM_Utils_Array::value( 'id', $params ) ) {
