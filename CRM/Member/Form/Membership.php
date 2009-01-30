@@ -584,12 +584,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $session = CRM_Core_Session::singleton();
         $ids['userId'] = $session->get('userID');
  
-    	// membership type custom data
+        // membership type custom data
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Membership', false, false,
                                                              CRM_Utils_Array::value( 'membership_type_id', $params ) );
     
-		$customFields = CRM_Utils_Array::crmArrayMerge( $customFields, 
-														CRM_Core_BAO_CustomField::getFields( 'Membership', false, false, null, null, true ) );
+        $customFields = CRM_Utils_Array::crmArrayMerge( $customFields,
+                                                        CRM_Core_BAO_CustomField::getFields( 'Membership', false, false, null, null, true ) );
 
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $formValues,
                                                                    $customFields,
