@@ -76,6 +76,11 @@ class CRM_Member_Form extends CRM_Core_Form
             require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
+
+        if (isset($defaults['minimum_fee'])) {
+            require_once 'CRM/Utils/Money.php';
+            $defaults['minimum_fee'] = CRM_Utils_Money::format($defaults['minimum_fee'], null, '%a');
+        }
         
         
         if ( isset ($defaults['status'] ) ) {

@@ -152,9 +152,15 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
         $dao->orderBy('weight');
         $dao->find();
 
+        require_once 'CRM/Utils/Money.php';
+
         while ($dao->fetch()) {
             $membershipType[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $membershipType[$dao->id]);
+
+            // fix the display of the monetary value, CRM-4038
+            $membershipType[$dao->id]['minimum_fee'] = CRM_Utils_Money::format($membershipType[$dao->id]['minimum_fee'], null, '%a');
+
             // form all action links
             $action = array_sum(array_keys($this->links()));
 
