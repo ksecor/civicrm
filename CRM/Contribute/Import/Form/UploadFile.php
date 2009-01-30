@@ -50,8 +50,8 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form
      */
     public function preProcess()
     { 
-      $session =& CRM_Core_Session::singleton( );
-      $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute/import', 'reset=1') );
+        $session =& CRM_Core_Session::singleton( );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute/import', 'reset=1') );
     }
    
     /**
