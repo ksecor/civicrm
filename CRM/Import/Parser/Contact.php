@@ -610,9 +610,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $this->_retCode = CRM_Import_Parser::NO_MATCH;
                     }
                 } else {
-                    $message ="No contact found for this contact ID:".$params['id'] ;
-                    array_unshift($values, $message);
-                    $this->_retCode = CRM_Import_Parser::NO_MATCH;  
+                    // we should avoid multiple errors for single record
+                    // since we have already retCode and we trying to force again.
+                    if ( $this->_retCode != CRM_Import_Parser::NO_MATCH ) {
+                        $message ="No contact found for this contact ID:".$params['id'] ;
+                        array_unshift($values, $message);
+                        $this->_retCode = CRM_Import_Parser::NO_MATCH; 
+                    }
                 }
             }
             
