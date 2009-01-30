@@ -245,15 +245,16 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 CRM_Core_BAO_CMSUser::buildForm( $this, $profileID , true );
             }
         }
-        
-        $this->addButtons(array( 
-                                array ( 'type'      => 'upload', 
-                                        'name'      => ts('Continue >>'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
-                                ) 
-                          );
-        
+        if ( !( $this->_paymentProcessor['billing_mode'] == CRM_Core_Payment::BILLING_MODE_BUTTON &&
+                ! $this->_values['event']['is_pay_later'] ) ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'upload', 
+                                            'name'      => ts('Continue >>'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    ) 
+                              );
+        }
         $this->addFormRule( array( 'CRM_Event_Form_Registration_Register', 'formRule' ),
                             $this );
         
