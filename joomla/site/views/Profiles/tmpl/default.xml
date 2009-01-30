@@ -17,18 +17,8 @@
 		<description>PROFILE CREATE LAYOUT DESC</description>
         <params >
             <param name="task" type="hidden" value="civicrm/profile/create" label="Choose CiviCRM task" />
-			<param name="gid" type="sql" default="10" label="Select a profile" query="SELECT id,title FROM civicrm_uf_group WHERE is_active = 1 ORDER BY title" key_field="id" value_field="title" />
+	    <param name="gid" type="sql" default="10" label="Select a profile" query="SELECT id,title FROM civicrm_uf_group WHERE is_active = 1 ORDER BY title" key_field="id" value_field="title" />
             <param name="reset" type="hidden" size="5" default="1" label="Reset" description="Keep this set to 1. This is needed for the form to work properly." />
-			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="PARAMIMAGE" />
-			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
-				<option value="left">Left</option>
-				<option value="right">Right</option>
-			</param> 
-				<param name="show_comp_description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="comp_description" type="textarea" default="" label="Event Intro" rows="3" cols="50" description="EVENTS_INTRO_DESC" />	
-		</params>
+	</params>
     </state>
 </metadata>
