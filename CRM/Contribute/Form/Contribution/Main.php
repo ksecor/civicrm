@@ -331,18 +331,14 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->add( 'text', 'pcp_roll_nickname', ts('Nick Name'), array( 'size' => 20, 'maxlength' => 15 ) );
             $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
         }
-        // if payment is via a button only, dont display continue
-        if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
-             ! $this->_values['is_monetary']) {
-            // check if button type should be next or upload
-            $this->addButtons(array( 
-                                    array ( 'type'      => 'upload',
-                                            'name'      => ts('Continue >>'), 
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                            'isDefault' => true   ), 
-                                    ) 
-                              );
-        }
+        
+        $this->addButtons(array( 
+                                array ( 'type'      => 'upload',
+                                        'name'      => ts('Continue >>'), 
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                        'isDefault' => true   ), 
+                                ) 
+                          );
         
         $this->addFormRule( array( 'CRM_Contribute_Form_Contribution_Main', 'formRule' ), $this );
     }
@@ -501,6 +497,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                                      'table-row','radio',true);");
             
             $this->assign( 'hidePaymentInformation', true );
+        }
+        //hide the paypal exress button and show continue button
+        if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
+            $attributes = array('onclick' => "showHidePayPalExpressOption();" );
         }
         
         $element = $this->addElement( 'checkbox', 'is_pay_later', 
