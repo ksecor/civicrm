@@ -417,17 +417,23 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                     return CRM_Event_Import_Parser::ERROR;
                 }
             }
+            
             $newParticipant = civicrm_create_participant_formatted($formatted, $onDuplicate);
         }
         
         if ( is_array( $newParticipant ) && civicrm_error( $newParticipant ) ) {
-            if ($onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP){
-                array_unshift($values, $newParticipant['message']);
-                if ( $newParticipant['error_message']['params'][0] ) {
+            if ( $onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP ) {
+                
+                $contactID     = CRM_Utils_Array::value( 'contactID', $newParticipant['error_data'] );
+                $participantID = CRM_Utils_Array::value( 'participantID', $newParticipant['error_data'] );
+                $url           = CRM_Utils_System::url( 'civicrm/contact/view/participant',
+                                                        "reset=1&id={$participantID}&cid={$contactID}&action=view", true );
+                if ( $participantID = $newParticipant['error_message']['params'][0] ) {
+                    array_unshift( $values, $url ); 
                     return CRM_Event_Import_Parser::DUPLICATE;
                 }
                 return CRM_Event_Import_Parser::ERROR;
-            } 
+            }
         }
         
         if ( ! ( is_array( $newParticipant ) && civicrm_error( $newParticipant ) ) ) {

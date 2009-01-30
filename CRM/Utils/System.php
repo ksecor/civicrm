@@ -725,15 +725,15 @@ class CRM_Utils_System {
         return false;
     }
 
-    static function formatWikiURL( $string ) {
+    static function formatWikiURL( $string, $encode = false ) {
         $items = explode( ' ', trim( $string ), 2 );
         if ( count( $items ) == 2 ) {
             $title = $items[1];
         } else {
             $title = $items[0];
         }
-
-        $url = self::urlEncode( $items[0] );
+        
+        $url = $encode ? self::urlEncode( $items[0] ) : $items[0];
         return "<a href=\"$url\">$title</a>";
     }
 
@@ -882,16 +882,17 @@ class CRM_Utils_System {
     static function docURL2( $page, $URLonly = false, $text = null, $title = null, $style = null ) {
         // if ts function doesn't exist, it means that CiviCRM hasn't been fully initialised yet -
         // return just the URL, no matter what other parameters are defined
-        if( ! function_exists( ts ) ) {
+        if (!function_exists('ts')) {
             $docBaseURL = self::getDocBaseURL( );
             return $docBaseURL . str_replace( ' ', '+', $page );
         } else {
-            $params = array();
-            $params[ 'page' ] = $page;
-            $params[ 'URLonly' ] = $URLonly;
-            $params[ 'text' ] = $text;
-            $params[ 'title' ] = $title;        
-            $params[ 'style' ] = $style;
+            $params = array(
+                'page'    => $page,
+                'URLonly' => $URLonly,
+                'text'    => $text,
+                'title'   => $title,
+                'style'   => $style,
+            );
             return self::docURL( $params );
         }
     }
@@ -914,16 +915,16 @@ class CRM_Utils_System {
 
         $docBaseURL = self::getDocBaseURL( );
 
-        if ( ! isset( $params['title'] ) && $params['title'] === null ) {
+        if (!isset($params['title']) or $params['title'] === null) {
             $params['title'] = ts( 'Opens documentation in a new window.' );
         }
 
-        if ( ! isset( $params['text'] )  && $params['text'] === null ) {
+        if (!isset($params['text']) or $params['text'] === null) {
             $params['text'] = ts( '(learn more...)' );
         }
     
         if ( ! isset( $params['style'] ) || $params['style'] === null ) {
-            $params['style'] = '';
+            $style = '';
         } else {
             $style = "style=\"{$params['style']}\"";
         }

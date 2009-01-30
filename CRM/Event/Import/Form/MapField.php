@@ -382,6 +382,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
     static function formRule( &$fields, &$files, &$self )
     {
         $errors  = array( );
+        $fieldMessage = null;
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
@@ -502,7 +503,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         $this->set( 'mapper'    , $mapper     );
         
         // store mapping Id to display it in the preview page 
-        $this->set('loadMappingId', $params['mappingId']);
+        $this->set('loadMappingId', CRM_Utils_Array::value( 'mappingId', $params ) );
         
         //Updating Mapping Records
         if ( CRM_Utils_Array::value('updateMapping', $params)) {

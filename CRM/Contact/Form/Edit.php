@@ -220,7 +220,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
 
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
-                CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName ); 
+                
+                CRM_Utils_System::setTitle( $displayName, $contactImage . ' ' . $displayName ); 
 				
                 // need this for custom data in edit mode	
                 $this->assign('entityID', $this->_contactId );

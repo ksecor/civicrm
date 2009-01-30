@@ -171,12 +171,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
          
         $this->add( 'date', 'start_date',
                     ts('Start Date'),
-                    CRM_Core_SelectValues::date('datetime') );
+                    CRM_Core_SelectValues::date('activityDatetime') );
         $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
 
         $this->add('date', 'end_date',
                    ts('End Date / Time'),
-                   CRM_Core_SelectValues::date('datetime')
+                   CRM_Core_SelectValues::date('activityDatetime')
                    );
         $this->addRule('end_date', ts('Please select a valid end date.'), 'qfDate');
      

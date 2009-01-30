@@ -1,7 +1,6 @@
-; $Id: civimember_roles.info,v 1.1.6.1 2008/08/17 02:54:52 posco Exp $
 name = CiviMember Roles Sync
 description = "Synchronize CiviCRM Contacts with Membership Status to a specified Drupal Role both automatically and manually."
 dependencies[] = civicrm
 package = CiviCRM
 core = 6.x
-version = 2.1
+version = 2.2

@@ -40,7 +40,7 @@
 
     <table class="report">
     	<tr class="columnheader">
-    		<th>{ts}Role{/ts}</th>
+    		<th>{ts}Case Role{/ts}</th>
     		<th>{ts}Name{/ts}</th>
     		<th>{ts}Phone{/ts}</th>
     		<th>{ts}Email{/ts}</th>
@@ -194,15 +194,13 @@ cj(document).ready(function(){
 <div id="otherRel" class="section-shown">
  <fieldset>
   <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
-
-  <br />
   
   {if $clientRelationships}
     <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
 	
     <table class="report">
     	<tr class="columnheader">
-    		<th>{ts}Relationship{/ts}</th>
+    		<th>{ts}Client Relationship{/ts}</th>
     		<th>{ts}Name{/ts}</th>
     		<th>{ts}Phone{/ts}</th>
     		<th>{ts}Email{/ts}</th>
@@ -228,14 +226,14 @@ cj(document).ready(function(){
     </div>
   {/if}
 
-  <br /><br />
+  <br />
   
   {if $globalRelationships}
     <div><a href="{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}" title="{ts}Add members to {$globalGroupInfo.title}{/ts}">{ts}Add members to {$globalGroupInfo.title}{/ts}</a></div>
 	
     <table class="report">
     	<tr class="columnheader">
-    		<th>{ts}Name{/ts}</th>
+    		<th>{$globalGroupInfo.title}</th>
     		<th>{ts}Phone{/ts}</th>
     		<th>{ts}Email{/ts}</th>
     	</tr>

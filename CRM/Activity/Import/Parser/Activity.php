@@ -277,66 +277,21 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             }
         }
         //date-Format part ends
-
-        static $indieFields = null;
-        if ($indieFields == null) {
-            require_once('CRM/Activity/DAO/Activity.php');
-            $tempIndieFields =& CRM_Activity_DAO_Activity::import();
-            $indieFields = $tempIndieFields;
-        }
-
+        
         $formatError = _civicrm_activity_formatted_param( $params, $params, true );
 
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                    CRM_Core_DAO::$_nullObject,
                                                                    null,
                                                                    'Activity' );
-
+        
         if ( $this->_contactIdIndex < 0 ) {
-            static $cIndieFields = null;
-            if ($cIndieFields == null) {
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
-                $cIndieFields = $cTempIndieFields;
-            }
             
-            foreach ($params as $key => $field) {
-                if ($field == null || $field === '') {
-                    continue;
-                }
-                if (is_array($field)) {
-                    foreach ($field as $value) {
-                        $break = false;
-                        if ( is_array($value) ) {
-                            foreach ($value as $name => $testForEmpty) {
-                                if ($name !== 'phone_type' &&
-                                    ($testForEmpty === '' || $testForEmpty == null)) {
-                                    $break = true;
-                                    break;
-                                }
-                            }
-                        } else {
-                            $break = true;
-                        }
-                        if (! $break) {    
-                            _civicrm_add_formatted_param($value, $contactFormatted);
-                            
-                        }
-                    }
-                    continue;
-                }
-                
-                $value = array($key => $field);
-                if (array_key_exists($key, $cIndieFields)) {
-                    if ( substr($key ,0,6 ) != 'custom' ) {
-                        $value['contact_type'] = 'Individual';
-                    }
-                }
-                _civicrm_add_formatted_param($value, $contactFormatted);
-            }
-
-            $contactFormatted['contact_type'] = 'Individual';
-            $error = _civicrm_duplicate_formatted_contact($contactFormatted);
+            //retrieve contact id using contact dedupe rule.
+            //since we are support only individual's activity import.
+            $params['contact_type'] = 'Individual';
+            $error = civicrm_check_contact_dedupe( $params );
+            
             if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if (count( $matchedIDs) > 1) {

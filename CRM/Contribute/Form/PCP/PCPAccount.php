@@ -92,8 +92,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         $this->assign('displayRecent' , false );
 
         if( $this->_single ) {
-            $title = 'Update Contact Information';
-            CRM_Utils_System::setTitle(ts($title));
+            CRM_Utils_System::setTitle(ts('Update Contact Information'));
         }
     }
 

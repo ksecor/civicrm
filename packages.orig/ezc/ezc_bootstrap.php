@@ -27,17 +27,14 @@ else
     die( "Your environment isn't properly set-up. Please refer to the eZ components documentation at http://components.ez.no/doc ." );
 }
 
-// Joomla, libraries/loader.php, already defined __autoload
-if ( !function_exists("__autoload") ) {
 /**
  * Implements the __autoload mechanism for PHP - which can only be done once
  * per request.
  *
  * @param string $className  The name of the class that should be loaded.
  */
-    function __autoload( $className )
-    {
-        ezcBase::autoload( $className );
-    }
- }
+function __autoload( $className )
+{
+	ezcBase::autoload( $className );
+}
 ?>

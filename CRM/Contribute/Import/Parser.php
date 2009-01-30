@@ -637,7 +637,9 @@ abstract class CRM_Contribute_Import_Parser
     function getSelectTypes() {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
-            $values[$name] = $field->_hasLocationType;
+            if ( isset($field->_hasLocationType ) ) {
+                $values[$name] = $field->_hasLocationType;
+            }
         }
         return $values;
     }
@@ -645,7 +647,9 @@ abstract class CRM_Contribute_Import_Parser
     function getHeaderPatterns() {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
-            $values[$name] = $field->_headerPattern;
+            if ( isset($field->_headerPattern ) ) {
+                $values[$name] = $field->_headerPattern;
+            }
         }
         return $values;
     }
@@ -667,7 +671,8 @@ abstract class CRM_Contribute_Import_Parser
                 $this->_fields[$name] =& new CRM_Contribute_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
             } else {
                 require_once 'CRM/Import/Field.php';
-                $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern,$tempField[$name]['hasLocationType']);
+                $this->_fields[$name] =& new CRM_Import_Field( $name, $title, $type, $headerPattern, $dataPattern,
+                                                               CRM_Utils_Array::value( 'hasLocationType', $tempField[$name] ) );
             }
                 
         }

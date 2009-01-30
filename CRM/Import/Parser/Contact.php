@@ -610,9 +610,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $this->_retCode = CRM_Import_Parser::NO_MATCH;
                     }
                 } else {
-                    $message ="No contact found for this contact ID:".$params['id'] ;
-                    array_unshift($values, $message);
-                    $this->_retCode = CRM_Import_Parser::NO_MATCH;  
+                    // we should avoid multiple errors for single record
+                    // since we have already retCode and we trying to force again.
+                    if ( $this->_retCode != CRM_Import_Parser::NO_MATCH ) {
+                        $message ="No contact found for this contact ID:".$params['id'] ;
+                        array_unshift($values, $message);
+                        $this->_retCode = CRM_Import_Parser::NO_MATCH; 
+                    }
                 }
             }
             
@@ -842,7 +846,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 
                 foreach ($cids as $cid) {
                     $urls[] = CRM_Utils_System::url('civicrm/contact/view',
-                                                    'reset=1&cid=' . $cid, false);
+                                                    'reset=1&cid=' . $cid, true);
                 }
                 
                 $url_string = implode("\n", $urls);

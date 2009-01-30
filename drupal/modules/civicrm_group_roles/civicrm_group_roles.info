@@ -1,7 +1,6 @@
-; $Id: civiroles.info,v 1.1.4.2 2008/10/14 00:20:36 matt2000 Exp $
 name = CiviGroup Roles Sync
 description = Sync Drupal Roles to CiviCRM Groups.
 dependencies[] = civicrm
 package = CiviCRM
 core = 6.x
-version = 2.1
+version = 2.2

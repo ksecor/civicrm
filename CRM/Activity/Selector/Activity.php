@@ -130,8 +130,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                             ) ) {  // membership
             $url      = 'civicrm/contact/view/membership';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
-        } elseif ( $activityTypeId == $activityTypeIds['Pledge Acknowledgment'] || 
-                   $activityTypeId == $activityTypeIds['Pledge Reminder'] ) { //pledge acknowledgment
+        } elseif ( $activityTypeId == CRM_Utils_Array::value( 'Pledge Acknowledgment', $activityTypeIds ) || 
+                   $activityTypeId == CRM_Utils_Array::value( 'Pledge Reminder', $activityTypeIds ) ) { //pledge acknowledgment
             $url      = 'civicrm/contact/view/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         } elseif ( $activityTypeId == $activityTypeIds['Email'] ) {

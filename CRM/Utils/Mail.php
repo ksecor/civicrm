@@ -183,34 +183,27 @@ class CRM_Utils_Mail {
 ;
             if ( is_a( $result, 'PEAR_Error' ) ) {
                 if ( is_a( $mailer , 'Mail_smtp' ) ) {
-                    $message = 
-                    ts('A error occurred when CiviCRM attempted to send an email (via SMTP). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
-<p>
-This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:
-<ul>
-<li>Your SMTP Username or Password are incorrect.</li>
-<li>Your SMTP Server (machine) name is incorrect.</li>
-<li>You need to use an Port other than the default port 25 in your environment.</li>
-<li>Your SMTP server is just not responding right now (it is down for some reason).
-</ul>
-<p>
-Check <a href="%1">this page for more information.</a>
-<p>
- The mail library returned the following error message: <b>', array( 1 => CRM_Utils_System::docURL2( 'Outbound Email (SMTP)', true ) ) );
+                    $message =
+                        '<p>' . ts('A error occurred when CiviCRM attempted to send an email (via %1). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.', array(1 => 'SMTP')) . '</p>' .
+                        '<p>'  . ts('This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:') . '</p>' .
+                        '<ul>' .
+                            '<li>' . ts('Your SMTP Username or Password are incorrect.')                                   . '</li>' .
+                            '<li>' . ts('Your SMTP Server (machine) name is incorrect.')                                   . '</li>' .
+                            '<li>' . ts('You need to use an Port other than the default port 25 in your environment.')     . '</li>' .
+                            '<li>' . ts('Your SMTP server is just not responding right now (it is down for some reason).') . '</li>' .
+                        '</ul>' .
+                        '<p>' . ts('Check <a href="%1">this page</a> for more information.', array(1 => CRM_Utils_System::docURL2('Outbound Email (SMTP)', true))) . '</p>' .
+                        '<p>' . ts('The mail library returned the following error message:') . ' <b>' . $result->getMessage() . '</b></p>';
                 } else {
-                    $message = 
-                        ts('A error occurred when CiviCRM attempted to send an email (via SendMail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
-<p>
-This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:
-<ul>
-<li>Your SendMail path is incorrect.</li>
-<li>Your SendMail argument is incorrect.</li>
-</ul>
- The mail library returned the following error message: <b>');
+                    $message =
+                        '<p>' . ts('A error occurred when CiviCRM attempted to send an email (via %1). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.', array(1 => 'Sendmail')) . '</p>' .
+                        '<p>' . ts('This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:') . '</p>' .
+                        '<ul>' .
+                            '<li>' . ts('Your Sendmail path is incorrect.')     . '</li>' .
+                            '<li>' . ts('Your Sendmail argument is incorrect.') . '</li>' .
+                        '</ul>' .
+                        '<p>' . ts('The mail library returned the following error message:') . ' <b>' . $result->getMessage() . '</b></p>';
                 }
-                
-                $message .= $result->getMessage( );
-                $message .= '</b><p>';
                 CRM_Core_Session::setStatus( $message );
                 return false;
             }

@@ -208,10 +208,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                      is_array( $this->_paymentProcessor ) ) {
                     $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
                                                      'table-row','radio',true);");
-                    
+                                     
                     $this->assign( 'hidePaymentInformation', true );
                 }
-                
+                if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
+                    $attributes = array('onclick' => "showHidePayPalExpressOption();" );
+                }
                 $element = $this->addElement( 'checkbox', 'is_pay_later', 
                                               $this->_values['event']['pay_later_text'], null, $attributes );
                 //if payment processor is not available then freeze
@@ -244,17 +246,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
         
-        // if payment is via a button only, dont display continue
-        if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
-             ! $this->_values['event']['is_monetary']) {
-            $this->addButtons(array( 
-                                    array ( 'type'      => 'upload', 
-                                            'name'      => ts('Continue >>'), 
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                            'isDefault' => true   ), 
-                                     ) 
-                              );
-        }
+        $this->addButtons(array( 
+                                array ( 'type'      => 'upload', 
+                                        'name'      => ts('Continue >>'), 
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                        'isDefault' => true   ), 
+                                ) 
+                          );
+        
         $this->addFormRule( array( 'CRM_Event_Form_Registration_Register', 'formRule' ),
                             $this );
         

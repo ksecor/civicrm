@@ -171,7 +171,7 @@ function clearAmountOther() {
 {if $isCaptcha} 
 {include file='CRM/common/ReCAPTCHA.tpl'} 
 {/if} 
-
+<div id="paypalExpress">
 {if $is_monetary} 
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *} 
 {if $paymentProcessor.payment_processor_type EQ 'PayPal_Express'} 
@@ -188,7 +188,7 @@ function clearAmountOther() {
 </fieldset>
 {/if} 
 {/if}
-
+</div>
 <div id="crm-submit-buttons">{$form.buttons.html}</div>
 {if $footer_text}
 <div id="footer_text">
@@ -251,6 +251,19 @@ function pcpAnonymousName( ) {
     } else {
 	document.getElementById('pcp_roll_nickname').value    = '';
 	document.getElementById('pcp_roll_nickname').disabled = false;
+    }
+}
+{/literal}{if $form.is_pay_later and $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}{literal} 
+    showHidePayPalExpressOption();
+{/literal} {/if}{literal}
+function showHidePayPalExpressOption()
+{
+    if (document.getElementsByName("is_pay_later")[0].checked) {
+	show("crm-submit-buttons");
+	hide("paypalExpress");
+    } else {
+	show("paypalExpress");
+	hide("crm-submit-buttons");
     }
 }
 </script>

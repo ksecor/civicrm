@@ -48,6 +48,9 @@ class CRM_Utils_System_Drupal {
      * @access public
      */
     function setTitle( $title, $pageTitle = null ) {
+        if ( $pageTitle ) {
+            $title = $pageTitle;
+        }
         drupal_set_title( $title );
     }
 

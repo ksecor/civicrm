@@ -263,7 +263,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( empty( $params['id'] ) ) {
             unset( $params['id'] );
         }
-
+        if( ! empty( $params['target_contact_id'] ) ) {
+            $params['target_contact_id']   =  array_unique( $params['target_contact_id'] );
+        }
+        if( ! empty( $params['assignee_contact_id'] ) ) {
+            $params['assignee_contact_id'] = array_unique( $params['assignee_contact_id'] );
+        }
         $activity->copyValues( $params );
 
         // start transaction        
@@ -963,7 +968,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                   WHERE  target_contact_id = $contactId";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $activities[$dao->activity_id]['targets'][] = $contactId;
+            $activities[$dao->activity_id]['targets'][$contactId] = $contactId;
         }
         
         // Then get activities where contactId is an asignee
@@ -971,7 +976,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                   WHERE  assignee_contact_id = $contactId";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $activities[$dao->activity_id]['asignees'][] = $contactId;
+            $activities[$dao->activity_id]['asignees'][$contactId] = $contactId;
         }
         
         // Then get activities that contactId created
@@ -1006,10 +1011,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while ( $dao->fetch( ) ) {
             $activities[$dao->activity_id]['source_contact_id'] = $dao->source_contact_id;
             if ( $dao->target_contact_id ) {
-                $activities[$dao->activity_id]['targets'][]     = $dao->target_contact_id;
+                $activities[$dao->activity_id]['targets'][$dao->target_contact_id]    = $dao->target_contact_id;
             }
             if ( isset( $dao->assignee_contact_id ) ) {
-                $activities[$dao->activity_id]['asignees'][]    = $dao->assignee_contact_id;
+                $activities[$dao->activity_id]['asignees'][$dao->assignee_contact_id] = $dao->assignee_contact_id;
             }
             $activities[$dao->activity_id]['activity_type_id']  = $dao->activity_type_id;
             $activities[$dao->activity_id]['subject']           = $dao->subject;

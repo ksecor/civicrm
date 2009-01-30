@@ -679,7 +679,7 @@ class CiviUnitTestCase extends DrupalTestCase {
 
             $params = array(
                             'source_contact_id'   => $individualSourceID,
-                            'target_contact_id'   => $individualTargetID,
+                            'target_contact_id'   => array( $individualTargetID ),
                             'subject'             => 'Discussion on Apis for v2',
                             'activity_date_time'  => date('Ymd'),
                             'duration_hours'      => 30,
