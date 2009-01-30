@@ -725,15 +725,15 @@ class CRM_Utils_System {
         return false;
     }
 
-    static function formatWikiURL( $string ) {
+    static function formatWikiURL( $string, $encode = false ) {
         $items = explode( ' ', trim( $string ), 2 );
         if ( count( $items ) == 2 ) {
             $title = $items[1];
         } else {
             $title = $items[0];
         }
-
-        $url = self::urlEncode( $items[0] );
+        
+        $url = $encode ? self::urlEncode( $items[0] ) : $items[0];
         return "<a href=\"$url\">$title</a>";
     }
 
