@@ -132,7 +132,7 @@ class CRM_Core_Permission {
     }
 
     static function customGroupClause( $type = CRM_Core_Permission::VIEW, $prefix = null, $reset = false ) {
-        $groups = self::customGroup( $type, $reset = false );
+        $groups = self::customGroup( $type, $reset );
         if ( empty( $groups ) ) {
             return ' ( 0 ) ';
         } else {
