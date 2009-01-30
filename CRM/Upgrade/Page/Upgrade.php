@@ -50,7 +50,7 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         // hack to make past ver compatible /w new incremental upgrade process
         $convertVer = array( '2.1'      => '2.1.0',
                              '2.2'      => '2.2.alpha1',
-                             '2.2.alph' => '2.2.alpha2',
+                             '2.2.alph' => '2.2.alpha3',
                              );
         if ( isset($convertVer[$currentVer]) ) {
             $currentVer = $convertVer[$currentVer];
