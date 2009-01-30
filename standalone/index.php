@@ -11,6 +11,7 @@ function invoke() {
     $urlVar = $config->userFrameworkURLVar;
     if ( !isset( $_GET[$urlVar] ) ) {
         $_GET[$urlVar] = '';
+        print '<link rel="Shortcut Icon" type="image/x-icon" href="../i/widget/favicon.png" />';
     }
     
     require_once 'CRM/Core/Invoke.php';
@@ -39,6 +40,7 @@ function invoke() {
     } else {
         if ($_GET[$urlVar] == "") {
             print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
+            print '<link rel="Shortcut Icon" type="image/x-icon" href="../i/widget/favicon.png" />';
         } else {
             print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
         }
