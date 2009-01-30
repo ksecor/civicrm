@@ -107,10 +107,6 @@ function civicrm_custom_group_create( $params )
     require_once 'CRM/Core/BAO/CustomGroup.php';
     $customGroup = CRM_Core_BAO_CustomGroup::create($params);                             
 
-    // reset the cache
-    require_once 'CRM/Core/BAO/Cache.php';
-    CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
-    
     _civicrm_object_to_array( $customGroup, $values );
     
     if ( is_a( $customGroup, 'CRM_Core_Error' ) ) { 
@@ -212,10 +208,6 @@ function civicrm_custom_field_create( $params )
         
     $values['customFieldId'] = $customField->id;
 
-    // reset the cache
-    require_once 'CRM/Core/BAO/Cache.php';
-    CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
-    
     if ( is_a( $customField, 'CRM_Core_Error' ) && is_a( $column, 'CRM_Core_Error' )  ) {
         return civicrm_create_error( $customField->_errors[0]['message'] );
     } else {

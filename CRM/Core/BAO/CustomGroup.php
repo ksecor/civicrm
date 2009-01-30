@@ -149,6 +149,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             CRM_Core_BAO_SchemaHandler::changeUniqueToIndex( $oldTableName );
         }
         $transaction->commit( );
+
+        // reset the cache
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
+    
         return $group;
     }
     
