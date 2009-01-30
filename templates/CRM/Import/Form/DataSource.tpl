@@ -75,7 +75,7 @@
         var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q=$urlPathVar}"{literal};
 
         if (!dataSource ) {
-          var dataSource = document.getElementById('dataSource').value;
+          var dataSource = cj("#dataSource").val();
         }
 
         if ( dataSource ) {
@@ -86,7 +86,6 @@
         }
 
         cj("#data-source-form-block").load( dataUrl );
-
       }
       
     </script>
