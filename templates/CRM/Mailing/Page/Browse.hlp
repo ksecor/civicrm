@@ -1,0 +1,7 @@
+{htxt id="id-mailing_name"}
+{ts}Find mailings by mailing name. You can enter a partial or complete name.{/ts}
+{/htxt}
+
+{htxt id="id-create_sort_name"}
+{ts}Find mailings by the name of the person who created or sent them. You can enter a complete OR partial name (last name, first name format).{/ts}
+{/htxt}
