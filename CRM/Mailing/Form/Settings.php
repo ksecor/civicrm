@@ -124,6 +124,7 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
                                          'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Next >>'),
+                                         'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),

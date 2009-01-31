@@ -235,6 +235,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                          'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'upload',
                                          'name'      => ts('Next >>'),
+                                         'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),

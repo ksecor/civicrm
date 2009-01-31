@@ -201,7 +201,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
             $this->assign('rows', $scheduled);
             CRM_Utils_System::setTitle(ts('Scheduled and Sent Mailings'));
         }
-        
+
         $session =& CRM_Core_Session::singleton( );
         $url = CRM_Utils_System::url( $urlString, $urlParams );
         $session->pushUserContext( $url );

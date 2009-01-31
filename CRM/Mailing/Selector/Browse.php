@@ -260,6 +260,12 @@ AND       $whereClause";
         
         $params = array( );
         $whereClause = ' AND ' . $this->whereClause( $params );
+
+        if ( empty( $params ) ) {
+            $this->_parent->assign('isSearch', 0);
+        } else {
+            $this->_parent->assign('isSearch', 1);
+        }
         $rows =& $mailing->getRows($offset, $rowCount, $sort, $whereClause, $params );
         
         //get the search base mailing Ids, CRM-3711.

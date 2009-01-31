@@ -70,13 +70,11 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
                                  array(  'type'  => 'back',
                                          'name'  => ts('<< Previous')),
                                  array(  'type'  => 'next',
-                                         'name'  => ts('Done'),
+                                         'name'  => ts('Submit Mailing'),
+                                         'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
                                          'isDefault' => true),
                                  array(  'type'  => 'cancel',
-                                         'name'  => ts('Cancel')),
-                                 array ( 'type'  => 'submit',
-                                         'name'  => ts('Save & Continue Later')
-                                         ),
+                                         'name'  => ts('Continue Later')),
                                  )
                            );
     }
