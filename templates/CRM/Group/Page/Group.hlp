@@ -4,3 +4,22 @@
     <p>{ts}Groups which are using as mailing lists should be assigned the 'Mailing List' type. Groups of contacts which are used for <strong>access control</strong> must be assigned that type.{/ts} {docURL page="Assign Users to Roles"}</p>
     <p>{ts}Use <strong>Find Groups</strong> to search by group name, type and visibility. Group type filtering uses <strong>AND</strong> logic. If you check both 'Mailing List' and 'Access Control' types - only groups which have both types assigned will be returned. You can also click a letter on the <strong>A-to-Z bar</strong> to quickly find all groups starting with that letter.{/ts}</p> 
 {/htxt}
+
+{htxt id="id-group-type"}
+{capture assign=docLinkAccess}{docURL page="Access Control"}{/capture}
+{capture assign=docLinkMail}{docURL page="CiviMail" text="CiviMail component"}{/capture}
+
+<p>{ts 1=$docLinkAccess 2=$docLinkMail}Check 'Access Control' if you want to use this group to assign access permissions to a set of contacts. %1 Check 'Mailing List' if you are using this group as a mailing list in the %2.{/ts}</p>
+{/htxt} 
+
+{htxt id="id-group-visibility"}
+<p>{ts}Select 'User and User Admin Only' if membership in this group is controlled by authorized CiviCRM users only. If you want to allow contacts to join and remove themselves from this
+    group via the Registration and Account Profile forms, select 'Public User Pages'.{/ts}</p>
+{/htxt} 
+
+{htxt id="id-group-parent"}
+<p>{ts}Some organizations find it useful to create a hierarchy of groups. In CiviCRM, this is done by creating one or more "Parent" groups and then assigning other groups to them. When a user sends a
+mailing to a "Parent", or searches for contacts in a "Parent" - all contacts in the associated child groups are automatically included,{/ts}</p>
+<p>{ts}EXAMPLE: An organization that has a National office and 5 regional offices puts constituents in each region into their own group. Then they create a "National" group which is assigned as
+the "Parent" for all regional groups. The National office can now send mailings (for example) to the "National" group - knowing that all members of the regional groups will be included.{/ts}</p>
+{/htxt}
