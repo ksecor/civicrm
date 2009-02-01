@@ -142,7 +142,7 @@ ORDER by v.weight";
         
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements,'value' );
-        exi();
+        exit();
     }
 
     /**
