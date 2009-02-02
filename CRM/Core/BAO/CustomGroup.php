@@ -1597,4 +1597,38 @@ SELECT $select
         $retValue = isset($retValue) ? $retValue : null ;
         return $retValue;
     }
+    
+    /**
+     * Get the custom group titles by custom field ids.
+     *
+     * @param  array $fieldIds    - array of custom field ids.
+     * @return array $groupLabels - array consisting of groups and fields labels with ids.
+     * @access public
+     */
+    function getGroupTitles( $fieldIds ) 
+    {
+        if ( !is_array( $fieldIds ) && empty( $fieldIds )  ) {
+            return;
+        }
+        
+        $groupLabels = array( );
+        $fIds = "(" . implode( ',', $fieldIds ) . ")";
+        
+        $query = "
+SELECT  civicrm_custom_group.id as groupID, civicrm_custom_group.title as groupTitle,
+        civicrm_custom_field.label as fieldLabel, civicrm_custom_field.id as fieldID
+  FROM  civicrm_custom_group, civicrm_custom_field
+ WHERE  civicrm_custom_group.id = civicrm_custom_field.custom_group_id
+   AND  civicrm_custom_field.id IN {$fIds}";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while( $dao->fetch( ) ) {
+            $groupLabels[$dao->fieldID] = array( 'fieldID'    => $dao->fieldID,
+                                                 'fieldLabel' => $dao->fieldLabel,
+                                                 'groupID'    => $dao->groupID,
+                                                 'groupTitle' => $dao->groupTitle );
+        }
+        
+        return $groupLabels;
+    }
 }

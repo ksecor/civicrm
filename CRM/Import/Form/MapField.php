@@ -752,18 +752,21 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         foreach ( $fields as $key => $value ) {
             require_once 'CRM/Core/BAO/CustomField.php';
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                
-                $query = "
-SELECT  civicrm_custom_group.title
-  FROM  civicrm_custom_group, civicrm_custom_field
- WHERE  civicrm_custom_group.id = civicrm_custom_field.custom_group_id
-   AND  civicrm_custom_field.id = {$customFieldId}";
-                
-                $customGroupName = CRM_Core_DAO::singleValueQuery( $query );
-                if ( strlen( $customGroupName ) > 13 ) {
-                    $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                $fieldIds[] = $customFieldId;
+            }
+        }
+        
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupTitles = CRM_Core_BAO_CustomGroup::getGroupTitles( $fieldIds );
+        
+        if ( !empty( $groupTitles ) ) {
+            foreach ( $groupTitles as $fId => $values ) {
+                $key = "custom_{$fId}";
+                $groupTitle = $values['groupTitle'];
+                if ( strlen( $groupTitle ) > 13 ) {
+                    $groupTitle = substr( $groupTitle, 0, 10 ) . '...';
                 }
-                $fields[$key] = $customGroupName . ': ' . $fields[$key];
+                $fields[$key] = $groupTitle . ': ' . $fields[$key];
             }
         }
     }
