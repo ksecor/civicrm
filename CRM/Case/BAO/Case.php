@@ -883,7 +883,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
     static function getRelatedContacts( $caseID )
     {
         $values = array( );
-        $query = 'SELECT cc.display_name as name, cc.id, crt.name_b_a as role, ce.email 
+        $query = 'SELECT cc.display_name as name, cc.sort_name as sort_name, cc.id, crt.name_b_a as role, ce.email 
 FROM civicrm_relationship cr 
 LEFT JOIN civicrm_relationship_type crt ON crt.id = cr.relationship_type_id 
 LEFT JOIN civicrm_contact cc ON cc.id = cr.contact_id_b 
@@ -896,6 +896,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         while ( $dao->fetch( ) ) {
             $values[$dao->id]['id']          = $dao->id;
             $values[$dao->id]['name']        = $dao->name;
+            $values[$dao->id]['sort_name']   = $dao->sort_name;
             $values[$dao->id]['role']        = $dao->role;
             $values[$dao->id]['email']       = $dao->email;
         }
@@ -1218,7 +1219,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 		foreach($values2 as $k => $v)
 		{
 			$values[$k]['id'] = $k;
-			$values[$k]['name'] = $v['sort_name'];
+			$values[$k]['sort_name'] = $v['sort_name'];
 			$values[$k]['email'] = $v['email'];
 			// if they are both a role and a global contact, then don't overwrite the role name
 			if (empty($values[$k]['role'])) {
