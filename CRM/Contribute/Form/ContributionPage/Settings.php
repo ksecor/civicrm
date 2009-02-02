@@ -142,7 +142,9 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
                                            : 0;
         $params['start_date']            = CRM_Utils_Date::format( $params['start_date'] );
         $params['end_date'  ]            = CRM_Utils_Date::format( $params['end_date'] );
-        
+
+        $params['goal_amount'] = CRM_Utils_Rule::cleanMoney( $params['goal_amount'] );
+
         if( !$params['honor_block_is_active'] ) {
             $params['honor_block_title'] = null;
             $params['honor_block_text'] = null;

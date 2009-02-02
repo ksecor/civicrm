@@ -245,12 +245,6 @@ class CRM_Contribute_Form_AdditionalInfo
             $formatted[$f] = CRM_Utils_Array::value( $f, $params );
         }
         
-        foreach ( array( 'non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' ) as $f ) {
-            if ( CRM_Utils_Array::value( $f, $params ) ) {
-                $formatted[$f] = CRM_Utils_Rule::cleanMoney( $params[$f] );
-            }
-        }
-        
         if ( CRM_Utils_Array::value('thankyou_date', $params ) && ! CRM_Utils_System::isNull( $params['thankyou_date'] ) ) {
             $formatted['thankyou_date']['H'] = '00';
             $formatted['thankyou_date']['i'] = '00';

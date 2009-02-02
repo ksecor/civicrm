@@ -94,6 +94,19 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         }
         if ( $this->_id){
             CRM_Grant_BAO_Grant::retrieve( $params, $defaults);
+
+            // fix the display of the monetary value, CRM-4038 
+            require_once 'CRM/Utils/Money.php';
+            if (isset($defaults['amount_total'])) {
+                $defaults['amount_total'] = CRM_Utils_Money::format($defaults['amount_total'], null, '%a');
+            }
+            if (isset($defaults['amount_requested'])) {
+                $defaults['amount_requested'] = CRM_Utils_Money::format($defaults['amount_requested'], null, '%a');
+            }
+            if (isset($defaults['amount_granted'])) {
+                $defaults['amount_granted'] = CRM_Utils_Money::format($defaults['amount_granted'], null, '%a');
+            }
+            
         } else {
             $now = date("Y-m-d");
             $defaults['application_received_date'] = $now;

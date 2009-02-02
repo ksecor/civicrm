@@ -210,6 +210,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 $this->assign( 'start_date', $start_date );
                 $this->assign( 'create_date', $create_date );
             }
+            // fix the display of the monetary value, CRM-4038
+            if (isset( $this->_values['amount'])) {
+                require_once 'CRM/Utils/Money.php';
+                $defaults['amount'] = CRM_Utils_Money::format($this->_values['amount'], null, '%a');
+            }
+            
         } else {
             //default values.
             $now = date("Y-m-d");
