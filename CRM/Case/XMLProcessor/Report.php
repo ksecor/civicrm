@@ -208,9 +208,10 @@ AND    ac.case_id = %1
             $activityInfos[$index] = array( );
 
             $query = "
-SELECT     a.*, aa.assignee_contact_id as assigneeID, ca.case_id as caseID
+SELECT     a.*, aa.assignee_contact_id as assigneeID, at.target_contact_id as targetID, ca.case_id as caseID
 FROM       civicrm_activity a
 INNER JOIN civicrm_case_activity ca ON a.id = ca.activity_id
+LEFT JOIN civicrm_activity_target at ON a.id = at.activity_id
 LEFT JOIN civicrm_activity_assignment aa ON a.id = aa.activity_id
 WHERE      a.id = %1 
 ";
@@ -258,7 +259,7 @@ WHERE      a.id = %1
         $activity['fields'][] = array( 'label'    => 'Activity Type',
                                        'value'    => $activityTypeInfo['label'],
                                        'type'     => 'String' );
-        
+
         $activity['fields'][] = array( 'label' => 'Subject',
                                        'value' => $activityDAO->subject,
                                        'type'  => 'Memo' );
@@ -273,16 +274,26 @@ WHERE      a.id = %1
                                                                                            'display_name' )
                                                                ),
                                       'type'  => 'String' );
-        
-        if ( $activityDAO->assigneeID ) {
-            $activity['fields'][] = array( 'label' => 'Assigned To',
+
+        // For Emails, include the recipient
+        if ( $activityTypeInfo['name'] == 'Email' ) {
+            $activity['fields'][] = array( 'label' => 'Recipient',
                                            'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                             $activityDAO->assigneeID,
+                                                                                             $activityDAO->targetID,
                                                                                              'display_name' )
                                                                ),
                                            'type'  => 'String' );
         }
         
+        if ( $activityDAO->assigneeID ) {
+            $activity['fields'][] = array( 'label' => 'Assigned To',
+                                          'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                               $activityDAO->assigneeID,
+                                                                                               'display_name' )
+                                                                   ),
+                                          'type'  => 'String' );
+        }
+
         $activity['fields'][] = array( 'label' => 'Medium',
                                       'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
                                                                                 $activityDAO->medium_id ),
