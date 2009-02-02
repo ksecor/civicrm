@@ -2,8 +2,15 @@
 {if $action eq 2}
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
-<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 600px; overflow-y: auto;" >
-<div id="summary" dojoType="dojox.layout.ContentPane" title="{ts}Summary{/ts}" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
+<div id="mainTabContainer" >
+    <ul>
+        <li><a href="#summary" title="{ts}Summary{/ts}" >{ts}Summary{/ts}</a></li>
+        {foreach from=$allTabs key=tabName item=tabValue}
+            <li><a href="{$tabValue.url}" title="{$tabValue.title}">{$tabValue.title}</a></li>
+        {/foreach}
+    </ul>
+    
+<div id="summary" title="{ts}Summary{/ts}" >
 {* View Contact Summary *}
 <div id="contact-name" class="section-hidden section-hidden-border">
    <div>
@@ -195,17 +202,18 @@
 
  {include file="CRM/Custom/Page/CustomDataView.tpl"}
 </div>
-
-{foreach from=$allTabs key=tabName item=tabValue}
-  <div id="{$tabValue.id}" dojoType="dojox.layout.ContentPane" href="{$tabValue.url}" title="{$tabValue.title}" 
-class ="tundra" {if $tabValue.id eq $selectedChild} selected="true"{/if} style="overflow: auto; width: 100%; height:100%;"></div>
-{/foreach}
 </div>
 
 
- <script type="text/javascript">
-   {if !$contactTag}cj("#tagLink").hide( );{/if}    
+ <script type="text/javascript"> 
+   {if !$contactTag}cj("#tagLink").hide( );{/if}
+   var selectedTab = 0;
+   {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
 {literal}
+    cj( function() {
+        cj("#mainTabContainer").tabs( {selected: selectedTab} );        
+    });
+
    init_blocks = function( ) {
 {/literal}
       var showBlocks = new Array({$showBlocks});

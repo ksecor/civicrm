@@ -306,8 +306,6 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         require_once 'CRM/Utils/Sort.php';
         usort( $allTabs, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
 
-        $this->assign( 'dojoIncludes', "dojo.require('dijit.layout.TabContainer');dojo.require('dojox.layout.ContentPane');dojo.require('dijit.layout.LinkPane'); dojo.require('dojo.parser');");
-
         $this->assign( 'allTabs'     , $allTabs     );
      
         $selectedChild = CRM_Utils_Request::retrieve( 'selectedChild', 'String', $this, false, 'summary' );
