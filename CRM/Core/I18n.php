@@ -282,13 +282,12 @@ class CRM_Core_I18n
     {
         static $singleton = array();
 
-        $config =& CRM_Core_Config::singleton();
-        if (!isset($singleton[$config->lcMessages])) {
-            $lcMessages = $config->lcMessages;
-            $singleton[$config->lcMessages] =& new CRM_Core_I18n($config->lcMessages);
+        global $tsLocale;
+        if (!isset($singleton[$tsLocale])) {
+            $singleton[$tsLocale] =& new CRM_Core_I18n($tsLocale);
         }
 
-        return $singleton[$config->lcMessages];
+        return $singleton[$tsLocale];
     }
 
     /**
@@ -300,14 +299,14 @@ class CRM_Core_I18n
     {
         static $locales = array();
 
-        $config =& CRM_Core_Config::singleton();
-        if (!isset($locales[$config->lcMessages])) {
+        global $tsLocale;
+        if (!isset($locales[$tsLocale])) {
             // with the config being set to pl_PL: try pl_PL.UTF-8,
             // then pl_PL, if neither present fall back to C
-            $locales[$config->lcMessages] = setlocale(LC_TIME, $config->lcMessages . '.UTF-8', $config->lcMessages, 'C');
+            $locales[$tsLocale] = setlocale(LC_TIME, $tsLocale . '.UTF-8', $tsLocale, 'C');
         }
 
-        return $locales[$config->lcMessages];
+        return $locales[$tsLocale];
     }
 
 }
@@ -333,9 +332,10 @@ function ts($text, $params = array())
         $config =& CRM_Core_Config::singleton();
     }
 
-    if (!$i18n or $locale != $config->lcMessages) {
+    global $tsLocale;
+    if (!$i18n or $locale != $tsLocale) {
         $i18n =& CRM_Core_I18n::singleton();
-        $locale = $config->lcMessages;
+        $locale = $tsLocale;
         if (isset($config->customTranslateFunction) and function_exists($config->customTranslateFunction)) {
             $function = $config->customTranslateFunction;
         }
