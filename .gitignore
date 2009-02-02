@@ -1,6 +1,7 @@
 *.swp
 CRM/ACL/DAO
 CRM/Activity/DAO
+CRM/Auction/DAO
 CRM/Case/DAO
 CRM/Contact/DAO/Contact.php
 CRM/Contact/DAO/Group.php
