@@ -157,13 +157,13 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     /**
      * Singleton function used to manage this object.
      *
-     * @param string the key in which to record session / log information
+     * @param $loadFromDB boolean  whether to load from the database
+     * @param $force      boolean  whether to force a reconstruction
      *
      * @return object
      * @static
-     *
      */
-    static public function &singleton($key = 'crm', $loadFromDB = true, $force = false ) 
+    static function &singleton($loadFromDB = true, $force = false)
     {
         if ( self::$_singleton === null || $force ) {
 
@@ -174,7 +174,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
 
             // if not in cache, fire off config construction
             if ( ! self::$_singleton ) {
-                self::$_singleton =& new CRM_Core_Config($key);
+                self::$_singleton = new CRM_Core_Config;
                 self::$_singleton->_initialize( );
                 
                 //initialize variables. for gencode we cannot load from the

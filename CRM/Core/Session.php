@@ -78,11 +78,10 @@ class CRM_Core_Session {
      * This constructor is invoked whenever any module requests an instance of
      * the session and one is not available.
      *
-     * @param  string   Index for session variables
      * @return void
      */
-    function __construct( $key = 'CiviCRM' ) { 
-        $this->_key     = $key;
+    function __construct()
+    {
         $this->_session =& $_SESSION;
 
         $this->create();
@@ -91,15 +90,13 @@ class CRM_Core_Session {
     /**
      * singleton function used to manage this object
      *
-     * @param string the key to permit session scope's
-     *
      * @return object
      * @static
-     *
      */
-    static function &singleton($key = 'CiviCRM') {
+    static function &singleton()
+    {
         if (self::$_singleton === null ) {
-            self::$_singleton =& new CRM_Core_Session($key);
+            self::$_singleton = new CRM_Core_Session;
         }
         return self::$_singleton;
     }

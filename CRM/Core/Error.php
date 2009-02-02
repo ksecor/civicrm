@@ -74,15 +74,12 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * singleton function used to manage this object. This function is not
      * explicity declared static to be compatible with PEAR_ErrorStack
      *  
-     * @param string the key in which to record session / log information
-     *
      * @return object
-     * @static
-     *
      */
-    function &singleton( $key = 'CRM' ) {
+    function &singleton()
+    {
         if (self::$_singleton === null ) {
-            self::$_singleton =& new CRM_Core_Error( $key );
+            self::$_singleton = new CRM_Core_Error('CiviCRM');
         }
         return self::$_singleton;
     }
@@ -90,8 +87,9 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     /**
      * construcor
      */
-    function __construct( $name = 'CRM' ) {
-        parent::__construct( $name );
+    function __construct()
+    {
+        parent::__construct('CiviCRM');
 
         $log =& CRM_Core_Config::getLog();
         $this->setLogger( $log );

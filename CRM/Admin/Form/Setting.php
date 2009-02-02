@@ -115,7 +115,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
     public function rebuildMenu( ) {
         // ensure config is set with new values
-        $config =& CRM_Core_Config::singleton( null, true, true );
+        $config =& CRM_Core_Config::singleton(true, true);
 
         // rebuild menu items
         require_once 'CRM/Core/Menu.php';
