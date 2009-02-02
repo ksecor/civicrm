@@ -69,7 +69,8 @@ class Browser_Contribute_PCP extends CiviTestCase
 								1 => 'administer CiviCRM',
 								2 => 'access CiviContribute',
 								3 => 'make online contributions',
-								4 => 'profile listings and forms'
+								4 => 'profile listings and forms',
+								5 => 'access Contact Dashboard' 
 								) );
         $this->drupalLoginUser($this->webUser);
         $this->_paymentProcessorId = PaypalPro::create();
@@ -185,8 +186,7 @@ class Browser_Contribute_PCP extends CiviTestCase
 			'donate_link_text' => 'Help Panda !!!',
 			'page_text'        => '',
 			'is_honor_roll'    => 1,
-			'is_active'        => 1,
-			'attachFile_1'     => $attach
+			'is_active'        => 1
 			);
         $this->drupalPost( NULL, $params, '_qf_Campaign_upload' );
         $this->assertText('Your Personal Campaign Page has been created but requires administrator review before you can begin your fundraising efforts. You will receive an email confirmation shortly which includes a link to return to this page. You will receive a second email as soon as the review process is complete.');
