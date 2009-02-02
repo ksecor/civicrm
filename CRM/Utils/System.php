@@ -732,7 +732,8 @@ class CRM_Utils_System {
         } else {
             $title = $items[0];
         }
-        
+
+        // fix for CRM-4044
         $url = $encode ? self::urlEncode( $items[0] ) : $items[0];
         return "<a href=\"$url\">$title</a>";
     }
