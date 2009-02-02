@@ -1,0 +1,231 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+    
+require_once 'CiviTestCase.php';
+require_once 'ContributionPage.php';
+require_once 'PaypalPro.php';
+require_once 'PCP.php';
+
+class Browser_Contribute_PCP extends CiviTestCase
+{
+    var $webUser;
+    protected $_contributionPageId;
+    protected $_paymentProcessorId;
+    protected $_pcp;
+    protected $_domain;
+    
+    //the email should not be in the database.
+    protected $_userEmail = 'sunil.pawar@webaccess.co.in';
+
+    function get_info()
+    {
+        return array(
+                     'name' => 'Personal Campaign Page',
+                     'description' => 'Make online Contribution for Campaign',
+                     'group' => 'CiviCRM Browser Tests',
+        );
+    }
+
+    function setUp()
+    {
+        parent::setUp();
+        $this->drupalModuleEnable('civicrm');
+
+        $this->webUser = $this->drupalCreateUserRolePerm(
+							 array (
+								0 => 'access CiviCRM',
+								1 => 'administer CiviCRM',
+								2 => 'access CiviContribute',
+								3 => 'make online contributions',
+								4 => 'profile listings and forms'
+								) );
+        $this->drupalLoginUser($this->webUser);
+        $this->_paymentProcessorId = PaypalPro::create();
+        $this->_contributionPageId = ContributionPage::create($this->_paymentProcessorId);
+	
+        $this->_pcp = PCPBlock::create( $this->_contributionPageId );
+        $this->civiGet('civicrm/contribute/manage', 'reset=1' );
+        $this->assertWantedRaw( 'Manage Contribution Pages', 'Manage Contribution Pages.' );
+	
+        // get all the urls associated with this item
+        $urls = $this->getUrlsByToken( "id={$this->_contributionPageId}", 'civicrm/contribute/transact' );
+	
+        $test = ts( 'Test-drive' );
+        $this->assertArrayValueNotNull( $test, $urls );
+        $this->civiGetURL( $urls[$test] );
+        $this->assertWantedRaw( 'Test-drive Your Contribution Page', 'Test Drive of Contribution Page.' );
+    }
+
+    function tearDown( )
+    {
+        // Deleting pcpblock and related contribution.
+        PCPBlock::delete( $this->_pcp );
+        ContributionPage::delete($this->_contributionPageId);
+        PaypalPro::delete($this->_paymentProcessorId);
+    }
+    /**
+     * Test to PCP without Profile Data
+     *
+     */
+    function testPCPWithoutRequiredDataforProfile( )
+    {
+        $params = array( );
+        $this->civiGet('civicrm/user', 'reset=1' );
+        $this->assertText('Help Test CiviCRM!');
+        $this->assertText('Create a Personal Campaign Page');
+        $this->clickLink('Create a Personal Campaign Page', '0');
+        $this->assertText('Setup a Personal Campaign Page - Account Information');
+        $this->drupalPost( NULL, $params, '_qf_PCPAccount_next' );
+        $this->assertText( 'First Name is a required field.' );
+        $this->assertText( 'Last Name is a required field.' );
+    }
+    /**
+     * Test to PCP with Profile Data
+     *
+     */
+    function testPCPWithRequiredDataforProfile( )
+    {
+        $params = array(
+			'first_name' => 'John',
+			'last_name'  => 'Dane'
+			);
+        $this->civiGet('civicrm/user', 'reset=1' );
+        $this->assertText('Help Test CiviCRM!');
+        $this->assertText('Create a Personal Campaign Page');
+        $this->clickLink('Create a Personal Campaign Page', '0');
+        $this->assertText('Setup a Personal Campaign Page - Account Information');
+        $this->drupalPost( NULL, $params, '_qf_PCPAccount_next' );
+        $this->assertText('Setup a Personal Campaign Page - Step 2');
+    }
+    /**
+     * Test to PCP without PCP Data
+     *
+     */
+    function testPCPWithoutRequiredDataforPCP( )
+    {
+        $params = array(
+			'first_name' => 'John',
+			'last_name'  => 'Dane'
+			);
+        $this->civiGet('civicrm/user', 'reset=1' );
+        $this->assertText('Help Test CiviCRM!');
+        $this->assertText('Create a Personal Campaign Page');
+        $this->clickLink('Create a Personal Campaign Page', '0');
+        $this->assertText('Setup a Personal Campaign Page - Account Information');
+        $this->drupalPost( NULL, $params, '_qf_PCPAccount_next' );
+        $this->assertText('Setup a Personal Campaign Page - Step 2');
+	
+        $params = array( );
+        $this->drupalPost( NULL, $params, '_qf_Campaign_upload' );
+        $this->assertText('Title is a required field.');
+        $this->assertText('Welcome is a required field.');
+        $this->assertText('Your Goal is a required field.');
+    }
+    /**
+     * Test to PCP with PCP Data
+     *
+     */
+    function testPCPWithRequiredDataforPCP( )
+    {
+        self::DomainAndSMTP();
+        $params = array(
+			'first_name' => 'John',
+			'last_name'  => 'Dane'
+			);
+        $this->civiGet('civicrm/user', 'reset=1' );
+        $this->assertText('Help Test CiviCRM!');
+        $this->assertText('Create a Personal Campaign Page');
+        $this->clickLink('Create a Personal Campaign Page', '0');
+        $this->assertText('Setup a Personal Campaign Page - Account Information');
+        $this->drupalPost( NULL, $params, '_qf_PCPAccount_next' );
+        $this->assertText('Setup a Personal Campaign Page - Step 2');
+        $config =& CRM_Core_Config::singleton( );
+        $image_path = explode( '//', $config->importDataSourceDir );
+        $attach = array (
+			 'name' => $image_path['0'].'/i/contribute/default_premium.jpg',
+			 'type' => 'image/jpg'
+			 );
+        $params = array(
+			'title'            => 'Testing Personal Campaign Page',
+			'intro_text'       => 'Contribute for Panda Helper Organization',
+			'goal_amount'      => 2104,
+			'is_thermometer'   => 1,
+			'donate_link_text' => 'Help Panda !!!',
+			'page_text'        => '',
+			'is_honor_roll'    => 1,
+			'is_active'        => 1,
+			'attachFile_1'     => $attach
+			);
+        $this->drupalPost( NULL, $params, '_qf_Campaign_upload' );
+        $this->assertText('Your Personal Campaign Page has been created but requires administrator review before you can begin your fundraising efforts. You will receive an email confirmation shortly which includes a link to return to this page. You will receive a second email as soon as the review process is complete.');
+        self::DomainAndSMTP( true );
+    }
+    
+    /**
+     * Function to set the smtp and domain email
+     */
+    function DomainAndSMTP( $reset = false )
+    {
+        if ( $reset ) {
+            //Domain email name and address unset to previous one.
+            $params = $this->_domain;
+        } else {
+            require_once 'api/v2/Domain.php';
+            $domain_name = civicrm_domain_get( );
+	    
+            require_once 'CRM/Core/BAO/Domain.php';
+            $domain_email = CRM_Core_BAO_Domain::getNameAndEmail( );
+            
+            $this->_domain = array(
+				   'name'          => $domain_name['domain_name'],
+				   'description'   => $domain_name['description'],
+				   'email_name'    => $domain_email['0'],
+				   'email_address' => $domain_email['1']
+				   );
+            //Domain email name and address set for simple test.          
+            $params = array(
+			    'name'          => 'Simple Test Domain Name',
+			    'description'   => 'Edited for Simple Test',
+			    'email_name'    => 'Simple Test',
+			    'email_address' => 'info@civicrm.org'
+			    );
+        }
+	
+        $this->civiGet('civicrm/contact/domain', 'action=update&reset=1' );
+        $this->drupalPost( NULL, $params, '_qf_Domain_next_view' );
+        $this->assertText('Domain information for \''.$params['name'].'\' has been saved.');
+    }
+}
+?>

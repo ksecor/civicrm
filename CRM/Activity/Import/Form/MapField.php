@@ -172,7 +172,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
     {
         $this->_mapperFields = $this->get( 'fields' );
         unset( $this->_mapperFields['id'] );
-        $this->_mapperFields = array_merge( $this->_mapperFields, array( 'activity_name' => 'Activity Type Label' ) );
         asort($this->_mapperFields);
         
         $this->_columnCount = $this->get( 'columnCount' );

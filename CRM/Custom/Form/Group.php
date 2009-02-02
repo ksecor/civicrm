@@ -219,12 +219,12 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             }
         }
         
-        $sel =& $this->addElement('hierselect',
-                                  "extends",
-                                  ts('Used For'),
-                                  array( 'onClick' => "showHideStyle();",
-                                         'name'    => "extends[0]"
-                                         ) );
+        $sel =& $this->add('hierselect',
+                           'extends',
+                           ts('Used For'),
+                           array('onClick' => 'showHideStyle();',
+                                 'name'    => 'extends[0]'),
+                           true);
         $sel->setOptions( array( $sel1, $sel2 ) );
        
         if ($this->_action == CRM_Core_Action::UPDATE) { 

@@ -169,7 +169,7 @@ SET    version = '$version'
 
     function processLocales( $tplFile ) {
         $config =& CRM_Core_Config::singleton();
-        $smarty = new Smarty;
+        $smarty =& CRM_Core_Smarty::singleton( );
         $smarty->compile_dir = $config->templateCompileDir;
         
         $domain =& new CRM_Core_DAO_Domain();

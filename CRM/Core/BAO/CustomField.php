@@ -236,6 +236,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         // complete transaction
         $transaction->commit( );
 
+        // reset the cache
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
+    
+        // reset various static arrays used here
+        require_once 'CRM/Contact/BAO/Contact.php';
+        CRM_Contact_BAO_Contact::$_importableFields = CRM_Contact_BAO_Contact::$_exportableFields = self::$_importFields = null;
+
         return $customField;
     }
 
@@ -391,14 +399,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 // also get the permission stuff here
                 require_once 'CRM/Core/Permission.php';
                 $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
-                                                                            "{$cgTable}." );
+                                                                            "{$cgTable}.", true );
 
                 $query .= " $extends AND $permissionClause
                         ORDER BY $cgTable.weight, $cgTable.title,
                                  $cfTable.weight, $cfTable.label";
          
                 $dao =& CRM_Core_DAO::executeQuery( $query );
-        
+
                 $fields = array( );
                 while ( ( $dao->fetch( ) ) != null) {
                     $fields[$dao->id]['label']                       = $dao->label;
@@ -752,6 +760,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
         CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
+
+        // reset various static arrays used here
+        require_once 'CRM/Contact/BAO/Contact.php';
+        CRM_Contact_BAO_Contact::$_importableFields = CRM_Contact_BAO_Contact::$_exportableFields = self::$_importFields = null;
 
         // first delete the custom option group and values associated with this field
         if ( $field->option_group_id ) {

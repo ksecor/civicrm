@@ -808,9 +808,25 @@ abstract class CRM_Import_Parser {
      * @access public
      */
     static function exportCSV($fileName, $header, $data) {
+        
+        //hack to remove '_status', '_statusMsg' and '_id' from error file
+        $errorValues    = array( );
+        $dbRecordStatus = array( 'IMPORTED', 'ERROR', 'DUPLICATE', 'INVALID', 'NEW' );
+        foreach ( $data as $rowCount => $rowValues  ) {
+            $count = 0;
+            foreach ( $rowValues as $key => $val ) {
+                if ( in_array( $val, $dbRecordStatus ) && $count == ( count( $rowValues ) - 3 ) ) {
+                    break;
+                }
+                $errorValues[$rowCount][$key] = $val;
+                $count++;
+            }
+        }
+        $data = $errorValues;
+        
         $output = array();
         $fd = fopen($fileName, 'w');
-
+        
         foreach ($header as $key => $value) {
             $header[$key] = "\"$value\"";
         }

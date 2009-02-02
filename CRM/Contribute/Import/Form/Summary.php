@@ -107,9 +107,6 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
-        
-        $session = & CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/contribute', 'reset=1'));
     }
 
     /**

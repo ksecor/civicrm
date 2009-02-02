@@ -229,6 +229,7 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Next >>'),
+                                         'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),

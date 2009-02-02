@@ -78,7 +78,10 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         require_once 'CRM/Activity/BAO/ActivityTarget.php';
         $fields = array_merge( CRM_Activity_BAO_Activity::importableFields( ), 
                                CRM_Activity_BAO_ActivityTarget::import( ) );
-
+        
+        $fields = array_merge( $fields, array( 'activity_name' => array( 'title'         => ts('Activity Type Label' ),
+                                                                         'headerPattern' => '/(activity.)?type label?/i') ) );
+        
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
         }
@@ -330,10 +333,14 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                     }
                 } 
  
-                if ( !$disp && CRM_Utils_Array::value('external_identifier',$params) ) {
-                    $disp = $params['external_identifier'];
+                if ( CRM_Utils_Array::value('external_identifier',$params ) ) {
+                    if ( $disp ) {
+                        $disp .= "AND {$params['external_identifier']}";
+                    } else {
+                        $disp = $params['external_identifier']; 
+                    }
                 }
-
+                
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Activity_Import_Parser::ERROR;
             }

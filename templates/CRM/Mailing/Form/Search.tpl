@@ -3,8 +3,7 @@
 <table class="form-layout">
     <tr>
         <td>{$form.mailing_name.label}<br />
-            {$form.mailing_name.html|crmReplace:class:big}<br />
-            <span class="description font-italic">{ts}Complete OR partial name.{/ts}</span>
+            {$form.mailing_name.html|crmReplace:class:big} {help id="id-mailing_name"}
         </td>
         <td class="nowrap">{$form.mailing_from.label}<br />{$form.mailing_from.html}<br />
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_1}
@@ -17,8 +16,7 @@
     </tr>
     <tr> 
         <td>{$form.sort_name.label}<br />
-            {$form.sort_name.html|crmReplace:class:big}<br />
-            <span class="description font-italic">{ts}Complete OR partial name of mailing created or sent by.{/ts}</span>
+            {$form.sort_name.html|crmReplace:class:big} {help id="id-create_sort_name"}
         </td>
     </tr>
     <tr>

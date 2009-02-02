@@ -381,7 +381,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( $this->_mode == self::MODE_CREATE ) {
             if (!empty($addCaptcha)) {
                 $setCaptcha = true;
-            } else if ($this->_gid ) {
+            } 
+            if ($this->_gid ) {
                 $dao = new CRM_Core_DAO_UFGroup();
                 $dao->id = $this->_gid;
                 $dao->addSelect( );

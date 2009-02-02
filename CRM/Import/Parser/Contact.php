@@ -1233,6 +1233,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('custom_greeting', $errorMessage);
                     }
                     break;
+                case 'home_URL':
+                    if ( CRM_Utils_Rule::url( $value ) === false ) {
+                        self::addToErrorMsg('Website', $errorMessage);
+                    }
+                    break;
                 default : 
                     if ( is_array( $params[$key] ) && 
                          isset( $params[$key]["contact_type"] ) ) {

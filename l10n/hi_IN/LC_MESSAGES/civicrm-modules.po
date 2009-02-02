@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-01-22 03:43-0800\n"
+"PO-Revision-Date: 2009-01-30 08:48-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4506,7 +4506,7 @@ msgstr ""
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
 "Usually the last 3-4 digits in the signature area on the back of the card."
-msgstr ""
+msgstr "आमतौर पर इस कार्ड की पीठ पर हस्ताक्षर इलाके में पिछले ३-४ अंक।"
 
 #: templates/CRM/Contribute/Form/AdditionalInfo/CreditCard.tpl
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -6352,7 +6352,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/UserDashboard.tpl
 msgid "There are no contributions on record for you."
-msgstr ""
+msgstr "आपके लिए कोई योगदान नही है।"
 
 #: templates/CRM/Contribute/Page/UserDashboard.tpl
 msgid "Contributions made in your honor."
@@ -7299,7 +7299,7 @@ msgstr ""
 
 #: templates/CRM/Event/Page/UserDashboard.tpl
 msgid "You are not registered for any current or upcoming Events."
-msgstr ""
+msgstr "आप ने किसी भी वर्तमान या आगामी कार्यक्रम के लिए पंजीकरन नहीं  किया हैं।"
 
 #: templates/CRM/Grant/Form/Grant.tpl templates/CRM/Grant/Page/Tab.tpl
 msgid "New Grant"

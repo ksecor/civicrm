@@ -50,7 +50,7 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         // hack to make past ver compatible /w new incremental upgrade process
         $convertVer = array( '2.1'      => '2.1.0',
                              '2.2'      => '2.2.alpha1',
-                             '2.2.alph' => '2.2.alpha2',
+                             '2.2.alph' => '2.2.alpha3',
                              );
         if ( isset($convertVer[$currentVer]) ) {
             $currentVer = $convertVer[$currentVer];
@@ -90,7 +90,7 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                         $phpFunctionName = 'upgrade_' . str_replace( '.', '_', $rev );
                         if ( is_callable(array($this, $phpFunctionName)) ) {
                             eval("\$this->{$phpFunctionName}('$rev');");
-                        } else   {
+                        } else {
                             $upgrade->processSQL( $rev );
                         }
                         $upgrade->setVersion( $rev );
@@ -181,6 +181,15 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             $upgrade->processSQL( $rev );
         }
         return true;
+    }
+
+    function upgrade_2_2_beta1( $rev ) {
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_pcp_block', 'notify_email' ) ) {
+            $template =& CRM_Core_Smarty::singleton( );
+            $template->assign( 'notifyAbsent', true );
+            $upgrade =& new CRM_Upgrade_Form( );
+            $upgrade->processSQL( $rev );
+        }
     }
 }
 

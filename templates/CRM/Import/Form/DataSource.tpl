@@ -65,50 +65,29 @@
 
   {literal}
     <script type="text/javascript">
-      //build data source form block
-      buildDataSourceFormBlock();
-
+      cj(document).ready(function() {    
+         //build data source form block
+         buildDataSourceFormBlock();
+      });
+      
       function buildDataSourceFormBlock(dataSource)
       {
         var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q=$urlPathVar}"{literal};
 
-        if (!dataSource) {
-          var dataSource = document.getElementById('dataSource').value;
+        if (!dataSource ) {
+          var dataSource = cj("#dataSource").val();
         }
 
-        if (dataSource) {
+        if ( dataSource ) {
           dataUrl = dataUrl + '&dataSource=' + dataSource;
         } else {
-          dojo.byId('data-source-form-block').innerHTML = '';
+          cj("#data-source-form-block").html( '' );
           return;
         }
 
-        var result = dojo.xhrGet({
-          url:      dataUrl,
-          handleAs: "text",
-          sync:     true,
-          timeout:  5000, //time in milliseconds
-          handle:   function(response, ioArgs) {
-            if (response instanceof Error) {
-              if (response.dojoType == "cancel") {
-                // The request was cancelled by some other Javascript code.
-                console.debug("Request cancelled.");
-              } else if (response.dojoType == "timeout") {
-                // The request took over 5 seconds to complete.
-                console.debug("Request timed out.");
-              } else {
-                // Some other error happened.
-                console.error(response);
-              }
-            } else {
-              // on success
-              dojo.byId('data-source-form-block').innerHTML = response;
-              // this executes any javascript in the injected block
-              executeInnerHTML('data-source-form-block');
-            }
-          }
-        });
+        cj("#data-source-form-block").load( dataUrl );
       }
+      
     </script>
   {/literal}
 {/if}

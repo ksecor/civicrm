@@ -111,7 +111,7 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
         return $ids;
     }
 
-    function atestCreateIndividualwithSingleValueCustomData( )
+    function testCreateIndividualwithSingleValueCustomData( )
     {
         $custom_params = array (
                                 "custom_{$this->_ids[0]}" => 'R',
@@ -265,6 +265,7 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
 
         // Retrieved Contact
         $getContact = civicrm_contact_get( $retrieve );
+
         $this->assertEqual(    $getContact['first_name'], 'John' );
         $this->assertEqual(    $getContact['last_name'], 'Doe' );
         $this->assertNotNULL(  $getContact[ "custom_{$this->_customFieldId}"] );
