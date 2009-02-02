@@ -13,10 +13,10 @@
     </dl>
 
     <div id="style"> {* This section shown only when Used For = Contact, Individ, Org or Household. *}
-        <dl><dt>&nbsp;</dt><dd>{$form.is_multiple.html}&nbsp;{$form.is_multiple.label}</dd></dl>
+        <dl><dt>&nbsp;</dt><dd>{$form.is_multiple.html}&nbsp;{$form.is_multiple.label} {help id=id-is_multiple"}</dd></dl>
         <div id="multiple">
             {*<dt>{$form.min_multiple.label}</dt><dd>{$form.min_multiple.html}</dd>*}
-            <dl><dt>{$form.max_multiple.label}</dt><dd>{$form.max_multiple.html}</dd></dl>
+            <dl><dt>{$form.max_multiple.label}</dt><dd>{$form.max_multiple.html} {help id=id-max_multiple"}</dd></dl>
         </div>
         <dl><dt>{$form.style.label}</dt><dd>{$form.style.html} {help id="id-display_style}</dd></dl>
     </div>
