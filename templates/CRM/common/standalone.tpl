@@ -21,6 +21,8 @@
 {$pageHTMLHead}
 {include file="CRM/common/dojo.tpl"}
 {include file="CRM/common/jquery.tpl"}
+<script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
+
   <title>{$pageTitle}</title>
 </head>
 <body>
@@ -30,8 +32,6 @@
 {/if}
 
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
-<script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
-
 <table border="0" cellpadding="0" cellspacing="0" id="content">
   <tr>
     {if $sidebarLeft}
