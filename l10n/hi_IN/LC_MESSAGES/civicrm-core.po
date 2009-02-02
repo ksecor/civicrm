@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-01-22 04:12-0800\n"
+"PO-Revision-Date: 2009-01-30 08:47-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4723,7 +4723,7 @@ msgstr "संपर्क लेबल"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "You do not have permission to view this contact"
-msgstr ""
+msgstr "आप काे इस संपर्क को देखने की अनुमति नहीं है"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Dashboard - %1"
@@ -4734,9 +4734,8 @@ msgid "My Contacts / Organizations"
 msgstr "मेरे संपर्क / संगठन"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
-#, fuzzy
 msgid "Edit Contact Information"
-msgstr "अतिरिक्त जानकारी"
+msgstr "संपर्क जानकारी संपादन करें"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Dashboard"
@@ -4744,15 +4743,15 @@ msgstr "दिखावट फलक"
 
 #: CRM/Contact/Selector/Custom.php
 msgid "CiviCRM Custom Search"
-msgstr ""
+msgstr "CiviCRM कस्टम खोज"
 
 #: CRM/Contact/Selector.php
 msgid "Action"
-msgstr ""
+msgstr "कृती"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
-msgstr ""
+msgstr "स्मार्ट"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Group"
@@ -4805,7 +4804,7 @@ msgstr "संपर्क रिकार्ड गतिविधि के �
 
 #: CRM/Contact/Task.php
 msgid "Map Contacts"
-msgstr ""
+msgstr "संपर्क मानचित्र"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Event"
@@ -4855,7 +4854,7 @@ msgstr "कृपया उपयोक्तानाम दिजिएँ"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "कृपया एक मान्य ईमेल पता निर्दिष्ट करें।"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Please enter a password."
@@ -4975,9 +4974,8 @@ msgid "No values found for the specified entity ID and custom field(s)."
 msgstr ""
 
 #: CRM/Core/BAO/File.php
-#, fuzzy
 msgid "Attach File"
-msgstr "संलग्न फ़ाइल नष्ट करे"
+msgstr "संलग्न संचिका"
 
 #: CRM/Core/BAO/File.php
 #, fuzzy
@@ -4985,9 +4983,8 @@ msgid "File size should be less than %1 MByte(s)"
 msgstr "File आकार % 1 से कम MBytes चाहिए( % 2 bytes )"
 
 #: CRM/Core/BAO/File.php
-#, fuzzy
 msgid "Delete Current Attachment(s)"
-msgstr "संर्पक मिटाईये"
+msgstr "वर्तमान अनुलग्नक हटाएँ"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Selected Mapping has been Deleted Successfuly."
@@ -5002,9 +4999,8 @@ msgid "- select record type -"
 msgstr "- रिकार्ड प्रकार चुने -"
 
 #: CRM/Core/BAO/Mapping.php
-#, fuzzy
 msgid "-operator-"
-msgstr "-अवधि-"
+msgstr "-ऑपरेटर-"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Another search field"
@@ -5076,7 +5072,7 @@ msgstr "कृपया याेग्य राशी डाले"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
-msgstr ""
+msgstr "कृपया एक वैध %1 दर्ज करें"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Copy of"
@@ -5116,11 +5112,11 @@ msgstr "CiviCRM मेनू"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Language Switcher"
-msgstr ""
+msgstr "CiviCRM भाषा बदले"
 
 #: CRM/Core/Block.php
 msgid "GCC Shortcuts"
-msgstr ""
+msgstr "जीसीसी शॉर्टकट"
 
 #: CRM/Core/Block.php
 msgid "Quest Search"
@@ -5164,19 +5160,23 @@ msgstr "भेजें विपत्र"
 
 #: CRM/Core/Block.php
 msgid "Browse Sent Mailings"
-msgstr ""
+msgstr "भेजा गया डाक ब्राउज़ करें"
 
 #: CRM/Core/Config.php
 msgid ""
 "There is no valid smtp server setting. Click <a href='%1'>Administer CiviCRM "
 ">> Global Settings</a> to set the SMTP Server."
 msgstr ""
+"कोई मान्य एसएमटीपी सर्वर स्थापित नही है। क्लिक करें <a href='%1'> CiviCRM "
+"व्यवस्थापक >> सार्विक अनुकूलन </a> एसएमटीपी सर्वर स्थापित करने के लिए।"
 
 #: CRM/Core/Config.php
 msgid ""
 "There is no valid sendmail path setting. Click <a href='%1'>Administer "
 "CiviCRM >> Global Settings</a> to set the Sendmail Server."
 msgstr ""
+"कोई मान्य सेंडमेल पथ सेटिंग नही है। क्लिक करें <a href='%1'> CiviCRM "
+"व्यवस्थापक >> सार्विक अनुकूलन </a> सेंडमेल सर्वर स्थापित करने के लिए।"
 
 #: CRM/Core/Config.php
 msgid ""
@@ -5184,24 +5184,25 @@ msgid ""
 "href='%1'>Administer CiviCRM >> Global Settings</a> to set the OutBound "
 "Email."
 msgstr ""
+"कोई मान्य एसएमटीपी सर्वर रूपरेखा या सेंडमेल पथ सेटिंग नही है। पर क्लिक करें "
+"<a href='%1'> CiviCRM व्यवस्थापक >> सार्विक अनुकूलन </a> आउटबाउंड ईमेल सेट "
+"करने के लिए।"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Number"
-msgstr "रेखा अंक"
+msgstr "रास्ता नंबर"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "रास्ता नंबर प्रत्यय"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
-msgstr "छांटने के लिये नाम"
+msgstr "सड़क का नाम"
 
 #: CRM/Core/DAO/Address.php
 #, fuzzy
@@ -5218,19 +5219,16 @@ msgid "Street Unit"
 msgstr "फ़्रिक्वेंसी इकाई"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "रस्ते का नाम"
+msgstr "पूरक सड़क का नाम १"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "रस्ते का नाम"
+msgstr "पूरक सड़क का नाम २"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "रस्ते का नाम"
+msgstr "पूरक सड़क का नाम ३"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
@@ -5238,44 +5236,39 @@ msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "भू संहिता १"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "भू संहिता २"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "समयक्षेत्र"
 
 #: CRM/Core/DAO/Cache.php
-#, fuzzy
 msgid "Created Date"
-msgstr "पूर्ण तिथि"
+msgstr "निर्मित तिथि"
 
 #: CRM/Core/DAO/Cache.php
-#, fuzzy
 msgid "Expired Date"
-msgstr "समाप्ति दिनांक"
+msgstr "समाप्ति तिथि"
 
 #: CRM/Core/DAO/Component.php
-#, fuzzy
 msgid "Component name"
-msgstr "घटक प्रकार"
+msgstr "घटक के नाम"
 
 #: CRM/Core/DAO/Component.php
 msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "पिन कोड"
+msgstr "Iso संहिता"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "देश"
+msgstr "देश कोड"
 
 #: CRM/Core/DAO/Country.php
 #, fuzzy
@@ -5288,28 +5281,24 @@ msgid "Ndd Prefix"
 msgstr "उपसर्ग"
 
 #: CRM/Core/DAO/County.php
-#, fuzzy
 msgid "County Abbreviation"
-msgstr "योगदान"
+msgstr "काउंटी संक्षिप्त नाम"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
-msgstr "डिफ़ॉल्ट मुद्रा"
+msgstr "मुद्रा"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
-msgstr ""
+msgstr "प्रतीक"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Numeric Code"
-msgstr "सुरक्षा काेड"
+msgstr "संख्यात्मक कोड"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Full Name"
-msgstr "क्षेत्र का नाम"
+msgstr "पूरा नाम"
 
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
@@ -5321,14 +5310,12 @@ msgid "Attributes"
 msgstr "योगदान"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Start Date Years"
-msgstr "प्रारंभ दिनांक"
+msgstr "प्रारंभ तिथि साल"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "End Date Years"
-msgstr "आखिरी दिनांक"
+msgstr "आखिरी दिनांक साल"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5416,9 +5403,8 @@ msgid "Pledge"
 msgstr "अनिर्णीत"
 
 #: CRM/Core/DAO/Discount.php
-#, fuzzy
 msgid "Discount Name"
-msgstr "पहला नाम"
+msgstr "डिस्काउंट का नाम"
 
 #: CRM/Core/DAO/Domain.php
 #, fuzzy
@@ -11547,7 +11533,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #: templates/CRM/Profile/Page/View.tpl
 msgid "Map Primary Address"
-msgstr ""
+msgstr "प्राथमिक पता मानचित्र"
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Current Relationships"
@@ -11638,11 +11624,11 @@ msgstr[1] ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "You are not currently subscribed to any Groups."
-msgstr ""
+msgstr "आप वर्तमान में किसी भी समूह के सदस्य नहीं हैं।"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Are you sure you want to unsubscribe from %1?"
-msgstr ""
+msgstr "क्या आप %1 से सदस्यता समाप्त करना चाहते हैं?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Pending Subscriptions"
@@ -11650,15 +11636,15 @@ msgstr "अनिर्णीत प्रमाणीकरण"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Your subscription to these group(s) is pending confirmation."
-msgstr ""
+msgstr "इन समूह के लिए आपकी सदस्यता पुष्टि लंबित है।"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Are you sure you want to confirm subscription for %1?"
-msgstr ""
+msgstr "क्या आप %1 के लिए सदस्यता की पुष्टि करना चाहते हैं?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Unsubscribed Groups"
-msgstr ""
+msgstr "सदस्यता रद्द समूह"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid ""
@@ -11676,23 +11662,23 @@ msgstr "आपके समूह"
 
 #: templates/CRM/Core/Calendar/GData.tpl templates/CRM/Core/Calendar/Rss.tpl
 msgid "CiviEvent Public Calendar"
-msgstr ""
+msgstr "CiviEvent सार्वजनिक कैलेंडर"
 
 #: templates/CRM/Core/Calendar/GData.tpl templates/CRM/Core/Calendar/Rss.tpl
 msgid "Listing of current and upcoming public events."
-msgstr ""
+msgstr "वर्तमान और आगामी सार्वजनिक कार्यक्रमाे की सूची।"
 
 #: templates/CRM/Core/Calendar/Rss.tpl
 msgid "When"
-msgstr ""
+msgstr "कब"
 
 #: templates/CRM/Core/Calendar/Rss.tpl
 msgid "through"
-msgstr ""
+msgstr "से"
 
 #: templates/CRM/Core/Calendar/Rss.tpl
 msgid "Where"
-msgstr ""
+msgstr "कहाँ"
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""

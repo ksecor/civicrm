@@ -301,7 +301,8 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         if ( $dao->fetch( ) ) {
-            if( $dao->max_participants == NULL ) {
+            if( $dao->max_participants == NULL ||
+                $dao->max_participants <= 0 ) {
                 return false;
             }
             
