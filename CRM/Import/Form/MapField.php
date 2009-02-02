@@ -741,7 +741,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
     }
 
     /**
-     * format custom field name by appending group name.
+     * format custom field name.
+     * combine group and field name to avoid conflict.
      *
      * @return void
      * @access public
@@ -751,8 +752,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         foreach ( $fields as $key => $value ) {
             require_once 'CRM/Core/BAO/CustomField.php';
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
-                $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
+                
+                $query = "
+SELECT  civicrm_custom_group.title
+  FROM  civicrm_custom_group, civicrm_custom_field
+ WHERE  civicrm_custom_group.id = civicrm_custom_field.custom_group_id
+   AND  civicrm_custom_field.id = {$customFieldId}";
+                
+                $customGroupName = CRM_Core_DAO::singleValueQuery( $query );
                 if ( strlen( $customGroupName ) > 13 ) {
                     $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
                 }
