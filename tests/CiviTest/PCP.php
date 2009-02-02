@@ -24,30 +24,27 @@ class PCPBlock extends DrupalTestCase
         $fieldsParams = array (
                                array (
                                       'field_name'       => 'first_name',
-                                      'field_type'       => 'Contact',
+                                      'field_type'       => 'Individual',
                                       'visibility'       => 'Public User Pages and Listings',
                                       'weight'           => 1,
-                                      'location_type_id' => 1,
                                       'label'            => 'First Name',
-                                      'required'         => 1,
+                                      'is_required'      => 1,
                                       'is_active'        => 1 ),
                                array (
                                       'field_name'       => 'last_name',
-                                      'field_type'       => 'Contact',
+                                      'field_type'       => 'Individual',
                                       'visibility'       => 'Public User Pages and Listings',
                                       'weight'           => 2,
-                                      'location_type_id' => 1,
                                       'label'            => 'Last Name',
-                                      'required'         => 1,
+                                      'is_required'      => 1,
                                       'is_active'        => 1 ),
                                array (
                                       'field_name'       => 'email',
                                       'field_type'       => 'Contact',
                                       'visibility'       => 'Public User Pages and Listings',
                                       'weight'           => 3,
-                                      'location_type_id' => 1,
                                       'label'            => 'Email',
-                                      'required'         => 1,
+                                      'is_required'      => 1,
                                       'is_active'        => 1 )
                                );
         
@@ -99,6 +96,10 @@ class PCPBlock extends DrupalTestCase
         $dao->id = $params['blockId'];
         if ( $dao->find( true ) ) {
             $resultBlock = $dao->delete( );
+        }
+        if ( $id = CRM_Utils_Array::value( 'pcpId', $params ) ){
+            require_once 'CRM/Contribute/BAO/PCP.php';
+            CRM_Contribute_BAO_PCP::delete( $id );
         }
         if ( $resulProfile && $resultBlock ) {
             return true;

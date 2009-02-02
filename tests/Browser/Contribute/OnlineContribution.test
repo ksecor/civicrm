@@ -44,7 +44,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
     protected $_paymentProcessorId;
 
     //the email should not be in the database.
-    protected $_userEmail = 'amiteshwar.prasad@webaccess.co.in';
+    protected $_userEmail = 'monica@yahoo.net.in';
 	
     function get_info() 
     {
