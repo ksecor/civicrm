@@ -218,7 +218,7 @@ class CRM_Core_IDS {
         $session =& CRM_Core_Session::singleton( );
         $session->reset( 2 );
 
-        CRM_Core_Error::fatal( ts( 'Your activity is a bit suspicious, hence aborting' ) );
+        CRM_Core_Error::fatal( ts( 'There is a validation error with your HTML input. Your activity is a bit suspicious, hence aborting' ) );
     }
 }
 
