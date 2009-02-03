@@ -105,20 +105,21 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         require_once 'CRM/Utils/Weight.php';
         $group->weight =
             CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomGroup', $oldWeight, CRM_Utils_Array::value('weight', $params, false) );
-
+        
         $group->help_pre         = CRM_Utils_Array::value('help_pre', $params, false);
         $group->help_post        = CRM_Utils_Array::value('help_post', $params, false);
         $group->is_active        = CRM_Utils_Array::value('is_active', $params, false);
 
         $group->is_multiple      = CRM_Utils_Array::value('is_multiple'    , $params, false );
-        $group->min_multiple     = CRM_Utils_Array::value('min_multiple'   , $params, 0 );
-        $group->max_multiple     = CRM_Utils_Array::value('max_multiple'   , $params, 0 );
+        //$group->min_multiple     = ( $params['min_multiple'] >= '0' ) ? $params['min_multiple'] : 'null';
+        $group->max_multiple     = ( $params['max_multiple'] >= '0' ) ? $params['max_multiple'] : 'null';
 
         $tableName = null;
         if ( isset( $params['id'] ) ) {
             $group->id = $params['id'] ;
             //check whether custom group was changed from single-valued to multiple-valued
-            if ($params['is_multiple'] && $params['is_multiple'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'is_multiple' ) ) {
+            if ($params['is_multiple'] && 
+                $params['is_multiple'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'is_multiple' ) ) {
                 $oldTableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'table_name' );
             }
         } else {
@@ -130,7 +131,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         // enclose the below in a transaction
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
+               
         $group->save();
         if ( $tableName ) {
             // now append group id to table name, this prevent any name conflicts
