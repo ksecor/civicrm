@@ -839,6 +839,9 @@ SELECT $select
     {
         require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ( $groupTree as $id => $group ) {
+            if ( ! isset( $group['fields']) ) {
+                continue;
+            }
             $groupId = CRM_Utils_Array::value('id', $group);
             foreach ($group['fields'] as $field) {
                 if ( CRM_Utils_Array::value( 'element_value', $field ) !== null ) {
@@ -848,7 +851,7 @@ SELECT $select
                 } else {
                     continue;
                 }
-
+                
                 $fieldId     = $field['id'];
                 $elementName = $field['element_name'];
                 switch($field['html_type']) {
