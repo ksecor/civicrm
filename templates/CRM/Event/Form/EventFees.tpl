@@ -187,10 +187,10 @@ function addPrice(priceVal, priceId) {
   if(op != 'select-one') {
     priceset = priceVal.split(symbol);
   }
-
+  var Actualprice= "";
+  var priceArray ;
   if (priceset != 0) {
-    var priceArray = priceset[1].split(',');
-    var Actualprice= "";
+    priceArray = priceset[1].split(',');
     for( i=0 ;i<priceArray.length ; i++ ){
       Actualprice =Actualprice+priceArray[i]; 
     }
@@ -231,8 +231,12 @@ function addPrice(priceVal, priceId) {
       var myarray = ['','{/literal}{$selectarray}{literal}'];
       if(index>0) {
 	var selectvalue = myarray[index].split(symbol);
-	totalfee = parseFloat(totalfee) + parseFloat(selectvalue[1]) - parseFloat(price[ele]);
-	price[ele] = parseFloat(selectvalue[1]);
+	priceArray = selectvalue[1].split(',');
+	for( i=0 ;i<priceArray.length ; i++ ){
+	  Actualprice =Actualprice+priceArray[i]; 
+	}
+	totalfee = parseFloat(totalfee) + parseFloat(Actualprice) - parseFloat(price[ele]);
+	price[ele] = parseFloat(Actualprice);
       }else {
 	totalfee = parseFloat(totalfee) - parseFloat(price[ele]);
 	price[ele] = parseFloat('0');
