@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.2\n"
-"POT-Creation-Date: 2009-02-03 15:02+0100\n"
+"POT-Creation-Date: 2009-02-03 15:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -8539,8 +8539,9 @@ msgid "There are no ACLs entered. You can <a href='%1'>add one</a>."
 msgstr ""
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
-#: templates/CRM/ACL/Page/EntityRole.tpl
-msgid "Access Control Documenation"
+#: templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/Access.tpl
+#: templates/CRM/Admin/Page/Options.tpl
+msgid "Access Control Documentation"
 msgstr ""
 
 #: templates/CRM/ACL/Page/ACL.tpl
@@ -9640,10 +9641,6 @@ msgstr ""
 msgid "Core ACLs define the primitive ACLs that control access to your site."
 msgstr ""
 
-#: templates/CRM/Admin/Page/Access.tpl templates/CRM/Admin/Page/Options.tpl
-msgid "Access Control Documentation"
-msgstr ""
-
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid "A newer version of CiviCRM is available: %1 (this site is currently running %2)."
 msgstr ""
@@ -10244,7 +10241,7 @@ msgid "Refer to the %1 to learn about this process."
 msgstr ""
 
 #: templates/CRM/Case/Page/ConfigureError.tpl
-msgid "CiviCase Administration documentation"
+msgid "CiviCase Administration Documentation"
 msgstr ""
 
 #: templates/CRM/Case/Page/DashboardSelector.tpl
@@ -10767,7 +10764,7 @@ msgid "IMPORTANT: Search Builder requires you to use specific formats for your s
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
-msgid "Search Builder documentation"
+msgid "Search Builder Documentation"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Activity.tpl
