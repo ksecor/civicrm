@@ -162,9 +162,6 @@ br.clear {
 .container-inline .form-submit {
   margin: 0;
 }
-.error {
-  color: red;
-}
 .item-list .icon {
   color: #555;
   float: right;
@@ -385,6 +382,7 @@ table {
 }
 .error {
   border-color: red;
+  color: red;
 }
 #sidebar-left, #sidebar-right {
   background-color: #ddd;

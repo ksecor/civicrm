@@ -9,6 +9,8 @@
 
 {if ! $config->userFrameworkFrontend}
     <link rel="stylesheet" href="{$config->resourceBase}css/joomla.css" type="text/css" />
+{else}
+    <link rel="stylesheet" href="{$config->resourceBase}css/joomla_frontend.css" type="text/css" />
 {/if}
 {if $config->customCSSURL}
 <link rel="stylesheet" href="{$config->customCSSURL}" type="text/css" />
