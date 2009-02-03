@@ -95,13 +95,19 @@ $tmpArray = array_reverse( $tmpArray );
 $smarty->assign_by_ref( 'dropOrder', $tmpArray );
 $smarty->assign( 'mysql', 'modern' );
 
-
-
 echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
 
 createDir( $sqlCodePath );
 $fd = fopen( $sqlCodePath . "civicrm.mysql", "w" );
+fputs( $fd, $sql );
+fclose($fd);
+
+echo "Generating sql drop tables file\n";
+$sql = $smarty->fetch( 'drop.tpl' );
+
+createDir( $sqlCodePath );
+$fd = fopen( $sqlCodePath . "civicrm_drop.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 

@@ -1100,6 +1100,19 @@ SELECT contact_id
         return $details;
     }
     
+    static function dropAllTables( ) {
+
+        // first drop all the custom tables we've created
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        CRM_Core_BAO_CustomGroup::dropAllTables( );
+        
+        require_once 'CRM/Utils/File.php';
+        CRM_Utils_File::sourceSQLFile( CIVICRM_DSN,
+                                       dirname( __FILE__ ) . DIRECTORY_SEPARATOR .
+                                       '..'                . DIRECTORY_SEPARATOR .
+                                       '..'                . DIRECTORY_SEPARATOR .
+                                       'sql'               . DIRECTORY_SEPARATOR .
+                                       'civicrm_drop.mysql' );
+    }
+
 }
-
-

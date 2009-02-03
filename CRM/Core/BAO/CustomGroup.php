@@ -1634,4 +1634,15 @@ SELECT  civicrm_custom_group.id as groupID, civicrm_custom_group.title as groupT
         
         return $groupLabels;
     }
+
+    static function dropAllTables( ) {
+        $query = "SELECT table_name FROM civicrm_custom_group";
+        $dao = CRM_Core_DAO::executeQuery( $query );
+
+        while ( $dao->fetch( ) ) {
+            $query = "DROP TABLE IF EXISTS {$dao->table_name}";
+            CRM_Core_DAO::executeQuery( $query );
+        }
+    }
+
 }
