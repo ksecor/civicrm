@@ -267,8 +267,8 @@ AND        ca.case_id = %3
         if ( ! $activityTypeInfo ) {
             require_once 'CRM/Utils/System.php';
             $docLink = CRM_Utils_System::docURL2( "CiviCase Configuration" );
-            CRM_Core_Error::fatal( ts("Activity type '$activityTypeName' found in case configuration file is not present in the database %1",
-                                      array( 1 => $docLink) ) );
+            CRM_Core_Error::fatal(ts('Activity type %1, found in case configuration file, is not present in the database %2',
+                                  array(1 => $activityTypeName, 2 => $docLink)));
             return false;
         }
         $activityTypeID = $activityTypeInfo['id'];
