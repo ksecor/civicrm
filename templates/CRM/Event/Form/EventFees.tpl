@@ -164,7 +164,7 @@ if ('{/literal}{$totalAmount}{literal}'!= '' ) {
 }
 if(document.Participant.scriptFee.value){
   totalfee = parseFloat(document.Participant.scriptFee.value);
-  document.getElementById('pricelabel').style.display = "block";alert(totalfee);
+  document.getElementById('pricelabel').style.display = "block";
   document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalfee;
   document.Participant.scriptFee.value = parseFloat('0');
 }
