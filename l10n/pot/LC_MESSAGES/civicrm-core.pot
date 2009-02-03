@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.2\n"
-"POT-Creation-Date: 2009-02-03 14:15+0100\n"
+"POT-Creation-Date: 2009-02-03 15:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -8538,6 +8538,11 @@ msgstr ""
 msgid "There are no ACLs entered. You can <a href='%1'>add one</a>."
 msgstr ""
 
+#: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
+#: templates/CRM/ACL/Page/EntityRole.tpl
+msgid "Access Control Documenation"
+msgstr ""
+
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid "Which Data"
 msgstr ""
@@ -9049,6 +9054,10 @@ msgstr ""
 msgid "You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is 'HTML' or 'Both'."
 msgstr ""
 
+#: templates/CRM/Admin/Form/MessageTemplates.tpl
+msgid "token documentation"
+msgstr ""
+
 #: templates/CRM/Admin/Form/OptionGroup.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 msgid "New Option Group"
@@ -9372,6 +9381,10 @@ msgstr ""
 msgid "Separator character used when CiviMail generates VERP (variable envelope return path) Mail-From addresses."
 msgstr ""
 
+#: templates/CRM/Admin/Form/Setting/Mail.tpl
+msgid "CiviMail Administration Guide"
+msgstr ""
+
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid "CiviCRM includes plugins for Google and Yahoo mapping services which allow your users to display contact addresses on a map. To enable this feature, select your mapping provider and obtain a 'key' for your site from that provider."
 msgstr ""
@@ -9625,6 +9638,10 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "Core ACLs define the primitive ACLs that control access to your site."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Access.tpl templates/CRM/Admin/Page/Options.tpl
+msgid "Access Control Documentation"
 msgstr ""
 
 #: templates/CRM/Admin/Page/Admin.tpl
@@ -9934,6 +9951,10 @@ msgstr ""
 msgid "Enable debugging features including display of template variables and backtracing."
 msgstr ""
 
+#: templates/CRM/Admin/Page/Setting.tpl
+msgid "Administration Documentation"
+msgstr ""
+
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "Tags can be assigned to any contact record, and are a convenient way to find contacts. You can create as many tags as needed to organize and segment your records."
 msgstr ""
@@ -10222,6 +10243,10 @@ msgstr ""
 msgid "Refer to the %1 to learn about this process."
 msgstr ""
 
+#: templates/CRM/Case/Page/ConfigureError.tpl
+msgid "CiviCase Administration documentation"
+msgstr ""
+
 #: templates/CRM/Case/Page/DashboardSelector.tpl
 msgid "Click %1 to view case details."
 msgstr ""
@@ -10382,6 +10407,10 @@ msgstr ""
 msgid "View issues and report bugs."
 msgstr ""
 
+#: templates/CRM/common/footer.tpl
+msgid "Online documentation."
+msgstr ""
+
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"
 msgstr ""
@@ -10451,6 +10480,10 @@ msgstr ""
 
 #: templates/CRM/common/success.tpl
 msgid "Return to CiviCRM home page."
+msgstr ""
+
+#: templates/CRM/common/success.tpl
+msgid "Upgrade Documentation"
 msgstr ""
 
 #: templates/CRM/common/WizardHeader.tpl
@@ -10731,6 +10764,10 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 msgid "IMPORTANT: Search Builder requires you to use specific formats for your search values. Review the %1 before building your first search."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Builder.tpl
+msgid "Search Builder documentation"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Activity.tpl

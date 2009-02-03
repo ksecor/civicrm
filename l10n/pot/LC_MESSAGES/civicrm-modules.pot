@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.2\n"
-"POT-Creation-Date: 2009-02-03 14:15+0100\n"
+"POT-Creation-Date: 2009-02-03 15:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -6011,6 +6011,10 @@ msgstr ""
 msgid "Use the following URL in links and buttons on any website to send visitors to this live page"
 msgstr ""
 
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "CiviContribute Administration Documentation"
+msgstr ""
+
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid "CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc."
 msgstr ""
@@ -7030,6 +7034,10 @@ msgstr ""
 msgid "Review your customized <strong>LIVE</strong> online event registration page here. Use the following URL in links and buttons on any website to send visitors to this live page"
 msgstr ""
 
+#: templates/CRM/Event/Page/ManageEventEdit.tpl
+msgid "CiviEvent Administration documentation"
+msgstr ""
+
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Public?"
 msgstr ""
@@ -7349,6 +7357,10 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "You may choose to include a pre-configured Footer block below your message. This is a good place to include the required unsubscribe, opt-out and postal address tokens."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid "More information and sample messages..."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
