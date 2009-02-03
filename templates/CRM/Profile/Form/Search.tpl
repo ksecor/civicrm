@@ -55,6 +55,9 @@
           {/foreach}
         </tr>
         </table>
+	{if $field.html_type eq 'Radio' and $form.formName eq 'Search'}
+            &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
+	{/if}
         {/strip}
         </td>
     </tr>
@@ -78,7 +81,11 @@
 			<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
 		 </table></td>
                 {else}
-                    <td class="description">{$form.$n.html}</td>
+                    <td class="description">{$form.$n.html}
+		    	{if $field.html_type eq 'Radio' and $form.formName eq 'Search'}
+			    &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
+	    	        {/if}
+		    </td>
                 {/if}
         	</tr>
 	{/if}
