@@ -749,24 +749,26 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
      */
     function formatCustomFieldName( &$fields ) {
         //CRM-2676, replacing the conflict for same custom field name from different custom group.
+        $fieldIds = array();
         foreach ( $fields as $key => $value ) {
             require_once 'CRM/Core/BAO/CustomField.php';
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
                 $fieldIds[] = $customFieldId;
             }
         }
-        
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTitles = CRM_Core_BAO_CustomGroup::getGroupTitles( $fieldIds );
-        
-        if ( !empty( $groupTitles ) ) {
-            foreach ( $groupTitles as $fId => $values ) {
-                $key = "custom_{$fId}";
-                $groupTitle = $values['groupTitle'];
-                if ( strlen( $groupTitle ) > 13 ) {
-                    $groupTitle = substr( $groupTitle, 0, 10 ) . '...';
+        if ( !empty( $fieldIds ) && is_array( $fieldIds ) ) {
+            require_once 'CRM/Core/BAO/CustomGroup.php';
+            $groupTitles = CRM_Core_BAO_CustomGroup::getGroupTitles( $fieldIds );
+            
+            if ( !empty( $groupTitles ) ) {
+                foreach ( $groupTitles as $fId => $values ) {
+                    $key = "custom_{$fId}";
+                    $groupTitle = $values['groupTitle'];
+                    if ( strlen( $groupTitle ) > 13 ) {
+                        $groupTitle = substr( $groupTitle, 0, 10 ) . '...';
+                    }
+                    $fields[$key] = $groupTitle . ': ' . $fields[$key];
                 }
-                $fields[$key] = $groupTitle . ': ' . $fields[$key];
             }
         }
     }
