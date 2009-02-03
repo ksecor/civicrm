@@ -170,7 +170,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $membershipType->id = $membershipTypeId;
         //fix for membership type delete api
         if (! $membershipType->find(true )) {
-            return new CRM_Core_Error("Unable to find the membership type");
+            CRM_Core_Error::fatal('Unable to find the membership type');
         }
         $membershipType->delete();
     }
