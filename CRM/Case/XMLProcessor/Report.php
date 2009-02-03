@@ -36,7 +36,14 @@
 require_once 'CRM/Case/XMLProcessor.php';
 
 class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
-
+    
+    /**
+     * The default variable defined
+     *
+     * @var boolean
+     */
+    protected $_isRedact;
+    
     function run( $clientID,
                   $caseID,
                   $activitySetName,
@@ -48,11 +55,11 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         $template =& CRM_Core_Smarty::singleton( );
 
         if ( CRM_Utils_Array::value( 'is_redact', $params ) ) {
-        	$this->isRedact = true;
-            $template->assign( 'isRedact', 'true' );
+        	$this->_isRedact = true;
+            $template->assign( '_isRedact', 'true' );
         } else {
-        	$this->isRedact = false;
-            $template->assign( 'isRedact', 'false' );
+        	$this->_isRedact = false;
+            $template->assign( '_isRedact', 'false' );
         }
 
         // first get all case information
@@ -466,7 +473,7 @@ LIMIT  1
 
 	private function redact($s)
 	{
-		if ($this->isRedact) {
+		if ( $this->_isRedact ) {
 			// Pretty simple for now
 			return sha1($s);
 		} else {

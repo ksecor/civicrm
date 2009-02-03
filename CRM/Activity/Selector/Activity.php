@@ -150,8 +150,10 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         
         if ( $this->_context == 'case' ) {
             $qsView   .= "&caseid=%%caseid%%";
-            $qsUpdate .= "&caseid=%%caseid%%";
             $qsDelete .= "&caseid=%%caseid%%";
+            if ( $showUpdate ) {
+                $qsUpdate .= "&caseid=%%caseid%%";
+            }
         }
         
         self::$_actionLinks = array(
