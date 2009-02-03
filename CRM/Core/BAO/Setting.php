@@ -235,7 +235,6 @@ class CRM_Core_BAO_Setting
             // if a single-lang site or the above didn't yield a result, use default
             if ($lcMessages === null) {
                 $lcMessages = $defaults['lcMessages'];
-                $session->set('lcMessages', $lcMessages);
             }
 
             // set suffix for table names - use views if more than one language
