@@ -25,22 +25,25 @@ civicrm_invoke( );
 
 function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();
-    CRM_Core_DAO::init( $config->dsn );
 
     // this is the front end, so let others know
     $config->userFrameworkFrontend = 1;
-
-    $factoryClass = 'CRM_Contact_DAO_Factory';
-
-    CRM_Core_DAO::setFactory(new $factoryClass());
-
-    // set error handling
-    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
 }
 
 
 function civicrm_invoke( ) {
     civicrm_init( );
+
+    // check and ensure that we have a valid session
+    if ( ! empty( $_POST ) ) {
+        if ( count( $_SESSION ) <= 1 ||
+             empty( $_SESSION['CiviCRM'] ) ) {
+            require_once 'CRM/Utils/System.php';
+
+            $config =& CRM_Core_Config::singleton( );
+            CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
+        }
+    }
 
     // add all the values from the itemId param
     // overrride the GET values if conflict
