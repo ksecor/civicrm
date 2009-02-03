@@ -1174,6 +1174,7 @@ SELECT  display_name
                 CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
                                              $activityID,
                                              'original_id' );
+            $count = 0;
             if ( $originalID ) {
                 $query  = "
 SELECT count( id ) AS cnt

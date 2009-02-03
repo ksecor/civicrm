@@ -4,7 +4,6 @@
 *}
 
 {if !$clientName and $action eq 1}
-   <tr><td colspan="2">
    <fieldset><legend>{ts}New Client{/ts}</legend>
 	<table class="form-layout-compressed" border="0">
     <tr>
@@ -36,7 +35,6 @@
     {/if}
     </table>
    </fieldset>
-   </td></tr>
 {/if}
 
 <fieldset><legend>{if $action eq 8}{ts}Delete Case{/ts}{else}{$activityType}{/if}</legend>

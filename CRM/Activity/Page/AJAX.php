@@ -48,7 +48,7 @@ class CRM_Activity_Page_AJAX
         require_once "CRM/Case/BAO/Case.php";
         $activities = CRM_Case_BAO_Case::getCaseActivity( $caseID, $params, $contactID );
 
-        $page  = $_POST['page'];
+        $page  = CRM_Utils_Array::value( 'page', $_POST );
         $total = $params['total'];
 
         require_once "CRM/Utils/JSON.php";
