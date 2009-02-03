@@ -18,9 +18,9 @@
 
 {if $action eq 16 and $permission EQ 'edit'}
     <div class="action-link">
-       <a accesskey="N" href="{$newContribURL}" class="button"><span>&raquo; {ts}Record Contribution (Check, Cash, EFT ...){/ts}</a></span>
+       <a accesskey="N" href="{$newContribURL}" class="button"><span>&raquo; {ts}Record Contribution (Check, Cash, EFT ...){/ts}</span></a>
        {if $newCredit}
-           <a accesskey="N" href="{$newCreditURL}" class="button"><span>&raquo; {ts}Submit Credit / Debit Card Contribution{/ts}</a></span>
+           <a accesskey="N" href="{$newCreditURL}" class="button"><span>&raquo; {ts}Submit Credit / Debit Card Contribution{/ts}</span></a>
        {/if}
        <br/><br/>
     </div>

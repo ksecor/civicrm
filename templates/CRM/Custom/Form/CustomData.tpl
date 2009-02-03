@@ -89,7 +89,7 @@
 		{if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
 
 	</fieldset>
-    {if $cd_edit.is_multiple and $cd_edit.max_multiple > $cgCount }
+    {if $cd_edit.is_multiple and ( ( $cd_edit.max_multiple eq '' )  or ( $cd_edit.max_multiple > 0 and $cd_edit.max_multiple >= $cgCount ) ) }
         <div id="add-more-link-{$cgCount}"><a href="javascript:buildCustomData('{$cd_edit.extends}','{$cd_edit.extends_entity_column_id}', '{$cd_edit.extends_entity_column_value}', {$cgCount}, {$group_id}, true );">{ts 1=$cd_edit.title}Add another %1 record{/ts}</a></div>	
     {/if}
 </div>

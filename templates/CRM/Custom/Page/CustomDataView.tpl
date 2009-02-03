@@ -1,13 +1,20 @@
 {* Custom Data view mode*}
+{assign var="showEdit" value=1}
 {foreach from=$viewCustomData item=customValues}
 {foreach from=$customValues item=cd_edit key=index}
+    {if $showEdit and $editCustomData and $groupId}	
+      <div class="action-link">
+        <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}" class="button"><span>&raquo; {ts 1=$cd_edit.title}Edit %1{/ts}</span></a><br/><br/>
+      </div>
+    {/if}
+    {assign var="showEdit" value=0}
+
     <div id="{$cd_edit.name}_show_{$index}" class="section-hidden section-hidden-border">
-    <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
+    <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$cd_edit.title}</label><br />
     </div>
 
     <div id="{$cd_edit.name}_{$index}" class="section-shown form-item">
-    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
-    {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
+    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}</legend>
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
         {if $element.options_per_line != 0}
@@ -29,13 +36,9 @@
             {else}
                 <dd class="html-adjust">{$element.field_value}</dd>
             {/if}
-            {if $element.help_post}
-                <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
-            {/if}
         {/if}
     {/foreach}
     </dl>
-    {if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
     </fieldset>
     </div>
 

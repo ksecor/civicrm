@@ -301,7 +301,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomGroup');
 
-            $defaults['is_multiple'] = $defaults['min_multiple'] = $defaults['max_multiple'] = 0;
+            $defaults['is_multiple'] = $defaults['min_multiple'] = 0;
         }
 
         if (isset($this->_id)) {
