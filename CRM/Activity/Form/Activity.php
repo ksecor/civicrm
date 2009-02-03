@@ -306,7 +306,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign( 'activityTypeName',        $this->_activityTypeName );
             $this->assign( 'activityTypeDescription', $activityTypeDescription );
         }
-        
+        $url = null;
         // set user context
         if ( in_array( $this->_context, array( 'standalone', 'home', 'search') ) ) {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
@@ -314,7 +314,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $url = CRM_Utils_System::url('civicrm/contact/view',
                                          "action=browse&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity" );
         }
-        $session->pushUserContext( $url );
+        if ( $url ) {
+            $session->pushUserContext( $url );
+        }
         
         // hack to retrieve activity type id from post variables
         if ( ! $this->_activityTypeId ) {

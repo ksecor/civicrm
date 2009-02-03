@@ -37,7 +37,7 @@ require_once 'CRM/Case/XMLProcessor.php';
 
 class CRM_Case_XMLProcessor_Settings extends CRM_Case_XMLProcessor {
 
-	private $settings = array();
+	private $_settings = array();
 		
 	// Input: The base filename without the .xml extension
 	// Output: An array of settings.
@@ -51,12 +51,12 @@ class CRM_Case_XMLProcessor_Settings extends CRM_Case_XMLProcessor {
         		if ($xml->group[0]->attributes()) {
         			$groupName = (string) $xml->group[0]->attributes()->name;
 					if ($groupName) {
-						$settings['groupname'] = $groupName;
+						$this->_settings['groupname'] = $groupName;
 					}
         		}
         	}
         }
-        return $settings;
+        return $this->_settings;
 	}
 }
 ?>

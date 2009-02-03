@@ -76,6 +76,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public $_activityTypeId   = null;
 
     /**
+     * activity type Id
+     */
+    public $_activityId       = null;
+
+    /**
      * Function to build the form
      *
      * @return None
