@@ -89,12 +89,10 @@ cp civicrm/joomla/admin/install.civicrm.php      com_civicrm/admin
 cp civicrm/joomla/admin/toolbar.civicrm.php      com_civicrm/admin
 cp civicrm/joomla/admin/toolbar.civicrm.html.php com_civicrm/admin
 cp civicrm/joomla/admin/uninstall.civicrm.php    com_civicrm/admin
-cp civicrm/joomla/admin/civicrm.settings.php     com_civicrm/admin
 
 # copying front end code
 cp civicrm/joomla/site/civicrm.html.php      com_civicrm/site
 cp civicrm/joomla/site/civicrm.php           com_civicrm/site
-cp civicrm/joomla/site/civicrm.settings.php  com_civicrm/site
 cp -r civicrm/joomla/site/views              com_civicrm/site
 
 $DM_ZIP -q -r -9 com_civicrm/admin/civicrm.zip civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
