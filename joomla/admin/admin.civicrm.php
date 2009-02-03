@@ -23,13 +23,6 @@ civicrm_invoke( );
 
 function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();
-    CRM_Core_DAO::init( $config->dsn );
-
-    $factoryClass = 'CRM_Contact_DAO_Factory';
-    CRM_Core_DAO::setFactory(new $factoryClass());
-
-    // set error handling
-    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
 }
 
 function plugin_init( ) {
