@@ -8,7 +8,7 @@ if( isset( $GLOBALS['_SERVER']['DM_SOURCEDIR'] ) ) {
 $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
 
 if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
-    $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm/admin/civicrm';
+    $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm';
 } else {
     $targetDir = $argv[2];
 }
@@ -51,7 +51,7 @@ function generateJoomlaConfig( $version ) {
     $smarty->assign( 'CiviCRMVersion', $version );
     $xml = $smarty->fetch( 'joomla.tpl' );
     
-    $output = $targetDir . '/joomla/civicrm.xml';
+    $output = $targetDir . '/civicrm.xml';
     $fd = fopen( $output, "w" );
     fputs( $fd, $xml );
     fclose( $fd );

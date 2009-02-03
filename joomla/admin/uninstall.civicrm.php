@@ -5,7 +5,7 @@ defined('_JEXEC') or die('No direct access allowed');
 
 function com_uninstall()
 {
-	echo "uninstalled";
+	echo "You have uninstalled CiviCRM!";
 }
 
 
