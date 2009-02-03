@@ -68,8 +68,8 @@ class CRM_Admin_Form extends CRM_Core_Form
      * @return None
      */
     function setDefaultValues( ) {
-        $defaults = array( );
-        $params   = array( );
+        $defaults = $params = array( );
+        $defaults['is_active'] = null;
 
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );

@@ -64,8 +64,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
         
         $defaults['reset_date_time'] = array( );
         CRM_Utils_Date::getAllDefaultValues( $defaults['reset_date_time'] );
-        $defaults['reset_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
-
+        $defaults['reset_date_time']['i'] = (int ) ( $defaults['reset_date_time']['i'] / 15 ) * 15;
         $caseType  = CRM_Case_PseudoConstant::caseTypeName( $form->_caseId );
         $defaults['case_type_id'] = $caseType['id'];
 
