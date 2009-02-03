@@ -381,33 +381,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         
         $params =& $this->getActiveFieldParams( );
-        
         $formatted = array('contact_type' => $this->_contactType);
-        
-        //for date-Formats
-        $session =& CRM_Core_Session::singleton();
-        $dateType = $session->get("dateTypes");
-        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',
-                                                                                     $params ) );
-        foreach ( $params  as $key => $val ) {
-            if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-                if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
-                    self::formatCustomDate( $params, $formatted, $dateType, $key );
-                    unset( $params[$key] );
-                } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean' ) {
-                    $params[$key] = CRM_Utils_String::strtoboolstr( $val );
-                }
-            }
-            
-            if ( $key == 'birth_date' && $val ) {
-                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-            } else if ( $key == 'deceased_date' && $val ) {
-                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-            } else if ( $key == 'is_deceased' && $val ) {
-                $params[$key] = CRM_Utils_String::strtoboolstr( $val );
-            }
-        }
-        //date-Format part ends
         
         static $contactFields = null;
         if ( $contactFields == null) {
@@ -415,112 +389,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $contactFields =& CRM_Contact_DAO_Contact::import( );
         }
         
-        foreach ($params as $key => $field) {
-           
-            if ($field == null || $field === '') {
-                continue;
+        //format common data, CRM-4062
+        $this->formatCommonData( $params, $formatted, $contactFields );
                 
-            }
-         
-            if (is_array($field)) {
-                foreach ($field as $value) {
-                    $break = false;
-                    if ( is_array($value) ) {
-                        foreach ($value as $name => $testForEmpty) {
-                            if ($name !== 'phone_type_id' &&
-                                ($testForEmpty === '' || $testForEmpty == null)) {
-                                $break = true;
-                                break;
-                            }
-                        }
-                    } else {
-                        $break = true;
-                    }
-                    if (! $break) {                    
-                        _civicrm_add_formatted_param($value, $formatted);
-                    }
-                }
-                continue;
-            }
-            
-            $value = array($key => $field);
-           
-            if ( ( $key !== 'preferred_communication_method' ) && 
-                 ( array_key_exists( $key, $contactFields   ) ) ) {
-                // due to merging of individual table and
-                // contact table, we need to avoid
-                // preferred_communication_method forcefully
-                $value['contact_type'] = $this->_contactType;
-            }
-            
-            if ( $key == 'id' && isset( $field ) ) {
-                $formatted[$key] = $field;
-            }
-            
-            _civicrm_add_formatted_param($value, $formatted);
-            
-            //Handling Custom Data
-            if ( ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) && array_key_exists($customFieldID,$customFields) ) {
-                $type = $customFields[$customFieldID]['html_type'];
-                if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
-                    $mulValues = explode( ',' , $field );
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                    $formatted[$key] = array();
-                    foreach( $mulValues as $v1 ) {
-                        foreach( $customOption as $v2 ) {
-                            if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
-                                ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
-                                if ( $type == 'CheckBox' ) {
-                                    $formatted[$key][$v2['value']] = 1;
-                                } else {
-                                    $formatted[$key][] = $v2['value'];
-                                }
-                            }
-                        }
-                    }
-                } else if ( $type == 'Select' || $type == 'Radio' ) {
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                    foreach( $customOption as $v2 ) {
-                        if (( strtolower($v2['label']) == strtolower(trim($field)) )||
-                            ( strtolower($v2['value']) == strtolower(trim($field)) )) {
-                            $formatted[$key] = $v2['value'];
-                        }
-                    }
-                } else if( $type == 'Multi-Select State/Province' ) {
-                    $mulValues = explode( ',' , $field );
-                    $formatted[$key] = $stateValues = array();
-                    $stateAbbr = CRM_Core_PseudoConstant::stateProvinceAbbreviation();
-                    $stateName = CRM_Core_PseudoConstant::stateProvince();
-                    
-                    foreach( $mulValues as $values ) {
-                        if ( $val = CRM_Utils_Array::key( $values,$stateAbbr ) ) { 
-                            $formatted[$key][] = $val;
-                        }else if ( $val = CRM_Utils_Array::key( $values,$stateName ) ) { 
-                            $formatted[$key][] = $val;
-                        }
-                    } 
-                } else if( $type == 'Multi-Select Country' ) {
-                    $formatted[$key] = array();
-                    CRM_Core_PseudoConstant::populate( $countryNames, 'CRM_Core_DAO_Country', 
-                                                       true, 'name', 'is_active' );
-                    CRM_Core_PseudoConstant::populate( $countryIsoCodes, 
-                                                       'CRM_Core_DAO_Country',true, 
-                                                       'iso_code');
-                    $config =& CRM_Core_Config::singleton();
-                    $limitCodes = $config->countryLimit( );
-                    $mulValues = explode( ',' , $field );
-                    foreach( $mulValues as $values ) {
-                        if ( $val = CRM_Utils_Array::key( $values,$countryNames ) ) { 
-                            $formatted[$key][] = $val;
-                        }else if ($val = CRM_Utils_Array::key( $values,$countryIsoCodes ) ) { 
-                            $formatted[$key][] = $val;
-                        }else if ($val = CRM_Utils_Array::key( $values,$limitCodes ) ) { 
-                            $formatted[$key][] = $val;
-                        }
-                    }
-                }
-            }
-        }
         //check if external identifier exists in database
         if ( isset( $params['external_identifier'] ) && ($onDuplicate != CRM_Import_Parser::DUPLICATE_UPDATE) ) {
             require_once "CRM/Contact/BAO/Contact.php";
@@ -675,35 +546,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $contactFields = null;
                     $contactFields = CRM_Contact_DAO_Contact::import( );
                     
-                    foreach ($field as $k => $v) {
-                        if ($v == null || $v === '') {
-                            continue;
-                        }
-                        
-                        if (is_array($v)) {
-                            foreach ($v as $value) {
-                                $break = false;
-                                foreach ($value as $testForEmpty) {
-                                    if ($testForEmpty === '' || $testForEmpty == null) {
-                                        $break = true;
-                                        break;
-                                    }                        
-                                }
-                                if (! $break) {
-                                    _civicrm_add_formatted_param($value, $formatting);
-                                }
-                            }
-                            continue;
-                        }
-                        
-                        $value = array($k => $v);
-                        if (array_key_exists($k, $contactFields)) {
-                            $value['contact_type'] = $params[$key]['contact_type'];
-                        }
-                        
-                        _civicrm_add_formatted_param($value, $formatting);
-                    }
-
+                    //format common data, CRM-4062
+                    $this->formatCommonData( $field, $formatting, $contactFields );
+                    
                     //Relation on the basis of External Identifier.
                     if ( !CRM_Utils_Array::value( 'id' , $params[$key] ) && isset ( $params[$key]['external_identifier'] ) ) {
                         $params[$key]['id'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact',
@@ -1452,6 +1297,174 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $formatted[$dateParam] = CRM_Utils_Date::unformat( CRM_Utils_Date::mysqlToIso( $params[$dateParam] ) ); 
         }
     }
+    
+    /**
+     * format common params data to proper format to store.
+     *
+     * @param array  $params        contain record values.
+     * @param array  $formatted     array of formatted data.
+     * @param array  $contactFields contact DAO fields.
+     * @static
+     */
+    function formatCommonData( $params, &$formatted, &$contactFields )
+    {
+        //take contact cutom fields.
+        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type', $formatted ) );
+        
+        //format date first
+        $session  =& CRM_Core_Session::singleton();
+        $dateType = $session->get("dateTypes");
+        foreach ( $params  as $key => $val ) {
+            if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
+                    self::formatCustomDate( $params, $formatted, $dateType, $key );
+                    unset( $params[$key] );
+                } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean' ) {
+                    $params[$key] = CRM_Utils_String::strtoboolstr( $val );
+                }
+            }
+            
+            if ( $key == 'birth_date' && $val ) {
+                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+            } else if ( $key == 'deceased_date' && $val ) {
+                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+            } else if ( $key == 'is_deceased' && $val ) {
+                $params[$key] = CRM_Utils_String::strtoboolstr( $val );
+            }
+        }
+        
+        //now format custom data.
+        foreach ( $params as $key => $field ) {
+            if ( $field == null || $field === '' ) {
+                continue;
+            }
+            
+            if ( is_array( $field ) ) {
+                foreach ( $field as $value ) {
+                    $break = false;
+                    if ( is_array( $value ) ) {
+                        foreach ( $value as $name => $testForEmpty ) {
+                            if ( $name !== 'phone_type_id' && ( $testForEmpty === '' || $testForEmpty == null ) ) {
+                                $break = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        $break = true;
+                    }
+                    
+                    if ( !$break ) {                    
+                        _civicrm_add_formatted_param( $value, $formatted );
+                    }
+                }
+                continue;
+            }
+            
+            $formatValues = array( $key => $field );
+            
+            if ( ( $key !== 'preferred_communication_method' ) && 
+                 ( array_key_exists( $key, $contactFields   ) ) ) {
+                // due to merging of individual table and
+                // contact table, we need to avoid
+                // preferred_communication_method forcefully
+                $formatValues['contact_type'] = $this->_contactType;
+            }
+            
+            if ( $key == 'id' && isset( $field ) ) {
+                $formatted[$key] = $field;
+            }
+            
+            _civicrm_add_formatted_param( $formatValues, $formatted );
+            
+            //Handling Custom Data
+            if ( ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) 
+                 && array_key_exists( $customFieldID, $customFields ) ) {
+                
+                //get the html type.
+                $type = $customFields[$customFieldID]['html_type'];
+                
+                switch ( $type ) {
+                case 'CheckBox':
+                case 'Multi-Select':
+                    
+                    $mulValues       = explode( ',' , $field );
+                    $customOption    = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
+                    $formatted[$key] = array( );
+                    
+                    foreach ( $mulValues as $v1 ) {
+                        foreach ( $customOption as $v2 ) {
+                            if ( ( strtolower( $v2['label'] ) == strtolower( trim( $v1 ) ) ) || 
+                                 ( strtolower( $v2['value'] ) == strtolower( trim( $v1 ) ) ) ) { 
+                                
+                                if ( $type == 'CheckBox' ) {
+                                    $formatted[$key][$v2['value']] = 1;
+                                } else {
+                                    $formatted[$key][] = $v2['value'];
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    
+                case 'Select':
+                case 'Radio':
+                    
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
+                    foreach ( $customOption as $v2 ) {
+                        if ( ( strtolower( $v2['label'] ) == strtolower( trim( $field ) ) ) ||
+                             ( strtolower( $v2['value'] ) == strtolower( trim( $field ) ) ) ) {
+                            $formatted[$key] = $v2['value'];
+                        }
+                    }
+                    break;
+                    
+                case 'Multi-Select State/Province':
+                    
+                    $mulValues       = explode( ',' , $field );
+                    $stateAbbr       = CRM_Core_PseudoConstant::stateProvinceAbbreviation();
+                    $stateName       = CRM_Core_PseudoConstant::stateProvince();
+                    $formatted[$key] = $stateValues = array( );
+                    
+                    foreach( $mulValues as $values ) {
+                        if ( $val = CRM_Utils_Array::key( $values,$stateAbbr ) ) { 
+                            $formatted[$key][] = $val;
+                        }else if ( $val = CRM_Utils_Array::key( $values,$stateName ) ) { 
+                            $formatted[$key][] = $val;
+                        }
+                    } 
+                    break;
+                    
+                case 'Multi-Select Country' :
+                    
+                    $config          =& CRM_Core_Config::singleton( );
+                    $limitCodes      = $config->countryLimit( );
+                    $mulValues       = explode( ',' , $field );
+                    $formatted[$key] = array( );
+                    
+                    CRM_Core_PseudoConstant::populate( $countryNames, 'CRM_Core_DAO_Country', 
+                                                       true, 'name', 'is_active' );
+                    CRM_Core_PseudoConstant::populate( $countryIsoCodes, 
+                                                       'CRM_Core_DAO_Country',true, 
+                                                       'iso_code');
+                    
+                    foreach( $mulValues as $values ) {
+                        if ( $val = CRM_Utils_Array::key( $values, $countryNames ) ) { 
+                            $formatted[$key][] = $val;
+                        } else if ($val = CRM_Utils_Array::key( $values, $countryIsoCodes ) ) { 
+                            $formatted[$key][] = $val;
+                        } else if ($val = CRM_Utils_Array::key( $values, $limitCodes ) ) { 
+                            $formatted[$key][] = $val;
+                        }
+                    }
+                    break;
+                }
+                
+            }
+        }
+        
+        
+    }
+    
 }
 
 
