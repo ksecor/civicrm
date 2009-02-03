@@ -53,17 +53,20 @@
         {assign var="name" value=`$element.name`} 
         {*assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
         {assign var="element_name" value="custom_"|cat:$field_id}  
-        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
-	       {if $element.data_type eq 'Date'}
+        <dt>{$form.$element_name.label}</dt>
+	<dd class="html-adjust">{$form.$element_name.html}&nbsp;
+	    {if $element.html_type eq 'Radio'}
+		&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
+	    {/if}
+	    {if $element.data_type eq 'Date'}
 	        {if $element.skip_calendar NEQ true } 
-              <dt></dt><dd>  <span>
-                   
-		    {include file="CRM/common/calendar/desc.tpl" trigger="$element_name"}
+                <span class="html-adjust">
+                    {include file="CRM/common/calendar/desc.tpl" trigger="$element_name"}
 		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 doTime=1  trigger="$element_name"}
 		</span></dd>
 	
 	        {/if}
-              {/if}
+            {/if}
         		
         {if $element.help_post}
             <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
