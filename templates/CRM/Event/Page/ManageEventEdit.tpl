@@ -1,5 +1,5 @@
 <div id="help">
-    {capture assign=docLink}{docURL page="Manage Events" text="CiviEvent Administration documentation"}{/capture}
+    {capture assign=docLink}{docURL page="Manage Events" text="CiviEvent Administration Documentation"}{/capture}
     {ts 1=$docLink}You can update the features and content for this event from here. Refer to the %1 for more information.{/ts}
 </div>
 {ts}Participants{/ts}: <a href="{$findParticipants.urlCounted}" title="{ts}Find participants with counted statuses{/ts}">{$findParticipants.statusCounted}</a>, <a href="{$findParticipants.urlNotCounted}" title="{ts}Find participants with NOT counted statuses{/ts}">{$findParticipants.statusNotCounted}</a>
