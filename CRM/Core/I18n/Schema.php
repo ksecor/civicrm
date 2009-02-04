@@ -52,7 +52,7 @@ class CRM_Core_I18n_Schema
         $domain->find(true);
 
         // break early if the db is already multi-lang
-        if ($domain->locale) return;
+        if ($domain->locales) return;
 
         $dao =& new CRM_Core_DAO();
 
