@@ -134,18 +134,20 @@ class CRM_Event_Form_EventFees
                 foreach ( $eventLevel as $id => $name ) {
                     $optionValue         = new CRM_Core_BAO_OptionValue( );
                     $optionValue->label  = $name;
-                    $optionValue->find( true );
-                    if ( $optionValue->option_group_id ) {
-                        $groupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
-                                                                  $optionValue->option_group_id, 'name' );
-                        
-                        //hack to avoid collision of custom fields
-                        //option labels with price set fields labels.
-                        if ( strpos( $groupName, 'civicrm_price_field.amount' ) === 0 ) {
-                            $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', 
-                                                                      substr( $groupName, 27 ), 'label') ;
-                            $eventLevel[$id] = array( 'fieldName'   => $fieldName,
-                                                      'optionLabel' => $name );
+                    $optionValue->find( );
+                    while ( $optionValue->fetch( ) ) {
+                        if ( $optionValue->option_group_id ) {
+                            $groupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
+                                                                      $optionValue->option_group_id, 'name' );
+                            
+                            //hack to avoid collision of custom fields
+                            //option labels with price set fields labels.
+                            if ( strpos( $groupName, 'civicrm_price_field.amount' ) === 0 ) {
+                                $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', 
+                                                                          substr( $groupName, 27 ), 'label') ;
+                                $eventLevel[$id] = array( 'fieldName'   => $fieldName,
+                                                          'optionLabel' => $name );
+                            }
                         }
                     }
                 }
