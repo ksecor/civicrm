@@ -149,7 +149,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE |CRM_Core_Action::DISABLE ) ) {
             $this->edit($id, $action) ;
         } else {
-            // if action is enable or disable to the needful.
+            // if action is enable or disable do the needful.
             if ($action & CRM_Core_Action::ENABLE) {
                 require_once "CRM/Core/BAO/UFGroup.php";
                 CRM_Core_BAO_UFGroup::setIsActive($id, 1);
@@ -302,7 +302,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
      * @return void
      * @access public
      */
-    function preview( $id ) 
+    function preview( $id, $action ) 
     {
       $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Preview', ts('CiviCRM Profile Group Preview'),null);   
       $this->setContext( $id, $action );
