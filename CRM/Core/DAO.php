@@ -1105,6 +1105,10 @@ SELECT contact_id
         // first drop all the custom tables we've created
         require_once 'CRM/Core/BAO/CustomGroup.php';
         CRM_Core_BAO_CustomGroup::dropAllTables( );
+
+        // drop all multilingual views
+        require_once 'CRM/Core/I18n/Schema.php';
+        CRM_Core_I18n_Schema::dropAllViews();
         
         require_once 'CRM/Utils/File.php';
         CRM_Utils_File::sourceSQLFile( CIVICRM_DSN,
