@@ -354,10 +354,12 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         require_once 'CRM/Contribute/BAO/PCP.php';
         $pcpId = CRM_Utils_Request::retrieve( 'pcpId', 'Positive', $this );
         if ( $pcpId ) {
-            require_once 'CRM/Contribute/PseudoConstant.php';
+            require_once 'CRM/Core/OptionGroup.php';
+            $approvedId    = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
             
             $prms =  array( 'entity_id' => $this->_values['id'], 
                             'entity_table' => 'civicrm_contribution_page' );
+            require_once 'CRM/Contribute/PseudoConstant.php';
             $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCPBlock', 
                                           $prms,
@@ -371,23 +373,44 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $now       = time( );
 
             if ( $pcpInfo['contribution_page_id'] != $this->_values['id'] ) {
-                CRM_Core_Error::fatal( ts('This Personal Campaign Page Not Releted this contribution page.') );
-            } else if ( $pcpInfo['status_id'] != 2 ) {
-                CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpInfo['status_id']] )) );
+                $statusMessage = ts('This contribution page is not related to the Personal Campaign Page you have just visited. However you can still make a contribution here.');
+                CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                                    "reset=1&id={$this->_values['id']}",
+                                                                                    false, null, false, true ) );
+            } else if ( $pcpInfo['status_id'] != $approvedId ) {
+                $statusMessage = ts('The Personal Campaign Page you have just visited is currently %1. However you can still support the campaign by making a contribution here.', array( 1=> $pcpStatus[$pcpInfo['status_id']] ) );
+                CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                                    "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                                    false, null, false, true ) );
             } else if ( ! CRM_Utils_Array::value( 'is_active', $pcpBlock ) ) {
-                CRM_Core_Error::fatal( ts('This Personal Campaign Page Block is disabled.') );
+                $statusMessage = ts('Personal Campaign Pages are currently not enabled for this contribution page. However you can still support the campaign by making a contribution here.');
+                CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                                    "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                                    false, null, false, true ) );
             }  else if ( ! CRM_Utils_Array::value( 'is_active', $pcpInfo ) ) {
-                CRM_Core_Error::fatal( ts('This Personal Campaign Page is disabled.') );
+                $statusMessage = ts('The Personal Campaign Page you have just visited is current inactive. However you can still make a contribution here.');
+                CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                                    "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                                    false, null, false, true ) );
             } else if ( ( $startDate && $startDate > $now ) || ( $endDate && $endDate < $now ) ) {
                 $customStartDate =  CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'start_date',$this->_values ) );
                 $customEndDate   =  CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'end_date',$this->_values ) );
                 if ( $startDate && $endDate ) {
-                    CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page in between %1 to %2.', 
-                                              array( 1 => $customStartDate  , 2 => $customEndDate ) ) );
+                    $statusMessage = ts('The Personal Campaign Page you have just visited is only active between %1 to %2. However you can still support the campaign by making a contribution here.', 
+                                              array( 1 => $customStartDate  , 2 => $customEndDate ) );
+                    CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                                        "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                                        false, null, false, true ) );
                 } else if ( $startDate ) {
-                    CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page begins on %1.', array( 1 => $customStartDate ) ) );
+                    $statusMessage = ts('The Personal Campaign Page you have just visited will be active beginning on %1. However you can still support the campaign by making a contribution here.', array( 1 => $customStartDate ) );
+                    CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                                        "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                                        false, null, false, true ) );
                 } else if ( $endDate ) {
-                    CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page ended on %1.', array( 1 => $customEndDate ) ) );
+                    $statusMessage = ts('The Personal Campaign Page you have just visited is not longer active (as of %1). However you can still support the campaign by making a contribution here.', array( 1 => $customEndDate ) );
+                    CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                                        "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                                        false, null, false, true ) );
                 } 
             }
             
