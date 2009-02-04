@@ -248,9 +248,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         foreach ( $rest as $k => $v ) {
             if ( CRM_Utils_Array::value($k, $this->_viewOptions) ) {
-                
-            
-                $allTabs[] = array( 'id'     =>  $k,
+                  $allTabs[] = array( 'id'     =>  $k,
                                     'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
                                                                        "reset=1&snippet=1&cid={$this->_contactId}" ),
                                     'title'  => $v,
@@ -299,9 +297,6 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             }
         }
 
-
-
-
         // now sort the tabs based on weight
         require_once 'CRM/Utils/Sort.php';
         usort( $allTabs, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
@@ -310,9 +305,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      
         $selectedChild = CRM_Utils_Request::retrieve( 'selectedChild', 'String', $this, false, 'summary' );
         $this->assign( 'selectedChild', $selectedChild );
-        
     }
-
 
 
     /**

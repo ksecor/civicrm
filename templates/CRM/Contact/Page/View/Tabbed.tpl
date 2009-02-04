@@ -4,9 +4,9 @@
 {else}
 <div id="mainTabContainer" >
     <ul>
-        <li><a href="#summary" title="{ts}Summary{/ts}" >{ts}Summary{/ts}</a></li>
+        <li id="tab_summary"><a href="#summary" title="{ts}Summary{/ts}" >{ts}Summary{/ts}</a></li>
         {foreach from=$allTabs key=tabName item=tabValue}
-            <li><a href="{$tabValue.url}" title="{$tabValue.title}">{$tabValue.title}</a></li>
+            <li id="tab_{$tabValue.id}"><a href="{$tabValue.url}" title="{$tabValue.title}">{$tabValue.title}</a></li>
         {/foreach}
     </ul>
     
@@ -207,11 +207,12 @@
 
  <script type="text/javascript"> 
    {if !$contactTag}cj("#tagLink").hide( );{/if}
-   var selectedTab = 0;
+   var selectedTab = 'summary';
    {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
 {literal}
     cj( function() {
-        cj("#mainTabContainer").tabs( {selected: selectedTab} );        
+        var tabIndex = $('#tab_' + selectedTab).prevAll().length
+        cj("#mainTabContainer").tabs( {selected: tabIndex} );        
     });
 
    init_blocks = function( ) {
