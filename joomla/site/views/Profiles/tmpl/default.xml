@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="CiviCRM Profiles Create">
-		<message>
-		</message>
+    <layout title="Profile Create">
+      <message>
+      </message>
 	</layout>
     <state>
         <name>CiviCRM</name>

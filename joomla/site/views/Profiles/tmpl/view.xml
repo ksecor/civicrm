@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="CiviCRM Profiles View">
-		<message>
-		</message>
-	</layout>
+    <layout title="Profile View">
+      <message>
+      </message>
+    </layout>
     <state>
         <name>CiviCRM</name>
         <creationDate>04/01/2008</creationDate>

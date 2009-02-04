@@ -143,8 +143,6 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'label'), true);
-        $this->addRule( 'label', ts('Name already exists in Database.'), 
-                        'objectExists', array( 'CRM_Core_DAO_PriceField', $this->_fid, 'label' ) );
         
         // html_type
         $javascript = 'onchange="option_html_type(this.form)";';
