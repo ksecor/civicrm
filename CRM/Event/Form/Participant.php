@@ -1010,13 +1010,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $role = CRM_Event_PseudoConstant::participantRole();
             $event['participant_role'] = $role[$params['role_id']];
             $event['is_monetary'] = $this->_isPaidEvent;
+           
+            if ( $params['receipt_text'] ) {
+                $event['confirm_email_text'] =  $params['receipt_text'];
+            }
+          
             $this->assign( 'isAmountzero', 1 );
             $this->assign( 'event' , $event );
-            if ( $params['receipt_text'] ) {
-                $emailText = array();
-                $emailText['confirm_email_text'] =  $params['receipt_text'];
-                $this->assign( 'emailText' , $emailText );
-            }
             $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                            $params['event_id'],
                                                            'is_show_location' );
