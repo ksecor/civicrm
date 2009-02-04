@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-01-30 08:47-0800\n"
+"PO-Revision-Date: 2009-02-02 23:49-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -10473,8 +10473,8 @@ msgstr "स्मार्ट समूह"
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "%count Result"
 msgid_plural "%count Results"
-msgstr[0] "%गिनती परिणाम"
-msgstr[1] "%गिनती परिणाम"
+msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/common/searchResultTasks.tpl
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
