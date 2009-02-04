@@ -30,5 +30,14 @@ NOTE: Tell a Friend emails will automatically include a link to the sender's cam
 {/htxt}
 
 {htxt id="id-link_text"}
-{ts}Text of the link inviting constituents to create a Personal Contribution Page. This link will appear on the Contribution Thank-you page as well as on each Personal Campaign Page.{/ts}
+{ts}Text for the link inviting constituents to create a Personal Contribution Page. This link will appear on the Contribution Thank-you page as well as on each Personal Campaign Page.{/ts}
+
+<p>
+{if $config->userFramework EQ 'Drupal' OR $config->userFramework EQ 'Standalone'}
+    {ts}When Personal Campaign Pages are enabled, you can also place additional links (or menu items) inviting constituents to create personal fundraising pages using the following URL:{/ts}<br /><br />
+    <strong>{crmURL a=true p='civicrm/contribute/campaign' q="action=add&reset=1&pageId=`$pageId`"}</strong></dd>
+{elseif $config->userFramework EQ 'Joomla'}
+    {ts 1=$title}When Personal Campaign Pages are enabled, create front-end links inviting constituents to create personal fundraising pages using the Menu Manager. Select <strong>CiviCRM &raquo; Create Personal Campaign Pages</strong> and then select <strong>%1</strong> for the contribution page.{/ts}
+{/if}
+</p>
 {/htxt}
