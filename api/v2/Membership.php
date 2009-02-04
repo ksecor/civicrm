@@ -191,12 +191,13 @@ function civicrm_membership_type_delete( &$params ) {
     if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
         return civicrm_create_error( 'Invalid or no value for membershipTypeID' );
     }
-
+    
     require_once 'CRM/Member/BAO/MembershipType.php';
     $memberDelete = CRM_Member_BAO_MembershipType::del( $params['id'] );
-    return $memberDelete ?
-        civicrm_create_error('Error while deleting membership type') : 
-        civicrm_create_success( );
+    
+    return $memberDelete ? 
+        civicrm_create_success( "Given Membership Type have been deleted" ) : 
+        civicrm_create_error('Error while deleting membership type');
 }
 
 /**
