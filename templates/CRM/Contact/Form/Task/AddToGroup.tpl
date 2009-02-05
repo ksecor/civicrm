@@ -29,22 +29,18 @@
 
 {include file="CRM/common/showHide.tpl"}
 
-{literal} 
-<script type="text/javascript">
-{/literal}
 {if !$group.id}
 {literal}
+<script type="text/javascript">
 showElements();
 function showElements() {
-
-if ( document.getElementsByName('group_option')[0].checked ) {
-  show('id_existing_group');
-  hide('id_new_group');
-} else 
-{
-  show('id_new_group');
-  hide('id_existing_group');  
-}
+    if ( document.getElementsByName('group_option')[0].checked ) {
+      show('id_existing_group');
+      hide('id_new_group');
+    } else {
+      show('id_new_group');
+      hide('id_existing_group');  
+    }
 }
 </script>
 {/literal} 
