@@ -105,7 +105,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             // }
             
             if ( $fields['style'] == 'Inline' ) {
-                $errors['style'] = ts("'Multiple custom values' feature is not supported with Inline custom data.");
+                $errors['style'] = ts("'Multiple records' feature is not supported for the 'Inline' display style. Please select 'Tab' as the display style if you want to use this feature.");
             }
         }
         
