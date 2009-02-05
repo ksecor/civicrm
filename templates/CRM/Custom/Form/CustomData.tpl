@@ -1,4 +1,4 @@
-{* Custom Data form*}{debug}
+{* Custom Data form*}
 {foreach from=$groupTree item=cd_edit key=group_id}
     <span id="statusmessg_{$group_id}" class="success-status" style="display:none;">{ts}Selected Custom value has been deleted.{/ts}&nbsp; <a href="javascript:hideStatus( {$group_id});">{ts}Hide{/ts}</a></span>
 <div id="{$cd_edit.name}_show_{$cgCount}" class="section-hidden section-hidden-border">
