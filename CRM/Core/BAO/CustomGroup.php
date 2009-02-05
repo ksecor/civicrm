@@ -1354,6 +1354,7 @@ SELECT $select
                 if ( !empty( $properties['customValue'] ) ) {
                     if ( isset( $properties['customValue'][$groupCount] ) ) {
                         $properties['element_name'] = "custom_{$k}_{$properties['customValue'][$groupCount]['id']}";
+                        $properties['element_id'  ] = $properties['customValue'][$groupCount]['id'];
                         if ( $properties['data_type'] == 'File' ) {
                             $properties['element_value'] = $properties['customValue'][$groupCount];
                             $uploadNames[]    = $properties['element_name']; 
