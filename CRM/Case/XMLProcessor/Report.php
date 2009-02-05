@@ -319,8 +319,8 @@ WHERE      a.id = %1
                                        'type'  => 'Date' );
 
         $activity['fields'][] = array( 'label' => 'Details',
-                                      'value' => $activityDAO->details,
-                                      'type'  => 'Memo' );
+                                       'value' => $activityDAO->details,
+                                       'type'  => 'Memo' );
         
         // Skip Duration field if empty (to avoid " minutes" output). Might want to do this for all fields at some point. dgg
         if ( $activityDAO->duration ) {

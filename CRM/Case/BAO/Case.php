@@ -920,27 +920,43 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
      * @return void
      * @access public
      */
-    static function sendActivityCopy( $clientId, $activityId, $contacts, $attachments = null )
+    static function sendActivityCopy( $clientId, $activityId, $contacts, $attachments = null, $caseId )
     {   
+        if ( !$activityId || !$caseId ) {
+            return;
+        }
+
         require_once 'CRM/Utils/Mail.php';
         require_once 'CRM/Contact/BAO/Contact/Location.php';        
         $template =& CRM_Core_Smarty::singleton( );
 
-        $activityInfo = array( );
-        $params       = array( 'id' => $activityId );
-
+        $activityInfo   = array( );
+                
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
         $activityInfo = $xmlProcessor->getActivityInfo($clientId, $activityId);
         $template->assign('activity', $activityInfo );
 
-        $subject = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activityId, 'subject' );
-        $template->assign('activitySubject', $subject);
+        $activitySubject = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activityId, 'subject' );
+        $session =& CRM_Core_Session::singleton( );
+        
+        //also create activities simultaneously of this copy.
+        require_once "CRM/Activity/BAO/Activity.php";
+        $activityParams = array( );
+        
+        $activityParams['source_record_id']   = $activityId; 
+        $activityParams['source_contact_id']  = $session->get( 'userID' ); 
+        $activityParams['activity_type_id']   = CRM_Core_OptionGroup::getValue( 'activity_type', 'Email', 'name' );
+        $activityParams['activity_date_time'] = date('YmdHis');
+        $activityParams['status_id']          = CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' );
+        $activityParams['medium_id']          = CRM_Core_OptionGroup::getValue( 'encounter_medium', 'email', 'name' );
+        $activityParams['is_auto']            = 0;
+        
+        $template->assign('activitySubject', $activitySubject);
 
         $emailTemplate  = 'CRM/Case/Form/ActivityMessage.tpl';
         $result         = array();
 
-        $session =& CRM_Core_Session::singleton( );
         list ($name, $address) = 
             CRM_Contact_BAO_Contact_Location::getEmailDetails( $session->get( 'userID' ) );
 
@@ -948,7 +964,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             
         $template->assign( 'returnContent', 'subject' );
         $subject = $template->fetch( $emailTemplate );
-
+        
         foreach ( $contacts as  $cid => $info ) {
             $template->assign( 'contact', $info );
             $template->assign( 'returnContent', 'textMessage' );
@@ -957,6 +973,10 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             $displayName = $info['name'];
             $email       = $info['email'];
             
+            $activityParams['subject']            = $activitySubject.' - copy sent to '.$displayName;
+            $activityParams['details']            = $message;
+            $activityParams['target_contact_id']  = $cid;
+
             $result[] = CRM_Utils_Mail::send( $receiptFrom,
                                               $displayName,
                                               $email,
@@ -968,10 +988,17 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
                                               null,
                                               $attachments
                                               );
+            
+            $activity = CRM_Activity_BAO_Activity::create( $activityParams );
+
+            //create case_activity record.
+            $caseParams = array( 'activity_id' => $activity->id,
+                                 'case_id'     => $caseId   );
+            self::processCaseActivity( $caseParams );
         }
         return $result;
     }
-
+    
     /**
      * Retrieve count of activities having a particular type, and
      * associated with a particular case.

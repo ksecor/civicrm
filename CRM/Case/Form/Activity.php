@@ -453,7 +453,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                                                               $activity->id );
             
             $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
-                                                           $activity->id, $mailToContacts, $attachments );
+                                                           $activity->id, $mailToContacts, $attachments, $this->_caseId );
             $mailStatus = "A copy of the activity has also been sent to selected contacts(s).";
         }
 

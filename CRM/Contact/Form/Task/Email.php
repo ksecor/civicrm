@@ -76,7 +76,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
     
     function preProcess( ) {
         CRM_Contact_Form_Task_EmailCommon::preProcess( $this );
-
+        
+        // store case id if present
         $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this, false );
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, false );
@@ -87,9 +88,6 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             parent::preProcess( );
         }
         $this->assign( 'single', $this->_single );
-
-        // store case id if present
-        CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
     }
     
     /**
