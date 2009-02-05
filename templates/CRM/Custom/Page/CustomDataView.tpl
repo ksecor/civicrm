@@ -6,16 +6,16 @@
       <div class="action-link">
         <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts 1=$cd_edit.title}Edit %1{/ts}</span></a><br/><br/>
       </div>
-      <span id="statusmessg_{$customGroupId}" class="success-status" style="display:none;">{ts}Selected Custom value has been deleted.{/ts}&nbsp; <a href="javascript:hideStatus( {$customGroupId});">{ts}Hide{/ts}</a></span>
+      <span id="statusmessg_{$customGroupId}" class="success-status" style="display:none;"></span><br/>
     {/if}
     {assign var="showEdit" value=0}
     
     <div id="{$cd_edit.name}_show_{$index}" class="section-hidden section-hidden-border">
-    <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$cd_edit.title}</label>{if $groupId and $index}&nbsp;( <a href="javascript:deleteCustomValue( {$index}, '{$cd_edit.name}_show_{$index}', {$customGroupId} );">{ts}Delete{/ts}</a> ){/if}<br />
+    <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$cd_edit.title}</label>{if $groupId and $index}&nbsp; <a href="javascript:showDelete( {$index}, '{$cd_edit.name}_show_{$index}', {$customGroupId} );"><img title="remove custom value" src="{$config->resourceBase}i/delete.png"/></a>{/if}<br />
     </div>
 
     <div id="{$cd_edit.name}_{$index}" class="section-shown form-item">
-    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}{if $groupId and $index}&nbsp;( <a href="javascript:deleteCustomValue( {$index}, '{$cd_edit.name}_{$index}', {$customGroupId} );">{ts}Delete{/ts}</a> ){/if}</legend>
+    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}{if $groupId and $index}&nbsp;<a href="javascript:showDelete( {$index}, '{$cd_edit.name}_{$index}', {$customGroupId} );"><img title="remove custom value" src="{$config->resourceBase}i/delete.png"/></a>{/if}</legend>
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
         {if $element.options_per_line != 0}
@@ -60,6 +60,10 @@
     function hideStatus( groupID ) {
         cj( '#statusmessg_' + groupID ).hide( );
     }
+    function showDelete( valueID, elementID, groupID ) {
+        var confirmMsg = 'Are you sure you want to  <a href="javascript:deleteCustomValue( ' + valueID + ',\'' + elementID + '\',' + groupID + ' );">Delete</a> or <a href="javascript:hideStatus( ' + groupID + ' );">Cancel</a>';
+        cj( '#statusmessg_' + groupID ).show( ).html( confirmMsg );
+    }
     function deleteCustomValue( valueID, elementID, groupID ) {
         var postUrl = {/literal}"{crmURL p='civicrm/ajax/customvalue' h=0 }"{literal};
         cj.ajax({
@@ -68,7 +72,9 @@
           url: postUrl,
           success: function(html){
               cj( '#' + elementID ).hide( );
-              cj( '#statusmessg_' + groupID ).show( );
+              var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
+              var successMsg = 'Selected Custom value has been deleted.&nbsp; <a href="javascript:hideStatus( ' + groupID + ');"><img title="close" src="' +resourceBase+'packages/dojo/dijit/themes/tundra/images/tabClose.png"/></a>';
+              cj( '#statusmessg_' + groupID ).show( ).html( successMsg );
           }
         });
     }
