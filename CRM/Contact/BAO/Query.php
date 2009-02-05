@@ -338,7 +338,7 @@ class CRM_Contact_BAO_Query
         $this->_includeContactIds       = $includeContactIds;
         $this->_strict                  = $strict;
         $this->_mode                    = $mode;
-        $this->_skipPermission          = false;
+        $this->_skipPermission          = $skipPermission;
         $this->_smartGroupCache         = $smartGroupCache;
 
         if ( $fields ) {
