@@ -6,7 +6,7 @@
       <div class="action-link">
         <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts 1=$cd_edit.title}Edit %1{/ts}</span></a><br/><br/>
       </div>
-      <span id="statusmessg" class="success-status">{ts}Selected Custom value has been deleted.{/ts}&nbsp; <a href="javascript:hide('statusmessg');">{ts}Hide{/ts}</a></span>
+      <span id="statusmessg_{$customGroupId}" class="success-status" style="display:none;">{ts}Selected Custom value has been deleted.{/ts}&nbsp; <a href="javascript:hideStatus( {$customGroupId});">{ts}Hide{/ts}</a></span>
     {/if}
     {assign var="showEdit" value=0}
     
@@ -57,10 +57,9 @@
 {if $groupId}
 <script type="text/javascript">
     {literal}
-    cj( function ( ) {
-        cj( '#statusmessg').hide( );
-    });
-
+    function hideStatus( groupID ) {
+        cj( '#statusmessg_' + groupID ).hide( );
+    }
     function deleteCustomValue( valueID, elementID, groupID ) {
         var postUrl = {/literal}"{crmURL p='civicrm/ajax/customvalue' h=0 }"{literal};
         cj.ajax({
@@ -69,7 +68,7 @@
           url: postUrl,
           success: function(html){
               cj( '#' + elementID ).hide( );
-              cj( '#statusmessg').show( ).fadeOut( 10000 );
+              cj( '#statusmessg_' + groupID ).show( );
           }
         });
     }
