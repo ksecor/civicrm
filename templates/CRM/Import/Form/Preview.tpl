@@ -1,127 +1,123 @@
 {if $config->userFramework ne 'Joomla'}
-{literal}
 <script type="text/javascript">
-dojo.require("dijit.ProgressBar");
-dojo.require("dojo.parser");
-var finished = 0;
+    {literal}
 
-setFinished = function(data, ioArgs) {
-var finished = 1;
-{/literal}
-  if ( data.match( 'unexpected error' ) ) {ldelim}
-    var prog = document.getElementById('error_status');
-    prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
-    var ok = confirm( 'Would you like to reload this page and try again?' );
-    if (ok) {ldelim}
-       location.href = "{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}";
-    {rdelim}
-  {rdelim} else {ldelim}
-    location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
-  {rdelim}
-  return data;
-{literal}
-}
+    dojo.require("dijit.ProgressBar");
+    dojo.require("dojo.parser");
+    var finished = 0;
 
-setError = function(data, ioArgs){
-  var prog = document.getElementById('error_status');
-  prog.innerHTML = "<p>We encountered an unknown error in setError: " + data + "</p>";
-  finished = 1;
-  return data;
-}
+    setFinished = function(data, ioArgs) {
+        var finished = 1;
+        {/literal}
+        if ( data.match( 'unexpected error' ) ) {ldelim}
+            var prog = document.getElementById('error_status');
+            prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
+            var ok = confirm( 'Would you like to reload this page and try again?' );
+            if (ok) {ldelim}
+                location.href = "{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}";
+            {rdelim}
+        {rdelim} else {ldelim}
+            location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
+        {rdelim}
+        return data;
+        {literal}
+    }
 
-setIntermediate = function( ) {
+    setError = function(data, ioArgs){
+        var prog = document.getElementById('error_status');
+        prog.innerHTML = "<p>We encountered an unknown error in setError: " + data + "</p>";
+        finished = 1;
+        return data;
+    }
 
-    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 }"{literal}
+    setIntermediate = function( ) {
+        var dataUrl = {/literal}"{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 }"{literal}
+        dojo.xhrGet({
+            url: dataUrl,
+            handleAs: "json",
+            preventCache: true,
+            sync: true,
+            timeout: 5000,
+            load: function(response, ioArgs) {
+                if (response instanceof Error){
+                    if(response.dojoType == "cancel"){
+                        //The request was canceled by some other JavaScript code.
+                        console.debug("Request canceled.");
+                    }else if(response.dojoType == "timeout"){
+                        //The request took over 5 seconds to complete.
+                        console.debug("Request timed out.");
+                    }else{
+                        //Some other error happened.
+                        console.error(response);
+                    }
+                } else {
+                    var inter = document.getElementById("intermediate");
+                    var dataStr = response.toString();
+                    var result  = dataStr.split(",");
 
-    dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "json",
-        preventCache: true,
-        sync: true,
-	timeout: 5000,
-        load: function(response, ioArgs) {
-	  if (response instanceof Error){
-	    if(response.dojoType == "cancel"){
-	      //The request was canceled by some other JavaScript code.
-	      console.debug("Request canceled.");
-	    }else if(response.dojoType == "timeout"){
-	      //The request took over 5 seconds to complete.
-	      console.debug("Request timed out.");
-	    }else{
-	      //Some other error happened.
-	      console.error(response);
-	    }
-	  } else {
-	    var inter = document.getElementById("intermediate");
-	    var dataStr = response.toString();
-	    var result  = dataStr.split(",");
+                    inter.innerHTML = result[1];
+                    var bar =  dijit.byId("importProgressBar");
+                    bar.domNode.style.display = "block";	
+                    bar.update({progress :result[0]});
+                }        
+            }
+        });
+    }
 
-	    inter.innerHTML = result[1];
-	    var bar =  dijit.byId("importProgressBar");
-	    bar.domNode.style.display = "block";	
-	    bar.update({progress :result[0]});
-	  }        
-	}
-});
+    submitForm = function( e ) {
+        dojo.stopEvent( e );
 
+        // Disable Import button
+        if (document.getElementById) {
+            obj = document.getElementsByName('_qf_Preview_next')[0];
+            if (obj.value != null) {
+                obj.value = "Processing...";
+                obj.disabled = true;
+            }
+            obj = document.getElementsByName('_qf_Preview_cancel')[0];
+            if (obj.value != null) {
+                obj.disabled = true;
 
-}
-
-submitForm = function( e ) {
-     dojo.stopEvent( e );
-
-    // Disable Import button
-    if (document.getElementById) {
-        obj = document.getElementsByName('_qf_Preview_next')[0];
-        if (obj.value != null) {
-            obj.value = "Processing...";
-            obj.disabled = true;
+            }
+            obj = document.getElementsByName('_qf_Preview_back')[0];
+            if (obj.value != null) {
+                obj.disabled = true;
+            }
         }
-        obj = document.getElementsByName('_qf_Preview_cancel')[0];
-        if (obj.value != null) {
-            obj.disabled = true;
 
-        }
-        obj = document.getElementsByName('_qf_Preview_back')[0];
-        if (obj.value != null) {
-            obj.disabled = true;
+        hide('help');
+        hide('preview-info');
+        show('id-processing');
+
+        var kw = {
+            {/literal}
+            url: "{crmURL p='civicrm/import/contact' h=0}",
+            {literal}
+            form: dojo.byId("Preview"),
+            handleAs: "text",
+            load: setFinished,
+            error: setError,
+            timeout: 1500000
+        };
+
+        dojo.xhrPost( kw );
+        pollLoop( );
+    }
+
+    pollLoop = function(){
+        setIntermediate();
+        if ( ! finished ) {
+            window.setTimeout( pollLoop,10*1000); // 10 sec
         }
     }
 
-    hide('help');
-    hide('preview-info');
-    show('id-processing');
+    dojo.addOnLoad( function( ) {
+        dojo.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
+        dijit.byId("importProgressBar").domNode.style.display = "none";
+    } );
 
-    var kw = {
-{/literal}
-	url: "{crmURL p='civicrm/import/contact' h=0}",
-{literal}
-	form: dojo.byId("Preview"),
-        handleAs: "text",
-	load: setFinished,
-	error: setError,
-	timeout: 1500000
-    };
-   
-    dojo.xhrPost( kw );
-
-    pollLoop( );
-}
-
-pollLoop = function(){
-    setIntermediate();
-    if ( ! finished ) {
-         window.setTimeout( pollLoop,10*1000); // 10 sec
-    }
-}
-
-
-dojo.addOnLoad( function( ) {
-   dojo.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
-   dijit.byId("importProgressBar").domNode.style.display = "none";
-} );
+    {/literal}
 </script>
-{/literal}
 {/if}
 
 {literal}
