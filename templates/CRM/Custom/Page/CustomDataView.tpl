@@ -73,7 +73,7 @@
           success: function(html){
               cj( '#' + elementID ).hide( );
               var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
-              var successMsg = 'Selected Custom value has been deleted.&nbsp; <a href="javascript:hideStatus( ' + groupID + ');"><img title="close" src="' +resourceBase+'packages/dojo/dijit/themes/tundra/images/tabClose.png"/></a>';
+              var successMsg = 'Selected Custom value has been deleted.&nbsp; <a href="javascript:hideStatus( ' + groupID + ');"><img title="close" src="' +resourceBase+'i/close.png"/></a>';
               cj( '#statusmessg_' + groupID ).show( ).html( successMsg );
           }
         });
