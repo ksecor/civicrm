@@ -309,20 +309,24 @@ class CRM_Core_I18n_Schema
 
             $trigger = array();
             $trigger[] = "CREATE TRIGGER {$table}_before_insert BEFORE INSERT ON {$table} FOR EACH ROW BEGIN";
-            foreach ($hash as $column => $_) {
-                $trigger[] = "IF NEW.{$column}_{$locale} IS NOT NULL THEN";
-                foreach ($locales as $old) {
-                    $trigger[] = "SET NEW.{$column}_{$old} = NEW.{$column}_{$locale};";
-                }
-                foreach ($locales as $old) {
-                    $trigger[] = "ELSEIF NEW.{$column}_{$old} IS NOT NULL THEN";
-                    foreach (array_merge($locales, array($locale)) as $loc) {
-                        if ($loc == $old) continue;
-                        $trigger[] = "SET NEW.{$column}_{$loc} = NEW.{$column}_{$old};";
+
+            if ($locales) {
+                foreach ($hash as $column => $_) {
+                    $trigger[] = "IF NEW.{$column}_{$locale} IS NOT NULL THEN";
+                    foreach ($locales as $old) {
+                        $trigger[] = "SET NEW.{$column}_{$old} = NEW.{$column}_{$locale};";
                     }
+                    foreach ($locales as $old) {
+                        $trigger[] = "ELSEIF NEW.{$column}_{$old} IS NOT NULL THEN";
+                        foreach (array_merge($locales, array($locale)) as $loc) {
+                            if ($loc == $old) continue;
+                            $trigger[] = "SET NEW.{$column}_{$loc} = NEW.{$column}_{$old};";
+                        }
+                    }
+                    $trigger[] = 'END IF;';
                 }
-                $trigger[] = 'END IF;';
             }
+
             if ($table == 'civicrm_contact') {
                 $trigger = array_merge($trigger, $namesTrigger);
             }
