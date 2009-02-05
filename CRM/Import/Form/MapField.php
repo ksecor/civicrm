@@ -99,7 +99,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
      */
     protected $_fieldUsed;
     
-
+    /**
+     * an array of all contact fields with 
+     * formatted custom field names.
+     *
+     * @var array
+     * @access protected
+     */
+    protected static $_formattedFieldNames;
     
     /**
      * Attempt to resolve a column name with our mapper fields
@@ -176,9 +183,21 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $this->_importTableName = $this->get( 'importTableName' );        
         
         //format custom field names, CRM-2676
-        $this->formatCustomFieldName( $this->_mapperFields );
+        switch ( $this->get( 'contactType' ) ) {
+        case CRM_Import_Parser::CONTACT_INDIVIDUAL :
+            $contactType = 'Individual';
+            break;
+        case CRM_Import_Parser::CONTACT_HOUSEHOLD :
+            $contactType = 'Household';
+            break;
+        case CRM_Import_Parser::CONTACT_ORGANIZATION :
+            $contactType = 'Organization';
+            break;
+        }
+        $this->_formattedFieldNames[$contactType] = $this->_mapperFields =
+            array_merge( $this->_mapperFields, $this->formatCustomFieldName( $this->_mapperFields ) );
         
-        $columnNames = array();
+        $columnNames = array( );
         //get original col headers from csv if present.
         if ( $dataSource == 'CRM_Import_DataSource_CSV' && $skipColumnHeader ) {
             $columnNames = $this->get( 'originalColHeader' );
@@ -321,10 +340,10 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 if ( ! $cType ) {
                     $cType = 'All';
                 }
-
+                
                 $relatedFields = array();
                 require_once 'CRM/Contact/BAO/Contact.php'; 
-                $relatedFields =& CRM_Contact_BAO_Contact::importableFields( $cType ); 
+                $relatedFields =& CRM_Contact_BAO_Contact::importableFields( $cType );
                 unset($relatedFields['']);
                 $values = array();
                 foreach ($relatedFields as $name => $field ) {
@@ -337,10 +356,11 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 }
                 
                 //fix to append custom group name to field name, CRM-2676
-                $this->formatCustomFieldName( $values );
+                if ( !CRM_Utils_Array::value( $cType, $this->_formattedFieldNames ) ) {
+                    $this->_formattedFieldNames[$cType] = $this->formatCustomFieldName( $values );
+                }
+                $sel2[$key] = $this->_formattedFieldNames[$cType] = array_merge( $values, $this->_formattedFieldNames[$cType] );
                 
-                $sel2[$key] = $values;
-
                 foreach ($this->_location_types as $k => $value) {
                     $sel4[$key]['phone'][$k] =& $phoneTypes;
                 }
@@ -593,7 +613,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             }
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                 $related[$i] = $this->_mapperFields[$mapperKeys[$i][0]];
-                $relatedContactDetails[$i] = $this->_mapperFields[$mapperKeys[$i][1]];
                 $relatedContactLocType[$i] = isset($mapperKeys[$i][1]) ? $this->_location_types[$mapperKeys[$i][2]] : null;
                 //$relatedContactPhoneType[$i] = !is_numeric($mapperKeys[$i][2]) ? $mapperKeys[$i][3] : null;
                 $relatedContactPhoneType[$i] = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;
@@ -601,6 +620,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 $relationType->id = $id;
                 $relationType->find(true);
                 eval( '$relatedContactType[$i] = $relationType->contact_type_'.$second.';');
+                $relatedContactDetails[$i] = $this->_formattedFieldNames[$relatedContactType[$i]][$mapperKeys[$i][1]];
             } else {
                 $related[$i] = null;
                 $relatedContactType[$i] = null;
@@ -621,7 +641,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $this->set( 'relatedContactDetails',$relatedContactDetails );
         $this->set( 'relatedContactLocType',$relatedContactLocType );
         $this->set( 'relatedContactPhoneType',$relatedContactPhoneType );
-               
+        
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', CRM_Utils_Array::value( 'mappingId', $params ) );
         
@@ -747,15 +767,17 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
      * @return void
      * @access public
      */
-    function formatCustomFieldName( &$fields ) {
+    function formatCustomFieldName( &$fields ) 
+    {
         //CRM-2676, replacing the conflict for same custom field name from different custom group.
-        $fieldIds = array();
+        $fieldIds = $formattedFieldNames = array( );
         foreach ( $fields as $key => $value ) {
             require_once 'CRM/Core/BAO/CustomField.php';
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
                 $fieldIds[] = $customFieldId;
             }
         }
+        
         if ( !empty( $fieldIds ) && is_array( $fieldIds ) ) {
             require_once 'CRM/Core/BAO/CustomGroup.php';
             $groupTitles = CRM_Core_BAO_CustomGroup::getGroupTitles( $fieldIds );
@@ -767,10 +789,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                     if ( strlen( $groupTitle ) > 13 ) {
                         $groupTitle = substr( $groupTitle, 0, 10 ) . '...';
                     }
-                    $fields[$key] = $groupTitle . ': ' . $fields[$key];
+                    $formattedFieldNames[$key] = $groupTitle . ': ' . $fields[$key];
                 }
             }
         }
+        
+        return $formattedFieldNames;
     }
     
 }
