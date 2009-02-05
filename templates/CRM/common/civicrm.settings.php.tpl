@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v2.1
+ * CiviCRM Configuration File - v2.2
  */
 
 /**
@@ -149,8 +149,6 @@ $include_path = '.'        . PATH_SEPARATOR .
                 $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR .
                 get_include_path( );
 set_include_path( $include_path );
-
-define( 'CIVICRM_TEST_DIR'   , $civicrm_root . DIRECTORY_SEPARATOR . 'test-new'   . DIRECTORY_SEPARATOR );
 
 if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' ) {
     define( 'CIVICRM_CLEANURL', 1 );

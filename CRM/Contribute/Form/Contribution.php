@@ -395,13 +395,31 @@ WHERE  contribution_id = {$this->_id}
                                array( 1 => CRM_Utils_System::url( 'civicrm/contribute/search', "reset=1" )) );
                 CRM_Core_Session::setStatus( $message );
             }
-            
+                                 
             $this->_contactID = $defaults['contact_id'];
         } else {
             $now = date("Y-m-d");
             $defaults['receive_date'] = $now;
         }
+
+        require_once 'CRM/Utils/Money.php';
+        // fix the display of the monetary value, CRM-4038
+        if (isset($defaults['total_amount'])) {
+            $defaults['total_amount'] = CRM_Utils_Money::format($defaults['total_amount'], null, '%a');
+        }
         
+        if (isset($defaults['non_deductible_amount'])) {
+            $defaults['non_deductible_amount'] = CRM_Utils_Money::format($defaults['non_deductible_amount'], null, '%a');
+        }
+        
+        if (isset($defaults['fee_amount'])) {
+            $defaults['fee_amount'] = CRM_Utils_Money::format($defaults['fee_amount'], null, '%a');
+        }
+        
+        if (isset($defaults['net_amount'])) {
+            $defaults['net_amount'] = CRM_Utils_Money::format($defaults['net_amount'], null, '%a');
+        }
+
         if ($this->_contributionType) {
             $defaults['contribution_type_id'] = $this->_contributionType;
         }

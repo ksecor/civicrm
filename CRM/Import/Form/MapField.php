@@ -175,18 +175,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $this->_mapperFields    = $this->get( 'fields' );
         $this->_importTableName = $this->get( 'importTableName' );        
         
-        //CRM-2676, replacing the conflict for same custom field name from different custom group.
-        foreach ( $this->_mapperFields as $key => $value ) {
-            require_once 'CRM/Core/BAO/CustomField.php';
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
-                $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
-                if ( strlen( $customGroupName ) > 13 ) {
-                    $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
-                }
-                $this->_mapperFields[$key] = $customGroupName . ': ' . $this->_mapperFields[$key];
-            }
-        }
+        //format custom field names, CRM-2676
+        $this->formatCustomFieldName( $this->_mapperFields );
         
         $columnNames = array();
         //get original col headers from csv if present.
@@ -345,6 +335,10 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                         $sel3[$name] = null;
                     }
                 }
+                
+                //fix to append custom group name to field name, CRM-2676
+                $this->formatCustomFieldName( $values );
+                
                 $sel2[$key] = $values;
 
                 foreach ($this->_location_types as $k => $value) {
@@ -599,7 +593,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             }
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                 $related[$i] = $this->_mapperFields[$mapperKeys[$i][0]];
-                $relatedContactDetails[$i] = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
+                $relatedContactDetails[$i] = $this->_mapperFields[$mapperKeys[$i][1]];
                 $relatedContactLocType[$i] = isset($mapperKeys[$i][1]) ? $this->_location_types[$mapperKeys[$i][2]] : null;
                 //$relatedContactPhoneType[$i] = !is_numeric($mapperKeys[$i][2]) ? $mapperKeys[$i][3] : null;
                 $relatedContactPhoneType[$i] = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;
@@ -615,14 +609,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 $relatedContactPhoneType[$i] = null;
             }            
         }
-
+        
         $this->set( 'mapper'    , $mapper     );
         $this->set( 'locations' , $locations  );
         $this->set( 'phones', $mapperPhoneType);
         $this->set( 'columnNames', $this->_columnNames);
         
         //relationship info
-        $this->set( 'related'    , $related     );
+        $this->set( 'related', $related );
         $this->set( 'relatedContactType',$relatedContactType );
         $this->set( 'relatedContactDetails',$relatedContactDetails );
         $this->set( 'relatedContactLocType',$relatedContactLocType );
@@ -746,5 +740,37 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         return ts('Match Fields');
     }
 
+    /**
+     * format custom field name.
+     * combine group and field name to avoid conflict.
+     *
+     * @return void
+     * @access public
+     */
+    function formatCustomFieldName( &$fields ) {
+        //CRM-2676, replacing the conflict for same custom field name from different custom group.
+        $fieldIds = array();
+        foreach ( $fields as $key => $value ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                $fieldIds[] = $customFieldId;
+            }
+        }
+        if ( !empty( $fieldIds ) && is_array( $fieldIds ) ) {
+            require_once 'CRM/Core/BAO/CustomGroup.php';
+            $groupTitles = CRM_Core_BAO_CustomGroup::getGroupTitles( $fieldIds );
+            
+            if ( !empty( $groupTitles ) ) {
+                foreach ( $groupTitles as $fId => $values ) {
+                    $key = "custom_{$fId}";
+                    $groupTitle = $values['groupTitle'];
+                    if ( strlen( $groupTitle ) > 13 ) {
+                        $groupTitle = substr( $groupTitle, 0, 10 ) . '...';
+                    }
+                    $fields[$key] = $groupTitle . ': ' . $fields[$key];
+                }
+            }
+        }
+    }
     
 }

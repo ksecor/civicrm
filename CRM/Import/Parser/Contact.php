@@ -74,6 +74,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     protected $_newContacts;
 
     /**
+     * line count id
+     *
+     * @var int
+     */
+    protected $_lineCount;
+
+    /**
      * Array of succesfully imported related contact id's
      *
      * @array

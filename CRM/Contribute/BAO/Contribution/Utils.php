@@ -266,7 +266,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
         WHERE contrib.is_test = 0
               AND contrib.contribution_status_id = 1
         GROUP BY contribYear
-        ORDER BY contribYear desc";
+        ORDER BY contribYear";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         $params = null;

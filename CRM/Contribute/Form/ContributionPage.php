@@ -186,6 +186,12 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
                     array_fill_keys( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                               $pledgeBlockDefaults['pledge_frequency_unit'] ), '1' );
             }
+
+            // fix the display of the monetary value, CRM-4038
+            require_once 'CRM/Utils/Money.php';
+            if (isset($defaults['goal_amount'])) {
+                $defaults['goal_amount'] = CRM_Utils_Money::format($defaults['goal_amount'], null, '%a');
+            }
         } else {
             $defaults['is_active'] = 1;
         }

@@ -71,6 +71,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/user','reset=1') );
         }
         require_once 'CRM/Contribute/PseudoConstant.php';
+        require_once 'CRM/Core/OptionGroup.php';
         $pcpStatus     = CRM_Contribute_PseudoConstant::pcpStatus( );
         $approvedId    = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
         $statusMessage = ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' );

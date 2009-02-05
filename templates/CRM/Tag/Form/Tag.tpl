@@ -7,14 +7,16 @@
 #Tag .tree .expandable .hit {ldelim}background:url('{$config->resourceBase}/i/expandable.gif') no-repeat left 3px;cursor:pointer{rdelim}
 #Tag #tagtree .highlighted {ldelim}background-color:lightgrey;{rdelim}
 #restmsg {ldelim}position:absolute;top:20px;left:200px;z-index:10000;padding:3px 15px;{rdelim}
-#restmsg.msgok {ldelim}display:block;background:yellow;{rdelim}
-#restmsg.msgnok {ldelim}display:block;background:red;color:white;{rdelim}
+#restmsg.msgok {ldelim}display:block;background:#ffff99;border: 1px solid #5A8FDB;{rdelim}
+#restmsg.msgnok {ldelim}display:block;background:red;color:white;border: 1px solid #5A8FDB;{rdelim}
 </style>
 <script type="text/javascript">
 civicrm_ajaxURL="{crmURL p='civicrm/ajax/rest' h=0}";
 contactID={$contactId};
 {literal}
-
+function hideStatus( ) {
+    cj( '#restmsg' ).hide( );
+}
 cj(document).ready(function(){initTagTree()});
 
 function initTagTree() {
@@ -63,7 +65,7 @@ function initTagTree() {
 };
 {/literal}
 </script>
-<div id="restmsg"></div>
+<span id="restmsg"></span>
 <div id="Tag" class="view-content">
 <fieldset><legend>{ts}Tags{/ts}</legend>
     <p>

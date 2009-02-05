@@ -191,12 +191,13 @@ function civicrm_membership_type_delete( &$params ) {
     if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
         return civicrm_create_error( 'Invalid or no value for membershipTypeID' );
     }
-
+    
     require_once 'CRM/Member/BAO/MembershipType.php';
     $memberDelete = CRM_Member_BAO_MembershipType::del( $params['id'] );
-    return $memberDelete ?
-        civicrm_create_error('Error while deleting membership type') : 
-        civicrm_create_success( );
+    
+    return $memberDelete ? 
+        civicrm_create_success( "Given Membership Type have been deleted" ) : 
+        civicrm_create_error('Error while deleting membership type');
 }
 
 /**
@@ -429,7 +430,7 @@ function civicrm_contact_memberships_get(&$contactID)
     
     // get the membership for the given contact ID
     require_once 'CRM/Member/BAO/Membership.php';
-    $membership = array('contact_id' => $contactID);
+    $membership       = array('contact_id' => $contactID);
     $membershipValues = array();
     CRM_Member_BAO_Membership::getValues($membership, $membershipValues);
     
@@ -445,21 +446,24 @@ function civicrm_contact_memberships_get(&$contactID)
         $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails($values['membership_type_id']);
         
         $membershipValues[$membershipId]['membership_name'] = $membershipType['name'];
-        
-        $relationships[$membershipType['relationship_type_id']] = $membershipId;
+
+        if ( CRM_Utils_Array::value( 'relationship_type_id', $membershipType ) ) {
+            $relationships[$membershipType['relationship_type_id']] = $membershipId;
+        }
         
         // populating relationship type name.
         require_once 'CRM/Contact/BAO/RelationshipType.php';
         $relationshipType = new CRM_Contact_BAO_RelationshipType();
-        $relationshipType->id = $membershipType['relationship_type_id'];
+        $relationshipType->id = CRM_Utils_Array::value( 'relationship_type_id', $membershipType );
         if ( $relationshipType->find(true) ) {
             $membershipValues[$membershipId]['relationship_name'] = $relationshipType->name_a_b;
         }
-       
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $membershipId, false,
-                                                         $values['membership_type_id']);
-        $defaults = array( );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', CRM_Core_DAO::$_nullObject, $membershipId, false,
+                                                          $values['membership_type_id']);
+        $groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject );
+
+        $defaults  = array( );
         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );  
         
         if ( !empty( $defaults ) ) {
@@ -483,13 +487,12 @@ function civicrm_contact_memberships_get(&$contactID)
         if ($relationship->find()) {
             while ($relationship->fetch()) {
                 clone($relationship);
-                $membershipValues[$membershipId]['contact_id'] = $relationship->contact_id_a;
+                $membershipValues[$membershipId]['contact_id']    = $relationship->contact_id_a;
                 $members[$contactID][$relationship->contact_id_a] = $membershipValues[$membershipId];
             }
         }
     }
     return $members;
-    
 }
 
 /**

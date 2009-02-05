@@ -14,6 +14,18 @@
     <p>{ts}EXAMPLE: If you are using CiviEvent, and you want to collect information from people registering for your events, select "Participants". If the information is specific to one type of participant (e.g. event volunteers), select "Participants (role)" and then select the role (e.g. "Volunteer").{/ts} 
 {/htxt}
 
+{htxt id=id-is_multiple"}
+    {ts}Checking this box allows you to enter multiple sets of values for a given contact.{/ts}
+    <p>{ts}<strong>EXAMPLE:</strong> When creating a group of custom fields used to collect <strong>Employment History</strong> - you might have fields
+    for Job Title, Start Date, End Date, and Reason for Leaving. Checking the "multiple records" box allows you to collect information for multiple jobs.{/ts}
+    <p>{ts}You can also set the maximum number of records which can be recorded per contact. Using the previous example, you might only want data for the three most
+    recent jobs.{/ts}
+{/htxt}
+
+{htxt id=id-max_multiple"}
+ {ts}If you want to set a specific limit on the maximum number of records, enter that number. Otherwise leave this field blank.{/ts}
+{/htxt}
+
 {htxt id="id-weight"}
     {ts}Weight controls the order in which custom data groups are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}
 {/htxt}

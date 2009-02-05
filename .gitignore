@@ -75,6 +75,7 @@ sql/civicrm_acl.??_??.mysql
 sql/civicrm_acl.mysql
 sql/civicrm_data.??_??.mysql
 sql/civicrm_data.mysql
+sql/civicrm_drop.mysql
 sql/civicrm_sample.mysql
 sql/civicrm_standalone.??_??.mysql
 sql/civicrm_standalone.mysql

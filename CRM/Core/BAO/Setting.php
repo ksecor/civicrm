@@ -221,7 +221,7 @@ class CRM_Core_BAO_Setting
                     $session->set('lcMessages', $lcMessages);
                 }
                 
-                if (!$lcMessages) {
+                if (!$lcMessages and $session->get('userID')) {
                     require_once 'CRM/Core/DAO/UFMatch.php';
                     $ufm =& new CRM_Core_DAO_UFMatch();
                     $ufm->contact_id = $session->get('userID');
@@ -235,15 +235,15 @@ class CRM_Core_BAO_Setting
             // if a single-lang site or the above didn't yield a result, use default
             if ($lcMessages === null) {
                 $lcMessages = $defaults['lcMessages'];
-                $session->set('lcMessages', $lcMessages);
             }
 
             // set suffix for table names - use views if more than one language
             global $dbLocale;
             $dbLocale = $multiLang ? "_{$lcMessages}" : '';
 
-            // actually set the language
-            $defaults['lcMessages'] = $lcMessages;
+            // FIXME: an ugly hack to fix CRM-4041
+            global $tsLocale;
+            $tsLocale = $lcMessages;
         }
     }
 }

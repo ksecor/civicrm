@@ -20,14 +20,14 @@
         </tr>
 
     {if $form.group_type}
-        <tr><td class="label">{$form.group_type.label}</td><td>{$form.group_type.html} {help id="id-group-type"}</td></tr>
+        <tr><td class="label">{$form.group_type.label}</td><td>{$form.group_type.html} {help id="id-group-type" file="CRM/Group/Page/Group.hlp"}</td></tr>
     {/if}
     
-        <tr><td class="label">{$form.visibility.label}</td><td>{$form.visibility.html} {help id="id-group-visibility"}</td></tr>
+        <tr><td class="label">{$form.visibility.label}</td><td>{$form.visibility.html} {help id="id-group-visibility" file="CRM/Group/Page/Group.hlp"}</td></tr>
 		<tr><td colspan=2>{include file="CRM/Custom/Form/CustomData.tpl"}</td></tr> 
     </table>
 
-    <fieldset><legend>{ts}Parent Groups{/ts} {help id="id-group-parent"}</legend>
+    <fieldset><legend>{ts}Parent Groups{/ts} {help id="id-group-parent" file="CRM/Group/Page/Group.hlp"}</legend>
         {if $parent_groups|@count > 0}
         <table class="form-layout-compressed">
             <tr><td><label>{ts}Remove Parent?{/ts}</label></td></tr>

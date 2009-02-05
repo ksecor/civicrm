@@ -36,7 +36,14 @@
 require_once 'CRM/Case/XMLProcessor.php';
 
 class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
-
+    
+    /**
+     * The default variable defined
+     *
+     * @var boolean
+     */
+    protected $_isRedact;
+    
     function run( $clientID,
                   $caseID,
                   $activitySetName,
@@ -48,11 +55,11 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         $template =& CRM_Core_Smarty::singleton( );
 
         if ( CRM_Utils_Array::value( 'is_redact', $params ) ) {
-        	$this->isRedact = true;
-            $template->assign( 'isRedact', 'true' );
+        	$this->_isRedact = true;
+            $template->assign( '_isRedact', 'true' );
         } else {
-        	$this->isRedact = false;
-            $template->assign( 'isRedact', 'false' );
+        	$this->_isRedact = false;
+            $template->assign( '_isRedact', 'false' );
         }
 
         // first get all case information
@@ -208,10 +215,12 @@ AND    ac.case_id = %1
             $activityInfos[$index] = array( );
 
             $query = "
-SELECT     a.*, ca.case_id as caseID
+SELECT     a.*, aa.assignee_contact_id as assigneeID, at.target_contact_id as targetID, ca.case_id as caseID
 FROM       civicrm_activity a
 INNER JOIN civicrm_case_activity ca ON a.id = ca.activity_id
-WHERE      a.id = %1
+LEFT JOIN civicrm_activity_target at ON a.id = at.activity_id
+LEFT JOIN civicrm_activity_assignment aa ON a.id = aa.activity_id
+WHERE      a.id = %1 
 ";
             $params = array( 1 => array( $activityID, 'Integer' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $params );
@@ -238,7 +247,7 @@ WHERE      a.id = %1
                            $activityDAO,
                            &$activityTypeInfo ) {
         require_once 'CRM/Core/OptionGroup.php';
-        
+
         $clientID = CRM_Utils_Type::escape($clientID,   'Integer');
 
         $activity = array( );
@@ -257,7 +266,7 @@ WHERE      a.id = %1
         $activity['fields'][] = array( 'label'    => 'Activity Type',
                                        'value'    => $activityTypeInfo['label'],
                                        'type'     => 'String' );
-        
+
         $activity['fields'][] = array( 'label' => 'Subject',
                                        'value' => $activityDAO->subject,
                                        'type'  => 'Memo' );
@@ -267,12 +276,31 @@ WHERE      a.id = %1
                                        'type'  => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Reported By',
-                                       'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                             $activityDAO->source_contact_id,
+                                      'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                           $activityDAO->source_contact_id,
+                                                                                           'display_name' )
+                                                               ),
+                                      'type'  => 'String' );
+
+        // For Emails, include the recipient
+        if ( $activityTypeInfo['name'] == 'Email' ) {
+            $activity['fields'][] = array( 'label' => 'Recipient',
+                                           'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                             $activityDAO->targetID,
                                                                                              'display_name' )
                                                                ),
-                                       'type'  => 'String' );
+                                           'type'  => 'String' );
+        }
         
+        if ( $activityDAO->assigneeID ) {
+            $activity['fields'][] = array( 'label' => 'Assigned To',
+                                          'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                               $activityDAO->assigneeID,
+                                                                                               'display_name' )
+                                                                   ),
+                                          'type'  => 'String' );
+        }
+
         $activity['fields'][] = array( 'label' => 'Medium',
                                       'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
                                                                                 $activityDAO->medium_id ),
@@ -445,7 +473,7 @@ LIMIT  1
 
 	private function redact($s)
 	{
-		if ($this->isRedact) {
+		if ( $this->_isRedact ) {
 			// Pretty simple for now
 			return sha1($s);
 		} else {

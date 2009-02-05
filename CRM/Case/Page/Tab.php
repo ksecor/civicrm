@@ -106,7 +106,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         $output = CRM_Core_Selector_Controller::SESSION;
         $selector   =& new CRM_Activity_Selector_Activity($this->_contactId, $this->_permission, false, 'case' );
         $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
-                                                        $sortID, CRM_Core_Action::VIEW, $this,  $output, null, $this->_id);
+                                                        null, CRM_Core_Action::VIEW, $this,  $output, null, $this->_id);
         
         
         $controller->setEmbedded(true);

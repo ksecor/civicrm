@@ -163,7 +163,16 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
              empty( $defaults['pay_later_text'] ) ) {
             $defaults['pay_later_text'] = ts( 'I will send payment by check' );
         }
-
+        
+        // fix the display of the monetary value, CRM-4038 
+        require_once 'CRM/Utils/Money.php';
+        if (isset($defaults['min_amount'])) {
+            $defaults['min_amount'] = CRM_Utils_Money::format($defaults['min_amount'], null, '%a');
+        }
+        if (isset($defaults['max_amount'])) {
+            $defaults['max_amount'] = CRM_Utils_Money::format($defaults['max_amount'], null, '%a');
+        }
+        
         return $defaults;
     }
     

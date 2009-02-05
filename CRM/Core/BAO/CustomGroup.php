@@ -105,20 +105,21 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         require_once 'CRM/Utils/Weight.php';
         $group->weight =
             CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomGroup', $oldWeight, CRM_Utils_Array::value('weight', $params, false) );
-
+        
         $group->help_pre         = CRM_Utils_Array::value('help_pre', $params, false);
         $group->help_post        = CRM_Utils_Array::value('help_post', $params, false);
         $group->is_active        = CRM_Utils_Array::value('is_active', $params, false);
 
         $group->is_multiple      = CRM_Utils_Array::value('is_multiple'    , $params, false );
-        $group->min_multiple     = CRM_Utils_Array::value('min_multiple'   , $params, 0 );
-        $group->max_multiple     = CRM_Utils_Array::value('max_multiple'   , $params, 0 );
+        //$group->min_multiple     = ( $params['min_multiple'] >= '0' ) ? $params['min_multiple'] : 'null';
+        $group->max_multiple     = ( $params['max_multiple'] >= '0' ) ? $params['max_multiple'] : 'null';
 
         $tableName = null;
         if ( isset( $params['id'] ) ) {
             $group->id = $params['id'] ;
             //check whether custom group was changed from single-valued to multiple-valued
-            if ($params['is_multiple'] && $params['is_multiple'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'is_multiple' ) ) {
+            if ($params['is_multiple'] && 
+                $params['is_multiple'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'is_multiple' ) ) {
                 $oldTableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'table_name' );
             }
         } else {
@@ -130,7 +131,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         // enclose the below in a transaction
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
+               
         $group->save();
         if ( $tableName ) {
             // now append group id to table name, this prevent any name conflicts
@@ -839,6 +840,9 @@ SELECT $select
     {
         require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ( $groupTree as $id => $group ) {
+            if ( ! isset( $group['fields']) ) {
+                continue;
+            }
             $groupId = CRM_Utils_Array::value('id', $group);
             foreach ($group['fields'] as $field) {
                 if ( CRM_Utils_Array::value( 'element_value', $field ) !== null ) {
@@ -848,7 +852,7 @@ SELECT $select
                 } else {
                     continue;
                 }
-
+                
                 $fieldId     = $field['id'];
                 $elementName = $field['element_name'];
                 switch($field['html_type']) {
@@ -1350,6 +1354,7 @@ SELECT $select
                 if ( !empty( $properties['customValue'] ) ) {
                     if ( isset( $properties['customValue'][$groupCount] ) ) {
                         $properties['element_name'] = "custom_{$k}_{$properties['customValue'][$groupCount]['id']}";
+                        $properties['element_id'  ] = $properties['customValue'][$groupCount]['id'];
                         if ( $properties['data_type'] == 'File' ) {
                             $properties['element_value'] = $properties['customValue'][$groupCount];
                             $uploadNames[]    = $properties['element_name']; 
@@ -1597,4 +1602,49 @@ SELECT $select
         $retValue = isset($retValue) ? $retValue : null ;
         return $retValue;
     }
+    
+    /**
+     * Get the custom group titles by custom field ids.
+     *
+     * @param  array $fieldIds    - array of custom field ids.
+     * @return array $groupLabels - array consisting of groups and fields labels with ids.
+     * @access public
+     */
+    function getGroupTitles( $fieldIds ) 
+    {
+        if ( !is_array( $fieldIds ) && empty( $fieldIds )  ) {
+            return;
+        }
+        
+        $groupLabels = array( );
+        $fIds = "(" . implode( ',', $fieldIds ) . ")";
+        
+        $query = "
+SELECT  civicrm_custom_group.id as groupID, civicrm_custom_group.title as groupTitle,
+        civicrm_custom_field.label as fieldLabel, civicrm_custom_field.id as fieldID
+  FROM  civicrm_custom_group, civicrm_custom_field
+ WHERE  civicrm_custom_group.id = civicrm_custom_field.custom_group_id
+   AND  civicrm_custom_field.id IN {$fIds}";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while( $dao->fetch( ) ) {
+            $groupLabels[$dao->fieldID] = array( 'fieldID'    => $dao->fieldID,
+                                                 'fieldLabel' => $dao->fieldLabel,
+                                                 'groupID'    => $dao->groupID,
+                                                 'groupTitle' => $dao->groupTitle );
+        }
+        
+        return $groupLabels;
+    }
+
+    static function dropAllTables( ) {
+        $query = "SELECT table_name FROM civicrm_custom_group";
+        $dao = CRM_Core_DAO::executeQuery( $query );
+
+        while ( $dao->fetch( ) ) {
+            $query = "DROP TABLE IF EXISTS {$dao->table_name}";
+            CRM_Core_DAO::executeQuery( $query );
+        }
+    }
+
 }

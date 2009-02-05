@@ -29,7 +29,8 @@ function civiREST (entity,action,params) {
     cj('#restmsg').addClass('msgnok').html(result.error_message);
     return false;
   }
-  cj('#restmsg').addClass('msgok').html('Saved');
+  var successMsg = 'Saved &nbsp; <a href="javascript:hideStatus();">Hide</a>'; 
+  cj('#restmsg').addClass('msgok').html( successMsg ).show();
   return true;
   });
 }

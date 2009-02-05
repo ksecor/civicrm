@@ -1,5 +1,6 @@
 {* Custom Data form*}
 {foreach from=$groupTree item=cd_edit key=group_id}
+    <span id="statusmessg_{$group_id}" class="success-status" style="display:none;">{ts}Selected Custom value has been deleted.{/ts}&nbsp; <a href="javascript:hideStatus( {$group_id});">{ts}Hide{/ts}</a></span>
 <div id="{$cd_edit.name}_show_{$cgCount}" class="section-hidden section-hidden-border">
 	<a href="#" onclick="hide('{$cd_edit.name}_show_{$cgCount}'); show('{$cd_edit.name}_{$cgCount}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
 </div>
@@ -87,11 +88,15 @@
 		</dl>
 		<div class="spacer"></div>
 		{if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
-		{if $cd_edit.is_multiple and $cd_edit.max_multiple > $cgCount }
-		<div id="add-more-link-{$cgCount}"><a href="javascript:buildCustomData('{$cd_edit.extends}','{$cd_edit.extends_entity_column_id}', '{$cd_edit.extends_entity_column_value}', {$cgCount}, {$group_id}, true );">{ts}Add More{/ts}</a></div>	
-		{/if}
-
+        {if $cd_edit.is_multiple and $element.element_id}
+            <div>
+            ( <a href="javascript:deleteCustomValue( {$element.element_id}, '{$cd_edit.name}_{$cgCount}', {$group_id} );">{ts}Delete{/ts}</a> )
+            </div>
+        {/if}
 	</fieldset>
+    {if $cd_edit.is_multiple and ( ( $cd_edit.max_multiple eq '' )  or ( $cd_edit.max_multiple > 0 and $cd_edit.max_multiple >= $cgCount ) ) }
+        <div id="add-more-link-{$cgCount}"><a href="javascript:buildCustomData('{$cd_edit.extends}','{$cd_edit.extends_entity_column_id}', '{$cd_edit.extends_entity_column_value}', {$cgCount}, {$group_id}, true );">{ts 1=$cd_edit.title}Add another %1 record{/ts}</a></div>	
+    {/if}
 </div>
 <div id="custom_group_{$group_id}_{$cgCount}"></div>
 

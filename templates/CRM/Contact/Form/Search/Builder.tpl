@@ -2,7 +2,7 @@
 {assign var="showBlock" value="'searchForm'"}
 {assign var="hideBlock" value="'searchForm_show'"}
 <div id="help">
-{capture assign=docLink}{docURL page="Search Builder" text="Search Builder documentation"}{/capture}
+{capture assign=docLink}{docURL page="Search Builder" text="Search Builder Documentation"}{/capture}
 <strong>{ts 1=$docLink}IMPORTANT: Search Builder requires you to use specific formats for your search values. Review the %1 before building your first search.{/ts}</strong> {help id='builder-intro'}
 </div>
 <div id="searchForm_show" class="form-item">

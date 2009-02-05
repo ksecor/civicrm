@@ -143,8 +143,6 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'label'), true);
-        $this->addRule( 'label', ts('Name already exists in Database.'), 
-                        'objectExists', array( 'CRM_Core_DAO_PriceField', $this->_fid, 'label' ) );
         
         // html_type
         $javascript = 'onchange="option_html_type(this.form)";';
@@ -287,7 +285,20 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 $errors['price'] =   ts( 'Price must greater than zero (0).' );
             }
         }
-             
+        //avoid the same price field label in Within PriceSet
+        $priceFieldLabel = new CRM_Core_DAO_PriceField();
+        $priceFieldLabel->label        = $fields['label'] ;
+        $priceFieldLabel->price_set_id = $form->_sid;
+
+        $dupeLabel = false;
+        if ( $priceFieldLabel->find( true ) && $form->_fid != $priceFieldLabel->id ) {
+            $dupeLabel = true;
+        }
+        
+        if ( $dupeLabel ) {
+            $errors['label'] = ts('Name already exists in Database.');
+        }
+
         if ( $form->_action & CRM_Core_Action::ADD ) {
             
             if( $fields['html_type'] != 'Text' ) {
@@ -457,8 +468,8 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $params['is_display_amounts'] = CRM_Utils_Array::value( 'is_display_amounts', $params, false );
         $params['is_required']        = CRM_Utils_Array::value( 'is_required', $params, false );
         $params['is_active']          = CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['active_on']          = CRM_Utils_Date::format( $params['active_on'] );
-        $params['expire_on']          = CRM_Utils_Date::format( $params['expire_on'] );
+        $params['active_on']          = CRM_Utils_Date::format( CRM_Utils_Array::value( 'active_on', $params ) );
+        $params['expire_on']          = CRM_Utils_Date::format( CRM_Utils_Array::value( 'expire_on', $params ) );
         
         // need the FKEY - price set id
         $params['price_set_id'] = $this->_sid;
@@ -466,6 +477,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         require_once 'CRM/Utils/Weight.php';
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $fieldValues = array( 'price_set_id' => $this->_sid );
+            $oldWeight   = null;
             if ( $this->_fid ) {
                 $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', $this->_fid, 'weight', 'id' );
             }

@@ -159,7 +159,7 @@ function civicrm_event_search( &$params )
         }
     }
    
-    if( !empty($returnProperties ) ) {
+    if ( !empty($returnProperties ) ) {
         $returnProperties[]='id';
         $returnProperties[]='event_type_id';
     }
@@ -170,18 +170,21 @@ function civicrm_event_search( &$params )
     $eventDAO->copyValues( $inputParams );
     $event = array();
     if ( !empty( $returnProperties ) ) {
-            $eventDAO->selectAdd( );
-            $eventDAO->selectAdd( implode( ',' , $returnProperties ) );
-        }
+        $eventDAO->selectAdd( );
+        $eventDAO->selectAdd( implode( ',' , $returnProperties ) );
+    }
+    
     $eventDAO->orderBy( $sort );
     $eventDAO->limit( (int)$offset, (int)$rowCount );
     $eventDAO->find( );
     while ( $eventDAO->fetch( ) ) {
         $event[$eventDAO->id] = array( );
         CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eventDAO->id, false, $eventDAO->event_type_id );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', CRM_Core_DAO::$_nullObject, $eventDAO->id, false, $eventDAO->event_type_id );
+        $groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject );
         $defaults = array( );
         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
+            
         if ( !empty( $defaults ) ) {
             foreach ( $defaults as $key => $val ) {
                 $event[$eventDAO->id][$key] = $val;

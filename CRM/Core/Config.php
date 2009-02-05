@@ -225,7 +225,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->templateCompileDir = CRM_Utils_File::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
 
             // we're automatically prefixing compiled templates directories with country/language code
-            if ( ! empty( $this->lcMessages ) ) {
+            global $tsLocale;
+            if (!empty($tsLocale)) {
+                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($tsLocale);
+            } elseif (!empty($this->lcMessages)) {
                 $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($this->lcMessages);
             }
 

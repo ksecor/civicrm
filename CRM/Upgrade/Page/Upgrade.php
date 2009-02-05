@@ -187,9 +187,9 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_pcp_block', 'notify_email' ) ) {
             $template =& CRM_Core_Smarty::singleton( );
             $template->assign( 'notifyAbsent', true );
-            $upgrade =& new CRM_Upgrade_Form( );
-            $upgrade->processSQL( $rev );
         }
+        $upgrade =& new CRM_Upgrade_Form( );
+        $upgrade->processSQL( $rev );
     }
 }
 

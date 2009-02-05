@@ -40,6 +40,27 @@ require_once 'CRM/Core/I18n/SchemaStructure.php';
 class CRM_Core_I18n_Schema
 {
     /**
+     * Drop all views (for use by CRM_Core_DAO::dropAllTables() mostly).
+     *
+     * @return void
+     */
+    static function dropAllViews()
+    {
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->find(true);
+        if (!$domain->locales) return;
+
+        $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+        $tables =& CRM_Core_I18n_SchemaStructure::tables();
+
+        foreach ($locales as $locale) {
+            foreach ($tables as $table) {
+                CRM_Core_DAO::executeQuery("DROP VIEW IF EXISTS {$table}_{$locale}");
+            }
+        }
+    }
+
+    /**
      * Switch database from single-lang to multi (by adding 
      * the first language and dropping the original columns).
      *
@@ -52,7 +73,7 @@ class CRM_Core_I18n_Schema
         $domain->find(true);
 
         // break early if the db is already multi-lang
-        if ($domain->locale) return;
+        if ($domain->locales) return;
 
         $dao =& new CRM_Core_DAO();
 

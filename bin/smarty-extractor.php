@@ -30,7 +30,7 @@
  * @version   $Id$
  * @link      http://smarty-gettext.sf.net/
  * @author    Sagi Bashari <sagi@boom.org.il>
- * @author    Piotr Szotkowski <shot@caltha.pl>
+ * @author    Piotr Szotkowski <shot@civicrm.org>
  * @copyright 2004 Sagi Bashari
  * @license   http://www.gnu.org/licenses/lgpl.html  GNU Lesser General Public License
  */
@@ -82,6 +82,21 @@ function do_file($file)
             $output[] = 'msgstr ""';
         }
         print implode("\n", $output) . "\n\n";
+    }
+
+    preg_match_all("/{$ldq}\s*(docURL)\s*([^{$rdq}]*){$rdq}/", $content, $matches);
+
+    for ($i=0; $i < count($matches[0]); $i++) {
+        if (preg_match('/text\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
+            print "#: $file\n";
+            print 'msgid "' . fs($match[1]) . "\"\n";
+            print "msgstr \"\"\n\n";
+        }
+        if (preg_match('/title\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
+            print "#: $file\n";
+            print 'msgid "' . fs($match[1]) . "\"\n";
+            print "msgstr \"\"\n\n";
+        }
     }
 }
 

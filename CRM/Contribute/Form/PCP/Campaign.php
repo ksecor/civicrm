@@ -69,6 +69,11 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             if ( $dao->find(true) ) {
                 CRM_Core_DAO::storeValues( $dao, $defaults );
             }
+            // fix the display of the monetary value, CRM-4038
+            if (isset($defaults['goal_amount'])) {
+                require_once 'CRM/Utils/Money.php';
+                $defaults['goal_amount'] = CRM_Utils_Money::format($defaults['goal_amount'], null, '%a');
+            }
         }
         
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
@@ -92,6 +97,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $this->add('text', 'title', ts('Title'), null, true );
         $this->add('textarea', 'intro_text', ts('Welcome'), null, true );
         $this->add('text', 'goal_amount', ts('Your Goal'), null, true );
+        $this->addRule( 'goal_amount', ts('Goal Amount should be a numeric value'), 'money' );
         $attributes = array( );
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $attributes = array('value' => ts('Donate Now'), 'onClick' => 'select();');
@@ -135,7 +141,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
     static function formRule( &$fields, &$files, $self ) 
     {
         $errors = array();
-        if ( $fields['goal_amount'] <= 0 || ! is_numeric($fields['goal_amount']) ) {
+        if ( $fields['goal_amount'] <= 0 ) {
             $errors['goal_amount'] = ts('Goal Amount should be a numeric value greater than zero.');
         }
         if ( strlen($fields['donate_link_text']) >= 64 ){
@@ -174,6 +180,8 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $params['contact_id']           = $contactID;
         $params['contribution_page_id'] = $this->get('contribution_page_id') ? $this->get('contribution_page_id') : $this->_contriPageId;
         
+        $params['goal_amount'] = CRM_Utils_Rule::cleanMoney( $params['goal_amount'] );
+
         $approval_needed = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', 
                                                         $params['contribution_page_id'], 'is_approval_needed', 'entity_id' );
         $approvalMessage = null;

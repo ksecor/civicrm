@@ -742,11 +742,11 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                     AND cc.id = ca.source_contact_id
                     AND ca.is_current_revision = 1';
 
-        if ( $params['reporter_id'] ) {
+		if ( CRM_Utils_Array::value( 'reporter_id', $params ) ) {
             $where .= " AND ca.source_contact_id = ".CRM_Utils_Type::escape( $params['reporter_id'], 'Integer' );
         }
 
-        if ( $params['status_id'] ) {
+		if ( CRM_Utils_Array::value( 'status_id', $params ) ) {
             $where .= " AND ca.status_id = ".CRM_Utils_Type::escape( $params['status_id'], 'Integer' );
         }
 
@@ -757,41 +757,47 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         }
 
 
-        if ( $params['activity_type_id'] ) {
+		if ( CRM_Utils_Array::value( 'activity_type_id', $params ) ) {
             $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['activity_type_id'], 'Integer' );
         }
 
-        $fromDueDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
-        $toDueDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
-        $toDueDate   = $toDueDate ? $toDueDate . '235959' : null;
-
-        if ( $params['date_range'] == 1 ) {
-            if ( $fromDueDate ) {
-                $where .= " AND ca.due_date_time >= '{$fromDueDate}'";
-            }
-            if ( $toDueDate ) {
-                $where .= " AND ca.due_date_time <= '{$toDueDate}'";
-            }
-        } else if ( $params['date_range'] == 2 ) {
-            if ( $fromDueDate ) {
-                $where .= " AND ca.activity_date_time >= '{$fromDueDate}'";
-            }
-            if ( $toDueDate ) {
-                $where .= " AND ca.activity_date_time <= '{$toDueDate}'";
+		if ( CRM_Utils_Array::value( 'activity_date_low', $params ) ) {
+            $fromDueDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
+        }
+		if ( CRM_Utils_Array::value( 'activity_date_high', $params ) ) {
+            $toDueDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
+            $toDueDate   = $toDueDate ? $toDueDate . '235959' : null;
+        }
+        
+		if ( CRM_Utils_Array::value( 'date_range', $params ) ) {
+            if ( $params['date_range'] == 1 ) {
+                if ( $fromDueDate ) {
+                    $where .= " AND ca.due_date_time >= '{$fromDueDate}'";
+                }
+                if ( $toDueDate ) {
+                    $where .= " AND ca.due_date_time <= '{$toDueDate}'";
+                }
+            } else if ( $params['date_range'] == 2 ) {
+                if ( $fromDueDate ) {
+                    $where .= " AND ca.activity_date_time >= '{$fromDueDate}'";
+                }
+                if ( $toDueDate ) {
+                    $where .= " AND ca.activity_date_time <= '{$toDueDate}'";
+                }
             }
         }
 
         // hack to handle to allow initial sorting to be done by query
-        if ( $params['sortname'] == 'undefined' ) {
+        if ( CRM_Utils_Array::value( 'sortname', $params ) == 'undefined' ) {
             $params['sortname'] = null;
         }
 
-        if ( $params['sortorder'] == 'undefined' ) {
+        if ( CRM_Utils_Array::value( 'sortorder', $params ) == 'undefined' ) {
             $params['sortorder'] = null;
         }
 
-        $sortname  = $params['sortname'];
-        $sortorder = $params['sortorder'];
+        $sortname  = CRM_Utils_Array::value( 'sortname', $params );
+        $sortorder = CRM_Utils_Array::value( 'sortorder', $params );
         
         // Default sort is status_id ASC, due_date_time ASC (so completed activities drop to bottom)
         if ( !$sortname AND !$sortorder ) {
@@ -800,8 +806,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $orderBy = " ORDER BY {$sortname} {$sortorder}";
         }
         
-        $page = $params['page'];
-        $rp   = $params['rp'];
+        $page = CRM_Utils_Array::value( 'page', $params );
+        $rp   = CRM_Utils_Array::value( 'rp', $params );
         
         if (!$page) $page = 1;
         if (!$rp) $rp = 10;
@@ -883,7 +889,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
     static function getRelatedContacts( $caseID )
     {
         $values = array( );
-        $query = 'SELECT cc.display_name as name, cc.id, crt.name_b_a as role, ce.email 
+        $query = 'SELECT cc.display_name as name, cc.sort_name as sort_name, cc.id, crt.name_b_a as role, ce.email 
 FROM civicrm_relationship cr 
 LEFT JOIN civicrm_relationship_type crt ON crt.id = cr.relationship_type_id 
 LEFT JOIN civicrm_contact cc ON cc.id = cr.contact_id_b 
@@ -896,6 +902,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         while ( $dao->fetch( ) ) {
             $values[$dao->id]['id']          = $dao->id;
             $values[$dao->id]['name']        = $dao->name;
+            $values[$dao->id]['sort_name']   = $dao->sort_name;
             $values[$dao->id]['role']        = $dao->role;
             $values[$dao->id]['email']       = $dao->email;
         }
@@ -1218,7 +1225,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 		foreach($values2 as $k => $v)
 		{
 			$values[$k]['id'] = $k;
-			$values[$k]['name'] = $v['sort_name'];
+			$values[$k]['sort_name'] = $v['sort_name'];
 			$values[$k]['email'] = $v['email'];
 			// if they are both a role and a global contact, then don't overwrite the role name
 			if (empty($values[$k]['role'])) {

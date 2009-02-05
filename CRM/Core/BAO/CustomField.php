@@ -1196,7 +1196,7 @@ SELECT id
                 $value = '';
             }
         }
-
+        $date = null;
         // fix the date field 
         if ( $customFields[$customFieldId]['data_type'] == 'Date' ) {
             if ( ! CRM_Utils_System::isNull( $value ) ) {
@@ -1221,9 +1221,6 @@ SELECT id
                     }                    
                     $date = CRM_Utils_Date::format( $value );                    
                 }
-            }
-            if ( ! $date ) {
-                $date = null;
             }
             $value = $date;
         }

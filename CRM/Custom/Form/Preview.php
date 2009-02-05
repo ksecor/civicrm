@@ -66,7 +66,6 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
      */
     function preProcess()
     {
-       
         // get the controller vars
         $groupId  = $this->get('groupId');
         $fieldId  = $this->get('fieldId');
@@ -80,6 +79,10 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
             
             if ( CRM_Utils_Array::value( 'is_view', $defaults ) ) {
                 CRM_Core_Error::statusBounce( ts('This field is view only so it will not display on edit form.') );
+            }
+            
+            if ( CRM_Utils_Array::value( 'is_active', $defaults ) == 0 ) {
+                CRM_Core_Error::statusBounce( ts('This field is inactive so it will not display on edit form.') );
             }
             
             $this->_groupTree = array();

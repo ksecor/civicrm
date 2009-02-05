@@ -51,8 +51,8 @@ class CRM_Contact_Form_Task_EmailCommon
     static function preProcess( &$form ) 
     {
         require_once 'CRM/Core/BAO/MessageTemplates.php';
-        $messageText  = array( );
-        $messageSubject  = array( );
+        $messageText    = array( );
+        $messageSubject = array( );
         $dao =& new CRM_Core_BAO_MessageTemplates( );
         $dao->is_active= 1;
         $dao->find();
@@ -113,6 +113,10 @@ class CRM_Contact_Form_Task_EmailCommon
         if ( ! $form->_single ) {
             $toArray          = array();
             $suppressedEmails = 0;
+            //To avoid duplicated emails in recipient list of the
+            //contact appears more than once in resultset
+            //Fixed for CRM-4067
+            $form->_contactIds = array_unique( $form->_contactIds );
             require_once 'CRM/Contact/BAO/Contact.php';
             foreach ( $form->_contactIds as $contactId ) {
                 list($toDisplayName, $toEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
