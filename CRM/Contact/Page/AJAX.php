@@ -335,4 +335,16 @@ WHERE sort_name LIKE '%$name%'";
         exit();
     }
 
+    /**
+     * Function to delete custom value
+     *
+     */
+    function deleteCustomValue( &$config ) {
+        require_once 'CRM/Utils/Type.php';
+        $customValueID  = CRM_Utils_Type::escape( $_POST['valueID'], 'Positive' );
+        $customGroupID  = CRM_Utils_Type::escape( $_POST['groupID'], 'Positive' );
+        
+        require_once "CRM/Core/BAO/CustomValue.php";
+        CRM_Core_BAO_CustomValue::deleteCustomValue( $customValueID, $customGroupID );
+    }    
 }

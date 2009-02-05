@@ -1171,3 +1171,10 @@ commented since it is overwiting simple td
   .tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
       height: 17px;
   }
+  
+  #crm-container span.success-status {
+    margin-left: 6px;
+    background-color: #ffff99;
+    padding: .25em .5em .25em .5em;
+    border: 1px solid #5A8FDB;
+  }

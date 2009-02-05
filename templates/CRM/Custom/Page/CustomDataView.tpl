@@ -1,20 +1,21 @@
 {* Custom Data view mode*}
 {assign var="showEdit" value=1}
-{foreach from=$viewCustomData item=customValues}
+{foreach from=$viewCustomData item=customValues key=customGroupId}
 {foreach from=$customValues item=cd_edit key=index}
     {if $showEdit and $editCustomData and $groupId}	
       <div class="action-link">
         <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts 1=$cd_edit.title}Edit %1{/ts}</span></a><br/><br/>
       </div>
+      <span id="statusmessg" class="success-status">{ts}Selected Custom value has been deleted.{/ts}&nbsp; <a href="javascript:hide('statusmessg');">{ts}Hide{/ts}</a></span>
     {/if}
     {assign var="showEdit" value=0}
-
+    
     <div id="{$cd_edit.name}_show_{$index}" class="section-hidden section-hidden-border">
-    <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$cd_edit.title}</label><br />
+    <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$cd_edit.title}</label>{if $groupId and $index}&nbsp;( <a href="javascript:deleteCustomValue( {$index}, '{$cd_edit.name}_show_{$index}', {$customGroupId} );">{ts}Delete{/ts}</a> ){/if}<br />
     </div>
 
     <div id="{$cd_edit.name}_{$index}" class="section-shown form-item">
-    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}</legend>
+    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}{if $groupId and $index}&nbsp;( <a href="javascript:deleteCustomValue( {$index}, '{$cd_edit.name}_{$index}', {$customGroupId} );">{ts}Delete{/ts}</a> ){/if}</legend>
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
         {if $element.options_per_line != 0}
@@ -51,3 +52,28 @@
 	</script>
 {/foreach}
 {/foreach}
+
+{*currently delete is available only for tab custom data*}
+{if $groupId}
+<script type="text/javascript">
+    {literal}
+    cj( function ( ) {
+        cj( '#statusmessg').hide( );
+    });
+
+    function deleteCustomValue( valueID, elementID, groupID ) {
+        var postUrl = {/literal}"{crmURL p='civicrm/ajax/customvalue' h=0 }"{literal};
+        cj.ajax({
+          type: "POST",
+          data:  "valueID=" + valueID + "&groupID=" + groupID,    
+          url: postUrl,
+          success: function(html){
+              cj( '#' + elementID ).hide( );
+              cj( '#statusmessg').show( ).fadeOut( 10000 );
+          }
+        });
+    }
+    {/literal}
+</script>
+{/if}
+
