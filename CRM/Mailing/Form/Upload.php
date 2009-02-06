@@ -143,7 +143,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 }
             }
         }
-        
+
+        if ( $this->get('html_message') ) {
+            $htmlMessage = $this->get('html_message');
+        }
+
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
