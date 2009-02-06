@@ -1,5 +1,5 @@
 {* Custom Data view mode*}
-{assign var="showEdit" value=1}{debug}
+{assign var="showEdit" value=1}
 {foreach from=$viewCustomData item=customValues key=customGroupId}
 {foreach from=$customValues item=cd_edit key=index}
     {if $showEdit and $editCustomData and $groupId}	
