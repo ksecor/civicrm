@@ -900,11 +900,11 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
 
         while ( $dao->fetch( ) ) {
-            $values[$dao->id]['id']          = $dao->id;
-            $values[$dao->id]['name']        = $dao->name;
-            $values[$dao->id]['sort_name']   = $dao->sort_name;
-            $values[$dao->id]['role']        = $dao->role;
-            $values[$dao->id]['email']       = $dao->email;
+            $values[$dao->id]['contact_id']   = $dao->id;
+            $values[$dao->id]['display_name'] = $dao->name;
+            $values[$dao->id]['sort_name']    = $dao->sort_name;
+            $values[$dao->id]['role']         = $dao->role;
+            $values[$dao->id]['email']        = $dao->email;
         }
         $dao->free( );
 
@@ -970,7 +970,11 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             $template->assign( 'returnContent', 'textMessage' );
             $message = $template->fetch( $emailTemplate );
             
-            $displayName = $info['name'];
+            if ( !CRM_Array_Utils::value('sort_name', $info) ) {
+                $info['sort_name'] = $info['display_name'];   
+            }
+            
+            $displayName = $info['sort_name'];
             $email       = $info['email'];
             
             $activityParams['subject']            = $activitySubject.' - copy sent to '.$displayName;
@@ -1227,10 +1231,11 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 					$groupInfo['id'] = $results['id'];
 					$groupInfo['title'] = $results['title'];
 					$searchParams = array( 'group' => array($groupInfo['id'] => 1),
-                           'return.sort_name'    => 1,
-                           'return.email'    => 1,
-                           'return.phone'    => 1
-                           );
+                                           'return.sort_name'     => 1,
+                                           'return.display_name'  => 1,
+                                           'return.email'         => 1,
+                                           'return.phone'         => 1
+                                           );
         
 					$globalContacts = civicrm_contact_search( $searchParams );
 				}
@@ -1245,22 +1250,22 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 	 */
 	static function getRelatedAndGlobalContacts($caseId)
 	{
-		$values = self::getRelatedContacts($caseId);
+		$relatedContacts = self::getRelatedContacts($caseId);
+            
 		$groupInfo = array();
-		$values2 = self::getGlobalContacts($groupInfo);
-		
-		foreach($values2 as $k => $v)
-		{
-			$values[$k]['id'] = $k;
-			$values[$k]['sort_name'] = $v['sort_name'];
-			$values[$k]['email'] = $v['email'];
-			// if they are both a role and a global contact, then don't overwrite the role name
-			if (empty($values[$k]['role'])) {
-				$values[$k]['role']= $groupInfo['title'];
-			}
-		}
-		
-		return $values;
+		$globalContacts = self::getGlobalContacts($groupInfo);
+             
+        //unset values which are not required.
+        foreach( $globalContacts as $k => &$v ) {
+             unset($v['email_id']);
+             unset($v['group_contact_id']); 
+             unset($v['status']);
+             unset($v['phone']);
+             $v['role'] = $groupInfo['title'];
+        }
+        // if they are both a role and a global contact, use only role
+        $relatedGlobalContacts = CRM_Utils_Array::crmArrayMerge( $globalContacts, $relatedContacts );
+        return $relatedGlobalContacts;
 	}   
 }
 

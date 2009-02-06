@@ -127,9 +127,9 @@
                        </tr>
                        {foreach from=$searchRows item=row}
                        <tr class="{cycle values="odd-row,even-row"}">
-                           <td>{$form.contact_check[$row.id].html}</td>
+                           <td>{$form.contact_check[$row.contact_id].html}</td>
                            <td>{$row.role}</td>
-                           <td>{$row.sort_name}</td>
+                           <td>{$row.display_name}</td>
                            <td>{$row.email}</td>
                        </tr>
                        {/foreach}
