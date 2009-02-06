@@ -34,6 +34,8 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Profile/Form.php';
+require_once 'CRM/Core/BAO/UFGroup.php';
 
 /**
  * This class generates form components 
@@ -42,7 +44,6 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_UF_Form_Preview extends CRM_Core_Form
 {
-
     /** 
      * The group id that we are editing
      * 
@@ -70,34 +71,26 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
      */
     function preProcess()
     {     
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        $flag = false;
-        $field = CRM_Utils_Request::retrieve('field', 'Boolean',
-                                             $this, true , 0);
-       
-        $fid             = $this->get( 'fieldId' ); 
-        $this->_gid      = $this->get( 'id' );
-        
-        if ($field) {
-            $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true);
-        } else {
-            $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid );
-        }
-        
-        // preview for field
-        $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'county', 'phone', 'email', 'im' );
-        
+        $flag  = false;
+        $this->_gid = $this->get( 'id' );
+        $field = CRM_Utils_Request::retrieve('field', 'Boolean', $this, true , 0);
+
         if( $field ) {
+            $this->_fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true);
             require_once 'CRM/Core/DAO/UFField.php';
             $fieldDAO = & new CRM_Core_DAO_UFField();
-            $fieldDAO->id = $fid;
+            $fieldDAO->id = $this->get( 'fieldId' );
             $fieldDAO->find(true);
+            
             if ( $fieldDAO->is_active == 0 ) {
                 CRM_Core_Error::statusBounce( ts('This field is inactive so it will not be displayed on profile form.') );
             } elseif ( $fieldDAO->is_view == 1 ) {
                 CRM_Core_Error::statusBounce( ts('This field is view only so it will not be displayed on profile form.') );
             }
             $name = $fieldDAO->field_name;
+            // preview for field
+            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'county', 'phone', 'email', 'im' );
+            
             if ($fieldDAO->location_type_id) {
                 $name .= '-' . $fieldDAO->location_type_id;
             } else if ( in_array( $name, $specialFields ) ) {
@@ -114,7 +107,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $flag = true;
             }
             $this->assign('previewField',true);
+        } else {
+            $this->_fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid );
         }
+        
         if ( $flag ) {
             $this->assign('viewOnly',false);
         } else {
@@ -135,7 +131,6 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-        require_once "CRM/Profile/Form.php";
         foreach ($this->_fields as $name => $field ) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, null, CRM_Profile_Form::MODE_REGISTER );
@@ -144,7 +139,6 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         
         //set default for country.
         CRM_Core_BAO_UFGroup::setRegisterDefaults( $this->_fields, $defaults );
-        
         return $defaults;
     }
 
@@ -156,14 +150,11 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        require_once 'CRM/Profile/Form.php';
         foreach ($this->_fields as $name => $field ) {
             if ( ! CRM_Utils_Array::value( 'is_view', $field ) ) {
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE );
             }
         }
-        
         $this->addButtons(array(
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Done with Preview'),
