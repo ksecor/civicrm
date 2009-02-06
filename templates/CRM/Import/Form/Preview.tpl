@@ -32,35 +32,17 @@
 
     setIntermediate = function( ) {
         var dataUrl = {/literal}"{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 }"{literal}
-        dojo.xhrGet({
-            url: dataUrl,
-            handleAs: "json",
-            preventCache: true,
-            sync: true,
-            timeout: 5000,
-            load: function(response, ioArgs) {
-                if (response instanceof Error){
-                    if(response.dojoType == "cancel"){
-                        //The request was canceled by some other JavaScript code.
-                        console.debug("Request canceled.");
-                    }else if(response.dojoType == "timeout"){
-                        //The request took over 5 seconds to complete.
-                        console.debug("Request timed out.");
-                    }else{
-                        //Some other error happened.
-                        console.error(response);
-                    }
-                } else {
-                    var inter = document.getElementById("intermediate");
-                    var dataStr = response.toString();
-                    var result  = dataStr.split(",");
+       
+        cj.getJSON( dataUrl, function( response ) {
+           var inter = document.getElementById("intermediate");
+           var dataStr = response.toString();
+           var result  = dataStr.split(",");
 
-                    inter.innerHTML = result[1];
-                    var bar =  dijit.byId("importProgressBar");
-                    bar.domNode.style.display = "block";	
-                    bar.update({progress :result[0]});
-                }        
-            }
+           inter.innerHTML = result[1];
+           var bar =  dijit.byId("importProgressBar");
+           bar.domNode.style.display = "block";	
+           bar.update({progress :result[0]});
+           
         });
     }
 
@@ -97,9 +79,8 @@
             handleAs: "text",
             load: setFinished,
             error: setError,
-            timeout: 1500000
         };
-
+        
         dojo.xhrPost( kw );
         pollLoop( );
     }
