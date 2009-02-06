@@ -89,15 +89,15 @@
           </table>
 	{else}
 	   {$form.$n.html}
-	   {if $field.html_type eq 'Radio' and $form.formName eq 'Preview'}
-               &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
-	   {elseif $field.data_type eq 'Date'}
-	        {if $element.skip_calendar NEQ true } 
-                <span>
-                    {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
-		    {include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
-		</span>
-		{/if}
+	   {if $field.is_view eq 0}
+	       {if $field.html_type eq 'Radio' and $form.formName eq 'Preview'}
+               	   &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
+	       {elseif $field.data_type eq 'Date' AND $element.skip_calendar NEQ true } 
+                   <span>
+			{include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
+		    	{include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
+		   </span>
+	       {/if}
 	   {/if}
 	{/if}
         </td>

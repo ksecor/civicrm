@@ -92,7 +92,11 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             $fieldDAO = & new CRM_Core_DAO_UFField();
             $fieldDAO->id = $fid;
             $fieldDAO->find(true);
-            
+            if ( $fieldDAO->is_active == 0 ) {
+                CRM_Core_Error::statusBounce( ts('This field is inactive so it will not be displayed on profile form.') );
+            } elseif ( $fieldDAO->is_view == 1 ) {
+                CRM_Core_Error::statusBounce( ts('This field is view only so it will not be displayed on profile form.') );
+            }
             $name = $fieldDAO->field_name;
             if ($fieldDAO->location_type_id) {
                 $name .= '-' . $fieldDAO->location_type_id;
@@ -155,7 +159,9 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         require_once 'CRM/Core/BAO/UFGroup.php';
         require_once 'CRM/Profile/Form.php';
         foreach ($this->_fields as $name => $field ) {
-            CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE );
+            if ( ! CRM_Utils_Array::value( 'is_view', $field ) ) {
+                CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE );
+            }
         }
         
         $this->addButtons(array(
