@@ -54,6 +54,10 @@ class CRM_Member_Page_AJAX
                                                     $memType, 
                                                     'minimum_fee' );
 
+        // fix the display of the monetary value, CRM-4038
+        require_once 'CRM/Utils/Money.php';
+        $totalAmount = CRM_Utils_Money::format( $totalAmount, null, '%a' );
+        
         $details = array( 'contribution_type_id' => $contributionType,
                           'total_amount'         => $totalAmount );                                         
         
