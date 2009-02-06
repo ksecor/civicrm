@@ -138,21 +138,25 @@ function clearAmountOther() {
 {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
 
 {if $pcp}
-<fieldset><legend>{ts}Personal Campaign Page{/ts}</legend>
+<fieldset>
 <table class="form-layout-compressed">
 	<tr>
-		<td>{$form.pcp_display_in_roll.label}</td>
-		<td>{$form.pcp_display_in_roll.html}<br />
-		<span class="description">{ts}You can display the amount of donation publicly.{/ts}</span></td>
+		<td colspan="2">
+            {$form.pcp_display_in_roll.html} &nbsp;
+            {$form.pcp_display_in_roll.label}
+        </td>
 	</tr>
 	<tr>
-		<td></td>
-		<td>{$form.pcp_anonymous_name.html}<br />
-                <span class="description">{$form.pcp_anonymous_name.label}</span></td>
+		<td colspan="2">
+            {$form.pcp_anonymous_name.html} &nbsp;
+            {$form.pcp_anonymous_name.label}
+        </td>
 	</tr>
 	<tr>
 		<td>{$form.pcp_roll_nickname.label}</td>
-		<td>{$form.pcp_roll_nickname.html}</td>
+		<td>{$form.pcp_roll_nickname.html}<br />
+            <span class="description">{ts}Use this nick name instead of my actual name in the Honor Roll{/ts}</span>
+        </td>
 	</tr>
 	<tr>
 		<td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
