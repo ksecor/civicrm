@@ -387,12 +387,11 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                     $fieldType = $customFields[$customFieldID]['data_type'];
                 } else {
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID);
-                    foreach( $customOption as $v1 ) {
-                        
+                    foreach($customOption as $customValue => $customLabel) {
                         //check wether $value is label or value
-                        if ( ( strtolower($v1['label']) == strtolower( trim( $value ) ) ) ) {
+                        if ( ( strtolower($customValue) == strtolower( trim( $value ) ) ) ) {
                             $fieldType = "String";
-                        } else if ( ( strtolower($v1['value']) == strtolower( trim( $value ) ) ) ) {
+                        } else if ( ( strtolower($customValue) == strtolower( trim( $value ) ) ) ) {
                             $fieldType = $customFields[$customFieldID]['data_type'];
                         }
                     }
@@ -424,21 +423,21 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                 $value = str_replace(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,',',trim($value,CRM_Core_BAO_CustomOption::VALUE_SEPERATOR));
                 $value = str_replace("|",",",$value);
                 $mulValues = explode( ',' , $value );
-                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                $custumOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $mulValues as $v1 ) {
-                    foreach( $custuomOption as $v2 ) {
-                        if (( strtolower($v2['label']) == strtolower(trim($v1)) )||( strtolower($v2['value']) == strtolower(trim($v1)) )) {
-                            $newMulValues[] = $v2['value'];
+                    foreach($customOption as $customValue => $customLabel) {
+                        if (( strtolower($customLabel) == strtolower(trim($v1)) )||( strtolower($customValue) == strtolower(trim($v1)) )) {
+                            $newMulValues[] = $customValue;
                         }
                     }
                 }
                 $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                 
             } else if ( $customFields[$customFieldID]['html_type'] == 'Select' || $customFields[$customFieldID]['html_type'] == 'Radio' ) {
-                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $custuomOption as $v2 ) {
-                    if( ( strtolower($v2['label']) == strtolower(trim($value)) )||( strtolower($v2['value']) == strtolower(trim($value)))) {
-                        $value = $v2['value'];
+                $custumOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach($customOption as $customValue => $customLabel) {
+                    if( ( strtolower($customLabel) == strtolower(trim($value)) )||( strtolower($customValue) == strtolower(trim($value)))) {
+                        $value = $customValue;
                         break;
                     }
                 }

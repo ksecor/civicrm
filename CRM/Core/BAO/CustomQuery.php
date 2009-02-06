@@ -163,7 +163,6 @@ SELECT f.id, f.label, f.data_type,
    AND f.id IN ( $idString )";
 
         $dao =& CRM_Core_DAO::executeQuery( $query );
-        $optionIds = array( );
         while ( $dao->fetch( ) ) {
             // get the group dao to figure which class this custom field extends
             $extends =& CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $dao->custom_group_id, 'extends' );
@@ -214,6 +213,8 @@ SELECT label, value
                         $this->_options[$dao->id][$option->value] = $option->label;
                     }
                 }
+                require_once 'CRM/Utils/Hook.php';
+                CRM_Utils_Hook::customFieldOptions( $dao->id, $this->_options[$dao->id], false );
             }
         }
     }

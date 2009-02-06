@@ -474,23 +474,23 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                     $formatted[$key] = array();
                     foreach( $mulValues as $v1 ) {
-                        foreach( $customOption as $v2 ) {
-                            if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
-                                ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                        foreach($customOption as $customValue => $customLabel) {
+                            if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                                ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                                 if ( $type == 'CheckBox' ) {
-                                    $formatted[$key][$v2['value']] = 1;
+                                    $formatted[$key][$customValue] = 1;
                                 } else {
-                                    $formatted[$key][] = $v2['value'];
+                                    $formatted[$key][] = $customValue;
                                 }
                             }
                         }
                     }
                 } else if ( $type == 'Select' || $type == 'Radio' ) {
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                    foreach( $customOption as $v2 ) {
-                        if (( strtolower($v2['label']) == strtolower(trim($field)) )||
-                            ( strtolower($v2['value']) == strtolower(trim($field)) )) {
-                            $formatted[$key] = $v2['value'];
+                    foreach($customOption as $customValue => $customLabel) {
+                        if (( strtolower($customLabel) == strtolower(trim($field)) )||
+                            ( strtolower($customValue) == strtolower(trim($field)) )) {
+                            $formatted[$key] = $customValue;
                         }
                     }
                 } else if( $type == 'Multi-Select State/Province' ) {
@@ -1007,9 +1007,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             }
 
                             $flag = false; 
-                            foreach( $customOption as $v2 ) {
-                                if (( strtolower(trim($v2['label'])) == strtolower(trim($v1))) ||
-                                    ( strtolower(trim($v2['value'])) == strtolower(trim($v1)))) {
+                            foreach($customOption as $customValue => $customLabel) {
+                                if (( strtolower(trim($customLabel)) == strtolower(trim($v1))) ||
+                                    ( strtolower(trim($customValue)) == strtolower(trim($v1)))) {
                                     $flag = true; 
                                 }
                             }
@@ -1023,9 +1023,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                  $customFields[$customFieldID]['data_type'] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         $flag = false;
-                        foreach( $customOption as $v2 ) {
-                            if (( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) ||
-                                ( strtolower(trim($v2['value'])) == strtolower(trim($value)) )) {
+                        foreach($customOption as $customValue => $customLabel) {
+                            if (( strtolower(trim($customLabel)) == strtolower(trim($value)) ) ||
+                                ( strtolower(trim($customValue)) == strtolower(trim($value)) )) {
                                 $flag = true; 
                             }
                         }

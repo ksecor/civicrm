@@ -863,11 +863,11 @@ SELECT $select
                     if ($viewMode) {
                         $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
                         if ( isset($value) ) {
-                            foreach( $customOption as $val ) {
-                                if ( in_array( $val['value'], $checkedData ) ) {
-                                    $defaults[$elementName][$val['value']] = 1;
+                            foreach($customOption as $customValue => $customLabel) {
+                                if ( in_array( $customValue, $checkedData ) ) {
+                                    $defaults[$elementName][$customValue] = 1;
                                 } else {
-                                    $defaults[$elementName][$val['value']] = 0;
+                                    $defaults[$elementName][$customValue] = 0;
                                 }
                             }
                         }
@@ -901,9 +901,9 @@ SELECT $select
                         $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
-                            foreach($customOption as $val) {
-                                if (in_array($val['value'], $checkedData)) {
-                                    $defaults[$elementName][$val['value']] = $val['value'];
+                            foreach($customOption as $customValue => $customLabel) {
+                                if (in_array($customValue, $checkedData)) {
+                                    $defaults[$elementName][$customValue] = $customValue;
                                 }
                             }
                         }
@@ -912,17 +912,16 @@ SELECT $select
                         $defaults[$elementName] = array();
                         if (isset($field['customValue']['data'])) {
                             $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($field['customValue']['data'],1,-1));
-                            foreach($customOption as $val) {
-                                if (in_array($val['value'], $checkedData)) {
-                                    //$defaults[$elementName][$val['value']] = 1;
-                                    $defaults[$elementName][$val['value']] = $val['value'];
-                                } 
+                            foreach($customOption as $customValue => $customLabel) {
+                                if ( in_array($customValue, $checkedData) ) {
+                                    $defaults[$elementName][$customValue] = $customValue;
+                                }
                             }
                         } else {
                             $checkedValue = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
-                            foreach($customOption as $val) {
-                                if ( in_array($val['value'], $checkedValue) ) {
-                                    $defaults[$elementName][$val['value']] = $val['value'];
+                            foreach($customOption as $customValue => $customLabel) {
+                                if ( in_array($customValue, $checkedValue ) ) {
+                                    $defaults[$elementName][$customValue] = $customValue;
                                 }
                             }                            
                         }
@@ -938,7 +937,7 @@ SELECT $select
                 case 'Multi-Select Country':
                 case 'Multi-Select State/Province':
                      if (isset($value)) {
-                         $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$value );
+                         $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPARATOR,$value );
                          foreach($checkedValue as $val) {
                              if ( $val ) {
                                  $defaults[$elementName][$val]  =  $val;
@@ -1190,9 +1189,9 @@ SELECT $select
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $key, true );
                         $val = array (); 
                         foreach( $mulValues as $v1 ) {
-                            foreach( $customOption as $v2 ) {
-                                if ( strtolower(trim($v2['label'])) == strtolower(trim($v1)) ) {
-                                    $val[$v2['value']] = 1;
+                            foreach($customOption as $customValue => $customLabel) {
+                                if ( strtolower(trim($customLabel)) == strtolower(trim($v1)) ) {
+                                    $val[$customValue] = 1;
                                 }
                             }
                         }
@@ -1206,9 +1205,9 @@ SELECT $select
                                ( $customFields[$key]['html_type'] =='Radio' &&
                                  $customFields[$key]['data_type'] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($key, true );
-                        foreach( $customOption as $v2 ) {
-                            if ( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) {
-                                $value = $v2['value'];
+                        foreach($customOption as $customValue => $customLabel) {
+                            if ( strtolower(trim($customLabel)) == strtolower(trim($value)) ) {
+                                $value = $customValue;
                                 $valid = true; 
                             }
                         }
@@ -1407,19 +1406,8 @@ SELECT $select
                             array( 'field_title'      => CRM_Utils_Array::value('label', $properties) ,
                                    'field_type'       => CRM_Utils_Array::value('html_type',
                                                                                 $properties),
-                                   'field_value'      =>
-                                   self::formatCustomValues( $values,
-                                                             CRM_Utils_Array::value('html_type',
-                                                                                    $properties), 
-                                                             CRM_Utils_Array::value('data_type',
-                                                                                    $properties),
-                                                             CRM_Utils_Array::value('option_group_id', 
-                                                                                    $properties),
-                                                             CRM_Utils_Array::value('date_parts',
-                                                                                    $properties),
-                                                             CRM_Utils_Array::value('options_per_line',
-                                                                                    $properties)
-                                                             ),
+                                   'field_value'      => self::formatCustomValues( $values,
+                                                                                   $properties ),
                                    'options_per_line' => CRM_Utils_Array::value('options_per_line',
                                                                                 $properties) ) ;
                     }
@@ -1445,13 +1433,20 @@ SELECT $select
      * Format custom value according to data, view mode
      *
      */
-    static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id, $dateParts, $optionPerLine = null )
+    static function formatCustomValues( &$values, &$field )
     {
         $value = $values['data'];
 
         if ( !isset( $value ) ) {
             return; 
         }
+
+        $htmlType        = CRM_Utils_Array::value('html_type'       , $field );
+        $dataType        = CRM_Utils_Array::value('data_type'       , $field );
+        $option_group_id = CRM_Utils_Array::value('option_group_id' , $field );
+        $dateParts       = CRM_Utils_Array::value('date_parts'      , $field );
+        $optionPerLine   = CRM_Utils_Array::value('options_per_line', $field );
+                                                                                         
         $freezeString = "";
         $freezeStringChecked = "";
 
@@ -1511,7 +1506,7 @@ SELECT $select
             switch ( $htmlType ) {
             case 'Multi-Select Country':	 
             case 'Select Country':	 
-                $customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
                 $query = "
                     SELECT id as value, name as label  
                     FROM civicrm_country";
@@ -1520,7 +1515,7 @@ SELECT $select
 
             case 'Select State/Province':  
             case 'Multi-Select State/Province':
-                $customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
                 $query = "
                     SELECT id as value, name as label  
                     FROM civicrm_state_province";
@@ -1528,7 +1523,7 @@ SELECT $select
                 break;
 
             case 'Select': 
-                $customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
                 if ( $option_group_id ) {
                     $query = "
                         SELECT label, value
@@ -1556,18 +1551,26 @@ SELECT $select
                 }
             }
 
-            $retValue = null;
+            $options = array( );
             while ( $coDAO->fetch( ) ) {
+                $options[$coDAO->value] = $coDAO->label;
+            }
+            
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::customFieldOptions( $field['id'], $options, false );
+
+            $retValue = null;
+            foreach ( $options as $optionValue => $optionLabel ) {
                 //to show only values that are checked
-                if ( in_array ( $coDAO->value, $customData ) ) {
-                    $checked = in_array ( $coDAO->value, $customData ) ? $freezeStringChecked : $freezeString;
+                if ( in_array ( $optionValue, $customData ) ) {
+                    $checked = in_array ( $optionValue, $customData ) ? $freezeStringChecked : $freezeString;
                     if ( !$optionPerLine ) {
                         if ( $retValue ) {
                             $retValue .= ",&nbsp;";
                         }
-                        $retValue .= $checked . $coDAO->label;
+                        $retValue .= $checked . $optionLabel;
                     } else {       
-                        $retValue[] = $checked . $coDAO->label;
+                        $retValue[] = $checked . $optionLabel;
                     }
                 }
             }
