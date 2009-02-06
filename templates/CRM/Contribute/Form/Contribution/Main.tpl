@@ -141,27 +141,27 @@ function clearAmountOther() {
 <fieldset>
 <table class="form-layout-compressed">
 	<tr>
-		<td colspan="2">
-            {$form.pcp_display_in_roll.html} &nbsp;
-            {$form.pcp_display_in_roll.label}
-        </td>
+	   <td colspan="2">
+               {$form.pcp_display_in_roll.html} &nbsp;
+               {$form.pcp_display_in_roll.label}
+           </td>
 	</tr>
-	<tr>
-		<td colspan="2">
-            {$form.pcp_anonymous_name.html} &nbsp;
-            {$form.pcp_anonymous_name.label}
-        </td>
+	<tr id="nameID">
+	   <td colspan="2">
+               {$form.pcp_anonymous_name.html} &nbsp;
+               {$form.pcp_anonymous_name.label}
+           </td>
 	</tr>
-	<tr>
-		<td>{$form.pcp_roll_nickname.label}</td>
-		<td>{$form.pcp_roll_nickname.html}<br />
+	<tr id="nickID">
+	   <td>{$form.pcp_roll_nickname.label}</td>
+	   <td>{$form.pcp_roll_nickname.html}<br />
             <span class="description">{ts}Use this nick name instead of my actual name in the Honor Roll{/ts}</span>
-        </td>
+           </td>
 	</tr>
-	<tr>
+	<!--tr>
 		<td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
 		<td>{$form.pcp_personal_note.html}</td>
-	</tr>
+	</tr-->
 </table>
 </fieldset>
 {/if} 
@@ -212,7 +212,14 @@ function clearAmountOther() {
     invert              = 1
 }
 {/if}
-
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="pcp_display_in_roll"
+    trigger_value       =""
+    target_element_id   ="nameID|nickID" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
 {* Disable pay later option if not monetary *}
 {literal}
 <script type="text/javascript">

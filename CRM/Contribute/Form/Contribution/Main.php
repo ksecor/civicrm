@@ -325,11 +325,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $this->assign( 'pcpSupporterText' , ts('This contribution is being made thanks to effort of <strong>%1</strong>, who supports our campaign. You can support it as well - once you complete the donation, you will be able to create your own Personal Campaign Page!', array(1 => $pcpSupporter ) ) );
             }
             $this->assign( 'pcp', true );
-            $this->add( 'checkbox', 'pcp_display_in_roll', ts('Include my contribution in the public Honor Roll'), null );
+            $this->add( 'checkbox', 'pcp_display_in_roll', ts('Include my contribution in the public Honor Roll'), null, null,
+                        array('onclick' => "return showHideByValue('pcp_display_in_roll','','nameID|nickID','table-row','radio',false);")
+                        );
             $this->add( 'checkbox', 'pcp_anonymous_name', ts('Show my contribution but don\'t show my name (I want to contribute anonymously)'), 
                         null, null, array('onclick'=>'pcpAnonymousName();') );
             $this->add( 'text', 'pcp_roll_nickname', ts('Nick Name'), array( 'size' => 20, 'maxlength' => 15 ) );
-            $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
+            // $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
         }
         
         if ( !( $this->_paymentProcessor['billing_mode'] == CRM_Core_Payment::BILLING_MODE_BUTTON &&
