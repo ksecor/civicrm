@@ -42,13 +42,14 @@ class CRM_Import_Page_AJAX
     /**
      * Function to show import status
      */
-    function status( &$config ) 
+    function status( ) 
     {
         // make sure we get an id
         if ( ! isset( $_GET['id'] ) ) {
             return;
         }
-        
+
+        $config =& CRM_Core_Config::singleton( );    
         $file = "{$config->uploadDir}status_{$_GET['id']}.txt";
         if ( file_exists( $file ) ) {
             $str = file_get_contents( $file );
