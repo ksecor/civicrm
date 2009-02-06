@@ -524,6 +524,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 }
                 break;
                 
+            case 'Link':
+                if ( ! CRM_Utils_Rule::url( $default ) ) {
+                    $errors['default_value'] = ts( 'Please enter a valid link.' );
+                }
+                break;
+
             case 'Date':
                 if ( ! CRM_Utils_Rule::date( $default ) ) {
                     $errors['default_value'] = ts ( 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.' );
