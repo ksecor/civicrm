@@ -970,7 +970,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             $template->assign( 'returnContent', 'textMessage' );
             $message = $template->fetch( $emailTemplate );
             
-            if ( !CRM_Array_Utils::value('sort_name', $info) ) {
+            if ( !CRM_Utils_Array::value('sort_name', $info) ) {
                 $info['sort_name'] = $info['display_name'];   
             }
             
