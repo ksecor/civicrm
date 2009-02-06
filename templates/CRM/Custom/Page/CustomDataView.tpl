@@ -61,7 +61,7 @@
         cj( '#statusmessg_' + valueID ).hide( );
     }
     function showDelete( valueID, elementID, groupID ) {
-        var confirmMsg = 'Are you sure you want to delete this record? &nbsp; <a href="javascript:deleteCustomValue( ' + valueID + ',\'' + elementID + '\',' + groupID + ' );" style="text-decoration: underline;">Yes</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideStatus( ' + valueID + ' );" style="text-decoration: underline;">No</a>';
+        var confirmMsg = '{/literal}{ts}Are you sure you want to delete this record?{/ts}{literal} &nbsp; <a href="javascript:deleteCustomValue( ' + valueID + ',\'' + elementID + '\',' + groupID + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideStatus( ' + valueID + ' );" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
         cj( '#statusmessg_' + valueID ).show( ).html( confirmMsg );
     }
     function deleteCustomValue( valueID, elementID, groupID ) {
@@ -73,7 +73,7 @@
           success: function(html){
               cj( '#' + elementID ).hide( );
               var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
-              var successMsg = 'The selected record has been deleted. &nbsp;&nbsp;<a href="javascript:hideStatus( ' + valueID + ');"><img title="{ts}close{/ts}" src="' +resourceBase+'i/close.png"/></a>';
+              var successMsg = '{/literal}{ts}The selected record has been deleted.{/ts}{literal} &nbsp;&nbsp;<a href="javascript:hideStatus( ' + valueID + ');"><img title="{/literal}{ts}close{/ts}{literal}" src="' +resourceBase+'i/close.png"/></a>';
               cj( '#statusmessg_' + valueID ).show( ).html( successMsg );
           }
         });
