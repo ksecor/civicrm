@@ -155,19 +155,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         if ( $this->_pcpId ) { 
             $this->_params['pcp_made_through_id'] = $this-> _pcpInfo['pcp_id'];
+            $this->assign( 'pcpBlock', true );
             if ( CRM_Utils_Array::value( 'pcp_display_in_roll', $this->_params ) && 
                  ! CRM_Utils_Array::value( 'pcp_roll_nickname', $this->_params ) ) {
-                $this->_params['pcp_roll_nickname'] = 'Anonymous';
-            } 
-            foreach ( array ( 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+                $this->_params['pcp_roll_nickname'] = ts('Anonymous');
+                $this->_params['pcp_is_anonymous'] = 1;
+            } else {
+                $this->_params['pcp_is_anonymous'] = 0;
+            }                
+            foreach ( array ( 'pcp_display_in_roll', 'pcp_is_anonymous', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
                 if ( CRM_Utils_Array::value( $val, $this->_params ) ) {
                     $this->assign( $val, $this->_params[$val]);
                 }
-            }
-            if ( CRM_Utils_Array::value( 'pcp_display_in_roll', $this->_params ) || 
-                 CRM_Utils_Array::value( 'pcp_roll_nickname', $this->_params ) ||
-                 CRM_Utils_Array::value( 'pcp_personal_note', $this->_params ) ) {
-                $this->assign( 'pcpBlock', true );
             }
         }
         $this->_params['invoiceID'] = $this->get( 'invoiceID' );
