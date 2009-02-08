@@ -807,13 +807,3 @@ function civicrm_add_jquery( &$html ) {
     $smarty = CRM_Core_Smarty::singleton( );
     return $smarty->fetch( 'CRM/common/jquery.tpl' ) . $html;
 }
-
-function civicrm_civicrm_customFieldOptions( $fieldID, &$options ) {
-    if ( $fieldID == 1 ) {
-        $options['Rocks'] = ts( 'Hooks Rock' );
-        unset( $options['Edu'] );
-    } else if ( $fieldID == 2 ) {
-        $options['H'] = ts(' Hook me' );
-        unset( $options['S'] );
-    }
-}
