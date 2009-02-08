@@ -1566,6 +1566,45 @@ ORDER BY html_type";
         return $customData;
     }
 
+    static function buildOption( $field, &$options ) {
+
+        $options['attributes'] = array( 'label'     => $field['label'],
+                                        'data_type' => $field['data_type'],
+                                        'html_type' => $field['html_type'] );
+
+        $optionGroupID = null;
+        if ( ( $field['html_type'] == 'CheckBox' ||
+               $field['html_type'] == 'Radio'    ||
+               $field['html_type'] == 'Select'   ||
+               $field['html_type'] == 'Multi-Select' ) ) {
+            if ( $field['option_group_id'] ) {
+                $optionGroupID = $field['option_group_id'];
+            } else if ( $field['data_type'] != 'Boolean' ) {
+                CRM_Core_Error::fatal( );
+            }
+        }
+            
+        // build the cache for custom values with options (label => value)
+        if ( $optionGroupID != null ) {
+            $query = "
+SELECT label, value
+  FROM civicrm_option_value
+ WHERE option_group_id = $optionGroupID
+";
+
+            $dao =& CRM_Core_DAO::executeQuery( $query );
+            while ( $dao->fetch( ) ) {
+                if ( $field['data_type'] == 'Int' || $field['data_type'] == 'Float' ) {
+                    $num = round($dao->value, 2);
+                    $options["$num"] = $dao->label;
+                } else {
+                    $options[$dao->value] = $dao->label;
+                }
+            }
+
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::customFieldOptions( $field['id'], $options );
+        }
+    }
+
 }
-
-

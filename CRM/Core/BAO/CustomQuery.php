@@ -174,7 +174,8 @@ SELECT f.id, f.label, f.data_type,
                                               'html_type'       => $dao->html_type,
                                               'is_search_range' => $dao->is_search_range,
                                               'column_name'     => $dao->column_name,
-                                              'table_name'      => $dao->table_name ) ;
+                                              'table_name'      => $dao->table_name,
+                                              'option_group_id' => $dao->option_group_id ) ;
 
             // store it in the options cache to make things easier
             // during option lookup
@@ -182,25 +183,24 @@ SELECT f.id, f.label, f.data_type,
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
-            $optionIds = array( );
+            $optionGroupID = null;
             if ( ( $dao->html_type == 'CheckBox' ||
                    $dao->html_type == 'Radio'    ||
                    $dao->html_type == 'Select'   ||
                    $dao->html_type == 'Multi-Select' ) ) {
                 if ( $dao->option_group_id ) {
-                    $optionIds[] = $dao->option_group_id;
+                    $optionGroupID = $dao->option_group_id;
                 } else if ( $dao->data_type != 'Boolean' ) {
                     CRM_Core_Error::fatal( );
                 }
             }
             
             // build the cache for custom values with options (label => value)
-            if ( ! empty( $optionIds ) ) {
-                $optionIdString = implode( ',', $optionIds );
+            if ( $optionGroupID != null ) {
                 $query = "
 SELECT label, value
   FROM civicrm_option_value
- WHERE option_group_id IN ( $optionIdString )
+ WHERE option_group_id = $optionGroupID
 ";
 
                 $option =& CRM_Core_DAO::executeQuery( $query );

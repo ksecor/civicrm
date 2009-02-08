@@ -274,7 +274,11 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
         // if entity is either individual, organization or household pls get custom groups for 'contact' too.
         if ($entityType == "Individual" || $entityType == 'Organization' || $entityType == 'Household') {
             $in = "'$entityType', 'Contact'";
+        } else if ( strpos( $entityType, "'" ) !== false ) {
+            // this allows the calling function to send in multiple entity types
+            $in = $entityType;
         } else {
+            // quote it
             $in = "'$entityType'";
         }
 

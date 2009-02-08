@@ -277,13 +277,3 @@ function civitest_civicrm_pageRun( &$page ) {
 
     $page->assign( 'varName', 'This is a variable assigned by the hook' );
 }
-
-function civitest_civicrm_customFieldOptions( $fieldID, &$options ) {
-    if ( $fieldID == 1 ) {
-        $options['Rocks'] = ts( 'Hooks Rock' );
-        unset( $options['Edu'] );
-    } else if ( $fieldID == 2 ) {
-        $options['H'] = ts(' Hook me' );
-        unset( $options['S'] );
-    }
-}
