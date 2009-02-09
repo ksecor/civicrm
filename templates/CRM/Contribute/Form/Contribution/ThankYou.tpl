@@ -119,14 +119,22 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
     {if $pcpBlock}
-    <div class="header-dark">
-        {ts}Personal Campaign Page{/ts}
-    </div>
-    <div class="display-block">
-	<strong>Display In Roll</strong> : {if $pcp_display_in_roll}{ts}Yes{/ts}<br />{else}{ts}No{/ts}<br />{/if}
-	{if $pcp_roll_nickname}<strong>Nick Name</strong> : {$pcp_roll_nickname}<br />{/if}
-        {if $pcp_personal_note}<strong>Note</strong> : {$pcp_personal_note|truncate}<br />{/if}
-   </div>
+        <div class="header-dark">
+            {ts}Contribution Honor Roll{/ts}
+        </div>
+        <div class="display-block">
+            {if $pcp_display_in_roll}
+                {ts}List my contribution{/ts}
+                {if $pcp_is_anonymous}
+                    <strong>{ts}anonymously{/ts}.</strong>
+                {else}
+                    {ts}and my name{/ts}: <strong>{$pcp_roll_nickname}</strong>
+                {/if}
+            {else}
+                {ts}Don't list my contribution in the honor roll.{/ts}
+            {/if}
+            <br />
+       </div>
     {/if}
     {if $onBehalfName}
     <div class="header-dark">

@@ -126,10 +126,10 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
                                          'name'      => ts('Next >>'),
                                          'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
                                  array ( 'type'      => 'submit',
-                                         'name'      => ts('Save & Continue Later') )
+                                         'name'      => ts('Save & Continue Later') ),
+                                 array ( 'type'      => 'cancel',
+                                        'name'      => ts('Cancel') ),
                                  )
                            );
         $this->setDefaults($defaults);

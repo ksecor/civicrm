@@ -852,9 +852,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             }
 
                             $flag = false; 
-                            foreach( $customOption as $v2 ) {
-                                if (( strtolower(trim($v2['label'])) == strtolower(trim($v1))) ||
-                                    ( strtolower(trim($v2['value'])) == strtolower(trim($v1)))) {
+                            foreach($customOption as $customValue => $customLabel) {
+                                if (( strtolower(trim($customLabel)) == strtolower(trim($v1))) ||
+                                    ( strtolower(trim($customValue)) == strtolower(trim($v1)))) {
                                     $flag = true; 
                                 }
                             }
@@ -868,9 +868,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                  $customFields[$customFieldID]['data_type'] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         $flag = false;
-                        foreach( $customOption as $v2 ) {
-                            if (( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) ||
-                                ( strtolower(trim($v2['value'])) == strtolower(trim($value)) )) {
+                        foreach($customOption as $customValue => $customLabel) {
+                            if (( strtolower(trim($customLabel)) == strtolower(trim($value)) ) ||
+                                ( strtolower(trim($customValue)) == strtolower(trim($value)) )) {
                                 $flag = true; 
                             }
                         }

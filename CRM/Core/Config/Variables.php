@@ -223,11 +223,22 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $currencySymbols = '';
     
     /**
-        * Format for monetary amounts
+     * Format for monetary amounts
      * @var string
      */
     public $defaultCurrencySymbol = null;
-    
+   
+    /**
+     * Monetary decimal point character
+     * @var string
+     */
+    public $monetaryDecimalPoint = '.';
+
+    /**
+     * Monetary thousands separator
+     * @var string
+     */
+    public $monetaryThousandSeparator = ',';
     /**
      * Default encoding of strings returned by gettext
      * @var string
@@ -516,6 +527,29 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
             $cachedProvinceLimit = $country;
         }
         return $cachedProvinceLimit;
+    }
+
+    /**
+     * Provide cached default monetary decimal point and monetary thousand separator.
+     *
+     * @param
+     * @return string
+     */
+    public function defaultMonetaryPointSeparator( ) 
+    {
+        static $cachedDecPoint = array( );
+        if ( empty($cachedDecPoint) ) {
+            if ( $this->defaultCurrency ) {
+                $localeInfo = localeconv();
+                $cachedDecPoint['decimal_point'] = $this->monetaryDecimalPoint      = CRM_Utils_Array::value( 'mon_decimal_point', $localeInfo );
+                $cachedDecPoint['thousands_sep'] = $this->monetaryThousandSeparator = CRM_Utils_Array::value( 'mon_thousands_sep', $localeInfo );
+            } else {
+                $cachedDecPoint = array( 'decimal_point' => '.',
+                                         'thousands_sep' => ','
+                                         );
+            }
+        }
+        return $cachedDecPoint;
     }
     
 } // end CRM_Core_Config

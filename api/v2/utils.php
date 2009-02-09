@@ -645,23 +645,23 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
-                    foreach( $customOption as $v2 ) {
-                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
-                            ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                    foreach($customOption as $customValue => $customLabel) {
+                        if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                            ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
-                                $values[$key][$v2['value']] = 1;
+                                $values[$key][$customValue] = 1;
                             } else {
-                                $values[$key][] = $v2['value'];
+                                $values[$key][] = $customValue;
                             }
                         }
                     }
                 }
             } else if ( $type == 'Select' || $type == 'Radio' ) {
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $customOption as $v2 ) {
-                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||
-                        ( strtolower($v2['value']) == strtolower(trim($value)) )) {
-                        $values[$key] = $v2['value'];
+                foreach($customOption as $customValue => $customLabel) {
+                    if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                        ( strtolower($customValue) == strtolower(trim($v1)) )) { 
+                        $values[$key] = $customValue;
                     }
                 }
             }
@@ -783,23 +783,23 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
-                    foreach( $customOption as $v2 ) {
-                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
-                            ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                    foreach($customOption as $customValue => $customLabel) {
+                        if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                            ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
-                                $values[$key][$v2['value']] = 1;
+                                $values[$key][$customValue] = 1;
                             } else {
-                                $values[$key][] = $v2['value'];
+                                $values[$key][] = $customValue;
                             }
                         }
                     }
                 }
             } else if ( $type == 'Select' || $type == 'Radio' ) {
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $customOption as $v2 ) {
-                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||
-                        ( strtolower($v2['value']) == strtolower(trim($value)) )) {
-                        $values[$key] = $v2['value'];
+                foreach($customOption as $customValue => $customLabel) {
+                    if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                        ( strtolower($customValue) == strtolower(trim($v1)) )) { 
+                        $values[$key] = $customValue;
                     }
                 }
             }
@@ -1117,23 +1117,23 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
-                    foreach( $customOption as $v2 ) {
-                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
-                            ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                    foreach($customOption as $customValue => $customLabel) {
+                        if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                            ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
-                                $values[$key][$v2['value']] = 1;
+                                $values[$key][$customValue] = 1;
                             } else {
-                                $values[$key][] = $v2['value'];
+                                $values[$key][] = $customValue;
                             }
                         }
                     }
                 }
             } else if ( $type == 'Select' || $type == 'Radio' ) {
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $customOption as $v2 ) {
-                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||
-                        ( strtolower($v2['value']) == strtolower(trim($value)) )) {
-                        $values[$key] = $v2['value'];
+                foreach($customOption as $customValue => $customLabel) {
+                    if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                        ( strtolower($customValue) == strtolower(trim($v1)) )) { 
+                        $values[$key] = $customValue;
                     }
                 }
             }
@@ -1236,23 +1236,23 @@ function _civicrm_activity_formatted_param( &$params, &$values, $create=false)
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
-                    foreach( $customOption as $v2 ) {
-                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
-                            ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                    foreach($customOption as $customValue => $customLabel) {
+                        if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                            ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
-                                $values[$key][$v2['value']] = 1;
+                                $values[$key][$customValue] = 1;
                             } else {
-                                $values[$key][] = $v2['value'];
+                                $values[$key][] = $customValue;
                             }
                         }
                     }
                 }
             } else if ( $type == 'Select' || $type == 'Radio' ) {
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $customOption as $v2 ) {
-                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||
-                        ( strtolower($v2['value']) == strtolower(trim($value)) )) {
-                        $values[$key] = $v2['value'];
+                foreach($customOption as $customValue => $customLabel) {
+                    if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                        ( strtolower($customValue) == strtolower(trim($v1)) )) { 
+                        $values[$key] = $customValue;
                     }
                 }
             }

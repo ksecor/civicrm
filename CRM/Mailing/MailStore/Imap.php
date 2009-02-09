@@ -49,10 +49,10 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      * @param string $folder    name of the inbox folder
      * @return void
      */
-    function __construct($host, $username, $password, $ssl = true, $folder = 'Inbox')
+    function __construct($host, $username, $password, $ssl = true, $folder = 'INBOX')
     {
-        // default to Inbox if an empty string
-        if (!$folder) $folder = 'Inbox';
+        // default to INBOX if an empty string
+        if (!$folder) $folder = 'INBOX';
 
         if ($this->_debug) print "connecting to $host, authenticating as $username and selecting $folder\n";
 

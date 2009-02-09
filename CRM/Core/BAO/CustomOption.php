@@ -108,6 +108,10 @@ class CRM_Core_BAO_CustomOption {
             $options[$dao->id]['label'] = $dao->label;
             $options[$dao->id]['value'] = $dao->value;
         }
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::customFieldOptions( $fieldID, $options, true );
+        
         return $options;
     }
 
@@ -120,22 +124,8 @@ class CRM_Core_BAO_CustomOption {
         case 'Multi-Select':
         case 'Radio':
         case 'Select':
-            $query = "
-SELECT v.label
-FROM   civicrm_option_value v,
-       civicrm_option_group g,
-       civicrm_custom_field f
-WHERE  f.id    = %1
-AND    v.value = %2
-AND    g.id    = f.option_group_id
-AND    g.id    = v.option_group_id";
-            $params = array( 1 => array( $fieldId, 'Integer' ),
-                             2 => array( trim($value), 'String' ) );
-	    
-	    $dao   = CRM_Core_DAO::executeQuery( $query, $params );
-	    
-            $label = $dao->fetch( ) ? $dao->label : $value;
-            $dao->free();
+            $options =& self::valuesByID( $fieldId );
+            $label   =  CRM_Utils_Array::value( $value, $options );
             break;
             
         case 'Multi-Select Country':
@@ -266,21 +256,20 @@ SET    {$dao->columnName} = REPLACE( {$dao->columnName}, %1, %2 )";
         }
     }
 
-    /**
-     * return the custom options associated with a specific entity id/table
-     * as a name/value pair
-     *
-     * @param string $entity_table name of the table
-     * @param string $entity_id   
-     * @param array  $values       array tos tore the options in
-     *
-     * @return void
-     * @static
-     */
-    static function getAssoc( $entity_table, $entity_id, &$values ) {
-        CRM_Core_Error::fatal( 'This function has been obsoleted' );
+    static function &valuesByID( $customFieldID, $optionGroupID = null ) {
+        if ( ! $optionGroupID ) {
+            $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                          $customFieldID,
+                                                          'option_group_id' );
+        }
 
-        // check CRM_Core_OptionGroup::getAssoc for the same function in 2.0
+        require_once 'CRM/Core/OptionGroup.php';
+        $options =& CRM_Core_OptionGroup::valuesByID( $optionGroupID );
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::customFieldOptions( $customFieldID, $options, false );
+
+        return $options;
     }
 
 }

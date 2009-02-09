@@ -602,7 +602,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         case 'Radio':
             $choice = array();
             if($field->data_type != 'Boolean') {
-                $customOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
+                $customOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
+                                                                        $field->option_group_id );
                 foreach ($customOption as $v => $l ) {
                     $choice[] = $qf->createElement('radio', null, '', $l, $v, $field->attributes);
                 }
@@ -618,7 +619,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'Select':
-            $selectOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
+            $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
+                                                                    $field->option_group_id );
             $qf->add('select', $elementName, $label,
                      array( '' => ts('- select -')) + $selectOption,
                      ( ( $useRequired || ($useRequired && $field->is_required) ) && !$search));
@@ -626,7 +628,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
             //added for select multiple
         case 'Multi-Select':
-            $selectOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
+            $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
+                                                                    $field->option_group_id );
             if ( $search &&
                  count( $selectOption ) > 1 ) {
                 $selectOption['CiviCRM_OP_OR'] = ts( 'Select to match ANY; unselect to match ALL' );
@@ -639,7 +642,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case 'CheckBox':
-            $customOption = CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
+            $customOption = CRM_Core_BAO_CustomOption::valuesByID( $field->id,
+                                                                   $field->option_group_id );
             $check = array();
             foreach ($customOption as $v => $l) {
                 $check[] =& $qf->addElement('advcheckbox', $v, null, $l); 
@@ -1040,11 +1044,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $defaults[$elementName] = array();
 
             $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
-            foreach($customOption as $val) {
-                if ( in_array($val['value'], $checkedValue) ) {
-                    $defaults[$elementName][$val['value']] = 1;
+            foreach($customOption as $customValue => $customLabel) {
+                if ( in_array($customValue, $checkedValue) ) {
+                    $defaults[$elementName][$customValue] = 1;
                 } else {
-                    $defaults[$elementName][$val['value']] = 0;
+                    $defaults[$elementName][$customValue] = 0;
                 }
             }                            
             break;
@@ -1054,9 +1058,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], false);
             $defaults[$elementName] = array();
             $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
-            foreach($customOption as $val) {
-                if ( in_array($val['value'], $checkedValue) ) {
-                    $defaults[$elementName][$val['value']] = $val['value'];
+            foreach($customOption as $customValue => $customLabel) {
+                if ( in_array($customValue, $checkedValue) ) {
+                    $defaults[$elementName][$customValue] = $customValue;
                 }
             }                            
             break;
@@ -1546,6 +1550,45 @@ ORDER BY html_type";
         return $customData;
     }
 
+    static function buildOption( $field, &$options ) {
+
+        $options['attributes'] = array( 'label'     => $field['label'],
+                                        'data_type' => $field['data_type'],
+                                        'html_type' => $field['html_type'] );
+
+        $optionGroupID = null;
+        if ( ( $field['html_type'] == 'CheckBox' ||
+               $field['html_type'] == 'Radio'    ||
+               $field['html_type'] == 'Select'   ||
+               $field['html_type'] == 'Multi-Select' ) ) {
+            if ( $field['option_group_id'] ) {
+                $optionGroupID = $field['option_group_id'];
+            } else if ( $field['data_type'] != 'Boolean' ) {
+                CRM_Core_Error::fatal( );
+            }
+        }
+            
+        // build the cache for custom values with options (label => value)
+        if ( $optionGroupID != null ) {
+            $query = "
+SELECT label, value
+  FROM civicrm_option_value
+ WHERE option_group_id = $optionGroupID
+";
+
+            $dao =& CRM_Core_DAO::executeQuery( $query );
+            while ( $dao->fetch( ) ) {
+                if ( $field['data_type'] == 'Int' || $field['data_type'] == 'Float' ) {
+                    $num = round($dao->value, 2);
+                    $options["$num"] = $dao->label;
+                } else {
+                    $options[$dao->value] = $dao->label;
+                }
+            }
+
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::customFieldOptions( $field['id'], $options );
+        }
+    }
+
 }
-
-

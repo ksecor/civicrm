@@ -138,26 +138,29 @@ function clearAmountOther() {
 {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
 
 {if $pcp}
-<fieldset><legend>{ts}Personal Campaign Page{/ts}</legend>
+<fieldset>
 <table class="form-layout-compressed">
 	<tr>
-		<td>{$form.pcp_display_in_roll.label}</td>
-		<td>{$form.pcp_display_in_roll.html}<br />
-		<span class="description">{ts}You can display the amount of donation publicly.{/ts}</span></td>
+	   <td colspan="2">
+               {$form.pcp_display_in_roll.html} &nbsp;
+               {$form.pcp_display_in_roll.label}
+        </td>
 	</tr>
-	<tr>
-		<td></td>
-		<td>{$form.pcp_anonymous_name.html}<br />
-                <span class="description">{$form.pcp_anonymous_name.label}</span></td>
+	<tr id="nameID">
+	    <td colspan="2">
+            {$form.pcp_is_anonymous.html}
+        </td>
 	</tr>
-	<tr>
-		<td>{$form.pcp_roll_nickname.label}</td>
-		<td>{$form.pcp_roll_nickname.html}</td>
+	<tr id="nickID">
+        <td>{$form.pcp_roll_nickname.label}</td>
+        <td>{$form.pcp_roll_nickname.html}<br />
+            <span class="description">{ts}Enter the name you want listed with this contribution. You can use a nick name like 'The Jones Family' or 'Sarah and Sam'.{/ts}</span>
+        </td>
 	</tr>
-	<tr>
+	<!--tr>
 		<td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
 		<td>{$form.pcp_personal_note.html}</td>
-	</tr>
+	</tr-->
 </table>
 </fieldset>
 {/if} 
@@ -208,11 +211,20 @@ function clearAmountOther() {
     invert              = 1
 }
 {/if}
+{*{if $pcp}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="pcp_display_in_roll"
+    trigger_value       =""
+    target_element_id   ="nameID|nickID" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+{/if}*}
 
-{* Disable pay later option if not monetary *}
-{literal}
 <script type="text/javascript">
-
+{if $pcp}pcpAnonymous();{/if}
+{literal}
 var is_monetary = {/literal}{$is_monetary}{literal}
 if (! is_monetary ) {
     if ( document.getElementsByName("is_pay_later")[0] ) {
@@ -244,13 +256,22 @@ function enablePeriod ( ) {
 	document.getElementById('frequency_unit').disabled = false;
     }
 }
-function pcpAnonymousName( ) {
-    if ( document.getElementsByName("pcp_anonymous_name")[0].checked == true ) { 
-	document.getElementById('pcp_roll_nickname').value    = 'Anonymous';
-	document.getElementById('pcp_roll_nickname').disabled = true;
+function pcpAnonymous( ) {
+    // clear nickname field if anonymous is true
+    if ( document.getElementsByName("pcp_is_anonymous")[1].checked ) { 
+        document.getElementById('pcp_roll_nickname').value = '';
+    }
+    if ( ! document.getElementsByName("pcp_display_in_roll")[0].checked ) { 
+        hide('nickID', 'table-row');
+        hide('nameID', 'table-row');
     } else {
-	document.getElementById('pcp_roll_nickname').value    = '';
-	document.getElementById('pcp_roll_nickname').disabled = false;
+        if ( document.getElementsByName("pcp_is_anonymous")[0].checked ) {
+            show('nameID', 'table-row');
+            show('nickID', 'table-row');
+        } else {
+            show('nameID', 'table-row');
+            hide('nickID', 'table-row');
+        }
     }
 }
 {/literal}{if $form.is_pay_later and $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}{literal} 
@@ -266,5 +287,5 @@ function showHidePayPalExpressOption()
 	hide("crm-submit-buttons");
     }
 }
-</script>
 {/literal}
+</script>

@@ -5,17 +5,17 @@
     {if $showEdit and $editCustomData and $groupId}	
       <div class="action-link">
         <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts 1=$cd_edit.title}Edit %1{/ts}</span></a><br/><br/>
-      </div>
-      <span id="statusmessg_{$customGroupId}" class="success-status" style="display:none;">{ts}Selected Custom value has been deleted.{/ts}&nbsp; <a href="javascript:hideStatus( {$customGroupId});">{ts}Hide{/ts}</a></span>
+      </div>      
     {/if}
     {assign var="showEdit" value=0}
-    
+    <span id="statusmessg_{$index}" class="success-status" style="display:none;"></span>    
     <div id="{$cd_edit.name}_show_{$index}" class="section-hidden section-hidden-border">
-    <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$cd_edit.title}</label>{if $groupId and $index}&nbsp;( <a href="javascript:deleteCustomValue( {$index}, '{$cd_edit.name}_show_{$index}', {$customGroupId} );">{ts}Delete{/ts}</a> ){/if}<br />
+    <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$cd_edit.title}</label>{if $groupId and $index}&nbsp; <a href="javascript:showDelete( {$index}, '{$cd_edit.name}_show_{$index}', {$customGroupId} );"><img title="delete this record" src="{$config->resourceBase}i/delete.png" class="action-icon" alt="{ts}delete this record{/ts}" /></a>{/if}<br />
     </div>
 
     <div id="{$cd_edit.name}_{$index}" class="section-shown form-item">
-    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}{if $groupId and $index}&nbsp;( <a href="javascript:deleteCustomValue( {$index}, '{$cd_edit.name}_{$index}', {$customGroupId} );">{ts}Delete{/ts}</a> ){/if}</legend>
+    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}{if $groupId and $index}&nbsp;&nbsp;&nbsp;<a href="javascript:showDelete( {$index}, '{$cd_edit.name}_{$index}', {$customGroupId} );"><img title="delete this record" src="{$config->resourceBase}i/delete.png" class="action-icon" alt="{ts}delete this record{/ts}" /></a>{/if}</legend>
+
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
         {if $element.options_per_line != 0}
@@ -57,8 +57,12 @@
 {if $groupId}
 <script type="text/javascript">
     {literal}
-    function hideStatus( groupID ) {
-        cj( '#statusmessg_' + groupID ).hide( );
+    function hideStatus( valueID ) {
+        cj( '#statusmessg_' + valueID ).hide( );
+    }
+    function showDelete( valueID, elementID, groupID ) {
+        var confirmMsg = '{/literal}{ts}Are you sure you want to delete this record?{/ts}{literal} &nbsp; <a href="javascript:deleteCustomValue( ' + valueID + ',\'' + elementID + '\',' + groupID + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideStatus( ' + valueID + ' );" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
+        cj( '#statusmessg_' + valueID ).show( ).html( confirmMsg );
     }
     function deleteCustomValue( valueID, elementID, groupID ) {
         var postUrl = {/literal}"{crmURL p='civicrm/ajax/customvalue' h=0 }"{literal};
@@ -68,7 +72,9 @@
           url: postUrl,
           success: function(html){
               cj( '#' + elementID ).hide( );
-              cj( '#statusmessg_' + groupID ).show( );
+              var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
+              var successMsg = '{/literal}{ts}The selected record has been deleted.{/ts}{literal} &nbsp;&nbsp;<a href="javascript:hideStatus( ' + valueID + ');"><img title="{/literal}{ts}close{/ts}{literal}" src="' +resourceBase+'i/close.png"/></a>';
+              cj( '#statusmessg_' + valueID ).show( ).html( successMsg );
           }
         });
     }

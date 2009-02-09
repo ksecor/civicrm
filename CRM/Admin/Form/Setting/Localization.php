@@ -179,8 +179,15 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         //cache contact fields retaining localized titles
         //though we changed localization, so reseting cache.
         require_once 'CRM/Core/BAO/Cache.php';
-        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );         
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );  
         
+        // we do this only to initialize monetary decimal point and thousand separator
+        $config =& CRM_Core_Config::singleton();
+        if ( $monetaryPointSeparator = $config->defaultMonetaryPointSeparator( ) ) {
+            $values['monetaryDecimalPoint'     ] = CRM_Utils_Array::value('decimal_point', $monetaryPointSeparator);
+            $values['monetaryThousandSeparator'] = CRM_Utils_Array::value('thousands_sep', $monetaryPointSeparator);
+        }
+
         // save all the settings
         parent::commonProcess($values);
 

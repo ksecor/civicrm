@@ -59,7 +59,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form
     protected $_title;
     protected $_groupElement;
     protected $_group;
-    protected $_defaults;
+    protected $_allPanes;
 
     /**
      * Function to set variables up before form is built
@@ -175,7 +175,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form
             eval( 'CRM_UF_Form_AdvanceSetting::' . $type . '( $this );' );
         }
         
-        $this->assign( 'allPanes', $allPanes );
+        $this->_allPanes = $allPanes;
         $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
         
         $this->addButtons(array(
@@ -251,6 +251,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form
             foreach($advFields as $key) {
                 if ( !empty($defaults[$key]) ) {
                     $showAdvanced = 1;
+                    $this->_allPanes['Advanced Settings']['open'] = 'true';
                     break;
                 }
             }
@@ -265,7 +266,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form
         if ( !( $this->_action & CRM_Core_Action::DELETE )&& !( $this->_action & CRM_Core_Action::DISABLE )  ) {
             $showHide->addToTemplate( );
         }
-        $this->_defaults = $defaults;      
+        $this->assign( 'allPanes', $this->_allPanes );
         return $defaults;
     }
 
@@ -299,10 +300,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form
                 $params['is_active'] = 0;
             }
 
-            if ( ! array_key_exists( 'is_cms_user', $params ) ){
-                $params = array_merge( $this->_defaults, $params );
-            }
-            
             if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
                 $ids['ufgroup'] = $this->_id;
             

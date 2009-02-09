@@ -145,8 +145,9 @@ class BAO_Core_CustomOption extends CiviTestCase
         // Should have 5 array items (option_value rows)
         $this->assertEqual( count($options), 5, 'Verify that we got 5 option value items back.');
         // Last item should have label = 'Other' (since ordered by weight).
+        // might need to fix this. i'm assuming array_pop returns the value and not key
         $lastOption = array_pop( $options );
-        $this->assertEqual( $lastOption['label'], 'Other', 'Verify that label for last option is "Other".');
+        $this->assertEqual( $lastOption, 'Other', 'Verify that label for last option is "Other".');
     }
     
 }

@@ -149,17 +149,17 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Scheduled Date'),
+                                                'name'      => ts('Scheduled'),
                                                 'sort'      => 'scheduled_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ), 
                                           array(
-                                                'name'      => ts('Start Date'),
+                                                'name'      => ts('Started'),
                                                 'sort'      => 'start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ), 
                                           array(
-                                                'name'      => ts('Completed Date'),
+                                                'name'      => ts('Completed'),
                                                 'sort'      => 'end_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
                                                 )

@@ -75,7 +75,8 @@ class CRM_Admin_Form_MailSettings extends CRM_Admin_Form
         require_once 'CRM/Core/PseudoConstant.php';
         $this->add( 'select', 'protocol', 
                     ts( 'Protocol' ),
-                    array(''=>ts( '- select -' )) + CRM_Core_PseudoConstant::mailProtocol( ) ); 
+                    array('' => ts('- select -')) + CRM_Core_PseudoConstant::mailProtocol(),
+                    true);
         
         $this->add( 'text', 'server', ts('Server'), $attributes['server'] );
         

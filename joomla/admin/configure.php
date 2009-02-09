@@ -21,7 +21,7 @@ function civicrm_setup( ) {
     if ( ! function_exists('zip_open') ||
          ! function_exists('zip_read') ) {
         echo "Your PHP version is missing  zip functionality. Please ask your system administrator / hosting provider to recompile PHP with zip support.<p>";
-        echo "You will need to uninstall CiviCRM from the Joomla Extension Manager.<p>";
+        echo "If this is a new install, you will need to uninstall CiviCRM from the Joomla Extension Manager.<p>";
         exit( );
     }
 
@@ -36,7 +36,7 @@ function civicrm_setup( ) {
         JFolder::create( $scratchDir, 0777 );
     }
     
-    $compileDir   = $scratchDir . DIRECTORY_SEPARATOR . 'templates_c' . DIRECTORY_SEPARATOR;
+    $compileDir   = $scratchDir . DIRECTORY_SEPARATOR . 'templates_c';
     if ( ! is_dir( $compileDir ) ) {
         JFolder::create( $compileDir, 0777 );
     }

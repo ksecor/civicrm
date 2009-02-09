@@ -51,7 +51,7 @@
     
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *} 
 {include file="CRM/common/showHide.tpl"}
-{if $action eq 1 and $locEvents}
+{if $useExistingEventLocation and $locEvents}
 <script type="text/javascript">    
 {literal}
 function showLocFields( ) {

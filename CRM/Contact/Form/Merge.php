@@ -227,12 +227,14 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     }
                     if ( is_array( $mainTree[$gid]['fields'][$fid]['customValue'] ) ) {
                         foreach ( $mainTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
-                            $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                            $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomGroup::formatCustomValues( $values,
+                                                                                                               $field );
                         }
                     }
                     if ( is_array( $otherTree[$gid]['fields'][$fid]['customValue'] ) ) {
                         foreach ( $otherTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
-                            $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                            $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomGroup::formatCustomValues( $values,
+                                                                                                               $field );
                             $value = $values['data'] ? $values['data'] : $this->_qfZeroBug;
                         }
                     }

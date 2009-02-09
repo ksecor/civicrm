@@ -116,10 +116,10 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         }
         //pcp elements
         if ( $this->_pcpId ) { 
-            foreach ( array ( 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+            $this->assign( 'pcpBlock', true);
+            foreach ( array ( 'pcp_display_in_roll', 'pcp_is_anonymous', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
                 if ( CRM_Utils_Array::value( $val, $this->_params ) ) {
                     $this->assign( $val, $this->_params[$val]);
-                    $this->assign( 'pcpBlock', true);
                 }
             }
         }

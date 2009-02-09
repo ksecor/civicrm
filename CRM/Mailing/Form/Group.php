@@ -231,11 +231,10 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
                                          'name'      => ts('Next >>'),
                                          'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
                                  array ( 'type'      => 'submit',
-                                         'name'      => ts('Save & Continue Later'),
-                                         ),
+                                         'name'      => ts('Save & Continue Later') ),
+                                 array ( 'type'      => 'cancel',
+                                        'name'      => ts('Cancel') ),
                                  )
                            );
         

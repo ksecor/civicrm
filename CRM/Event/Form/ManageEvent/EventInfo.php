@@ -67,6 +67,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         parent::preProcess( );
                 
         if ( $this->_id ) {
+            $this->assign( 'entityID', $this->_id );
             $eventType = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                       $this->_id,
                                                       'event_type_id' );
