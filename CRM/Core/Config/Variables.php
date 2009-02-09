@@ -535,11 +535,15 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      * @param
      * @return string
      */
-    public function defaultMonetaryPointSeparator( ) 
+    public function defaultMonetaryPointSeparator( $lcMonetary ) 
     {
         static $cachedDecPoint = array( );
         if ( empty($cachedDecPoint) ) {
             if ( $this->defaultCurrency ) {
+                $lcMonetary = $lcMonetary.'.utf8';
+                //set locale settings for selected monetary language.
+                setlocale( LC_ALL, $lcMonetary );
+                //get locale settings for selected monetary language.
                 $localeInfo = localeconv();
                 $cachedDecPoint['decimal_point'] = $this->monetaryDecimalPoint      = CRM_Utils_Array::value( 'mon_decimal_point', $localeInfo );
                 $cachedDecPoint['thousands_sep'] = $this->monetaryThousandSeparator = CRM_Utils_Array::value( 'mon_thousands_sep', $localeInfo );

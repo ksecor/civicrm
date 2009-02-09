@@ -183,7 +183,7 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         
         // we do this only to initialize monetary decimal point and thousand separator
         $config =& CRM_Core_Config::singleton();
-        if ( $monetaryPointSeparator = $config->defaultMonetaryPointSeparator( ) ) {
+        if ( $monetaryPointSeparator = $config->defaultMonetaryPointSeparator( $values['lcMonetary'] ) ) {
             $values['monetaryDecimalPoint'     ] = CRM_Utils_Array::value('decimal_point', $monetaryPointSeparator);
             $values['monetaryThousandSeparator'] = CRM_Utils_Array::value('thousands_sep', $monetaryPointSeparator);
         }

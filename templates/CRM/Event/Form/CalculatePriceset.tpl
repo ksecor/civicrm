@@ -5,18 +5,22 @@
 {literal} 
 <script type="text/javascript">
 var totalfee=0;
-var formName = '{/literal}{$form.formName}{literal}';
-var scriptfee = eval("document."+formName+".scriptFee.value");
+var thousandMarker = '{/literal}{$config->monetaryThousandSeparator}{literal}';
+var seperator      = '{/literal}{$config->monetaryDecimalPoint}{literal}';
+var formName    = '{/literal}{$form.formName}{literal}';
+var scriptfee   = eval("document."+formName+".scriptFee.value");
 var scriptarray = eval("document."+formName+".scriptArray.value");
-var symbol = '{/literal}{$currencySymbol}{literal}';
+var symbol      = '{/literal}{$currencySymbol}{literal}';
+
 if ('{/literal}{$totalAmount}{literal}'!= '' ) {
   scriptfee   = parseFloat('{/literal}{$totalAmount}{literal}');
   scriptarray = ',{/literal}{$feeString}{literal}';
 }
 if(scriptfee){
   totalfee = parseFloat(scriptfee);
+  var totalEventFee = formatMoney( totalfee, 2, seperator, thousandMarker );
   document.getElementById('pricelabel').style.display = "block";
-  document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalfee;
+  document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalEventFee;
   scriptfee = parseFloat('0');
 }
 var price = new Array();
@@ -27,7 +31,7 @@ function addPrice(priceVal, priceId) {
   var op  = document.getElementById(priceId).type;
   var ele = document.getElementById(priceId).name.substr(6);
   if (op == 'checkbox') {
-    var chek = ele.split('[');
+    var chek = ele.split('\[');
     ele = chek[0];
   }
   if(!price[ele]) {
@@ -40,16 +44,9 @@ function addPrice(priceVal, priceId) {
   }
   var Actualprice= "";
   var priceArray ;
-  var thousandMarker = ',';
-  var seperator;
+  
   if (priceset != 0) {
     //to handle monetary localization.
-    seperator = priceset[1].charAt(priceset[1].length - 3);
-
-    if (  seperator == ',' ) {
-          thousandMarker = '.';  
-    }
-
     priceArray    = priceset[1].split(thousandMarker);
  
     for( i=0 ;i<priceArray.length ; i++ ){
@@ -92,12 +89,7 @@ function addPrice(priceVal, priceId) {
       var myarray = ['','{/literal}{$selectarray}{literal}'];
       if(index>0) {
 	var selectvalue = myarray[index].split(symbol);
-
-    seperator = selectvalue[1].charAt(selectvalue[1].length - 3);
-
-    if (  seperator == ',' ) {
-          thousandMarker = '.';  
-    }
+   
 	priceArray = selectvalue[1].split(thousandMarker);
 	for( i=0 ;i<priceArray.length ; i++ ){
 	  Actualprice =Actualprice+priceArray[i]; 
@@ -114,8 +106,8 @@ function addPrice(priceVal, priceId) {
   
   if( totalfee>0 ){
     document.getElementById('pricelabel').style.display = "block";
-    var totalAmount  = (totalfee).formatMoney(2, seperator, thousandMarker);
-    document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalAmount;
+    var totalEventFee  = formatMoney( totalfee, 2, seperator, thousandMarker);
+    document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalEventFee;
     scriptfee   = totalfee;
     scriptarray = price;
   } else{
@@ -123,8 +115,8 @@ function addPrice(priceVal, priceId) {
   }
 }
 
-Number.prototype.formatMoney = function(c, d, t){
-	var n = this, 
+function formatMoney (amount, c, d, t){
+	var n = amount, 
     c = isNaN(c = Math.abs(c)) ? 2 : c, 
     d = d == undefined ? "," : d, 
     t = t == undefined ? "." : t, s = n < 0 ? "-" : "", 
