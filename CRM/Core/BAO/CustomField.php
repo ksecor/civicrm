@@ -685,7 +685,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             } else {
                 $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
             }
+            
             $qf->addElement('select', $elementName, $label, $stateOption, array("size"=>"5","multiple"));
+            if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
+            }
             break;
             
         case 'Select Country':
@@ -706,6 +710,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
             }
             $qf->addElement('select', $elementName, $label, $countryOption, array("size"=>"5","multiple"));
+            if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
+            }
             break;
         
         case 'RichTextEditor':
