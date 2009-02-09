@@ -91,6 +91,10 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             
             CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue', 
                                           $params, $defaults );
+
+            // fix the display of the monetary value, CRM-4038
+            require_once 'CRM/Utils/Money.php';
+            $defaults['name'] = CRM_Utils_Money::format($defaults['name'], null, '%a');
         }
        
         require_once 'CRM/Core/DAO.php';
@@ -256,7 +260,9 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $params['description'] = $fieldName.' - '.$params['label'] ;
         }  
         $params['value'] = $params['weight'];
-        
+        // fix the display of the monetary value, CRM-4038
+        $params['name'] = CRM_Utils_Rule::cleanMoney( $params['name'] );
+
         $ids = array( );
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['optionValue'] = $this->_oid;
