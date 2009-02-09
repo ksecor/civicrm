@@ -921,7 +921,7 @@ SELECT $select
                 case 'Multi-Select Country':
                 case 'Multi-Select State/Province':
                      if (isset($value)) {
-                         $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPARATOR,$value );
+                         $checkedValue = explode(CRM_Core_DAO::VALUE_SEPARATOR,$value );
                          foreach($checkedValue as $val) {
                              if ( $val ) {
                                  $defaults[$elementName][$val]  =  $val;
