@@ -44,6 +44,7 @@
       <filename>uninstall.civicrm.php</filename>
       <filename>configure.php</filename>
       <filename>civicrm.zip</filename>
+      <folder>civicrm</folder>
     </files>
   </administration>
 </install>

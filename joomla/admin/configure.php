@@ -17,20 +17,23 @@ function civicrm_setup( ) {
     $jConfig =& JFactory::getConfig( );
     set_time_limit(4000);
 
-    // ensure that the site has native zip, else abort
-    if ( ! function_exists('zip_open') ||
-         ! function_exists('zip_read') ) {
-        echo "Your PHP version is missing  zip functionality. Please ask your system administrator / hosting provider to recompile PHP with zip support.<p>";
-        echo "If this is a new install, you will need to uninstall CiviCRM from the Joomla Extension Manager.<p>";
-        exit( );
-    }
-
     // Path to the archive
     $archivename = $adminPath . DIRECTORY_SEPARATOR . 'civicrm.zip';
 
-    $extractdir  = $adminPath;
-    JArchive::extract( $archivename, $extractdir);
+    // a bit of support for the non-alternaive joomla install
+    if ( file_exists( $archivename ) ) {
+        // ensure that the site has native zip, else abort
+        if ( ! function_exists('zip_open') ||
+             ! function_exists('zip_read') ) {
+            echo "Your PHP version is missing  zip functionality. Please ask your system administrator / hosting provider to recompile PHP with zip support.<p>";
+            echo "If this is a new install, you will need to uninstall CiviCRM from the Joomla Extension Manager.<p>";
+            exit( );
+        }
 
+        $extractdir  = $adminPath;
+        JArchive::extract( $archivename, $extractdir);
+    }
+        
     $scratchDir   = JPATH_SITE . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'civicrm';
     if ( ! is_dir( $scratchDir ) ) {
         JFolder::create( $scratchDir, 0777 );

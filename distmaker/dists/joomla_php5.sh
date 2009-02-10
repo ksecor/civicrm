@@ -97,7 +97,13 @@ cp -r civicrm/joomla/site/views              com_civicrm/site
 
 $DM_ZIP -q -r -9 com_civicrm/admin/civicrm.zip civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
 
-$DM_ZIP -q -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql' -x 'com_civicrm/admin/civicrm'
+# remove civicrm directory
+rm -rf com_civicrm/admin/civicrm
+
+# also create an empty shell civicrm directory for the folder install
+mkdir com_civicrm/admin/civicrm
+
+$DM_ZIP -q -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
 
 # clean up
 rm -rf com_civicrm
