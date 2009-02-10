@@ -14,7 +14,7 @@
   jQuery(document).ready(function($)  
   {  
      $('#menu').clickMenu(); 
-			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/rest?fnName=civicrm/contact/search&json=1&return[sort_name]=1&return[contact_type]'}"{literal};
+			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/rest?fnName=civicrm/contact/search&json=1&return[sort_name]=1&return[contact_type]&return[email]'}"{literal};
 
 			$("#Qsearch").autocomplete( contactUrl, {
 			dataType:"json",
@@ -22,8 +22,12 @@
 			  { //extra % to force looking to the data typed anywhere in the name
                             return "%"+$("#Qsearch").val();}
                         },
-        formatItem: function(data,i,max,value,term){  
-          return value+ " ["+data["contact_type"]+"]";  
+        formatItem: function(data,i,max,value,term){ 
+	  if ("email" in data) 
+            email = " &lt;"+ data["email"]+"&gt;";
+          else
+            email = ""; 
+          return "<span class='"+data["contact_type"]+ "'>"+ value + email + "</span>";  
        },  
      parse: function(data){ 
          //either a list of objects or {is_error":0} ???
@@ -37,7 +41,7 @@
          }  
          return acd;  
 		},
-			width: 260,
+			width: 500,
 				selectFirst: false 
 			});
 			
