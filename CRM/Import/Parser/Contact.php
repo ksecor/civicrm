@@ -532,15 +532,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( ( CRM_Utils_Array::value('id', $params) && CRM_Utils_Array::value('external_identifier', $params) ) || 
              ( CRM_Utils_Array::value('external_identifier', $params) && $onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) ) {
             require_once "CRM/Contact/BAO/Contact.php";
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                              $params['external_identifier'],
-                                              'id',
-                                              'external_identifier' ) ) {
-                $errorMessage = ts('External Identifier already exists in database.');
-                array_unshift($values, $errorMessage);
-                $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
-                $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                return CRM_Import_Parser::ERROR;
+            if ( $internalCid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                             $params['external_identifier'],
+                                                             'id',
+                                                             'external_identifier' ) ) {
+                if ( $internalCid != CRM_Utils_Array::value('id', $params) ) {
+                
+                    $errorMessage = ts('External Identifier already exists in database.');
+                    array_unshift($values, $errorMessage);
+                    $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
+                    $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
+                    return CRM_Import_Parser::ERROR;
+                }
             }
         }
 
