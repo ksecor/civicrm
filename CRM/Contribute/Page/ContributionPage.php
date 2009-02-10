@@ -276,13 +276,10 @@ WHERE cp.contribution_page_id = {$id}";
        
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
-        // get all custom groups sorted by weight
-        $manageEvent = array();
-             
         $query = "
-  SELECT *
-    FROM civicrm_contribution_page
-   WHERE $whereClause
+SELECT *
+FROM civicrm_contribution_page
+WHERE $whereClause
 ORDER BY title asc
    LIMIT $offset, $rowCount";
 
@@ -306,7 +303,7 @@ ORDER BY title asc
         }
         if (isset($contribution)) {
             $this->assign('rows', $contribution);
-        }
+        }        
     }
 
      function search( ) {
@@ -357,21 +354,15 @@ ORDER BY title asc
             $clauses[] = 'title LIKE %3';
             $params[3] = array( $this->_sortByCharacter . '%', 'String' );
         }
-       
-        // dont do a the below assignement when doing a 
-        // AtoZ pager clause
-        if ( $sortBy ) {
-            if ( count( $clauses ) > 1 ) {
-                $this->assign( 'isSearch', 1 );
-            } else {
-                $this->assign( 'isSearch', 0 );
-            }
-        }
-
+        
         if ( empty( $clauses ) ) {
+            // Let template know if user has run a search or not
+            $this->assign('isSearch', 0);
             return 1;
+        } else {
+            $this->assign('isSearch', 1);
         }
-
+            
         return implode( ' AND ', $clauses );
     }
 
