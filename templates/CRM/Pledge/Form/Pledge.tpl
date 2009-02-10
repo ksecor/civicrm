@@ -111,14 +111,29 @@
           }
         }
      }
-   
+     
      function calculatedPaymentAmount( ) {
+       var thousandMarker = '{/literal}{$config->monetaryThousandSeparator}{literal}';
+       var seperator      = '{/literal}{$config->monetaryDecimalPoint}{literal}';
        var amount = document.getElementById("amount").value;
        var installments = document.getElementById("installments").value;
-       if ( installments != '' && installments != NaN) { 
-          document.getElementById("eachPaymentAmount").value = (amount/installments);
+       if ( installments != '' && installments != NaN) {
+            amount =  amount/installments;
+            var installmentAmount = formatMoney( amount, 2, seperator, thousandMarker );
+            document.getElementById("eachPaymentAmount").value = installmentAmount;
        }   
      }
+     
+     function formatMoney (amount, c, d, t){
+       var n = amount, 
+       c = isNaN(c = Math.abs(c)) ? 2 : c, 
+       d = d == undefined ? "," : d, 
+       t = t == undefined ? "." : t, s = n < 0 ? "-" : "", 
+       i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+       j = (j = i.length) > 3 ? j % 3 : 0;
+	   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+     };
+
     </script>
     {/literal}
 

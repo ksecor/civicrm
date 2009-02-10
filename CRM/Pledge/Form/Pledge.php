@@ -204,15 +204,17 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             }
             
             //check is this pledge pending 
+            // fix the display of the monetary value, CRM-4038
+            require_once 'CRM/Utils/Money.php';
             if ( $this->_isPending ) {
-                $defaults['eachPaymentAmount'] = $this->_values['amount'] / $this->_values['installments']; 
+                $defaults['eachPaymentAmount'] = $this->_values['amount'] / $this->_values['installments'];
+                $defaults['eachPaymentAmount'] = CRM_Utils_Money::format($defaults['eachPaymentAmount'], null, '%a');
             } else {
                 $this->assign( 'start_date', $start_date );
                 $this->assign( 'create_date', $create_date );
             }
             // fix the display of the monetary value, CRM-4038
             if (isset( $this->_values['amount'])) {
-                require_once 'CRM/Utils/Money.php';
                 $defaults['amount'] = CRM_Utils_Money::format($this->_values['amount'], null, '%a');
             }
             

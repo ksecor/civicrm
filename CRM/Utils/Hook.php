@@ -407,4 +407,15 @@ class CRM_Utils_Hook {
                   '::invoke( 2, $customFieldID, $options, $null, $null, $null, \'civicrm_customFieldOptions\' );' );
     }
 
+    static function searchTasks( $objectType, &$tasks ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 2, $objectType, $tasks, $null, $null, $null, \'civicrm_searchTasks\' );' );
+    }
+
 }

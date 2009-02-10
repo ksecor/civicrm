@@ -373,3 +373,19 @@ function civicrm_cck_event_field_values($field, $index = null) {
     }
     return empty($retArray) ? array() : isset($index) ? $retArray[$index] : $retArray;
 }
+
+function civitest_civicrm_customFieldOptions( $fieldID, &$options ) {
+    if ( $fieldID == 1 ) {
+        $options['Rocks'] = ts( 'Hooks Rock' );
+        unset( $options['Edu'] );
+    } else if ( $fieldID == 2 ) {
+        $options['H'] = ts(' Hook me' );
+        unset( $options['S'] );
+    }
+}
+
+function civitest_civicrm_searchTasks( $objectType, &$tasks ) {
+    $tasks[100] = array( 'title'  => ts( 'Hook Action Task' ),
+                         'class'  => 'CRM_Contact_Form_Task_HookSample',
+                         'result' => false );
+}

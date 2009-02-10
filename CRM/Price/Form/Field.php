@@ -107,7 +107,9 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 require_once 'CRM/Core/OptionGroup.php';
                 CRM_Core_OptionGroup::getAssoc( "civicrm_price_field.amount.{$this->_fid}", $optionValues );
                 
-                $defaults['price'] = $optionValues['name'][1];
+                // fix the display of the monetary value, CRM-4038
+                require_once 'CRM/Utils/Money.php';
+                $defaults['price'] = CRM_Utils_Money::format( $optionValues['name'][1], null, '%a' );
             }
         } else {
             $defaults['is_active'] = 1;

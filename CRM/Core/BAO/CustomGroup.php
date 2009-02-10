@@ -848,7 +848,7 @@ SELECT $select
                 continue;
             }
             $groupId = CRM_Utils_Array::value('id', $group);
-            foreach ($group['fields'] as $field) {
+            foreach ( $group['fields'] as $field ) {
                 if ( CRM_Utils_Array::value( 'element_value', $field ) !== null ) {
                     $value = $field['element_value'];
                 } else if ( CRM_Utils_Array::value( 'default_value', $field ) !== null ) {
@@ -859,17 +859,22 @@ SELECT $select
                 
                 $fieldId     = $field['id'];
                 $elementName = $field['element_name'];
-                switch($field['html_type']) {
+                switch( $field['html_type'] ) {
 
+                case 'Multi-Select':
                 case 'CheckBox':
                     $defaults[$elementName] = array( );
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                    if ($viewMode) {
-                        $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
-                        if ( isset($value) ) {
-                            foreach($customOption as $customValue => $customLabel) {
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $field['id'], $inactiveNeeded );
+                    if ( $viewMode ) {
+                        $checkedData = explode( CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1) );
+                        if ( isset( $value ) ) {
+                            foreach( $customOption as $customValue => $customLabel ) {
                                 if ( in_array( $customValue, $checkedData ) ) {
-                                    $defaults[$elementName][$customValue] = 1;
+                                    if ( $field['html_type'] == 'CheckBox' ) {
+                                        $defaults[$elementName][$customValue] = 1;
+                                    } else {
+                                        $defaults[$elementName][$customValue] = $customValue;
+                                    }
                                 } else {
                                     $defaults[$elementName][$customValue] = 0;
                                 }
@@ -877,55 +882,30 @@ SELECT $select
                         }
                     } else {
                         if ( isset( $field['customValue']['data'] ) ) {
-                            $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR,substr($field['customValue']['data'],1,-1));
+                            $checkedData = explode( CRM_Core_DAO::VALUE_SEPARATOR,substr( $field['customValue']['data'], 1, -1 ) );
                             foreach( $customOption as $val ) {
                                 if ( in_array( $val['value'], $checkedData ) ) {
-                                    $defaults[$elementName][$val['value']] = 1;
+                                    if ( $field['html_type'] == 'CheckBox' ) {
+                                        $defaults[$elementName][$val['value']] = 1;
+                                    } else {
+                                        $defaults[$elementName][$val['value']] = $val['value'];
+                                    }
                                 } else {
                                     $defaults[$elementName][$val['value']] = 0;
                                 }
                             }
                         } else {
-                            $checkedValue = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
+                            $checkedValue = explode( CRM_Core_DAO::VALUE_SEPARATOR, substr( $value, 1, -1 ) );
                             foreach($customOption as $val) {
-                                if ( in_array($val['value'], $checkedValue) ) {
-                                    $defaults[$elementName][$val['value']] = 1;
-                                } else {
+                                if ( in_array( $val['value'], $checkedValue ) ) {
+                                    if ( $field['html_type'] == 'CheckBox' ) {
+                                        $defaults[$elementName][$val['value']] = 1;
+                                    } else {
+                                        $defaults[$elementName][$val['value']] = $val['value'];
+                                    }
+                                    
+                                }  else {
                                     $defaults[$elementName][$val['value']] = 0;
-                                }
-                            }                            
-                        }
-                    }
-                    break;
-                    
-                //added a case for Multi-Select option  
-                case 'Multi-Select':
-                    if ($viewMode) {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
-                        $defaults[$elementName] = array();
-                        if(isset($value)) {
-                            foreach($customOption as $customValue => $customLabel) {
-                                if (in_array($customValue, $checkedData)) {
-                                    $defaults[$elementName][$customValue] = $customValue;
-                                }
-                            }
-                        }
-                    } else {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $defaults[$elementName] = array();
-                        if (isset($field['customValue']['data'])) {
-                            $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($field['customValue']['data'],1,-1));
-                            foreach($customOption as $customValue => $customLabel) {
-                                if ( in_array($customValue, $checkedData) ) {
-                                    $defaults[$elementName][$customValue] = $customValue;
-                                }
-                            }
-                        } else {
-                            $checkedValue = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
-                            foreach($customOption as $customValue => $customLabel) {
-                                if ( in_array($customValue, $checkedValue ) ) {
-                                    $defaults[$elementName][$customValue] = $customValue;
                                 }
                             }                            
                         }
@@ -941,7 +921,7 @@ SELECT $select
                 case 'Multi-Select Country':
                 case 'Multi-Select State/Province':
                      if (isset($value)) {
-                         $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPARATOR,$value );
+                         $checkedValue = explode(CRM_Core_DAO::VALUE_SEPARATOR,$value );
                          foreach($checkedValue as $val) {
                              if ( $val ) {
                                  $defaults[$elementName][$val]  =  $val;

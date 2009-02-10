@@ -160,6 +160,10 @@ class CRM_Contact_Task {
             }
             
             self::$_tasks += CRM_Core_Component::taskList( );
+
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::searchTasks( 'contact', self::$_tasks );
+
             asort(self::$_tasks);
         }
     }
@@ -210,7 +214,7 @@ class CRM_Contact_Task {
      */
     static function &permissionedTaskTitles( $permission ) {
         if ( $permission == CRM_Core_Permission::EDIT ) {
-            return self::taskTitles( );
+            $tasks = self::taskTitles( );
         } else {
             $tasks = array( 
                            5  => self::$_tasks[ 5]['title'],
@@ -223,8 +227,9 @@ class CRM_Contact_Task {
                 //absent, drop down shows blank space
                 unset( $tasks[12] );
             } 
-            return $tasks;
         }
+
+        return $tasks;
     }
 
     /**

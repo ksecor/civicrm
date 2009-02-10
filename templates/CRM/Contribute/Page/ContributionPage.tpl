@@ -1,20 +1,23 @@
+{debug}
 {capture assign=newPageURL}{crmURL q='action=add&reset=1'}{/capture}
 <div id="help">
     {ts}CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc.{/ts} {help id="id-intro"}
 </div>
 
 {include file="CRM/Contribute/Form/SearchContribution.tpl"}  
+{if NOT ($action eq 1 or $action eq 2) }
+    <table class="form-layout-compressed">
+    <tr>
+        <td><a href="{$newPageURL}" class="button"><span>&raquo; {ts}New Contribution Page{/ts}</span></a></td>
+        <td style="vertical-align: top"><a href="{crmURL p="civicrm/admin/pcp" q="reset=1"}">&raquo; {ts}Manage Personal Campaign Pages{/ts}</a></td>
+    </tr>
+    </table>
+{/if}
 
 {if $rows}
     <div id="configure_contribution_page">
         {strip}
 
-        {if NOT ($action eq 1 or $action eq 2) }
-            <div class="action-link">
-                <a href="{$newPageURL}" class="button"><span>&raquo; {ts}New Contribution Page{/ts}</span></a><br/>
-            </div>
-            <div class="spacer"></div>
-        {/if}
         
         {include file="CRM/common/pager.tpl" location="top"}
         {include file="CRM/common/pagerAToZ.tpl} 
