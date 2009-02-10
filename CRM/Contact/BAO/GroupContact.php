@@ -464,14 +464,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             return CRM_Core_Error::createError( "You do not have permission to access group with id: $id" );
         }
         
-        $grpStatus = "`civicrm_group_contact-$group->id`.status";
-        
         $query = '';
         if ( empty($returnProperties) ) {
             $query = "SELECT contact_a.id as contact_id,
-                      civicrm_email.email as email, $grpStatus as status";
-            //$query = "SELECT *,contact_a.id as contact_id, (talk to lobo before re-enabling this)
-            //civicrm_email.email as email";
+                      civicrm_email.email as email";
         } else {
             $query  = "SELECT contact_a.id as contact_id , $grpStatus as status,";
             $query .= implode( ',', $returnProperties );
@@ -487,24 +483,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         foreach ( $groupIds as $groupId ) {
             $params[] = array( 'group', 'IN', array($group->id => true), 0, 0 );
         }
-        #$params[] = array( 'group', 'IN', $groupIds, 0, 0 );
-        #$params[] = array( 'group', '=', array($group->id => true), 0, 0 );
-
-        // if ( $status ) {
-        //     $params[] = array( 'group_contact_status', '=', array($status => true), 0, 0 );
-        // } else {
-        //     $params[] = array( 'group_contact_status', '=',
-        //                        array('Added' => true, 'Removed' => true, 'Pending' => true),
-        //                        0, 0 );
-        // }
 
         require_once 'CRM/Core/BAO/Email.php';
         require_once 'CRM/Contact/BAO/Contact.php';
         $tables = array(
-            // we should not add double civicrm_group_contact clause since we are already 
-            // adding civicrm_group_contact-'id'
-            //self::getTableName() => true,
-            //CRM_Contact_BAO_Group::getTableName() => true,
             CRM_Core_BAO_Email::getTableName() => true,
             CRM_Contact_BAO_Contact::getTableName() => true, 
         );
@@ -528,8 +510,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( !is_null($offset) && !is_null($row_count) ) {
             $query .= " LIMIT $offset, $row_count";        
         }
-        
-        //CRM_Core_Error::debug( 'q', $query );
 
         $dao =& new CRM_Contact_DAO_Contact( );
         $dao->query( $query );
