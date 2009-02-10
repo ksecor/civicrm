@@ -64,8 +64,7 @@ implements CRM_Contact_Form_Search_Interface {
                                'exclude_end_date'   => ts( 'Exclusion End Date' ),
                                );
 
-        $this->_checkboxes = array( 'is_first_amount_1' => ts( 'First Donation?' ),
-                                    'is_first_amount_2' => ts( 'First Donation?' ) );
+        $this->_checkboxes = array( 'is_first_amount' => ts( 'First Donation?' ) );
 
         foreach ( $this->_amounts as $name => $title ) {
             $this->{$name} = CRM_Utils_Array::value( $name, $this->_formValues );
@@ -168,10 +167,18 @@ count(contrib_1.id) AS donation_count
     }
 
     function from( ) {
+        $from = null;
         if ( $this->start_date_2 || $this->end_date_2 ) {
-            return " LEFT JOIN civicrm_contribution contrib_2 ON contrib_2.contact_id = contact.id ";
+            $from .= " LEFT JOIN civicrm_contribution contrib_2 ON contrib_2.contact_id = contact.id ";
         }
-        return null;
+
+        if ( $this->exclude_start_date ||
+             $this->exclude_end_date ||
+             $this->is_first_amount ) {
+            $from .= " LEFT JOIN XG_CustomSearch_SYBNT xg ON xg.contact_id = contact.id ";
+        }
+
+        return $from;
 
     }
         
@@ -199,7 +206,17 @@ count(contrib_1.id) AS donation_count
             }
         }
             
-        if ( $this->exclude_start_date || $this->exclude_end_date ) {
+        if ( $this->exclude_start_date ||
+             $this->exclude_end_date   ||
+             $this->is_first_amount ) {
+
+            // first create temp table to store contact ids
+            $sql = "DROP TEMPORARY TABLE IF EXISTS XG_CustomSearch_SYBNT";
+            CRM_Core_DAO::executeQuery( $sql );
+
+            $sql = "CREATE TEMPORARY TABLE XG_CustomSearch_SYBNT ( contact_id int primary key) ENGINE=HEAP";
+            CRM_Core_DAO::executeQuery( $sql );
+
             $excludeClauses = array( );
             if ( $this->exclude_start_date ) {
                 $excludeClauses[] = "c.receive_date >= {$this->exclude_start_date}";
@@ -227,9 +244,11 @@ count(contrib_1.id) AS donation_count
             if ( ! empty( $having ) ) {
                 $havingClause = "HAVING " . implode( ' AND ', $having );
             }
-            
-            // Run subquery
-            $query = "
+
+            if ( $excludeClause || $havingClause ) {
+                // Run subquery
+                $query = "
+REPLACE   INTO XG_CustomSearch_SYBNT
 SELECT   DISTINCT contact_id AS contact_id
 FROM     civicrm_contribution c
 WHERE    c.is_test = 0
@@ -237,17 +256,23 @@ WHERE    c.is_test = 0
 GROUP BY c.contact_id
          $havingClause
 ";
-
-            $dao = CRM_Core_DAO::executeQuery( $query );
-            $ids = array( );
-            while ( $dao->fetch( ) ) {
-                $ids[] = $dao->contact_id;
+                
+                $dao = CRM_Core_DAO::executeQuery( $query );
             }
 
-            if ( ! empty( $ids ) ) {
-                $ignoreIDs = implode(',',  $ids );
-                $clauses[] = "contact.id NOT IN ( $ignoreIDs )";
+            // now ensure we dont consider donors that are not first time
+            if ( $this->is_first_amount ) {
+                $query = "
+REPLACE  INTO XG_CustomSearch_SYBNT
+SELECT   DISTINCT contact_id AS contact_id
+FROM     civicrm_contribution c
+WHERE    c.is_test = 0
+AND      c.receive_date < {$this->start_date_1}
+";
+                $dao = CRM_Core_DAO::executeQuery( $query );
             }
+
+            $clauses[] = " xg.contact_id IS NULL ";
         }
             
         return implode( ' AND ', $clauses );

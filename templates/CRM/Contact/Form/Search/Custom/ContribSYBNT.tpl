@@ -22,7 +22,7 @@
      <td><label>Inclusion Date One: Start/End</label></td>
      <td>{$form.start_date_1.html}</td>
      <td>{$form.end_date_1.html}</td>
-     <td>{$form.is_first_amount_1.html}&nbsp;{ts}First time donor only?{/ts}</td>
+     <td>{$form.is_first_amount.html}&nbsp;{ts}First time donor only?{/ts}</td>
   </tr>
   <tr>
      <td><label>{ts}Amount Two: Min/Max{/ts}</label></td>
@@ -34,7 +34,7 @@
      <td><label>Inclusion Date Two: Start/End</label></td>
      <td>{$form.start_date_2.html}</td>
      <td>{$form.end_date_2.html}</td>
-     <td>{$form.is_first_amount_2.html}&nbsp;{ts}First time donor only?{/ts}</td>
+     <td>&nbsp;</td>
   </tr>
   <tr>
      <td><label>Exclusion Amount: Min/Max</label></td>

@@ -83,25 +83,9 @@ class CRM_Contact_Form_Search_Custom_Group
     }
 
     function __destruct( ) {
-        //drop the tables if they are exist;
-        /*
-        if ( !empty ( $this->_includeGroups ) ) {
-            $sql = "DROP TEMPORARY TABLE Ig_{$this->_tableName}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
-        }
-        if ( !empty ( $this->_includeTags ) ) { 
-            $sql = "DROP TEMPORARY TABLE It_{$this->_tableName}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
-        }
-        if ( !empty( $this->_excludeGroups ) ) {
-            $sql = "DROP TEMPORARY TABLE Xg_{$this->_tableName}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
-        }
-        if ( !empty( $this->_excludeTags ) ) {
-            $sql = "DROP TEMPORARY TABLE Xt_{$this->_tableName}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
-        }
-        */
+        // mysql drops the tables when connectiomn is terminated
+        // cannot drop tables here, since the search might be used
+        // in other parts after the object is destroyed
     }
     
     function buildForm( &$form ) {
