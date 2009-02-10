@@ -109,6 +109,13 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
     protected static $_formattedFieldNames;
     
     /**
+     * on duplicate
+     *
+     * @var int
+     */
+    public $_onDuplicate;
+        
+    /**
      * Attempt to resolve a column name with our mapper fields
      *
      * @param columnName
@@ -181,7 +188,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $skipColumnHeader       = $this->get( 'skipColumnHeader' );
         $this->_mapperFields    = $this->get( 'fields' );
         $this->_importTableName = $this->get( 'importTableName' );        
-        
+        $this->_onDuplicate     = $this->get( 'onDuplicate' );
+
         //format custom field names, CRM-2676
         switch ( $this->get( 'contactType' ) ) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
@@ -194,6 +202,11 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             $contactType = 'Organization';
             break;
         }
+        
+        if ( $this->_onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP ) {
+            unset($this->_mapperFields['id']);  
+        }
+
         $this->_formattedFieldNames[$contactType] = $this->_mapperFields =
             array_merge( $this->_mapperFields, $this->formatCustomFieldName( $this->_mapperFields ) );
         
@@ -739,11 +752,10 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                                          
         $primaryKeyName = $this->get( 'primaryKeyName' );
         $statusFieldName = $this->get( 'statusFieldName' );
-        $onDuplicate     = $this->get( 'onDuplicate' );
         $parser->run( $this->_importTableName, $mapper,
                       CRM_Import_Parser::MODE_PREVIEW,
                       $this->get('contactType'),
-                      $primaryKeyName, $statusFieldName, $onDuplicate );
+                      $primaryKeyName, $statusFieldName, $this->_onDuplicate );
         
         // add all the necessary variables to the form
         $parser->set( $this );        

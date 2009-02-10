@@ -197,7 +197,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
 
         $this->_updateWithId = false;
-        if ( in_array('id',$this->_mapperKeys) || ($this->_externalIdentifierIndex >= 0 && $this->_onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) ) {
+        if ( in_array('id',$this->_mapperKeys) || ($this->_externalIdentifierIndex >= 0 && $this->_onDuplicate != CRM_Import_Parser::DUPLICATE_SKIP) ) {
             $this->_updateWithId = true;
         }
     }
@@ -529,7 +529,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
         }
         //check if external identifier exists in database
-        if ( isset( $params['external_identifier'] ) && ($onDuplicate != CRM_Import_Parser::DUPLICATE_UPDATE) ) {
+        if ( ( CRM_Utils_Array::value('id', $params) && CRM_Utils_Array::value('external_identifier', $params) ) || 
+             ( CRM_Utils_Array::value('external_identifier', $params) && $onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) ) {
             require_once "CRM/Contact/BAO/Contact.php";
             if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                               $params['external_identifier'],
@@ -545,17 +546,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         $relationship = false;
         // Support Match and Update Via Contact ID
-        if ( $this->_updateWithId && $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
-            if ( $params['id'] &&  $params['external_identifier'] ) {
-                $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                    $params['external_identifier'], 'id',
-                                                    'external_identifier' );
-                if ( $cid !=  $params['id'] ) {
-                    $message ="Mismatched External Id for".$params['id'] ;
-                    array_unshift($values, $message);
-                    $this->_retCode = CRM_Import_Parser::NO_MATCH;  
-                }
-            } else if ( $params['external_identifier'] ) {
+        if ( $this->_updateWithId ) {
+            if ( !CRM_Utils_Array::value('id', $params) && CRM_Utils_Array::value('external_identifier', $params) ) {
+                
                 $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                     $params['external_identifier'], 'id',
                                                     'external_identifier' );
@@ -565,7 +558,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $message ="No contact ID found for this External Identifier:".$params['external_identifier'] ;
                     array_unshift($values, $message);
                     $this->_retCode = CRM_Import_Parser::NO_MATCH; 
-                }  
+                }                
             } 
             $error = _civicrm_duplicate_formatted_contact($formatted);
             if ( civicrm_duplicate($error) ) { 
