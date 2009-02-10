@@ -1179,7 +1179,7 @@ commented since it is overwiting simple td
     border: 1px solid #5A8FDB;
   }
 
-.ac_results ul li {background:url('');}
+.ac_results ul li {background-image:url('');}
 .Individual {background:url('../i/contact_ind.gif') no-repeat;padding-left:20px;}
 .Household {background:url('../i/contact_house.png') no-repeat;padding-left:20px;}
 .Organization {background:url('../i/contact_org.gif') no-repeat;padding-left:20px;}
