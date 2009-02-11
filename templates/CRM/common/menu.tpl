@@ -24,7 +24,7 @@
                         },
         formatItem: function(data,i,max,value,term){ 
 	  if ("email" in data) 
-            email = " &lt;"+ data["email"]+"&gt;";
+            email = " &lt; "+ data["email"]+"&gt; ";
           else
             email = ""; 
           return "<span class='"+data["contact_type"]+ "'>"+ value + email + "</span>";  
@@ -51,7 +51,7 @@
 				alert ("view:"+data["contact_id"]);
 			});		    
 
-     $('#searchType li').click (function (){alert ("the idea is to set the search type from here, ala firefox");return false}); 
+//seems to leak on the blocks ???     $('#searchType li').click (function (){alert ("the idea is to set the search type from here, ala firefox");return false}); 
   });  
 
   //]]>
