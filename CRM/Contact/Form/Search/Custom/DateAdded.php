@@ -63,7 +63,7 @@ class CRM_Contact_Form_Search_Custom_DateAdded
                     CRM_Core_SelectValues::date( 'custom', 10, 0 ) );
         $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');    
         
-        $groups         =& CRM_Core_PseudoConstant::group( );
+        $groups =& CRM_Core_PseudoConstant::group( );
         $inG =& $form->addElement('advmultiselect', 'includeGroups', 
                                   ts('Include Group(s)') . ' ', $groups,
                                   array('size'  => 5,
@@ -122,10 +122,10 @@ class CRM_Contact_Form_Search_Custom_DateAdded
                          d.date_added           as date_added";
 
         #$selectClause .= ", GROUP_CONCAT(DISTINCT group_names ORDER BY group_names ASC ) as gname";
-      
+        $groupBy = " GROUP BY contact_id ";
         return $this->sql( $selectClause,
                            $offset, $rowcount, $sort,
-                           $includeContactIDs, null );
+                           $includeContactIDs, $groupBy );
 
     }
     
