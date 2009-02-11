@@ -112,6 +112,7 @@
      <title>Confirm</title>
      <page_callback>CRM_Mailing_Page_Confirm</page_callback>
      <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <is_public>true</is_public>
      <weight>660</weight>
   </item>
   <item>
