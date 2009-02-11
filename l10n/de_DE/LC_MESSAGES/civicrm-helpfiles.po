@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-01-19 23:06-0800\n"
-"Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
+"PO-Revision-Date: 2009-02-09 14:31-0800\n"
+"Last-Translator: Lars Schröter <ositoblanco@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,9 +94,10 @@ msgstr "Erste Adress-Zusatzzeile (Zeile wird ausgelassen wenn leer)"
 msgid "Supplemental address 2 (line is skipped if empty)."
 msgstr "Zweite Adress-Zusatzzeile (Zeile wird ausgelassen wenn leer)"
 
+# wörtlich Stadt, besser: Ort.
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
-msgstr "Stadt."
+msgstr "Ort."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -1434,6 +1435,8 @@ msgid ""
 "Click this link to view your contribution totals as a bar or pie chart using "
 "the <a href='%1' target='_blank'>Google Chart API</a>."
 msgstr ""
+"Folgen Sie diesen Link um eine Zusammenfassung der Spenden als Balken- oder "
+"Kreisdiagramm zu sehen: <a href='%1' target='_blank'>Google Chart API</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.hlp
 msgid ""

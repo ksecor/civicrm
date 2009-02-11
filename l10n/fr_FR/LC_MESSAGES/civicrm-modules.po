@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-12-11 01:17-0800\n"
-"Last-Translator: ebeer <webmaster@ebeer.Fr>\n"
+"PO-Revision-Date: 2009-02-07 14:15-0800\n"
+"Last-Translator: Olivier Jeuniau <olivier@scouts-tournai.be>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -134,7 +134,7 @@ msgstr "Date de reçu"
 #: CRM/Contribute/DAO/Contribution.php CRM/Event/DAO/Participant.php
 #: CRM/Member/DAO/Membership.php
 msgid "Is Pay Later"
-msgstr ""
+msgstr "Paiement différé"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/DAO/Pledge.php
@@ -231,7 +231,7 @@ msgstr "Envoyer un reçu?"
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 #, fuzzy
 msgid "Send additional reminders"
-msgstr "Supprime"
+msgstr "Envoyer d'autre rappel"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Member/BAO/Membership.php
 msgid ""
@@ -239,6 +239,9 @@ msgid ""
 "your site administrator if you need assistance. If you continue, you will be "
 "issued a new membership."
 msgstr ""
+"Oups. L'affiliation que vous tentez de renouveler semble invalide.Contactez "
+"l'administrateur du site pour tout support.Si vous continuez, vous créerez "
+"une nouvelle affiliation."
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Page/EventInfo.php
 msgid "The page you requested is currently unavailable."
@@ -256,9 +259,8 @@ msgstr "(s)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
-#, fuzzy
 msgid "The email %1 already exists in the database."
-msgstr "ID externe déjà existant dans la base de donnée."
+msgstr "L'adresse électronique %1 est déjà existante dans la base de données."
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
@@ -371,9 +373,8 @@ msgid "Delete Contributions"
 msgstr "Effacer des contributions"
 
 #: CRM/Contribute/Form/Task/PDF.php CRM/Contribute/Task.php
-#, fuzzy
 msgid "Print Contribution Receipts"
-msgstr "Reçu de contribution"
+msgstr "Imprimer les reçus de donation."
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/Member/Import/Form/UploadFile.php
@@ -698,7 +699,7 @@ msgstr "Jour de rappel pour le renouvellement"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
-msgstr "Envoyer confirmation et reçu ?"
+msgstr "Envoyer confirmation et reçu?"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "The new membership End Date is %1."
@@ -867,24 +868,24 @@ msgstr "Dates de contribution - De"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Thank-you date not set?"
-msgstr "Date de remerciement non définie ?"
+msgstr "Date de remerciement non définie?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Receipt not sent?"
-msgstr "Reçu non envoyé ?"
+msgstr "Reçu non envoyé?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Find Test Contributions?"
-msgstr "Chercher seulement les contributions test ?"
+msgstr "Chercher seulement les contributions test?"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Find Pay Later Contributions?"
-msgstr "Chercher seulement les contributions test ?"
+msgstr "Chercher seulement les contributions test?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Find Recurring Contributions?"
-msgstr "Chercher seulement les contributions récurrentes ?"
+msgstr "Chercher seulement les contributions récurrentes?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Intro Text"
@@ -1590,7 +1591,7 @@ msgstr "Cadeaux (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums Section Enabled?"
-msgstr "Section des cadeaux activée ?"
+msgstr "Section des cadeaux activée?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Please enter a valid email address for Contact Email"
@@ -1606,7 +1607,7 @@ msgstr "Merci de saisir un numéro de téléphone valide."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Display Minimum Contribution Amount?"
-msgstr "Afficher le montant minimum de contribution ?"
+msgstr "Afficher le montant minimum de contribution?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -1635,7 +1636,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
-msgstr "Cette page de contribution est-elle active ?"
+msgstr "Cette page de contribution est-elle active?"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Honoree Section Enabled"
@@ -1667,7 +1668,7 @@ msgstr "Remerciements (pied de page)"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
-msgstr "Envoyer le reçu au Contributeur ?"
+msgstr "Envoyer le reçu au Contributeur?"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
@@ -2070,16 +2071,16 @@ msgstr "Effacer contacts"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to disable this Contribution page?"
-msgstr "Voulez vous désactiver cette page de contribution ?"
+msgstr "Voulez vous désactiver cette page de contribution?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to delete this Contribution page?"
-msgstr "Êtes vous sure de vouloir effacer cette page de contribution ?"
+msgstr "Êtes vous sure de vouloir effacer cette page de contribution?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to make a copy of this Contribution page?"
 msgstr ""
-"Êtes vous sure de vouloir faire une copie de cette page de contribution ?"
+"Êtes vous sure de vouloir faire une copie de cette page de contribution?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Copy Contribution Page"
@@ -2103,7 +2104,7 @@ msgstr "Contribution %%StatusMessage%%"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Are you sure you want to disable this contribution type?"
-msgstr "Voulez vous désactiver ce type de contribution ?"
+msgstr "Voulez vous désactiver ce type de contribution?"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
@@ -2145,7 +2146,7 @@ msgstr "Effacer le Premium"
 
 #: CRM/Contribute/Page/Premium.php
 msgid "Are you sure you want to remove this product form this page?"
-msgstr "Voulez vous enlever ce produit de cette page ?"
+msgstr "Voulez vous enlever ce produit de cette page?"
 
 #: CRM/Contribute/Task.php
 msgid "Export Contributions"
@@ -2194,7 +2195,7 @@ msgstr "Date de l'événement - du"
 
 #: CRM/Event/BAO/Query.php
 msgid "Find Test Participants?"
-msgstr "Chercher les participants test ?"
+msgstr "Chercher les participants test?"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -2295,11 +2296,11 @@ msgstr ""
 
 #: CRM/Event/Form/EventFees.php
 msgid "Record Payment?"
-msgstr "Paiement enregistré ?"
+msgstr "Paiement enregistré?"
 
 #: CRM/Event/Form/EventFees.php
 msgid "Send Confirmation?"
-msgstr "envoyer une confirmation ?"
+msgstr "envoyer une confirmation?"
 
 #: CRM/Event/Form/EventFees.php
 msgid "Confirmation Message"
@@ -2327,11 +2328,11 @@ msgstr "Description complète"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Public Event?"
-msgstr "Evénement public ?"
+msgstr "Evénement public?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Include Map Link?"
-msgstr "Inclure un lien vers la carte ?"
+msgstr "Inclure un lien vers la carte?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Max Number of Participants"
@@ -2347,7 +2348,7 @@ msgstr "Message si l'événement est complet"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Is this Event Active?"
-msgstr "L'événement est-il actif ?"
+msgstr "L'événement est-il actif?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Start Date and Time are required fields"
@@ -2458,7 +2459,7 @@ msgstr "Tarifs de l'événement"
 
 #: CRM/Event/Form/ManageEvent/Location.php
 msgid "Show Location?"
-msgstr "Montrer la localisation ?"
+msgstr "Montrer la localisation?"
 
 #: CRM/Event/Form/ManageEvent/Location.php
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
@@ -2467,7 +2468,7 @@ msgstr "Localisation de l'événement"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Allow Online Registration?"
-msgstr "Permettre une inscription en ligne ?"
+msgstr "Permettre une inscription en ligne?"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration Link Text"
@@ -2484,7 +2485,7 @@ msgstr "Texte d'introduction"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Send Confirmation Email?"
-msgstr "Envoyer un e-mail de confirmation ?"
+msgstr "Envoyer un e-mail de confirmation?"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "CC Confirmation To"
@@ -2981,7 +2982,7 @@ msgstr "Rapport de la date d'échéance"
 
 #: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
 msgid "Grant Report Received?"
-msgstr "Rapport de Subvention reçu ?"
+msgstr "Rapport de Subvention reçu?"
 
 #: CRM/Grant/Form/Grant.php
 msgid "Amount Requested<br />(original currency)"
@@ -3313,7 +3314,7 @@ msgstr "La date de départ ne peut pas être antérieure à aujourd'hui."
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Schedule or Send"
-msgstr "Envoyer maintenant ou ultérieurement ?"
+msgstr "Envoyer maintenant ou ultérieurement?"
 
 #: CRM/Mailing/Form/Search.php
 msgid "Select a valid Sent FROM date."
@@ -3325,19 +3326,19 @@ msgstr "Entrez une date valide d'envois"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Forward Replies?"
-msgstr "Renvoyer les réponses (FORWARD) ?"
+msgstr "Renvoyer les réponses (FORWARD)?"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Track Click-throughs?"
-msgstr "Tracking des clics ?"
+msgstr "Tracking des clics?"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Track Opens?"
-msgstr "Tracking des ouvertures ?"
+msgstr "Tracking des ouvertures?"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Auto-respond to Replies?"
-msgstr "Réponse automatique ?"
+msgstr "Réponse automatique?"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Track and Respond"
@@ -3472,7 +3473,7 @@ msgstr "Il y a eu une erreur dans votre demande"
 
 #: CRM/Mailing/Page/Component.php
 msgid "Are you sure you want to disable this component?"
-msgstr "Voulez vous désactiver ce composant ?"
+msgstr "Voulez vous désactiver ce composant?"
 
 #: CRM/Mailing/Page/Component.php templates/CRM/Mailing/Form/Component.tpl
 msgid "Edit Mailing Component"
@@ -3822,12 +3823,12 @@ msgstr "Désactiver"
 #: CRM/Member/DAO/MembershipType.php
 #, fuzzy
 msgid "Receipt Text Signup"
-msgstr "Reçu non envoyé ?"
+msgstr "Reçu non envoyé?"
 
 #: CRM/Member/DAO/MembershipType.php
 #, fuzzy
 msgid "Receipt Text Renewal"
-msgstr "Reçu non envoyé ?"
+msgstr "Reçu non envoyé?"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
@@ -4005,7 +4006,7 @@ msgstr "Date de renouvellement entrée"
 
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Record Renewal Payment?"
-msgstr "Enregistrer le renouvellement du paiement ?"
+msgstr "Enregistrer le renouvellement du paiement?"
 
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Renewal Message"
@@ -7175,7 +7176,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid "Include this event in iCalendar feeds?"
-msgstr "Inclure cet évènement dans un flux iCalendar ?"
+msgstr "Inclure cet évènement dans un flux iCalendar?"
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
@@ -7776,7 +7777,7 @@ msgid ""
 "participants?"
 msgstr ""
 "Êtes vous sûrs de vouloir mettre les statuts des participants sélectionnés à "
-"Annulé ?"
+"Annulé?"
 
 #: templates/CRM/Event/Form/Task/Delete.tpl
 #, fuzzy
@@ -8218,7 +8219,7 @@ msgstr "Montant actuel accordé"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "When was the grant application received?"
-msgstr "Quand la demande de subvention a t elle été reçue ?"
+msgstr "Quand la demande de subvention a t elle été reçue?"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Date on which the grant decision was finalized."
@@ -8621,11 +8622,11 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "Are you sure you want to delete the mailing '%1'?"
-msgstr "Voulez vous effacer le mailing '%1' ?"
+msgstr "Voulez vous effacer le mailing '%1'?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "Are you sure you want to cancel the mailing '%1'?"
-msgstr "Voulez vous annuler le mailing '%1' ?"
+msgstr "Voulez vous annuler le mailing '%1'?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
@@ -8675,7 +8676,7 @@ msgstr "Retour vers le rapport"
 
 #: templates/CRM/Mailing/Page/Optout.tpl
 msgid "Are you sure you want to optout: %1 (%2)"
-msgstr "Voulez vous Opt Out : %1 (%2) ?"
+msgstr "Voulez vous Opt Out : %1 (%2)?"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
@@ -8818,7 +8819,7 @@ msgstr "Configurer la section d'adhésion"
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Include a Membership Signup section in this Online Contribution page?"
 msgstr ""
-"Inclure une section adhésion dans cette page de contribution en ligne ?"
+"Inclure une section adhésion dans cette page de contribution en ligne?"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section title - for new member signups."
@@ -8864,7 +8865,7 @@ msgid ""
 "for each membership option?"
 msgstr ""
 "Afficher les cotisation avec le nom et la description de chaque option "
-"d'adhésion ?"
+"d'adhésion?"
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid ""
@@ -9069,7 +9070,7 @@ msgstr "Source de l'adhésion, cette valeur peut faire l'objet d'une recherche"
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "When did this contact first become a member?"
-msgstr "Quand ce contact est il devenu membre pour la première fois ?"
+msgstr "Quand ce contact est il devenu membre pour la première fois?"
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
@@ -9231,7 +9232,7 @@ msgid ""
 "Is this membership type available for self-service signups ('Public') or "
 "assigned by CiviCRM 'staff' users only ('Admin')"
 msgstr ""
-"Ce type d'adhésion est il Public ou réservé à l'équipe administrative ?"
+"Ce type d'adhésion est il Public ou réservé à l'équipe administrative?"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Renewal Reminders"
@@ -9272,7 +9273,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Send Reminder these many days prior to membership expiration."
 msgstr ""
-"Combien de jours avant l'expiration de l'adhésion faut il envoyer le mail ?"
+"Combien de jours avant l'expiration de l'adhésion faut il envoyer le mail?"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "By Relationship"
