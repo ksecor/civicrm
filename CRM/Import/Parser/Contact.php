@@ -502,9 +502,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $stateName = CRM_Core_PseudoConstant::stateProvince();
                     
                     foreach( $mulValues as $values ) {
-                        if ( $val = CRM_Utils_Array::key( $values,$stateAbbr ) ) { 
+                        if ( $val = CRM_Utils_Array::key( trim( $values ), $stateAbbr ) ) { 
                             $formatted[$key][] = $val;
-                        }else if ( $val = CRM_Utils_Array::key( $values,$stateName ) ) { 
+                        } else if ( $val = CRM_Utils_Array::key( trim( $values ),$stateName ) ) { 
                             $formatted[$key][] = $val;
                         }
                     } 
@@ -519,11 +519,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $limitCodes = $config->countryLimit( );
                     $mulValues = explode( ',' , $field );
                     foreach( $mulValues as $values ) {
-                        if ( $val = CRM_Utils_Array::key( $values,$countryNames ) ) { 
+                        if ( $val = CRM_Utils_Array::key( trim( $values ), $countryNames ) ) { 
                             $formatted[$key][] = $val;
-                        }else if ($val = CRM_Utils_Array::key( $values,$countryIsoCodes ) ) { 
+                        } else if ($val = CRM_Utils_Array::key( trim( $values), $countryIsoCodes ) ) { 
                             $formatted[$key][] = $val;
-                        }else if ($val = CRM_Utils_Array::key( $values,$limitCodes ) ) { 
+                        } else if ($val = CRM_Utils_Array::key( trim( $values ), $limitCodes ) ) { 
                             $formatted[$key][] = $val;
                         }
                     }
@@ -1037,8 +1037,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $mulValues = explode( ',' , $value );
                         foreach( $mulValues as $stateValue ) {
                             if ( $stateValue) {
-                                if( self::in_value($stateValue,CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
-                                    || self::in_value($stateValue, CRM_Core_PseudoConstant::stateProvince())) {
+                                if( self::in_value(trim($stateValue),CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
+                                    || self::in_value(trim($stateValue), CRM_Core_PseudoConstant::stateProvince())) {
                                     continue;
                                 } else {
                                     self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
@@ -1062,7 +1062,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                 
                                 $error = true;
                                 foreach ( array( $countryNames, $countryIsoCodes, $limitCodes ) as $values ) {
-                                    if ( in_array( $countryValue, $values ) ) {
+                                    if ( in_array( trim($countryValue), $values ) ) {
                                         $error = false;
                                         break;
                                     }
