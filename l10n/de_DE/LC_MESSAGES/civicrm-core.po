@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-08-28 09:37-0700\n"
-"Last-Translator: Stefan Dyck <stefan@sdyck.de>\n"
+"PO-Revision-Date: 2009-02-10 01:06-0800\n"
+"Last-Translator: Manuel Schneider <manuel.schneider@ob8.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13251,7 +13251,7 @@ msgstr "Website"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Place of residence"
-msgstr ""
+msgstr "Aufenthaltsort"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13284,11 +13284,11 @@ msgstr "Emailadresse"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"
-msgstr ""
+msgstr "Kind von"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Parent of"
-msgstr ""
+msgstr "Eltern von"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13296,8 +13296,9 @@ msgid "Parent/child relationship."
 msgstr "Letzte Bezeihungen"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Spouse of"
-msgstr ""
+msgstr "Ehepartner von"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13305,8 +13306,9 @@ msgid "Spousal relationship."
 msgstr "Beziehung speichern"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Sibling of"
-msgstr ""
+msgstr "Geschwister von"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13315,11 +13317,12 @@ msgstr "Beziehung deaktivieren"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employee of"
-msgstr ""
+msgstr "Angestellter von"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Employer of"
-msgstr ""
+msgstr "Auftraggeber von"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13327,12 +13330,13 @@ msgid "Employment relationship."
 msgstr "Doppelte Beziehung."
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Volunteer for"
-msgstr ""
+msgstr "Freiwillerger für"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer is"
-msgstr ""
+msgstr "Freiwilliger ist"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13369,7 +13373,6 @@ msgid "Household membership."
 msgstr "Haushaltsmitgliedschaft"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Non-profit"
 msgstr "gemeinnützig"
 
@@ -13408,23 +13411,24 @@ msgstr "Freiwilliger"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Active volunteers."
-msgstr ""
+msgstr "aktive Freiwillige"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Header"
 msgstr "Mailing Kopfzeile"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Descriptive Title for this Header"
-msgstr ""
+msgstr "Beschreibender Titel für diese Kopfzeile"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Header for HTML formatted content."
-msgstr ""
+msgstr "Beispiel Kopfzeile für HTML formatierten Inhalt"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Header for TEXT formatted content."
-msgstr ""
+msgstr "Beispiel Kopfzeile für TEXT formatierten Inhalt"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Footer"
@@ -13778,8 +13782,9 @@ msgid "In Honor of"
 msgstr "Ehrend"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "In Memory of"
-msgstr ""
+msgstr "zum Andenken an"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Scheduled"
