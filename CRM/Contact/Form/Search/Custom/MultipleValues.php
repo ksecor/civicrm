@@ -51,11 +51,12 @@ class CRM_Contact_Form_Search_Custom_MultipleValues
                                                                CRM_Core_DAO::$_nullObject,
                                                                null, -1 );
 
-        $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
+        $this->_columns = array( ts('Contact Id')   => 'contact_id',
                                  ts('Contact Type') => 'contact_type',
                                  ts('Name')         => 'sort_name' );
 
         $this->_customGroupIDs = CRM_Utils_Array::value( 'custom_group', $formValues );
+
         if ( ! empty( $this->_customGroupIDs ) ) {
             $this->addColumns( );
         }
@@ -63,12 +64,11 @@ class CRM_Contact_Form_Search_Custom_MultipleValues
 
     function addColumns( ) {
         // add all the fields for chosen groups
+        $this->_tables = $this->_options = array( );
         foreach ( $this->_groupTree as $groupID => $group ) {
             if ( ! CRM_Utils_Array::value( $groupID, $this->_customGroupIDs ) ) {
                 continue;
             }
-
-            $this->_tables = $this->_options = array( );
 
             // now handle all the fields
             foreach ( $group['fields'] as $fieldID => $field ) {
@@ -96,7 +96,11 @@ class CRM_Contact_Form_Search_Custom_MultipleValues
                     'sort_name',
                     ts( 'Contact Name' ),
                     true );
-
+        if ( empty( $this->_groupTree ) ) {
+            CRM_Core_Error::statusBounce( ts("Atleast one Custom Group must be present, for Custom Group search."),
+                                          CRM_Utils_System::url( 'civicrm/contact/search/custom/list',
+                                                                 'reset=1') );
+        }
         // add the checkbox for custom_groups
         foreach ( $this->_groupTree as $groupID => $group ) {
             if ( $groupID == 'info' ) {
@@ -114,6 +118,13 @@ class CRM_Contact_Form_Search_Custom_MultipleValues
 
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
+        //redirect if custom group not select in search criteria
+        if ( !CRM_Utils_Array::value( 'custom_group', $this->_formValues ) ) {
+            CRM_Core_Error::statusBounce( ts("You must select at least one Custom Group as a search criteria."),
+                                          CRM_Utils_System::url( 'civicrm/contact/search/custom',
+                                                                 "reset=1&csid={$this->_formValues['customSearchID']}",
+                                                                 false, null, false, true ) );
+        }
         $selectClause = "
 contact_a.id           as contact_id  ,
 contact_a.contact_type as contact_type,
@@ -136,12 +147,12 @@ contact_a.sort_name    as sort_name,
     
     function from( ) {
         $from = "FROM      civicrm_contact contact_a";
-
+        
         $customFrom = array( );
         foreach ( $this->_tables as $tableName => $fields ) {
             $customFrom[ ] = " LEFT JOIN $tableName ON {$tableName}.entity_id = contact_a.id ";
         }
-        return $from . implode( ' , ', $customFrom );
+        return $from . implode( ' ', $customFrom );
     }
 
     function where( $includeContactIDs = false ) {
@@ -176,7 +187,6 @@ contact_a.sort_name    as sort_name,
     }
 
     function alterRow( &$row ) {
-        // CRM_Core_Error::debug( $row );
         foreach ( $this->_options as $fieldID => $values ) {
             if ( in_array( $values['attributes']['html_type'],
                            array( 'CheckBox', 'Radio', 'Select', 'Multi-Select' ) ) ) {
