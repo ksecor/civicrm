@@ -195,9 +195,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
             $index++;
         }
-
+        
         $this->_updateWithId = false;
-        if ( in_array('id',$this->_mapperKeys) || ($this->_externalIdentifierIndex >= 0 && $this->_onDuplicate != CRM_Import_Parser::DUPLICATE_SKIP) ) {
+        if ( in_array('id', $this->_mapperKeys ) || 
+             ( $this->_externalIdentifierIndex >= 0 && 
+               in_array( $this->_onDuplicate, array( CRM_Import_Parser::DUPLICATE_UPDATE, CRM_Import_Parser::DUPLICATE_FILL ) ) ) ) {
             $this->_updateWithId = true;
         }
     }
@@ -528,16 +530,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
             }
         }
+        
         //check if external identifier exists in database
-        if ( ( CRM_Utils_Array::value('id', $params) && CRM_Utils_Array::value('external_identifier', $params) ) || 
-             ( CRM_Utils_Array::value('external_identifier', $params) && $onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) ) {
+        if ( CRM_Utils_Array::value('external_identifier', $params ) && 
+             in_array( $onDuplicate, array( CRM_Import_Parser::DUPLICATE_SKIP, CRM_Import_Parser::DUPLICATE_NOCHECK ) ) ) {
+            
             require_once "CRM/Contact/BAO/Contact.php";
             if ( $internalCid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                              $params['external_identifier'],
                                                              'id',
                                                              'external_identifier' ) ) {
                 if ( $internalCid != CRM_Utils_Array::value('id', $params) ) {
-                
+                    
                     $errorMessage = ts('External Identifier already exists in database.');
                     array_unshift($values, $errorMessage);
                     $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
@@ -546,7 +550,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
             }
         }
-
+        
         $relationship = false;
         // Support Match and Update Via Contact ID
         if ( $this->_updateWithId ) {
