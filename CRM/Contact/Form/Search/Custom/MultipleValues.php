@@ -111,9 +111,7 @@ class CRM_Contact_Form_Search_Custom_MultipleValues
     }
 
     function summary( ) {
-        $summary = array( 'summary' => 'This is a summary',
-                          'total' => 50.0 );
-        return $summary;
+        return null;
     }
 
     function all( $offset = 0, $rowcount = 0, $sort = null,
