@@ -722,7 +722,7 @@ WHERE civicrm_event.is_active = 1
                 $length         = substr_compare($name, "civicrm_event.amount.". $id, 0);
                 $discountSuffix = substr($name, $length * (-1));
                 
-                $copyEventPage->default_discount_id = 
+                $copyEvent->default_discount_id = 
                     CRM_Core_BAO_OptionGroup::copyValue('event', 
                                                         $id, 
                                                         $copyEvent->id, 
