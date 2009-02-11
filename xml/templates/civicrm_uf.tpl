@@ -15,7 +15,7 @@ VALUES
 INSERT INTO civicrm_uf_field
        (`id`, `uf_group_id`, `field_name`, `is_active`, `is_view`, `is_required`, `weight`, `help_post`, `visibility`, `in_selector`, `is_searchable`, `location_type_id`, `phone_type_id`, `label`, `field_type`)
    VALUES
-       (1, 1, 'first_name', 1, 0, 1, 1, '', 'Public User Pages and Listings', 0, 1, NULL, NULL, 'First Name', 'Individual'),
+       (1, 1, 'first_name', 1, 0, 1, 1, '', 'Public User Pages and Listings', 0, 1, NULL, NULL, '{ts}First Name{/ts}', 'Individual'),
        (2, 1, 'last_name', 1, 0, 1, 2, '{ts}First and last name will be shared with other visitors to the site.{/ts}', 'Public User Pages and Listings', 0, 1, NULL, NULL, '{ts}Last Name{/ts}', 'Individual'),
        (3, 1, 'street_address', 1, 0, 0, 3, '', 'User and User Admin Only', 0, 0, 1, NULL, '{ts}Street Address (Home){/ts}', 'Contact'),
        (4, 1, 'city', 1, 0, 0, 4, '', 'User and User Admin Only', 0, 0, 1, NULL, '{ts}City (Home){/ts}', 'Contact'),
