@@ -124,13 +124,15 @@ if (substr($config->gettextResourceDir, 0, 1) === '/') {
     $localeDir = '../' . $config->gettextResourceDir;
 }
 if (file_exists($localeDir)) {
-  $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($localeDir));
+    $config->gettextResourceDir = $localeDir;
+    $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($localeDir));
 }
 if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 
+global $tsLocale;
 foreach ($locales as $locale) {
     echo "Generating data files for $locale\n";
-    $config->lcMessages = $locale;
+    $tsLocale = $locale;
     $smarty->assign('locale', $locale);
 
     $data = '';
@@ -171,6 +173,7 @@ foreach ($locales as $locale) {
     fputs( $fd, $data );
     fclose( $fd );
 }
+$tsLocale = 'en_US';
 
 $sample  = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
 $sample .= file_get_contents( $smarty->template_dir . '/civicrm_acl.tpl' );
