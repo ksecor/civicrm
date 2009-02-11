@@ -183,7 +183,7 @@ fclose( $fd );
 // hence doing the same process for civicrm_uf.tpl as that of
 // civicrm_sample.tpl and appending the tha contents to
 // civicrm_sample.mysql
-$sample = file_get_contents( $smarty->template_dir . '/civicrm_uf.tpl' );
+$sample = $smarty->fetch('civicrm_uf.tpl');
 $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "a" );
 fputs( $fd, $sample );
 fclose( $fd );
