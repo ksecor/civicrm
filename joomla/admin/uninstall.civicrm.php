@@ -5,6 +5,8 @@ defined('_JEXEC') or die('No direct access allowed');
 
 function com_uninstall()
 {
+    /***
+     * Lets skip removing tables for now, since we have issues with auto upgrade
     require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
 
     require_once 'CRM/Core/Config.php';
@@ -12,7 +14,7 @@ function com_uninstall()
 
     require_once 'CRM/Core/DAO.php';
     CRM_Core_DAO::dropAllTables( );
-
+    */
 	echo "You have uninstalled CiviCRM. All CiviCRM related tables have been dropped from the database.";
 }
 
