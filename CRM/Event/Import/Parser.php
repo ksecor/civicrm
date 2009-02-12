@@ -692,9 +692,9 @@ abstract class CRM_Event_Import_Parser
                     $datum[$key] = "\"$value\"";
                 }
             }
-            $output[] = implode(',', $datum);
+            $output[] = implode($config->fieldSeparator, $datum);
         }
-        fwrite($fd, implode($config->fieldSeparator, $output));
+        fwrite($fd, implode("\n", $output));
         fclose($fd);
     }
     
