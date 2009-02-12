@@ -1269,7 +1269,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
              unset($v['phone']);
              $v['role'] = $groupInfo['title'];
         }
-        // if they are both a role and a global contact, use only role
+        //include multiple listings for the same contact/different roles.
         $relatedGlobalContacts = array_merge( $relatedContacts, $globalContacts );
         return $relatedGlobalContacts;
 	}   
