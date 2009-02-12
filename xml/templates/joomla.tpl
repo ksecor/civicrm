@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install method="upgrade" type="component" version="{$CiviCRMVersion}">
+<install method="upgrade" type="component" version="1.5">
   <name>CiviCRM</name>
   <creationDate>02/12/2009</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
