@@ -676,7 +676,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
         case 'Multi-Select State/Province':
             //Add Multi-select State/Province
-            $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
+            $stateOption = CRM_Core_PseudoConstant::stateProvince();
             
             $qf->addElement('select', $elementName, $label, $stateOption, array("size"=>"5","multiple"));
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
@@ -692,7 +692,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
         case 'Multi-Select Country':
             //Add Country
-            $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
+            $countryOption = CRM_Core_PseudoConstant::country();
             $qf->addElement('select', $elementName, $label, $countryOption, array("size"=>"5","multiple"));
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
