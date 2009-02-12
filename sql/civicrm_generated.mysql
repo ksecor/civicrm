@@ -290,7 +290,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `civicrm_domain` WRITE;
 /*!40000 ALTER TABLE `civicrm_domain` DISABLE KEYS */;
-INSERT INTO `civicrm_domain` (`id`, `name`, `description`, `config_backend`, `version`, `loc_block_id`, `locales`) VALUES (1,'Default Domain Name',NULL,NULL,'2.2',1,NULL);
+INSERT INTO `civicrm_domain` (`id`, `name`, `description`, `config_backend`, `version`, `loc_block_id`, `locales`) VALUES (1,'Default Domain Name',NULL,NULL,'2.2beta2',1,NULL);
 /*!40000 ALTER TABLE `civicrm_domain` ENABLE KEYS */;
 UNLOCK TABLES;
 
