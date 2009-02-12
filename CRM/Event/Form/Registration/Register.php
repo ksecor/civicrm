@@ -171,6 +171,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         // now fix all state country selectors
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
+        
+        // add this event's default participant role to defaults array (for cases where participant_role field is included in form via profile)
+        if( $this->_values['event']['default_role_id'] ) {
+            $this->_defaults['participant_role_id'] = $this->_values['event']['default_role_id'];
+        }
         return $this->_defaults;
     }
 
