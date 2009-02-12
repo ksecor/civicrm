@@ -7,7 +7,8 @@
     {if !$paymentProcessor}
         {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
         <div class="status message">
-                {ts 1=$ppUrl}No Payment Processor has been configured / enabled for your site. If this is a <strong>paid event</strong> AND you want users to be able to <strong>register online</strong>, you will need to <a href='%1'>configure a Payment Processor</a> first. Then return to this screen and assign the processor to this event.{/ts} {docURL page="CiviContribute Payment Processor Configuration"}
+                {ts 1=$ppUrl}No Payment Processor has been configured / enabled for your site. If this is a <strong>paid event</strong> AND you want users to be able to <strong>register and pay online</strong>, you will need to <a href='%1'>configure a Payment Processor</a> first. Then return to this screen and assign the processor to this event.{/ts} {docURL page="CiviContribute Payment Processor Configuration"}
+                <p>{ts}NOTE: Alternatively, you can enable the <strong>Pay Later</strong> option below without setting up a payment processor. All users will then be asked to submit payment offline (e.g. mail in a check, call in a credit card, etc.).{/ts}</p>
         </div>
     {/if}
     <dl>
@@ -20,14 +21,18 @@
         <div id="paymentProcessor">
             <dl>
               <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts}If you want users to be able to register online for this event, select a payment processor to use.{/ts} {docURL page="CiviContribute Payment Processor Configuration"}</dd>
+              <dt class="extra-long-fourty">&nbsp;</dt>
+              <dd class="description">
+                {ts}If this is a paid event and you want users to be able to register and pay online, select a payment processor to use.{/ts}
+                {ts}NOTE: Alternatively, you can enable the <strong>Pay Later</strong> feature below without setting up a payment processor. All users will then be asked to submit payment offline (e.g. mail in a check, call in a credit card, etc.).{/ts} {docURL page="CiviContribute Payment Processor Configuration"}
+              </dd>
             </dl>
         </div>
         {/if}
            
         <div id="contributionType">
             <dl>
-            <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
+            <dt>{$form.contribution_type_id.label}<span class="marker"> *</span></dt><dd>{$form.contribution_type_id.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This contribution type will be assigned to payments made by participants when they register online.{/ts}
             <dt>{$form.fee_label.label}<span class="marker"> *</span></dt><dd>{$form.fee_label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This label is displayed with the list of event fees.{/ts}
@@ -43,9 +48,9 @@
 
         <div id="payLaterOptions">
           <dl>
-             <dt>{$form.pay_later_text.label}</dt><dd>{$form.pay_later_text.html|crmReplace:class:big}</dd>
+             <dt>{$form.pay_later_text.label}<span class="marker"> *</span></dt><dd>{$form.pay_later_text.html|crmReplace:class:big}</dd>
              <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the 'pay later' option on the contribution form.{/ts}</dd>
-             <dt>{$form.pay_later_receipt.label}</dt><dd>{$form.pay_later_receipt.html|crmReplace:class:big}</dd>
+             <dt>{$form.pay_later_receipt.label}<span class="marker"> *</span></dt><dd>{$form.pay_later_receipt.html|crmReplace:class:big}</dd>
              <dt>&nbsp;</dt><dd class="description">{ts}Instructions added to Confirmation and Thank-you pages when the user selects the 'pay later' option (e.g. 'Mail your check to ... within 3 business days.').{/ts}</dd>
           </dl>
         </div>
