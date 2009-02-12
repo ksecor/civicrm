@@ -46,7 +46,7 @@
    {if $conflictRowCount}    
     <tr class="error"><td class="label">{ts}Conflicting Rows{/ts}</td>
         <td class="data">{$conflictRowCount}</td>
-        <td class="explanation">{ts}Rows with conflicting transaciton ids within this file. These rows will be skipped (not imported).{/ts}
+        <td class="explanation">{ts}Rows with conflicting transaction ids within this file. These rows will be skipped (not imported).{/ts}
             {if $conflictRowCount}
                 <p><a href="{$downloadConflictRecordsUrl}">{ts}Download Conflicts{/ts}</a></p>
             {/if}
