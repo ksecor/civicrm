@@ -520,13 +520,18 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $this->_showCommBlock ) {
             self::buildCommunicationBlock($this);
         }
-
+        
         // greeting type
-        $this->addElement('select', 'greeting_type_id', ts('Greeting'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), array( 'onchange' => " showGreeting();") );
-
-        // custom greeting
-        $this->addElement('text', 'custom_greeting', ts('Custom Greeting'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'custom_greeting' ));
-
+        $greetings = CRM_Core_PseudoConstant::greeting( );
+        if ( !empty( $greetings ) ) {
+            $this->addElement('select', 'greeting_type_id', ts('Greeting'), 
+                              array('' => ts('- select -')) + $greetings, array( 'onchange' => " showGreeting();") );
+            
+            // custom greeting
+            $this->addElement('text', 'custom_greeting', ts('Custom Greeting'), 
+                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'custom_greeting' ));
+        }
+        
         //hack the address sequence so that state province always comes after country
         $addressSequence = $config->addressSequence();
         $key = array_search( 'country', $addressSequence);

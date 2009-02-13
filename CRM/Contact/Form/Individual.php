@@ -54,11 +54,14 @@ class CRM_Contact_Form_Individual {
     {
         $form->applyFilter('__ALL__','trim');
         
-        // prefix
-        $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
-
+        //prefix
+        $prefix = CRM_Core_PseudoConstant::individualPrefix( );
+        if ( !empty( $prefix ) ) {
+            $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => ts('- prefix -')) + $prefix );
+        }
+        
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
-
+        
         // first_name
         $form->addElement('text', 'first_name', ts('First Name'), $attributes['first_name'] );
         
@@ -69,7 +72,10 @@ class CRM_Contact_Form_Individual {
         $form->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name'] );
         
         // suffix
-        $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
+        $siffix = CRM_Core_PseudoConstant::individualSuffix( );
+        if ( $siffix ) {
+            $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + $siffix );
+        }
         
         // nick_name
         $form->addElement('text', 'nick_name', ts('Nick Name'),

@@ -19,32 +19,37 @@
  <fieldset><legend>{ts}Name and Greeting{/ts}</legend>
 	<table class="form-layout">
     <tr>
-		<td>{$form.prefix_id.label}</td>
+		{* need to have td to keep alignment CRM-4079 *}
+		<td>{if $form.prefix_id}{$form.prefix_id.label}{/if}</td>
 		<td>{$form.first_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$contactId}{/if}</td>
 		<td>{$form.middle_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}{/if}</td>
 		<td>{$form.last_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}{/if}</td>
-		<td>{$form.suffix_id.label}</td>
+		{if $form.suffix_id}<td>{$form.suffix_id.label}</td>{/if}
 	</tr>
 	<tr>
-		<td>{$form.prefix_id.html}</td>
+		<td>{if $form.prefix_id}{$form.prefix_id.html}{/if}</td>
 		<td>{$form.first_name.html}</td>
 		<td>{$form.middle_name.html|crmReplace:class:eight}</td>
 		<td>{$form.last_name.html}</td>
-		<td>{$form.suffix_id.html}</td>
+		{if $form.suffix_id}<td>{$form.suffix_id.html}</td>{/if}
 	</tr>
    	 <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.label}</td>
         <td>{$form.nick_name.label}</td>
+	{if $form.greeting_type_id}
         <td>{$form.greeting_type_id.label} &nbsp; </td>
-        <td><span id="greetingLabel">{$form.custom_greeting.label}</span></td>	
+        <td><span id="greetingLabel">{$form.custom_greeting.label}</span></td>
+	{/if}	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
+	{if $form.greeting_type_id}
         <td>{$form.greeting_type_id.html}</td>
-        <td><span id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</span></td>	
+        <td><span id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</span></td>
+	{/if}	
     </tr>
     <tr>
         <td>&nbsp;</td>
