@@ -972,9 +972,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     break;
                 case 'preferred_communication_method':    
                     $preffComm = array( );
-                    $preffComm = explode(',' , $value);
+                    $preffComm = explode(',', $value);
                     foreach ($preffComm as $v) {
-                        if (!self::in_value($v, CRM_Core_PseudoConstant::pcm())) {
+                        if (!self::in_value( trim($v), CRM_Core_PseudoConstant::pcm())) {
                             self::addToErrorMsg('Preferred Communication Method', $errorMessage);
                         }
                     }
