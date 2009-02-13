@@ -292,17 +292,16 @@ class CRM_Core_SelectValues
     {
         static $ufGroupType = null;
         if (!$ufGroupType) {
-            $ufGroupType = array( );
+            $ufGroupType = array(
+                                  'Profile'           => ts('Profile'),
+                                  'Search Profile'    => ts('Search Results'),
+                                  );
             $config =& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Drupal' ) {
                 $ufGroupType += array(
                                       'User Registration' => ts('User Registration'),
                                       'User Account'      => ts('View/Edit User Account') );
             }
-            $ufGroupType += array(
-                                  'Profile'           => ts('Profile'),
-                                  'Search Profile'    => ts('Search Results'),
-                                  );
         }
         return $ufGroupType;
     }
