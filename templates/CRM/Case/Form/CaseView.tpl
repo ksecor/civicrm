@@ -334,13 +334,11 @@ function addRole() {
 					return false;
 				}
 				
-				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
-                cj.post( postUrl, { rel_contact: v1, rel_type: v2, contact_id: sourceContact, rel_id: relID, case_id: caseID },
-                    function( data ) {
-                    		// empty on purpose
-                        }, 'json' 
-                    );
-
+               /* send synchronous request so that disabling any actions for slow servers*/
+				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal}; 
+                var data = 'rel_contact='+ v1 + '&rel_type='+ v2 + '&contact_id='+sourceContact + '&rel_id='+ relID + '&case_id=' + caseID;
+                cj.ajax({ type: "POST", url: postUrl, data: data, async: false });
+ 
 				cj(this).dialog("close"); 
 				cj(this).dialog("destroy");
 				
