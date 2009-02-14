@@ -449,15 +449,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->addGroup($honorTypes, 'honor_type_id', null);
         
         // prefix
-        $this->addElement('select', 'honor_prefix_id', ts('Honoree Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+        $this->addElement('select', 'honor_prefix_id', ts('Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
         // first_name
-        $this->addElement('text', 'honor_first_name', ts('Honoree First Name'), $attributes['first_name'] );
+        $this->addElement('text', 'honor_first_name', ts('First Name'), $attributes['first_name'] );
         
         //last_name
-        $this->addElement('text', 'honor_last_name', ts('Honoree Last Name'), $attributes['last_name'] );
+        $this->addElement('text', 'honor_last_name', ts('Last Name'), $attributes['last_name'] );
         
         //email
-        $this->addElement('text', 'honor_email', ts('Honoree Email Address'));
+        $this->addElement('text', 'honor_email', ts('Email Address'));
         $this->addRule( "honor_email", ts('Honoree Email is not valid.'), 'email' );
     }
 
@@ -604,15 +604,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        if ( $self->_values["honor_block_is_active"] ) {
+        if ( $self->_values["honor_block_is_active"] && CRM_Utils_Array::value( 'honor_type_id', $fields ) ) {
             // make sure there is a first name and last name if email is not there
             if ( ! CRM_Utils_Array::value( 'honor_email' , $fields ) ) {
-                if ( !  CRM_Utils_Array::value( 'honor_first_name', $fields ) &&
-                     CRM_Utils_Array::value( 'honor_last_name' , $fields ) ) {
-                    $errors['_qf_default'] = ts('In Honor Of - First Name and Last Name, OR an Email Address is required.');
-                } else if ( CRM_Utils_Array::value( 'honor_first_name', $fields ) &&
-                            ! CRM_Utils_Array::value( 'honor_last_name' , $fields ) ) {
-                    $errors['_qf_default'] = ts('In Honor Of - First Name and Last Name, OR an Email Address is required.');
+                if ( !  CRM_Utils_Array::value( 'honor_first_name', $fields ) ||
+                     !  CRM_Utils_Array::value( 'honor_last_name' , $fields ) ) {
+                    $errors['honor_last_name'] = ts('In Honor Of - First Name and Last Name, OR an Email Address is required.');
                 }
             }
         }

@@ -112,24 +112,25 @@ function clearAmountOther() {
 {$honor_block_text}
 <table class="form-layout-compressed">
 	<tr>
-		<td>{$form.honor_type_id.label}</td>
-		<td>{$form.honor_type_id.html}</td>
+		<td colspan="3">
+            {$form.honor_type_id.html}
+            &nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('honor_type_id', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)<br />
+            <span class="description">{ts}Please include the name, and / or email address of the person you are honoring,{/ts}</span>
+        </td>
 	</tr>
 	<tr>
-		<td>{$form.honor_prefix_id.label}</td>
 		<td>{$form.honor_prefix_id.html}</td>
+		<td>{$form.honor_first_name.html}<br />
+            <span class="description">{$form.honor_first_name.label}</span>
+        </td>
+		<td>{$form.honor_last_name.html}<br />
+            <span class="description">{$form.honor_last_name.label}</span>
+        </td>
 	</tr>
-	<tr>
-		<td>{$form.honor_first_name.label}</td>
-		<td>{$form.honor_first_name.html}</td>
-	</tr>
-	<tr>
-		<td>{$form.honor_last_name.label}</td>
-		<td>{$form.honor_last_name.html}</td>
-	</tr>
-	<tr>
-		<td>{$form.honor_email.label}</td>
-		<td>{$form.honor_email.html}</td>
+	<tr><td></td>
+		<td colspan="2">{$form.honor_email.html}<br />
+            <span class="description">{$form.honor_email.label}
+        </td>
 	</tr>
 </table>
 </fieldset>
