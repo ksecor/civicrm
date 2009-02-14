@@ -20,27 +20,10 @@
     <legend>{ts}CiviCRM Profile{/ts}</legend>
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
-    <dt>{$form.uf_group_type.label}</dt><dd>{$form.uf_group_type.html}&nbsp;{$otherModuleString}</dd>
-    <dt>&nbsp;</dt><dd class="description">
-    <table class="form-layout-compressed">
-    <tr><td>{ts}Profiles can be explicitly linked to a module page.{/ts}
-    <ul class="left-alignment">
-   {if $config->userFramework EQ 'Drupal'}
-    <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}</li>
-    <li>{ts}Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts.{/ts}</li>
-   {/if}
-    <li>{ts}Check <strong>Profile</strong> if you want it to use it for customized listings and view screens for the civicrm/profile path.{/ts}</li>
-    <li>{ts}Check <strong>Search Results</strong> to use this profile to display an alternate set of results columns for CiviCRM Basic and Advanced Search.{/ts}</li>
-    </ul>
-    </td></tr></table></dd>
-    <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which profiles are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
-   <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the form.{/ts}</dd>
-    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html}</dd>
- 
-   
-    <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the end of the form.{/ts}</dd>
+    <dt>{$form.uf_group_type.label} {help id='id-used_for' file="CRM/UF/Form/Group.hlp"}</dt><dd>{$form.uf_group_type.html}&nbsp;{$otherModuleString}</dd>
+    <dt>{$form.weight.label}{if $config->userFramework EQ 'Drupal'} {help id='id-profile_weight' file="CRM/UF/Form/Group.hlp"}{/if}</dt><dd>{$form.weight.html}</dd>
+    <dt>{$form.help_pre.label} {help id='id-help_pre' file="CRM/UF/Form/Group.hlp"}</dt><dd>{$form.help_pre.html}</dd>
+    <dt>{$form.help_post.label} {help id='id-help_post' file="CRM/UF/Form/Group.hlp"}</dt><dd>{$form.help_post.html}</dd>
     </dl>
     <dl>	
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>

@@ -68,7 +68,7 @@ class CRM_UF_Form_AdvanceSetting extends CRM_UF_Form_Group {
         $form->addElement('select', 'add_contact_to_group', ts('Add new contacts to a Group?'), $group);
         
         // add CAPTCHA To this group ?
-        $form->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
+        $form->addElement('checkbox', 'add_captcha', ts('Include reCAPTCHA?') );
         
         // should we display an edit link
         $form->addElement('checkbox', 'is_edit_link', ts('Include profile edit links in search results?'));
