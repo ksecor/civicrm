@@ -149,6 +149,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */
     public $_pledgeValues;
     
+    public $_contributeMode = 'direct';
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -325,7 +327,7 @@ WHERE  contribution_id = {$this->_id}
             }
             
             //display check number field only if its having value or its offline mode.
-            if ( $this->_values['payment_instrument_id'] == CRM_Core_OptionGroup::getValue( 'payment_instrument', 'Check', 'name' ) 
+            if ( CRM_Utils_Array::value( 'payment_instrument_id', $this->_values ) == CRM_Core_OptionGroup::getValue( 'payment_instrument', 'Check', 'name' ) 
                  || CRM_Utils_Array::value( 'check_number', $this->_values ) ) {
                 $this->assign( 'showCheckNumber', true );  
             }
@@ -871,7 +873,9 @@ WHERE  contribution_id = {$this->_id}
             $paymentParams['contributionType_accounting_code']     = 
                 $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
             $paymentParams['contributionPageID']                   = null;
-            
+            if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
+                $paymentParams['email'] = $this->userEmail;
+            }
             
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
             
@@ -1067,7 +1071,7 @@ WHERE  contribution_id = {$this->_id}
                 $ids['membership']        = $IdDetails['membership'];
                 $ids['participant']       = $IdDetails['participant'];
                 $ids['event']             = $IdDetails['event'];
-                $ids['pledge_payment']    = $IdDetails['pledge_payment'];
+                $ids['pledge_payment']    = CRM_Utils_Array::value( 'pledge_payment', $IdDetails );
              
                 if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
                     CRM_Core_Error::fatal( );

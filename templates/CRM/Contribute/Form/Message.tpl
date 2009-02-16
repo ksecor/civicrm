@@ -16,7 +16,7 @@
 {if $receive_date}
 {ts}Received Date{/ts}: {$receive_date|truncate:10:''|crmDate}
 {/if}
-{if $formValues.paidBy}
+{if $formValues.paidBy and !$formValues.hidden_CreditCard}
 {ts}Paid By{/ts}: {$formValues.paidBy}
 {if $formValues.check_number}
 {ts}Check Number{/ts}: {$formValues.check_number}

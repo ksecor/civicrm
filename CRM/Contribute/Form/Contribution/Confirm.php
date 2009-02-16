@@ -656,7 +656,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $now = date( 'YmdHis' );    
         $receiptDate = CRM_Utils_Array::value( 'receipt_date', $params );
-        if ( $form->_values['is_email_receipt'] ) {
+        if ( CRM_Utils_Array::value( 'is_email_receipt', $form->_values ) ) {
             $receiptDate = $now;
         }
 
@@ -681,7 +681,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         if ( ! $online || $form->_values['is_monetary'] ) {
-            if ( ! $params['is_pay_later'] ) {
+            if ( ! CRM_Utils_Array::value( 'is_pay_later', $params ) ) {
                 $contribParams['payment_instrument_id'] = 1;
             }
         }

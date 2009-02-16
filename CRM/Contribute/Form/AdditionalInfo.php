@@ -299,7 +299,7 @@ class CRM_Contribute_Form_AdditionalInfo
         require_once 'CRM/Core/BAO/OptionGroup.php';
         CRM_Core_BAO_OptionGroup::retrieve($paymentInstrumentGroup, $paymentInstrumentGroup);
         $paymentInstrument = array();
-        $paymentInstrument['value']            = $params['payment_instrument_id'];      
+        $paymentInstrument['value']            = CRM_Utils_Array::value( 'payment_instrument_id', $params );      
         $paymentInstrument['option_group_id']  = $paymentInstrumentGroup['id'];
         require_once 'CRM/Core/BAO/OptionValue.php';
         CRM_Core_BAO_OptionValue::retrieve($paymentInstrument, $paymentInstrument);
