@@ -372,7 +372,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $errors['additional_participants'] =  ts('Please enter a valid No Of People (whole number).'); 
         } 
         //check for atleast one pricefields should be selected
-        if ( $fields['priceSetId'] ) {
+        if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) {
             $priceField = new CRM_Core_DAO_PriceField( );
             $priceField->price_set_id = $fields['priceSetId'];
             $priceField->find( );
@@ -410,7 +410,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $zeroAmount = $fields['amount'];
             // also return if paylater mode or zero fees for valid members
             if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
-                if ( $fields['priceSetId'] ) { 
+                if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) { 
                     foreach( $fields as $key => $val  )  {
                         if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
                             return empty( $errors ) ? true : $errors;
@@ -419,7 +419,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 } else {
                     return empty( $errors ) ? true : $errors;
                 }
-            } else if ( $fields['priceSetId'] ) { 
+            } else if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) { 
                 //here take all value(amount) of optoin value id
                 $check = array( );
                 foreach( $fields as $key => $val  )  {
@@ -641,7 +641,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         // If registering > 1 participant, give status message
         if ( CRM_Utils_Array::value( 'additional_participants', $params, false ) ) {
             require_once "CRM/Core/Session.php";
-            $statusMsg = ts('Registration information for participant 1 has been saved.', array( 1 => $participantNo )); 
+            $statusMsg = ts('Registration information for participant 1 has been saved.'); 
             CRM_Core_Session::setStatus( "{$statusMsg}" );
         }
         
@@ -903,7 +903,7 @@ WHERE  id IN ($optionIDs)
         if ($self->_mode == 'test') {
             return false;
         }
-
+        $contactID = null;
         $session =& CRM_Core_Session::singleton( );
         if( ! $isAdditional ) {
             $contactID = $session->get( 'userID' );

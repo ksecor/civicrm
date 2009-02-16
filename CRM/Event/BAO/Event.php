@@ -833,7 +833,7 @@ WHERE civicrm_event.is_active = 1
 
             // set confirm_text and contact email address for display in the template here
             $template->assign( 'email', $email );
-            $template->assign( 'confirm_email_text', $values['event']['confirm_email_text'] );
+            $template->assign( 'confirm_email_text', CRM_Utils_Array::value( 'confirm_email_text', $values['event'] ) );
            
             $isShowLocation = CRM_Utils_Array::value('is_show_location',$values['event']);
             $template->assign( 'isShowLocation', $isShowLocation );
