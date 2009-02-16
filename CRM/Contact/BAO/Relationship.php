@@ -210,7 +210,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function dataExists( &$params ) 
     {
         // return if no data present
-        if ( ! is_array( $params['contact_check']) ) {
+        if ( ! is_array( CRM_Utils_Array::value( 'contact_check', $params ) ) ) {
             return false;
         } 
         return true;
@@ -891,13 +891,13 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         $rel = explode( "_", $params['relationship_type_id'] );
         
-        $relTypeId    = $rel[0];
-        $relDirection = "_{$rel[1]}_{$rel[2]}";
-        
+        $relTypeId     = $rel[0];
+        $relDirection  = "_{$rel[1]}_{$rel[2]}";
+        $targetContact = array();
         if ( ( $action & CRM_Core_Action::ADD    ) ||
              ( $action & CRM_Core_Action::DELETE ) ) {
             $contact       = $contactId;
-            $targetContact = $params['contact_check'];
+            $targetContact = CRM_Utils_Array::value( 'contact_check', $params );
         } else if ( $action & CRM_Core_Action::UPDATE ) {
             $contact       = $ids['contact'];
             $targetContact = array( $ids['contactTarget'] => 1 );
@@ -913,31 +913,30 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         // 1. ContactA
         $values[$contact] = array(
-                                    'relatedContacts'           => $targetContact,
-                                    'relationshipTypeId'        => $relTypeId,
-                                    'relationshipTypeDirection' => $relDirection
-                                    );
+                                  'relatedContacts'           => $targetContact,
+                                  'relationshipTypeId'        => $relTypeId,
+                                  'relationshipTypeDirection' => $relDirection
+                                  );
         // 2. ContactB
-        foreach ( $targetContact as $cid => $donCare ) {
+        if ( !empty( $targetContact ) ) {
+            foreach ( $targetContact as $cid => $donCare ) {
                 $values[$cid]   = array(
                                         'relatedContacts'       => array( $contact => 1 ),
                                         'relationshipTypeId'    => $relTypeId
                                         );
-                
-                $relTypeParams = array( 'id' => $relTypeId );
-                $relTypeValues = array( );
+            
+                $relTypeParams  = array( 'id' => $relTypeId );
+                $relTypeValues  = array( );
                 require_once 'CRM/Contact/BAO/RelationshipType.php';
                 CRM_Contact_BAO_RelationshipType::retrieve( $relTypeParams, $relTypeValues );
-                
-                if ( CRM_Utils_Array::value( 'name_a_b',
-                                             $relTypeValues ) ==
-                     CRM_Utils_Array::value( 'name_b_a',
-                                             $relTypeValues ) ) {
+            
+                if ( CRM_Utils_Array::value( 'name_a_b', $relTypeValues ) ==  CRM_Utils_Array::value( 'name_b_a', $relTypeValues ) ) {
                     $values[$cid]['relationshipTypeDirection'] = '_a_b';
                 } else {
                     $values[$cid]['relationshipTypeDirection'] = ($relDirection == '_a_b') ? '_b_a' : '_a_b';
                 }
             }
+        }
         
         // Now get the active memberships for all the contacts.
         // If contact have any valid membership(s), then add it to
@@ -956,7 +955,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $values[$cid]['memberships'] = $memberships;
         }
         // done with 'values' array.
-        
         // Finally add / edit / delete memberships for the related contacts
         foreach ( $values as $cid => $details ) {
             if ( ! array_key_exists( 'memberships', $details ) ) {
@@ -985,8 +983,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 
                 // Get the Membership Type Details. 
                 $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipValues['membership_type_id'] );
-
-                if( "{$details['relationshipTypeId']}{$details['relationshipTypeDirection']}" == $membershipType['relationship_type_id'] . "_" . $membershipType['relationship_direction'] ) {
+                if( "{$details['relationshipTypeId']}{$details['relationshipTypeDirection']}" == CRM_Utils_Array::value( 'relationship_type_id', $membershipType ) . "_" . CRM_Utils_Array::value( 'relationship_direction', $membershipType ) ) {
                     // Check if relationship being created/updated is
                     // similar to that of membership type's
                     // relationship.

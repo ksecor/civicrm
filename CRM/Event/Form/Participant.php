@@ -129,6 +129,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * participant mode
      */
     public  $_mode = null;
+    /*
+     *Line Item for Price Set
+     */
+    public  $_lineItem = null;
+    /*
+     *Contribution mode for event registration for offline mode
+     */
+    public $_contributeMode = 'direct';
 
     public  $_online;
 
@@ -718,7 +726,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->_params = $params;
         unset($params['amount']);
         $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
-        $params['receive_date' ] = CRM_Utils_Date::format($params['receive_date' ]);
+        $params['receive_date' ] = CRM_Utils_Date::format(CRM_Utils_Array::value( 'receive_date', $params ));
         $params['contact_id'   ] = $this->_contactID;
         if ( $this->_participantId ) {
             $params['id'] = $this->_participantId;
@@ -833,7 +841,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             // all the payment processors expect the name and address to be in the 
             // so we copy stuff over to first_name etc. 
             $paymentParams = $this->_params;
-            
+            if ( CRM_Utils_Array::value( 'send_receipt', $this->_params ) ) {
+                $paymentParams['email'] = $this->_contributorEmail;
+            }
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
             
@@ -927,7 +937,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             
             if ( CRM_Utils_Array::value( 'record_contribution', $params ) ) {
-                if( $params['id'] ) {
+                if( CRM_Utils_Array::value( 'id', $params ) ) {
                     $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                         $params['id'], 
                                                                         'contribution_id', 
@@ -939,7 +949,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $contributionParams['currency'             ] = $config->defaultCurrency;
                 $contributionParams['source'               ] = "{$eventTitle}: Offline registration (by {$userName})";
                 $contributionParams['non_deductible_amount'] = 'null';
-                $contributionParams['receipt_date'         ] = $params['send_receipt'] ? $contributionParams['receive_date'] : 'null';
+                $contributionParams['receipt_date'         ] = CRM_Utils_Array::value( 'send_receipt', $params ) ? CRM_Utils_Array::value( 'receive_date', $contributionParams ) : 'null';
                 
                 $recordContribution = array( 'contact_id', 'contribution_type_id', 'payment_instrument_id', 'trxn_id', 'contribution_status_id', 'receive_date', 'check_number' );
                 
@@ -990,7 +1000,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
         
-        if ( $params['send_receipt'] ) {
+        if ( CRM_Utils_Array::value( 'send_receipt', $params ) ) {
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             $this->assign( 'module', 'Event Registration' );          
             //use of CRM/Event/Form/Registration/ReceiptMessage.tpl requires variables in different format
@@ -1156,7 +1166,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             if ( $this->_single ) {
                 $statusMsg = ts('Event registration for %1 has been added.', array(1 => $this->_contributorDisplayName));
-                if ( $params['send_receipt'] && count($sent) ) {
+                if ( CRM_Utils_Array::value( 'send_receipt', $params ) && count($sent) ) {
                     $statusMsg .= ' ' .  ts('A confirmation email has been sent to %1.', array(1 => $this->_contributorEmail));
                 }
             } else {

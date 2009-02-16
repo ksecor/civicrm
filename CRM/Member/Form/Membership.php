@@ -44,7 +44,7 @@ require_once "CRM/Core/BAO/CustomGroup.php";
  */
 class CRM_Member_Form_Membership extends CRM_Member_Form
 {
-    protected $_memType =null;
+    protected $_memType = null;
 
     public function preProcess()  
     {  
@@ -79,7 +79,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->assign( 'membershipMode', $this->_mode );
             
             $this->_paymentProcessor = array( 'billing_mode' => 1 );
-            $validProcessors = array( );
+            $validProcessors         = array( );
             $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false, "billing_mode IN ( 1, 3 )" );
             
             foreach ( $processors as $ppID => $label ) {
@@ -157,8 +157,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         //setting default join date and receive date
         if ($this->_action == CRM_Core_Action::ADD) {
             $now = date("Y-m-d");
-            $defaults['join_date'] = $now;
-            $defaults['receive_date'] =$now;
+            $defaults['join_date']    = $now;
+            $defaults['receive_date'] = $now;
         }
         
         if ( is_numeric( $this->_memType ) ) {
@@ -651,7 +651,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
             $fields["address_name-{$this->_bltID}"] = 1;
             
-            $fields["email-{$this->_bltID}"] = 1;
+            $fields["email-{$this->_bltID}"]        = 1;
             
             $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactID, 'contact_type' );
             
@@ -685,14 +685,16 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             // all the payment processors expect the name and address to be in the 
             // so we copy stuff over to first_name etc. 
             $paymentParams = $this->_params;
-           
+            if ( CRM_Utils_Array::value( 'send_receipt', $this->_params ) ) {
+                $paymentParams['email'] = $this->_contributorEmail;
+            }
             
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
             
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
             
-            $result =& $payment->doDirectPayment( $paymentParams );
+            $result  =& $payment->doDirectPayment( $paymentParams );
                       
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
                 CRM_Core_Error::displaySessionError( $result );
@@ -761,8 +763,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
             $receiptSend = true;
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
-            $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
-            $formValues['paidBy'] = $paymentInstrument[$formValues['payment_instrument_id']];
+            if ( CRM_Utils_Array::value( 'payment_instrument_id', $formValues ) ) {
+                $paymentInstrument    = CRM_Contribute_PseudoConstant::paymentInstrument();
+                $formValues['paidBy'] = $paymentInstrument[$formValues['payment_instrument_id']];
+            }
 
             // retrieve custom data
             require_once "CRM/Core/BAO/UFGroup.php";
