@@ -653,7 +653,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         ts('The Membership you have selected requires a minimum contribution of %1',
                            array( 1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'] ) ) );
                 }
-            } else if( $memTypeDetails['minimum_fee'] ) {
+            } else if( CRM_Utils_Array::value( 'minimum_fee', $memTypeDetails ) ) {
                 // we dont have an amount, so lets get an amount for cc checks
                 $amount = $memTypeDetails['minimum_fee'];
             }
@@ -830,7 +830,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         if ( ! isset( $params['amount_other'] ) ) {
-            $this->set( 'amount_level', $params['amount_level'] ); 
+            $this->set( 'amount_level',  CRM_Utils_Array::value( 'amount_level', $params ) ); 
         }
 
         $this->set( 'amount', $params['amount'] ); 

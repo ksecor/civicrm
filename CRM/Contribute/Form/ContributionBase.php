@@ -165,6 +165,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
     protected $_userID;
 
+    /**
+     * the Membership ID for membership renewal
+     *
+     * @var int
+     * @public
+     */
+    public $_membershipId;
     /** 
      * Function to set variables up before form is built 
      *                                                           

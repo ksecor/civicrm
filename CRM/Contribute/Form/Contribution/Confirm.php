@@ -206,8 +206,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $amount_block_is_active = $this->get( 'amount_block_is_active');
         $this->assign('amount_block_is_active', $amount_block_is_active );
 
-        if ( isset( $params['selectProduct'] ) && $params['selectProduct'] != 'no_thanks') {
-            $option    = $params['options_'.$params['selectProduct']];
+        if ( CRM_Utils_Array::value( 'selectProduct', $params ) && $params['selectProduct'] != 'no_thanks') {
+            $option    = CRM_Utils_Array::value( 'options_'.$params['selectProduct'], $params );
             $productID = $params['selectProduct']; 
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id, false,
                                                            $productID, $option);
@@ -521,7 +521,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->assign('product_name',  $productDAO->name );
             $this->assign('price', $productDAO->price);
             $this->assign('sku', $productDAO->sku);
-            $this->assign('option',$premiumParams['options_'.$premiumParams['selectProduct']]);
+            $this->assign('option', CRM_Utils_Array::value( 'options_'.$premiumParams['selectProduct'], $premiumParams ));
             
             $periodType = $productDAO->period_type;
             
@@ -579,7 +579,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $params = array(
                             'product_id'         => $premiumParams['selectProduct'],
                             'contribution_id'    => $contribution->id,
-                            'product_option'     => $premiumParams['options_'.$premiumParams['selectProduct']],
+                            'product_option'     => CRM_Utils_Array::value( 'options_'.$premiumParams['selectProduct'], $premiumParams ),
                             'quantity'           => 1,
                             'start_date'         => CRM_Utils_Date::customFormat($startDate,'%Y%m%d'),
                             'end_date'           => CRM_Utils_Date::customFormat($endDate,'%Y%m%d'),

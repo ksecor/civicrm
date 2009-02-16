@@ -332,7 +332,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             }
            
             $params['minimum_fee'] = CRM_Utils_Rule::cleanMoney( $params['minimum_fee'] );
-            if ( $params['relationship_type_id'] ) {
+            if ( CRM_Utils_Array::value( 'relationship_type_id', $params ) ) {
                 $relationId = explode( '_', $params['relationship_type_id'] );
                 $params['relationship_type_id'  ] = $relationId[0];
                 $params['relationship_direction'] = $relationId[1].'_'.$relationId[2];
@@ -358,7 +358,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 }
             }
             $oldWeight = null;
-            $ids['memberOfContact'] = $params['contact_check'];
+            $ids['memberOfContact'] = CRM_Utils_Array::value( 'contact_check', $params );
             if ($this->_id) {
                 $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'weight', 'id' );
             }

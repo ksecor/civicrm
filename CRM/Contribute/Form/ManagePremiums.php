@@ -270,13 +270,13 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             CRM_Core_Session::setStatus( ts('Selected Premium Product type has been deleted.') );
         } else { 
             $params = $this->controller->exportValues( $this->_name );
-            $imageFile = $params['uploadFile'];
+            $imageFile = CRM_Utils_Array::value( 'uploadFile', $params );
             $imageFile = $imageFile['name'];
 
             $config = & CRM_Core_Config::singleton();
            
-            $ids = array( );
-
+            $ids   = array( );
+            $error = false; 
             // store the submitted values in an array
 
             // FIX ME 
