@@ -305,10 +305,18 @@ ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
             // now check for all fields if the index exists
             foreach ( $fields as $field ) {
                 $names = array("index_{$field}", "FK_{$table}_{$field}", "UI_{$field}", "{$createIndexPrefix}_{$field}");
-                if (count(array_intersect($currentIndexes, $names) == 0)) {
-                    $indexQuery = "CREATE INDEX {$createIndexPrefix}_{$field} ON $table ( $field )";
-                    $indexDAO   = CRM_Core_DAO::executeQuery( $indexQuery );
+
+                // skip to the next $field if one of the above $names exists; handle multilingual for CRM-4126
+                foreach ($names as $name) {
+                    $regex = '/^' . preg_quote($name) . '(_[a-z][a-z]_[A-Z][A-Z])?$/';
+                    if (preg_grep($regex, $currentIndexes)) {
+                        continue 2;
+                    }
                 }
+
+                // the index doesn't exist, so create it
+                $indexQuery = "CREATE INDEX {$createIndexPrefix}_{$field} ON $table ( $field )";
+                $indexDAO   = CRM_Core_DAO::executeQuery( $indexQuery );
             }
         }
     }
