@@ -7,15 +7,17 @@
         var contactId =  cj( '#contact_id' ).val();
         if ( ! contactId || isNaN( contactId ) ) {
             var sortValue = cj( '#sort_name' ).val();
-            //using xmlhttprequest check if there is only one contact and redirect to view page
-            var dataUrl = {/literal}"{crmURL p='civicrm/ajax/contact' h=0 q='name='}"{literal} + sortValue;
+            if ( sortValue ) { 
+                //using xmlhttprequest check if there is only one contact and redirect to view page
+                var dataUrl = {/literal}"{crmURL p='civicrm/ajax/contact' h=0 q='name='}"{literal} + sortValue;
 
-            var response = cj.ajax({
-                url: dataUrl,
-                async: false
-                }).responseText;
+                var response = cj.ajax({
+                    url: dataUrl,
+                    async: false
+                    }).responseText;
 
-            contactId = response;
+                contactId = response;
+            }
         }
 
         if ( contactId ) {
