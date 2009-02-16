@@ -42,7 +42,6 @@ require_once 'CRM/Core/DAO.php';
 /**
  * structure, similar to what is used in GenCode.php
  *
- *
  * $table = array( 'name'       => TABLE_NAME,
  *                'attributes' => ATTRIBUTES,
  *                'fields'     => array( 
@@ -58,8 +57,7 @@ require_once 'CRM/Core/DAO.php';
  *                                             'default'       => DEFAULT, )
  *                                      ...
  *                                      ) );
- *                '
- */                                       
+ */
 
 class CRM_Core_BAO_SchemaHandler
 {
