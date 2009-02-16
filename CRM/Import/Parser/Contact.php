@@ -195,9 +195,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
             $index++;
         }
-
+        
         $this->_updateWithId = false;
-        if ( in_array('id',$this->_mapperKeys) || ($this->_externalIdentifierIndex >= 0 && $this->_onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) ) {
+        if ( in_array('id', $this->_mapperKeys ) || 
+             ( $this->_externalIdentifierIndex >= 0 && 
+               in_array( $this->_onDuplicate, array( CRM_Import_Parser::DUPLICATE_UPDATE, CRM_Import_Parser::DUPLICATE_FILL ) ) ) ) {
             $this->_updateWithId = true;
         }
     }
@@ -399,34 +401,33 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //format common data, CRM-4062
         $this->formatCommonData( $params, $formatted, $contactFields );
                 
+        
         //check if external identifier exists in database
-        if ( isset( $params['external_identifier'] ) && ($onDuplicate != CRM_Import_Parser::DUPLICATE_UPDATE) ) {
+        if ( CRM_Utils_Array::value('external_identifier', $params ) && 
+             ( CRM_Utils_Array::value('id', $params ) ||
+               in_array( $onDuplicate, array( CRM_Import_Parser::DUPLICATE_SKIP, CRM_Import_Parser::DUPLICATE_NOCHECK ) ) ) ) {
+            
             require_once "CRM/Contact/BAO/Contact.php";
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                              $params['external_identifier'],
-                                              'id',
-                                              'external_identifier' ) ) {
-                $errorMessage = ts('External Identifier already exists in database.');
-                array_unshift($values, $errorMessage);
-                $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
-                $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                return CRM_Import_Parser::ERROR;
+            if ( $internalCid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                             $params['external_identifier'],
+                                                             'id',
+                                                             'external_identifier' ) ) {
+                if ( $internalCid != CRM_Utils_Array::value('id', $params) ) {
+                    
+                    $errorMessage = ts('External Identifier already exists in database.');
+                    array_unshift($values, $errorMessage);
+                    $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
+                    $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
+                    return CRM_Import_Parser::ERROR;
+                }
             }
         }
-
+        
         $relationship = false;
         // Support Match and Update Via Contact ID
-        if ( $this->_updateWithId && $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
-            if ( $params['id'] &&  $params['external_identifier'] ) {
-                $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                    $params['external_identifier'], 'id',
-                                                    'external_identifier' );
-                if ( $cid !=  $params['id'] ) {
-                    $message ="Mismatched External Id for".$params['id'] ;
-                    array_unshift($values, $message);
-                    $this->_retCode = CRM_Import_Parser::NO_MATCH;  
-                }
-            } else if ( $params['external_identifier'] ) {
+        if ( $this->_updateWithId ) {
+            if ( !CRM_Utils_Array::value('id', $params) && CRM_Utils_Array::value('external_identifier', $params) ) {
+                
                 $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                     $params['external_identifier'], 'id',
                                                     'external_identifier' );
@@ -436,7 +437,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $message ="No contact ID found for this External Identifier:".$params['external_identifier'] ;
                     array_unshift($values, $message);
                     $this->_retCode = CRM_Import_Parser::NO_MATCH; 
-                }  
+                }                
             } 
             $error = _civicrm_duplicate_formatted_contact($formatted);
             if ( civicrm_duplicate($error) ) { 
@@ -852,9 +853,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             }
 
                             $flag = false; 
-                            foreach($customOption as $customValue => $customLabel) {
-                                if (( strtolower(trim($customLabel)) == strtolower(trim($v1))) ||
-                                    ( strtolower(trim($customValue)) == strtolower(trim($v1)))) {
+                            foreach( $customOption as $v2 ) {
+                                if (( strtolower(trim($v2['label'])) == strtolower(trim($v1))) ||
+                                    ( strtolower(trim($v2['value'])) == strtolower(trim($v1)))) {
                                     $flag = true; 
                                 }
                             }
@@ -868,9 +869,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                  $customFields[$customFieldID]['data_type'] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         $flag = false;
-                        foreach($customOption as $customValue => $customLabel) {
-                            if (( strtolower(trim($customLabel)) == strtolower(trim($value)) ) ||
-                                ( strtolower(trim($customValue)) == strtolower(trim($value)) )) {
+                        foreach( $customOption as $v2 ) {
+                            if (( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) ||
+                                ( strtolower(trim($v2['value'])) == strtolower(trim($value)) )) {
                                 $flag = true; 
                             }
                         }
@@ -881,8 +882,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $mulValues = explode( ',' , $value );
                         foreach( $mulValues as $stateValue ) {
                             if ( $stateValue) {
-                                if( self::in_value($stateValue,CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
-                                    || self::in_value($stateValue, CRM_Core_PseudoConstant::stateProvince())) {
+                                if( self::in_value(trim($stateValue),CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
+                                    || self::in_value(trim($stateValue), CRM_Core_PseudoConstant::stateProvince())) {
                                     continue;
                                 } else {
                                     self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
@@ -906,7 +907,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                 
                                 $error = true;
                                 foreach ( array( $countryNames, $countryIsoCodes, $limitCodes ) as $values ) {
-                                    if ( in_array( $countryValue, $values ) ) {
+                                    if ( in_array( trim($countryValue), $values ) ) {
                                         $error = false;
                                         break;
                                     }

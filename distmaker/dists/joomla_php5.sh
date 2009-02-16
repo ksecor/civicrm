@@ -78,10 +78,6 @@ mkdir com_civicrm/admin
 mkdir com_civicrm/site
 mkdir com_civicrm/admin/civicrm
 
-# cp -r -p civicrm/* com_civicrm/admin/civicrm
-
-$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php $DM_SOURCEDIR com_civicrm $DM_VERSION
-
 # copying back end code to admin folder
 cp civicrm/joomla/admin/admin.civicrm.php        com_civicrm/admin
 cp civicrm/joomla/admin/configure.php            com_civicrm/admin
@@ -95,8 +91,24 @@ cp civicrm/joomla/site/civicrm.html.php      com_civicrm/site
 cp civicrm/joomla/site/civicrm.php           com_civicrm/site
 cp -r civicrm/joomla/site/views              com_civicrm/site
 
+# copy civicrm code
+cp -r -p civicrm/* com_civicrm/admin/civicrm
+
+# generate alt version of civicrm.xml
+$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php $DM_SOURCEDIR com_civicrm $DM_VERSION alt
+
+# generate alt version of package
+$DM_ZIP -q -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla-alt.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
+
+# delete the civicrm directory
+rm -rf com_civicrm/admin/civicrm
+
+# generate zip version of civicrm.xml
+$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php $DM_SOURCEDIR com_civicrm $DM_VERSION zip
+
 $DM_ZIP -q -r -9 com_civicrm/admin/civicrm.zip civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
 
+# generate zip within zip file
 $DM_ZIP -q -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql' -x 'com_civicrm/admin/civicrm'
 
 # clean up

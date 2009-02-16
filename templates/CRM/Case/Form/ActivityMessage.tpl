@@ -2,7 +2,7 @@
 ===========================================================
 {ts}Activity Summary{/ts} - {$activityTypeName}
 ===========================================================
-{ts}Your Case Role{/ts} : {$contact.role}
+{ts}Your Case Role(s){/ts} : {$contact.role}
 
 {foreach from=$activity.fields item=field}
 {if $field.type eq 'Date'}

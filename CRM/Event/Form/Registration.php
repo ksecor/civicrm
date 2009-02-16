@@ -652,19 +652,19 @@ WHERE  v.option_group_id = g.id
                                    'fee_level'     => $params['amount_level'],
                                    'is_pay_later'  => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                    'fee_amount'    => CRM_Utils_Array::value( 'fee_amount', $params ),
-                                   'registered_by_id' => $params['registered_by_id'],
-                                   'discount_id'    => $params['discount_id']
+                                   'registered_by_id' => CRM_Utils_Array::value( 'registered_by_id', $params ),
+                                   'discount_id'    => CRM_Utils_Array::value( 'discount_id', $params )
                                    );
        
-        if ( $this->_action & CRM_Core_Action::PREVIEW || $params['mode'] == 'test' ) {
+        if ( $this->_action & CRM_Core_Action::PREVIEW || CRM_Utils_Array::value( 'mode', $params ) == 'test' ) {
             $participantParams['is_test'] = 1;
         } else {
             $participantParams['is_test'] = 0;
         }
 
-        if ( $this->_params['note'] ) {
+        if ( CRM_Utils_Array::value( 'note', $this->_params ) ) {
             $participantParams['note'] = $this->_params['note'];
-        } else if ( $this->_params['participant_note'] ) {
+        } else if ( CRM_Utils_Array::value( 'participant_note', $this->_params ) ) {
             $participantParams['note'] = $this->_params['participant_note'];
         }
         

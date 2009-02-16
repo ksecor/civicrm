@@ -1028,12 +1028,6 @@ commented since it is overwiting simple td
    width: 58em;
 }
 
-/*#crm-container table.dojoEditor {
-  margin: 0em;
-  border-collapse: collapse;
-  border: 0px none;
-}*/
-
 #crm-container.clear { /* generic container (i.e. div) for floating buttons */
     overflow: hidden;
     width: 100%;
@@ -1150,29 +1144,29 @@ commented since it is overwiting simple td
   margin : 0pt;
 }
 
-  #crm-container table.nestedSelector
-  {
+#crm-container table.nestedSelector
+{
     margin: 0px;
     width: 100%;
     border: 2px solid #5A8FDB;
-  }
+}
 
-  #crm-container table.nestedSelector tr.columnheader
-  {
+#crm-container table.nestedSelector tr.columnheader
+{
     background-color: #4D94E3;
-  }
+}
 
-  #crm-container table.nestedSelector tr.columnheader th
-  {
+#crm-container table.nestedSelector tr.columnheader th
+{
     border: 0px;
-  }
+}
   
-  /* fix combobox display in Opera*/
-  .tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
+/* fix combobox display in Opera*/
+.tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
       height: 17px;
-  }
-  
-  #crm-container span.success-status {
+}
+
+#crm-container span.success-status {
     margin-left: 6px;
     background-color: #ffff99;
     padding: .25em .5em .25em .5em;

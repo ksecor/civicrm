@@ -880,13 +880,14 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
     /**
      * Function to get Case Related Contacts
      *
-     * @param int    $caseID case id
+     * @param int     $caseID case id
+     * @param boolean $skipDetails if true include details of contacts  
      *
      * @return returns $searchRows array of returnproperties
      *
      * @static
      */
-    static function getRelatedContacts( $caseID )
+    static function getRelatedContacts( $caseID, $skipDetails = false )
     {
         $values = array( );
         $query = 'SELECT cc.display_name as name, cc.sort_name as sort_name, cc.id, crt.name_b_a as role, ce.email 
@@ -900,11 +901,17 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
 
         while ( $dao->fetch( ) ) {
-            $values[$dao->id]['contact_id']   = $dao->id;
-            $values[$dao->id]['display_name'] = $dao->name;
-            $values[$dao->id]['sort_name']    = $dao->sort_name;
-            $values[$dao->id]['role']         = $dao->role;
-            $values[$dao->id]['email']        = $dao->email;
+            if ( $skipDetails ) {
+                $values[$dao->id] = 1;
+                
+            } else {
+                $values[] = array( 'contact_id'   => $dao->id,
+                                   'display_name' => $dao->name,
+                                   'sort_name'    => $dao->sort_name,
+                                   'role'         => $dao->role,
+                                   'email'        => $dao->email
+                                   );
+            }
         }
         $dao->free( );
 
@@ -965,7 +972,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $template->assign( 'returnContent', 'subject' );
         $subject = $template->fetch( $emailTemplate );
         
-        foreach ( $contacts as  $cid => $info ) {
+        foreach ( $contacts as  $mail => $info ) {
             $template->assign( 'contact', $info );
             $template->assign( 'returnContent', 'textMessage' );
             $message = $template->fetch( $emailTemplate );
@@ -975,15 +982,14 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             }
             
             $displayName = $info['sort_name'];
-            $email       = $info['email'];
-            
+                       
             $activityParams['subject']            = $activitySubject.' - copy sent to '.$displayName;
             $activityParams['details']            = $message;
-            $activityParams['target_contact_id']  = $cid;
-
+            $activityParams['target_contact_id']  = $info['contact_id'];
+            
             $result[] = CRM_Utils_Mail::send( $receiptFrom,
                                               $displayName,
-                                              $email,
+                                              $mail,
                                               $subject,
                                               $message,
                                               null,
@@ -1076,7 +1082,7 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
 
 // TODO: May want to replace this with a call to getRelatedAndGlobalContacts() when this feature is revisited.
 // (Or for efficiency call the global one outside the loop and then union with this each time.)            
-            $contactDetails = self::getRelatedContacts( $caseId );
+            $contactDetails = self::getRelatedContacts( $caseId, true );
 
             if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
                 $params = array( );
@@ -1263,8 +1269,8 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
              unset($v['phone']);
              $v['role'] = $groupInfo['title'];
         }
-        // if they are both a role and a global contact, use only role
-        $relatedGlobalContacts = CRM_Utils_Array::crmArrayMerge( $globalContacts, $relatedContacts );
+        //include multiple listings for the same contact/different roles.
+        $relatedGlobalContacts = array_merge( $relatedContacts, $globalContacts );
         return $relatedGlobalContacts;
 	}   
 }

@@ -803,7 +803,7 @@ msgstr "Entrez l'ID du compte marchand LIVE"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "How do I Find my Merchant-ID?"
-msgstr "Comment je trouve mon ID Marchand ?"
+msgstr "Comment je trouve mon ID Marchand?"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -826,7 +826,7 @@ msgstr "Entrez la clef Marchand du compte LIVE"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "How do I Find my Merchant Key?"
-msgstr "Comment je trouve ma clé Marchand ?"
+msgstr "Comment je trouve ma clé Marchand?"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST/Sandbox Account Merchant ID:"

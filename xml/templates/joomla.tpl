@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install method="upgrade" type="component" version="{$CiviCRMVersion}">
+<install method="upgrade" type="component" version="1.5">
   <name>CiviCRM</name>
-  <creationDate>01/20/2009</creationDate>
+  <creationDate>02/12/2009</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>
@@ -43,7 +43,11 @@
       <filename>install.civicrm.php</filename>
       <filename>uninstall.civicrm.php</filename>
       <filename>configure.php</filename>
+{if $pkgType eq 'alt'}
+      <folder>civicrm</folder>
+{else}
       <filename>civicrm.zip</filename>
+{/if}
     </files>
   </administration>
 </install>

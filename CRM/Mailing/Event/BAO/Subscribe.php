@@ -336,7 +336,7 @@ SELECT     civicrm_email.id as email_id
         }
         
         if ( $success ) {
-            CRM_Utils_System::setUFMessage( ts( "Your subscription request has been submitted. Check your inbox shortly for the confirmation email(s)." ) );
+            CRM_Utils_System::setUFMessage( ts( "Your subscription request has been submitted. Check your inbox shortly for the confirmation email(s). If you don't see confirmation email, please check your spam/junk mail folder." ) );
         } else {
             CRM_Utils_System::setUFMessage( ts( "We had a problem processing your subscription request. Please contact the site administrator" ) );
         }

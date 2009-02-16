@@ -110,7 +110,11 @@ class CRM_Profile_Page_View extends CRM_Core_Page
         $this->assign('profileGroups', $profileGroups);
         $this->assign('recentlyViewed', false);
 
-        $title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'title' );
+        $sortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+        $title    = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'title' );
+        if ( $sortName ) {
+            $title .= ' - ' . $sortName;
+        }
         CRM_Utils_System::setTitle( $title );
     }
 

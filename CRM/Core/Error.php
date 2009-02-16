@@ -133,8 +133,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     public static function handle( $pearError )
     {
-        self::backtrace( );
-
         // do a hard rollback of any pending transactions
         // if we've come here, its because of some unexpected PEAR errors
         require_once 'CRM/Core/Transaction.php';

@@ -117,6 +117,13 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     protected $_parent = null;
 
     /**
+     * The destination if set will override the destination the code wants to send it to
+     *
+     * @var string;
+     */
+    public $_destination = null;
+
+    /**
      * All CRM single or multi page pages should inherit from this class. 
      *
      * @param string  title        descriptive title of the controller
@@ -171,6 +178,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         // do this at the end so we have initialized the object
         // and created the scope etc
         $this->set( 'qfKey', $this->_key );
+
+        // also retrieve and store returnURL in session
+        $this->_destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this );
     }
 
     function key( $name, $addSequence = false, $ignoreKey = false ) {

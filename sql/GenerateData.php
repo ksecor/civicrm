@@ -317,7 +317,8 @@ class CRM_GCD {
     {
         if (self::ADD_TO_DB) {
             if (!$dao->insert()) {
-                echo mysql_error() . "\n";
+                echo "ERROR INSERT: " . mysql_error() . "\n";
+                print_r( $dao );
                 exit(1);
             }
         }
@@ -328,7 +329,8 @@ class CRM_GCD {
     {
         if (self::ADD_TO_DB) {
             if (!$dao->update()) {
-                echo mysql_error() . "\n";
+                echo "ERROR UPDATE: " . mysql_error() . "\n";
+                print_r( $dao );
                 exit(1);
             }
         }

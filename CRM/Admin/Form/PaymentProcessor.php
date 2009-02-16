@@ -313,7 +313,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         
         foreach ( $this->_fields as $field ) {
             $fieldName = $test ? "test_{$field['name']}" : $field['name'];
-            $dao->{$field['name']} = trim( $values[$fieldName] );
+            $dao->{$field['name']} = trim( CRM_Utils_Array::value( $fieldName, $values ) );
             if ( empty( $dao->{$field['name']} ) ) {
                 $dao->{$field['name']} = 'null';
             }

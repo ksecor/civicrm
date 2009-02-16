@@ -676,7 +676,8 @@ abstract class CRM_Event_Import_Parser
         foreach ($header as $key => $value) {
             $header[$key] = "\"$value\"";
         }
-        $output[] = implode(',', $header);
+        $config =& CRM_Core_Config::singleton( );
+        $output[] = implode($config->fieldSeparator, $header);
         
         foreach ($data as $datum) {
             foreach ($datum as $key => $value) {
@@ -691,7 +692,7 @@ abstract class CRM_Event_Import_Parser
                     $datum[$key] = "\"$value\"";
                 }
             }
-            $output[] = implode(',', $datum);
+            $output[] = implode($config->fieldSeparator, $datum);
         }
         fwrite($fd, implode("\n", $output));
         fclose($fd);
