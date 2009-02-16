@@ -75,6 +75,7 @@
 {if $formValues.product_sku}
 {ts}SKU{/ts}   : {$formValues.product_sku}
 {/if}
+{if $fulfilled_date}
 {ts}Sent{/ts}  : {$fulfilled_date|crmDate}
-
+{/if}
 {/if}
