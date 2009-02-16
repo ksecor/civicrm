@@ -12,6 +12,9 @@
 			{foreach from=$cd_edit.fields item=element key=field_id}
 			{assign var="element_name" value=$element.element_name}
 			{if $element.is_view eq 0}{* fix for CRM-3510 *}
+                        {if $element.help_pre}
+                            <dt></dt><dd class="html-adjust description">{$element.help_pre}</dd>
+			{/if}
 			{if $element.options_per_line != 0 }
 
 			<dt>{$form.$element_name.label}</dt>

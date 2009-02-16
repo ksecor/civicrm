@@ -412,7 +412,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         // default value, help pre, help post, mask, attributes, javascript ?
         $this->add('text', 'default_value', ts('Default Value'),
                     $attributes['default_value']);
-        $this->add('textarea', 'help_post', ts('Field Help'), 
+	$this->add('textarea', 'help_pre', ts('Field Pre Help'), 
+                   $attributes['help_pre']);
+        $this->add('textarea', 'help_post', ts('Field Post Help'), 
                    $attributes['help_post']);        
         $this->add('text', 'mask', ts('Mask'),
                    $attributes['mask']);        

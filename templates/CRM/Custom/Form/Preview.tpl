@@ -19,6 +19,9 @@
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
       {if $element.is_view eq 0}{* fix for CRM-2699 *}
+        {if $element.help_pre}
+            <dt>&nbsp;</dt><dd class="description">{$element.help_pre}</dd>
+        {/if}
 	{if $element.options_per_line }
         {*assign var="element_name" value=$element.custom_group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
         {assign var="element_name" value=custom_$field_id}
