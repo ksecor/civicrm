@@ -76,7 +76,7 @@
      <path>civicrm/auction/add</path>
      <path_arguments>action=add</path_arguments>
      <title>New Auction</title>
-     <page_callback>CRM_Auction_Page_ManageAuction</page_callback>
+     <page_callback>CRM_Auction_Form_Auction</page_callback>
      <access_arguments>access CiviAuction</access_arguments>
      <page_type>1</page_type>
      <weight>1030</weight>
