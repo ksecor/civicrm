@@ -292,7 +292,21 @@ ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
         $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
 
-    static function createIndexes( &$tables, $createIndexPrefix = 'index' ) {
+    static function createIndexes(&$tables, $createIndexPrefix = 'index')
+    {
+        $queries = array();
+
+        $domain = new CRM_Core_DAO_Domain;
+        $domain->find(true);
+        $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+
+        // if we're multilingual, cache the information on internationalised fields
+        static $columns = null;
+        if ($locales and $columns === null) {
+            require_once 'CRM/Core/I18n/SchemaStructure.php';
+            $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        }
+
         foreach ( $tables as $table => $fields ) {
             $query = "SHOW INDEX FROM $table";
             $dao = CRM_Core_DAO::executeQuery( $query );
@@ -315,9 +329,21 @@ ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
                 }
 
                 // the index doesn't exist, so create it
-                $indexQuery = "CREATE INDEX {$createIndexPrefix}_{$field} ON $table ( $field )";
-                $indexDAO   = CRM_Core_DAO::executeQuery( $indexQuery );
+                // if we're multilingual and the field is internationalised, do it for every locale
+                if ($locales and isset($columns[$table][$field])) {
+                    foreach ($locales as $locale) {
+                        $queries[] = "CREATE INDEX {$createIndexPrefix}_{$field}_{$locale} ON {$table} ({$field}_{$locale})";
+                    }
+                } else {
+                    $queries[] = "CREATE INDEX {$createIndexPrefix}_{$field} ON {$table} ({$field})";
+                }
             }
+        }
+
+        // run the queries without i18n-rewriting
+        $dao = new CRM_Core_DAO;
+        foreach ($queries as $query) {
+            $dao->query($query, false);
         }
     }
 
