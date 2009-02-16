@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-01-29 23:57-0800\n"
-"Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
+"PO-Revision-Date: 2009-02-09 16:16-0800\n"
+"Last-Translator: harald meusburger <harald.meusburger@ob8.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1192,6 +1192,7 @@ msgstr "Adresse Namen Teil"
 msgid "Street Address"
 msgstr "Straße"
 
+# wörtlich übersetzt sollte es Stadt heißen, aber ich glaube Ort trifft es besser.
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Contact/Selector.php
@@ -1204,7 +1205,7 @@ msgstr "Straße"
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: xml/templates/civicrm_data.tpl
 msgid "City"
-msgstr "Stadt"
+msgstr "Ort"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/Form.php xml/templates/civicrm_data.tpl
@@ -1276,7 +1277,7 @@ msgstr "Datenschutz"
 #: CRM/Contact/Form/Email.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
-msgstr "Die E-Mailadresse ist nicht gültig."
+msgstr "Die E-Mail-Adresse ist ungültig."
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 msgid "On Hold"
@@ -1461,7 +1462,7 @@ msgstr "Adresse"
 #: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
-msgstr "postalisch"
+msgstr "Postleitzahl"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
@@ -1557,7 +1558,7 @@ msgstr "Telefon (bevorzugt)"
 
 #: CRM/Contact/Form/Task/EmailCommon.php CRM/Contact/Page/View/Email.php
 msgid "Your user record does not have a valid email address"
-msgstr "Ihr Benutzer hat keine gültige Emailadresse."
+msgstr "Ihr Benutzer hat keine gültige E-Mail-Adresse."
 
 #: CRM/Contact/Form/Task/Label.php CRM/Core/BAO/Mapping.php
 #: CRM/Core/Page/AJAX/Mapper.php
@@ -2278,7 +2279,7 @@ msgstr "Ziel Kontakt %1 existiert nicht!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "You cannot record scheduled email activity."
-msgstr "Geplante Email Aktivität kann nicht gespeichert werden"
+msgstr "Geplante E-Mail Aktivität kann nicht gespeichert werden"
 
 #: CRM/Activity/Form/Activity.php
 msgid "You cannot record scheduled SMS activity."
@@ -2598,7 +2599,7 @@ msgstr "Orte-Anzahl muss eine positive Ganzzahl sein (zB 1, 2, 3, ....)"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
-msgstr "Email Label Format"
+msgstr "E-Mail Label Format"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Display Format"
@@ -2831,7 +2832,7 @@ msgstr "VERP Trennzeichen"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
-msgstr "Mengenbegrenzung für Massen Email Versand"
+msgstr "Mengenbegrenzung für Massen E-Mail Versand"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Limit"
@@ -2867,7 +2868,7 @@ msgstr "Automatisch auf Global eingestellt"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Include Email"
-msgstr "Email einfügen"
+msgstr "E-Mail einfügen"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Include Nickname"
@@ -2927,7 +2928,7 @@ msgstr "Sendmail"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Disable Outbound Email"
-msgstr "Abgehende Email deaktivieren"
+msgstr "Abgehende E-Mail deaktivieren"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Select Mailer"
@@ -2935,7 +2936,7 @@ msgstr "Mailprogramm wählen"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Settings - Outbound Mail"
-msgstr "Einstellungen - Abgehende Email"
+msgstr "Einstellungen - Abgehende E-Mail"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Sendmail Path"
@@ -2973,7 +2974,7 @@ msgstr "Ein Test E-Mail speichern und versenden"
 msgid ""
 "You have selected \"Disable Outbound Email\". A test email can not be sent."
 msgstr ""
-"Sie haben \"Ausgehende Email deaktivieren\" gewählt. Ein Test Email kann "
+"Sie haben \"Ausgehende E-Mail deaktivieren\" gewählt. Ein Test E-Mail kann "
 "nicht gesandt werden."
 
 #: CRM/Admin/Form/Setting/Smtp.php
@@ -2981,15 +2982,15 @@ msgid ""
 "Cannot send a test email because your user record does not have a valid "
 "email address."
 msgstr ""
-"Test Email kann nicht gesandt werden weil Benutzer Daten keine gültige "
-"Emailadresse enthalten."
+"Test E-Mail kann nicht gesandt werden weil Benutzer Daten keine gültige E"
+"-Mail-Adresse enthalten."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid ""
 "Your %1 settings are correct. A test email has been sent to your email "
 "address."
 msgstr ""
-"Ihre %1 Einstellungen sind korrekt. Ein Test Email wurde an die Email "
+"Ihre %1 Einstellungen sind korrekt. Ein Test E-Mail wurde an die E-Mail-"
 "Adresse gesandt"
 
 #: CRM/Admin/Form/Setting/Smtp.php
@@ -3550,7 +3551,7 @@ msgstr "Nicht an andere verkaufen"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr "Keine Massen Email (Opted-out)"
+msgstr "Keine Massen E-Mail (Opted-out)"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
@@ -3578,7 +3579,7 @@ msgstr "Bild URL"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Preferred Mail Format"
-msgstr "Bevorzugtes Email Format"
+msgstr "Bevorzugtes E-Mail Format"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Hash"
@@ -3719,14 +3720,14 @@ msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
 "'info@example.org')."
 msgstr ""
-"Die Email Adresse der Domäne muss ein korrektes Format haben. (z.B. "
+"Die E-Mail-Adresse der Domäne muss ein korrektes Format haben. (z.B. "
 "'info@beispiel.de')"
 
 #: CRM/Contact/Form/Domain.php
 msgid ""
 "Email domain must use a valid internet domain format (e.g. 'example.org')."
 msgstr ""
-"Der Email Domain Teil muss ein korrektes Format haben. (z.B. 'beispiel.de')"
+"Der E-Mail Domain Teil muss ein korrektes Format haben. (z.B. 'beispiel.de')"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Return-Path"
@@ -3758,7 +3759,7 @@ msgstr "Speichern mit Duplikat Haushalt Adresse"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Email Format"
-msgstr "Email Format"
+msgstr "E-Mail Format"
 
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
@@ -3787,7 +3788,7 @@ msgstr "Ein Standort muss als Haupt Standort markiert werden."
 
 #: CRM/Contact/Form/Email.php
 msgid "Email (preferred)"
-msgstr "Email (Vorgabe)"
+msgstr "E-Mail (Vorgabe)"
 
 #: CRM/Contact/Form/Email.php
 msgid "another email"
@@ -3883,7 +3884,7 @@ msgstr "Bitte wählen Sie einen Haushalt aus der Liste der Haushalte"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Shared Household-ID not found."
-msgstr "geteilte HaushaltsID nicht gefunden"
+msgstr "Haushalts-ID nicht gefunden"
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
@@ -4168,7 +4169,7 @@ msgstr "Geburtsdatum - von"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Deceased Dates - From"
-msgstr "Todesdatum - von"
+msgstr "Todestag - vom"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Note Text"
@@ -4348,7 +4349,7 @@ msgstr "- beliebige Länder -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
-msgstr "Umkreis für Umgebungs Suche (in km)"
+msgstr "Umkreis für Nahkreis Suche (in km)"
 
 #: CRM/Contact/Form/Search.php
 msgid "- more actions -"
@@ -5875,9 +5876,10 @@ msgstr "Zusätzliche Adresse 1"
 msgid "Additional Address 2"
 msgstr "Zusätzliche  Adresse 2"
 
+# wörtlich Stadt, Ort trifft es aber besser.
 #: CRM/Core/Form.php
 msgid "Please enter the City for %1."
-msgstr "Gben sie eine Stadt für %1 ein."
+msgstr "Geben sie einen Ort für %1 ein."
 
 #: CRM/Core/Form.php
 msgid "Please enter the Zip/Postal Code for %1."
@@ -6959,7 +6961,7 @@ msgstr "Konnte Kontakt ID nicht finden"
 
 #: CRM/Friend/Form.php
 msgid "Your Email"
-msgstr "Ihr Email"
+msgstr "Ihre E-Mail"
 
 #: CRM/Friend/Form.php
 msgid "Your Message"
@@ -9583,6 +9585,9 @@ msgid ""
 "Defaults are provided for standard United States formats. Settings use "
 "standard POSIX specifiers."
 msgstr ""
+"Verwenden Sie diese Seite um die Formatierung für Datumeingabe- sowie "
+"Datumausgabefelder zu konfigurieren. Im Auslieferungszustand sind Standard "
+"US Formate definiert."
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid "Date Display"
@@ -9597,6 +9602,8 @@ msgid ""
 "Manage available date ranges and input formats for different types of date "
 "fields."
 msgstr ""
+"Einstellungen für die zulässigen Zeitbereiche für verschiedene Datum und "
+"Uhrzeit Eingabefelder."
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid "Advanced Date Input Settings"
@@ -9604,7 +9611,7 @@ msgstr "Erweiterte Datum Eingaben Einstellungen"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid "Debugging and Error Handling"
-msgstr ""
+msgstr "Debugging und Fehlerbehandlung"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid ""
@@ -9612,6 +9619,9 @@ msgid ""
 "debugging tools. <strong>This feature should NOT be enabled for production "
 "sites</strong>"
 msgstr ""
+"Setzen Sie diese Einstellung auf <strong>Ja</strong>, wenn sie eines der "
+"CiviCRM Debuggingtools verwenden wollen. <strong>Diese Option sollten NICHT "
+"im Produktiveinsatz aktiviert werden</strong>"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid ""
@@ -11063,9 +11073,9 @@ msgid ""
 "Check this option if you want to use a shared household address for this "
 "individual. You can either select an existing household, or create a new one."
 msgstr ""
-"Kreuzen Sie diese Option an, wenn Sie für diese Person eine gemeinsame  "
-"Haushaltsadresse verwenden wollen. Wählen Sie eine bestehende Adresse  oder "
-"legen Sie eine neue an."
+"Kreuzen Sie diese Option an, wenn Sie für diese Person eine gemeinsame "
+"Haushaltsadresse verwenden wollen. Wählen Sie eine bestehende Adresse oder "
+"legen Sie eine Neue an."
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid ""
@@ -11076,7 +11086,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Shared Household Address"
-msgstr "Adresse gemeinsamer Haushalt"
+msgstr "gemeinsame Haushaltsadresse"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "New Contact Record"
@@ -12020,6 +12030,8 @@ msgstr "Party"
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
+"Für diesen Kontakt sind keine Daten Vorhanden. Bitte überprüfen Sie "
+"Ort/Bundesland/PLZ"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
 msgid "Edit Tags"
@@ -12180,20 +12192,18 @@ msgstr ""
 "ein - niedrigere Nummern werden über den hohen Nummern angezeigt."
 
 #: templates/CRM/Custom/Form/Field.tpl
-#, fuzzy
 msgid ""
 "If you want to provide a default value for this field, enter it here. For "
 "date fields, format is YYYY-MM-DD."
-msgstr "Hier können Sie einen Standardwert für das Feld angeben."
+msgstr ""
+"Sie  können hier eine Vorgabe für das Feld angeben. Für Datum Felder ist das "
+"Format YYYY-MM-DD"
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/Price/Form/Field.tpl
 msgid "Explanatory text displayed to users for this field."
-msgstr ""
-"Hier können Sie einen erklärenden Text für das Feld angeben. Dieser wird "
-"Benutzern angezeigt."
+msgstr "Dem User angezeigter erklärender Text für dieses Feld."
 
 #: templates/CRM/Custom/Form/Field.tpl
-#, fuzzy
 msgid ""
 "Can you search on this field in the Advanced and component search forms? "
 "NOTE: This feature is available to custom fields used for <strong>Contacts</"
@@ -12201,11 +12211,11 @@ msgid ""
 "<strong>Pledges</strong>, and <strong>Event Participants</strong> at this "
 "time."
 msgstr ""
-"Ist dieses Feld in den Formularen der Erweiterten und Komponenten Suche "
-"enthalten? NOTIZ: Diese Eigenschaft ist zur Zeit nur für benutzerdefinierte "
-"Felder für <strong>Kontakte</strong>, <strong>Zuwendungen</strong>, "
-"<strong>Mitgliedschaften</strong> und <strong>Veranstaltungsteilnahmen</"
-"strong> verfügbar."
+"Kann auf dieses Feld in den Erweiterten und Komponenten Such Formularen "
+"gesucht werden?Notiz: Diese Möglichkeit ist für benutzerdefinierte Felder "
+"für <strong>Kontakte</strong>, <strong>Spenden</strong>, "
+"<strong>Mitgliedschaft</strong>,<strong>Unterstützung</strong> und "
+"<strong>Veranstaltungs Teilnehmer</strong> verfügbar."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -12214,16 +12224,14 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/Price/Form/Field.tpl
-#, fuzzy
 msgid "View / Edit Multiple Choice Options"
-msgstr "Multiple Choice Optionen bearbeiten"
+msgstr "Ansehen/Editieren Options Mehrfachwahl"
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Custom Data Group"
-msgstr "Eigene Datengruppe"
+msgstr "Individuelle Daten Gruppe"
 
 #: templates/CRM/Custom/Form/Group.tpl
-#, fuzzy
 msgid ""
 "Use this form to setup the title, group-level help, and display "
 "characteristics of each group of Custom Data fields. The 'Display Style' you "
@@ -12231,11 +12239,11 @@ msgid ""
 "screens as the standard contact field ('Inline' style), or has it's own menu "
 "tab ('Tab' style)."
 msgstr ""
-"Benutzen Sie dieses Formular um den Titel, eine Hilfe für die Datengruppe "
-"und Darstellungseigenschaften für die Gruppe einzustellen. Der \"Display "
-"Style\" den Sie auswählen bestimmt ob die Gruppe zusammen mit Ihren anderen "
-"Gruppen angezeigt wird (Inline), oder ein eigenen Reiter erstellt wird "
-"(Reiter)."
+"Benutze  dieses Formular um Titel, Gruppen Hilfe und Anzeigen "
+"Charakteristiken für jede Gruppe von individuellen Datenfeldern festzulegen. "
+"Der \"Display Style\" den Sie auswählen bestimmt ob die Gruppe auf derselben "
+"Seite wir die standard Kontakt Feldern angezeigt und editiert werden "
+"(Inline), oder einen eigenen Menu Eintrag haben (Menu Stil)."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -12272,32 +12280,28 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-#, fuzzy
 msgid ""
 "Check this box if you want only the title for this fieldset to be displayed "
 "when the page is initially loaded (fields are hidden)."
 msgstr ""
-"Wählen Sie diese Box aus, wenn Sie die Felder beim Aufruf der "
-"Bearbeitungsseite verstecken möchten."
+"Markiere dieses Feld wenn nur der Titel für diesen Fieldset bei der ersten "
+"Anzeige der Seite angezeigt werden soll (Felder sind versteckt)."
 
 #: templates/CRM/Custom/Form/Group.tpl templates/CRM/Price/Form/Set.tpl
-#, fuzzy
 msgid "Explanatory text displayed at the beginning of this group of fields."
-msgstr "Der Erklärungstext wird am Anfang der Gruppe angezeigt."
+msgstr "Erklärender Text, der am Anfang dieser Felder Gruppe angezeigt wird."
 
 #: templates/CRM/Custom/Form/Group.tpl templates/CRM/Price/Form/Set.tpl
-#, fuzzy
 msgid "Explanatory text displayed below this group of fields."
-msgstr "Der Erklärungstext wird am Anfang der Gruppe angezeigt."
+msgstr "Erklärender Text der unterhalb der Gruppe von Feldern angezeigt wird."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Custom Fields for this Group"
-msgstr "Eigene Felder für diese Gruppe"
+msgstr "Individuelle Felder für diese Gruppe"
 
 #: templates/CRM/Custom/Form/MoveField.tpl
-#, fuzzy
 msgid "Custom Field Move"
-msgstr "Eigenes Feld"
+msgstr "Individuelle Felder verschieben"
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid ""
@@ -12307,7 +12311,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
-#, fuzzy
 msgid ""
 "Enter up to ten (10) multiple choice options in this table (click 'another "
 "choice' for each additional choice). If you need more than ten options, you "
@@ -12318,28 +12321,29 @@ msgid ""
 "label and value may be the same or different. Inactive options are hidden "
 "when the field is presented."
 msgstr ""
-"Geben Sie bis zu zehn (10) Multiple Choise Optionen in diese Tabelle ein "
-"(klicken Sie auf 'eine weitere Option' für jede neue "
-"Auswahlmöglichkeit).Wenn Sie wünschen, können Sie eine der Optionen als "
-"Standardantwort auswählen. Die Option 'Label' wir im Formular dargestellt, "
-"wohingegen die Option 'Wert' im Kontaktdatensatz gespeichert wird. Das Label "
-"und der Wert können gleich oder unterschiedlich sein. Inaktive Optionen "
-"werden bei der Darstellung nicht angezeigt."
+"Bis zuzehn (10) Mehrfach Wahl Optionen in diese Tabelle eingeben  (Klicken "
+"auf  'weitere Option' für jede neue Auswahlmöglichkeit). Wenn mehr Optionen "
+"notwendig sind, kann  eine unbegrenzte Anzahl von zusätzlichen Auswahlen mit "
+"dem Mehrfach Auswahl Edititieren Link erstellt werden (sichtbar nach dem "
+"Sichern dieser Option). Falls erwünscht, kann eine der Optionen als Vorgabe "
+"definiert werden. Die Option 'Label' ist im Formular gespeichert während der "
+"Options 'Wert' im Kontakt Datensatz gespeichert wird. Label und Wert können "
+"gleich oder unterschiedlich sein. Inaktive Optionen werden bei der Anzeige "
+"nicht gezeigt."
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "another choice"
-msgstr "eine weitere Option"
+msgstr "eine weitere Auswahl"
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
-#, fuzzy
 msgid ""
 "If you need additional options - you can add them after you Save your "
 "current entries."
 msgstr ""
-"\"Wenn Sie weitere Optionen benötigen - Sie können Sie nach dem Speichern "
-"hinzufügen.\""
+"Werden weitere Optionen benötigt, können diese nach dem Speichern "
+"hinzugefügt werden."
 
 #: templates/CRM/Custom/Form/Option.tpl templates/CRM/Price/Form/Option.tpl
 msgid "Selection Options"
@@ -12352,23 +12356,19 @@ msgstr ""
 
 #: templates/CRM/Custom/Form/Option.tpl
 msgid "Make this option value 'selected' by default?"
-msgstr ""
+msgstr "Setze diesen Optionswert standard ausgewählt"
 
 #: templates/CRM/Custom/Form/Preview.tpl
-#, fuzzy
 msgid ""
 "Preview of the custom data group (fieldset) as it will be displayed within "
 "an edit form."
 msgstr ""
-"Eine Vorschau der eigenen Datengruppe wie sie beim bearbeiten eines Kontakts "
-"aussehen wird."
+"Vorschau der individuellen Datengruppe (fieldset) wie diese innerhalb des "
+"Editier Formulars angezeigt werden."
 
 #: templates/CRM/Custom/Form/Preview.tpl templates/CRM/Price/Form/Preview.tpl
-#, fuzzy
 msgid "Preview of this field as it will be displayed in an edit form."
-msgstr ""
-"Eine Vorschau des eigenen Feldes wie sie beim bearbeiten eines Kontakts "
-"aussehen wird."
+msgstr "Vorschau dieses Feldes wie es in einem Editier Formular angezeigt wird."
 
 #: templates/CRM/Custom/Form/Search.tpl
 msgid "unselect"
@@ -12404,12 +12404,11 @@ msgid "New Custom Field"
 msgstr "Neues eigenes Feld"
 
 #: templates/CRM/Custom/Page/Field.tpl
-#, fuzzy
 msgid ""
 "There are no custom fields for custom group '%1', <a href='%2'>add one</a>."
 msgstr ""
-"Es gibt keine eigenen Felder für die eigene Datengruppe \"%1\", <a href=\"%2"
-"\">fügen Sie eins hinzu</a>."
+"Es gibt keine individuellen Felder für die individuelle Datengruppe \"%1\", <a "
+"href=\"%2\">eines hinzufügen</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
 #, fuzzy
@@ -13973,7 +13972,7 @@ msgstr "Teilnehmerliste"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Safe File Extension"
-msgstr "sichere Datei Extension"
+msgstr "sichere Dateitypen verwalten"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recurring Frequency Units"
@@ -14227,7 +14226,7 @@ msgstr "Briefpost"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Proximity Search"
-msgstr "Suche ähnlicher Resultate"
+msgstr "Suche in der Nähe"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Event Aggregate"
