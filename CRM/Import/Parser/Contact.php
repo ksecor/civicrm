@@ -1375,7 +1375,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 // due to merging of individual table and
                 // contact table, we need to avoid
                 // preferred_communication_method forcefully
-                $formatValues['contact_type'] = $this->_contactType;
+                $formatValues['contact_type'] = $formatted['contact_type'];
             }
             
             if ( $key == 'id' && isset( $field ) ) {
