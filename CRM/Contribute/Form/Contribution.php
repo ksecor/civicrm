@@ -431,16 +431,17 @@ WHERE  contribution_id = {$this->_id}
         } 
 
         if (isset ( $defaults["honor_contact_id"] ) ) {
-            $honorDefault = array();
+            $honorDefault   = array();
+            $ids            = array();
             $this->_honorID = $defaults["honor_contact_id"];
-            $idParams = array( 'id' => $defaults["honor_contact_id"], 'contact_id' => $defaults["honor_contact_id"] );
+            $honorType      = CRM_Core_PseudoConstant::honor( );   
+            $idParams       = array( 'id' => $defaults["honor_contact_id"], 'contact_id' => $defaults["honor_contact_id"] );
             CRM_Contact_BAO_Contact::retrieve( $idParams, $honorDefault, $ids );
-            $honorType = CRM_Core_PseudoConstant::honor( );   
-            $defaults["honor_prefix_id"]    = $honorDefault["prefix_id"];
-            $defaults["honor_first_name"] = CRM_Utils_Array::value("first_name",$honorDefault);
-            $defaults["honor_last_name"]  = CRM_Utils_Array::value("last_name",$honorDefault);
-            $defaults["honor_email"]     = CRM_Utils_Array::value("email",$honorDefault["location"][1]["email"][1]);
-            $defaults["honor_type"]      = $honorType[$defaults["honor_type_id"]];
+            $defaults["honor_prefix_id"]  = $honorDefault["prefix_id"];
+            $defaults["honor_first_name"] = CRM_Utils_Array::value("first_name", $honorDefault);
+            $defaults["honor_last_name"]  = CRM_Utils_Array::value("last_name",  $honorDefault);
+            $defaults["honor_email"]      = CRM_Utils_Array::value("email",      $honorDefault["location"][1]["email"][1]);
+            $defaults["honor_type"]       = $honorType[$defaults["honor_type_id"]];
         }
         
         $this->assign('showOption',true);

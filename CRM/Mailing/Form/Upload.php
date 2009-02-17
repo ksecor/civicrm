@@ -258,8 +258,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $formValues    = $this->controller->exportValues( $this->_name );
 
         foreach ( $uploadParams as $key ) {
-            $params[$key] = $formValues[$key];
-            $this->set($key, $formValues[$key]);
+            if ( CRM_Utils_Array::value( $key, $formValues ) ) {
+                $params[$key] = $formValues[$key];
+                $this->set($key, $formValues[$key]);
+            }
         }
         
         if ( ! $formValues['upload_type']) {
@@ -300,15 +302,17 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $params['contact_id'] = $session->get('userID');
         $composeFields        = array ( 'template', 'saveTemplate',
                                         'updateTemplate', 'saveTemplateName' );
-        
+        $msgTemplate = null;
         //mail template is composed 
         if ( $formValues['upload_type'] ) {
             foreach ( $composeFields as $key ) {
-                $composeParams[$key] = $formValues[$key];
-                $this->set($key, $formValues[$key]);
+                if ( CRM_Utils_Array::value( $key, $formValues ) ) {
+                    $composeParams[$key] = $formValues[$key];
+                    $this->set($key, $formValues[$key]);
+                }
             }          
            
-            if ( $composeParams['updateTemplate'] ) {
+            if ( CRM_Utils_Array::value( 'updateTemplate', $composeParams ) ) {
                 $templateParams = array( 'msg_text'    => $text_message,
                                          'msg_html'    => $html_message,
                                          'msg_subject' => $params['subject'],
@@ -320,7 +324,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $msgTemplate = CRM_Core_BAO_MessageTemplates::add( $templateParams );  
             } 
             
-            if ( $composeParams['saveTemplate'] ) {
+            if ( CRM_Utils_Array::value( 'saveTemplate', $composeParams ) ) {
                 $templateParams = array( 'msg_text'    => $text_message,
                                          'msg_html'    => $html_message,
                                          'msg_subject' => $params['subject'],
@@ -332,10 +336,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $msgTemplate = CRM_Core_BAO_MessageTemplates::add( $templateParams );  
             } 
             
-            if ( $msgTemplate->id ) {
+            if ( isset($msgTemplate->id ) ) {
                 $params['msg_template_id'] = $msgTemplate->id;
             } else {
-                $params['msg_template_id'] = $formValues['template'];
+                $params['msg_template_id'] = CRM_Utils_Array::value( 'template', $formValues );
             }
             $this->set('template', $params['msg_template_id']);
         }

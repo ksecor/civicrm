@@ -131,12 +131,13 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             }
             $urlString = "civicrm/contact/" . $fragment;
         }
-        
-        if ($testParams['sendtest']) {
+        $emails = null;
+        if ( CRM_Utils_Array::value( 'sendtest', $testParams ) ) {
             if (!($testParams['test_group'] || $testParams['test_email'] )) {
                 CRM_Core_Session::setStatus( ts("Your did not provided any email address or selected any group. No test mail is sent.") );
                 $error = true;
             }
+
             if ( $testParams['test_email'] ) {
                 $emailAdd = explode( ',', $testParams['test_email'] );
                 foreach ( $emailAdd as $key => $value ) {
@@ -157,7 +158,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             }
         } 
         
-        if ( $testParams['_qf_Test_submit'] ) {
+        if ( CRM_Utils_Array::value( '_qf_Test_submit', $testParams ) ) {
             //when user perform mailing from search context 
             //redirect it to search result CRM-3711.
             if ( $ssID && $context == 'search' ) {
@@ -177,9 +178,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             }
         }
         
-        if ( CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
-             $testParams['_qf_Test_next'] ||
-             !$testParams['sendtest'] ) {
+        if ( CRM_Utils_Array::value( '_qf_Import_refresh', $_POST ) || 
+             CRM_Utils_Array::value( '_qf_Test_next', $testParams ) ||
+             !CRM_Utils_Array::value( 'sendtest', $testParams ) ) {
             return true;
         }
         
@@ -188,7 +189,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $job->mailing_id = $self->get('mailing_id' );
         $job->is_test    = true;
         $job->save( );
-        
+        $newEmails  = null;
         $session    =& CRM_Core_Session::singleton();
         if ( !empty($testParams['emails']) ) {
             $query = "
@@ -208,7 +209,6 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             
             $dao->free( );
             
-            $newEmails = null;
             foreach ( $testParams['emails'] as $key => $email ) {
                 $email = trim($email);
                 $contact_id = null;
@@ -254,7 +254,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             $query = "DELETE FROM civicrm_email WHERE id IN ($newEmails)";
             CRM_Core_DAO::executeQuery( $query, $params);
         }
-        if ($testParams['sendtest']) {
+        if ( CRM_Utils_Array::value( 'sendtest', $testParams ) ) {
             CRM_Core_Session::setStatus( ts("Your test message has been sent. Click 'Next' when you are ready to Schedule or Send your live mailing (you will still have a chance to confirm or cancel sending this mailing on the next page).") );
             $url = CRM_Utils_System::url( $urlString, $urlParams );
             CRM_Utils_System::redirect($url);
