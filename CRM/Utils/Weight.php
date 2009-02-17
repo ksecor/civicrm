@@ -124,7 +124,7 @@ class CRM_Utils_Weight {
         
         if ( $newWeight > $maxWeight ) {
             //calculate new weight, CRM-4133
-            $calNewWeight = CRM_Utils_Weight::getNewWeight( $daoName, $fieldValues, $weightField, $newWeight );
+            $calNewWeight = CRM_Utils_Weight::getNewWeight( $daoName, $fieldValues, $weightField );
             
             //no need to update weight for other fields.
             if ( $calNewWeight > $maxWeight ) {
@@ -169,11 +169,10 @@ class CRM_Utils_Weight {
      * @param string  $daoName     full name of the DAO
      * @param array   $fieldValues field => value to be used in the WHERE
      * @param string  $weightField field which used to get the wt, default to 'weight'.
-     * @param integer $newWeight   entered new wt.
      *
      * @return integer
      */
-    static function getNewWeight( $daoName, $fieldValues = null, $weightField = 'weight', $newWeight )
+    static function getNewWeight( $daoName, $fieldValues = null, $weightField = 'weight' )
     {
         $selectField = "id AS fieldID, $weightField AS weight";
         $field =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
@@ -186,6 +185,7 @@ class CRM_Utils_Weight {
             $weights[$field->fieldID] = $field->weight;
         }
         
+        $newWeight = 1;
         if ( $sameWeightCount ) {
             $newWeight = max( $weights ) + 1;
             
