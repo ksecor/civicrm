@@ -3340,13 +3340,13 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
              $op == 'IS NOT NULL' ) {
             return $clause;
         } else {
-            if ( $dataType == 'String' ) {
-                $value = "'" . strtolower( addslashes( $value ) ) . "'";
-            } else {
-                if ( isset($dataType) ) {
-                    $value = CRM_Utils_Type::escape( $value, $dataType );
-                }
+            if ( isset($dataType) ) {
+                $value = CRM_Utils_Type::escape( $value, $dataType );
             }
+            if ( $dataType == 'String' ) {
+                $value = "'" . strtolower( $value ) . "'";
+            }
+            
             return "$clause $value";
         }
     }

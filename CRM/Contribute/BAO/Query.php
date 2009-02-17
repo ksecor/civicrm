@@ -183,7 +183,8 @@ class CRM_Contribute_BAO_Query
             return;
 
         case 'contribution_total_amount':
-            $query->_where[$grouping][] = "civicrm_contribution.total_amount $op " . CRM_Utils_Type::escape( $value, "Money" );
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_contribution.total_amount", 
+                                                                              $op, $value, "Money" ) ;
             $query->_qill[$grouping ][] = ts( 'Contribution Total Amount %1 %2', array( 1 => $op, 2 => $value ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
@@ -205,7 +206,8 @@ class CRM_Contribute_BAO_Query
             require_once 'CRM/Contribute/PseudoConstant.php';
             $cType = $value;
             $types = CRM_Contribute_PseudoConstant::contributionType( );
-            $query->_where[$grouping][] = "civicrm_contribution.contribution_type_id = $cType";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_contribution.contribution_type_id", 
+                                                                              $op, $value, "Integer" ) ;
             $query->_qill[$grouping ][] = ts( 'Contribution Type - %1', array( 1 => $types[$cType] ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
@@ -255,7 +257,6 @@ class CRM_Contribute_BAO_Query
             return;
 
         case 'contribution_status_id':
-
             if ( is_array( $value ) ) {
                 foreach ($value as $k => $v) {
                     if ( $v ) {
@@ -293,58 +294,56 @@ class CRM_Contribute_BAO_Query
         case 'contribution_source':
             $value = strtolower( addslashes( $value ) );
             if ( $wildcard ) {
-                $value = "%$value%"; 
+                $value = "%$value%";
                 $op    = 'LIKE';
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.source)" : "civicrm_contribution.source";
-            $query->_where[$grouping][] = "$wc $op '$value'";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, "String" ) ;
             $query->_qill[$grouping][]  = "Contribution Source $op \"$value\"";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            
             return;
-
+        
+        case 'contribution_trxn_id':
         case 'contribution_transaction_id':
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.trxn_id)" : "civicrm_contribution.trxn_id";
-            $query->_where[$grouping][] = "$wc $op '$value'";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, "String" ) ;
             $query->_qill[$grouping][]  = "Transaction ID $op \"$value\"";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            
             return;
             
         case 'contribution_check_number':
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.check_number)" : "civicrm_contribution.check_number";
-            $query->_where[$grouping][] = "$wc $op '$value'";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, "String" ) ;
             $query->_qill[$grouping][]  = "Check Number $op \"$value\"";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            
             return;
-
+            
+        case 'contribution_is_test':
         case 'contribution_test':
-            $query->_where[$grouping][] = " civicrm_contribution.is_test $op '$value'";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_contribution.is_test", $op, $value, "Boolean" ) ;
             if ( $value ) {
                 $query->_qill[$grouping][]  = "Find Test Contributions";
             }
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            
             return;
-
+            
+        case 'contribution_is_pay_later':
         case 'contribution_pay_later':
-            $query->_where[$grouping][] = " civicrm_contribution.is_pay_later $op '$value'";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_contribution.is_pay_later", $op, $value, "Boolean" ) ;
             if ( $value ) {
                 $query->_qill[$grouping][]  = "Find Pay Later Contributions";
             }
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            
             return;
-
+        
+        case 'contribution_recur_id':
         case 'contribution_recurring':
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_contribution.contribution_recur_id", 
+                                                                              $op, $value, "Integer" ) ;
             if ( $value ) {
-                $query->_where[$grouping][] = "civicrm_contribution.contribution_recur_id IS NOT NULL";
-                if ( $value ) {
-                    $query->_qill[$grouping][]  = "Displaying Recurring Contributions";
-                }
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+                $query->_qill[$grouping][]  = "Displaying Recurring Contributions";
             }
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
 
         case 'contribution_id':
@@ -359,12 +358,11 @@ class CRM_Contribute_BAO_Query
                 $op    = 'LIKE';
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_note.note)" : "civicrm_note.note";
-            $query->_where[$grouping][] = "$wc $op '$value'";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, "String" ) ;
             $query->_qill[$grouping][]  = "Contribution Note $op \"$value\"";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = $query->_whereTables['contribution_note'] = 1;
-            
             return;
-
+            
         case 'contribution_membership_id':
             $query->_where[$grouping][] = " civicrm_membership.id $op $value";
             $query->_tables['contribution_membership'] = $query->_whereTables['contribution_membership'] = 1;
@@ -374,7 +372,6 @@ class CRM_Contribute_BAO_Query
         case 'contribution_participant_id':
             $query->_where[$grouping][] = " civicrm_participant.id $op $value";
             $query->_tables['contribution_participant'] = $query->_whereTables['contribution_participant'] = 1;
-            
             return;
 
         case 'contribution_pcp_display_in_roll':
@@ -383,47 +380,29 @@ class CRM_Contribute_BAO_Query
                 $query->_qill[$grouping][]  = "Display in Roll";
             }
             $query->_tables['civicrm_contribution_soft'] = $query->_whereTables['civicrm_contribution_soft'] = 1;
-            
             return;
 
-        default :
+        default: 
             //all other elements are handle in this case
-            $fldName = substr($name, 13 );
+            $fldName    = substr($name, 13 );
             $whereTable = $fields[$fldName];
-            $value = trim($value);
-
+            $value      = trim($value);
+            
             //contribution fields (decimal fields) which don't require a quote in where clause.
-            $noQuotes = array('non_deductible_amount', 'fee_amount', 'net_amount');
-
+            $moneyFields = array('non_deductible_amount', 'fee_amount', 'net_amount');
             //date fields
-            $dateFields = array ( 'receive_date', 'cancel_date', 'receipt_date', 'thankyou_date', 'fulfilled_date' ) ;
+            $dateFields  = array ( 'receive_date', 'cancel_date', 'receipt_date', 'thankyou_date', 'fulfilled_date' ) ;
+        
             if ( in_array($fldName, $dateFields) ) {
-                $date = CRM_Utils_Date::format( $value );
-                if ( $date ) {
-                    $query->_where[$grouping][] = "$whereTable[where] $op $date";
-                    $value = CRM_Utils_Date::customFormat( $value );
-                } else if ( $op == 'IS NULL' ||
-                            $op == 'IS NOT NULL' ) {
-                    $query->_where[$grouping][] = "$whereTable[where] $op";
-                }
+                $dataType = "Date";
+            } elseif ( in_array($fldName, $moneyFields) ) {
+                $dataType = "Money";
             } else {
-                if ($op == "IN" ||$op == "NOT IN" ) {
-                    $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op $value";
-                } else {
-                    $value = strtolower( addslashes( $value ) );
-                    if ( $wildcard ) {
-                        $value = "%$value%"; 
-                        $op    = 'LIKE';
-                    }
-                    $wc = ( $op != 'LIKE' ) ? "LOWER($whereTable[where])" : "$whereTable[where]";
-                    if ( in_array($fldName, $noQuotes) ) {
-                        $query->_where[$grouping][] = "$wc $op $value";
-                    } else {
-                        $query->_where[$grouping][] = "$wc $op '$value'";
-                    }
-                }
+                $dataType = "String";
             }
-
+            
+            $wc = ( $op != 'LIKE' ) ? "LOWER($whereTable[where])" : "$whereTable[where]";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, $dataType) ;
             $query->_qill[$grouping][]  = "$whereTable[title] $op \"$value\"";            
             list( $tableName, $fieldName ) = explode( '.', $whereTable['where'], 2 );  
             $query->_tables[$tableName] = $query->_whereTables[$tableName] = 1;
