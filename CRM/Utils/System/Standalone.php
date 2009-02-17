@@ -50,7 +50,7 @@ class CRM_Utils_System_Standalone {
     function setTitle( $title, $pageTitle = null ) {
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'pageTitle', $pageTitle );
-        if ( $pageTitle ) print "<title>{$title}</title>";
+        $template->assign( 'docTitle',  $title );
         return;
     }
     

@@ -21,7 +21,7 @@
 {$pageHTMLHead}
 {include file="CRM/common/dojo.tpl"}
 {include file="CRM/common/jquery.tpl"}
-  <title>{$pageTitle}</title>
+  <title>{$docTitle}</title>
 </head>
 <body>
 
