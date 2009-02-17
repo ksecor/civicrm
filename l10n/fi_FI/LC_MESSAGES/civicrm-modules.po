@@ -6,13 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2006-01-02 22:59+0100\n"
-"Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
+"PO-Revision-Date: 2009-02-13 10:59-0800\n"
+"Last-Translator: pasi lappalainen <pasi.lappalainen@it-systems.fi>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
 msgid "Copy of "
@@ -106,9 +107,8 @@ msgstr "Anna kelvollinen summa"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "End Date / Time"
-msgstr "Päättymispäivä"
+msgstr "Päättymis päivä / aika"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: CRM/Member/Form/Membership.php
@@ -1486,20 +1486,17 @@ msgid "The event '%1' has been deleted."
 msgstr "Ryhmä %1 on poistettu."
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Event Title"
-msgstr "Otsikko"
+msgstr "Tapahtuman otsikko"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Event Summary"
-msgstr "Yhteenveto yhteyksistä"
+msgstr "Tapahtuman yhteenveto"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Complete Description"
-msgstr "Kuvaus"
+msgstr "Pitkä kuvaus"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Public Event?"
@@ -1511,9 +1508,8 @@ msgid "Include Map Link?"
 msgstr "Sisällytä postitukset"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Max Number of Participants"
-msgstr "Postituksen nimi"
+msgstr "Osallistujien maksimi määrä"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "is a positive field"
@@ -1524,9 +1520,8 @@ msgid "Message if Event is Full"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Is this Event Active?"
-msgstr "Onko tämä CiviCRM profiili aktiivinen?"
+msgstr "Onko tämä tapahtuma aktiivinen?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
@@ -1877,7 +1872,7 @@ msgstr "Poista tapaaminen"
 
 #: CRM/Event/Import/Form/UploadFile.php
 msgid "On Duplicate Entries"
-msgstr ""
+msgstr "Kaiksoiskappaleiden käsittely"
 
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Select either EventID OR Event Title"

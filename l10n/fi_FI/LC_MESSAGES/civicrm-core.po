@@ -6,13 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2006-01-02 22:59+0100\n"
-"Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
+"PO-Revision-Date: 2009-02-13 11:09-0800\n"
+"Last-Translator: pasi lappalainen <pasi.lappalainen@it-systems.fi>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php
@@ -99,7 +100,7 @@ msgstr "Yritä uudelleen"
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Enabled?"
-msgstr "Mahdollista?"
+msgstr "Ota käyttöön?"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #, fuzzy
@@ -271,7 +272,7 @@ msgstr "Poista käytöstä"
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
-msgstr "Mahdollista"
+msgstr "Ota käyttöön"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
@@ -2027,7 +2028,7 @@ msgstr "Poista käytöstä"
 #: CRM/ACL/Page/ACL.php
 #, fuzzy
 msgid "Enable ACL"
-msgstr "Mahdollista"
+msgstr "Ota ACL käyttöön"
 
 #: CRM/ACL/Page/EntityRole.php
 #, fuzzy
@@ -2612,7 +2613,7 @@ msgstr "Tuo näkyviin viestikomponentti"
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
 msgid "Enable >>"
-msgstr "Mahdollista"
+msgstr "Ota käyttöön >>"
 
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
@@ -2982,9 +2983,8 @@ msgid "Disable Option"
 msgstr "Poista yhteys käytöstä"
 
 #: CRM/Admin/Page/OptionGroup.php
-#, fuzzy
 msgid "Enable Option"
-msgstr "Mahdollista yhteys"
+msgstr "Ota asetus käyttöön"
 
 #: CRM/Admin/Page/OptionGroup.php
 #, fuzzy
@@ -3021,9 +3021,8 @@ msgid "Disable %1"
 msgstr "Poista käytöstä"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Enable %1"
-msgstr "Mahdollista"
+msgstr "Ota %1 käyttöön"
 
 #: CRM/Admin/Page/Options.php
 #, fuzzy
@@ -4411,7 +4410,7 @@ msgstr "Muokkaa yhteyttä"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Enable Relationship"
-msgstr "Mahdollista yhteys"
+msgstr "Ota yhteys käyttöön"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Disable Relationship"
@@ -4747,13 +4746,12 @@ msgid "Contribution Status"
 msgstr "Lahjoituksen tila"
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Participant Status"
-msgstr "Lahjoituksen tila"
+msgstr "Osallistujan status"
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
 msgid "Participant Role"
-msgstr ""
+msgstr "Osallistujan rooli"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
@@ -4833,9 +4831,8 @@ msgid "New Participant"
 msgstr "Tulosta"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "List Participants"
-msgstr "Tulosta"
+msgstr "Listaa osallistujat"
 
 #: CRM/Core/Block.php
 #, fuzzy
@@ -4938,9 +4935,8 @@ msgid "dd/mm/yyyy (25/12/1998)"
 msgstr ""
 
 #: CRM/Core/Form/Date.php
-#, fuzzy
 msgid "Date Format"
-msgstr "Date Data"
+msgstr "Päivämäärän muoto"
 
 #: CRM/Core/Form.php
 msgid "ERROR: Title is not Set"
@@ -5153,7 +5149,7 @@ msgstr ""
 #: CRM/Core/Invoke.php
 #, fuzzy
 msgid "Date Formatting"
-msgstr "Date Data"
+msgstr "Päivämäärän muotoilu"
 
 #: CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
@@ -5733,7 +5729,7 @@ msgstr "Maan valitsin"
 
 #: CRM/Core/SelectValues.php
 msgid "Participants"
-msgstr ""
+msgstr "Osallistujat"
 
 #: CRM/Core/SelectValues.php
 msgid "Tab"
@@ -6547,9 +6543,8 @@ msgid "The Group '%1' has been saved."
 msgstr "Ryhmä \"%1\" on tallennettu."
 
 #: CRM/Group/Form/Search.php
-#, fuzzy
 msgid "Find"
-msgstr "Löydä..."
+msgstr "Etsi..."
 
 #: CRM/Group/Form/Search.php
 #, fuzzy
@@ -6578,14 +6573,12 @@ msgid "Smart Group"
 msgstr "Älykäs ryhmä"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Search Groups"
-msgstr "Älykäs ryhmä"
+msgstr "Etsi ryhmiä"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Group %%StatusMessage%%"
-msgstr "Yhteys%%StatusMessage%%"
+msgstr "Ryhmän %%StatusMessage%%"
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
@@ -6604,14 +6597,13 @@ msgid "Tag"
 msgstr "Luokka"
 
 #: CRM/Import/Form/Preview.php
-#, fuzzy
 msgid "Group '%1' already exists."
 msgstr "Ryhmä '%1' on jo olemassa."
 
 #: CRM/Import/Form/Preview.php
 #, fuzzy
 msgid "Tag '%1' already exists."
-msgstr "Ryhmä '%1' on jo olemassa."
+msgstr "Luokka '%1' on jo olemassa."
 
 #: CRM/Import/Form/Summary.php
 msgid "These records have been replaced with the imported data."
@@ -6626,7 +6618,6 @@ msgid "No Duplicate Checking"
 msgstr "Ei kaksoiskappaleiden tarkistusta"
 
 #: CRM/Import/Form/UploadFile.php
-#, fuzzy
 msgid "For Duplicate Contacts"
 msgstr "Tallenna kaksoiskappale yhteyksiin"
 
@@ -6654,33 +6645,31 @@ msgstr ""
 
 #: CRM/Import/Parser.php
 msgid "minutes"
-msgstr ""
+msgstr "minuuttia"
 
 #: CRM/Import/Parser.php
 msgid "seconds"
-msgstr ""
+msgstr "sekunttia"
 
 #: CRM/Import/Parser.php
 msgid "%1 of %2 records - %3 remaining"
-msgstr ""
+msgstr "%1 / %2 merkintää - %3 jäljellä"
 
 #: CRM/Import/Parser.php
 msgid "View Contact URL"
 msgstr "Näytä yhteyden URL"
 
 #: CRM/Note/Form/Note.php templates/CRM/Contact/Page/View/Note.tpl
-#, fuzzy
 msgid "Subject:"
-msgstr "Aihe"
+msgstr "Aihe:"
 
 #: CRM/Note/Form/Note.php
 msgid "Your Note has been saved."
 msgstr "Muistiinpanosi on tallennettu."
 
 #: CRM/Price/Form/DeleteField.php
-#, fuzzy
 msgid "Confirm Price Field Delete"
-msgstr "Vahvista räätälöidyn kentän poisto"
+msgstr "Vahvista hinta kentän poisto"
 
 #: CRM/Price/Form/DeleteField.php
 #, fuzzy
@@ -6707,18 +6696,16 @@ msgstr ""
 "sisältämät räätälöidyt kentät."
 
 #: CRM/Price/Form/Field.php
-#, fuzzy
 msgid "Input Field Type"
-msgstr "Tietojen syöttökentän tyyppi"
+msgstr "Kentän tyyppi"
 
 #: CRM/Price/Form/Field.php
 msgid "must be a monetary value"
 msgstr ""
 
 #: CRM/Price/Form/Field.php
-#, fuzzy
 msgid "Please enter a valid value for this field."
-msgstr "Anna kelvollinen summa tälle kentälle (esim. 99,99)"
+msgstr "Anna kelvollinen arvo tälle kentälle."
 
 #: CRM/Price/Form/Field.php
 msgid "Enter Quantity?"
@@ -6861,9 +6848,8 @@ msgid "Disable Price"
 msgstr "Poista käytöstä"
 
 #: CRM/Price/Page/Field.php
-#, fuzzy
 msgid "Enable Price"
-msgstr "Mahdollista"
+msgstr "Ota hinta käyttöön"
 
 #: CRM/Price/Page/Field.php
 #, fuzzy
@@ -6896,9 +6882,8 @@ msgid "View Price Option"
 msgstr "Näytä ryhmät"
 
 #: CRM/Price/Page/Option.php
-#, fuzzy
 msgid "Enable Price Option"
-msgstr "Mahdollista yhteys"
+msgstr "Ota hinnan asetus käyttöön"
 
 #: CRM/Price/Page/Option.php
 #, fuzzy
@@ -7593,12 +7578,12 @@ msgid ""
 msgstr "Linkki antaa käyttäjille mahdollisuuden erota yhteisöstäsi."
 
 #: CRM/Utils/Token.php
-#, fuzzy
 msgid ""
 "Creates a link for recipients to unsubscribe from the group(s) to which this "
 "mailing is being sent."
 msgstr ""
-"Linkki antaa käyttäjille mahdollisuuden poistua tämän viestin kohderyhmästä."
+"Linkki antaa käyttäjille mahdollisuuden poistaa uutiskirjeen tilaus tästä "
+"ryhmästä."
 
 #: CRM/Utils/Weight.php
 msgid "Move to top"
@@ -9457,7 +9442,7 @@ msgstr ""
 msgid ""
 "Define participant roles for events here (e.g. Attendee, Host, Speaker...). "
 "You can then assign roles and search for participants by role."
-msgstr ""
+msgstr "Määritä osallistujien roolit (esim. puhuja, järjestäjä, vieras jne.)"
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -9465,6 +9450,8 @@ msgid ""
 "Cancelled...). You can then assign statuses and search for participants by "
 "status."
 msgstr ""
+"Määritä osallistujien statukset jonka jälkeen voit etsi osallistujaa "
+"statuksen mukaan."
 
 #: templates/CRM/Admin/Page/Options.tpl
 #, fuzzy
@@ -9655,7 +9642,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Date Formats"
-msgstr ""
+msgstr "Päivämäärän muodot"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Configure input and display formats for Date fields."
@@ -11601,7 +11588,7 @@ msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/Price/Form/Field.tpl
 msgid "View / Edit Multiple Choice Options"
-msgstr ""
+msgstr "Katsele ja muokkaa monivalinta asetuksia"
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
