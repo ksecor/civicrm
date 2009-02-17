@@ -1002,14 +1002,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     {
         //get the type of custom field
         $customField =& new CRM_Core_BAO_CustomField();
-        
         $customField->id = $customFieldId;
-        
         $customField->find(true);
         
         require_once "CRM/Profile/Form.php";
-        
-        $value = null;
         $value = null;
         if ( ! $contactId ) {
             if ($mode == CRM_Profile_Form::MODE_CREATE ) {
@@ -1017,11 +1013,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
         } else {
             $info   = self::getTableColumnGroup( $customFieldId );
-            
             $query  = "SELECT {$info[0]}.{$info[1]} as value FROM {$info[0]} WHERE {$info[0]}.entity_id = {$contactId}";
-            
             $result = CRM_Core_DAO::executeQuery( $query );
-            
             if ( $result->fetch( ) ) {
                 $value = $result->value;
             }
@@ -1043,6 +1036,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $value = $customField->default_value;
         }
 
+        if ( $customField->data_type == 'Money' && isset($value) ) {
+            $value = number_format ( $value, 2 );
+        }
         switch ($customField->html_type) {
             
         case 'CheckBox':
