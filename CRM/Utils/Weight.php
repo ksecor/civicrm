@@ -123,7 +123,15 @@ class CRM_Utils_Weight {
         }
         
         if ( $newWeight > $maxWeight ) {
+            //calculate new weight, CRM-4133
+            $calNewWeight = CRM_Utils_Weight::getNewWeight( $daoName, $fieldValues, $weightField, $newWeight );
+            
+            //no need to update weight for other fields.
+            if ( $calNewWeight > $maxWeight ) {
+                return $calNewWeight;
+            }
             $newWeight = $maxWeight;
+                        
             if (!$oldWeight) {
                 return $newWeight+1; 
             }
@@ -153,6 +161,44 @@ class CRM_Utils_Weight {
             CRM_Utils_Weight::query( 'UPDATE', $daoName, $fieldValues, $update, $additionalWhere );
             return $newWeight;
         }
+    }
+    
+    /**
+     * returns the new calculated weight.
+     *
+     * @param string  $daoName     full name of the DAO
+     * @param array   $fieldValues field => value to be used in the WHERE
+     * @param string  $weightField field which used to get the wt, default to 'weight'.
+     * @param integer $newWeight   entered new wt.
+     *
+     * @return integer
+     */
+    static function getNewWeight( $daoName, $fieldValues = null, $weightField = 'weight', $newWeight )
+    {
+        $selectField = "id AS fieldID, $weightField AS weight";
+        $field =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
+        $sameWeightCount = 0;
+        $weights = array( );
+        while ( $field->fetch( ) ) {
+            if ( in_array( $field->weight, $weights ) ) {
+                $sameWeightCount++;
+            }
+            $weights[$field->fieldID] = $field->weight;
+        }
+        
+        if ( $sameWeightCount ) {
+            $newWeight = max( $weights ) + 1;
+            
+            //check for max wt should not greater than cal max wt.
+            $calMaxWt  = min( $weights ) + count( $weights ) - 1;
+            if ( $newWeight > $calMaxWt ) {
+                $newWeight = $calMaxWt;
+            }
+        } else {
+            $newWeight = max( $weights );
+        }
+        
+        return $newWeight;
     }
     
     /**
@@ -265,7 +311,7 @@ class CRM_Utils_Weight {
                 return false;
 
         }
-
+        
         $resultDAO = CRM_Core_DAO::executeQuery( $query, $params );
         return $resultDAO;
     }
