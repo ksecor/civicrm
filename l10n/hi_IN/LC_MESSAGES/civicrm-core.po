@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-02-02 23:49-0800\n"
+"PO-Revision-Date: 2009-02-11 04:54-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -10170,6 +10170,8 @@ msgid ""
 "Configure directories in your file system for temporary uploads, images, "
 "custom files and custom templates."
 msgstr ""
+"अस्थायी अपलोड, चित्र, कस्टम फ़ाइलें और कस्टम टेम्पलेट्स के लिए अापकी फ़ाइल "
+"प्रणाली कॉन्फ़िगर निर्देशिका।"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Resource URLs"
@@ -10196,22 +10198,28 @@ msgid ""
 "Configure a mapping provider (e.g. Google or Yahoo) to display maps for "
 "contact addresses."
 msgstr ""
+"संपर्क पता नक्शे प्रदर्शित करने के लिए मानचित्रण प्रदाता कॉन्फ़िगर (उदा गूगल "
+"या याहू ) करे।"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Payment Processors"
-msgstr ""
+msgstr "भुगतान प्रोसेसर"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Select and configure one or more payment processing services for online "
 "contributions, events and / or membership fees."
 msgstr ""
+"ऑनलाइन योगदान, कार्यक्रम और / या सदस्यता शुल्क के लिए एक और अधिक भुगतान "
+"प्रसंस्करण सेवाएं चुनें और कॉन्फ़िगर।"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Localization settings include user language, default currency and available "
 "countries for address input."
 msgstr ""
+"स्थानीयकरण सेटिंग्स के लिए प्रयोक्ता भाषा, डिफ़ॉल्ट मुद्रा और निवेश पता आैर "
+"उपलब्ध देश शामिल है।"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Address Settings"
@@ -10229,7 +10237,7 @@ msgstr "तिथि प्रारूप"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Configure input and display formats for Date fields."
-msgstr ""
+msgstr "इनपुट और दिनांक प्रारूपों प्रदर्शन क्षेत्रों के लिए कॉन्फ़िगर करे।"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "%1 Integration Settings"
@@ -10237,7 +10245,7 @@ msgstr "%1 एकीकरण सेटिंग्स"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "%1 version and user table name."
-msgstr ""
+msgstr "%1 संस्करण और उपयोगकर्ता तालिका नाम।"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Miscellaneous Settings"

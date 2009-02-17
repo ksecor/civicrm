@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-01-13 09:24-0800\n"
-"Last-Translator: Kare Casals <kare.casals@itpooli.com>\n"
+"PO-Revision-Date: 2009-02-13 12:36-0800\n"
+"Last-Translator: pasi lappalainen <pasi.lappalainen@it-systems.fi>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1775,7 +1775,6 @@ msgid "Tab"
 msgstr "liuska"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Inline"
 msgstr "Inline"
 
@@ -1796,7 +1795,6 @@ msgid "Option Value"
 msgstr "Valinnainen arvo"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Suffix for PHP clas name implementation"
 msgstr "Etuliite PHP luokkanimen asetukselle"
 
@@ -1957,12 +1955,12 @@ msgstr "Asetukset"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
-msgstr ""
+msgstr "Onnistunut viesti"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 #: CRM/Friend/Form/Pledge.php
 msgid "Thanks for Spreading the Word"
-msgstr ""
+msgstr "Kiitospuhe"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
@@ -1973,20 +1971,18 @@ msgid "Continue"
 msgstr "Jatka"
 
 #: CRM/Price/Form/DeleteSet.php CRM/Price/Page/Set.php
-#, fuzzy
 msgid "Delete Price Set"
-msgstr "Poista profiili-kenttä"
+msgstr "Poista hinta ryhmä"
 
 #: CRM/Price/Form/Field.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
 msgid "Price"
-msgstr "Profiili"
+msgstr "Hinta"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "Palvelimen url osoite"
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""
@@ -2008,10 +2004,12 @@ msgid ""
 "Make sure you have a current and complete backup of your CiviCRM database "
 "and codebase files before starting the upgrade process."
 msgstr ""
+"Olethan tehnyt varmuuskopion CiviCRM tietokannasta ja tiedostoista ennenkuin "
+"aloitat päivitys prosessin."
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Begin Upgrade"
-msgstr ""
+msgstr "Aloita päivitys"
 
 #: CRM/Upgrade/TwoOne/Form/Step2.php CRM/Upgrade/TwoOne/Form/Step3.php
 #: CRM/Upgrade/TwoOne/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step2.php
@@ -2025,17 +2023,19 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
-msgstr ""
+msgstr "Päivitä ja Jatka"
 
 #: CRM/Upgrade/TwoOne/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step7.php
 msgid ""
 "Please be sure to follow the remaining steps in the <a href='%1' "
 "target='_blank'><strong>Upgrade Instructions</strong></a>."
 msgstr ""
+"Ole hyvä ja käy vielä tarkasti läpi seuraavat ohjeet <a href='%1' "
+"target='_blank'><strong>Asennusohjeet</strong></a>."
 
 #: CRM/Upgrade/TwoOne/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Thank you for using CiviCRM."
-msgstr ""
+msgstr "Kiitos että käytit CiviCRM ohjelmaa."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
@@ -2054,19 +2054,16 @@ msgid "Please rebuild your 1.9 database to ensure schema integrity."
 msgstr ""
 
 #: CRM/Utils/System/Joomla.php CRM/Utils/System/Standalone.php
-#, fuzzy
 msgid "You do not have permission to access this page"
 msgstr "Sinulla ei ole tarvittavia oikeuksia näiden tietojen muokkaamiseen."
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Contact Group"
 msgstr "Yhteyden ryhmät"
 
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Administer"
-msgstr "Hallinnoi CiviCRM"
+msgstr "Asetukset"
 
 #: CRM/ACL/DAO/ACL.php
 #, fuzzy
@@ -2079,62 +2076,55 @@ msgstr "Kielto"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Object Table"
-msgstr "Object Table"
+msgstr "Objekti taulu"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr "Acl Table"
+msgstr "Acl Taulu"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Revoke"
-msgstr "Evääminen"
+msgstr "Kumoa"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
-msgstr ""
+msgstr "ACL tyyppi"
 
 #: CRM/ACL/Form/ACLBasic.php
-#, fuzzy
 msgid "Role is a required field"
-msgstr "%1 on pakollinen kenttä."
+msgstr "Rooli on pakollinen kenttä."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A group of contacts"
-msgstr "Löydetty %count yhteystieto"
+msgstr "Kontaktien ryhmä"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A profile"
 msgstr "Profiili"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A set of custom data fields"
 msgstr "Räätälöidyt kentät"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Type of Data"
-msgstr "Memo Data"
+msgstr "Datan tyyppi"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please assign this permission to a Role."
-msgstr ""
+msgstr "Syötä roolin oikeudet"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Group (or ALL Groups)."
-msgstr "Valitse ryhmä, jolle lähetät"
+msgstr "Ole hyvä ja valitse ryhmä (tai kaikki ryhmät)"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Profile (or ALL Profiles)."
-msgstr "Valitse ryhmä, jolle lähetät"
+msgstr "Valitse profiili (tai kaikki profiilit)"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
-msgstr ""
+msgstr "Valitse muokattu kenttä (tai kaikki muokatut kentät)"
 
 #: CRM/ACL/Form/EntityRole.php
 #, fuzzy
@@ -2142,19 +2132,16 @@ msgid "Selected Entity Role has been deleted."
 msgstr "Valittu aktiviteettimuoto on poistettu."
 
 #: CRM/ACL/Page/ACLBasic.php
-#, fuzzy
 msgid "Any Role"
-msgstr "Sääntö"
+msgstr "Mikä tahansa rooli"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Disable ACL"
-msgstr "Poista käytöstä"
+msgstr "Poista käytöstä ACL"
 
 #: CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Enable ACL"
-msgstr "Mahdollista"
+msgstr "Ota ACL käyttöön"
 
 #: CRM/ACL/Page/EntityRole.php
 #, fuzzy
@@ -2179,47 +2166,41 @@ msgstr ""
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr ""
+msgstr "Aseta käyttäjiä rooliin"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "- Activity Fields -"
-msgstr ""
+msgstr "-Aktiviteetti kentät-"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Case Activity %2 %1"
-msgstr ""
+msgstr "AKtiviteetti %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Communication Medium %2 %1"
-msgstr ""
+msgstr "Yhteydenoton tapa"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Violation Type %1"
-msgstr "Osoitetyypit"
+msgstr "Rikkeen tyyppi"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Activity Content %2 %1"
-msgstr "Aktiviteetin päivä"
+msgstr "Aktiviteetin sisältö"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Aktiviteetti"
+msgstr "Aktiviteetin ID"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Type ID"
-msgstr "Aktiviteetin tyyppi"
+msgstr "Aktiviteetin Tyypin ID "
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Date Time"
 msgstr "Aktiviteetin päivä"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Due Date Time"
 msgstr "Päättymispäivä"
 
@@ -2228,23 +2209,21 @@ msgid "Phone Number"
 msgstr "Puhelinnumero"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Status Label"
-msgstr "Aktiviteetin päivä"
+msgstr "Aktiviteetin status kenttä"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Test"
-msgstr "Teksti"
+msgstr "Testi"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Kontaktin ID"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 msgid "Other Activities"
-msgstr ""
+msgstr "Muut aktiviteetit"
 
 #: CRM/Activity/Form/Activity.php templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Date and Time"
@@ -2252,17 +2231,15 @@ msgstr "Päiväys ja aika"
 
 #: CRM/Activity/Form/Activity.php
 msgid "- select activity -"
-msgstr ""
+msgstr "-valitse aktiviteetti-"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Communication"
-msgstr "Yhteydenpidon preferenssit"
+msgstr "Yhteydenpito"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Activity Type is a required field"
-msgstr "%1 on pakollinen kenttä."
+msgstr "Aktiviteetin tyyppi on pakollinen kenttä."
 
 #: CRM/Activity/Form/Activity.php
 msgid "Source Contact non-existant!"
@@ -2274,9 +2251,8 @@ msgid "Assignee Contact %1 does not exist."
 msgstr "Yhteyttä ei löydy: %1"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Target Contact %1 does not exist."
-msgstr "Yhteyttä ei löydy: %1"
+msgstr "Yhteyttä %1 ei löydy."
 
 #: CRM/Activity/Form/Activity.php
 msgid "You cannot record scheduled email activity."
@@ -6461,7 +6437,6 @@ msgid "Customized"
 msgstr "Räätälöity"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Do not phone"
 msgstr "Älä soita"
 
@@ -6488,18 +6463,16 @@ msgid "day"
 msgstr "-päivä-"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "month"
 msgstr "-kuukausi-"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "year"
-msgstr "-vuosi-"
+msgstr "vuosi"
 
 #: CRM/Core/SelectValues.php
 msgid "lifetime"
-msgstr ""
+msgstr "elinikäinen"
 
 #: CRM/Core/SelectValues.php
 #, fuzzy
@@ -6513,7 +6486,7 @@ msgstr ""
 #: CRM/Core/SelectValues.php templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 msgid "Public"
-msgstr ""
+msgstr "Julkinen"
 
 #: CRM/Core/SelectValues.php
 #, fuzzy
@@ -14483,15 +14456,15 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
-msgstr ""
+msgstr "Yhteys sähköpostipalvelimeen epäonnistui"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
-msgstr ""
+msgstr "Käyttäjätunnus ei ole enää aktiivinen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Email address is not valid"
-msgstr ""
+msgstr "Sähköpostiosoite ei ole syötetty oikein"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mail routing error"
@@ -14499,7 +14472,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"
-msgstr ""
+msgstr "Käyttäjän laatikko on täysi"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to reach destination mail server"

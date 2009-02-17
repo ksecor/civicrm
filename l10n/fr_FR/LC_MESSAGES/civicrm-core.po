@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-02-09 09:26-0800\n"
+"PO-Revision-Date: 2009-02-14 15:53-0800\n"
 "Last-Translator: Kinaou Hervé <erudix@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4586,13 +4586,12 @@ msgid "Merge labels for contacts with the same address"
 msgstr "Fusionner les labels des contacts avec la même adresse"
 
 #: CRM/Contact/Form/Task/Map.php
-#, fuzzy
 msgid ""
 "This address does not contain latitude/longitude information and cannot be "
 "mapped."
 msgstr ""
-"L'adresse principale du contact ne contient pas les indications de latitude/"
-"longitude et ne peut pas être située sur une carte"
+"L'adresse du contact ne contient pas d'indication de latitude/longitude et "
+"ne peut pas localisée sur une carte."
 
 #: CRM/Contact/Form/Task/Map.php
 msgid "Event Info"
@@ -4826,7 +4825,7 @@ msgstr "Enregistrement de l'activité pour les Contacts"
 
 #: CRM/Contact/Task.php
 msgid "Map Contacts"
-msgstr "Situer les contacts sur une carte"
+msgstr "Localiser les contacts sur une carte"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Event"
@@ -4839,28 +4838,28 @@ msgstr "la Synchronisation des utilisateurs et des contacts est terminée"
 #: CRM/Core/BAO/CMSUser.php
 msgid "Checked one user record."
 msgid_plural "Checked %count user records."
-msgstr[0] "Fichier utilisateur vérifié"
-msgstr[1] "Fichiers %count utilisateur vérifiés"
+msgstr[0] "Un enregistrement utilisateur contrôlé."
+msgstr[1] "%count enregistrements utilisateur contrôlé."
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Found one matching contact record."
 msgid_plural "Found %count matching contact records."
-msgstr[0] "Fichier d'un contact correspondant trouvé"
-msgstr[1] "Fichiers de %count contact correspondant trouvés"
+msgstr[0] "Un enregistrement de contact correspondant a été trouvé."
+msgstr[1] "%count enregistrements de contact correspondant ont été trouvés."
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Created one new contact record."
 msgid_plural "Created %count new contact records."
-msgstr[0] "Fichier d'un nouveau contact créé"
-msgstr[1] "Fichiers de %count nouveaux contacts créés"
+msgstr[0] "Un nouveau contact a été enregistré."
+msgstr[1] "%count nouveaux contacts ont été enregistrés."
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Create an account?"
-msgstr "Creéer un nouveau compte?"
+msgstr "Créer un compte ?"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Username"
-msgstr "Nom utilisateur"
+msgstr "Nom d'utilisateur"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Confirm Password"
@@ -5088,17 +5087,16 @@ msgstr ""
 "désactivé."
 
 #: CRM/Core/BAO/UFGroup.php
-#, fuzzy
 msgid ""
 "The requested Profile (gid=%1) is disabled OR it is not configured to be "
 "used for 'Profile' listings in its Settings OR there is no Profile with that "
 "ID OR you do not have permission to access this profile. Please contact the "
 "site administrator if you need assistance."
 msgstr ""
-"Le profil demandé (gid=%1) est désactivé, OU il n'est pas configuré pour "
-"être utilisé pour les listes 'Profile' dans sa configuration, ou il n'y a "
-"pas de profil avec cet ID. Contactez l'administrateur du site si vous avez "
-"besoin d'aide."
+"Le profil demandé (gid=%1) est désactivé OU n'est pas configuré pour "
+"apparaitre dans les listes de 'Profile' OU il n'y a pas de profil avec cet "
+"ID OU vous n'avez pas la permission d'accéder à ce profil. Merci de "
+"contacterl'administrateur du site si vous avez besoin d'aide."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Dynamic Form Creator"
@@ -5204,32 +5202,35 @@ msgstr "Envoyer un mailing"
 msgid "Browse Sent Mailings"
 msgstr "Parcourir les mailings envoyés"
 
+#  
 #: CRM/Core/Config.php
 msgid ""
 "There is no valid smtp server setting. Click <a href='%1'>Administer CiviCRM "
 ">> Global Settings</a> to set the SMTP Server."
 msgstr ""
-"Il n'y a pas de configuration serveur du smtp valide. Cliquez <a href='%"
-"1'>Administer CiviCRM >> Global Settings</a pour installer un server SMTP."
+"Aucun paramétrage de serveur SMTP valide. Cliquez <a href='%1'>Administrer "
+"CiviCRM >> Configuration Générale</a pour installer un serveur SMTP."
 
+#  
 #: CRM/Core/Config.php
-#, fuzzy
 msgid ""
 "There is no valid sendmail path setting. Click <a href='%1'>Administer "
 "CiviCRM >> Global Settings</a> to set the Sendmail Server."
 msgstr ""
-"Il n'y a pas de configuration serveur du smtp valide. Cliquez <a href='%"
-"1'>Administer CiviCRM >> Global Settings</a pour installer un server SMTP."
+"Aucun paramétrage de chemin SendMail valide. Cliquez <a "
+"href='%1'>Administrer CiviCRM >> Configuration Générale</a pour définir un "
+"serveur SendMail."
 
+#  
 #: CRM/Core/Config.php
-#, fuzzy
 msgid ""
 "There is no valid SMTP server Setting Or SendMail path setting. Click <a "
 "href='%1'>Administer CiviCRM >> Global Settings</a> to set the OutBound "
 "Email."
 msgstr ""
-"Il n'y a pas de configuration serveur du smtp valide. Cliquez <a href='%"
-"1'>Administer CiviCRM >> Global Settings</a pour installer un server SMTP."
+"Aucun paramétrage de serveur SMTP ni de chemin SendMail valide. Cliquez <a "
+"href='%1'>Administrer CiviCRM >> Configuration Générale</a pour définir un "
+"serveur d'envoi de courriels."
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number"
@@ -5256,9 +5257,8 @@ msgid "Street Number Postdirectional"
 msgstr "Numéro postdirectionnel de rue"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
-msgstr "Unité"
+msgstr "Unité de la rue"
 
 #: CRM/Core/DAO/Address.php
 msgid "Supplemental Address 1"
@@ -5274,19 +5274,19 @@ msgstr "Complément d'adresse 3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
-msgstr ""
+msgstr "Centre de tri postal"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Code Géographique 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Code Géographique 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Fuseau horaire"
 
 #: CRM/Core/DAO/Cache.php
 msgid "Created Date"
@@ -5302,32 +5302,28 @@ msgstr "Nom du composant"
 
 #: CRM/Core/DAO/Component.php
 msgid "Namespace reserved for component."
-msgstr ""
+msgstr "Espace de noms (namespace) réservé pour un composant."
 
 # Equivalent américain du code NAF français
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "Code SIC (NAF)"
+msgstr "Code ISO"
 
 #: CRM/Core/DAO/Country.php
 msgid "Country Code"
-msgstr "Code du pays"
+msgstr "Code pays"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Idd Prefix"
-msgstr "Préfixe"
+msgstr "Indicatif Téléphonique International"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Ndd Prefix"
-msgstr "Préfixe"
+msgstr "Indicatif Téléphonique National"
 
 #: CRM/Core/DAO/County.php
-#, fuzzy
 msgid "County Abbreviation"
-msgstr "Abbréviation du comté"
+msgstr "Abréviation de la Région"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Currency"
@@ -5354,48 +5350,40 @@ msgid "Attributes"
 msgstr "Attributs"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Start Date Years"
-msgstr "Date de début"
+msgstr "Années de la date de début"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "End Date Years"
-msgstr "Date de fin"
+msgstr "Années de la date de fin"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Date Parts"
 msgstr "Date de naissance"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
-msgstr ""
+msgstr "Colonnes de Note"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Note Rows"
-msgstr "Notes"
+msgstr "Lignes de Note"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Column Name"
-msgstr "Nom de Domaine"
+msgstr "Colonne Nom"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "String"
-msgstr "Paramètres"
+msgstr "Chaine de caractères"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Int"
 msgstr "Entier"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Float"
-msgstr "Format"
+msgstr "Nombre flottant"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Boolean"
@@ -5407,113 +5395,103 @@ msgid "StateProvince"
 msgstr "Département"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Multi-Select Country"
-msgstr "Sélectionner le Pays"
+msgstr "Sélection multiple de Pays"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "RichTextEditor"
-msgstr ""
+msgstr "EditeurDeTexteEnrichi"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Extends"
-msgstr "ID externe"
+msgstr "Étends"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Name"
-msgstr ""
+msgstr "Étends l'entité de la Colonne Nom"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Value"
-msgstr ""
+msgstr "Étends l'entité de la Colonne Valeur"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Custom/Page/Group.tpl
 msgid "Style"
-msgstr "Tigre"
+msgstr "Style"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Table Name"
-msgstr "Nom officiel"
+msgstr "Nom de la Table"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Relationship"
-msgstr "Relation"
+msgstr "Relations"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Pledge"
 msgstr "Promesse de don"
 
 #: CRM/Core/DAO/Discount.php
-#, fuzzy
 msgid "Discount Name"
-msgstr "Prénom"
+msgstr "Nom de la remise"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Name"
-msgstr "Nom de Domaine"
+msgstr "Nom de Courriel"
 
 #: CRM/Core/DAO/Domain.php templates/CRM/Friend/Form.tpl
 msgid "Email Address"
-msgstr "Adresse Email"
+msgstr "Adresse Courriel"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Return Path"
-msgstr "Adresse de retour"
+msgstr "Adresse Courriel de retour"
 
 #: CRM/Core/DAO/Domain.php
 #, fuzzy
 msgid "Config Backend"
-msgstr "Mettre à jour la config backend"
+msgstr "Config interface admin"
 
 #: CRM/Core/DAO/Domain.php
 msgid "Version"
 msgstr "Version"
 
 #: CRM/Core/DAO/Domain.php
+#, fuzzy
 msgid "Locales"
-msgstr ""
+msgstr "Lieux"
 
 #: CRM/Core/DAO/Email.php
 msgid "Use for Bulk Mail"
-msgstr ""
+msgstr "Utiliser pour le Courrier Groupé"
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Hold Date"
-msgstr "Date de fin"
+msgstr "Retenir la Date"
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Reset Date"
-msgstr "Date de reçu"
+msgstr "Réinitialiser la Date"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Mime Type"
-msgstr "Type de cas"
+msgstr "Type MIME"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
-msgstr "Uri"
+msgstr "URI"
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
 msgstr "Document"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Upload Date"
-msgstr "Mise à jour des données"
+msgstr "Date d'Envoi"
 
 #: CRM/Core/DAO/IM.php
-#, fuzzy
 msgid "IM Screen Name"
-msgstr "Date de debut"
+msgstr "Pseudo de Messagerie Instantanée"
 
 #: CRM/Core/DAO/LineItem.php
 msgid "Qty"
@@ -5524,38 +5502,32 @@ msgid "Unit Price"
 msgstr "Unité de prix"
 
 #: CRM/Core/DAO/LineItem.php
-#, fuzzy
 msgid "Line Total"
-msgstr "Total"
+msgstr "Ligne Total"
 
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "vCard Location Type"
-msgstr "Type de lieu"
+msgstr "Type de Lieu vCard"
 
 #: CRM/Core/DAO/LocBlock.php
 msgid "Location Name"
-msgstr "Lieu"
+msgstr "Nom du lieu"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Column Number"
-msgstr "Numéro de ligne"
+msgstr "Colonne Nombre"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Relationship Direction"
-msgstr "Type de relation"
+msgstr "Sens de relations"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Grouping"
-msgstr "Groupe"
+msgstr "Groupement"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Operator"
-msgstr "Opération"
+msgstr "Opérateur"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
@@ -5598,180 +5570,148 @@ msgid "NOT LIKE"
 msgstr "NOT LIKE"
 
 #: CRM/Core/DAO/Menu.php
-#, fuzzy
 msgid "Path Arguments"
-msgstr "Moyens de paiement"
+msgstr "Arguments pour l'URL"
 
 #: CRM/Core/DAO/Menu.php
-#, fuzzy
 msgid "Access Callback"
-msgstr "Contrôle d'accès"
+msgstr "Fonction de rappel pour l'Accès"
 
 #: CRM/Core/DAO/Menu.php
-#, fuzzy
 msgid "Access Arguments"
-msgstr "Contrôle d'accès"
+msgstr "Arguments pour l'Accès"
 
 #: CRM/Core/DAO/Menu.php
-#, fuzzy
 msgid "Page Callback"
-msgstr "Appel téléphonique"
+msgstr "Fonction de rappel pour la Page"
 
 #: CRM/Core/DAO/Menu.php
-#, fuzzy
 msgid "Page Arguments"
-msgstr "Moyens de paiement"
+msgstr "Arguments pour la Page"
 
 #: CRM/Core/DAO/Menu.php
 msgid "Breadcrumb"
-msgstr ""
+msgstr "Fil d'Ariane"
 
 #: CRM/Core/DAO/Menu.php
-#, fuzzy
 msgid "Return Url"
-msgstr "Url du serveur"
+msgstr "URL de retour"
 
 #: CRM/Core/DAO/Menu.php
 msgid "Return Url Args"
-msgstr ""
+msgstr "Arguments de l'URL de retour"
 
 #: CRM/Core/DAO/Menu.php
-#, fuzzy
 msgid "Page Type"
-msgstr "Type de cas"
+msgstr "Type de Page"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Msg Title"
 msgstr "Titre du message"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Msg Subject"
 msgstr "Sujet du message"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Msg Text"
-msgstr "Texte"
+msgstr "Contenu textuel du message"
 
 #: CRM/Core/DAO/MessageTemplates.php
 msgid "Msg Html"
-msgstr "Msg Html"
+msgstr "Contenu HTML du message"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Is Active"
-msgstr "Actif?"
+msgstr "Est Actif"
 
 #: CRM/Core/DAO/OpenID.php
-#, fuzzy
 msgid "Openid"
 msgstr "OpenID"
 
 #: CRM/Core/DAO/OpenID.php
-#, fuzzy
 msgid "Allowed To Login"
-msgstr "Vous pouvez vous identifier"
+msgstr "Authentification permise"
 
 #: CRM/Core/DAO/OptionGroup.php
-#, fuzzy
 msgid "Option Group Name"
-msgstr "Nom du groupe d'options"
+msgstr "Nom de Groupe d'Option"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Name"
-msgstr "Option d'Etiquette"
+msgstr "Nom d'Option"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Filter"
-msgstr "Fichier"
+msgstr "Filtre"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Payment Processor variable name to be used in code"
-msgstr "Le mode de paiement n'est pas défini pour cette page"
+msgstr "Nom de la variable du Processeur de Paiement à utiliser dans le code"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Payment Processor Title"
-msgstr "Type de paiement"
+msgstr "Titre du Processeur de Paiement"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for User Name if used"
-msgstr ""
+msgstr "Label du Nom d'Utilisateur si nécessaire"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Label for password"
-msgstr "Veuillez entrer un mot de passe valide"
+msgstr "Label pour le mot de passe"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Label for Signature"
-msgstr "Signature"
+msgstr "Label pour la Signature"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Label for Subject"
-msgstr "Sujet du message"
+msgstr "Label pour le Sujet"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Live Site URL"
-msgstr "Lien des sites internets "
+msgstr "URL visible par défaut pour le site"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default API Site URL"
-msgstr "Lien des sites internets "
+msgstr "URL par défaut pour l'API du site"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Live Recurring Payments URL"
-msgstr "URL pour les paiements récurrents"
+msgstr "URL visible par défaut pour le paiement récurrent"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Live Button URL"
-msgstr "URL du bouton test"
+msgstr "URL visible par défaut pour le bouton"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Test Site URL"
-msgstr "Lien des sites internets "
+msgstr "URL par défaut du site de test"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Test API URL"
-msgstr "URL de l'API test"
+msgstr "URL par défaut pour le test de l'API"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Test Recurring Payment URL"
-msgstr "URL pour les paiements récurrents"
+msgstr "URL par défaut pour le test de paiement récurrent"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Test Button URL"
-msgstr "URL du bouton test"
+msgstr "URL par défaut pour le test du bouton"
 
 #: CRM/Core/DAO/PreferencesDate.php
-#, fuzzy
 msgid "Start"
-msgstr "Status"
+msgstr "Début"
 
 #: CRM/Core/DAO/PreferencesDate.php
-#, fuzzy
 msgid "End"
-msgstr "et"
+msgstr "Fin"
 
 #: CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Location Count"
-msgstr "Donnation (nombre)"
+msgstr "Nombre d'emplacements"
 
 #: CRM/Core/DAO/Preferences.php xml/templates/civicrm_data.tpl
 msgid "Contact View Options"
@@ -5790,52 +5730,44 @@ msgid "User Dashboard Options"
 msgstr "Options du tableau de bord des utilisateurs"
 
 #: CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Address Options"
 msgstr "Options d'adresse"
 
 #: CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Address Format"
-msgstr "Formatage de l'adresse"
+msgstr "Format de l'adresse"
 
 #: CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Mailing Format"
-msgstr "Sujet"
+msgstr "Format d'adressage"
 
 #: CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Address Standardization Provider"
-msgstr "Organisation"
+msgstr "Fournisseur de Standardisation d'Adresse"
 
 #: CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Address Standardization Userid"
-msgstr "Organisation"
+msgstr "ID utilisateur pour la Standardisation d'Adresse"
 
 #: CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Address Standardization Url"
-msgstr "Organisation"
+msgstr "URL pour la Standardisation d'Adresse"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "Abréviation de l'État"
 
 #: CRM/Core/DAO/Timezone.php
-#, fuzzy
 msgid "Abbreviation"
-msgstr "Durée"
+msgstr "Abréviation"
 
 #: CRM/Core/DAO/Timezone.php
 msgid "Gmt"
-msgstr "Gmt"
+msgstr "GMT"
 
 #: CRM/Core/DAO/Timezone.php
-#, fuzzy
 msgid "Offset"
-msgstr "Date de début"
+msgstr "Décalage"
 
 #: CRM/Core/DAO/UFField.php
 #, fuzzy
