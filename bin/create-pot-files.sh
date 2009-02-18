@@ -2,7 +2,7 @@
 
 bin=`dirname $0`
 root="$bin/.."
-potdir="$root/l10n/pot/LC_MESSAGES"
+potdir="$root/l10n/pot"
 tempfile=`tempfile`
 
 

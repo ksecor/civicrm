@@ -23,7 +23,7 @@ $svn export "$address""$tarball_branch""$version" export
 if test ! -d export/l10n; then
   vname="v`echo $version | cut -d. -f1-2`"
   $svn export "$address_l10n""/branches/""$vname" export/l10n
-  for $locale in export/l10n/??_??; do
+  for locale in export/l10n/??_??; do
     $msgcat $locale/*.po | $msgfmt -vo $locale/civicrm.mo -
   done
 fi
