@@ -174,22 +174,18 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         
         $this->add('select', 'reporter_id',  ts( 'Reporter/Role' ), $reporters );
 
-		// Include client relationships
+		// Retrieve ALL client relationships
 		$relClient = CRM_Contact_BAO_Relationship::getRelationship($this->_contactID,
 									CRM_Contact_BAO_Relationship::CURRENT,
 									0, 0, 0, null, null, false);
 
-		// Now remove ones that are also roles so they don't show up twice. Also remove the client itself.
-		// We need to do this because otherwise EVERY role will show up twice, since every role is also a client relationship.
-		// We conveniently already have the required list of cids in the reporters variable.
+		// Now build 'Other Relationships' array by removing relationships that are already listed under Case Roles
+        // so they don't show up twice.
 		$clientRelationships = array();
-		foreach($relClient as $r)
-		{
-			$cid = $r['cid'];
-			if (($cid != $this->_contactID) && (! array_key_exists($cid, $reporters)))
-			{
-				$clientRelationships[] = $r;
-			}
+		foreach($relClient as $r) {
+            if ( ! array_key_exists( $r['id'], $caseRelationships ) ) {
+                $clientRelationships[] = $r;
+            }
 		}
         $this->assign('clientRelationships', $clientRelationships);
 

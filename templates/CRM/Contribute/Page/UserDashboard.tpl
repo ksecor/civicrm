@@ -41,35 +41,34 @@
  
 
 {if $honor}	
- {if $honorRows}
-{strip}
-<div id="help">
-    <p>{ts}Contributions made in your honor.{/ts}</p>
-</div>
-  <table class="selector">
-    <tr class="columnheader">
-        <th >{ts}Contributor{/ts}</th> 
-        <th>{ts}Amount{/ts}</th>
-	    <th>{ts}Contribution Type{/ts}</th>
-        <th>{ts}Received date{/ts}</th>
-        <th>{ts}Receipt Sent{/ts}</th>
-        <th>{ts}Status{/ts}</th>
-        <th></th>   
-    </tr>
-	{foreach from=$honorRows item=row}
-	   <tr id='rowid{$row.honorId}' class="{cycle values="odd-row,even-row"}">
-	   <td><a href="{crmURL p="civicrm/contact/view" q="reset=1&cid=`$row.honorId`"}" id="view_contact">{$row.display_name}</a></td>
-	   <td>{$row.amount|crmMoney}</td>
-           <td>{$row.type}</td>
-           <td>{$row.receive_date|truncate:10:''|crmDate}</td>
-           <td>{$row.receipt_date|truncate:10:''|crmDate}</td>
-           <td>{$row.contribution_status}</td>
-	  </tr>
+  {if $honorRows}
+    {strip}
+    <div id="help">
+        {ts}Contributions made in your honor{/ts}:
+    </div>
+      <table class="selector">
+        <tr class="columnheader">
+            <th >{ts}Contributor{/ts}</th> 
+            <th>{ts}Amount{/ts}</th>
+            <th>{ts}Contribution Type{/ts}</th>
+            <th>{ts}Received date{/ts}</th>
+            <th>{ts}Receipt Sent{/ts}</th>
+            <th>{ts}Status{/ts}</th>
+        </tr>
+        {foreach from=$honorRows item=row}
+           <tr id='rowid{$row.honorId}' class="{cycle values="odd-row,even-row"}">
+           <td><a href="{crmURL p="civicrm/contact/view" q="reset=1&cid=`$row.honorId`"}" id="view_contact">{$row.display_name}</a></td>
+           <td>{$row.amount|crmMoney}</td>
+               <td>{$row.type}</td>
+               <td>{$row.receive_date|truncate:10:''|crmDate}</td>
+               <td>{$row.receipt_date|truncate:10:''|crmDate}</td>
+               <td>{$row.contribution_status}</td>
+          </tr>
         {/foreach}
-</table>
- {/strip}
+    </table>
+    {/strip}
   {/if}   	  	
- {/if} 
+{/if} 
 
 {if $recur}	
  {if $recurRows}

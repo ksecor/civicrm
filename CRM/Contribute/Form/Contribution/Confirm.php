@@ -196,11 +196,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             require_once "CRM/Core/PseudoConstant.php";
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
             $honor  = CRM_Core_PseudoConstant::honor( );             
-            $this->assign("honor_type",$honor[$params["honor_type_id"]]);
-            $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
-            $this->assign("honor_first_name",$params["honor_first_name"]);
-            $this->assign("honor_last_name",$params["honor_last_name"]);
-            $this->assign("honor_email",$params["honor_email"]);
+            $this->assign("honor_type",       CRM_Utils_Array::value( $params["honor_type_id"], $honor ) );
+            $this->assign("honor_prefix",     CRM_Utils_Array::value( $params["honor_prefix_id"], $prefix ) );
+            $this->assign("honor_first_name", $params["honor_first_name"]);
+            $this->assign("honor_last_name",  $params["honor_last_name"]);
+            $this->assign("honor_email",      $params["honor_email"]);
         }
         $this->assign('receiptFromEmail', CRM_Utils_Array::value( 'receipt_from_email', $this->_values ) );
         $amount_block_is_active = $this->get( 'amount_block_is_active');
@@ -656,7 +656,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $now = date( 'YmdHis' );    
         $receiptDate = CRM_Utils_Array::value( 'receipt_date', $params );
-        if ( $form->_values['is_email_receipt'] ) {
+        if ( CRM_Utils_Array::value( 'is_email_receipt', $form->_values ) ) {
             $receiptDate = $now;
         }
 
@@ -681,7 +681,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         if ( ! $online || $form->_values['is_monetary'] ) {
-            if ( ! $params['is_pay_later'] ) {
+            if ( ! CRM_Utils_Array::value( 'is_pay_later', $params ) ) {
                 $contribParams['payment_instrument_id'] = 1;
             }
         }

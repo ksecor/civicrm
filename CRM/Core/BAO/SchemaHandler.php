@@ -42,7 +42,6 @@ require_once 'CRM/Core/DAO.php';
 /**
  * structure, similar to what is used in GenCode.php
  *
- *
  * $table = array( 'name'       => TABLE_NAME,
  *                'attributes' => ATTRIBUTES,
  *                'fields'     => array( 
@@ -58,8 +57,7 @@ require_once 'CRM/Core/DAO.php';
  *                                             'default'       => DEFAULT, )
  *                                      ...
  *                                      ) );
- *                '
- */                                       
+ */
 
 class CRM_Core_BAO_SchemaHandler
 {
@@ -294,30 +292,58 @@ ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
         $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
 
-    static function createIndexes( &$tables, $createIndexPrefix = 'index' ) {
+    static function createIndexes(&$tables, $createIndexPrefix = 'index')
+    {
+        $queries = array();
+
+        $domain = new CRM_Core_DAO_Domain;
+        $domain->find(true);
+        $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+
+        // if we're multilingual, cache the information on internationalised fields
+        static $columns = null;
+        if ($locales and $columns === null) {
+            require_once 'CRM/Core/I18n/SchemaStructure.php';
+            $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        }
+
         foreach ( $tables as $table => $fields ) {
             $query = "SHOW INDEX FROM $table";
             $dao = CRM_Core_DAO::executeQuery( $query );
 
             $currentIndexes = array( );
             while ( $dao->fetch( ) ) {
-                $currentIndexes[$dao->Key_name] = 1;
+                $currentIndexes[] = $dao->Key_name;
             }
 
             // now check for all fields if the index exists
             foreach ( $fields as $field ) {
-                $indexName  = "index_$field"; 
-                $fkName     = "FK_{$table}_{$field}";
-                $uniqueName = "UI_{$field}";
-                $dedupeName = "{$createIndexPrefix}_{$field}";
-                if ( ! array_key_exists( $indexName , $currentIndexes ) &&
-                     ! array_key_exists( $fkName    , $currentIndexes ) &&
-                     ! array_key_exists( $uniqueName, $currentIndexes ) &&
-                     ! array_key_exists( $dedupeName, $currentIndexes ) ) {
-                    $indexQuery = "CREATE INDEX $dedupeName ON $table ( $field )";
-                    $indexDAO   = CRM_Core_DAO::executeQuery( $indexQuery );
+                $names = array("index_{$field}", "FK_{$table}_{$field}", "UI_{$field}", "{$createIndexPrefix}_{$field}");
+
+                // skip to the next $field if one of the above $names exists; handle multilingual for CRM-4126
+                foreach ($names as $name) {
+                    $regex = '/^' . preg_quote($name) . '(_[a-z][a-z]_[A-Z][A-Z])?$/';
+                    if (preg_grep($regex, $currentIndexes)) {
+                        continue 2;
+                    }
+                }
+
+                // the index doesn't exist, so create it
+                // if we're multilingual and the field is internationalised, do it for every locale
+                if ($locales and isset($columns[$table][$field])) {
+                    foreach ($locales as $locale) {
+                        $queries[] = "CREATE INDEX {$createIndexPrefix}_{$field}_{$locale} ON {$table} ({$field}_{$locale})";
+                    }
+                } else {
+                    $queries[] = "CREATE INDEX {$createIndexPrefix}_{$field} ON {$table} ({$field})";
                 }
             }
+        }
+
+        // run the queries without i18n-rewriting
+        $dao = new CRM_Core_DAO;
+        foreach ($queries as $query) {
+            $dao->query($query, false);
         }
     }
 

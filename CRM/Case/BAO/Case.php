@@ -919,7 +919,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
     }
 
     /**
-     * Function that send e-mail copy of activity
+     * Function that sends e-mail copy of activity
      * 
      * @param int     $activityId activity Id
      * @param array   $contacts array of related contact
@@ -955,6 +955,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $activityParams['source_contact_id']  = $session->get( 'userID' ); 
         $activityParams['activity_type_id']   = CRM_Core_OptionGroup::getValue( 'activity_type', 'Email', 'name' );
         $activityParams['activity_date_time'] = date('YmdHis');
+        $activityParams['due_date_time']      = date('YmdHis');
         $activityParams['status_id']          = CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' );
         $activityParams['medium_id']          = CRM_Core_OptionGroup::getValue( 'encounter_medium', 'email', 'name' );
         $activityParams['is_auto']            = 0;

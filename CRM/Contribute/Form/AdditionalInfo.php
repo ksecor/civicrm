@@ -185,7 +185,9 @@ class CRM_Contribute_Form_AdditionalInfo
         $dao->contribution_id = $contributionID;
         $dao->product_id      = $params['product_name'][0];
         $dao->fulfilled_date  = CRM_Utils_Date::format($params['fulfilled_date']);
-        $dao->product_option  = $options[$params['product_name'][0]][$params['product_name'][1]];
+        if ( CRM_Utils_Array::value( $params['product_name'][0], $options ) ) {
+            $dao->product_option  = $options[$params['product_name'][0]][$params['product_name'][1]];
+        }
         if ($premiumID) {
             $premoumDAO = & new CRM_Contribute_DAO_ContributionProduct();
             $premoumDAO->id  = $premiumID;
@@ -292,39 +294,25 @@ class CRM_Contribute_Form_AdditionalInfo
         // Retrieve Contribution Type Name from contribution_type_id
         $params['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
                                                                         $params['contribution_type_id'] );
-        
-        // retrieve payment instrument name
-        $paymentInstrumentGroup = array();
-        $paymentInstrumentGroup['name'] = 'payment_instrument';
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        CRM_Core_BAO_OptionGroup::retrieve($paymentInstrumentGroup, $paymentInstrumentGroup);
-        $paymentInstrument = array();
-        $paymentInstrument['value']            = $params['payment_instrument_id'];      
-        $paymentInstrument['option_group_id']  = $paymentInstrumentGroup['id'];
-        require_once 'CRM/Core/BAO/OptionValue.php';
-        CRM_Core_BAO_OptionValue::retrieve($paymentInstrument, $paymentInstrument);
-        $params['paidBy'] = $paymentInstrument['label'];
-        
+        if ( CRM_Utils_Array::value( 'payment_instrument_id', $params ) ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument( );
+            $params['paidBy']  = $paymentInstrument[$params['payment_instrument_id']];
+        }
         // retrieve individual prefix value for honoree
         if ( CRM_Utils_Array::value( 'hidden_Honoree', $params ) ) {
-            $individualPrefixGroup = array();
-            $individualPrefixGroup['name'] = 'individual_prefix';
-            require_once 'CRM/Core/BAO/OptionGroup.php';
-            CRM_Core_BAO_OptionGroup::retrieve($individualPrefixGroup, $individualPrefixGroup);
-            $individualPrefix = array();
-            $individualPrefix['value']            = $params['honor_prefix_id'];      
-            $individualPrefix['option_group_id']  = $individualPrefixGroup['id'];
-            require_once 'CRM/Core/BAO/OptionValue.php';
-            CRM_Core_BAO_OptionValue::retrieve($individualPrefix,$individualPrefix );
-            $params['honor_prefix'] = $individualPrefix['label'];
-            $honor  = CRM_Core_PseudoConstant::honor( ); 
-            $params["honor_type"] = $honor[$params["honor_type_id"]];
+            $individualPrefix       = CRM_Core_PseudoConstant::individualPrefix();
+            $honor                  = CRM_Core_PseudoConstant::honor( ); 
+            $params['honor_prefix'] = CRM_Utils_Array::value( $params['honor_prefix_id'], $individualPrefix );
+            $params["honor_type"]   = CRM_Utils_Array::value( $params["honor_type_id"], $honor );
         }
         
         // retrieve premium product name and assigned fulfilled
         // date to template
         if ( CRM_Utils_Array::value( 'hidden_Premium', $params ) ) {
-            $params['product_option'] = $form->_options[$params['product_name'][0]][$params['product_name'][1]];
+            if (  CRM_Utils_Array::value( $params['product_name'][0], $form->_options ) ) {
+                $params['product_option'] = $form->_options[$params['product_name'][0]][$params['product_name'][1]];
+            }
             require_once 'CRM/Contribute/DAO/Product.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
             $productDAO->id = $params['product_name'][0];
@@ -371,10 +359,12 @@ class CRM_Contribute_Form_AdditionalInfo
             $params['receipt_from_name'] = $form->userDisplayName;
             $params['receipt_from_email']= $form->userEmail;
             // assigned various dates to the templates
-            $form->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receive_date'])) );
-            $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receipt_date'])) );
-            $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['thankyou_date'])));
-            $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format(  $params['cancel_date']))  );
+            $form->assign('receive_date',  CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receive_date'] )));
+            $form->assign('receipt_date',  CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receipt_date'] )));
+            $form->assign('cancel_date',   CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['cancel_date']  )));
+            if ( CRM_Utils_Array::value( 'thankyou_date', $params ) ) {
+                $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['thankyou_date'])));
+            }
         }
         
         //handle custom data
@@ -409,16 +399,16 @@ class CRM_Contribute_Form_AdditionalInfo
         
         $form->assign_by_ref( 'formValues', $params );
         require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Utils/Mail.php';
         list( $contributorDisplayName, 
               $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
         $template =& CRM_Core_Smarty::singleton( );
-        $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
-        $session =& CRM_Core_Session::singleton( );
-        $userID = $session->get( 'userID' );
+        $session  =& CRM_Core_Session::singleton( );
+        $message  = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+        $userID   = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
         $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
-        $subject = ts('Contribution Receipt');
-        require_once 'CRM/Utils/Mail.php';
+        $subject     = ts('Contribution Receipt');
         $sendReceipt = CRM_Utils_Mail::send( $receiptFrom,
                                              $contributorDisplayName,
                                              $contributorEmail,

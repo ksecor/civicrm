@@ -321,13 +321,13 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         require_once 'CRM/Member/BAO/Membership.php';
         require_once 'CRM/Member/BAO/MembershipType.php';
         require_once 'CRM/Member/BAO/MembershipStatus.php'; 
- 
+    
         // get the submitted form values.  
         $this->_params = $formValues = $this->controller->exportValues( $this->_name );
         
         $params = array( );
         $ids    = array( );
-        
+        $config =& CRM_Core_Config::singleton();
         $params['contact_id']  = $this->_contactID;
         if ( $this->_mode ) {
             $formValues['total_amount']         = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
@@ -395,7 +395,9 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             // all the payment processors expect the name and address to be in the 
             // so we copy stuff over to first_name etc. 
             $paymentParams = $this->_params;
-            
+            if ( CRM_Utils_Array::value( 'send_receipt', $this->_params ) ) {
+                $paymentParams['email'] = $this->_contributorEmail;
+            }
             
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
@@ -467,7 +469,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $contributionParams['source'               ] = "{$memType} Membership: Offline membership renewal (by {$userName})";
             $contributionParams['non_deductible_amount'] = 'null';
             $contributionParams['receive_date'         ] = date( 'Y-m-d H:i:s' );
-            $contributionParams['receipt_date'         ] = $formValues['send_receipt'] ? 
+            $contributionParams['receipt_date'         ] = CRM_Utils_Array::value( 'send_receipt', $formValues ) ? 
                                                            $contributionParams['receive_date'] : 'null';
                        
             $recordContribution = array( 'total_amount', 'contribution_type_id', 'payment_instrument_id','trxn_id', 'contribution_status_id', 'invoice_id', 'check_number', 'is_test' );
@@ -504,7 +506,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
-                                         $params['membership_type_id'],
+                                         CRM_Utils_Array::value( 'membership_type_id', $params ),
                                          'receipt_text_renewal',
                                          $formValues['receipt_text_renewal'] );
         }

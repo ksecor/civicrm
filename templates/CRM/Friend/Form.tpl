@@ -1,13 +1,21 @@
 {* Enduser Tell-a-Friend form. *} 
-{if $status eq 'thankyou' }
-<p>{$thankYouText}</p>
+{if $status eq 'thankyou' } {* Form has been submitted. *}
+    <p>{$thankYouText}</p>
+    
+    {* Add button for donor to create their own Personal Campaign page *}
+    {if $linkText}
+ 	<div>
+        <a href="{$linkTextUrl}" title="{$linkText}" class="button"><span>&raquo; {$linkText}</span></a>
+    </div><br /><br />
+    {/if}
+      
 {else}
 <table class="form-layout-compressed">
 	<tr>
 		<td colspan=2>
             <p>
                 {if $context EQ 'pcp'}
-                    {ts 1=$pcpTitle}Use this form to spread the word about your fundraising page (%1). Add your personal message below. The emails will automatically include a link to your page.{/ts}
+                    {ts 1=$pcpTitle}Spread the word about this fundraising page (%1). Add your personal message below. A link to the fundraising page will be automatically included in the email.{/ts}
                 {else}
                     {$intro}
                 {/if}

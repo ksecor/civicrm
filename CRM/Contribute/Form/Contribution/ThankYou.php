@@ -123,6 +123,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                 }
             }
         }
+        // Link (button) for users to create their own Personal Campaign page
         if ( isset( $this->_linkText) ) {
             $this->assign( 'linkTextUrl', $linkTextUrl );
             $this->assign( 'linkText', $linkText );

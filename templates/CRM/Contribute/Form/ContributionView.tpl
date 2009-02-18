@@ -111,10 +111,14 @@
 {if $pcp_id}
 <fieldset><legend>{ts}Personal Campaign Page{/ts}</legend>
 <dl>
-	<dt>{ts}Campaign Page{/ts}</dt><dd>{$pcp}</dd>
-	<dt>{ts}Display in Roll{/ts}</dt><dd>{if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</dd>
-	<dt>{ts}Nick Name{/ts}</dt><dd>{$pcp_roll_nickname}</dd>
-	<dt>{ts}Notes{/ts}</dt><dd>{$pcp_personal_note}</dd>
+	<dt>{ts}Campaign Page{/ts}</dt>
+    <dd><a href="{crmURL p="civicrm/contribute/pcp/info" q="reset=1&id=`$pcp_id`"}">{$pcp}</a><br />
+        <span class="description">{ts}Contribution was made through this personal campaign page.{/ts}</span>
+    </dd>
+	<dt>{ts}In Public Honor Roll?{/ts}</dt><dd>{if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</dd>
+    {if $pcp_roll_nickname}
+        <dt>{ts}Honor Roll Name{/ts}</dt><dd>{$pcp_roll_nickname}</dd>
+    {/if}
 </dl>
 </fieldset>
 {/if} 

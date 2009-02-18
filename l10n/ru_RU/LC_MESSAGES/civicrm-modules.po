@@ -6,19 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-09-23 14:53-0700\n"
-"Last-Translator: Alexandr <a.kolesnikov@mail.ru>\n"
+"PO-Revision-Date: 2009-02-12 09:48-0800\n"
+"Last-Translator: Dmitry Grudinin <dmitry.grudinin@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
 msgid "Copy of "
-msgstr ""
+msgstr "Копия"
 
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -9041,7 +9041,7 @@ msgstr "Удалить тип подарка"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Date of first pledge payment."
-msgstr ""
+msgstr "Дата первой выплаты."
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Date when an acknowledgment of the pledge was sent."
@@ -9100,11 +9100,11 @@ msgstr "Дата отправки"
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 msgid "Please mail your payment to"
-msgstr ""
+msgstr "Пожалуйста, отошлите свой платеж на"
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 msgid "Thank your for your generous support."
-msgstr ""
+msgstr "Спасибо за вашу поддержку."
 
 #: templates/CRM/Pledge/Form/ReminderSubject.tpl
 #, fuzzy
@@ -9137,7 +9137,7 @@ msgstr "Если вы ищите в диапозоне цен или дат, п�
 
 #: templates/CRM/Pledge/Form/Selector.tpl
 msgid "Click %1 to view pledge payments."
-msgstr ""
+msgstr "Щелкните %1, чтобы просмотреть выплаты."
 
 #: templates/CRM/Pledge/Form/Selector.tpl
 msgid "Find more pledges"

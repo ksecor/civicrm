@@ -23,7 +23,7 @@
 {include file="CRM/common/jquery.tpl"}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
-  <title>{$pageTitle}</title>
+  <title>{$docTitle}</title>
 </head>
 <body>
 

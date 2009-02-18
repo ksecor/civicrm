@@ -8,7 +8,7 @@
 	</div>
 {/if}
 <div id="help">
-{ts 1=$title}Allow constituents to create their own personal fundraising pages linked to this contribution page (%1).{/ts}
+{ts}Allow constituents to create their own personal fundraising pages linked to this contribution page.{/ts}
 </div>
 <dl>
 	<dt></dt>

@@ -384,7 +384,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         $vars = array( 'amount', 'currencyID', 'credit_card_type', 
                        'trxn_id', 'amount_level', 'receive_date' );
-        
+
         foreach ( $vars as $v ) {
             if ( CRM_Utils_Array::value( $v, $params ) ) { 
                 if ( $v == 'receive_date' ) {
@@ -392,8 +392,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 } else {
                     $this->assign( $v, $params[$v] );
                 }
-            } else if ( $params['amount'] == 0 ) {
-                $this->assign( $v, $params[$v] );
+            } else if ( CRM_Utils_Array::value( 'amount', $params ) == 0 ) {
+                $this->assign( $v, CRM_Utils_Array::value( $v, $params ) );
             }
         }
         

@@ -326,7 +326,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             $this->assign( 'pcp', true );
             $this->add( 'checkbox', 'pcp_display_in_roll', ts('Show my contribution in the public honor roll'), null, null,
-                        array('onclick' => "return showHideByValue('pcp_display_in_roll','','nameID|nickID','table-row','radio',false);")
+                        array('onclick' => "showHideByValue('pcp_display_in_roll','','nameID|nickID','table-row','radio',false); pcpAnonymous( );")
                         );
             $extraOption = array('onclick' =>"return pcpAnonymous( );");
             $elements = array( );
@@ -438,13 +438,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->assign("honor_block_title",$this->_values['honor_block_title']);
         $this->assign("honor_block_text",$this->_values['honor_block_text']);
 
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
-
+        $attributes  = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
+        $extraOption = array('onclick' =>"enableHonorType();");
         // radio button for Honor Type
         $honorOptions = array( );
         $honor =CRM_Core_PseudoConstant::honor( ); 
         foreach ($honor as $key => $var) {
-            $honorTypes[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
+            $honorTypes[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key, $extraOption );
         }
         $this->addGroup($honorTypes, 'honor_type_id', null);
         

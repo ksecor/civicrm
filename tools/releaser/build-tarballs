@@ -19,6 +19,15 @@ cd $workdir/$version
 mkdir -p php4 tarballs tmp
 $svn export "$address""$tarball_branch""$version" export
 
+# if the l10n dir is missing from the export, it should be fetched from the l10n repo
+if test ! -d export/l10n; then
+  vname="v`echo $version | cut -d. -f1-2`"
+  $svn export "$address_l10n""/branches/""$vname" export/l10n
+  for $locale in export/l10n/??_??; do
+    $msgcat $locale/*.po | $msgfmt -vo $locale/civicrm.mo -
+  done
+fi
+
 # create the distmaker.conf file
 echo "
 DM_SOURCEDIR=$workdir/$version/export

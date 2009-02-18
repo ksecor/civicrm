@@ -245,7 +245,13 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                                CRM_Utils_System::url( 'civicrm/profile/map',
                                                       "map=1&gid={$this->_gid}&reset=1" ) );
             }
-            
+            if ( CRM_Utils_Array::value( 'group', $this->_params ) ) {
+                foreach( $this->_params['group'] as $key => $val ) {
+                    if ( !$val ) {
+                        unset( $this->_params['group'][$key] );
+                    }
+                }
+            }
             if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
                 $editLink = false;
             }

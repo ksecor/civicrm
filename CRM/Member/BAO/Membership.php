@@ -276,7 +276,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
             
             //insert payment record for this membership
-            if( !$ids['contribution'] ) {
+            if( !CRM_Utils_Array::value( 'contribution', $ids ) ) {
                 require_once 'CRM/Member/DAO/MembershipPayment.php';
                 $mpDAO =& new CRM_Member_DAO_MembershipPayment();    
                 $mpDAO->membership_id   = $membership->id;
