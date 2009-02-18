@@ -1931,11 +1931,11 @@ class CRM_Contact_BAO_Query
         }
 
         $groupNames =& CRM_Core_PseudoConstant::group();
-        $groupIds = implode( ',', array_keys($value) );
+        $groupIds = implode( ',', array_keys($value, 1) );
 
         $names = array( );
         foreach ( $value as $id => $dontCare ) {
-            if ( array_key_exists( $id, $groupNames ) ) {
+            if ( array_key_exists( $id, $groupNames ) && $dontCare ) {
                 $names[] = $groupNames[$id];
             }
         }
