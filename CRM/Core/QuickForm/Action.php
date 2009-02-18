@@ -65,13 +65,17 @@ class CRM_Core_QuickForm_Action extends HTML_QuickForm_Action {
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton( );
 
-        $userContext = $session->popUserContext( );
+        // check if destination is set, if so goto destination
+        $destination = $this->_stateMachine->getDestination( );
+        if ( ! $destination ) {
+            $destination = $session->popUserContext( );
 
-        if ( empty( $userContext ) ) {
-            $userContext = $config->userFrameworkBaseURL;
+            if ( empty( $destination ) ) {
+                $destination = $config->userFrameworkBaseURL;
+            }
         }
-
-        CRM_Utils_System::redirect( $userContext );
+        
+        CRM_Utils_System::redirect( $destination );
     }
 
 }

@@ -249,9 +249,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         CRM_Utils_Hook::postProcess( get_class( $this ),
                                      $this );
 
-        if ( $this->controller->_destination ) {
-            CRM_Utils_System::redirect( $this->controller->_destination );
-        }
     }
 
     /**

@@ -339,6 +339,11 @@ class CRM_Core_StateMachine {
         return $this->_controller->getContent();
     }
 
+    function getDestination( ) {
+        return $this->_controller->getDestination( );
+    }
+
+
 }
 
 
