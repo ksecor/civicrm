@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-02-11 05:45-0800\n"
+"PO-Revision-Date: 2009-02-18 03:43-0800\n"
 "Last-Translator: nmoget <nmoget@bluewin.ch>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -9898,17 +9898,17 @@ msgstr ""
 msgid ""
 "Click <a href='%1'>New Pledge</a> to record a new pledge received from this "
 "contact."
-msgstr "Localisation primaire pour ce contact"
+msgstr ""
+"Cliquer <a href='%1'>Nouvelle promesse</a> pour enregistrer une nouvelle "
+"promesse de dons reçue de ce contact."
 
 #: templates/CRM/Pledge/Page/Tab.tpl
-#, fuzzy
 msgid "No pledges have been recorded from this contact."
-msgstr "Localisation primaire pour ce contact"
+msgstr "Aucune promesse de dons enregistrée pour ce contact."
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Make Payment"
-msgstr "Paiements en ligne"
+msgstr "Faire le paiement"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 #, fuzzy
@@ -9916,14 +9916,12 @@ msgid "Payments"
 msgstr "Processus de paiement"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Pledges made in your honor."
-msgstr "Type de contact"
+msgstr "Promesses de dons faites en votre honneur."
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Pledger"
-msgstr "Pager"
+msgstr "Promesse de dons"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Create date"

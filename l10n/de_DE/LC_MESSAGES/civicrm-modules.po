@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-02-16 10:51-0800\n"
-"Last-Translator: Lars Schröter <ositoblanco@gmail.com>\n"
+"PO-Revision-Date: 2009-02-17 07:10-0800\n"
+"Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7443,14 +7443,14 @@ msgstr ""
 "später' (zB. per E-mail, Check, Telefon, Kreditkarte etc)."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid ""
 "Determine whether an online registration page is available. If so, configure "
 "registration, confirmation and thank you page elements and confirmation "
 "email details."
 msgstr ""
-"Bestimmen Sie ob eine Online-Anmeldungsseite existieren soll. Wenn sie "
-"existiert, müssen die Elemente des Anmeldeformulars konfiguriert werden."
+"Prüfe, ob eine Online-Anmeldungsseite existiert,  Falls vorhanden, "
+"konfiguriere Registration, Bestätigung und Danke Seite Elemente sowie "
+"Bestätigungs Email Details"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -7461,9 +7461,8 @@ msgstr ""
 "Bekannte weiterzusagen."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Public Participant Listing"
-msgstr "Teilnehmerlisten-ID"
+msgstr "Öffentliche Teilnehmer Liste"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -7484,9 +7483,8 @@ msgstr ""
 "darstellt."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Test-drive Registration"
-msgstr "Registrieren"
+msgstr "Test Registration"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -7500,9 +7498,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Live Registration"
-msgstr "Registrieren"
+msgstr "Produktive Registration"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -7555,13 +7552,13 @@ msgstr ""
 "Diese Seite listet alle Veranstaltungsteilnahmen für %1 seit dem Anfang."
 
 #: templates/CRM/Event/Page/Tab.tpl
-#, fuzzy
 msgid ""
 "Click <a accesskey=\"N\" href='%1'>New Event Registration</a> to register "
 "this contact for an event."
 msgstr ""
-"Auf <a href=\"%1\">Neue Veranstaltungsteilnahme</a> klicken um diesen "
-"Kontakt an einer Veranstaltung anzumelden."
+"Auf <a accesskey=\"N\" href='%1'>Neue Veranstaltung Teilnehmer "
+"Registration</a> klicken um diesen Kontakt für eine Veranstaltung "
+"anzumelden."
 
 #: templates/CRM/Event/Page/Tab.tpl
 msgid ""
@@ -7571,9 +7568,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/Tab.tpl
-#, fuzzy
 msgid "Submit Credit / Debit Card Event Registration"
-msgstr "Beiträge bearbeiten"
+msgstr "Kredit/Debit Karte Veranstaltungs Registration übermitteln"
 
 #: templates/CRM/Event/Page/Tab.tpl
 msgid ""
@@ -7597,37 +7593,28 @@ msgid "You are not registered for any current or upcoming Events."
 msgstr "Sie nehmen an keiner laufenden oder kommenden Veranstaltung teil."
 
 #: templates/CRM/Grant/Form/Grant.tpl templates/CRM/Grant/Page/Tab.tpl
-#, fuzzy
 msgid "New Grant"
-msgstr "gewähren"
+msgstr "Neue Unterstützung"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Select the status of this grant."
-msgstr ""
-"Wählen Sie die Art des Datensatzen das in der eigenen Datengruppe verfügbar "
-"ist."
+msgstr "Wählen sie den Status dieser Unterstützung."
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Select the appropriate grant type."
-msgstr ""
-"Wählen Sie die Art des Datensatzen das in der eigenen Datengruppe verfügbar "
-"ist."
+msgstr "Wählen sie den passenden Unterstützungs Typ."
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Amount requested for grant."
-msgstr "Betrag"
+msgstr "Betrag verlangt für die Unterstützung"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Amount requested for grant in original currency (if different)."
 msgstr ""
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Actual amount granted."
-msgstr "Betrag"
+msgstr "Aktuelle Betrag der Unterstützung"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "When was the grant application received?"
@@ -7642,16 +7629,16 @@ msgid "Date on which the grant money was transferred."
 msgstr ""
 
 #: templates/CRM/Grant/Form/GrantView.tpl
-#, fuzzy
 msgid ""
 "Amount Requested <br />\n"
 "\t          (original currency)"
-msgstr "Betrag"
+msgstr ""
+"Verlangter Betrag <br/>\n"
+"\t          (Original Währung)"
 
 #: templates/CRM/Grant/Form/Search/Common.tpl
-#, fuzzy
 msgid "Date is not set"
-msgstr "FEHLER: Titel nicht definiert"
+msgstr "Datum ist nicht gesetzt"
 
 #: templates/CRM/Grant/Form/Search/EmptyResults.tpl
 msgid "if you are searching by Contact name, check your spelling"
@@ -7668,52 +7655,46 @@ msgid "Complete OR partial name OR email."
 msgstr "ganzer ODER teilweiser Name ODER E-Mail."
 
 #: templates/CRM/Grant/Form/Selector.tpl
-#, fuzzy
 msgid "List more Grants"
-msgstr "Teilnehmer auflisten"
+msgstr "Weitere Unterstützung auflisten"
 
 #: templates/CRM/Grant/Form/Task/Delete.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the selected Grants? This delete operation "
 "cannot be undone and will delete all transactions associated with these "
 "grants."
 msgstr ""
-"Sind Sie sicher, dass Sie die ausgewählten Kontakte löschen möchten? Ein "
-"Löschvorgang kann nicht Rückgängig gemacht werden."
+"Wollen sie die ausgewählte Unterstützuing löschen? Der Löschvorgang kann "
+"nicht rückgängig gemacht werden. Alle Transaktionen, welche mit dieser "
+"Unterstützung verbunden sind, werden ebenfalls gelöscht."
 
 #: templates/CRM/Grant/Form/Task/Print.tpl
-#, fuzzy
 msgid "Amount Requested(orig. currency)"
-msgstr "Betrag"
+msgstr "Verlangter Betrag (original Währung)"
 
 #: templates/CRM/Grant/Form/Task/Print.tpl
-#, fuzzy
 msgid "Application Recieved"
-msgstr "Eingangsdatum"
+msgstr "Gesuch erhalten"
 
 #: templates/CRM/Grant/Form/Task.tpl
-#, fuzzy
 msgid "Number of selected grants: %1"
-msgstr "Zahl der ausgewählten Kontakte: %1"
+msgstr "Zahl der gewählten Unterstützungen: %1"
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href='%1'>Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
-"Sie können <a href=\"%1\">Fehler herrunterladen</a>. Sie können diese dann "
-"korrigieren, und die neue Datei mit den korrigierten Daten importieren."
+"Sie können <a href='%1'>Herunterladen widersprüchliche Teilnehmerdaten</a>. "
+"Sie können diese korrigieren, und die geänderte Datei neu importieren."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: 'Contact ID', 'Participant Role')."
 msgstr ""
-"Wählen Sie diese Box aus, wenn die erste Zeile Ihrer Datei die Feldnamen "
-"beinhaltet (Beispielsweise: \"Vorname\", \"Nachname\", \"Email\")."
+"Markiere diese Box, falls die erste Zeile der Datei die Feld Namen enthält "
+"(Bsp: 'Kontakt  ID','Teilnehmer Rolle')."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid ""
@@ -7726,9 +7707,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
-#, fuzzy
 msgid "Grants Summary"
-msgstr "Kontaktzusammenfassung"
+msgstr "Unterstützung Kurzfassung"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid ""
@@ -7741,9 +7721,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
-#, fuzzy
 msgid "Number of grants"
-msgstr "Anzahl an Orten"
+msgstr "Anzahl Unterstützungen"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "TOTAL"
@@ -7754,37 +7733,33 @@ msgid "You have no Grants registered in your database."
 msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Grants"
-msgstr "Empfänger"
+msgstr "Neuliche Unterstützungen"
 
 #: templates/CRM/Grant/Page/Tab.tpl
-#, fuzzy
 msgid "This page lists all grant registrations for %1 since inception."
-msgstr "Es wurden keine Beziehungen für diesen Kontakt eingegeben."
+msgstr ""
+"Diese Seite zeigt alle Unterstützungs Registrationen für %1 seit dem Beginn"
 
 #: templates/CRM/Grant/Page/Tab.tpl
-#, fuzzy
 msgid ""
 "Click <a accesskey=\"N\" href='%1'>New Grant</a> to register this contact "
 "for a Grant."
 msgstr ""
-"Auf <a href=\"%1\">Neue Veranstaltungsteilnahme</a> klicken um diesen "
-"Kontakt an der Veranstaltung anzumelden."
+"Auf <a accesskey=\"N\" href='%1'>Neue Unterstützung</a> klicken um diesen "
+"Kontakt für eine Unterstützung zu registrieren."
 
 #: templates/CRM/Grant/Page/Tab.tpl
-#, fuzzy
 msgid ""
 "There are no grant recorded for this contact. You can <a href='%1'>enter one "
 "now</a>."
 msgstr ""
-"Der Kontakt hat keine Beziehungen. Sie können <a href=\"%1\">eine "
-"hinzufügen</a>."
+"Es wurde keine Unterstützung aufgezeichnet für diesen Kontakt. Es kann  <a "
+"href='%1'>eine hinzugefügt werden</a>."
 
 #: templates/CRM/Grant/Page/Tab.tpl
-#, fuzzy
 msgid "There are no grant recorded for this contact."
-msgstr "Es wurden keine Beziehungen für diesen Kontakt eingegeben."
+msgstr "Es wurden keine Unterstützungen für diesen Kontakt aufgezeichnet."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -7801,9 +7776,8 @@ msgstr ""
 "gesendetes Mailing."
 
 #: templates/CRM/Mailing/Form/Group.tpl
-#, fuzzy
 msgid "Mailing Recipients"
-msgstr "Empfänger"
+msgstr "Email Versand Empfänger"
 
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
@@ -7818,14 +7792,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Search.tpl
-#, fuzzy
 msgid "Find Mailings"
-msgstr "Mailings"
+msgstr "Finde Email Versand"
 
 #: templates/CRM/Mailing/Form/Search.tpl
-#, fuzzy
 msgid "Complete OR partial name."
-msgstr "Teil des oder ganzen Namen der Veranstaltung."
+msgstr "Namen, vollständig oder unvollständig."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -7850,9 +7822,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
 msgid "Responding"
-msgstr "Anstehend"
+msgstr "Antwortend"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -7906,9 +7877,8 @@ msgstr ""
 "antwortest."
 
 #: templates/CRM/Mailing/Form/Subscribe.tpl
-#, fuzzy
 msgid "Group Listings."
-msgstr "Standortsart löschen"
+msgstr "Gruppen Auflistung"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid ""
@@ -7970,9 +7940,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
-#, fuzzy
 msgid "Header / Footer"
-msgstr "Mailung Kopfzeile/Fußzeile"
+msgstr "Kopfzeile / Fusszeile"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -7987,14 +7956,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Are you sure you want to delete the mailing '%1'?"
-msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
+msgstr "Wollen sie den Email Versand '%1' löschen?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Are you sure you want to cancel the mailing '%1'?"
-msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
+msgstr "Wollen sie den Email Versand abbrechen?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
@@ -8005,22 +7972,20 @@ msgid "Or you can <a href='%1'>browse all Sent Mailings</a>."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid ""
 "There are no Unscheduled Mailings. You can <a href='%1'>create and send one</"
 "a>."
 msgstr ""
-"Es sind keine Marken für diesen Kontakt eingegeben. Sie können aber <a href="
-"\"%1\">eine hinzufügen</a>."
+"Es gibt keinen nicht geplanten Email Versand. Sie können <a href='%1'> einen "
+"Email Versand erstellen und senden</a>."
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid ""
 "There are no Scheduled or Sent Mailings. You can <a href='%1'>create and "
 "send one</a>."
 msgstr ""
-"Es sind keine Marken für diesen Kontakt eingegeben. Sie können aber <a href="
-"\"%1\">eine hinzufügen</a>."
+"Es sind keine geplanten oder gesendeten Email Versand. Sie können  <a "
+"href='%1'>einen hinzufügen</a>."
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
@@ -8039,19 +8004,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Event.tpl
-#, fuzzy
 msgid "Back to Report"
-msgstr "Bericht"
+msgstr "Zurück zum Bericht"
 
 #: templates/CRM/Mailing/Page/Optout.tpl
-#, fuzzy
 msgid "Are you sure you want to optout: %1 (%2)"
-msgstr "Sind Sie sicher, dass sie die Notiz löschen möchten?"
+msgstr "Wollen sie %1 (%2) ausgeben?"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Delivery Summary"
-msgstr "Aktivitätszusammenfassung"
+msgstr "Versand Report"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Spooled Mails"
@@ -8067,24 +8029,20 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Recipients"
 msgstr "Empfänger"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Included"
-msgstr "Einbinden"
+msgstr "Beigefügt"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Excluded"
-msgstr "Ausschließen"
+msgstr "Ausgeschlossen"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Click-through Summary"
-msgstr "Kontaktzusammenfassung"
+msgstr "Zusammenfassung zum Durch Klicken"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Clicks"
@@ -8107,19 +8065,16 @@ msgid "View complete message"
 msgstr "Zeige ganze Nachricht"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Attachments"
-msgstr "Ratenzahlung"
+msgstr "Anhänge"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Mailing Settings"
-msgstr "Mailing Nachricht"
+msgstr "Mailing Einstellungen"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Reply-to email"
-msgstr "Antworten an"
+msgstr "Antworten an Email"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Forward replies"
@@ -8150,23 +8105,20 @@ msgid "has been successfully resubscribed."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
 msgid "Are you sure you want to resubscribe: %1 (%2)"
-msgstr "Sind Sie sicher, dass Sie dieses Geschlecht deaktivieren möchten?"
+msgstr "Wollen sie wieder abonnieren: %1 (%2)?"
 
 #: templates/CRM/Mailing/Page/Unsubscribe.tpl
 msgid "has been successfully unsubscribed."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Unsubscribe.tpl
-#, fuzzy
 msgid " %1 (%2)"
-msgstr "(Schritt %1 von %2)"
+msgstr "%1 (%2)"
 
 #: templates/CRM/Mailing/Page/Unsubscribe.tpl
-#, fuzzy
 msgid "Are you sure you want to be unsubscribed from mailing lists:"
-msgstr "Sind Sie sicher, dass Sie %1 von %2 entfernen möchten?"
+msgstr "Wollen sie diese Mailing Liste abbestellen?"
 
 #: templates/CRM/Mailing/Page/Unsubscribe.tpl
 msgid ""
@@ -8206,9 +8158,8 @@ msgid "Membership section introductory text - displayed to renewing members."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
-#, fuzzy
 msgid "Include these membership types"
-msgstr "Beziehungsart löschen"
+msgstr "Diese Mitgliedschaftstypen hinzufügen"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -8424,7 +8375,6 @@ msgstr ""
 "MitgliedschaftsDatensätze von diesem Typ."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
-#, fuzzy
 msgid "e.g. 'Student', 'Senior', 'Honor Society'..."
 msgstr "z.B.\"Student\", \"Senior\", \"Ehrenmitglied\",..."
 
