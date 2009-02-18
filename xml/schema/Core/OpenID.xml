@@ -55,6 +55,7 @@
   <index>
      <name>UI_openid</name>
      <fieldName>openid</fieldName>
+     <unique>true</unique>
      <add>2.0</add>
   </index>
   <field>

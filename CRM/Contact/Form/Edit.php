@@ -769,7 +769,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @static
      * @access public
      */
-    static function formRule(&$fields, &$errors)
+    static function formRule(&$fields, &$errors, $options = null)
     {
 
         $config =& CRM_Core_Config::singleton( );
@@ -838,6 +838,22 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         }
                     }
                     $locTypeId = $fields['location'][$locationId]['location_type_id'];
+                }
+
+                // check for duplicate openid
+                if ( array_key_exists( 'openid', $fields['location'][$locationId] ) &&
+                     is_array( $fields['location'][$locationId]['openid'] )       ) {
+                    require_once 'CRM/Core/DAO/OpenID.php';
+                    foreach ( $fields['location'][$locationId]['openid'] as $idx => $openId ) {
+                        if ( array_key_exists( 'openid', $openId ) && isset($openId['openid']) ) {
+                            $oid =& new CRM_Core_DAO_OpenID( );
+                            $oid->openid = $openId['openid'];
+                            $cid = isset($options) ? $options : 0;
+                            if ( $oid->find(true) && ($oid->contact_id != $cid) ) {
+                                $errors["location[$locationId][openid][1][openid]"] = ts('openid already used/exist.');
+                            }
+                        }
+                    }
                 }
             }
 
