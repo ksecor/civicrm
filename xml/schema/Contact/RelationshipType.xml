@@ -21,15 +21,29 @@
        <name>name_a_b</name>
        <type>varchar</type>
        <length>64</length>
-       <comment>name/label for relationship of contact_a to contact_b.</comment>
+       <comment>name for relationship of contact_a to contact_b.</comment>
        <add>1.1</add>
+  </field>
+  <field>
+       <name>label_a_b</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>label for relationship of contact_a to contact_b.</comment>
+       <add>2.3</add>
   </field>
   <field>
        <name>name_b_a</name>
        <type>varchar</type>
        <length>64</length>
-       <comment>Optional name/label for relationship of contact_b to contact_a.</comment>
+       <comment>Optional name for relationship of contact_b to contact_a.</comment>
        <add>1.1</add>
+  </field>
+  <field>
+       <name>label_b_a</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Optional label for relationship of contact_b to contact_a.</comment>
+       <add>2.3</add>
   </field>
   <field>
        <name>description</name>

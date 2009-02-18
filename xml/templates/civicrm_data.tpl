@@ -50,26 +50,20 @@ INSERT INTO civicrm_location_type( name, vcard_name, description, is_reserved, i
 INSERT INTO civicrm_location_type( name, vcard_name, description, is_reserved, is_active ) VALUES( 'Billing', NULL, '{ts escape="sql"}Billing Address location{/ts}', 1, 1 );
 
 -- Sample relationship types
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Child of{/ts}', '{ts escape="sql"}Parent of{/ts}', '{ts escape="sql"}Parent/child relationship.{/ts}', 'Individual', 'Individual', 0 );
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Spouse of{/ts}', '{ts escape="sql"}Spouse of{/ts}', '{ts escape="sql"}Spousal relationship.{/ts}', 'Individual', 'Individual', 0 );
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Sibling of{/ts}','{ts escape="sql"}Sibling of{/ts}', '{ts escape="sql"}Sibling relationship.{/ts}','Individual','Individual', 0 );
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Employee of{/ts}', '{ts escape="sql"}Employer of{/ts}', '{ts escape="sql"}Employment relationship.{/ts}','Individual','Organization', 1 );
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Volunteer for{/ts}', '{ts escape="sql"}Volunteer is{/ts}', '{ts escape="sql"}Volunteer relationship.{/ts}','Individual','Organization', 0 );
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Head of Household for{/ts}', '{ts escape="sql"}Head of Household is{/ts}', '{ts escape="sql"}Head of household.{/ts}','Individual','Household', 1 );
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Household Member of{/ts}', '{ts escape="sql"}Household Member is{/ts}', '{ts escape="sql"}Household membership.{/ts}','Individual','Household', 1 );
+INSERT INTO civicrm_relationship_type( name_a_b,label_a_b, name_b_a,label_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Child of', '{ts escape="sql"}Child of{/ts}', 'Parent of', '{ts escape="sql"}Parent of{/ts}', '{ts escape="sql"}Parent/child relationship.{/ts}', 'Individual', 'Individual', 0 ),
+          ( 'Spouse of', '{ts escape="sql"}Spouse of{/ts}', 'Spouse of', '{ts escape="sql"}Spouse of{/ts}', '{ts escape="sql"}Spousal relationship.{/ts}', 'Individual', 'Individual', 0 ),
+          ( 'Sibling of', '{ts escape="sql"}Sibling of{/ts}', 'Sibling of', '{ts escape="sql"}Sibling of{/ts}', '{ts escape="sql"}Sibling relationship.{/ts}', 'Individual','Individual', 0 ),
+          ( 'Employee of', '{ts escape="sql"}Employee of{/ts}', 'Employer of', '{ts escape="sql"}Employer of{/ts}', '{ts escape="sql"}Employment relationship.{/ts}','Individual','Organization', 1 ),
+          ( 'Volunteer for', '{ts escape="sql"}Volunteer for{/ts}', 'Volunteer is', '{ts escape="sql"}Volunteer is{/ts}', '{ts escape="sql"}Volunteer relationship.{/ts}','Individual','Organization', 0 ),
+          ( 'Head of Household for', '{ts escape="sql"}Head of Household for{/ts}', 'Head of Household is', '{ts escape="sql"}Head of Household is{/ts}', '{ts escape="sql"}Head of household.{/ts}','Individual','Household', 1 ),
+          ( 'Household Member of', '{ts escape="sql"}Household Member of{/ts}', 'Household Member is', '{ts escape="sql"}Household Member is{/ts}', '{ts escape="sql"}Household membership.{/ts}','Individual','Household', 1 );
 
 -- Relationship Types for CiviCase
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Case Coordinator is', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Supervised by', 'Supervisor', 'Immediate workplace supervisor', 'Individual', 'Individual', 0 );
+INSERT INTO civicrm_relationship_type( name_a_b,label_a_b, name_b_a,label_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Case Coordinator is', 'Case Coordinator is', 'Case Coordinator', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
+INSERT INTO civicrm_relationship_type( name_a_b,label_a_b, name_b_a,label_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Supervised by', 'Supervised by', 'Supervisor', 'Supervisor', 'Immediate workplace supervisor', 'Individual', 'Individual', 0 );
 
 
 -- Sample Tags

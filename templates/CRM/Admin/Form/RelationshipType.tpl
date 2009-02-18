@@ -12,10 +12,10 @@
       </div>
      {else}
 	    <dl>
-        <dt>{$form.name_a_b.label}</dt><dd>{$form.name_a_b.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Name for the relationship from Contact A to Contact B. EXAMPLE: Contact A is 'Parent of' Contact B.{/ts}</dd>
-        <dt>{$form.name_b_a.label}</dt><dd>{$form.name_b_a.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Name for the relationship from Contact B to Contact A. EXAMPLE: Contact B is 'Child of' Contact A. You may leave this blank for relationships where the name is the same in both directions (e.g. Spouse).{/ts}</dd>
+        <dt>{$form.label_a_b.label}</dt><dd>{$form.label_a_b.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Label for the relationship from Contact A to Contact B. EXAMPLE: Contact A is 'Parent of' Contact B.{/ts}</dd>
+        <dt>{$form.label_b_a.label}</dt><dd>{$form.label_b_a.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Label for the relationship from Contact B to Contact A. EXAMPLE: Contact B is 'Child of' Contact A. You may leave this blank for relationships where the name is the same in both directions (e.g. Spouse).{/ts}</dd>
         <dt>{$form.contact_type_a.label}</dt><dd>{$form.contact_type_a.html}</dd>
         <dt>{$form.contact_type_b.label}</dt><dd>{$form.contact_type_b.html}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
