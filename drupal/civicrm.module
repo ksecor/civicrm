@@ -749,6 +749,9 @@ function civicrm_enable( ) {
     // also invoke civicrm menu rebuild
     require_once 'CRM/Core/Menu.php';
     CRM_Core_Menu::store( );
+
+    //Update the 'blocks' DB table with the blocks
+    _block_rehash();
 }
 
 /**
