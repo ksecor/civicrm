@@ -990,7 +990,7 @@ class CRM_GCD {
             $group->name       = $this->group[$i];
             $group->title      = $this->group[$i];
             $group->group_type = "12";
-            $group->visibility = 'Public User Pages and Listings';
+            $group->visibility = 'Public Pages';
             $group->is_active  = 1;
             $group->save( );
             $group->buildClause( );
