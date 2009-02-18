@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-02-07 14:15-0800\n"
-"Last-Translator: Olivier Jeuniau <olivier@scouts-tournai.be>\n"
+"PO-Revision-Date: 2009-02-18 03:43-0800\n"
+"Last-Translator: nmoget <nmoget@bluewin.ch>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -224,14 +224,13 @@ msgstr "Remerciement envoyé"
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #, fuzzy
 msgid "Send up to"
-msgstr "Envoyer un reçu?"
+msgstr "Envoyer jusqu'à"
 
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: templates/CRM/Pledge/Form/PledgeView.tpl
-#, fuzzy
 msgid "Send additional reminders"
-msgstr "Envoyer d'autre rappel"
+msgstr "Envoyer des rappels supplémentaires"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Member/BAO/Membership.php
 msgid ""
@@ -265,12 +264,12 @@ msgstr "L'adresse électronique %1 est déjà existante dans la base de données
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
 msgid "Please enter a valid Credit Card Number"
-msgstr "Veuillez indiquer un numéro de carte de crédit valide"
+msgstr "Veuillez saisir un numéro de carte de crédit valide"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr "Veuillez indiquer un numéro de vérification de carte de crédit valide"
+msgstr "Veuillez saisir un numéro de vérification de carte de crédit valide"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
@@ -314,7 +313,7 @@ msgstr "(bas de la page)"
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr "Contribution (configuration de la page)"
+msgstr "Configurer la page de Contribution"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -380,7 +379,7 @@ msgstr "Imprimer les reçus de donation."
 #: CRM/Member/Import/Form/UploadFile.php
 #, fuzzy
 msgid "Import mode"
-msgstr "Importer les membres"
+msgstr "Mode Importation"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Event/Page/DashBoard.tpl
@@ -519,7 +518,7 @@ msgstr "Configurer l'évènement"
 #: CRM/Member/Form/MembershipRenewal.php
 #, fuzzy
 msgid "Could not find valid payment processor for this page"
-msgstr "Ne peut pas trouver des meta informations sur le processus de paiement"
+msgstr "N'a pas pu trouver de processeur de paiement valide pour cette page"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: templates/CRM/Grant/Form/GrantView.tpl
@@ -635,6 +634,8 @@ msgid ""
 "Your mailing has been saved. Click the 'Continue' action to resume working "
 "on it."
 msgstr ""
+"Votre mailing a été sauvé, Cliquer sur \"Continuer\" pour recommencer à "
+"travailler dessus."
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
@@ -742,33 +743,33 @@ msgstr "Editer l'adhésion"
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #, fuzzy
 msgid "Renew-Credit Card"
-msgstr "Nouvelle carte de crédit"
+msgstr "Renouveler - carte de crédit"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #, fuzzy
 msgid "Renew Membership Using Credit Card"
-msgstr "Renouveler son adhésion"
+msgstr "Renouveler son adhésion par carte de crédit"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Delete Membership"
-msgstr "Effacer cet adhésion"
+msgstr "Effacer cette adhésion"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 #, fuzzy
 msgid "Total Paid"
-msgstr "Titre"
+msgstr "Montant total payé"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
 #, fuzzy
 msgid "Next Payment Date"
-msgstr "Nouveau moyen de paiement"
+msgstr "Prochaine date de paiement"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
 #, fuzzy
 msgid "Next Payment Amount"
-msgstr "Montant net"
+msgstr "Prochain montant à payer"
 
 #: CRM/Pledge/BAO/Query.php CRM/Pledge/DAO/Pledge.php
 #: templates/CRM/Pledge/Form/Pledge.tpl
@@ -779,39 +780,38 @@ msgid "Pledge Status"
 msgstr "Statut du paiement"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Maximum Number of Reminders"
-msgstr "Nombre maximum de participants"
+msgstr "Nombre maximum de rappels"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 #, fuzzy
 msgid "Initial Reminder Day"
-msgstr "Jour de rappel pour le renouvellement"
+msgstr "Jour du premier rappel"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 #, fuzzy
 msgid "Additional Reminder Days"
-msgstr "Jour de rappel pour le renouvellement"
+msgstr "Jours additionnels de rappel "
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
 #, fuzzy
 msgid "Total Pledged"
-msgstr "Titre"
+msgstr "Promesse totale"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "Pledge Made"
-msgstr ""
+msgstr "Promesse faite"
 
 #: CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/PledgeView.php
 msgid "%1(s)"
-msgstr ""
+msgstr "%1(s)"
 
 #: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
 #, fuzzy
 msgid "Delete Pledges"
-msgstr "Supprimer les membres"
+msgstr "Supprimer des promesses"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
@@ -881,7 +881,7 @@ msgstr "Chercher seulement les contributions test?"
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Find Pay Later Contributions?"
-msgstr "Chercher seulement les contributions test?"
+msgstr "Chercher les contributions versée plus tard?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Find Recurring Contributions?"
@@ -907,7 +907,7 @@ msgstr "Remerciements en bas de page"
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
 msgid "On Behalf Of Organization"
-msgstr "Nouvelle organisation"
+msgstr "Au nom de l'organisation"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Cc Receipt"
@@ -9898,17 +9898,17 @@ msgstr ""
 msgid ""
 "Click <a href='%1'>New Pledge</a> to record a new pledge received from this "
 "contact."
-msgstr "Localisation primaire pour ce contact"
+msgstr ""
+"Cliquer <a href='%1'>Nouvelle promesse</a> pour enregistrer une nouvelle "
+"promesse de dons reçue de ce contact."
 
 #: templates/CRM/Pledge/Page/Tab.tpl
-#, fuzzy
 msgid "No pledges have been recorded from this contact."
-msgstr "Localisation primaire pour ce contact"
+msgstr "Aucune promesse de dons enregistrée pour ce contact."
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Make Payment"
-msgstr "Paiements en ligne"
+msgstr "Faire le paiement"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 #, fuzzy
@@ -9916,20 +9916,17 @@ msgid "Payments"
 msgstr "Processus de paiement"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Pledges made in your honor."
-msgstr "Type de contact"
+msgstr "Promesses de dons faites en votre honneur."
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Pledger"
-msgstr "Pager"
+msgstr "Promesse de dons"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Create date"
-msgstr "Créer"
+msgstr "Date de création"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
-msgstr ""
+msgstr "Confirmation envoyée"
