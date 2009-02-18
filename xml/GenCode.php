@@ -145,18 +145,11 @@ foreach ($locales as $locale) {
         $data .= " UPDATE civicrm_domain SET version = '{$argv[2]}';";
     }
 
-    // write the initialize base-data sql script
-    $filename = 'civicrm_data';
-    if ($locale != 'en_US') $filename .= ".$locale";
-    $filename .= '.mysql';
-    $fd = fopen( $sqlCodePath . $filename, "w" );
-    fputs( $fd, $data );
-    fclose( $fd );
-
     // write the standalone base-data sql script
     $data .= $smarty->fetch('civicrm_uf.tpl');
 
-    $filename = 'civicrm_standalone';
+    // write the initialize base-data sql script
+    $filename = 'civicrm_data';
     if ($locale != 'en_US') $filename .= ".$locale";
     $filename .= '.mysql';
     $fd = fopen( $sqlCodePath . $filename, "w" );
@@ -181,15 +174,6 @@ $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
 fputs( $fd, $sample );
 fclose( $fd );
 
-
-// including civicrm_uf.tpl in civicrm_sample.tpl, was giving error
-// hence doing the same process for civicrm_uf.tpl as that of
-// civicrm_sample.tpl and appending the tha contents to
-// civicrm_sample.mysql
-$sample = $smarty->fetch('civicrm_uf.tpl');
-$fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "a" );
-fputs( $fd, $sample );
-fclose( $fd );
 
 $beautifier =& new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
