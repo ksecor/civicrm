@@ -58,7 +58,7 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
                             null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
         
         $this->add( 'select', 'visibility', ts('Visibility'        ),
-                    array( '' => ts('- any visibility -' ) ) + CRM_Core_SelectValues::ufVisibility( ) );
+                    array( '' => ts('- any visibility -' ) ) + CRM_Core_SelectValues::ufVisibility( true ) );
         $this->addElement( 'checkbox', 'active_status' , ts( 'Enabled' ) );
         $this->addElement( 'checkbox', 'inactive_status' , ts( 'Disabled' ) );
         $this->addButtons(array( 

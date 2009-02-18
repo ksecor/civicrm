@@ -41,7 +41,7 @@ class TestOfGroupContactGetAPIV2 extends CiviUnitTestCase
         civicrm_group_contact_add( $params );
         
         $this->_group = array($this->_groupId1  => array( 'title'      => 'New Test Group Created',
-                                                          'visibility' => 'Public User Pages and Listings',
+                                                          'visibility' => 'Public Pages',
                                                           'in_method'  => 'API'),
                               $this->_groupId2  => array( 'title'      => 'New Test Group2 Created',
                                                           'visibility' => 'User and User Admin Only',

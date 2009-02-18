@@ -201,7 +201,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         }
 
         $this->add( 'select', 'visibility', ts('Visibility'),
-                    CRM_Core_SelectValues::ufVisibility( ), true ); 
+                    CRM_Core_SelectValues::ufVisibility( true ), true ); 
         
         $groupNames =& CRM_Core_PseudoConstant::group();
 

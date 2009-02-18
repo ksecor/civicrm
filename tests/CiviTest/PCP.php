@@ -25,7 +25,7 @@ class PCPBlock extends DrupalTestCase
                                array (
                                       'field_name'       => 'first_name',
                                       'field_type'       => 'Individual',
-                                      'visibility'       => 'Public User Pages and Listings',
+                                      'visibility'       => 'Public Pages and Listings',
                                       'weight'           => 1,
                                       'label'            => 'First Name',
                                       'is_required'      => 1,
@@ -33,7 +33,7 @@ class PCPBlock extends DrupalTestCase
                                array (
                                       'field_name'       => 'last_name',
                                       'field_type'       => 'Individual',
-                                      'visibility'       => 'Public User Pages and Listings',
+                                      'visibility'       => 'Public Pages and Listings',
                                       'weight'           => 2,
                                       'label'            => 'Last Name',
                                       'is_required'      => 1,
@@ -41,7 +41,7 @@ class PCPBlock extends DrupalTestCase
                                array (
                                       'field_name'       => 'email',
                                       'field_type'       => 'Contact',
-                                      'visibility'       => 'Public User Pages and Listings',
+                                      'visibility'       => 'Public Pages and Listings',
                                       'weight'           => 3,
                                       'label'            => 'Email',
                                       'is_required'      => 1,

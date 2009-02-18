@@ -41,7 +41,7 @@
         {/edit}
         <dt>{$form.visibility.label}</dt><dd>&nbsp;{$form.visibility.html}</dd>
         {edit}
-        <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field hidden from other users ('User and User Admin Only'), or is it visible to others and potentially searchable in the Profile Search form ('Public User Pages' or 'Public User Pages and Listings')? When visibility is 'Public User Pages and Listings', users can also click the field value when viewing a contact in order to locate other contacts with the same value(s) (i.e. other contacts who live in Poland).{/ts}</dd>                                                         
+        <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field hidden from other users ('User and User Admin Only'), or is it visible to others and potentially searchable in the Profile Search form ('Public Pages' or 'Public Pages and Listings')? When visibility is 'Public Pages and Listings', users can also click the field value when viewing a contact in order to locate other contacts with the same value(s) (i.e. other contacts who live in Poland).{/ts}</dd>                                                         
         {/edit}
         <dt id="is_search_label">{$form.is_searchable.label}</dt><dd id="is_search_html">&nbsp;{$form.is_searchable.html}</dd>
         {edit}
@@ -49,7 +49,7 @@
         {/edit}
         <dt id="in_selector_label">{$form.in_selector.label}</dt><dd id="in_selector_html">&nbsp;{$form.in_selector.html}</dd>        
         {edit}
-        <dt id="in_selector_desDt">&nbsp;</dt><dd id="in_selector_desDd" class="description">&nbsp;{ts}Is this field included as a column in the search results table? This setting applies only to fields with 'Public User Pages' or 'Public User Pages and Listings' visibility.{/ts}</dd>
+        <dt id="in_selector_desDt">&nbsp;</dt><dd id="in_selector_desDd" class="description">&nbsp;{ts}Is this field included as a column in the search results table? This setting applies only to fields with 'Public Pages' or 'Public Pages and Listings' visibility.{/ts}</dd>
         {/edit}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
         {edit}

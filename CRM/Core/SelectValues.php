@@ -470,14 +470,17 @@ class CRM_Core_SelectValues
      *
      * @static
      */
-    static function ufVisibility( ) {
+    static function ufVisibility( $isGroup = false ) {
         static $_visibility = null;
         if ( ! $_visibility ) {
             $_visibility = array(
-                                 'User and User Admin Only'       => ts('User and User Admin Only'),
-                                 'Public User Pages'              => ts('Public User Pages'),
-                                 'Public User Pages and Listings' => ts('Public User Pages and Listings'),
+                                 'User and User Admin Only'  => ts('User and User Admin Only'),
+                                 'Public Pages'              => ts('Public Pages'),
+                                 'Public Pages and Listings' => ts('Public Pages and Listings'),
                                  );
+            if ( $isGroup ) {
+                unset( $_visibility['Public Pages and Listings'] );
+            } 
         }
         return $_visibility;
     }

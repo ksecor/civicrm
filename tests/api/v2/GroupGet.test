@@ -43,7 +43,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         $this->assertNotNull( count( $group ) );
         $this->assertEqual( $group[$this->_groupID]['name'], 'Test Group 1' );
         $this->assertEqual( $group[$this->_groupID]['is_active'], 1 );
-        $this->assertEqual( $group[$this->_groupID]['visibility'], 'Public User Pages and Listings' );
+        $this->assertEqual( $group[$this->_groupID]['visibility'], 'Public Pages' );
     }
     
     function testGetGroupParamsWithGroupId( ) 
@@ -57,7 +57,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
             $this->assertEqual( $v['title'],'New Test Group Created' );
             $this->assertEqual( $v['description'], 'New Test Group Created');
             $this->assertEqual( $v['is_active'], 1 );
-            $this->assertEqual( $v['visibility'], 'Public User Pages and Listings' );
+            $this->assertEqual( $v['visibility'], 'Public Pages' );
         }
     }
 
@@ -72,7 +72,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
             $this->assertEqual( $v['title'],'New Test Group Created' );
             $this->assertEqual( $v['description'], 'New Test Group Created');
             $this->assertEqual( $v['is_active'], 1 );
-            $this->assertEqual( $v['visibility'], 'Public User Pages and Listings' );
+            $this->assertEqual( $v['visibility'], 'Public Pages' );
         }
         
         
@@ -89,7 +89,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
             $this->assertEqual( $v['name'],'Test Group 1' );
             $this->assertEqual( $v['description'], 'New Test Group Created' );
             $this->assertEqual( $v['is_active'], 1 );
-            $this->assertEqual( $v['visibility'], 'Public User Pages and Listings' );
+            $this->assertEqual( $v['visibility'], 'Public Pages' );
         }
         
     }

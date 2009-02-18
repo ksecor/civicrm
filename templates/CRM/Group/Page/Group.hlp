@@ -1,6 +1,6 @@
 {htxt id='manage_groups'}
     <p>{ts}Use Groups to organize contacts (e.g. these contacts are members of our 'Steering Committee'). You can also create <strong>smart groups</strong> whose membership is based on contact characteristics (e.g. this group consists of all people in our database who live in a specific locality).{/ts} {docURL page="Groups"}</p>
-    <p>{ts}You can add contacts to a group from any set of search results (or when viewing an individual contact). You can also allow contacts to sign themselves up for certain groups by setting the group visibility to 'Public User Pages' (use the <strong>Settings</strong> link), and including the <strong>Groups</strong> element in your CiviCRM Profile.{/ts} {docURL page="Profiles Admin"}</p>
+    <p>{ts}You can add contacts to a group from any set of search results (or when viewing an individual contact). You can also allow contacts to sign themselves up for certain groups by setting the group visibility to 'Public Pages' (use the <strong>Settings</strong> link), and including the <strong>Groups</strong> element in your CiviCRM Profile.{/ts} {docURL page="Profiles Admin"}</p>
     <p>{ts}Groups which are using as mailing lists should be assigned the 'Mailing List' type. Groups of contacts which are used for <strong>access control</strong> must be assigned that type.{/ts} {docURL page="Assign Users to Roles"}</p>
     <p>{ts}Use <strong>Find Groups</strong> to search by group name, type and visibility. Group type filtering uses <strong>AND</strong> logic. If you check both 'Mailing List' and 'Access Control' types - only groups which have both types assigned will be returned. You can also click a letter on the <strong>A-to-Z bar</strong> to quickly find all groups starting with that letter.{/ts}</p> 
 {/htxt}
@@ -14,7 +14,7 @@
 
 {htxt id="id-group-visibility"}
 <p>{ts}Select 'User and User Admin Only' if membership in this group is controlled by authorized CiviCRM users only. If you want to allow contacts to join and remove themselves from this
-    group via the Registration and Account Profile forms, select 'Public User Pages'.{/ts}</p>
+    group via the Registration and Account Profile forms, select 'Public Pages'.{/ts}</p>
 {/htxt} 
 
 {htxt id="id-group-parent"}

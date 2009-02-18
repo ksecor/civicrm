@@ -81,7 +81,7 @@ class TestOfProfileAPIV2 extends CiviUnitTestCase
 	$fieldsParams = array ( 
 			       'field_name'       => 'first_name',
 			       'field_type'       => 'Individual',
-			       'visibility'       => 'Public User Pages and Listings',
+			       'visibility'       => 'Public Pages and Listings',
 			       'weight'           => 1,
 			       'location_type_id' => 1,
 			       'label'            => 'Test First Name',
@@ -108,7 +108,7 @@ class TestOfProfileAPIV2 extends CiviUnitTestCase
 	$params = array ( 
 			 'field_name'       => 'country',
 			 'field_type'       => 'Contact',
-			 'visibility'       => 'Public User Pages and Listings',
+			 'visibility'       => 'Public Pages and Listings',
 			 'weight'           => 1,
 			 'location_type_id' => 1,
 			 'label'            => 'Test Country',
@@ -172,7 +172,7 @@ class TestOfProfileAPIV2 extends CiviUnitTestCase
 	$params = array ( 
 			 'field_name'       => 'country',
 			 'field_type'       => 'Contact',
-			 'visibility'       => 'Public User Pages and Listings',
+			 'visibility'       => 'Public Pages and Listings',
 			 'weight'           => 1,
 			 'location_type_id' => 1,
 			 'label'            => 'Test Country',
@@ -205,7 +205,7 @@ class TestOfProfileAPIV2 extends CiviUnitTestCase
 	$params = array ( 
 			 'field_name'       => 'country',
 			 'field_type'       => 'Contact',
-			 'visibility'       => 'Public User Pages and Listings',
+			 'visibility'       => 'Public Pages and Listings',
 			 'weight'           => 1,
 			 'location_type_id' => 1,
 			 'label'            => 'Test Country',

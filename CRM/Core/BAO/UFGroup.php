@@ -281,13 +281,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             if ( $visibility ) {
                 $clause = array( );
                 if ( $visibility & self::PUBLIC_VISIBILITY ) {
-                    $clause[] = 'visibility = "Public User Pages"';
+                    $clause[] = 'visibility = "Public Pages"';
                 }
                 if ( $visibility & self::ADMIN_VISIBILITY ) {
                     $clause[] = 'visibility = "User and User Admin Only"';
                 }
                 if ( $visibility & self::LISTINGS_VISIBILITY ) {
-                    $clause[] = 'visibility = "Public User Pages and Listings"';
+                    $clause[] = 'visibility = "Public Pages and Listings"';
                 }
                 if ( ! empty( $clause ) ) {
                     $where .= ' AND ( ' . implode( ' OR ' , $clause ) . ' ) ';
@@ -695,7 +695,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     foreach ( $groups as $g ) {
                         if ( $g['visibility'] != 'User and User Admin Only' ) {
                             $title[] = $g['title'];
-                            if ( $g['visibility'] == 'Public User Pages and Listings' ) {
+                            if ( $g['visibility'] == 'Public Pages' ) {
                                 $ids[] = $g['group_id'];
                             }
                         }
@@ -828,7 +828,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
             
-            if ( $field['visibility'] == "Public User Pages and Listings" &&
+            if ( $field['visibility'] == "Public Pages and Listings" &&
                  CRM_Core_Permission::check( 'profile listings and forms' ) ) {
              
                 if ( CRM_Utils_System::isNull( $params[$index] ) ) {
