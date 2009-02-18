@@ -64,12 +64,16 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         $prms = array( 'id' => $this->_id );
         
         CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCP', $prms, $pcpInfo );
+        if ( empty( $pcpInfo ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            $statusMessage = ts( 'The personal campaign page you requested is currently unavailable.' );
+            CRM_Core_Error::statusBounce( $statusMessage,
+                                          $config->userFrameworkBaseURL );
+        }
+
         CRM_Utils_System::setTitle($pcpInfo['title']);
         $this->assign('pcp', $pcpInfo );
 
-        if ( empty( $pcpInfo ) ) {
-            CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/user','reset=1') );
-        }
         require_once 'CRM/Contribute/PseudoConstant.php';
         require_once 'CRM/Core/OptionGroup.php';
         $pcpStatus     = CRM_Contribute_PseudoConstant::pcpStatus( );
