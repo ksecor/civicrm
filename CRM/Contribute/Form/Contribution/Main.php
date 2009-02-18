@@ -326,7 +326,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             $this->assign( 'pcp', true );
             $this->add( 'checkbox', 'pcp_display_in_roll', ts('Show my contribution in the public honor roll'), null, null,
-                        array('onclick' => "return showHideByValue('pcp_display_in_roll','','nameID|nickID','table-row','radio',false);")
+                        array('onclick' => "showHideByValue('pcp_display_in_roll','','nameID|nickID','table-row','radio',false); pcpAnonymous( );")
                         );
             $extraOption = array('onclick' =>"return pcpAnonymous( );");
             $elements = array( );
