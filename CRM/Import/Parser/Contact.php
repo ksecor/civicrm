@@ -979,7 +979,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         } else {
                             self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
-                    } else if ( $customFields[$customFieldID]['label'] == 'Boolean') {
+                    } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean') {
                         if (CRM_Utils_String::strtoboolstr($value) === false) {
                             self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
