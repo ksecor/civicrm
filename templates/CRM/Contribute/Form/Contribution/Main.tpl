@@ -113,24 +113,21 @@ function clearAmountOther() {
 <table class="form-layout-compressed">
 	<tr>
 		<td colspan="3">
-            {$form.honor_type_id.html}
-            &nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('honor_type_id', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)<br />
-            <span class="description">{ts}Please include the name, and / or email address of the person you are honoring,{/ts}</span>
-        </td>
+                {$form.honor_type_id.html}
+                 &nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('honor_type_id', '{$form.formName}');enableHonorType(); return false;">{ts}unselect{/ts}</a>&nbsp;)<br />
+                 <span class="description">{ts}Please include the name, and / or email address of the person you are honoring,{/ts}</span></td>
 	</tr>
-	<tr>
+	<tr id="honorType">
 		<td>{$form.honor_prefix_id.html}</td>
 		<td>{$form.honor_first_name.html}<br />
-            <span class="description">{$form.honor_first_name.label}</span>
-        </td>
+                <span class="description">{$form.honor_first_name.label}</span></td>
 		<td>{$form.honor_last_name.html}<br />
-            <span class="description">{$form.honor_last_name.label}</span>
-        </td>
+                <span class="description">{$form.honor_last_name.label}</span></td>
 	</tr>
-	<tr><td></td>
+	<tr id="honorTypeEmail">
+		<td></td>
 		<td colspan="2">{$form.honor_email.html}<br />
-            <span class="description">{$form.honor_email.label}
-        </td>
+                <span class="description">{$form.honor_email.label}</td>
 	</tr>
 </table>
 </fieldset>
@@ -257,6 +254,27 @@ function enablePeriod ( ) {
 	document.getElementById('frequency_unit').disabled = false;
     }
 }
+
+{/literal}{if $honor_block_is_active}{literal}
+    enableHonorType();
+{/literal} {/if}{literal}
+
+function enableHonorType( ) {
+    if ( document.getElementsByName("honor_type_id")[0].checked == true || 
+	 document.getElementsByName("honor_type_id")[1].checked == true) { 
+	show('honorType', 'table-row');	
+	show('honorTypeEmail', 'table-row');
+    } else {
+	document.getElementById('honor_first_name').value = '';
+	document.getElementById('honor_last_name').value  = '';
+	document.getElementById('honor_email').value      = '';
+	document.getElementById('honor_prefix_id').value  = '';
+	hide('honorType', 'table-row');	
+	hide('honorTypeEmail', 'table-row');
+    }
+}
+
+
 function pcpAnonymous( ) {
     // clear nickname field if anonymous is true
     if ( document.getElementsByName("pcp_is_anonymous")[1].checked ) { 
