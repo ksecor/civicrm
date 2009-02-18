@@ -50,6 +50,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      */
     public $_values;
 
+    /**
+     * the total amount
+     *
+     * @var float
+     * @public
+     */
+    public $_totalAmount;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
