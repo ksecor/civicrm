@@ -145,9 +145,6 @@ foreach ($locales as $locale) {
         $data .= " UPDATE civicrm_domain SET version = '{$argv[2]}';";
     }
 
-    // write the standalone base-data sql script
-    $data .= $smarty->fetch('civicrm_uf.tpl');
-
     // write the initialize base-data sql script
     $filename = 'civicrm_data';
     if ($locale != 'en_US') $filename .= ".$locale";
