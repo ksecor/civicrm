@@ -4,8 +4,13 @@ ini_set( 'include_path', '.' . PATH_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'pa
 ini_set( 'memory_limit', '128M' );
 
 $versionFile = "version.xml";
-$versionXML = & parseInput( $versionFile );
-$build_version = $versionXML->version_no;
+$versionXML  =& parseInput( $versionFile );
+$db_version  = $versionXML->version_no;
+$build_version = preg_replace('/^(\d{1,2}\.\d{1,2})\.(\d{1,2}|\w{4,7})$/i', '$1', $db_version);
+if ( isset($argv[2]) ) {
+    // change the version to that explicitly passed, if any 
+    $db_version = $argv[2];
+}
 if ($build_version < 1.1) {
     echo "The Database is not compatible for this version";
     exit();
@@ -141,9 +146,7 @@ foreach ($locales as $locale) {
     $data .= $smarty->fetch('civicrm_currency.tpl');
     $data .= $smarty->fetch('civicrm_data.tpl');
 
-    if ( isset($argv[2]) ) {
-        $data .= " UPDATE civicrm_domain SET version = '{$argv[2]}';";
-    }
+    $data .= " UPDATE civicrm_domain SET version = '$db_version';";
 
     // write the initialize base-data sql script
     $filename = 'civicrm_data';
@@ -163,6 +166,8 @@ foreach ($locales as $locale) {
     fputs( $fd, $data );
     fclose( $fd );
 }
+echo "\ncivicrm_domain.version := $db_version\n\n";
+
 $tsLocale = 'en_US';
 
 $sample  = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
