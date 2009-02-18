@@ -260,7 +260,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         
         $defaults['entity_id']    = $this->_entityId;
         $defaults['entity_table'] = $this->_entityTable;            
-        CRM_Core_Error::debug('d',$defaults);
+        
         CRM_Friend_BAO_Friend::getValues($defaults);
         if ( $this->_entityTable == 'civicrm_pcp' ) {
             $defaults['thankyou_text'] = $defaults['thankyou_title'] = ts( 'Thanks for your Support' );
@@ -269,7 +269,7 @@ class CRM_Friend_Form extends CRM_Core_Form
             // If this is tell a friend after contributing, give donor link to create their own fundraising page
             require_once 'CRM/Contribute/BAO/PCP.php';
             if ( $linkText = CRM_Contribute_BAO_PCP::getPcpBlockStatus( $defaults['entity_id'] ) ) {
-                CRM_Core_Error::debug('d2',$defaults);
+                
                 $linkTextUrl = CRM_Utils_System::url( 'civicrm/contribute/campaign',
                                                      "action=add&reset=1&pageId={$defaults['entity_id']}",
                                                      false, null, true,
