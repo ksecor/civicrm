@@ -83,6 +83,20 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         $pcpStatus     = CRM_Contribute_PseudoConstant::pcpStatus( );
         $approvedId    = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
         $statusMessage = ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' );
+        
+        // check if user is logged in
+        $loginUrl = null;
+        if ( !$session->get('userID') ) {
+            $loginUrl =  $config->userFrameworkBaseURL;
+            $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
+            if ( $isJoomla ) {
+                $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
+                $loginUrl .= 'index.php?option=com_user&view=login';
+            }
+            
+            $statusMessage .= ts(' Click <a href=%1>here</a> to login and check your Personal Campaign Page status.', array( 1 => $loginUrl) );
+        }
+                                          
         if ( ! $pcpInfo['is_active'] ) {
             // form is inactive, forward to main contribution page
             CRM_Core_Error::statusBounce( $statusMessage , CRM_Utils_System::url( 'civicrm/contribute/transact',
