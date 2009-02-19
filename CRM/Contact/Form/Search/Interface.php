@@ -81,6 +81,7 @@ interface CRM_Contact_Form_Search_Interface {
      * The below two functions (from and where) are ONLY used if you want to
      * expose a custom group as a smart group and be able to send a mailing
      * to them via CiviMail. civicrm_email should be part of the from clause
+     * The from clause should be a valid sql from clause including the word FROM
      * CiviMail will pick up the contacts where the email is primary and
      * is not on hold / opt out / do not email
      *
