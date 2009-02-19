@@ -677,7 +677,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $this->_newContacts[] = $newContact->id;
         } else if ( civicrm_duplicate( $newContact ) ) {
             $relationship = true;
-            $this->_newContacts[] = $newContact['error_message']['params'][0]; 
+            $contactID = $newContact['error_message']['params'][0];
+            if ( !in_array( $contactID, $this->_newContacts ) ) {
+                $this->_newContacts[] =  $contactID;
+            }
         }
         
         if ( $relationship ) {
@@ -907,7 +910,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
                 
                 if ( civicrm_error( $newContact ) ) {
-                    $this->_newContacts[] = $newContact['error_message']['params'][0];
+                    $contactID = $newContact['error_message']['params'][0];
+                    if ( !in_array( $contactID, $this->_newContacts ) ) {
+                        $this->_newContacts[] = $contactID;
+                    }
                 }
                 //CRM-262 No Duplicate Checking  
                 if ($onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) {
