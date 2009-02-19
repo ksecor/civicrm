@@ -335,38 +335,8 @@ function civicrm_invoke( )
                                            civicrm_get_ctype( 'Individual' ) );
     }
 
-	if ( isset($args[1]) and $args[1] == 'quickreg' ) {
-        civicrm_quickreg( );
-    } else {
-        require_once 'CRM/Core/Invoke.php';
-        $ret  = CRM_Core_Invoke::invoke( $args );
-    }
-    return $ret;
-}
-
-function civicrm_quickreg( ) 
-{
-    if ( ! civicrm_initialize( ) ) {
-        return;
-    }
-
-    $names  = array( 'first_name', 'last_name', 'email', 'postal_code' ); 
-    $params = array( ); 
-    foreach ( $names as $name ) { 
-        if ( isset( $_POST[ $name ] ) && ! empty( $_POST[ $name ] ) ) { 
-            $params[$name] = $_POST[ $name ];  
-        } 
-    } 
-
-    require_once 'api/Contact.php';
-    $contact = crm_create_contact( $params, 'Individual' ); 
-    if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-        $url = $_SERVER['HTTP_REFERER'];
-    } else {
-        $config =& CRM_Core_Config::singleton( );
-        $url = $config->userFrameworkBaseURL;
-    }
-    CRM_Utils_System::redirect( $url );
+    require_once 'CRM/Core/Invoke.php';
+    return CRM_Core_Invoke::invoke( $args );
 }
 
 /**
