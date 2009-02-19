@@ -56,6 +56,11 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
     function run()
     {
         $session =& CRM_Core_Session::singleton( );
+        $config =& CRM_Core_Config::singleton( );
+        $permissionCheck = false;
+        if ( $config->userFramework != 'Joomla') {
+            $permissionCheck = CRM_Core_Permission::check('administer CiviCRM');
+        }
         //get the pcp id.
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
 
@@ -65,7 +70,6 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         
         CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCP', $prms, $pcpInfo );
         if ( empty( $pcpInfo ) ) {
-            $config =& CRM_Core_Config::singleton( );
             $statusMessage = ts( 'The personal campaign page you requested is currently unavailable.' );
             CRM_Core_Error::statusBounce( $statusMessage,
                                           $config->userFrameworkBaseURL );
@@ -84,7 +88,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             CRM_Core_Error::statusBounce( $statusMessage , CRM_Utils_System::url( 'civicrm/contribute/transact',
                                                                                   "reset=1&id={$pcpInfo['contribution_page_id']}",
                                                                                   false, null, false, true ) );
-        } else if ( $pcpInfo['status_id'] != $approvedId && ! CRM_Core_Permission::check('administer CiviCRM') ) {
+        } else if ( $pcpInfo['status_id'] != $approvedId && ! $permissionCheck ) {
             if ( $pcpInfo['contact_id'] != $session->get( 'userID' ) ) {
                 // PCP not approved. Forward everyone except admin and owner to main contribution page
                 CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/contribute/transact',
