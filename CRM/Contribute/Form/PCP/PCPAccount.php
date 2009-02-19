@@ -241,6 +241,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         $params['location']['1']['email']['1']['email'] = $params['email'];
         $dedupeParams = CRM_Dedupe_Finder::formatParams( $params, 'Individual');
         $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Strict' );
+        unset( $params['location'] );
         if ( $ids ) {
             $this->_contactID = $ids['0'];
         }
