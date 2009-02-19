@@ -191,7 +191,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
                                 'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                 'isDefault' => true   );
         }
-        
+        $this->addFormRule( array( 'CRM_Contribute_Form_PCP_PCPAccount', 'formRule' ), $this );
         $this->addButtons( $button );
     }
     
@@ -217,7 +217,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
                     $errors[$key] = ts( 'There is already an user associated with this email address. Please enter different email address.' );   
                 }
             }
-        }
+        }             
         return empty($errors) ? true : $errors;
     }
     
@@ -236,6 +236,13 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
                     $params['email'] = $value;
                 }
             }
+        }
+        require_once 'CRM/Dedupe/Finder.php';
+        $params['location']['1']['email']['1']['email'] = $params['email'];
+        $dedupeParams = CRM_Dedupe_Finder::formatParams( $params, 'Individual');
+        $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Strict' );
+        if ( $ids ) {
+            $this->_contactID = $ids['0'];
         }
         $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $this->_fields, $this->_contactID );
         $this->set('contactID', $contactID);
