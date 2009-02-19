@@ -707,11 +707,6 @@ class Installer extends InstallRequirements {
                 module_rebuild_cache( );
                 // now enable civicrm module.
                 module_enable( array('civicrm') );
-                
-                //we need to rebuild civicrm menus
-                //require_once $crmPath.'/CRM/Core/Menu.php';
-                //CRM_Core_Menu::store( );
-
             } elseif ( $installType == 'standalone' ) {
                 $standaloneURL = civicrm_cms_base( ) . 'standalone/';
                 $standaloneURL .= "index.php?q=civicrm/admin/configtask&reset=1";
