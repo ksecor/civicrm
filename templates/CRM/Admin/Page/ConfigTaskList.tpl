@@ -28,7 +28,9 @@ reviewed will be <span class="status-overdue">displayed in red</span>. After you
 <h2>Online Contributions / Online Membership Signup / Online Event Registration</h2>
 <ul class="tasklist">
 <li><a href="{crmURL p="civicrm/admin/paymentProcessor" q="reset=1&destination=`$destination`"}" title="{$linkTitle}">{ts}Payment Processors{/ts}</a> - {ts}Select and configure one or more payment processing services for online contributions, events and / or membership fees.{/ts}</li>
-<li>You will also need to change the access rights so anonymous users can contribute/sign up/register</li>
+{if $config->userFramework EQ 'Drupal'}
+<li><a href="{$config->userFrameworkBaseURL}?q=admin/user/permissions&destination=civicrm/admin/configtask">{ts}Permissions for Anonymous Users{/ts}</a> - {ts}You will also need to change Drupal permissions so anonymous users can make contributions, register for events and / or use profiles to enter contact information.{/ts} {docURL page="Default Permissions and Roles"}</li>
+{/if}
 </ul>
 
 <h2>Organize your contacts</h2>
