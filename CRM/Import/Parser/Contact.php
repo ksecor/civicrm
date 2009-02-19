@@ -565,8 +565,26 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 if ( $cid ) {
                     $params['id'] =  $cid; 
                 } else {
-                    //create new contact as we pass external id, CRM-4148
-                    $createNewContact = true;
+                    //update contact if dedupe found contact id, CRM-4148
+                    $dedupeParams = $formatted;
+                    
+                    //special case to check dedupe if external id present.
+                    //if we send external id dedupe will stop.
+                    unset( $dedupeParams['external_identifier'] );
+                    
+                    $checkDedupe = _civicrm_duplicate_formatted_contact( $dedupeParams );
+                    if ( civicrm_duplicate( $checkDedupe ) ) {
+                        $matchingContactIds = explode( ',', $checkDedupe['error_message']['params'][0] );
+                        if ( count( $matchingContactIds ) == 1 ) {
+                            $params['id'] = array_pop( $matchingContactIds );
+                        } else {
+                            $message = "More than one matching contact found for given criteria.";
+                            array_unshift($values, $message);
+                            $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                        }
+                    } else {
+                        $createNewContact = true;
+                    }
                 }
             }
             
