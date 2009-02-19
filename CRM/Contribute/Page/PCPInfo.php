@@ -177,7 +177,6 @@ AND is_test = 0";
         }
          
         $this->assign('honor', $honor );
-        $this->assign('pcpDate', $default['1'] );
         $this->assign('total', $totalAmount ? $totalAmount : '0.0' );
         $this->assign('achieved', $achieved <= 100 ? $achieved : 100 );
 
@@ -185,15 +184,14 @@ AND is_test = 0";
             $this->assign('remaining', 100- $achieved );
         }
         // make sure that we are between  registration start date and registration end date
-        $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date',
-                                                                       $default['1'] ) );
-        $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'end_date',
-                                                                     $default['1'] ) );
+        $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date', $owner ) );
+
+        $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'end_date', $owner ) );
+
         $now = time( );
         $validDate = true;
         if ( $startDate && $startDate >= $now ) {
             $validDate = false;
-            
         }
         if ( $endDate && $endDate < $now ) {
             $validDate = false;
