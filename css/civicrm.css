@@ -1172,5 +1172,26 @@ commented since it is overwiting simple td
     padding: .25em .5em .25em .5em;
     border: 1px solid #5A8FDB;
 }
-  
+
+/* Styles for Config Task List */
+#crm-container ul.tasklist {
+  list-style: none;
+}
+
+#crm-container ul.tasklist a {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+#crm-container ul.tasklist a:before {
+  content: "\BB \ ";
+}
+
+#crm-container ul.tasklist a:link {
+  color: #FF0105;
+}
+
+#crm-container ul.tasklist a:visited {
+  color: green;
+}  
   
