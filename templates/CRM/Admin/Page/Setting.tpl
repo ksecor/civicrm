@@ -30,7 +30,7 @@
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/mapping' q='reset=1'}" id="idMapping">&raquo; {ts}Mapping and Geocoding{/ts}</a></td>
-    <td>{ts}Configure a mapping provider (e.g. Google or Yahoo) to display maps for contact addresses.{/ts}</td>
+    <td>{ts}Configure a mapping provider (e.g. Google or Yahoo) to display maps for contact addresses and event locations.{/ts}</td>
 </tr>
 
 <tr>

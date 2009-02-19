@@ -191,7 +191,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
              ( ( ! empty( $params["honor_first_name"] ) && ! empty( $params["honor_last_name"] ) ) ||
                ( ! empty( $params["honor_email"] ) ) ) ) {
             $this->assign('honor_block_is_active', $honor_block_is_active );
-            $this->assign("honor_block_title",$this->_values['honor_block_title']);
+            $this->assign("honor_block_title", CRM_Utils_Array::value( 'honor_block_title', $this->_values ) );
           
             require_once "CRM/Core/PseudoConstant.php";
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
@@ -955,7 +955,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         
         $this->assign('honor_block_is_active', $honor_block_is_active );
-        $this->assign("honor_block_title",$this->_values['honor_block_title']);
+        $this->assign("honor_block_title", $this->_values['honor_block_title'] );
         
         require_once "CRM/Core/PseudoConstant.php";
         $prefix = CRM_Core_PseudoConstant::individualPrefix();

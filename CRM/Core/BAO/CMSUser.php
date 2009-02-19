@@ -140,6 +140,12 @@ class CRM_Core_BAO_CMSUser
             $ufmatch->contact_id     =  $params['contactID'];
             $ufmatch->uf_name        =  $params[$mail];
             $ufmatch->save( );
+            
+            // Simulate user login by storing details in session.
+            // Might break if we ever allow admins to create CMS users.
+            // This allows anonymous creator of PCP to see their page after they create it.
+            $session =& CRM_Core_Session::singleton();
+            $session->set( 'userID'  , $ufmatch->contact_id );
         }
         
         return $ufID;

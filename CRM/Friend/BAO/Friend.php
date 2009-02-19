@@ -189,8 +189,12 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         } 
 
         $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
-        list( $username, $mailParams['domain'] ) = split( '@', $mailParams['email_from'] );
-       
+
+        // get domain
+        require_once 'CRM/Core/BAO/Domain.php';
+        $domainDetails = CRM_Core_BAO_Domain::getNameAndEmail( );
+        list( $username, $mailParams['domain'] ) = split( '@', $domainDetails[1] );
+
         //send mail
         self::sendMail( $params['source_contact_id'], $mailParams ); 
         

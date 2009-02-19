@@ -52,7 +52,7 @@ function civicrm_invoke( ) {
         $menu       =& JSite::getMenu( );
         $item       =  $menu->getItems('componentid', $component->id, true);
         $params     =  $menu->getParams( $_GET['Itemid'] );
-        $args = array( 'task', 'id', 'gid', 'reset' ); 
+        $args = array( 'task', 'id', 'gid', 'reset', 'pageId', 'action' ); 
         foreach ( $args as $a ) { 
             $val = $params->get( $a, null ); 
             if ( $val !== null ) { 

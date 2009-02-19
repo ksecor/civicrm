@@ -435,8 +435,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->assign("honor_block_is_active",true);
         $this->set("honor_block_is_active",true);
 
-        $this->assign("honor_block_title",$this->_values['honor_block_title']);
-        $this->assign("honor_block_text",$this->_values['honor_block_text']);
+        $this->assign("honor_block_title", CRM_Utils_Array::value( 'honor_block_title', $this->_values ));
+        $this->assign("honor_block_text", CRM_Utils_Array::value( 'honor_block_text', $this->_values ) );
 
         $attributes  = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
         $extraOption = array('onclick' =>"enableHonorType();");

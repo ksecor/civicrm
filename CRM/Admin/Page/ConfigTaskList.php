@@ -23,61 +23,33 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
- * This is the base Action class for all actions which we redefine. This is
- * integrated with the StateMachine, Controller and State objects
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
-require_once 'HTML/QuickForm/Action.php' ;
 
-class CRM_Core_QuickForm_Action extends HTML_QuickForm_Action {
-    /**
-     * reference to the state machine i belong to
-     * @var object
-     */
-    protected $_stateMachine;
+require_once 'CRM/Core/Page.php';
 
-    /**
-     * constructor
-     *
-     * @param object    $stateMachine    reference to state machine object
-     *
-     * @return object
-     * @access public
-     */
-    function __construct( &$stateMachine ) {
-        $this->_stateMachine =& $stateMachine;
-    }
-
-    /**
-     * returns the user to the top of the user context stack.
-     *
-     * @return void
-     * @access public
-     */
-    function popUserContext( ) {
-        $session =& CRM_Core_Session::singleton( );
-        $config  =& CRM_Core_Config::singleton( );
-
-        // check if destination is set, if so goto destination
-        $destination = $this->_stateMachine->getDestination( );
-        if ( ! $destination ) {
-            $destination = $session->popUserContext( );
-
-            if ( empty( $destination ) ) {
-                $destination = $config->userFrameworkBaseURL;
-            }
-        }
+/**
+ * Page for displaying list of site configuration tasks with links to each setting form
+ */
+class CRM_Admin_Page_ConfigTaskList extends CRM_Core_Page {
+    
+    function run() {
         
-        CRM_Utils_System::redirect( $destination );
-    }
-
+        CRM_Utils_System::setTitle(ts("Configuration Checklist"));
+        $this->assign('recentlyViewed', false);
+        
+        parent::run();
+    }   
 }
-
-
+    
+    
+    
+    
+    

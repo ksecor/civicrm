@@ -264,7 +264,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         CRM_Friend_BAO_Friend::getValues($defaults);
         if ( $this->_entityTable == 'civicrm_pcp' ) {
             $defaults['thankyou_text'] = $defaults['thankyou_title'] = ts( 'Thanks for your Support' );
-            $defaults['thankyou_text'] = ts( 'Thanks for supporting our campaign by spreading the word to your friends.' );
+            $defaults['thankyou_text'] = ts( 'Thanks for supporting this campaign by spreading the word to your friends.' );
         } else if ( $this->_entityTable == 'civicrm_contribution_page' ) {
             // If this is tell a friend after contributing, give donor link to create their own fundraising page
             require_once 'CRM/Contribute/BAO/PCP.php';

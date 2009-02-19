@@ -67,7 +67,7 @@ class CRM_Contribute_BAO_PCP extends CRM_Contribute_DAO_PCP
         if (! isset($params['MAX_FILE_SIZE']) ) {
             // action is taken depending upon the mode
             require_once 'CRM/Contribute/DAO/PCPBlock.php';
-            $dao              =& new CRM_Contribute_DAO_PCPBlock( );
+            $dao =& new CRM_Contribute_DAO_PCPBlock( );
             $dao->copyValues( $params );
             $dao->save( );
             return $dao;
@@ -75,6 +75,14 @@ class CRM_Contribute_BAO_PCP extends CRM_Contribute_DAO_PCP
             require_once 'CRM/Contribute/DAO/PCP.php';
             $dao              =& new CRM_Contribute_DAO_PCP( );
             $dao->copyValues( $params );
+
+            // ensure we set status_id since it is a not null field
+            // we should change the schema and allow this to be null
+            if ( ! $dao->id &&
+                 ! isset( $dao->status_id ) ) {
+                $dao->status_id = 0;
+            }
+
             $dao->save( );
             return $dao;
         }

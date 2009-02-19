@@ -68,6 +68,16 @@
      <weight>140</weight>
   </item>
   <item>
+     <path>civicrm/admin/configtask</path>
+     <title>Configuration Checklist</title>
+     <desc>List of configuration tasks with links to each setting.</desc>
+     <page_callback>CRM_Admin_Page_ConfigTaskList</page_callback>
+     <return_url>civicrm/admin/configtask</return_url>
+     <adminGroup>Configure</adminGroup>
+     <icon>check.gif</icon>
+     <weight>180</weight>
+  </item>
+  <item>
      <path>civicrm/admin/setting</path>
      <title>Global Settings</title>
      <desc>Configure Global Settings for your site, including: Enabled Components, Site Preferences for screens and forms, Directory Paths and Resource URLs, Address formats, Localization, Payment Processor, Outbound Email, Mapping, and Debugging.</desc>

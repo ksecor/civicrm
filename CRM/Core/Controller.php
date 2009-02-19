@@ -179,7 +179,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         // and created the scope etc
         $this->set( 'qfKey', $this->_key );
 
-        // also retrieve and store returnURL in session
+        require_once 'CRM/Utils/Request.php';
+
+        // also retrieve and store destination in session
         $this->_destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this );
     }
 
@@ -575,6 +577,10 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
     public function getParent( ) {
         return $this->_parent;
+    }
+
+    public function getDestination( ) {
+        return $this->_destination;
     }
 
 }
