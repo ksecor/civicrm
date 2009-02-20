@@ -164,6 +164,9 @@ class CRM_Contribute_BAO_Query
 
         $fields = array( );
         $fields = self::getFields();
+        if ( !empty ( $value ) ) {
+            $quoteValue = "\"$value\"";
+        }
         switch ( $name ) {
        
         case 'contribution_date':
@@ -233,17 +236,19 @@ class CRM_Contribute_BAO_Query
         case 'contribution_payment_instrument_id':
         case 'contribution_payment_instrument':
             require_once 'CRM/Contribute/PseudoConstant.php';
-            $pi = $value;
+            $pi  = $value;
             $pis = CRM_Contribute_PseudoConstant::paymentInstrument( );
-            $query->_where[$grouping][] = "civicrm_contribution.payment_instrument_id = $pi";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_contribution.payment_instrument_id", 
+                                                                              $op, $value, "Integer" ) ;
+
             $query->_qill[$grouping ][] = ts( 'Paid By - %1', array( 1 => $pis[$pi] ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
 
         case 'contribution_in_honor_of':
-            $name = trim( $value ); 
+            $name    = trim( $value ); 
             $newName = str_replace(',' , " " ,$name );
-            $pieces =  explode( ' ', $newName ); 
+            $pieces  =  explode( ' ', $newName ); 
             foreach ( $pieces as $piece ) { 
                 $value = strtolower(addslashes(trim($piece)));
                 $value = "'%$value%'";
@@ -299,7 +304,7 @@ class CRM_Contribute_BAO_Query
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.source)" : "civicrm_contribution.source";
             $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, "String" ) ;
-            $query->_qill[$grouping][]  = "Contribution Source $op \"$value\"";
+            $query->_qill[$grouping][]  = "Contribution Source $op $quoteValue";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
         
@@ -307,14 +312,14 @@ class CRM_Contribute_BAO_Query
         case 'contribution_transaction_id':
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.trxn_id)" : "civicrm_contribution.trxn_id";
             $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, "String" ) ;
-            $query->_qill[$grouping][]  = "Transaction ID $op \"$value\"";
+            $query->_qill[$grouping][]  = "Transaction ID $op $quoteValue";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
             
         case 'contribution_check_number':
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.check_number)" : "civicrm_contribution.check_number";
             $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, "String" ) ;
-            $query->_qill[$grouping][]  = "Check Number $op \"$value\"";
+            $query->_qill[$grouping][]  = "Check Number $op $quoteValue";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
             
@@ -347,7 +352,8 @@ class CRM_Contribute_BAO_Query
             return;
 
         case 'contribution_id':
-            $query->_where[$grouping][] = " civicrm_contribution.id $op $value";
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_contribution.id", $op, $value, "Integer" ) ;
+            $query->_qill[$grouping][]  = "Contribution ID $op $quoteValue";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
 
@@ -359,7 +365,7 @@ class CRM_Contribute_BAO_Query
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_note.note)" : "civicrm_note.note";
             $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, "String" ) ;
-            $query->_qill[$grouping][]  = "Contribution Note $op \"$value\"";
+            $query->_qill[$grouping][]  = "Contribution Note $op $quoteValue";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = $query->_whereTables['contribution_note'] = 1;
             return;
             
@@ -403,7 +409,7 @@ class CRM_Contribute_BAO_Query
             
             $wc = ( $op != 'LIKE' ) ? "LOWER($whereTable[where])" : "$whereTable[where]";
             $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $wc, $op, $value, $dataType) ;
-            $query->_qill[$grouping][]  = "$whereTable[title] $op \"$value\"";            
+            $query->_qill[$grouping][]  = "$whereTable[title] $op $quoteValue";            
             list( $tableName, $fieldName ) = explode( '.', $whereTable['where'], 2 );  
             $query->_tables[$tableName] = $query->_whereTables[$tableName] = 1;
             if ($tableName == 'civicrm_contribution_product') {

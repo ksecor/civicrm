@@ -3339,6 +3339,15 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
         if ( $op == 'IS NULL' ||
              $op == 'IS NOT NULL' ) {
             return $clause;
+        } elseif ( $op == 'IN' ) {
+            if ( isset($dataType) ) {
+                $value = CRM_Utils_Type::escape( $value, "String" );
+                $values = explode ( ',', CRM_Utils_Array::value( 0, explode(')',CRM_Utils_Array::value( 1, explode('(', $value ) ) ) ) );
+                foreach ( $values as $v ) {
+                    $v = CRM_Utils_Type::escape( $v, $dataType );
+                }
+            }
+            return "$clause $value";
         } else {
             if ( isset($dataType) ) {
                 $value = CRM_Utils_Type::escape( $value, $dataType );
