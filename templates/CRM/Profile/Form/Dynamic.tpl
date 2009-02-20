@@ -137,11 +137,12 @@
 	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
         {/if}
 
+    </table>
+
     {if $isCaptcha && ( $mode eq 8 || $mode eq 4 || $mode eq 1 ) }
         {include file='CRM/common/ReCAPTCHA.tpl'}
-     {/if}
-
-    </table>
+        <script type="text/javascript">cj('.recaptcha_label').attr('width', '140px');</script>
+    {/if}
 
     {if $field.groupHelpPost}
         <div class="messages help">{$field.groupHelpPost}</div>
