@@ -675,6 +675,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $relationship = true;
             $newContact = clone( $newContact );
             $this->_newContacts[] = $newContact->id;
+            
+            //get return code if we create new contact in update mode, CRM-4148
+            if ( $this->_updateWithId ) {
+                $this->_retCode = CRM_Import_Parser::VALID;
+            }
         } else if ( civicrm_duplicate( $newContact ) ) {
             $relationship = true;
             $contactID = $newContact['error_message']['params'][0];
