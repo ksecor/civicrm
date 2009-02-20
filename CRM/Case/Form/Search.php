@@ -321,8 +321,7 @@ class CRM_Case_Form_Search extends CRM_Core_Form
 
         $this->fixFormValues( );
         
-		$this->_formValues["case_recent_activity_type"] = 'Scheduled';
-       
+              
         if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
