@@ -204,17 +204,8 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $upgrade =& new CRM_Upgrade_Form( );
         $upgrade->processSQL( $rev );
     }
-
+    
     function upgrade_2_3_alpha1( $rev ) {
-        $query = "SHOW COLUMNS FROM civicrm_group WHERE Field = 'visibility'";
-        $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        $dao->fetch( );
-       
-        if( strpos("enum('User and User Admin Only','Public Pages')", $dao->Type ) === false ) {
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign( 'groupVisibilityAbsent', true );
-        }
-        
         $upgrade =& new CRM_Upgrade_Form( );
         $upgrade->processSQL( $rev );
     }
