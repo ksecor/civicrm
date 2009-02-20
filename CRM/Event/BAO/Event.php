@@ -797,9 +797,7 @@ WHERE civicrm_event.is_active = 1
     static function sendMail( $contactID, &$values, $participantId, $isTest = false, $returnMessageText = false ) 
     {
         require_once 'CRM/Core/BAO/UFGroup.php';
-        //this condition is added, since same contact can have
-        //multiple event registrations..       
-        $params = array( array( 'participant_id', '=', $participantId, 0, 0 ) );
+        $template =& CRM_Core_Smarty::singleton( );
         $gIds = array(
                       'custom_pre_id' => $values['custom_pre_id'],
                       'custom_post_id'=> $values['custom_post_id']
@@ -811,9 +809,13 @@ WHERE civicrm_event.is_active = 1
                 if ( $gId ) {
                     $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
                     if ( $email ) {
-                        $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, 
-                                                                             $contactID, 
-                                                                             $params[$key] );         
+                        //get values of corresponding profile fields for notification
+                        $profileValues = self::buildCustomDisplay( $gId, null, $contactID, $template, $participantId, $isTest, true );  
+                        $val = array(
+                                     'id'     => $gId,
+                                     'values' => $profileValues,
+                                     'email'  => $email
+                                     );       
                         CRM_Core_BAO_UFGroup::commonSendMail( $contactID, $val );
                     }
                 }
@@ -821,7 +823,6 @@ WHERE civicrm_event.is_active = 1
         }
         
         if ( $values['event']['is_email_confirm'] ) {
-            $template =& CRM_Core_Smarty::singleton( );
             require_once 'CRM/Contact/BAO/Contact/Location.php';
 
             // get the billing location type

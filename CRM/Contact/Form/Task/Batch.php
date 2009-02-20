@@ -214,8 +214,15 @@ class CRM_Contact_Form_Task_Batch extends CRM_Contact_Form_Task
         $params = $this->exportValues( );
 
         $ufGroupId = $this->get( 'ufGroupId' );
+        $notify = null;
+        //send profile notification email if 'notify' field is set
+        $notify = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $ufGroupId, 'notify' );        
         foreach( $params['field'] as $key => $value ) {
             CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
+            if ( $notify ) {
+                $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $ufGroupId, $key, null );      
+                CRM_Core_BAO_UFGroup::commonSendMail( $key, $values );
+            }    
         }
         
         CRM_Core_Session::setStatus("Your updates have been saved.");

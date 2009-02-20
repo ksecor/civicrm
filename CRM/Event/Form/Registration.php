@@ -456,6 +456,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
             
+            // we don't allow conflicting fields to be
+            // configured via profile
+            $fieldsToIgnore = array( 'participant_fee_amount' => 1,
+                                     'participant_fee_level'  => 1
+                                   );
             $fields = null;
             if ( $contactID ) {
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
@@ -474,6 +479,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 }
             }
             
+            if ( array_intersect_key( $fields, $fieldsToIgnore ) ) {
+                $fields = array_diff_key( $fields, $fieldsToIgnore );
+                CRM_Core_Session::setStatus( "Some of the profile fields cannot be configured for this page." );
+            }
             $addCaptcha = false;
             $this->assign( $name, $fields );
             if ( is_array( $fields ) ) {

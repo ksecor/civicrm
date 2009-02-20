@@ -842,6 +842,7 @@ AND civicrm_membership.is_test = %2";
         $tempParams  = $membershipParams;
         $paymentDone = false;
         $result      = null;
+        $isTest = CRM_Utils_Array::value( 'is_test', $membershipParams );
         $form->assign('membership_assign' , true );
 
         $form->set('membershipTypeID' , $membershipParams['selectMembership']);
@@ -959,7 +960,7 @@ AND civicrm_membership.is_test = %2";
         $index = $memBlockDetails['is_separate_payment'] ? 2 : 1;
 
         if ( ! CRM_Utils_Array::value( $index, $errors ) ) {
-            $membership = self::renewMembership( $contactID, $membershipTypeID, CRM_Utils_Array::value( 'is_test', $membershipParams ), $form );
+            $membership = self::renewMembership( $contactID, $membershipTypeID, $isTest, $form );
             if ( isset( $contribution[$index] ) ) {
                 //insert payment record
                 require_once 'CRM/Member/DAO/MembershipPayment.php';
@@ -1011,7 +1012,8 @@ AND civicrm_membership.is_test = %2";
         //finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
-                                                       $form->_values );
+                                                       $form->_values,
+                                                       $isTest );
     }
     
     /**

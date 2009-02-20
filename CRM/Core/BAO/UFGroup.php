@@ -1410,8 +1410,8 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             $form->add('select', $name, $title,
                        array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionStatus( ), $required);
         } else if ($fieldName == 'participant_register_date' ) {
-            require_once "CRM/Event/PseudoConstant.php";
-            $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
+            //use activitydatetime format for participant register date
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date('activityDatetime'), $required );  
         } else if ($fieldName == 'participant_status_id' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $cond = null;

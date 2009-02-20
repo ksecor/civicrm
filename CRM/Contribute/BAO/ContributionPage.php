@@ -104,7 +104,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         if ( isset( $values['custom_pre_id'] ) ) {
             $preProfileType = CRM_Core_BAO_UFField::getProfileType( $values['custom_pre_id'] );
             if ( $preProfileType == 'Membership' ) {
-                $params['custom_pre_id'] = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
+                $params['custom_pre_id'] = array( array( 'membership_id', '=', $values['membership_id'], 0, 0 ) );
             } else if ( $preProfileType == 'Contribution' ) {
                 $params['custom_pre_id'] = array( array( 'contribution_id', '=', $values['contribution_id'], 0, 0 ) );
             }
@@ -115,7 +115,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         if ( isset( $values['custom_post_id'] ) ) {
             $postProfileType = CRM_Core_BAO_UFField::getProfileType( $values['custom_post_id'] );
             if ( $postProfileType == 'Membership' ) {
-                $params['custom_post_id'] = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
+                $params['custom_post_id'] = array( array( 'membership_id', '=', $values['membership_id'], 0, 0 ) );
             } else if ( $postProfileType == 'Contribution' ) {
                 $params['custom_post_id'] = array( array( 'contribution_id', '=', $values['contribution_id'], 0, 0 ) );
             }
@@ -123,6 +123,14 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $gIds['custom_post_id'] = $values['custom_post_id'];
         }
         
+        //check whether it is a test drive
+        if ( $isTest && !empty( $params['custom_pre_id'] ) ) {
+            $params['custom_pre_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
+        }
+        
+        if ( $isTest && !empty( $params['custom_post_id'] ) ) {
+            $params['custom_post_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
+        }
         if ( ! $returnMessageText ) {
             //send notification email if field values are set (CRM-1941)
             require_once 'CRM/Core/BAO/UFGroup.php';
@@ -144,15 +152,6 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );
-            if ( $isTest &&
-                 ! empty( $params['custom_pre_id'] ) ) {
-                $params['custom_pre_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
-            }
-
-            if ( $isTest &&
-                 ! empty( $params['custom_post_id'] ) ) {
-                $params['custom_post_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
-            }
             
             //for display profile need to get individual contact id,  
             //hence get it from related_contact if on behalf of org true CRM-3767.
