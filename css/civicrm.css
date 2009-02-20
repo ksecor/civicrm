@@ -1178,20 +1178,18 @@ commented since it is overwiting simple td
   list-style: none;
 }
 
-#crm-container ul.tasklist a {
+#crm-container ul.tasklist a, #crm-container td.tasklist a {
   font-weight: bold;
-  font-size: 1.1em;
 }
 
 #crm-container ul.tasklist a:before {
   content: "\BB \ ";
 }
 
-#crm-container ul.tasklist a:link {
+#crm-container ul.tasklist a:link, #crm-container td.tasklist a:link  {
   color: #FF0105;
 }
 
-#crm-container ul.tasklist a:visited {
+#crm-container ul.tasklist a:visited, #crm-container td.tasklist a:visited  {
   color: green;
 }  
-  
