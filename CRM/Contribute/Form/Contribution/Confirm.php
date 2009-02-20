@@ -850,7 +850,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         if ( isset($params['related_contact']) ) {
             $contactID = $params['related_contact'];
-        } 
+        } else if ( isset($params['cms_contactID']) ) {
+            $contactID = $params['cms_contactID'];
+        }
         
         CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params,
                                                               $contactID, 
