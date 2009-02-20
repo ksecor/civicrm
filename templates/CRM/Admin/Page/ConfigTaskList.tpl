@@ -101,16 +101,20 @@ not be returned to this page after completing these tasks, but you can always ge
 <table class="selector">
 <tr class="columnheader"><td colspan="2">{ts}Components{/ts}</td></tr>
 <tr class="even">
-    <td class="tasklist nowrap">{docURL page="CiviContribute Admin" text="CiviContribute and CiviPledge"}<td>
+    <td class="tasklist nowrap">{docURL page="CiviContribute Admin" text="CiviContribute and CiviPledge"}</td>
+    <td>{ts}Manage online contribution pages and track contributions and pledges. {/ts}</td>    
 </tr>
 <tr class="even">
-    <td class="tasklist nowrap">{docURL page="CiviEvent Admin" text="CiviEvent"}<td>
+    <td class="tasklist nowrap">{docURL page="CiviEvent Admin" text="CiviEvent"}</td>
+    <td>{ts}Manage and track events and event-related activities.{/ts}</td>
 </tr>
 <tr class="even">
-    <td class="tasklist nowrap">{docURL page="CiviMail Admin" text="CiviMail"}<td>
+    <td class="tasklist nowrap">{docURL page="CiviMail Admin" text="CiviMail"}</td>
+    <td>{ts}Send and track mailings to Groups.{/ts}</td>
 </tr>
 <tr class="even">
-    <td class="tasklist nowrap">{docURL page="CiviCase Admin" text="CiviCase"}<td>
+    <td class="tasklist nowrap">{docURL page="CiviCase Admin" text="CiviCase"}</td>
+    <td>{ts}Manage Case / Case Activity{/ts}</td>
 </tr>
 </table>
 
