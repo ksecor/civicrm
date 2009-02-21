@@ -1174,22 +1174,24 @@ commented since it is overwiting simple td
 }
 
 /* Styles for Config Task List */
-#crm-container ul.tasklist {
-  list-style: none;
-}
-
-#crm-container ul.tasklist a, #crm-container td.tasklist a {
+#crm-container td.tasklist a {
   font-weight: bold;
 }
 
-#crm-container ul.tasklist a:before {
-  content: "\BB \ ";
-}
-
-#crm-container ul.tasklist a:link, #crm-container td.tasklist a:link  {
+#crm-container td.tasklist a:link  {
   color: #FF0105;
 }
 
-#crm-container ul.tasklist a:visited, #crm-container td.tasklist a:visited  {
+#crm-container td.tasklist a:visited  {
   color: green;
-}  
+}
+
+#crm-container a.pane-collapsed:before {
+  padding-right: 0.5em;
+  content: url(../i/menu-collapsed.png);
+}
+
+#crm-container a.pane-expanded:before {
+  padding-right: 0.5em;
+  content: url(../i/menu-expanded.png);
+}
