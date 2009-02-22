@@ -44,27 +44,6 @@ class CRM_Admin_Page_ConfigTaskList extends CRM_Core_Page {
         
         CRM_Utils_System::setTitle(ts("Configuration Checklist"));
         $this->assign('recentlyViewed', false);
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        /*
-        $rows = array( 'sc1','sc2','vc1','vc2','vc3','vc4','em1','em2',
-                       'cn1','ct1','ct2','cu1','cu2','co1','co2','co3','co4','co5','co6');
-         */
-        $rows = array( 'scCollapsed','vcCollapsed', 'emCollapsed', 'cnCollapsed',
-                      'ctCollapsed', 'cuCollapsed', 'coCollapsed' );
-        foreach( $rows as $id ) {
-            $this->_showHide->addHide( $id );
-        }
-        require_once 'CRM/Core/Config.php';
-        
-        /*
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Drupal' ) {
-            $this->_showHide->addHide( 'cn2' );
-        }
-        */
-        
-        $this->_showHide->addToTemplate( );
 
         parent::run();
     }   
