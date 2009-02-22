@@ -1185,13 +1185,3 @@ commented since it is overwiting simple td
 #crm-container td.tasklist a:visited  {
   color: green;
 }
-
-#crm-container a.pane-collapsed:before {
-  padding-right: 0.5em;
-  content: url(../i/menu-collapsed.png);
-}
-
-#crm-container a.pane-expanded:before {
-  padding-right: 0.5em;
-  content: url(../i/menu-expanded.png);
-}
