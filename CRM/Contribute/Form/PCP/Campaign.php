@@ -294,7 +294,12 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         CRM_Core_Session::setStatus( ts( "Your Personal Campaign Page has been %1 %2 %3", 
                                          array(1 => $pageStatus, 2 => $approvalMessage, 3 => $notifyStatus)) );
         if ( ! $this->_pageId ) {
-            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$pcp->id ) );
+            //check if pcp created by anonymous user
+            $anonymousPCP = 0;
+            if ( !$session->get('userID') ) {
+                $anonymousPCP = 1; 
+            }
+            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contribute/pcp/info', "reset=1&id={$pcp->id}&ap={$anonymousPCP}" ) );
         } 
     }
 }

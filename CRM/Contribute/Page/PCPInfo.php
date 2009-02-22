@@ -81,20 +81,20 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         require_once 'CRM/Contribute/PseudoConstant.php';
         require_once 'CRM/Core/OptionGroup.php';
         $pcpStatus     = CRM_Contribute_PseudoConstant::pcpStatus( );
-        $approvedId    = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
-        $statusMessage = ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' );
+        $approvedId    = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );        
         
-        // check if user is logged in
-        $loginUrl = null;
-        if ( !$session->get('userID') ) {
+        // check if PCP is created by anonymous user
+        $anonymousPCP  = CRM_Utils_Request::retrieve( 'ap', 'Boolean', $this );
+        if ( $anonymousPCP ) {
             $loginUrl =  $config->userFrameworkBaseURL;
             $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
             if ( $isJoomla ) {
                 $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
                 $loginUrl .= 'index.php?option=com_user&view=login';
             }
-            
-            $statusMessage .= ts(' Click <a href=%1>here</a> to login and check your Personal Campaign Page status.', array( 1 => $loginUrl) );
+            $statusMessage = ts('Once you\'ve received your new account welcome email, you can <a href=%1>click here</a> to login and preview your campaign page.', array( 1 => $loginUrl) );
+        } else {
+           $statusMessage = ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' ); 
         }
                                           
         if ( ! $pcpInfo['is_active'] ) {
