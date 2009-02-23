@@ -58,6 +58,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         $session =& CRM_Core_Session::singleton( );
         $config =& CRM_Core_Config::singleton( );
         $permissionCheck = false;
+        $statusMessage = '';
         if ( $config->userFramework != 'Joomla') {
             $permissionCheck = CRM_Core_Permission::check('administer CiviCRM');
         }
@@ -92,7 +93,8 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
                 $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
                 $loginUrl .= 'index.php?option=com_user&view=login';
             }
-            $statusMessage = ts('Once you\'ve received your new account welcome email, you can <a href=%1>click here</a> to login and preview your campaign page.', array( 1 => $loginUrl) );
+            $anonMessage = ts('Once you\'ve received your new account welcome email, you can <a href=%1>click here</a> to login and promote your campaign page.', array( 1 => $loginUrl) );
+            CRM_Core_Session::setStatus( $anonMessage );
         } else {
            $statusMessage = ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' ); 
         }
@@ -118,6 +120,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
                                                                                      false, null, false, true ) );
             }
         }
+
         $default = array();
         
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_ContributionPage', 'id', 

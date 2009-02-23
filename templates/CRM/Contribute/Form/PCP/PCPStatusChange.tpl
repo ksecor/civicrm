@@ -7,13 +7,22 @@
 
 {ts}Your personal campaign page has been approved and is now live.{/ts} 
 
+{ts}Whenever you want to preview, update or promote your page{/ts}:
+1. {ts}Login to your account at{/ts}:
+{$config->userFrameworkBaseURL}
+
+2. {ts}Click or paste this link into your browser to go to your page{/ts}:
+{$pcpInfoURL}
+
+{ts}When you view your campaign page WHILE LOGGED IN, the page includes links to edit
+your page, tell friends, and update your contact info.{/ts}
+
 {if $isTellFriendEnabled}
-{ts}Promote your fundraising page{/ts}:
+
+{ts}After logging in, you can use this form to promote your fundraising page{/ts}:
 {$pcpTellFriendURL}
 
 {/if}
-{ts}View and update your page{/ts}:
-{$pcpInfoURL}
 
 {if $pcpNotifyEmailAddress}
 {ts}Questions? Send email to{/ts}:
@@ -31,6 +40,7 @@
 which prevented us from approving the page. We are sorry for any inconvenience.{/ts}
 
 {if $pcpNotifyEmailAddress}
+
 {ts}Please contact our site administrator for more information{/ts}: 
 {$pcpNotifyEmailAddress}
 {/if}
