@@ -744,7 +744,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                 'activity_type_id'     => $activityTypeID,
                                 'activity_date_time'   => date('YmdHis'),
                                 'subject'              => $subject,
-                                'details'              => $text,
+                                'details'              => ($text) ? $text : $html,
                                 'status_id'            => 2
                                 );
 

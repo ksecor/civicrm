@@ -187,7 +187,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $approvalMessage = null;
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $params['status_id'] = $approval_needed ? 1 : 2;
-            $approvalMessage     = $approval_needed ? ts('but requires administrator review before you can begin your fundraising efforts. You will receive an email confirmation shortly which includes a link to return to this page.') : ts('and is ready to use. Click the Tell Friends link below to being promoting your fundraising campaign.');
+            $approvalMessage     = $approval_needed ? ts('but requires administrator review before you can begin your fundraising efforts. You will receive an email confirmation shortly which includes a link to return to your fundraising page.') : ts('and is ready to use.');
         }
         
         $params['id'] = $this->_pageId;
@@ -287,14 +287,20 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         if ( ! $this->_pageId ) {
             CRM_Contribute_BAO_PCP::sendStatusUpdate( $pcp->id, $statusId, true );
             if ( $approvalMessage && CRM_Utils_Array::value( 'status_id', $params ) == 1 ) {
-                $notifyStatus .= ' You will receive a second email as soon as the review process is complete.';
+                $notifyStatus .= ts(' You will receive a second email as soon as the review process is complete.');
             }
+        }
+
+        //check if pcp created by anonymous user
+        $anonymousPCP = 0;
+        if ( !$session->get('userID') ) {
+            $anonymousPCP = 1; 
         }
 
         CRM_Core_Session::setStatus( ts( "Your Personal Campaign Page has been %1 %2 %3", 
                                          array(1 => $pageStatus, 2 => $approvalMessage, 3 => $notifyStatus)) );
         if ( ! $this->_pageId ) {
-            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$pcp->id ) );
+            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contribute/pcp/info', "reset=1&id={$pcp->id}&ap={$anonymousPCP}" ) );
         } 
     }
 }

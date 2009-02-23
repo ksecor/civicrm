@@ -318,9 +318,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                 echo "Failure: Could not find contribution record for $contributionID<p>";
                 exit( );
             }
-            if (stristr($contribution->source, 'Online Contribution')) {
+            if (stristr($contribution->source, ts('Online Contribution'))) {
                 $module = 'Contribute';
-            } elseif (stristr($contribution->source, 'Online Event Registration')) {
+            } elseif (stristr($contribution->source, ts('Online Event Registration'))) {
                 $module = 'Event';
             }
             $isTest = $contribution->is_test;
@@ -332,9 +332,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                 echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
                 exit( );
             }
-            if (stristr($contribution->source, 'Online Contribution')) {
+            if (stristr($contribution->source, ts('Online Contribution'))) {
                 $module = 'Contribute';
-            } elseif (stristr($contribution->source, 'Online Event Registration')) {
+            } elseif (stristr($contribution->source, ts('Online Event Registration'))) {
                 $module = 'Event';
             }
             $isTest = $contribution->is_test;

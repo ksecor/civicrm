@@ -689,13 +689,29 @@ class Installer extends InstallRequirements {
             }
             if ( $installType == 'drupal' ) {
                 $drupalURL     = civicrm_cms_base( );
-                echo "<li>Now enable the CiviCRM module from Administer >> Site Building >> Modules</li>
-                      <li>You can review the initial steps for configuring your new CiviCRM installation $docLinkConfig </li>
-                      <li>Click <a target='_blank' href=\"$drupalURL\">here</a> to go to your Drupal home page.</li>";
+                $drupalURL .= "index.php?q=civicrm/admin/configtask&reset=1";
+
+                echo "<li>Use the <a href=\"$drupalURL\">Configuration Checklist</a> to review and configure settings for your new site</li>";
+
+                // explicitly setting error reporting, since we cannot handle drupal related notices
+                error_reporting(1);
+                
+                // automatically enable CiviCRM module once it is installed successfully.
+                // so we need to Bootstrap Drupal, so that we can call drupal hooks.
+                global $cmsPath, $crmPath;
+                // relative / abosolute paths are not working for drupal, hence using chdir()
+                chdir( $cmsPath ); 
+                include_once "./includes/bootstrap.inc";
+                drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+                // rebuild modules, so that civicrm is added
+                module_rebuild_cache( );
+                // now enable civicrm module.
+                module_enable( array('civicrm') );
             } elseif ( $installType == 'standalone' ) {
                 $standaloneURL = civicrm_cms_base( ) . 'standalone/';
-                echo  "<li>Please review the initial steps for configuring your new CiviCRM installation $docLinkConfig </li>
-                       <li>Click <a href=\"$standaloneURL\">here</a> to go to your CiviCRM Standalone home page.</li>";
+                $standaloneURL .= "index.php?q=civicrm/admin/configtask&reset=1";
+                echo "<li>Use the <a href=\"$standaloneURL\">Configuration Checklist</a> to review and configure settings for your new site</li>";
+
             }
             echo '</ul>';
             echo '</div>';

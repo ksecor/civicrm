@@ -649,10 +649,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             }
          }
 
-        //check for civimail component is enable  
+        //check profile is configured for double option process
         //adding group field, email field should be present in the group 
-        //fixed for  issue CRM-2861
-        if ( CRM_Core_Permission::access( 'CiviMail' ) ) { 
+        //fixed for  issue CRM-2861 & CRM-4153
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->profileDoubleOptIn ) { 
             if ( $fields['field_name'][1] == 'group' ) {
                 require_once 'CRM/Core/BAO/UFField.php';
                 $dao =& new CRM_Core_BAO_UFField();
@@ -666,7 +667,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                     }
                 } 
                 if ( ! $emailField ) {
-                    $errors['field_name'] = ts( 'You need to include an Email field in this Profile before you add the Group(s) field when CiviMail is enabled. This ensures that an opt-in confirmation email can be sent to contacts when they join a group.' );
+                    $errors['field_name'] = ts( 'You need to include an Email field in this Profile before you add the Group(s) field when profile is configured for double-opt in. This ensures that an opt-in confirmation email can be sent to contacts when they join a group.' );
                 }
             }
         }

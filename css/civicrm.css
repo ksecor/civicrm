@@ -1179,23 +1179,14 @@ commented since it is overwiting simple td
 .Organization {background:url('../i/contact_org.gif') no-repeat;padding-left:20px;}
 
 /* Styles for Config Task List */
-#crm-container ul.tasklist {
-  list-style: none;
-}
-
-#crm-container ul.tasklist a {
+#crm-container td.tasklist a {
   font-weight: bold;
-  font-size: 1.1em;
 }
 
-#crm-container ul.tasklist a:before {
-  content: "\BB \ ";
-}
-
-#crm-container ul.tasklist a:link {
+#crm-container td.tasklist a:link  {
   color: #FF0105;
 }
 
-#crm-container ul.tasklist a:visited {
+#crm-container td.tasklist a:visited  {
   color: green;
-}  
+}

@@ -424,8 +424,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         
         $relationship = false;
+        $createNewContact = true;
         // Support Match and Update Via Contact ID
         if ( $this->_updateWithId ) {
+            $createNewContact = false;
             if ( !CRM_Utils_Array::value('id', $params) && CRM_Utils_Array::value('external_identifier', $params) ) {
                 
                 $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
@@ -434,11 +436,29 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 if ( $cid ) {
                     $params['id'] =  $cid; 
                 } else {
-                    $message ="No contact ID found for this External Identifier:".$params['external_identifier'] ;
-                    array_unshift($values, $message);
-                    $this->_retCode = CRM_Import_Parser::NO_MATCH; 
-                }                
-            } 
+                    //update contact if dedupe found contact id, CRM-4148
+                    $dedupeParams = $formatted;
+                    
+                    //special case to check dedupe if external id present.
+                    //if we send external id dedupe will stop.
+                    unset( $dedupeParams['external_identifier'] );
+                    
+                    $checkDedupe = _civicrm_duplicate_formatted_contact( $dedupeParams );
+                    if ( civicrm_duplicate( $checkDedupe ) ) {
+                        $matchingContactIds = explode( ',', $checkDedupe['error_message']['params'][0] );
+                        if ( count( $matchingContactIds ) == 1 ) {
+                            $params['id'] = array_pop( $matchingContactIds );
+                        } else {
+                            $message = "More than one matching contact found for given criteria.";
+                            array_unshift($values, $message);
+                            $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                        }
+                    } else {
+                        $createNewContact = true;
+                    }
+                }
+            }
+            
             $error = _civicrm_duplicate_formatted_contact($formatted);
             if ( civicrm_duplicate($error) ) { 
                 $matchedIDs = explode( ',', $error['error_message']['params'][0] );
@@ -476,26 +496,30 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $contactType  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                  $params['id'],
                                                                  'contact_type' );
-                }
-                if ( $contactType ) {
-                    if ($formatted['contact_type'] == $contactType ) {
-                        $newContact = $this->createContact( $formatted, $contactFields, 
-                                                            $onDuplicate, $params['id'], false );
-                        
-                        $this->_retCode = CRM_Import_Parser::VALID;
+                    if ( $contactType ) {
+                        if ($formatted['contact_type'] == $contactType ) {
+                            $newContact = $this->createContact( $formatted, $contactFields, 
+                                                                $onDuplicate, $params['id'], false );
+                            
+                            $this->_retCode = CRM_Import_Parser::VALID;
+                        } else {
+                            $message = "Mismatched contact Types :";
+                            array_unshift($values, $message);
+                            $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                        }
                     } else {
-                        $message = "Mismatched contact Types :";
-                        array_unshift($values, $message);
-                        $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                        // we should avoid multiple errors for single record
+                        // since we have already retCode and we trying to force again.
+                        if ( $this->_retCode != CRM_Import_Parser::NO_MATCH ) {
+                            $message ="No contact found for this contact ID:".$params['id'] ;
+                            array_unshift($values, $message);
+                            $this->_retCode = CRM_Import_Parser::NO_MATCH; 
+                        }
                     }
                 } else {
-                    // we should avoid multiple errors for single record
-                    // since we have already retCode and we trying to force again.
-                    if ( $this->_retCode != CRM_Import_Parser::NO_MATCH ) {
-                        $message ="No contact found for this contact ID:".$params['id'] ;
-                        array_unshift($values, $message);
-                        $this->_retCode = CRM_Import_Parser::NO_MATCH; 
-                    }
+                    //CRM-4148
+                    //now we want to create new contact on update/fill also.
+                    $createNewContact = true;
                 }
             }
             
@@ -505,23 +529,34 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $newContact = $error;
                 $relationship = true;
             }
-        } else {
+        }
+        
+        //fixed CRM-4148
+        //now we create new contact in update/fill mode also.
+        if ( $createNewContact ) {
             $formatted['individual_prefix'] = CRM_Core_OptionGroup::getValue( 'individual_prefix', (string)$formatted['prefix'] );
             $formatted['individual_suffix'] = CRM_Core_OptionGroup::getValue( 'individual_suffix', (string)$formatted['suffix'] );
             $formatted['gender']            = CRM_Core_OptionGroup::getValue( 'gender', (string)$formatted['gender'] );
             $formatted['greeting_type']     = CRM_Core_OptionGroup::getValue( 'greeting_type', (string)$formatted['greeting_type'] );
             
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
-            
         }
         
         if ( is_object( $newContact ) || ( $newContact instanceof CRM_Contact_BAO_Contact ) ) { 
             $relationship = true;
             $newContact = clone( $newContact );
             $this->_newContacts[] = $newContact->id;
+            
+            //get return code if we create new contact in update mode, CRM-4148
+            if ( $this->_updateWithId ) {
+                $this->_retCode = CRM_Import_Parser::VALID;
+            }
         } else if ( civicrm_duplicate( $newContact ) ) {
             $relationship = true;
-            $this->_newContacts[] = $newContact['error_message']['params'][0]; 
+            $contactID = $newContact['error_message']['params'][0];
+            if ( !in_array( $contactID, $this->_newContacts ) ) {
+                $this->_newContacts[] =  $contactID;
+            }
         }
         
         if ( $relationship ) {
@@ -563,26 +598,15 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                                                           $params[$key]['external_identifier'],'id',
                                                                           'external_identifier' );
                     }                    
-
-                    //fix for CRM-1315
+                    
+                    //fixed for CRM-4148
                     if ( $params[$key]['id'] ) {
                         $contact           = array( 'contact_id' => $params[$key]['id'] );
                         $defaults          = array( );
                         $relatedNewContact = CRM_Contact_BAO_Contact::retrieve( $contact, $defaults );
-                    } else if ( isset ($params[$key]['external_identifier']) && $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
-                        $message ="No contact ID found for this External Identifier:".$params[$key]['external_identifier']." in related contact." ;
-                        array_unshift($values, $message);
-                        $this->_retCode = CRM_Import_Parser::NO_MATCH; 
-                    }  else {
-                        //fixed for CRM-3146, CRM-4024.
-                        if ( ( $this->_contactType == 'Individual'   || 
-                               $this->_contactType == 'Household'    ||
-                               $this->_contactType == 'Organization' ) && $onDuplicate == CRM_Import_Parser::DUPLICATE_NOCHECK ) {
-                            $onDuplicate = CRM_Import_Parser::DUPLICATE_FILL;
-                        }
-                        
+                    } else {
                         $relatedNewContact = $this->createContact( $formatting, $contactFields, 
-                                                                   $onDuplicate, null, false );
+                                                                   $onDuplicate, null, false ); 
                     }
                     
                     if ( is_object( $relatedNewContact ) || ( $relatedNewContact instanceof CRM_Contact_BAO_Contact ) ) {
@@ -736,7 +760,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
                 
                 if ( civicrm_error( $newContact ) ) {
-                    $this->_newContacts[] = $newContact['error_message']['params'][0];
+                    $contactID = $newContact['error_message']['params'][0];
+                    if ( !in_array( $contactID, $this->_newContacts ) ) {
+                        $this->_newContacts[] = $contactID;
+                    }
                 }
                 //CRM-262 No Duplicate Checking  
                 if ($onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) {

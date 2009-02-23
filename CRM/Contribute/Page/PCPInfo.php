@@ -58,6 +58,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         $session =& CRM_Core_Session::singleton( );
         $config =& CRM_Core_Config::singleton( );
         $permissionCheck = false;
+        $statusMessage = '';
         if ( $config->userFramework != 'Joomla') {
             $permissionCheck = CRM_Core_Permission::check('administer CiviCRM');
         }
@@ -81,8 +82,23 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         require_once 'CRM/Contribute/PseudoConstant.php';
         require_once 'CRM/Core/OptionGroup.php';
         $pcpStatus     = CRM_Contribute_PseudoConstant::pcpStatus( );
-        $approvedId    = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
-        $statusMessage = ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' );
+        $approvedId    = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );        
+        
+        // check if PCP is created by anonymous user
+        $anonymousPCP  = CRM_Utils_Request::retrieve( 'ap', 'Boolean', $this );
+        if ( $anonymousPCP ) {
+            $loginUrl =  $config->userFrameworkBaseURL;
+            $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
+            if ( $isJoomla ) {
+                $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
+                $loginUrl .= 'index.php?option=com_user&view=login';
+            }
+            $anonMessage = ts('Once you\'ve received your new account welcome email, you can <a href=%1>click here</a> to login and promote your campaign page.', array( 1 => $loginUrl) );
+            CRM_Core_Session::setStatus( $anonMessage );
+        } else {
+           $statusMessage = ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' ); 
+        }
+                                          
         if ( ! $pcpInfo['is_active'] ) {
             // form is inactive, forward to main contribution page
             CRM_Core_Error::statusBounce( $statusMessage , CRM_Utils_System::url( 'civicrm/contribute/transact',
@@ -104,6 +120,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
                                                                                      false, null, false, true ) );
             }
         }
+
         $default = array();
         
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_ContributionPage', 'id', 
@@ -177,7 +194,6 @@ AND is_test = 0";
         }
          
         $this->assign('honor', $honor );
-        $this->assign('pcpDate', $default['1'] );
         $this->assign('total', $totalAmount ? $totalAmount : '0.0' );
         $this->assign('achieved', $achieved <= 100 ? $achieved : 100 );
 
@@ -185,15 +201,14 @@ AND is_test = 0";
             $this->assign('remaining', 100- $achieved );
         }
         // make sure that we are between  registration start date and registration end date
-        $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date',
-                                                                       $default['1'] ) );
-        $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'end_date',
-                                                                     $default['1'] ) );
+        $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date', $owner ) );
+
+        $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'end_date', $owner ) );
+
         $now = time( );
         $validDate = true;
         if ( $startDate && $startDate >= $now ) {
             $validDate = false;
-            
         }
         if ( $endDate && $endDate < $now ) {
             $validDate = false;

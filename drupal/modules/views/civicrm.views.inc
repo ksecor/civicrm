@@ -125,7 +125,7 @@ function civicrm_views_data() {
                                                                       ),
 
                                                   'filter' => array(
-                                                                    'handler' => 'views_handler_filter',
+                                                                    'handler' => 'views_handler_filter_string',
                                                                     ),
 
                                                   'sort' => array(
@@ -147,7 +147,7 @@ function civicrm_views_data() {
                                                                          ),
 
                                                      'filter' => array(
-                                                                       'handler' => 'views_handler_filter',
+                                                                       'handler' => 'views_handler_filter_string',
                                                                        ),
 
                                                      'sort' => array(
@@ -192,7 +192,7 @@ function civicrm_views_data() {
                                                                        ),
 
                                                    'filter' => array(
-                                                                     'handler' => 'views_handler_filter',
+                                                                     'handler' => 'views_handler_filter_string',
                                                                      ),
 
                                                    'sort' => array(
@@ -214,7 +214,7 @@ function civicrm_views_data() {
                                                                         ),
 
                                                     'filter' => array(
-                                                                      'handler' => 'views_handler_filter',
+                                                                      'handler' => 'views_handler_filter_string',
                                                                       ),
 
                                                     'sort' => array(
@@ -236,7 +236,7 @@ function civicrm_views_data() {
                                                                       ),
 
                                                   'filter' => array(
-                                                                    'handler' => 'views_handler_filter',
+                                                                    'handler' => 'views_handler_filter_string',
                                                                     ),
 
                                                   'sort' => array(
@@ -522,7 +522,7 @@ function civicrm_views_data() {
                                                                            ),
 
                                                        'filter' => array(
-                                                                         'handler' => 'views_handler_filter',
+                                                                         'handler' => 'views_handler_filter_string',
                                                                          ),
 
                                                        'sort' => array(
@@ -544,7 +544,7 @@ function civicrm_views_data() {
                                                                  ),
 
                                              'filter' => array(
-                                                               'handler' => 'views_handler_filter',
+                                                               'handler' => 'views_handler_filter_string',
                                                                ),
 
                                              'sort' => array(
@@ -721,7 +721,7 @@ function civicrm_views_data() {
                                                                 ),
 
                                             'filter' => array(
-                                                              'handler' => 'views_handler_filter',
+                                                              'handler' => 'views_handler_filter_string',
                                                               ),
 
                                             'sort' => array(
@@ -853,7 +853,7 @@ function civicrm_views_data() {
                                                                 ),
 
                                             'filter' => array(
-                                                              'handler' => 'views_handler_filter',
+                                                              'handler' => 'views_handler_filter_string',
                                                               ),
 
                                             'sort' => array(
@@ -878,7 +878,7 @@ function civicrm_views_data() {
 
                         
                                                  'filter' => array(
-                                                                   'handler' => 'views_handler_filter',
+                                                                   'handler' => 'views_handler_filter_string',
                                                                    ),
 
                                                  'sort' => array(
@@ -1018,7 +1018,7 @@ function civicrm_views_data() {
                                                                 ),
 
                                             'filter' => array(
-                                                              'handler' => 'views_handler_filter',
+                                                              'handler' => 'views_handler_filter_string',
                                                               ),
 
                                             'sort' => array(
@@ -1187,7 +1187,7 @@ function civicrm_views_data() {
                                                                    ),
 
                                                'filter' => array(
-                                                                 'handler' => 'views_handler_filter',
+                                                                 'handler' => 'views_handler_filter_string',
                                                                  ),
 
                                                'sort' => array(
@@ -1341,7 +1341,7 @@ function civicrm_views_data() {
                                                                        ),
 
                                                    'filter' => array(
-                                                                     'handler' => 'views_handler_filter',
+                                                                     'handler' => 'views_handler_filter_string',
                                                                      ),
 
                                                    'sort' => array(
@@ -1419,7 +1419,7 @@ function civicrm_views_data() {
                                                                           ),
 
                                                       'filter' => array(
-                                                                        'handler' => 'views_handler_filter',
+                                                                        'handler' => 'views_handler_filter_string',
                                                                         ),
 
                                                       'sort' => array(
@@ -1705,7 +1705,7 @@ function civicrm_views_data() {
                                                                          ),
 
                                                      'filter' => array(
-                                                                       'handler' => 'views_handler_filter',
+                                                                       'handler' => 'views_handler_filter_string',
                                                                        ),
 
                                                      'sort' => array(
@@ -1727,7 +1727,7 @@ function civicrm_views_data() {
                                                                             ),
 
                                                         'filter' => array(
-                                                                          'handler' => 'views_handler_filter',
+                                                                          'handler' => 'views_handler_filter_string',
                                                                           ),
 
                                                         'sort' => array(
@@ -1749,7 +1749,7 @@ function civicrm_views_data() {
                                                                           ),
 
                                                       'filter' => array(
-                                                                        'handler' => 'views_handler_filter',
+                                                                        'handler' => 'views_handler_filter_string',
                                                                         ),
 
                                                       'sort' => array(
@@ -1793,7 +1793,7 @@ function civicrm_views_data() {
                                                                                ),
 
                                                            'filter' => array(
-                                                                             'handler' => 'views_handler_filter',
+                                                                             'handler' => 'views_handler_filter_string',
                                                                              ),
 
                                                            'sort' => array(
@@ -1859,7 +1859,7 @@ function civicrm_views_data() {
                                                                         ),
 
                                                     'filter' => array(
-                                                                      'handler' => 'views_handler_filter',
+                                                                      'handler' => 'views_handler_filter_string',
                                                                       ),
 
                                                     'sort' => array(
@@ -2083,7 +2083,7 @@ function civicrm_views_data() {
                                                                      ),
 
                                                  'filter' => array(
-                                                                   'handler' => 'views_handler_filter',
+                                                                   'handler' => 'views_handler_filter_string',
                                                                    ),
 
                                                  'sort' => array(
@@ -2172,7 +2172,7 @@ function civicrm_views_data() {
                                                                       ),
 
                                                   'filter' => array(
-                                                                    'handler' => 'views_handler_filter',
+                                                                    'handler' => 'views_handler_filter_string',
                                                                     ),
 
                                                   'sort' => array(
@@ -2194,7 +2194,7 @@ function civicrm_views_data() {
                                                                      ),
 
                                                  'filter' => array(
-                                                                   'handler' => 'views_handler_filter',
+                                                                   'handler' => 'views_handler_filter_string',
                                                                    ),
 
                                                  'sort' => array(
@@ -2695,7 +2695,7 @@ function civicrm_get_filter_handler($type) {
     switch ($type) {
     case "String":
     case "Memo":
-        return 'views_handler_filter';
+        return 'views_handler_filter_string';
 
     case "Float":
     case "Int":
@@ -2714,7 +2714,7 @@ function civicrm_get_filter_handler($type) {
         return 'civicrm_handler_filter_country';
     
     default:
-        return 'views_handler_filter';
+        return 'views_handler_filter_string';
     }
 }
 

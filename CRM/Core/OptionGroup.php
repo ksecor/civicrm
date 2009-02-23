@@ -99,7 +99,7 @@ WHERE  v.option_group_id = g.id
   AND  g.id              = %1
   AND  v.is_active       = 1 
   AND  g.is_active       = 1 
-  ORDER BY v.weight; 
+  ORDER BY v.weight, v.label; 
 ";
         $p = array( 1 => array( $id, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );

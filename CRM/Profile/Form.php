@@ -168,8 +168,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                false, null,
                                                                $this->_skipPermission );
             
-            //if civimail is enable and email field is absent show status
-            if ( CRM_Utils_Array::value( 'CiviMail', CRM_Core_Component::getEnabledComponents())&&
+            ///is profile double-opt process configurablem, key
+            ///should be present in civicrm.settting.php file
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->profileDoubleOptIn &&
                  CRM_Utils_Array::value( 'group', $this->_fields ) ) {
                 $emailField = false;
                 foreach ( $this->_fields as $name => $values ) {
@@ -179,7 +181,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
                 if ( ! $emailField ) {
                     $session =& CRM_Core_Session::singleton( );
-                    $status = ts( "Email field should be included in profile if you want to use Group(s) when CiviMail is enabled." ); 
+                    $status = ts( "Email field should be included in profile if you want to use Group(s) when Profile double-opt in process is enabled." ); 
                     $session->setStatus( $status );
                 }
             }
@@ -569,11 +571,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         $transaction = new CRM_Core_Transaction( );
         
         //used to send subcribe mail to the group which user want.
-        //if the civimail component is enable.
+        //if the profile double option in is enabled
         $mailingType = array( );
-        
-        if ( CRM_Utils_Array::value( 'CiviMail', CRM_Core_Component::getEnabledComponents())
-             && CRM_Utils_Array::value( 'group', $params ) ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->profileDoubleOptIn && CRM_Utils_Array::value( 'group', $params ) ) {
             $result = null;
             foreach ( $params as $name => $values ) {
                 if ( substr( $name, 0, 6 ) == 'email-' ) {

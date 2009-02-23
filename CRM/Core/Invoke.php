@@ -93,6 +93,13 @@ class CRM_Core_Invoke
         $path = implode( '/', $args );
         $item =& CRM_Core_Menu::get( $path );
 
+        // we should try to compute menus, if item is empty and stay on the same page,
+        // rather than compute and redirect to dashboard.
+        if ( !$item ) {
+            CRM_Core_Menu::store( );
+            $item =& CRM_Core_Menu::get( $path );
+        }
+        
         if ( $config->userFramework == 'Joomla' && $item ) {
             $config->userFrameworkURLVar = 'task';
 

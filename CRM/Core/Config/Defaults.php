@@ -80,6 +80,9 @@ class CRM_Core_Config_Defaults
 
         // in hrd mode?
         $this->civiHRD   = defined( 'CIVICRM_HRD' ) ? true : false;
+        
+        //profile double opt-in 
+        $this->profileDoubleOptIn = defined( 'CIVICRM_PROFILE_DOUBLE_OPTIN' ) ? false : true;
 
         // 
         $size = trim( ini_get( 'upload_max_filesize' ) );
