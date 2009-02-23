@@ -42,7 +42,7 @@
  * STDERR.
  */
 
-$modules  = array('Contribute', 'Event', 'Grant', 'Mailing', 'Member', 'Pledge');
+$modules  = array('Case', 'Contribute', 'Event', 'Grant', 'Mailing', 'Member', 'Pledge');
 $excluded = array('Bridge', 'Project', 'Touchstone');
 
 $phpModifier    = "-iname '*.php' ";

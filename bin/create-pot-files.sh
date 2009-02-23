@@ -1,11 +1,13 @@
 #!/bin/bash
 
+[ "$1" == "" ] && echo 'target dir missing'     && exit 1
+test ! -e "$1" && echo 'target does not exist'  && exit 1
+test ! -d "$1" && echo 'target not a directory' && exit 1
+
 bin=`dirname $0`
 root="$bin/.."
-potdir="$root/l10n/pot"
+potdir="$1"
 tempfile=`tempfile`
-
-
 
 # build POT headers
 echo "# Copyright CiviCRM LLC (c) 2004-2009
@@ -30,11 +32,11 @@ echo | tee -a $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countri
 
 # build the three XML-originating files
 echo ' * building civcrm-menu.pot'
-grep -h '<title>' CRM/*/xml/Menu/*.xml | cut -b13- | cut -d'<' -f1 | sort | uniq | tail --lines=+2 | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/civicrm-menu.pot
+grep -h '<title>' $root/CRM/*/xml/Menu/*.xml | cut -b13- | cut -d'<' -f1 | sort | uniq | tail --lines=+2 | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/civicrm-menu.pot
 echo ' * building countries.pot'
-grep ^INSERT xml/templates/civicrm_country.tpl     | cut -d\" -f4                                  | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/countries.pot
+grep ^INSERT $root/xml/templates/civicrm_country.tpl     | cut -d\" -f4                                  | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/countries.pot
 echo ' * building provinces.pot'
-grep '^(' xml/templates/civicrm_state_province.tpl | cut -d\" -f4 | grep -v ^Male$                 | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/provinces.pot
+grep '^(' $root/xml/templates/civicrm_state_province.tpl | cut -d\" -f4 | grep -v ^Male$                 | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/provinces.pot
 
 # make sure none of the province names repeat
 msgcomm --more-than 2 $potdir/provinces.pot $potdir/./provinces.pot > $tempfile
