@@ -584,6 +584,21 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         return $this->_destination;
     }
 
+    public function setDestination( $url = null, $setToReferer = false ) {
+        if ( empty( $url ) ) {
+            if ( $setToReferer ) {
+                $url = $_SERVER['HTTP_REFERER'];
+            } else {
+                $config =& CRM_Core_Config::singleton( );
+                $url = $config->userFrameworkBaseURL;
+            }
+        }
+        
+        $this->_destination = $url;
+        $this->set( 'destination', $this->_destination );
+    }
+
+
 }
 
 
