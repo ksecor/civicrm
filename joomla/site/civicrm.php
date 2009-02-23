@@ -126,7 +126,7 @@ function civicrm_check_permission( $args ) {
     if ( $arg1 == 'mailing' &&
          in_array( 'CiviMail', $config->enableComponents ) ) {
         if ( in_array( $arg2,
-                       array( 'forward', 'unsubscribe', 'resubscribe', 'optout', 'subscribe' ) ) ) {
+                       array( 'forward', 'unsubscribe', 'resubscribe', 'optout', 'subscribe', 'confirm' ) ) ) {
             return true;
         }
     }
