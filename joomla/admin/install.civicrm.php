@@ -4,28 +4,47 @@ defined('_JEXEC') or die('No direct access allowed');
 
 function com_install() {
     require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'configure.php';
+    global $civicrmUpgrade;
     
     $liveSite = substr_replace(JURI::root(), '', -1, 1);
     $configTaskUrl = $liveSite . '/administrator/index2.php?option=com_civicrm&task=civicrm/admin/configtask&reset=1';
-    // Show installation result to user
-?>
+    $upgradeUrl = $liveSite . '/administrator/index2.php?option=com_civicrm&task=civicrm/upgrade&reset=1';
 
-<center>
+    if ( $civicrmUpgrade ) {
+        // UPGRADE successful status and links
+        $content = '
+  <center>
   <table width="100%" border="0">
     <tr>
-      <td><strong>Files uploaded <font color="green">succesfully</font></strong>. Use the <a href="<?php echo $configTaskUrl?>"><strong>Configuration Checklist</strong></a> to review and configure settings for your new site.<br/>
-      </td>
-    </tr>
-    <tr>
-      <td><p>If this is a <strong>new installation</strong> of CiviCRM, please review the <a target="_blank" href="http://wiki.civicrm.org/confluence/display/CRMDOC/Install+2.2+for+Joomla">online installation documentation</a>. </p>
-        <p>If you are <strong>upgrading</strong> an existing installation of CiviCRM, please review the <a target="_blank" href="http://wiki.civicrm.org/confluence/display/CRMDOC/Upgrade+Joomla+Sites+to+2.2">upgrade documentation</a>. </p>
-        <p>CiviCRM includes the ability to expose Profile forms and listings, as well as Online Contribution and Event Registration pages, to users and visitors of the 'front-end' of your Joomla! site.
-           Review <a target="_blank" href="http://wiki.civicrm.org/confluence//x/6Bk">this document to learn about configuring Profiles as custom front-end forms and search pages</a>. Review
-           <a target="_blank" href="http://wiki.civicrm.org/confluence/x/QBo">this document to learn about configuring Online Contribution Pages</a>, and review <a target="_blank" href="http://wiki.civicrm.org/confluence/x/ezg">this document to learn about Event Registration pages</a>.</p></td>
+        <td>
+            <strong>CiviCRM component files have been UPGRADED <font color="green">succesfully</font></strong>.
+            <p><strong>Please run the <a href="' . $upgradeUrl . '">CiviCRM Database Upgrade Utility</a> now. This utility will check your database and perform any needed upgrades.</strong></p>
+            <p>Also review the <a target="_blank" href="http://wiki.civicrm.org/confluence/display/CRMDOC/Upgrade+Joomla+Sites+to+2.2">upgrade documentation</a> for any additional steps required to complete this upgrade.</p>
+        </td>
     </tr>
   </table>
-</center>
+  </center>';
 
-<?php
+    } else {
+    // INSTALL successful status and links
+        $content = '
+  <center>
+  <table width="100%" border="0">
+    <tr>
+        <td>
+            <strong>CiviCRM component files and database tables have been INSTALLED <font color="green">succesfully</font></strong>.
+            <p><strong>Please review the <a target="_blank" href="http://wiki.civicrm.org/confluence/display/CRMDOC/Install+2.2+for+Joomla">online installation documentation</a> for any additional steps required to complete the installation.</strong></p>
+            <p><strong>Then use the <a href="' . $configTaskUrl . '">Configuration Checklist</a> to review and configure CiviCRM settings for your new site.</strong></p>
+            <p><strong>Additional Resources:</strong>
+                <ul><li><a target="_blank" href="http://wiki.civicrm.org/confluence//x/6Bk">Create front-end forms and searchable directories using Profiles</a>.</li>
+                    <li><a target="_blank" href="http://wiki.civicrm.org/confluence/x/QBo">Create online contribution pages</a></li>
+                    <li><a target="_blank" href="http://wiki.civicrm.org/confluence/x/ezg">Create events with online event registration</a>.</li>
+            </p>
+        </td>
+    </tr>
+  </table>
+  </center>';
+    }
+    
+    echo $content;
 }
-
