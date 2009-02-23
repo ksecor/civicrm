@@ -182,7 +182,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         require_once 'CRM/Utils/Request.php';
 
         // also retrieve and store destination in session
-        $this->_destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this );
+        $this->_destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this,
+                                                           false, null, $_REQUEST );
     }
 
     function key( $name, $addSequence = false, $ignoreKey = false ) {
