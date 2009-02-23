@@ -1032,32 +1032,39 @@ WHERE  id = %1";
      *
      * Note: any database errors will be trapped by the DAO.
      *
+     * @param string $valueColumnName db column name/label.
+     *
      * @access public
      * @static
      *
      * @return array - array reference of all relationship types.
-     *
      */
-    public static function &relationshipType()
+    public static function &relationshipType( $valueColumnName = 'label' )
     {
-        if (!self::$relationshipType) {
-            self::$relationshipType = array();
+        if ( !self::$relationshipType[$valueColumnName] ) {
+            self::$relationshipType[$valueColumnName] = array( );
+            
+            //now we have name/label columns CRM-3336
+            $column_a_b = "{$valueColumnName}_a_b";
+            $column_b_a = "{$valueColumnName}_b_a";
+            
             require_once 'CRM/Contact/DAO/RelationshipType.php';
             $relationshipTypeDAO =& new CRM_Contact_DAO_RelationshipType();
             $relationshipTypeDAO->selectAdd();
-            $relationshipTypeDAO->selectAdd('id, name_a_b, name_b_a, contact_type_a, contact_type_b');
+            $relationshipTypeDAO->selectAdd("id, {$column_a_b}, {$column_b_a}, contact_type_a, contact_type_b");
             $relationshipTypeDAO->is_active = 1;
             $relationshipTypeDAO->find();
             while($relationshipTypeDAO->fetch()) {
-                self::$relationshipType[$relationshipTypeDAO->id] = array(
-                                                                          'name_a_b'       => "$relationshipTypeDAO->name_a_b",
-                                                                          'name_b_a'       => "$relationshipTypeDAO->name_b_a",
-                                                                          'contact_type_a' => "$relationshipTypeDAO->contact_type_a",
-                                                                          'contact_type_b' => "$relationshipTypeDAO->contact_type_b",
-                                                                         );
+                
+                self::$relationshipType[$valueColumnName][$relationshipTypeDAO->id] 
+                    = array( $column_a_b      => $relationshipTypeDAO->$column_a_b,
+                             $column_b_a      => $relationshipTypeDAO->$column_b_a,
+                             'contact_type_a' => "$relationshipTypeDAO->contact_type_a",
+                             'contact_type_b' => "$relationshipTypeDAO->contact_type_b" );
             }
         }
-        return self::$relationshipType;
+        
+        return self::$relationshipType[$valueColumnName];
     }
 
     /**

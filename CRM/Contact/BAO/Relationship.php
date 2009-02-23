@@ -226,6 +226,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @param string  $relationshipId the id of the existing relationship if any
      * @param string  $contactType    contact type
      * @param boolean $all            if true returns relationship types in both the direction
+     * @param string  $column         name/label that going to retrieve from db.
      *
      * @access public
      * @static
@@ -233,11 +234,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @return array - array reference of all relationship types with context to current contact.
      */
     function getContactRelationshipType( $contactId = null, $contactSuffix, $relationshipId, 
-                                         $contactType = null, $all = false )
+                                         $contactType = null, $all = false, $column = 'label' )
     {
         $allRelationshipType = array( );
         $relationshipType    = array( );
-        $allRelationshipType = CRM_Core_PseudoConstant::relationshipType();
+        $allRelationshipType = CRM_Core_PseudoConstant::relationshipType( $column );
         
         $otherContactType = null;
         if ( $relationshipId ) {
@@ -265,17 +266,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             if ( ( ( ! $value['contact_type_a'] ) || $value['contact_type_a'] == $contactType ) &&
                  // the other contact type is required or present or matches
                  ( ( ! $value['contact_type_b'] ) || ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
-                $relationshipType[ $key . '_a_b' ] = $value[ 'name_a_b' ];
+                $relationshipType[ $key . '_a_b' ] =  $value[ "{$column}_a_b" ];
             } 
             
             if ( ( ( ! $value['contact_type_b'] ) || $value['contact_type_b'] == $contactType ) &&
                  ( ( ! $value['contact_type_a'] ) || ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) ) {
-                $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
+                $relationshipType[ $key . '_b_a' ] = $value[ "{$column}_b_a" ];
             }
             
             if ( $all ) {
-                $relationshipType[ $key . '_a_b' ] = $value[ 'name_a_b' ];
-                $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
+                $relationshipType[ $key . '_a_b' ] = $value[ "{$column}_a_b" ];
+                $relationshipType[ $key . '_b_a' ] = $value[ "{$column}_b_a" ];
             }
         }
         
@@ -608,7 +609,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, $direction ) 
     {
         $select = $from = $where = '';
-
+                
         $select = '( ';
         if ( $count ) {
             if ( $direction == 'a_b' ) {
@@ -641,11 +642,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                               civicrm_relationship.is_permission_b_a as is_permission_b_a';
 
             if ( $direction == 'a_b' ) {
-                $select .= ', civicrm_relationship_type.name_a_b as name_a_b,
-                              civicrm_relationship_type.name_b_a as relation ';
+                $select .= ', civicrm_relationship_type.label_a_b as label_a_b,
+                              civicrm_relationship_type.label_b_a as relation ';
             } else {
-                $select .= ', civicrm_relationship_type.name_a_b as name_a_b,
-                              civicrm_relationship_type.name_a_b as relation ';
+                $select .= ', civicrm_relationship_type.label_a_b as label_a_b,
+                              civicrm_relationship_type.label_a_b as relation ';
             }
         }        
          
@@ -730,7 +731,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         // building the query string
         $queryString = '';
         $queryString = $select1 . $from1 . $where1 . $select2 . $from2 . $where2 . $order . $limit;
-
+        
         $relationship =& new CRM_Contact_DAO_Relationship( );
        
         $relationship->query($queryString);
@@ -794,11 +795,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 }
                 
                 $values[$rid]['civicrm_relationship_type_id'] = $relationship->civicrm_relationship_type_id;
-
-                if ($relationship->name_a_b == $relationship->relation) {
+                
+                $values[$rid]['rtype'] = 'b_a';
+                if ( $relationship->label_a_b == $relationship->relation ) {
                     $values[$rid]['rtype'] = 'a_b';
-                } else {
-                    $values[$rid]['rtype'] = 'b_a';
                 }
                 
                 if ( $links ) {
@@ -820,7 +820,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     $values[$rid]['action'] = CRM_Core_Action::formLink( $links, $mask, $replace );
                 }
             }
-
+            
             $relationship->free( );
             return $values;
         }

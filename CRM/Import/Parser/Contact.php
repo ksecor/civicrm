@@ -679,7 +679,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             //handle current employer, CRM-3532
                             if ( $valid ) {
                                 require_once 'CRM/Core/PseudoConstant.php';
-                                $allRelationships   = CRM_Core_PseudoConstant::relationshipType( );
+                                $allRelationships   = CRM_Core_PseudoConstant::relationshipType( 'name' );
                                 $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''),  $key );
                                 $relationshipType   = str_replace( $relationshipTypeId . '_', '', $key );
                                 $orgId = $individualId = null;

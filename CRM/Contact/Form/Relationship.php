@@ -95,11 +95,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     protected $_relationshipTypeId;
     
     /**
-     * an array of all relationships
+     * an array of all relationship names
      *
      * @var array
      */
-    protected $_allRelationships;
+    protected $_allRelationshipNames;
     
     /**
      * The relationship values if Updating relationship
@@ -154,7 +154,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->assign( "rtype", $this->_rtype );
         
         require_once 'CRM/Core/PseudoConstant.php';
-        $this->_allRelationships = CRM_Core_PseudoConstant::relationshipType( );
+        
+        //use name as it remain constant, CRM-3336
+        $this->_allRelationshipNames = CRM_Core_PseudoConstant::relationshipType( 'name' );
         
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
@@ -199,12 +201,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $this->assign('sort_name_b', $this->_display_name_b);
                     
                     //is current employee/employer.
-                    if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' &&
+                    if ( $this->_allRelationshipNames[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' &&
                          $contact->id == CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $this->_contactId, 'employer_id' ) ) {
                         $defaults['is_current_employer'] = 1;
                         $this->_values['current_employee_id'] = $this->_contactId;
                         $this->_values['current_employer_id'] = $contact->id;
-                    } else if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of' && 
+                    } else if ( $this->_allRelationshipNames[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of' && 
                                 $this->_contactId == $contact->employer_id ) {
                         $defaults['is_current_employer'] = 1;
                         $this->_values['current_employee_id'] = $contact->id;
@@ -302,7 +304,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                                                                     $this->_relationshipId ),
                           $attributes
                           );
-        
+
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
         $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
@@ -333,9 +335,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $isEmployeeOf = $isEmployerOf = false; 
         if ( ! empty( $this->_relationshipTypeId ) &&
              ! empty( $this->_rtype ) ) {
-            if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' ) { 
+            if ( $this->_allRelationshipNames[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' ) { 
                 $isEmployeeOf = true;
-            } else if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of'  ) {
+            } else if ( $this->_allRelationshipNames[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of'  ) {
                 $isEmployerOf = true; 
             }
         }
@@ -495,7 +497,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
         
         //handle current employee/employer relationship, CRM-3532
-        if ( $this->_allRelationships[$relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' ) {
+        if ( $this->_allRelationshipNames[$relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' ) {
             $orgId = null;
             if ( CRM_Utils_Array::value( 'employee_of', $params ) ) { 
                 $orgId = $params['employee_of'];
@@ -520,7 +522,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 CRM_Contact_BAO_Contact_Utils::setCurrentEmployer( $currentEmpParams );
             }
             
-        } else if ( $this->_allRelationships[$relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of' ) {
+        } else if ( $this->_allRelationshipNames[$relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of' ) {
             $individualIds = array( );
             if ( CRM_Utils_Array::value( 'employer_of', $params ) ) { 
                 $individualIds = array_keys( $params['employer_of'] );
