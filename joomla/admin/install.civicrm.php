@@ -36,9 +36,9 @@ function com_install() {
             <p><strong>Please review the <a target="_blank" href="http://wiki.civicrm.org/confluence/display/CRMDOC/Install+2.2+for+Joomla">online installation documentation</a> for any additional steps required to complete the installation.</strong></p>
             <p><strong>Then use the <a href="' . $configTaskUrl . '">Configuration Checklist</a> to review and configure CiviCRM settings for your new site.</strong></p>
             <p><strong>Additional Resources:</strong>
-                <ul><li><a target="_blank" href="http://wiki.civicrm.org/confluence//x/6Bk">Create front-end forms and searchable directories using Profiles</a>.</li>
-                    <li><a target="_blank" href="http://wiki.civicrm.org/confluence/x/QBo">Create online contribution pages</a></li>
-                    <li><a target="_blank" href="http://wiki.civicrm.org/confluence/x/ezg">Create events with online event registration</a>.</li>
+                <ul><li><a target="_blank" href="http://wiki.civicrm.org/confluence/display/CRMDOC/Configuring+Front-end+Profile+Listings+and+Forms+in+Joomla!+Sites">Create front-end forms and searchable directories using Profiles</a>.</li>
+                    <li><a target="_blank" href="http://wiki.civicrm.org/confluence/display/CRMDOC/Displaying+Online+Contribution+Pages+in+Joomla!+Frontend+Sites">Create online contribution pages</a></li>
+                    <li><a target="_blank" href="http://wiki.civicrm.org/confluence/display/CRMDOC/Configuring+Front-end+Event+Info+and+Registration+in+Joomla!+Sites">Create events with online event registration</a>.</li>
             </p>
         </td>
     </tr>
