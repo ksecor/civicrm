@@ -778,22 +778,22 @@ CREATE TABLE `civicrm_value_classifications_sc_3` (
 -- * Relationship Types
 -- *
 -- *******************************************************/
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved, is_active )
-    VALUES( 'Intake Physician is', 'Intake Physician', 'Intake Physician', 'Individual', 'Individual', 0, 1);
+INSERT INTO civicrm_relationship_type( name_a_b, label_a_b, name_b_a, label_b_a, description, contact_type_a, contact_type_b, is_reserved, is_active )
+    VALUES( 'Intake Physician is', 'Intake Physician is', 'Intake Physician', 'Intake Physician', 'Intake Physician', 'Individual', 'Individual', 0, 1);
 SELECT @iR            := max(id) from civicrm_relationship_type where name_b_a = 'Intake Physician';
 
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved, is_active )
+INSERT INTO civicrm_relationship_type( name_a_b, label_a_b, name_b_a, label_b_a, description, contact_type_a, contact_type_b, is_reserved, is_active )
  VALUES
- ('Community Mentor is', 'Community Mentor', 'Community Mentor', 'Individual', 'Individual', 0, 1),
- ('Family Doctor is', 'Family Doctor', 'Family Doctor', 'Individual', 'Individual', 0, 1),
- ('Medical School is', 'Medical School of', 'Medical School', 'Individual', 'Organization', 0, 1),
- ('Treatment Facility is', 'Treatment Facility for', 'Treatment Facility', 'Individual', 'Organization', 0, 1);
+ ('Community Mentor is', 'Community Mentor is', 'Community Mentor', 'Community Mentor', 'Community Mentor', 'Individual', 'Individual', 0, 1),
+ ('Family Doctor is', 'Family Doctor is', 'Family Doctor', 'Family Doctor', 'Family Doctor', 'Individual', 'Individual', 0, 1),
+ ('Medical School is', 'Medical School is', 'Medical School of', 'Medical School of', 'Medical School', 'Individual', 'Organization', 0, 1),
+ ('Treatment Facility is', 'Treatment Facility is', 'Treatment Facility for', 'Treatment Facility for', 'Treatment Facility', 'Individual', 'Organization', 0, 1);
 
 -- Types of specialists
-INSERT INTO `civicrm_relationship_type` (`name_a_b`, `name_b_a`, `description`, `contact_type_a`, `contact_type_b`, `is_reserved`, `is_active`)
- VALUES ('Psychiatrist is','Psychiatrist','Psychiatrist','Individual','Individual',0,1),
-		('Addiction Specialist is','Addiction Specialist','Addiction Specialist','Individual','Individual',0,1),
-		('Other Specialist is','Other Specialist','Other Specialist','Individual','Individual',0,1);
+INSERT INTO `civicrm_relationship_type` (`name_a_b`, `label_a_b`, `name_b_a`, `label_b_a`, `description`, `contact_type_a`, `contact_type_b`, `is_reserved`, `is_active`)
+ VALUES ('Psychiatrist is', 'Psychiatrist is', 'Psychiatrist','Psychiatrist', 'Psychiatrist','Individual','Individual',0,1),
+		('Addiction Specialist is', 'Addiction Specialist is', 'Addiction Specialist', 'Addiction Specialist', 'Addiction Specialist','Individual','Individual',0,1),
+		('Other Specialist is', 'Other Specialist is', 'Other Specialist', 'Other Specialist', 'Other Specialist','Individual','Individual',0,1);
 
 
 -- ********************************************************************************

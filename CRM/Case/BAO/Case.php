@@ -408,7 +408,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   cov_status.label as case_status,
                   cov_status.label as case_status_name,
                   civicrm_activity.status_id,
-                  case_relation_type.name_b_a as case_role, ";
+                  case_relation_type.label_b_a as case_role, ";
         if ( $type == 'upcoming' ) {
             $query .=  " civicrm_activity.due_date_time as case_scheduled_activity_date,
                          civicrm_activity.id as case_scheduled_activity_id,
@@ -657,7 +657,7 @@ WHERE is_deleted =0
     static function getCaseRoles( $contactID, $caseID, $relationshipID = null )
     {
         $query = '
-SELECT civicrm_relationship.id as civicrm_relationship_id, civicrm_contact.sort_name as sort_name, civicrm_email.email as email, civicrm_phone.phone as phone, civicrm_relationship.contact_id_b as civicrm_contact_id, civicrm_relationship_type.name_b_a as relation, civicrm_relationship_type.id as relation_type 
+SELECT civicrm_relationship.id as civicrm_relationship_id, civicrm_contact.sort_name as sort_name, civicrm_email.email as email, civicrm_phone.phone as phone, civicrm_relationship.contact_id_b as civicrm_contact_id, civicrm_relationship_type.label_b_a as relation, civicrm_relationship_type.id as relation_type 
 FROM civicrm_relationship, civicrm_relationship_type, civicrm_contact 
 LEFT OUTER JOIN civicrm_phone ON (civicrm_phone.contact_id = civicrm_contact.id AND civicrm_phone.is_primary = 1) 
 LEFT JOIN civicrm_email ON (civicrm_email.contact_id = civicrm_contact.id ) 
@@ -890,7 +890,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
     static function getRelatedContacts( $caseID, $skipDetails = false )
     {
         $values = array( );
-        $query = 'SELECT cc.display_name as name, cc.sort_name as sort_name, cc.id, crt.name_b_a as role, ce.email 
+        $query = 'SELECT cc.display_name as name, cc.sort_name as sort_name, cc.id, crt.label_b_a as role, ce.email 
 FROM civicrm_relationship cr 
 LEFT JOIN civicrm_relationship_type crt ON crt.id = cr.relationship_type_id 
 LEFT JOIN civicrm_contact cc ON cc.id = cr.contact_id_b 

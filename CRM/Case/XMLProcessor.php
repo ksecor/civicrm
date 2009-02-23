@@ -86,7 +86,7 @@ class CRM_Case_XMLProcessor {
 
             $relationshipTypes = array( );
             foreach ( $relationshipInfo as $id => $info ) {
-                $relationshipTypes[$id] = $info['name_b_a'];
+                $relationshipTypes[$id] = $info['label_b_a'];
             }
         }
 
