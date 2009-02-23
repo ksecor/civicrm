@@ -156,6 +156,12 @@ function civitest_civicrm_buildAmount( $pageType,
                                       &$form,
                                       &$amount ) {
 
+    // only modify the contributon page with id = 1
+    if ( $pageType != 'contribution' ||
+         $form->_id != 1 ) {
+       return;
+    }
+
     // lets add an arbitrary amount here, just to show folks
     // the power of a hook :)
     $amount[1000] = array( 'value'    => 400,

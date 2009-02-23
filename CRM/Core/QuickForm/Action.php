@@ -67,7 +67,9 @@ class CRM_Core_QuickForm_Action extends HTML_QuickForm_Action {
 
         // check if destination is set, if so goto destination
         $destination = $this->_stateMachine->getDestination( );
-        if ( ! $destination ) {
+        if ( $destination ) {
+            $destination = urldecode( $destination );
+        } else {
             $destination = $session->popUserContext( );
 
             if ( empty( $destination ) ) {
