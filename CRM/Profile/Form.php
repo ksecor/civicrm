@@ -170,7 +170,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             
             ///is profile double-opt process configurablem, key
             ///should be present in civicrm.settting.php file
-            if ( ( defined('CIVICRM_PROFILE_DOUBLE_OPTIN') && CIVICRM_PROFILE_DOUBLE_OPTIN ) &&
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->profileDoubleOptIn &&
                  CRM_Utils_Array::value( 'group', $this->_fields ) ) {
                 $emailField = false;
                 foreach ( $this->_fields as $name => $values ) {
@@ -571,9 +572,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         //used to send subcribe mail to the group which user want.
         //if the profile double option in is enabled
         $mailingType = array( );
-        
-        if ( ( defined('CIVICRM_PROFILE_DOUBLE_OPTIN') && CIVICRM_PROFILE_DOUBLE_OPTIN )
-             && CRM_Utils_Array::value( 'group', $params ) ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->profileDoubleOptIn && CRM_Utils_Array::value( 'group', $params ) ) {
             $result = null;
             foreach ( $params as $name => $values ) {
                 if ( substr( $name, 0, 6 ) == 'email-' ) {

@@ -652,7 +652,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         //check profile is configured for double option process
         //adding group field, email field should be present in the group 
         //fixed for  issue CRM-2861 & CRM-4153
-        if ( ( defined('CIVICRM_PROFILE_DOUBLE_OPTIN') && CIVICRM_PROFILE_DOUBLE_OPTIN ) ) { 
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->profileDoubleOptIn ) { 
             if ( $fields['field_name'][1] == 'group' ) {
                 require_once 'CRM/Core/BAO/UFField.php';
                 $dao =& new CRM_Core_BAO_UFField();
