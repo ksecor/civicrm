@@ -356,7 +356,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         self::checkRegistration($fields, $self);
        
         //check for availability of registrations.
-        if ( ($fields['additional_participants'] >= $self->_availableRegistrations) && $self->_availableRegistrations ) {
+        if ( ( CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) 
+             && $self->_availableRegistrations ) {
             $errors['additional_participants'] = ts( "You can register only %1 participant(s)", array( 1=>$self->_availableRegistrations ));
         }
         
