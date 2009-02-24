@@ -423,4 +423,12 @@
       <comment>if true - allows the user to register multiple participants for event</comment>   
       <add>2.1</add>   
   </field>
+  <field> 
+    <name>allow_same_participant_emails</name> 
+    <type>boolean</type> 
+    <title>Does Event allow multiple registrations from same email address?</title>  
+    <default>0</default>                
+    <comment>if true - allows the user to register multiple registrations from same email address.</comment> 
+    <add>2.2</add> 
+  </field> 
  </table>

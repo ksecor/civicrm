@@ -71,6 +71,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         require_once 'CRM/Event/BAO/Participant.php';
         $this->_availableRegistrations = CRM_Event_BAO_Participant::eventfull( $this->_values['event']['id'], true );
+        
         if ( $this->_availableRegistrations ) {
             $this->assign( 'availableRegistrations', $this->_availableRegistrations );
         }
@@ -901,7 +902,9 @@ WHERE  id IN ($optionIDs)
     function checkRegistration($fields, &$self, $isAdditional = false)
     {
         // CRM-3907, skip check for preview registrations
-        if ($self->_mode == 'test') {
+        // CRM-4167, skip check for multiple registrations from same email address setting
+        if ( $self->_mode == 'test' || 
+             $self->_values['event']['allow_same_participant_emails'] == 1 ) {
             return false;
         }
         $contactID = null;
@@ -936,6 +939,7 @@ WHERE  id IN ($optionIDs)
                 if ( array_key_exists ( $participant->status_id, $statusTypes ) ) {
                     if ( !$isAdditional ) {
                         $status = ts("Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator.");
+
                         $session->setStatus( $status );
                         $url = CRM_Utils_System::url( 'civicrm/event/info',
                                                       "reset=1&id={$self->_values['event']['id']}" );
