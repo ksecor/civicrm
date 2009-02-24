@@ -325,11 +325,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             if ( $this->_values['custom_post_id'] ) {
                 $postProfileType = CRM_Core_BAO_UFField::getProfileType( $this->_values['custom_post_id'] );
             }
-
             // also set cancel subscription url
-            if ( !$isPayLater && $this->_paymentObject ) {    
+            if ( CRM_Utils_Array::value( 'is_recur', $this->_paymentProcessor ) && 
+                 CRM_Utils_Array::value( 'is_recur', $this->_values ) ) {    
                 $this->_values['cancelSubscriptionUrl'] = $this->_paymentObject->cancelSubscriptionURL( );
-                
             }
             if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
                    ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
