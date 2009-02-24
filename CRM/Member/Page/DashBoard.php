@@ -167,7 +167,7 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
                                     );
         $totalCount['current'] = array("count" => $totalCountCurrent,
                                        "url"   => CRM_Utils_System::url( 'civicrm/member/search',
-                                                                         "reset=1&force=1&status=$status&type=$typeID" ),
+                                                                         "reset=1&force=1&status=$status" ),
                                        );
         $totalCount['total'] = array("count" => $totalCountTotal,
                                      "url"   => CRM_Utils_System::url( 'civicrm/member/search',
