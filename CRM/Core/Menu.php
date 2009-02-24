@@ -360,7 +360,7 @@ class CRM_Core_Menu
         $menu['admin'] = array( 'breadcrumb' => $values );
     }
 
-    static function &getNavigation( ) {
+    static function &getNavigation( $all = false ) {
         if ( ! self::$_menuCache ) {
             self::get( 'navigation' );
         }
@@ -411,11 +411,14 @@ class CRM_Core_Menu
             }
         }
 
-        // remove all collapsed menu items from the array
-        foreach ( $values as $weight => $v ) {
-            if ( $v['parent'] &&
-                 $values[$v['parent']]['class'] == 'collapsed' ) {
-                unset( $values[$weight] );
+
+        if ( ! $all ) {
+            // remove all collapsed menu items from the array
+            foreach ( $values as $weight => $v ) {
+                if ( $v['parent'] &&
+                     $values[$v['parent']]['class'] == 'collapsed' ) {
+                    unset( $values[$weight] );
+                }
             }
         }
 
