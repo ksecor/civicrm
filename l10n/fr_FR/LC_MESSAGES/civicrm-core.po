@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2009-02-18 04:05-0800\n"
+"PO-Revision-Date: 2009-02-18 04:30-0800\n"
 "Last-Translator: nmoget <nmoget@bluewin.ch>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -6370,6 +6370,8 @@ msgid ""
 "The Group '%1' cannot be deleted! You must Delete all custom fields in this "
 "group prior to deleting the group."
 msgstr ""
+"Le groupe '%1' ne peut être supprimé! vous devez supprimer tous les champs "
+"personnalisés de ce groupe avant de procéder à la suppression du groupe."
 
 #: CRM/Custom/Form/DeleteGroup.php
 msgid "Confirm Custom Group Delete"
@@ -6380,9 +6382,8 @@ msgid "Delete Custom Group"
 msgstr "Supprimer le groupe personnalisé"
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Multi-Select Country "
-msgstr "Sélectionner le Pays"
+msgstr "Sélectionner plusieurs Pays"
 
 #: CRM/Custom/Form/Field.php
 msgid "Select File"
@@ -6458,7 +6459,7 @@ msgstr "Largeur (colonnes)"
 
 #: CRM/Custom/Form/Field.php
 msgid "Height (rows)"
-msgstr "Heuteur (lignes)"
+msgstr "Hauteur (lignes)"
 
 #: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
@@ -6545,9 +6546,8 @@ msgid "Field's Name should not start with digit"
 msgstr "Le nom de champs ne doit pas commencer par un chiffre."
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Your custom field '%1' has been saved."
-msgstr "\"%1\" a été enregistré."
+msgstr "Votre champs personnalisé '%1' a été enregistré."
 
 #: CRM/Custom/Form/Field.php
 msgid " You can add another custom field."
@@ -6574,43 +6574,42 @@ msgid "Is this Custom Data Group active?"
 msgstr "Est-ce que ce groupe de données personnalisées est-il actif?"
 
 #: CRM/Custom/Form/Group.php
-#, fuzzy
 msgid "Your custom data group '%1 ' has been saved."
-msgstr "Le Groupe \"%1\" a été supprimé."
+msgstr "Votre groupe \"%1\" a été sauvé."
 
 #: CRM/Custom/Form/Group.php
 msgid ""
 "Your custom data group '%1' has been added. You can add custom fields to "
 "this group now."
 msgstr ""
+"Votre groupe de données personnalisé '%1' a été ajouté. Vous pouvez y "
+"ajouter des champs.  "
 
 #: CRM/Custom/Form/MoveField.php
-#, fuzzy
 msgid "Custom Field Move: %1"
-msgstr "Champs personnalisés"
+msgstr "Déplacer le champs personnalisé : %1"
 
 #: CRM/Custom/Form/MoveField.php
 msgid "You need more than one custom group to move fields"
 msgstr ""
+"Vous avez besoins de plus d'un groupe de champs personnalisé pour déplacer "
+"un champs "
 
 #: CRM/Custom/Form/MoveField.php
-#, fuzzy
 msgid "Destination Custom Group"
-msgstr "Groupe Personnalisé"
+msgstr "Groupe de champs personnalisé de destination"
 
 #: CRM/Custom/Form/MoveField.php
-#, fuzzy
 msgid "Copy?"
-msgstr "Copie de"
+msgstr "Copier?"
 
 #: CRM/Custom/Form/MoveField.php
-#, fuzzy
 msgid "Move Custom Field"
-msgstr "Champs personnalisés"
+msgstr "Déplacer un champs personnalisé"
 
 #: CRM/Custom/Form/MoveField.php
 msgid "A field of the same label exists in the destination group"
-msgstr ""
+msgstr "Un champs avec le même label existe dans le groupe de destination"
 
 #: CRM/Custom/Form/MoveField.php
 msgid "The extends type of dst group does not match the src field"
@@ -6786,26 +6785,23 @@ msgstr "Option personnalisée"
 
 #: CRM/Dedupe/DAO/RuleGroup.php templates/CRM/Admin/Page/DedupeFind.tpl
 msgid "Threshold"
-msgstr ""
+msgstr "Seuil"
 
 #: CRM/Dedupe/DAO/Rule.php
 msgid "Rule Table"
-msgstr "Voir l'URL du contact"
+msgstr "Table des règles"
 
 #: CRM/Dedupe/DAO/Rule.php
-#, fuzzy
 msgid "Rule Field"
-msgstr "Champ prix"
+msgstr "Champ de règle"
 
 #: CRM/Dedupe/DAO/Rule.php
-#, fuzzy
 msgid "Rule Length"
-msgstr "Longueur"
+msgstr "Longueur de la règle"
 
 #: CRM/Dedupe/DAO/Rule.php
-#, fuzzy
 msgid "Rule Weight"
-msgstr "Poids"
+msgstr "Poids de la règle"
 
 #: CRM/Export/BAO/Export.php
 msgid "Total Amount"
@@ -6838,21 +6834,19 @@ msgstr "Recherche de Membres CiviCRM"
 #: CRM/Export/BAO/Export.php
 #, fuzzy
 msgid "CiviCRM Participant Search"
-msgstr "Recherche de contacts CiviCRM"
+msgstr "Recherche d'un participant CiviCRM"
 
 #: CRM/Export/BAO/Export.php
-#, fuzzy
 msgid "CiviCRM Pledge Search"
-msgstr "Recherche de Membres CiviCRM"
+msgstr "Recherche d'une promesse de dons CiviCRM"
 
 #: CRM/Export/Form/Map.php
 msgid "Export >>"
 msgstr "Exporter >>"
 
 #: CRM/Export/Form/Map.php
-#, fuzzy
 msgid "Name is required to save Export Mapping"
-msgstr "Le nom est requis pour sauvegarder l'import de cartographie"
+msgstr "Le nom est requis pour sauvegarder l'exportation de cartographie"
 
 #: CRM/Export/Form/Map.php
 msgid "Duplicate Export Mapping Name"
@@ -6880,13 +6874,12 @@ msgid "Export All or Selected Fields"
 msgstr "Exporter tous les champs ou les champs sélectionnés"
 
 #: CRM/Export/Form/Select.php
-#, fuzzy
 msgid "Use Saved Field Mapping"
-msgstr "Sauvegarder ce champ cartographique"
+msgstr "Utiliser la cartographie de champs sauvegardée"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Tell a Friend enabled?"
-msgstr ""
+msgstr "\"Annoncer à un ami\" actif?"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Introduction"
@@ -6905,24 +6898,20 @@ msgid "Thank-you Message"
 msgstr "Texte du Message de remerciement"
 
 #: CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Intro"
-msgstr "Entier"
+msgstr "Intro"
 
 #: CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "General Link"
-msgstr "Protection générale"
+msgstr "Lien général"
 
 #: CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Thankyou Title"
-msgstr "Remerciements (Titre de la page)"
+msgstr "Remerciements (Titre)"
 
 #: CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Thankyou Text"
-msgstr "Remerciement envoyé"
+msgstr "Remerciement (Texte)"
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
@@ -6931,10 +6920,11 @@ msgid ""
 "- let your friends know why you support us. Then fill in the name(s) and "
 "email address(es) and click 'Send Your Message'."
 msgstr ""
-"Aidez nous à couvrir le monde et à utiliser pleinement votre contibution en "
-"en parlant à vos amis. Utilisez l'espace ci dessous pour personaliser votre "
-"mail. Faites savoir à vos amis pouquoi vous nous supportez. Puis remplisser "
-"les noms, adresses mails et cliquez 'envoyez votre message'. Merci."
+"Aidez nous à couvrir le monde et à utiliser pleinement votre contribution en "
+"en parlant à vos amis. Utilisez l'espace ci dessous pour personnaliser "
+"votre mail. Faites savoir à vos amis pourquoi vous nous supportez. Puis "
+"remplissez les noms, adresses mails et cliquez 'envoyez votre message'. "
+"Merci."
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
@@ -7003,34 +6993,32 @@ msgid "Friend's Email"
 msgstr "Email de l'ami"
 
 #: CRM/Friend/Form.php
-#, fuzzy
 msgid "The format of this email address is not valid."
-msgstr "Adresse email non valide"
+msgstr "Le format de cette adresse email n'est pas valide"
 
 #: CRM/Friend/Form.php
 msgid "Send Your Message"
 msgstr "Envoyer le message"
 
 #: CRM/Friend/Form.php
-#, fuzzy
 msgid "Please enter your friend's first name."
-msgstr "Entrez un nom valide"
+msgstr "Veuillez saisir le prénom de votre ami(e)."
 
 #: CRM/Friend/Form.php
-#, fuzzy
 msgid "Please enter your friend's last name."
-msgstr "Entrez un nom valide"
+msgstr "Veuillez saisir le nom de votre ami(e)."
 
 #: CRM/Friend/Form.php
-#, fuzzy
 msgid "Please enter your friend's email address."
-msgstr "Entrez un nom valide"
+msgstr "Veuillez saisir l'adresse email de votre ami(e)."
 
 #: CRM/Friend/Form.php
 msgid ""
 "Please enter at least one friend's information, or click Cancel if you don't "
 "want to send emails at this time."
 msgstr ""
+"Veuillez saisir au moins une information valable pour votre ami(e), ou "
+"cliquer sur Annuler si vous ne voulez pas envoyer de mail cette fois."
 
 #: CRM/Friend/Form/Pledge.php
 msgid ""
@@ -7119,9 +7107,8 @@ msgid "Group %%StatusMessage%%"
 msgstr "Groupe %%StatusMessage%%"
 
 #: CRM/Import/Form/Mapper.php
-#, fuzzy
 msgid "Select Mapper %1"
-msgstr "Sélectionner la Date"
+msgstr ""
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
@@ -7205,7 +7192,7 @@ msgstr "Sujet :"
 
 #: CRM/Note/Form/Note.php
 msgid "Your Note has been saved."
-msgstr "Votre note a été suavegardée"
+msgstr "Votre note a été sauvegardée"
 
 #: CRM/Price/Form/DeleteField.php
 msgid "Confirm Price Field Delete"
@@ -7241,9 +7228,8 @@ msgid "must be a monetary value"
 msgstr "Doit être une valeur monétaire"
 
 #: CRM/Price/Form/Field.php
-#, fuzzy
 msgid "Please enter a valid amount for this field."
-msgstr "Prière d'entrer une valeur valide pour ce champ."
+msgstr "Prière d'entrer un montant valide pour ce champ."
 
 #: CRM/Price/Form/Field.php
 msgid "Enter Quantity?"
@@ -7510,14 +7496,14 @@ msgstr "Transmettre"
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Mailing is not forwarded to the given email address."
 msgid_plural "Mailing is not forwarded to the given email addresses."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Le mailing n'a pas été transmis à l'adresse fournie."
+msgstr[1] "Le mailing n'a pas été transmis aux l'adresses fournies."
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Mailing is forwarded successfully to %count email address."
 msgid_plural "Mailing is forwarded successfully to %count email addresses."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Le mailing a été transmis a %count adresse email."
+msgstr[1] "Le mailing a été transmis a %count adresses email."
 
 #: CRM/Profile/Form.php
 msgid ""

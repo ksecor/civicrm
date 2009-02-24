@@ -6,264 +6,265 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-10-05 00:44+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2009-02-24 03:03-0800\n"
+"Last-Translator: Jiri Kadlcik <jiri.kadlcik@seznam.cz>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Přijímané platební karty"
 
 msgid "Access Control"
-msgstr ""
+msgstr "Řízení přístupu"
 
 msgid "ACL"
-msgstr ""
+msgstr "ACL"
 
 msgid "ACL Roles"
-msgstr ""
+msgstr "Role ACL"
 
 msgid "Activities"
-msgstr ""
+msgstr "Činnosti"
 
 msgid "Activity"
-msgstr ""
+msgstr "Činnost"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Druh činnosti"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "Další informace"
 
 msgid "AdditionalInfo Form"
-msgstr ""
+msgstr "Formulář pro další informace"
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "Nastavení adres"
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Spravovat CiviCRM"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Pokročilé hledání"
 
 msgid "Assign Users to ACL Roles"
-msgstr ""
+msgstr "Přiřadit uživatele do rolí ACL"
 
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Prohlížet nahrané soubory"
 
 msgid "Case"
-msgstr ""
+msgstr "Případ"
 
 msgid "Case Types"
-msgstr ""
+msgstr "Druhy případů"
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviContribute"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "Úvodní stránka CiviCRM"
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "Profil CiviCRM"
 
 msgid "CiviCRM Profile Create"
-msgstr ""
+msgstr "Vytvořit profil CiviCRM"
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "Pole profilu CiviCRM"
 
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviEvent"
 
 msgid "CiviGrant"
-msgstr ""
+msgstr "CiviGrant"
 
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviMail"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviMember"
 
 msgid "CiviPledge"
-msgstr ""
+msgstr "CiviPledge"
 
 msgid "Components"
-msgstr ""
+msgstr "Komponenty"
 
 msgid "Confirm"
-msgstr ""
+msgstr "Potvrďit"
 
 msgid "Contact Dashboard"
-msgstr ""
+msgstr "Ovládací panel pro kontakty"
 
 msgid "Contacts"
-msgstr ""
+msgstr "Kontakty"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Shrnutí kontaktu"
 
 msgid "Contribution Chart"
-msgstr ""
+msgstr "Graf příspěvků"
 
 msgid "Contributions"
-msgstr ""
+msgstr "Příspěvky"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Druhy příspěvků"
 
 msgid "Create New Group"
-msgstr ""
+msgstr "Vytvořit novou skupinu"
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Uživatelská data"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Uživatelské datové položky"
 
 msgid "Custom Field - Move"
-msgstr ""
+msgstr "Přesun uživatelské položky"
 
 msgid "Custom Field - Options"
-msgstr ""
+msgstr "Nastavení uživatelské položky"
 
 msgid "Custom Searches"
-msgstr ""
+msgstr "Uživatelské hledání"
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Formátování data"
 
 msgid "Debugging"
-msgstr ""
+msgstr "Ladění"
 
 msgid "Delete Contact"
-msgstr ""
+msgstr "Smazat kontakt"
 
 msgid "Delete Location"
-msgstr ""
+msgstr "Smazat místo"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Informace o doméně"
 
 msgid "Download Errors"
-msgstr ""
+msgstr "Chyby při stahování"
 
 msgid "Draft and Unscheduled Mailings"
-msgstr ""
+msgstr "Koncepty a nenaplánovaná pošta"
 
 msgid "Edit Related Contact"
-msgstr ""
+msgstr "Upravit přidružený kontakt"
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "Odeslat kontakt"
 
 msgid "Event Information"
-msgstr ""
+msgstr "Informace o akci"
 
 msgid "Event Participants List"
-msgstr ""
+msgstr "Seznam účastníků akce"
 
 msgid "Event Registration"
-msgstr ""
+msgstr "Registrace na akci"
 
 msgid "Event Types"
-msgstr ""
+msgstr "Druhy akcí"
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "Export kontaktů"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Cesty v souborovém systému"
 
 msgid "Find and Merge Duplicate Contacts"
-msgstr ""
+msgstr "Hledat a sloučit duplikáty v kontaktech"
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "Hledat kontakty"
 
 msgid "Find Contributions"
-msgstr ""
+msgstr "Hledat příspěvky"
 
 msgid "Find Grants"
-msgstr ""
+msgstr "Hledat oprávnění"
 
 msgid "Find Members"
-msgstr ""
+msgstr "Hledat členy"
 
 msgid "Find Participants"
-msgstr ""
+msgstr "Hledat účastníky"
 
 msgid "Find Pledges"
-msgstr ""
+msgstr "Hledat závazky"
 
 msgid "Find Signers"
-msgstr ""
+msgstr "Hledat signatáře"
 
 msgid "From Email Address"
-msgstr ""
+msgstr "Emailová adresa odesílatele"
 
 msgid "Gender Options"
-msgstr ""
+msgstr "Nastavení pohlaví"
 
 msgid "Global Settings"
-msgstr ""
+msgstr "Globální nastavení"
 
 msgid "Grant Types"
-msgstr ""
+msgstr "Druhy oprávnění"
 
 msgid "Group Members"
-msgstr ""
+msgstr "Členové skupiny"
 
 msgid "Groups"
-msgstr ""
+msgstr "Skupiny"
 
 msgid "Headers, Footers, and Automated Messages"
-msgstr ""
+msgstr "Hlavičky, patičky a automatické zprávy"
 
 msgid "Import"
-msgstr ""
+msgstr "Importovat"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importovat příspěvky"
 
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "Importovat/exportovat mapování"
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importovat členy"
 
 msgid "Import Participants"
-msgstr ""
+msgstr "Importovat účastníky"
 
 msgid "Import Signers"
-msgstr ""
+msgstr "Importovat signatáře"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Tituly osob (pí., p...)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Přídomky osob (ml., st...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Služby IM"
 
 msgid "Localization"
-msgstr ""
+msgstr "Lokalizace"
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Druhy míst (domov, zaměstnání...)"
 
 msgid "Log out"
-msgstr ""
+msgstr "Odhlásit se"
 
 msgid "Mailer Settings"
-msgstr ""
+msgstr "Nastavení emailu"
 
 msgid "Mailing Event"
 msgstr ""
@@ -272,22 +273,22 @@ msgid "Mailing Report"
 msgstr ""
 
 msgid "Manage ACLs"
-msgstr ""
+msgstr "Správa oprávnění"
 
 msgid "Manage Contribution Pages"
-msgstr ""
+msgstr "Správa stránek příspěvků"
 
 msgid "Manage Custom Searches"
-msgstr ""
+msgstr "Správa uživatelských hledání "
 
 msgid "Manage Events"
-msgstr ""
+msgstr "Správa akcí"
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "Správa skupin"
 
 msgid "Manage Pledges"
-msgstr ""
+msgstr "Správa závazků"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -341,7 +342,7 @@ msgid "New Mailing"
 msgstr ""
 
 msgid "New Pledge"
-msgstr ""
+msgstr "Nový závazek"
 
 msgid "Notes"
 msgstr ""
@@ -371,13 +372,13 @@ msgid "Payment Processor Type"
 msgstr ""
 
 msgid "PledgeBank"
-msgstr ""
+msgstr "Banka závazků"
 
 msgid "Pledge Payments"
-msgstr ""
+msgstr "Platby závazků"
 
 msgid "Pledges"
-msgstr ""
+msgstr "Závazky"
 
 msgid "Preferred Communication Methods"
 msgstr ""

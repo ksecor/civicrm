@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2007-04-18 07:33+0200\n"
-"PO-Revision-Date: 2009-01-06 03:08-0800\n"
+"PO-Revision-Date: 2009-02-24 02:59-0800\n"
 "Last-Translator: Jiri Kadlcik <jiri.kadlcik@seznam.cz>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -20,15 +20,15 @@ msgstr "O komponentě kalendář"
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
-msgstr ""
+msgstr "Nejnovější verzi naleznete na %1"
 
 #: js/lang/calendar-lang.php
 msgid "Distributed under GNU LGPL. See %1 for details."
-msgstr ""
+msgstr "Distribuce pod licencí GNU LGPL. Pro podrobnosti viz. %1."
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr "Výběr datumu:"
+msgstr "Výběr data:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
@@ -114,7 +114,7 @@ msgstr "(Shift-)Klikni nebo táhni pro změnu hodnoty"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
-msgstr "wk"
+msgstr "týden"
 
 #: js/lang/calendar-lang.php
 msgid "Time:"
