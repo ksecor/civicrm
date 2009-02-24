@@ -35,7 +35,7 @@
         </dl>
 	<dl>
             <dt>{$form.allow_same_participant_emails.label}</dt><dd>{$form.allow_same_participant_emails.html}</dd 
-            <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple registrations from same email address for this event.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple registrations using same email address for this event.{/ts}</dd>
         </dl>
      </div>
     <div class="spacer"></div>
