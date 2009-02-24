@@ -356,6 +356,15 @@ AND       $whereClause";
             $params[3] = array( $to, 'String' );
         }
 
+        if ( $this->_parent->get( 'unscheduled' ) ) {
+            $clauses[] = "civicrm_mailing_job.status is null";
+        }
+
+        if ( $this->_parent->get( 'archived' ) ) {
+            $clauses[] = "civicrm_mailing.is_archived = 1";
+        }
+
+            
         if ( $sortBy &&
              $this->_parent->_sortByCharacter ) {
             $clauses[] = 'name LIKE %3';

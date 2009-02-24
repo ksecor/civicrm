@@ -70,6 +70,9 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
 
     public $_sortByCharacter;
 
+    public $_unscheduled;
+    public $_archived;
+
     /**
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
@@ -80,6 +83,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */
     function preProcess() 
     {
+        $this->_unscheduled = $this->_archived = false;
         $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
 
         // check that the user has permission to access mailing id
@@ -106,11 +110,23 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
+
+
         if ( $this->_sortByCharacter == 1 ||
              ! empty( $_POST ) ) {
             $this->_sortByCharacter = '';
             $this->set( 'sortByCharacter', '' );
         }
+
+        if ( CRM_Utils_Array::value( 3,  $newArgs ) == 'unscheduled' ) {
+            $this->_unscheduled = true;
+        }
+        $this->set( 'unscheduled', $this->_unscheduled );
+        
+        if ( CRM_Utils_Array::value( 3,  $newArgs ) == 'archived' ) {
+            $this->_archived = true;
+        }
+        $this->set( 'archived', $this->_archived );
 
         $this->search( );
         
