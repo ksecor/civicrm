@@ -670,20 +670,14 @@ WHERE  v.option_group_id = g.id
         
         // reuse id if one already exists for this one (can happen
         // with back button being hit etc)
-        if ( $this->_eventId ) {        
-            $sql = "
-SELECT id
-FROM   civicrm_participant
-WHERE  contact_id = $contactID
-  AND  event_id   = {$this->_eventId}
-  AND  is_test    = {$participantParams['is_test']}
-";
-            $pID = CRM_Core_DAO::singleValueQuery( $sql,
-                                                   CRM_Core_DAO::$_nullArray );
-            if ( $pID ) {
-                $participantParams['id'] = $pID;
-            }
+        if ( CRM_Utils_Array::value( 'contributionID', $params ) ) {
+            $pID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
+                                                $params['contributionID'], 
+                                                'participant_id', 
+                                                'contribution_id' );
+            $participantParams['id'] = $pID;
         }
+        
         require_once 'CRM/Core/BAO/Discount.php';
         $participantParams['discount_id'] = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
         if ( !$participantParams['discount_id'] ) {
