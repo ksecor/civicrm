@@ -222,6 +222,8 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Change Case Type{/ts}',   15, 'Change Case Type',   NULL, 0,  0, 15, '', 0, 0, 1, 7, NULL ),  
    (@option_group_id_act, '{ts escape="sql"}Change Case Status{/ts}', 16, 'Change Case Status', NULL, 0,  0, 16, '', 0, 0, 1, 7, NULL ),  
    (@option_group_id_act, '{ts escape="sql"}Close Case{/ts}',         17, 'Close Case',         NULL, 0,  0, 17, '', 0, 0, 1, 7, NULL ),  
+
+   (@option_group_id_act, '{ts escape="sql"}Membership Renewal Reminder{/ts}',        18, 'Membership Renewal Reminder',  NULL, 1, NULL, 18, '{ts escape="sql"}offline membership renewal reminder.{/ts}',                      0, 1, 1, 3, NULL),
   
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
