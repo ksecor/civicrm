@@ -571,6 +571,7 @@ WHERE  id    = $ufID";
             CRM_Core_Error::statusBounce( ts( "Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in your civicrm.settings.php file",
                                               array( 1 => $db_uf->getMessage( ) ) ) );
         }
+        $db_uf->query('/*!40101 SET NAMES utf8 */');
         return $db_uf;
     }
 
