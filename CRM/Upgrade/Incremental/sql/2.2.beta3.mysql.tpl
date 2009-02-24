@@ -21,8 +21,8 @@ SELECT @mem_comp_id := id from civicrm_component where name = 'CiviMember';
 
 {if $multilingual}
   INSERT INTO civicrm_option_value
-    (option_group_id, {foreach from=$locales item=locale}label_{$locale},{/foreach}  value, name, filter, weight, description, is_reserved, component_id) VALUES
-    (@og_id_at, {foreach from=$locales item=locale}'Membership Renewal Reminder',{/foreach}  @max_val + 1, 'Membership Renewal Reminder', 1, @max_wt + 1, 'offline membership renewal reminder.', 1, @mem_comp_id);
+    (option_group_id, {foreach from=$locales item=locale}label_{$locale}, description_{$locale}, {/foreach}  value, name, filter, weight, is_reserved, component_id) VALUES
+    (@og_id_at, {foreach from=$locales item=locale}'Membership Renewal Reminder', 'offline membership renewal reminder.',{/foreach}  @max_val + 1, 'Membership Renewal Reminder', 1, @max_wt + 1, 1, @mem_comp_id);
 {else}
   INSERT INTO civicrm_option_value
     (option_group_id, label, value, name, filter, weight, description, is_reserved, component_id) VALUES
