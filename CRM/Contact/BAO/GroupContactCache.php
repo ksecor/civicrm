@@ -136,7 +136,8 @@ WHERE  id IN ( $groupIDs )
         }
 
         $config = CRM_Core_Config::singleton( );
-        $smartGroupCacheTimeout = $config->smartGroupCacheTimeout;
+        $smartGroupCacheTimeout = 
+            isset( $config->smartGroupCacheTimeout ) ? $config->smartGroupCacheTimeout : 0;
 
         if ( ! isset( $groupID ) ) {
             $query = "
