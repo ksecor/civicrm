@@ -167,6 +167,11 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $mailParams['title']        = CRM_Utils_Array::value( 'title', $params );       
         $mailParams['general_link'] = CRM_Utils_Array::value( 'general_link', $frndParams  );
         $mailParams['message']      = CRM_Utils_Array::value( 'suggested_message', $params );
+
+        // get domain
+        require_once 'CRM/Core/BAO/Domain.php';
+        $domainDetails = CRM_Core_BAO_Domain::getNameAndEmail( );
+        list( $username, $mailParams['domain'] ) = split( '@', $domainDetails[1] );
         
         if ( $params['entity_table'] == 'civicrm_contribution_page' ) {
             $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
@@ -179,8 +184,9 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                      $params['entity_id'],
                                                                      'confirm_from_email' );
-            $urlPath = 'civicrm/event/info';
-            $mailParams['module'] = 'event';
+            $mailParams['email_from'] = ( $mailParams['email_from'] ) ? $mailParams['email_from'] : $domainDetails['1'];
+            $urlPath                  = 'civicrm/event/info';
+            $mailParams['module']     = 'event';
         } elseif ( $params['entity_table'] == 'civicrm_pcp' ) {
             $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $params['source_contact_id'],
                                                                      'email', 'contact_id' );
@@ -189,11 +195,6 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         } 
 
         $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
-
-        // get domain
-        require_once 'CRM/Core/BAO/Domain.php';
-        $domainDetails = CRM_Core_BAO_Domain::getNameAndEmail( );
-        list( $username, $mailParams['domain'] ) = split( '@', $domainDetails[1] );
 
         //send mail
         self::sendMail( $params['source_contact_id'], $mailParams ); 
