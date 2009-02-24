@@ -1,4 +1,3 @@
-*.swp
 CRM/ACL/DAO
 CRM/Activity/DAO
 CRM/Case/DAO
