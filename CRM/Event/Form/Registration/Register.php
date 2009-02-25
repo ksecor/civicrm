@@ -907,11 +907,13 @@ WHERE  id IN ($optionIDs)
              $self->_values['event']['allow_same_participant_emails'] == 1 ) {
             return false;
         }
+
         $contactID = null;
         $session =& CRM_Core_Session::singleton( );
         if( ! $isAdditional ) {
             $contactID = $session->get( 'userID' );
         }
+
         if ( ! $contactID &&
              ! empty( $fields ) &&
              isset( $fields["email-{$self->_bltID}"] ) ) {

@@ -729,8 +729,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         require_once "CRM/Contact/BAO/Contact.php";
 
         if ($contactID) {
-            $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactID, "contact_type");
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null,$ctype);
+            $ctype = CRM_Core_DAO::getFieldValue( "CRM_Contact_DAO_Contact",
+                                                  $contactID,
+                                                  "contact_type" );
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params,
+                                                                         $fields, 
+                                                                         $contactID, 
+                                                                         $addToGroups, 
+                                                                         null,
+                                                                         $ctype );
         } else {
             require_once 'CRM/Dedupe/Finder.php';
             //Dedupe couldn't recognize "email-Primary".So modify params temporary.

@@ -98,7 +98,8 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {  
         $config =& CRM_Core_Config::singleton( );
         $button = substr( $this->controller->getButtonName(), -4 );
-        $required = ( $button == 'skip' ) ? false : true;
+        $required = ( $button == 'skip' ||
+                      $this->_values['event']['allow_same_participant_emails']  == 1 ) ? false : true;
         $this->add('hidden','scriptFee',null);
         $this->add('hidden','scriptArray',null);
         $this->add( 'text',
@@ -162,16 +163,20 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             
             //get the complete params.
             $params = $self->get('params');
+
             //take the participant instance.
             $addParticipantNum = substr( $self->_name, 12 );
-            if ( is_array( $params ) ) {
+            if ( is_array( $params ) &&
+                 $self->_values['event']['allow_same_participant_emails'] != 1 ) {
                 foreach ( $params as $key => $value ) {
-                    if ( ( $value["email-{$self->_bltID}"] == $fields["email-{$self->_bltID}"] ) && $key != $addParticipantNum  ) {
+                    if ( ( $value["email-{$self->_bltID}"] == $fields["email-{$self->_bltID}"] ) &&
+                         $key != $addParticipantNum  ) {
                         $errors["email-{$self->_bltID}"] = ts( 'The email address must be unique for each participant.' );
                         break;
                     }
                 }
             }
+
             //check for atleast one pricefields should be selected
             if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) {
                 $priceField = new CRM_Core_DAO_PriceField( );
