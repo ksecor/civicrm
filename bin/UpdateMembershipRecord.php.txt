@@ -62,6 +62,7 @@ class CRM_UpdateMembershipRecord {
 
         //get all active statuses of membership, CRM-3984
         $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
+        $allTypes  = CRM_Member_PseudoConstant::membershipType( );
         
         $query = "
 SELECT civicrm_membership.id                 as membership_id,
@@ -202,6 +203,9 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                         
                         // insert the activity log record.
                         $activityParams = array( );
+                        $activityParams['subject']            = $allTypes[$dao->membership_type_id] . 
+                            ": Status - " . $allStatus[$newStatus['id']] . 
+                            ", End Date - " . CRM_Utils_Date::customFormat(CRM_Utils_Date::isoToMysql($dao->end_date), $config->dateformatFull);
                         $activityParams['source_record_id']   = $dao->membership_id; 
                         $activityParams['source_contact_id']  = $dao->contact_id; 
                         $activityParams['activity_date_time'] = date('YmdHis');
@@ -232,8 +236,9 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                             }
                             $messageTemplate->free( );
                         }
-                        $activityParams['subject'] = $msgTpl[$memType->renewal_msg_id]['subject'];
-                        $activityParams['details'] = $msgTpl[$memType->renewal_msg_id]['details'];
+                        $activityParams['details'] = "Subject: {$msgTpl[$memType->renewal_msg_id]['subject']}
+Message: {$msgTpl[$memType->renewal_msg_id]['details']}
+";
                         $activity = CRM_Activity_BAO_Activity::create( $activityParams );
                     }
                 }
