@@ -59,7 +59,7 @@ class CRM_UpdateMembershipRecord {
     
     public function updateMembershipStatus( )
     {
-
+	$config =& CRM_Core_Config::singleton();	
         //get all active statuses of membership, CRM-3984
         $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
         $allTypes  = CRM_Member_PseudoConstant::membershipType( );
