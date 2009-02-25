@@ -186,17 +186,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         
         //hack to display results as per search
         $rows = $controller->getRows($controller);
-        
-        $notScheduled = $archived = $scheduled = array( );
-        foreach ( $rows as $key => $val ) {
-            if ( $val['archived'] ) {
-                $archived[] = $val;
-            } else if ( $val['status'] == 'Not scheduled' ) {
-                $notScheduled[] = $val;
-            } else {
-                $scheduled[] = $val;
-            }
-        }
+        $this->assign('rows', $rows );
         
         $urlParams = 'reset=1';
         $urlString = 'civicrm/mailing/browse';
@@ -204,17 +194,14 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
             $urlString .= '/unscheduled';
             $urlParams .= '&scheduled=false';
             $this->assign('unscheduled', true );
-            $this->assign('rows', $notScheduled );
             CRM_Utils_System::setTitle(ts('Draft and Unscheduled Mailings'));
         } else if ( CRM_Utils_Array::value( 3,  $newArgs ) == 'archived' ) {
             $urlString .= '/archived';
             $this->assign('archived', true );
-            $this->assign('rows', $archived );
             CRM_Utils_System::setTitle(ts('Archived Mailings'));
         } else {
             $urlString .= '/scheduled';
             $urlParams .= '&scheduled=true';
-            $this->assign('rows', $scheduled);
             CRM_Utils_System::setTitle(ts('Scheduled and Sent Mailings'));
         }
 
