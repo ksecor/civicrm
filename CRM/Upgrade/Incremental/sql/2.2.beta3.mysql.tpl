@@ -28,3 +28,8 @@ SELECT @mem_comp_id := id from civicrm_component where name = 'CiviMember';
     (option_group_id, label, value, name, filter, weight, description, is_reserved, component_id) VALUES
     (@og_id_at, 'Membership Renewal Reminder', @max_val + 1, 'Membership Renewal Reminder', 1, @max_wt + 1, 'offline membership renewal reminder.', 1, @mem_comp_id);
 {/if}
+
+-- CRM-3391
+-- Update table name in civicrm_option_group (Price Set) and civicrm_tell_friend 
+UPDATE `civicrm_option_group` SET `name`= REPLACE( name, 'civicrm_event_page', 'civicrm_event' ) WHERE `name` LIKE 'civicrm_event_page%';
+UPDATE `civicrm_tell_friend` SET `entity_table`= 'civicrm_event' WHERE `entity_table` = 'civicrm_event_page';
