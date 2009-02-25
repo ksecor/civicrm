@@ -339,7 +339,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             require_once 'CRM/Pledge/BAO/PledgeBlock.php';
             $pledgeBlock = CRM_Pledge_BAO_PledgeBlock::getPledgeBlock( $this->_id );
 
-            if ( $pledgeBlock && CRM_Core_Permission::check( 'make online pledges' ) ) {
+            if ( $pledgeBlock ) {
                 $this->_values['pledge_block_id'        ] = $pledgeBlock['id'];
                 $this->_values['max_reminders'          ] = $pledgeBlock['max_reminders'];
                 $this->_values['initial_reminder_day'   ] = $pledgeBlock['initial_reminder_day'];

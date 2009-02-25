@@ -59,8 +59,7 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     public function getPermissions()
     {
         return array( 'access CiviPledge',
-                      'edit pledges'  ,
-                      'make online pledges' );
+                      'edit pledges' );
     }
 
     // docs inherited from interface
@@ -68,7 +67,8 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     {
         return array( 'name'    => ts( 'Pledges' ),
                       'title'   => ts( 'Your Pledge(s)' ),
-                      'perm'    => array( 'make online pledges' ),
+                      // we need to check this permission since you can click on contribution page link for making payment
+                      'perm'    => array( 'make online contributions' ), 
                       'weight'  => 15 );
     }
 
