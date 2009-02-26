@@ -81,6 +81,7 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
                                                   'reset=1' ) );
         $contents = $template->fetch( 'CRM/common/success.tpl' );
         echo $contents;
+        exit( );
     }
 
     function runForm( $stepID ) {
