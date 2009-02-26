@@ -235,7 +235,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 if ( CRM_Utils_Array::value( 'custom_pre_id', $this->_values ) ) {
                     $values = array( );
                     $groupName = array( );
-                    CRM_Event_BAO_Event::displayProfile( $participantValue, $this->_values['custom_pre_id'], $groupName, $values );
+                    CRM_Event_BAO_Event::displayProfile( $participantValue, 
+                                                         $this->_values['custom_pre_id'], 
+                                                         $groupName, 
+                                                         $values );
                     if ( count( $values ) ) {
                         $formattedValues[$count]['customPre'] = $values;
                     }
@@ -245,7 +248,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 if ( CRM_Utils_Array::value( 'custom_post_id', $this->_values ) ) {
                     $values = array( );
                     $groupName = array( );
-                    CRM_Event_BAO_Event::displayProfile( $participantValue, $this->_values['custom_post_id'], $groupName, $values );
+                    CRM_Event_BAO_Event::displayProfile( $participantValue, 
+                                                         $this->_values['custom_post_id'], 
+                                                         $groupName, 
+                                                         $values );
                     if ( count( $values ) ) {
                         $formattedValues[$count]['customPost'] = $values;
                     }
