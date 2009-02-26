@@ -135,6 +135,7 @@ class CRM_Core_Invoke
             if ( isset( $item['title'] ) ) {
                 CRM_Utils_System::setTitle( $item['title'] );
             }
+
             if ( isset( $item['breadcrumb'] ) && !isset( $item['is_public'] ) ) {
                 CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
             }
