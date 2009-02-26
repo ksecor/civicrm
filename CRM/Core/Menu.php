@@ -364,7 +364,12 @@ class CRM_Core_Menu
         if ( ! self::$_menuCache ) {
             self::get( 'navigation' );
         }
-
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_GET ) == 'civicrm/upgrade' ) {
+            return array( );
+        }
+        
         if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
             // problem could be due to menu table empty. Just do a
             // menu store before displaying fatal so that a

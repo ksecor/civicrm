@@ -56,6 +56,18 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             $currentVer = $convertVer[$currentVer];
         }
         
+        // This could be removed in later rev
+        if ( $currentVer == '2.1.6' ) {
+            // also cleanup the templates_c directory
+            $config =& CRM_Core_Config::singleton( );
+            $config->cleanup( 1 );
+            
+            // clean the session
+            $session =& CRM_Core_Session::singleton( );
+            $session->reset( 2 );
+        }
+        // end of hack
+        
         CRM_Utils_System::setTitle(ts('Upgrade CiviCRM to Version %1', 
                                       array( 1 => $latestVer )));
         
