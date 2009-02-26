@@ -45,7 +45,9 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
             $message = ts('Your database has already been upgraded to CiviCRM %1',
                           array( 1 => $upgrade->latestVersion ) );
         } else if ( $upgrade->checkVersion( '2.1.2' ) ||
-                    $upgrade->checkVersion( '2.1.3' ) ) {
+                    $upgrade->checkVersion( '2.1.3' ) ||
+                    $upgrade->checkVersion( '2.1.4' ) ||
+                    $upgrade->checkVersion( '2.1.5' ) ) {
             // do nothing, db version is changed for all upgrades
         } else if ( $upgrade->checkVersion( '2.1.0' ) ||
                     $upgrade->checkVersion( '2.1' )   || 
