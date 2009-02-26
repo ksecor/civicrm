@@ -204,5 +204,14 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $upgrade =& new CRM_Upgrade_Form( );
         $upgrade->processSQL( $rev );
     }
+    
+    function upgrade_2_2_beta3( $rev ) {
+        $template =& CRM_Core_Smarty::singleton( );
+        if ( ! CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup','custom_data_type','id','name' ) ) {
+            $template->assign( 'customDataType', true );
+        }
+        $upgrade =& new CRM_Upgrade_Form( );
+        $upgrade->processSQL( $rev );
+    }
 }
 

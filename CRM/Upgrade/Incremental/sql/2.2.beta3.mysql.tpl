@@ -33,3 +33,29 @@ SELECT @mem_comp_id := id from civicrm_component where name = 'CiviMember';
 -- Update table name in civicrm_option_group (Price Set) and civicrm_tell_friend 
 UPDATE `civicrm_option_group` SET `name`= REPLACE( name, 'civicrm_event_page', 'civicrm_event' ) WHERE `name` LIKE 'civicrm_event_page%';
 UPDATE `civicrm_tell_friend` SET `entity_table`= 'civicrm_event' WHERE `entity_table` = 'civicrm_event_page';
+
+-- CRM-3546
+{if $customDataType }
+    {if $multilingual}
+    INSERT INTO civicrm_option_group (name, {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active) VALUES 
+    ('custom_data_type', {foreach from=$locales item=locale}'Custom Data Type',{/foreach} 0, 1 );
+
+    SELECT @option_group_id_cdt := id from civicrm_option_group where name = 'custom_data_type';
+    INSERT INTO civicrm_option_value
+        (option_group_id,  {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name, weight) VALUES
+        (@option_group_id_cdt, {foreach from=$locales item=locale}'Participant Role', {/foreach} 1, 'ParticipantRole', 1),
+        (@option_group_id_cdt, {foreach from=$locales item=locale}'Participant Event Name',{/foreach} 2, 'ParticipantEventName', 2);
+    {else}
+    INSERT INTO `civicrm_option_group` 
+        (`name`, `description`, `is_reserved`, `is_active`) VALUES 
+        ('custom_data_type' , 'Custom Data Type', 0, 1);
+
+    SELECT @option_group_id_cdt := id from civicrm_option_group where name = 'custom_data_type';
+
+    INSERT INTO 
+       `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+    VALUES
+       (@option_group_id_cdt, 'Participant Role', '1', 'ParticipantRole', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL ),
+       (@option_group_id_cdt, 'Participant Event Name', '2', 'ParticipantEventName', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL );
+    {/if}
+{/if}
