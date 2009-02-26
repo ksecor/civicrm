@@ -567,10 +567,6 @@ class CRM_Core_Menu
     {
         // return null if menu rebuild
         $config =& CRM_Core_Config::singleton( );
-        if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),
-                     'civicrm/menu/rebuild' ) !== false ) {
-            return null;
-        }
 
         $params = array( );
 
