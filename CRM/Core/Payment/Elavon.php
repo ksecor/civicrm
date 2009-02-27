@@ -111,7 +111,7 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
     function doDirectPayment( &$params )
     {
         if ( $params['is_recur'] == true ) {
-            CRM_Core_Error::fatal( ts( '$paymentProcessor - recurring payments not implemented' ) );
+            CRM_Core_Error::fatal( ts( 'Elavon - recurring payments not implemented' ) );
         }
 
         if ( ! defined( 'CURLOPT_SSLCERT' ) ) {
@@ -318,11 +318,11 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
         $errorMsg = array();
 
         if ( empty( $this->_paymentProcessor['user_name'] ) ) {
-            $errorMsg[] = ts( ' ssl_merchant_id is not set for this payment processor' );
+            $errorMsg[] = ' ' . ts( 'ssl_merchant_id is not set for this payment processor' );
         }
 
         if ( empty( $this->_paymentProcessor['url_site'] ) ) {
-            $errorMsg[] = ts( ' URL is not set for this payment processor' );
+            $errorMsg[] = ' ' . ts( 'URL is not set for this payment processor' );
         }
 
         if ( ! empty( $errorMsg ) ) {
