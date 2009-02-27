@@ -86,6 +86,13 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
                                                  "reset=1&action=add",
                                                  false, null, false );
         }
+        
+        //CRM-4129
+        $destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this );
+        if ( $destination ) {
+            $refreshURL .= "&destination=$destination";
+        }
+        
         $this->assign( 'refreshURL', $refreshURL );
 
         $this->assign( 'is_recur', $this->_ppDAO->is_recur );
