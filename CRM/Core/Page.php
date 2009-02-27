@@ -312,6 +312,15 @@ class CRM_Core_Page {
     static function &getTemplate( ) {
         return self::$_template;
     }
+
+    function getVar( $name ) {
+        return isset( $this->$name ) ? $this->$name : null;
+    }
+
+    function setVar( $name, $value ) {
+        $this->$name = $value;
+    }
+
 }
 
 
