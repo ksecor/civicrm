@@ -86,7 +86,7 @@ default:
     break;
 }
 
-if ($phpModifier) $phpPot = `find CRM packages/HTML/QuickForm $phpModifier -not -wholename 'CRM/Core/I18n.php' -not -wholename 'CRM/Core/Smarty/plugins/block.ts.php' -not -wholename 'CRM/Core/Page/AJAX.php' | grep -v '/\.svn/' | sort | xargs ./bin/php-extractor.php`;
+if ($phpModifier) $phpPot = `find CRM standalone packages/HTML/QuickForm $phpModifier -not -wholename 'CRM/Core/I18n.php' -not -wholename 'CRM/Core/Smarty/plugins/block.ts.php' -not -wholename 'CRM/Core/Page/AJAX.php' | grep -v '/\.svn/' | sort | xargs ./bin/php-extractor.php`;
 $smartyPot = `find templates xml $smartyModifier | grep -v '/\.svn/' | sort | xargs ./bin/smarty-extractor.php`;
 
 $originalArray = explode("\n", $phpPot . $smartyPot);
