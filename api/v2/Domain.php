@@ -66,5 +66,6 @@ function civicrm_domain_get( ) {
     foreach ( $address_array as $value ) {
         $domain['domain_address'][$value] = CRM_Utils_Array::value( $value, $values['location'][1]['address'] );
     }
+    list( $domain['from_name'], $domain['from_email'] ) = CRM_Core_BAO_Domain::getNameAndEmail();
     return $domain;
 }

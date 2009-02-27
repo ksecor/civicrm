@@ -235,7 +235,7 @@ class CRM_Utils_String {
         $url2Str = parse_url( $url2 );
 
         if ( $url1Str['path'] == $url2Str['path'] && 
-             self::extractURLVarValue( $url1Str['query'] ) == self::extractURLVarValue( $url2Str['query'] ) ) {
+             self::extractURLVarValue( CRM_Utils_Array::value( 'query', $url1Str) ) == self::extractURLVarValue(  CRM_Utils_Array::value( 'query', $url2Str) ) ) {
             return true;
         }
         return false;

@@ -45,6 +45,7 @@ require_once 'CRM/Utils/System.php';
 require_once 'api/v2/Membership.php';
 require_once 'CRM/Member/PseudoConstant.php';
 require_once 'CRM/Contact/BAO/Contact.php';
+require_once 'CRM/Activity/BAO/Activity.php';
 
 class CRM_UpdateMembershipRecord {
     
@@ -58,9 +59,10 @@ class CRM_UpdateMembershipRecord {
     
     public function updateMembershipStatus( )
     {
-
+	$config =& CRM_Core_Config::singleton();	
         //get all active statuses of membership, CRM-3984
         $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
+        $allTypes  = CRM_Member_PseudoConstant::membershipType( );
         
         $query = "
 SELECT civicrm_membership.id                 as membership_id,
@@ -199,23 +201,45 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                         //set membership reminder date to NULL since we've sent the reminder.
                         CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_Membership', $dao->membership_id, 'reminder_date', 'null');
                         
-                        //insert the log record.
-                        $memb = new CRM_Member_BAO_Membership( );
-                        $memb->id = $dao->membership_id;
-                        if ( $memb->find( true ) ) {
-                            //insert the log record.
-                            $logParams = array( 
-                                               'membership_id'         => $memb->id,
-                                               'status_id'             => $memb->status_id,
-                                               'start_date'            => ( CRM_Utils_Date::customFormat($memb->start_date,'%Y%m%d') ),
-                                               'end_date'              => ( CRM_Utils_Date::customFormat($memb->end_date,'%Y%m%d') ),
-                                               'modified_id'           => $dao->contact_id,
-                                               'modified_date'         => date("Ymd"),
-                                               'renewal_reminder_date' => date("Ymd") );
-                            
-                            CRM_Member_BAO_MembershipLog::add( $logParams, CRM_Core_DAO::$_nullArray );
+                        // insert the activity log record.
+                        $activityParams = array( );
+                        $activityParams['subject']            = $allTypes[$dao->membership_type_id] . 
+                            ": Status - " . $allStatus[$newStatus['id']] . 
+                            ", End Date - " . CRM_Utils_Date::customFormat(CRM_Utils_Date::isoToMysql($dao->end_date), $config->dateformatFull);
+                        $activityParams['source_record_id']   = $dao->membership_id; 
+                        $activityParams['source_contact_id']  = $dao->contact_id; 
+                        $activityParams['activity_date_time'] = date('YmdHis');
+
+                        static $actRelIds = array( );
+                        if ( ! isset($actRelIds['activity_type_id']) ) {
+                            $actRelIds['activity_type_id']    = 
+                                CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                                'Membership Renewal Reminder', 'name' );
                         }
-                        $memb->free( );
+                        $activityParams['activity_type_id']   = $actRelIds['activity_type_id'];
+                        
+                        if ( ! isset($actRelIds['activity_status_id']) ) {
+                            $actRelIds['activity_status_id']  = 
+                                CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' );
+                        }
+                        $activityParams['status_id']          = $actRelIds['activity_status_id'];
+                        
+                        static $msgTpl = array();
+                        if ( ! isset($msgTpl[$memType->renewal_msg_id]) ) {
+                            $msgTpl[$memType->renewal_msg_id] = array( );
+                            
+                            $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
+                            $messageTemplate->id = $memType->renewal_msg_id;
+                            if ( $messageTemplate->find(true) ) {
+                                $msgTpl[$memType->renewal_msg_id]['subject'] = $messageTemplate->msg_subject;
+                                $msgTpl[$memType->renewal_msg_id]['details'] = $messageTemplate->msg_text;
+                            }
+                            $messageTemplate->free( );
+                        }
+                        $activityParams['details'] = "Subject: {$msgTpl[$memType->renewal_msg_id]['subject']}
+Message: {$msgTpl[$memType->renewal_msg_id]['details']}
+";
+                        $activity = CRM_Activity_BAO_Activity::create( $activityParams );
                     }
                 }
                 $memType->free( );

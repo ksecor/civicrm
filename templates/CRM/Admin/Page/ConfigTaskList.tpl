@@ -1,5 +1,4 @@
 {capture assign="linkTitle"}{ts}Edit settings{/ts}{/capture}
-{capture assign="destination"}{crmURL p="civicrm/admin/configtask" q="reset=1"}{/capture}
 {capture assign="adminMenu"}{crmURL p="civicrm/admin" q="reset=1"}{/capture}
 <div id="help" class="description">
 {ts 1=$adminMenu}Use this checklist to review and complete configuration tasks for your site. You will be redirected back to this checklist after saving each setting. Settings which you have not yet

@@ -847,7 +847,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $url= null;
                 if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
                     $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
-                    if($htmlType == 'Link') {
+                    if ( $htmlType == 'Link' ) {
                         $url =  $params[$index] ;
                     } else {
                         $url = CRM_Utils_System::url( 'civicrm/profile',
@@ -857,7 +857,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                       urlencode( $params[$index] ) );
                     }
                 } else {
-                    if( $fieldName == 'custom_greeting' ) {   
+                    if ( $fieldName == 'custom_greeting' ) {   
                         if ( CRM_Utils_Array::value('Greeting Type', $params) != 4 ) { 
                             array_pop($values); 
                         } else {    
@@ -872,11 +872,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                           );
                         }
                     } else {   
-                    $url = CRM_Utils_System::url( 'civicrm/profile',
-                                                  'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-                                                  urlencode( $fieldName ) .
-                                                  '=' .
-                                                  urlencode( $params[$index] ) );
+                        $url = CRM_Utils_System::url( 'civicrm/profile',
+                                                      'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                      urlencode( $fieldName ) .
+                                                      '=' .
+                                                      urlencode( $params[$index] ) );
                     }
                 }
                

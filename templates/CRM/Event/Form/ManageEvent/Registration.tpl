@@ -2,7 +2,7 @@
 <fieldset><legend>{ts}Online Registration{/ts}</legend>
 <div id="help">
 {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
-{ts 1=$ppUrl}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href="%1">pament processor</a> for your site.{/ts}
+{ts 1=$ppUrl}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href="%1">payment processor</a> for your site.{/ts}
 </div>
 <div class="form-item">
     <div id="register">
@@ -32,6 +32,10 @@
         <dl>
             <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple participant registration for this event.{/ts}</dd>
+        </dl>
+	<dl>
+            <dt>{$form.allow_same_participant_emails.label}</dt><dd>{$form.allow_same_participant_emails.html}</dd 
+            <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple registrations using same email address for this event.{/ts}</dd>
         </dl>
      </div>
     <div class="spacer"></div>

@@ -554,11 +554,19 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->add( 'select', 'payment_processor_id', ts( 'Payment Processor' ), $this->_processors, true );
         }
          
-        $this->add('select', 'event_id',  ts( 'Event' ),  
-                   array( '' => ts( '- select -' ) ) + $events,
-                   true,
-                   array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', this.value, {$this->_eventNameCustomDataTypeID} );") );
+        $element = $this->add('select', 'event_id',  ts( 'Event' ),  
+                              array( '' => ts( '- select -' ) ) + $events,
+                              true,
+                              array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', this.value, {$this->_eventNameCustomDataTypeID} );") );
         
+        //frozen the field fix for CRM-4171
+        if ( $this->_action & CRM_Core_Action::UPDATE && $this->_participantId ) {
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
+                                              $this->_participantId, 'contribution_id', 'participant_id' ) ) {
+                $element->freeze();
+            }
+        } 
+       
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
                     CRM_Core_SelectValues::date('activityDatetime' ),
                     true);   

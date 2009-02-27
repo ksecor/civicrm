@@ -235,7 +235,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 if ( CRM_Utils_Array::value( 'custom_pre_id', $this->_values ) ) {
                     $values = array( );
                     $groupName = array( );
-                    CRM_Event_BAO_Event::displayProfile( $participantValue, $this->_values['custom_pre_id'], $groupName, $values );
+                    CRM_Event_BAO_Event::displayProfile( $participantValue, 
+                                                         $this->_values['custom_pre_id'], 
+                                                         $groupName, 
+                                                         $values );
                     if ( count( $values ) ) {
                         $formattedValues[$count]['customPre'] = $values;
                     }
@@ -245,7 +248,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 if ( CRM_Utils_Array::value( 'custom_post_id', $this->_values ) ) {
                     $values = array( );
                     $groupName = array( );
-                    CRM_Event_BAO_Event::displayProfile( $participantValue, $this->_values['custom_post_id'], $groupName, $values );
+                    CRM_Event_BAO_Event::displayProfile( $participantValue, 
+                                                         $this->_values['custom_post_id'], 
+                                                         $groupName, 
+                                                         $values );
                     if ( count( $values ) ) {
                         $formattedValues[$count]['customPost'] = $values;
                     }
@@ -729,8 +735,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         require_once "CRM/Contact/BAO/Contact.php";
 
         if ($contactID) {
-            $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactID, "contact_type");
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null,$ctype);
+            $ctype = CRM_Core_DAO::getFieldValue( "CRM_Contact_DAO_Contact",
+                                                  $contactID,
+                                                  "contact_type" );
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params,
+                                                                         $fields, 
+                                                                         $contactID, 
+                                                                         $addToGroups, 
+                                                                         null,
+                                                                         $ctype );
         } else {
             require_once 'CRM/Dedupe/Finder.php';
             //Dedupe couldn't recognize "email-Primary".So modify params temporary.

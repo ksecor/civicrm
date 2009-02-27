@@ -285,8 +285,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //don't build pledge block when mid is passed
         if ( ! $this->_mid ) {  
             $config =& CRM_Core_Config::singleton( );
-            if ( in_array('CiviPledge', $config->enableComponents ) && CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) 
-                 &&   CRM_Core_Permission::check( 'make online pledges' )  ) {
+            if ( in_array('CiviPledge', $config->enableComponents ) 
+                && CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
                 require_once 'CRM/Pledge/BAO/PledgeBlock.php';
                 CRM_Pledge_BAO_PledgeBlock::buildPledgeBlock( $this );
             }

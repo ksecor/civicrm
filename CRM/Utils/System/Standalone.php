@@ -114,10 +114,15 @@ class CRM_Utils_System_Standalone {
 
         if ( is_array( $breadCrumbs ) ) {
             foreach ( $breadCrumbs as $crumbs ) {
-                if ( stripos($crumbs['url'], '%%cid%%') ) {
-                    $cid  = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject,
-                                                         false, null, $_GET );
-                    $crumbs['url'] = str_ireplace( '%%cid%%', $cid, $crumbs['url'] );
+                if ( stripos($crumbs['url'], 'id%%') ) {
+                    $args = array( 'cid', 'mid' );
+                    foreach ( $args as $a ) {
+                        $val  = CRM_Utils_Request::retrieve( $a, 'Positive', CRM_Core_DAO::$_nullObject,
+                                                             false, null, $_GET );
+                        if ( $val ) {
+                            $crumbs['url'] = str_ireplace( "%%{$a}%%", $val, $crumbs['url'] );
+                        }
+                    }
                 }
                 $bc[] = $crumbs;
             }

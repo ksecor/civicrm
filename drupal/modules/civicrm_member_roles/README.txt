@@ -7,7 +7,7 @@ CiviMember Roles Sync Readme
 Requirements
 -------------------------------
 
-This module requires CiviCRM 2.1 alpha and Drupal 6.x. In order to use this module with
+This module requires CiviCRM 2.1.x or greater and Drupal 6.x. In order to use this module with
 other versions of Drupal and CiviCRM, please see the available versions
 at http://drupal.org/project/civimember_roles.
 

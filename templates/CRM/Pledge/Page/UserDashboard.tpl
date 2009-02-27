@@ -1,4 +1,5 @@
 {if $context eq 'user'}
+<div class="view-content">
 {if $pledge_rows}
 {strip}
 <table class="selector">
@@ -36,6 +37,15 @@
   {/foreach}
 </table>
 {/strip}
+{else}
+<div class="messages status">
+       <dl>
+         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+           <dd>
+               {ts}There are no Pledges for your record.{/ts}
+           </dd>
+       </dl>
+</div>
 {/if}
 {*pledge row if*}
 
@@ -70,7 +80,7 @@
 </table>
 {/strip}
 {/if} 
-
+</div>
 {* main if close*}
 {/if}
 

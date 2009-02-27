@@ -171,11 +171,12 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
      
         $this->addElement('checkbox', 'is_multiple_registrations', ts('Register Multiple Participants?')); 
+        $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations using same email address?'));
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );
         self::buildMailBlock( $this );
         self::buildThankYouBlock( $this );
-
+        
         parent::buildQuickForm();
     }
     
@@ -301,8 +302,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $params['id'] = $this->_id;
 
         //format params
-        $params['is_online_registration'] = CRM_Utils_Array::value('is_online_registration', $params, false);
-        $params['is_multiple_registrations'] = CRM_Utils_Array::value('is_multiple_registrations', $params, false);
+        $params['is_online_registration']        = CRM_Utils_Array::value('is_online_registration', $params, false);
+        $params['is_multiple_registrations']     = CRM_Utils_Array::value('is_multiple_registrations', $params, false);
+        $params['allow_same_participant_emails'] = CRM_Utils_Array::value('allow_same_participant_emails', $params, false);
 
         // reset is_email confirm if not online reg
         if ( ! $params['is_online_registration'] ) {

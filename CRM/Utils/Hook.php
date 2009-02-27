@@ -35,6 +35,11 @@
 
 class CRM_Utils_Hook {
     
+    // Allowed values for dashboard hook content placement
+    const DASHBOARD_BELOW = 1;		// Default - place content below activity list
+    const DASHBOARD_ABOVE = 2;		// Place content above activity list
+    const DASHBOARD_REPLACE = 3;	// Don't display activity list at all
+    
     /** 
      * This hook is called before a db write on some core objects.
      * This hook does not allow the abort of the operation 
@@ -242,18 +247,29 @@ class CRM_Utils_Hook {
      * This hook is called when rendering the dashboard (q=civicrm/dashboard)
      * 
      * @param int $contactID - the contactID for whom the dashboard is being rendered
+	 * @param int $contentPlacement - (output parameter) where should the hook content be displayed relative to the activity list
      *  
      * @return string the html snippet to include in the dashboard
      * @access public 
      */
-    static function dashboard( $contactID ) {
+    static function dashboard( $contactID, &$contentPlacement = self::DASHBOARD_BELOW ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         $null =& CRM_Core_DAO::$_nullObject;
-        return   
+        $retval =   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 1, $contactID, $null, $null, $null, $null, \'civicrm_dashboard\' );' );
+                  '::invoke( 2, $contactID, $contentPlacement, $null, $null, $null, \'civicrm_dashboard\' );' );
+
+		/* Note we need this seemingly unnecessary code because in the event that the implentation of the hook
+		 * declares the second parameter but doesn't set it, then it comes back unset even
+		 * though we have a default value in this function's declaration above. 
+		 */
+        if (! isset($contentPlacement)) {
+        	$contentPlacement = self::DASHBOARD_BELOW;
+        }
+        
+        return $retval;
     }
 
     /** 

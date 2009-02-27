@@ -1,14 +1,24 @@
 <table class="no-border">
 <tr>
    <td>
-       {include file="CRM/Activity/Selector/Activity.tpl}
-       {if isset($hookContent) and $hookContent}
-          {foreach from=$hookContent key=title item=content}
-          <fieldset><legend>{$title}</legend>
+       {if empty($hookContent)}
+         {include file="CRM/Activity/Selector/Activity.tpl}
+       {else}
+         {if $hookContentPlacement != 2 && $hookContentPlacement != 3}
+           {include file="CRM/Activity/Selector/Activity.tpl}
+         {/if}
+
+         {foreach from=$hookContent key=title item=content}
+           <fieldset><legend>{$title}</legend>
              {$content}
-          </fieldset>
-          {/foreach}
+           </fieldset>
+         {/foreach}
+
+         {if $hookContentPlacement == 2}
+           {include file="CRM/Activity/Selector/Activity.tpl}
+         {/if}
        {/if}
+   </td>
    <td>
       <fieldset><legend>{ts}Quick Search{/ts}</legend>
       <form action="{$postURL}" method="post">

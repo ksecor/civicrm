@@ -5,16 +5,21 @@ defined('_JEXEC') or die('No direct access allowed');
 
 function com_uninstall()
 {
-    //     require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
-    // 
-    //     require_once 'CRM/Core/Config.php';
-    //     $config =& CRM_Core_Config::singleton( );
-    // 
-    //     require_once 'CRM/Core/DAO.php';
-    //     CRM_Core_DAO::dropAllTables( );
-    // 
-    // echo "You have uninstalled CiviCRM. All CiviCRM related tables have been dropped from the database.";
-    echo "You have uninstalled CiviCRM.";
+    $uninstall = false;
+    // makes it easier if folks want to really uninstall
+    if ( $uninstall ) {
+        require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
+    
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+    
+        require_once 'CRM/Core/DAO.php';
+        CRM_Core_DAO::dropAllTables( );
+    
+        echo "You have uninstalled CiviCRM. All CiviCRM related tables have been dropped from the database.";
+    } else {
+        echo "You have uninstalled CiviCRM.";
+    }
 }
 
 

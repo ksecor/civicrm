@@ -360,11 +360,16 @@ class CRM_Core_Menu
         $menu['admin'] = array( 'breadcrumb' => $values );
     }
 
-    static function &getNavigation( ) {
+    static function &getNavigation( $all = false ) {
         if ( ! self::$_menuCache ) {
             self::get( 'navigation' );
         }
-
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_GET ) == 'civicrm/upgrade' ) {
+            return array( );
+        }
+        
         if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
             // problem could be due to menu table empty. Just do a
             // menu store before displaying fatal so that a
@@ -411,11 +416,14 @@ class CRM_Core_Menu
             }
         }
 
-        // remove all collapsed menu items from the array
-        foreach ( $values as $weight => $v ) {
-            if ( $v['parent'] &&
-                 $values[$v['parent']]['class'] == 'collapsed' ) {
-                unset( $values[$weight] );
+
+        if ( ! $all ) {
+            // remove all collapsed menu items from the array
+            foreach ( $values as $weight => $v ) {
+                if ( $v['parent'] &&
+                     $values[$v['parent']]['class'] == 'collapsed' ) {
+                    unset( $values[$weight] );
+                }
             }
         }
 
@@ -559,10 +567,6 @@ class CRM_Core_Menu
     {
         // return null if menu rebuild
         $config =& CRM_Core_Config::singleton( );
-        if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),
-                     'civicrm/menu/rebuild' ) !== false ) {
-            return null;
-        }
 
         $params = array( );
 

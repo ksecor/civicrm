@@ -981,6 +981,15 @@ WHERE civicrm_event.is_active = 1
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::ADD ); 
             }
             
+            if ( is_array( $fields ) ) {
+                // unset any email-* fields since we already collect it, CRM-2888
+                foreach ( array_keys( $fields ) as $fieldName ) {
+                    if ( substr( $fieldName, 0, 6 ) == 'email-' ) {
+                        unset( $fields[$fieldName] );
+                    }
+                }
+            }
+
             foreach ( $fields as $v  ) {
                 if ( CRM_Utils_Array::value( 'groupTitle', $v ) ) {
                     $groupTitle['groupTitle'] = $v["groupTitle"];

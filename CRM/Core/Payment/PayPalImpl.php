@@ -348,7 +348,11 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                         $stateName = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value );
                         $value     = $stateName;
                     }
-                    $paypalParams[$otherVars[$name]] = $value;
+                    // ensure value is not an array
+                    // CRM-4174
+                    if ( ! is_array( $value ) ) {
+                        $paypalParams[$otherVars[$name]] = $value;
+                    }
                 }
             }
         }

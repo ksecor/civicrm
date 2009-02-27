@@ -201,9 +201,9 @@ WHERE     openid = %1";
                 } else {
                     $mail = 'email';
                 }
-                
+
                 $params = array( 'email-Primary'  => $user->$mail );
-                
+
                 if ( $ctype == 'Organization' ) {
                     $params['organization_name'] = $uniqId;
                 } else if ( $ctype == 'Household' ) {
@@ -220,20 +220,20 @@ WHERE     openid = %1";
                     require_once 'CRM/Utils/String.php';
                     CRM_Utils_String::extractName( $user->name, $params );
                 }
-                
+
                 if ( $uf == 'Standalone' ) {
                     $params['openid-Primary'] = $uniqId;
-                    
+
                     //need to delete below code once profile is
                     //exposed on signup page
-		            if ( ( ! empty( $user->first_name ) ) || ( ! empty( $user->last_name ) ) ) {
-		                $params['first_name'] = $user->first_name;
-		                $params['last_name'] = $user->last_name;
-	                } elseif ( ! empty( $user->name ) ) {
+                    if ( ( ! empty( $user->first_name ) ) || ( ! empty( $user->last_name ) ) ) {
+                        $params['first_name'] = $user->first_name;
+                        $params['last_name'] = $user->last_name;
+                    } elseif ( ! empty( $user->name ) ) {
                         require_once 'CRM/Utils/String.php';
                         CRM_Utils_String::extractName( $user->name, $params );
-	                }
-		        }
+                    }
+                }
 
                 $contactId = CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray );
                 $ufmatch->contact_id     = $contactId;

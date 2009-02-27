@@ -325,11 +325,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             if ( $this->_values['custom_post_id'] ) {
                 $postProfileType = CRM_Core_BAO_UFField::getProfileType( $this->_values['custom_post_id'] );
             }
-
             // also set cancel subscription url
-            if ( !$isPayLater && $this->_paymentObject ) {    
+            if ( CRM_Utils_Array::value( 'is_recur', $this->_paymentProcessor ) && 
+                 CRM_Utils_Array::value( 'is_recur', $this->_values ) ) {    
                 $this->_values['cancelSubscriptionUrl'] = $this->_paymentObject->cancelSubscriptionURL( );
-                
             }
             if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
                    ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
@@ -340,7 +339,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             require_once 'CRM/Pledge/BAO/PledgeBlock.php';
             $pledgeBlock = CRM_Pledge_BAO_PledgeBlock::getPledgeBlock( $this->_id );
 
-            if ( $pledgeBlock && CRM_Core_Permission::check( 'make online pledges' ) ) {
+            if ( $pledgeBlock ) {
                 $this->_values['pledge_block_id'        ] = $pledgeBlock['id'];
                 $this->_values['max_reminders'          ] = $pledgeBlock['max_reminders'];
                 $this->_values['initial_reminder_day'   ] = $pledgeBlock['initial_reminder_day'];

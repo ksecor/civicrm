@@ -38,7 +38,6 @@ function civicrm_member_roles_schema() {
                                                                     'status_codes' => array(
                                                                                             'type' => 'text', 
                                                                                             'not null' => TRUE, 
-                                                                                            'default' => '',
                                                                                             ),
                                                                     ),
                                                   'primary key' => array('rule_id'),

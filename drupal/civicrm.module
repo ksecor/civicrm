@@ -317,6 +317,8 @@ function civicrm_invoke( )
         return drupal_not_found( );
     }
 
+    civicrm_admin_menu( );
+
     civicrm_cache_disable( );
 
     require_once 'CRM/Core/Error.php';
@@ -410,10 +412,13 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
              trim( $edit['mail'] ) != trim( $user->mail ) ) {
             require_once 'CRM/Core/BAO/UFMatch.php';
             $contactID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-            if ( $contactID ) {
-                CRM_Core_BAO_UFMatch::updateContactEmail( $contactID,
-                                                          trim( $edit['mail'] ) );
+
+            // cant find the contactID, so lets skip
+            if ( ! $contactID ) {
+                return;
             }
+            CRM_Core_BAO_UFMatch::updateContactEmail( $contactID,
+                                                      trim( $edit['mail'] ) );
         }
         break;
 
@@ -751,17 +756,23 @@ function civicrm_admin_menu( ) {
                      );
 
     require_once 'CRM/Core/Menu.php';
-    $nav = CRM_Core_Menu::getNavigation( );
+    $nav = CRM_Core_Menu::getNavigation( true );
 
     foreach ( $nav as $key => $value ) {
         $weight  += 10;
-        $links[]  = array(
-                          'title' => $value['title'],
-                          'path' => $value['path'],
-                          'weight' => $weight,
-                          'parent_path' => 'CiviCRM' );
+        $link  = array(
+                       'title' => $value['title'],
+                       'path' => $value['path'],
+                       'weight' => $weight );
+        
+        if ( empty( $value['parent'] ) ) {
+            $link['parent_path'] = 'CiviCRM';
+        } else {
+            $link['parent_path'] = $nav[$value['parent']]['title'];
+        }
+        $links[] = $link;
     }
-  
+
     return $links;
 
 }

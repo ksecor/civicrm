@@ -102,9 +102,11 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         
         // call hook to get html from other modules
         require_once 'CRM/Utils/Hook.php';
-        $html = CRM_Utils_Hook::dashboard( $uid );
+        $contentPlacement = CRM_Utils_Hook::DASHBOARD_BELOW;  // ignored but needed to prevent warnings
+        $html = CRM_Utils_Hook::dashboard( $uid, $contentPlacement );
         if ( is_array( $html ) ) {
             $this->assign_by_ref( 'hookContent', $html );
+            $this->assign( 'hookContentPlacement', $contentPlacement );
         }
 
     }

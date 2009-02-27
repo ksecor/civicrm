@@ -135,6 +135,7 @@
      <title>Mailing Report</title>
      <page_callback>CRM_Mailing_Page_Report</page_callback>
      <access_arguments>access CiviMail</access_arguments>
+     <path_arguments>mid=%%mid%%</path_arguments>
      <weight>680</weight>
   </item>
   <item>

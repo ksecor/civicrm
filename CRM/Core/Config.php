@@ -142,7 +142,12 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     /// END: RUNTIME SET CLASS PROPERTIES
     ///
 
-
+    /**
+     *  Define recaptcha key
+     */
+    
+    public $recaptchaPublicKey;
+    
     /**
      * The constructor. Sets domain id if defined, otherwise assumes
      * single instance installation.

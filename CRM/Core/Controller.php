@@ -182,7 +182,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         require_once 'CRM/Utils/Request.php';
 
         // also retrieve and store destination in session
-        $this->_destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this );
+        $this->_destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this,
+                                                           false, null, $_REQUEST );
     }
 
     function key( $name, $addSequence = false, $ignoreKey = false ) {
@@ -582,6 +583,21 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     public function getDestination( ) {
         return $this->_destination;
     }
+
+    public function setDestination( $url = null, $setToReferer = false ) {
+        if ( empty( $url ) ) {
+            if ( $setToReferer ) {
+                $url = $_SERVER['HTTP_REFERER'];
+            } else {
+                $config =& CRM_Core_Config::singleton( );
+                $url = $config->userFrameworkBaseURL;
+            }
+        }
+        
+        $this->_destination = $url;
+        $this->set( 'destination', $this->_destination );
+    }
+
 
 }
 

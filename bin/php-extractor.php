@@ -107,6 +107,10 @@ function tsCallType($tokens)
                 return TS_CALL_TYPE_INVALID;
             }
 
+        // Drupal uses bang-prepended placeholders, so accept them
+        } elseif (preg_match('/^[\'"]!\d+[\'"]$/', $key[1])) {
+            // no-op
+
         // no non-number keys (except count and plural, above)
         } elseif ($key[0] != T_LNUMBER) {
             return TS_CALL_TYPE_INVALID;
@@ -210,7 +214,7 @@ function findTsCalls($tokens, $file)
 
         // check whether we're at ts(
         list($type, $string, $line) = $ctok;
-        if (($type == T_STRING) && ($string == 'ts') && ($par == '(')) {
+        if (($type == T_STRING) && ($string == 'ts' or $string == 't') && ($par == '(')) {
 
             switch (tsCallType($tokens)) {
 
