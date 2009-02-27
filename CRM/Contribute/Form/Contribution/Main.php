@@ -73,7 +73,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        if (  CRM_Utils_Array::value( 'id', $this->_pcpInfo )  && CRM_Utils_Array::value( 'intro_text', $this->_pcpInfo ) ) {
+        if (  CRM_Utils_Array::value( 'id', $this->_pcpInfo )  && 
+              CRM_Utils_Array::value( 'intro_text', $this->_pcpInfo ) ) {
             $this->assign( 'intro_text' , $this->_pcpInfo['intro_text'] );
         } else if ( CRM_Utils_Array::value( 'intro_text', $this->_values ) ) {
             $this->assign( 'intro_text' , $this->_values['intro_text'] );
