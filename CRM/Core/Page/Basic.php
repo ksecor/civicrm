@@ -243,6 +243,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                 if ( $permission ) {
                     $values[$object->id] = array( );
                     CRM_Core_DAO::storeValues( $object, $values[$object->id]);
+
+                    require_once 'CRM/Contact/DAO/RelationshipType.php';
+                    CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
                     
                     // populate action links
                     self::action( $object, $action, $values[$object->id], $links, $permission );
@@ -274,18 +277,19 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      */
     function action( &$object, $action, &$values, &$links, $permission ) {
         $values['class'] = '';
-        $newAction = $action;
-        
         if ( array_key_exists( 'is_reserved', $object ) && $object->is_reserved ) {
-            $newAction = CRM_Core_Action::UPDATE;
+            $newAction = 0;
+            $values['action'] = '';
             $values['class'] = 'reserved';
-        } else {
-            if ( array_key_exists( 'is_active', $object ) ) {
-                if ( $object->is_active ) {
-                    $newAction += CRM_Core_Action::DISABLE;
-                } else {
-                    $newAction += CRM_Core_Action::ENABLE;
-                }
+            return;
+        }
+
+        $newAction = $action;
+        if ( array_key_exists( 'is_active', $object ) ) {
+            if ( $object->is_active ) {
+                $newAction += CRM_Core_Action::DISABLE;
+            } else {
+                $newAction += CRM_Core_Action::ENABLE;
             }
         }
 

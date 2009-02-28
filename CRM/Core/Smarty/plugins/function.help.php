@@ -63,33 +63,15 @@ function smarty_function_help( $params, &$smarty ) {
     if ( $id =='accesskeys') {
         $file ='CRM/common/accesskeys.hlp';
     }
-
-    // <div class="helpicon"><span dojoType="dijit.form.DropDownButton" class="tundra">
-    //     <div><img src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/quiz.png" /></div>
-    //     <div dojoType="dijit.TooltipDialog" id="{$id}_help" class="tundra" >$help</div>
-    // </span></div>        
-
+        
     $smarty->assign( 'id', $params['id'] );
     $help = $smarty->fetch( $file );
-    $help = str_replace("\n", " ", $help);
-    $help = str_replace("\r", " ", $help);
-    
     return <<< EOT
-        <span id="{$id}_help"><img src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/quiz.png" /></span>
-        <script type="text/javascript">
-            cj( function(){
-                cj("#{$id}_help").simpletip( "", {
-                   stem: 'topLeft',
-                   hook: { top: 'topLeft', mouse: true },
-                   offset: [10, 0],
-                   hideOn: { element: '.close', event: 'click' },
-                });
-                
-                var api = cj("#{$id}_help").eq(0).simpletip();
-                api.update('$help');
-            });
 
-        </script>
+<div class="helpicon"><span dojoType="dijit.form.DropDownButton" class="tundra">
+    <div><img src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/quiz.png" /></div>
+    <div dojoType="dijit.TooltipDialog" id="{$id}_help" class="tundra" >$help</div>
+</span></div>
 EOT;
 
 }

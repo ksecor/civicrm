@@ -169,24 +169,23 @@ class CRM_Contact_Form_Individual {
                                        ));
         $form->addRule('home_URL', ts('Enter a valid web location beginning with \'http://\' or \'https://\'. EXAMPLE: http://www.mysite.org/'), 'url');
 
-        // $employerAttributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
-        //                                 'mode'         => 'remote',
-        //                                 'store'        => 'organizationStore',
-        //                                 'style'        => 'width:400px; border: 1px solid #cfcfcf;',
-        //                                 'class'        => 'tundra',
-        //                                 'pageSize'     => 10,
-        //                                 'onchange'     => 'showSelectedAddress("current_employer")',
-        //                                 
-        //                                 );
-        // 
-        // $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-        //                                            "org=1",
-        //                                            false, null, false );
-        // 
-        // $form->assign('employerDataURL',$employerDataURL );
+        $employerAttributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
+                                        'mode'         => 'remote',
+                                        'store'        => 'organizationStore',
+                                        'style'        => 'width:400px; border: 1px solid #cfcfcf;',
+                                        'class'        => 'tundra',
+                                        'pageSize'     => 10,
+                                        'onchange'     => 'showSelectedAddress("current_employer")',
+                                        
+                                        );
         
-        $form->addElement('text', 'current_employer', ts('Current Employer') );
-        $form->addElement('hidden', 'current_employer_id', null, array( 'id' => 'current_employer_id' ));
+        $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
+                                                   "org=1",
+                                                   false, null, false );
+        
+        $form->assign('employerDataURL',$employerDataURL );
+        
+        $form->addElement('text', 'current_employer', ts('Current Employer'), $employerAttributes );
 
         $form->addElement('text', 'contact_source', ts('Source'));
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
