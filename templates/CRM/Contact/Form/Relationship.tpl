@@ -169,11 +169,10 @@
                 <dt>{$form.description.label}</dt>
                 <dd>{$form.description.html}</dd>
                 <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-        {if $action eq 1} {* add mode *}
-            <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $contact_type_display eq 'Organization' or $contact_type_display eq 'Household'}'{$sort_name_a}'{else}selected contact(s){/if}</b> can view and update information for <b>{if $contact_type_display eq 'Organization' or $contact_type_display eq 'Household'}selected contact(s){else}'{$sort_name_a}'{/if}</b></dd>
-        {else} {* update mode *}
-            <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}'{$sort_name_b}'{/if}</b> can view and update information for <b>{if $rtype eq 'a_b'}'{$sort_name_b}'{else}'{$sort_name_a}'{/if}</b></dd>
-        {/if}
+        {if $is_a_to_b}<dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}selected contact(s){/if}{/if}</b> can view and update information for <b>{if $rtype eq 'a_b'}{if $sort_name_b}'{$sort_name_b}'{else}selected contact(s){/if}{else}'{$sort_name_a}'{/if}</b></dd>{/if}
+
+        {if $is_b_to_a}<dt>&nbsp;</dt><dd>{$form.is_permission_b_a.html}&nbsp;<b>{if $rtype eq 'b_a'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}selected contact(s){/if}{/if}</b> can view and update information for <b>{if $rtype eq 'b_a'}{if $sort_name_b}'{$sort_name_b}'{else}selected contact(s){/if}{else}'{$sort_name_a}'{/if}</b></dd>{/if}
+
 	<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
         {if $action eq 2}
