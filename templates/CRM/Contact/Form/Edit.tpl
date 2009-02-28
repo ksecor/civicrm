@@ -70,9 +70,8 @@
         <td colspan=4>{$form.current_employer.label}</td>
     </tr>
     <tr>
-        <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" ></div></td>
-        <td colspan=3 class="tundra">{$form.current_employer.html}</td>
-        <td><span id="current_employer_address" class="description"></span></td>
+        <td>&nbsp;</td>
+        <td colspan=4>{$form.current_employer.html|crmReplace:class:huge}&nbsp;&nbsp;&nbsp;<span id="current_employer_address" class="description"></span></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -217,37 +216,46 @@
   </fieldset>
  </div>
 
-{literal}
 <script type="text/javascript">
+{literal}
     showDeceasedDate( );    
     function showDeceasedDate( )
     {
         if (document.getElementsByName("is_deceased")[0].checked) {
       	    show('showDeceasedDate');
         } else {
-	    hide('showDeceasedDate');
+	        hide('showDeceasedDate');
         }
     }     
-</script>
 {/literal}
-
+</script>
 {/if} 
 
-{if $contact_type eq 'Individual' and $currentEmployer }
-{literal}
+{if $contact_type eq 'Individual'}
 <script type="text/javascript">
-dojo.addOnLoad( function( ) 
-{
-	var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
-	dijit.byId( 'current_employer' ).setValue(currentEmployer);
-}); 
-</script>
+{literal}
+    cj( function() {
+        var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 q='type=org'}"{literal};
+
+        cj( '#current_employer' ).autocomplete( contactUrl, {
+            width: 400,
+            selectFirst: false 
+        });
+        
+        cj( '#current_employer' ).result(function(event, data, formatted ) {
+            cj("#current_employer_id").val(data[1]);
+            
+            //call function to set address
+            showSelectedAddress("current_employer");
+        });
+    });
 {/literal} 
+</script>
 {/if}
 
 {if $contact_type eq 'Individual' or $contact_type eq 'Household'}
-{literal}
 <script type="text/javascript">
+{literal}
 showGreeting( );
 function showGreeting( )
 {
@@ -259,8 +267,8 @@ function showGreeting( )
         hide('greetingHtml');
     }
 }
-</script>
 {/literal}
+</script>
 {/if}
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
@@ -274,16 +282,16 @@ function showGreeting( )
      <div id = "id_notes">
          <fieldset><legend>{$notes.hide}{ts}Contact Notes{/ts}</legend>
             <div class="form-item">
-<table class="form-layout">
-<tr>
-<td>{$form.subject.label}</td>
-<td>{$form.subject.html}</td>
-</tr>
-<tr>
-<td>{$form.note.label}</td>
-<td>{$form.note.html}</td>
-</tr>
-</table>
+                <table class="form-layout">
+                    <tr>
+                        <td>{$form.subject.label}</td>
+                        <td>{$form.subject.html}</td>
+                    </tr>
+                    <tr>
+                        <td>{$form.note.label}</td>
+                        <td>{$form.note.html}</td>
+                    </tr>
+                </table>
             </div>
          </fieldset>
      </div>
@@ -336,14 +344,14 @@ function showGreeting( )
     <div class="spacer"> </div>
     </fieldset>
 </div>
-{literal}
 <script type="text/javascript">
-    cj(document).ready(function(){
+{literal}
+    cj( function() {
         cj('#selector tr:even').addClass('odd-row ');
         cj('#selector tr:odd ').addClass('even-row');
     });
-</script>
 {/literal}
+</script>
 {/if}
 
 <div class="crm-submit-buttons">

@@ -37,17 +37,65 @@
  */
 class CRM_Contact_Page_AJAX
 {
-    static function getContactList( &$config ) 
+    static function getContactList( ) 
     {
         require_once 'CRM/Utils/Type.php';
         $name = CRM_Utils_Array::value( 's', $_GET );
+        $type = CRM_Utils_Array::value( 'type', $_GET );
+
+        // // contacts of type household
+        // $hh = $addStreet = $addCity = null;
+        // if ( isset($_GET['hh']) ) {
+        //     $hh = CRM_Utils_Type::escape( $_GET['hh'], 'Integer');
+        // }
+        // 
+        // //organization info
+        // $organization = $street = $city = null;
+        // if ( isset($_GET['org']) ) {
+        //     $organization = CRM_Utils_Type::escape( $_GET['org'], 'Integer');
+        // }
+        // 
+        // if ( isset($_GET['org']) || isset($_GET['hh']) ) {
+        //     if ( $splitName = explode( ' :: ', $name ) ) {
+        //         $contactName = trim( CRM_Utils_Array::value( '0', $splitName ) );
+        //         $street      = trim( CRM_Utils_Array::value( '1', $splitName ) );
+        //         $city        = trim( CRM_Utils_Array::value( '2', $splitName ) );
+        //     } else {
+        //         $contactName = $name;
+        //     }
+        //     
+        //     if ( $street ) {
+        //         $addStreet = "AND civicrm_address.street_address LIKE '$street%'";
+        //     }
+        //     if ( $city ) {
+        //         $addCity = "AND civicrm_address.city LIKE '$city%'";
+        //     }
+        // }
         
-        $query = "
-SELECT sort_name, id
+        switch ( $type ) {
+            case 'hh':
+                break;
+            case  'org':
+                $query = "
+SELECT CONCAT_WS(' :: ',sort_name,LEFT(street_address,25),city) 'sort_name', 
+civicrm_contact.id 'id'
 FROM civicrm_contact
-WHERE sort_name LIKE '$name%'
-AND contact_type = 'Individual'
-ORDER BY sort_name ";            
+LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
+                                AND civicrm_address.is_primary=1
+                             )
+WHERE civicrm_contact.contact_type='Organization' AND organization_name LIKE '%$name%'
+{$addStreet} {$addCity} 
+ORDER BY organization_name ";
+                break;
+            default:
+                //simple contact drop down 
+                $query = "
+            SELECT sort_name, id
+            FROM civicrm_contact
+            WHERE sort_name LIKE '$name%'
+            AND contact_type = 'Individual'
+            ORDER BY sort_name ";            
+        }
 
         $dao = CRM_Core_DAO::executeQuery( $query );
         $contactList = null;

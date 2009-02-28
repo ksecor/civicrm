@@ -97,31 +97,31 @@
 {/section}
 
 {* -- Javascript for showing/hiding the shared household options -- *}
-{literal}
 <script type="text/javascript">
+ {literal}
     
  function showSelectedAddress( val )
  {
     var help = val+'_help';
     var address = val+'_address';
     if ( document.getElementsByName("use_household_address")[0].checked == true ) {
-	show('shared_household', 'block');
-	hide('id_location_1_address');
-    }
-    var contactId = dijit.byId(val).getValue();
-    if ( isNaN( contactId ) ) {
-	document.getElementById(address).innerHTML = {/literal}"({ts}New Contact Record{/ts})"{literal};
-	if ( val == 'shared_household' ) {
 	    show('shared_household', 'block');
-	    show('id_location_1_address', 'block');	   
-	}	
-	return; 
+	    hide('id_location_1_address');
+    }
+    var contactId = cj("#" + val + '_id').val();
+    if ( isNaN( contactId ) ) {
+	    document.getElementById(address).innerHTML = {/literal}"({ts}New Contact Record{/ts})"{literal};
+	    if ( val == 'shared_household' ) {
+	        show('shared_household', 'block');
+	        show('id_location_1_address', 'block');	   
+	    }	
+	    return; 
     }
 
     if ( val == 'shared_household' ) {		
-	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=1&id='}"{literal} + contactId;
+	    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=1&id='}"{literal} + contactId;
     } else {
-	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=2&id='}"{literal} + contactId;
+	    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=2&id='}"{literal} + contactId;
     }
 
     dojo.xhrGet( { 
@@ -232,10 +232,8 @@ dojo.addOnLoad( function( )
 } );	 
 {/literal}
 {/if}
-{literal}
-
 </script>
-{/literal}
+
 {if $contact_type EQ 'Individual'}
 {if $form.use_household_address.value}
 {include file="CRM/common/showHideByFieldValue.tpl" 

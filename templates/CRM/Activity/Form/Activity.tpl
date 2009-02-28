@@ -6,6 +6,36 @@
 {elseif $addAssigneeContact or $addTargetContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
+{literal}
+<style>
+.tooltip { position: absolute; }
+.tooltip .content{
+    width: 190px;
+    padding: 7px;
+
+    border: 5px solid #303030;
+
+    background-color: #888;
+    color: white;
+}
+
+</style>
+{/literal}
+
+<span id="helpId">Click</span>
+<script type="text/javascript">
+{literal}
+    cj( function(){
+        cj("#helpId").simpletip( 'Hello this is test', {
+           stem: 'topLeft',
+           hook: { top: 'topLeft', mouse: true },
+           offset: [10, 0],
+           hideOn: { element: '.close', event: 'click' },
+        });
+    });
+{/literal}
+</script>
+
 
 {* added onload javascript for source contact*}
 {if $source_contact and $admin and $action neq 4}
