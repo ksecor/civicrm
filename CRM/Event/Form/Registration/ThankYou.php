@@ -94,6 +94,11 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
 
         $this->assign( 'lineItem', $this->_lineItem );
         $this->assign( 'totalAmount', $this->_totalAmount );
+        $hookDiscount = $this->get( 'hookDiscount' );
+        if ( $hookDiscount ) {
+            $this->assign( 'hookDiscount', $hookDiscount );
+        }
+
         $this->assign( 'receive_date', $this->_receiveDate );
         $this->assign( 'trxn_id', $this->_trxnId );
         

@@ -59,6 +59,9 @@
         {if $totalAmount}
 	<br /> <strong>{ts}Event Total{/ts}</strong>: {$totalAmount|crmMoney}<br />
         {/if}	
+        {if $hookDiscount.message}
+        <strong>({$hookDiscount.message})</strong>
+        {/if}
         {/if}
         {if $receive_date}
         <strong>{ts}Transaction Date{/ts}</strong>: {$receive_date|crmDate}<br />

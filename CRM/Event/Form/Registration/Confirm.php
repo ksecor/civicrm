@@ -71,6 +71,17 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         // lineItem isn't set until Register postProcess
         $this->_lineItem = $this->get( 'lineItem' );
         $this->_params = $this->get( 'params' );
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::eventDiscount( $this->_params );
+        if ( CRM_Utils_Array::value( 'discount', $this->_params[0] ) &&
+             CRM_Utils_Array::value( 'applied', $this->_params[0]['discount'] ) ) {
+            $this->set( 'params', $this->_params );
+            $this->set( 'hookDiscount', $this->_params[0]['discount'] );
+            $this->assign( 'hookDiscount', $this->_params[0]['discount'] );
+        }
+
+
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_contributeMode == 'express' ) {
             $params = array(); 
@@ -103,8 +114,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
                 // set a few other parameters for PayPal
                 $params['token']          = $this->get( 'token' );
-                $params['amount'        ] = $this->get( 'amount' );
-                $params['amount_level'  ] = $this->get( 'amount_level' );
+                // $params['amount'        ] = $this->get( 'amount' );
+                // $params['amount_level'  ] = $this->get( 'amount_level' );
                 $params['currencyID'    ] = $config->defaultCurrency;
                 $params['payment_action'] = 'Sale';
                 
@@ -130,7 +141,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->_params[0] = $params;
             $this->_params[0]['is_primary'] = 1; 
         } else {
-            //$this->_params = $this->controller->exportValues( 'Register' );
             //process only primary participant params.
             $registerParams = $this->_params[0];
             if ( isset( $registerParams["state_province_id-{$this->_bltID}"] ) 
@@ -149,8 +159,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
             if ( $this->_values['event']['is_monetary'] ) {
                 $registerParams['ip_address']     = CRM_Utils_System::ipAddress( );
-                $registerParams['amount'        ] = $this->get( 'amount' );
-                $registerParams['amount_level'  ] = $this->get( 'amount_level' );
+                // $registerParams['amount'        ] = $this->get( 'amount' );
+                // $registerParams['amount_level'  ] = $this->get( 'amount_level' );
                 $registerParams['currencyID'    ] = $config->defaultCurrency;
                 $registerParams['payment_action'] = 'Sale';
             }
@@ -199,15 +209,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
     public function buildQuickForm( )  
     { 
         $this->assignToTemplate( );
-        //to set amount & levels
-        $this->_params = $this->get( 'params' );
+
         if( $this->_params[0]['amount'] || $this->_params[0]['amount'] == 0 ) {
             $this->_amount       = array();
                      
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
                     if ( CRM_Utils_Array::value( 'is_primary', $v ) ) {
-                        $this->set( 'primaryParticipantAmount',$v['amount'] );
+                        $this->set( 'primaryParticipantAmount', $v['amount'] );
                     }
                     $this->_amount[ $v['amount_level'].'  -  '. $v['email-5'] ] = $v['amount'];
                     $this->_totalAmount = $this->_totalAmount + $v['amount'];
