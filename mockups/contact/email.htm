@@ -1,0 +1,16 @@
+<div class="form-item">
+    <input name="email-primary" value="" type="radio"><label>Preferred</label>&nbsp;&nbsp;
+    <span>
+        <select name="location[1][location_type_id]" id="location_1_location_type_id" class="form-select">
+            <option value="5">Billing</option>
+            <option value="1" selected="selected">Home</option>
+            <option value="3">Main</option>
+            <option value="4">Other</option>
+            <option value="2">Work</option>
+        </select>
+    
+    </span>
+    <span><input maxlength="64" size="30" name="location[1][email][1][email]" id="location_1_email_1_email" class="form-text big" type="text"></span>
+    <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"><label for="location[1][email][1][on_hold]">On Hold</label></span>
+    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"><label for="location[1][email][1][is_bulkmail]">Use for Bulk Mailings</label></span>
+    </div>
