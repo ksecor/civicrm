@@ -57,11 +57,12 @@
           <strong>{$amount|crmMoney} &nbsp;&nbsp; {$level}</strong><br />	
         {/foreach}
         {if $totalAmount}
-	<br /> <strong>{ts}Event Total{/ts}</strong>: {$totalAmount|crmMoney}<br />
-        {/if}	
+	<br /> <strong>{ts}Event Total{/ts}</strong>: {$totalAmount|crmMoney}
         {if $hookDiscount.message}
         <strong>({$hookDiscount.message})</strong>
         {/if}
+        <br />
+        {/if}	
         {/if}
         {if $receive_date}
         <strong>{ts}Transaction Date{/ts}</strong>: {$receive_date|crmDate}<br />

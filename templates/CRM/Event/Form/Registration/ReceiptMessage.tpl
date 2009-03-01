@@ -96,7 +96,7 @@ Participant {$priceset+1}
 {/if}
 {if $isPrimary }
 
-{ts}Total Amount{/ts}     : {$totalAmount|crmMoney} {if $hookDiscount.message}<strong>({$hookDiscount.message})</strong>{/if}
+{ts}Total Amount{/ts}     : {$totalAmount|crmMoney} {if $hookDiscount.message}({$hookDiscount.message}){/if}
 {/if}
 {if $is_pay_later}
 
