@@ -55,9 +55,7 @@ find drupal -name '*.inc' -or -name '*.install' -or -name '*.module' -or -name '
 echo ' * building civicrm-core.pot'
 $root/bin/extractor.php core >> $potdir/civicrm-core.pot
 
-# drop strings already in drupal-civicrm.pot and civicrm-menu.pot
-msgcomm $potdir/civicrm-core.pot $potdir/drupal-civicrm.pot > $tempfile
-msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm-core.pot
+# drop strings already in civicrm-menu.pot
 msgcomm $potdir/civicrm-core.pot $potdir/civicrm-menu.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm-core.pot
 
@@ -65,9 +63,7 @@ msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm
 echo ' * building civicrm-modules.pot'
 $root/bin/extractor.php modules >> $potdir/civicrm-modules.pot
 
-# drop strings already in drupal-civicrm.pot, civicrm-menu.pot and civicrm-core.pot
-msgcomm $potdir/civicrm-modules.pot $potdir/drupal-civicrm.pot > $tempfile
-msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civicrm-modules.pot
+# drop strings already in civicrm-menu.pot and civicrm-core.pot
 msgcomm $potdir/civicrm-modules.pot $potdir/civicrm-menu.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civicrm-modules.pot
 msgcomm $potdir/civicrm-modules.pot $potdir/civicrm-core.pot > $tempfile
@@ -77,9 +73,7 @@ msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civi
 echo ' * building civicrm-helpfiles.pot'
 $root/bin/extractor.php helpfiles >> $potdir/civicrm-helpfiles.pot
 
-# drop strings already in drupal-civicrm.pot, civicrm-menu.pot, civicrm-core.pot and civicrm-modules.pot
-msgcomm $potdir/civicrm-helpfiles.pot $potdir/drupal-civicrm.pot > $tempfile
-msgcomm -u --no-wrap $potdir/civicrm-helpfiles.pot $tempfile | sponge $potdir/civicrm-helpfiles.pot
+# drop strings already in civicrm-menu.pot, civicrm-core.pot and civicrm-modules.pot
 msgcomm $potdir/civicrm-helpfiles.pot $potdir/civicrm-menu.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-helpfiles.pot $tempfile | sponge $potdir/civicrm-helpfiles.pot
 msgcomm $potdir/civicrm-helpfiles.pot $potdir/civicrm-core.pot > $tempfile
