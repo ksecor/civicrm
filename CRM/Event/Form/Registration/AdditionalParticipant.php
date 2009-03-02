@@ -108,23 +108,23 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             CRM_Event_Form_Registration_Register::buildAmount( $this );
         }
         
-        $skip = 0;
         foreach ( array( 'pre', 'post' ) as $keys ) {
             $this->buildCustom( $this->_values['custom_'.$keys.'_id'] , 'custom'.ucfirst($keys) , true );
             if ( isset ( $this->_values['custom_'.$keys.'_id'] ) ) {
                 $$keys = CRM_Core_BAO_UFGroup::getFields($this->_values['custom_'.$keys.'_id']);
             }
-        }
-        
-        if( ( CRM_Utils_Array::value('first_name', $pre ) && CRM_Utils_Array::value('last_name', $pre ) ) ||
-            ( CRM_Utils_Array::value('first_name', $post ) && CRM_Utils_Array::value('last_name', $post ) ) ) {
-            $skip = 1;
+            foreach ( array( 'first_name', 'last_name' ) as $name ) {
+                if( CRM_Utils_Array::value( $name, $$keys ) &&
+                    CRM_Utils_Array::value( 'is_required', CRM_Utils_Array::value( $name, $$keys ) ) ) {
+                    $$name = 1;
+                }    
+            }
         }
         
         $required = ( $button == 'skip' ||
-                       $this->_values['event']['allow_same_participant_emails']  == 1 &&
-                      $skip ) ? false : true;
-
+                      $this->_values['event']['allow_same_participant_emails']  == 1 &&
+                      ( $first_name && $last_name ) ) ? false : true;
+        
         $this->add( 'text',
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
