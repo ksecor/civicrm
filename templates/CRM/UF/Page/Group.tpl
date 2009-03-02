@@ -1,7 +1,3 @@
-<script type="text/javascript" src="http://ui.jquery.com/jquery-1.3.1.js"></script>
-<script type="text/javascript" src="http://ui.jquery.com/ui/effects.core.js"></script>
-<script type="text/javascript" src="http://ui.jquery.com/ui/effects.fold.js"></script>
-
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8 or $action eq 64 or $action eq 16384}
     {* Add or edit Profile Group form *}
     {include file="CRM/UF/Form/Group.tpl"}
