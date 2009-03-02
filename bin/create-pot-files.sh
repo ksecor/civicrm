@@ -23,11 +23,11 @@ msgstr \"\"
 \"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n\"
 \"MIME-Version: 1.0\n\"
 \"Content-Type: text/plain; charset=UTF-8\n\"
-\"Content-Transfer-Encoding: 8bit\n\"" | tee $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces}.pot > /dev/null
+\"Content-Transfer-Encoding: 8bit\n\"" | tee $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces,drupal-civicrm}.pot > /dev/null
 
 echo "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n\"" | tee -a $potdir/civicrm-{core,modules}.pot > /dev/null
 
-echo | tee -a $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces}.pot > /dev/null
+echo | tee -a $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces,drupal-civicrm}.pot > /dev/null
 
 
 # build the three XML-originating files
@@ -46,6 +46,9 @@ msgcomm -u $potdir/provinces.pot $tempfile | msgcat - $tempfile | sponge $potdir
 msgcomm $potdir/provinces.pot $potdir/countries.pot > $tempfile
 msgcomm -u --no-wrap $potdir/provinces.pot $tempfile | sponge $potdir/provinces.pot
 
+# create drupal-civicrm.pot
+echo ' * building drupal-civicrm.pot'
+find drupal -name '*.inc' -or -name '*.install' -or -name '*.module' -or -name '*.php' | xargs bin/php-extractor.php CRM/Core/Permission.php >> $potdir/drupal-civicrm.pot
 
 
 # extract ts()- and {ts}-tagged strings and build -core
