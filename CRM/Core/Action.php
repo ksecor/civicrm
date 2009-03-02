@@ -214,7 +214,7 @@ class CRM_Core_Action {
         }
         $result = '';
         CRM_Utils_String::append( $result, '</li><li>', $url );
-        $result = '<b><img src='.$config->resourceBase.'i/custom_activity.gif title='.ts('Action').'/></b>'.'<ul id="panel_xx" class="panel"><li>'.$result.'</li></ul>';
+        $result = "<img src='{$config->resourceBase}i/custom_activity.gif' title='".ts('Action')."'/><ul id='panel_xx' class='panel'><li>{$result}</li></ul>";
         return $result;
     }
 
