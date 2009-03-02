@@ -162,6 +162,12 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
             if ( CRM_Utils_Array::value( 'minimum_fee', $membershipType[$dao->id] ) ) {
                 $membershipType[$dao->id]['minimum_fee'] = CRM_Utils_Money::format($membershipType[$dao->id]['minimum_fee'], null, '%a');
             }
+            //adding column for relationship type. CRM-4178.
+            if ( $dao->relationship_type_id ) {
+                $relationshipName = 'name_'.$dao->relationship_direction;
+                $membershipType[$dao->id]['relationshipTypeName'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_RelationshipType', 
+                                                                                                $dao->relationship_type_id, $relationshipName );
+            }
             // form all action links
             $action = array_sum(array_keys($this->links()));
 
