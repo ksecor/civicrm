@@ -286,16 +286,16 @@ function civitest_civicrm_pageRun( &$page ) {
 
 function civitest_civicrm_customFieldOptions( $fieldID, &$options ) {
     if ( $fieldID == 1 ) {
-        $options['Rocks'] = ts( 'Hooks Rock' );
+        $options['Rocks'] = t( 'Hooks Rock' );
         unset( $options['Edu'] );
     } else if ( $fieldID == 2 ) {
-        $options['H'] = ts(' Hook me' );
+        $options['H'] = t(' Hook me' );
         unset( $options['S'] );
     }
 }
 
 function civitest_civicrm_searchTasks( $objectType, &$tasks ) {
-    $tasks[100] = array( 'title'  => ts( 'Hook Action Task' ),
+    $tasks[100] = array( 'title'  => t( 'Hook Action Task' ),
                          'class'  => 'CRM_Contact_Form_Task_HookSample',
                          'result' => false );
 }
@@ -342,6 +342,6 @@ function civitest_civicrm_pageRun( &$page ) {
 
 function civitest_civicrm_eventDiscount( &$params ) {
     $params[0]['amount'] = 50;
-    $params[0]['discount'] = array( 'message' => ts( 'a discount of $15 has been applied to your total amount' ),
+    $params[0]['discount'] = array( 'message' => t( 'a discount of $15 has been applied to your total amount' ),
                                     'applied' => true );
 }
