@@ -1238,9 +1238,14 @@ WHERE  id = $cfID
         $events = array( );
         
         $query = "
-SELECT id, title, loc_block_id 
-FROM   civicrm_event
-WHERE  loc_block_id IS NOT NULL
+SELECT CONCAT_WS(' :: ' , LEFT(ca.street_address,30), ca.city, CONCAT('(',LEFT(ce.title,20),'..)') ) title, 
+       ce.id, 
+       ce.loc_block_id
+FROM   civicrm_event ce
+INNER JOIN civicrm_loc_block lb ON ce.loc_block_id=lb.id
+INNER JOIN civicrm_address ca   ON lb.address_id= ca.id
+GROUP BY ca.street_address, ca.city
+ORDER BY ca.city, ca.street_address ASC
 ";
         $dao = CRM_Core_DAO::executeQuery( $query );
         

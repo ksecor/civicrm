@@ -354,8 +354,8 @@ function civicrm_member_roles_add_rule_form_submit($form, &$form_state)
             drupal_set_message(t('There was an error editing the association rule. Please check your database settings and try again. If you continue to get this error message then try to reinstall CiviMember Roles Sync.'), $type = 'error');
         }
     } else {
-        $add_rule = db_query('INSERT INTO {civicrm_member_roles_rules} (rule_id, rid, type_id, status_codes)
-                          VALUES(\'\', %d, %d, \'%s\')', 
+        $add_rule = db_query('INSERT INTO {civicrm_member_roles_rules} (rid, type_id, status_codes)
+                          VALUES(%d, %d, \'%s\')', 
                              (int) $form_state['values']['add_rule']['select_role'], 
                              (int) $form_state['values']['add_rule']['select_membership'], 
                              serialize($codes));

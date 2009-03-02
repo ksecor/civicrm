@@ -913,6 +913,15 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->assign( 'buttonType', $buttonType );
         return $buttonType;
     }
+
+    function getVar( $name ) {
+        return isset( $this->$name ) ? $this->$name : null;
+    }
+
+    function setVar( $name, $value ) {
+        $this->$name = $value;
+    }
+
 }
 
 

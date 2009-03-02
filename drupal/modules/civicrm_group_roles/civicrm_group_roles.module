@@ -238,6 +238,7 @@ function civicrm_group_roles_show_rules($action = NULL, $id = NULL)
     // get civicrm groups
     civicrm_initialize(true);
     require_once 'api/v2/Group.php';
+    $params = array( );
     $groups =& civicrm_group_get($params);
 
     //Begin building main output table.

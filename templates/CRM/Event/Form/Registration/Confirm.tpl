@@ -40,6 +40,9 @@
         {if $totalAmount}
         <br /><strong>{ts}Total Amount{/ts}:</strong>&nbsp;&nbsp;{$totalAmount|crmMoney}
         {/if}	 		
+        {if $hookDiscount.message}
+        <strong>({$hookDiscount.message})</strong>
+        {/if}
         {/if}
     </div>
     {/if}

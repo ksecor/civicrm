@@ -40,6 +40,13 @@
 require_once 'CRM/Core/Page.php';
 class CRM_Profile_Page_View extends CRM_Core_Page 
 {
+    /**
+     * The id of the contact
+     *
+     * @var int
+     */
+    protected $_id;
+
     /** 
      * The group id that we are editing
      * 
@@ -57,23 +64,23 @@ class CRM_Profile_Page_View extends CRM_Core_Page
      */
     function preProcess( )
     {
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+        $this->_id = CRM_Utils_Request::retrieve('id', 'Positive',
                                           $this, false);
-        if ( ! $id ) {
+        if ( ! $this->_id ) {
             $session =& CRM_Core_Session::singleton();
-            $id = $session->get( 'userID' );
-            if ( ! $id ) {
+            $this->_id = $session->get( 'userID' );
+            if ( ! $this->_id ) {
                 CRM_Core_Error::fatal( ts( 'Could not find the required contact id parameter (id=) for viewing a contact record with a Profile.' ) );
             }
         }
-        $this->assign( 'cid', $id );
+        $this->assign( 'cid', $this->_id );
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this);
 
         if ($this->_gid) {
             require_once 'CRM/Profile/Page/Dynamic.php';
-            $page =& new CRM_Profile_Page_Dynamic($id, $this->_gid, 'Profile' );
+            $page =& new CRM_Profile_Page_Dynamic($this->_id, $this->_gid, 'Profile' );
             $profileGroup            = array( );
             $profileGroup['title']   = null;
             $profileGroup['content'] = $page->run();
@@ -82,7 +89,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page
             if ( $map ) {
                 $this->assign( 'mapURL',
                                CRM_Utils_System::url( "civicrm/profile/map",
-                                                      "reset=1&pv=1&cid=$id&gid={$this->_gid}" ) );
+                                                      "reset=1&pv=1&cid={$this->_id}&gid={$this->_gid}" ) );
             }
             $this->assign( 'listingURL',
                            CRM_Utils_System::url( "civicrm/profile",
@@ -94,7 +101,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page
             $profileGroups = array();
             foreach ($ufGroups as $groupid => $group) {
                 require_once 'CRM/Profile/Page/Dynamic.php';
-                $page =& new CRM_Profile_Page_Dynamic( $id, $groupid, 'Profile');
+                $page =& new CRM_Profile_Page_Dynamic( $this->_id, $groupid, 'Profile');
                 $profileGroup = array( );
                 $profileGroup['title'] = $group['title'];
                 $profileGroup['content'] = $page->run();
@@ -110,7 +117,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page
         $this->assign('profileGroups', $profileGroups);
         $this->assign('recentlyViewed', false);
 
-        $sortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+        $sortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_id, 'display_name' );
         $title    = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'title' );
         if ( $sortName ) {
             $title .= ' - ' . $sortName;

@@ -395,3 +395,49 @@ function civitest_civicrm_searchTasks( $objectType, &$tasks ) {
                          'class'  => 'CRM_Contact_Form_Task_HookSample',
                          'result' => false );
 }
+
+function civitest_civicrm_pageRun( &$page ) {
+    // we are only interested in profile pages with gid = 1 and have a valid contact id
+    if ( $page->getVar( '_name' ) != 'CRM_Profile_Page_View' ||
+         $page->getVar( '_gid' ) != 1 ||
+         ! CRM_Utils_Rule::positiveInteger( $page->getVar( '_id' ) ) ) {
+        return;
+    }
+
+    // get all relationships of
+    require_once 'CRM/Contact/BAO/Relationship.php';
+    $relationships = CRM_Contact_BAO_Relationship::getRelationship( $page->getVar( '_id' ) );
+
+    // if you want to filter and display only certain relationship, you can do so before assigninng to
+    // smarty. Do a CRM_Core_Error::debug( $relationships ) to see all the fields
+    $page->assign( 'relationships', $relationships );
+
+    // in addition to this, you also need to customize: templates/CRM/Profile/Page/View.tpl
+    // check: http://wiki.civicrm.org/confluence/display/CRMDOC/Customize+Built-in,+Profile,+Contribution+and+Event+Registration+Screens
+    // some sample tpl code is included here, modify as needed
+    /**
+{if $relationships}
+<table>
+<tr>
+  <th>Name</th>
+  <th>Relation</th>
+  <th>Country</th>
+</tr>
+{foreach from=$relationships item=relation}
+<tr>
+  <td>{$relation.name}</td>
+  <td>{$relation.relation}</td>
+  <td>{$relation.country}</td>
+</tr>
+{/foreach}
+</table>
+{/if}
+    **/
+
+}
+
+function civitest_civicrm_eventDiscount( &$params ) {
+    $params[0]['amount'] = 50;
+    $params[0]['discount'] = array( 'message' => ts( 'a discount of $15 has been applied to your total amount' ),
+                                    'applied' => true );
+}
