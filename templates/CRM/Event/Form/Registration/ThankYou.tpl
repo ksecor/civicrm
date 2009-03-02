@@ -54,7 +54,7 @@
             {include file="CRM/Event/Form/Registration/LineItem.tpl}<br />
         {elseif $amount || $amount == 0}
         {foreach from= $finalAmount item=amount key=level}  
-          <strong>{$amount|crmMoney} &nbsp;&nbsp; {$level}</strong><br />	
+          <strong>{$amount.amount|crmMoney} &nbsp;&nbsp; {$amount.label}</strong><br />	
         {/foreach}
         {if $totalAmount}
 	<br /> <strong>{ts}Event Total{/ts}</strong>: {$totalAmount|crmMoney}
