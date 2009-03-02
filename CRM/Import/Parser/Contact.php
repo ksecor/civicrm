@@ -882,16 +882,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
                 
                 $url_string = implode("\n", $urls);
-                array_unshift($values, $url_string); 
                 
                 // If we duplicate more than one record, skip no matter what 
                 if (count($cids) > 1) {
                     $errorMessage = ts('Record duplicates multiple contacts');
-                    array_unshift($values, $errorMessage);
                     $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
+                    
+                    //combine error msg to avoid mismatch between error file columns.
+                    $errorMessage .= "\n" . $url_string;
+                    array_unshift($values, $errorMessage);
                     $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
                     return CRM_Import_Parser::ERROR;
                 }
+                array_unshift($values, $url_string); 
                 
                 // Params only had one id, so shift it out 
                 $contactId = array_shift( $cids );
