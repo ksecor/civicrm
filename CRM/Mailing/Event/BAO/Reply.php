@@ -34,6 +34,7 @@
  */
 
 require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Mail.php';
 
 require_once 'ezc/Base/src/ezc_bootstrap.php';
 require_once 'ezc/autoload/mail_autoload.php';
@@ -172,8 +173,8 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             
             $message->setTxtBody($bodyTxt);
             $message->setHTMLBody($bodyHTML);
-            $b = $message->get();
-            $h = $message->headers($headers);
+            $b =& CRM_Utils_Mail::setMimeParams( $message );
+            $h =& $message->headers($headers);
         }
 
         $config =& CRM_Core_Config::singleton();
@@ -265,8 +266,8 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             $message->setTxtBody($text);
         }
         
-        $b = $message->get();
-        $h = $message->headers($headers);
+        $b =& CRM_Utils_Mail::setMimeParams( $message );
+        $h =& $message->headers($headers);
         
         $mailer =& $config->getMailer();
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
