@@ -197,6 +197,7 @@ class CRM_Core_Action {
      * @static
      */
     static function formLink( &$links, $mask, $values ) {
+        $config =& CRM_Core_Config::singleton();
         if ( empty( $links ) ) {
             return null;
         }
@@ -213,7 +214,7 @@ class CRM_Core_Action {
         }
         $result = '';
         CRM_Utils_String::append( $result, '</li><li>', $url );
-        $result = '<b>'.ts('Action').'</b>'.'<ul id="panel_xx" class="panel"><li>'.$result.'</li></ul>';
+        $result = '<b><img src='.$config->resourceBase.'i/custom_activity.gif title='.ts('Action').'/></b>'.'<ul id="panel_xx" class="panel"><li>'.$result.'</li></ul>';
         return $result;
     }
 
