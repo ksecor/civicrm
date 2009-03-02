@@ -13,7 +13,8 @@ function civicrm_group_roles_install( )
     $result = drupal_install_schema('civicrm_group_roles');
     
     if ($result[0]['success']) {
-      drupal_set_message(t('CiviGroup Roles Sync installed. You will need to specify sync rules '. l('here.', 'admin/settings/civicrm_group_roles/add_rule')) );
+      $here = l(ts('here'), 'admin/settings/civicrm_group_roles/add_rule');
+      drupal_set_message(t('CiviGroup Roles Sync installed. You will need to specify sync rules !1.', array('!1' => $here)));
     }
 }
 

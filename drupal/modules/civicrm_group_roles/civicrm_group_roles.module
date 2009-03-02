@@ -69,7 +69,7 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
                         $result = civicrm_group_contact_add($gparams);
                         
                         if ($result['is_error'] > 0) {
-                            $msg = t('Error: Unable to sync role @role', array('@role' => $role) );
+                            $msg = t('Error: Unable to sync role !1', array('!1' => $role) );
                             watchdog('civicrm_group_roles', $msg);
                             if ($debug_mode) drupal_set_message($msg);
                         } elseif ($debug_mode && $result['added'] > 0) {
@@ -85,7 +85,7 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
                 } //end foreach
                 
             } else {
-                $msg = t('CiviCRM contact not found for %email', array('%email' => $user->mail));
+                $msg = t('CiviCRM contact not found for !1', array('!1' => $user->mail));
                 watchdog('civicrm',  $msg);
                 if ($debug_mode) drupal_set_message($msg);
             } //end if $contact
