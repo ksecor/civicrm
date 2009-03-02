@@ -197,7 +197,7 @@ function civicrm_menu( )
 
     return array(
                  'civicrm' => array(
-                                    'title'            => ts('CiviCRM'),
+                                    'title'            => 'CiviCRM',
                                     'access callback'  => true,
                                     'page callback'    => 'civicrm_invoke',
                                     'type'             => 4,
