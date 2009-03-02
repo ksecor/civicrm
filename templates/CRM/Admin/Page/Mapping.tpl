@@ -23,7 +23,7 @@
             <td>{$row.name}</td>	
             <td>{$row.description}</td>
             <td>{$row.mapping_type}</td>
-            <td>{$row.action}</td>
+            <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>

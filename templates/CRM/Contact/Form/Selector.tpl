@@ -51,7 +51,7 @@
                  </td>
                {/if}
             {/foreach}
-            <td>{$row.action}</td>
+            <td class="btn-slide" id={$row.contact_id}>{$row.action|replace:'xx':$row.contact_id}</td>
         </tr>
      {/foreach}
   {else}
@@ -82,7 +82,7 @@
                 {/if}   
               {/foreach}
             {/if}
-            <td>{$row.action}</td>
+            <td class="btn-slide" id={$row.contact_id}>{$row.action|replace:'xx':$row.contact_id}</td>
          </tr>
     {/foreach}
   {/if}

@@ -32,7 +32,7 @@
 		<td>{$row.start_date|truncate:10:''|crmDate}</td>
 		<td>{if $row.end_date}{$row.end_date|truncate:10:''|crmDate}{else}({ts}ongoing{/ts}){/if}</td>
 		<td>{$row.status_id}</td>
-		<td>{$row.action}</td>
+		<td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
 	</tr>
 	{/foreach}
 </table>

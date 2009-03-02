@@ -28,7 +28,7 @@
             <td class="nowrap">{$row.weight}</td>
             <td>{if $row.is_required eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.action}</td>
+            <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>

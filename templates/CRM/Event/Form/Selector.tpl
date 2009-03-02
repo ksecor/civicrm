@@ -56,14 +56,14 @@
     <td>{$row.participant_register_date|truncate:10:''|crmDate}</td>	
     <td>{$row.participant_status_id}</td>
     <td>{$row.participant_role_id}</td>
-    <td>{$row.action}</td>
+    <td class="btn-slide" id={$participant_id}>{$row.action|replace:'xx':$participant_id}</td>
    </tr>
   {/foreach}
 {* Link to "View all participants" for Dashboard and Contact Summary *}
 {if $limit and $pager->_totalItems GT $limit }
   {if $context EQ 'event_dashboard' }
     <tr class="even-row">
-    <td colspan="9"><a href="{crmURL p='civicrm/event/search' q='reset=1'}">&raquo; {ts}Find more event participants{/ts}...</a></td></tr>
+    <td colspan="10"><a href="{crmURL p='civicrm/event/search' q='reset=1'}">&raquo; {ts}Find more event participants{/ts}...</a></td></tr>
     </tr>
   {elseif $context eq 'participant' }  
     <tr class="even-row">

@@ -33,7 +33,7 @@
             <td>{$row.price }</td>
 	        <td>{$row.min_contribution}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        <td>{$row.action}</td>
+	        <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>

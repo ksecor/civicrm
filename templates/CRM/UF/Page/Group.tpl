@@ -1,3 +1,6 @@
+<script type="text/javascript" src="http://ui.jquery.com/jquery-1.3.1.js"></script>
+<script type="text/javascript" src="http://ui.jquery.com/ui/effects.core.js"></script>
+<script type="text/javascript" src="http://ui.jquery.com/ui/effects.fold.js"></script>
 
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8 or $action eq 64 or $action eq 16384}
     {* Add or edit Profile Group form *}
@@ -50,7 +53,7 @@
             <td>{$row.id}</td>
             <td>{$row.module}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.action}</td>
+            <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>

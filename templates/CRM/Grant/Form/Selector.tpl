@@ -38,7 +38,7 @@
     <td>{$row.grant_application_received_date|truncate:10:''|crmDate}</td>
     <td>{if $row.grant_report_received}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
     <td>{$row.grant_money_transfer_date|truncate:10:''|crmDate}</td>
-    <td>{$row.action}</td>
+    <td class="btn-slide" id={$row.grant_id}>{$row.action|replace:'xx':$row.grant_id}</td>
    </tr>
   {/foreach}
 

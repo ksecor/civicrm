@@ -26,6 +26,7 @@
 
 {include file="CRM/common/jquery.tpl"}
 {include file="CRM/common/dojo.tpl"}
+{include file="CRM/common/action.tpl"}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">

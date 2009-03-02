@@ -204,7 +204,7 @@ class CRM_Core_Action {
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
-                $extra = CRM_Utils_Array::value( 'extra', $link, '' );
+                $extra = str_replace( 'onclick', 'js', CRM_Utils_Array::value( 'extra', $link, '' ) );
                 $url[] = sprintf('<a href="%s" ' . $extra . '>%s</a>',
                                  CRM_Utils_System::url( self::replace( $link['url'], $values ),
                                                         self::replace( $link['qs'] , $values ), true ),
@@ -212,7 +212,8 @@ class CRM_Core_Action {
             }
         }
         $result = '';
-        CRM_Utils_String::append( $result, '&nbsp;|&nbsp;', $url );
+        CRM_Utils_String::append( $result, '</li><li>', $url );
+        $result = '<b>'.ts('Action').'</b>'.'<ul id="panel_xx" class="panel"><li>'.$result.'</li></ul>';
         return $result;
     }
 

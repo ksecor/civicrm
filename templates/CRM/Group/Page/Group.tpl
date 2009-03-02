@@ -36,7 +36,7 @@
         </td>
         <td>{$row.group_type}</td>	
         <td>{$row.visibility}</td>	
-        <td>{$row.action}</td>
+        <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
      </tr>
    {/foreach}
    </table>

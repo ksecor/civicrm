@@ -1190,3 +1190,40 @@ commented since it is overwiting simple td
 #crm-container td.tasklist a:visited  {
   color: green;
 }
+
+/* Styles for  Action Link */
+
+#panel, .panel {
+  display  : none;
+  z-index  : 1;
+  position : absolute;
+  border   : 1px solid #104D33;
+  width    : 140px;
+}
+
+#crm-container td ul.panel {
+  margin  :-25px 0px 0px -145px;
+}
+
+#crm-container td ul.panel li {
+  padding : 5px 15px 0px 5px;
+  margin  : 0px;
+}
+
+.btn-slide {
+  text-align      : left;
+  width           : 60px;
+  text-decoration : none;
+  border          : none;
+  cursor          : pointer;
+}
+#crm-container .panel li a {
+  text-decoration : none;
+}
+
+#crm-container .panel li{
+  width : 120px;
+}
+#crm-container td.btn-slide {
+  padding  : 10px 14px 5px 25px;
+}

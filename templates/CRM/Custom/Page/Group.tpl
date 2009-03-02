@@ -31,7 +31,7 @@
             <td>{$row.extends_entity_column_value}</td>
             <td class="nowrap">{$row.weight}</td>
             <td>{$row.style_display}</td>
-            <td>{$row.action}</td>
+            <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>
