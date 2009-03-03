@@ -139,7 +139,9 @@ WHERE  entity_id = $contactID
     }
 }
 
-function civitest_civicrm_dashboard( $contactID ) {
+function civitest_civicrm_dashboard( $contactID, &$contentPlacement ) {
+    // REPLACE Activity Listing with custom content
+    $contentPlacement = 3;
     return array( 'Custom Content' => "Here is some custom content: $contactID",
                   'Custom Table' => "
 <table>
@@ -149,7 +151,6 @@ function civitest_civicrm_dashboard( $contactID ) {
 </table>
 ",
                   );
-
 }
 
 function civitest_civicrm_buildAmount( $pageType,
