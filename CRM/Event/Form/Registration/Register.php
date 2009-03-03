@@ -235,7 +235,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
 
-        if ( ! $userID && $this->_values['event']['is_multiple_registrations'] == 0 ) {
+        if ( ! $userID ) {
             $createCMSUser = false;
             if ( $this->_values['custom_pre_id'] ) {
                 $profileID = $this->_values['custom_pre_id'];
