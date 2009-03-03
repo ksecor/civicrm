@@ -341,8 +341,40 @@ function civitest_civicrm_pageRun( &$page ) {
 
 }
 
-function civitest_civicrm_eventDiscount( &$params ) {
-    $params[0]['amount'] = 50;
-    $params[0]['discount'] = array( 'message' => t( 'a discount of $15 has been applied to your total amount' ),
-                                    'applied' => true );
+function civitest_civicrm_eventDiscount( &$form, &$params ) {
+    // we only are interested in event id 1
+    if ( $form->getVar( '_eventId' ) != 1 ) {
+        return;
+    }
+
+    $numParticipants = 0;
+    foreach ( $params as $key => $value ) {
+        if ( isset( $params[$key]['amount'] ) &&
+             $params[$key]['amount'] > 0 ) {
+            $numParticipants++;
+        }
+    }
+
+    // if more than 1 partcipant, 5% additional discount per paying participant, upto a max of 50%
+    if ( $numParticipants > 1 ) {
+        $discountPercentage = $numParticipants * 5;
+        
+        if ( $discountPercentage > 50 ) {
+            $discountPercentage = 50;
+        }
+
+        $totalDiscount = 0;
+        foreach ( $params as $key => $value ) {
+            if ( CRM_Utils_Array::value( 'amount', $params[$key] ) > 0 ) {
+                $discount = round( ( $params[$key]['amount'] * $discountPercentage ) / 100.0 );
+                $totalDiscount += $discount;
+                $params[$key]['discountAmount']  = $discount;
+                $params[$key]['discountMessage'] = " (discounted: $discount)";
+            }
+        }
+
+        $params[0]['discount'] =
+            array( 'message' => "A discount of \$$totalDiscount has been applied to the total amount",
+                   'applied' => true );
+    }
 }
