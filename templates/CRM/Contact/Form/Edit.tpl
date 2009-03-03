@@ -18,63 +18,36 @@
  <div id="name">
  <fieldset><legend>{ts}Name and Greeting{/ts}</legend>
 	<table class="form-layout">
-    <tr>
-		<td>{$form.prefix_id.label}</td>
-		<td>{$form.first_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$contactId}{/if}</td>
-		<td>{$form.middle_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}{/if}</td>
-		<td>{$form.last_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}{/if}</td>
-		<td>{$form.suffix_id.label}</td>
-	</tr>
 	<tr>
-		<td>{$form.prefix_id.html}</td>
-		<td>{$form.first_name.html}</td>
-		<td>{$form.middle_name.html|crmReplace:class:eight}</td>
-		<td>{$form.last_name.html}</td>
-		<td>{$form.suffix_id.html}</td>
+		<td>{$form.prefix_id.label}<br />{$form.prefix_id.html}</td>
+		<td>{$form.first_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$contactId}{/if}<br />{$form.first_name.html}</td>
+		<td>{$form.middle_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}{/if}<br />{$form.middle_name.html|crmReplace:class:eight}</td>
+		<td>{$form.last_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}{/if}<br />{$form.last_name.html}</td>
+		<td>{$form.suffix_id.label}<br />{$form.suffix_id.html}</td>
 	</tr>
-   	 <tr>
+    <tr>
         <td>&nbsp;</td>
-        <td>{$form.contact_source.label}</td>
-        <td>{$form.nick_name.label}</td>
-        <td>{$form.greeting_type_id.label} &nbsp; </td>
-        <td><span id="greetingLabel">{$form.custom_greeting.label}</span></td>	
+        <td>{$form.contact_source.label}<br />{$form.contact_source.html|crmReplace:class:big}</td>
+        <td>{$form.nick_name.label}<br />{$form.nick_name.html|crmReplace:class:big}</td>
+        <td>{$form.greeting_type_id.label}<br />{$form.greeting_type_id.html}</td>
+        <td><span id="greetingLabel">{$form.custom_greeting.label}</span><br /><span id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</span></td>	
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td>{$form.contact_source.html|crmReplace:class:big}</td>
-        <td>{$form.nick_name.html|crmReplace:class:big}</td>
-        <td>{$form.greeting_type_id.html}</td>
-        <td><span id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</span></td>	
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td>{$form.job_title.label}</td>
-        <td>{$form.home_URL.label}</td>
-        <td>{$form.external_identifier.label}</td>
+        <td>{$form.job_title.label}<br />{$form.job_title.html}</td>
+        <td>{$form.home_URL.label}<br />{$form.home_URL.html|crmReplace:class:big}</td>
+        <td>{$form.external_identifier.label}<br />{$form.external_identifier.html}</td>
         <td>&nbsp;</td>        
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td>{$form.job_title.html}</td>
-        <td>{$form.home_URL.html|crmReplace:class:big}</td>
-        <td>{$form.external_identifier.html}</td>
-        <td>&nbsp;</td>        
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td colspan=4>{$form.current_employer.label}</td>
     </tr>
     <tr>
         <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" ></div></td>
-        <td colspan=3 class="tundra">{$form.current_employer.html}</td>
-        <td><span id="current_employer_address" class="description"></span></td>
+        <td colspan="4" class="tundra">{$form.current_employer.label} {help id="id-current_employer"}<br />
+            {$form.current_employer.html} &nbsp;
+            <span id="current_employer_address" class="description"></span>
+        </td>
     </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td colspan=5><span class="description">{ts}Enter the first letters of the name of the employer to see available organizations. If the employer organization doesn't exist yet, type in the new organization name.{/ts}</span></td>
-    </tr>  
     </table>
-
+    <div class="spacer"></div>
     {$form._qf_Edit_refresh_dedupe.html}
     {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
     {if $isSharedHouseholdDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_sharedHouseholdDuplicate.html}{/if}

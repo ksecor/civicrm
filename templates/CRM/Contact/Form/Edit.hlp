@@ -9,3 +9,7 @@
 {htxt id="id-optOut"}
 {ts}This option is designed to be set by the contact themselves when they don't want to receive bulk email from your organization (they set it using the opt-out action from a CiviMail mailing).   Please think before changing it, as it will override the preference they have set.{/ts}
 {/htxt}
+
+{htxt id="id-current_employer"}
+{ts}Enter the first letters of the name of the employer to see available organizations. If the employer organization doesn't exist yet, type in the new organization name.{/ts}
+{/htxt}
