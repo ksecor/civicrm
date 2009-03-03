@@ -213,7 +213,7 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Pledge Acknowledgment{/ts}',              10, 'Pledge Acknowledgment',  NULL, 1, NULL, 10, '{ts escape="sql"}Send Pledge Acknowledgment.{/ts}',                                     0, 1, 1, 6, NULL),
    (@option_group_id_act, '{ts escape="sql"}Pledge Reminder{/ts}',                    11, 'Pledge Reminder',    NULL, 1, NULL, 11, '{ts escape="sql"}Send Pledge Reminder.{/ts}',                                               0, 1, 1, 6, NULL),
    (@option_group_id_act, '{ts escape="sql"}Inbound Email{/ts}',                      12, 'Inbound Email',      NULL, 1, NULL, 12, '{ts escape="sql"}Inbound Email.{/ts}',                                                      0, 1, 1, NULL, NULL),
-
+  
 -- Activity Types for case activities
    (@option_group_id_act, '{ts escape="sql"}Open Case{/ts}',          13, 'Open Case',          NULL, 0,  0, 13, '', 0, 0, 1 ,7, NULL),
    (@option_group_id_act, '{ts escape="sql"}Follow up{/ts}',          14, 'Follow up',          NULL, 0,  0, 14, '', 0, 0, 1, 7, NULL ),
@@ -222,7 +222,7 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Close Case{/ts}',         17, 'Close Case',         NULL, 0,  0, 17, '', 0, 0, 1, 7, NULL ),  
 
    (@option_group_id_act, '{ts escape="sql"}Membership Renewal Reminder{/ts}',        18, 'Membership Renewal Reminder',  NULL, 1, NULL, 18, '{ts escape="sql"}offline membership renewal reminder.{/ts}',                      0, 1, 1, 3, NULL),
-  
+   (@option_group_id_act, '{ts escape="sql"}Bulk Email{/ts}',                         19, 'Bulk Email',         NULL, 1, NULL, 19, '{ts escape="sql"}Bulk Email Sent.{/ts}',                                                    0, 1, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Transgender{/ts}', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
@@ -812,13 +812,13 @@ VALUES
 INSERT INTO civicrm_uf_field
        (`id`, `uf_group_id`, `field_name`, `is_active`, `is_view`, `is_required`, `weight`, `help_post`, `visibility`, `in_selector`, `is_searchable`, `location_type_id`, `phone_type_id`, `label`, `field_type`)
    VALUES
-       (1, 1, 'first_name', 1, 0, 1, 1, '', 'Public User Pages and Listings', 0, 1, NULL, NULL, '{ts escape="sql"}First Name{/ts}', 'Individual'),
-       (2, 1, 'last_name', 1, 0, 1, 2, '{ts escape="sql"}First and last name will be shared with other visitors to the site.{/ts}', 'Public User Pages and Listings', 0, 1, NULL, NULL, '{ts escape="sql"}Last Name{/ts}', 'Individual'),
+       (1, 1, 'first_name', 1, 0, 1, 1, '', 'Public Pages and Listings', 0, 1, NULL, NULL, '{ts escape="sql"}First Name{/ts}', 'Individual'),
+       (2, 1, 'last_name', 1, 0, 1, 2, '{ts escape="sql"}First and last name will be shared with other visitors to the site.{/ts}', 'Public Pages and Listings', 0, 1, NULL, NULL, '{ts escape="sql"}Last Name{/ts}', 'Individual'),
        (3, 1, 'street_address', 1, 0, 0, 3, '', 'User and User Admin Only', 0, 0, 1, NULL, '{ts escape="sql"}Street Address (Home){/ts}', 'Contact'),
        (4, 1, 'city', 1, 0, 0, 4, '', 'User and User Admin Only', 0, 0, 1, NULL, '{ts escape="sql"}City (Home){/ts}', 'Contact'),
        (5, 1, 'postal_code', 1, 0, 0, 5, '', 'User and User Admin Only', 0, 0, 1, NULL, '{ts escape="sql"}Postal Code (Home){/ts}', 'Contact'),
-       (6, 1, 'country', 1, 0, 0, 6, '{ts escape="sql"}Your state/province and country of residence will be shared with others so folks can find others in their community.{/ts}', 'Public User Pages and Listings', 0, 1, 1, NULL, '{ts escape="sql"}Country (Home){/ts}', 'Contact'),
-       (7, 1, 'state_province', 1, 0, 0, 7, '', 'Public User Pages and Listings', 1, 1, 1, NULL, '{ts escape="sql"}State (Home){/ts}', 'Contact'),
+       (6, 1, 'country', 1, 0, 0, 6, '{ts escape="sql"}Your state/province and country of residence will be shared with others so folks can find others in their community.{/ts}', 'Public Pages and Listings', 0, 1, 1, NULL, '{ts escape="sql"}Country (Home){/ts}', 'Contact'),
+       (7, 1, 'state_province', 1, 0, 0, 7, '', 'Public Pages and Listings', 1, 1, 1, NULL, '{ts escape="sql"}State (Home){/ts}', 'Contact'),
        (8, 2, 'first_name', 1, 0, 1, 1, '', 'User and User Admin Only', 0, 0, NULL, NULL, '{ts escape="sql"}First Name{/ts}', 'Individual'),
        (9, 2, 'last_name', 1, 0, 1, 2, '', 'User and User Admin Only', 0, 0, NULL, NULL, '{ts escape="sql"}Last Name{/ts}', 'Individual'),
        (10, 2, 'email', 1, 0, 1, 3, '', 'User and User Admin Only', 0, 0, NULL, NULL, '{ts escape="sql"}Email Address{/ts}', 'Contact');
