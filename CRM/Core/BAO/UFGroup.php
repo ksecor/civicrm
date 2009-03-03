@@ -846,10 +846,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 
                 $url= null;
                 if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
-                    $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
-                    if ( $htmlType == 'Link' ) {
+		    $htmlType = $field['html_type'];
+		    if ( $htmlType == 'Link' ) {
                         $url =  $params[$index] ;
-                    } else {
+                    } else if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select', 
+							    'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {   
+			$valSeperator    = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ;
+			$selectedOptions = explode( $valSeperator, $params[$index] );
+			
+			foreach ( $selectedOptions as $key => $multiOption ) {
+			    if ( $multiOption ) {
+				$eachOption = $valSeperator.$multiOption.$valSeperator;
+				$url[] =  CRM_Utils_System::url( 'civicrm/profile',
+								 'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+								 urlencode( $fieldName ) .
+								 '=' .
+								 urlencode( $eachOption ) );
+			    }
+			}
+		    } else {
                         $url = CRM_Utils_System::url( 'civicrm/profile',
                                                       'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                                       urlencode( $fieldName ) .
@@ -883,8 +898,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( $url &&
                      ! empty( $values[$index] ) &&
                      $searchable ) {
-                    $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
-                }
+		    
+		    if (  is_array( $url ) && !empty( $url ) ) {
+			$links = array( );
+			$eachMultiValue = explode( ', ', $values[$index] );
+			foreach ( $eachMultiValue as $key => $valueLabel ) {
+			    $links[] = '<a href="' . $url[$key] . '">' . $valueLabel . '</a>';
+			}
+			$values[$index] = implode( ', ', $links );				
+		    } else {
+			$values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
+		    }
+		}
             }
         }
     }
