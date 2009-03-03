@@ -243,6 +243,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                 if ( $permission ) {
                     $values[$object->id] = array( );
                     CRM_Core_DAO::storeValues( $object, $values[$object->id]);
+
+                    require_once 'CRM/Contact/DAO/RelationshipType.php';
+                    CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
                     
                     // populate action links
                     self::action( $object, $action, $values[$object->id], $links, $permission );
