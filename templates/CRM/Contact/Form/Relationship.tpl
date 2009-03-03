@@ -27,9 +27,9 @@
             {/foreach}
             {if $row.is_permission_a_b}
                 {if $row.rtype EQ 'a_b' AND $is_contact_id_a}
-                     <dt>&nbsp;</dt><dd><strong>'{$displayName}'</strong> can view and update information for <strong>'{$row.name}'</strong></dd>
+                     <dt>&nbsp;</dt><dd><strong>'{$displayName}'</strong> can view and update information for <strong>'{$row.display_name}'</strong></dd>
                 {else}
-                     <dt>&nbsp;</dt><dd><strong>'{$row.name}'</strong> can view and update information for <strong>'{$displayName}'</strong></dd>
+                     <dt>&nbsp;</dt><dd><strong>'{$row.display_name}'</strong> can view and update information for <strong>'{$displayName}'</strong></dd>
                 {/if}
             {/if}
             {if $row.is_permission_b_a}
@@ -169,9 +169,9 @@
                 <dt>{$form.description.label}</dt>
                 <dd>{$form.description.html}</dd>
                 <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-                {if $is_a_to_b}<dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<strong>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}{ts}Selected contact(s){/ts}{/if}{/if}</strong> {ts}can view and update information for{/ts} <strong>{if $rtype eq 'a_b'}{if $sort_name_b}'{$sort_name_b}'{else}{ts}selected contact(s){/ts}{/if}{else}'{$sort_name_a}'{/if}</strong></dd>{/if}
+                <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<strong>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}{ts}Selected contact(s){/ts}{/if}{/if}</strong> {ts}can view and update information for{/ts} <strong>{if $rtype eq 'a_b'}{if $sort_name_b}'{$sort_name_b}'{else}{ts}selected contact(s){/ts}{/if}{else}'{$sort_name_a}'{/if}</strong></dd>
 
-                {if $is_b_to_a}<dt>&nbsp;</dt><dd>{$form.is_permission_b_a.html}&nbsp;<strong>{if $rtype eq 'b_a'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}{ts}Selected contact(s){/ts}{/if}{/if}</strong> {ts}can view and update information for{/ts} <strong>{if $rtype eq 'b_a'}{if $sort_name_b}'{$sort_name_b}'{else}{ts}selected contact(s){/ts}{/if}{else}'{$sort_name_a}'{/if}</strong></dd>{/if}
+                <dt>&nbsp;</dt><dd>{$form.is_permission_b_a.html}&nbsp;<strong>{if $rtype eq 'b_a'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}{ts}Selected contact(s){/ts}{/if}{/if}</strong> {ts}can view and update information for{/ts} <strong>{if $rtype eq 'b_a'}{if $sort_name_b}'{$sort_name_b}'{else}{ts}selected contact(s){/ts}{/if}{else}'{$sort_name_a}'{/if}</strong></dd>
 
                 <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>

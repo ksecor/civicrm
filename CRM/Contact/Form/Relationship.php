@@ -196,7 +196,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $contact->id = $this->_values['contact_id_a'];
                 }
                 if ($contact->find(true)) {
-                    $this->_display_name_b = $contact->sort_name;
+                    $this->_display_name_b = $contact->display_name;
                     $this->assign('sort_name_b', $this->_display_name_b);
                     
                     //is current employee/employer.
@@ -273,10 +273,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         $relTypeID = explode('_', $this->_rtypeId, 3);
 
-        $permDir = self::getPermissionDirection( $relTypeID[0] );
-        $this->assign( 'is_a_to_b', $permDir['is_a_to_b'] );
-        $this->assign( 'is_b_to_a', $permDir['is_b_to_a'] );
-        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             
             $this->addButtons( array(
@@ -325,12 +321,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
         
-        if ( $permDir['is_a_to_b'] ) {
-            $this->addElement('checkbox', 'is_permission_a_b', ts( 'Permission for contact a to view and update information for contact b' ) , null);
-        }
-        if ( $permDir['is_b_to_a'] ) {
-            $this->addElement('checkbox', 'is_permission_b_a', ts( 'permission for contact b to view and update information for contact a' ) , null);
-        }
+        $this->addElement('checkbox', 'is_permission_a_b', ts( 'Permission for contact a to view and update information for contact b' ) , null);
+        $this->addElement('checkbox', 'is_permission_b_a', ts( 'permission for contact b to view and update information for contact a' ) , null);
 
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Relationship', 'description' ) );
         
@@ -742,31 +734,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         return empty($errors) ? true : $errors;
 
-    }
-
-    /**
-     * Function to return the allowed permission direction. 
-     *
-     * @param int $relTypeId relationship type id
-     *
-     * @return array of directions
-     * @access public
-     * @static
-     */
-    static function getPermissionDirection( $relTypeId ) {
-        $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
-        $relationshipType->id = $relTypeId;
-        
-        $permDir = array( 'is_a_to_b' => true,
-                          'is_b_to_a' => true );
-
-        if ( $relationshipType->find( true ) ) {
-            if ( ($relationshipType->contact_type_a == 'Individual') && 
-                 in_array($relationshipType->contact_type_b, array('Organization', 'Household')) ) {
-                $permDir['is_b_to_a'] = false;
-            }
-        }
-        return $permDir;
     }
 }
 

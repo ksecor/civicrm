@@ -619,6 +619,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         } else {
             $select .= ' SELECT civicrm_relationship.id as civicrm_relationship_id,
                               civicrm_contact.sort_name as sort_name,
+                              civicrm_contact.display_name as display_name,
                               civicrm_contact.employer_id as employer_id,
                               civicrm_contact.organization_name as organization_name,
                               civicrm_address.street_address as street_address,
@@ -775,6 +776,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 $values[$rid]['cid']        = $cid;
                 $values[$rid]['relation']   = $relationship->relation;
                 $values[$rid]['name']       = $relationship->sort_name;
+                $values[$rid]['display_name']   = $relationship->display_name;
                 $values[$rid]['email']      = $relationship->email;
                 $values[$rid]['phone']      = $relationship->phone;
                 $values[$rid]['employer_id']    = $relationship->employer_id;
