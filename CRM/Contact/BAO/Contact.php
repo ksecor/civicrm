@@ -195,9 +195,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                                                                                   $params['current_employer'] );
             } else {
                 //unset if employer id exits
-                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
+                if ( $employerId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
                     require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $contact->id );
+                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $contact->id, $employerId );
                 }
             }
         }
