@@ -301,6 +301,25 @@ function civitest_civicrm_searchTasks( $objectType, &$tasks ) {
                          'result' => false );
 }
 
+function civitest_civicrm_validate( $formName, &$fields, &$files, &$form ) {
+    // sample implementation
+    $errors = array( );
+    if ( $formName == 'CRM_Contact_Form_Edit' ) {
+       // ensure that external identifier is present and valid
+       $externalID = CRM_Utils_Array::value( 'external_identifier', $fields );
+       if ( ! $externalID ) {
+          $errors['external_identifier'] = ts( 'External Identifier is a required field' );
+       } else {
+	 require_once "CRM/Utils/Rule.php';
+	 if ( ! CRM_Utils_Rule::integer( $externalID ) ) {
+	   $errors['external_identifier'] = ts( 'External Identifier is not an integer' );
+	 }
+       }
+    }
+    return empty( $errors ) ? true : $errors;
+
+}
+
 function civitest_civicrm_pageRun( &$page ) {
     // we are only interested in profile pages with gid = 1 and have a valid contact id
     if ( $page->getVar( '_name' ) != 'CRM_Profile_Page_View' ||
