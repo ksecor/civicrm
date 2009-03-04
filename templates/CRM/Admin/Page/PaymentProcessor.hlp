@@ -375,3 +375,37 @@ The test Credit Card number is 4111111111111111 - this is the only credit card n
 {ts}This is the live user name provided to you by DPS/Payment Express.{/ts}{/htxt}
 
 {htxt id='Payment_Express-live-url-site'} {ts}This is the URL for accessing the DPS/Payment Express live payment site.  Generally, you will use https://www.paymentexpress.com/pxpay/pxpay.aspx.{/ts} {/htxt} 
+
+{htxt id='Elavon-live-user-name'}
+<strong>{ts}Elavon Merchant ID (LIVE account):{/ts}</strong>
+<p>{ts}This is the LIVE <strong>Elavon Merchant ID</strong> associated with your Elavon account.{/ts}</p>
+{/htxt}
+{htxt id='Elavon-live-password'}
+<strong>{ts}Elavon User ID (LIVE account):{/ts}</strong>
+<p>{ts}This is the LIVE <strong>Elavon User ID</strong> associated with your Elavon account.{/ts}</p>
+{/htxt}
+{htxt id='Elavon-live-signature'}
+<strong>{ts}Elavon SSL PIN (LIVE account):{/ts}</strong>
+<p>{ts}This is the LIVE <strong>Elavon SSL PIN</strong> associated with your Elavon account.{/ts}</p>
+{/htxt}
+{htxt id='Elavon-live-url-site'}
+<strong>{ts}The URL for Elavon LIVE Gateway(LIVE account):{/ts}</strong>
+<p>{ts}Use 'https://www.myvirtualmerchant.com/VirtualMerchant/processxml.do' unless otherwise advised by Elavon..{/ts}</p>
+{/htxt}
+
+{htxt id='Elavon-test-user-name'}
+<strong>{ts}Elavon Merchant ID (TEST account):{/ts}</strong>
+<p>{ts}This is the TEST <strong>Elavon Merchant ID</strong> associated with your Elavon account.{/ts}</p>
+{/htxt}
+{htxt id='Elavon-test-password'}
+<strong>{ts}Elavon User ID (TEST account):{/ts}</strong>
+<p>{ts}This is the TEST <strong>Elavon User ID</strong> associated with your Elavon account.{/ts}</p>
+{/htxt}
+{htxt id='Elavon-test-signature'}
+<strong>{ts}Elavon SSL PIN (TEST account):{/ts}</strong>
+<p>{ts}This is the TEST <strong>Elavon SSL PIN</strong> associated with your Elavon account.{/ts}</p>
+{/htxt}
+{htxt id='Elavon-test-url-site'}
+<strong>{ts}The URL for Elavon TEST Gateway(TEST account):{/ts}</strong>
+<p>{ts}Use 'https://www.myvirtualmerchant.com/VirtualMerchant/processxml.do' unless otherwise advised by Elavon..{/ts}</p>
+{/htxt}

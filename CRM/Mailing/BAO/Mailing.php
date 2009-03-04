@@ -33,6 +33,7 @@
  *
  */
 require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Mail.php';
 
 require_once 'CRM/Contact/BAO/SavedSearch.php';
 require_once 'CRM/Contact/BAO/Query.php';
@@ -1035,16 +1036,8 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
 
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
-        
-        $mailMimeParams = array(
-                                'text_encoding' => '8bit',
-                                'html_encoding' => '8bit',
-                                'head_charset'  => 'utf-8',
-                                'text_charset'  => 'utf-8',
-                                'html_charset'  => 'utf-8',
-                                );
-        
-        $message->get($mailMimeParams);
+
+        CRM_Utils_Mail::setMimeParams( $message );
         $message->headers($headers);
         
         // make sure we unset a lot of stuff

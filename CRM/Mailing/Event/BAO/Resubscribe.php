@@ -33,6 +33,8 @@
  *
  */
 
+require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Mail.php';
 
 class CRM_Mailing_Event_BAO_Resubscribe {
 
@@ -258,9 +260,9 @@ class CRM_Mailing_Event_BAO_Resubscribe {
                          'Return-Path'   => "do-not-reply@$emailDomain",
                          );
         
-        $b = $message->get();
-        
-        $h = $message->headers($headers);
+        $b =& CRM_Utils_Mail::setMimeParams( $message );
+        $h =& $message->headers($headers);
+
         $mailer =& $config->getMailer();
         
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,

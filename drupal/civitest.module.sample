@@ -139,7 +139,9 @@ WHERE  entity_id = $contactID
     }
 }
 
-function civitest_civicrm_dashboard( $contactID ) {
+function civitest_civicrm_dashboard( $contactID, &$contentPlacement ) {
+    // REPLACE Activity Listing with custom content
+    $contentPlacement = 3;
     return array( 'Custom Content' => "Here is some custom content: $contactID",
                   'Custom Table' => "
 <table>
@@ -149,7 +151,6 @@ function civitest_civicrm_dashboard( $contactID ) {
 </table>
 ",
                   );
-
 }
 
 function civitest_civicrm_buildAmount( $pageType,
@@ -382,16 +383,16 @@ function civicrm_cck_event_field_values($field, $index = null) {
 
 function civitest_civicrm_customFieldOptions( $fieldID, &$options ) {
     if ( $fieldID == 1 ) {
-        $options['Rocks'] = ts( 'Hooks Rock' );
+        $options['Rocks'] = t( 'Hooks Rock' );
         unset( $options['Edu'] );
     } else if ( $fieldID == 2 ) {
-        $options['H'] = ts(' Hook me' );
+        $options['H'] = t(' Hook me' );
         unset( $options['S'] );
     }
 }
 
 function civitest_civicrm_searchTasks( $objectType, &$tasks ) {
-    $tasks[100] = array( 'title'  => ts( 'Hook Action Task' ),
+    $tasks[100] = array( 'title'  => t( 'Hook Action Task' ),
                          'class'  => 'CRM_Contact_Form_Task_HookSample',
                          'result' => false );
 }
@@ -438,6 +439,6 @@ function civitest_civicrm_pageRun( &$page ) {
 
 function civitest_civicrm_eventDiscount( &$params ) {
     $params[0]['amount'] = 50;
-    $params[0]['discount'] = array( 'message' => ts( 'a discount of $15 has been applied to your total amount' ),
+    $params[0]['discount'] = array( 'message' => t( 'a discount of $15 has been applied to your total amount' ),
                                     'applied' => true );
 }

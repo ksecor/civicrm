@@ -209,7 +209,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
     public function buildQuickForm( )  
     { 
         $this->assignToTemplate( );
-
         if( $this->_params[0]['amount'] || $this->_params[0]['amount'] == 0 ) {
             $this->_amount       = array();
                      
@@ -218,7 +217,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     if ( CRM_Utils_Array::value( 'is_primary', $v ) ) {
                         $this->set( 'primaryParticipantAmount', $v['amount'] );
                     }
-                    $this->_amount[ $v['amount_level'].'  -  '. $v['email-5'] ] = $v['amount'];
+                    $this->_amount[$k]['amount'] = $v['amount'];
+                    if ( CRM_Utils_Array::value( 'email-5', $v ) ) {
+                        $append = $v['email-5'];
+                    } else {
+                        $append = $v['first_name'] .' ' . $v['last_name'];  
+                    }
+                    $this->_amount[$k]['label'] = $v['amount_level'].'  -  '. $append;
                     $this->_totalAmount = $this->_totalAmount + $v['amount'];
                 }
             }
@@ -548,7 +553,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     if ( $this->_amount ) {
                         $amount = array();
                         $params = $this->get( 'params' );
-                        $amount[$params[$paticipantNum]['amount_level']] = CRM_Utils_Array::value( 'amount', $params[$paticipantNum] );
+                        $amount[$paticipantNum]['label']  = $params[$paticipantNum]['amount_level'];
+                        $amount[$paticipantNum]['amount'] = $params[$paticipantNum]['amount'];
                         $this->assign( 'amount', $amount );
                     }
                     if ( $this->_lineItem ) {

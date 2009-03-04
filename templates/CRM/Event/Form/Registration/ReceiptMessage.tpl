@@ -91,7 +91,7 @@ Participant {$priceset+1}
 {/foreach}
 {/if}
 {if $amount && !$lineItem} 
-{foreach from=$amount item=amountItem key=level}{$amountItem|crmMoney}   {$level}	
+{foreach from=$amount item=amount key=level}{$amount.amount|crmMoney} {$amount.label}	
 {/foreach}
 {/if}
 {if $isPrimary }

@@ -35,6 +35,7 @@
 
 
 require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Mail.php';
 require_once 'CRM/Utils/Verp.php';
 
 require_once 'CRM/Mailing/Event/DAO/Subscribe.php';
@@ -256,8 +257,8 @@ SELECT     civicrm_email.id as email_id
         $message =& new Mail_Mime("\n");
         $message->setHTMLBody($html);
         $message->setTxtBody($text);
-        $b = $message->get();
-        $h = $message->headers($headers);
+        $b =& CRM_Utils_Mail::setMimeParams( $message );
+        $h =& $message->headers($headers);
         $mailer =& $config->getMailer();
 
         require_once 'CRM/Mailing/BAO/Mailing.php';

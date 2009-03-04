@@ -11,7 +11,7 @@
          <label>{$form.option_type.label}</label>
        </span>
        <span class="fields">
-         {$form.option_type.html|crmReplace:class:big}
+         {$form.option_type.html}
        </span>
     </div>   
     <div class="spacer"></div>
@@ -20,7 +20,7 @@
          <label>{$form.loc_event_id.label}</label>
        </span>
        <span class="fields">
-         {$form.loc_event_id.html|crmReplace:class:big}
+         {$form.loc_event_id.html|crmReplace:class:huge}
        </span>
     </div> 
     <div class="spacer"></div>

@@ -277,6 +277,23 @@ class CRM_Utils_Mail {
         return false;        
     }
 
+    static function &setMimeParams( &$message, $params = null ) {
+        static $mimeParams = null;
+        if ( ! $params ) {
+            if ( ! $mimeParams ) {
+                $mimeParams = array(
+                                    'text_encoding' => '8bit',
+                                    'html_encoding' => '8bit',
+                                    'head_charset'  => 'utf-8',
+                                    'text_charset'  => 'utf-8',
+                                    'html_charset'  => 'utf-8',
+                                    );
+            }
+            $params = $mimeParams;
+        }
+        return $message->get( $params );
+    }
+
 }
 
 

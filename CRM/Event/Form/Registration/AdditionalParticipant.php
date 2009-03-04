@@ -98,24 +98,38 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {  
         $config =& CRM_Core_Config::singleton( );
         $button = substr( $this->controller->getButtonName(), -4 );
-        $required = ( $button == 'skip' ||
-                      $this->_values['event']['allow_same_participant_emails']  == 1 ) ? false : true;
+        
         $this->add('hidden','scriptFee',null);
         $this->add('hidden','scriptArray',null);
-        $this->add( 'text',
-                    "email-{$this->_bltID}",
-                    ts( 'Email Address' ),
-                    array( 'size' => 30, 'maxlength' => 60 ),
-                    $required );
+       
         
         if ( $this->_values['event']['is_monetary'] ) {
             require_once 'CRM/Event/Form/Registration/Register.php';
             CRM_Event_Form_Registration_Register::buildAmount( $this );
         }
         
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre' , true );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost', true );
-
+        foreach ( array( 'pre', 'post' ) as $keys ) {
+            $this->buildCustom( $this->_values['custom_'.$keys.'_id'] , 'custom'.ucfirst($keys) , true );
+            if ( isset ( $this->_values['custom_'.$keys.'_id'] ) ) {
+                $$keys = CRM_Core_BAO_UFGroup::getFields($this->_values['custom_'.$keys.'_id']);
+            }
+            foreach ( array( 'first_name', 'last_name' ) as $name ) {
+                if( CRM_Utils_Array::value( $name, $$keys ) &&
+                    CRM_Utils_Array::value( 'is_required', CRM_Utils_Array::value( $name, $$keys ) ) ) {
+                    $$name = 1;
+                }    
+            }
+        }
+        
+        $required = ( $button == 'skip' ||
+                      $this->_values['event']['allow_same_participant_emails']  == 1 &&
+                      ( $first_name && $last_name ) ) ? false : true;
+        
+        $this->add( 'text',
+                    "email-{$this->_bltID}",
+                    ts( 'Email Address' ),
+                    array( 'size' => 30, 'maxlength' => 60 ),
+                    $required );
         //add buttons
         $this->addButtons(array(
                                 array ( 'type'      => 'back',

@@ -23,11 +23,11 @@ msgstr \"\"
 \"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n\"
 \"MIME-Version: 1.0\n\"
 \"Content-Type: text/plain; charset=UTF-8\n\"
-\"Content-Transfer-Encoding: 8bit\n\"" | tee $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces}.pot > /dev/null
+\"Content-Transfer-Encoding: 8bit\n\"" | tee $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces,drupal-civicrm}.pot > /dev/null
 
 echo "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n\"" | tee -a $potdir/civicrm-{core,modules}.pot > /dev/null
 
-echo | tee -a $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces}.pot > /dev/null
+echo | tee -a $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces,drupal-civicrm}.pot > /dev/null
 
 
 # build the three XML-originating files
@@ -46,15 +46,16 @@ msgcomm -u $potdir/provinces.pot $tempfile | msgcat - $tempfile | sponge $potdir
 msgcomm $potdir/provinces.pot $potdir/countries.pot > $tempfile
 msgcomm -u --no-wrap $potdir/provinces.pot $tempfile | sponge $potdir/provinces.pot
 
+# create drupal-civicrm.pot
+echo ' * building drupal-civicrm.pot'
+find drupal -name '*.inc' -or -name '*.install' -or -name '*.module' -or -name '*.php' | xargs bin/php-extractor.php CRM/Core/Permission.php >> $potdir/drupal-civicrm.pot
 
 
 # extract ts()- and {ts}-tagged strings and build -core
 echo ' * building civicrm-core.pot'
 $root/bin/extractor.php core >> $potdir/civicrm-core.pot
 
-# drop strings already in drupal-civicrm.pot and civicrm-menu.pot
-msgcomm $potdir/civicrm-core.pot $potdir/drupal-civicrm.pot > $tempfile
-msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm-core.pot
+# drop strings already in civicrm-menu.pot
 msgcomm $potdir/civicrm-core.pot $potdir/civicrm-menu.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm-core.pot
 
@@ -62,9 +63,7 @@ msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm
 echo ' * building civicrm-modules.pot'
 $root/bin/extractor.php modules >> $potdir/civicrm-modules.pot
 
-# drop strings already in drupal-civicrm.pot, civicrm-menu.pot and civicrm-core.pot
-msgcomm $potdir/civicrm-modules.pot $potdir/drupal-civicrm.pot > $tempfile
-msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civicrm-modules.pot
+# drop strings already in civicrm-menu.pot and civicrm-core.pot
 msgcomm $potdir/civicrm-modules.pot $potdir/civicrm-menu.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civicrm-modules.pot
 msgcomm $potdir/civicrm-modules.pot $potdir/civicrm-core.pot > $tempfile
@@ -74,9 +73,7 @@ msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civi
 echo ' * building civicrm-helpfiles.pot'
 $root/bin/extractor.php helpfiles >> $potdir/civicrm-helpfiles.pot
 
-# drop strings already in drupal-civicrm.pot, civicrm-menu.pot, civicrm-core.pot and civicrm-modules.pot
-msgcomm $potdir/civicrm-helpfiles.pot $potdir/drupal-civicrm.pot > $tempfile
-msgcomm -u --no-wrap $potdir/civicrm-helpfiles.pot $tempfile | sponge $potdir/civicrm-helpfiles.pot
+# drop strings already in civicrm-menu.pot, civicrm-core.pot and civicrm-modules.pot
 msgcomm $potdir/civicrm-helpfiles.pot $potdir/civicrm-menu.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-helpfiles.pot $tempfile | sponge $potdir/civicrm-helpfiles.pot
 msgcomm $potdir/civicrm-helpfiles.pot $potdir/civicrm-core.pot > $tempfile

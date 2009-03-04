@@ -34,6 +34,7 @@
  */
 
 require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Mail.php';
 
 require_once 'CRM/Mailing/Event/DAO/Confirm.php';
 
@@ -138,8 +139,8 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $message =& new Mail_Mime("\n");
         $message->setHTMLBody($html);
         $message->setTxtBody($text);
-        $b = $message->get();
-        $h = $message->headers($headers);
+        $b =& CRM_Utils_Mail::setMimeParams( $message );
+        $h =& $message->headers($headers);
         $mailer =& $config->getMailer();
         
         require_once 'CRM/Mailing/BAO/Mailing.php';

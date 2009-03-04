@@ -28,7 +28,7 @@ fi
 # we dropped the MO files when we dropped LC_MESSAGES subdirs - build *.mo if LC_MESSAGES missing
 if test ! -d export/l10n/pot/LC_MESSAGES; then
   for locale in export/l10n/??_??; do
-    $msgcat $locale/*.po | $msgfmt -vo $locale/civicrm.mo -
+    $msgcat $locale/{calendar,civicrm-*,countries,provinces}.po | $msgfmt -vo $locale/civicrm.mo -
   done
 fi
 

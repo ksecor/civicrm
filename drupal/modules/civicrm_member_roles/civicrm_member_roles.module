@@ -98,7 +98,7 @@ function civicrm_member_roles_show_rules($action = NULL, $id = NULL)
             $delete = db_query('DELETE FROM {civicrm_member_roles_rules} WHERE rule_id = %d', $id);
       
             if ($delete) {
-                drupal_set_message(t('Rule ID %id was successfully deleted.', array('%id' => $id)));
+                drupal_set_message(t('Rule ID !1 was successfully deleted.', array('!1' => $id)));
             } else {
                 drupal_set_message(t('There was an error deleting the association rule. Please check your database settings and try again. If you continue to get this error message then try to reinstall CiviMember Roles Sync.'), $type = 'error');
             }
@@ -409,7 +409,7 @@ function _civicrm_member_roles_sync($ext_uid = NULL)
                 $memberships .= ' AND cc.id = %3';
                 $params[3] = array((int) $cid, 'Integer');
             } else {
-                watchdog('civicrm_member_roles', t('The uid: %uid did not have a CiviCRM Contact ID.', array('%uid' => (int) $ext_uid)), WATCHDOG_ERROR);
+                watchdog('civicrm_member_roles', t('The uid: !1 did not have a CiviCRM Contact ID.', array('!1' => (int) $ext_uid)), WATCHDOG_ERROR);
                 return FALSE;
             }
         }
@@ -484,7 +484,7 @@ function _civicrm_member_roles_get_data($type)
       
     default:
         $sql = '';
-        drupal_set_message(t('Invalid parameter was given to _civicrm_member_roles_get_data(). Param: "%invalid".', array('%invalid' => $type)));
+        drupal_set_message(t('Invalid parameter was given to _civicrm_member_roles_get_data(). Param: "!1".', array('!1' => $type)));
         break;
     }
 
