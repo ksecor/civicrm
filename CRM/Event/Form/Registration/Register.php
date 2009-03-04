@@ -674,7 +674,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     if ( $registerByID ) {
                         $value['registered_by_id'] = $registerByID;
                     }
-                    $this->_participantInfo[] = $value['email-5']; 
+                    if ( CRM_Utils_Array::value( 'email-5', $value ) ) {
+                        $this->_participantInfo[] = $value['email-5']; 
+                    } else {
+                        $this->_participantInfo[] = $value['first_name'] .' ' . $value['last_name'];  
+                    }
                 }
                 
                 require_once 'CRM/Event/Form/Registration/Confirm.php';
