@@ -431,13 +431,13 @@ SELECT label, value
                 case 'Date':
                     $fromValue = CRM_Utils_Array::value( 'from', $value );
                     $toValue   = CRM_Utils_Array::value( 'to'  , $value );
-                    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'String' );
+  
                     if ( ! $fromValue && ! $toValue ) {
                         if ( !CRM_Utils_Date::format( $value ) && $op != 'IS NULL' && $op != 'IS NOT NULL' ) {
                             continue; 
                         } 
-
-                        $date = CRM_Utils_Date::format( $value, '-' ); 
+                        $date = CRM_Utils_Date::format( $value ); 
+                        $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $date, 'String' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} " . CRM_Utils_Date::customFormat( $date ); 
                     } else {
                         $fromDate = CRM_Utils_Date::format( $fromValue );

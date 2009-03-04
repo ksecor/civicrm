@@ -629,6 +629,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             }
         } else {
             $params['contribution_type_id'] = '';
+            if ( $this->_action & CRM_Core_Action::UPDATE ) {
+                //delete the discounts for the unpaid event
+                CRM_Core_OptionGroup::deleteAssoc ("civicrm_event.amount.{$this->_id}.discount.%", "LIKE");
+            }
         }
         
         //update events table

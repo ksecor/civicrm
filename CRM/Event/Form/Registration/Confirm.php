@@ -73,14 +73,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->_params = $this->get( 'params' );
 
         require_once 'CRM/Utils/Hook.php';
-        CRM_Utils_Hook::eventDiscount( $this->_params );
+        CRM_Utils_Hook::eventDiscount( $this, $this->_params );
+
         if ( CRM_Utils_Array::value( 'discount', $this->_params[0] ) &&
              CRM_Utils_Array::value( 'applied', $this->_params[0]['discount'] ) ) {
-            $this->set( 'params', $this->_params );
             $this->set( 'hookDiscount', $this->_params[0]['discount'] );
             $this->assign( 'hookDiscount', $this->_params[0]['discount'] );
         }
-
 
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_contributeMode == 'express' ) {
@@ -176,15 +175,17 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->assign( 'defaultRole', true );
         }
         
-        if ( ! CRM_Utils_Array::value( 'participant_role_id', $this->_params[0] ) && $this->_values['event']['default_role_id'] ) {
+        if ( ! CRM_Utils_Array::value( 'participant_role_id', $this->_params[0] ) &&
+             $this->_values['event']['default_role_id'] ) {
             $this->_params[0]['participant_role_id'] = $this->_values['event']['default_role_id'];
         }
         
         if ( isset ($this->_values['event']['confirm_title'] ) ) {
             CRM_Utils_System::setTitle($this->_values['event']['confirm_title']);
-            $this->set( 'params', $this->_params );
         }
+        $this->set( 'params', $this->_params );
     }
+
     /**
      * overwrite action, since we are only showing elements in frozen mode
      * no help display needed
@@ -214,17 +215,20 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                      
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
-                    if ( CRM_Utils_Array::value( 'is_primary', $v ) ) {
-                        $this->set( 'primaryParticipantAmount', $v['amount'] );
-                    }
-                    $this->_amount[$k]['amount'] = $v['amount'];
                     if ( CRM_Utils_Array::value( 'email-5', $v ) ) {
                         $append = $v['email-5'];
                     } else {
                         $append = $v['first_name'] .' ' . $v['last_name'];  
                     }
+                    $this->_amount[$k]['amount'] = $v['amount'];
+                    if ( CRM_Utils_Array::value( 'discountAmount', $v ) ) {
+                        $this->_amount[$k]['amount'] -= $v['discountAmount'];
+                    }
                     $this->_amount[$k]['label'] = $v['amount_level'].'  -  '. $append;
-                    $this->_totalAmount = $this->_totalAmount + $v['amount'];
+                    $this->_totalAmount = $this->_totalAmount + $this->_amount[$k]['amount'];
+                    if ( CRM_Utils_Array::value( 'is_primary', $v ) ) {
+                        $this->set( 'primaryParticipantAmount', $this->_amount[$k]['amount'] );
+                    }
                 }
             }
             $this->assign('amount', $this->_amount);
@@ -357,7 +361,24 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
+
         $this->_params = $this->get( 'params' );
+
+        // if a discount has been applied, lets now deduct it from the amount
+        // and fix the fee level
+        if ( CRM_Utils_Array::value( 'discount', $this->_params[0] ) &&
+             CRM_Utils_Array::value( 'applied', $this->_params[0]['discount'] ) ) {
+            foreach( $this->_params as $k => $v ) {
+                if ( CRM_Utils_Array::value( 'amount'        , $this->_params[$k] ) > 0 &&
+                     CRM_Utils_Array::value( 'discountAmount', $this->_params[$k] ) ) {
+                    $this->_params[$k]['amount'] -= $this->_params[$k]['discountAmount'];
+                    $this->_params[$k]['amount_level'] .=
+                        CRM_Utils_Array::value( 'discountMessage', $this->_params[$k] );
+                }
+            }
+            $this->set( 'params', $this->_params );
+        }
+
         $params = $this->_params;
         $this->set( 'finalAmount' ,$this->_amount );
         $participantCount = array( );
@@ -528,7 +549,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             
             //build an array of cId/pId of participants
             require_once "CRM/Event/BAO/Event.php";
-            $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $registerByID, null, $primaryContactId, $isTest, true );
+            $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $registerByID,
+                                                                      null, $primaryContactId, $isTest,
+                                                                      true );
            
             foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {

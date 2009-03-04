@@ -397,6 +397,25 @@ function civitest_civicrm_searchTasks( $objectType, &$tasks ) {
                          'result' => false );
 }
 
+function civitest_civicrm_validate( $formName, &$fields, &$files, &$form ) {
+    // sample implementation
+    $errors = array( );
+    if ( $formName == 'CRM_Contact_Form_Edit' ) {
+       // ensure that external identifier is present and valid
+       $externalID = CRM_Utils_Array::value( 'external_identifier', $fields );
+       if ( ! $externalID ) {
+          $errors['external_identifier'] = ts( 'External Identifier is a required field' );
+       } else {
+	 require_once "CRM/Utils/Rule.php';
+	 if ( ! CRM_Utils_Rule::integer( $externalID ) ) {
+	   $errors['external_identifier'] = ts( 'External Identifier is not an integer' );
+	 }
+       }
+    }
+    return empty( $errors ) ? true : $errors;
+
+}
+
 function civitest_civicrm_pageRun( &$page ) {
     // we are only interested in profile pages with gid = 1 and have a valid contact id
     if ( $page->getVar( '_name' ) != 'CRM_Profile_Page_View' ||
@@ -437,8 +456,40 @@ function civitest_civicrm_pageRun( &$page ) {
 
 }
 
-function civitest_civicrm_eventDiscount( &$params ) {
-    $params[0]['amount'] = 50;
-    $params[0]['discount'] = array( 'message' => t( 'a discount of $15 has been applied to your total amount' ),
-                                    'applied' => true );
+function civitest_civicrm_eventDiscount( &$form, &$params ) {
+    // we only are interested in event id 1
+    if ( $form->getVar( '_eventId' ) != 1 ) {
+        return;
+    }
+
+    $numParticipants = 0;
+    foreach ( $params as $key => $value ) {
+        if ( isset( $params[$key]['amount'] ) &&
+             $params[$key]['amount'] > 0 ) {
+            $numParticipants++;
+        }
+    }
+
+    // if more than 1 partcipant, 5% additional discount per paying participant, upto a max of 50%
+    if ( $numParticipants > 1 ) {
+        $discountPercentage = $numParticipants * 5;
+        
+        if ( $discountPercentage > 50 ) {
+            $discountPercentage = 50;
+        }
+
+        $totalDiscount = 0;
+        foreach ( $params as $key => $value ) {
+            if ( CRM_Utils_Array::value( 'amount', $params[$key] ) > 0 ) {
+                $discount = round( ( $params[$key]['amount'] * $discountPercentage ) / 100.0 );
+                $totalDiscount += $discount;
+                $params[$key]['discountAmount']  = $discount;
+                $params[$key]['discountMessage'] = " (discounted: $discount)";
+            }
+        }
+
+        $params[0]['discount'] =
+            array( 'message' => "A discount of \$$totalDiscount has been applied to the total amount",
+                   'applied' => true );
+    }
 }

@@ -434,7 +434,7 @@ class CRM_Utils_Hook {
                   '::invoke( 2, $objectType, $tasks, $null, $null, $null, \'civicrm_searchTasks\' );' );
     }
     
-    static function eventDiscount( &$params ) {
+    static function eventDiscount( &$form, &$params ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         $null =& CRM_Core_DAO::$_nullObject;
@@ -442,7 +442,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 1, $params, $null, $null, $null, $null, \'civicrm_eventDiscount\' );' );
+                  '::invoke( 2, $form, $params, $null, $null, $null, \'civicrm_eventDiscount\' );' );
     }
 
 }

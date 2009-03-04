@@ -234,7 +234,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @return array - array reference of all relationship types with context to current contact.
      */
     function getContactRelationshipType( $contactId = null, $contactSuffix, $relationshipId, 
-                                         $contactType = null, $all = false, $column = 'label' )
+                                         $contactType = null, $all = false, $column = 'label', $biDirectional = true )
     {
         $allRelationshipType = array( );
         $relationshipType    = array( );
@@ -280,8 +280,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             }
         }
         
-        // lets clean up the data and eliminate all duplicate values (i.e. the relationship is bi-directional)
-        return $relationshipType = array_unique( $relationshipType );
+        if ( $biDirectional ) {
+            // lets clean up the data and eliminate all duplicate values 
+            // (i.e. the relationship is bi-directional)
+            $relationshipType = array_unique( $relationshipType );
+        }
+        return $relationshipType;
     }
 
     /**
@@ -620,6 +624,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         } else {
             $select .= ' SELECT civicrm_relationship.id as civicrm_relationship_id,
                               civicrm_contact.sort_name as sort_name,
+                              civicrm_contact.display_name as display_name,
                               civicrm_contact.employer_id as employer_id,
                               civicrm_contact.organization_name as organization_name,
                               civicrm_address.street_address as street_address,
@@ -718,7 +723,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b');
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a');
-       
+
         $order = $limit = '';
         if (! $count ) {
             $order = ' ORDER BY civicrm_relationship_type_id, sort_name ';
@@ -776,6 +781,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 $values[$rid]['cid']        = $cid;
                 $values[$rid]['relation']   = $relationship->relation;
                 $values[$rid]['name']       = $relationship->sort_name;
+                $values[$rid]['display_name']   = $relationship->display_name;
                 $values[$rid]['email']      = $relationship->email;
                 $values[$rid]['phone']      = $relationship->phone;
                 $values[$rid]['employer_id']    = $relationship->employer_id;
@@ -796,9 +802,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 
                 $values[$rid]['civicrm_relationship_type_id'] = $relationship->civicrm_relationship_type_id;
                 
-                $values[$rid]['rtype'] = 'b_a';
-                if ( $relationship->label_a_b == $relationship->relation ) {
+                if ($relationship->contact_id_a == $contactId) {
                     $values[$rid]['rtype'] = 'a_b';
+                } else {
+                    $values[$rid]['rtype'] = 'b_a';
                 }
                 
                 if ( $links ) {

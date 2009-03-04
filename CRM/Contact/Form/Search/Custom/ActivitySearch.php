@@ -153,11 +153,15 @@ ov2.label as activity_status
         if ( ! empty( $where ) ) {
             $where = "WHERE $where";
         }
-
+        
+        //fix for CRM-4190
+        $groupBy = ' GROUP BY contact_a.id';
+        
         $sql = "
 SELECT $select
 FROM   $from
        $where
+       $groupBy
 ";
         //no need to add order when only contact Ids.
         if ( !$onlyIDs ) {
