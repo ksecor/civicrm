@@ -57,12 +57,12 @@ SELECT @at1        := max(value) from civicrm_option_value where name = 'Open Ca
 -- *
 -- *******************************************************/
 
-INSERT INTO `civicrm_relationship_type` ( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved, is_active )
+INSERT INTO `civicrm_relationship_type` ( name_a_b, label_a_b, name_b_a, label_b_a, description, contact_type_a, contact_type_b, is_reserved, is_active )
 VALUES
- ('Homeless Services Coordinator is', 'Homeless Services Coordinator', 'Homeless Services Coordinator', 'Individual', 'Individual', 0, 1),
- ('Health Services Coordinator is', 'Health Services Coordinator', 'Health Services Coordinator', 'Individual', 'Individual', 0, 1),
- ('Senior Services Coordinator is', 'Senior Services Coordinator', 'Senior Services Coordinator', 'Individual', 'Organization', 0, 1),
- ('Benefits Specialist is', 'Benefits Specialist', 'Benefits Specialist', 'Individual', 'Organization', 0, 1);
+ ('Homeless Services Coordinator is', 'Homeless Services Coordinator is', 'Homeless Services Coordinator', 'Homeless Services Coordinator',  'Homeless Services Coordinator', 'Individual', 'Individual', 0, 1),
+ ('Health Services Coordinator is', 'Health Services Coordinator is', 'Health Services Coordinator', 'Health Services Coordinator',  'Health Services Coordinator', 'Individual', 'Individual', 0, 1),
+ ('Senior Services Coordinator is', 'Senior Services Coordinator is', 'Senior Services Coordinator', 'Senior Services Coordinator', 'Senior Services Coordinator', 'Individual', 'Organization', 0, 1),
+ ('Benefits Specialist is', 'Benefits Specialist is', 'Benefits Specialist', 'Benefits Specialist', 'Benefits Specialist', 'Individual', 'Organization', 0, 1);
 
 -- /*******************************************************
 -- *
