@@ -178,23 +178,18 @@
     </li>
 
     <li class="civievent">
-      <a href="/civicrm/event?reset=1">CiviEvent</a>
+      <a href={crmURL p="civicrm/event" q="reset=1"}>CiviEvent</a>
 
       <ul>
-        <li><a href="/civicrm/event/search?reset=1">Find
-        Participants</a></li>
+        <li><a href={crmURL p="civicrm/event/search" q="reset=1"}>Find Participants</a></li>
 
-        <li><a class="active" href=
-        "/civicrm/event/manage?reset=1">Manage Events</a></li>
+        <li><a class="active" href={crmURL p="civicrm/event/manage" q="reset=1"}>Manage Events</a></li>
 
-        <li><a href="/civicrm/event/add?action=add&amp;reset=1">New
-        Event</a></li>
+        <li><a href={crmURL p="civicrm/event/add" q="action=add&reset=1"}>New Event</a></li>
 
-        <li><a href="/civicrm/event/import?reset=1">Import
-        Participants</a></li>
+        <li><a href={crmURL p="civicrm/event/import" q="reset=1"}>Import Participants</a></li>
 
-        <li><a href="/civicrm/event/price?reset=1">Manage Price
-        Sets</a></li>
+        <li><a href={crmURL p="civicrm/event/price" q="reset=1"}>Manage Price Sets</a></li>
       </ul>
     </li>
 
