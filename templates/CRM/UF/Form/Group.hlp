@@ -17,11 +17,11 @@
 {/htxt}
 
 {htxt id='id-help_pre'}
-{ts}Explanatory text displayed at the beginning of the form.{/ts}
+{ts}Explanatory text displayed at the beginning of the form.{/ts}{ts}Note that this help text is displayed on profile create/edit screens only.{/ts}
 {/htxt}
 
 {htxt id='id-help_post'}
-{ts}Explanatory text displayed at the end of the form.{/ts}
+{ts}Explanatory text displayed at the end of the form.{/ts}{ts}Note that this help text is displayed on profile create/edit screens only.{/ts}
 {/htxt}
 
 {htxt id='id-limit_group'}
