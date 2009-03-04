@@ -329,7 +329,21 @@ class CRM_Utils_Array {
         return true;
     }
 
-
+    /**
+     *  Function to check if give array is empty
+     *  @param array $array array that needs to be check for empty condition
+     * 
+     *  @return boolean true is array is empty else false
+     *  @static
+     */
+    static function crmIsEmptyArray( $array = array( ) ) {
+        foreach ( $array as $element ) {
+            if ( !empty( $element ) ) {
+                return false;
+            }
+        }
+        return true;
+    }    
 }
 
 
