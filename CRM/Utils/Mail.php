@@ -151,6 +151,7 @@ class CRM_Utils_Mail {
         if ( $bcc ) {
             $to[] = $bcc;
         }
+        require_once 'Mail/mime.php';
         $msg = & new Mail_Mime("\n");
         $msg->setTxtBody( $text_message );
         $msg->setHTMLBody( $html_message );

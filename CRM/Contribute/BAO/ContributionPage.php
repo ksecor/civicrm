@@ -238,6 +238,58 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         }
     }
     
+    /**
+     * Function to send the emails for Recurring Contribution Notication
+     * 
+     * @param string  $type         txnType 
+     * @param int     $contactID    contact id for contributor
+     * @param int     $pageID       contribution page id
+     * @param object  $recur        object of recurring contribution table
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function recurringNofify( $type, $contactID, $pageID , $recur ) 
+    {
+        $value = array();
+        CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_ContributionPage', 'id', 
+                                         $pageID, $value, 
+                                         array( 'title', 'is_email_receipt', 'receipt_from_name',
+                                                'receipt_from_email','cc_receipt','bcc_receipt' ) );
+        if ( $value[$pageID]['is_email_receipt'] ) {
+            $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$value[$pageID]) . '" <' . $value[$pageID]['receipt_from_email'] . '>';
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
+            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false );
+            $subject  = "Recurring Subscription Notification";
+            
+            $template =& CRM_Core_Smarty::singleton( );
+            $template->assign('recur_frequency_interval', $recur->frequency_interval );
+            $template->assign('recur_frequency_unit',     $recur->frequency_unit );
+            $template->assign('recur_installments',       $recur->installments );
+            $template->assign('recur_start_date',         $recur->start_date );
+            $template->assign('recur_end_date',           $recur->end_date );
+            $template->assign('recur_amount',             $recur->amount);
+            $template->assign('recur_txnType',            $type );
+            $template->assign('displayName',              $displayName );
+            $template->assign('receipt_from_name',        $value[$pageID]['receipt_from_name'] );
+            $template->assign('receipt_from_email',       $value[$pageID]['receipt_from_email'] );
+            
+            $message  = $template->fetch( 'CRM/Contribute/Form/Contribution/RecurringNotify.tpl' );
+            
+            require_once 'CRM/Utils/Mail.php';
+            CRM_Utils_Mail::send( $receiptFrom,
+                                  $displayName,
+                                  $email,
+                                  $subject,
+                                  $message
+                                  );
+
+            CRM_Core_Error::debug_log_message( "Success: mail sent for recurring notification." );
+        }
+    }
+
+    
     /**  
      * Function to add the custom fields for contribution page (ie profile)
      * 

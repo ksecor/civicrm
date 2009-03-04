@@ -91,20 +91,29 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
                 $recur->$name = CRM_Utils_Date::isoToMysql( $recur->$name );
             }
         }
+        $sendNotification = false;
         //set transaction type
         $txnType = $_POST['txn_type'];
         switch ( $txnType ) {
 
         case 'subscr_signup':
             $recur->create_date            = $now;
-            $recur->contribution_status_id = 2;
+            //some times subscr_signup response come after the
+            //subscr_payment and set to pending mode.
+            $statusID                      = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionRecur',
+                                                                          $recur->id, 'contribution_status_id' );
+            if ($statusID != 5 ) {
+                $recur->contribution_status_id = 2;
+            }
             $recur->processor_id           = $_POST['subscr_id'];
             $recur->trxn_id                = $recur->processor_id;
+            $sendNotification              = true;
             break;
             
         case 'subscr_eot':
             $recur->contribution_status_id = 1;
             $recur->end_date               = $now;
+            $sendNotification              = true;
             break;
 
         case 'subscr_cancel':
@@ -138,7 +147,13 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         }
 
         $recur->save( );
-        
+
+        if ( $sendNotification ) {
+            //send recurring Notification email for user
+            require_once 'CRM/Contribute/BAO/ContributionPage.php';
+            CRM_Contribute_BAO_ContributionPage::recurringNofify( $txnType, $ids['contact'], $ids['contributionPage'], $recur );
+        }
+
         if ( $txnType != 'subscr_payment' ) {
             return;
         }
@@ -277,9 +292,9 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         }
 
         $input['txnType']       = self::retrieve( 'txn_type'          , 'String' , 'POST', false );
-        $input['paymentStatus'] = self::retrieve( 'payment_status'    , 'String' , 'POST', true  );
+        $input['paymentStatus'] = self::retrieve( 'payment_status'    , 'String' , 'POST', false  );
         $input['invoice']       = self::retrieve( 'invoice'           , 'String' , 'POST', true  );
-        $input['amount']        = self::retrieve( 'mc_gross'          , 'Money'  , 'POST', true  );
+        $input['amount']        = self::retrieve( 'mc_gross'          , 'Money'  , 'POST', false  );
         $input['reasonCode']    = self::retrieve( 'ReasonCode'        , 'String' , 'POST', false );
 
         $billingID = $ids['billing'];
