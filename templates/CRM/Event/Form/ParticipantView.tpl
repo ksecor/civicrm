@@ -40,7 +40,7 @@
                     </table>
                 </dd>
             {else}
-                <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;</dd>
+                <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</dd>
             {/if}
         {/if}
         {foreach from=$note item="rec"}
