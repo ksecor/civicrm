@@ -89,9 +89,12 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
 
         $config =& CRM_Core_Config::singleton( );
 
+        $recurStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+
         require_once 'CRM/Core/Payment.php';
         require_once 'api/v2/utils.php';
         $recurRow = array();
+        $recurIDs = array();
         while( $recur->fetch() ) {
             $mode = $recur->is_test ? 'test' : 'live';
             $paymentProcessor = CRM_Contribute_BAO_ContributionRecur::getPaymentProcessor( $recur->id,
@@ -104,14 +107,20 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
             
             _civicrm_object_to_array($recur, $values);
             $values['cancelSubscriptionUrl'] = $paymentObject->cancelSubscriptionURL( );
-
-            $recurRow[] = $values;
+            $values['recur_status']          = $recurStatus[$values['contribution_status_id']];
+            $recurRow[$values['id']]         = $values;
+            $recurIDs[]                      = $values['id'];
 
             //reset $paymentObject for checking other paymenet processor
             //recurring url 
             $paymentObject = null;
         }
-
+        if ( is_array( $recurIDs) && !empty( $recurIDs ) ) {  
+            $getCount = CRM_Contribute_BAO_ContributionRecur::getCount( $recurIDs );
+            foreach( $getCount as $key => $val ) {
+                $recurRow[$key]['completed'] = $val;
+            }
+        }
         $this->assign('recurRows',$recurRow);
 
         if ( ! empty( $recurRow ) ) {

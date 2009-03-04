@@ -138,6 +138,33 @@ SELECT p.payment_processor_id
         require_once 'CRM/Core/BAO/PaymentProcessor.php';
         return CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID, $mode );
     }
+    /**
+     * Function to get the number of installment done/completed for each recurring contribution
+     *
+     * @param array  $ids (reference ) an array of recurring contribution ids
+     *
+     * @return array $totalCount an array of recurring ids count 
+     * @access public
+     * static
+     */
+    static function getCount( &$ids) 
+    {
+        $recurID    = implode ( ',', $ids );
+        $totalCount = array();
+        
+        $query = " 
+         SELECT contribution_recur_id, count( contribution_recur_id ) as commpleted
+         FROM civicrm_contribution
+         WHERE contribution_recur_id IN ( {$recurID }) AND is_test = 0
+         GROUP BY contribution_recur_id";
+
+        $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
+        while( $res->fetch() ) {
+            $totalCount[$res->contribution_recur_id] = $res->commpleted;
+        }
+        return $totalCount;
+    }
 
 }
 
