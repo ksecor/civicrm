@@ -233,7 +233,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @return array - array reference of all relationship types with context to current contact.
      */
     function getContactRelationshipType( $contactId = null, $contactSuffix, $relationshipId, 
-                                         $contactType = null, $all = false )
+                                         $contactType = null, $all = false, $biDirectional = true )
     {
         $allRelationshipType = array( );
         $relationshipType    = array( );
@@ -279,8 +279,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             }
         }
         
-        // lets clean up the data and eliminate all duplicate values (i.e. the relationship is bi-directional)
-        return $relationshipType = array_unique( $relationshipType );
+        if ( $biDirectional ) {
+            // lets clean up the data and eliminate all duplicate values 
+            // (i.e. the relationship is bi-directional)
+            $relationshipType = array_unique( $relationshipType );
+        }
+        return $relationshipType;
     }
 
     /**
@@ -718,7 +722,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b');
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a');
-       
+
         $order = $limit = '';
         if (! $count ) {
             $order = ' ORDER BY civicrm_relationship_type_id, sort_name ';
@@ -797,7 +801,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 
                 $values[$rid]['civicrm_relationship_type_id'] = $relationship->civicrm_relationship_type_id;
 
-                if ($relationship->name_a_b == $relationship->relation) {
+                if ($relationship->contact_id_a == $contactId) {
                     $values[$rid]['rtype'] = 'a_b';
                 } else {
                     $values[$rid]['rtype'] = 'b_a';
