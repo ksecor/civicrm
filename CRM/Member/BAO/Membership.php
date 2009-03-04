@@ -326,13 +326,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     static function checkMembershipRelationship( $membershipId, $contactId, $action = CRM_Core_Action::ADD ) 
     {
         $contacts = array( );
-
-        $params   = array( 'id' => $membershipId );
-        $defaults = array( );
-        $membership = self::retrieve( $params, $defaults );
+        $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', $membershipId, 'membership_type_id' );
 
         require_once 'CRM/Member/BAO/MembershipType.php';
-        $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
+        $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeID ); 
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relationships = array( );
         if ( isset( $membershipType['relationship_type_id'] ) ) {
@@ -348,7 +345,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 $relationships = array_merge( $relationships, $pastRelationships );
             }
         }
-        
+            
         if ( ! empty($relationships) ) {
             require_once "CRM/Contact/BAO/RelationshipType.php";
             // check for each contact relationships
@@ -1315,14 +1312,16 @@ SELECT c.contribution_page_id as pageID
     {
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->owner_membership_id = $ownerMembershipId;
-        
+
         if ( $contactId ) {
             $membership->contact_id      = $contactId;
         }
         
         $membership->find( );
         while ( $membership->fetch( ) ) {
-            self::deleteMembership( $membership->id ) ;
+            // call delete function recursively since we need to delete inherited memberships of inherited memberships
+            self::deleteRelatedMemberships(  $membership->id );
+            self::deleteMembership( $membership->id );
         }
         $membership->free( );
     }
