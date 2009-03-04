@@ -142,10 +142,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         require_once "CRM/Core/BAO/UFField.php";
         foreach ( $ufGroups as $id => $title ) {
-            if ( CRM_Core_BAO_UFField::checkProfileType( $id ) ) { // to skip mix profiles
-                continue;
-            }
-
             if ( $ctype ) {
                 $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
                 if ( ( $fieldType != 'Contact' ) && ( $fieldType != $ctype ) ) {
@@ -1234,6 +1230,11 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
+            //skip mix profiles in user Registration / User Account
+            if ( ( $moduleName == 'User Registration' || $moduleName == 'User Account' ) && 
+                 CRM_Core_BAO_UFField::checkProfileType( $dao->id ) ) {
+                continue;
+            }
             $ufGroups[$dao->id]['name'      ] = $dao->title;
             $ufGroups[$dao->id]['title'     ] = $dao->title;
             $ufGroups[$dao->id]['is_active' ] = $dao->is_active;
