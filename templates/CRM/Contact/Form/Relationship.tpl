@@ -34,9 +34,9 @@
             {/if}
             {if $row.is_permission_b_a}
                  {if $row.rtype EQ 'a_b' AND $is_contact_id_a}   
-                     <dt>&nbsp;</dt><dd><strong>'{$row.name}'</strong> can view and update information for <strong>'{$displayName}'</strong></dd>
+                     <dt>&nbsp;</dt><dd><strong>'{$row.display_name}'</strong> can view and update information for <strong>'{$displayName}'</strong></dd>
                  {else}
-                     <dt>&nbsp;</dt><dd><strong>'{$displayName}'</strong> can view and update information for <strong>'{$row.name}'</strong></dd>
+                     <dt>&nbsp;</dt><dd><strong>'{$displayName}'</strong> can view and update information for <strong>'{$row.display_name}'</strong></dd>
                  {/if}   
             {/if}
            
