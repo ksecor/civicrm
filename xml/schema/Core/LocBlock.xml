@@ -113,12 +113,4 @@
        <add>2.0</add> 
        <onDelete>SET NULL</onDelete>
   </foreignKey> 
-  <field>
-       <name>name</name>
-       <uniqueName>location_name</uniqueName>
-       <title>Location Name</title>
-       <type>varchar</type>
-       <length>255</length>
-       <add>2.0</add>
-  </field>
 </table>
