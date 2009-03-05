@@ -856,39 +856,42 @@ WHERE civicrm_event.is_active = 1
                 $bltID = array_search( 'Billing',  $locationTypes );
                 list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $bltID );
             }
-                            
-            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
-            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
-
-            // set confirm_text and contact email address for display in the template here
-            $template->assign( 'email', $email );
-            $template->assign( 'confirm_email_text', CRM_Utils_Array::value( 'confirm_email_text', $values['event'] ) );
-           
-            $isShowLocation = CRM_Utils_Array::value('is_show_location',$values['event']);
-            $template->assign( 'isShowLocation', $isShowLocation );
-
-            $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
-            $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-            $receiptFrom = '"' . $values['event']['confirm_from_name'] . '" <' . $values['event']['confirm_from_email'] . '>';
-
-            if ( $returnMessageText ) {
-                return array( 'subject' => $subject,
-                              'body'    => $message,
-                              'to'      => $displayName );
+    
+            //send email only when email is present
+            if ( isset( $email ) ) {
+                self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
+                self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
+                
+                // set confirm_text and contact email address for display in the template here
+                $template->assign( 'email', $email );
+                $template->assign( 'confirm_email_text', CRM_Utils_Array::value( 'confirm_email_text', $values['event'] ) );
+                
+                $isShowLocation = CRM_Utils_Array::value('is_show_location',$values['event']);
+                $template->assign( 'isShowLocation', $isShowLocation );
+                
+                $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
+                $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
+                $receiptFrom = '"' . $values['event']['confirm_from_name'] . '" <' . $values['event']['confirm_from_email'] . '>';
+                
+                if ( $returnMessageText ) {
+                    return array( 'subject' => $subject,
+                                  'body'    => $message,
+                                  'to'      => $displayName );
+                }
+                
+                require_once 'CRM/Utils/Mail.php';
+                CRM_Utils_Mail::send( $receiptFrom,
+                                      $displayName,
+                                      $email,
+                                      $subject,
+                                      $message,
+                                      CRM_Utils_Array::value( 'cc_confirm', $values['event'] ),
+                                      CRM_Utils_Array::value( 'bcc_confirm', $values['event'] )
+                                      );
             }
-
-            require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                  $displayName,
-                                  $email,
-                                  $subject,
-                                  $message,
-                                  CRM_Utils_Array::value( 'cc_confirm', $values['event'] ),
-                                  CRM_Utils_Array::value( 'bcc_confirm', $values['event'] )
-                                  );
         }
     }
-
+    
     /**  
      * Function to add the custom fields OR array of participant's
      * profile info
