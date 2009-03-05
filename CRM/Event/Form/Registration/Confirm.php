@@ -490,6 +490,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $contribution = null;
                 // if paid event add a contribution record
                 if( $value['amount'] != 0 && CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                    //if primary participant contributing additional amount
+                    //append (multiple participants) to its fee level. CRM-4196.
+                    if ( count($params) > 1 ) {
+                        $value['amount_level'] = $value['amount_level'].ts(' (multiple participants)');
+                    }
+                    
                     $contribution =& self::processContribution( $this, $value, $result, $contactID, $pending );
                 }
                 $value['contactID']          = $contactID;

@@ -393,7 +393,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         require_once 'CRM/Utils/Address.php';
         $fields = array(
                         'address_id'             => $this->id, // added this for CRM 1200
-                        'address_name'           => $this->name, //CRM-4003
+                        'address_name'           => str_replace( '', ' ', $this->name ), //CRM-4003
                         'street_address'         => $this->street_address,
                         'supplemental_address_1' => $this->supplemental_address_1,
                         'supplemental_address_2' => $this->supplemental_address_2,
