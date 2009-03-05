@@ -38,6 +38,7 @@
 {/if}
 {if $location.1.address.city}{$location.1.address.city} {$location.1.address.postal_code}{if $location.1.address.postal_code_suffix} - {$location.1.address.postal_code_suffix}{/if}
 {/if}
+
 {/if}{*End of isShowLocation condition*}
 
 {if $location.1.phone.1.phone || $location.1.email.1.email}

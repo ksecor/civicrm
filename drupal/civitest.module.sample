@@ -392,7 +392,7 @@ function civitest_civicrm_eventDiscount( &$form, &$params ) {
                 $params[$key]['discountAmount']  = $discount;
                 $discountDisplay = CRM_Utils_Money::format( $discount, null, null );
                 // Set discount info added to participant.fee_level and contribution.amount_level
-                $params[$key]['discountMessage'] = " (multiple-participant discount: $discountDisplay)";
+                $params[$key]['discountMessage'] = " (discount: $discountDisplay)";
             }
         }
 

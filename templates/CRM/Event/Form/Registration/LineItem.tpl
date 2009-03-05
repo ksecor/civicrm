@@ -1,4 +1,5 @@
-    {foreach from=$lineItem item=value key=priceset}
+{* Displays event fees when price set is used. *}
+{foreach from=$lineItem item=value key=priceset}
     {if $value neq 'skip'}
     {if $lineItem|@count GT 1} {* Header for multi participant registration cases. *}
         {if $priceset GT 0}<br />{/if}
@@ -21,5 +22,8 @@
             {/foreach}
     </table>
     {/if}
-    {/foreach}
-    <br /><strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong>
+{/foreach}
+<br /><strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong>
+{if $hookDiscount.message}
+    <em>({$hookDiscount.message})</em>
+{/if}
