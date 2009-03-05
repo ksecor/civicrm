@@ -597,7 +597,7 @@ SELECT
   civicrm_event.description as description, 
   civicrm_event.is_show_location as is_show_location, 
   civicrm_option_value.label as event_type, 
-  civicrm_address.name as location_name, 
+  civicrm_address.name as address_name, 
   civicrm_address.street_address as street_address, 
   civicrm_address.supplemental_address_1 as supplemental_address_1, 
   civicrm_address.supplemental_address_2 as supplemental_address_2, 
@@ -648,20 +648,19 @@ WHERE civicrm_event.is_active = 1
   
   
             $address = '';
-            require_once 'CRM/Utils/String.php';
-            CRM_Utils_String::append( $address, ', ',
-                                      array( $dao->location_name) );
+
             $addrFields = array(
-                            'street_address'         => $dao->street_address,
-                            'supplemental_address_1' => $dao->supplemental_address_1,
-                            'supplemental_address_2' => $dao->supplemental_address_2,
-                            'city'                   => $dao->city,
-                            'state_province'         => $dao->state,
-                            'postal_code'            => $dao->postal_code,
-                            'postal_code_suffix'     => $dao->postal_code_suffix,
-                            'country'                => $dao->country,
-                            'county'                 => null
-                            );           
+                                'address_name'           => $dao->address_name,
+                                'street_address'         => $dao->street_address,
+                                'supplemental_address_1' => $dao->supplemental_address_1,
+                                'supplemental_address_2' => $dao->supplemental_address_2,
+                                'city'                   => $dao->city,
+                                'state_province'         => $dao->state,
+                                'postal_code'            => $dao->postal_code,
+                                'postal_code_suffix'     => $dao->postal_code_suffix,
+                                'country'                => $dao->country,
+                                'county'                 => null
+                                );           
             
             require_once 'CRM/Utils/Address.php';
             CRM_Utils_String::append( $address, ', ',
