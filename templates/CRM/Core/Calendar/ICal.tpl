@@ -11,6 +11,7 @@ DESCRIPTION:{$event.description|crmICalText}
 {if $event.event_type}
 CATEGORIES:{$event.event_type|crmICalText}
 {/if}
+DTSTAMP;VALUE=DATE-TIME:{$smarty.now|date_format:'%Y-%m-%d %H:%M:%S'|crmICalDate}
 {if $event.start_date}
 DTSTART;VALUE=DATE-TIME:{$event.start_date|crmICalDate}
 {/if}
