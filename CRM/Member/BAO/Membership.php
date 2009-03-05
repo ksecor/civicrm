@@ -1456,7 +1456,12 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                     // status having is_current_member = 0.
                     // But this wont work exactly if there will be
                     // more than one status having is_current_member = 0.
-                    $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
+                    require_once 'CRM/Member/DAO/MembershipStatus.php';
+                    $membership = new CRM_Member_DAO_MembershipStatus();
+                    $membership->is_current_member = 0;
+                    if ( $membership->find(true) ) {
+                        $params['status_id'] = $membership->id;
+                    } 
                 }
 
                 // we should not created contribution record for related contacts, CRM-3371
