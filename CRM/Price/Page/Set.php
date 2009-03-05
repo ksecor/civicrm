@@ -216,7 +216,12 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
     {
         $controller =& new CRM_Core_Controller_Simple('CRM_Price_Form_Preview', ts('Preview Price Set'), null);
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price', 'action=browse'));
+        $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        if ( $context == 'field' ) {
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', "action=browse&sid={$sid}"));
+        } else {
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price', 'action=browse'));
+        }
         $controller->set('groupId', $sid);
         $controller->setEmbedded(true);
         $controller->process();
