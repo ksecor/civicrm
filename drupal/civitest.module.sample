@@ -376,7 +376,7 @@ function civitest_civicrm_eventDiscount( &$form, &$params ) {
         }
     }
 
-    // if more than 1 partcipant, 5% additional discount per paying participant, upto a max of 50%
+    // Set discount rule (Example: if more than 1 participant, 5% additional discount per paying participant, upto a max of 50%)
     if ( $numParticipants > 1 ) {
         $discountPercentage = $numParticipants * 5;
         
@@ -391,7 +391,8 @@ function civitest_civicrm_eventDiscount( &$form, &$params ) {
                 $totalDiscount += $discount;
                 $params[$key]['discountAmount']  = $discount;
                 $discountDisplay = CRM_Utils_Money::format( $discount, null, null );
-                $params[$key]['discountMessage'] = " (discounted: $discountDisplay)";
+                // Set discount info added to participant.fee_level and contribution.amount_level
+                $params[$key]['discountMessage'] = " (multiple-participant discount: $discountDisplay)";
             }
         }
 
