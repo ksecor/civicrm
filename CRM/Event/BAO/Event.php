@@ -226,10 +226,11 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         if ( $event->find( true ) ) {
             $locBlockId = $event->loc_block_id;
+            $result     = $event->delete( );
             
-            $result = $event->delete( );
-            
-            if ( ! is_null( $locBlockId ) ) {
+            $locCount   = $dao->singleValueQuery("SELECT count(ce.id) FROM civicrm_event ce WHERE ce.loc_block_id = $locBlockId AND ce.id != $id;");
+
+            if ( ! is_null( $locBlockId ) && ($locCount == 0) ) {
                 require_once 'CRM/Core/BAO/Location.php';
                 CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
             }
@@ -1230,25 +1231,30 @@ WHERE  id = $cfID
      * 
      * @return array $events array of all events.
      */
-    static function getLocationEvents( ) 
+    static function getLocationEvents( $excludeEventId = null ) 
     {
         $events = array( );
-        
-        $query = "
-SELECT CONCAT_WS(' :: ' , LEFT(ca.street_address,30), ca.city, CONCAT('(',LEFT(ce.title,20),'..)') ) title, 
-       ce.id, 
-       ce.loc_block_id
+
+        $query  = "
+SELECT CONCAT_WS(' :: ' , ca.name, ca.street_address, ca.city, sp.name) title, ce.loc_block_id
 FROM   civicrm_event ce
-INNER JOIN civicrm_loc_block lb ON ce.loc_block_id=lb.id
-INNER JOIN civicrm_address ca   ON lb.address_id= ca.id
-GROUP BY ca.street_address, ca.city
-ORDER BY ca.city, ca.street_address ASC
+INNER JOIN civicrm_loc_block lb ON ce.loc_block_id = lb.id
+INNER JOIN civicrm_address ca   ON lb.address_id = ca.id
+LEFT  JOIN civicrm_state_province sp ON ca.state_province_id = sp.id
+";
+
+        if ( is_numeric($excludeEventId) ) {
+            $query .= " WHERE ce.loc_block_id != (SELECT ce2.loc_block_id FROM civicrm_event ce2 WHERE ce2.id=$excludeEventId)";
+        }
+
+        $query .= "
+GROUP BY sp.name, ca.street_address, ca.city
+ORDER BY sp.name, ca.city, ca.street_address ASC
 ";
         $dao = CRM_Core_DAO::executeQuery( $query );
         
         while( $dao->fetch() ) {
-            $events[$dao->id] = array( 'title'      => $dao->title,
-                                       'locBlockId' => $dao->loc_block_id );
+            $events[$dao->loc_block_id] = $dao->title;
         }
         
         return $events;

@@ -223,7 +223,7 @@
        <name>loc_block_id</name>
        <table>civicrm_loc_block</table>
        <key>id</key>
-       <onDelete>CASCADE</onDelete>
+       <onDelete>SET NULL</onDelete>
        <add>2.0</add>
   </foreignKey>
   <field>
