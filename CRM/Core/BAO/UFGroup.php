@@ -1393,7 +1393,9 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             $form->addRule($name, ts('Enter a valid Website.'), 'url');
         } else if (substr($fieldName, 0, 6) === 'custom') {
             $customFieldID = CRM_Core_BAO_CustomField::getKeyID($fieldName);
-            CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, false, $required, $search, $title);
+            if ( $customFieldID ) {
+                CRM_Core_BAO_CustomField::addQuickFormElement( $form, $name, $customFieldID, false, $required, $search, $title );
+            }
         } else if ( in_array($fieldName, array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual', 3, 1), $required );  
             $form->addRule($name, ts('Select a valid date.'), 'qfDate');
