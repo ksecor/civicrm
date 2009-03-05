@@ -52,7 +52,7 @@ function &civicrm_contact_add( &$params ) {
     if ( empty( $params[ 'contact_type' ] ) ) {
         return civicrm_create_error( 'Contact Type not specified' );
     }
-        
+
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
     
     if ( ! $contactID ) {
@@ -65,14 +65,21 @@ function &civicrm_contact_add( &$params ) {
     }
     
     if( isset( $params['email'] ) ) {
-        $location['1']['location_type_id'] = 1;
-        $location['1']['is_primary'] = 1;
-        $location['1']['email']['1']['email'] = $params['email'];
-        $location['1']['email']['1']['is_primary'] = 1;
-        if( is_array( $location ) ) {
-            $params['location'] =  $location;
-            unset($params['email']);
+        if ( ! isset( $params['location'] ) ) {
+            $params['location'] =  array( );
         }
+        if ( ! isset( $params['location'][1] ) ) {
+            $params['location']['1'] = array( );
+        }
+
+        if ( ! isset( $params['location']['1']['location_type_id'] ) ) {
+            $params['location']['1']['location_type_id'] = 1;
+        }
+        $params['location']['1']['is_primary'] = 1;
+        $params['location']['1']['email']['1']['email'] = $params['email'];
+        $params['location']['1']['email']['1']['is_primary'] = 1;
+
+        unset($params['email']);
     }
     
     $change = array( 'individual_prefix' => 'prefix',
