@@ -62,9 +62,11 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             $config =& CRM_Core_Config::singleton( );
             $config->cleanup( 1 );
             
-            // clean the session
-            $session =& CRM_Core_Session::singleton( );
-            $session->reset( 2 );
+            if ( $config->userFramework !== 'Standalone' ) {
+                // clean the session
+                $session =& CRM_Core_Session::singleton( );
+                $session->reset( 2 );
+            }
         }
         // end of hack
         
