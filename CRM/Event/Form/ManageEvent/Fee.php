@@ -543,19 +543,15 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         if ( $this->_id ) {
             require_once 'CRM/Core/BAO/PriceSet.php';
             
-            // delete all the prior label values in the custom options table
+            // delete all the prior label values or discounts in the custom options table
             // and delete a price set if one exists
             if ( ! CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event', $this->_id ) ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 CRM_Core_OptionGroup::deleteAssoc( "civicrm_event.amount.{$this->_id}" );
+                CRM_Core_OptionGroup::deleteAssoc ("civicrm_event.amount.{$this->_id}.discount.%", "LIKE");
             }
         }
-        
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            //hack for CRM-3088
-            CRM_Core_OptionGroup::deleteAssoc ("civicrm_event.amount.{$this->_id}.discount.%", "LIKE");
-        }
-        
+                
         if ( $params['is_monetary'] ) {
             if ( $params['price_set_id'] ) {
                 CRM_Core_BAO_PriceSet::addTo( 'civicrm_event', $this->_id, $params['price_set_id'] );
