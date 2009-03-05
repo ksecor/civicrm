@@ -34,9 +34,21 @@
                         </tr>
                         {/foreach}
                         <tr>
-                            <td colspan="3"><strong>{ts}Total{/ts}</strong>:</td>
+                            <td colspan="3"><strong>{ts}Line Item Total{/ts}</strong>:</td>
                             <td class="right"><strong>{$total_price|crmMoney}</strong></td>
                         </tr>
+                        {* If we have a contribution and the amount is different from line item total - then discount has been applied. *}
+                        {if $rows.0.total_amount AND ($rows.0.total_amount NEQ $total_price)}
+                            {assign var="discount" value=`$total_price-$rows.0.total_amount`}
+                            <tr>
+                                <td colspan="3">{ts}Discounted Applied{/ts}:</td>
+                                <td class="right"> - {$discount|crmMoney}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><strong>{ts}Discounted Total{/ts}</strong>:</td>
+                                <td class="right"><strong>{$rows.0.total_amount|crmMoney}</strong></td>
+                            </tr>
+                        {/if}
                     </table>
                 </dd>
             {else}
