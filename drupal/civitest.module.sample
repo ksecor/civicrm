@@ -361,6 +361,8 @@ function civitest_civicrm_pageRun( &$page ) {
 }
 
 function civitest_civicrm_eventDiscount( &$form, &$params ) {
+	 require_once 'CRM/Utils/Money.php';
+
     // we only are interested in event id 1
     if ( $form->getVar( '_eventId' ) != 1 ) {
         return;
@@ -388,12 +390,15 @@ function civitest_civicrm_eventDiscount( &$form, &$params ) {
                 $discount = round( ( $params[$key]['amount'] * $discountPercentage ) / 100.0 );
                 $totalDiscount += $discount;
                 $params[$key]['discountAmount']  = $discount;
-                $params[$key]['discountMessage'] = " (discounted: $discount)";
+                $discountDisplay = CRM_Utils_Money::format( $discount, null, null );
+                $params[$key]['discountMessage'] = " (discounted: $discountDisplay)";
             }
         }
 
+        $totalDiscountDisplay = CRM_Utils_Money::format( $totalDiscount, null, null );
+        // Set the message to show on confirmation page, thank-you page and receipt
         $params[0]['discount'] =
-            array( 'message' => "A discount of \$$totalDiscount has been applied to the total amount",
+            array( 'message' => "a discount of $totalDiscountDisplay has been applied to the total amount",
                    'applied' => true );
     }
 }

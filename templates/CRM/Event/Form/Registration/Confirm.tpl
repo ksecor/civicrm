@@ -38,10 +38,10 @@
           <strong>{$amount.amount|crmMoney} &nbsp;&nbsp; {$amount.label}</strong><br />	
         {/foreach}
         {if $totalAmount}
-        <br /><strong>{ts}Total Amount{/ts}:</strong>&nbsp;&nbsp;{$totalAmount|crmMoney}
+            <br /><strong>{ts}Total Amount{/ts}:&nbsp;&nbsp;{$totalAmount|crmMoney}</strong>
         {/if}	 		
         {if $hookDiscount.message}
-        <strong>({$hookDiscount.message})</strong>
+            <em>({$hookDiscount.message})</em>
         {/if}
         {/if}
     </div>
