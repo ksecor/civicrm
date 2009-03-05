@@ -597,7 +597,7 @@ SELECT
   civicrm_event.description as description, 
   civicrm_event.is_show_location as is_show_location, 
   civicrm_option_value.label as event_type, 
-  civicrm_loc_block.name as location_name, 
+  civicrm_address.name as location_name, 
   civicrm_address.street_address as street_address, 
   civicrm_address.supplemental_address_1 as supplemental_address_1, 
   civicrm_address.supplemental_address_2 as supplemental_address_2, 
