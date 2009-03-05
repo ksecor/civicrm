@@ -1273,7 +1273,10 @@ LEFT  JOIN civicrm_state_province sp ON ca.state_province_id = sp.id
 ";
 
         if ( is_numeric($excludeEventId) ) {
-            $query .= " WHERE ce.loc_block_id != '(SELECT ce2.loc_block_id FROM civicrm_event ce2 WHERE ce2.id=$excludeEventId)'";
+            $updateLocBlockId = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $excludeEventId, 'loc_block_id' );
+            if ( $updateLocBlockId ) {
+                $query .= " WHERE ce.loc_block_id != $updateLocBlockId";
+            }
         }
 
         $query .= "
