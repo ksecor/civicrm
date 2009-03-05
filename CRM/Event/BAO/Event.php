@@ -845,13 +845,19 @@ WHERE civicrm_event.is_active = 1
         if ( $values['event']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
             require_once 'CRM/Contact/BAO/Contact/Location.php';
-
-            // get the billing location type
-            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-            $bltID = array_search( 'Billing',  $locationTypes );
-
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $bltID );
-
+            
+            // if pay later than we should use primary email address    
+            $isPayLater = CRM_Utils_Array::value( 'is_pay_later', $values['event'] );
+             
+            if ( $isPayLater )  {
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+            } else {
+                // get the billing location type
+                $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+                $bltID = array_search( 'Billing',  $locationTypes );
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $bltID );
+            }
+                            
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
             self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
 
@@ -871,6 +877,7 @@ WHERE civicrm_event.is_active = 1
                               'body'    => $message,
                               'to'      => $displayName );
             }
+
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
                                   $displayName,
