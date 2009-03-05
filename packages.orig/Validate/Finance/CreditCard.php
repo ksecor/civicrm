@@ -186,9 +186,6 @@ class Validate_Finance_CreditCard
             case 'ENROUTE':
                 $regex = '2(014|149)[0-9]{11}';
                 break;
-            case 'LASER':
-                $regex = '(6304|6706|6771|6709)([0-9]{12,15})';
-                break;
             default:
                 return false;
         }
@@ -237,7 +234,6 @@ class Validate_Finance_CreditCard
             case 'EUROCARD/MASTERCARD':
             case 'VISA':
             case 'DISCOVER':
-            case 'LASER':
                 $digits = 3;
                 break;
             case 'AMEX':
