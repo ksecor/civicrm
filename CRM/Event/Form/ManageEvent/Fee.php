@@ -551,8 +551,12 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             }
         }
         
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            //hack for CRM-3088
+            CRM_Core_OptionGroup::deleteAssoc ("civicrm_event.amount.{$this->_id}.discount.%", "LIKE");
+        }
+        
         if ( $params['is_monetary'] ) {
-            
             if ( $params['price_set_id'] ) {
                 CRM_Core_BAO_PriceSet::addTo( 'civicrm_event', $this->_id, $params['price_set_id'] );
             } else {
@@ -580,10 +584,6 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                     }
                 }
                 
-                if ( $this->_action & CRM_Core_Action::UPDATE ) {
-                    //hack for CRM-3088
-                    CRM_Core_OptionGroup::deleteAssoc ("civicrm_event.amount.{$this->_id}.discount.%", "LIKE");
-                }
                 if ( CRM_Utils_Array::value( 'is_discount', $params ) == 1 ) {
                     // if there are discounted set of label / values, 
                     // create custom options for them
@@ -629,10 +629,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             }
         } else {
             $params['contribution_type_id'] = '';
-            if ( $this->_action & CRM_Core_Action::UPDATE ) {
-                //delete the discounts for the unpaid event
-                CRM_Core_OptionGroup::deleteAssoc ("civicrm_event.amount.{$this->_id}.discount.%", "LIKE");
-            }
+           
         }
         
         //update events table
