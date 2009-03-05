@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Event/Form/ManageEvent.php';
+require_once 'CRM/Event/BAO/Event.php';
 require_once 'CRM/Core/SelectValues.php';
 
 /**
@@ -219,8 +220,15 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         
         //fix for CRM-1971
         $this->assign( 'action', $this->_action );
-        require_once 'CRM/Event/BAO/Event.php';
-        //get all events those having location block.
+
+        if ( $this->_id ) {
+            $countLocUsed = CRM_Event_BAO_Event::countEventsUsingSameLocBlock( $this->_id );
+            if ( $countLocUsed > 0 ) {
+                $this->assign('locUsed', true);
+            }
+        }
+
+        // get the list of location blocks being used by other events
         $this->_locationEvents = CRM_Event_BAO_Event::getLocationEvents( $this->_id );
 
         $events = array();
@@ -229,14 +237,14 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             $locationLabel = $this->_action & CRM_Core_Action::ADD ? ts( 'Create new location' ): ts( 'Current location' );
             $optionTypes   = array( '1' => $locationLabel,
                                     '2' => ts( 'Use existing location' ) );
-            $extra         = array( 'onclick' => "showLocFields();");
+            $firstOption   = $countLocUsed > 0 ? ts('- detach current location -') : ts('- select -');
 
-            $this->assign  ( 'useExistingEventLocation', true ); 
             $this->addRadio( 'option_type', ts("Choose Location"), $optionTypes,
-                             $extra, '<br/>', false );
+                             array( 'onclick' => "showLocFields();"), '<br/>', false );
+            
             $this->add( 'select', 'loc_event_id', ts( 'Use Location' ),
-                        array( '' => ts( '- select -' ) ) + $this->_locationEvents  );
-        }  
+                        array( '' =>  $firstOption ) + $this->_locationEvents  );
+        }
         parent::buildQuickForm();
     }
     
@@ -251,11 +259,24 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $params = array( );
         $params = $this->exportValues( );
         
-        //if we are copying location from other event.
-        if ( CRM_Utils_Array::value( 'option_type' , $params ) == 2 &&
-             CRM_Utils_Array::value( 'loc_event_id', $params ) ) { 
-            
-            $params['loc_block_id'] = $params['loc_event_id'];
+        // use existing location
+        if ( CRM_Utils_Array::value( 'option_type' , $params ) == 2 ) { 
+            // delete previous location block if not used by any other event.
+            if ( $this->_id ) {
+                $updateLocBlockId = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'loc_block_id' );
+                if ( is_numeric($updateLocBlockId) && 
+                     (CRM_Utils_Array::value( 'loc_event_id', $params ) != $updateLocBlockId) ) {
+                    CRM_Event_BAO_Event::deleteEventLocBlock($updateLocBlockId, $this->_id);
+                }
+            }
+
+            if ( CRM_Utils_Array::value( 'loc_event_id', $params ) ) {
+                $params['loc_block_id'] = $params['loc_event_id'];
+            } else {
+                // unset location bloc id, if "Use existing location" is set AND 
+                // nothing is selected from "Use Location" select box.
+                $params['loc_block_id'] = "null";
+            }
         } else {
             $params['entity_table'] = 'civicrm_event';
             $params['entity_id']    = $this->_id;

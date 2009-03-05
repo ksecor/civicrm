@@ -227,20 +227,43 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         if ( $event->find( true ) ) {
             $locBlockId = $event->loc_block_id;
             $result     = $event->delete( );
-            
-            $locCount   = $dao->singleValueQuery("SELECT count(ce.id) FROM civicrm_event ce WHERE ce.loc_block_id = $locBlockId AND ce.id != $id;");
 
-            if ( ! is_null( $locBlockId ) && ($locCount == 0) ) {
-                require_once 'CRM/Core/BAO/Location.php';
-                CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+            if ( ! is_null( $locBlockId ) ) {
+                self::deleteEventLocBlock( $locBlockId, $id );
             }
-            
             return $result;
         }
         
         return null;
     }
     
+    /**
+     * Function to delete the location block associated with an event, 
+     * if not being used by any other event.
+     *
+     * @param int $loc_block_id    location block id to be deleted
+     * @param int $eventid         event id with which loc block is associated
+     *
+     * @access public
+     * @static
+     *
+     */
+    static function deleteEventLocBlock( $locBlockId, $eventId = null )
+    {
+        $query = "SELECT count(ce.id) FROM civicrm_event ce WHERE ce.loc_block_id = $locBlockId";
+
+        if ( $eventId ) {
+            $query .= " AND ce.id != $eventId;";
+        }
+
+        $locCount = CRM_Core_DAO::singleValueQuery( $query );
+
+        if ( $locCount == 0 ) {
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+        }
+    }
+
     /**
      * Function to get current/future Events 
      *
@@ -1244,7 +1267,7 @@ LEFT  JOIN civicrm_state_province sp ON ca.state_province_id = sp.id
 ";
 
         if ( is_numeric($excludeEventId) ) {
-            $query .= " WHERE ce.loc_block_id != (SELECT ce2.loc_block_id FROM civicrm_event ce2 WHERE ce2.id=$excludeEventId)";
+            $query .= " WHERE ce.loc_block_id != '(SELECT ce2.loc_block_id FROM civicrm_event ce2 WHERE ce2.id=$excludeEventId)'";
         }
 
         $query .= "
@@ -1259,6 +1282,16 @@ ORDER BY sp.name, ca.city, ca.street_address ASC
         
         return $events;
     }
-    
+
+    static function countEventsUsingSameLocBlock( $eventId )
+    {
+        $query  = "
+SELECT count(ce.id) FROM civicrm_event ce
+WHERE  ce.loc_block_id = (SELECT ce2.loc_block_id 
+       FROM civicrm_event ce2 WHERE ce2.id=$eventId) AND
+ce.id != $eventId";
+
+        return CRM_Core_DAO::singleValueQuery( $query );
+    }
 }
 

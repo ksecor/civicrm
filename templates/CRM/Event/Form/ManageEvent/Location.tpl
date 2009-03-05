@@ -1,5 +1,13 @@
 {* this template used to build location block *}
 {include file="CRM/common/WizardHeader.tpl"}
+{if $locUsed}
+    <div class="status messages">
+        <dl>
+            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
+            <dd>{ts}This location is used by multiple events. Modifying location information will change values for all events.{/ts}</dd>
+        </dl>
+    </div>
+{/if}
 <fieldset>
     <legend>{ts}Event Location and Contact Information{/ts}</legend>
     <div id="help">
@@ -51,7 +59,7 @@
     
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *} 
 {include file="CRM/common/showHide.tpl"}
-{if $useExistingEventLocation and $locEvents}
+{if $locEvents}
 <script type="text/javascript">    
 {literal}
 function showLocFields( ) {
