@@ -689,7 +689,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-
+        
         $config =& CRM_Core_Config::singleton();        
         //check if discount is selected
         if ( CRM_Utils_Array::value( 'discount_id', $params ) ) {
@@ -748,6 +748,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             while ( $participantBAO->fetch() ) {
                 $status = $participantBAO->status_id;
             }
+            $params['fee_level'] = $params['fee_amount'] = null;
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -923,10 +924,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( !$params['note'] ) {
                 $params['note'] = 'null';
             }
-            
+
             if ( $this->_single ) {
                 $participants[] = CRM_Event_BAO_Participant::create( $params );
-                
             } else {
                 foreach ( $this->_contactIds as $contactID ) {
                     $params['contact_id'] = $contactID;

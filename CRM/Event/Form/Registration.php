@@ -523,8 +523,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     static function initPriceSet( &$form, $eventID ) {
         // get price info
         require_once 'CRM/Core/BAO/PriceSet.php';
-        
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventID ) ) {
+            if ( $form->_action & CRM_Core_Action::UPDATE ){
+                $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
+            }
             $form->_priceSetId = $priceSetId;
             $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
             $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);

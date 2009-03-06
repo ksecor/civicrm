@@ -117,7 +117,7 @@ class CRM_Event_Form_EventFees
                 }
             } 
         }
-        
+
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $form->_eventId ) ) {
             $fields = $priceOptionValues = array( );
@@ -216,6 +216,12 @@ class CRM_Event_Form_EventFees
             }
             $form->assign( 'feeString', implode( ',', $allFieldValues ) );
             $form->assign( 'totalAmount', CRM_Utils_Array::value( 'fee_amount', $defaults[$form->_pId] ) );
+            if ( $form->_action == CRM_Core_Action::UPDATE ) {
+                $fee_level = $defaults[$form->_pId]['fee_level'];
+                CRM_Event_BAO_Participant::fixEventLevel( $fee_level );
+                $form->assign("fee_level", $fee_level );
+                $form->assign( 'fee_amount', CRM_Utils_Array::value( 'fee_amount', $defaults[$form->_pId] ) );
+            }
         } else {
             $optionGroupId = null;
 
@@ -357,6 +363,7 @@ class CRM_Event_Form_EventFees
             CRM_Event_Form_Registration::initPriceSet($form, $event['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $form, true, $form->_discountId );
             $form->assign ( 'feeBlock' ,  $form->_feeBlock);
+            $form->assign ( 'line_items' ,  $form->_values['line_items']);
             $discounts = array( );
             if ( !empty( $form->_values['discount'] ) ) {
                 foreach( $form->_values['discount'] as $key => $value ) { 

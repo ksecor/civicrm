@@ -3,6 +3,10 @@
     <div class="form-item">
     <table class="form-layout">
     {if $priceSet}
+    	{if $action eq 2}	
+    	    {include file="CRM/Event/Form/LineItems.tpl"}
+	  
+        {else}
      <tr>  
      <td class="label">{$form.amount.label}</td>
      <td><table class="form-layout-compressed">
@@ -59,6 +63,7 @@
       {include file="CRM/Event/Form/CalculatePriceset.tpl"} 
     </td>
 </tr>
+    {/if}	
     {else} {* NOT Price Set *}
      <tr>
      <td class ='html-adjust' colspan=2>
