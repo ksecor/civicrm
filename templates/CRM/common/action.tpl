@@ -5,12 +5,12 @@ cj(document).ready(function(){
     var oldId    = null;
     var oldcolor = null;
 
-   // Hiding action menu while clicking outside
+    // Hiding action menu while clicking outside
     cj("#container").click(function(){
         cj(this).toggleClass("slide-btn");
         cj("#panel_"+oldId).hide("slow");
     });
-
+  
     // Effects for action menu
     cj(".btn-slide").toggle(
                         function() {
@@ -20,12 +20,10 @@ cj(document).ready(function(){
                                         cj("#panel_"+oldId).hide("slow");
                                         }
                                     cj("#panel_"+currentId).slideDown("slow");
-                                    cj('.panel li:odd').addClass('odd-row');
-                                    cj('.panel li:even').addClass('even-row');
                                     cj(this).toggleClass("slide-btn");
                                     oldId = currentId;
                                     },
-			function() {
+           			    function() {
                                     var currentId = cj(this).attr('id');
                                     if ( currentId != oldId ){
                                         cj("#panel_"+currentId).slideDown("slow");
@@ -35,17 +33,19 @@ cj(document).ready(function(){
                                     cj("#panel_"+oldId).hide("slow");
                                     oldId = currentId;
     });
-    
+
    // Setting Background Color to selected link
     cj("#crm-container .panel li").hover(
 				    function() {
-					oldcolor = cj(this).css('background-color');
-					cj(this).css('background-color', '#eee9e9');
+      					        oldcolor = cj(this).css('background-color');
+                                cj(this).css('background-color', '#3399FF');
+                                cj(this).find("a").css('color', '#FFFFFF');
 				    },
 				    function() {
-					cj(this).css('background-color', oldcolor);
+					            cj(this).css('background-color', oldcolor);
+                                cj(this).find("a").css('color', '#333333');
     });
-    
+
     //Setting complete block clickable.
     cj("#crm-container .panel li").click(function(){
         var scriptText = cj(this ).find("a").attr("js");
