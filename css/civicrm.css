@@ -1197,33 +1197,30 @@ commented since it is overwiting simple td
   display  : none;
   z-index  : 1;
   position : absolute;
-  border   : 1px solid #104D33;
-  width    : 140px;
+  border   : 1px solid #CCCCCC;
+  background-color: #EEEEEE;
 }
 
 #crm-container td ul.panel {
-  margin  :-25px 0px 0px -145px;
+  margin  :-20px 0px 0px 55px;
+  padding : 0;
 }
 
 #crm-container td ul.panel li {
   padding : 5px 15px 0px 5px;
   margin  : 0px;
+  list-style : none;
 }
 
 .btn-slide {
   text-align      : left;
-  width           : 30px;
   text-decoration : none;
   border          : none;
-  cursor          : pointer;
-}
-#crm-container .panel li a {
-  text-decoration : none;
+  cursor          : pointer;  
 }
 
-#crm-container .panel li{
-  width : 120px;
-}
-#crm-container td.btn-slide {
-  padding  : 10px 14px 5px 25px;
+#crm-container .panel li a {
+  text-decoration : none;
+  color:#333333;
+  display:block;
 }

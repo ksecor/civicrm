@@ -28,7 +28,7 @@
 	        <td>{$row.end}</td>	
 	        <td class="nowrap">{$row.format}</td>	
 	        <td>{$row.minute_increment}</td>	
-	        <td>{$row.action}</td>
+	        <td><span>{$row.action|replace:'xx':$row.id}</span></td>
         </tr>
         {/foreach}
     </table>

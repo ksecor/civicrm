@@ -212,9 +212,15 @@ class CRM_Core_Action {
                                  $link['name'] );
             }
         }
-        $result = '';
-        CRM_Utils_String::append( $result, '</li><li>', $url );
-        $result = "<img src='{$config->resourceBase}i/custom_activity.gif' title='".ts('Action')."'/><ul id='panel_xx' class='panel'><li>{$result}</li></ul>";
+        $result = $resultDiv = '';
+        $actionLink = array_slice ( $url, 0, 2 );
+        $actionDiv  = array_splice( $url, 2    );
+        CRM_Utils_String::append( $resultLink, '&nbsp;|&nbsp;', $actionLink );
+        if ( $actionDiv ) {
+            CRM_Utils_String::append( $resultDiv, '</li><li>', $actionDiv );
+            $resultDiv = "( ".ts('More Action')." )<ul id='panel_xx' class='panel'><li>{$resultDiv}</li></ul>";
+        }
+        $result = "{$resultLink} &nbsp;</span><span class='btn-slide' id=xx>{$resultDiv}";
         return $result;
     }
 
