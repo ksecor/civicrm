@@ -5,7 +5,6 @@
     {if $priceSet}
     	{if $action eq 2}	
     	    {include file="CRM/Event/Form/LineItems.tpl"}
-	  
         {else}
      <tr>  
      <td class="label">{$form.amount.label}</td>
@@ -76,10 +75,12 @@
 	 <td class="label"><strong>{ts}Event Fee(s){/ts}</strong></td>
 	 <td>
 	 {foreach from= $feeBlock item=feeBlock key=amount}  
+	  {if $amount NEQ 'name'}
 	     {if $amount eq $amountId} (x)
 	     {else} (  )
    	     {/if}
-          {$feeBlock.value|crmMoney}&nbsp;{$feeBlock.label}<br />	
+             {$feeBlock.value|crmMoney}&nbsp;{$feeBlock.label}<br />	
+	  {/if}
 	  {/foreach}
 	  </td>
 	  </tr>
