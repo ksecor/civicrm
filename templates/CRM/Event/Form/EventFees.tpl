@@ -66,6 +66,19 @@
         {if $form.discount_id.label}
             <dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
         {/if}
+	 {if $action EQ 2}
+	 <tr>
+	 <td class="label"><strong>{ts}Event Fee(s){/ts}</strong></td>
+	 <td>
+	 {foreach from= $feeBlock item=feeBlock key=amount}  
+	     {if $amount eq $amountId} (x)
+	     {else} (  )
+   	     {/if}
+          {$feeBlock.value|crmMoney}&nbsp;{$feeBlock.label}<br />	
+	  {/foreach}
+	  </td>
+	  </tr>
+        {/if}
         <dt class="label">{$form.amount.label}</dt><dd>{$form.amount.html}
         {if $action EQ 1}
             <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>

@@ -316,10 +316,10 @@ class CRM_Event_Form_EventFees
                     $defaults[$form->_pId]['amount'] = $params['id'];
                 }
             }
+            $form->assign("amountId", $defaults[$form->_pId]['amount'] );
         }
-
         return $defaults[$form->_pId];
-        
+
     }
     
     /** 
@@ -356,6 +356,7 @@ class CRM_Event_Form_EventFees
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $event['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $form, true, $form->_discountId );
+            $form->assign ( 'feeBlock' ,  $form->_feeBlock);
             $discounts = array( );
             if ( !empty( $form->_values['discount'] ) ) {
                 foreach( $form->_values['discount'] as $key => $value ) { 
