@@ -93,3 +93,8 @@ body,html,h1{
     text-align:center;
     width:90%;
 }
+#newinstall {
+    padding:5px;
+    margin-top:-24px;
+    width:351px;
+}

@@ -3,23 +3,27 @@
 
 <head>
   <title>CiviCRM Installation - Admin Login</title>
-  <link rel="stylesheet" type="text/css" href="../install/template.css" />
+  <link media="screen" title="Default" type="text/css" href="../packages/jquery/css/openid-selector.css" rel="stylesheet">
+  <script type="text/javascript" src="../packages/jquery/jquery.js"></script>
+  <script type="text/javascript" src="../packages/jquery/plugins/openid-selector.js"></script>
 </head>
 
 <body>
-<div id="All">
-  <h1 class="title">CiviCRM First User Setup</h1>
-  <h3>Congratulations! You've successfully installed CiviCRM Standalone. Let's setup your first user account (which will be the admin account). Start by entering your OpenID below.</h3>
-
-  <div id="verify-form">
-    <form method="post" action="try_auth.php">
-    Identity&nbsp;URL:
-    <input id="openid_identifier" type="text" name="openid_identifier" value="" /> (for example: me.myopenid.com) <br/><br/>
-    <input type="submit" value="Verify">
-    </form>
-  </div>
-  <p> If you don't have an OpenID yet, go to <a href="http://www.myopenid.com/">My OpenID to get one</a>.</p>
+<body id="all_form">
+<div id="home">
+        <div id="crmimg">
+	<h2>CiviCRM First User Setup</h2>
+	<h5 id="newinstall">Congratulations! You've successfully installed CiviCRM Standalone. Let's setup your first user account (which will be the admin account). Start by entering your OpenID below.</h5>
+	</div>
+        <form id="openid_form" method="post" action="try_auth.php">
+	<div>
+		<input type="hidden" value="verify" name="action"/>
+		<label for="OpenID">OpenID provider:</label>
+		<input id="OpenID" type="text" name="openid_identifier" autocomplete="off"/>
+		<input id="button" type="submit" value="Sign In"/>
+	</div>	
+	 <p><i>If you don't have an OpenID yet, go to <a href="http://www.myopenid.com/">MyOpenID to get one</a>.</i></p>
+	</form>
 </div>
 </body>
-
 </html>
