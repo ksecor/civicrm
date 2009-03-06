@@ -119,6 +119,8 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
             $getCount = CRM_Contribute_BAO_ContributionRecur::getCount( $recurIDs );
             foreach( $getCount as $key => $val ) {
                 $recurRow[$key]['completed'] = $val;
+                $recurRow[$key]['link']      = CRM_Utils_System::url( 'civicrm/contribute/search',
+                                                                      "reset=1&force=1&recur=$key" );
             }
         }
         $this->assign('recurRows',$recurRow);

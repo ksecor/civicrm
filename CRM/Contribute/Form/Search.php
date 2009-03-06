@@ -470,6 +470,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
             $test = CRM_Utils_Type::escape( $test, 'Boolean' );
             $this->_formValues['contribution_test'] = $test;
         }
+        //Recurring id
+        $recur = CRM_Utils_Request::retrieve( 'recur', 'Positive', $this, false );
+        if ( $recur ) {
+            $this->_formValues['contribution_recur_id']  = $recur;
+            $this->_formValues['contribution_recurring'] = 1;
+        }
     }
     
     /**

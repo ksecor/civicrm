@@ -86,7 +86,8 @@
     <tr class="{cycle values="odd-row,even-row"}">
         <td> <label>{ts}{$recurRows.$id.amount}{/ts}</label>  every {$recurRows.$id.frequency_interval} {$recurRows.$id.frequency_unit} for {$recurRows.$id.installments} installments  </td>
         <td>{$recurRows.$id.recur_status}</td>
-	<td>{if $recurRows.$id.completed} {$recurRows.$id.completed}{else}0{/if}/{$recurRows.$id.installments}</td>
+	<td>{if $recurRows.$id.completed}<a href="{$recurRows.$id.link}">{$recurRows.$id.completed}/{$recurRows.$id.installments}</a>
+	    {else}0/{$recurRows.$id.installments} {/if}</td>
 	<td>{$recurRows.$id.create_date|crmDate}</td>
 	{if $recurRows.$id.contribution_status_id eq 5 || $recurRows.$id.contribution_status_id eq 2 }
         <td><a href="{$recurRows.$id.cancelSubscriptionUrl}">{ts}Change Recurring Contribution{/ts}</a></td>
