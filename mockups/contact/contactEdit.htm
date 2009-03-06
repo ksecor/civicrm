@@ -222,7 +222,6 @@
 
                                     <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
                                     <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><script type="text/javascript">
-                                    dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');
                                     </script>
                                     <script type="text/javascript" src="../../js/Common.js"></script>
 
@@ -249,7 +248,6 @@
 
                                     cj(function()
                                     {
-
                                         countryID       = "#location_1_address_country_id"
                                         stateProvinceID = "#location_1_address_state_province_id"
                                         callbackURL     = "/civicrm/ajax/jqState"
@@ -259,18 +257,12 @@
 
                                     </script>
 
-
                                     <div><input name="qfKey" type="hidden" value="5396c75c8f15260ecb7585e52b769d51_9630" />
                                         <input name="_qf_default" type="hidden" value="Edit:upload" />
                                         <input name="MAX_FILE_SIZE" type="hidden" value="20971520" />
                                     </div>
 
-
-
-
-
                                     <script type="text/javascript" src="../../js/Contact.js"></script>
-
                                     <div class="crm-submit-buttons">
                                         <input class="form-submit default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-submit" name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-submit" name="_qf_Edit_cancel" value="Cancel" type="submit" />
                                     </div>
@@ -280,54 +272,56 @@
                                         <a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').hide(); return false;" title="Click to add"> ( Modify )</a>
                                         </span><br/>
                                         <fieldset id="name-greet" ><legend><a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').show(); return false;" title="Click to add">Name and Greeting</a></legend>
-                                            <table class="form-layout">
-
-                                                <tr>
-                                                    <td><label for="prefix_id">Prefix</label></td>
-                                                    <td><label for="first_name">First Name</label> </td>
-                                                    <td><label for="middle_name">Middle Name</label> </td>
-                                                    <td><label for="last_name">Last Name</label> </td>
-
-                                                    <td><label for="suffix_id">Suffix</label></td>	</tr>
+                                            <div align="right"><a href="#" onclick="cj('#more-personal-info').toggle();return false;">More Information</a></div>
+                                            <table class="form-layout-compressed">
                                                     <tr>
-                                                        <td><select name="prefix_id" id="prefix_id" class="form-select">
-                                                            <option value="">- prefix -</option>
-                                                            <option value="1">Mrs</option>
-                                                            <option value="2">Ms</option>
-
-                                                            <option value="3">Mr</option>
-                                                            <option value="4">Dr</option>
-                                                        </select></td>
-                                                        <td><input maxlength="64" size="30" name="first_name" type="text" id="first_name" class="form-text big" /></td>
-                                                        <td><input maxlength="64" size="30" name="middle_name" type="text" id="middle_name" class="eight" /></td>
-                                                        <td><input maxlength="64" size="30" name="last_name" type="text" id="last_name" class="form-text big" /></td>
-                                                        <td><select name="suffix_id" id="suffix_id" class="form-select">
-                                                            <option value="">- suffix -</option>
-
-                                                            <option value="1">Jr</option>
-                                                            <option value="2">Sr</option>
-                                                            <option value="3">II</option>
-                                                            <option value="4">III</option>
-                                                            <option value="5">IV</option>
-                                                            <option value="6">V</option>
-
-                                                            <option value="7">VI</option>
-                                                            <option value="8">VII</option>
-                                                        </select></td>	</tr>
+                                                        <td><label for="last_name">Name</label> </td>
+                                                        <td><label for="job_title">Job title</label></td>
+                                                        <td><label for="external_identifier">External Id</label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input maxlength="64"  name="last_name" type="text" id="last_name" /></td>
+                                                        <td><input maxlength="64" size="30" name="job_title" type="text" id="job_title" class="form-text big" /></td>
+                                                        <td><input maxlength="32" size="20" name="external_identifier" type="text" id="external_identifier" class="form-text medium" /></td>                        <td><input name="_qf_Edit_refresh_dedupe" value="Check for Matching Contact(s)" type="submit" id="_qf_Edit_refresh_dedupe" class="form-submit" /></td>    
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan=2><label for="current_employer">Current Employer</label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input name="current_employer" type="text" id="current_employer" /></td>
+                                                        <td><span id="current_employer_address" class="description"></span></td>
+                                                    </tr>
+                                                </table>
+                                                <table class="form-layout-compressed" id="more-personal-info" style="display:none;">
+                                                    <tr>
+                                                        <td><label for="prefix_id">Prefix</label></td>
+                                                        <td><label for="suffix_id">Suffix</label></td>	
+                                                        <td><label for="greeting_type_id">Greeting</label> &nbsp; </td>
+                                                        <td style="display:none;"><span id="greetingLabel"><label for="custom_greeting">Custom
+                                                    </tr>
                                                         <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td><label for="contact_source">Source</label></td>
-                                                            <td><label for="nick_name">Nick Name</label></td>
+                                                            <td><select name="prefix_id" id="prefix_id" class="form-select">
+                                                                <option value="">- prefix -</option>
+                                                                <option value="1">Mrs</option>
+                                                                <option value="2">Ms</option>
 
-                                                            <td><label for="greeting_type_id">Greeting</label> &nbsp; </td>
-                                                            <td><span id="greetingLabel"><label for="custom_greeting">Custom Greeting</label></span></td>
+                                                                <option value="3">Mr</option>
+                                                                <option value="4">Dr</option>
+                                                            </select></td>
+                                                            <td><select name="suffix_id" id="suffix_id" class="form-select">
+                                                                <option value="">- suffix -</option>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td><input name="contact_source" type="text" id="contact_source" class="big" /></td>
-                                                            <td><input maxlength="128" size="45" name="nick_name" type="text" id="nick_name" class="big" /></td>
+                                                                <option value="1">Jr</option>
+                                                                <option value="2">Sr</option>
+                                                                <option value="3">II</option>
+                                                                <option value="4">III</option>
+                                                                <option value="5">IV</option>
+                                                                <option value="6">V</option>
 
+                                                                <option value="7">VI</option>
+                                                                <option value="8">VII</option>
+                                                            </select>
+                                                            </td>
                                                             <td><select onchange=" showGreeting();" name="greeting_type_id" id="greeting_type_id" class="form-select">
                                                                 <option value="">- select -</option>
                                                                 <option value="1" selected="selected">Dear [first]</option>
@@ -336,48 +330,96 @@
                                                                 <option value="4">Customized</option>
 
                                                             </select></td>
-                                                            <td><span id="greetingHtml"><input maxlength="128" size="45" name="custom_greeting" type="text" id="custom_greeting" class="big" /></span></td>
-
+                                                            <td style="display:none;"><span id="greetingHtml"><input maxlength="128" size="45" name="custom_greeting" type="text" id="custom_greeting" class="big" /></span></td>	
                                                         </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td><label for="job_title">Job title</label></td>
-                                                            <td><label for="home_URL">Website</label></td>
-                                                            <td><label for="external_identifier">External Id</label></td>
+                                                            <tr>
+                                                                <td><label for="contact_source">Source</label></td>
+                                                                <td><label for="nick_name">Nick Name</label></td>
+                                                                <td><label for="home_URL">Website</label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                
+                                                                <td><input name="contact_source" type="text" id="contact_source" class="big" /></td>
+                                                                <td><input maxlength="128" size="45" name="nick_name" type="text" id="nick_name" class="big" /></td>
+                                                                <td><input maxlength="128" size="45" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" class="big" /></td>
+                                                            </tr>
 
-                                                            <td>&nbsp;</td>        
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td><input maxlength="64" size="30" name="job_title" type="text" id="job_title" class="form-text big" /></td>
-                                                            <td><input maxlength="128" size="45" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" class="big" /></td>
-                                                            <td><input maxlength="32" size="20" name="external_identifier" type="text" id="external_identifier" class="form-text medium" /></td>
-                                                            <td>&nbsp;</td>        
-                                                        </tr>
-                                                        <tr>
-
-                                                            <td>&nbsp;</td>
-                                                            <td colspan=4><label for="current_employer">Current Employer</label></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="/civicrm/ajax/search?org=1" doClientPaging="false" ></div></td>
-                                                            <td colspan=3 class="tundra"><input dojotype="civicrm.FilteringSelect" mode="remote" store="organizationStore" style="width:400px; border: 1px solid #cfcfcf;" class="tundra" pagesize="10" onchange="showSelectedAddress(&quot;current_employer&quot;)" name="current_employer" type="text" id="current_employer" /></td>
-                                                            <td><span id="current_employer_address" class="description"></span></td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td colspan=5><span class="description">Enter the first letters of the name of the employer to see available organizations. If the employer organization doesn't exist yet, type in the new organization name.</span></td>
-                                                        </tr>  
-                                                    </table>
-
-                                                    <input name="_qf_Edit_refresh_dedupe" value="Check for Matching Contact(s)" type="submit" id="_qf_Edit_refresh_dedupe" class="form-submit" />
-                                                    <div class="spacer"></div>
+                                                        </table>
                                                 </fieldset>
+                                            </div><br/>
+                                            <span id="additonal-info-show" style="display:none;">
+                                            <label>Additional Information</label><a href="#" onclick ="cj('#additonal-info').toggle(); cj('#additonal-info-show').hide(); return false;" title="Click to add/edit"> ( Modify )</a>
+                                            </span> 
 
-                                            </div>
+                                            <fieldset id="additonal-info" ><legend><a href="#" onclick ="cj('#additonal-info').toggle(); cj('#additonal-info-show').show(); return false;" title="Click to add">Additional Information</a></legend>
+                                                <div>
+                                                <table>
+                                                    <tr id="row1">
 
+                                                        <td>
+                                                            <select name="element_type1" id="element_type1" class="form-select" onchange="buildElement(this.value, 1)">
+                                                                <option value="">- select -</option>
+                                                                <option value="email">Email</option>
+                                                                <option value="phone">Phone</option>
+                                                                <option value="im">IM</option>
+                                                                <option value="openID">Open ID</option>
+                                                            </select>
+                                                        </td>
+                                                        <td id="element_html1">
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="show1" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row2').show();cj('#show1').hide();return false;">Add More</a></td></tr>
 
+                                                        <tr id="row2">
+                                                            
+                                                            <td>
+                                                                <select name="element_type2" id="element_type2" class="form-select" onchange="buildElement(this.value, 2);cj('#show3').show();">
+                                                                    <option value="">- select -</option>
+                                                                    <option value="email">Email</option>
+                                                                    <option value="phone">Phone</option>
+                                                                    <option value="im">IM</option>
+                                                                    <option value="openID">Open ID</option>
+                                                                </select>
+                                                            </td>
+                                                            <td id="element_html2">
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="show2" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row3').show();cj('#show2').hide();return false;">Add More</a></td></tr>
+
+                                                            <tr id="row3">
+                                                                
+                                                                <td>
+                                                                    <select name="element_type3" id="element_type3" class="form-select" onchange="buildElement(this.value, 3);cj('#show4').show();">
+                                                                        <option value="">- select -</option>
+                                                                        <option value="email">Email</option>
+                                                                        <option value="phone">Phone</option>
+                                                                        <option value="im">IM</option>
+                                                                        <option value="openID">Open ID</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td id="element_html3">
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="show3" style="display:none;"><td colspan="3"><a href="#" onclick="alert('This will add more rows.');return false;">Add More</a></td></tr>
+                                                            </table> 
+                                                            </div>   
+                                                        </fieldset>
+                                              
+                                                    <script type="text/javascript"> 
+                                                    cj(function(){
+                                                        buildElement( 'email', 1 );
+                                                        buildElement( 'phone', 2 );
+                                                        cj("#row3").hide();
+                                                    });
+                                                    function buildElement( form, no ) {
+                                                        if ( !form ) return;
+                                                        cj('#element_html' + no).load( form + '.htm' );
+                                                        cj('#element_type' + no).val( form );
+                                                        if ( no > 1) {
+                                                            cj('#show' + no).show();
+                                                        }
+                                                    }
+                                                    </script>
 
                                             <div id="commPrefs">
                                                 <br/>
@@ -440,100 +482,6 @@
                                                 </div> 
                                                 <br/>
 
-                                                    <span id="additonal-info-show">
-                                                    <label>Additional Information</label><a href="#" onclick ="cj('#additonal-info').toggle(); cj('#additonal-info-show').hide(); return false;" title="Click to add/edit"> ( Modify )</a>
-                                                    </span> 
-
-
-                                                    <fieldset id="additonal-info" style="display:none;"><legend><a href="#" onclick ="cj('#additonal-info').toggle(); cj('#additonal-info-show').show(); return false;" title="Click to add">Additional Information</a></legend>
-                                                        <div>
-                                                        <table>
-                                                            <tr id="row1">
-
-                                                                <td>
-                                                                    <select name="element_type1" id="element_type1" class="form-select" onchange="buildElement(this, 1)">
-                                                                        <option value="">- select -</option>
-                                                                        <option value="email">Email</option>
-                                                                        <option value="phone">Phone</option>
-                                                                        <option value="im">IM</option>
-                                                                        <option value="openID">Open ID</option>
-                                                                    </select>
-                                                                </td>
-                                                                <td id="element_html1">
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="show1" style="display:none;"><td colspan="3" align="right"><a href="#" onclick="cj('#row2').show();cj('#show1').hide();return false;">Add More</td></tr>
-
-                                                                <tr id="row2">
-                                                                    
-                                                                    <td>
-                                                                        <select name="element_type2" id="element_type2" class="form-select" onchange="buildElement(this, 2)">
-                                                                            <option value="">- select -</option>
-                                                                            <option value="email">Email</option>
-                                                                            <option value="phone">Phone</option>
-                                                                            <option value="im">IM</option>
-                                                                            <option value="openID">Open ID</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td id="element_html2">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr id="show2" style="display:none;"><td colspan="3" align="right"><a href="#" onclick="cj('#row3').show();cj('#show2').hide();return false;">Add More</td></tr>
-
-                                                                    <tr id="row3">
-                                                                        
-                                                                        <td>
-                                                                            <select name="element_type3" id="element_type3" class="form-select" onchange="buildElement(this, 3)">
-                                                                                <option value="">- select -</option>
-                                                                                <option value="email">Email</option>
-                                                                                <option value="phone">Phone</option>
-                                                                                <option value="im">IM</option>
-                                                                                <option value="openID">Open ID</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td id="element_html3">
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr id="show3" style="display:none;"><td colspan="3" align="right"><a href="#" onclick="cj('#row4').show();cj('#show3').hide();return false;">Add More</td></tr>
-                                                                    </table> 
-                                                                    </div>   
-                                                                </fieldset>
-                                                      
-                                                            <script type="text/javascript"> 
-                                                            cj(function(){
-                                                                cj("#row2").hide();
-                                                                cj("#row3").hide();
-                                                            });
-                                                            function buildElement( form, no ) {
-                                                                if ( !form.value ) return;
-                                                                cj('#element_html' + no).load( form.value + '.htm' );
-                                                                cj('#show' + no).show();
-                                                            }
-                                                            </script>
-
-
-                                                            <script type="text/javascript">
-                                                            function email_is_bulkmail_onclick(formname, emailID, maxLocs, locID) {
-
-                                                                var changedKey = 'location[' + locID + '][email][' + emailID + '][is_bulkmail]';
-
-                                                                if (document.forms[formname].elements[changedKey][1].checked) {
-                                                                    if ( confirm('Do you want to use this email address for bulk mailing?') == true ) {
-                                                                        for (var i = 1; i <= 5; i++) {
-                                                                            Key = 'location[' +  locID +'][email][' + i + '][is_bulkmail]';
-                                                                            if ( i != emailID ) {
-                                                                                document.forms[formname].elements[Key][1].checked = false;
-                                                                            } 
-                                                                        }
-                                                                    } else {
-                                                                        document.forms[formname].elements[changedKey][1].checked = false;
-                                                                    }
-                                                                } 	
-
-                                                            }
-
-                                                            </script>
-                                                            <br/><br/>
                                                             <span id="add-1-show"><label>Add Address</label>
                                                             <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to add"> ( Modify )</a>
                                                             </span>
@@ -747,655 +695,24 @@
 
                                                                                 </span>
                                                                             </div>
-
-                                                                            <!-- Spacer div forces fieldset to contain floated elements -->
-                                                                            <div class="spacer"></div>
+                                                                            <div>
+                                                                                <a href="#" onclick="alert('This will add more rows.');return false;">Add More</a></div>
                                                                         </fieldset>
-
+                                                                        <br/><br/>
+                                                                        <div class="form-item">
+                                                                            <span class="labels"><label>Demographics</label><a href="#"> ( Modify)</a></span>
+                                                                        </div><br/>
+                                                                        <div class="form-item">
+                                                                            <span class="labels"><label>Notes</label><a href="#"> ( Modify)</a></span>
+                                                                        </div><br/>
+                                                                        <div class="form-item">
+                                                                            <span class="labels"><label>Tags and Groups</label><a href="#"> ( Modify)</a></span>
+                                                                        </div>
                                                                     </div>
-
-
 
                                                                 </fieldset>
                                                             </div> 
-
-                                                            <script type="text/javascript">
-
-                                                            function showSelectedAddress( val )
-                                                            {
-                                                                var help = val+'_help';
-                                                                var address = val+'_address';
-                                                                if ( document.getElementsByName("use_household_address")[0].checked == true ) {
-                                                                    show('shared_household', 'block');
-                                                                    hide('id_location_1_address');
-                                                                }
-                                                                var contactId = dijit.byId(val).getValue();
-                                                                if ( isNaN( contactId ) ) {
-                                                                    document.getElementById(address).innerHTML = "(New Contact Record)";
-                                                                    if ( val == 'shared_household' ) {
-                                                                        show('shared_household', 'block');
-                                                                        show('id_location_1_address', 'block');	   
-                                                                    }	
-                                                                    return; 
-                                                                }
-
-                                                                if ( val == 'shared_household' ) {		
-                                                                    var dataUrl = "/civicrm/ajax/search?sh=1&id=" + contactId;
-                                                                } else {
-                                                                    var dataUrl = "/civicrm/ajax/search?sh=2&id=" + contactId;
-                                                                }
-
-                                                                dojo.xhrGet( { 
-                                                                    url: dataUrl, 
-                                                                    handleAs: "text",
-                                                                    timeout: 5000, // Time in milliseconds
-
-                                                                    // The LOAD function will be called on a successful response.
-                                                                    load: function(response, ioArgs) {
-                                                                        var selectedAddr = response;
-
-                                                                        if ( selectedAddr != "" ) {
-                                                                            var ind = selectedAddr.indexOf(':::');
-                                                                            if ( ind < 0){
-                                                                                var formattedAddr = '';	
-                                                                            } else {
-                                                                                selectedAddr = selectedAddr.substr(ind+3);
-                                                                                var formattedAddr = selectedAddr.replace(/:::/g, ", ");
-                                                                            }
-                                                                            document.getElementById(address).innerHTML = formattedAddr;		
-
-                                                                        } else {
-                                                                            document.getElementById(address).innerHTML = '';	
-                                                                        }
-                                                                        return response; 
-                                                                    },
-
-                                                                    // The ERROR function will be called in an error case.
-                                                                    error: function(response, ioArgs) { 
-                                                                        console.error("HTTP status code: ", ioArgs.xhr.status); 
-                                                                        return response; 
-                                                                    }
-                                                                });
-                                                            }
-
-                                                            function setDefaultAddress()
-                                                            {
-                                                                var country   = "1228";
-                                                                var state     = "";
-
-
-
-                                                            }
-
-
-                                                            function showHideHouseAddress( )
-                                                            {
-                                                                if ( document.getElementsByName("use_household_address")[0].checked == true ) { 
-                                                                    show('shared_household', 'block');
-
-                                                                    hide('id_location_1_address');
-
-                                                                } else {
-                                                                    show('id_location_1_address', 'block');
-                                                                    hide('shared_household');
-
-                                                                }
-                                                            }
-
-                                                            function showHideAddress( )
-                                                            {
-                                                                if ( document.getElementsByName("use_household_address")[0].checked == true ) { 
-                                                                    show('shared_household', 'block');
-
-                                                                    hide('id_location_1_address');
-
-                                                                } else {
-                                                                    show('id_location_1_address', 'block');
-                                                                    hide('shared_household');
-                                                                }
-                                                            }
-
-
-
-
-                                                            </script>
-
-
-                                                            <script type="text/javascript">
-                                                            var trigger_field_id = 'use_household_address';
-                                                            var trigger_value = '';
-                                                            var target_element_id = 'shared_household';
-                                                            var target_element_type = 'block';
-                                                            var field_type  = 'radio';
-                                                            var invert = 0;
-
-                                                            showHideByValue(trigger_field_id, trigger_value, target_element_id, target_element_type, field_type, invert);
-
-                                                            </script>   
-
-                                                            <div id = "id_demographics_show" class="section-hidden section-hidden-border label">
-                                                                <a name="demographics_show" id="demographics_show" href="#demographics_hide" onclick="show('id_demographics'); hide('id_demographics_show');"><img src="../../i/TreePlus.gif" class="action-icon" alt="show field or section"/></a>Demographics </div>
-
-                                                                <div id="id_demographics">
-                                                                    <fieldset><legend><a name="demographics_hide" id="demographics_hide" href="#demographics" onclick="hide('id_demographics'); show('id_demographics_show'); return false;"><img src="../../i/TreeMinus.gif" class="action-icon" alt="hide field or section"/></a>Demographics</legend>
-                                                                        <div class="form-item">
-                                                                            <span class="labels">
-                                                                                <label>Gender</label>
-
-                                                                            </span>
-                                                                            <span class="fields">
-                                                                                <input value="1" type="radio" id="qf_0c13e1" name="gender_id" /><label for="qf_0c13e1">Female</label>&nbsp;<input value="2" type="radio" id="qf_b07a08" name="gender_id" /><label for="qf_b07a08">Male</label>&nbsp;<input value="3" type="radio" id="qf_378339" name="gender_id" /><label for="qf_378339">Transgender</label>
-                                                                            </span>
-                                                                        </div>
-                                                                        <div class="form-item">
-                                                                            <span class="labels">
-
-                                                                                <label>Date of birth</label>
-                                                                            </span>
-                                                                            <span class="fields">
-                                                                                <select class="form-date" id="birth_date[M]" name="birth_date[M]">
-                                                                                    <option value="">-month-</option>
-                                                                                    <option value="1">Jan</option>
-                                                                                    <option value="2">Feb</option>
-
-                                                                                    <option value="3">Mar</option>
-                                                                                    <option value="4">Apr</option>
-                                                                                    <option value="5">May</option>
-                                                                                    <option value="6">Jun</option>
-                                                                                    <option value="7">Jul</option>
-                                                                                    <option value="8">Aug</option>
-
-                                                                                    <option value="9">Sep</option>
-                                                                                    <option value="10">Oct</option>
-                                                                                    <option value="11">Nov</option>
-                                                                                    <option value="12">Dec</option>
-                                                                                </select>&nbsp;<select class="form-date" id="birth_date[d]" name="birth_date[d]">
-                                                                                    <option value="">-day-</option>
-                                                                                    <option value="1">01</option>
-
-                                                                                    <option value="2">02</option>
-                                                                                    <option value="3">03</option>
-                                                                                    <option value="4">04</option>
-                                                                                    <option value="5">05</option>
-                                                                                    <option value="6">06</option>
-                                                                                    <option value="7">07</option>
-
-                                                                                    <option value="8">08</option>
-                                                                                    <option value="9">09</option>
-                                                                                    <option value="10">10</option>
-                                                                                    <option value="11">11</option>
-                                                                                    <option value="12">12</option>
-                                                                                    <option value="13">13</option>
-
-                                                                                    <option value="14">14</option>
-                                                                                    <option value="15">15</option>
-                                                                                    <option value="16">16</option>
-                                                                                    <option value="17">17</option>
-                                                                                    <option value="18">18</option>
-                                                                                    <option value="19">19</option>
-
-                                                                                    <option value="20">20</option>
-                                                                                    <option value="21">21</option>
-                                                                                    <option value="22">22</option>
-                                                                                    <option value="23">23</option>
-                                                                                    <option value="24">24</option>
-                                                                                    <option value="25">25</option>
-
-                                                                                    <option value="26">26</option>
-                                                                                    <option value="27">27</option>
-                                                                                    <option value="28">28</option>
-                                                                                    <option value="29">29</option>
-                                                                                    <option value="30">30</option>
-                                                                                    <option value="31">31</option>
-
-                                                                                </select>&nbsp;<select class="form-date" id="birth_date[Y]" name="birth_date[Y]">
-                                                                                    <option value="">-year-</option>
-                                                                                    <option value="1909">1909</option>
-                                                                                    <option value="1910">1910</option>
-                                                                                    <option value="1911">1911</option>
-                                                                                    <option value="1912">1912</option>
-                                                                                    <option value="1913">1913</option>
-
-                                                                                    <option value="1914">1914</option>
-                                                                                    <option value="1915">1915</option>
-                                                                                    <option value="1916">1916</option>
-                                                                                    <option value="1917">1917</option>
-                                                                                    <option value="1918">1918</option>
-                                                                                    <option value="1919">1919</option>
-
-                                                                                    <option value="1920">1920</option>
-                                                                                    <option value="1921">1921</option>
-                                                                                    <option value="1922">1922</option>
-                                                                                    <option value="1923">1923</option>
-                                                                                    <option value="1924">1924</option>
-                                                                                    <option value="1925">1925</option>
-
-                                                                                    <option value="1926">1926</option>
-                                                                                    <option value="1927">1927</option>
-                                                                                    <option value="1928">1928</option>
-                                                                                    <option value="1929">1929</option>
-                                                                                    <option value="1930">1930</option>
-                                                                                    <option value="1931">1931</option>
-
-                                                                                    <option value="1932">1932</option>
-                                                                                    <option value="1933">1933</option>
-                                                                                    <option value="1934">1934</option>
-                                                                                    <option value="1935">1935</option>
-                                                                                    <option value="1936">1936</option>
-                                                                                    <option value="1937">1937</option>
-
-                                                                                    <option value="1938">1938</option>
-                                                                                    <option value="1939">1939</option>
-                                                                                    <option value="1940">1940</option>
-                                                                                    <option value="1941">1941</option>
-                                                                                    <option value="1942">1942</option>
-                                                                                    <option value="1943">1943</option>
-
-                                                                                    <option value="1944">1944</option>
-                                                                                    <option value="1945">1945</option>
-                                                                                    <option value="1946">1946</option>
-                                                                                    <option value="1947">1947</option>
-                                                                                    <option value="1948">1948</option>
-                                                                                    <option value="1949">1949</option>
-
-                                                                                    <option value="1950">1950</option>
-                                                                                    <option value="1951">1951</option>
-                                                                                    <option value="1952">1952</option>
-                                                                                    <option value="1953">1953</option>
-                                                                                    <option value="1954">1954</option>
-                                                                                    <option value="1955">1955</option>
-
-                                                                                    <option value="1956">1956</option>
-                                                                                    <option value="1957">1957</option>
-                                                                                    <option value="1958">1958</option>
-                                                                                    <option value="1959">1959</option>
-                                                                                    <option value="1960">1960</option>
-                                                                                    <option value="1961">1961</option>
-
-                                                                                    <option value="1962">1962</option>
-                                                                                    <option value="1963">1963</option>
-                                                                                    <option value="1964">1964</option>
-                                                                                    <option value="1965">1965</option>
-                                                                                    <option value="1966">1966</option>
-                                                                                    <option value="1967">1967</option>
-
-                                                                                    <option value="1968">1968</option>
-                                                                                    <option value="1969">1969</option>
-                                                                                    <option value="1970">1970</option>
-                                                                                    <option value="1971">1971</option>
-                                                                                    <option value="1972">1972</option>
-                                                                                    <option value="1973">1973</option>
-
-                                                                                    <option value="1974">1974</option>
-                                                                                    <option value="1975">1975</option>
-                                                                                    <option value="1976">1976</option>
-                                                                                    <option value="1977">1977</option>
-                                                                                    <option value="1978">1978</option>
-                                                                                    <option value="1979">1979</option>
-
-                                                                                    <option value="1980">1980</option>
-                                                                                    <option value="1981">1981</option>
-                                                                                    <option value="1982">1982</option>
-                                                                                    <option value="1983">1983</option>
-                                                                                    <option value="1984">1984</option>
-                                                                                    <option value="1985">1985</option>
-
-                                                                                    <option value="1986">1986</option>
-                                                                                    <option value="1987">1987</option>
-                                                                                    <option value="1988">1988</option>
-                                                                                    <option value="1989">1989</option>
-                                                                                    <option value="1990">1990</option>
-                                                                                    <option value="1991">1991</option>
-
-                                                                                    <option value="1992">1992</option>
-                                                                                    <option value="1993">1993</option>
-                                                                                    <option value="1994">1994</option>
-                                                                                    <option value="1995">1995</option>
-                                                                                    <option value="1996">1996</option>
-                                                                                    <option value="1997">1997</option>
-
-                                                                                    <option value="1998">1998</option>
-                                                                                    <option value="1999">1999</option>
-                                                                                    <option value="2000">2000</option>
-                                                                                    <option value="2001">2001</option>
-                                                                                    <option value="2002">2002</option>
-                                                                                    <option value="2003">2003</option>
-
-                                                                                    <option value="2004">2004</option>
-                                                                                    <option value="2005">2005</option>
-                                                                                    <option value="2006">2006</option>
-                                                                                    <option value="2007">2007</option>
-                                                                                    <option value="2008">2008</option>
-                                                                                    <option value="2009">2009</option>
-
-                                                                                </select> &nbsp;            
-                                                                                <img src="../../i/cal.gif" id="trigger_demographics_1" alt="Calendar" style="padding: 5px 0px 0px 0px; vertical-align: text-bottom;"/>        
-
-                                                                                <script type="text/javascript">
-                                                                                var obj = new Date();
-                                                                                var currentYear = obj.getFullYear();
-
-                                                                                var startYear = 1905;
-                                                                                var endYear   = currentYear;
-
-
-                                                                                Calendar.setup(
-                                                                                    {
-
-                                                                                        dateField   : "birth_date[d]",
-                                                                                        monthField  : "birth_date[M]",
-                                                                                        yearField   : "birth_date[Y]",
-                                                                                        range       : [startYear, endYear],
-                                                                                        button      : "trigger_demographics_1"
-
-                                                                                    }
-                                                                                );
-                                                                                </script>
-
-
-                                                                            </span>
-                                                                        </div>
-                                                                        <div class="form-item">
-                                                                            <input onclick="showDeceasedDate()" id="is_deceased" name="is_deceased" type="checkbox" value="1" class="form-checkbox" /><label for="is_deceased">Contact is deceased</label>
-
-                                                                        </div>
-
-                                                                        <div id="showDeceasedDate" class="form-item">
-                                                                            <span class="labels">
-                                                                                <label>Deceased date</label>
-                                                                            </span>
-                                                                            <span class="fields">
-                                                                                <select class="form-date" id="deceased_date[M]" name="deceased_date[M]">
-                                                                                    <option value="">-month-</option>
-                                                                                    <option value="1">Jan</option>
-
-                                                                                    <option value="2">Feb</option>
-                                                                                    <option value="3">Mar</option>
-                                                                                    <option value="4">Apr</option>
-                                                                                    <option value="5">May</option>
-                                                                                    <option value="6">Jun</option>
-                                                                                    <option value="7">Jul</option>
-
-                                                                                    <option value="8">Aug</option>
-                                                                                    <option value="9">Sep</option>
-                                                                                    <option value="10">Oct</option>
-                                                                                    <option value="11">Nov</option>
-                                                                                    <option value="12">Dec</option>
-                                                                                </select>&nbsp;<select class="form-date" id="deceased_date[d]" name="deceased_date[d]">
-                                                                                    <option value="">-day-</option>
-
-                                                                                    <option value="1">01</option>
-                                                                                    <option value="2">02</option>
-                                                                                    <option value="3">03</option>
-                                                                                    <option value="4">04</option>
-                                                                                    <option value="5">05</option>
-                                                                                    <option value="6">06</option>
-
-                                                                                    <option value="7">07</option>
-                                                                                    <option value="8">08</option>
-                                                                                    <option value="9">09</option>
-                                                                                    <option value="10">10</option>
-                                                                                    <option value="11">11</option>
-                                                                                    <option value="12">12</option>
-
-                                                                                    <option value="13">13</option>
-                                                                                    <option value="14">14</option>
-                                                                                    <option value="15">15</option>
-                                                                                    <option value="16">16</option>
-                                                                                    <option value="17">17</option>
-                                                                                    <option value="18">18</option>
-
-                                                                                    <option value="19">19</option>
-                                                                                    <option value="20">20</option>
-                                                                                    <option value="21">21</option>
-                                                                                    <option value="22">22</option>
-                                                                                    <option value="23">23</option>
-                                                                                    <option value="24">24</option>
-
-                                                                                    <option value="25">25</option>
-                                                                                    <option value="26">26</option>
-                                                                                    <option value="27">27</option>
-                                                                                    <option value="28">28</option>
-                                                                                    <option value="29">29</option>
-                                                                                    <option value="30">30</option>
-
-                                                                                    <option value="31">31</option>
-                                                                                </select>&nbsp;<select class="form-date" id="deceased_date[Y]" name="deceased_date[Y]">
-                                                                                    <option value="">-year-</option>
-                                                                                    <option value="1909">1909</option>
-                                                                                    <option value="1910">1910</option>
-                                                                                    <option value="1911">1911</option>
-                                                                                    <option value="1912">1912</option>
-
-                                                                                    <option value="1913">1913</option>
-                                                                                    <option value="1914">1914</option>
-                                                                                    <option value="1915">1915</option>
-                                                                                    <option value="1916">1916</option>
-                                                                                    <option value="1917">1917</option>
-                                                                                    <option value="1918">1918</option>
-
-                                                                                    <option value="1919">1919</option>
-                                                                                    <option value="1920">1920</option>
-                                                                                    <option value="1921">1921</option>
-                                                                                    <option value="1922">1922</option>
-                                                                                    <option value="1923">1923</option>
-                                                                                    <option value="1924">1924</option>
-
-                                                                                    <option value="1925">1925</option>
-                                                                                    <option value="1926">1926</option>
-                                                                                    <option value="1927">1927</option>
-                                                                                    <option value="1928">1928</option>
-                                                                                    <option value="1929">1929</option>
-                                                                                    <option value="1930">1930</option>
-
-                                                                                    <option value="1931">1931</option>
-                                                                                    <option value="1932">1932</option>
-                                                                                    <option value="1933">1933</option>
-                                                                                    <option value="1934">1934</option>
-                                                                                    <option value="1935">1935</option>
-                                                                                    <option value="1936">1936</option>
-
-                                                                                    <option value="1937">1937</option>
-                                                                                    <option value="1938">1938</option>
-                                                                                    <option value="1939">1939</option>
-                                                                                    <option value="1940">1940</option>
-                                                                                    <option value="1941">1941</option>
-                                                                                    <option value="1942">1942</option>
-
-                                                                                    <option value="1943">1943</option>
-                                                                                    <option value="1944">1944</option>
-                                                                                    <option value="1945">1945</option>
-                                                                                    <option value="1946">1946</option>
-                                                                                    <option value="1947">1947</option>
-                                                                                    <option value="1948">1948</option>
-
-                                                                                    <option value="1949">1949</option>
-                                                                                    <option value="1950">1950</option>
-                                                                                    <option value="1951">1951</option>
-                                                                                    <option value="1952">1952</option>
-                                                                                    <option value="1953">1953</option>
-                                                                                    <option value="1954">1954</option>
-
-                                                                                    <option value="1955">1955</option>
-                                                                                    <option value="1956">1956</option>
-                                                                                    <option value="1957">1957</option>
-                                                                                    <option value="1958">1958</option>
-                                                                                    <option value="1959">1959</option>
-                                                                                    <option value="1960">1960</option>
-
-                                                                                    <option value="1961">1961</option>
-                                                                                    <option value="1962">1962</option>
-                                                                                    <option value="1963">1963</option>
-                                                                                    <option value="1964">1964</option>
-                                                                                    <option value="1965">1965</option>
-                                                                                    <option value="1966">1966</option>
-
-                                                                                    <option value="1967">1967</option>
-                                                                                    <option value="1968">1968</option>
-                                                                                    <option value="1969">1969</option>
-                                                                                    <option value="1970">1970</option>
-                                                                                    <option value="1971">1971</option>
-                                                                                    <option value="1972">1972</option>
-
-                                                                                    <option value="1973">1973</option>
-                                                                                    <option value="1974">1974</option>
-                                                                                    <option value="1975">1975</option>
-                                                                                    <option value="1976">1976</option>
-                                                                                    <option value="1977">1977</option>
-                                                                                    <option value="1978">1978</option>
-
-                                                                                    <option value="1979">1979</option>
-                                                                                    <option value="1980">1980</option>
-                                                                                    <option value="1981">1981</option>
-                                                                                    <option value="1982">1982</option>
-                                                                                    <option value="1983">1983</option>
-                                                                                    <option value="1984">1984</option>
-
-                                                                                    <option value="1985">1985</option>
-                                                                                    <option value="1986">1986</option>
-                                                                                    <option value="1987">1987</option>
-                                                                                    <option value="1988">1988</option>
-                                                                                    <option value="1989">1989</option>
-                                                                                    <option value="1990">1990</option>
-
-                                                                                    <option value="1991">1991</option>
-                                                                                    <option value="1992">1992</option>
-                                                                                    <option value="1993">1993</option>
-                                                                                    <option value="1994">1994</option>
-                                                                                    <option value="1995">1995</option>
-                                                                                    <option value="1996">1996</option>
-
-                                                                                    <option value="1997">1997</option>
-                                                                                    <option value="1998">1998</option>
-                                                                                    <option value="1999">1999</option>
-                                                                                    <option value="2000">2000</option>
-                                                                                    <option value="2001">2001</option>
-                                                                                    <option value="2002">2002</option>
-
-                                                                                    <option value="2003">2003</option>
-                                                                                    <option value="2004">2004</option>
-                                                                                    <option value="2005">2005</option>
-                                                                                    <option value="2006">2006</option>
-                                                                                    <option value="2007">2007</option>
-                                                                                    <option value="2008">2008</option>
-
-                                                                                    <option value="2009">2009</option>
-                                                                                </select> &nbsp;
-                                                                                <img src="../../i/cal.gif" id="trigger_demographics_2" alt="Calendar" style="padding: 5px 0px 0px 0px; vertical-align: text-bottom;"/>        
-
-                                                                                <script type="text/javascript">
-                                                                                var obj = new Date();
-                                                                                var currentYear = obj.getFullYear();
-
-                                                                                var startYear = 1905;
-                                                                                var endYear   = currentYear;
-
-
-                                                                                Calendar.setup(
-                                                                                    {
-
-                                                                                        dateField   : "deceased_date[d]",
-                                                                                        monthField  : "deceased_date[M]",
-                                                                                        yearField   : "deceased_date[Y]",
-                                                                                        range       : [startYear, endYear],
-                                                                                        button      : "trigger_demographics_2"
-
-                                                                                    }
-                                                                                );
-                                                                                </script>
-
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </fieldset>
-
-                                                                </div>
-
-
-                                                                <script type="text/javascript">
-                                                                showDeceasedDate( );    
-                                                                function showDeceasedDate( )
-                                                                {
-                                                                    if (document.getElementsByName("is_deceased")[0].checked) {
-                                                                        show('showDeceasedDate');
-                                                                    } else {
-                                                                        hide('showDeceasedDate');
-                                                                    }
-                                                                }     
-                                                                </script>
-
-                                                                <script type="text/javascript">
-                                                                showGreeting( );
-                                                                function showGreeting( )
-                                                                {
-                                                                    if (document.getElementById("greeting_type_id").value == 4) {
-                                                                        show('greetingLabel');
-                                                                        show('greetingHtml');	
-                                                                    } else {
-                                                                        hide('greetingLabel');
-                                                                        hide('greetingHtml');
-                                                                    }
-                                                                }
-                                                                </script>
-
-
-
-                                                                <div id = "id_notes_show" class="section-hidden section-hidden-border">
-                                                                    <a name="notes_show" id="notes_show" href="#notes_hide" onclick="show('id_notes'); hide('id_notes_show');"><img src="../../i/TreePlus.gif" class="action-icon" alt="show field or section"/></a><label>Notes</label>
-
-                                                                </div>
-
-                                                                <div id = "id_notes">
-                                                                    <fieldset><legend><a name="notes_hide" id="notes_hide" href="#notes" onclick="hide('id_notes'); show('id_notes_show'); return false;"><img src="../../i/TreeMinus.gif" class="action-icon" alt="hide field or section"/></a>Contact Notes</legend>
-                                                                        <div class="form-item">
-                                                                            <table class="form-layout">
-                                                                                <tr>
-                                                                                    <td><label for="subject">Subject</label></td>
-                                                                                    <td><input size="60" maxlength="254" name="subject" type="text" id="subject" class="form-text" /></td>
-                                                                                </tr>
-                                                                                <tr>
-
-                                                                                    <td><label for="note">Notes</label></td>
-                                                                                    <td><textarea cols="60" rows="3" name="note" id="note" class="form-textarea"></textarea></td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </div>
-                                                                    </fieldset>
-                                                                </div>
-
-
-                                                                <div id="group_show" class="section-hidden section-hidden-border">
-                                                                    <a href="#" onclick="hide('group_show'); show('group'); return false;"><img src="../../i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Tags and Groups</label><br />
-
-                                                                </div>
-
-                                                                <div id="group">
-                                                                    <fieldset><legend><a href="#" onclick="hide('group'); show('group_show'); return false;"><img src="../../i/TreeMinus.gif" class="action-icon" alt="close section"/></a>Tags and Groups</legend>
-                                                                        <div class="form-item"><table class="form-layout"><tr><td><div class="label">Group(s)</div><table id="selector" class="selector" style="width: auto;"><tr><td><input type="hidden" name="group[1]" value="" /><input skiplabel="1" id="group[1]" name="group[1]" type="checkbox" value="1" class="form-checkbox" /></td><td><strong>Administrators</strong></td><td>Contacts in this group are assigned Administrator role permissions.</td></tr><tr><td><input type="hidden" name="group[2]" value="" /><input skiplabel="1" id="group[2]" name="group[2]" type="checkbox" value="1" class="form-checkbox" /></td><td><strong>Newsletter Subscribers</strong></td><td></td></tr><tr><td><input type="hidden" name="group[3]" value="" /><input skiplabel="1" id="group[3]" name="group[3]" type="checkbox" value="1" class="form-checkbox" /></td><td><strong>Summer Program Volunteers</strong></td><td></td></tr><tr><td><input type="hidden" name="group[4]" value="" /><input skiplabel="1" id="group[4]" name="group[4]" type="checkbox" value="1" class="form-checkbox" /></td><td><strong>Advisory Board</strong></td><td></td></tr> </table></td><td><div class="label">Tag(s)</div><div class="listing-box"><input id="tag[2]" name="tag[2]" type="checkbox" value="1" /><label for="tag[2]">Company</label><br /><input id="tag[3]" name="tag[3]" type="checkbox" value="1" /><label for="tag[3]">Government Entity</label><br /><input id="tag[4]" name="tag[4]" type="checkbox" value="1" /><label for="tag[4]">Major Donor</label><br /><input id="tag[1]" name="tag[1]" type="checkbox" value="1" /><label for="tag[1]">Non-profit</label><br /><input id="tag[5]" name="tag[5]" type="checkbox" value="1" /><label for="tag[5]">Volunteer</label></div></td></tr></table></div>
-
-                                                                        <div class="spacer"> </div>
-                                                                    </fieldset>
-                                                                </div>
-
-                                                                <script type="text/javascript">
-                                                                cj(document).ready(function(){
-                                                                    cj('#selector tr:even').addClass('odd-row ');
-                                                                    cj('#selector tr:odd ').addClass('even-row');
-                                                                });
-                                                                </script>
-
-
-                                                                <div class="crm-submit-buttons">
-                                                                    <input class="form-submit default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-submit" name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-submit" name="_qf_Edit_cancel" value="Cancel" type="submit" />
-                                                                </div>
-
-                                                                <script type="text/javascript">
-                                                                var showBlocks = new Array('commPrefs','id_demographics_show','id_notes_show','group_show');
-                                                                var hideBlocks = new Array('id_demographics','id_notes','group');
-
-                                                                on_load_init_blocks( showBlocks, hideBlocks );
-                                                                </script>
-
+    
                                                             </form>
 
                                                             <div class="footer" id="access">
