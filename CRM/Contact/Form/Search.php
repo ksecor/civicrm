@@ -335,10 +335,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this.form);" ) );
+
+            $counter = 1;
             foreach ($rows as $row) {
+                $idName = "mark_x_{$counter}";
                 $this->addElement( 'checkbox', $row['checkbox'],
                                    null, null,
-                                   array( 'onclick' => "toggleTaskAction( true ); return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" ) );
+                                   array( 'id' => $idName, 
+                                          'onclick' => "toggleTaskAction( true ); return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" ) );
+                $counter++;
             }
         }
 
