@@ -23,7 +23,7 @@
            <td>{$row.source}</td>
            <td>{$row.receive_date|truncate:10:''|crmDate}</td>
            <td>{$row.contribution_status}</td>
-	       <td>{$row.action}</td>
+	       <td>{$row.action|replace:'xx':$row.honorId}</td>
 	    </tr>
         {/foreach}
     </table>

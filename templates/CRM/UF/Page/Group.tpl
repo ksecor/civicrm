@@ -49,7 +49,7 @@
             <td>{$row.id}</td>
             <td>{$row.module}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td><span>{$row.action|replace:'xx':$row.id}</span></td>
+            <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>

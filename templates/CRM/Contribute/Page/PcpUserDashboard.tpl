@@ -19,7 +19,7 @@
         <td>{$row.pageTitle}</td>
         <td>{if $row.end_date}{$row.end_date|truncate:10:''|crmDate}{else}({ts}ongoing{/ts}){/if}</td>
         <td>{$row.pcpStatus}</td>
-        <td class="nowrap">{$row.action}</td>
+        <td>{$row.action|replace:'xx':$row.pcpId}</td>
 	</tr>
 	{/foreach}
 </table>
@@ -56,7 +56,7 @@
 	<tr class="{cycle values="odd-row,even-row"}">
 		<td><a href="{crmURL p='civicrm/contribute/transact' q="id=`$row.pageId`&reset=1"}" title="{ts}View campaign page{/ts}">{$row.pageTitle}</a></td>
         <td>{if $row.end_date}{$row.end_date|truncate:10:''|crmDate}{else}({ts}ongoing{/ts}){/if}</td>
-		<td class="nowrap">{$row.action}</td>
+		<td>{$row.action|replace:'xx':$row.pageId}</td>
 	</tr>
 	{/foreach}
 </table>
