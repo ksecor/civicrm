@@ -3,23 +3,25 @@
 
 <head>
   <title>CiviCRM User Authentication</title>
-  <link rel="stylesheet" type="text/css" href="../install/template.css" />
+  <link media="screen" title="Default" type="text/css" href="../packages/jquery/css/openid-selector.css" rel="stylesheet">
+  <script type="text/javascript" src="../packages/jquery/jquery.js"></script>
+  <script type="text/javascript" src="../packages/jquery/plugins/openid-selector.js"></script>
 </head>
 
-<body>
-<div id="All">
-   <h1 class="title">CiviCRM Login</h1>
-   <h3>Please enter your OpenID</h3>
-   
-   <div id="verify-form">
-   <form method="get" action="try_auth.php">
-       Identity&nbsp;URL:
-       <input type="hidden" name="action" value="verify" />
-       <input id="openid_identifier" type="text" name="openid_identifier" value="" />
-       <input type="submit" value="Verify" />
-   </form>
-   </div>
-   <p>If you don't have an OpenID yet, go to <a href="http://www.myopenid.com/">MyOpenID to get one</a>.</p>
+<body id="all_form">
+<div id="home">
+        <div id="crmimg">
+	<h1>CiviCRM Login</h1>
+	</div>
+        <form id="openid_form" method="get" action="try_auth.php">
+	<div>
+		<input type="hidden" value="verify" name="action"/>
+		<label for="OpenID">OpenID provider:</label>
+		<input id="OpenID" type="text" name="openid_identifier" autocomplete="off"/>
+		<input id="button" type="submit" value="Sign In"/>
+	</div>	
+	 <p><i>If you don't have an OpenID yet, go to <a href="http://www.myopenid.com/">MyOpenID to get one</a>.</i></p>
+	</form>
 </div>
 </body>
 

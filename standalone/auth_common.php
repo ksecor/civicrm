@@ -1,7 +1,8 @@
 <?php
 function displayError($message) {
-    print "<div class=\"error\">$message</div>\n";
-    print "<a href=\"index.php\">Home Page</a>\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"../packages/jquery/css/openid-selector.css\" />"; 
+    print "<div class=\"error\">$message\n<br/>";
+    print "<a href=\"index.php\">Home Page</a></div>\n";
     exit(0);
 }
 
