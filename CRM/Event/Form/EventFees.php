@@ -273,17 +273,29 @@ class CRM_Event_Form_EventFees
             if ( ($form->_action == CRM_Core_Action::UPDATE ) && 
                  CRM_Utils_Array::value( 'event_id', $defaults[$form->_pId] ) ) {
                 if ( ! empty($form->_feeBlock) ) {
+                    $feeLevel = CRM_Utils_Array::value('fee_level',
+                                                       $defaults[$form->_pId] );
+                    $feeAmount = CRM_Utils_Array::value('fee_amount',
+                                                        $defaults[$form->_pId] );
                     foreach( $form->_feeBlock as $amountId => $amountInfo ) {
-                        if ( ($amountInfo['label'] == 
-                              CRM_Utils_Array::value('fee_level',
-                                                     $defaults[$form->_pId])) &&
-                             ($amountInfo['value'] == 
-                              CRM_Utils_Array::value('fee_amount',
-                                                     $defaults[$form->_pId]))
-                             ) {
+                        if ( $amountInfo['label'] == $feeLevel &&
+                             $amountInfo['value'] == $feeAmount ) {
                             $defaults[$form->_pId]['amount'] = $amountInfo['amount_id'];
                         }
-                    } 
+
+                        // if amount is not set do fuzzy matching
+                        if ( ! isset( $defaults[$form->_pId]['amount'] ) ) {
+                            // if only level use that
+                            if ( $amountInfo['label'] == $feeLevel ) {
+                                $defaults[$form->_pId]['amount'] = $amountInfo['amount_id'];
+                            } else if ( strpos( $feeLevel, $amountInfo['label'] ) !== false ) {
+                                $defaults[$form->_pId]['amount'] = $amountInfo['amount_id'];
+                            } else if ( $amountInfo['value'] == $feeAmount ) {
+                                // if amount matches use that
+                                $defaults[$form->_pId]['amount'] = $amountInfo['amount_id'];
+                            }
+                        }
+                    }
                 }
 
                 if ( ! isset($defaults[$form->_pId]['amount']) ) {
