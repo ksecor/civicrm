@@ -343,12 +343,8 @@ class CRM_Contribute_BAO_Query
         
         case 'contribution_recur_id':
         case 'contribution_recurring':
-            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_contribution.contribution_recur_id", 
-                                                                              $op, $value, "Integer" ) ;
-            if ( $value ) {
-                $query->_qill[$grouping][]  = "Displaying Recurring Contributions";
-            }
-            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            $query->_qill[$grouping][]  = "Displaying Recurring Contributions";
+            $query->_tables['civicrm_contribution_recur'] = $query->_whereTables['civicrm_contribution_recur'] = 1;
             return;
 
         case 'contribution_id':
@@ -429,6 +425,11 @@ class CRM_Contribute_BAO_Query
         case 'civicrm_contribution':
             $from = " $side JOIN civicrm_contribution ON civicrm_contribution.contact_id = contact_a.id ";
             break;
+
+        case 'civicrm_contribution_recur':
+            $from = " $side JOIN civicrm_contribution_recur ON civicrm_contribution.contribution_recur_id = civicrm_contribution_recur.id ";
+            break;
+
             
         case 'civicrm_contribution_type':
             if ( $mode & CRM_Contact_BAO_Query::MODE_CONTRIBUTE ) {
