@@ -55,11 +55,13 @@
 {/htxt}
 
 {htxt id='id-is_cms_user'}
-{ts}If you are using this profile as a contact signup form OR using it in an online contribution page, anonymous users will be given the option to create a {$config->userFramework} User Account as part of completing the form. {if $config->userFramework EQ 'Drupal'}This feature requires the 'Email Verification' option to be checked (Drupal User Settings). {/if}In addition, you must include a Primary Email Address field in the profile.{/ts}</dd>
+{ts}If you are using this profile as a contact signup form, using it in an online contribution page OR an event registration page, anonymous users will be given the option to create a {$config->userFramework} User Account as part of completing the form. {if $config->userFramework EQ 'Drupal'}This feature requires the 'Email Verification' option to be checked (Drupal User Settings). {/if}In addition, you must include a Primary Email Address field in the profile.{/ts}</dd>
 {/htxt}
 
 {htxt id='id-is_update_dupe'}
-{ts}If enabled, the contact record is updated if a matching existing record is found. Note that if there are multiple matches, the first match found is updated.{/ts}
+{ts}If you are using this profile as a contact signup and editing form, OR in an online contribution page, OR in an event registration page - this option controls what happens if the data matches an existing contact record. If this option is enabled, the matching contact record is updated.
+Otherwise the user will get a "duplicate record" warning, and their input will not be saved. Contact matching is based on your configured "Strict" rule for matching duplicate contacts. {docURL page="Find and Merge Duplicate Contacts"}
+<p>NOTE: If there are multiple matching contacts, the first matching found record is updated.{/ts}
 {/htxt}
 
 {htxt id='id-is_map'}
