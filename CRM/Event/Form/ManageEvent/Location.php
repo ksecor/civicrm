@@ -63,10 +63,10 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     /**
      * the variable, for storing location block id with event
      *
-     * @var array
+     * @var int
      */
-    protected $_locationEvents = array( );
-    
+    protected $_oldLocBlockId = null;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -90,20 +90,20 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $eventId = $this->_id;
 
         $defaults = array( );
-        $params   = array( );
         if ( isset( $eventId ) ) {
             $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults);
             
-            $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                           $eventId,
-                                                           'is_show_location',
-                                                           'id' );
-            
+            $params = array( 'id' => $eventId );
+            CRM_Event_BAO_Event::retrieve( $params, $defaults );
+            $this->_oldLocBlockId = $defaults['loc_event_id'] = $defaults['loc_block_id'];
+
+            $countLocUsed = CRM_Event_BAO_Event::countEventsUsingLocBlockId( $defaults['loc_block_id'] );
+            if ( $countLocUsed > 1 ) {
+                $this->assign('locUsed', true);
+            }
         }
-        
-        $defaults['is_show_location'] = $isShowLocation;
        
         if ( ! empty( $_POST ) ) {
             $this->setShowHide( $_POST, true );
@@ -128,10 +128,10 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             }
         }
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $defaults['option_type'] = 1;
+            $defaults['location_option'] = $this->_oldLocBlockId ? 2 : 1;
         }
         return $defaults;
-    }    
+    }
 
 
     /**
@@ -221,29 +221,19 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         //fix for CRM-1971
         $this->assign( 'action', $this->_action );
 
-        if ( $this->_id ) {
-            $countLocUsed = CRM_Event_BAO_Event::countEventsUsingSameLocBlock( $this->_id );
-            if ( $countLocUsed > 0 ) {
-                $this->assign('locUsed', true);
-            }
-        }
-
         // get the list of location blocks being used by other events
-        $this->_locationEvents = CRM_Event_BAO_Event::getLocationEvents( $this->_id );
-
+        $locationEvents = CRM_Event_BAO_Event::getLocationEvents( );
+        
         $events = array();
-        if ( !empty( $this->_locationEvents ) ) {
+        if ( !empty( $locationEvents ) ) {
             $this->assign( 'locEvents', true );
-            $locationLabel = $this->_action & CRM_Core_Action::ADD ? ts( 'Create new location' ): ts( 'Current location' );
-            $optionTypes   = array( '1' => $locationLabel,
+            $optionTypes  = array ( '1' => ts( 'Create new location' ),
                                     '2' => ts( 'Use existing location' ) );
-            $firstOption   = $countLocUsed > 0 ? ts('- detach current location -') : ts('- select -');
-
-            $this->addRadio( 'option_type', ts("Choose Location"), $optionTypes,
+            
+            $this->addRadio( 'location_option', ts("Choose Location"), $optionTypes,
                              array( 'onclick' => "showLocFields();"), '<br/>', false );
             
-            $this->add( 'select', 'loc_event_id', ts( 'Use Location' ),
-                        array( '' =>  $firstOption ) + $this->_locationEvents  );
+            $this->add( 'select', 'loc_event_id', ts( 'Use Location' ), $locationEvents );
         }
         parent::buildQuickForm();
     }
@@ -256,47 +246,54 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */
     public function postProcess( ) 
     {
-        $params = array( );
         $params = $this->exportValues( );
         
-        // use existing location
-        if ( CRM_Utils_Array::value( 'option_type' , $params ) == 2 ) { 
-            // delete previous location block if not used by any other event.
-            if ( $this->_id ) {
-                $updateLocBlockId = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'loc_block_id' );
-                if ( is_numeric($updateLocBlockId) && 
-                     (CRM_Utils_Array::value( 'loc_event_id', $params ) != $updateLocBlockId) ) {
-                    CRM_Event_BAO_Event::deleteEventLocBlock($updateLocBlockId, $this->_id);
-                }
-            }
+        $delteOldBlock = false;
 
-            if ( CRM_Utils_Array::value( 'loc_event_id', $params ) ) {
-                $params['loc_block_id'] = $params['loc_event_id'];
-            } else {
-                // unset location bloc id, if "Use existing location" is set AND 
-                // nothing is selected from "Use Location" select box.
-                $params['loc_block_id'] = "null";
-            }
-        } else {
-            $params['entity_table'] = 'civicrm_event';
-            $params['entity_id']    = $this->_id;
-            
-            //set the location type to default location type
-            require_once 'CRM/Core/BAO/LocationType.php';
-            
-            $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-            $params['location'][1]['location_type_id'] = $defaultLocationType->id;
-            $params['location'][1]['is_primary']       = 1;
-            
-            require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::create($params, true, 'event');
-            $params['loc_block_id'] = $location['id'];
+        // if 'use existing location' option is selected -
+        if ( ( $params['location_option'] == 2 ) &&
+             ( $params['loc_event_id'] != $this->_oldLocBlockId ) ) {
+            // if new selected loc is different from old loc, update the loc_block_id 
+            // so that loc update would affect the selected loc and not the old one.
+            $delteOldBlock = true;
+            CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Event', $this->_id, 
+                                         'loc_block_id', $params['loc_event_id'] );
+        }
+
+        // if 'create new loc' option is selected, set the loc_block_id for this event to null 
+        // so that an update would result in creating a new loc.
+        if ( $this->_oldLocBlockId && ($params['location_option'] == 1) ) {
+            $delteOldBlock = true;
+            CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Event', $this->_id, 
+                                         'loc_block_id', 'null' );
+        }
+
+        // if 'create new loc' optioin is selected OR selected new loc is different 
+        // from old one, go ahead and delete the old loc provided thats not being 
+        // used by any other event
+        if ( $this->_oldLocBlockId && $delteOldBlock ) {
+            CRM_Event_BAO_Event::deleteEventLocBlock($this->_oldLocBlockId, $this->_id);
         }
         
+        // get ready with location block params
+        $params['entity_table'] = 'civicrm_event';
+        $params['entity_id']    = $this->_id;
+            
+        require_once 'CRM/Core/BAO/LocationType.php';
+        $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+        $params['location'][1]['location_type_id'] = $defaultLocationType->id;
+        $params['location'][1]['is_primary']       = 1;
+        
+        // create/update event location
+        require_once 'CRM/Core/BAO/Location.php';
+        $location = CRM_Core_BAO_Location::create($params, true, 'event');
+        $params['loc_block_id'] = $location['id'];
+        
+        // finally update event params
         $params['id'] = $this->_id;
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add( $params );
-        
+
     }//end of function
 
     /**

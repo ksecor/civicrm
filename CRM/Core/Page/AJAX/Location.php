@@ -117,4 +117,52 @@ class CRM_Core_Page_AJAX_Location
         exit();
     }
 
+    function getLocBlock( ) {
+        if ( !isset($_POST['lbid']) ) {
+            exit( );
+        }
+
+        // i wish i could retrieve loc block info based on loc_block_id, 
+        // Anyway, lets retrieve an event which has loc_block_id set to 'lbid'.  
+        $params  = array('1' => array($_POST['lbid'], 'Integer')); 
+        $eventId = CRM_Core_DAO::singleValueQuery('SELECT id FROM civicrm_event WHERE loc_block_id=%1 LIMIT 1', $params);
+        if ( !$eventId ) {
+            exit( );
+        }
+
+        // now lets use the event-id obtained above, to retrieve loc block information.  
+        $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
+        require_once 'CRM/Core/BAO/Location.php';
+        // second parameter is of no use, but since required, lets use the same variable.
+        $location = CRM_Core_BAO_Location::getValues($params, $params);
+
+        // lets output only required fields. 
+        $fields   = array( "location[1][address][street_address]",
+                           "location[1][address][supplemental_address_1]",
+                           "location[1][address][supplemental_address_2]",
+                           "location[1][address][city]",
+                           "location[1][address][postal_code]",
+                           "location[1][address][postal_code_suffix]",
+                           "location[1][address][country_id]",
+                           "location[1][address][state_province_id]",
+                           "location[1][address][geo_code_1]",
+                           "location[1][address][geo_code_2]",
+                           "location[1][email][1][email]",
+                           "location[1][phone][1][phone_type_id]",
+                           "location[1][phone][1][phone]" );
+        $result = array( );
+        foreach ( $fields as $fld ) {
+            eval("\$value = \${$fld};");
+            if ( $value ) {
+                $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
+            }
+        }
+
+        // set the message if loc block is being used by more than one event.
+        require_once 'CRM/Event/BAO/Event.php';
+        $result['count_loc_used'] = CRM_Event_BAO_Event::countEventsUsingLocBlockId( $_POST['lbid'] );
+
+        echo json_encode( $result );
+        exit();
+    }
 }

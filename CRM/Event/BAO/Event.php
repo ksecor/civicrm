@@ -1263,7 +1263,7 @@ WHERE  id = $cfID
      * 
      * @return array $events array of all events.
      */
-    static function getLocationEvents( $excludeEventId = null ) 
+    static function getLocationEvents( ) 
     {
         $events = array( );
 
@@ -1273,21 +1273,11 @@ FROM   civicrm_event ce
 INNER JOIN civicrm_loc_block lb ON ce.loc_block_id = lb.id
 INNER JOIN civicrm_address ca   ON lb.address_id = ca.id
 LEFT  JOIN civicrm_state_province sp ON ca.state_province_id = sp.id
-";
-
-        if ( is_numeric($excludeEventId) ) {
-            $updateLocBlockId = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $excludeEventId, 'loc_block_id' );
-            if ( $updateLocBlockId ) {
-                $query .= " WHERE ce.loc_block_id != $updateLocBlockId";
-            }
-        }
-
-        $query .= "
 GROUP BY sp.name, ca.street_address, ca.city
 ORDER BY sp.name, ca.city, ca.street_address ASC
 ";
-        $dao = CRM_Core_DAO::executeQuery( $query );
         
+        $dao = CRM_Core_DAO::executeQuery( $query );
         while( $dao->fetch() ) {
             $events[$dao->loc_block_id] = $dao->title;
         }
@@ -1295,14 +1285,18 @@ ORDER BY sp.name, ca.city, ca.street_address ASC
         return $events;
     }
 
-    static function countEventsUsingSameLocBlock( $eventId )
+    static function countEventsUsingLocBlockId( $locBlockId )
     {
-        $query  = "
-SELECT count(ce.id) FROM civicrm_event ce
-WHERE  ce.loc_block_id = (SELECT ce2.loc_block_id 
-       FROM civicrm_event ce2 WHERE ce2.id=$eventId) AND
-ce.id != $eventId";
+        if ( !$locBlockId ) {
+            return 0;
+        }
 
+        $locBlockId = CRM_Utils_Type::escape( $locBlockId, 'Integer' );
+
+        $query  = "
+SELECT count(*) FROM civicrm_event ce
+WHERE  ce.loc_block_id = $locBlockId";
+        
         return CRM_Core_DAO::singleValueQuery( $query );
     }
 }
