@@ -38,7 +38,7 @@
         <td>{$row.scheduled}</td>
         <td>{$row.start}</td>
         <td>{$row.end}</td>
-        <td>{$row.action}</td>
+        <td>{$row.action|replace:'xx':$row.id}</td>
       </tr>
       {/foreach}
     </table>

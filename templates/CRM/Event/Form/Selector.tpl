@@ -56,7 +56,7 @@
     <td>{$row.participant_register_date|truncate:10:''|crmDate}</td>	
     <td>{$row.participant_status_id}</td>
     <td>{$row.participant_role_id}</td>
-    <td class="btn-slide" id={$participant_id}>{$row.action|replace:'xx':$participant_id}</td>
+    <td>{$row.action|replace:'xx':$participant_id}</td>
    </tr>
   {/foreach}
 {* Link to "View all participants" for Dashboard and Contact Summary *}

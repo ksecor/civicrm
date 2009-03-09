@@ -65,7 +65,7 @@
 
         <td>{$row.status}</td>
 
-        <td>{$row.action}</td>    
+        <td>{$row.action|replace:'xx':$row.id}</td>
       </tr>
       {/foreach}
 

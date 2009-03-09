@@ -29,7 +29,7 @@
             <td> {$row.label_b_a} </td>	
             <td> {if $row.contact_type_a_display} {$row.contact_type_a_display} {else}  {ts}All Contacts{/ts} {/if} </td>	
             <td> {if $row.contact_type_b_display} {$row.contact_type_b_display} {else}  {ts}All Contacts{/ts} {/if} </td>	
-            <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
+            <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>

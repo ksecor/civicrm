@@ -61,7 +61,7 @@
     <td>{$row.pledge_next_pay_date|truncate:10:''|crmDate}</td>
     <td class="right">{$row.pledge_next_pay_amount|crmMoney}</td>
     <td>{$row.pledge_status_id}</td>	
-    <td class="btn-slide" id={$row.pledge_id}>{$row.action|replace:'xx':$row.pledge_id}</td>
+    <td>{$row.action|replace:'xx':$row.pledge_id}</td>
    </tr>
    <tr id="{$row.pledge_id}_hide" class='{$rowClass}'>
      <td style="border-right: none;">
