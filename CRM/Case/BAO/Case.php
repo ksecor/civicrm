@@ -704,26 +704,32 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
     static function getCaseActivity( $caseID, &$params, $contactID,  $skipDetails = false )
     {
         $values = array( );
+        $where  = ' ';
         if ( $skipDetails ) {
             if ( !$caseID ) {
                 return;
             }
             
-            $query = "SELECT ca.id 
+            if ( CRM_Utils_Array::value( 'activity_type_id', $params ) ) {
+                $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['activity_type_id'], 'Integer' );
+            }
+            
+            $query = "SELECT ca.id, ca.due_date_time
                       FROM civicrm_activity ca 
                       LEFT JOIN civicrm_case_activity cca ON cca.activity_id = ca.id LEFT JOIN civicrm_case cc ON cc.id = cca.case_id 
-                      WHERE cc.id = %1";
-            
+                      WHERE cc.id = %1 {$where}";
+                        
             $params = array( 1 => array( $caseID, 'Integer' ) );
             $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
             
             while ( $dao->fetch( ) ) {
-                $values[$dao->id]['id']  = $dao->id;
+                $values[$dao->id]['id']        = $dao->id;
+                $values[$dao->id]['due_date']  = $dao->due_date_time;
             }
             $dao->free( );
             return $values;
         }
-
+        
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter, 
@@ -737,7 +743,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                        civicrm_activity ca, 
                        civicrm_contact cc '; 
 
-        $where = 'WHERE cca.case_id= %1 
+        $where .= 'WHERE cca.case_id= %1 
                     AND ca.id = cca.activity_id 
                     AND cc.id = ca.source_contact_id
                     AND ca.is_current_revision = 1';

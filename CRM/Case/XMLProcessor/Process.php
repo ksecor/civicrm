@@ -318,15 +318,33 @@ AND        ca.case_id = %3
                 $activityParams['custom'] = $params['custom'];
             }
         } else {
-            $dueDateTime = $params['dueDateTime'];
+            //get due date of reference activity if set.
+            if ( (string) $activityTypeXML->reference_activity ) {
+                $referenceActivityInfo = CRM_Utils_Array::value( (string)$activityTypeXML->reference_activity, $activityTypes );
+                $caseActivityParams = array( 'activity_type_id' => $referenceActivityInfo['id'] );
+                
+                require_once 'CRM/Case/BAO/Case.php';
+                $referenceActivity = CRM_Case_BAO_Case::getCaseActivity( $params['caseID'], $caseActivityParams, null,  true );
+                
+                if ( $referenceActivity ) {
+                    foreach( $referenceActivity as $aId => $details ) {
+                        $dueDateTime = CRM_Utils_Array::value('due_date', $details );
+                    }
+                }
+                
+            } else {
+                $dueDateTime = $params['dueDateTime'];
+            }
+
             $datetime    = new DateTime( $dueDateTime );
             $activityDueTime = CRM_Utils_Date::unformat( $datetime->format('Y:m:d:H:i:s'), ':' );
 
-            if ( (int ) $activityTypeXML->reference_offset ) {
-                $activityDueTime = 
-                    CRM_Utils_Date::intervalAdd( 'day', (int ) $activityTypeXML->reference_offset, 
-                                                 $activityDueTime );
+            //add reference offset to date.
+            if ( (int) $activityTypeXML->reference_offset ) {
+                $activityDueTime = CRM_Utils_Date::intervalAdd( 'day', (int) $activityTypeXML->reference_offset, 
+                                                                $activityDueTime );
             }
+            
             $activityParams['due_date_time'] = CRM_Utils_Date::format( $activityDueTime );
         }
 
