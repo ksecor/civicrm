@@ -118,23 +118,20 @@ class CRM_Core_Page_AJAX_Location
     }
 
     function getLocBlock( ) {
-        if ( !isset($_POST['lbid']) ) {
-            exit( );
-        }
-
         // i wish i could retrieve loc block info based on loc_block_id, 
         // Anyway, lets retrieve an event which has loc_block_id set to 'lbid'.  
-        $params  = array('1' => array($_POST['lbid'], 'Integer')); 
-        $eventId = CRM_Core_DAO::singleValueQuery('SELECT id FROM civicrm_event WHERE loc_block_id=%1 LIMIT 1', $params);
-        if ( !$eventId ) {
-            exit( );
+        if ( $_POST['lbid'] ) {
+            $params  = array('1' => array($_POST['lbid'], 'Integer')); 
+            $eventId = CRM_Core_DAO::singleValueQuery('SELECT id FROM civicrm_event WHERE loc_block_id=%1 LIMIT 1', $params);
         }
 
         // now lets use the event-id obtained above, to retrieve loc block information.  
-        $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
-        require_once 'CRM/Core/BAO/Location.php';
-        // second parameter is of no use, but since required, lets use the same variable.
-        $location = CRM_Core_BAO_Location::getValues($params, $params);
+        if ( $eventId ) {
+            $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
+            require_once 'CRM/Core/BAO/Location.php';
+            // second parameter is of no use, but since required, lets use the same variable.
+            $location = CRM_Core_BAO_Location::getValues($params, $params);
+        }
 
         // lets output only required fields. 
         $fields   = array( "location[1][address][street_address]",

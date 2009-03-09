@@ -65,7 +65,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      *
      * @var int
      */
-    protected $_oldLocBlockId = null;
+    protected $_oldLocBlockId = 0;
 
     /** 
      * Function to set variables up before form is built 
@@ -97,7 +97,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             
             $params = array( 'id' => $eventId );
             CRM_Event_BAO_Event::retrieve( $params, $defaults );
-            $this->_oldLocBlockId = $defaults['loc_event_id'] = $defaults['loc_block_id'];
+            $defaults['loc_event_id'] = $defaults['loc_block_id'];
 
             $countLocUsed = CRM_Event_BAO_Event::countEventsUsingLocBlockId( $defaults['loc_block_id'] );
             if ( $countLocUsed > 1 ) {
@@ -127,9 +127,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                                                                                   $config->defaultContactCountry ) );
             }
         }
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $defaults['location_option'] = $this->_oldLocBlockId ? 2 : 1;
-        }
+        $defaults['location_option'] = $this->_oldLocBlockId ? 2 : 1;
+
         return $defaults;
     }
 
@@ -221,6 +220,11 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         //fix for CRM-1971
         $this->assign( 'action', $this->_action );
 
+        if ( $this->_id ) {
+            $this->_oldLocBlockId = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', 
+                                                                $this->_id, 'loc_block_id' );
+        }
+
         // get the list of location blocks being used by other events
         $locationEvents = CRM_Event_BAO_Event::getLocationEvents( );
         
@@ -232,7 +236,10 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             
             $this->addRadio( 'location_option', ts("Choose Location"), $optionTypes,
                              array( 'onclick' => "showLocFields();"), '<br/>', false );
-            
+
+            if ( !isset($locationEvents[$this->_oldLocBlockId]) || (!$this->_oldLocBlockId) ) {
+                $locationEvents = array( '' => ts('- select -') ) + $locationEvents;
+            }
             $this->add( 'select', 'loc_event_id', ts( 'Use Location' ), $locationEvents );
         }
         parent::buildQuickForm();
@@ -252,6 +259,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
 
         // if 'use existing location' option is selected -
         if ( ( $params['location_option'] == 2 ) &&
+             CRM_Utils_Array::value('loc_event_id', $params) && 
              ( $params['loc_event_id'] != $this->_oldLocBlockId ) ) {
             // if new selected loc is different from old loc, update the loc_block_id 
             // so that loc update would affect the selected loc and not the old one.
