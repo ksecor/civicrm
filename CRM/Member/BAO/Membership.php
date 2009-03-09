@@ -309,7 +309,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         $transaction->commit( );
 
-        $relatedMembership = self::createRelatedMemberships( $params, $membership );
+        self::createRelatedMemberships( $params, $membership );
         
         return $membership;
     }
@@ -1403,12 +1403,20 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
      */
     static function createRelatedMemberships( &$params, &$membership ) 
     {
+        static $relatedMemberships = array( );
+            
         // required since create method doesn't return all the
         // parameters in the returned membership object
         if ( ! $membership->find( true ) ) {
-            return null;
+            return;
         }
 
+        // check for loops. CRM-4213
+        if ( CRM_Utils_Array::value( $membership->contact_id, $relatedMemberships ) ) {
+            return;
+        }
+        $relatedMemberships[$membership->contact_id] = true;
+            
         $relatedContacts = array( );
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
             $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
@@ -1418,7 +1426,6 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                                                                                       );
         }
         
-        $relatedMembership = null;
         if ( ! empty($relatedContacts) ) {
             // delete all the related membership records before creating
             CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
@@ -1440,6 +1447,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
                 $params['contact_id'         ] = $contactId;
                 $params['owner_membership_id'] = $membership->id;
+
                 // set status_id as it might have been changed for
                 // past relationship
                 $params['status_id'          ] = $membership->status_id;
@@ -1467,11 +1475,9 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                 // we should not created contribution record for related contacts, CRM-3371
                 unset( $params['contribution_status_id'] );
 
-                $relatedMembership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+                CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }
-        
-        return $relatedMembership;
     }
 }
 
