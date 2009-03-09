@@ -48,9 +48,9 @@ class CRM_Event_Form_EventFees
      */ 
     static function preProcess( &$form )  
     {
-        $form->_eventId       = CRM_Utils_Request::retrieve( 'eventId', 'Positive', $form );
-        $form->_pId = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $form );
-        $form->_discountId    = CRM_Utils_Request::retrieve( 'discountId', 'Positive', $form );
+        $form->_eventId    = CRM_Utils_Request::retrieve( 'eventId', 'Positive', $form );
+        $form->_pId        = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $form );
+        $form->_discountId = CRM_Utils_Request::retrieve( 'discountId', 'Positive', $form );
     }
     
     /**
@@ -69,15 +69,24 @@ class CRM_Event_Form_EventFees
             $params = array( 'id' => $form->_pId );
             
             require_once "CRM/Event/BAO/Participant.php";
-            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );            
+            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
+            if ( $form->_action == CRM_Core_Action::UPDATE ) {
+                $discounts = array( );
+                if ( !empty( $form->_values['discount'] ) ) {
+                    foreach( $form->_values['discount'] as $key => $value ) { 
+                        $discounts[$key] = $value['name'];
+                    }
+                }
+                $form->assign( 'discount', $discounts[$defaults[$form->_pId]['discount_id']] );
+            }
             $defaults[$form->_pId]['send_receipt'] = 0;
         } else {
             $defaults[$form->_pId]['send_receipt'] = 1;
             if ( $form->_eventId ) {
                 $defaults[$form->_pId]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                                                $form->_eventId, 
-                                                                                                'confirm_email_text'
-                                                                                                );
+                                                                                      $form->_eventId, 
+                                                                                      'confirm_email_text'
+                                                                                      );
             }
             $today_date = getDate();
             $defaults[$form->_pId]['receive_date']['M'] = $today_date['mon'];

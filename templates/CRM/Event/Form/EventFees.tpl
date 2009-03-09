@@ -73,7 +73,9 @@
      <tr>
      <td class ='html-adjust' colspan=2>
      	<dl class="html-adjust">
-        {if $form.discount_id.label}
+	{if $discount}
+            <dt class="label">{ts}Discount Set{/ts}</dt><dd>{$discount}</dd>
+        {else if $form.discount_id.label}
             <dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
         {/if}
 	 {if $action EQ 2}
