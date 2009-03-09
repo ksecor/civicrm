@@ -3,8 +3,14 @@
     <div class="form-item">
     <table class="form-layout">
     {if $priceSet}
-    	{if $action eq 2}	
-    	    {include file="CRM/Event/Form/LineItems.tpl"}
+    	{if $action eq 2}
+	    {if $line_items}	
+    	        <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+	    {else}
+                 <tr><td class="label">{ts}Event Level{/ts}</td>
+		     <td>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</td>
+		 </tr>
+            {/if}
         {else}
      <tr>  
      <td class="label">{$form.amount.label}</td>

@@ -13,7 +13,11 @@
             <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         {/if}
         {if $fee_level}
-	    {include file="CRM/Event/Form/LineItems.tpl"} 
+	    {if $line_items}
+	        {include file="CRM/Event/Form/LineItems.tpl"} 
+	    {else}
+                <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</dd>
+            {/if}
         {/if}
         {foreach from=$note item="rec"}
 	    {if $rec }

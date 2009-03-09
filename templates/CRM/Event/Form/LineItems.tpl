@@ -1,4 +1,3 @@
-{if $line_items}
     {assign var="total_price" value=0}
     <dt>{ts}Event Fees{/ts}</dt>
     <dd>
@@ -36,6 +35,3 @@
                  {/if}
         </table>
     </dd>
-{else}
-    <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</dd>
-{/if}
