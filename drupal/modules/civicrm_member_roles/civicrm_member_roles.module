@@ -409,7 +409,10 @@ function _civicrm_member_roles_sync($ext_uid = NULL)
                 $memberships .= ' AND cc.id = %3';
                 $params[3] = array((int) $cid, 'Integer');
             } else {
-                watchdog('civicrm_member_roles', t('The uid: !1 did not have a CiviCRM Contact ID.', array('!1' => (int) $ext_uid)), WATCHDOG_ERROR);
+                watchdog('civicrm_member_roles', 
+                         'The uid: @uid did not have a CiviCRM Contact ID.',
+                         array('@uid' => (int) $ext_uid),
+                         WATCHDOG_ERROR);
                 return FALSE;
             }
         }
