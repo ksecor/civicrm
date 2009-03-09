@@ -78,6 +78,8 @@ class CRM_Event_Form_EventFees
                     }
                 }
                 $form->assign( 'discount', $discounts[$defaults[$form->_pId]['discount_id']] );
+                $form->assign( 'fee_amount', $defaults[$form->_pId]['fee_amount'] );
+                $form->assign( 'fee_level', $defaults[$form->_pId]['fee_level'] );
             }
             $defaults[$form->_pId]['send_receipt'] = 0;
         } else {
@@ -371,7 +373,6 @@ class CRM_Event_Form_EventFees
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $event['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $form, true, $form->_discountId );
-            $form->assign ( 'feeBlock' ,  $form->_feeBlock);
             $form->assign ( 'line_items' ,  $form->_values['line_items']);
             $discounts = array( );
             if ( !empty( $form->_values['discount'] ) ) {

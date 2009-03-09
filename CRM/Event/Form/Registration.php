@@ -528,7 +528,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
             }
             $form->_priceSetId = $priceSetId;
-            $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
+            $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId, false);
             $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->set('priceSetId', $form->_priceSetId);

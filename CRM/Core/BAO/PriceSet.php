@@ -435,7 +435,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @param int $setId - price set id whose details are needed
      * @return array $setTree - array consisting of field details
      */
-    public static function getSetDetail($setID) {
+    public static function getSetDetail($setID, $required = true) {
         // create a new tree
         $setTree = array();
         $select = $from = $where = $orderBy = '';
@@ -449,10 +449,11 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
             'help_post',
             'is_display_amounts',
             'options_per_line',
-            'is_active',
-            'is_required'
+            'is_active'
         );
-
+        if ( $required == true ) {
+            $priceFields[] = 'is_required';   
+        }
         // create select
         $select = 'SELECT ' . implode( ',', $priceFields );
         $from = ' FROM civicrm_price_field';
