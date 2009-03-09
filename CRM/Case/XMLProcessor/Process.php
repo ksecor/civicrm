@@ -320,23 +320,29 @@ AND        ca.case_id = %3
         } else {
             //get due date of reference activity if set.
             if ( (string) $activityTypeXML->reference_activity ) {
-                $referenceActivityInfo = CRM_Utils_Array::value( (string)$activityTypeXML->reference_activity, $activityTypes );
-                $caseActivityParams = array( 'activity_type_id' => $referenceActivityInfo['id'] );
-                
-                require_once 'CRM/Case/BAO/Case.php';
-                $referenceActivity = CRM_Case_BAO_Case::getCaseActivity( $params['caseID'], $caseActivityParams, null,  true );
-                
-                if ( $referenceActivity ) {
-                    foreach( $referenceActivity as $aId => $details ) {
-                        $dueDateTime = CRM_Utils_Array::value('due_date', $details );
+                $referenceActivityInfo = CRM_Utils_Array::value( (string)$activityTypeXML->reference_activity, 
+                                                                 $activityTypes );
+                if ( $referenceActivityInfo['id'] ) {
+                    $caseActivityParams = array( 'activity_type_id' => $referenceActivityInfo['id'] );
+                    
+                    require_once 'CRM/Case/BAO/Case.php';
+                    $referenceActivity = 
+                        CRM_Case_BAO_Case::getCaseActivity( $params['caseID'], 
+                                                            $caseActivityParams, 
+                                                            null,  true      );
+                    if ( is_array($referenceActivity) ) {
+                        foreach( $referenceActivity as $aId => $details ) {
+                            $dueDateTime = CRM_Utils_Array::value('due_date', $details );
+                            break;
+                        }
                     }
                 }
-                
-            } else {
+            }
+            if ( ! $dueDateTime ) {
                 $dueDateTime = $params['dueDateTime'];
             }
 
-            $datetime    = new DateTime( $dueDateTime );
+            $datetime        = new DateTime( $dueDateTime );
             $activityDueTime = CRM_Utils_Date::unformat( $datetime->format('Y:m:d:H:i:s'), ':' );
 
             //add reference offset to date.
