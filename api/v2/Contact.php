@@ -160,6 +160,8 @@ function &civicrm_contact_get( &$params ) {
     if ( count( $contacts ) != 1 &&
          ! CRM_Utils_Array::value( 'returnFirst', $params ) ) {
         return civicrm_create_error( ts( '%1 contacts matching input params', array( 1 => count( $contacts ) ) ) );
+    } else if ( count( $contacts ) == 0 ) {
+        return civicrm_create_error( ts( 'No contacts match the input params' ) );
     }
 
     $contacts = array_values( $contacts );
