@@ -153,9 +153,7 @@ class CRM_Core_Page_AJAX_Location
         $result = array( );
         foreach ( $fields as $fld ) {
             eval("\$value = \${$fld};");
-            if ( $value ) {
-                $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
-            }
+            $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
         }
 
         // set the message if loc block is being used by more than one event.
