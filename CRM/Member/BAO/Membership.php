@@ -1403,27 +1403,32 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
      */
     static function createRelatedMemberships( &$params, &$membership ) 
     {
-        static $relatedMemberships = array( );
+        static $relatedContactIds = array( );
             
         // required since create method doesn't return all the
         // parameters in the returned membership object
         if ( ! $membership->find( true ) ) {
             return;
         }
-
-        // check for loops. CRM-4213
-        if ( CRM_Utils_Array::value( $membership->contact_id, $relatedMemberships ) ) {
-            return;
-        }
-        $relatedMemberships[$membership->contact_id] = true;
             
+        $allRelatedContacts = array( );
         $relatedContacts = array( );
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
-            $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
+            $allRelatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
                                                                                       $membership->id,
                                                                                       $membership->contact_id,
                                                                                       CRM_Utils_Array::value( 'action', $params )
                                                                                       );
+        }
+
+        // check for loops. CRM-4213
+        // remove repeated related contacts, which already inherited membership.
+        $relatedContactIds[$membership->contact_id] = true;
+        foreach( $allRelatedContacts as $cid => $status ) {
+            if ( !CRM_Utils_Array::value( $cid, $relatedContactIds ) ) {
+                $relatedContacts[$cid] =  $status;
+                $relatedContactIds[$cid] = true;
+            }
         }
         
         if ( ! empty($relatedContacts) ) {
