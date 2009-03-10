@@ -1233,7 +1233,7 @@ commented since it is overwiting simple td
   border     : solid 1px #CCC;
   background : #EEE;
   padding    : 0px;
-  margin     :-20px 0px 0px 55px;
+  margin     : 0px;
   display    : none;
 }
 
