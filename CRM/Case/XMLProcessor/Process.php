@@ -274,7 +274,7 @@ AND        ca.case_id = %3
         $activityTypeID = $activityTypeInfo['id'];
 
         if ( isset( $activityTypeXML->status ) ) {
-            $statusName = (string ) $activityTypeXML->status;
+            $statusName = (string) $activityTypeXML->status;
         } else {
             $statusName = 'Scheduled';
         }
@@ -286,7 +286,7 @@ AND        ca.case_id = %3
                                      'is_auto'             => false,
                                      'is_current_revision' => 1,
                                      'subject'             => CRM_Utils_Array::value('subject', $params) ? $params['subject'] : $activityTypeName,
-                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
+                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'activity_status',
                                                                                               $statusName,
                                                                                               'name' ),
                                      'target_contact_id'   => $params['clientID'],
@@ -300,7 +300,7 @@ AND        ca.case_id = %3
                                      'source_contact_id'   => $params['creatorID'],
                                      'is_auto'             => true,
                                      'is_current_revision' => 1,
-                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
+                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'activity_status',
                                                                                             $statusName,
                                                                                             'name' ),
                                      'target_contact_id'   => $params['clientID'],
@@ -318,6 +318,7 @@ AND        ca.case_id = %3
                 $activityParams['custom'] = $params['custom'];
             }
         } else {
+            $dueDateTime = null;
             //get due date of reference activity if set.
             if ( (string) $activityTypeXML->reference_activity ) {
                 $referenceActivityInfo = CRM_Utils_Array::value( (string)$activityTypeXML->reference_activity, 
