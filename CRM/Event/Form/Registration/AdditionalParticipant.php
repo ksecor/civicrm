@@ -209,6 +209,8 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                     $errors['_qf_default'] = ts( "Select at least one option from Event Fee(s)." );
                 }
             }
+            require_once 'CRM/Core/BAO/PriceSet.php';
+            CRM_Core_BAO_PriceSet::calculatePriceSet( $self, $fields );
         }
         
         return $errors; 

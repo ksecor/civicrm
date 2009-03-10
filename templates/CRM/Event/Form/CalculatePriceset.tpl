@@ -11,7 +11,8 @@ var formName    = '{/literal}{$form.formName}{literal}';
 var scriptfee   = eval("document."+formName+".scriptFee.value");
 var scriptarray = eval("document."+formName+".scriptArray.value");
 var symbol      = '{/literal}{$currencySymbol}{literal}';
-
+var defaultFee      = parseFloat('{/literal}{$defaultFee}{literal}');
+var defaultSelected = '{/literal}{$defaultSelected}{literal}';
 if ('{/literal}{$totalAmount}{literal}'!= '' ) {
   scriptfee   = parseFloat('{/literal}{$totalAmount}{literal}');
   scriptarray = ',{/literal}{$feeString}{literal}';
@@ -22,6 +23,13 @@ if(scriptfee){
   document.getElementById('pricelabel').style.display = "block";
   document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalEventFee;
   scriptfee = parseFloat('0');
+}
+if ( defaultFee && ! totalfee ) {
+  totalfee = defaultFee;
+  scriptarray = defaultSelected;
+  document.getElementById('pricelabel').style.display = "block";
+  var totalEventFee  = formatMoney( totalfee, 2, seperator, thousandMarker);
+  document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalEventFee;
 }
 var price = new Array();
 if(scriptarray){

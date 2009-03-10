@@ -499,6 +499,47 @@ WHERE  id = %1";
         return $setTree;
     }
 
+    /***
+     *
+     *Fetch total amount for given price set.
+     *
+     *@params array form element.
+     *
+     */
+    static function calculatePriceSet( &$form, $field ) 
+    {
+        $id = array('0' => null );
+        $values = $form->_priceSet['fields'];
+        foreach( $field as $key => $val ) {
+            if ( substr( $key, 0,6 ) == 'price_' ) {
+                $groupId = substr( $key, 6 );
+                if ( is_array( $val ) && is_array( $values[$groupId]['options'] ) ){
+                    $id[$groupId]= array_intersect_key ( $values[$groupId]['options'], array_flip( array_keys( $val ) ) );
+                } else {
+                    if ( $values[$groupId]['html_type'] == 'Text') {
+                        $id[$groupId] = $values[$groupId]['options'];
+                        list( $priceId )= array_keys( $id[$groupId] );
+                        $id[$groupId][$priceId]['name'] *= $val;
+                    } else {
+                        $id[$groupId][$val] = $values[$groupId]['options'][$val];
+                    }
+                }
+            }
+        }
+
+        $priceValue = array_fill( 0, $groupId + 1, null );
+        foreach( $id as $key => $value ) {
+            if ( is_array( $value ) ) {
+                foreach ( $value as $val ) {
+                    $priceValue[$key] += $val['name'];
+                }
+            } else {
+                $priceValue[$key] = $value['name'];
+            }
+        }
+        $form->assign( 'defaultFee'     , array_sum( $priceValue) );
+        $form->assign( 'defaultSelected', implode(',', $priceValue) );
+    }
 }
 
 
