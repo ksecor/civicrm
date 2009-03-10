@@ -228,6 +228,19 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         // get the list of location blocks being used by other events
         $locationEvents = CRM_Event_BAO_Event::getLocationEvents( );
         
+        // remove duplicates and make sure that the duplicate entry with key as 
+        // loc_block_id of this event (this->_id) is preserved
+        if ( CRM_Utils_Array::value($this->_oldLocBlockId, $locationEvents) ) {
+            $possibleDuplicate = $locationEvents[$this->_oldLocBlockId];
+            $locationEvents    = array_flip(array_unique($locationEvents));
+            if ( CRM_Utils_Array::value($possibleDuplicate, $locationEvents) ) {
+                $locationEvents[$possibleDuplicate] = $this->_oldLocBlockId;
+            }
+            $locationEvents = array_flip($locationEvents);
+        } else {
+            $locationEvents = array_unique($locationEvents);
+        }
+        
         $events = array();
         if ( !empty( $locationEvents ) ) {
             $this->assign( 'locEvents', true );

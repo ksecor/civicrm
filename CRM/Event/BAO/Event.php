@@ -693,11 +693,8 @@ WHERE civicrm_event.is_active = 1
         
         CRM_Core_DAO::commonRetrieve( 'CRM_Event_DAO_Event', $eventParams, $eventValues, $returnProperties );
         
-        //handle the location info.
-        if ( $locBlockId = CRM_Utils_Array::value( 'loc_block_id', $eventValues ) ) {
-            require_once 'CRM/Core/BAO/Location.php';
-            $copyLocBlockId = CRM_Core_BAO_Location::copyLocBlock( $locBlockId );
-        }
+        // since the location is sharable, lets use the same loc_block_id.
+        $locBlockId     = CRM_Utils_Array::value( 'loc_block_id', $eventValues );
         
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
         
@@ -708,7 +705,7 @@ WHERE civicrm_event.is_active = 1
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
                                                       array( 'id' => $id ), 
                                                       array( 'loc_block_id' => 
-                                                             ( $locBlockId ) ? $copyLocBlockId : null ), 
+                                                             ( $locBlockId ) ? $locBlockId : null ), 
                                                       $fieldsToPrefix );
         
         $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_PriceSetEntity', 
@@ -1273,7 +1270,6 @@ FROM   civicrm_event ce
 INNER JOIN civicrm_loc_block lb ON ce.loc_block_id = lb.id
 INNER JOIN civicrm_address ca   ON lb.address_id = ca.id
 LEFT  JOIN civicrm_state_province sp ON ca.state_province_id = sp.id
-GROUP BY sp.name, ca.street_address, ca.city
 ORDER BY sp.name, ca.city, ca.street_address ASC
 ";
         

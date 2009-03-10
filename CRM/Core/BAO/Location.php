@@ -116,12 +116,19 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         $locBlock['address_id']   = $location['address'][0]->id;
         $locBlock['address_2_id'] = $location['address'][1]->id;
        
+        $countNull = 0;
         foreach( $locBlock as $key => $block) {
             if ( empty($locBlock[$key] ) ) {
                 $locBlock[$key] = 'null';
+                $countNull++;
             }
         }
         
+        if ( count($locBlock) == $countNull ) {
+            // implies nothing is set.
+            return null;
+        }
+
         $locBlockInfo = self::addLocBlock( $locBlock );
         return $locBlockInfo->id;
       
