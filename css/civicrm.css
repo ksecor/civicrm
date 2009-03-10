@@ -1233,8 +1233,9 @@ commented since it is overwiting simple td
   border     : solid 1px #CCC;
   background : #EEE;
   padding    : 0px;
-  margin     : -92px 0px 0px -218px;
+  margin     : -95px 0px 0px -275px;
   display    : none;
+  width      : 132px;
 }
 
 #crm-container .contextMenu li {
