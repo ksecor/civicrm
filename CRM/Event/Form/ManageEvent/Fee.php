@@ -308,7 +308,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             } else {
                 $_showHide->addShow($showBlocks);
             }
-           
+
             //Increment by 1 of start date of previous end date.
             if ( is_array( $this->_submitValues ) &&
                  ! empty( $this->_submitValues['discount_name'][$i] ) &&
@@ -319,7 +319,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                  $i <  self::NUM_DISCOUNT - 1 ) {
                 $end_date = CRM_Utils_Date::format( $this->_submitValues['discount_end_date'][$i], '-' );
                 if (! empty( $this->_submitValues['discount_end_date'][$i + 1]['M'] ) 
-                    && empty( $this->_submitValues['discount_start_date'][$i + 1]['M'] ) )  {
+                     && empty( $this->_submitValues['discount_start_date'][$i + 1]['M'] ) )  {
                     $this->_submitValues['discount_start_date'][$i + 1] = 
                         CRM_Utils_Date::unformat( date('Y-m-d', strtotime ("+1 days $end_date") ));
                 }
@@ -384,84 +384,73 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         $errors = array( );
-        //validation for discounts.
         if ( CRM_Utils_Array::value( 'is_discount', $values ) ) {
+            $occurDiscount = array_count_values( $values['discount_name'] );
             $countemptyrows  = 0;
             $countemptyvalue = 0;
-            
-            $start_dates = array( );
-            $end_dates = array( ); 
-            
-            for ( $i = 1; $i < self::NUM_DISCOUNT; $i++ ) {
-                
+            for ( $i = 1; $i <= self::NUM_DISCOUNT; $i++ ) {
                 if ( CRM_Utils_Array::value( $i,  $values['discount_name'] ) ) {
-                    //validation for non diplicate discount labels
-                    if ( array_search($values['discount_name'][$i], $values['discount_name'] ) != $i ) {
-                        $errors['discount_name['.$i.']'] = ts('%1 is already used for Discount Name.', array(1 => $values['discount_name'][$i]));
+                    if ( CRM_Utils_Array::value( $i, $values['discount_start_date'] ) ) {
+                        $start_date = CRM_Utils_Date::format( $values['discount_start_date'][$i] );
                     }
                     
-                    //validation for valid dates.
-                    $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Date::format( $values['discount_start_date'][$i], '-' ) );
-                    $endDate   = CRM_Utils_Date::unixTime( CRM_Utils_Date::format( $values['discount_end_date'][$i], '-' ) );
-                    
-                    if ( ! $startDate && ! $endDate ) {
-                        $errors["discount_start_date[$i]"] = $errors["discount_end_date[$i]"] = ts( 'Please specify either start date or end date.' );
+                    if ( CRM_Utils_Array::value( $i, $values['discount_end_date'] ) ) {
+                        $end_date   = CRM_Utils_Date::format( $values['discount_end_date'][$i] );
                     }
 
-                    if ( $endDate < $startDate ) {
+                    if ( $start_date && $end_date && (int ) $end_date < (int ) $start_date ) {
                         $errors["discount_end_date[$i]"] = ts( 'The discount end date cannot be prior to the start date.' );
                     }
+                    
+                    if ( ! $start_date && ! $end_date ) {
+                        $errors["discount_start_date[$i]"] = $errors["discount_end_date[$i]"] = ts( 'Please specify either start date or end date.' );
+                    }
+                    
+                    if ( $i > 1 ) {
+                        $end_date_1 = CRM_Utils_Date::format( $values['discount_end_date'][$i-1] );
+                        if ( $start_date && $end_date_1 && (int ) $end_date_1 >= (int ) $start_date ) {
+                            $errors["discount_start_date[$i]"] = ts( 'Select non-overlapping discount start date.' );
+                        } elseif ( ! $start_date && ! $end_date_1 ) {
+                            $j = $i-1;
+                            $errors["discount_start_date[$i]"] = 
+                                $errors["discount_end_date[$j]"] = ts( 'Select either of the dates.' );
+                        }
+                    }
+                    
+                    foreach ( $occurDiscount as $key => $value )            
+                        if ( $value > 1 && $key <> '' ) {
+                            if ( $key == $values['discount_name'][$i] ) {
+                                $errors['discount_name['.$i.']'] = ts('%1 is already used for Discount Name.', array(1 => $key));
+                            }
+                        }
 
-                    //validation for overlaping dates.
-                    for ( $count = 1; $count < self::NUM_DISCOUNT; $count++ ) {
-                        if ( $count != $i ) {
-                            if ( $start_dates[$count] <= $startDate &&  $startDate <= $end_dates[$count] ) {
-                                $errors["discount_start_date[$i]"] = ts( 'Select non-overlapping discount start date.' );
-                                $startDate = null;
-                                break;
-                            } else if ( $start_dates[$count] <= $endDate &&  $endDate <= $end_dates[$count] ) { 
-                                $errors["discount_end_date[$i]"] = ts( 'Select non-overlapping discount end date.' );
-                                $endDate = null;
-                                break;
-                            } else if ( $startDate <= $start_dates[$count] && $start_dates[$count] <= $endDate ) {
-                                $errors["discount_start_date[$count]"] = ts( 'Select non-overlapping discount start date.' );
-                            } else if ( $startDate <= $end_dates[$count] && $end_dates[$count] <= $endDate ) {
-                                $errors["discount_end_date[$count]"] = ts( 'Select non-overlapping discount end date.' );
-                            }
-                        }
-                    }
-                    if ( $startDate && $endDate ) {
-                        $start_dates[$i] =  $startDate ;
-                        $end_dates[$i]   =  $endDate ;
-                    }
-                         
-                    //validation for discount labels and values         
-                    if ( CRM_Utils_Array::value( '_qf_Fee_upload', $values ) ) {
-                        
-                        for ( $index = ( self::NUM_OPTION ) ; $index > 0 ; $index-- ) { 
-                            //validation for non empty label
-                            if ( empty( $values['discounted_label'][$index] ) && ! empty( $values['discounted_value'][$index][$i] ) ) {
+                    //validation for discount labels and values                 
+                    for ( $index = ( self::NUM_OPTION ) ; $index > 0 ; $index-- ) { 
+                        $label = true;
+                        if ( empty( $values['discounted_label'][$index] ) && ! empty( $values['discounted_value'][$index][$i] ) ) {
+                            $label = false;
+                            if ( ! $label ) {
                                 $errors["discounted_label[{$index}]"] = ts( 'Label cannot be empty.' );      
-                            } else if( empty( $values['discounted_value'][$index][$i]) ){
-                                $countemptyvalue++; 
-                            }
-                            
-                            if ( empty( $values['discounted_label'][$index] ) && empty( $values['discounted_value'][$index][$i] ) ) {
-                                $countemptyrows++; 
-                            }
-                            //validation for non duplicate labels
-                            if ( ! empty( $values['discounted_label'][$index] ) ) {
-                                if( array_search($values['discounted_label'][$index], $values['discounted_label']) != $index ) {
-                                    $errors["discounted_label[{$index}]"] = ts( 'Duplicate label value' );      
-                                }
                             }
                         }
-                        //validation for all empty labels
-                        if ( $countemptyrows == 11 || $countemptyvalue == 11 ) {
-                            $errors["discounted_label[1]"] = $errors["discounted_value[1][$i]"] = 
-                                ts('At least one fee should be entered for your Discount Set. If you do not see the table to enter discount fees, click the "Add Discount Set to Fee Table" button.');
-                        } 
-                    }     
+                        if ( ! empty( $values['discounted_label'][$index] ) ) {
+                            $duplicateIndex = CRM_Utils_Array::key( $values['discounted_label'][$index], $values['discounted_label'] );
+                            
+                            if( ( ! ( $duplicateIndex === false ) ) && ( ! ( $duplicateIndex == $index ) ) ) {
+                                $errors["discounted_label[{$index}]"] = ts( 'Duplicate label value' );      
+                            }
+                        }
+                        if ( empty( $values['discounted_label'][$index] ) && empty( $values['discounted_value'][$index][$i] ) ) {
+                            $countemptyrows++; 
+                        }
+                        if ( empty( $values['discounted_value'][$index][$i] ) ) {
+                            $countemptyvalue++; 
+                        }
+                    }
+                    if ( CRM_Utils_Array::value( '_qf_Fee_next', $values ) && ( $countemptyrows == 11 || $countemptyvalue == 11 ) ) {
+                        $errors["discounted_label[1]"] = $errors["discounted_value[1][$i]"] = 
+                            ts('At least one fee should be entered for your Discount Set. If you do not see the table to enter discount fees, click the "Add Discount Set to Fee Table" button.');
+                    }
                 }
             }
         }
