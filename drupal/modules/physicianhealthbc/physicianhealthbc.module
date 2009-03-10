@@ -40,9 +40,6 @@ function physicianhealthbc_initialize( ) {
         civicrm_initialize( );
     }
 
-//    $path = drupal_get_path( 'module', 'physicianhealthbc' );
-//   drupal_set_html_head( "<style type=\"text/css\">@import url( '/$path/../custom_templates/physicianhealthbc.css' );</style>\n" );
-
 }
 
 function physicianhealthbc_civicrm_dashboard( $contactID, &$placement ) {
@@ -81,22 +78,7 @@ AND ( (act.due_date_time Is Null AND act.activity_date_time < TIMESTAMPADD(WEEK,
 $sql .= empty($mine) ? "" : "AND (act.source_contact_id = {$contactID} OR targ.target_contact_id = {$contactID} OR ass.assignee_contact_id = {$contactID})\n";    
 $sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
 
-
-/*
-    $sql = "SELECT temptable.*, ov2.label as type FROM
- (SELECT ca.id, ca.source_contact_id as contact_id, ca.subject, ca.activity_date_time as date, ca.activity_type_id as type_id, c.display_name as name, ov.label as status
- FROM civicrm_activity ca
- LEFT JOIN civicrm_contact c ON ca.source_contact_id = c.id
- INNER JOIN civicrm_option_value ov ON ov.value = ca.status_id
- INNER JOIN civicrm_option_group og ON og.id = ov.option_group_id
- WHERE og.name='activity_status'
- AND ca.is_current_revision = 1
- ORDER BY ca.activity_date_time DESC) AS temptable
- INNER JOIN civicrm_option_value ov2 ON ov2.value=temptable.type_id
- INNER JOIN civicrm_option_group og2 ON og2.id = ov2.option_group_id
- WHERE og2.name='activity_type'";
-*/
-   
+ 
     $dao = CRM_Core_DAO::executeQuery( $sql );
     $values = array( );
 
@@ -104,7 +86,7 @@ $sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
 			
         $value['date' ] = $dao->due_date_time ? $dao->due_date_time : $dao->activity_date_time;
 
-        $subject = $dao->subject ? $dao->subject : '(No subject)';
+        $subject = $dao->subject ? $dao->subject : ts('(No subject)');
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
                                       "atype={$dao->activity_type_id}&action=update&reset=1&cid={$dao->source_contact_id}&id={$dao->id}" );
         $value['subject'] = "<a href=\"$url\">$subject</a>";
@@ -113,47 +95,55 @@ $sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
 
 		// Take assignee name if present, otherwise creator.
 		$value['contact'] = "";
-		if ( $dao->ass_display_name && $dao->assignee_contact_id) {
+		if ($dao->assignee_contact_id) {
         	$url = CRM_Utils_System::url( 'civicrm/contact/view',
                                       "reset=1&cid={$dao->assignee_contact_id}" );
-        	$value['contact'] = "<a href=\"$url\">$dao->ass_display_name</a>";
-		} elseif ( $dao->source_contact_display_name && $dao->source_contact_id) {
+        	$value['contact'] = "<a href=\"$url\">" . ($dao->ass_display_name ? $dao->ass_display_name : ts('Unknown Contact')) . "</a>";
+		} elseif ($dao->source_contact_id) {
         	$url = CRM_Utils_System::url( 'civicrm/contact/view',
                                       "reset=1&cid={$dao->source_contact_id}" );
-        	$value['contact'] = "<a href=\"$url\">$dao->source_contact_display_name</a>";
+        	$value['contact'] = "<a href=\"$url\">" . ($dao->source_contact_display_name ? $dao->source_contact_display_name : ts('Unknown Contact')) . "</a>";
 		}
 
 		$value['with'] = "";
-		if ( $dao->targ_display_name && $dao->target_contact_id) {
+		if ($dao->target_contact_id) {
         	$url = CRM_Utils_System::url( 'civicrm/contact/view',
                                       "reset=1&cid={$dao->target_contact_id}" );
-        	$value['with'] = "<a href=\"$url\">$dao->targ_display_name</a>";
+        	$value['with'] = "<a href=\"$url\">" . ($dao->targ_display_name ? $dao->targ_display_name: ts('Unknown Contact')) . "</a>";
 		}
 		
 		if (empty($values[$dao->id])) {
 	        $values[$dao->id] = $value;
 		} else {
 			// This is a "duplicate" because there's either multiple contacts or assignees for this activity, so concatenate just those fields
-			if (strpos($values[$dao->id]['contact'], $value['contact']) === FALSE) {
-				$values[$dao->id]['contact'] .= ", " . $value['contact'];
+			if (! empty($value['contact'])) {
+				if (empty($values[$dao->id]['contact'])) {
+					$values[$dao->id]['contact'] = $value['contact'];
+				} elseif (strpos($values[$dao->id]['contact'], $value['contact']) === FALSE) {
+					$values[$dao->id]['contact'] .= ", " . $value['contact'];
+				}
 			}
-			if (strpos($values[$dao->id]['with'], $value['with']) === FALSE) {
-				$values[$dao->id]['with'] .= ", " . $value['with'];
+			if (! empty($value['with'])) {
+				if (empty($values[$dao->id]['with'])) {
+					$values[$dao->id]['with'] = $value['with'];
+				} elseif (strpos($values[$dao->id]['with'], $value['with']) === FALSE) {
+					$values[$dao->id]['with'] .= ", " . $value['with'];
+				}
 			}
 		}
     }
     
     if (empty($values)) {
-    	$html = "No Scheduled Activities in the next two weeks.";
+    	$html = ts("No Scheduled Activities in the next two weeks.");
     } else {
     $html = "
 <table>
 <tr>
-<th>Date</th>
-<th>Subject</th>
-<th>Contact</th>
-<th>With</th>
-<th>Type</th>
+<th>". ts("Date") . "</th>
+<th>". ts("Subject") . "</th>
+<th>". ts("Contact") . "</th>
+<th>". ts("With") . "</th>
+<th>". ts("Type") . "</th>
 </tr>
 ";
 
@@ -205,7 +195,7 @@ $sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
 
         $value['date' ] = $dao->activity_date_time ? $dao->activity_date_time : $dao->due_date_time;
 
-        $subject = $dao->subject ? $dao->subject : '(No subject)';
+        $subject = $dao->subject ? $dao->subject : ts('(No subject)');
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
                                       "atype={$dao->activity_type_id}&action=update&reset=1&cid={$dao->source_contact_id}&id={$dao->id}" );
 /*
@@ -219,48 +209,57 @@ $sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
 
 		// Take assignee name if present, otherwise creator.
 		$value['contact'] = "";
-		if ( $dao->ass_display_name && $dao->assignee_contact_id) {
+		if ($dao->assignee_contact_id) {
         	$url = CRM_Utils_System::url( 'civicrm/contact/view',
                                       "reset=1&cid={$dao->assignee_contact_id}" );
-        	$value['contact'] = "<a href=\"$url\">$dao->ass_display_name</a>";
-		} elseif ( $dao->source_contact_display_name && $dao->source_contact_id) {
+        	$value['contact'] = "<a href=\"$url\">" . ($dao->ass_display_name ? $dao->ass_display_name : ts('Unknown Contact')) . "</a>";
+		} elseif ($dao->source_contact_id) {
         	$url = CRM_Utils_System::url( 'civicrm/contact/view',
                                       "reset=1&cid={$dao->source_contact_id}" );
-        	$value['contact'] = "<a href=\"$url\">$dao->source_contact_display_name</a>";
+        	$value['contact'] = "<a href=\"$url\">" . ($dao->source_contact_display_name ? $dao->source_contact_display_name : ts('Unknown Contact')) . "</a>";
+        	
 		}
 
 		$value['with'] = "";
-		if ( $dao->targ_display_name && $dao->target_contact_id) {
+		if ($dao->target_contact_id) {
         	$url = CRM_Utils_System::url( 'civicrm/contact/view',
                                       "reset=1&cid={$dao->target_contact_id}" );
-        	$value['with'] = "<a href=\"$url\">$dao->targ_display_name</a>";
+        	$value['with'] = "<a href=\"$url\">" . ($dao->targ_display_name ? $dao->targ_display_name: ts('Unknown Contact')) . "</a>";
 		}
 
 		if (empty($values[$dao->id])) {
 	        $values[$dao->id] = $value;
 		} else {
 			// This is a "duplicate" because there's either multiple contacts or assignees for this activity, so concatenate just those fields
-			if (strpos($values[$dao->id]['contact'], $value['contact']) === FALSE) {
-				$values[$dao->id]['contact'] .= ", " . $value['contact'];
+			if (! empty($value['contact'])) {
+				if (empty($values[$dao->id]['contact'])) {
+					$values[$dao->id]['contact'] = $value['contact'];
+				} elseif (strpos($values[$dao->id]['contact'], $value['contact']) === FALSE) {
+					$values[$dao->id]['contact'] .= ", " . $value['contact'];
+				}
 			}
-			if (strpos($values[$dao->id]['with'], $value['with']) === FALSE) {
-				$values[$dao->id]['with'] .= ", " . $value['with'];
+			if (! empty($value['with'])) {
+				if (empty($values[$dao->id]['with'])) {
+					$values[$dao->id]['with'] = $value['with'];
+				} elseif (strpos($values[$dao->id]['with'], $value['with']) === FALSE) {
+					$values[$dao->id]['with'] .= ", " . $value['with'];
+				}
 			}
 		}
     }
     
     if (empty($values)) {
-    	$html2 = "No Activities in the last 2 weeks.";
+    	$html2 = ts("No Activities in the last two weeks.");
     } else {
     $html2 = "
 <table>
 <tr>
-<th>Date</th>
-<th>Subject</th>
-<th>Contact</th>
-<th>With</th>
-<th>Status</th>
-<th>Type</th>
+<th>". ts("Date") . "</th>
+<th>". ts("Subject") . "</th>
+<th>". ts("Contact") . "</th>
+<th>". ts("With") . "</th>
+<th>". ts("Status") . "</th>
+<th>". ts("Type") . "</th>
 </tr>
 ";
 
@@ -284,9 +283,9 @@ $url = CRM_Utils_System::url( 'civicrm/dashboard',
                               "reset=1" );
 $urlMine = CRM_Utils_System::url( 'civicrm/dashboard',
                               "reset=1&mine=1" );
-$html0 = empty($mine) ? "<a href=\"$urlMine\">Show only my activities</a>" : "<a href=\"$url\">Show everyone's activities</a>";
+$html0 = empty($mine) ? "<a href=\"$urlMine\">" . ts("Show only my activities") . "</a>" : "<a href=\"$url\">" . ts("Show everyone's activities") . "</a>";
  
-    return array( ts( '' ) => $html0, ts( 'Scheduled Activities' ) => $html,
+    return array( '' => $html0, ts( 'Scheduled Activities' ) => $html,
      			  ts( 'Recent Activities' ) => $html2,
       			);
 }
