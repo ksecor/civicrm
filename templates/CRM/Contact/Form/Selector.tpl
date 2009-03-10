@@ -51,7 +51,7 @@
                  </td>
                {/if}
             {/foreach}
-            <td class="btn-slide" id={$row.contact_id}>{$row.action|replace:'xx':$row.contact_id}</td>
+            <td>{$row.action|replace:'xx':$row.contact_id}</td>
         </tr>
      {/foreach}
   {else}
@@ -82,16 +82,46 @@
                 {/if}   
               {/foreach}
             {/if}
-            <td class="btn-slide" id={$row.contact_id}>{$row.action|replace:'xx':$row.contact_id}</td>
+            <td>{$row.action|replace:'xx':$row.id}</td>
          </tr>
     {/foreach}
   {/if}
 </table>
 
+<!-- Context Menu -->
+<ul id="contactMenu" class="contextMenu">
+   <li><a href="#contribution">Make Contribution</a></li>
+   <li><a href="#participant">Register Event</a></li>
+   <li><a href="#activity">Record Activity</a></li>
+   <li><a href="#pledge">Make Pledge</a></li>
+   <li><a href="#membership">Record Membership</a></li>
+</ul>
+
  <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}
     var fname = "{$form.formName}";	
     on_load_init_checkboxes(fname);
- </script>
+ {literal}
+cj(document).ready( function() {
+var url= "{/literal}{crmURL p='civicrm/contact/view/changeaction q="reset=1&action=add&cid=changeid&context=changeaction" h=0}{literal}";
+var activityUrl = "{/literal}{crmURL p='civicrm/contact/view/activity q="reset=1&snippet=1&cid=changeid" h=0}{literal}";
 
+// Show menu when contact row is right clicked
+cj(".selector tr").contextMenu({
+		menu: 'contactMenu'
+    }, function( action ){ 
+         cj(".selector tr").mouseover(function() {
+             var contactId = cj(this).attr('id').substr(5);
+             if ( action == 'activity' ) {
+               url = activityUrl.replace( /changeid/, contactId );
+             } else {
+               url =  url.replace( /changeaction/g, action ); url = url.replace( /changeid/, contactId );
+             }
+           window.location = url;
+        });
+	});
+});
+
+{/literal}
+</script>
 {include file="CRM/common/pager.tpl" location="bottom"}

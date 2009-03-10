@@ -1221,6 +1221,41 @@ commented since it is overwiting simple td
 
 #crm-container .panel li a {
   text-decoration : none;
-  color:#333333;
-  display:block;
+  color           : #333333;
+  display         : block;
+}
+
+/*Styles for Context menu */
+
+#crm-container .contextMenu {
+  position   : absolute;
+  z-index    : 9999;
+  border     : solid 1px #CCC;
+  background : #EEE;
+  padding    : 0px;
+  margin     :-20px 0px 0px 55px;
+  display    : none;
+}
+
+#crm-container .contextMenu li {
+  list-style : none;
+  padding    : 0px;
+  margin     : 0px;
+}
+
+#crm-container .contextMenu a {
+  color               : #333;
+  text-decoration     : none;
+  display             : block;
+  line-height         : 20px;
+  height              : 20px;
+  background-position : 6px center;
+  background-repeat   : no-repeat;
+  outline             : none;
+  padding             : 0px 0px 1px 5px;
+}
+
+#crm-container .contextMenu li.hover a {
+  color            : #FFF;
+  background-color : #3399FF;
 }
