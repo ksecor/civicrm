@@ -260,7 +260,7 @@ AND        ca.case_id = %3
     function createActivity( $activityTypeXML,
                              &$params ) {
 
-        $activityTypeName =  (string ) $activityTypeXML->name;
+        $activityTypeName =  (string) $activityTypeXML->name;
         $activityTypes    =& $this->allActivityTypes( );
         $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName, $activityTypes );
 
@@ -326,11 +326,15 @@ AND        ca.case_id = %3
                 if ( $referenceActivityInfo['id'] ) {
                     $caseActivityParams = array( 'activity_type_id' => $referenceActivityInfo['id'] );
                     
+                    //if reference_select is set take according activity.
+                    if ( $referenceSelect = (string) $activityTypeXML->reference_select ) {
+                        $caseActivityParams[$referenceSelect] = 1;
+                    }
+                    
                     require_once 'CRM/Case/BAO/Case.php';
                     $referenceActivity = 
-                        CRM_Case_BAO_Case::getCaseActivity( $params['caseID'], 
-                                                            $caseActivityParams, 
-                                                            null,  true      );
+                        CRM_Case_BAO_Case::getCaseActivityDueDates( $params['caseID'], $caseActivityParams, true );
+                                      
                     if ( is_array($referenceActivity) ) {
                         foreach( $referenceActivity as $aId => $details ) {
                             $dueDateTime = CRM_Utils_Array::value('due_date', $details );
@@ -374,7 +378,7 @@ AND        ca.case_id = %3
                              'case_id'     => $params['caseID'] );
         require_once 'CRM/Case/BAO/Case.php';
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
-             return true;
+        return true;
     }
 
     function activitySets( $activitySetsXML ) {
