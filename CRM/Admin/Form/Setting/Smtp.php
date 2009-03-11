@@ -211,7 +211,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
                 }
                 
                 if ( ! isset( $this->_defaults['sendmail_path'] ) ) {
-                    $this->_defaults['sendmail_path'] = '/usr/bin/sendmail';
+                    $this->_defaults['sendmail_path'] = '/usr/sbin/sendmail';
                     $this->_defaults['sendmail_args'] = '-i';
                 }
             }
