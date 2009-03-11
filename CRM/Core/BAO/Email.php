@@ -72,8 +72,6 @@ contact_id = {$params['contact_id']}";
         // handle if email is on hold
         self::holdEmail( $email );
 
-        CRM_Core_Error::debug( $email );
-
         return $email->save( );
     }
 
