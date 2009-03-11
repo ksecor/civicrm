@@ -61,7 +61,7 @@ function physicianhealthbc_civicrm_dashboard( $contactID, &$placement ) {
 		    
     $sql = "SELECT act.*, ov2.label AS activity_type_label, csource.display_name as source_contact_display_name, targ.target_contact_id, ctarg.display_name AS targ_display_name, ass.assignee_contact_id, cass.display_name AS ass_display_name
 FROM civicrm_option_group og INNER JOIN civicrm_option_value ov
-ON og.id = ov.option_group_id AND og.name='activity_status' AND ov.name='Scheduled'
+ON og.id = ov.option_group_id AND og.name='activity_status' AND (ov.name='Scheduled' OR ov.name='Proposed')
 INNER JOIN civicrm_activity act ON act.status_id=ov.value
 INNER JOIN civicrm_option_group og2 ON og2.name='activity_type' INNER JOIN civicrm_option_value ov2 ON og2.id = ov2.option_group_id AND act.activity_type_id=ov2.value
 LEFT OUTER JOIN civicrm_contact csource ON csource.id = act.source_contact_id
@@ -76,7 +76,7 @@ AND ( (act.due_date_time Is Null AND act.activity_date_time < TIMESTAMPADD(WEEK,
   OR (act.due_date_time < TIMESTAMPADD(WEEK, 2, CURRENT_TIMESTAMP)) )
 ";
 $sql .= empty($mine) ? "" : "AND (act.source_contact_id = {$contactID} OR targ.target_contact_id = {$contactID} OR ass.assignee_contact_id = {$contactID})\n";    
-$sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
+$sql .= "ORDER BY act.activity_date_time, act.due_date_time";
 
  
     $dao = CRM_Core_DAO::executeQuery( $sql );
@@ -170,7 +170,7 @@ $sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
 	 
     $sql = "SELECT act.*, ov.label AS activity_status_label, ov2.label AS activity_type_label, csource.display_name as source_contact_display_name, targ.target_contact_id, ctarg.display_name AS targ_display_name, ass.assignee_contact_id, cass.display_name AS ass_display_name
 FROM civicrm_option_group og INNER JOIN civicrm_option_value ov
-ON og.id = ov.option_group_id AND og.name='activity_status' AND ov.name<>'Scheduled'
+ON og.id = ov.option_group_id AND og.name='activity_status' AND (ov.name<>'Scheduled' AND ov.name<>'Proposed')
 INNER JOIN civicrm_activity act ON act.status_id=ov.value
 INNER JOIN civicrm_option_group og2 ON og2.name='activity_type' INNER JOIN civicrm_option_value ov2 ON og2.id = ov2.option_group_id AND act.activity_type_id=ov2.value
 LEFT OUTER JOIN civicrm_contact csource ON csource.id = act.source_contact_id
