@@ -246,7 +246,7 @@
        <title>Activity Medium</title>
        <type>int unsigned</type>
        <default>NULL</default>
-       <comment>Activity Medium, Implicit FK to civicrm_option_value where option_group = activity_medium.</comment>
+       <comment>Activity Medium, Implicit FK to civicrm_option_value where option_group = encounter_medium.</comment>
        <add>2.2</add>
   </field>
   <index>
