@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | 'Elavon Core Payment Module for CiviCRM version 2.x            |
+ | 'Elavon Core Payment Module for CiviCRM version 2.2            |
  +--------------------------------------------------------------------+
  | Licensed to CiviCRM under the Academic Free License version 3.0    |
  |                                                                    |
