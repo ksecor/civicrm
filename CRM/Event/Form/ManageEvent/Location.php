@@ -97,11 +97,12 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             
             $params = array( 'id' => $eventId );
             CRM_Event_BAO_Event::retrieve( $params, $defaults );
-            $defaults['loc_event_id'] = $defaults['loc_block_id'];
-
-            $countLocUsed = CRM_Event_BAO_Event::countEventsUsingLocBlockId( $defaults['loc_block_id'] );
-            if ( $countLocUsed > 1 ) {
-                $this->assign('locUsed', true);
+            if ( CRM_Utils_Array::value( 'loc_block_id', $defaults ) ) {
+                $defaults['loc_event_id'] = $defaults['loc_block_id'];
+                $countLocUsed = CRM_Event_BAO_Event::countEventsUsingLocBlockId( $defaults['loc_block_id'] );
+                if ( $countLocUsed > 1 ) {
+                    $this->assign('locUsed', true);
+                }
             }
         }
        

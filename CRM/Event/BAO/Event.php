@@ -1055,7 +1055,7 @@ WHERE civicrm_event.is_active = 1
                     } else if ( 'greeting_type' == substr( $name, 0, 13 ) ) {
                         $greeting = CRM_Core_PseudoConstant::greeting( );
                         $values[$index] = $greeting[$params[$name]];
-                    }else if ( $name === 'preferred_communication_method' ) {
+                    } else if ( $name === 'preferred_communication_method' ) {
                         $communicationFields = CRM_Core_PseudoConstant::pcm();
                         $pref = array();
                         $compref = array();
@@ -1089,7 +1089,27 @@ WHERE civicrm_event.is_active = 1
                     } else if ( 'participant_status_id' == $name ) {
                         $status = CRM_Event_PseudoConstant::participantStatus( );
                         $values[$index] = $status[$params[$name]];
-                    } else {
+                    } else if ( strpos( $name, '-' ) !== false ) {
+                        list( $fieldName, $id ) = CRM_Utils_System::explode( '-', $name, 2 );
+                        $detailName = str_replace( ' ', '_', $name );
+                        if ( in_array( $fieldName, array( 'state_province', 'country', 'county' ) ) ) {
+                            $values[$index] = $params[$detailName];
+                            $idx = $detailName . '_id';
+                            $values[$index] = $params[$idx];
+                        } else if ( $fieldName == 'im' ) {
+                            $providerName = null;
+                            if ( $providerId = $detailName . '-provider_id' ) {
+                                $providerName = CRM_Utils_Array::value( $params[$providerId], $imProviders );
+                            }
+                            if ( $providerName ) {
+                                $values[$index] = $params[$detailName] . " (" . $providerName .")";
+                            } else {
+                                $values[$index] = $params[$detailName];
+                            }
+                        } else {
+                            $values[$index] = $params[$detailName];
+                        }
+                   } else {
                         if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
                             if ($params[$name] ) {
                                 $values[$index] = '[ x ]';
@@ -1107,7 +1127,7 @@ WHERE  id = $cfID
                                 $dao->fetch( );
                                 $htmlType  = $dao->html_type;
                                 $dataType  = $dao->data_type;
-                                
+
                                 if ( $htmlType == 'File') {
                                     //$fileURL = CRM_Core_BAO_CustomField::getFileURL( $contactID, $cfID );
                                     //$params[$index] = $values[$index] = $fileURL['file_url'];
@@ -1148,47 +1168,7 @@ WHERE  id = $cfID
                                 $values[$index] = $params[$name];
                             }
                         }
-                    }
-                } else if ( strpos( $name, '-' ) !== false ) {
-                    list( $fieldName, $id, $type ) = CRM_Utils_System::explode( '-', $name, 3 );
-                    if ($id == 'Primary') {
-                        // not sure why we'd every use Primary location type id
-                        // we need to fix the source if we are using it
-                        // $locationTypeName = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
-                        $locationTypeName = 1;
-                    } else {
-                        $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
-                    }
-                    if ( ! $locationTypeName ) {
-                        continue;
-                    }
-                    $detailName = "{$locationTypeName}-{$fieldName}";
-                    $detailName = str_replace( ' ', '_', $detailName );
-                    
-                    if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
-                        if ( $type ) {
-                            $detailName .= "-{$type}";
-                        } else {
-                            $detailName .= '-1';
-                        }
-                    }
-                    
-                    if ( in_array( $fieldName, array( 'state_province', 'country', 'county' ) ) ) {
-                        $values[$index] = $params[$detailName];
-                        $idx = $detailName . '_id';
-                        $values[$index] = $params[$idx];
-                    } else if ( $fieldName == 'im'){
-                        $providerId     = $detailName . '-provider_id';
-                        $providerName   = $imProviders[$params[$providerId]];
-                        if ( $providerName ) {
-                            $values[$index] = $params[$detailName] . " (" . $providerName .")";
-                        } else {
-                            $values[$index] = $params[$detailName];
-                        }
-                        $values[$index] = $params[$detailName];        
-                    } else {
-                        $values[$index] = $params[$detailName];
-                    }
+                    }                   
                 }
             }
         }
