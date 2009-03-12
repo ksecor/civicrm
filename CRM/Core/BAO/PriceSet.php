@@ -509,6 +509,9 @@ WHERE  id = %1";
     static function calculatePriceSet( &$form, $field ) 
     {
         $id = array('0' => null );
+        if ( !isset( $form->_priceSetId ) ) {
+            return;
+        }
         $values = $form->_priceSet['fields'];
         foreach( $field as $key => $val ) {
             if ( substr( $key, 0,6 ) == 'price_' ) {
@@ -521,7 +524,7 @@ WHERE  id = %1";
                         list( $priceId )= array_keys( $id[$groupId] );
                         $id[$groupId][$priceId]['name'] *= $val;
                     } else {
-                        $id[$groupId][$val] = $values[$groupId]['options'][$val];
+                        $id[$groupId][$val] = CRM_Utils_Array::value( $val, $values[$groupId]['options'] );
                     }
                 }
             }
