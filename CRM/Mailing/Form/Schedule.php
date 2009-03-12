@@ -66,17 +66,27 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
         
         $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'), $this );
         
-        $this->addButtons( array(
-                                 array(  'type'  => 'back',
-                                         'name'  => ts('<< Previous')),
-                                 array(  'type'  => 'next',
-                                         'name'  => ts('Submit Mailing'),
-                                         'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
-                                         'isDefault' => true),
-                                 array(  'type'  => 'cancel',
-                                         'name'  => ts('Continue Later')),
-                                 )
-                           );
+        //FIXME : currently we are hiding save an continue later when
+        //search base mailing, we should handle it when we fix CRM-3876
+        $buttons = array( array(  'type'  => 'back',
+                                  'name'  => ts('<< Previous')),
+                          array(  'type'  => 'next',
+                                  'name'  => ts('Submit Mailing'),
+                                  'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                  'isDefault' => true),
+                          array(  'type'  => 'cancel',
+                                  'name'  => ts('Continue Later')),
+                          );
+        if ( $this->get( 'context' ) == 'search' && $this->get( 'ssID' ) ) {
+            $buttons = array( array(  'type'  => 'back',
+                                      'name'  => ts('<< Previous')),
+                              array(  'type'  => 'next',
+                                      'name'  => ts('Submit Mailing'),
+                                      'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                      'isDefault' => true),
+                              );
+        }
+        $this->addButtons( $buttons );
     }
     
     /**
