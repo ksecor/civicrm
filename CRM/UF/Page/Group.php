@@ -69,10 +69,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
             $copyExtra = ts('Are you sure you want to make a copy of this Profile?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
-                                                                          'name'  => ts('View and Edit Fields'),
+                                                                          'name'  => ts('Fields'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'reset=1&action=browse&gid=%%id%%',
-                                                                          'title' => ts('List CiviCRM Profile Group Fields'),
+                                                                          'title' => ts('View and Edit Fields'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Settings'),
