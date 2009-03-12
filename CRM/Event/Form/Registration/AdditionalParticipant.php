@@ -83,7 +83,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event']['default_discount_id']
                                                         , 'weight', 'id' );
             
-            $defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
+            $defaults['amount'] = key( array_slice( $this->_values['discount'][$discountId], $discountKey-1, $discountKey, true) );
         }
         
         return $defaults;  
