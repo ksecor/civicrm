@@ -148,7 +148,7 @@ class CRM_Core_Page_AJAX_Location
                     $element = 'name' ;
                 }
                 $fld = "location[1][address][{$element}]";
-                eval("\$value = \${$fld};");
+                $value = CRM_Utils_Array::value( $element, $location[1]['address'] );
                 $value = $value ? $value : "";
                 $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
             }
@@ -158,7 +158,7 @@ class CRM_Core_Page_AJAX_Location
             $block = ($element == 'phone_type_id') ? 'phone' : $element;
             for ( $i = 1; $i < 3; $i++ ) {
                 $fld   = "location[1][{$block}][{$i}][{$element}]";
-                eval("\$value = \${$fld};");
+                $value = CRM_Utils_Array::value( $element, $location[1][$block][$i] );
                 $value = $value ? $value : "";
                 $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
             }

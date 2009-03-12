@@ -59,7 +59,7 @@
 <script type="text/javascript">    
 {literal}
 var locUsedMsgTxt = {/literal}"{$locUsedMsgTxt}"{literal};
-var locBlockURL   = {/literal}"{crmURL p='civicrm/ajax/locBlock' q="reset=1"}"{literal};
+var locBlockURL   = {/literal}"{crmURL p='civicrm/ajax/locBlock' q='reset=1' h=0}"{literal};
 var locBlockId    = {/literal}"{$form.loc_event_id.value.0}"{literal};
 
 if ( {/literal}"{$locUsed}"{literal} ) {
