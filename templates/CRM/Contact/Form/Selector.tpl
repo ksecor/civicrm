@@ -90,11 +90,11 @@
 
 <!-- Context Menu -->
 <ul id="contactMenu" class="contextMenu">
-   <li><a href="#contribution">Make Contribution</a></li>
-   <li><a href="#participant">Register Event</a></li>
+   <li><a href="#contribution">Record Contribution</a></li>
+   <li><a href="#participant">Register for Event</a></li>
    <li><a href="#activity">Record Activity</a></li>
-   <li><a href="#pledge">Make Pledge</a></li>
-   <li><a href="#membership">Record Membership</a></li>
+   <li><a href="#pledge">Add Pledge</a></li>
+   <li><a href="#membership">Enter Membership</a></li>
 </ul>
 
  <script type="text/javascript">
