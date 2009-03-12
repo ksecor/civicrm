@@ -107,7 +107,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             require_once 'CRM/Event/Form/Registration/Register.php';
             CRM_Event_Form_Registration_Register::buildAmount( $this );
         }
-        
+        $first_name = $last_name = null;
         foreach ( array( 'pre', 'post' ) as $keys ) {
             $this->buildCustom( $this->_values['custom_'.$keys.'_id'] , 'custom'.ucfirst($keys) , true );
             if ( isset ( $this->_values['custom_'.$keys.'_id'] ) ) {
