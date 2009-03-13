@@ -99,6 +99,8 @@ class CRM_Contact_Form_Search_Custom_Proximity
 
         $this->_earthDistanceSQL = $this->earthDistanceSQL( $this->_latitude, $this->_longitude );
 
+        $this->_tag = CRM_Utils_Array::value( 'tag', $this->_formValues );
+
         $this->_columns = array( ts('Name')           => 'sort_name'      ,
                                  ts('Street Address') => 'street_address' ,
                                  ts('City'          ) => 'city'           ,
@@ -262,6 +264,11 @@ IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
 
     function buildForm( &$form ) {
 
+        $tag =
+            array('' => ts('- any tag -')) +
+            CRM_Core_PseudoConstant::tag( );
+        $form->addElement('select', 'tag', ts('Tag'), $tag);
+
         $form->add( 'text',
                     'distance',
                     ts( 'Distance' ) );
@@ -297,7 +304,8 @@ IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
          * if you are using the standard template, this array tells the template what elements
          * are part of the search criteria
          */
-        $form->assign( 'elements', array( 'street_address',
+        $form->assign( 'elements', array( 'tag',
+                                          'street_address',
                                           'city',
                                           'postal_code',
                                           'state_province_id',
@@ -326,13 +334,22 @@ country.name           as country       ,
     }
     
     function from( ) {
-        return "
+        $f = "
 FROM      civicrm_contact contact_a
 LEFT JOIN civicrm_address address ON ( address.contact_id       = contact_a.id AND
                                        address.is_primary       = 1 )
 LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
 LEFT JOIN civicrm_country country               ON country.id        = address.country_id
 ";
+
+		// This prevents duplicate rows when contacts have more than one tag any you select "any tag"
+		if ($this->_tag) {
+			$f .= "
+LEFT JOIN civicrm_entity_tag t ON contact_a.id = t.contact_id
+";
+		}
+		
+		return $f;
     }
 
     function where( $includeContactIDs = false ) {
@@ -354,6 +371,12 @@ address.geo_code_2 <= $maxLongitude AND
 {$this->_earthDistanceSQL} <= $this->_distance
 ";
 
+		if ($this->_tag) {
+			$where .= "
+AND t.tag_id = {$this->_tag}
+";
+		}
+		
         return $this->whereClause( $where, $params );
     }
 
@@ -374,7 +397,7 @@ address.geo_code_2 <= $maxLongitude AND
         } else {
             CRM_Utils_System::setTitle(ts('Search'));
         }
-    }
+    }    
 }
 
 
