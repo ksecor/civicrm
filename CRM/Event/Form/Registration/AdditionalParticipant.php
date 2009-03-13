@@ -42,6 +42,11 @@ require_once 'CRM/Event/Form/Registration.php';
  */
 class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_Registration
 {
+    /**
+     * The defaults involved in this page
+     *
+     */
+    public $_defaults = array( );
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -85,7 +90,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 $defaults['amount'] = key( array_slice( $this->_values['discount'][$discountId], $discountKey-1, $discountKey, true) );
             }
         }
-        
+        $defaults = array_merge( $defaults, $this->_defaults );
         return $defaults;  
     }  
     /** 
