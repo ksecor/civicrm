@@ -201,17 +201,22 @@ class CRM_Core_Action {
         if ( empty( $links ) ) {
             return null;
         }
-
+        
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
-                $extra = str_replace( 'onclick', 'js', CRM_Utils_Array::value( 'extra', $link, '' ) );
-                $url[] = sprintf('<a href="%s" ' . $extra . '>%s</a>',
+                if ( count($url) > 1 ) {
+                    $extra = str_replace( 'onclick', 'js', CRM_Utils_Array::value( 'extra', $link, '' ) );
+                } else {
+                    $extra = CRM_Utils_Array::value( 'extra', $link, '' );
+                }
+                $url[] = sprintf('<a href="%s" title="%s"' . $extra . '>%s</a>',
                                  CRM_Utils_System::url( self::replace( $link['url'], $values ),
                                                         self::replace( $link['qs'] , $values ), true ),
-                                 $link['name'] );
+                                 $link['title'], $link['name'] );
             }
         }
+        
         $result = $resultDiv = '';
         $actionLink = array_slice ( $url, 0, 2 );
         $actionDiv  = array_splice( $url, 2    );
