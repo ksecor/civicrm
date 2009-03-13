@@ -42,8 +42,8 @@ function run( ) {
     $config =& CRM_Core_Config::singleton(); 
 
     require_once 'Console/Getopt.php';
-    $shortOptions = "n:p:s:e:";
-    $longOptions  = array( 'name=', 'pass=', 'start=', 'end=' );
+    $shortOptions = "n:p:s:e:k:";
+    $longOptions  = array( 'name=', 'pass=', 'key=', 'start=', 'end=' );
 
     $getopt  = new Console_Getopt( );
     $args = $getopt->readPHPArgv( );
@@ -54,7 +54,8 @@ function run( ) {
                   'start' => 's',
                   'end'   => 'e',
                   'name'  => 'n',
-                  'pass'  => 'p' );
+                  'pass'  => 'p',
+                  'key'   => 'k' );
 
     foreach ( $vars as $var => $short ) {
         $$var = null;
@@ -67,6 +68,7 @@ function run( ) {
         if ( ! $$var ) {
             $$var = CRM_Utils_Array::value( $var, $_REQUEST );
         }
+        $_REQUEST[$var] = $$var;
     }
 
     // this does not return on failure
