@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta name="viewport" content="width=320; user-scalable=no" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>CiviCRM</title>
+<style type="text/css" media="screen">@import "iui/iuix.css";</style>
+<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+<script type="application/x-javascript" src="iui/iuix.js"></script>
+	  <script type="text/javascript" charset="utf-8">
+
+    var deviceInfo = function(){
+      document.getElementById("platform").innerHTML = Device.platform;
+      document.getElementById("version").innerHTML = Device.version;
+      document.getElementById("uuid").innerHTML = Device.uuid;
+    }
+    
+    var getLocation = function() {
+      var suc = function(p){
+		    alert(p.latitude + " " + p.longitude);
+      };
+      var fail = function(){};
+      navigator.geolocation.getCurrentPosition(suc,fail);
+    }
+    
+    var beep = function(){
+	    navigator.notification.beep(2);
+    }
+	
+  	var vibrate = function(){
+  	  navigator.notification.vibrate(0);
+  	}
+	
+  	var getContact = function(){
+  	  var suc = function(c){ alert("Contact 4: " + c.contacts[3].name); };
+  		var fail = function(){};
+  		navigator.ContactManager.get(suc, fail);
+  	}
+
+  	var loadURL = function(){
+  	  var suc = function(c){ alert("Loaded URL: " + c.contacts[3].name); };
+  		var fail = function(){};
+		alert("hit");
+  	}
+  	
+  	var watchAccel = function() {
+  		var suc = function(a){
+  			document.getElementById('x').innerHTML = roundNumber(a.x);
+  			document.getElementById('y').innerHTML = roundNumber(a.y);
+  			document.getElementById('z').innerHTML = roundNumber(a.z);
+  		};
+  		var fail = function(){};
+  		var opt = {};
+  		opt.frequency = 100;
+  		timer = navigator.accelerometer.watchAcceleration(suc,fail,opt);
+  	}
+    	
+    function roundNumber(num) {
+      var dec = 3;
+      var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+      return result;
+    }
+    
+	  var preventBehavior = function(e) { 
+      e.preventDefault(); 
+    };
+
+		var mydb=false;
+ 
+    // initialise the database
+    initDB = function() {
+      try { 
+        if (!window.openDatabase) { 
+          alert('not supported'); 
+        } else { 
+          var shortName = 'civicrm'; 
+          var version = '1.0'; 
+          var displayName = 'CiviCRM datastorage'; 
+          var maxSize = 65536; // in bytes 
+          mydb = openDatabase(shortName, version, displayName, maxSize); 
+         }
+      } catch(e) { 
+        // Error handling code goes here. 
+        if (e == INVALID_STATE_ERR) { 
+          // Version number mismatch. 
+          alert("Invalid database version."); 
+        } else { 
+          alert("Unknown error "+e+"."); 
+        } 
+        return; 
+      } 
+    }
+		
+		    // db error handler - prevents the rest of the transaction going ahead on failure
+    errorHandler = function (transaction, error) { 
+      // returns true to rollback the transaction
+      return true;  
+    } 
+ 
+    // null db data handler
+    nullDataHandler = function (transaction, results) { } 
+ 
+    
+    // create tables for the database
+    createTables = function() {
+      
+      try {
+        
+        mydb.transaction(
+          function(transaction) {
+            transaction.executeSql('CREATE TABLE civicrm_settings(key TEXT NOT NULL PRIMARY KEY, value TEXT NOT NULL DEFAULT "");', [], nullDataHandler, errorHandler); 
+           });
+        
+      } catch(e) {
+        /// alert(e.message);
+        return;
+      }
+    }
+	
+	count=function(transaction, results) {
+      // Handle the results 
+	  var count=-1;
+      for (var i=0; i<results.rows.length; i++) { 
+        var row = results.rows.item(i); 
+        count = row[0];
+      }
+		return count;
+    }
+
+	checkDBExists(){
+		try{
+			mydb.transaction(
+				function(transaction){
+					transaction.executeSql('SELECT COUNT(*) FROM civicrm_settings;',[],count,errorHandler);
+				});
+			return true;
+		}catch(e){
+			return false;
+		}
+	}
+
+    // callback function to retrieve the data from the prefs table
+    settingsDataHandler=function(transaction, results) {
+      // Handle the results 
+      var html = "<ul>"; 
+      for (var i=0; i<results.rows.length; i++) { 
+        var row = results.rows.item(i); 
+        html += '<li>'+row['key']+':'+row['value']+'</li>\n';
+      } 
+      html +='</ul>';
+      alert(html);
+    }
+ 
+ 
+    saveSetting = function(key,value) {
+	alert("hit savesetting function");
+      try {
+ 
+        mydb.transaction(
+            function(transaction) {
+               transaction.executeSql('INSERT INTO civicrm_settings (key,value) values('"+key+"','"+value+"');',[], nullDataHandler, errorHandler);
+            });
+ 
+      } catch(e) {
+        alert(e.message);
+      }
+ 
+    } 
+
+ 
+    loadSettings = function() {
+      try {
+ 
+        mydb.transaction(
+            function(transaction) {
+               transaction.executeSql('SELECT * FROM civicrm_settings ORDER BY key',[], settingsDataHandler, errorHandler);
+            });
+ 
+      } catch(e) {
+        alert(e.message);
+      }
+ 
+    } 
+		function init(){
+		  document.addEventListener("touchmove", preventBehavior, false);
+		  deviceInfo();
+		  if( !checkDBExists() ) initDB();
+		}
+		
+		function saveSettings(){
+			alert("your passwords don't match");
+			//var pw1 = document.getElementById('pw1');
+			//var pw2 = document.getElementById('pw2');
+			//alert(pw1+":"+pw2);
+			return false;
+		}
+		
+	  </script>
+	  
+  </head>
+  <body onload="init();" id="stage" class="theme">
+
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+        <a id="backButton" class="button" href="index.html"></a>
+    </div>
+
+	<ul id="home" title="CiviCRM" selected="true">
+		<li><a href="http://localhost:8880/iphone/index.html" >Contacts</a></li>
+        <li><a href="#settings" >Settings</a></li>
+    </ul>
+
+    <form id="settings" class="dialog" action="index.html" onsubmit="return saveSettings()">
+        <fieldset>
+            <h1>Settings</h1>
+            <a class="button leftButton" type="cancel">Cancel</a>
+            <a class="button blueButton" type="submit">Update</a>
+            
+            <label>Server</label>
+            <input id="host" type="text" name="host" onchange="alert('you changed the host')"/>
+            <label>Password</label>
+			<input type="password" id="pw1" name="pw1"/>
+            <label>Confirm</label>
+			<input type="password" id="pw2" name="pw2" onchange="javascript:storePassword()" />
+        </fieldset>
+    </form>
+
+   
+  </body>
+</html>

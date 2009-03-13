@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>iCiviCRM</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<style type="text/css" media="screen">@import "iui/iuix.css";</style>
+<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+<script type="application/x-javascript" src="iui/iuix.js"></script>
+<!--
+<script type="application/x-javascript" src="http://10.0.1.2:1840/ibug.js"></script>
+
+		function init(){
+            navigator.notification.beep(2);
+		}
+
+-->
+</head>
+
+<body onload="init();" id="stage" onclick="console.log('Hello', event.target);">
+    
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+        <a id="backButton" class="button" href="#"></a>
+        <a class="button" href="#searchForm">Search</a>
+    </div>
+    
+    <ul id="home" title="iCiviCRM" selected="true">
+    
+        <li><a href="#contacts">Contacts</a></li>
+        <li><a href="javascript:Device.exec('openmap:q=http%253A//code.google.com/apis/kml/documentation/KML_Samples.kml');">google</a></li>
+        <li><a href="settings.html">Settings</a></li>
+
+    </ul>
+    
+    <ul id="contacts" title="Contacts">
+        <li class="group">A</li>
+        <li><a href="ContactDetail">Adam Brown</a></li>
+        <li class="group">B</li>
+        <li class="group">C</li>
+        <li><a href="ContactDetail">Charlie Brown</a></li>
+        <li class="group">D</li>
+        <li class="group">E</li>
+        <li class="group">F</li>
+        <li class="group">G</li>
+        <li class="group">H</li>
+        <li class="group">I</li>
+        <li class="group">J</li>
+        <li class="group">K</li>
+        <li class="group">L</li>
+        <li class="group">M</li>
+        <li class="group">N</li>
+        <li class="group">O</li>
+        <li class="group">P</li>
+        <li class="group">Q</li>
+        <li class="group">R</li>
+        <li class="group">S</li>
+        <li class="group">T</li>
+        <li class="group">U</li>
+        <li class="group">V</li>
+        <li class="group">W</li>
+        <li class="group">X</li>
+        <li class="group">Y</li>
+        <li class="group">Z</li>
+    </ul>
+    
+    <form id="searchForm" class="dialog" action="search.php">
+        <fieldset>
+            <h1>Contact Search</h1>
+            <a class="button leftButton" type="cancel">Cancel</a>
+            <a class="button blueButton" type="submit">Search</a>
+            
+            <label>First:</label>
+            <input id="first" type="text" name="first"/>
+            <label>Last:</label>
+            <input id="last" type="text" name="last"/>
+        </fieldset>
+    </form>
+
+</body>
+</html>
