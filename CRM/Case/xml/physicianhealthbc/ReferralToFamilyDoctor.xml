@@ -34,7 +34,7 @@
       <ActivityTypes>
         <ActivityType>
           <name>Open Case</name>
-          <status>Closed</status>
+          <status>Completed</status>
         </ActivityType>
         <ActivityType>
           <name>Notify selected referral target</name>
