@@ -47,7 +47,7 @@
         {/if}
     </td>
     <td>{$row.product_name}</td>
-    <td class="btn-slide" id={$row.contribution_id}>{$row.action|replace:'xx':$row.contribution_id}</td>
+    <td>{$row.action|replace:'xx':$row.contribution_id}</td>
   </tr>
   {/foreach}
 

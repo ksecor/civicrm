@@ -74,7 +74,7 @@
 	{$row.case_recent_activity_type}<br />{$row.case_recent_activity_date|crmDate}{else}---{/if}</td>
     <td>{if $row.case_scheduled_activity_type}
 	{$row.case_scheduled_activity_type}<br />{$row.case_scheduled_activity_date|crmDate}{else}---{/if}</td>
-    <td class="btn-slide" id={$row.case_id}>{$row.action|replace:'xx':$row.case_id}</td>
+    <td>{$row.action|replace:'xx':$row.case_id}</td>
    </tr>
 {if $context != 'case'}
    <tr id="{$list}{$row.case_id}_hide" class='{$rowClass}'>

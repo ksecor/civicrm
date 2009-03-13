@@ -37,7 +37,7 @@
     <td>{$row.membership_end_date|truncate:10:''|crmDate}</td>
     <td>{$row.membership_source}</td>
     <td>{$row.status_id}</td>
-    <td class="btn-slide" id={$row.membership_id}>{$row.action|replace:'xx':$row.membership_id}</td>
+    <td>{$row.action|replace:'xx':$row.membership_id}</td>
    </tr>
   {/foreach}
 {* Link to "View all memberships" for Contact Summary selector display *}

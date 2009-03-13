@@ -27,7 +27,7 @@
             <td>{$row.name}</td>
             <td>{$row.id}</td>	
             <td>{$row.description} </td>
-            <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
+            <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>
