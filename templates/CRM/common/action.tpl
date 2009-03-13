@@ -6,9 +6,9 @@ cj(document).ready(function(){
     var oldcolor = null;
 
     // Hiding action menu while clicking outside
-    cj("#container").click(function(){
-        cj(this).toggleClass("slide-btn");
-        cj("#panel_"+oldId).hide("slow");
+    cj(document).click(function(){
+       cj("#panel_"+oldId).hide("slow");
+       oldId = null;
     });
   
     // Effects for action menu
