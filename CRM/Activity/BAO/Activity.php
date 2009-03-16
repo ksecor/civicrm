@@ -1384,16 +1384,16 @@ AND cl.modified_id  = c.id
             
             //set title to activity fields
             $fields= array( 
-                            'case_subject'                 => array( 'title' => ts('Activity Subject') ),
-                            'case_source_contact_id'       => array( 'title' => ts('Activity Reporter') ),
-                            'case_recent_activity_date'    => array( 'title' => ts('Activity Actual Date') ),
-                            'case_scheduled_activity_date' => array( 'title' => ts('Activity Due Date') ),
-                            'case_recent_activity_type'    => array( 'title' => ts('Activity Type') ),
-                            'case_activity_status_id'      => array( 'title' => ts('Activity Status') ),
-                            'case_activity_duration'       => array( 'title' => ts('Activity Duration') ),
-                            'case_activity_medium_id'      => array( 'title' => ts('Activity Medium') ),
-                            'case_activity_details'        => array( 'title' => ts('Activity Details') ),
-                            'case_activity_is_auto'        => array( 'title' => ts('Activity Auto-generated?') )
+                           'case_subject'                 => array( 'title' => ts('Activity Subject'),        'type' => CRM_Utils_Type::T_STRING ),
+                           'case_source_contact_id'       => array( 'title' => ts('Activity Reporter'),       'type' => CRM_Utils_Type::T_STRING ),
+                           'case_recent_activity_date'    => array( 'title' => ts('Activity Actual Date'),    'type' => CRM_Utils_Type::T_DATE ),
+                           'case_scheduled_activity_date' => array( 'title' => ts('Activity Due Date'),       'type' => CRM_Utils_Type::T_DATE ),
+                           'case_recent_activity_type'    => array( 'title' => ts('Activity Type'),           'type' => CRM_Utils_Type::T_INT ),
+                           'case_activity_status_id'      => array( 'title' => ts('Activity Status'),         'type' => CRM_Utils_Type::T_INT ),
+                           'case_activity_duration'       => array( 'title' => ts('Activity Duration'),       'type' => CRM_Utils_Type::T_INT ),
+                           'case_activity_medium_id'      => array( 'title' => ts('Activity Medium'),         'type' => CRM_Utils_Type::T_INT ),
+                           'case_activity_details'        => array( 'title' => ts('Activity Details'),        'type' => CRM_Utils_Type::T_TEXT ),
+                           'case_activity_is_auto'        => array( 'title' => ts('Activity Auto-generated?'),'type' => CRM_Utils_Type::T_BOOLEAN )
                             );
             
             // add custom data for case activities

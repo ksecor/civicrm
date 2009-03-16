@@ -302,8 +302,8 @@ class CRM_Case_BAO_Query
             return;
 
         case 'case_source_contact_id':
-            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "case_activity.source_contact_id", $op, $value, 'Int' ); 
-            $query->_qill[$grouping][]  = ts ("Activity Reporter %1 %2", array(1 => $op, 2 => $value ));
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "civicrm_case_reporter.sort_name", $op, $value, 'String' ); 
+            $query->_qill[$grouping][]  = ts ("Activity Reporter %1 '%2'", array(1 => $op, 2 => $value ));
             $query->_tables['case_activity'] = $query->_whereTables['case_activity'] = 1;
             $query->_tables['civicrm_case_reporter'] = $query->_whereTables['civicrm_case_reporter'] = 1;
             $query->_tables['civicrm_case']  = $query->_whereTables['civicrm_case']  = 1;
@@ -311,28 +311,35 @@ class CRM_Case_BAO_Query
             return;
 
         case 'case_recent_activity_date':
-            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "case_activity.activity_date_time", $op, $value, 'Date' );
-            $query->_qill[$grouping][]  = ts ("Activity Actual Date %1 %2", array(1 => $op, 2 => $value ));
+            $date = CRM_Utils_Date::format( $value );
+            $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "case_activity.activity_date_time", $op, $date, 'Date' );
+            if ( $date ) {
+                $date = CRM_Utils_Date::customFormat( $date );
+                $query->_qill[$grouping][]  = ts ("Activity Actual Date %1 %2", array(1 => $op, 2 => $date ));
+            }
             $query->_tables['case_activity'] = $query->_whereTables['case_activity'] = 1;
             $query->_tables['civicrm_case']  = $query->_whereTables['civicrm_case']  = 1;
             $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
             return;
 
         case 'case_scheduled_activity_date':
-            $query->_where[$grouping][] =  CRM_Contact_BAO_Query::buildClause( "case_activity.due_date_time", $op, $value, 'Date' );
-            $query->_qill[$grouping][]  = ts ("Activity Schedule Date %1 %2", array(1 => $op, 2 => $value ));
+            $date = CRM_Utils_Date::format( $value );
+            $query->_where[$grouping][] =  CRM_Contact_BAO_Query::buildClause( "case_activity.due_date_time", $op, $date, 'Date' );
+            if ( $date ) {
+                $date = CRM_Utils_Date::customFormat( $date );
+                $query->_qill[$grouping][]  = ts ("Activity Schedule Date %1 %2", array(1 => $op, 2 => $date ));
+            }
             $query->_tables['case_activity'] = $query->_whereTables['case_activity'] = 1;
             $query->_tables['civicrm_case']  = $query->_whereTables['civicrm_case']  = 1;
             $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
             return;
 
         case 'case_recent_activity_type':
-            require_once "CRM/Core/PseudoConstant.php";
-            $activityTypes = CRM_Core_PseudoConstant::activityType( false, true ); 
 
-            $names   = $value;
-            if ( !is_numeric($value) && $activityTypeId = CRM_Utils_Array::key($value, $activityTypes) ){
-                $value = $activityTypeId;
+            $names = $value;
+            require_once "CRM/Core/OptionGroup.php";
+            if ( $activityType = CRM_Core_OptionGroup::getLabel( 'activity_type', $value, 'value' ) ) {
+                $names = $activityType;
             }
             
             $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "case_activity.activity_type_id", $op, $value, 'Int' );
@@ -344,12 +351,11 @@ class CRM_Case_BAO_Query
             return;
 
         case 'case_activity_status_id':
-            require_once "CRM/Core/PseudoConstant.php";
-            $activityStatus = CRM_Core_PseudoConstant::activityStatus( ); 
 
-            $names   = $value;
-            if ( !is_numeric($value) && $activityStatusId = CRM_Utils_Array::key($value, $activityStatus) ){
-                $value = $activityStatusId;
+            $names = $value;
+            require_once "CRM/Core/OptionGroup.php";
+            if ( $activityStatus = CRM_Core_OptionGroup::getLabel( 'activity_status', $value, 'value' ) ) {
+                $names = $activityStatus;
             }
             
             $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "case_activity.status_id", $op, $value, 'Int' );
@@ -369,16 +375,15 @@ class CRM_Case_BAO_Query
             return;
             
         case 'case_activity_medium_id':
+            
+            $names = $value;
             require_once "CRM/Core/OptionGroup.php";
-            $activityMedium = CRM_Core_OptionGroup::values('encounter_medium', false, false, false, null, 'label');
-
-            $names   = $value;
-            if ( !is_numeric($value) && $activityMediumId = CRM_Utils_Array::key($value, $activityMedium) ){
-                $value = $activityMediumId;
+            if ( $activityMedium = CRM_Core_OptionGroup::getLabel( 'encounter_medium', $value, 'value' ) ) {
+                $names = $activityMedium;
             }
             
             $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( "case_activity.medium_id", $op, $value, 'Int' );
-            $query->_qill[$grouping][]  = ts ("Activity Duration %1 %2", array(1 => $op, 2 => $names ));
+            $query->_qill[$grouping][]  = ts ("Activity Medium %1 %2", array(1 => $op, 2 => $names ));
             $query->_tables['case_activity'] = $query->_whereTables['case_activity'] = 1;
             $query->_tables['civicrm_case']  = $query->_whereTables['civicrm_case']  = 1;
             $query->_tables['case_activity_medium']     = 1;
@@ -414,7 +419,7 @@ class CRM_Case_BAO_Query
             break;
 
         case 'civicrm_case_reporter':
-            $from .= " $side JOIN civicrm_contact as civicrm_case_reporter ON civicrm_case_contact.contact_id = civicrm_case_reporter.id ";
+            $from .= " $side JOIN civicrm_contact as civicrm_case_reporter ON case_activity.source_contact_id = civicrm_case_reporter.id ";
             break;
             
         case 'civicrm_case':
