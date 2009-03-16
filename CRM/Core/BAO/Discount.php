@@ -137,7 +137,12 @@ class CRM_Core_BAO_Discount extends CRM_Core_DAO_Discount
 
         require_once "CRM/Utils/Date.php";
         while ( $dao->fetch( ) ) {
-            $falls = CRM_Utils_Date::getRange( $dao->start_date, $dao->end_date);
+            $endDate = $dao->end_date;
+            // if end date is not we consider current date as end date
+            if ( !$endDate ) {
+                $endDate = date( 'Ymd' );
+            }
+            $falls = CRM_Utils_Date::getRange( $dao->start_date, $endDate );
             if ( $falls == true ) {
                 return $dao->id;
             }

@@ -3,6 +3,15 @@
     <div class="form-item">
     <table class="form-layout">
     {if $priceSet}
+    	{if $action eq 2}
+	    {if $line_items}	
+    	        <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+	    {else}
+                 <tr><td class="label">{ts}Event Level{/ts}</td>
+		     <td>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</td>
+		 </tr>
+            {/if}
+        {else}
      <tr>  
      <td class="label">{$form.amount.label}</td>
      <td><table class="form-layout-compressed">
@@ -59,12 +68,18 @@
       {include file="CRM/Event/Form/CalculatePriceset.tpl"} 
     </td>
 </tr>
+    {/if}	
     {else} {* NOT Price Set *}
      <tr>
      <td class ='html-adjust' colspan=2>
      	<dl class="html-adjust">
-        {if $form.discount_id.label}
+	{if $discount}
+            <dt class="label">{ts}Discount Set{/ts}</dt><dd>{$discount}</dd>
+        {else if $form.discount_id.label}
             <dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
+        {/if}
+	{if $action EQ 2}
+	    <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</dd>
         {/if}
         <dt class="label">{$form.amount.label}</dt><dd>{$form.amount.html}
         {if $action EQ 1}

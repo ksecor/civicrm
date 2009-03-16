@@ -170,8 +170,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                     CRM_Core_SelectValues::date('datetime') );
         $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
      
-        $this->addElement('checkbox', 'is_multiple_registrations', ts('Register Multiple Participants?')); 
-        $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations using same email address?'));
+        $this->addElement('checkbox', 'is_multiple_registrations', ts('Register multiple participants?')); 
+        $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations from the same email address?'));
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );
         self::buildMailBlock( $this );

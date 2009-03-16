@@ -30,7 +30,7 @@
  * update_contact_membership APIs.
  * It takes the first argument as the domain-id if specified, otherwise takes the domain-id as 1.
  *
- * IMPORTANT: You must set a valid FROM email address on line 63 before and then save the file as
+ * IMPORTANT: You must set a valid FROM email address on line 189 before and then save the file as
  * UpdateMembershipRecord.php prior to running this script.
  */
 

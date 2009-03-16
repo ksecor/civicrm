@@ -309,7 +309,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         $transaction->commit( );
 
-        $relatedMembership = self::createRelatedMemberships( $params, $membership );
+        self::createRelatedMemberships( $params, $membership );
         
         return $membership;
     }
@@ -326,13 +326,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     static function checkMembershipRelationship( $membershipId, $contactId, $action = CRM_Core_Action::ADD ) 
     {
         $contacts = array( );
-
-        $params   = array( 'id' => $membershipId );
-        $defaults = array( );
-        $membership = self::retrieve( $params, $defaults );
+        $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', $membershipId, 'membership_type_id' );
 
         require_once 'CRM/Member/BAO/MembershipType.php';
-        $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
+        $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeID ); 
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relationships = array( );
         if ( isset( $membershipType['relationship_type_id'] ) ) {
@@ -348,7 +345,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 $relationships = array_merge( $relationships, $pastRelationships );
             }
         }
-        
+            
         if ( ! empty($relationships) ) {
             require_once "CRM/Contact/BAO/RelationshipType.php";
             // check for each contact relationships
@@ -1322,14 +1319,16 @@ SELECT c.contribution_page_id as pageID
     {
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->owner_membership_id = $ownerMembershipId;
-        
+
         if ( $contactId ) {
             $membership->contact_id      = $contactId;
         }
         
         $membership->find( );
         while ( $membership->fetch( ) ) {
-            self::deleteMembership( $membership->id ) ;
+            // call delete function recursively since we need to delete inherited memberships of inherited memberships
+            self::deleteRelatedMemberships(  $membership->id );
+            self::deleteMembership( $membership->id );
         }
         $membership->free( );
     }
@@ -1411,22 +1410,34 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
      */
     static function createRelatedMemberships( &$params, &$membership ) 
     {
+        static $relatedContactIds = array( );
+            
         // required since create method doesn't return all the
         // parameters in the returned membership object
         if ( ! $membership->find( true ) ) {
-            return null;
+            return;
         }
-
+            
+        $allRelatedContacts = array( );
         $relatedContacts = array( );
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
-            $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
+            $allRelatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
                                                                                       $membership->id,
                                                                                       $membership->contact_id,
                                                                                       CRM_Utils_Array::value( 'action', $params )
                                                                                       );
         }
+
+        // check for loops. CRM-4213
+        // remove repeated related contacts, which already inherited membership.
+        $relatedContactIds[$membership->contact_id] = true;
+        foreach( $allRelatedContacts as $cid => $status ) {
+            if ( !CRM_Utils_Array::value( $cid, $relatedContactIds ) ) {
+                $relatedContacts[$cid] =  $status;
+                $relatedContactIds[$cid] = true;
+            }
+        }
         
-        $relatedMembership = null;
         if ( ! empty($relatedContacts) ) {
             // delete all the related membership records before creating
             CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
@@ -1448,6 +1459,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
                 $params['contact_id'         ] = $contactId;
                 $params['owner_membership_id'] = $membership->id;
+
                 // set status_id as it might have been changed for
                 // past relationship
                 $params['status_id'          ] = $membership->status_id;
@@ -1464,17 +1476,20 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                     // status having is_current_member = 0.
                     // But this wont work exactly if there will be
                     // more than one status having is_current_member = 0.
-                    $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
+                    require_once 'CRM/Member/DAO/MembershipStatus.php';
+                    $membership = new CRM_Member_DAO_MembershipStatus();
+                    $membership->is_current_member = 0;
+                    if ( $membership->find(true) ) {
+                        $params['status_id'] = $membership->id;
+                    } 
                 }
 
                 // we should not created contribution record for related contacts, CRM-3371
                 unset( $params['contribution_status_id'] );
 
-                $relatedMembership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+                CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }
-        
-        return $relatedMembership;
     }
 }
 

@@ -226,17 +226,28 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
             
         $this->addFormRule( array( 'CRM_Mailing_Form_Group', 'formRule' ));
         
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Next >>'),
-                                         'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'submit',
-                                         'name'      => ts('Save & Continue Later') ),
-                                 array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                 )
-                           );
+        //FIXME : currently we are hiding save an continue later when
+        //search base mailing, we should handle it when we fix CRM-3876
+        $buttons = array( array ( 'type'      => 'next',
+                                  'name'      => ts('Next >>'),
+                                  'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                  'isDefault' => true   ),
+                          array ( 'type'      => 'submit',
+                                  'name'      => ts('Save & Continue Later') ),
+                          array ( 'type'      => 'cancel',
+                                  'name'      => ts('Cancel') ),
+                          );
+        
+        if ( $context == 'search' ) {
+            $buttons = array( array ( 'type'      => 'next',
+                                      'name'      => ts('Next >>'),
+                                      'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                      'isDefault' => true   ),
+                              array ( 'type'      => 'cancel',
+                                      'name'      => ts('Cancel') ),
+                              );
+        }
+        $this->addButtons( $buttons );
         
         $this->assign('groupCount', count($groups));
         $this->assign('mailingCount', count($mailings));

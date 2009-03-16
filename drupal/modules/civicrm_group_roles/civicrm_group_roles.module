@@ -1,13 +1,13 @@
 <?php
-// $Id: civicrm_group_roles.module,v 1.1.4.2 2008/10/14 00:20:36 matt2000 Exp $
+  // $Id: civicrm_group_roles.module,v 1.1.4.2 2008/10/14 00:20:36 matt2000 Exp $
 
-/* @file
- * A simple module that adds a user to groups based on Role.
- */
+  /* @file
+   * A simple module that adds a user to groups based on Role.
+   */
 
-/**
- * Implementation of hook_help()
- */
+  /**
+   * Implementation of hook_help()
+   */
 function civicrm_group_roles_help($section, $args = array() ) 
 { 
     switch ($section) { 
@@ -69,9 +69,10 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
                         $result = civicrm_group_contact_add($gparams);
                         
                         if ($result['is_error'] > 0) {
-                            $msg = t('Error: Unable to sync role !1', array('!1' => $role) );
-                            watchdog('civicrm_group_roles', $msg);
-                            if ($debug_mode) drupal_set_message($msg);
+                            $msg = 'Error: Unable to sync role @role';
+                            $variables = array('@role' => $role);
+                            watchdog('civicrm_group_roles', $msg, $variables);
+                            if ($debug_mode) drupal_set_message(t($msg, $variables));
                         } elseif ($debug_mode && $result['added'] > 0) {
                             drupal_set_message("Added user $user->name to Group: $role");
                             drupal_set_message(var_export($result, TRUE));
@@ -85,9 +86,10 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
                 } //end foreach
                 
             } else {
-                $msg = t('CiviCRM contact not found for !1', array('!1' => $user->mail));
-                watchdog('civicrm',  $msg);
-                if ($debug_mode) drupal_set_message($msg);
+                $msg = 'CiviCRM contact not found for @mail';
+                $variables = array( '@mail', $user->mail );
+                watchdog('civicrm',  $msg, $variables);
+                if ($debug_mode) drupal_set_message(t($msg, $variables));
             } //end if $contact
         } //endif $roles
     } //endif $op
@@ -114,25 +116,25 @@ function civicrm_group_roles_civicrm_post( $op, $objectName, $objectId, &$object
     
         foreach ($objectRef AS $contact_id) {
             
-                    //Do we have a Drupal Account?
-                    require_once 'api/UFGroup.php';
-                    $uid = crm_uf_get_uf_id($contact_id);
-                    if (!$uid) { //make sure we have an actual user account
-                        continue;
-                    }
+            //Do we have a Drupal Account?
+            require_once 'api/UFGroup.php';
+            $uid = crm_uf_get_uf_id($contact_id);
+            if (!$uid) { //make sure we have an actual user account
+                continue;
+            }
             
             switch ($op) {
-                case 'create':
-                case 'edit':
-                    //Contact added or re-joined to group; add to corresponding role
-                    civicrm_group_roles_add_role($uid, $rid, $role_name);       
-                    break;
+            case 'create':
+            case 'edit':
+                //Contact added or re-joined to group; add to corresponding role
+                civicrm_group_roles_add_role($uid, $rid, $role_name);       
+                break;
                 
-                case 'delete':
-                    //Contact is removed from group; remove role
-                    //TO DO: We should really only remove from a role when contact is removed from ALL groups which grant the role.
-                    civicrm_group_roles_del_role($uid, $rid, $role_name);
-                    break;
+            case 'delete':
+                //Contact is removed from group; remove role
+                //TO DO: We should really only remove from a role when contact is removed from ALL groups which grant the role.
+                civicrm_group_roles_del_role($uid, $rid, $role_name);
+                break;
             } //end switch
         } //end foreach
     }//end while
@@ -149,8 +151,8 @@ function civicrm_group_roles_add_role($uid, $rid, $role_name)
     $account = user_load(array('uid' => (int)$uid));
     // Skip adding the role to the user if they already have it.
     if ($account !== FALSE && !isset($account->roles[$rid])) {
-      $roles = $account->roles + array($rid => $role_name);
-      user_save($account, array('roles' => $roles));
+        $roles = $account->roles + array($rid => $role_name);
+        user_save($account, array('roles' => $roles));
     }
 }
 
@@ -165,8 +167,8 @@ function civicrm_group_roles_del_role($uid, $rid, $role_name)
     $account = user_load(array('uid' => (int)$uid));
     // Skip removing the role from the user if they already don't have it.
     if ($account !== FALSE && isset($account->roles[$rid])) {
-      $roles = array_diff($account->roles, array($rid => $role_name));
-      user_save($account, array('roles' => $roles));
+        $roles = array_diff($account->roles, array($rid => $role_name));
+        user_save($account, array('roles' => $roles));
     }
 }
 
@@ -200,22 +202,22 @@ function civicrm_group_roles_menu( )
                                                                   'access arguments' => array('access settings'),
                                                                   'type' => MENU_LOCAL_TASK,
                                                                   ); 
-//     $items['admin/settings/civicrm_group_roles/configure'] = array(
-//                                                                    'title' => t('Configure'),
-//                                                                    'page callback' => 'drupal_get_form',
-//                                                                    'page arguments' => array('civicrm_group_roles_configure'),
-//                                                                    'access callback' => 'user_access',
-//                                                                    'access arguments' => array('access settings'),
-//                                                                    'type' => MENU_LOCAL_TASK,
-//                                                                    );
-//     $items['admin/settings/civicrm_group_roles/manual_sync'] = array(
-//                                                                      'title' => t('Manually Synchronize'),
-//                                                                      'page callback' => 'drupal_get_form',
-//                                                                      'page arguments' => array('civicrm_group_roles_manual_sync'),
-//                                                                      'access callback' => 'user_access',
-//                                                                      'access arguments' => array('access settings'),
-//                                                                      'type' => MENU_LOCAL_TASK,
-//                                                                      );        
+    //     $items['admin/settings/civicrm_group_roles/configure'] = array(
+    //                                                                    'title' => t('Configure'),
+    //                                                                    'page callback' => 'drupal_get_form',
+    //                                                                    'page arguments' => array('civicrm_group_roles_configure'),
+    //                                                                    'access callback' => 'user_access',
+    //                                                                    'access arguments' => array('access settings'),
+    //                                                                    'type' => MENU_LOCAL_TASK,
+    //                                                                    );
+    //     $items['admin/settings/civicrm_group_roles/manual_sync'] = array(
+    //                                                                      'title' => t('Manually Synchronize'),
+    //                                                                      'page callback' => 'drupal_get_form',
+    //                                                                      'page arguments' => array('civicrm_group_roles_manual_sync'),
+    //                                                                      'access callback' => 'user_access',
+    //                                                                      'access arguments' => array('access settings'),
+    //                                                                      'type' => MENU_LOCAL_TASK,
+    //                                                                      );        
     return $items;
 }
 

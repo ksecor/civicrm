@@ -36,7 +36,7 @@
     <td class="label">{if NOT $startToDate.Valid.amount}{ts}(n/a){/ts}{else}{$startToDate.Valid.amount|crmMoney}{/if}</td>
     <td class="label">{$startToDate.Valid.count}</td>
     <td><a href="{$startToDate.Valid.url}">{ts}view details{/ts}...</a></td>
-<tr><td colspan="4" class="right" style="padding: 8px 10px 0px 4px; vertical-align: middle;"><a href="{$chartURL}" title="{ts}View contribution summary as bar or pie chart using the Google Chart API{/ts}"><img src="{$config->resourceBase}/i/BarGraph.png" alt="{ts}View contribution summary as bar or pie chart using the Google Chart API{/ts}" /></a> <a href="{$chartURL}" title="{ts}View contribution summary as bar or pie chart{/ts}">Bar or Pie Chart...</a></td></tr>
+<tr><td colspan="4" class="right" style="padding: 8px 10px 0px 4px; vertical-align: middle;"><a href="{$chartURL}" title="{ts}View contribution summary as bar or pie chart using the Google Chart API{/ts}"><img src="{$config->resourceBase}/i/BarGraph.png" alt="{ts}View contribution summary as bar or pie chart using the Google Chart API{/ts}" /></a> <a href="{$chartURL}" title="{ts}View contribution summary as bar or pie chart{/ts}">{ts}Bar or Pie Chart...{/ts}</a></td></tr>
 </tr>
 </table>
 

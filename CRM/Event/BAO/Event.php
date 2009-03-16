@@ -226,20 +226,44 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         if ( $event->find( true ) ) {
             $locBlockId = $event->loc_block_id;
-            
-            $result = $event->delete( );
-            
+            $result     = $event->delete( );
+
             if ( ! is_null( $locBlockId ) ) {
-                require_once 'CRM/Core/BAO/Location.php';
-                CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+                self::deleteEventLocBlock( $locBlockId, $id );
             }
-            
             return $result;
         }
         
         return null;
     }
     
+    /**
+     * Function to delete the location block associated with an event, 
+     * if not being used by any other event.
+     *
+     * @param int $loc_block_id    location block id to be deleted
+     * @param int $eventid         event id with which loc block is associated
+     *
+     * @access public
+     * @static
+     *
+     */
+    static function deleteEventLocBlock( $locBlockId, $eventId = null )
+    {
+        $query = "SELECT count(ce.id) FROM civicrm_event ce WHERE ce.loc_block_id = $locBlockId";
+
+        if ( $eventId ) {
+            $query .= " AND ce.id != $eventId;";
+        }
+
+        $locCount = CRM_Core_DAO::singleValueQuery( $query );
+
+        if ( $locCount == 0 ) {
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+        }
+    }
+
     /**
      * Function to get current/future Events 
      *
@@ -573,7 +597,7 @@ SELECT
   civicrm_event.description as description, 
   civicrm_event.is_show_location as is_show_location, 
   civicrm_option_value.label as event_type, 
-  civicrm_loc_block.name as location_name, 
+  civicrm_address.name as address_name, 
   civicrm_address.street_address as street_address, 
   civicrm_address.supplemental_address_1 as supplemental_address_1, 
   civicrm_address.supplemental_address_2 as supplemental_address_2, 
@@ -624,20 +648,19 @@ WHERE civicrm_event.is_active = 1
   
   
             $address = '';
-            require_once 'CRM/Utils/String.php';
-            CRM_Utils_String::append( $address, ', ',
-                                      array( $dao->location_name) );
+
             $addrFields = array(
-                            'street_address'         => $dao->street_address,
-                            'supplemental_address_1' => $dao->supplemental_address_1,
-                            'supplemental_address_2' => $dao->supplemental_address_2,
-                            'city'                   => $dao->city,
-                            'state_province'         => $dao->state,
-                            'postal_code'            => $dao->postal_code,
-                            'postal_code_suffix'     => $dao->postal_code_suffix,
-                            'country'                => $dao->country,
-                            'county'                 => null
-                            );           
+                                'address_name'           => $dao->address_name,
+                                'street_address'         => $dao->street_address,
+                                'supplemental_address_1' => $dao->supplemental_address_1,
+                                'supplemental_address_2' => $dao->supplemental_address_2,
+                                'city'                   => $dao->city,
+                                'state_province'         => $dao->state,
+                                'postal_code'            => $dao->postal_code,
+                                'postal_code_suffix'     => $dao->postal_code_suffix,
+                                'country'                => $dao->country,
+                                'county'                 => null
+                                );           
             
             require_once 'CRM/Utils/Address.php';
             CRM_Utils_String::append( $address, ', ',
@@ -670,11 +693,8 @@ WHERE civicrm_event.is_active = 1
         
         CRM_Core_DAO::commonRetrieve( 'CRM_Event_DAO_Event', $eventParams, $eventValues, $returnProperties );
         
-        //handle the location info.
-        if ( $locBlockId = CRM_Utils_Array::value( 'loc_block_id', $eventValues ) ) {
-            require_once 'CRM/Core/BAO/Location.php';
-            $copyLocBlockId = CRM_Core_BAO_Location::copyLocBlock( $locBlockId );
-        }
+        // since the location is sharable, lets use the same loc_block_id.
+        $locBlockId     = CRM_Utils_Array::value( 'loc_block_id', $eventValues );
         
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
         
@@ -685,7 +705,7 @@ WHERE civicrm_event.is_active = 1
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
                                                       array( 'id' => $id ), 
                                                       array( 'loc_block_id' => 
-                                                             ( $locBlockId ) ? $copyLocBlockId : null ), 
+                                                             ( $locBlockId ) ? $locBlockId : null ), 
                                                       $fieldsToPrefix );
         
         $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_PriceSetEntity', 
@@ -824,44 +844,54 @@ WHERE civicrm_event.is_active = 1
         
         if ( $values['event']['is_email_confirm'] ) {
             require_once 'CRM/Contact/BAO/Contact/Location.php';
-
-            // get the billing location type
-            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-            $bltID = array_search( 'Billing',  $locationTypes );
-
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $bltID );
-
-            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
-            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
-
-            // set confirm_text and contact email address for display in the template here
-            $template->assign( 'email', $email );
-            $template->assign( 'confirm_email_text', CRM_Utils_Array::value( 'confirm_email_text', $values['event'] ) );
-           
-            $isShowLocation = CRM_Utils_Array::value('is_show_location',$values['event']);
-            $template->assign( 'isShowLocation', $isShowLocation );
-
-            $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
-            $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-            $receiptFrom = '"' . $values['event']['confirm_from_name'] . '" <' . $values['event']['confirm_from_email'] . '>';
-
-            if ( $returnMessageText ) {
-                return array( 'subject' => $subject,
-                              'body'    => $message,
-                              'to'      => $displayName );
+            
+            // if pay later than we should use primary email address    
+            $isPayLater = CRM_Utils_Array::value( 'is_pay_later', $values['event'] );
+             
+            if ( $isPayLater )  {
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+            } else {
+                // get the billing location type
+                $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+                $bltID = array_search( 'Billing',  $locationTypes );
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $bltID );
             }
-            require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                  $displayName,
-                                  $email,
-                                  $subject,
-                                  $message,
-                                  CRM_Utils_Array::value( 'cc_confirm', $values['event'] ),
-                                  CRM_Utils_Array::value( 'bcc_confirm', $values['event'] )
-                                  );
+    
+            //send email only when email is present
+            if ( isset( $email ) ) {
+                self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
+                self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
+                
+                // set confirm_text and contact email address for display in the template here
+                $template->assign( 'email', $email );
+                $template->assign( 'confirm_email_text', CRM_Utils_Array::value( 'confirm_email_text', $values['event'] ) );
+                
+                $isShowLocation = CRM_Utils_Array::value('is_show_location',$values['event']);
+                $template->assign( 'isShowLocation', $isShowLocation );
+                
+                $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
+                $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
+                $receiptFrom = '"' . $values['event']['confirm_from_name'] . '" <' . $values['event']['confirm_from_email'] . '>';
+                
+                if ( $returnMessageText ) {
+                    return array( 'subject' => $subject,
+                                  'body'    => $message,
+                                  'to'      => $displayName );
+                }
+                
+                require_once 'CRM/Utils/Mail.php';
+                CRM_Utils_Mail::send( $receiptFrom,
+                                      $displayName,
+                                      $email,
+                                      $subject,
+                                      $message,
+                                      CRM_Utils_Array::value( 'cc_confirm', $values['event'] ),
+                                      CRM_Utils_Array::value( 'bcc_confirm', $values['event'] )
+                                      );
+            }
         }
     }
-
+    
     /**  
      * Function to add the custom fields OR array of participant's
      * profile info
@@ -1028,7 +1058,7 @@ WHERE civicrm_event.is_active = 1
                     } else if ( 'greeting_type' == substr( $name, 0, 13 ) ) {
                         $greeting = CRM_Core_PseudoConstant::greeting( );
                         $values[$index] = $greeting[$params[$name]];
-                    }else if ( $name === 'preferred_communication_method' ) {
+                    } else if ( $name === 'preferred_communication_method' ) {
                         $communicationFields = CRM_Core_PseudoConstant::pcm();
                         $pref = array();
                         $compref = array();
@@ -1062,7 +1092,27 @@ WHERE civicrm_event.is_active = 1
                     } else if ( 'participant_status_id' == $name ) {
                         $status = CRM_Event_PseudoConstant::participantStatus( );
                         $values[$index] = $status[$params[$name]];
-                    } else {
+                    } else if ( strpos( $name, '-' ) !== false ) {
+                        list( $fieldName, $id ) = CRM_Utils_System::explode( '-', $name, 2 );
+                        $detailName = str_replace( ' ', '_', $name );
+                        if ( in_array( $fieldName, array( 'state_province', 'country', 'county' ) ) ) {
+                            $values[$index] = $params[$detailName];
+                            $idx = $detailName . '_id';
+                            $values[$index] = $params[$idx];
+                        } else if ( $fieldName == 'im' ) {
+                            $providerName = null;
+                            if ( $providerId = $detailName . '-provider_id' ) {
+                                $providerName = CRM_Utils_Array::value( $params[$providerId], $imProviders );
+                            }
+                            if ( $providerName ) {
+                                $values[$index] = $params[$detailName] . " (" . $providerName .")";
+                            } else {
+                                $values[$index] = $params[$detailName];
+                            }
+                        } else {
+                            $values[$index] = $params[$detailName];
+                        }
+                   } else {
                         if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
                             if ($params[$name] ) {
                                 $values[$index] = '[ x ]';
@@ -1080,7 +1130,7 @@ WHERE  id = $cfID
                                 $dao->fetch( );
                                 $htmlType  = $dao->html_type;
                                 $dataType  = $dao->data_type;
-                                
+
                                 if ( $htmlType == 'File') {
                                     //$fileURL = CRM_Core_BAO_CustomField::getFileURL( $contactID, $cfID );
                                     //$params[$index] = $values[$index] = $fileURL['file_url'];
@@ -1121,47 +1171,7 @@ WHERE  id = $cfID
                                 $values[$index] = $params[$name];
                             }
                         }
-                    }
-                } else if ( strpos( $name, '-' ) !== false ) {
-                    list( $fieldName, $id, $type ) = CRM_Utils_System::explode( '-', $name, 3 );
-                    if ($id == 'Primary') {
-                        // not sure why we'd every use Primary location type id
-                        // we need to fix the source if we are using it
-                        // $locationTypeName = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
-                        $locationTypeName = 1;
-                    } else {
-                        $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
-                    }
-                    if ( ! $locationTypeName ) {
-                        continue;
-                    }
-                    $detailName = "{$locationTypeName}-{$fieldName}";
-                    $detailName = str_replace( ' ', '_', $detailName );
-                    
-                    if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
-                        if ( $type ) {
-                            $detailName .= "-{$type}";
-                        } else {
-                            $detailName .= '-1';
-                        }
-                    }
-                    
-                    if ( in_array( $fieldName, array( 'state_province', 'country', 'county' ) ) ) {
-                        $values[$index] = $params[$detailName];
-                        $idx = $detailName . '_id';
-                        $values[$index] = $params[$idx];
-                    } else if ( $fieldName == 'im'){
-                        $providerId     = $detailName . '-provider_id';
-                        $providerName   = $imProviders[$params[$providerId]];
-                        if ( $providerName ) {
-                            $values[$index] = $params[$detailName] . " (" . $providerName .")";
-                        } else {
-                            $values[$index] = $params[$detailName];
-                        }
-                        $values[$index] = $params[$detailName];        
-                    } else {
-                        $values[$index] = $params[$detailName];
-                    }
+                    }                   
                 }
             }
         }
@@ -1236,26 +1246,37 @@ WHERE  id = $cfID
     static function getLocationEvents( ) 
     {
         $events = array( );
-        
-        $query = "
-SELECT CONCAT_WS(' :: ' , LEFT(ca.street_address,30), ca.city, CONCAT('(',LEFT(ce.title,20),'..)') ) title, 
-       ce.id, 
-       ce.loc_block_id
+
+        $query  = "
+SELECT CONCAT_WS(' :: ' , ca.name, ca.street_address, ca.city, sp.name) title, ce.loc_block_id
 FROM   civicrm_event ce
-INNER JOIN civicrm_loc_block lb ON ce.loc_block_id=lb.id
-INNER JOIN civicrm_address ca   ON lb.address_id= ca.id
-GROUP BY ca.street_address, ca.city
-ORDER BY ca.city, ca.street_address ASC
+INNER JOIN civicrm_loc_block lb ON ce.loc_block_id = lb.id
+INNER JOIN civicrm_address ca   ON lb.address_id = ca.id
+LEFT  JOIN civicrm_state_province sp ON ca.state_province_id = sp.id
+ORDER BY sp.name, ca.city, ca.street_address ASC
 ";
-        $dao = CRM_Core_DAO::executeQuery( $query );
         
+        $dao = CRM_Core_DAO::executeQuery( $query );
         while( $dao->fetch() ) {
-            $events[$dao->id] = array( 'title'      => $dao->title,
-                                       'locBlockId' => $dao->loc_block_id );
+            $events[$dao->loc_block_id] = $dao->title;
         }
         
         return $events;
     }
-    
+
+    static function countEventsUsingLocBlockId( $locBlockId )
+    {
+        if ( !$locBlockId ) {
+            return 0;
+        }
+
+        $locBlockId = CRM_Utils_Type::escape( $locBlockId, 'Integer' );
+
+        $query  = "
+SELECT count(*) FROM civicrm_event ce
+WHERE  ce.loc_block_id = $locBlockId";
+        
+        return CRM_Core_DAO::singleValueQuery( $query );
+    }
 }
 

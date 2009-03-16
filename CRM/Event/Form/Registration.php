@@ -137,8 +137,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function preProcess( ) 
     {
-        $this->_eventId     = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true  );
-        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
+        $this->_eventId = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true  );
+        $this->_action  = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
 
         // current mode
         $this->_mode = ( $this->_action == 1024 ) ? 'test' : 'live';
@@ -532,10 +532,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     static function initPriceSet( &$form, $eventID ) {
         // get price info
         require_once 'CRM/Core/BAO/PriceSet.php';
-        
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventID ) ) {
+            if ( $form->_action & CRM_Core_Action::UPDATE ){
+                $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
+                $required = false;
+            } else {
+                $required = true;
+            }
             $form->_priceSetId = $priceSetId;
-            $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
+            $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId, $required);
             $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->set('priceSetId', $form->_priceSetId);

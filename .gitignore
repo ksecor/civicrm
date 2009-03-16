@@ -68,6 +68,7 @@ CRM/Member/DAO
 CRM/Pledge/DAO
 CRM/Project/DAO
 bin/setup.sh
+l10n
 settings_location.php
 sql/civicrm.mysql
 sql/civicrm_acl.??_??.mysql

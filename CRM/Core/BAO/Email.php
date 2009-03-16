@@ -194,8 +194,8 @@ ORDER BY e.is_primary DESC, email_id ASC ";
             //get reset date
             $resetDate = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $email->id, 'reset_date' );
 
-            //set hold date only if it is not set
-            if ( ($email->on_hold != 'null') && !$holdDate ) {
+            //set hold date only if it is not set and e
+            if ( ($email->on_hold != 'null') && !$holdDate && $email->on_hold) {
                 $email->hold_date  = date( 'YmdHis' );
                 $email->reset_date = '';
             } else if ( $holdDate && ( $email->on_hold == 'null' ) && !$resetDate ) {

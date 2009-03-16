@@ -628,6 +628,7 @@ UNION (
         if ( $path == 'civicrm/upgrade' ) {
             $menuPath['page_callback']         = 'CRM_Upgrade_Page_Upgrade';
             $menuPath['access_arguments'][0][] = 'administer CiviCRM';
+            $menuPath['access_callback']       = array('CRM_Core_Permission', 'checkMenu');
         }
 
         $i18n =& CRM_Core_I18n::singleton();

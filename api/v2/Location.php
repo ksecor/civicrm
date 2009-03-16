@@ -252,10 +252,16 @@ function _civicrm_location_add( &$params ,$locationTypeId) {
         
         if ( isset($params[$name]) &&
              $params[$name] ){
-            $count = 1;
-            foreach ( $params[$name] as $val) {
-                _civicrm_store_values($fields, $val,$loc[$name][$count++]);
-                
+            if ( is_array( $params[$name] ) ) {
+                $count = 1;
+                foreach ( $params[$name] as $val) {
+                    _civicrm_store_values($fields, $val,$loc[$name][$count++]);
+                }
+            } else {
+                $p = array( $name => $params[$name] );
+                _civicrm_store_values($fields,
+                                      $p,
+                                      $loc[$name][1]);
             }
         }
     }

@@ -69,7 +69,7 @@
 
   {counter start=0 skip=1 print=false}
       {foreach from=$rows item=row}
-        <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
+        <tr id='rowid{counter}' class="{cycle values="odd-row,even-row"}">
           {assign var=cbName value=$row.checkbox}
           <td>{$form.$cbName.html}</td>
           {foreach from=$columnHeaders item=header}

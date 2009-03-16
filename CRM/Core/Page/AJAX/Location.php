@@ -42,6 +42,9 @@ class CRM_Core_Page_AJAX_Location
 {
 
     /**
+     * FIXME: we should make this method like getLocBlock() OR use the same method and 
+     * remove this one. 
+     *
      * Function to obtain the location of given contact-id. 
      * This method is used by on-behalf-of form to dynamically generate poulate the 
      * location field values for selected permissioned contact. 
@@ -117,4 +120,55 @@ class CRM_Core_Page_AJAX_Location
         exit();
     }
 
+    function getLocBlock( ) {
+        // i wish i could retrieve loc block info based on loc_block_id, 
+        // Anyway, lets retrieve an event which has loc_block_id set to 'lbid'.  
+        if ( $_POST['lbid'] ) {
+            $params  = array('1' => array($_POST['lbid'], 'Integer')); 
+            $eventId = CRM_Core_DAO::singleValueQuery('SELECT id FROM civicrm_event WHERE loc_block_id=%1 LIMIT 1', $params);
+        }
+
+        // now lets use the event-id obtained above, to retrieve loc block information.  
+        if ( $eventId ) {
+            $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
+            require_once 'CRM/Core/BAO/Location.php';
+            // second parameter is of no use, but since required, lets use the same variable.
+            $location = CRM_Core_BAO_Location::getValues($params, $params);
+        }
+
+        $result = array( );
+        $addressOptions  = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
+        
+        // lets output only required fields.
+        foreach ( $addressOptions as $element => $isSet ) {
+            if ( $isSet && (! in_array($element, array('im', 'openid'))) ) {
+                if ( in_array($element, array('country', 'state_province', 'county')) ) {
+                    $element .= '_id' ;
+                } else if ( $element == 'address_name' ) {
+                    $element = 'name' ;
+                }
+                $fld = "location[1][address][{$element}]";
+                $value = CRM_Utils_Array::value( $element, $location[1]['address'] );
+                $value = $value ? $value : "";
+                $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
+            }
+        }
+
+        foreach (array('email', 'phone_type_id', 'phone') as $element) {
+            $block = ($element == 'phone_type_id') ? 'phone' : $element;
+            for ( $i = 1; $i < 3; $i++ ) {
+                $fld   = "location[1][{$block}][{$i}][{$element}]";
+                $value = CRM_Utils_Array::value( $element, $location[1][$block][$i] );
+                $value = $value ? $value : "";
+                $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
+            }
+        }
+
+        // set the message if loc block is being used by more than one event.
+        require_once 'CRM/Event/BAO/Event.php';
+        $result['count_loc_used'] = CRM_Event_BAO_Event::countEventsUsingLocBlockId( $_POST['lbid'] );
+
+        echo json_encode( $result );
+        exit();
+    }
 }

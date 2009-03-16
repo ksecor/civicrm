@@ -77,9 +77,11 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
 
         $this->addButtons(array(array('type' => 'next', 'name' => ts('Save'), 'isDefault' => true)));
 
-        $this->assign('locales', $this->_locales);
-        $this->assign('field',   $field);
-        $this->assign('context', CRM_Utils_Request::retrieve('context', 'String', $this));
+        global $tsLocale;
+        $this->assign('tsLocale', $tsLocale);
+        $this->assign('locales',  $this->_locales);
+        $this->assign('field',    $field);
+        $this->assign('context',  CRM_Utils_Request::retrieve('context', 'String', $this));
     }
 
     function setDefaultValues()

@@ -999,6 +999,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     unset($membershipValues['id']);
                     unset($membershipValues['membership_contact_id']);
                     unset($membershipValues['contact_id']);
+                    unset($membershipValues['membership_id']);
                     foreach ( $details['relatedContacts'] as $relatedContactId => $donCare) {
                         $membershipValues['contact_id'] = $relatedContactId;
                                                 

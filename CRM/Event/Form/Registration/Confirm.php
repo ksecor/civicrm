@@ -490,7 +490,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $contribution = null;
                 // if paid event add a contribution record
                 if( $value['amount'] != 0 && CRM_Utils_Array::value( 'is_primary', $value ) ) {
-                    $contribution =& self::processContribution( $this, $value, $result, $contactID, $pending );
+                    //if primary participant contributing additional amount
+                    //append (multiple participants) to its fee level. CRM-4196.
+                    $isAdditionalAmount = false;
+                    if ( count($params) > 1 ) {
+                        $isAdditionalAmount = true;
+                    }
+                    
+                    $contribution =& self::processContribution( $this, $value, $result, $contactID, $pending, $isAdditionalAmount );
                 }
                 $value['contactID']          = $contactID;
                 $value['eventID']            = $this->_eventId;
@@ -601,7 +608,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      * @return void
      * @access public
      */
-    static function processContribution( &$form, $params, $result, $contactID, $pending = false ) 
+    static function processContribution( &$form, $params, $result, $contactID, $pending = false, $isAdditionalAmount = false ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
@@ -613,7 +620,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         if ( $form->_values['event']['is_email_confirm'] ) {
             $receiptDate = $now ;
         }
-        
+        //CRM-4196        
+        if ( $isAdditionalAmount ) {
+            $params['amount_level'] = $params['amount_level'].ts(' (multiple participants)');
+        }
+
         $contribParams = array(
                                'contact_id'            => $contactID,
                                'contribution_type_id'  => $form->_values['event']['contribution_type_id'] ?

@@ -260,7 +260,7 @@ AND        ca.case_id = %3
     function createActivity( $activityTypeXML,
                              &$params ) {
 
-        $activityTypeName =  (string ) $activityTypeXML->name;
+        $activityTypeName =  (string) $activityTypeXML->name;
         $activityTypes    =& $this->allActivityTypes( );
         $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName, $activityTypes );
 
@@ -274,7 +274,7 @@ AND        ca.case_id = %3
         $activityTypeID = $activityTypeInfo['id'];
 
         if ( isset( $activityTypeXML->status ) ) {
-            $statusName = (string ) $activityTypeXML->status;
+            $statusName = (string) $activityTypeXML->status;
         } else {
             $statusName = 'Scheduled';
         }
@@ -286,7 +286,7 @@ AND        ca.case_id = %3
                                      'is_auto'             => false,
                                      'is_current_revision' => 1,
                                      'subject'             => CRM_Utils_Array::value('subject', $params) ? $params['subject'] : $activityTypeName,
-                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
+                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'activity_status',
                                                                                               $statusName,
                                                                                               'name' ),
                                      'target_contact_id'   => $params['clientID'],
@@ -300,7 +300,7 @@ AND        ca.case_id = %3
                                      'source_contact_id'   => $params['creatorID'],
                                      'is_auto'             => true,
                                      'is_current_revision' => 1,
-                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
+                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'activity_status',
                                                                                             $statusName,
                                                                                             'name' ),
                                      'target_contact_id'   => $params['clientID'],
@@ -318,15 +318,44 @@ AND        ca.case_id = %3
                 $activityParams['custom'] = $params['custom'];
             }
         } else {
-            $dueDateTime = $params['dueDateTime'];
-            $datetime    = new DateTime( $dueDateTime );
+            $dueDateTime = null;
+            //get due date of reference activity if set.
+            if ( (string) $activityTypeXML->reference_activity ) {
+                $referenceActivityInfo = CRM_Utils_Array::value( (string)$activityTypeXML->reference_activity, 
+                                                                 $activityTypes );
+                if ( $referenceActivityInfo['id'] ) {
+                    $caseActivityParams = array( 'activity_type_id' => $referenceActivityInfo['id'] );
+                    
+                    //if reference_select is set take according activity.
+                    if ( $referenceSelect = (string) $activityTypeXML->reference_select ) {
+                        $caseActivityParams[$referenceSelect] = 1;
+                    }
+                    
+                    require_once 'CRM/Case/BAO/Case.php';
+                    $referenceActivity = 
+                        CRM_Case_BAO_Case::getCaseActivityDueDates( $params['caseID'], $caseActivityParams, true );
+                                      
+                    if ( is_array($referenceActivity) ) {
+                        foreach( $referenceActivity as $aId => $details ) {
+                            $dueDateTime = CRM_Utils_Array::value('due_date', $details );
+                            break;
+                        }
+                    }
+                }
+            }
+            if ( ! $dueDateTime ) {
+                $dueDateTime = $params['dueDateTime'];
+            }
+
+            $datetime        = new DateTime( $dueDateTime );
             $activityDueTime = CRM_Utils_Date::unformat( $datetime->format('Y:m:d:H:i:s'), ':' );
 
-            if ( (int ) $activityTypeXML->reference_offset ) {
-                $activityDueTime = 
-                    CRM_Utils_Date::intervalAdd( 'day', (int ) $activityTypeXML->reference_offset, 
-                                                 $activityDueTime );
+            //add reference offset to date.
+            if ( (int) $activityTypeXML->reference_offset ) {
+                $activityDueTime = CRM_Utils_Date::intervalAdd( 'day', (int) $activityTypeXML->reference_offset, 
+                                                                $activityDueTime );
             }
+            
             $activityParams['due_date_time'] = CRM_Utils_Date::format( $activityDueTime );
         }
 
@@ -349,7 +378,7 @@ AND        ca.case_id = %3
                              'case_id'     => $params['caseID'] );
         require_once 'CRM/Case/BAO/Case.php';
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
-             return true;
+        return true;
     }
 
     function activitySets( $activitySetsXML ) {

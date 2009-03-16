@@ -164,24 +164,15 @@ class CRM_Utils_Mail {
             }
         }
         
-        $mailMimeParams = array(
-                                'text_encoding' => '8bit',
-                                'html_encoding' => '8bit',
-                                'head_charset'  => 'utf-8',
-                                'text_charset'  => 'utf-8',
-                                'html_charset'  => 'utf-8',
-                                );
-        $msg->get($mailMimeParams);
+        $message = self::setMimeParams( $msg );
         $msg->headers($headers);
-        $message   =& $msg->get();
-        $headers =& $msg->headers();
+
         $result = null;
         $mailer =& CRM_Core_Config::getMailer( );
         CRM_Core_Error::ignoreException( );
         if ( is_object( $mailer ) ) {
             $result = $mailer->send($to, $headers, $message);
-            CRM_Core_Error::setCallback()
-;
+            CRM_Core_Error::setCallback();
             if ( is_a( $result, 'PEAR_Error' ) ) {
                 if ( is_a( $mailer , 'Mail_smtp' ) ) {
                     $message =

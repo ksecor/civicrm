@@ -1,0 +1,7 @@
+name = Physician Health Program
+description = Physician Health
+version = 2.2
+dependencies[] = civicrm
+package = CiviCRM
+core = 6.x
+php = 5.2

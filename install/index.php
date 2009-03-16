@@ -689,10 +689,12 @@ class Installer extends InstallRequirements {
             }
             if ( $installType == 'drupal' ) {
                 $drupalURL     = civicrm_cms_base( );
+                $drupalPermissionsURL = "{$drupalURL}index.php?q=admin/user/permissions";
                 $drupalURL .= "index.php?q=civicrm/admin/configtask&reset=1";
-
-                echo "<li>Use the <a href=\"$drupalURL\">Configuration Checklist</a> to review and configure settings for your new site</li>";
-
+                
+                echo "<li>Drupal user permissions have been automatically set - giving anonymous and authenticated users access to public CiviCRM forms and features. We recommend that you <a target='_blank' href={$drupalPermissionsURL}>review these permissions</a> to ensure that they are appropriate for your requirements (<a target='_blank' href='http://wiki.civicrm.org/confluence/display/CRMDOC/Default+Permissions+and+Roles'>learn more...</a>)</li>
+                      <li>Use the <a target='_blank' href=\"$drupalURL\">Configuration Checklist</a> to review and configure settings for your new site</li>";
+                      
                 // explicitly setting error reporting, since we cannot handle drupal related notices
                 error_reporting(1);
                 
@@ -707,6 +709,10 @@ class Installer extends InstallRequirements {
                 module_rebuild_cache( );
                 // now enable civicrm module.
                 module_enable( array('civicrm') );
+                
+                //add basic drupal permissions
+                db_query( 'UPDATE {permission} SET perm = CONCAT( perm, \', access CiviMail subscribe/unsubscribe pages, access all custom data, access uploaded files, make online contributions, profile listings and forms, register for events, view event info, view event participants\') WHERE rid IN (1, 2)' );
+                
             } elseif ( $installType == 'standalone' ) {
                 $standaloneURL = civicrm_cms_base( ) . 'standalone/index.php';
                 $checkListURL  = $standaloneURL . "?q=civicrm/admin/configtask&reset=1";

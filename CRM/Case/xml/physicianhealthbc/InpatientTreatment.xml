@@ -49,7 +49,7 @@
       <ActivityTypes>
         <ActivityType>
           <name>Open Case</name>
-          <status>Closed</status>
+          <status>Completed</status>
         </ActivityType>
         <ActivityType>
           <name>Plan inpatient admission</name>

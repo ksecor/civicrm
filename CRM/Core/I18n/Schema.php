@@ -287,8 +287,10 @@ class CRM_Core_I18n_Schema
             $namesTrigger[] = "SET NEW.sort_name_{$loc} = NEW.organization_name_{$loc};";
 
             $namesTrigger[] = "ELSEIF NEW.contact_type = 'Individual' THEN";
-            $namesTrigger[] = "SELECT v.label_{$loc} INTO @prefix FROM civicrm_option_value v JOIN civicrm_option_group g ON (v.option_group_id = g.id) WHERE g.name = 'individual_prefix' AND v.value = NEW.prefix_id;";
-            $namesTrigger[] = "SELECT v.label_{$loc} INTO @suffix FROM civicrm_option_value v JOIN civicrm_option_group g ON (v.option_group_id = g.id) WHERE g.name = 'individual_suffix' AND v.value = NEW.suffix_id;";
+            $namesTrigger[] = "SET @prefix := NULL;";
+            $namesTrigger[] = "SET @suffix := NULL;";
+            $namesTrigger[] = "IF NEW.prefix_id IS NOT NULL THEN SELECT v.label_{$loc} INTO @prefix FROM civicrm_option_value v JOIN civicrm_option_group g ON (v.option_group_id = g.id) WHERE g.name = 'individual_prefix' AND v.value = NEW.prefix_id; END IF;";
+            $namesTrigger[] = "IF NEW.suffix_id IS NOT NULL THEN SELECT v.label_{$loc} INTO @suffix FROM civicrm_option_value v JOIN civicrm_option_group g ON (v.option_group_id = g.id) WHERE g.name = 'individual_suffix' AND v.value = NEW.suffix_id; END IF;";
             $namesTrigger[] = "SET NEW.display_name_{$loc} = TRIM(REPLACE(CONCAT_WS(' ', @prefix, NEW.first_name_{$loc}, NEW.middle_name_{$loc}, NEW.last_name_{$loc}, @suffix), '  ', ' '));";
             $namesTrigger[] = "SET NEW.sort_name_{$loc} = TRIM(', ' FROM CONCAT_WS(', ', NEW.last_name_{$loc}, NEW.first_name_{$loc}));";
 
@@ -312,6 +314,10 @@ class CRM_Core_I18n_Schema
 
             if ($locales) {
                 foreach ($hash as $column => $_) {
+                    if ($table == 'civicrm_contact' and ($column == 'display_name' or $column == 'sort_name')) {
+                        // {display,sort}_name are handled by $namesTrigger and shouldn't be copied between languages
+                        continue;
+                    }
                     $trigger[] = "IF NEW.{$column}_{$locale} IS NOT NULL THEN";
                     foreach ($locales as $old) {
                         $trigger[] = "SET NEW.{$column}_{$old} = NEW.{$column}_{$locale};";

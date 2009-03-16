@@ -14,7 +14,7 @@
         form: 'Form',
         // on success update the proper field in the form 'below' and hide popup
         load: function (data) {ldelim}
-          dojo.byId('{$field}').value = dojo.byId('{$field}_{$config->lcMessages}').value;
+          dojo.byId('{$field}').value = dojo.byId('{$field}_{$tsLocale}').value;
           dijit.byId('i18n-{$field}-dialog').hide();
         {rdelim},
         // on error alert the user

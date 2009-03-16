@@ -48,9 +48,9 @@ class CRM_Event_Form_EventFees
      */ 
     static function preProcess( &$form )  
     {
-        $form->_eventId       = CRM_Utils_Request::retrieve( 'eventId', 'Positive', $form );
-        $form->_pId = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $form );
-        $form->_discountId    = CRM_Utils_Request::retrieve( 'discountId', 'Positive', $form );
+        $form->_eventId    = CRM_Utils_Request::retrieve( 'eventId', 'Positive', $form );
+        $form->_pId        = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $form );
+        $form->_discountId = CRM_Utils_Request::retrieve( 'discountId', 'Positive', $form );
     }
     
     /**
@@ -69,15 +69,26 @@ class CRM_Event_Form_EventFees
             $params = array( 'id' => $form->_pId );
             
             require_once "CRM/Event/BAO/Participant.php";
-            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );            
+            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
+            if ( $form->_action == CRM_Core_Action::UPDATE ) {
+                $discounts = array( );
+                if ( !empty( $form->_values['discount'] ) ) {
+                    foreach( $form->_values['discount'] as $key => $value ) { 
+                        $discounts[$key] = $value['name'];
+                    }
+                }
+                $form->assign( 'discount', $discounts[$defaults[$form->_pId]['discount_id']] );
+                $form->assign( 'fee_amount', $defaults[$form->_pId]['fee_amount'] );
+                $form->assign( 'fee_level', $defaults[$form->_pId]['fee_level'] );
+            }
             $defaults[$form->_pId]['send_receipt'] = 0;
         } else {
             $defaults[$form->_pId]['send_receipt'] = 1;
             if ( $form->_eventId ) {
                 $defaults[$form->_pId]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                                                $form->_eventId, 
-                                                                                                'confirm_email_text'
-                                                                                                );
+                                                                                      $form->_eventId, 
+                                                                                      'confirm_email_text'
+                                                                                      );
             }
             $today_date = getDate();
             $defaults[$form->_pId]['receive_date']['M'] = $today_date['mon'];
@@ -117,7 +128,7 @@ class CRM_Event_Form_EventFees
                 }
             } 
         }
-        
+
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $form->_eventId ) ) {
             $fields = $priceOptionValues = array( );
@@ -216,6 +227,12 @@ class CRM_Event_Form_EventFees
             }
             $form->assign( 'feeString', implode( ',', $allFieldValues ) );
             $form->assign( 'totalAmount', CRM_Utils_Array::value( 'fee_amount', $defaults[$form->_pId] ) );
+            if ( $form->_action == CRM_Core_Action::UPDATE ) {
+                $fee_level = $defaults[$form->_pId]['fee_level'];
+                CRM_Event_BAO_Participant::fixEventLevel( $fee_level );
+                $form->assign("fee_level", $fee_level );
+                $form->assign( 'fee_amount', CRM_Utils_Array::value( 'fee_amount', $defaults[$form->_pId] ) );
+            }
         } else {
             $optionGroupId = null;
 
@@ -273,17 +290,29 @@ class CRM_Event_Form_EventFees
             if ( ($form->_action == CRM_Core_Action::UPDATE ) && 
                  CRM_Utils_Array::value( 'event_id', $defaults[$form->_pId] ) ) {
                 if ( ! empty($form->_feeBlock) ) {
+                    $feeLevel = CRM_Utils_Array::value('fee_level',
+                                                       $defaults[$form->_pId] );
+                    $feeAmount = CRM_Utils_Array::value('fee_amount',
+                                                        $defaults[$form->_pId] );
                     foreach( $form->_feeBlock as $amountId => $amountInfo ) {
-                        if ( ($amountInfo['label'] == 
-                              CRM_Utils_Array::value('fee_level',
-                                                     $defaults[$form->_pId])) &&
-                             ($amountInfo['value'] == 
-                              CRM_Utils_Array::value('fee_amount',
-                                                     $defaults[$form->_pId]))
-                             ) {
+                        if ( $amountInfo['label'] == $feeLevel &&
+                             $amountInfo['value'] == $feeAmount ) {
                             $defaults[$form->_pId]['amount'] = $amountInfo['amount_id'];
                         }
-                    } 
+
+                        // if amount is not set do fuzzy matching
+                        if ( ! isset( $defaults[$form->_pId]['amount'] ) ) {
+                            // if only level use that
+                            if ( $amountInfo['label'] == $feeLevel ) {
+                                $defaults[$form->_pId]['amount'] = $amountInfo['amount_id'];
+                            } else if ( strpos( $feeLevel, $amountInfo['label'] ) !== false ) {
+                                $defaults[$form->_pId]['amount'] = $amountInfo['amount_id'];
+                            } else if ( $amountInfo['value'] == $feeAmount ) {
+                                // if amount matches use that
+                                $defaults[$form->_pId]['amount'] = $amountInfo['amount_id'];
+                            }
+                        }
+                    }
                 }
 
                 if ( ! isset($defaults[$form->_pId]['amount']) ) {
@@ -304,10 +333,10 @@ class CRM_Event_Form_EventFees
                     $defaults[$form->_pId]['amount'] = $params['id'];
                 }
             }
+            $form->assign("amountId", $defaults[$form->_pId]['amount'] );
         }
-
         return $defaults[$form->_pId];
-        
+
     }
     
     /** 
@@ -318,8 +347,9 @@ class CRM_Event_Form_EventFees
      */ 
     static function buildQuickForm( &$form )  
     {
-        $form->add('hidden','scriptFee',null);
-        $form->add('hidden','scriptArray',null);
+        $form->add( 'hidden', 'scriptFee'  , null );
+        $form->add( 'hidden', 'scriptArray', null );
+
         if ( $form->_eventId ) {
             $form->_isPaidEvent = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $form->_eventId, 'is_monetary' );
             if ( $form->_isPaidEvent ) {
@@ -344,6 +374,7 @@ class CRM_Event_Form_EventFees
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $event['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $form, true, $form->_discountId );
+            $form->assign ( 'line_items' , CRM_Utils_Array::value( 'line_items', $form->_values ) );
             $discounts = array( );
             if ( !empty( $form->_values['discount'] ) ) {
                 foreach( $form->_values['discount'] as $key => $value ) { 
@@ -423,7 +454,16 @@ class CRM_Event_Form_EventFees
         require_once "CRM/Core/BAO/Preferences.php";
         $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
         $form->assign( 'outBound_option', $mailingInfo['outBound_option'] );
-
+        $form->addFormRule( array( 'CRM_Event_Form_EventFees', 'formRule' ), $form );
     }
+    
+    static function formRule(&$fields, &$files, &$self) 
+    {
+        $errorMsg = array( );
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        CRM_Core_BAO_PriceSet::calculatePriceSet( $self, $fields );
+        return empty( $errorMsg ) ? true : $errorMsg;
+    }
+
 }
 

@@ -37,7 +37,7 @@
       <ActivityTypes>
         <ActivityType>
           <name>Open Case</name>
-          <status>Closed</status>
+          <status>Completed</status>
         </ActivityType>
         <ActivityType>
           <name>Determine needs and preferences Referral to specialist</name>

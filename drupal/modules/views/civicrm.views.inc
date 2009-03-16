@@ -48,6 +48,7 @@ function civicrm_views_data() {
     require_once 'CRM/Core/BAO/CustomGroup.php';
     require_once 'CRM/Core/DAO.php';
     require_once 'CRM/Core/Error.php';
+    require_once 'CRM/Contact/BAO/Contact.php';
     //------------------------------------------------------
     // CiviCRM Contacts Views Table
     //------------------------------------------------------
@@ -82,6 +83,29 @@ function civicrm_views_data() {
                                                                                   ),
                                                       );
 
+    // For other base tables, explain how we join -  
+    $data['civicrm_contact']['table']['join']['users'] = array(
+           'left_table'   => 'civicrm_uf_match',
+           'left_field'   => 'contact_id',
+           'field'        => 'id',
+    );
+    $data['civicrm_uf_match']['table']['join']['users'] = array(
+           'left_field'   => 'uid',
+           'field'        => 'uf_id',
+    );    
+    
+    /*
+    $data['users']['table']['join']['civicrm_contact'] = array(
+           'left_table'   => 'civicrm_uf_match',
+           'left_field'   => 'uf_id',
+           'field'        => 'uid',
+    );
+    $data['civicrm_uf_match']['table']['join']['civicrm_contact'] = array(
+           'left_field'   => 'contact_id',
+           'field'        => 'id',
+    );
+    */
+
     //CiviCRM Contacts - FIELDS
 
 
@@ -108,9 +132,26 @@ function civicrm_views_data() {
                                                            ),
                                            );
 
-  
-
-
+    // Drupal ID of the contact (from uf_match.uf_id)   
+    $data['civicrm_contact']['drupal_id'] = array(  
+                                                  'real field' => 'id',
+                                                  'title' => t('Drupal ID'),
+                                                  'help' => t('The drupal ID.'),
+                                                  'field' => array(
+                                                                   'handler' => 'civicrm_handler_field_drupalid',
+                                                                   'click sortable' => TRUE,
+                                                                   ),
+                                                  'sort' => array(
+                                                                  'handler' => 'views_handler_sort',
+                                                                  ),
+                                                  'relationship' => array(
+                                                                          'base' => 'users',
+                                                                          'field' => 'uid',
+                                                                          'handler' => 'civicrm_handler_relationship_contact2users',
+                                                                          'label' => t('Drupal User'),
+                                                                          ),
+                                                    );
+ 
     //SORT Name for the Contact (Last Name followed by First)
     $data['civicrm_contact']['sort_name'] = array(
                                                   'title' => t('Sort Name'),
@@ -399,6 +440,63 @@ function civicrm_views_data() {
                                                                    'handler' => 'views_handler_sort',
                                                                    ),
                                                    );
+                                                   
+    // Organization Name
+    $data['civicrm_contact']['organization_name'] = array(
+                                             'title' => t('Organization Name'), // The item it appears as on the UI,
+                                             'help' => t('The display name of the contact\'s organizations.'), // The help that appears on the UI,
+                                             'field' => array(
+                                                              'handler' => 'views_handler_field',
+                                                              'click sortable' => TRUE,
+                                                              ),
+                                             'sort' => array(
+                                                             'handler' => 'views_handler_sort',
+                                                             ),
+                                             'argument' => array(
+                                                                 'handler' => 'views_handler_argument_string',
+                                                                 ),
+
+                                             );       
+                                             
+    // contact_type
+    $data['civicrm_contact']['contact_type'] = array(
+                                                     'title' => t('Contact Type'), // The item it appears as on the UI,
+                                                     'help'  => t('Contact Type.'), // The help that appears on the UI,
+                                                     'field' => array(
+                                                                      'handler' => 'views_handler_field',
+                                                                      'click sortable' => TRUE,
+                                                                      ),
+                                                     'sort' => array(
+                                                                     'handler' => 'views_handler_sort',
+                                                                     ),
+                                                     'filter' => array(
+                                                                       'handler' => 'civicrm_handler_filter_contact_type',
+                                                                       ),
+                                                     );                                                                                           
+                                                   
+    // add the other generic fields
+    $objType = 'Individual';
+    $fields = CRM_Contact_BAO_Contact::exportableFields( $objType );
+
+    $skipFields = array( 'id'                => 1,
+                         'sort_name'         => 1,
+                         'display_name'      => 1,
+                         'gender'            => 1,
+                         'first_name'        => 1,
+                         'middle_name'       => 1, 
+                         'last_name'         => 1,
+                         'birth_date'        => 1,
+                         'is_deceased'       => 1,
+                         'do_not_email'      => 1,
+                         'do_not_phone'      => 1,
+                         'do_not_mail'       => 1,
+                         'do_not_trade'      => 1,
+                         'is_opt_out'        => 1,  
+                         'contact_type'      => 1,
+                         'organization_name' => 1,                       
+                         );
+    civicrm_views_add_fields( $fields, $data['civicrm_contact'], $skipFields, 'civicrm_contact' );                                                   
+                                                   
 
     // CHILLING OUT AT THE CIVICRM_ADDRESS TABLE
 
@@ -2548,6 +2646,32 @@ function civicrm_views_href( $text, $path, $query ) {
     return CRM_Utils_System::href( $text, $path, $query );
 }
 
+// Creates new View fields from CiviCRM fields
+function civicrm_views_add_fields( &$fields, &$data, &$skipFields, $tableName ) {
+    foreach ( $fields as $name => $value ) {
+        if ( CRM_Utils_Array::value( $name, $skipFields ) ||
+             substr( $value['where'], 0, strlen( $tableName ) + 1 ) != "{$tableName}." ) {
+            continue;
+        }
+
+        $data[$value['name']] = array(
+                             'title' => $value['title'],
+                             'help'  => $value['title'],
+                             'field' => array( 
+                                              'handler' => civicrm_get_field_handler  ( $value['type'] ),
+                                              'click sortable' => true,
+                                              ),
+                             'sort'  => array(
+                                              'handler' => civicrm_get_sort_handler   ( $value['type'] ),
+                                              ),
+                             'filter' => array(
+                                               'handler' => civicrm_get_filter_handler( $value['type'] ),
+                                               ),
+                             );
+    }
+
+}
+
 
 
 function civicrm_views_custom_data_cache($data, $entity_type, $groupID, $subType, $style) {
@@ -2834,6 +2958,14 @@ function civicrm_views_handlers() {
 					   'civicrm_handler_field_relationship_type' => array(
                                                                           'parent' => 'views_handler_field',
                                                                           ),
+                                                                          
+                       'civicrm_handler_field_drupalid' => array(
+                                                            'parent' => 'views_handler_field',
+                                                           ),      
+                       'civicrm_handler_relationship_contact2users' => array(
+                                                            'parent' => 'views_handler_relationship',
+                                                           ),                                                                                                                 
+                                                                          
                        //FILTER HANDDLEAARRRS! Filter Handlers!
                        'civicrm_handler_filter_datetime' => array(
                                                                   'parent' => 'views_handler_filter_date',
@@ -2885,6 +3017,10 @@ function civicrm_views_handlers() {
                        'civicrm_handler_filter_relationship_type' => array(
                                                                            'parent' => 'views_handler_filter_in_operator',
                                                                            ),    
+                       'civicrm_handler_filter_contact_type' => array(
+                                                                      'parent' => 'views_handler_filter_in_operator',
+                                                                      ),                                                                           
+                                                                           
                                                         
                        // ARGUMENT HANDLERS
                        'civicrm_handler_argument_date_api_contact' => array(

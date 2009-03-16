@@ -134,7 +134,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->field_type       = $params['field_name'][0];
         $ufField->field_name       = $params['field_name'][1]; 
         $ufField->location_type_id = (CRM_Utils_Array::value( 2, $params['field_name'] )) ? $params['field_name'][2] : 'NULL';
-        $ufField->phone_type_id    = CRM_Utils_Array::value( 3, $params['field_name'] );
+        $ufField->phone_type       = CRM_Utils_Array::value( 3, $params['field_name'] );
         
         if (CRM_Utils_Array::value( 'uf_field', $ids )) {
             $ufField->whereAdd("id <> ".CRM_Utils_Array::value( 'uf_field', $ids ));
@@ -307,25 +307,28 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @static
      * @access public
      */
-    static function checkUFStatus($UFFieldId) 
+    static function checkUFStatus( $UFFieldId ) 
     {
         $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $UFFieldId, 'field_name' );
         
         $customFieldId = explode('_', $fieldName);
+
+        // return if field is not a custom field
+        if ( !CRM_Utils_Array::value( 1, $customFieldId ) ) {
+            return true;
+        } 
         
         require_once "CRM/Core/DAO/CustomField.php";
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->id = $customFieldId[1];
 
-        if ($customField->find(true) ) { // if uf field is custom field
-            if ( !$customField->is_active) {
+        if ( $customField->find(true) ) { // if uf field is custom field
+            if ( !$customField->is_active ) {
                 return false;
             } else {
                 return true;
             }
-        } else { // this is if field is not a custom field
-            return true;
-        }
+        } 
     }
 
 

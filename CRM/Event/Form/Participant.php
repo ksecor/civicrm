@@ -689,7 +689,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-
+        
         $config =& CRM_Core_Config::singleton();        
         //check if discount is selected
         if ( CRM_Utils_Array::value( 'discount_id', $params ) ) {
@@ -747,7 +747,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $participantBAO->find( );
             while ( $participantBAO->fetch() ) {
                 $status = $participantBAO->status_id;
+                $contributionParams['total_amount'] = $participantBAO->fee_amount;
             }
+            $params['fee_level'] = $params['fee_amount'] = $params['discount_id'] =null;
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -923,10 +925,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( !$params['note'] ) {
                 $params['note'] = 'null';
             }
-            
+
             if ( $this->_single ) {
                 $participants[] = CRM_Event_BAO_Participant::create( $params );
-                
             } else {
                 foreach ( $this->_contactIds as $contactID ) {
                     $params['contact_id'] = $contactID;
@@ -993,7 +994,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                         if ( $this->_lineItem ) {
                             require_once 'CRM/Core/BAO/LineItem.php';
                             foreach ( $this->_lineItem as $key => $value ) {
-                                if ( $value != 'skip' ) {
+                                if ( is_array ( $value ) && $value != 'skip' ) {
                                     foreach( $value as $line ) {
                                         $unused = array();
                                         $line['entity_table'] = 'civicrm_contribution';

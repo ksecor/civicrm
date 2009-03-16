@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2008
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -62,9 +62,11 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             $config =& CRM_Core_Config::singleton( );
             $config->cleanup( 1 );
             
-            // clean the session
-            $session =& CRM_Core_Session::singleton( );
-            $session->reset( 2 );
+            if ( $config->userFramework !== 'Standalone' ) {
+                // clean the session
+                $session =& CRM_Core_Session::singleton( );
+                $session->reset( 2 );
+            }
         }
         // end of hack
         

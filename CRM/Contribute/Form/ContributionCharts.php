@@ -60,6 +60,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         
         //take available years from database to show in drop down
         $currentYear = date('Y');
+        $years       = array( );
         if ( !empty( $this->_years ) ) {
             if ( !array_key_exists( $currentYear, $this->_years ) )  {
                 $this->_years[$currentYear] = $currentYear;

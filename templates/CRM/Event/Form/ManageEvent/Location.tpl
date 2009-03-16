@@ -8,10 +8,10 @@
     {if $locEvents}
     <div id="optionType" class="form-item">
        <span class="labels">
-         <label>{$form.option_type.label}</label>
+         <label>{$form.location_option.label}</label>
        </span>
        <span class="fields">
-         {$form.option_type.html}
+         {$form.location_option.html}
        </span>
     </div>   
     <div class="spacer"></div>
@@ -25,6 +25,10 @@
     </div> 
     <div class="spacer"></div>
     {/if}	
+
+    {assign var=locUsedMsgTxt value="<strong>Note:</strong> This location is used by multiple events. Modifying location information will change values for all events."}
+    <div id="locUsedMsg"></div>
+
     <div id="newLocation">
     {* Display the address block *}
     {include file="CRM/Contact/Form/Address.tpl"} 
@@ -51,26 +55,65 @@
     
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *} 
 {include file="CRM/common/showHide.tpl"}
-{if $useExistingEventLocation and $locEvents}
+{if $locEvents}
 <script type="text/javascript">    
 {literal}
+var locUsedMsgTxt = {/literal}"{$locUsedMsgTxt}"{literal};
+var locBlockURL   = {/literal}"{crmURL p='civicrm/ajax/locBlock' q='reset=1' h=0}"{literal};
+var locBlockId    = {/literal}"{$form.loc_event_id.value.0}"{literal};
+
+if ( {/literal}"{$locUsed}"{literal} ) {
+   displayMessage( true );
+}
+
+cj(document).ready(function() {
+  cj('#loc_event_id').change(function() {
+    cj.ajax({
+      url: locBlockURL, 
+      type: 'POST',
+      data: {'lbid': cj(this).val()},
+      dataType: 'json',
+      success: function(data) {
+        var selectLocBlockId = cj('#loc_event_id').val();
+        for(i in data) {
+          if ( i == 'count_loc_used' ) {
+            if ( ((selectLocBlockId == locBlockId) && data['count_loc_used'] > 1) || 
+                 ((selectLocBlockId != locBlockId) && data['count_loc_used'] > 0) ) {
+              displayMessage( true );
+            } else {
+              displayMessage( false );
+            }
+          } else {
+            document.getElementById( i ).value = data[i];
+          }
+        }
+      }
+    });
+    return false;
+  });
+});
+
+function displayMessage( set ) {
+   cj(document).ready(function() {
+     if ( set ) {
+       cj('#locUsedMsg').html( locUsedMsgTxt ).addClass('status');
+     } else {
+       cj('#locUsedMsg').html( ' ' ).removeClass('status');
+     }
+   });
+}
+
 function showLocFields( ) {
-   var createNew = document.getElementsByName("option_type")[0].checked;
-   var useExisting = document.getElementsByName("option_type")[1].checked;
+   var createNew = document.getElementsByName("location_option")[0].checked;
+   var useExisting = document.getElementsByName("location_option")[1].checked;
    if ( createNew ) {
-      show('newLocation');
-      show('showLoc');
-      hide('existingLoc');
+     hide('existingLoc');
+     displayMessage(false);
    } else if ( useExisting ) {
-      hide('newLocation');	
-      show('existingLoc');
-      show('showLoc');
-   } else {
-      hide('newLocation');	
-      hide('existingLoc');
-      hide('showLoc');
+     show('existingLoc');
    }
 }
+
 showLocFields( );
 {/literal}
 </script>

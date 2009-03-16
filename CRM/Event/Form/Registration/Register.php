@@ -282,12 +282,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         //get the button name.
         $button = substr( $form->controller->getButtonName( ), -4 );
         if ( $button == 'skip' ) {
-            $required  = false;
+            $required = false;
         }
   
         $elements = array( );
-        $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
+       
         if ( isset($form->_priceSetId) ) {
+            $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
             $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
             $form->assign( 'priceSet', $form->_priceSet );
             require_once 'CRM/Core/BAO/PriceField.php';                       
@@ -318,24 +319,25 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::buildAmount( 'event', $form, $form->_feeBlock );
-
-            require_once 'CRM/Utils/Money.php';
-            foreach ( $form->_feeBlock as $fee ) {
-                if ( is_array( $fee ) ) {
-                    $elements[] =& $form->createElement('radio', null, '',
-                                                        CRM_Utils_Money::format( $fee['value'] ) . ' ' .
-                                                        $fee['label'],
-                                                        $fee['amount_id'] );
+            if ( $form->_action != CRM_Core_Action::UPDATE ) {
+                require_once 'CRM/Utils/Money.php';
+                foreach ( $form->_feeBlock as $fee ) {
+                    if ( is_array( $fee ) ) {
+                        $elements[] =& $form->createElement('radio', null, '',
+                                                            CRM_Utils_Money::format( $fee['value'] ) . ' ' .
+                                                            $fee['label'],
+                                                            $fee['amount_id'] );
+                    }
                 }
-            }
-
-            $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
-            $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
-            if ( isset( $form->_online ) && $form->_online ) {
-                $element->freeze();
-            }
-            if ( $required ) {
-                $form->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
+                
+                $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
+                $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
+                if ( isset( $form->_online ) && $form->_online ) {
+                    $element->freeze();
+                }
+                if ( $required ) {
+                    $form->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
+                }
             }
         }
     }
@@ -391,7 +393,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $errors['_qf_default'] = ts( "Select atleast one option from Event Fee(s)" );
             }
         }
-
+        
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        CRM_Core_BAO_PriceSet::calculatePriceSet( $self, $fields );
+                
         if ( $self->_values['event']['is_monetary'] ) {
             if ( is_array( $self->_paymentProcessor ) ) {
                 $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );

@@ -34,15 +34,15 @@
         {if $lineItem}
             {include file="CRM/Event/Form/Registration/LineItem.tpl}
         {elseif $amount || $amount == 0}
-        {foreach from= $amount item=amount key=level}  
-          <strong>{$amount.amount|crmMoney} &nbsp;&nbsp; {$amount.label}</strong><br />	
-        {/foreach}
-        {if $totalAmount}
-        <br /><strong>{ts}Total Amount{/ts}:</strong>&nbsp;&nbsp;{$totalAmount|crmMoney}
-        {/if}	 		
-        {if $hookDiscount.message}
-        <strong>({$hookDiscount.message})</strong>
-        {/if}
+            {foreach from= $amount item=amount key=level}  
+              <strong>{$amount.amount|crmMoney} &nbsp;&nbsp; {$amount.label}</strong><br />	
+            {/foreach}
+            {if $totalAmount}
+                <br /><strong>{ts}Total Amount{/ts}:&nbsp;&nbsp;{$totalAmount|crmMoney}</strong>
+            {/if}	 		
+            {if $hookDiscount.message}
+                <em>({$hookDiscount.message})</em>
+            {/if}
         {/if}
     </div>
     {/if}

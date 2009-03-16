@@ -273,7 +273,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     static function deleteCase( $caseId , $moveToTrash = false ) 
     {
         //delete activities
-        $activities = self::getCaseActivity( $caseId, $params = array(), null, true );
+        $activities = self::getCaseActivityDueDates( $caseId );
         if ( $activities ) {
             require_once"CRM/Activity/BAO/Activity.php";
             foreach( $activities as $value ) {
@@ -701,29 +701,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
      *
      * @static
      */
-    static function getCaseActivity( $caseID, &$params, $contactID,  $skipDetails = false )
+    static function getCaseActivity( $caseID, &$params, $contactID )
     {
         $values = array( );
-        if ( $skipDetails ) {
-            if ( !$caseID ) {
-                return;
-            }
-            
-            $query = "SELECT ca.id 
-                      FROM civicrm_activity ca 
-                      LEFT JOIN civicrm_case_activity cca ON cca.activity_id = ca.id LEFT JOIN civicrm_case cc ON cc.id = cca.case_id 
-                      WHERE cc.id = %1";
-            
-            $params = array( 1 => array( $caseID, 'Integer' ) );
-            $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
-            
-            while ( $dao->fetch( ) ) {
-                $values[$dao->id]['id']  = $dao->id;
-            }
-            $dao->free( );
-            return $values;
-        }
-
+        
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter, 
@@ -1203,7 +1184,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
     static function restoreCase( $caseId ) 
     {
         //restore activities
-        $activities = self::getCaseActivity( $caseId, $params = array(), null, true );
+        $activities = self::getCaseActivityDueDates( $caseId );
         if ( $activities ) {
             require_once"CRM/Activity/BAO/Activity.php";
             foreach( $activities as $value ) {
@@ -1274,5 +1255,57 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         $relatedGlobalContacts = array_merge( $relatedContacts, $globalContacts );
         return $relatedGlobalContacts;
 	}   
+
+    /**
+     * Function to get Case ActivitiesDueDates with given criteria. 
+     *
+     * @param int      $caseID case id
+     * @param array    $criteriaParams given criteria
+     * @param boolean  $latestDate if set newest or oldest date is selceted.
+     *
+     * @return returns case activities due dates
+     *
+     * @static
+     */
+    static function getCaseActivityDueDates( $caseID, $criteriaParams = array( ), $latestDate = false )
+    {
+        $values     = array( );
+        $selectDate = " ca.due_date_time";
+        $where      = $groupBy = ' ';
+        
+        if ( !$caseID ) {
+            return;
+        }
+        
+        if ( $latestDate ) {
+            if ( CRM_Utils_Array::value( 'activity_type_id', $criteriaParams ) ) {
+                $where   .= " AND ca.activity_type_id    = ".CRM_Utils_Type::escape( $criteriaParams['activity_type_id'], 'Integer' );
+                $where   .= " AND ca.is_current_revision = 1";
+                $groupBy .= " GROUP BY ca.activity_type_id";
+            }
+            
+            if ( CRM_Utils_Array::value( 'newest', $criteriaParams ) ) {
+                $selectDate = " max(ca.due_date_time) "; 
+            } else {
+                $selectDate = " min(ca.due_date_time) "; 
+            }
+        }
+        
+        $query = "SELECT ca.id, {$selectDate} as due_date
+                  FROM civicrm_activity ca 
+                  LEFT JOIN civicrm_case_activity cca ON cca.activity_id = ca.id LEFT JOIN civicrm_case cc ON cc.id = cca.case_id 
+                  WHERE cc.id = %1 {$where} {$groupBy}";
+        
+        $params = array( 1 => array( $caseID, 'Integer' ) );
+        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        while ( $dao->fetch( ) ) {
+            $values[$dao->id]['id']       = $dao->id;
+            $values[$dao->id]['due_date'] = $dao->due_date;
+        }
+        $dao->free( );
+        return $values;
+    }
+    
 }
 

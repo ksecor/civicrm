@@ -279,7 +279,13 @@ AND       $whereClause";
                         $actionMask |= CRM_Core_Action::UPDATE;
                     }
                 } else {
-                    $actionMask = CRM_Core_Action::PREVIEW;
+                    //FIXME : currently we are hiding continue action for
+                    //search base mailing, we should handle it when we fix CRM-3876
+                    if ( !in_array( $row['id'], $searchMailings ) ) {
+                        $actionMask = CRM_Core_Action::PREVIEW;
+                    } else {
+                        $actionMask = CRM_Core_Action::DELETE;
+                    }
                 }
                 if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
                     $actionMask |= CRM_Core_Action::DISABLE;

@@ -13,34 +13,10 @@
             <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         {/if}
         {if $fee_level}
-            {if $line_items}
-                {assign var="total_price" value=0}
-                <dt>{ts}Event Fees{/ts}</dt>
-                <dd>
-                    <table class="report">
-                        <tr class="columnheader">
-                            <th>{ts}Item{/ts}</th>
-                            <th>{ts}Qty{/ts}</th>
-                            <th>{ts}Unit Price{/ts}</th>
-                            <th>{ts}Total{/ts}</th>
-                        </tr>
-                        {foreach from=$line_items item=line}
-                            {assign var="total_price" value=`$total_price+$line.line_total`}
-                        <tr>
-                            <td>{$line.label}</td>
-                            <td>{$line.qty}</td>
-                            <td class="right">{$line.unit_price|crmMoney}</td>
-                            <td class="right">{$line.line_total|crmMoney}</td>
-                        </tr>
-                        {/foreach}
-                        <tr>
-                            <td colspan="3"><strong>{ts}Total{/ts}</strong>:</td>
-                            <td class="right"><strong>{$total_price|crmMoney}</strong></td>
-                        </tr>
-                    </table>
-                </dd>
-            {else}
-                <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;</dd>
+	    {if $line_items}
+	        {include file="CRM/Event/Form/LineItems.tpl"} 
+	    {else}
+                <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</dd>
             {/if}
         {/if}
         {foreach from=$note item="rec"}

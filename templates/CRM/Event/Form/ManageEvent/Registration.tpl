@@ -7,35 +7,24 @@
 <div class="form-item">
     <div id="register">
      <dl>
-       <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
-       <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable online registration for this event.{/ts}</dd>
+       <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}<br />
+            <span class="description">{ts}Enable or disable online registration for this event.{/ts}</span></dd>
      </dl>
     </div>
     <div id="registration_blocks">
      <div id="register_show">
         <dl>
-            <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. 'Register Now!').{/ts}</dd>
-        </dl>
-        <dl>
+            <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html} {help id="id-link_text"}</dd>
             <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html} 
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
             {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
             </dd>
-        </dl>
-        <dl>
             <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
             {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
             </dd>
-        </dl>
-        <dl>
-            <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple participant registration for this event.{/ts}</dd>
-        </dl>
-	<dl>
-            <dt>{$form.allow_same_participant_emails.label}</dt><dd>{$form.allow_same_participant_emails.html}</dd 
-            <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple registrations using same email address for this event.{/ts}</dd>
+            <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html} {help id="id-allow_multiple"}</dd>
+            <dt>{$form.allow_same_participant_emails.label}</dt><dd>{$form.allow_same_participant_emails.html} {help id="id-allow_same_email"}</dd> 
         </dl>
      </div>
     <div class="spacer"></div>
