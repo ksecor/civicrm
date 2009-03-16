@@ -495,4 +495,22 @@ WHERE id={$contactId}; ";
                                                   $countryID );
     }
 
+    
+    /**
+     * Function to clear cache employer name and employer id
+     * of all employee when employer get deleted. 
+     *
+     * @param int $employerId contact id of employer ( organization id ) 
+     *
+     */
+    static function clearAllEmployee( $employerId )
+    {
+        $query = "
+UPDATE civicrm_contact 
+   SET organization_name=NULL, employer_id = NULL 
+ WHERE employer_id={$employerId}; ";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+
 }

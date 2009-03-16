@@ -549,6 +549,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             return false;
         }
         $contactType = $contact->contact_type;
+        
+        // currently we only clear employer cache.
+        // we are not deleting inherited membership if any. 
+        if( $contact->contact_type == 'Organization' ) {
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
+            CRM_Contact_BAO_Contact_Utils::clearAllEmployee( $id );
+        }
 
         require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::pre( 'delete', $contactType, $id, CRM_Core_DAO::$_nullArray );
