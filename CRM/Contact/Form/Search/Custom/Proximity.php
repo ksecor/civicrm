@@ -388,7 +388,13 @@ AND t.tag_id = {$this->_tag}
     }
 
     function setDefaultValues( ) {
-        return array( 'household_name'    => '', );
+    	$config =& CRM_Core_Config::singleton( );
+    	$countryDefault = $config->defaultContactCountry;
+    	
+    	if ($countryDefault) {
+    		return array( 'country_id' => $countryDefault );
+    	}
+    	return null;     
     }
 
     function alterRow( &$row ) {
