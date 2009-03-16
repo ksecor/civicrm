@@ -290,10 +290,13 @@ IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
         
         $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
         $form->addElement('select', 'country_id', ts('Country'), $country);
+        $form->addRule('country_id', ts('Country is required'), 'required');
         
         $form->add( 'text',
                     'distance',
-                    ts( 'Radius for Proximity Search (in km)' ) );
+                    ts( 'Radius for Proximity Search (in km)' ));
+        $form->addRule('distance', ts('Radius is required'), 'required');
+        
 
         /**
          * You can define a custom title for the search form
