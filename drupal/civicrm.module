@@ -236,12 +236,12 @@ function civicrm_initialize( )
         $error = include_once( $settingsFile );
 
 	    // get ready for problems
-        require_once 'CRM/Utils/System.php';
-        $docLinkInstall = CRM_Utils_System::docURL2( "Installation and Upgrades", true );
-        $docLinkFaq = CRM_Utils_System::docURL2( "Frequently Asked Questions", true );
-        $docLinkTrouble = CRM_Utils_System::docURL2( "Installation and Configuration Trouble-shooting", true );
-	    $errorMsgAdd = t("Please review the <a href='!1'>Installation Instructions</a>, <a href='!2'>Installation FAQs</a> and <a href='!3'>Trouble-shooting</a> documentation for assistance.</strong></p>", 
-                          array('!1' => $docLinkInstall, '!2' => $docLinkFaq, '!3' => $docLinkTrouble ) );
+        $docLinkInstall = "http://wiki.civicrm.org/confluence/display/CRMDOC/Drupal+Installation+Guide";
+        $docLinkTrouble = "http://wiki.civicrm.org/confluence/display/CRMDOC/Installation+and+Configuration+Trouble-shooting";
+        $forumLink      = "http://forum.civicrm.org/index.php/board,6.0.html";
+
+	    $errorMsgAdd = t("Please review the <a href='!1'>Drupal Installation Guide</a> and the <a href='!2'>Trouble-shooting page</a> for assistance. If you still need help installing, you can often find solutions to your issue by searching for the error message in the <a href='!3'>installation support section of the community forum</a>.</strong></p>", 
+                          array('!1' => $docLinkInstall, '!2' => $docLinkTrouble, '!3' => $forumLink ) );
 
 
         if ( $error == false ) {
