@@ -841,11 +841,9 @@ WHERE civicrm_event.is_active = 1
         if ( $values['event']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
             require_once 'CRM/Contact/BAO/Contact/Location.php';
-            
-            // if pay later than we should use primary email address    
-            $isPayLater = CRM_Utils_Array::value( 'is_pay_later', $values['event'] );
-             
-            if ( $isPayLater )  {
+            // if pay later or for additional participant than we should use primary email address    
+            if ( CRM_Utils_Array::value( 'is_pay_later', $values['params'] ) ||
+                 CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) )  {
                 list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
             } else {
                 // get the billing location type
