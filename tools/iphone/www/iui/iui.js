@@ -181,7 +181,11 @@ addEventListener("click", function(event)
             link.setAttribute("selected", "progress");
             iui.showPageByHref(link.href, null, null, null, unselect);
         }
-        else
+		 else if (link.target == "_back")
+		 {
+			history.back();
+		 }
+		 else
             return;
         
         event.preventDefault();        

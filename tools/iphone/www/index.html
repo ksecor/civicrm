@@ -5,17 +5,13 @@
     <meta name="viewport" content="width=320; user-scalable=no" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>CiviCRM</title>
-<style type="text/css" media="screen">@import "iui/iuix.css";</style>
-<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-<script type="application/x-javascript" src="iui/iuix.js"></script>
-	  <script type="text/javascript" charset="utf-8">
+<style type="text/css" media="screen">@import "iui/iui.css";</style>
+<script type="text/javascript" src="phonegap.js"></script>
+<script type="application/x-javascript" src="iui/iui.js"></script>
+<script type="text/javascript">
 
-    var deviceInfo = function(){
-      document.getElementById("platform").innerHTML = Device.platform;
-      document.getElementById("version").innerHTML = Device.version;
-      document.getElementById("uuid").innerHTML = Device.uuid;
-    }
-    
+		//alert("hit the start of the inline code");
+
     var getLocation = function() {
       var suc = function(p){
 		    alert(p.latitude + " " + p.longitude);
@@ -67,23 +63,20 @@
     };
 
 		var mydb=false;
- 
-    // initialise the database
     initDB = function() {
       try { 
         if (!window.openDatabase) { 
-          alert('not supported'); 
+			alert('not supported'); 
         } else { 
           var shortName = 'civicrm'; 
           var version = '1.0'; 
           var displayName = 'CiviCRM datastorage'; 
           var maxSize = 65536; // in bytes 
           mydb = openDatabase(shortName, version, displayName, maxSize); 
+		  alert("initDB:"+mydb);
          }
       } catch(e) { 
-        // Error handling code goes here. 
         if (e == INVALID_STATE_ERR) { 
-          // Version number mismatch. 
           alert("Invalid database version."); 
         } else { 
           alert("Unknown error "+e+"."); 
@@ -91,115 +84,117 @@
         return; 
       } 
     }
-		
-		    // db error handler - prevents the rest of the transaction going ahead on failure
-    errorHandler = function (transaction, error) { 
-      // returns true to rollback the transaction
-      return true;  
+
+	errorHandler = function(tx,e){
+		alert(e.message);
+		}
+
+    loadSettingsErrorHandler = function (transaction, e) { 
+		alert("exception loading settings:"+e.message);
+		initCiviCRMTables();
+			saveSetting('host','http://localhost:8880/iphone/index.html');
+			saveSetting('uid','MyUserId');
+			saveSetting('pw','sneakers');
+		loadSettings();
     } 
  
-    // null db data handler
     nullDataHandler = function (transaction, results) { } 
- 
-    
-    // create tables for the database
-    createTables = function() {
-      
+
+    initCiviCRMTables = function() {
+      alert("initializing CiviCRM tables");
       try {
-        
         mydb.transaction(
           function(transaction) {
-            transaction.executeSql('CREATE TABLE civicrm_settings(key TEXT NOT NULL PRIMARY KEY, value TEXT NOT NULL DEFAULT "");', [], nullDataHandler, errorHandler); 
+            transaction.executeSql('CREATE TABLE civicrm_settings(k TEXT NOT NULL PRIMARY KEY, value TEXT NOT NULL DEFAULT "");', [], nullDataHandler, errorHandler); 
            });
-        
       } catch(e) {
-        /// alert(e.message);
         return;
       }
     }
 	
-	count=function(transaction, results) {
-      // Handle the results 
-	  var count=-1;
-      for (var i=0; i<results.rows.length; i++) { 
-        var row = results.rows.item(i); 
-        count = row[0];
-      }
-		return count;
-    }
-
-	checkDBExists(){
-		try{
-			mydb.transaction(
-				function(transaction){
-					transaction.executeSql('SELECT COUNT(*) FROM civicrm_settings;',[],count,errorHandler);
-				});
-			return true;
-		}catch(e){
-			return false;
-		}
-	}
-
-    // callback function to retrieve the data from the prefs table
     settingsDataHandler=function(transaction, results) {
-      // Handle the results 
-      var html = "<ul>"; 
+
+	/*
+	var data = "testVariable";
+	window["temp_" + data] = 123;
+	alert(window["temp_" + data]);
+ 
+	var data = "testVariable";
+	window["temp_" + data] = new Array();
+	window["temp_" + data][window["temp_" + data].length]="Hello World";
+	alert("Array Length: " + window["temp_" + data].length);
+	alert("Array Data: " + window["temp_" + data][0]);
+		*/
+	
       for (var i=0; i<results.rows.length; i++) { 
         var row = results.rows.item(i); 
-        html += '<li>'+row['key']+':'+row['value']+'</li>\n';
-      } 
-      html +='</ul>';
-      alert(html);
-    }
- 
- 
-    saveSetting = function(key,value) {
-	alert("hit savesetting function");
-      try {
- 
-        mydb.transaction(
-            function(transaction) {
-               transaction.executeSql('INSERT INTO civicrm_settings (key,value) values('"+key+"','"+value+"');',[], nullDataHandler, errorHandler);
-            });
- 
-      } catch(e) {
-        alert(e.message);
+		window[row['k']]=row['value'];
       }
- 
-    } 
-
- 
-    loadSettings = function() {
-      try {
- 
-        mydb.transaction(
-            function(transaction) {
-               transaction.executeSql('SELECT * FROM civicrm_settings ORDER BY key',[], settingsDataHandler, errorHandler);
-            });
- 
-      } catch(e) {
-        alert(e.message);
-      }
- 
-    } 
-		function init(){
-		  document.addEventListener("touchmove", preventBehavior, false);
-		  deviceInfo();
-		  if( !checkDBExists() ) initDB();
-		}
-		
-		function saveSettings(){
-			alert("your passwords don't match");
-			//var pw1 = document.getElementById('pw1');
-			//var pw2 = document.getElementById('pw2');
-			//alert(pw1+":"+pw2);
-			return false;
-		}
-		
-	  </script>
+	   
+			document.settingsForm.host.value = host;
+			document.settingsForm.uid.value = uid;
+			document.settingsForm.pw1.value = pw;
+			document.settingsForm.pw2.value = pw;
 	  
+	 // alert(host+":"+uid+":"+pw);
+	  
+    }
+
+    loadSettings = function() {
+        mydb.transaction(
+            function(transaction) {
+               transaction.executeSql('SELECT * FROM civicrm_settings ORDER BY k',[], settingsDataHandler, loadSettingsErrorHandler);
+				alert("");
+            });
+    }
+
+    saveSetting = function(key,value) {
+      try {
+        mydb.transaction(
+            function(transaction) {
+               transaction.executeSql('INSERT INTO civicrm_settings (k,value) values("'+key+'","'+value+'");',[], nullDataHandler, errorHandler);
+            });
+      } catch(e) {
+        alert(e.message);
+      }
+ 
+    }
+
+ /*
+		function saveSettings(){
+
+			var pw1 = document.getElementById('pw1').value;
+			var pw2 = document.getElementById('pw2').value;
+			if( pw1 == pw2 ){
+			
+				saveSetting("pw",pw1);
+				
+				var host = document.getElementById('host').value;
+				saveSetting("host",host);
+
+				var host = document.getElementById('uid').value;
+				saveSetting("uid",host);
+
+				history.back();
+				
+			}else{
+				alert("your passwords don't match: "+pw1+" != "+pw2);
+			}
+		
+		}
+*/
+
+		function init(){
+			document.addEventListener("touchmove", preventBehavior, false);
+			initDB();
+			loadSettings();
+		}
+		
+		
+</script>
+
   </head>
-  <body onload="init();" id="stage" class="theme">
+  <body onload="init()" id="stage" class="theme">
 
     <div class="toolbar">
         <h1 id="pageTitle"></h1>
@@ -207,24 +202,24 @@
     </div>
 
 	<ul id="home" title="CiviCRM" selected="true">
-		<li><a href="http://localhost:8880/iphone/index.html" >Contacts</a></li>
+		<li><a onclick="alert(host); return false;">Contacts</a></li>
         <li><a href="#settings" >Settings</a></li>
     </ul>
 
-    <form id="settings" class="dialog" action="index.html" onsubmit="return saveSettings()">
-        <fieldset>
-            <h1>Settings</h1>
-            <a class="button leftButton" type="cancel">Cancel</a>
-            <a class="button blueButton" type="submit">Update</a>
-            
-            <label>Server</label>
-            <input id="host" type="text" name="host" onchange="alert('you changed the host')"/>
-            <label>Password</label>
-			<input type="password" id="pw1" name="pw1"/>
-            <label>Confirm</label>
-			<input type="password" id="pw2" name="pw2" onchange="javascript:storePassword()" />
-        </fieldset>
-    </form>
+	<div class="panel" id="settings">
+		<h2>Settings</h2>
+		<form name="settingsForm">
+			<label>Server</label>
+			<input id="host" type="text" name="host" value="" />
+			<label>User ID</label>
+			<input ="uid" type="text" name="uid" value=""/>
+			<label>Password</label>
+			<input type="password" id="pw1" name="pw1" value="" />
+			<label>Confirm</label>
+			<input type="password" id="pw2" name="pw2" value="" />
+		</form>
+		<a class="button_inline" onclick="saveSettings()" target="_debug_donothing">Update</a>
+	</div>
 
    
   </body>

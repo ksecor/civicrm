@@ -97,6 +97,26 @@ body[orient="landscape"] > .toolbar > h1 {
     -webkit-border-image: url(toolButton.png) 0 5 0 5;
 }
 
+.button_inline {
+    overflow: hidden;
+    margin: 0;
+    border-width: 0 5px;
+    padding: 0 3px;
+    width: auto;
+    height: 30px;
+    line-height: 30px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: rgba(0, 0, 0, 0.6) 0px -1px 0;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    background: none;
+    -webkit-border-image: url(toolButton.png) 0 5 0 5;
+}
+
 .blueButton {
     -webkit-border-image: url(blueButton.png) 0 5 0 5;
     border-width: 0 5px;
