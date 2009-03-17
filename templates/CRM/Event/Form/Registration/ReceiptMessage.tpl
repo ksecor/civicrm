@@ -98,8 +98,8 @@ Participant {$priceset+1}
 {if $isPrimary }
 
 {ts}Total Amount{/ts}     : {$totalAmount|crmMoney} {if $hookDiscount.message}({$hookDiscount.message}){/if}
-{/if}
-{if $is_pay_later}
+
+{if $is_pay_later }
 
 ===========================================================
 {$pay_later_receipt}
@@ -121,7 +121,6 @@ Participant {$priceset+1}
 {if $checkNumber}
 {ts}Check Number{/ts}: {$checkNumber} 
 {/if}
-{if $isPrimary }
 {if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
 
 ===========================================================
