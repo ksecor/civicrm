@@ -73,7 +73,6 @@
           var displayName = 'CiviCRM datastorage'; 
           var maxSize = 65536; // in bytes 
           mydb = openDatabase(shortName, version, displayName, maxSize); 
-		  alert("initDB:"+mydb);
          }
       } catch(e) { 
         if (e == INVALID_STATE_ERR) { 
@@ -90,41 +89,27 @@
 		}
 
     loadSettingsErrorHandler = function (transaction, e) { 
-		alert("exception loading settings:"+e.message);
 		initCiviCRMTables();
-			saveSetting('host','http://localhost:8880/iphone/index.html');
-			saveSetting('uid','MyUserId');
-			saveSetting('pw','sneakers');
+			createSetting('host','');
+			createSetting('uid','');
+			createSetting('pw','');
 		loadSettings();
     } 
  
     nullDataHandler = function (transaction, results) { } 
 
     initCiviCRMTables = function() {
-      alert("initializing CiviCRM tables");
       try {
         mydb.transaction(
           function(transaction) {
             transaction.executeSql('CREATE TABLE civicrm_settings(k TEXT NOT NULL PRIMARY KEY, value TEXT NOT NULL DEFAULT "");', [], nullDataHandler, errorHandler); 
-           });
+		});
       } catch(e) {
         return;
       }
     }
 	
     settingsDataHandler=function(transaction, results) {
-
-	/*
-	var data = "testVariable";
-	window["temp_" + data] = 123;
-	alert(window["temp_" + data]);
- 
-	var data = "testVariable";
-	window["temp_" + data] = new Array();
-	window["temp_" + data][window["temp_" + data].length]="Hello World";
-	alert("Array Length: " + window["temp_" + data].length);
-	alert("Array Data: " + window["temp_" + data][0]);
-		*/
 	
       for (var i=0; i<results.rows.length; i++) { 
         var row = results.rows.item(i); 
@@ -136,59 +121,72 @@
 			document.settingsForm.pw1.value = pw;
 			document.settingsForm.pw2.value = pw;
 	  
-	 // alert(host+":"+uid+":"+pw);
-	  
     }
 
     loadSettings = function() {
         mydb.transaction(
             function(transaction) {
                transaction.executeSql('SELECT * FROM civicrm_settings ORDER BY k',[], settingsDataHandler, loadSettingsErrorHandler);
-				alert("");
             });
+    }
+
+
+    createSetting = function(key,value) {
+      try {
+        mydb.transaction(
+            function(transaction) {
+				transaction.executeSql('INSERT INTO civicrm_settings (k,value) values("'+key+'","'+value+'");',[], nullDataHandler, errorHandler);
+            });
+      } catch(e) {
+			
+			alert("an error occurred updating the settings database");
+		  
+      }
+ 
     }
 
     saveSetting = function(key,value) {
       try {
         mydb.transaction(
             function(transaction) {
-               transaction.executeSql('INSERT INTO civicrm_settings (k,value) values("'+key+'","'+value+'");',[], nullDataHandler, errorHandler);
+				   transaction.executeSql('UPDATE civicrm_settings set value="'+value+'" where k="'+key+'";',[], nullDataHandler, errorHandler);
             });
       } catch(e) {
-        alert(e.message);
+			
+			alert("an error occurred updating the settings database");
+		  
       }
  
     }
 
- /*
-		function saveSettings(){
+	function saveSettings(){
 
-			var pw1 = document.getElementById('pw1').value;
-			var pw2 = document.getElementById('pw2').value;
-			if( pw1 == pw2 ){
-			
-				saveSetting("pw",pw1);
-				
-				var host = document.getElementById('host').value;
-				saveSetting("host",host);
-
-				var host = document.getElementById('uid').value;
-				saveSetting("uid",host);
-
-				history.back();
-				
-			}else{
-				alert("your passwords don't match: "+pw1+" != "+pw2);
-			}
+		var pw1 = document.getElementById('pw1').value;
+		var pw2 = document.getElementById('pw2').value;
+		if( pw1 == pw2 ){
 		
-		}
-*/
+			pw = pw1;
+			saveSetting("pw",pw);
 
-		function init(){
-			document.addEventListener("touchmove", preventBehavior, false);
-			initDB();
-			loadSettings();
+			window['host'] = document.getElementById('host').value;
+			saveSetting("host",host);
+
+			uid = document.getElementById('uid').value;
+			saveSetting("uid",uid);
+
+			history.back();
+			
+		}else{
+			alert("your passwords don't match: "+pw1+" != "+pw2);
 		}
+	
+	}
+
+	function init(){
+		document.addEventListener("touchmove", preventBehavior, false);
+		initDB();
+		loadSettings();
+	}
 		
 		
 </script>
@@ -202,7 +200,7 @@
     </div>
 
 	<ul id="home" title="CiviCRM" selected="true">
-		<li><a onclick="alert(host); return false;">Contacts</a></li>
+		<li><a href="#" onclick="alert(host)">Contacts</a></li>
         <li><a href="#settings" >Settings</a></li>
     </ul>
 
@@ -212,7 +210,7 @@
 			<label>Server</label>
 			<input id="host" type="text" name="host" value="" />
 			<label>User ID</label>
-			<input ="uid" type="text" name="uid" value=""/>
+			<input id="uid" type="text" name="uid" value=""/>
 			<label>Password</label>
 			<input type="password" id="pw1" name="pw1" value="" />
 			<label>Confirm</label>
