@@ -171,8 +171,6 @@ class CRM_Utils_Mail {
         CRM_Core_Error::ignoreException( );
         if ( is_object( $mailer ) ) {
             $result = $mailer->send($to, $headers, $message);
-            CRM_Core_Error::debug( $result );
-            exit( );
             CRM_Core_Error::setCallback();
             if ( is_a( $result, 'PEAR_Error' ) ) {
                 $message = self::errorMessage ($mailer, $result );
