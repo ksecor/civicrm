@@ -633,7 +633,8 @@ class CRM_Core_Payment_BaseIPN {
             if ( $participant->is_test ) {
                 $isTest = true;
             }
-          
+            
+            $values['params'] = array( );
             require_once "CRM/Event/BAO/Event.php";
             //to get email of primary participant.
             $primaryEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $participant->contact_id, 'email', 'contact_id' );  
@@ -645,6 +646,8 @@ class CRM_Core_Payment_BaseIPN {
             if ( count($additionalIDs) ) {
                 $template->assign( 'isPrimary', 0 ); 
                 $template->assign( 'customProfile', null );
+                //set additionalParticipant true
+                $values['params']['additionalParticipant'] = true;
                 foreach ( $additionalIDs as $pId => $cId ) {
                     $amount = array( );
                     //to change the status pending to completed
@@ -670,6 +673,9 @@ class CRM_Core_Payment_BaseIPN {
             if ( count($customProfile) ) {
                 $template->assign( 'customProfile', $customProfile );
             }
+            
+            // for primary contact
+            $values['params']['additionalParticipant'] = false;
             $template->assign( 'isPrimary', 1 );
             $template->assign( 'amount', $primaryAmount );
             return CRM_Event_BAO_Event::sendMail( $ids['contact'], $values, $participant->id, $isTest, $returnMessageText );

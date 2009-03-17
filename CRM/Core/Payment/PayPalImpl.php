@@ -413,15 +413,19 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @nvpStr is nvp string.
      * returns an associtive array containing the response from the server.
      */
-    function invokeAPI( $args ) {
+    function invokeAPI( $args, $url = null ) {
 
-        if ( empty( $this->_paymentProcessor['url_api'] ) ) {
-            CRM_Core_Error::fatal( ts( 'Please set the API URL. Please refer to the documentation for more details' ) );
+        if ( $url === null ) {
+            if ( empty( $this->_paymentProcessor['url_api'] ) ) {
+                CRM_Core_Error::fatal( ts( 'Please set the API URL. Please refer to the documentation for more details' ) );
+            }
+
+            $url = $this->_paymentProcessor['url_api'] . 'nvp';
         }
 
         //setting the curl parameters.
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->_paymentProcessor['url_api'] . 'nvp' );
+        curl_setopt($ch, CURLOPT_URL, $url );
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
 
         //turning off the server and peer verification(TrustManager Concept).
@@ -446,7 +450,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $response = curl_exec( $ch );
 
         //converting NVPResponse to an Associative Array
-        $result = $this->deformat( $response );
+        $result = self::deformat( $response );
 
         if ( curl_errno( $ch ) ) {
             $e =& CRM_Core_Error::singleton( );
@@ -475,7 +479,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @nvpArray is Associative Array.
      */
 
-    function deformat( $str )
+    static function deformat( $str )
     {
         $result = array();
 

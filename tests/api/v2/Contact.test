@@ -37,42 +37,55 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
     
     function testCreateBadTypeContact()
     {
-        $params = array('email' => 'man1@yahoo.com',
-                        'contact_type' => 'Does not Exist' );
+        $params = array( 
+                        'email'        => 'man1@yahoo.com',
+                        'contact_type' => 'Does not Exist' 
+                        );
         $contact =& civicrm_contact_add($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
     function testCreateBadRequiredFieldsIndividual() 
     {
-        $params = array('middle_name' => 'This field is not required',
-                        'contact_type' => 'Individual' );
+        $params = array(
+                        'middle_name'  => 'This field is not required',
+                        'contact_type' => 'Individual' 
+                        );
+
         $contact =& civicrm_contact_add($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
     function testCreateBadRequiredFieldsHousehold() 
     {
-        $params = array('middle_name' => 'This field is not required',
-                        'contact_type' => 'Household' );
+        $params = array(
+                        'middle_name'  => 'This field is not required',
+                        'contact_type' => 'Household' 
+                        );
+        
         $contact =& civicrm_contact_add($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
     function testCreateBadRequiredFieldsOrganization()
     {
-        $params = array('middle_name' => 'This field is not required',
-                        'contact_type' => 'Organization' );
+        $params = array(
+                        'middle_name'  => 'This field is not required',
+                        'contact_type' => 'Organization' 
+                        );
+        
         $contact =& civicrm_contact_add($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
     function testCreateEmailIndividual() 
     {
-        $params = array('email'            => 'man2@yahoo.com',
+        $params = array(
+                        'email'            => 'man2@yahoo.com',
                         'contact_type'     => 'Individual',
                         'location_type_id' => 1,
                         );
+
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
@@ -80,10 +93,12 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
 
     function testCreateNameIndividual() 
     {
-        $params = array('first_name' => 'abc1',
-                        'contact_type'     => 'Individual',
-                        'last_name' => 'xyz1'
+        $params = array(
+                        'first_name'   => 'abc1',
+                        'contact_type' => 'Individual',
+                        'last_name'    => 'xyz1'
                         );
+
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
@@ -91,9 +106,11 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
     
     function testCreateNameHousehold() 
     {
-        $params = array('household_name' => 'The abc Household',
-                        'contact_type' => 'Household',
+        $params = array(
+                        'household_name' => 'The abc Household',
+                        'contact_type'   => 'Household',
                         );
+
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
@@ -101,7 +118,8 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
     
     function testCreateNameOrganization() 
     {
-        $params = array('organization_name' => 'The abc Organization',
+        $params = array(
+                        'organization_name' => 'The abc Organization',
                         'contact_type' => 'Organization',
                         );
         $contact =& civicrm_contact_add($params);
@@ -111,23 +129,26 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
     
     function testCreateIndividualwithEmail() 
     {
-        $params = array('first_name' => 'abc3',
-                        'last_name'  => 'xyz3',
-                        'contact_type'     => 'Individual',
-                        'email'      => 'man3@yahoo.com'
+        $params = array(
+                        'first_name'   => 'abc3',
+                        'last_name'    => 'xyz3',
+                        'contact_type' => 'Individual',
+                        'email'        => 'man3@yahoo.com'
                         );
+        
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
     
     function testCreateIndividualwithEmailLocationType() 
-    {
-        $params = array('first_name'    => 'abc4',
-                        'last_name'     => 'xyz4',
-                        'email'         => 'man4@yahoo.com',
+        {
+        $params = array(
+                        'first_name'       => 'abc4',
+                        'last_name'        => 'xyz4',
+                        'email'            => 'man4@yahoo.com',
                         'contact_type'     => 'Individual',
-                        'location_type_id' => 2,
+                        'location_type_id' => 1
                         );
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
@@ -137,26 +158,34 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
     
     function testCreateIndividualwithPhone() 
     {
-        $params = array('first_name'    => 'abc5',
+        $params = array(
+                        'first_name'    => 'abc5',
                         'last_name'     => 'xyz5',
-                        'contact_type'     => 'Individual',
-                        'location_type_id' => 2,
-                        'phone'         => '11111',
-                        'phone_type'    => 'Phone'
+                        'contact_type'  => 'Individual'
                         );
+        
         $contact =& civicrm_contact_add($params);
+        
+        $paramsPhone = array(
+                             'contact_id'    => $contact['contact_id'],
+                             'location_type' => 'Work',
+                             'is_primary'    => 1,
+                             'phone'         => '11111',
+                             'phone_type'    => 'Phone'
+                             );
+
+        $location = & civicrm_location_add( $paramsPhone );                
+
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
     
     function testCreateIndividualwithAll() 
     {
-        $params = array('first_name'    => 'abc7',
+        $params = array(
+                        'first_name'    => 'abc7',
                         'last_name'     => 'xyz7', 
                         'contact_type'  => 'Individual',
-                        'phone'         => '999999',
-                        'phone_type'    => 'Phone',
-                        'email'         => 'man7@yahoo.com',
                         'do_not_trade'  => 1,
                         'preferred_communication_method' => array(
                                                                   '2' => 1,
@@ -164,18 +193,32 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                                                                   '4' => 1,
                                                                   )
                         );
+
         $contact =& civicrm_contact_add($params);
+        
+        $paramsAll = array(
+                           'contact_id'    => $contact['contact_id'],
+                           'location_type' => 'Work',
+                           'phone'         => '999999',
+                           'phone_type'    => 'Phone',
+                           'email'         => 'man7@yahoo.com'
+                           );
+
+        $location = & civicrm_location_add( $paramsAll );
+
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
     
     function testCreateHouseholdDetails() 
     {
-        $params = array('household_name' => 'abc8\'s House',
+        $params = array(
+                        'household_name' => 'abc8\'s House',
                         'nick_name'      => 'x House',
                         'email'          => 'man8@yahoo.com',
-                        'contact_type'     => 'Household',
+                        'contact_type'   => 'Household',
                         );
+
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];

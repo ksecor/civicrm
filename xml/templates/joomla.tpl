@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install method="upgrade" type="component" version="1.5">
   <name>CiviCRM</name>
-  <creationDate>02/12/2009</creationDate>
+  <creationDate>{$creationDate}</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>

@@ -396,6 +396,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $payment = null;
         foreach ( $params as $key => $value ) {
+            $this->_values['params'] = array( );
             $this->fixLocationFields( $value, $fields );
             //unset the billing parameters if it is pay later mode
             //to avoid creation of billing location
@@ -415,6 +416,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 foreach( $billingFields as $field ) {
                     unset( $value[$field] );
                 }
+                $this->_values['params']['is_pay_later'] = true;                 
             }
             
             //Unset ContactID for additional participants and set RegisterBy Id.
@@ -571,7 +573,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         $this->assign( 'customProfile', $customProfile );
                         $this->set   ( 'customProfile', $customProfile );
                     }
-                    
+                    $this->_values['params']['additionalParticipant'] = false;
                 } else {
                     //take the Additional participant number. 
                     if ( $paticipantNum = array_search( 'participant', $participantCount ) ) {
@@ -593,6 +595,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         $lineItem[] = CRM_Utils_Array::value( $paticipantNum, $lineItems );
                         $this->assign( 'lineItem',$lineItem );
                     } 
+                    $this->_values['params']['additionalParticipant'] = true;
                 }
                 
                 //send Confirmation mail to Primary & additional Participants if exists

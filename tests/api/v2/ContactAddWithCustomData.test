@@ -122,9 +122,6 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
         $params = array('first_name'    => 'abc' . time( ),
                         'last_name'     => 'xyz' . time( ),
                         'contact_type'  => 'Individual',
-                        'phone'         => '999999',
-                        'phone_type'    => 'Phone',
-                        'email'         => 'man7@yahoo.com',
                         'prefix'        => 'Mr',
                         'suffix'        => 'VII',
                         'gender'        => 'Male',
@@ -133,9 +130,20 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
                                                                   '2' => 1,
                                                                   '3' => 1,
                                                                   '4' => 1 )
-        );
-        $params = array_merge( $params, $custom_params );
-        $contact    =& civicrm_contact_add($params);
+                        );
+        
+        $params  = array_merge( $params, $custom_params );
+        $contact =& civicrm_contact_add($params);
+        
+        $paramsLocation = array( 
+                                'contact_id'    => $contact['contact_id'],
+                                'location_type' => 'Work',
+                                'phone'         => '999999',
+                                'phone_type'    => 'Phone',
+                                'email'         => 'man7@yahoo.com'
+                                );
+        
+        $location = & civicrm_location_add( $paramsLocation );
 
         $this->_cid = $contact['contact_id'];
         $this->assertNotNull( $contact['contact_id'] );
@@ -161,7 +169,6 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
         $params = array(
                         "custom_{$this->_ids[1]}" => 'Different information for custom field of type alpha - text',
                         'email'                   => 'man7+custom@yahoo.com',
-                        'phone'                   => '123-4567',
                         'contact_id'              => $contact['contact_id'],
                         'first_name'              => 'Check',
                         'contact_type'            => 'Individual'
@@ -169,7 +176,14 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
 
         // Updated Contact
         $updated    =& civicrm_contact_add( $params );
-
+        $paramsPhone = array( 
+                             'contact_id'    => $contact['contact_id'],
+                             'location_type' => 'Work',
+                             'phone'         => '123-4567',
+                             'phone_type'    => 'Phone'
+                             );
+        
+        $location = & civicrm_location_add( $paramsPhone );
         $retrieve = array( 'contact_id'           => $contact['contact_id'],
                            'return.first_name'    => 1,
                            'return.last_name'     => 1,
