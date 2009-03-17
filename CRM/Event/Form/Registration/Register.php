@@ -881,7 +881,7 @@ WHERE  id IN ($optionIDs)
             if ( ! empty( $emailString ) ) {
                 $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',
                                                           $emailString,
-                                                          'contact_Id',
+                                                          'contact_id',
                                                           'email' );
             }
         }
