@@ -34,6 +34,35 @@
  */
 
 class CiviContributeProcessor {
+    static $_paypalParamsMapper = 
+        array(
+              //category    => array(paypal_param    => civicrm_param);
+              'contact'     => array(
+                                     'salutation'    => 'prefix_id',
+                                     'firstname'     => 'first_name',
+                                     'lastname'      => 'last_name',
+                                     'middlename'    => 'middle_name',
+                                     'suffix'        => 'suffix_id',
+                                     'ordertime'     => 'receive_date',
+                                     'email'         => 'email',
+                                     ),
+              'location'    => array(
+                                     'shiptoname'    => 'address_name',
+                                     'shiptostreet'  => 'street_address',
+                                     'shiptostreet2' => 'supplemental_address_1',
+                                     'shiptocity'    => 'city',
+                                     'shiptostate'   => 'state',
+                                     'shiptozip'     => 'postal_code',
+                                     'countrycode'   => 'country',
+                                     ),
+              'transaction' => array(
+                                     'amt'           => 'amount',
+                                     'feeamt'        => 'fee_amount',
+                                     'taxamt'        => 'net_amount',
+                                     'transactionid' => 'trxn_id',
+                                     'currencycode'  => 'currencyID'
+                                     ),
+              );
 
     static function paypal( $start, $end ) {
         static $userName  = 'paypal_api1.openngo.org';
@@ -55,18 +84,20 @@ class CiviContributeProcessor {
         require_once 'CRM/Core/Payment/PayPalImpl.php';
         $result = CRM_Core_Payment_PayPalImpl::invokeAPI( $args,
                                                           'https://api-3t.sandbox.paypal.com/nvp' );
+        CRM_Core_Error::debug( '$result', $result );
+
+        require_once "CRM/Contribute/BAO/Contribution/Utils.php";
 
         $keyArgs['method'] = 'GetTransactionDetails';
         foreach ( $result as $name => $value ) {
             if ( substr( $name, 0, 15 ) == 'l_transactionid' ) {
                 $keyArgs['transactionid'] = $value;
-                $result = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs,
+                $details = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs,
                                                                   'https://api-3t.sandbox.paypal.com/nvp' );
-                CRM_Core_Error::debug( $result );
-                
+                CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $details, 
+                                                                               self::$_paypalParamsMapper );
             }
         }
-
     }
 
     static function process( ) {

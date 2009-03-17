@@ -294,4 +294,80 @@ class CRM_Contribute_BAO_Contribution_Utils {
         }
     }
 
+    static function processAPIContribution( $trxnDetails, $mapper ) {
+        $params = $locParams = $trxnParams = array( );
+
+        // format params
+        foreach ( $trxnDetails as $detail => $val ) {
+            if ( isset($mapper['contact'][$detail]) ) {
+                $params[$mapper['contact'][$detail]] = $val;
+            } else if ( isset($mapper['location'][$detail]) ) {
+                $locParams[$mapper['location'][$detail]] = $val;
+            } else if ( isset($mapper['transaction'][$detail]) ) {
+                $trxnParams[$mapper['transaction'][$detail]] = $val;
+            }
+        }
+
+        if ( !$trxnParams['trxn_id'] ||
+             empty($trxnParams) ||
+             empty($params) ) {
+            return false;
+        }
+
+        // return if transaction already processed.
+        require_once 'CRM/Contribute/DAO/Contribution.php';
+        $contribution =& new CRM_Contribute_DAO_Contribution();
+        $contribution->trxn_id = $trxnParams['trxn_id'];
+        if ( $contribution->find(true) ) {
+            return false;
+        }
+
+        // fill default params
+        $params['contact_type']  = 'Individual';
+        $trxnParams['invoiceID'] = $trxnParams['trxn_id'];
+
+        // special formatting for location params
+        if ( !empty($locParams) || isset($params['email']) ) {
+            $params['location'][1]['is_primary']        = 1;
+            $params['location'][1]['location_type_id']  = 
+                CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Billing', 'id', 'name' );
+            
+            if ( isset($params['email']) ) {
+                $params['location'][1]['email'][1]['email'] = $params['email'];
+                unset($params['email']);
+            }
+            
+            foreach ( $locParams as $elem => $val ) {
+                $params['location'][1]['address'][$elem] = $val;
+            }
+        }
+
+        // === add contact using dedupe rule ===
+        require_once 'CRM/Dedupe/Finder.php';
+        $dedupeParams = CRM_Dedupe_Finder::formatParams ($params      , 'Individual');
+        $dupeIds      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
+        // if we find more than one contact, use the first one
+        if ( CRM_Utils_Array::value( 0, $dupeIds ) ) {
+            $params['contact_id'] = $dupeIds[0];
+        }
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        if ( ! $contact->id ) {
+            return false;
+        }
+
+        // since one/two of the trxn params are expected from $params 
+        $params += $trxnParams;
+
+        // === create contribution ===
+        require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
+        $contribution =
+            CRM_Contribute_Form_Contribution_Confirm::processContribution(CRM_Core_DAO::$_nullObject,
+                                                                          $params,
+                                                                          $trxnParams,
+                                                                          $contact->id,
+                                                                          $contributionType, 
+                                                                          false, false, false );
+        return $contribution->id;
+    }
 }
