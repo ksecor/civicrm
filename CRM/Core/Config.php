@@ -261,13 +261,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                  strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
                 $this->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
                                                                $this->userFrameworkBaseURL );
-            }
-            if ($this->userFramework == 'Drupal') {
-                global $language;
-                if (isset($language->prefix) and $language->prefix) {
-                    $this->userFrameworkBaseURL .= $language->prefix . '/';
-                }
-            }
+            }            
         }
 
         if ( defined( 'CIVICRM_UF_DSN' ) ) { 
