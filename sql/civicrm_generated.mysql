@@ -458,7 +458,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `civicrm_loc_block` WRITE;
 /*!40000 ALTER TABLE `civicrm_loc_block` DISABLE KEYS */;
-INSERT INTO `civicrm_loc_block` (`id`, `address_id`, `email_id`, `phone_id`, `im_id`, `address_2_id`, `email_2_id`, `phone_2_id`, `im_2_id`, `name`) VALUES (1,1,1,1,NULL,NULL,NULL,NULL,NULL,NULL),(2,87,88,118,NULL,NULL,NULL,NULL,NULL,NULL),(3,88,89,119,NULL,NULL,NULL,NULL,NULL,NULL),(4,89,90,120,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `civicrm_loc_block` (`id`, `address_id`, `email_id`, `phone_id`, `im_id`, `address_2_id`, `email_2_id`, `phone_2_id`, `im_2_id`) VALUES (1,1,1,1,NULL,NULL,NULL,NULL,NULL),(2,87,88,118,NULL,NULL,NULL,NULL,NULL),(3,88,89,119,NULL,NULL,NULL,NULL,NULL),(4,89,90,120,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `civicrm_loc_block` ENABLE KEYS */;
 UNLOCK TABLES;
 
