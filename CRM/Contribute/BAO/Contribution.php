@@ -228,7 +228,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 $noteParams['contact_id'] =  $params['contact_id'];
             } 
             
-            CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
+            CRM_Core_BAO_Note::add( $noteParams,
+                                    CRM_Core_Array::value( 'note', $ids ) );
         }
 
         // check if activity record exist for this contribution, if

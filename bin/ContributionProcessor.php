@@ -56,11 +56,12 @@ class CiviContributeProcessor {
                                      'countrycode'   => 'country',
                                      ),
               'transaction' => array(
-                                     'amt'           => 'amount',
+                                     'amt'           => 'total_amount',
                                      'feeamt'        => 'fee_amount',
-                                     'taxamt'        => 'net_amount',
                                      'transactionid' => 'trxn_id',
-                                     'currencycode'  => 'currencyID'
+                                     'currencycode'  => 'currencyID',
+                                     'source'        => 'contribution_source',
+                                     'note'          => 'note',
                                      ),
               );
 
@@ -68,7 +69,7 @@ class CiviContributeProcessor {
         static $userName  = 'paypal_api1.openngo.org';
         static $password  = '7YJ7JYCJ4QEMWQS5';
         static $signature = 'AAivyp-lGZaDNGJEtfXyK475vPAZAgXeC-Cw1KFCkIztxWkYwI5MlnTH';
-        static $url       = '';
+        static $url       = 'https://api-3t.sandbox.paypal.com/nvp';
 
         $keyArgs = array( 'user'      => $userName,
                           'pwd'       => $password,
@@ -82,9 +83,7 @@ class CiviContributeProcessor {
                         'enddate'   => $end );
 
         require_once 'CRM/Core/Payment/PayPalImpl.php';
-        $result = CRM_Core_Payment_PayPalImpl::invokeAPI( $args,
-                                                          'https://api-3t.sandbox.paypal.com/nvp' );
-        CRM_Core_Error::debug( '$result', $result );
+        $result = CRM_Core_Payment_PayPalImpl::invokeAPI( $args, $url );
 
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
 
@@ -92,10 +91,22 @@ class CiviContributeProcessor {
         foreach ( $result as $name => $value ) {
             if ( substr( $name, 0, 15 ) == 'l_transactionid' ) {
                 $keyArgs['transactionid'] = $value;
-                $details = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs,
-                                                                  'https://api-3t.sandbox.paypal.com/nvp' );
-                CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $details, 
-                                                                               self::$_paypalParamsMapper );
+                $details = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs, $url );
+
+                // only process completed emails
+                if ( strtolower( $details['paymentstatus'] ) != 'completed' ) {
+                    continue;
+                }
+
+                // add source
+                $details['source'] = ts( 'ContributionProcessor: Paypal API' );
+
+                if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $details, 
+                                                                                    self::$_paypalParamsMapper ) ) {
+                    echo "Processing {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
+                } else {
+                    echo "Skipped {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
+                }
             }
         }
     }
