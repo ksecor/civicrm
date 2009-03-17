@@ -667,6 +667,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     public function processRegistration( $params, $contactID = null ) 
     {
         $session =& CRM_Core_Session::singleton( );
+        $contactID = $session->get( 'userID' );
         $this->_participantInfo   = array();
         foreach ( $params as $key => $value ) {
             if ( $value != 'skip') {
@@ -688,7 +689,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 require_once 'CRM/Event/Form/Registration/Confirm.php';
                 CRM_Event_Form_Registration_Confirm::fixLocationFields( $value, $fields );
-                
+                //for additional participant, dont create billing email address.
+                if ( !CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                    unset( $value["email-{$this->_bltID}"] ); 
+                }
+
                 $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $value, $fields );
                
                 // lets store the contactID in the session
