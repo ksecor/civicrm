@@ -173,28 +173,7 @@ class CRM_Utils_Mail {
             $result = $mailer->send($to, $headers, $message);
             CRM_Core_Error::setCallback();
             if ( is_a( $result, 'PEAR_Error' ) ) {
-                if ( is_a( $mailer , 'Mail_smtp' ) ) {
-                    $message =
-                        '<p>' . ts('A error occurred when CiviCRM attempted to send an email (via %1). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.', array(1 => 'SMTP')) . '</p>' .
-                        '<p>'  . ts('This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:') . '</p>' .
-                        '<ul>' .
-                            '<li>' . ts('Your SMTP Username or Password are incorrect.')                                   . '</li>' .
-                            '<li>' . ts('Your SMTP Server (machine) name is incorrect.')                                   . '</li>' .
-                            '<li>' . ts('You need to use an Port other than the default port 25 in your environment.')     . '</li>' .
-                            '<li>' . ts('Your SMTP server is just not responding right now (it is down for some reason).') . '</li>' .
-                        '</ul>' .
-                        '<p>' . ts('Check <a href="%1">this page</a> for more information.', array(1 => CRM_Utils_System::docURL2('Outbound Email (SMTP)', true))) . '</p>' .
-                        '<p>' . ts('The mail library returned the following error message:') . ' <b>' . $result->getMessage() . '</b></p>';
-                } else {
-                    $message =
-                        '<p>' . ts('A error occurred when CiviCRM attempted to send an email (via %1). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.', array(1 => 'Sendmail')) . '</p>' .
-                        '<p>' . ts('This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:') . '</p>' .
-                        '<ul>' .
-                            '<li>' . ts('Your Sendmail path is incorrect.')     . '</li>' .
-                            '<li>' . ts('Your Sendmail argument is incorrect.') . '</li>' .
-                        '</ul>' .
-                        '<p>' . ts('The mail library returned the following error message:') . ' <b>' . $result->getMessage() . '</b></p>';
-                }
+                $message = self::errorMessage ($mailer, $result );
                 CRM_Core_Session::setStatus( $message );
                 return false;
             }
@@ -202,6 +181,34 @@ class CRM_Utils_Mail {
         return true;
     }
 
+    static function errorMessage( $mailer, $result ) {
+        $message =
+        '<p>'  . ts('A error occurred when CiviCRM attempted to send an email (via %1). If you received this error after submitting on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.', array(1 => 'SMTP')) . '</p>' .
+        '<p>'  . ts('The mail library returned the following error message:') . '<br /><span class="font-red"><strong>' . $result->getMessage() . '</strong></span></p>' .
+        '<p>'  . ts('This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email), OR the FROM email address specifically configured for your contribution page or event. Possible causes are:') . '</p>';
+
+        if ( is_a( $mailer , 'Mail_smtp' ) ) {
+            $message .=
+            '<ul>' .
+            '<li>' . ts('Your SMTP Username or Password are incorrect.')                                                                            . '</li>' .
+            '<li>' . ts('Your SMTP Server (machine) name is incorrect.')                                                                            . '</li>' .
+            '<li>' . ts('You need to use a Port other than the default port 25 in your environment.')                                               . '</li>' .
+            '<li>' . ts('Your SMTP server is just not responding right now (it is down for some reason).')                                          . '</li>';
+        } else {
+            $message .=
+            '<ul>' .
+            '<li>' . ts('Your Sendmail path is incorrect.')     . '</li>' .
+            '<li>' . ts('Your Sendmail argument is incorrect.') . '</li>';
+        }
+        
+        $message .=
+            '<li>' . ts('The FROM Email Address configured for this feature may not be a valid sender based on your email service provider rules.') . '</li>' .
+            '</ul>' .
+            '<p>' . ts('Check <a href="%1">this page</a> for more information.', array(1 => CRM_Utils_System::docURL2('Outbound Email (SMTP)', true))) . '</p>';
+        
+        return $message;
+    }
+    
     function logger( &$to, &$headers, &$message ) {
         if ( is_array( $to ) ) {
             $toString = implode( ', ', $to ); 

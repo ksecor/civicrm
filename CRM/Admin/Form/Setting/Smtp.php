@@ -140,7 +140,8 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
                 if ( !is_a( $result, 'PEAR_Error' ) ) {
                     CRM_Core_Session::setStatus( ts('Your %1 settings are correct. A test email has been sent to your email address.', array(1 => strtoupper( $mailerName ) ) ) ); 
                 } else {
-                    CRM_Core_Session::setStatus( ts('Oops. Your %1 settings are incorrect. No test mail has been sent.', array(1 => strtoupper( $mailerName ) ) ) . '<p class="font-red">' . ts('Error message') . ':<br />' . $result->message . '</p>' );
+                    $message = CRM_Utils_Mail::errorMessage ( $mailer, $result );
+                    CRM_Core_Session::setStatus( ts('Oops. Your %1 settings are incorrect. No test mail has been sent.', array(1 => strtoupper( $mailerName ) ) ) . $message );
                 }
             }
         } 
