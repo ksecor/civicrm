@@ -580,6 +580,9 @@ INSERT INTO civicrm_mail_settings (name, is_default, domain, return_path) VALUES
 ALTER TABLE civicrm_domain DROP email_domain;
 ALTER TABLE civicrm_domain DROP email_return_path;
 
+-- CRM-4258, needs to be done before we add a unique index
+delete t1 from civicrm_entity_tag t1 inner join civicrm_entity_tag t2 where t1.tag_id = t2.tag_id AND t1.contact_id = t2.contact_id AND t1.id > t2.id;
+
 -- CRM-3696
 ALTER TABLE civicrm_entity_tag
   ADD UNIQUE UI_contact_id_tag_id ( contact_id, tag_id );
