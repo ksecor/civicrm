@@ -128,6 +128,11 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         
         $template->assign( 'message', $message );
         $content = $template->fetch( 'CRM/common/success.tpl' );
+
+        // due to theme issues during upgarde, let's set theme to bluemarine ( simplest of all )
+        global $custom_theme;
+        $custom_theme = 'bluemarine';
+        init_theme();
         echo CRM_Utils_System::theme( 'page', $content, true, $this->_print );
     }
 
