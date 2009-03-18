@@ -66,6 +66,25 @@ class CiviContributeProcessor {
                                      ),
               );
 
+    static $_googleParamsMapper = 
+        array(
+              'contact'     => array(
+                                     'contact-name'  => 'display_name',
+                                     'contact-name'  => 'sort_name',
+                                     'email'         => 'email',
+                                     ),
+              'location'    => array(
+                                     'address1'     => 'street_address',
+                                     'city'         => 'city',
+                                     'postal-code'  => 'postal_code',
+                                     'country-code' => 'country',
+                                     ),
+              'transaction' => array(
+                                     'total-charge-amount' => 'total_amount',
+                                     'google-order-number' => 'trxn_id',
+                                     ),
+              );
+
     static function paypal( $paymentProcessor, $paymentMode, $start, $end ) {
         $url       = "{$paymentProcessor['url_api']}nvp";
 
@@ -114,6 +133,17 @@ class CiviContributeProcessor {
         }
     }
 
+    static function google( $paymentProcessor, $paymentMode, $start, $end ) {
+        $searchParams = array( 'start' => $start, 
+                               'end'   => $end  );
+
+        require_once 'CRM/Core/Payment/Google.php';
+        $result = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
+        //CRM_Core_Error::debug( '$result', $result );
+
+        $result = CRM_Core_Payment_Google::processAPIContribution( $result, self::$_googleParamsMapper );
+    }
+
     static function process( ) {
         require_once 'CRM/Utils/Request.php';
 
@@ -125,9 +155,10 @@ class CiviContributeProcessor {
         case 'paypal':
         case 'google':
             $start = CRM_Utils_Request::retrieve( 'start', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d', time( ) - 31 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
+                                                  date( 'Y-m-d', time( ) - 365 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
+            // google expects end date to be atleast 30 mins past
             $end   = CRM_Utils_Request::retrieve( 'end', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d' ) . 'T23:59:00.00Z' );
+                                                  date( 'Y-m-d', time( ) - 24 * 60 * 60 ) . 'T23:59:00.00Z' );
             $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', CRM_Core_DAO::$_nullObject, true  );
             $mode  = CRM_Utils_Request::retrieve( 'ppMode', 'String', CRM_Core_DAO::$_nullObject, false, 'live' );
 
