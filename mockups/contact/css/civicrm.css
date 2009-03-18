@@ -97,7 +97,7 @@ div.spacer, .spacer {
   
 #crm-container fieldset {
   padding: .5em;
-  margin: -.5em 0em .5em 0em;
+  margin: .5em 0em .5em 0em;
 }
 
 #crm-container fieldset.form-layout {
@@ -240,7 +240,7 @@ div.spacer, .spacer {
 
 #crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
   vertical-align: text-top;
-  padding: 5px;
+  padding: 2px;
 }
 
 /*
@@ -353,6 +353,14 @@ div.spacer, .spacer {
   color: #BADAFF;
 }
 
+#crm-container .form-pane {
+  margin: 0em;
+  padding: 0.25em;
+  background-color: #e7e7e7;
+  border: solid 1px gray;
+}
+
+
 #crm-container div.display-block {
   font-weight: normal;
   margin: 1.0em 2.0em 1.0em 2.0em;
@@ -434,7 +442,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
 #crm-container label {
-  font-weight: bold;
+  font-weight: normal;
   display: inline;
 }
 

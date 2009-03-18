@@ -267,10 +267,10 @@
                                     </div>
                                     
                                     <div id="name">
-                                        <span id="name-show" style="display:none;"><label>Contact Information</label>
-                                        <a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').hide(); return false;" title="Click to add"> ( Edit )</a>
-                                        </span><br/>
-                                        <fieldset id="name-greet" ><legend><a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').show(); return false;" title="Click to add">Contact Information</a></legend>
+                                        <div id="name-show" style="display:none; margin-top: .5em;" class="form-pane"><label>Contact Details</label>
+                                        <a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').hide(); return false;" title="Click to edit"> ( edit )</a>
+                                        </div>
+                                        <fieldset id="name-greet" ><legend><a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').show(); return false;" title="Click to edit">Contact Details</a></legend>
                                             <table class="form-layout-compressed">
                                                     <tr>
                                                         <td><br />
@@ -316,48 +316,17 @@
                                                     <tr>
                                                         <td>&nbsp;</td>
                                                         <td><label for="current_employer">Current Employer</label><br />
-                                                            <input name="current_employer" type="text" id="current_employer" /><br />
-                                                            <span id="current_employer_address" class="description">Employer address displays here</span>
-                                                        </td>
+                                                            <input name="current_employer" type="text" id="current_employer" />                                                        </td>
                                                         <td><label for="job_title">Job title</label><br />
                                                             <input maxlength="64" size="20" name="job_title" type="text" id="job_title" />
                                                         </td>
                                                         <td colspan="2"><label for="home_URL">Website</label><br />
                                                             <input maxlength="128" size="30" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" class="big" /></td>
                                                     </tr>
-                                                </table>
-                                                <div><a href="#" onclick="cj('#more-personal-info').toggle();return false;">More Information</a></div>
-                                                <table class="form-layout-compressed" id="more-personal-info" style="display:none;">
-                                                    <tr>
-                                                        <td><label for="contact_source">Source</label><br />
-                                                            <input name="contact_source" type="text" id="contact_source" class="big" /></td>
-                                                        <td><label for="nick_name">Nick Name</label><br />
-                                                            <input maxlength="128" size="45" name="nick_name" type="text" id="nick_name" class="big" /></td>
-                                                        <td><label for="greeting_type_id">Greeting</label><br />
-                                                            <select onchange=" showGreeting();" name="greeting_type_id" id="greeting_type_id" class="form-select">
-                                                            <option value="">- select -</option>
-                                                            <option value="1" selected="selected">Dear [first]</option>
-                                                            <option value="2">Dear [prefix] [first] [last]</option>
-                                                            <option value="3">Dear [prefix] [last]</option>
-                                                            <option value="4">Customized</option>
-                                                            </select>
-                                                        </td>
-                                                        <td><label for="external_identifier">External Id</label><br />
-                                                            <input maxlength="32" size="20" name="external_identifier" type="text" id="external_identifier" class="form-text medium" /></td>                        <td><input name="_qf_Edit_refresh_dedupe" value="Check for Matching Contact(s)" type="submit" id="_qf_Edit_refresh_dedupe" class="form-submit" />
-                                                        </td>   
-                                                    </tr>
-                                                </table>
-                                                </fieldset>
-                                            </div><br/>
-                                            <span id="additonal-info-show" style="display:none;">
-                                            <label>Additional Information</label><a href="#" onclick ="cj('#additonal-info').toggle(); cj('#additonal-info-show').hide(); return false;" title="Click to add/edit"> ( Edit )</a>
-                                            </span> 
-
-                                            <fieldset id="additonal-info" ><legend><a href="#" onclick ="cj('#additonal-info').toggle(); cj('#additonal-info-show').show(); return false;" title="Click to add">Additional Information</a></legend>
-                                                <div>
-                                                <table>
+                                                </table><br />
+                                                <fieldset>
+                                                <table class="form-layout-compressed">
                                                     <tr id="row1">
-
                                                         <td>
                                                             <select name="element_type1" id="element_type1" class="form-select" onchange="buildElement(this.value, 1)">
                                                                 <option value="">- select -</option>
@@ -370,10 +339,8 @@
                                                         <td id="element_html1">
                                                         </td>
                                                     </tr>
-                                                    <tr id="show1" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row2').show();cj('#show1').hide();return false;">Add More</a></td></tr>
-
-                                                        <tr id="row2">
-                                                            
+                                                    <tr id="show1" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row2').show();cj('#show1').hide();return false;">+ add</a></td></tr>
+                                                    <tr id="row2">
                                                             <td>
                                                                 <select name="element_type2" id="element_type2" class="form-select" onchange="buildElement(this.value, 2);cj('#show3').show();">
                                                                     <option value="">- select -</option>
@@ -385,12 +352,10 @@
                                                             </td>
                                                             <td id="element_html2">
                                                             </td>
-                                                        </tr>
-                                                        <tr id="show2" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row3').show();cj('#show2').hide();return false;">Add More</a></td></tr>
-
-                                                            <tr id="row3">
-                                                                
-                                                                <td>
+                                                    </tr>
+                                                    <tr id="show2" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row3').show();cj('#show2').hide();return false;">+ add</a></td></tr>
+                                                    <tr id="row3">
+                                                            <td>
                                                                     <select name="element_type3" id="element_type3" class="form-select" onchange="buildElement(this.value, 3);cj('#show4').show();">
                                                                         <option value="">- select -</option>
                                                                         <option value="email">Email</option>
@@ -398,16 +363,15 @@
                                                                         <option value="im">IM</option>
                                                                         <option value="openID">Open ID</option>
                                                                     </select>
-                                                                </td>
-                                                                <td id="element_html3">
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="show3" style="display:none;"><td colspan="3"><a href="#" onclick="alert('This will add more rows.');return false;">Add More</a></td></tr>
-                                                            </table> 
-                                                            </div>   
-                                                        </fieldset>
+                                                            </td>
+                                                            <td id="element_html3">
+                                                            </td>
+                                                    </tr>
+                                                    <tr id="show3" style="display:none;"><td colspan="3"><a href="#" onclick="alert('This will allow user to add more phones, emails, etc.');return false;">+ add</a></td></tr>
+                                                </table>
+                                                </fieldset>
                                               
-                                                    <script type="text/javascript"> 
+                                                <script type="text/javascript"> 
                                                     cj(function(){
                                                         buildElement( 'email', 1 );
                                                         buildElement( 'phone', 2 );
@@ -421,330 +385,238 @@
                                                             cj('#show' + no).show();
                                                         }
                                                     }
-                                                    </script>
+                                                </script>
 
-                                            <div id="commPrefs">
-                                                <br/>
-                                                <span id="com-show">
-                                                <label>Communication Preferences</label>
-                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to add"> ( Edit )</a>
-                                                </span>    
-                                                <fieldset id="com-table" style="display:none;" ><legend><a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').show(); return false;" title="Click to add">Communication Preferences</a></legend>
-                                                    
-                                                    <table class="form-layout-compressed" >
-                                                        <tr>
-                                                            <td><label>Privacy</label></td>
-                                                            <td><input type="hidden" name="privacy[do_not_phone]" value="" /><input id="privacy[do_not_phone]" name="privacy[do_not_phone]" type="checkbox" value="1" /><label for="privacy[do_not_phone]">Do not phone</label>&nbsp;<input type="hidden" name="privacy[do_not_email]" value="" /><input id="privacy[do_not_email]" name="privacy[do_not_email]" type="checkbox" value="1" /><label for="privacy[do_not_email]">Do not email</label>&nbsp;<input type="hidden" name="privacy[do_not_mail]" value="" /><input id="privacy[do_not_mail]" name="privacy[do_not_mail]" type="checkbox" value="1" /><label for="privacy[do_not_mail]">Do not mail</label>&nbsp;<input type="hidden" name="privacy[do_not_trade]" value="" /><input id="privacy[do_not_trade]" name="privacy[do_not_trade]" type="checkbox" value="1" /><label for="privacy[do_not_trade]">Do not trade</label></td>
+                                                    <div class="action-link"><input name="_qf_Edit_refresh_dedupe" value="&raquo; Check for Matching Contact(s)" type="submit" id="_qf_Edit_refresh_dedupe" class="form-submit" /></div>
+                                                </fieldset>
+                                            </div>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td><label>Method</label></td>
-                                                            <td>
-                                                                <table class="form-layout"><tr><td class="labels font-light"><input type="hidden" name="preferred_communication_method[1]" value="" /><input id="preferred_communication_method[1]" name="preferred_communication_method[1]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[1]">Phone</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[2]" value="" /><input id="preferred_communication_method[2]" name="preferred_communication_method[2]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[2]">Email</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[3]" value="" /><input id="preferred_communication_method[3]" name="preferred_communication_method[3]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[3]">Postal Mail</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[4]" value="" /><input id="preferred_communication_method[4]" name="preferred_communication_method[4]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[4]">SMS</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[5]" value="" /><input id="preferred_communication_method[5]" name="preferred_communication_method[5]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[5]">Fax</label></td></tr></table>
-                                                                <div class="description font-italic">
-
-                                                                    Select the preferred method of communicating with this contact.            </div>
+                                            <div id="addressBlock">
+                                                <div id="add-1-show" class="form-pane">
+                                                    <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to edit"><img src="../../i/edit.png" /></a>
+                                                    <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to edit"><label>Address</label></a>
+                                                </div>
+                                                <fieldset id='add-1-table' style="display:none;"><legend><a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').show(); return false;" title="Click to close">Address</a></legend>
+                                                    <div id="id_location_1_address" >
+                                                        
+                                                    </div>    
+                                                    <div id="id_location_1_address_show" >
+                                                        <table class="form-layout-compressed">
+                                                            <tr>
+                                                                <td><input id="use_household_address" name="use_household_address" type="checkbox" value="1" class="form-checkbox" /><label for="use_household_address">Use Household Address</label> <img src="../../i/quiz.png" /> &nbsp;&nbsp;</td>
+                                                                <td><input id="use_employer_address" name="use_employer_address" type="checkbox" value="1" class="form-checkbox" /><label for="use_employer_address">Use Employer Address</label> <img src="../../i/quiz.png" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <label for="location_1_address_street_address">Street Address</label><br />
+                                                                    <input maxlength="96" size="45" name="location[1][address][street_address]" type="text" id="location_1_address_street_address" class="form-text huge" /><br />
+                                                                    <span class="description font-italic">Street number, street name, apartment/unit/suite - OR P.O. box</span>
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label for="preferred_mail_format">Email Format</label></td>
+                                                                <td colspan="2">
+                                                                    <label for="location_1_address_supplemental_address_1">Addt'l Address 1</label><br />
+                                                                    <input maxlength="96" size="45" name="location[1][address][supplemental_address_1]" type="text" id="location_1_address_supplemental_address_1" class="form-text huge" />
+                                                                    <br>
+                                                                    <span class="description font-italic">Supplemental address info, e.g. c/o, department name, building name, etc.</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td>
-                                                                    <select name="preferred_mail_format" id="preferred_mail_format" class="form-select">
-                                                                        <option value="Both">Both</option>
+                                                                    <label for="location_1_address_city">City</label><br />
+                                                                    <input maxlength="64" size="30" name="location[1][address][city]" type="text" id="location_1_address_city" class="form-text big" />
+                                                                </td>
+                                                                <td>
+                                                                    <label for="location_1_address_postal_code">Zip / Postal Code</label><br />
+                                                                    <input maxlength="12" size="12" name="location[1][address][postal_code]" type="text" id="location_1_address_postal_code" class="form-text twelve" />
+                                                                    - <input size="4" maxlength="12" name="location[1][address][postal_code_suffix]" type="text" id="location_1_address_postal_code_suffix" class="form-text four" />
+                                                                    <br />
+                                                                    <span class="description font-italic">Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label for="location_1_address_country_id">Country</label><br />
+                                                                    <select name="location[1][address][country_id]" id="location_1_address_country_id" class="form-select">
+                                                                        <option value="">- select -</option>
+                                                                        <option value="1228" selected="selected">United States</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <label for="location_1_address_state_province_id">State/Province</label><br />
+                                                                    <select name="location[1][address][state_province_id]" id="location_1_address_state_province_id" class="form-select">
 
-                                                                        <option value="HTML">HTML</option>
-                                                                        <option value="Text">Text</option>
-                                                                    </select> 
-                                                                    <div class="helpicon"><span dojoType="dijit.form.DropDownButton" class="tundra">
-                                                                        <div><img src="../../i/quiz.png" /></div>
-                                                                        <div dojoType="dijit.TooltipDialog" id="id-emailFormat_help" class="tundra" ><div class='crm-help'>Select the email format preferred by this contact. Select 'Both' to send HTML and Text formats.</div>
+                                                                        <option value="">- select -</option>
+                                                                        <option value="1000">Alabama</option>
+                                                                        <option value="1001">Alaska</option>
+                                                                        <option value="1052">American Samoa</option>
+                                                                        <option value="1002">Arizona</option>
+                                                                        <option value="1003">Arkansas</option>
 
+                                                                        <option value="1060">Armed Forces Americas</option>
+                                                                        <option value="1059">Armed Forces Europe</option>
+                                                                        <option value="1061">Armed Forces Pacific</option>
+                                                                        <option value="1004">California</option>
+                                                                        <option value="1005">Colorado</option>
+                                                                        <option value="1006">Connecticut</option>
 
-                                                                    </div>
-                                                                </span></div>
-                                                            </td>
+                                                                        <option value="1007">Delaware</option>
+                                                                        <option value="1050">District of Columbia</option>
+                                                                        <option value="1008">Florida</option>
+                                                                        <option value="1009">Georgia</option>
+                                                                        <option value="1053">Guam</option>
+                                                                        <option value="1010">Hawaii</option>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td><label for="is_opt_out">NO BULK EMAILS (User Opt Out)</label></td>
-                                                            <td>
-                                                                <input id="is_opt_out" name="is_opt_out" type="checkbox" value="1" class="form-checkbox" /> 
-                                                                <div class="helpicon"><span dojoType="dijit.form.DropDownButton" class="tundra">
-                                                                    <div><img src="../../i/quiz.png" /></div>
-                                                                    <div dojoType="dijit.TooltipDialog" id="id-optOut_help" class="tundra" >
+                                                                        <option value="1011">Idaho</option>
+                                                                        <option value="1012">Illinois</option>
+                                                                        <option value="1013">Indiana</option>
+                                                                        <option value="1014">Iowa</option>
+                                                                        <option value="1015">Kansas</option>
+                                                                        <option value="1016">Kentucky</option>
 
+                                                                        <option value="1017">Louisiana</option>
+                                                                        <option value="1018">Maine</option>
+                                                                        <option value="1019">Maryland</option>
+                                                                        <option value="1020">Massachusetts</option>
+                                                                        <option value="1021">Michigan</option>
+                                                                        <option value="1022">Minnesota</option>
 
+                                                                        <option value="1023">Mississippi</option>
+                                                                        <option value="1024">Missouri</option>
+                                                                        <option value="1025">Montana</option>
+                                                                        <option value="1026">Nebraska</option>
+                                                                        <option value="1027">Nevada</option>
+                                                                        <option value="1028">New Hampshire</option>
 
-                                                                        <div class='crm-help'>This option is designed to be set by the contact themselves when they don't want to receive bulk email from your organization (they set it using the opt-out action from a CiviMail mailing).   Please think before changing it, as it will override the preference they have set.</div></div>
-                                                                    </span></div>
+                                                                        <option value="1029">New Jersey</option>
+                                                                        <option value="1030">New Mexico</option>
+                                                                        <option value="1031">New York</option>
+                                                                        <option value="1032">North Carolina</option>
+                                                                        <option value="1033">North Dakota</option>
+                                                                        <option value="1055">Northern Mariana Islands</option>
+
+                                                                        <option value="1034">Ohio</option>
+                                                                        <option value="1035">Oklahoma</option>
+                                                                        <option value="1036">Oregon</option>
+                                                                        <option value="1037">Pennsylvania</option>
+                                                                        <option value="1056">Puerto Rico</option>
+                                                                        <option value="1038">Rhode Island</option>
+
+                                                                        <option value="1039">South Carolina</option>
+                                                                        <option value="1040">South Dakota</option>
+                                                                        <option value="1041">Tennessee</option>
+                                                                        <option value="1042">Texas</option>
+                                                                        <option value="1058">United States Minor Outlying Islands</option>
+                                                                        <option value="1043">Utah</option>
+
+                                                                        <option value="1044">Vermont</option>
+                                                                        <option value="1057">Virgin Islands</option>
+                                                                        <option value="1045">Virginia</option>
+                                                                        <option value="1046">Washington</option>
+                                                                        <option value="1047">West Virginia</option>
+                                                                        <option value="1048">Wisconsin</option>
+
+                                                                        <option value="1049">Wyoming</option>
+                                                                    </select>
                                                                 </td>
                                                             </tr>
                                                         </table>
+                                                        <div>
+                                                            <a href="#" onclick="alert('This will allow user too add more addresses for this contact.');return false;">+ add</a>
+                                                        </div>
+                                                </fieldset>
+                                            </div>
+
+                                            <div id="commPrefs">
+                                                <div id="com-show" class="form-pane">
+                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to edit"><img src="../../i/edit.png" /></a>
+                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to edit"><label>Communication Preferences</label></a>
+                                                </div>
+                                                <fieldset id="com-table" style="display:none;" ><legend><a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').show(); return false;" title="Click to close">Communication Preferences</a></legend>
+                                                    <table class="form-layout-compressed" >
+                                                        <tr>
+                                                            <td><label for="greeting_type_id">Greeting</label><br />
+                                                            <select onchange=" showGreeting();" name="greeting_type_id" id="greeting_type_id" class="form-select">
+                                                            <option value="">- select -</option>
+                                                            <option value="1" selected="selected">Dear [first]</option>
+                                                            <option value="2">Dear [prefix] [first] [last]</option>
+                                                            <option value="3">Dear [prefix] [last]</option>
+                                                            <option value="4">Customized</option>
+                                                            </select>
+                                                            </td>
+                                                            <td><label for="nick_name">Nick Name</label><br />
+                                                                <input maxlength="128" size="45" name="nick_name" type="text" id="nick_name" class="big" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2"><label>Privacy</label><br />
+                                                                <input type="hidden" name="privacy[do_not_phone]" value="" /><input id="privacy[do_not_phone]" name="privacy[do_not_phone]" type="checkbox" value="1" /><label for="privacy[do_not_phone]">Do not phone</label>&nbsp;<input type="hidden" name="privacy[do_not_email]" value="" /><input id="privacy[do_not_email]" name="privacy[do_not_email]" type="checkbox" value="1" /><label for="privacy[do_not_email]">Do not email</label>&nbsp;<input type="hidden" name="privacy[do_not_mail]" value="" /><input id="privacy[do_not_mail]" name="privacy[do_not_mail]" type="checkbox" value="1" /><label for="privacy[do_not_mail]">Do not mail</label>&nbsp;<input type="hidden" name="privacy[do_not_trade]" value="" /><input id="privacy[do_not_trade]" name="privacy[do_not_trade]" type="checkbox" value="1" /><label for="privacy[do_not_trade]">Do not trade</label></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2"><input id="is_opt_out" name="is_opt_out" type="checkbox" value="1" class="form-checkbox" /> <label for="is_opt_out">NO BULK EMAILS (User Opt Out)</label> <img src="../../i/quiz.png" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label>Method</label><br />
+                                                                <table class="form-layout-compressed"><tr><td class="labels font-light"><input type="hidden" name="preferred_communication_method[1]" value="" /><input id="preferred_communication_method[1]" name="preferred_communication_method[1]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[1]">Phone</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[2]" value="" /><input id="preferred_communication_method[2]" name="preferred_communication_method[2]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[2]">Email</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[3]" value="" /><input id="preferred_communication_method[3]" name="preferred_communication_method[3]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[3]">Postal Mail</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[4]" value="" /><input id="preferred_communication_method[4]" name="preferred_communication_method[4]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[4]">SMS</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[5]" value="" /><input id="preferred_communication_method[5]" name="preferred_communication_method[5]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[5]">Fax</label></td></tr></table>
+                                                                <div class="description font-italic">
+                                                                    Select the preferred method of communicating with this contact.</div>
+                                                            </td>
+                                                            <td><label for="preferred_mail_format">Email Format</label> <img src="../../i/quiz.png" /><br />
+                                                                <select name="preferred_mail_format" id="preferred_mail_format" class="form-select">
+                                                                        <option value="Both">Both</option>
+                                                                        <option value="HTML">HTML</option>
+                                                                        <option value="Text">Text</option>
+                                                                </select> 
+                                                            </td>
+                                                        </tr>
+                                                        </table>
                                                     </fieldset>
-                                                </div> 
-                                                <br/>
+                                            </div> 
+                                                                        
+                                            <div id="moreDetails">
+                                                <div id="md-show" class="form-pane"><label>Contact Source and External ID</label> <a href="#" onclick="cj('#more-personal-info').toggle(); cj('#md-show').hide(); return false;">( edit )</a>
+                                                </div>
+                                                <fieldset id="more-personal-info" style="display:none;"><legend><a href="#" onclick ="cj('#more-personal-info').toggle(); cj('#md-show').show(); return false;" title="Click to close section">Contact Source and External ID</a></legend>
+                                                <table class="form-layout-compressed">
+                                                    <tr>
+                                                        <td><label for="contact_source">Source</label><br />
+                                                            <input name="contact_source" type="text" id="contact_source" class="big" /></td>
+                                                        <td><label for="external_identifier">External Id</label><br />
+                                                            <input maxlength="32" size="20" name="external_identifier" type="text" id="external_identifier" class="form-text medium" /></td>
+                                                    </tr>
+                                                </table>
+                                                </fieldset>
+                                            </div>
 
-                                                            <span id="add-1-show"><label>Add Address</label>
-                                                            <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to add"> ( Edit )</a>
-                                                            </span>
+                                            <div class="form-pane">
+                                                <span><label>Demographics</label><a href="#"> ( edit )</a></span>
+                                            </div>
+                                            <div class="form-pane">
+                                                <span"><label>Notes</label><a href="#"> ( edit )</a></span>
+                                            </div>
+                                            <div class="form-pane">
+                                                <span><label>Tags and Groups</label><a href="#"> ( edit )</a></span>
+                                            </div>
+                                            <br />
+                                            <div class="crm-submit-buttons">
+                                                <input class="default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_cancel" value="Cancel" type="submit" />
+                                            </div>
 
-                                                                    <fieldset id='add-1-table' style="display:none;"><legend><a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').show(); return false;" title="Click to add">Address</a></legend>
-                                                                        <div id="id_location_1_address" >
-                                                                            
-                                                                        </div>    
-                                                                        <div id="id_location_1_address_show" >
-                                                                            <div class="form-item">
+                                        </form>
 
-                                                                                <input onclick="showHideAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);setDefaultAddress();" id="use_household_address" name="use_household_address" type="checkbox" value="1" class="form-checkbox" /><label for="use_household_address">Use Household Address</label><br />
-                                                                                <span class="description">
-                                                                                    Check this option if you want to use a shared household address for this individual. You can either select an existing household, or create a new one.            </span>
-                                                                                </div>
-                                                                                <div id="shared_household" class="form-item">
-                                                                                    <div>
-                                                                                        <label for="shared_household">Select Household</label>
+                                            <div class="footer" id="civicrm-footer">
+                                                Powered by CiviCRM 20090. 
+                                                CiviCRM is openly available under the <a href='http://www.gnu.org/licenses/agpl-3.0.html'>GNU Affero General Public License (GNU AGPL)</a>.<br/>
+                                                <a href='http://civicrm.org/download'>Download source.</a> &nbsp; &nbsp;
 
-                                                                                    </div>
-                                                                                    <div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="/civicrm/ajax/search?hh=1" doClientPaging="false">
-                                                                                        <input dojotype="civicrm.FilteringSelect" mode="remote" store="addressStore" style="width:450px; border: 1px solid #cfcfcf;" class="tundra" pagesize="10" onchange="showSelectedAddress( &quot;shared_household&quot; )" maxlength="128" size="45" name="shared_household" type="text" id="shared_household" />
-                                                                                        <span id="shared_household_address" class="description"></span>
-                                                                                    </div>
-                                                                                    <span id="shared_household_help" class="description">Enter the first letters of the name of the household to see available households. If the household doesn't exist yet, type in the new household name.</span> 
-                                                                                </div>
-
-                                                                                <div class="spacer"></div>
-                                                                            <div id="id_location_1_address_street_address">
-                                                                                <div class="form-item">
-                                                                                    <span class="labels">
-                                                                                        <label for="location_1_address_street_address">Street Address</label>
-                                                                                    </span>
-                                                                                    <span class="fields">
-                                                                                        <input maxlength="96" size="45" name="location[1][address][street_address]" type="text" id="location_1_address_street_address" class="form-text huge" />
-
-                                                                                        <br class="spacer"/>
-                                                                                        <span class="description font-italic">Street number, street name, apartment/unit/suite - OR P.O. box</span>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div id="id_location_1_address_supplemental_address_1">
-                                                                                <div class="form-item">
-                                                                                    <span class="labels">
-                                                                                        <label for="location_1_address_supplemental_address_1">Addt'l Address 1</label>
-
-                                                                                    </span>
-                                                                                    <span class="fields">
-                                                                                        <input maxlength="96" size="45" name="location[1][address][supplemental_address_1]" type="text" id="location_1_address_supplemental_address_1" class="form-text huge" />
-                                                                                        <br class="spacer"/>
-                                                                                        <span class="description font-italic">Supplemental address info, e.g. c/o, department name, building name, etc.</span>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div id="id_location_1_address_supplemental_address_2">
-
-                                                                                <div class="form-item">
-                                                                                    <span class="labels">
-                                                                                        <label for="location_1_address_supplemental_address_2">Addt'l Address 2</label>
-                                                                                    </span>
-                                                                                    <span class="fields">
-                                                                                        <input maxlength="96" size="45" name="location[1][address][supplemental_address_2]" type="text" id="location_1_address_supplemental_address_2" class="form-text huge" />
-                                                                                        <br class="spacer"/>
-                                                                                        <span class="description font-italic">Supplemental address info, e.g. c/o, department name, building name, etc.</span>
-
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div id="id_location_1_address_city">
-                                                                                <div class="form-item">
-                                                                                    <span class="labels">
-                                                                                        <label for="location_1_address_city">City</label>
-                                                                                    </span>
-                                                                                    <span class="fields">
-
-                                                                                        <input maxlength="64" size="30" name="location[1][address][city]" type="text" id="location_1_address_city" class="form-text big" />
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div id="id_location_1_address_postal_code">
-                                                                                <div class="form-item">
-                                                                                    <span class="labels">
-                                                                                        <label for="location_1_address_postal_code">Zip / Postal Code</label>
-                                                                                    </span>
-
-                                                                                    <span class="fields">
-                                                                                        <input maxlength="12" size="12" name="location[1][address][postal_code]" type="text" id="location_1_address_postal_code" class="form-text twelve" />
-                                                                                        - <input size="4" maxlength="12" name="location[1][address][postal_code_suffix]" type="text" id="location_1_address_postal_code_suffix" class="form-text four" />
-                                                                                        <br class="spacer"/>
-                                                                                        <span class="description font-italic">Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).</span>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div id="id_location_1_address_address_name">
-                                                                            </div>
-                                                                            <div id="id_location_1_address_county">
-                                                                            </div>
-                                                                            <div id="id_location_1_address_country">
-                                                                                <div class="form-item">
-                                                                                    <span class="labels">
-                                                                                        <label for="location_1_address_country_id">Country</label>
-
-                                                                                    </span>
-                                                                                    <span class="fields">
-                                                                                        <select name="location[1][address][country_id]" id="location_1_address_country_id" class="form-select">
-                                                                                            <option value="">- select -</option>
-                                                                                            <option value="1228" selected="selected">United States</option>
-                                                                                        </select>
-                                                                                    </span>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div id="id_location_1_address_state_province">
-                                                                                <div class="form-item">
-                                                                                    <span class="labels">
-                                                                                        <label for="location_1_address_state_province_id">State/Province</label>
-                                                                                    </span>
-                                                                                    <span class="fields">
-                                                                                        <select name="location[1][address][state_province_id]" id="location_1_address_state_province_id" class="form-select">
-
-                                                                                            <option value="">- select -</option>
-                                                                                            <option value="1000">Alabama</option>
-                                                                                            <option value="1001">Alaska</option>
-                                                                                            <option value="1052">American Samoa</option>
-                                                                                            <option value="1002">Arizona</option>
-                                                                                            <option value="1003">Arkansas</option>
-
-                                                                                            <option value="1060">Armed Forces Americas</option>
-                                                                                            <option value="1059">Armed Forces Europe</option>
-                                                                                            <option value="1061">Armed Forces Pacific</option>
-                                                                                            <option value="1004">California</option>
-                                                                                            <option value="1005">Colorado</option>
-                                                                                            <option value="1006">Connecticut</option>
-
-                                                                                            <option value="1007">Delaware</option>
-                                                                                            <option value="1050">District of Columbia</option>
-                                                                                            <option value="1008">Florida</option>
-                                                                                            <option value="1009">Georgia</option>
-                                                                                            <option value="1053">Guam</option>
-                                                                                            <option value="1010">Hawaii</option>
-
-                                                                                            <option value="1011">Idaho</option>
-                                                                                            <option value="1012">Illinois</option>
-                                                                                            <option value="1013">Indiana</option>
-                                                                                            <option value="1014">Iowa</option>
-                                                                                            <option value="1015">Kansas</option>
-                                                                                            <option value="1016">Kentucky</option>
-
-                                                                                            <option value="1017">Louisiana</option>
-                                                                                            <option value="1018">Maine</option>
-                                                                                            <option value="1019">Maryland</option>
-                                                                                            <option value="1020">Massachusetts</option>
-                                                                                            <option value="1021">Michigan</option>
-                                                                                            <option value="1022">Minnesota</option>
-
-                                                                                            <option value="1023">Mississippi</option>
-                                                                                            <option value="1024">Missouri</option>
-                                                                                            <option value="1025">Montana</option>
-                                                                                            <option value="1026">Nebraska</option>
-                                                                                            <option value="1027">Nevada</option>
-                                                                                            <option value="1028">New Hampshire</option>
-
-                                                                                            <option value="1029">New Jersey</option>
-                                                                                            <option value="1030">New Mexico</option>
-                                                                                            <option value="1031">New York</option>
-                                                                                            <option value="1032">North Carolina</option>
-                                                                                            <option value="1033">North Dakota</option>
-                                                                                            <option value="1055">Northern Mariana Islands</option>
-
-                                                                                            <option value="1034">Ohio</option>
-                                                                                            <option value="1035">Oklahoma</option>
-                                                                                            <option value="1036">Oregon</option>
-                                                                                            <option value="1037">Pennsylvania</option>
-                                                                                            <option value="1056">Puerto Rico</option>
-                                                                                            <option value="1038">Rhode Island</option>
-
-                                                                                            <option value="1039">South Carolina</option>
-                                                                                            <option value="1040">South Dakota</option>
-                                                                                            <option value="1041">Tennessee</option>
-                                                                                            <option value="1042">Texas</option>
-                                                                                            <option value="1058">United States Minor Outlying Islands</option>
-                                                                                            <option value="1043">Utah</option>
-
-                                                                                            <option value="1044">Vermont</option>
-                                                                                            <option value="1057">Virgin Islands</option>
-                                                                                            <option value="1045">Virginia</option>
-                                                                                            <option value="1046">Washington</option>
-                                                                                            <option value="1047">West Virginia</option>
-                                                                                            <option value="1048">Wisconsin</option>
-
-                                                                                            <option value="1049">Wyoming</option>
-                                                                                        </select>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-item">
-                                                                                <span class="labels">
-                                                                                    <label for="location_1_address_geo_code_1">Latitude</label>,
-                                                                                    <label for="location_1_address_geo_code_2">Longitude</label>
-
-                                                                                </span>
-                                                                                <span class="fields">
-                                                                                    <input size="9" maxlength="10" name="location[1][address][geo_code_1]" type="text" id="location_1_address_geo_code_1" class="form-text" />,
-                                                                                    <input size="9" maxlength="10" name="location[1][address][geo_code_2]" type="text" id="location_1_address_geo_code_2" class="form-text" />
-                                                                                    <br class="spacer"/>
-                                                                                    <span class="description font-italic">
-                                                                                        Latitude and longitude may be automatically populated by enabling a Mapping Provider. <a href="http://wiki.civicrm.org/confluence/display/CRMUPCOMING/Mapping+and+Geocoding"  target="_blank" title="Opens documentation in a new window.">(learn more...)</a>
-                                                                                    </span>
-
-                                                                                </span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <a href="#" onclick="alert('This will add more rows.');return false;">Add More</a></div>
-                                                                        </fieldset>
-                                                                        <br/><br/>
-                                                                        <div class="form-item">
-                                                                            <span class="labels"><label>Demographics</label><a href="#"> ( Edit )</a></span>
-                                                                        </div><br/>
-                                                                        <div class="form-item">
-                                                                            <span class="labels"><label>Notes</label><a href="#"> ( Edit )</a></span>
-                                                                        </div><br/>
-                                                                        <div class="form-item">
-                                                                            <span class="labels"><label>Tags and Groups</label><a href="#"> ( Edit )</a></span>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </fieldset>
-                                                            </div> 
-    
-                                                            </form>
-
-                                                            <div class="footer" id="access">
-                                                                Access Keys:
-                                                                <div class="helpicon"><span dojoType="dijit.form.DropDownButton" class="tundra">
-                                                                    <div><img src="../../i/quiz.png" /></div>
-                                                                    <div dojoType="dijit.TooltipDialog" id="accesskeys_help" class="tundra" ><div class='crm-help'><p>
-                                                                        <strong>Use the following key combinations for:</strong>
-                                                                    </p>
+                                                <a href='http://issues.civicrm.org/jira/browse/CRM?report=com.atlassian.jira.plugin.system.project:roadmap-panel'>View issues and report bugs.</a> &nbsp; &nbsp;
+                                                <a href="http://wiki.civicrm.org/confluence/display/CRMUPCOMING/"  target="_blank" title="Opens documentation in a new window.">Online documentation.</a>
+                                            </div>
+                                            <script type="text/javascript">jQuery.noConflict(true);</script>
+                                        </div>           </div>
+                                        <div id="footer"><div id="block-system-0" class="clear-block block block-system">
 
 
-                                                                </div></div>
-                                                            </span></div>
-                                                        </div>
-
-
-                                                        <div class="footer" id="civicrm-footer">
-                                                            Powered by CiviCRM 20090. 
-                                                            CiviCRM is openly available under the <a href='http://www.gnu.org/licenses/agpl-3.0.html'>GNU Affero General Public License (GNU AGPL)</a>.<br/>
-                                                            <a href='http://civicrm.org/download'>Download source.</a> &nbsp; &nbsp;
-
-                                                            <a href='http://issues.civicrm.org/jira/browse/CRM?report=com.atlassian.jira.plugin.system.project:roadmap-panel'>View issues and report bugs.</a> &nbsp; &nbsp;
-                                                            <a href="http://wiki.civicrm.org/confluence/display/CRMUPCOMING/"  target="_blank" title="Opens documentation in a new window.">Online documentation.</a>
-                                                        </div>
-                                                        <script type="text/javascript">jQuery.noConflict(true);</script>
-                                                    </div>           </div>
-                                                    <div id="footer"><div id="block-system-0" class="clear-block block block-system">
-
-
-                                                        <div class="content"><a href="http://drupal.org"><img src="/misc/powered-blue-80x15.png" alt="Powered by Drupal, an open source content management system" title="Powered by Drupal, an open source content management system" width="80" height="15" /></a></div>
+                                        <div class="content"><a href="http://drupal.org"><img src="/misc/powered-blue-80x15.png" alt="Powered by Drupal, an open source content management system" title="Powered by Drupal, an open source content management system" width="80" height="15" /></a></div>
 
                                                     </div>
                                                 </div>
