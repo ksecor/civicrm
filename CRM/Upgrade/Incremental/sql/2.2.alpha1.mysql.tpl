@@ -8,6 +8,9 @@
 -- this sql script as you resolve 2.2 issues. Include the issue number which 
 -- is the source of the change, as part of the comment.
 
+-- fix version column first
+ALTER TABLE `civicrm_domain` 
+  MODIFY version varchar(32) COMMENT 'The civicrm version this instance is running';
 
 -- make the register_by_id cascade in civicrm_participant	
 
