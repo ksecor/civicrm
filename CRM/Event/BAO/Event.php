@@ -640,7 +640,8 @@ WHERE civicrm_event.is_active = 1
         
             $info                     = array( );
             $info['event_id'     ]    = $dao->event_id;
-            $info['uid'          ]    = "CiviCRM_EventID_{$dao->event_id}_" . md5( uniqid( rand( ), true ) ) . $url;
+            $info['uid'          ]    = 
+            $info['uid'          ]    = "CiviCRM_EventID_{$dao->event_id}_" . md5( $config->userFrameworkBaseURL ) . $url;
             $info['title'        ]    = $dao->title;
             $info['summary'      ]    = $dao->summary;
             $info['description'  ]    = $dao->description;
