@@ -3,7 +3,7 @@
 {include file="CRM/common/pagerAToZ.tpl"}
 
 <table summary="{ts}Search results listings.{/ts}" class="selector">
-  <tr class="columnheader">
+  <thead class="sticky">
   <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
   {if $context eq 'smog'}
       <th scope="col">
@@ -20,7 +20,7 @@
     {/if}
     </th>
   {/foreach}
-  </tr>
+  </thead>
 
   {counter start=0 skip=1 print=false}
 

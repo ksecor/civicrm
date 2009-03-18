@@ -1264,3 +1264,24 @@ commented since it is overwiting simple td
   color            : #FFF;
   background-color : #3399FF;
 }
+
+/* Styles for Sticky Header */
+
+#crm-container thead div.sticky-header {
+  background-color : #B3D1FF;
+  font-size        : 1em;
+  height           : 15px;
+  border-bottom    : 1px solid #5A8FDB;
+}
+
+#crm-container thead.sticky {
+  background-color : #B3D1FF;
+  color            : #000000;
+  border           : 1px solid #5A8FDB;
+}
+
+#crm-container thead.sticky a {
+  color            : #000;
+  text-decoration  : none;
+  vertical-align   : top;
+}
