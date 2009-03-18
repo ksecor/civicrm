@@ -62,18 +62,16 @@ class CiviContributeProcessor {
                                      'currencycode'  => 'currencyID',
                                      'source'        => 'contribution_source',
                                      'note'          => 'note',
+                                     'is_test'       => 'is_test',
                                      ),
               );
 
-    static function paypal( $start, $end ) {
-        static $userName  = 'paypal_api1.openngo.org';
-        static $password  = '7YJ7JYCJ4QEMWQS5';
-        static $signature = 'AAivyp-lGZaDNGJEtfXyK475vPAZAgXeC-Cw1KFCkIztxWkYwI5MlnTH';
-        static $url       = 'https://api-3t.sandbox.paypal.com/nvp';
+    static function paypal( $paymentProcessor, $paymentMode, $start, $end ) {
+        $url       = "{$paymentProcessor['url_api']}nvp";
 
-        $keyArgs = array( 'user'      => $userName,
-                          'pwd'       => $password,
-                          'signature' => $signature, 
+        $keyArgs = array( 'user'      => $paymentProcessor['user_name'],
+                          'pwd'       => $paymentProcessor['password'] ,
+                          'signature' => $paymentProcessor['signature'], 
                           'version'   => 3.0,
                           );
 
@@ -101,6 +99,11 @@ class CiviContributeProcessor {
                 // add source
                 $details['source'] = ts( 'ContributionProcessor: Paypal API' );
 
+                if ( $paymentMode == 'test' ) {
+                    $details['is_test'] = 1;
+                } else {
+                    $details['is_test'] = 0;
+                }
                 if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $details, 
                                                                                     self::$_paypalParamsMapper ) ) {
                     echo "Processing {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
@@ -125,7 +128,14 @@ class CiviContributeProcessor {
                                                   date( 'Y-m-d', time( ) - 31 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
             $end   = CRM_Utils_Request::retrieve( 'end', 'String', CRM_Core_DAO::$_nullObject, false,
                                                   date( 'Y-m-d' ) . 'T23:59:00.00Z' );
-            return self::$type( $start, $end );
+            $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', CRM_Core_DAO::$_nullObject, true  );
+            $mode  = CRM_Utils_Request::retrieve( 'ppMode', 'String', CRM_Core_DAO::$_nullObject, false, 'live' );
+
+            require_once 'CRM/Core/BAO/PaymentProcessor.php';
+            $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
+                                                                           $mode );
+
+            return self::$type( $paymentProcessor, $mode, $start, $end );
 
         case 'csv':
             return self::csv( );
