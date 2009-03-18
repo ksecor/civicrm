@@ -630,13 +630,17 @@ WHERE civicrm_event.is_active = 1
         $all = array( );
         $config =& CRM_Core_Config::singleton( );
         
+        $baseURL = parse_url( $config->userFrameworkBaseURL );
+        $url = "@".$baseURL['host'];
+        if ( CRM_Utils_Array::value( 'path', $baseURL ) ) {
+            $url .= substr( $baseURL['path'], 0, -1 );
+        }
+
         while ( $dao->fetch( ) ) {
         
             $info                     = array( );
             $info['event_id'     ]    = $dao->event_id;
-            $info['uid'          ]    = 
-	      "CiviCRM_EventID_{$dao->event_id}_" . md5( uniqid( rand( ), true ) ) .
-	      "@{$config->userFrameworkBaseURL}";
+            $info['uid'          ]    = "CiviCRM_EventID_{$dao->event_id}_" . md5( uniqid( rand( ), true ) ) . $url;
             $info['title'        ]    = $dao->title;
             $info['summary'      ]    = $dao->summary;
             $info['description'  ]    = $dao->description;
