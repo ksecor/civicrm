@@ -243,6 +243,36 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                             'title'    => ts('Map Contact'),
                                                             );
             }
+
+            // Adding Context Menu Links in more action
+            $contextMenu = array( 
+                                 'contribution' => ts('Record Contribution'),
+                                 'event'        => ts('Register for Event'),
+                                 'activity'     => ts('Record Activity'),
+                                 'pledge'       => ts('Add Pledge'),
+                                 'membership'   => ts('Enter Membership'),
+                                 'email'        => ts('Send an Email')
+                                 );
+            $counter = 7000;
+
+            foreach( $contextMenu as $key => $value ) {
+                if( $key == 'activity' || $key == 'email' ) {
+                    $qs = ( $key == 'activity') ? '&snippet=1' : '&atype=3&action=add';
+                    self::$_links[$counter++]  = array(
+                                                       'name'     => $value,
+                                                       'url'      => "civicrm/contact/view/activity",
+                                                       'qs'       => "reset=1&cid=%%id%%{$qs}",
+                                                       'title'    => $value,
+                                                       );
+                } else {
+                    self::$_links[$counter++]  = array(
+                                                       'name'     => $value,
+                                                       'url'      => "civicrm/contact/view/{$key}",
+                                                       'qs'       => "reset=1&action=add&cid=%%id%%&context={$key}",
+                                                       'title'    => $value,
+                                                       );
+                }
+            }
         }
         return self::$_links;
     } //end of function

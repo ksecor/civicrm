@@ -82,7 +82,7 @@
                 {/if}   
               {/foreach}
             {/if}
-            <td>{$row.action|replace:'xx':$row.id}</td>
+            <td>{$row.action|replace:'xx':$row.contact_id}</td>
          </tr>
     {/foreach}
   {/if}
@@ -95,8 +95,9 @@
    <li><a href="#activity">Record Activity</a></li>
    <li><a href="#pledge">Add Pledge</a></li>
    <li><a href="#membership">Enter Membership</a></li>
+   <li><a href="#email">Send an Email</a></li>
 </ul>
-
+http://localhost/d23/civicrm/contact/view/activity?atype=3&action=add&reset=1&cid=102
  <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}
     var fname = "{$form.formName}";	
@@ -112,7 +113,10 @@ cj(".selector tr").contextMenu({
     }, function( action ){ 
          cj(".selector tr").mouseover(function() {
              var contactId = cj(this).attr('id').substr(5);
-             if ( action == 'activity' ) {
+             if ( action == 'activity' || action == 'email' ) {
+                 if ( action == 'email' ) {
+                  activityUrl = activityUrl.replace( /&snippet=1/, '&atype=3&action=add' );
+                 }
                url = activityUrl.replace( /changeid/, contactId );
              } else {
                url =  url.replace( /changeaction/g, action ); url = url.replace( /changeid/, contactId );
