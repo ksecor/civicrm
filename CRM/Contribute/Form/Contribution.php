@@ -700,7 +700,7 @@ WHERE  contribution_id = {$this->_id}
         $this->assign( 'outBound_option', $mailingInfo['outBound_option'] );
         
         $this->addButtons(array( 
-                                array ( 'type'      => $this->buttonType( ),
+                                array ( 'type'      => 'upload',
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'js'        => $js,
