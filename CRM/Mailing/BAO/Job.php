@@ -95,6 +95,11 @@ ORDER BY j.scheduled_date,
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
+            // fix for cancel job at run time which is in queue, CRM-4246
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Mailing_DAO_Job', $job->id, 'status' ) == 'Canceled' ) {
+                continue;
+            }
+            
             $lockName = "civimail.job.{$job->id}";
 
             // get a lock on this job id
