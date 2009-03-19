@@ -60,7 +60,7 @@ class CiviContributeProcessor {
                                      'feeamt'        => 'fee_amount',
                                      'transactionid' => 'trxn_id',
                                      'currencycode'  => 'currencyID',
-                                     'source'        => 'contribution_source',
+                                     'l_name0'       => 'source',
                                      'note'          => 'note',
                                      'is_test'       => 'is_test',
                                      ),
@@ -75,6 +75,7 @@ class CiviContributeProcessor {
                                      ),
               'location'    => array(
                                      'address1'     => 'street_address',
+                                     'address2'     => 'supplemental_address_1',
                                      'city'         => 'city',
                                      'postal-code'  => 'postal_code',
                                      'country-code' => 'country',
@@ -108,26 +109,26 @@ class CiviContributeProcessor {
         foreach ( $result as $name => $value ) {
             if ( substr( $name, 0, 15 ) == 'l_transactionid' ) {
                 $keyArgs['transactionid'] = $value;
-                $details = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs, $url );
+                $trxnDetails = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs, $url );
 
-                // only process completed emails
-                if ( strtolower( $details['paymentstatus'] ) != 'completed' ) {
+                // only process completed payments
+                if ( strtolower( $trxnDetails['paymentstatus'] ) != 'completed' ) {
                     continue;
                 }
 
-                // add source
-                $details['source'] = ts( 'ContributionProcessor: Paypal API' );
-
+                $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $trxnDetails, 
+                                                                                  self::$_paypalParamsMapper,
+                                                                                  'paypal' );
                 if ( $paymentMode == 'test' ) {
-                    $details['is_test'] = 1;
+                    $params['is_test'] = 1;
                 } else {
-                    $details['is_test'] = 0;
+                    $params['is_test'] = 0;
                 }
-                if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $details, 
-                                                                                    self::$_paypalParamsMapper ) ) {
-                    echo "Processing {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
+
+                if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $params ) ) {
+                    echo "Processed - {$trxnDetails['email']}, {$trxnDetails['amt']}, {$value} ..<p>";
                 } else {
-                    echo "Skipped {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
+                    echo "Skipped - {$trxnDetails['email']}, {$trxnDetails['amt']}, {$value} ..<p>";
                 }
             }
         }
@@ -138,10 +139,19 @@ class CiviContributeProcessor {
                                'end'   => $end  );
 
         require_once 'CRM/Core/Payment/Google.php';
-        $result = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
-        //CRM_Core_Error::debug( '$result', $result );
+        $response = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
 
-        $result = CRM_Core_Payment_Google::processAPIContribution( $result, self::$_googleParamsMapper );
+        require_once "CRM/Contribute/BAO/Contribution/Utils.php";
+        $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $response, 
+                                                                          self::$_googleParamsMapper,
+                                                                          'google' );
+        foreach ( $params as $detail ) {
+            if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $detail ) ) {
+                echo "Processed - {$detail['email']}, {$detail['total_amount']}, {$detail['trxn_id']} ..<p>";
+            } else {
+                echo "Skipped - {$detail['email']}, {$detail['total_amount']}, {$detail['trxn_id']} ..<p>";
+            }
+        }
     }
 
     static function process( ) {
@@ -156,7 +166,6 @@ class CiviContributeProcessor {
         case 'google':
             $start = CRM_Utils_Request::retrieve( 'start', 'String', CRM_Core_DAO::$_nullObject, false,
                                                   date( 'Y-m-d', time( ) - 365 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
-            // google expects end date to be atleast 30 mins past
             $end   = CRM_Utils_Request::retrieve( 'end', 'String', CRM_Core_DAO::$_nullObject, false,
                                                   date( 'Y-m-d', time( ) - 24 * 60 * 60 ) . 'T23:59:00.00Z' );
             $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', CRM_Core_DAO::$_nullObject, true  );

@@ -199,11 +199,13 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
     </notification-types>
 </notification-history-request>';
 
-        // Add the below to $xml for specific requests
-        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url );
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
+
+        //turning off the server and peer verification(TrustManager Concept).
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -231,99 +233,5 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
 
         return $xmlResponse;
    }
-
-    function processAPIContribution( $xmlResponse, $mapper ) {
-        require_once 'Google/library/xml-processing/xmlparser.php';
-
-        // Retrieve the root and data from the xml response
-        $xmlParser = new XmlParser($xmlResponse);
-        $root      = $xmlParser->GetRoot();
-        $data      = $xmlParser->GetData();
-
-        $chargedNotification =& $data[$root]['notifications']['charge-amount-notification'];
-        $details             =& $data[$root]['notifications']['risk-information-notification'];
-
-        // store all successfully charged transaction numbers
-        $chargedAccounts = array();
-        foreach ( $chargedNotification as $info ) {
-            $chargedAccounts[$info['google-order-number']['VALUE']] = $info['total-charge-amount'];
-        }
-        
-        require_once 'CRM/Contribute/DAO/Contribution.php';
-        require_once 'CRM/Dedupe/Finder.php';
-        require_once 'CRM/Contact/BAO/Contact.php';
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-
-        foreach ( $details as $detail ) {
-            if ( array_key_exists($detail['google-order-number']['VALUE'], $chargedAccounts) ) {
-                $params = array( );
-                foreach ( $detail['risk-information']['billing-address'] as $field => $info ) {
-                    if ( CRM_Utils_Array::value( $field, $mapper['location'] ) ) {
-                        $params['location'][1]['address'][$mapper['location'][$field]] = $info['VALUE'];
-                    } else if ( CRM_Utils_Array::value( $field, $mapper['contact'] ) ) {
-                        $params[$mapper['contact'][$field]] = $info['VALUE'];
-                    } else if ( CRM_Utils_Array::value( $field, $mapper['transaction'] ) ) {
-                        $params[$mapper['transaction'][$field]] = $info['VALUE'];
-                    }
-                }
-
-                if ( CRM_Utils_Array::value( 'google-order-number', $mapper['transaction'] ) ) {
-                    $params[$mapper['transaction']['google-order-number']] = $detail['google-order-number']['VALUE'];
-                }
-
-                if ( CRM_Utils_Array::value( 'total-charge-amount', $mapper['transaction'] ) ) {
-                    $params[$mapper['transaction']['total-charge-amount']] 
-                        = $chargedAccounts[$detail['google-order-number']['VALUE']]['VALUE'];
-                    $params['currency'] = $chargedAccounts[$detail['google-order-number']['VALUE']]['currency'];
-                }
-
-                if ( empty($params) ) {
-                    continue;
-                }
-                CRM_Core_Error::debug( '$params', $params );
-                
-                if ( isset( $params['trxn_id'] ) ) {
-                    // return if transaction already processed.
-                    $contribution =& new CRM_Contribute_DAO_Contribution();
-                    $contribution->trxn_id = $params['trxn_id'];
-                    if ( $contribution->find(true) ) {
-                        continue;
-                    }
-                } else {
-                    $params['trxn_id'] = md5( uniqid( rand( ), true ) );
-                }
-                
-                // fill default params
-                $params['contact_type']  = 'Individual';
-                
-                if ( array_key_exists( 'location', $params ) ) {
-                    $params['location'][1]['is_primary']        = 1;
-                    $params['location'][1]['location_type_id']  = 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Billing', 'id', 'name' );
-                    
-                    if ( isset($params['email']) ) {
-                        $params['location'][1]['email'][1]['email'] = $params['email'];
-                        unset($params['email']);
-                    }
-                }
-                
-                // === add contact using dedupe rule ===
-                $dedupeParams = CRM_Dedupe_Finder::formatParams ($params      , 'Individual');
-                $dupeIds      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
-                // if we find more than one contact, use the first one
-                if ( CRM_Utils_Array::value( 0, $dupeIds ) ) {
-                    $params['contact_id'] = $dupeIds[0];
-                }
-                $contact = CRM_Contact_BAO_Contact::create( $params );
-                if ( ! $contact->id ) {
-                    continue;
-                }
-                
-                // === create contribution ===
-                $contribution =& CRM_Contribute_BAO_Contribution::create( $params,
-                                                                          CRM_Core_DAO::$_nullArray );
-            }
-        }
-    }
 
 }
