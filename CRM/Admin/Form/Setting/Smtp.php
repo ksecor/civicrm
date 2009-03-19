@@ -148,7 +148,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
                 CRM_Core_Error::ignoreException( );
                 $result = $mailer->send( $toEmail, $headers, $message );
                 if ( !is_a( $result, 'PEAR_Error' ) ) {
-                    CRM_Core_Session::setStatus( $testMailStatusMsg . ts('%1 Your %2 settings are correct. A test email has been sent to your email address.', array( 1 => strtoupper( $mailerName ) ) ) ); 
+                    CRM_Core_Session::setStatus( $testMailStatusMsg . ts('Your %1 settings are correct. A test email has been sent to your email address.', array( 1 => strtoupper( $mailerName ) ) ) ); 
                 } else {
                     $message = CRM_Utils_Mail::errorMessage ( $mailer, $result );
                     CRM_Core_Session::setStatus( $testMailStatusMsg . ts('Oops. Your %1 settings are incorrect. No test mail has been sent.', array(1 => strtoupper( $mailerName ) ) ) . $message );
