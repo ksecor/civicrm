@@ -82,7 +82,8 @@ class CRM_Core_Component
                 array( 'title'   => 'Quest Application Process',
                        'path'    => 'CRM_Quest_',
                        'url'     => 'quest',
-                       'perm'    => array( 'edit Quest Application',
+                       'perm'    => array( 'access Quest', 
+                                           'edit Quest Application',
                                            'view Quest Application',
                                            'edit Quest Recommendation',
                                            'view Quest Recommendation',
@@ -345,15 +346,15 @@ class CRM_Core_Component
 
             if ( CRM_Core_Permission::access( 'Quest' ) ) {
             
-            // Generalize this at some point
-            self::$_contactSubTypes =
-                array(
-                     'Student' =>
-                      array( 'View' => 
-                             array( 'file'  => 'CRM/Quest/Page/View/Student.php',
-                                    'class' => 'CRM_Quest_Page_View_Student' ),
-                             )
-                      );
+                // Generalize this at some point
+                self::$_contactSubTypes =
+                    array(
+                          'Student' =>
+                          array( 'View' => 
+                                 array( 'file'  => 'CRM/Quest/Page/View/Student.php',
+                                        'class' => 'CRM_Quest_Page_View_Student' ),
+                                 )
+                          );
             }
         }
         return self::$_contactSubTypes;
