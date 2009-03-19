@@ -161,7 +161,7 @@ function loadXMLDoc(url, responseHandler) {
 					}
 					//alert("authenticate:debug:\n"+req.responseText);
 				} else {
-					alert("Error retreiving contact index: Check that your settings are correct");
+					alert("Error authenticating: Check that your settings are correct");
 				}
 			}
 		});
@@ -253,10 +253,42 @@ function loadXMLDoc(url, responseHandler) {
 	
 	
 
-  	var loadContactInfo = function(){
-		var suc = function(c){ alert("Contact 4: " + c.contacts[3].name); };
-  		var fail = function(){};
-  		navigator.ContactManager.get(suc, fail);
+  	var loadContactInfo = function(cid){
+		var url = host;
+		url += "sites/drupal.demo.civicrm.org/modules/civicrm/extern/rest.php?q=civicrm/contact/get";
+		url += "&contact_id=";
+		url += cid;
+		url+='&key=';
+		url+=apikey;
+		url+='&PHPSESSID=';
+		url+=a_PHPSESSID;
+		url+='&json=1';
+		
+		loadXMLDoc(url, function(){
+			if (req.readyState == 4) {
+				if (req.status == 200) {
+					
+					var jsonObj = JSON.parse(req.responseText);
+					
+					//alert(jsonObj+"\n\n"+req.responseText);
+
+						for( var i in jsonObj ){
+
+							var e = document.getElementById('cinfoview_'+i);
+							
+							if( e ){
+									e.value=jsonObj[i];
+							}else{
+							   //alert("no element found:"+'cinfoview_'+i);
+							}
+						}
+
+
+				} else {
+					alert("Error retreiving contact index: Check that your settings are correct");
+				}
+			}
+		});
   	}
 
 var loadidx = null;
@@ -266,7 +298,6 @@ var loadidx = null;
 	}
 
 	function loadContactIndex(c){
-
 		if( loadidx!=null || loadidx==c ){
 			alert("a load request is already in progress");
 			return;
@@ -327,7 +358,86 @@ var loadidx = null;
 							var link = document.createElement('a');
 							link.setAttribute('class','linkNext');
 							link.setAttribute('href', '#contact_info');
-//							link.setAttribute('onclick','showPageById("'+contact_details+'")');
+							link.setAttribute('onclick','loadContactInfo("'+contact.contact_id+'")');
+
+							var linkTxt = document.createTextNode(contact.sort_name);
+							link.appendChild(linkTxt);
+
+							d.appendChild(link);
+							d.appendChild( document.createElement('br') );
+						}else{
+							var linkTxt = document.createTextNode("0 contacts found");
+							d.appendChild( linkTxt);
+							setTimeout(function(){
+								d.removeChild(linkTxt);
+							}, 2000);
+						}
+					}
+				} else {
+					alert("Error retreiving contact index: Check that your settings are correct");
+				}
+			}
+		});
+		
+		return false;
+	}
+
+	function searchContacts(){
+	
+		var sstr;
+	
+		var e = document.getElementById('search_name');
+		if(e){
+			sstr = e.value;
+		}
+	
+		var d = document.getElementById('search_results_container');
+		if(d){
+			while (d.firstChild)
+			   {
+				d.removeChild(d.firstChild);
+			   }
+		}else{
+			alert("no results container element");
+		}
+		//todo: add spinner
+		var txt = document.createTextNode("Loading ...");
+
+		d.appendChild(txt);
+		setTimeout(function(){
+			if( loadidx!=null ){
+				loadidx = null;
+				d.removeChild(txt);
+			}
+		}, 30000);
+
+		var url = host;
+		url+= 'sites/drupal.demo.civicrm.org/modules/civicrm/extern/rest.php?q=civicrm/contact/search&sort_name=';
+		url+=sstr;
+		url+='&key=';
+		url+=apikey;
+		url+='&PHPSESSID=';
+		url+=a_PHPSESSID;
+		url+='&json=1';
+
+		loadXMLDoc(url, function(){
+			if (req.readyState == 4) {
+				if (req.status == 200) {
+					loadidx = null;
+					d.removeChild(txt);
+					var jsonObj = JSON.parse(req.responseText);
+					
+//					alert(jsonObj+"\n\n"+req.responseText);
+					
+					for( var i in jsonObj ){
+						
+						var contact = jsonObj[i];
+						
+						if( contact ){
+							var link = document.createElement('a');
+							link.setAttribute('class','linkNext');
+							link.setAttribute('href', '#contact_info');
+							link.setAttribute('onclick','loadContactInfo("'+contact.contact_id+'")');
 
 							var linkTxt = document.createTextNode(contact.sort_name);
 							link.appendChild(linkTxt);
@@ -351,6 +461,11 @@ var loadidx = null;
 		return false;
 	}
 	
+	call = function(num){
+		alert("making call");
+		document.location="tel://"+num;
+	}
+	
 </script>
 
   </head>
@@ -363,6 +478,7 @@ var loadidx = null;
 
 	<ul id="home" title="CiviCRM" selected="true">
 		<li><a href="#index">Contacts</a></li>
+		<li><a href="#search">Search</a></li>
         <li><a href="#settings" >Settings</a></li>
     </ul>
 
@@ -386,6 +502,7 @@ var loadidx = null;
 	</div>
 	
     <ul id="index" title="Contacts">
+		
         <li id="cidxa" class="group" onclick="loadContactIndex('a')">A</li>
         <li id="cidxb" class="group" onclick="loadContactIndex('b')">B</li>
         <li id="cidxc" class="group" onclick="loadContactIndex('c')">C</li>
@@ -415,44 +532,40 @@ var loadidx = null;
     </ul>
 
 	<form id="contact_info" class="panel" title="Info">
-						<!--
-						"122"
-							"contact_id":"122",
-							"contact_type":"Individual",
-							"sort_name":"Bishop, Paul",
-							"display_name":"Paul Bishop",
-							"do_not_email":"0",
-							"do_not_phone":"0",
-							"do_not_mail":"0",
-							"do_not_trade":"0",
-							"is_opt_out":"0",
-							"preferred_mail_format":"Both",
-							"first_name":"Paul",
-							"last_name":"Bishop",
-							"is_deceased":"0",
-							"current_employer":"Ampco Graphix",
-							"address_id":"98",
-							"street_address":"78 Fawcett Road"
-						-->
 			<fieldset>
 				<div class="row">
 					<label>Type:</label>
-					<input id="artist" type="text" name="artist" disabled="disabled" />
+					<input id="cinfoview_contact_type" type="text" value="" />
 				</div>
 				<div class="row">
 					<label>Name:</label>
-					<input id="artist" type="text" name="artist" disabled="disabled" />
+					<input id="cinfoview_display_name" type="text" value=""/>
 				</div>
 				<div class="row">
 					<label>Company:</label>
-					<input id="artist" type="text" name="artist" disabled="disabled" />
+					<input id="cinfoview_current_employer" type="text" value="" />
+				</div>
+				<div class="row">
+					<label>Phone:</label>
+					<input class='fieldValue' id="cinfoview_phone" type="text" value="123-123-1234" onclick="call(this)" />
 				</div>
 				<div class="row">
 					<label>Address:</label>
-					<input id="artist" type="text" name="artist" disabled="disabled" />
+					<input id="cinfoview_street_address" type="text" value="" />
 				</div>
 			</fieldset>
 	</form>
+	
+		<div id="search" class="panel" title="Search" >
+			<input id="search_name" type="text" value="" />
+			<a href="#searchResults" class="button_inline" onclick="searchContacts()">Search</a>
+
+		</div>
+
+    <ul id="searchResults" title="Search Results">
+        <div id="search_results_container">
+		</div>
+    </ul>
 
 	    </body>
 </html>

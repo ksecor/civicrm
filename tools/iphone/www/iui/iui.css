@@ -279,6 +279,16 @@ input {
     font-weight: normal;
 }
 
+.fieldValue {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 100%;
+    margin: 8px 0 0 0;
+    padding: 6px 6px 6px 44px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
 /************************************************************************************************/
 
 body > .panel {
