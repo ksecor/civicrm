@@ -128,11 +128,7 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         
         $template->assign( 'message', $message );
         $content = $template->fetch( 'CRM/common/success.tpl' );
-
-        if ( $config->userFramework === 'Drupal' ) {    
-            drupal_maintenance_theme();
-        }
-        echo CRM_Utils_System::theme( 'page', $content, true, $this->_print );
+        echo CRM_Utils_System::theme( 'page', $content, true, $this->_print, false, true );
     }
 
     function upgrade_2_2_alpha1( $rev ) {

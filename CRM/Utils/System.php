@@ -130,13 +130,17 @@ class CRM_Utils_System {
      * @param string  $content the content that will be themed
      * @param array   $args    the args for the themeing function if any
      * @param boolean $print   are we displaying to the screen or bypassing theming?
-     * @param boolean $ret  should we echo or return output
+     * @param boolean $ret     should we echo or return output
+     * @param boolean $maintenance  for maintenance mode
      * 
      * @return void           prints content on stdout
      * @access public
      */
-    function theme( $type, &$content, $args = null, $print = false, $ret = false ) {
+    function theme( $type, &$content, $args = null, $print = false, $ret = false, $maintenance = false ) {
         if ( function_exists( 'theme' ) && ! $print ) {
+            if ( $maintenance ) {
+                drupal_maintenance_theme();
+            }
             $out = theme( $type, $content, $args );
         } else {
             $out = $content;
