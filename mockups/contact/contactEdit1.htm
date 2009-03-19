@@ -1,0 +1,669 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+<head>
+    <title>New Individual | .</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">@import url(css/civicrm1.css);</style>
+    <style type="text/css">@import url(../civicase/css/skins/aqua/theme.css);</style>
+
+    <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/node.css?J" />
+    <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/defaults.css?J" />
+    <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/system.css?J" />
+    <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/system-menus.css?J" />
+    <link type="text/css" rel="stylesheet" media="all" href="../contact/css/style.css?J" />
+    
+    </head>
+    <body class="sidebar-left">
+
+        <!-- Layout -->
+        <div id="header-region" class="clear-block"></div>
+
+        <div id="wrapper">
+            <div id="container" class="clear-block">
+
+                <div id="header">
+                    <div id="logo-floater">
+                        <h1><a href="/" title="."><img src="/sites/civicrm/files/garland_logo.png" alt="." id="logo" /><span>.</span></a></h1>        </div>
+
+
+                    </div> <!-- /header -->
+
+                    <div id="sidebar-left" class="sidebar">
+                        <div id="block-civicrm-2" class="clear-block block block-civicrm">
+
+                            <h2><span class='crm_blocktitle'>CiviCRM Shortcuts</span></h2>
+
+                            <div class="content"><div class="menu">
+                                <ul class="indented">
+                                    <li class="leaf"><a accesskey="I" href="/civicrm/contact/add?ct=Individual&amp;reset=1">New Individual</a></li>
+                                    <li class="leaf"><a accesskey="O" href="/civicrm/contact/add?ct=Organization&amp;reset=1">New Organization</a></li>
+                                    <li class="leaf"><a accesskey="H" href="/civicrm/contact/add?ct=Household&amp;reset=1">New Household</a></li>
+
+                                    <li class="leaf"><a accesskey="A" href="/civicrm/activity?action=add&amp;reset=1&amp;context=standalone">New Activity</a></li>
+                                    <li class="leaf"><a accesskey="G" href="/civicrm/group/add?reset=1">New Group</a></li>
+                                    <li class="leaf"><a accesskey="" href="/civicrm/user?reset=1">My Contact Dashboard</a></li>
+                                </ul>
+                            </div></div>
+                        </div>
+                        <div id="block-civicrm-1" class="clear-block block block-civicrm">
+
+                            <h2><span class='crm_blocktitle'>CiviCRM</span></h2>
+
+                            <div class="content"><div class="menu">
+                                <ul class="indented">
+                                    <li class="leaf"><a href="/civicrm/dashboard?reset=1" >CiviCRM Home</a></li>
+                                    <li class="collapsed"><a href="/civicrm/contact/search?reset=1" >Find Contacts</a></li>
+                                    <li class="leaf"><a href="/civicrm/group?reset=1" >Manage Groups</a></li>
+                                    <li class="collapsed"><a href="/civicrm/import?reset=1" >Import</a></li>
+                                    <li class="collapsed"><a href="/civicrm/contribute?reset=1" >CiviContribute</a></li>
+                                    <li class="collapsed"><a href="/civicrm/pledge?reset=1" >CiviPledge</a></li>
+                                    <li class="collapsed"><a href="/civicrm/mailing?reset=1" >CiviMail</a></li>
+
+                                    <li class="collapsed"><a href="/civicrm/member?reset=1" >CiviMember</a></li>
+                                    <li class="collapsed"><a href="/civicrm/event?reset=1" >CiviEvent</a></li>
+                                    <li class="collapsed"><a href="/civicrm/auction?reset=1" >CiviAuction</a></li>
+                                    <li class="leaf"><a href="/civicrm/admin?reset=1" >Administer CiviCRM</a></li>
+                                    <li class="leaf"><a href="/civicrm/logout?reset=1" >Log out</a></li>
+                                </ul>
+                            </div></div>
+                        </div>
+                        <div id="block-civicrm-8" class="clear-block block block-civicrm">
+
+                            <h2><span class='crm_blocktitle'>New Individual</span></h2>
+
+                            <div class="content"><div id="crm-quick-create">
+                                <form action="/civicrm/contact/add?reset=1&amp;ct=Individual" method="post">
+
+                                    <div class="form-item">
+                                        <div>
+                                            <label for="qa_first_name">First Name:</label>
+                                        </div>
+                                        <div>
+                                            <input type="text" name="first_name" id="qa_first_name" class="form-text" maxlength="64" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-item">
+                                        <div>
+                                            <label for="qa_last_name">Last Name:</label>
+                                        </div>
+                                        <div>
+                                            <input type="text" name="last_name" id="qa_last_name" class="form-text required" maxlength="64" />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-item">
+                                        <div>
+                                            <label for="qa_email">Email:</label>
+                                        </div>
+                                        <div>
+                                            <input type="text" name="location[1][email][1][email]" id="qa_email" class="form-text" maxlength="64" />
+                                        </div>
+
+                                        <input type="hidden" name="location[1][location_type_id]" value="1" />
+                                        <input type="hidden" name="location[1][is_primary]" value="1" />
+                                        <input type="hidden" name="ct" value="Individual" />
+                                    </div>
+
+                                    <div class="form-item"><input type="submit" name="_qf_Edit_next" value="Save" class="form-submit" /></div>
+
+                                </form>
+                            </div></div>
+                        </div>
+                        <div id="block-civicrm-4" class="clear-block block block-civicrm">
+
+                            <h2><span class='crm_blocktitle'>Contact Search</span></h2>
+
+                            <div class="content"><script type="text/javascript" src="../../packages/jquery/jquery.js"></script>
+                                <script type="text/javascript" src="../../packages/jquery/jquery-ui.js"></script>
+                                <style type="text/css">@import url(../../packages/jquery/themes/ui.all.css);</style>
+
+                                <script type="text/javascript" src="../../packages/jquery/plugins/flexigrid.js"></script>
+                                <style type="text/css">@import url(../../packages/jquery/css/flexigrid.css);</style>
+
+                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.autocomplete.js"></script>
+                                <style type="text/css">@import url(../../packages/jquery/css/jquery.autocomplete.css);</style>
+
+                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.chainedSelects.js"></script>
+                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.treeview.min.js"></script>
+
+                                <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+                                <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><div class="block-crm">
+                                <script type="text/javascript"> 
+
+                                function getSearchURLValue( )
+                                {
+                                    var contactId =  cj( '#contact_id' ).val();
+                                    if ( ! contactId || isNaN( contactId ) ) {
+                                        var sortValue = cj( '#sort_name' ).val();
+                                        if ( sortValue ) { 
+                                            //using xmlhttprequest check if there is only one contact and redirect to view page
+                                            var dataUrl = "/civicrm/ajax/contact?name=" + sortValue;
+
+                                            var response = cj.ajax({
+                                                url: dataUrl,
+                                                async: false
+                                                }).responseText;
+
+                                                contactId = response;
+                                            }
+                                        }
+
+                                        if ( contactId ) {
+                                            var url = "/civicrm/contact/view?reset=1&cid=" + contactId;
+                                            document.getElementById('id_search_block').action = url;
+                                        }
+                                    }
+
+                                    cj( function () {
+                                        var contactUrl = "/civicrm/ajax/contactlist";
+
+                                        cj( '#sort_name' ).autocomplete( contactUrl, {
+                                            width: 200,
+                                            selectFirst: false 
+                                        });
+                                        cj( '#sort_name' ).result(function(event, data, formatted) {
+                                            cj("#contact_id").val(data[1]);
+                                        });	
+                                    });
+
+                                    </script>
+
+                                    <form action="/civicrm/contact/search/basic?reset=1" name="search_block" id="id_search_block" method="post" >
+                                        <input type="text" class="form-text" id="sort_name" name="sort_name" style="width: 12em;"/>
+
+                                        <input type="hidden" id="contact_id" value="">
+                                        <input type="submit" value="Go" name="_qf_Basic_refresh" class="form-submit default" onclick="getSearchURLValue( );"/>
+                                        <br />
+                                        <a href="/civicrm/contact/search/advanced?reset=1" title="Go to Advanced Search">&raquo; Advanced Search</a>
+                                    </form>
+                                </div></div>
+                            </div>
+                            <div id="block-user-1" class="clear-block block block-user">
+
+                                <h2>kurund</h2>
+
+                                <div class="content"><ul class="menu"><li class="leaf first"><a href="/0"></a></li>
+                                    <li class="leaf"><a href="/civicrm/dashboard">CiviCRM</a></li>
+                                    <li class="leaf"><a href="/user/1">My account</a></li>
+                                    <li class="collapsed"><a href="/node/add">Create content</a></li>
+                                    <li class="collapsed"><a href="/admin">Administer</a></li>
+                                    <li class="leaf last"><a href="/logout">Log out</a></li>
+                                </ul></div>
+                            </div>
+                            <div id="block-block-1" class="clear-block block block-block">
+
+                                <h2>Upcoming Events</h2>
+
+                                <div class="content"><br /><b>Sat Nov 21 2009</b><br /><a href="/civicrm/event/info?reset=1&amp;id=1">Fall Fundraiser Dinner </a><br /><br /><b>Sun Dec 27 2009</b><br /><a href="/civicrm/event/info?reset=1&amp;id=3">Rain-forest Cup Youth Soccer Tournament </a><br /></div>
+                            </div>
+                        </div>
+
+                        <div id="center"><div id="squeeze"><div class="right-corner"><div class="left-corner">
+                            <div class="breadcrumb"><a href="/">Home</a> › <a href="/civicrm?reset=1">CiviCRM</a></div>                              <h2>New Individual</h2>                                                  <div class="clear-block">
+
+
+                                <div id="crm-container" lang="en" xml:lang="en">
+                                    <script type="text/javascript" src="../../packages/jquery/jquery.js"></script>
+                                    <script type="text/javascript" src="../../packages/jquery/jquery-ui.js"></script>
+                                    <style type="text/css">@import url(../../packages/jquery/themes/ui.all.css);</style>
+
+                                    <script type="text/javascript" src="../../packages/jquery/plugins/flexigrid.js"></script>
+                                    <style type="text/css">@import url(../../packages/jquery/css/flexigrid.css);</style>
+
+                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.autocomplete.js"></script>
+                                    <style type="text/css">@import url(../../packages/jquery/css/jquery.autocomplete.css);</style>
+
+                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.chainedSelects.js"></script>
+                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.treeview.min.js"></script>
+
+                                    <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+                                    <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><script type="text/javascript">
+                                    </script>
+                                    <script type="text/javascript" src="../../js/Common.js"></script>
+
+                                    <div id="recently-viewed">
+                                        <ul>
+
+                                            <li>Recently Viewed:</li>
+                                            <li><a href="/civicrm/contact/view?reset=1&amp;cid=102"><img src="../../i/contact_ind.gif" alt="Individual" /></a><a href="/civicrm/contact/view?reset=1&amp;cid=102">kurund.jalmi@webaccess.co.in</a></li>
+                                        </ul>
+                                    </div>
+                                    <div id="printer-friendly">
+                                        <a href="/civicrm/contact/add?q=civicrm/contact/add&amp;ct=Individual&amp;snippet=2" title="Printer-friendly view of this page."><img src="../../i/print_preview.gif" alt="Printer-friendly view of this page." /></a>
+                                    </div>
+
+
+                                    <div class="spacer"></div>
+
+
+
+                                    <!-- .tpl file invoked: CRM/Contact/Form/Edit.tpl. Call via form.tpl if we have a form in the page. -->
+                                    <form  action="/civicrm/contact/add" method="post" name="Edit" id="Edit" enctype="multipart/form-data" >
+
+                                    <script language="JavaScript" type="text/javascript">
+
+                                    cj(function()
+                                    {
+                                        countryID       = "#location_1_address_country_id"
+                                        stateProvinceID = "#location_1_address_state_province_id"
+                                        callbackURL     = "/civicrm/ajax/jqState"
+
+                                        cj(countryID).chainSelect(stateProvinceID, callbackURL, null );
+                                    });
+
+                                    </script>
+
+                                    <input name="qfKey" type="hidden" value="5396c75c8f15260ecb7585e52b769d51_9630" />
+                                    <input name="_qf_default" type="hidden" value="Edit:upload" />
+                                    <input name="MAX_FILE_SIZE" type="hidden" value="20971520" />
+
+                                    <script type="text/javascript" src="../../js/Contact.js"></script>
+                                    <div class="crm-submit-buttons">
+                                        <input class="default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_cancel" value="Cancel" type="submit" />
+                                    </div>
+                                    
+                                    <div id="name">
+                                        <div id="name-show" style="display:none; margin-top: .5em;" class="form-pane"><label>Contact Details</label>
+                                        <a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').hide(); return false;" title="Click to edit"> ( edit )</a>
+                                        </div>
+                                        <fieldset id="name-greet" ><legend><a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').show(); return false;" title="Click to edit">Contact Details</a></legend>
+                                            <table class="form-layout-compressed">
+                                                    <tr>
+                                                        <td>
+                                                            <label
+                                                        for="prefix_id">Prefix</label><br />
+                                                            <select name="prefix_id" id="prefix_id" class="form-select">
+                                                                <option value="">
+                                                            --- </option>
+                                                                <option value="1">Mrs</option>
+                                                                <option value="2">Ms</option>
+
+                                                                <option value="3">Mr</option>
+                                                                <option value="4">Dr</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <label for="first_name">First Name</label><br />
+                                                            <input maxlength="64"
+                                                            size="20"  name="first_name" type="text" id="first_name" />
+                                                        </td>
+                                                        <td>
+                                                            <label for="middle_name">Middle Name</label><br />
+                                                            <input maxlength="64"
+                                                            size="20" name="middle_name" type="text" id="middle_name" />
+                                                        </td>
+                                                        <td>
+                                                            <label for="last_name">Last Name</label><br />
+                                                            <input maxlength="64"
+                                                            size="20" name="last_name" type="text" id="last_name" />
+                                                        </td>
+                                                        <td>                                                            <label
+                                                        for="suffix_id">Suffix</label><br />
+                                                            <select name="suffix_id" id="suffix_id" class="form-select">
+                                                                <option value="">
+                                                            --- </option>
+
+                                                                <option value="1">Jr</option>
+                                                                <option value="2">Sr</option>
+                                                                <option value="3">II</option>
+                                                                <option value="4">III</option>
+                                                                <option value="5">IV</option>
+                                                                <option value="6">V</option>
+
+                                                                <option value="7">VI</option>
+                                                                <option value="8">VII</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"
+                                                  ><label
+                                                        for="current_employer">Current Employer</label><br />
+                                                            <div
+                                                        align="right">
+                                                            <input size="28" name="current_employer" type="text" id="current_employer" />
+                                                        </div>
+                                                            </td>
+                                                            
+                                                        <td><label for="job_title">Job title</label><br />
+                                                            <input maxlength="64" size="20" name="job_title" type="text" id="job_title" />
+                                                        </td>
+                                                        <td colspan="2"><label for="home_URL">Website</label><br />
+                                                            <input maxlength="128"
+                                                        size="28" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" /></td>
+                                                    </tr>
+                                                </table>
+                                                <table
+                                                class="form-layout-compressed"
+                                                style="width: 100%">
+                                                    <tr id="row0">
+                                                      <td
+                                                    colspan="2"></td>
+                                                      <td></td>
+                                                    </tr>
+                                                    <tr id="row1">
+                                                        <td><input
+                                                    name="email-primary"
+                                                        value=""
+                                                    type="radio"></td>
+                                                        <td>
+                                                            <select name="element_type1" id="element_type1" class="form-select" onchange="buildElement(this.value, 1)">
+                                                                <option value="">- select -</option>
+                                                                <option
+                                                                value="email1">Email</option>
+                                                                <option
+                                                                value="phone1">Phone</option>
+                                                                <option value="im">IM</option>
+                                                                <option value="openID">Open ID</option>
+                                                            </select>
+                                                        </td>
+                                                        <td id="element_html1">
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="show1" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row2').show();cj('#show1').hide();return false;">+ add</a></td></tr>
+                                                    <tr id="row2">
+                                                            <td><input
+                                                    name="email-primary"
+                                                        value=""
+                                                    type="radio"></td>
+                                                            <td>
+                                                                <select name="element_type2" id="element_type2" class="form-select" onchange="buildElement(this.value, 2);cj('#show3').show();">
+                                                                    <option value="">- select -</option>
+                                                                    <option
+                                                                    value="email1">Email</option>
+                                                                    <option
+                                                                    value="phone1">Phone</option>
+                                                                    <option value="im">IM</option>
+                                                                    <option value="openID">Open ID</option>
+                                                                </select>
+                                                            </td>
+                                                            <td id="element_html2">
+                                                            </td>
+                                                    </tr>
+                                                    <tr id="show2" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row3').show();cj('#show2').hide();return false;">+ add</a></td></tr>
+                                                    <tr id="row3">
+                                                            <td></td>
+                                                            <td>
+                                                                    <select name="element_type3" id="element_type3" class="form-select" onchange="buildElement(this.value, 3);cj('#show4').show();">
+                                                                        <option value="">- select -</option>
+                                                                        <option
+                                                                        value="email1">Email</option>
+                                                                        <option
+                                                                        value="phone1">Phone</option>
+                                                                        <option value="im">IM</option>
+                                                                        <option value="openID">Open ID</option>
+                                                                    </select>
+                                                            </td>
+                                                            <td id="element_html3">
+                                                            </td>
+                                                    </tr>
+                                                    <tr id="show3" style="display:none;"><td colspan="3"><a href="#" onclick="alert('This will allow user to add more phones, emails, etc.');return false;">+ add</a></td></tr>
+                                                </table>
+                                              
+                                                <script type="text/javascript"> 
+                                                    cj(function(){
+                                                        buildElement(
+                                                    'email1', 1 );
+                                                        buildElement(
+                                                    'phone1', 2 );
+                                                        cj("#row3").hide();
+                                                    });
+                                                    function buildElement( form, no ) {
+                                                        if ( !form ) return;
+                                                        cj('#element_html' + no).load( form + '.htm' );
+                                                        cj('#element_type' + no).val( form );
+                                                        if ( no > 1) {
+                                                            cj('#show' + no).show();
+                                                        }
+                                                    }
+                                                </script>
+
+                                                    <div class="action-link"><input name="_qf_Edit_refresh_dedupe" value="&raquo; Check for Matching Contact(s)" type="submit" id="_qf_Edit_refresh_dedupe" class="form-submit" /></div>
+                                                </fieldset>
+                                            </div>
+
+                                            <div id="addressBlock">
+                                                <div id="add-1-show" class="form-pane">
+                                                    <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to edit"><img src="../../i/edit.png" /></a>
+                                                    <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to edit"><label>Address</label></a>
+                                                </div>
+                                                <fieldset id='add-1-table' style="display:none;"><legend><a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').show(); return false;" title="Click to close">Address</a></legend>
+                                                    <div id="id_location_1_address" >
+                                                        
+                                                    </div>    
+                                                    <div id="id_location_1_address_show" >
+                                                        <table class="form-layout-compressed">
+                                                            <tr>
+                                                                <td><input id="use_household_address" name="use_household_address" type="checkbox" value="1" class="form-checkbox" /><label for="use_household_address">Use Household Address</label> <img src="../../i/quiz.png" /> &nbsp;&nbsp;</td>
+                                                                <td><input id="use_employer_address" name="use_employer_address" type="checkbox" value="1" class="form-checkbox" /><label for="use_employer_address">Use Employer Address</label> <img src="../../i/quiz.png" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <label for="location_1_address_street_address">Street Address</label><br />
+                                                                    <input maxlength="96" size="45" name="location[1][address][street_address]" type="text" id="location_1_address_street_address" class="form-text huge" /><br />
+                                                                    <span class="description font-italic">Street number, street name, apartment/unit/suite - OR P.O. box</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <label for="location_1_address_supplemental_address_1">Addt'l Address 1</label><br />
+                                                                    <input maxlength="96" size="45" name="location[1][address][supplemental_address_1]" type="text" id="location_1_address_supplemental_address_1" class="form-text huge" />
+                                                                    <br>
+                                                                    <span class="description font-italic">Supplemental address info, e.g. c/o, department name, building name, etc.</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label for="location_1_address_city">City</label><br />
+                                                                    <input maxlength="64" size="30" name="location[1][address][city]" type="text" id="location_1_address_city" class="form-text big" />
+                                                                </td>
+                                                                <td>
+                                                                    <label for="location_1_address_postal_code">Zip / Postal Code</label><br />
+                                                                    <input maxlength="12" size="12" name="location[1][address][postal_code]" type="text" id="location_1_address_postal_code" class="form-text twelve" />
+                                                                    - <input size="4" maxlength="12" name="location[1][address][postal_code_suffix]" type="text" id="location_1_address_postal_code_suffix" class="form-text four" />
+                                                                    <br />
+                                                                    <span class="description font-italic">Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label for="location_1_address_country_id">Country</label><br />
+                                                                    <select name="location[1][address][country_id]" id="location_1_address_country_id" class="form-select">
+                                                                        <option value="">- select -</option>
+                                                                        <option value="1228" selected="selected">United States</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <label for="location_1_address_state_province_id">State/Province</label><br />
+                                                                    <select name="location[1][address][state_province_id]" id="location_1_address_state_province_id" class="form-select">
+
+                                                                        <option value="">- select -</option>
+                                                                        <option value="1000">Alabama</option>
+                                                                        <option value="1001">Alaska</option>
+                                                                        <option value="1052">American Samoa</option>
+                                                                        <option value="1002">Arizona</option>
+                                                                        <option value="1003">Arkansas</option>
+
+                                                                        <option value="1060">Armed Forces Americas</option>
+                                                                        <option value="1059">Armed Forces Europe</option>
+                                                                        <option value="1061">Armed Forces Pacific</option>
+                                                                        <option value="1004">California</option>
+                                                                        <option value="1005">Colorado</option>
+                                                                        <option value="1006">Connecticut</option>
+
+                                                                        <option value="1007">Delaware</option>
+                                                                        <option value="1050">District of Columbia</option>
+                                                                        <option value="1008">Florida</option>
+                                                                        <option value="1009">Georgia</option>
+                                                                        <option value="1053">Guam</option>
+                                                                        <option value="1010">Hawaii</option>
+
+                                                                        <option value="1011">Idaho</option>
+                                                                        <option value="1012">Illinois</option>
+                                                                        <option value="1013">Indiana</option>
+                                                                        <option value="1014">Iowa</option>
+                                                                        <option value="1015">Kansas</option>
+                                                                        <option value="1016">Kentucky</option>
+
+                                                                        <option value="1017">Louisiana</option>
+                                                                        <option value="1018">Maine</option>
+                                                                        <option value="1019">Maryland</option>
+                                                                        <option value="1020">Massachusetts</option>
+                                                                        <option value="1021">Michigan</option>
+                                                                        <option value="1022">Minnesota</option>
+
+                                                                        <option value="1023">Mississippi</option>
+                                                                        <option value="1024">Missouri</option>
+                                                                        <option value="1025">Montana</option>
+                                                                        <option value="1026">Nebraska</option>
+                                                                        <option value="1027">Nevada</option>
+                                                                        <option value="1028">New Hampshire</option>
+
+                                                                        <option value="1029">New Jersey</option>
+                                                                        <option value="1030">New Mexico</option>
+                                                                        <option value="1031">New York</option>
+                                                                        <option value="1032">North Carolina</option>
+                                                                        <option value="1033">North Dakota</option>
+                                                                        <option value="1055">Northern Mariana Islands</option>
+
+                                                                        <option value="1034">Ohio</option>
+                                                                        <option value="1035">Oklahoma</option>
+                                                                        <option value="1036">Oregon</option>
+                                                                        <option value="1037">Pennsylvania</option>
+                                                                        <option value="1056">Puerto Rico</option>
+                                                                        <option value="1038">Rhode Island</option>
+
+                                                                        <option value="1039">South Carolina</option>
+                                                                        <option value="1040">South Dakota</option>
+                                                                        <option value="1041">Tennessee</option>
+                                                                        <option value="1042">Texas</option>
+                                                                        <option value="1058">United States Minor Outlying Islands</option>
+                                                                        <option value="1043">Utah</option>
+
+                                                                        <option value="1044">Vermont</option>
+                                                                        <option value="1057">Virgin Islands</option>
+                                                                        <option value="1045">Virginia</option>
+                                                                        <option value="1046">Washington</option>
+                                                                        <option value="1047">West Virginia</option>
+                                                                        <option value="1048">Wisconsin</option>
+
+                                                                        <option value="1049">Wyoming</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <div>
+                                                            <a href="#" onclick="alert('This will allow user too add more addresses for this contact.');return false;">+ add</a>
+                                                        </div>
+                                                </fieldset>
+                                            </div>
+
+                                            <div id="commPrefs">
+                                                <div id="com-show" class="form-pane">
+                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to edit"><img src="../../i/edit.png" /></a>
+                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to edit"><label>Communication Preferences</label></a>
+                                                </div>
+                                                <fieldset id="com-table" style="display:none;" ><legend><a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').show(); return false;" title="Click to close">Communication Preferences</a></legend>
+                                                    <table class="form-layout-compressed" >
+                                                        <tr>
+                                                            <td><label for="greeting_type_id">Greeting</label><br />
+                                                            <select onchange=" showGreeting();" name="greeting_type_id" id="greeting_type_id" class="form-select">
+                                                            <option value="">- select -</option>
+                                                            <option value="1" selected="selected">Dear [first]</option>
+                                                            <option value="2">Dear [prefix] [first] [last]</option>
+                                                            <option value="3">Dear [prefix] [last]</option>
+                                                            <option value="4">Customized</option>
+                                                            </select>
+                                                            </td>
+                                                            <td><label for="nick_name">Nick Name</label><br />
+                                                                <input maxlength="128" size="45" name="nick_name" type="text" id="nick_name" class="big" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2"><label>Privacy</label><br />
+                                                                <input type="hidden" name="privacy[do_not_phone]" value="" /><input id="privacy[do_not_phone]" name="privacy[do_not_phone]" type="checkbox" value="1" /><label for="privacy[do_not_phone]">Do not phone</label>&nbsp;<input type="hidden" name="privacy[do_not_email]" value="" /><input id="privacy[do_not_email]" name="privacy[do_not_email]" type="checkbox" value="1" /><label for="privacy[do_not_email]">Do not email</label>&nbsp;<input type="hidden" name="privacy[do_not_mail]" value="" /><input id="privacy[do_not_mail]" name="privacy[do_not_mail]" type="checkbox" value="1" /><label for="privacy[do_not_mail]">Do not mail</label>&nbsp;<input type="hidden" name="privacy[do_not_trade]" value="" /><input id="privacy[do_not_trade]" name="privacy[do_not_trade]" type="checkbox" value="1" /><label for="privacy[do_not_trade]">Do not trade</label></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2"><input id="is_opt_out" name="is_opt_out" type="checkbox" value="1" class="form-checkbox" /> <label for="is_opt_out">NO BULK EMAILS (User Opt Out)</label> <img src="../../i/quiz.png" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label>Method</label><br />
+                                                                <table class="form-layout-compressed"><tr><td class="labels font-light"><input type="hidden" name="preferred_communication_method[1]" value="" /><input id="preferred_communication_method[1]" name="preferred_communication_method[1]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[1]">Phone</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[2]" value="" /><input id="preferred_communication_method[2]" name="preferred_communication_method[2]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[2]">Email</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[3]" value="" /><input id="preferred_communication_method[3]" name="preferred_communication_method[3]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[3]">Postal Mail</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[4]" value="" /><input id="preferred_communication_method[4]" name="preferred_communication_method[4]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[4]">SMS</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[5]" value="" /><input id="preferred_communication_method[5]" name="preferred_communication_method[5]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[5]">Fax</label></td></tr></table>
+                                                                <div class="description font-italic">
+                                                                    Select the preferred method of communicating with this contact.</div>
+                                                            </td>
+                                                            <td><label for="preferred_mail_format">Email Format</label> <img src="../../i/quiz.png" /><br />
+                                                                <select name="preferred_mail_format" id="preferred_mail_format" class="form-select">
+                                                                        <option value="Both">Both</option>
+                                                                        <option value="HTML">HTML</option>
+                                                                        <option value="Text">Text</option>
+                                                                </select> 
+                                                            </td>
+                                                        </tr>
+                                                        </table>
+                                                    </fieldset>
+                                            </div> 
+                                                                        
+                                            <div id="moreDetails">
+                                                <div id="md-show" class="form-pane"><label>Contact Source and External ID</label> <a href="#" onclick="cj('#more-personal-info').toggle(); cj('#md-show').hide(); return false;">( edit )</a>
+                                                </div>
+                                                <fieldset id="more-personal-info" style="display:none;"><legend><a href="#" onclick ="cj('#more-personal-info').toggle(); cj('#md-show').show(); return false;" title="Click to close section">Contact Source and External ID</a></legend>
+                                                <table class="form-layout-compressed">
+                                                    <tr>
+                                                        <td><label for="contact_source">Source</label><br />
+                                                            <input name="contact_source" type="text" id="contact_source" class="big" /></td>
+                                                        <td><label for="external_identifier">External Id</label><br />
+                                                            <input maxlength="32" size="20" name="external_identifier" type="text" id="external_identifier" class="form-text medium" /></td>
+                                                    </tr>
+                                                </table>
+                                                </fieldset>
+                                            </div>
+
+                                            <div class="form-pane">
+                                                <span><label>Demographics</label><a href="#"> ( edit )</a></span>
+                                            </div>
+                                            <div class="form-pane">
+                                                <span"><label>Notes</label><a href="#"> ( edit )</a></span>
+                                            </div>
+                                            <div class="form-pane">
+                                                <span><label>Tags and Groups</label><a href="#"> ( edit )</a></span>
+                                            </div>
+                                            <br />
+                                            <div class="crm-submit-buttons">
+                                                <input class="default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_cancel" value="Cancel" type="submit" />
+                                            </div>
+
+                                        </form>
+
+                                            <div class="footer" id="civicrm-footer">
+                                                Powered by CiviCRM 20090. 
+                                                CiviCRM is openly available under the <a href='http://www.gnu.org/licenses/agpl-3.0.html'>GNU Affero General Public License (GNU AGPL)</a>.<br/>
+                                                <a href='http://civicrm.org/download'>Download source.</a> &nbsp; &nbsp;
+
+                                                <a href='http://issues.civicrm.org/jira/browse/CRM?report=com.atlassian.jira.plugin.system.project:roadmap-panel'>View issues and report bugs.</a> &nbsp; &nbsp;
+                                                <a href="http://wiki.civicrm.org/confluence/display/CRMUPCOMING/"  target="_blank" title="Opens documentation in a new window.">Online documentation.</a>
+                                            </div>
+                                            <script type="text/javascript">jQuery.noConflict(true);</script>
+                                        </div>           </div>
+                                        <div id="footer"><div id="block-system-0" class="clear-block block block-system">
+
+
+                                        <div class="content"><a href="http://drupal.org"><img src="/misc/powered-blue-80x15.png" alt="Powered by Drupal, an open source content management system" title="Powered by Drupal, an open source content management system" width="80" height="15" /></a></div>
+
+                                                    </div>
+                                                </div>
+                                            </div></div></div></div> <!-- /.left-corner, /.right-corner, /#squeeze, /#center -->
+
+
+                                        </div> <!-- /container -->
+                                    </div>
+                                    <!-- /layout -->
+
+                                </body>
+
+                                </html>
