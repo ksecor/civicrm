@@ -462,8 +462,8 @@ var loadidx = null;
 	}
 	
 	call = function(num){
-		alert("making call");
-		document.location="tel://"+num;
+		window.open("tel://"+num);
+		alert("finished call:"+num);
 	}
 	
 </script>
@@ -547,7 +547,7 @@ var loadidx = null;
 				</div>
 				<div class="row">
 					<label>Phone:</label>
-					<input class='fieldValue' id="cinfoview_phone" type="text" value="123-123-1234" onclick="call(this)" />
+					<input class='fieldValue' id="cinfoview_phone" type="text" value="123-123-1234" onclick="call(this.value)" />
 				</div>
 				<div class="row">
 					<label>Address:</label>
