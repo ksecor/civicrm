@@ -313,14 +313,12 @@ class CRM_Contribute_BAO_Contribution_Utils {
         }
 
         if ( isset( $transaction['trxn_id'] ) ) {
-            // return if transaction already processed.
+            // set error message if transaction has already been processed.
             require_once 'CRM/Contribute/DAO/Contribution.php';
             $contribution =& new CRM_Contribute_DAO_Contribution();
             $contribution->trxn_id = $transaction['trxn_id'];
             if ( $contribution->find(true) ) {
-                // unset entire params and return
-                $params = array( );
-                return false;
+                $params['error'][] = ts( 'transaction already processed.' );
             }
         } else {
             // generate a new transaction id, if not already exist 
@@ -390,7 +388,6 @@ class CRM_Contribute_BAO_Contribution_Utils {
             $xmlParser = new XmlParser($apiParams);
             $root      = $xmlParser->GetRoot();
             $data      = $xmlParser->GetData();
-            CRM_Core_Error::debug( '$data', $data );
 
             // return if response smell invalid
             if ( ! array_key_exists('charge-amount-notification', $data[$root]['notifications']) ) {
@@ -399,7 +396,6 @@ class CRM_Contribute_BAO_Contribution_Utils {
 
             // lets use short names
             $chargedNotification =& $data[$root]['notifications']['charge-amount-notification'];
-            CRM_Core_Error::debug( '$chargedNotification', $chargedNotification );
             $details             =& $data[$root]['notifications']['risk-information-notification'];
             
             // store all successfully charged transaction numbers
@@ -458,7 +454,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
     }
 
     static function processAPIContribution( $params ) {
-        if ( empty($params) ) {
+        if ( empty($params) || array_key_exists('error', $params) ) {
             return false;
         }
 
@@ -483,7 +479,6 @@ class CRM_Contribute_BAO_Contribution_Utils {
         if ( ! $contribution->id ) {
             return false;
         }
-        //CRM_Core_Error::debug( '$contribution', $contribution );
         
         return true;
     }
