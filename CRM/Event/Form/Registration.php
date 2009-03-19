@@ -180,9 +180,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
-
+          
             // also get the accounting code
-            if ( isset( $this->_values['event']['contribution_type_id'] ) ) {
+            if ( CRM_Utils_Array::value( 'contribution_type_id', $this->_values['event'] ) ) {
                 $this->_values['event']['accountingCode'] =
                     CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
                                                  $this->_values['event']['contribution_type_id'],
@@ -280,6 +280,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 }
                 require_once 'CRM/Core/OptionGroup.php'; 
                 CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $this->_values['fee'], true );
+                //fix for non-upgraded price sets.CRM-4256.
+                if ( $isMonetary && empty($this->_values['fee']) ) {
+                    CRM_Core_Error::fatal( ts('No Fee Level(s) or Price Set is configured for this event.<br />Click <a href=\'%1\'>CiviEvent >> Manage Event >> Configure >> Event Fees</a> to configure the Fee Level(s) or Price Set for this event.', array( 1 => CRM_Utils_System::url('civicrm/event/manage', 'reset=1&action=update&subPage=Fee&id='.$this->_eventId ))));  
+                }
             }
             
             // get the profile ids

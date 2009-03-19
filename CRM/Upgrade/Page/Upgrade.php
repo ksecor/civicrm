@@ -148,6 +148,17 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             if ( $stepID == 4 ) {
                 return;
             }
+
+            $template =& CRM_Core_Smarty::singleton( );
+
+            $eventFees = array( );
+            $query = "SELECT og.id ogid FROM civicrm_option_group og WHERE og.name LIKE  %1";
+            $params = array( 1 => array(  'civicrm_event_page.amount%', 'String' ) );
+            $dao = CRM_Core_DAO::executeQuery( $query, $params );
+            while ( $dao->fetch( ) ) { 
+                $eventFees[$dao->ogid] = $dao->ogid;  
+            }
+            $template->assign( 'eventFees', $eventFees );    
             
             $form->upgrade( );
             

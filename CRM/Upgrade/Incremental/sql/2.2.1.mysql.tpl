@@ -18,3 +18,8 @@ DELETE FROM `civicrm_option_value` WHERE `option_group_id` = @og_id_pl;
       (@og_id_pl, 'Name and Email', 2, 'Name and Email', 0, 2, 'CRM_Event_Page_ParticipantListing_NameAndEmail', 1, 1),
       (@og_id_pl, 'Name, Status and Register Date', 3, 'Name, Status and Register Date', 0, 3, 'CRM_Event_Page_ParticipantListing_NameStatusAndDate', 1, 1);
  {/if}
+
+--CRM-4256
+-- Update table name in civicrm_price_set_entity (Price Set) 
+
+UPDATE `civicrm_price_set_entity` c SET c.`entity_table`='civicrm_event' WHERE c.`entity_table`='civicrm_event_page'; 

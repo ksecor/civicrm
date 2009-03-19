@@ -188,7 +188,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
             switch ($table) {
             case 'civicrm_event':
                 $eventIdList = implode( ',', $entities );
-                $queryString = "SELECT id FROM civicrm_event WHERE";
+                $queryString = "SELECT id event_id FROM civicrm_event WHERE";
                 $queryString .= " id IN ($eventIdList)";
                 $crmDAO = CRM_Core_DAO::executeQuery( $queryString );
 

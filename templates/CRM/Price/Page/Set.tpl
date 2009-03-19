@@ -22,7 +22,7 @@
         {/if}
         {ts}If you no longer want to use this price set, click the event title below, and modify the fees for that event.{/ts}<br />
         
-        {if $usedBy.civicrm_event_page} {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
+        {if $usedBy.civicrm_event} {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
             <table class="report">
             <tr class="columnheader-dark">
                 <th scope="col">{ts}Event{/ts}</th>
@@ -31,7 +31,7 @@
                 <th scope="col">{ts}Date(s){/ts}</th>
             </tr>
 
-            {foreach from=$usedBy.civicrm_event_page item=event key=id}
+            {foreach from=$usedBy.civicrm_event item=event key=id}
                 <tr>
                     <td><a href="{crmURL p="civicrm/admin/event" q="action=update&reset=1&subPage=Fee&id=`$id`"}">{$event.title}</a></td>
                     <td>{$event.eventType}</td>
