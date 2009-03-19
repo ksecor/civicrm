@@ -308,23 +308,42 @@ class CRM_Contribute_BAO_Contribution_Utils {
             }
         }
 
-        if ( !$trxnParams['trxn_id'] ||
-             empty($trxnParams) ||
+        if ( empty($trxnParams) ||
              empty($params) ) {
             return false;
         }
 
-        // return if transaction already processed.
-        require_once 'CRM/Contribute/DAO/Contribution.php';
-        $contribution =& new CRM_Contribute_DAO_Contribution();
-        $contribution->trxn_id = $trxnParams['trxn_id'];
-        if ( $contribution->find(true) ) {
-            return false;
+
+        if ( isset( $trxnParams['trxn_id'] ) ) {
+            // return if transaction already processed.
+            require_once 'CRM/Contribute/DAO/Contribution.php';
+            $contribution =& new CRM_Contribute_DAO_Contribution();
+            $contribution->trxn_id = $trxnParams['trxn_id'];
+            if ( $contribution->find(true) ) {
+                return false;
+            }
+        } else {
+            $trxnParams['trxn_id'] = md5( uniqid( rand( ), true ) );
+        }
+
+
+        if ( ! isset( $trxnParams['contribution_type_id'] ) ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $contributionTypes = array_keys( CRM_Contribute_PseudoConstant::contributionType( ) );
+            $trxnParams['contribution_type_id'] = $contributionTypes[0];
+        }
+
+        if ( ! isset( $trxnParams['net_amount'] ) ) {
+            $trxnParams['net_amount'] = $trxnParams['total_amount'] - 
+                CRM_Utils_Array::value( 'fee_amount', $trxnParams, 0 );
         }
 
         // fill default params
         $params['contact_type']  = 'Individual';
-        $trxnParams['invoiceID'] = $trxnParams['trxn_id'];
+
+        if ( ! isset( $trxnParams['invoiceID'] ) ) {
+            $trxnParams['invoiceID'] = $trxnParams['trxn_id'];
+        }
 
         // special formatting for location params
         if ( !empty($locParams) || isset($params['email']) ) {
@@ -360,14 +379,9 @@ class CRM_Contribute_BAO_Contribution_Utils {
         $params += $trxnParams;
 
         // === create contribution ===
-        require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
-        $contribution =
-            CRM_Contribute_Form_Contribution_Confirm::processContribution(CRM_Core_DAO::$_nullObject,
-                                                                          $params,
-                                                                          $trxnParams,
-                                                                          $contact->id,
-                                                                          $contributionType, 
-                                                                          false, false, false );
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $contribution =& CRM_Contribute_BAO_Contribution::create( $params,
+                                                                  CRM_Core_DAO::$_nullArray );
         return $contribution->id;
     }
 }

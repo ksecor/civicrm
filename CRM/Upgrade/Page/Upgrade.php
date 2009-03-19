@@ -56,10 +56,10 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             $currentVer = $convertVer[$currentVer];
         }
         
+        $config =& CRM_Core_Config::singleton( );
         // This could be removed in later rev
         if ( $currentVer == '2.1.6' ) {
             // also cleanup the templates_c directory
-            $config =& CRM_Core_Config::singleton( );
             $config->cleanup( 1 );
             
             if ( $config->userFramework !== 'Standalone' ) {
@@ -128,6 +128,13 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         
         $template->assign( 'message', $message );
         $content = $template->fetch( 'CRM/common/success.tpl' );
+
+        if ( $config->userFramework === 'Drupal' ) {    
+            // due to theme issues during upgarde, let's set theme to bluemarine ( simplest of all )
+            global $custom_theme;
+            $custom_theme = 'bluemarine';
+            init_theme();
+        }
         echo CRM_Utils_System::theme( 'page', $content, true, $this->_print );
     }
 

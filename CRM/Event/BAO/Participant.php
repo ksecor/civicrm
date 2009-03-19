@@ -232,7 +232,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             $noteDetails  = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
             $noteIDs      = array( );
             if ( ! empty( $noteDetails ) ) {
-                $noteIds['id'] = array_pop( array_flip( $noteDetails ) );
+                $noteIDs['id'] = array_pop( array_flip( $noteDetails ) );
             }
 
             if ( $note ) {

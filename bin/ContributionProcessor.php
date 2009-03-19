@@ -56,23 +56,41 @@ class CiviContributeProcessor {
                                      'countrycode'   => 'country',
                                      ),
               'transaction' => array(
-                                     'amt'           => 'amount',
+                                     'amt'           => 'total_amount',
                                      'feeamt'        => 'fee_amount',
-                                     'taxamt'        => 'net_amount',
                                      'transactionid' => 'trxn_id',
-                                     'currencycode'  => 'currencyID'
+                                     'currencycode'  => 'currencyID',
+                                     'source'        => 'contribution_source',
+                                     'note'          => 'note',
+                                     'is_test'       => 'is_test',
                                      ),
               );
 
-    static function paypal( $start, $end ) {
-        static $userName  = 'paypal_api1.openngo.org';
-        static $password  = '7YJ7JYCJ4QEMWQS5';
-        static $signature = 'AAivyp-lGZaDNGJEtfXyK475vPAZAgXeC-Cw1KFCkIztxWkYwI5MlnTH';
-        static $url       = '';
+    static $_googleParamsMapper = 
+        array(
+              'contact'     => array(
+                                     'contact-name'  => 'display_name',
+                                     'contact-name'  => 'sort_name',
+                                     'email'         => 'email',
+                                     ),
+              'location'    => array(
+                                     'address1'     => 'street_address',
+                                     'city'         => 'city',
+                                     'postal-code'  => 'postal_code',
+                                     'country-code' => 'country',
+                                     ),
+              'transaction' => array(
+                                     'total-charge-amount' => 'total_amount',
+                                     'google-order-number' => 'trxn_id',
+                                     ),
+              );
 
-        $keyArgs = array( 'user'      => $userName,
-                          'pwd'       => $password,
-                          'signature' => $signature, 
+    static function paypal( $paymentProcessor, $paymentMode, $start, $end ) {
+        $url       = "{$paymentProcessor['url_api']}nvp";
+
+        $keyArgs = array( 'user'      => $paymentProcessor['user_name'],
+                          'pwd'       => $paymentProcessor['password'] ,
+                          'signature' => $paymentProcessor['signature'], 
                           'version'   => 3.0,
                           );
 
@@ -82,9 +100,7 @@ class CiviContributeProcessor {
                         'enddate'   => $end );
 
         require_once 'CRM/Core/Payment/PayPalImpl.php';
-        $result = CRM_Core_Payment_PayPalImpl::invokeAPI( $args,
-                                                          'https://api-3t.sandbox.paypal.com/nvp' );
-        CRM_Core_Error::debug( '$result', $result );
+        $result = CRM_Core_Payment_PayPalImpl::invokeAPI( $args, $url );
 
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
 
@@ -92,12 +108,40 @@ class CiviContributeProcessor {
         foreach ( $result as $name => $value ) {
             if ( substr( $name, 0, 15 ) == 'l_transactionid' ) {
                 $keyArgs['transactionid'] = $value;
-                $details = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs,
-                                                                  'https://api-3t.sandbox.paypal.com/nvp' );
-                CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $details, 
-                                                                               self::$_paypalParamsMapper );
+                $details = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs, $url );
+
+                // only process completed emails
+                if ( strtolower( $details['paymentstatus'] ) != 'completed' ) {
+                    continue;
+                }
+
+                // add source
+                $details['source'] = ts( 'ContributionProcessor: Paypal API' );
+
+                if ( $paymentMode == 'test' ) {
+                    $details['is_test'] = 1;
+                } else {
+                    $details['is_test'] = 0;
+                }
+                if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $details, 
+                                                                                    self::$_paypalParamsMapper ) ) {
+                    echo "Processing {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
+                } else {
+                    echo "Skipped {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
+                }
             }
         }
+    }
+
+    static function google( $paymentProcessor, $paymentMode, $start, $end ) {
+        $searchParams = array( 'start' => $start, 
+                               'end'   => $end  );
+
+        require_once 'CRM/Core/Payment/Google.php';
+        $result = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
+        //CRM_Core_Error::debug( '$result', $result );
+
+        $result = CRM_Core_Payment_Google::processAPIContribution( $result, self::$_googleParamsMapper );
     }
 
     static function process( ) {
@@ -111,10 +155,18 @@ class CiviContributeProcessor {
         case 'paypal':
         case 'google':
             $start = CRM_Utils_Request::retrieve( 'start', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d', time( ) - 31 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
+                                                  date( 'Y-m-d', time( ) - 365 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
+            // google expects end date to be atleast 30 mins past
             $end   = CRM_Utils_Request::retrieve( 'end', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d' ) . 'T23:59:00.00Z' );
-            return self::$type( $start, $end );
+                                                  date( 'Y-m-d', time( ) - 24 * 60 * 60 ) . 'T23:59:00.00Z' );
+            $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', CRM_Core_DAO::$_nullObject, true  );
+            $mode  = CRM_Utils_Request::retrieve( 'ppMode', 'String', CRM_Core_DAO::$_nullObject, false, 'live' );
+
+            require_once 'CRM/Core/BAO/PaymentProcessor.php';
+            $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
+                                                                           $mode );
+
+            return self::$type( $paymentProcessor, $mode, $start, $end );
 
         case 'csv':
             return self::csv( );

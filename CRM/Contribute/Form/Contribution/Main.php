@@ -66,7 +66,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $csContactID != $this->_userID ) {
             require_once 'CRM/Contact/BAO/Contact/Permission.php';
-            if ( CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $csContactID ) ) {
+            if ( CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $csContactID, $this ) ) {
                 $session =& CRM_Core_Session::singleton( );
                 $session->set( 'userID', $csContactID ) ;
                 $this->_userID = $csContatcID;

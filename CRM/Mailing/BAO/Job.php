@@ -47,7 +47,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
     function __construct( ) {
         parent::__construct( );
     }
-
+    
     /**
      * Initiate all pending/ready jobs
      *
@@ -293,13 +293,16 @@ ORDER BY j.scheduled_date,
                                'contact_id' => $eq->contact_id,
                                'email'      => $eq->email );
             if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
-                $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
+                $isDelivered = $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
+                if ( !$isDelivered ) {
+                    return $isDelivered;
+                }
                 $fields = array( );
             }
         }
-
-        $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
-        return true;
+        
+        $isDelivered = $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
+        return $isDelivered;
     }
 
     public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date, &$attachments ) {
@@ -328,6 +331,13 @@ ORDER BY j.scheduled_date,
              * engine, maybe we should dump the messages into a table */
             CRM_Core_Error::ignoreException( );
             if ( is_object( $mailer ) ) {
+                
+                // hack to stop mailing job since it is canceled at run time, CRM-4246.
+                if ( 'Canceled' == CRM_Core_DAO::getFieldValue( 'CRM_Mailing_DAO_Job', $mailing->id, 
+                                                                'status', 'mailing_id'  ) ) {
+                    return false;
+                }
+                
                 $result = $mailer->send($recipient, $headers, $body, $this->id);
                 CRM_Core_Error::setCallback();
             }
@@ -367,6 +377,8 @@ ORDER BY j.scheduled_date,
             }
             unset( $result );
         }
+        
+        return true;
     }
     
     /**

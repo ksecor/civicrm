@@ -98,6 +98,7 @@ class CRM_Core_I18n
                          'pt_BR' => 'Português (Brasil)',
                          'ro_RO' => 'română',
                          'ru_RU' => 'русский',
+                         'sk_SK' => 'slovenčina',
                          'sl_SI' => 'slovenščina',
                          'fi_FI' => 'suomi',
                          'sv_SE' => 'Svenska',

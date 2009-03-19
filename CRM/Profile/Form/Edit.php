@@ -82,7 +82,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             if ( $id != $userID ) {
                 require_once 'CRM/Contact/BAO/Contact/Permission.php';
-                CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $id );
+                CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $id, $this );
             }
         }
 
