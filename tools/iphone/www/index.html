@@ -8,9 +8,15 @@
 <style type="text/css" media="screen">@import "iui/iui.css";</style>
 <script type="text/javascript" src="phonegap.js"></script>
 <script type="application/x-javascript" src="iui/iui.js"></script>
+<script type="application/x-javascript" src="json2.js"></script>
 <script type="text/javascript">
 
-		//alert("hit the start of the inline code");
+	var apikey = 'abcdef123';
+	
+	var a_apikey;
+	var a_key;
+	var a_PHPSESSID;
+
 
     var getLocation = function() {
       var suc = function(p){
@@ -27,19 +33,6 @@
   	var vibrate = function(){
   	  navigator.notification.vibrate(0);
   	}
-	
-  	var getContact = function(){
-  	  var suc = function(c){ alert("Contact 4: " + c.contacts[3].name); };
-  		var fail = function(){};
-  		navigator.ContactManager.get(suc, fail);
-  	}
-
-  	var loadURL = function(){
-  	  var suc = function(c){ alert("Loaded URL: " + c.contacts[3].name); };
-  		var fail = function(){};
-		alert("hit");
-  	}
-  	
   	var watchAccel = function() {
   		var suc = function(a){
   			document.getElementById('x').innerHTML = roundNumber(a.x);
@@ -84,6 +77,38 @@
       } 
     }
 
+var req;
+
+
+function processReqChange() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+        } else {
+            alert("There was a problem retrieving the XML data:\n" + 
+                req.statusText);
+        }
+    }
+}
+
+function loadXMLDoc(url, responseHandler) {
+	req = false;
+    if(window.XMLHttpRequest) {
+    	try {
+			req = new XMLHttpRequest();
+        } catch(e) {
+			req = false;
+        }
+    }else{
+		alert("no XMLHttpRequest object");
+	}
+
+	if(req) {
+		req.onreadystatechange = responseHandler;
+		req.open("GET", url, true);
+		req.send("");
+	}
+}
+
 	errorHandler = function(tx,e){
 		alert(e.message);
 		}
@@ -108,7 +133,41 @@
         return;
       }
     }
-	
+
+	authenticate = function(){
+
+			if( host.charAt(host.length-1)!='/' ){
+				host += '/';
+			}
+
+		var url = host + 'sites/drupal.demo.civicrm.org/modules/civicrm/extern/rest.php?q=civicrm/login&key=abcdef123&name=';
+		url+=uid;
+		url+='&pass=';
+		url+=pw;
+		url+='&key=';
+		url+=apikey;
+		url+='&api_key=';
+		url+=apikey;
+		url+='&json=1';
+		
+		loadXMLDoc(url, function(){
+			if (req.readyState == 4) {
+				if (req.status == 200) {
+					var jsonObj = JSON.parse(req.responseText);
+					if(jsonObj.is_error==0){
+						a_apikey = jsonObj.api_key;
+						a_key = jsonObj.key;
+						a_PHPSESSID = jsonObj.PHPSESSID;
+					}
+					//alert("authenticate:debug:\n"+req.responseText);
+				} else {
+					alert("Error retreiving contact index: Check that your settings are correct");
+				}
+			}
+		});
+		
+	}
+
     settingsDataHandler=function(transaction, results) {
 	
       for (var i=0; i<results.rows.length; i++) { 
@@ -120,7 +179,9 @@
 			document.settingsForm.uid.value = uid;
 			document.settingsForm.pw1.value = pw;
 			document.settingsForm.pw2.value = pw;
-	  
+			
+			authenticate();
+			
     }
 
     loadSettings = function() {
@@ -173,6 +234,8 @@
 
 			uid = document.getElementById('uid').value;
 			saveSetting("uid",uid);
+			
+			loadSettings();
 
 			history.back();
 			
@@ -187,8 +250,107 @@
 		initDB();
 		loadSettings();
 	}
+	
+	
+
+  	var loadContactInfo = function(){
+		var suc = function(c){ alert("Contact 4: " + c.contacts[3].name); };
+  		var fail = function(){};
+  		navigator.ContactManager.get(suc, fail);
+  	}
+
+var loadidx = null;
+
+	function clearLoadingStatus(d,c){
 		
+	}
+
+	function loadContactIndex(c){
+
+		if( loadidx!=null || loadidx==c ){
+			alert("a load request is already in progress");
+			return;
+		}
+
+		loadidx = c;
+
+		var d = document.getElementById('cidx_container_'+c);
+		if(d){
+			
+			while (d.firstChild) 
+			   {
+				d.removeChild(d.firstChild);
+			   }
+		}else{
+			var e = document.getElementById('cidx'+c);
+			var p = e.parentNode;
+			if( p==null ) alert("debug:getParent:"+p);
 		
+			d = document.createElement('div');
+			d.setAttribute('id','cidx_container_'+c);
+			p.insertBefore(d, e.nextSibling);
+		}
+		//todo: add spinner
+		var txt = document.createTextNode("Loading ...");
+
+		d.appendChild(txt);
+		setTimeout(function(){
+			if( loadidx!=null ){
+				loadidx = null;
+				d.removeChild(txt);
+			}
+		}, 30000);
+
+		var url = host;
+		url+= 'sites/drupal.demo.civicrm.org/modules/civicrm/extern/rest.php?q=civicrm/contact/search&sortByCharacter=';
+		url+=c;
+		url+='&key=';
+		url+=apikey;
+		url+='&PHPSESSID=';
+		url+=a_PHPSESSID;
+		url+='&json=1';
+		
+		loadXMLDoc(url, function(){
+			if (req.readyState == 4) {
+				if (req.status == 200) {
+					loadidx = null;
+					d.removeChild(txt);
+					var jsonObj = JSON.parse(req.responseText);
+					
+//					alert(jsonObj+"\n\n"+req.responseText);
+					
+					for( var i in jsonObj ){
+						
+						var contact = jsonObj[i];
+						
+						if( contact ){
+							var link = document.createElement('a');
+							link.setAttribute('class','linkNext');
+							link.setAttribute('href', '#contact_info');
+//							link.setAttribute('onclick','showPageById("'+contact_details+'")');
+
+							var linkTxt = document.createTextNode(contact.sort_name);
+							link.appendChild(linkTxt);
+
+							d.appendChild(link);
+							d.appendChild( document.createElement('br') );
+						}else{
+							var linkTxt = document.createTextNode("0 contacts found");
+							d.appendChild( linkTxt);
+							setTimeout(function(){
+								d.removeChild(linkTxt);
+							}, 2000);
+						}
+					}
+				} else {
+					alert("Error retreiving contact index: Check that your settings are correct");
+				}
+			}
+		});
+		
+		return false;
+	}
+	
 </script>
 
   </head>
@@ -200,7 +362,7 @@
     </div>
 
 	<ul id="home" title="CiviCRM" selected="true">
-		<li><a href="#" onclick="alert(host)">Contacts</a></li>
+		<li><a href="#index">Contacts</a></li>
         <li><a href="#settings" >Settings</a></li>
     </ul>
 
@@ -219,6 +381,78 @@
 		<a class="button_inline" onclick="saveSettings()" target="_debug_donothing">Update</a>
 	</div>
 
-   
-  </body>
+	<div class="panel" id="search_results">
+		<h2>Search Results</h2>
+	</div>
+	
+    <ul id="index" title="Contacts">
+        <li id="cidxa" class="group" onclick="loadContactIndex('a')">A</li>
+        <li id="cidxb" class="group" onclick="loadContactIndex('b')">B</li>
+        <li id="cidxc" class="group" onclick="loadContactIndex('c')">C</li>
+        <li id="cidxd" class="group" onclick="loadContactIndex('d')">D</li>
+        <li id="cidxe" class="group" onclick="loadContactIndex('e')">E</li>
+        <li id="cidxf" class="group" onclick="loadContactIndex('f')">F</li>
+        <li id="cidxg" class="group" onclick="loadContactIndex('g')">G</li>
+        <li id="cidxh" class="group" onclick="loadContactIndex('h')">H</li>
+        <li id="cidxi" class="group" onclick="loadContactIndex('i')">I</li>
+        <li id="cidxj" class="group" onclick="loadContactIndex('j')">J</li>
+        <li id="cidxk" class="group" onclick="loadContactIndex('k')">K</li>
+        <li id="cidxl" class="group" onclick="loadContactIndex('l')">L</li>
+        <li id="cidxm" class="group" onclick="loadContactIndex('m')">M</li>
+        <li id="cidxn" class="group" onclick="loadContactIndex('n')">N</li>
+        <li id="cidxo" class="group" onclick="loadContactIndex('o')">O</li>
+        <li id="cidxp" class="group" onclick="loadContactIndex('p')">P</li>
+        <li id="cidxq" class="group" onclick="loadContactIndex('q')">Q</li>
+        <li id="cidxr" class="group" onclick="loadContactIndex('r')">R</li>
+        <li id="cidxs" class="group" onclick="loadContactIndex('s')">S</li>
+        <li id="cidxt" class="group" onclick="loadContactIndex('t')">T</li>
+        <li id="cidxu" class="group" onclick="loadContactIndex('u')">U</li>
+        <li id="cidxv" class="group" onclick="loadContactIndex('v')">V</li>
+        <li id="cidxw" class="group" onclick="loadContactIndex('w')">W</li>
+        <li id="cidxx" class="group" onclick="loadContactIndex('x')">X</li>
+        <li id="cidxy" class="group" onclick="loadContactIndex('y')">Y</li>
+        <li id="cidxz" class="group" onclick="loadContactIndex('z')">Z</li>
+    </ul>
+
+	<form id="contact_info" class="panel" title="Info">
+						<!--
+						"122"
+							"contact_id":"122",
+							"contact_type":"Individual",
+							"sort_name":"Bishop, Paul",
+							"display_name":"Paul Bishop",
+							"do_not_email":"0",
+							"do_not_phone":"0",
+							"do_not_mail":"0",
+							"do_not_trade":"0",
+							"is_opt_out":"0",
+							"preferred_mail_format":"Both",
+							"first_name":"Paul",
+							"last_name":"Bishop",
+							"is_deceased":"0",
+							"current_employer":"Ampco Graphix",
+							"address_id":"98",
+							"street_address":"78 Fawcett Road"
+						-->
+			<fieldset>
+				<div class="row">
+					<label>Type:</label>
+					<input id="artist" type="text" name="artist" disabled="disabled" />
+				</div>
+				<div class="row">
+					<label>Name:</label>
+					<input id="artist" type="text" name="artist" disabled="disabled" />
+				</div>
+				<div class="row">
+					<label>Company:</label>
+					<input id="artist" type="text" name="artist" disabled="disabled" />
+				</div>
+				<div class="row">
+					<label>Address:</label>
+					<input id="artist" type="text" name="artist" disabled="disabled" />
+				</div>
+			</fieldset>
+	</form>
+
+	    </body>
 </html>
