@@ -163,8 +163,8 @@ class CRM_Utils_Mail {
             }
         }
         
-        $message = self::setMimeParams( $msg );
-        $msg->headers($headers);
+        $message =  self::setMimeParams( $msg );
+        $headers =& $msg->headers($headers);
 
         $result = null;
         $mailer =& CRM_Core_Config::getMailer( );
