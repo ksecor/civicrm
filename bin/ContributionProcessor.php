@@ -219,3 +219,5 @@ if ($lock->isAcquired()) {
 }
 
 $lock->release();
+
+echo "Done processing<p>";
