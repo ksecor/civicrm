@@ -472,6 +472,12 @@ class CRM_Contribute_BAO_Contribution_Utils {
             return false;
         }
 
+        // only pass transaction params to contribution::create, if available
+        if ( array_key_exists('transaction', $params) ) {
+            $params = $params['transaction'];
+            $params['contact_id'] = $contact->id;
+        }
+
         // create contribution
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params,

@@ -88,10 +88,10 @@ class CiviContributeProcessor {
 
     static function paypal( $paymentProcessor, $paymentMode, $start, $end ) {
         $url       = "{$paymentProcessor['url_api']}nvp";
-
+        
         $keyArgs = array( 'user'      => $paymentProcessor['user_name'],
                           'pwd'       => $paymentProcessor['password'] ,
-                          'signature' => $paymentProcessor['signature'], 
+                          'signature' => $paymentProcessor['signature'],
                           'version'   => 3.0,
                           );
 
@@ -122,7 +122,7 @@ class CiviContributeProcessor {
 
                 $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $trxnDetails, 
                                                                                   self::$_paypalParamsMapper,
-                                                                                  'paypal' );
+                                                                                  'paypal', true );
                 if ( $paymentMode == 'test' ) {
                     $params['is_test'] = 1;
                 } else {
@@ -130,9 +130,9 @@ class CiviContributeProcessor {
                 }
 
                 if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $params ) ) {
-                    echo "Processed - {$trxnDetails['email']}, {$trxnDetails['amt']}, {$value} ..<p>";
+                    CRM_Core_Error::debug_log_message( "Processed - {$trxnDetails['email']}, {$trxnDetails['amt']}, {$value} ..<p>", true );
                 } else {
-                    echo "Skipped - {$trxnDetails['email']}, {$trxnDetails['amt']}, {$value} ..<p>";
+                    CRM_Core_Error::debug_log_message( "Skipped - {$trxnDetails['email']}, {$trxnDetails['amt']}, {$value} ..<p>", true );
                 }
             }
         }
@@ -149,11 +149,12 @@ class CiviContributeProcessor {
         $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $response, 
                                                                           self::$_googleParamsMapper,
                                                                           'google' );
+
         foreach ( $params as $detail ) {
             if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $detail ) ) {
-                echo "Processed - {$detail['email']}, {$detail['total_amount']}, {$detail['trxn_id']} ..<p>";
+                CRM_Core_Error::debug_log_message( "Processed - {$detail['email']}, {$detail['total_amount']}, {$detail['trxn_id']} ..<p>", true ) ;
             } else {
-                echo "Skipped - {$detail['email']}, {$detail['total_amount']}, {$detail['trxn_id']} ..<p>";
+                CRM_Core_Error::debug_log_message( "Skipped - {$detail['email']}, {$detail['total_amount']}, {$detail['trxn_id']} ..<p>", true ) ;
             }
         }
     }
@@ -164,20 +165,29 @@ class CiviContributeProcessor {
         $type = CRM_Utils_Request::retrieve( 'type', 'String', CRM_Core_DAO::$_nullObject, false, 'csv' );
         $type = strtolower( $type );
 
-        
         switch ( $type ) {
         case 'paypal':
         case 'google':
-            $start = CRM_Utils_Request::retrieve( 'start', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d', time( ) - 365 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
-            $end   = CRM_Utils_Request::retrieve( 'end', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d', time( ) - 0 * 60 * 60 ) . 'T23:59:00.00Z' );
-            $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', CRM_Core_DAO::$_nullObject, true  );
-            $mode  = CRM_Utils_Request::retrieve( 'ppMode', 'String', CRM_Core_DAO::$_nullObject, false, 'live' );
+            $start = CRM_Utils_Request::retrieve( 'start', 'String', 
+                                                  CRM_Core_DAO::$_nullObject, false, 31 );
+            $end   = CRM_Utils_Request::retrieve( 'end', 'String', 
+                                                  CRM_Core_DAO::$_nullObject, false, 0 );
+            if ( $start < $end ) {
+                CRM_Core_Error::fatal("Start offset can't be less than End offset.");
+            }
+
+            $start = date( 'Y-m-d', time( ) - $start * 24 * 60 * 60 ) . 'T00:00:00.00Z';
+            $end   = date( 'Y-m-d', time( ) - $end   * 24 * 60 * 60 ) . 'T23:59:00.00Z';
+
+            $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', 
+                                                  CRM_Core_DAO::$_nullObject, true  );
+            $mode  = CRM_Utils_Request::retrieve( 'ppMode', 'String', 
+                                                  CRM_Core_DAO::$_nullObject, false, 'live' );
 
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
-            $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
-                                                                           $mode );
+            $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID, $mode );
+            
+            CRM_Core_Error::debug_log_message("Start Date=$start,  End Date=$end, ppID=$ppID, mode=$mode <p>", true);
 
             return self::$type( $paymentProcessor, $mode, $start, $end );
 

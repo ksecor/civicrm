@@ -199,6 +199,10 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
     </notification-types>
 </notification-history-request>';
 
+        if ( !function_exists('curl_init') ) {
+            CRM_Core_Error::fatal("curl functions NOT available.");
+        }
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url );
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
