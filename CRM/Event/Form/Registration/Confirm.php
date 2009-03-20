@@ -112,11 +112,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 }
 
                 // set a few other parameters for PayPal
-                $params['token']          = $this->get( 'token' );
-                // $params['amount'        ] = $this->get( 'amount' );
-                // $params['amount_level'  ] = $this->get( 'amount_level' );
-                $params['currencyID'    ] = $config->defaultCurrency;
-                $params['payment_action'] = 'Sale';
+                $params['token']           = $this->get( 'token' );
+                $params['amount'        ]  = $this->_params[0]['amount'];
+                if ( CRM_Utils_Array::value( 'discount', $this->_params[0] ) ) {
+                    $params['discount'      ]  = $this->_params[0]['discount'];
+                    $params['discountAmount']  = $this->_params[0]['discountAmount'];
+                    $params['discountMessage'] = $this->_params[0]['discountMessage'];
+                }
+                $params['amount_level'  ]  = $this->_params[0]['amount_level'];
+                $params['currencyID'    ]  = $config->defaultCurrency;
+                $params['payment_action']  = 'Sale';
                 
                 // also merge all the other values from the profile fields
                 $values = $this->controller->exportValues( 'Register' );
