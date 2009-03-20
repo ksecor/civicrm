@@ -1285,3 +1285,21 @@ commented since it is overwiting simple td
   text-decoration  : none;
   vertical-align   : top;
 }
+
+/* Table drag and drop. */
+
+#drag-handle .handle {
+  cursor     : move;
+  float      : left; /* LTR */
+  background : url('../i/langs.png') no-repeat 0 0;
+  padding    : 15px 15px 0px 0px;
+}
+
+#drag-handle .drag-handle-hover {
+  background-position: 0 -20px;
+}
+
+#drag-handle td.dragable {
+ padding        : 5px 4px 0px 5px;
+ vertical-align : middle;
+}

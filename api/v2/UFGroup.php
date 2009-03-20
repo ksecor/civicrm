@@ -416,4 +416,21 @@ function civicrm_profile_html_validate($userID, $title, $action = null, $registe
     return CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register, $action );
 }
 
+/**
+ * used to edit uf field
+ *
+ * @param array as key value pair
 
+ * @return error   if updation fails else array of updated data
+ * 
+ * @access public
+ */
+function civicrm_uf_group_weight( $params ) {
+    unset( $params['fnName'] );
+    require_once 'CRM/Core/DAO/UFField.php';
+    foreach ( $params as $key => $value ) {
+        $value['is_active']  = 1;
+        $result[] = civicrm_uf_field_update( $value, $key );
+    }
+    return $result;
+}
