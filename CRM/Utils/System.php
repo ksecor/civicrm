@@ -139,6 +139,7 @@ class CRM_Utils_System {
     function theme( $type, &$content, $args = null, $print = false, $ret = false, $maintenance = false ) {
         if ( function_exists( 'theme' ) && ! $print ) {
             if ( $maintenance ) {
+                drupal_set_breadcrumb( '' );
                 drupal_maintenance_theme();
             }
             $out = theme( $type, $content, $args );

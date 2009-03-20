@@ -56,9 +56,9 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             $currentVer = $convertVer[$currentVer];
         }
         
-        $config =& CRM_Core_Config::singleton( );
         // This could be removed in later rev
         if ( $currentVer == '2.1.6' ) {
+            $config =& CRM_Core_Config::singleton( );
             // also cleanup the templates_c directory
             $config->cleanup( 1 );
             
