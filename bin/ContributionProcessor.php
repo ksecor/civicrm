@@ -110,6 +110,10 @@ class CiviContributeProcessor {
             if ( substr( $name, 0, 15 ) == 'l_transactionid' ) {
                 $keyArgs['transactionid'] = $value;
                 $trxnDetails = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs, $url );
+                if ( is_a( $trxnDetails, 'CRM_Core_Error' ) ) {
+                    echo "PAYPAL ERROR: Skipping transaction id: $value<p>";
+                    continue;
+                }
 
                 // only process completed payments
                 if ( strtolower( $trxnDetails['paymentstatus'] ) != 'completed' ) {
@@ -165,9 +169,9 @@ class CiviContributeProcessor {
         case 'paypal':
         case 'google':
             $start = CRM_Utils_Request::retrieve( 'start', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d', time( ) - 31 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
+                                                  date( 'Y-m-d', time( ) - 365 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
             $end   = CRM_Utils_Request::retrieve( 'end', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d', time( ) - 24 * 60 * 60 ) . 'T23:59:00.00Z' );
+                                                  date( 'Y-m-d', time( ) - 0 * 60 * 60 ) . 'T23:59:00.00Z' );
             $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', CRM_Core_DAO::$_nullObject, true  );
             $mode  = CRM_Utils_Request::retrieve( 'ppMode', 'String', CRM_Core_DAO::$_nullObject, false, 'live' );
 

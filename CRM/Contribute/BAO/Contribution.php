@@ -229,7 +229,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             } 
             
             CRM_Core_BAO_Note::add( $noteParams,
-                                    CRM_Core_Array::value( 'note', $ids ) );
+                                    CRM_Utils_Array::value( 'note', $ids ) );
         }
 
         // check if activity record exist for this contribution, if
