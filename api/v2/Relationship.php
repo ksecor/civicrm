@@ -86,9 +86,15 @@ function civicrm_relationship_create( &$params ) {
     $ids   ['contact'      ]        = $params['contact_id_a'];
     
     $relationshipBAO = CRM_Contact_BAO_Relationship::create( $params, $ids );
+
     if ( is_a( $relationshipBAO, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Relationship can not be created" );
-    } 
+    } else if ( $relationshipBAO[1] ) {
+        return civicrm_create_error( "Relationship is not valid" );
+    } else if ( $relationshipBAO[2] ) {
+        return civicrm_create_error( "Relationship already exist" );
+    }
+
     return civicrm_create_success( array( 'id' => implode( ",", $relationshipBAO[4] ) ) );
 }
 
