@@ -122,7 +122,7 @@ class CiviContributeProcessor {
 
                 $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $trxnDetails, 
                                                                                   self::$_paypalParamsMapper,
-                                                                                  'paypal', true );
+                                                                                  'paypal' );
                 if ( $paymentMode == 'test' ) {
                     $params['is_test'] = 1;
                 } else {
@@ -139,22 +139,63 @@ class CiviContributeProcessor {
     }
 
     static function google( $paymentProcessor, $paymentMode, $start, $end ) {
-        $searchParams = array( 'start' => $start, 
-                               'end'   => $end  );
-
-        require_once 'CRM/Core/Payment/Google.php';
-        $response = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
-
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
-        $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $response, 
-                                                                          self::$_googleParamsMapper,
-                                                                          'google' );
+        require_once 'CRM/Core/Payment/Google.php';
+        $nextPageToken = true;
+        $searchParams  = array( 'start'              => $start, 
+                                'end'                => $end,
+                                'notification-types' => array('charge-amount') );
+        
+        $response = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
+        
+        while ( $nextPageToken ) {
+            if ( $response[0] == 'error' ) {
+                CRM_Core_Error::debug_log_message( "GOOGLE ERROR: " . 
+                                                   $response[1]['error']['error-message']['VALUE'], true);
+            }
+            $nextPageToken = isset($response[1][$response[0]]['next-page-token']['VALUE']) ? 
+                $response[1][$response[0]]['next-page-token']['VALUE'] : false;
+            
+            if ( is_array($response[1][$response[0]]['notifications']['charge-amount-notification']) ) {
 
-        foreach ( $params as $detail ) {
-            if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $detail ) ) {
-                CRM_Core_Error::debug_log_message( "Processed - {$detail['email']}, {$detail['total_amount']}, {$detail['trxn_id']} ..<p>", true ) ;
-            } else {
-                CRM_Core_Error::debug_log_message( "Skipped - {$detail['email']}, {$detail['total_amount']}, {$detail['trxn_id']} ..<p>", true ) ;
+                if ( array_key_exists('google-order-number', 
+                                      $response[1][$response[0]]['notifications']['charge-amount-notification']) ) {
+                    // sometimes 'charge-amount-notification' itself is an absolute 
+                    // array and not array of arrays. This is the case when there is only one 
+                    // charge-amount-notification. Hack for this special case -
+                    $chrgAmt = $response[1][$response[0]]['notifications']['charge-amount-notification'];
+                    unset($response[1][$response[0]]['notifications']['charge-amount-notification']);
+                    $response[1][$response[0]]['notifications']['charge-amount-notification'][] = $chrgAmt;
+                }
+
+                foreach ( $response[1][$response[0]]['notifications']['charge-amount-notification']
+                          as $amtData ) {
+                    $searchParams =
+                        array( 'order-numbers'      => array($amtData['google-order-number']['VALUE']),
+                               'notification-types' => array('risk-information') );
+                    $response     = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, 
+                                                                        $searchParams );
+                    $response[]   = $amtData; // append amount information as well
+                    
+                    $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $response,
+                                                                                      self::$_googleParamsMapper,
+                                                                                      'google' );
+                    if ( $paymentMode == 'test' ) {
+                        $params['transaction']['is_test'] = 1;
+                    } else {
+                        $params['transaction']['is_test'] = 0;
+                    }
+                    if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $params ) ) {
+                        CRM_Core_Error::debug_log_message( "Processed - {$params['email']}, {$amtData['total-charge-amount']['VALUE']}, {$amtData['google-order-number']['VALUE']} ..<p>", true ) ;
+                    } else {
+                        CRM_Core_Error::debug_log_message( "Skipped - {$params['email']}, {$amtData['total-charge-amount']['VALUE']}, {$amtData['google-order-number']['VALUE']} ..<p>", true ) ;
+                    }
+                }
+                
+                if ( $nextPageToken ) {
+                    $searchParams = array( 'next-page-token' => $nextPageToken );
+                    $response     = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
+                }
             }
         }
     }

@@ -187,17 +187,9 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         $merchantID  = $paymentProcessor['user_name'];
         $merchantKey = $paymentProcessor['password'];
         $siteURL     = rtrim(str_replace('https://', '', $paymentProcessor['url_site']), '/');
-        
+
         $url = "https://{$merchantID}:{$merchantKey}@{$siteURL}/api/checkout/v2/reports/Merchant/{$merchantID}";
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>
-<notification-history-request xmlns="http://checkout.google.com/schema/2">
-    <start-time>' . $searchParams['start'] . '</start-time>
-    <end-time>'   . $searchParams['end']   . '</end-time>
-    <notification-types>
-        <notification-type>risk-information</notification-type>
-        <notification-type>charge-amount</notification-type>
-    </notification-types>
-</notification-history-request>';
+        $xml = self::buildXMLQuery( $searchParams );
 
         if ( !function_exists('curl_init') ) {
             CRM_Core_Error::fatal("curl functions NOT available.");
@@ -235,7 +227,48 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
 			curl_close($ch);
         }
 
-        return $xmlResponse;
+        return self::getArrayFromXML( $xmlResponse ); 
    }
 
+    static function buildXMLQuery( $searchParams ) {
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+<notification-history-request xmlns="http://checkout.google.com/schema/2">';
+
+        if ( array_key_exists('next-page-token', $searchParams) ) {
+            $xml .= '
+<next-page-token>' . $searchParams['next-page-token'] . '</next-page-token>';
+        }
+        if ( array_key_exists('start', $searchParams) ) {
+            $xml .= '
+<start-time>' . $searchParams['start'] . '</start-time>
+<end-time>'   . $searchParams['end']   . '</end-time>';
+        }
+        if ( array_key_exists('notification-types', $searchParams) ) {
+            $xml .= '
+<notification-types>
+<notification-type>' . implode($searchParams['notification-types'], '</notification-type>
+<notification-type>') . '</notification-type>
+</notification-types>';
+        }
+        if ( array_key_exists('order-numbers', $searchParams) ) {
+            $xml .= '
+<order-numbers>
+<google-order-number>' . implode($searchParams['order-numbers'], '</google-order-number>
+<google-order-number>') . '</google-order-number>
+</order-numbers>';
+        }
+        $xml .= '
+</notification-history-request>';
+
+        return $xml;
+    }
+    
+    static function getArrayFromXML( $xmlData ) {
+        require_once 'Google/library/xml-processing/xmlparser.php';
+        $xmlParser = new XmlParser($xmlData);
+        $root      = $xmlParser->GetRoot();
+        $data      = $xmlParser->GetData();
+        
+        return array( $root, $data );
+    }
 }

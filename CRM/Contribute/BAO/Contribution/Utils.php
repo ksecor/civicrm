@@ -351,7 +351,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
         return true;
     }
 
-    static function formatAPIParams( $apiParams, $mapper, $type = 'paypal', $category = false ) {
+    static function formatAPIParams( $apiParams, $mapper, $type = 'paypal', $category = true ) {
         $type = strtolower($type);
 
         if ( ! in_array($type, array('paypal', 'google')) ) {
@@ -384,72 +384,50 @@ class CRM_Contribute_BAO_Contribution_Utils {
         }
 
         if ( $type == 'google' ) {
-            require_once 'Google/library/xml-processing/xmlparser.php';
-            $xmlParser = new XmlParser($apiParams);
-            $root      = $xmlParser->GetRoot();
-            $data      = $xmlParser->GetData();
-
             // return if response smell invalid
-            if ( ! array_key_exists('charge-amount-notification', $data[$root]['notifications']) ) {
+            if ( ! array_key_exists('risk-information-notification', $apiParams[1][$apiParams[0]]['notifications']) ) {
                 return false;
             }
+            $details =& $apiParams[1][$apiParams[0]]['notifications']['risk-information-notification'];
 
-            // lets use short names
-            $chargedNotification =& $data[$root]['notifications']['charge-amount-notification'];
-            $details             =& $data[$root]['notifications']['risk-information-notification'];
-            
-            // store all successfully charged transaction numbers
-            $chargedAccounts = array();
-            foreach ( $chargedNotification as $info ) {
-                $chargedAccounts[$info['google-order-number']['VALUE']] = $info['total-charge-amount'];
-            }
-
-            // array of contact and contribution info for all of the transactions.
-            $formattedParams = array( );
-
-            // for each of the successful transaction build contact and contribution params
-            foreach ( $details as $detail ) {
-                $params = $transaction = array( );
-                if ( array_key_exists($detail['google-order-number']['VALUE'], $chargedAccounts) ) {
-                    foreach ( $detail['risk-information']['billing-address'] as $field => $info ) {
-                        if ( CRM_Utils_Array::value( $field, $mapper['location'] ) ) {
-                            $params['location'][1]['address'][$mapper['location'][$field]] = $info['VALUE'];
-                        } else if ( CRM_Utils_Array::value( $field, $mapper['contact'] ) ) {
-                            $params[$mapper['contact'][$field]] = $info['VALUE'];
-                        } else if ( CRM_Utils_Array::value( $field, $mapper['transaction'] ) ) {
-                            $transaction[$mapper['transaction'][$field]] = $info['VALUE'];
-                        }
-                    }
-                    
-                    if ( CRM_Utils_Array::value( 'google-order-number', $mapper['transaction'] ) ) {
-                        $transaction[$mapper['transaction']['google-order-number']] = 
-                            $detail['google-order-number']['VALUE'];
-                    }
-                    
-                    if ( CRM_Utils_Array::value( 'total-charge-amount', $mapper['transaction'] ) ) {
-                        $transaction[$mapper['transaction']['total-charge-amount']] 
-                            = $chargedAccounts[$detail['google-order-number']['VALUE']]['VALUE'];
-                        $transaction['currency'] = 
-                            $chargedAccounts[$detail['google-order-number']['VALUE']]['currency'];
-                    }
-
-                    if ( empty($params) && empty($transaction) ) {
-                        continue;
-                    }
-
-                    if ( !empty($transaction) && $category ) {
-                        $params['transaction'] = $transaction;
-                    } else {
-                        $params += $transaction;
-                    }
-
-                    if ( self::_fillCommonParams( $params, $type ) ) {
-                        $formattedParams[] = $params;
+            $params = $transaction = array( );
+            if ( $details['google-order-number']['VALUE'] == $apiParams[2]['google-order-number']['VALUE'] ) {
+                foreach ( $details['risk-information']['billing-address'] as $field => $info ) {
+                    if ( CRM_Utils_Array::value( $field, $mapper['location'] ) ) {
+                        $params['location'][1]['address'][$mapper['location'][$field]] = $info['VALUE'];
+                    } else if ( CRM_Utils_Array::value( $field, $mapper['contact'] ) ) {
+                        $params[$mapper['contact'][$field]] = $info['VALUE'];
+                    } else if ( CRM_Utils_Array::value( $field, $mapper['transaction'] ) ) {
+                        $transaction[$mapper['transaction'][$field]] = $info['VALUE'];
                     }
                 }
+                
+                if ( CRM_Utils_Array::value( 'google-order-number', $mapper['transaction'] ) ) {
+                    $transaction[$mapper['transaction']['google-order-number']] = 
+                        $details['google-order-number']['VALUE'];
+                }
+                
+                if ( CRM_Utils_Array::value( 'total-charge-amount', $mapper['transaction'] ) ) {
+                    $transaction[$mapper['transaction']['total-charge-amount']] 
+                        = $apiParams[2]['total-charge-amount']['VALUE'];
+                    $transaction['currency'] = 
+                        $apiParams[2]['total-charge-amount']['currency'];
+                }
+                
+                if ( empty($params) && empty($transaction) ) {
+                    continue;
+                }
+                
+                if ( !empty($transaction) && $category ) {
+                    $params['transaction'] = $transaction;
+                } else {
+                    $params += $transaction;
+                }
+                
+                self::_fillCommonParams( $params, $type );
+                
             }
-
-            return $formattedParams;
+            return $params;
         }
     }
 
