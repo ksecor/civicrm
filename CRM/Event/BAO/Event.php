@@ -331,7 +331,8 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         $query = "
 SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_event.is_public as is_public,
            civicrm_event.max_participants as max_participants, civicrm_event.start_date as start_date,
-           civicrm_event.end_date as end_date, civicrm_event.is_map as is_map, civicrm_option_value.label as event_type
+           civicrm_event.end_date as end_date, civicrm_event.is_map as is_map, civicrm_option_value.label as event_type,
+           civicrm_event.summary as summary
 FROM       civicrm_event
 LEFT JOIN  civicrm_option_value ON (
            civicrm_event.event_type_id = civicrm_option_value.value AND
@@ -354,7 +355,7 @@ LIMIT      0, 10
                              'maxParticipants' => 'max_participants', 'startDate'    => 'start_date', 
                              'endDate'         => 'end_date',         'eventType'    => 'event_type', 
                              'isMap'           => 'is_map',           'participants' => 'participants',
-                             'pending'         => 'pending'
+                             'pending'         => 'pending',          'summary'      => 'summary'
                              );
         
         while ( $dao->fetch( ) ) {
@@ -562,7 +563,7 @@ WHERE civicrm_address.geo_code_1 IS NOT NULL
      * @static
      * @access public
      */      
-    static function &getCompleteInfo( $start = null, $type =null, $eventId = null ) 
+    static function &getCompleteInfo( $start = null, $type = null, $eventId = null ) 
     {
        
         if ( $start ) {
@@ -636,6 +637,7 @@ WHERE civicrm_event.is_active = 1
             $url .= substr( $baseURL['path'], 0, -1 );
         }
 
+        require_once 'CRM/Utils/String.php';
         while ( $dao->fetch( ) ) {
         
             $info                     = array( );
