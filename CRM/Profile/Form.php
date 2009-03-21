@@ -294,7 +294,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                 return 0;
             }
         }
-        
+
+        $this->assign( 'id'      , $this->_id   );
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
         $this->assign( 'fields'      , $this->_fields   );
@@ -327,6 +328,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
             $primaryLocationType = $defaultLocationType->id;
             $anonUser = true; 
+            $this->assign( 'anonUser', true );
         }
         
         $addCaptcha   = array();
