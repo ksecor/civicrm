@@ -171,8 +171,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         if ( $this->_values['is_for_organization'] && 
              ! isset($this->_defaults['location'][1]['email'][1]['email']) ) {
-            $this->_defaults['location'][1]['email'][1]['email'] = $this->_defaults["email-{$this->_bltID}"];
+            $this->_defaults['location'][1]['email'][1]['email'] = 
+                CRM_Utils_Array::value( "email-{$this->_bltID}",
+                                        $this->_defaults );
         }
+
         //if contribution pay later is enabled and payment
         //processor is not available then freeze the pay later checkbox with
         //default check
