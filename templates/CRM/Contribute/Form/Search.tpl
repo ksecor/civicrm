@@ -42,7 +42,7 @@
     <fieldset>
     
        {* This section handles form elements for action task select and submit *}
-       {include file="CRM/common/searchResultTasks.tpl"}
+       {include file="CRM/common/searchResultTasks.tpl" context="Contribution"}
 
        {* This section displays the rows along and includes the paging controls *}
        <p></p>
