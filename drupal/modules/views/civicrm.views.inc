@@ -2802,7 +2802,7 @@ function civicrm_get_argument_handler($type) {
         return 'views_handler_argument_date';
 
     case "Boolean":
-        return 'views_handler_argument_boolean';
+        return 'views_handler_argument';
 
     case "StateProvince":
         return 'views_handler_argument';
@@ -2829,7 +2829,7 @@ function civicrm_get_filter_handler($type) {
         return 'civicrm_handler_filter_datetime';
 
     case "Boolean":
-        return 'views_handler_filter_boolean';
+        return 'views_handler_filter_boolean_operator';
 
     case "StateProvince":
         return 'civicrm_handler_filter_state';
@@ -2856,7 +2856,7 @@ function civicrm_get_sort_handler($type) {
         return 'views_handler_sort_date';
 
     case "Boolean":
-        return 'views_handler_sort_boolean';
+        return 'views_handler_sort';
 
     case "StateProvince":
         return 'views_handler_sort';
