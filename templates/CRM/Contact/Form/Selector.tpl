@@ -97,8 +97,7 @@
    <li><a href="#membership">Enter Membership</a></li>
    <li><a href="#email">Send an Email</a></li>
 </ul>
-http://localhost/d23/civicrm/contact/view/activity?atype=3&action=add&reset=1&cid=102
- <script type="text/javascript">
+<script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}
     var fname = "{$form.formName}";	
     on_load_init_checkboxes(fname);

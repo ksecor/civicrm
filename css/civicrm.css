@@ -1291,12 +1291,8 @@ commented since it is overwiting simple td
 #drag-handle .handle {
   cursor     : move;
   float      : left; /* LTR */
-  background : url('../i/langs.png') no-repeat 0 0;
-  padding    : 15px 15px 0px 0px;
-}
-
-#drag-handle .drag-handle-hover {
-  background-position: 0 -20px;
+  background : url('../i/draggable.png') no-repeat 0 0;
+  padding    : 15px 15px 0px 5px;
 }
 
 #drag-handle td.dragable {

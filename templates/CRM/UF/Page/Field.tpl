@@ -94,6 +94,13 @@ cj(document).ready(function() {
          },
        dragHandle: "dragable"
    });
+  cj('.dragable .handle').hover ( 
+   function( ){ 
+    cj(this).css( 'background-position','0 -20px' );
+  }, 
+   function( ){ 
+     cj(this).css( 'background-position','0 0px');
+   });
 });
 
 </script>
