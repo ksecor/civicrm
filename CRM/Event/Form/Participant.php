@@ -149,6 +149,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 	 * store id of event Name custom data type ( option value)
 	 */
 	protected $_eventNameCustomDataTypeID;
+    
+    /*
+     * selected discount id
+     */
+    public $_originalDiscountId = null;
 	
     /** 
      * Function to set variables up before form is built 
@@ -749,7 +754,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $status = $participantBAO->status_id;
                 $contributionParams['total_amount'] = $participantBAO->fee_amount;
             }
-            $params['fee_level'] = $params['fee_amount'] = $params['discount_id'] =null;
+            $params['discount_id'] = null;
+            //re-enter the values for UPDATE mode
+            $params['fee_level'  ] = $params['amount_level'] = $participantBAO->fee_level;
+            $params['fee_amount' ] = $participantBAO->fee_amount;
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -1013,19 +1021,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             $this->assign( 'module', 'Event Registration' );          
             //use of CRM/Event/Form/Registration/ReceiptMessage.tpl requires variables in different format
-            $event = array();
-            $event['id'] = $params['event_id'];
-            $event['event_title'] = $eventTitle;
+            $event = $events = array();
+            $returnProperties = array( 'fee_label', 'start_date', 'end_date', 'is_show_location', 'title' );
             
-            $event['fee_label'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                               $params['event_id'],
-                                                               'fee_label' );
-            $event['event_start_date'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                      $params['event_id'],
-                                                                      'start_date' );
-            $event['event_end_date'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                    $params['event_id'],
-                                                                    'end_date' );
+            //get all event details.
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Event_DAO_Event', 'id', $params['event_id'], $events, $returnProperties );
+            $event = $events[$params['event_id']];
+            unset($event['start_date']);
+            unset($event['end_date']);
+           
             $role = CRM_Event_PseudoConstant::participantRole();
             $event['participant_role'] = $role[$params['role_id']];
             $event['is_monetary'] = $this->_isPaidEvent;
@@ -1036,15 +1040,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
           
             $this->assign( 'isAmountzero', 1 );
             $this->assign( 'event' , $event );
-            $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                           $params['event_id'],
-                                                           'is_show_location' );
-            $this->assign( 'isShowLocation', $isShowLocation ); 
-            if ( $isShowLocation ) {
-                $param_location = array( 'entity_id' => $params['event_id'] ,'entity_table' => 'civicrm_event');
+            
+            $this->assign( 'isShowLocation', $event['is_show_location'] ); 
+            if ( CRM_Utils_Array::value( 'is_show_location', $event ) == 1 ) {
+                $locationParams = array( 'entity_id'    => $params['event_id'] ,
+                                         'entity_table' => 'civicrm_event');
                 $values = array();
                 require_once 'CRM/Core/BAO/Location.php';
-                $location = CRM_Core_BAO_Location::getValues( $param_location, $values , true );
+                $location = CRM_Core_BAO_Location::getValues( $locationParams, $values , true );
                 $this->assign( 'location', $location );
             }             
             
@@ -1060,16 +1063,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'totalAmount', $contributionParams['total_amount'] );
                 //as we are using same template for online & offline registration.
                 //So we have to build amount as array.
-                $amount = array();
-                $amount[$params['amount_level']] =  $params['fee_amount'];
+                $amount[0] = array( 'label'  => $params['amount_level'], 
+                                    'amount' => $params['fee_amount'] );
                 $this->assign( 'amount', $amount );
                 $this->assign( 'isPrimary', 1 );
                 $this->assign('checkNumber', CRM_Utils_Array::value( 'check_number', $params )); 
             }
-            if( $this->_mode ) {
+            if ( $this->_mode ) {
                 if ( CRM_Utils_Array::value( 'billing_first_name', $params ) ) {
                     $name = $params['billing_first_name'];
-                   
+                    
                 }
                 
                 if ( CRM_Utils_Array::value( 'billing_middle_name', $params ) ) {
@@ -1111,10 +1114,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             $this->assign( 'register_date', $params['register_date'] );
             if ( $params['receive_date'] ) {
-                $this->assign( 'receive_date', $params['receive_date'] );  
+                $this->assign( 'receive_date', $params['receive_date'] );
             }
             $this->assign( 'subject', ts('Event Confirmation') );
-            
+
             $participant = array( array( 'participant_id', '=', $participants[0]->id, 0, 0 ) );
             // check whether its a test drive ref CRM-3075
             if ( CRM_Utils_Array::value( 'is_test', $this->_defaultValues ) ) {

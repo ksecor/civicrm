@@ -294,74 +294,173 @@ class CRM_Contribute_BAO_Contribution_Utils {
         }
     }
 
-    static function processAPIContribution( $trxnDetails, $mapper ) {
-        $params = $locParams = $trxnParams = array( );
-
-        // format params
-        foreach ( $trxnDetails as $detail => $val ) {
-            if ( isset($mapper['contact'][$detail]) ) {
-                $params[$mapper['contact'][$detail]] = $val;
-            } else if ( isset($mapper['location'][$detail]) ) {
-                $locParams[$mapper['location'][$detail]] = $val;
-            } else if ( isset($mapper['transaction'][$detail]) ) {
-                $trxnParams[$mapper['transaction'][$detail]] = $val;
-            }
-        }
-
-        if ( empty($trxnParams) ||
-             empty($params) ) {
-            return false;
-        }
-
-
-        if ( isset( $trxnParams['trxn_id'] ) ) {
-            // return if transaction already processed.
-            require_once 'CRM/Contribute/DAO/Contribution.php';
-            $contribution =& new CRM_Contribute_DAO_Contribution();
-            $contribution->trxn_id = $trxnParams['trxn_id'];
-            if ( $contribution->find(true) ) {
-                return false;
-            }
+    static function _fillCommonParams( &$params, $type = 'paypal' ) {
+        if ( array_key_exists('transaction', $params) ) {
+            $transaction =& $params['transaction']; 
         } else {
-            $trxnParams['trxn_id'] = md5( uniqid( rand( ), true ) );
+            $transaction =& $params;
         }
 
-
-        if ( ! isset( $trxnParams['contribution_type_id'] ) ) {
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $contributionTypes = array_keys( CRM_Contribute_PseudoConstant::contributionType( ) );
-            $trxnParams['contribution_type_id'] = $contributionTypes[0];
-        }
-
-        if ( ! isset( $trxnParams['net_amount'] ) ) {
-            $trxnParams['net_amount'] = $trxnParams['total_amount'] - 
-                CRM_Utils_Array::value( 'fee_amount', $trxnParams, 0 );
-        }
-
-        // fill default params
-        $params['contact_type']  = 'Individual';
-
-        if ( ! isset( $trxnParams['invoiceID'] ) ) {
-            $trxnParams['invoiceID'] = $trxnParams['trxn_id'];
-        }
-
-        // special formatting for location params
-        if ( !empty($locParams) || isset($params['email']) ) {
+        $params['contact_type'] = 'Individual';
+        if ( array_key_exists( 'location', $params ) || isset($params['email']) ) {
             $params['location'][1]['is_primary']        = 1;
             $params['location'][1]['location_type_id']  = 
                 CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Billing', 'id', 'name' );
             
             if ( isset($params['email']) ) {
                 $params['location'][1]['email'][1]['email'] = $params['email'];
-                unset($params['email']);
-            }
-            
-            foreach ( $locParams as $elem => $val ) {
-                $params['location'][1]['address'][$elem] = $val;
             }
         }
 
-        // === add contact using dedupe rule ===
+        if ( isset( $transaction['trxn_id'] ) ) {
+            // set error message if transaction has already been processed.
+            require_once 'CRM/Contribute/DAO/Contribution.php';
+            $contribution =& new CRM_Contribute_DAO_Contribution();
+            $contribution->trxn_id = $transaction['trxn_id'];
+            if ( $contribution->find(true) ) {
+                $params['error'][] = ts( 'transaction already processed.' );
+            }
+        } else {
+            // generate a new transaction id, if not already exist 
+            $transaction['trxn_id'] = md5( uniqid( rand( ), true ) );
+        }
+
+        if ( ! isset( $transaction['contribution_type_id'] ) ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $contributionTypes = array_keys( CRM_Contribute_PseudoConstant::contributionType( ) );
+            $transaction['contribution_type_id'] = $contributionTypes[0];
+        }
+
+        if ( ($type == 'paypal') && (!isset( $transaction['net_amount'] )) ) {
+            $transaction['net_amount'] = $transaction['total_amount'] - 
+                CRM_Utils_Array::value( 'fee_amount', $transaction, 0 );
+        }
+        
+        if ( ! isset( $transaction['invoice_id'] ) ) {
+            $transaction['invoice_id'] = $transaction['trxn_id'];
+        }
+
+        $source = ts( 'ContributionProcessor: %1 API', 
+                      array( 1 => ucfirst($type) ) );
+        if ( isset( $transaction['source'] ) ) {
+            $transaction['source'] = $source . ':: ' . $transaction['source'];
+        } else {
+            $transaction['source'] = $source;
+        }
+
+        return true;
+    }
+
+    static function formatAPIParams( $apiParams, $mapper, $type = 'paypal', $category = true ) {
+        $type = strtolower($type);
+
+        if ( ! in_array($type, array('paypal', 'google', 'csv')) ) {
+            // return the params as is
+            return $apiParams;
+        }
+        $params = $transaction = array( );
+        
+        if ( $type == 'paypal') {
+            foreach ( $apiParams as $detail => $val ) {
+                if ( isset($mapper['contact'][$detail]) ) {
+                    $params[$mapper['contact'][$detail]] = $val;
+                } else if ( isset($mapper['location'][$detail]) ) {
+                    $params['location'][1]['address'][$mapper['location'][$detail]] = $val;
+                } else if ( isset($mapper['transaction'][$detail]) ) {
+                    $transaction[$mapper['transaction'][$detail]] = $val;
+                }
+            }
+
+            if ( !empty($transaction) && $category ) {
+                $params['transaction'] = $transaction;
+            } else {
+                $params += $transaction;
+            }
+            
+            self::_fillCommonParams( $params, $type );
+            
+            return $params;
+        }
+
+        if ( $type == 'csv') {
+            $header = $apiParams['header'];
+            unset( $apiParams['header'] );
+            foreach ( $apiParams as $key => $val ) {
+                if ( isset($mapper['contact'][$header[$key]]) ) {
+                    $params[$mapper['contact'][$header[$key]]] = $val;
+                } else if ( isset($mapper['location'][$header[$key]]) ) {
+                    $params['location'][1]['address'][$mapper['location'][$header[$key]]] = $val;
+                } else if ( isset($mapper['transaction'][$header[$key]]) ) {
+                    $transaction[$mapper['transaction'][$header[$key]]] = $val;
+                } else {
+                    $params[$header[$key]] = $val;
+                }
+            }
+
+            if ( !empty($transaction) && $category ) {
+                $params['transaction'] = $transaction;
+            } else {
+                $params += $transaction;
+            }
+            
+            self::_fillCommonParams( $params, $type );
+            
+            return $params;
+        }
+
+        if ( $type == 'google' ) {
+            // return if response smell invalid
+            if ( ! array_key_exists('risk-information-notification', $apiParams[1][$apiParams[0]]['notifications']) ) {
+                return false;
+            }
+            $details =& $apiParams[1][$apiParams[0]]['notifications']['risk-information-notification'];
+
+            if ( $details['google-order-number']['VALUE'] == $apiParams[2]['google-order-number']['VALUE'] ) {
+                foreach ( $details['risk-information']['billing-address'] as $field => $info ) {
+                    if ( CRM_Utils_Array::value( $field, $mapper['location'] ) ) {
+                        $params['location'][1]['address'][$mapper['location'][$field]] = $info['VALUE'];
+                    } else if ( CRM_Utils_Array::value( $field, $mapper['contact'] ) ) {
+                        $params[$mapper['contact'][$field]] = $info['VALUE'];
+                    } else if ( CRM_Utils_Array::value( $field, $mapper['transaction'] ) ) {
+                        $transaction[$mapper['transaction'][$field]] = $info['VALUE'];
+                    }
+                }
+                
+                if ( CRM_Utils_Array::value( 'google-order-number', $mapper['transaction'] ) ) {
+                    $transaction[$mapper['transaction']['google-order-number']] = 
+                        $details['google-order-number']['VALUE'];
+                }
+                
+                if ( CRM_Utils_Array::value( 'total-charge-amount', $mapper['transaction'] ) ) {
+                    $transaction[$mapper['transaction']['total-charge-amount']] 
+                        = $apiParams[2]['total-charge-amount']['VALUE'];
+                    $transaction['currency'] = 
+                        $apiParams[2]['total-charge-amount']['currency'];
+                }
+                
+                if ( empty($params) && empty($transaction) ) {
+                    continue;
+                }
+                
+                if ( !empty($transaction) && $category ) {
+                    $params['transaction'] = $transaction;
+                } else {
+                    $params += $transaction;
+                }
+                
+                self::_fillCommonParams( $params, $type );
+                
+            }
+            return $params;
+        }
+    }
+
+    static function processAPIContribution( $params ) {
+        if ( empty($params) || array_key_exists('error', $params) ) {
+            return false;
+        }
+
+        // add contact using dedupe rule
         require_once 'CRM/Dedupe/Finder.php';
         $dedupeParams = CRM_Dedupe_Finder::formatParams ($params      , 'Individual');
         $dupeIds      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
@@ -375,13 +474,21 @@ class CRM_Contribute_BAO_Contribution_Utils {
             return false;
         }
 
-        // since one/two of the trxn params are expected from $params 
-        $params += $trxnParams;
+        // only pass transaction params to contribution::create, if available
+        if ( array_key_exists('transaction', $params) ) {
+            $params = $params['transaction'];
+            $params['contact_id'] = $contact->id;
+        }
 
-        // === create contribution ===
+        // create contribution
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params,
                                                                   CRM_Core_DAO::$_nullArray );
-        return $contribution->id;
+        if ( ! $contribution->id ) {
+            return false;
+        }
+        
+        return true;
     }
+
 }

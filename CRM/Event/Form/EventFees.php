@@ -77,7 +77,11 @@ class CRM_Event_Form_EventFees
                         $discounts[$key] = $value['name'];
                     }
                 }
-                $form->assign( 'discount', $discounts[$defaults[$form->_pId]['discount_id']] );
+
+                if ( $form->_discountId ) {
+                    $form->assign( 'discount', $discounts[$defaults[$form->_pId]['discount_id']] );
+                }
+                
                 $form->assign( 'fee_amount', $defaults[$form->_pId]['fee_amount'] );
                 $form->assign( 'fee_level', $defaults[$form->_pId]['fee_level'] );
             }
@@ -167,8 +171,8 @@ class CRM_Event_Form_EventFees
                 foreach ( $eventLevel as $id => $values ) {
                     if( !is_array( $values ) ){
                         $textLevel       = explode( ' - ', $values );
-                        $eventLevel[$id] = array( 'fieldName'   => $textLevel[0],
-                                                  'optionLabel' => $textLevel[1] );
+                        $eventLevel[$id] = array( 'fieldName'   => CRM_Utils_Array::value( '0', $textLevel ),
+                                                  'optionLabel' => CRM_Utils_Array::value( '1', $textLevel ) );
                     }       
                 }
                 

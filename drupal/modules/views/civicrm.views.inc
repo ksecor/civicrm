@@ -2679,7 +2679,7 @@ function civicrm_views_custom_data_cache($data, $entity_type, $groupID, $subType
     //Feels a bit hacky this next 10 lines but it was the only way I could get getTree to play nice with the data
     $config =& CRM_Core_Config::singleton( );
     if ($style == 'Inline') {
-        $tree = CRM_Core_BAO_CustomGroup::getTree( $entity_type, CRM_Core_DAO::$_nullObject, $subType, null);
+        $tree = CRM_Core_BAO_CustomGroup::getTree( $entity_type, CRM_Core_DAO::$_nullObject, null, null, $subType, null );
     }
     else {
         $tree = CRM_Core_BAO_CustomGroup::getTree( $entity_type, CRM_Core_DAO::$_nullObject, null, $groupID);
@@ -2802,7 +2802,7 @@ function civicrm_get_argument_handler($type) {
         return 'views_handler_argument_date';
 
     case "Boolean":
-        return 'views_handler_argument_boolean';
+        return 'views_handler_argument';
 
     case "StateProvince":
         return 'views_handler_argument';
@@ -2829,7 +2829,7 @@ function civicrm_get_filter_handler($type) {
         return 'civicrm_handler_filter_datetime';
 
     case "Boolean":
-        return 'views_handler_filter_boolean';
+        return 'views_handler_filter_boolean_operator';
 
     case "StateProvince":
         return 'civicrm_handler_filter_state';
@@ -2856,7 +2856,7 @@ function civicrm_get_sort_handler($type) {
         return 'views_handler_sort_date';
 
     case "Boolean":
-        return 'views_handler_sort_boolean';
+        return 'views_handler_sort';
 
     case "StateProvince":
         return 'views_handler_sort';

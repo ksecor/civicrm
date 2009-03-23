@@ -95,6 +95,11 @@ ORDER BY j.scheduled_date,
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
+            // fix for cancel job at run time which is in queue, CRM-4246
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Mailing_DAO_Job', $job->id, 'status' ) == 'Canceled' ) {
+                continue;
+            }
+            
             $lockName = "civimail.job.{$job->id}";
 
             // get a lock on this job id
@@ -332,11 +337,19 @@ ORDER BY j.scheduled_date,
             CRM_Core_Error::ignoreException( );
             if ( is_object( $mailer ) ) {
                 
-                // hack to stop mailing job since it is canceled at run time, CRM-4246.
-                if ( 'Canceled' == CRM_Core_DAO::getFieldValue( 'CRM_Mailing_DAO_Job', $mailing->id, 
-                                                                'status', 'mailing_id'  ) ) {
+                // hack to stop mailing job at run time, CRM-4246.
+                $mailingJob = new CRM_Mailing_DAO_Job( ); 
+                $mailingJob->mailing_id = $mailing->id;
+                if ( $mailingJob->find( true ) ) {
+                    // mailing have been canceled at run time.
+                    if ( $mailingJob->status == 'Canceled' ) {
+                        return false;
+                    }
+                } else {
+                    // mailing have been deleted at run time. 
                     return false;
                 }
+                $mailingJob->free( );
                 
                 $result = $mailer->send($recipient, $headers, $body, $this->id);
                 CRM_Core_Error::setCallback();

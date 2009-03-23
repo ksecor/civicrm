@@ -36,14 +36,13 @@
 class CiviContributeProcessor {
     static $_paypalParamsMapper = 
         array(
-              //category    => array(paypal_param    => civicrm_param);
+              //category    => array(paypal_param    => civicrm_field);
               'contact'     => array(
                                      'salutation'    => 'prefix_id',
                                      'firstname'     => 'first_name',
                                      'lastname'      => 'last_name',
                                      'middlename'    => 'middle_name',
                                      'suffix'        => 'suffix_id',
-                                     'ordertime'     => 'receive_date',
                                      'email'         => 'email',
                                      ),
               'location'    => array(
@@ -60,7 +59,8 @@ class CiviContributeProcessor {
                                      'feeamt'        => 'fee_amount',
                                      'transactionid' => 'trxn_id',
                                      'currencycode'  => 'currencyID',
-                                     'source'        => 'contribution_source',
+                                     'l_name0'       => 'source',
+                                     'ordertime'     => 'receive_date',
                                      'note'          => 'note',
                                      'is_test'       => 'is_test',
                                      ),
@@ -68,6 +68,7 @@ class CiviContributeProcessor {
 
     static $_googleParamsMapper = 
         array(
+              //category    => array(google_param    => civicrm_field);
               'contact'     => array(
                                      'contact-name'  => 'display_name',
                                      'contact-name'  => 'sort_name',
@@ -75,6 +76,7 @@ class CiviContributeProcessor {
                                      ),
               'location'    => array(
                                      'address1'     => 'street_address',
+                                     'address2'     => 'supplemental_address_1',
                                      'city'         => 'city',
                                      'postal-code'  => 'postal_code',
                                      'country-code' => 'country',
@@ -85,12 +87,42 @@ class CiviContributeProcessor {
                                      ),
               );
 
+    static $_csvParamsMapper = 
+        array(
+              // Note: if csv header is not present in the mapper, header itself 
+              // is considered as a civicrm field.
+
+              //category    => array(csv_header      => civicrm_field);
+              'contact'     => array(
+                                     'first_name'    => 'first_name',
+                                     'last_name'     => 'last_name',
+                                     'middle_name'   => 'middle_name',
+                                     'email'         => 'email',
+                                     ),
+              'location'    => array(
+                                     'street_address'         => 'street_address',
+                                     'supplemental_address_1' => 'supplemental_address_1',
+                                     'city'                   => 'city',
+                                     'postal_code'            => 'postal_code',
+                                     'country'                => 'country',
+                                     ),
+              'transaction' => array(
+                                     'total_amount'  => 'total_amount',
+                                     'trxn_id'       => 'trxn_id',
+                                     'currency'      => 'currency',
+                                     'source'        => 'source',
+                                     'receive_date'  => 'receive_date',
+                                     'note'          => 'note',
+                                     'is_test'       => 'is_test',
+                                     ),
+              );
+
     static function paypal( $paymentProcessor, $paymentMode, $start, $end ) {
         $url       = "{$paymentProcessor['url_api']}nvp";
-
+        
         $keyArgs = array( 'user'      => $paymentProcessor['user_name'],
                           'pwd'       => $paymentProcessor['password'] ,
-                          'signature' => $paymentProcessor['signature'], 
+                          'signature' => $paymentProcessor['signature'],
                           'version'   => 3.0,
                           );
 
@@ -108,40 +140,131 @@ class CiviContributeProcessor {
         foreach ( $result as $name => $value ) {
             if ( substr( $name, 0, 15 ) == 'l_transactionid' ) {
                 $keyArgs['transactionid'] = $value;
-                $details = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs, $url );
-
-                // only process completed emails
-                if ( strtolower( $details['paymentstatus'] ) != 'completed' ) {
+                $trxnDetails = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs, $url );
+                if ( is_a( $trxnDetails, 'CRM_Core_Error' ) ) {
+                    echo "PAYPAL ERROR: Skipping transaction id: $value<p>";
                     continue;
                 }
 
-                // add source
-                $details['source'] = ts( 'ContributionProcessor: Paypal API' );
-
-                if ( $paymentMode == 'test' ) {
-                    $details['is_test'] = 1;
-                } else {
-                    $details['is_test'] = 0;
+                // only process completed payments
+                if ( strtolower( $trxnDetails['paymentstatus'] ) != 'completed' ) {
+                    continue;
                 }
-                if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $details, 
-                                                                                    self::$_paypalParamsMapper ) ) {
-                    echo "Processing {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
+
+                $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $trxnDetails, 
+                                                                                  self::$_paypalParamsMapper,
+                                                                                  'paypal' );
+                if ( $paymentMode == 'test' ) {
+                    $params['is_test'] = 1;
                 } else {
-                    echo "Skipped {$details['email']}, {$details['amt']}, {$details['transactionid']}<p>";
+                    $params['is_test'] = 0;
+                }
+
+                if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $params ) ) {
+                    CRM_Core_Error::debug_log_message( "Processed - {$trxnDetails['email']}, {$trxnDetails['amt']}, {$value} ..<p>", true );
+                } else {
+                    CRM_Core_Error::debug_log_message( "Skipped - {$trxnDetails['email']}, {$trxnDetails['amt']}, {$value} ..<p>", true );
                 }
             }
         }
     }
 
     static function google( $paymentProcessor, $paymentMode, $start, $end ) {
-        $searchParams = array( 'start' => $start, 
-                               'end'   => $end  );
-
+        require_once "CRM/Contribute/BAO/Contribution/Utils.php";
         require_once 'CRM/Core/Payment/Google.php';
-        $result = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
-        //CRM_Core_Error::debug( '$result', $result );
+        $nextPageToken = true;
+        $searchParams  = array( 'start'              => $start, 
+                                'end'                => $end,
+                                'notification-types' => array('charge-amount') );
+        
+        $response = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
+        
+        while ( $nextPageToken ) {
+            if ( $response[0] == 'error' ) {
+                CRM_Core_Error::debug_log_message( "GOOGLE ERROR: " . 
+                                                   $response[1]['error']['error-message']['VALUE'], true);
+            }
+            $nextPageToken = isset($response[1][$response[0]]['next-page-token']['VALUE']) ? 
+                $response[1][$response[0]]['next-page-token']['VALUE'] : false;
+            
+            if ( is_array($response[1][$response[0]]['notifications']['charge-amount-notification']) ) {
 
-        $result = CRM_Core_Payment_Google::processAPIContribution( $result, self::$_googleParamsMapper );
+                if ( array_key_exists('google-order-number', 
+                                      $response[1][$response[0]]['notifications']['charge-amount-notification']) ) {
+                    // sometimes 'charge-amount-notification' itself is an absolute 
+                    // array and not array of arrays. This is the case when there is only one 
+                    // charge-amount-notification. Hack for this special case -
+                    $chrgAmt = $response[1][$response[0]]['notifications']['charge-amount-notification'];
+                    unset($response[1][$response[0]]['notifications']['charge-amount-notification']);
+                    $response[1][$response[0]]['notifications']['charge-amount-notification'][] = $chrgAmt;
+                }
+
+                foreach ( $response[1][$response[0]]['notifications']['charge-amount-notification']
+                          as $amtData ) {
+                    $searchParams =
+                        array( 'order-numbers'      => array($amtData['google-order-number']['VALUE']),
+                               'notification-types' => array('risk-information') );
+                    $response     = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, 
+                                                                        $searchParams );
+                    $response[]   = $amtData; // append amount information as well
+                    
+                    $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $response,
+                                                                                      self::$_googleParamsMapper,
+                                                                                      'google' );
+                    if ( $paymentMode == 'test' ) {
+                        $params['transaction']['is_test'] = 1;
+                    } else {
+                        $params['transaction']['is_test'] = 0;
+                    }
+                    if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $params ) ) {
+                        CRM_Core_Error::debug_log_message( "Processed - {$params['email']}, {$amtData['total-charge-amount']['VALUE']}, {$amtData['google-order-number']['VALUE']} ..<p>", true ) ;
+                    } else {
+                        CRM_Core_Error::debug_log_message( "Skipped - {$params['email']}, {$amtData['total-charge-amount']['VALUE']}, {$amtData['google-order-number']['VALUE']} ..<p>", true ) ;
+                    }
+                }
+                
+                if ( $nextPageToken ) {
+                    $searchParams = array( 'next-page-token' => $nextPageToken );
+                    $response     = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, $searchParams );
+                }
+            }
+        }
+    }
+
+    static function csv( ) {
+        $csvFile     = '/home/deepak/Desktop/crm-4247.csv';
+        $delimiter   = ";";
+        $row         = 1;
+
+        $handle = fopen($csvFile, "r");
+        if ( ! $handle ) {
+            CRM_Core_Error::fatal("Can't locate csv file.");
+        }
+
+        require_once "CRM/Contribute/BAO/Contribution/Utils.php";
+        while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+            if ( $row !== 1 ) {
+                $data['header'] = $header;
+                $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $data,
+                                                                                  self::$_csvParamsMapper,
+                                                                                  'csv' );
+                if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $params ) ) {
+                    CRM_Core_Error::debug_log_message( "Processed - line $row of csv file .. {$params['email']}, {$params['transaction']['total_amount']}, {$params['transaction']['trxn_id']} ..<p>", true ) ;
+                } else {
+                    CRM_Core_Error::debug_log_message( "Skipped - line $row of csv file .. {$params['email']}, {$params['transaction']['total_amount']}, {$params['transaction']['trxn_id']} ..<p>", true ) ;
+                }
+            } else {
+                // we assuming - first row is always the header line
+                $header = $data;
+                CRM_Core_Error::debug_log_message( "Considering first row ( line $row ) as HEADER ..<p>", true );
+                
+                if ( empty($header) ) {
+                    CRM_Core_Error::fatal("Header is empty.");
+                }
+            }
+            $row++;
+        }
+        fclose($handle);
     }
 
     static function process( ) {
@@ -150,21 +273,29 @@ class CiviContributeProcessor {
         $type = CRM_Utils_Request::retrieve( 'type', 'String', CRM_Core_DAO::$_nullObject, false, 'csv' );
         $type = strtolower( $type );
 
-        
         switch ( $type ) {
         case 'paypal':
         case 'google':
-            $start = CRM_Utils_Request::retrieve( 'start', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d', time( ) - 365 * 24 * 60 * 60 ) . 'T00:00:00.00Z' );
-            // google expects end date to be atleast 30 mins past
-            $end   = CRM_Utils_Request::retrieve( 'end', 'String', CRM_Core_DAO::$_nullObject, false,
-                                                  date( 'Y-m-d', time( ) - 24 * 60 * 60 ) . 'T23:59:00.00Z' );
-            $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', CRM_Core_DAO::$_nullObject, true  );
-            $mode  = CRM_Utils_Request::retrieve( 'ppMode', 'String', CRM_Core_DAO::$_nullObject, false, 'live' );
+            $start = CRM_Utils_Request::retrieve( 'start', 'String', 
+                                                  CRM_Core_DAO::$_nullObject, false, 31 );
+            $end   = CRM_Utils_Request::retrieve( 'end', 'String', 
+                                                  CRM_Core_DAO::$_nullObject, false, 0 );
+            if ( $start < $end ) {
+                CRM_Core_Error::fatal("Start offset can't be less than End offset.");
+            }
+
+            $start = date( 'Y-m-d', time( ) - $start * 24 * 60 * 60 ) . 'T00:00:00.00Z';
+            $end   = date( 'Y-m-d', time( ) - $end   * 24 * 60 * 60 ) . 'T23:59:00.00Z';
+
+            $ppID  = CRM_Utils_Request::retrieve( 'ppID'  , 'Integer', 
+                                                  CRM_Core_DAO::$_nullObject, true  );
+            $mode  = CRM_Utils_Request::retrieve( 'ppMode', 'String', 
+                                                  CRM_Core_DAO::$_nullObject, false, 'live' );
 
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
-            $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
-                                                                           $mode );
+            $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID, $mode );
+            
+            CRM_Core_Error::debug_log_message("Start Date=$start,  End Date=$end, ppID=$ppID, mode=$mode <p>", true);
 
             return self::$type( $paymentProcessor, $mode, $start, $end );
 
@@ -181,7 +312,7 @@ require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 $config =& CRM_Core_Config::singleton();
 
-// CRM_Utils_System::authenticateScript(true);
+CRM_Utils_System::authenticateScript(true);
 
 require_once 'CRM/Core/Lock.php';
 $lock = new CRM_Core_Lock('CiviContributeProcessor');
@@ -196,3 +327,5 @@ if ($lock->isAcquired()) {
 }
 
 $lock->release();
+
+echo "Done processing<p>";

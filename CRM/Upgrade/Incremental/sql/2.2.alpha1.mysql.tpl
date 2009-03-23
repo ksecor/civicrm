@@ -103,6 +103,33 @@ SET
     ce.is_pay_later = cp.is_pay_later,
     ce.is_multiple_registrations = cp.is_multiple_registrations;
 
+-- CRM-3391
+-- Update table name in civicrm_option_group (Fee Level) 
+{foreach from =$eventFees item=ogid}
+
+  SELECT @option_group_id := id ,@event_page_id := SUBSTRING_INDEX( SUBSTRING( name, 27 ) , '.discount', 1 )
+    FROM civicrm_option_group WHERE `name` LIKE 'civicrm_event_page.amount%' LIMIT 1;
+
+  SELECT @event_id := ep.event_id FROM civicrm_event_page ep WHERE ep.id = @event_page_id;
+
+  UPDATE `civicrm_option_group`
+    SET `name` = REPLACE( name, CONCAT_WS('.', 'civicrm_event_page.amount', @event_page_id ), CONCAT_WS('.', 'civicrm_event.amount', @event_id ) )  
+    WHERE `id` = @option_group_id;
+{/foreach}
+
+-- Update table entity_table and entity_id civicrm_tell_friend 
+UPDATE civicrm_tell_friend tf
+  SET tf.`entity_table` = 'civicrm_event',
+      tf.`entity_id` = (SELECT e.`event_id` FROM civicrm_event_page e WHERE e.`id` = tf.`entity_id`)
+  WHERE tf.`entity_table`='civicrm_event_page' ;
+
+--CRM-4256
+-- Update table name in civicrm_price_set_entity (Price Set) 
+UPDATE civicrm_price_set_entity pse
+  SET pse.`entity_table`='civicrm_event',
+      pse.`entity_id` = (SELECT e.`event_id` FROM civicrm_event_page e WHERE e.`id` = pse.`entity_id`)
+  WHERE pse.`entity_table`='civicrm_event_page'; 
+
 -- /*******************************************************
 -- *
 -- * Drop civicrm_event_page table

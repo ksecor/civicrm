@@ -423,6 +423,10 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             $url = $this->_paymentProcessor['url_api'] . 'nvp';
         }
 
+        if ( !function_exists('curl_init') ) {
+            CRM_Core_Error::fatal("curl functions NOT available.");
+        }
+
         //setting the curl parameters.
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url );
@@ -466,7 +470,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             $e =& CRM_Core_Error::singleton( );
             $e->push( $result['l_errorcode0'],
                       0, null,
-                      "{$result['l_shortmessage0']} {$result['L_LONGMESSAGE0']}" );
+                      "{$result['l_shortmessage0']} {$result['l_longmessage0']}" );
             return $e;
         }
 

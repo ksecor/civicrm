@@ -298,7 +298,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 if ( $button == 'skip' ) {
                     $isRequire = false;
                 } else {
-                    $isRequire = $field['is_required'];
+                    $isRequire = CRM_Utils_Array::value( 'is_required', $field );
                 }
                 CRM_Core_BAO_PriceField::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
             }

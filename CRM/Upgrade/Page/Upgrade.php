@@ -56,9 +56,9 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             $currentVer = $convertVer[$currentVer];
         }
         
-        $config =& CRM_Core_Config::singleton( );
         // This could be removed in later rev
         if ( $currentVer == '2.1.6' ) {
+            $config =& CRM_Core_Config::singleton( );
             // also cleanup the templates_c directory
             $config->cleanup( 1 );
             
@@ -128,14 +128,7 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         
         $template->assign( 'message', $message );
         $content = $template->fetch( 'CRM/common/success.tpl' );
-
-        if ( $config->userFramework === 'Drupal' ) {    
-            // due to theme issues during upgarde, let's set theme to bluemarine ( simplest of all )
-            global $custom_theme;
-            $custom_theme = 'bluemarine';
-            init_theme();
-        }
-        echo CRM_Utils_System::theme( 'page', $content, true, $this->_print );
+        echo CRM_Utils_System::theme( 'page', $content, true, $this->_print, false, true );
     }
 
     function upgrade_2_2_alpha1( $rev ) {
@@ -155,6 +148,17 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             if ( $stepID == 4 ) {
                 return;
             }
+
+            $template =& CRM_Core_Smarty::singleton( );
+
+            $eventFees = array( );
+            $query = "SELECT og.id ogid FROM civicrm_option_group og WHERE og.name LIKE  %1";
+            $params = array( 1 => array(  'civicrm_event_page.amount%', 'String' ) );
+            $dao = CRM_Core_DAO::executeQuery( $query, $params );
+            while ( $dao->fetch( ) ) { 
+                $eventFees[$dao->ogid] = $dao->ogid;  
+            }
+            $template->assign( 'eventFees', $eventFees );    
             
             $form->upgrade( );
             

@@ -48,13 +48,12 @@ class CRM_Core_Block {
      * @var int
      */
     const
-        MENU       =  1,
-        SHORTCUTS  =  2,
-        SEARCH     =  4,
-        ADD        =  8,
-        CONTRIBUTE = 16,
-        GCC        = 32,
-        LANGSWITCH = 64;
+        MENU       =   1,
+        SHORTCUTS  =   2,
+        SEARCH     =   4,
+        ADD        =   8,
+        LANGSWITCH =  64,
+        EVENT      = 128;
     
     /**
      * template file names for the above blocks
@@ -125,17 +124,17 @@ class CRM_Core_Block {
                                                                    'visibility' => 1,
                                                                    'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
+                                       self::EVENT      => array( 'template'   => 'Event.tpl',
+                                                                   'info'       => ts('CiviCRM Upcoming Events'),
+                                                                   'subject'    => '',
+                                                                   'templateValues' => array(),
+                                                                   'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'visibility' => 1,
+                                                                   'pages'      => 'civicrm*',
+                                                                   'region'     => 'left' ),
                                        );
-            // seems like this is needed for drupal 4.7, have not tested
-            require_once 'CRM/Core/Permission.php';
-            if ( CRM_Core_Permission::access( 'Gcc' ) ) {
-                self::$_properties += array( 
-                                            self::GCC         => array( 'template' => 'Gcc.tpl',
-                                                                        'info'     => ts('GCC Shortcuts'),
-                                                                        'subject'  => ts('GCC Shortcuts'),
-                                                                        'active'   => true ),
-                                            );
-            }
+
         }
     }
 
@@ -191,6 +190,8 @@ class CRM_Core_Block {
      * @access public
      */
     static function getInfo( ) {
+        require_once 'CRM/Core/Permission.php';
+
         $block = array( );
         foreach ( self::properties() as $id => $value ) {
              if ( $value['active'] ) {
@@ -222,11 +223,13 @@ class CRM_Core_Block {
      * @access private
      */
     private function setTemplateValues( $id ) {
-        if ( $id == self::SHORTCUTS ) {
+        switch ( $id ) {
+
+        case self::SHORTCUTS:
             self::setTemplateShortcutValues( );
-        } else if ( $id == self::GCC ) {
-            self::setTemplateGccValues( );
-        } else if ( $id == self::ADD ) {
+            break;
+
+        case self::ADD:
             require_once "CRM/Core/BAO/LocationType.php";
             $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
             $defaultPrimaryLocationId = $defaultLocation->id;
@@ -236,7 +239,9 @@ class CRM_Core_Block {
             self::setProperty( self::ADD,
                                'templateValues',
                                $values );
-        } else if ( $id == self::SEARCH ) {
+            break;
+
+        case self::SEARCH:
             $urlArray = array(
                 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic',
                                                               'reset=1', false, null, false ) ,
@@ -247,13 +252,19 @@ class CRM_Core_Block {
                 'viewContactURL'    => CRM_Utils_System::url( 'civicrm/contact/view',
                                                               'reset=1' ) ,
             );
-
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
-        } else if ( $id == self::MENU ) {
+            break;
+
+        case self::MENU:
             self::setTemplateMenuValues( );
-        } else if ( $id == self::CONTRIBUTE ) {
-            self::setTemplateContributeValues( );
+            break;
+
+        case self::EVENT:
+            self::setTemplateEventValues( );
+            break;
+
         }
+
     }
 
     /**
@@ -346,95 +357,6 @@ class CRM_Core_Block {
     }
 
     /**
-     * create the list of GCC shortcuts for the application and format is as a block
-     *
-     * @return void
-     * @access private
-     */
-    private function setTemplateGccValues( ) {
-        static $shortCuts = array( );
-
-        if ( ! ( $shortCuts ) ) {
-            $session =& CRM_Core_Session::singleton( );
-            $uid = $session->get('userID'); 
-            if ( ! $uid ) {
-                return;
-            }
-            $ufID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFMatch', $uid, 'uf_id', 'contact_id' );
-            
-            $role = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $uid, 'contact_sub_type', 'id' );
-            $role = strtolower( $role );
-
-            $shortCuts = array();
-
-            if ( $role == 'csr'        ||
-                 $role == 'admin'      ||
-                 $role == 'superadmin' ) {
-                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application',
-                                      'query' => 'action=add&reset=1',
-                                      'title' => ts('New Participant')
-                                      );
-                self::$_properties[self::GCC]['subject'] = ($role == 'csr') ? 'Customer Service Rep' : 'GCC Admin';
-            }
-
-            if ( $role == 'csr'        ||
-                 $role == 'admin'      ||
-                 $role == 'superadmin' ||
-                 $role == 'retrofit'   ||
-                 $role == 'auditor'    ) {
-                $shortCuts[] = array( 'path'  => 'civicrm/gcc/application/search',
-                                      'query' => 'reset=1',
-                                      'title' => ts('List Participants')
-                                      );                
-                self::$_properties[self::GCC]['subject'] = 
-                    ($role == 'retrofit') ?
-                    'Retrofit Manager' :
-                    ( ( $role == 'auditor' ) ?
-                      'Auditor' :
-                      self::$_properties[self::GCC]['subject']);
-            }
-
-            if ( $role == 'superadmin' ) {
-                $shortCuts[] = array( 'path'  => 'civicrm/gcc/report',
-                                      'query' => 'reset=1',
-                                      'title' => ts('Reports')
-                                      );                
-                $shortCuts[] = array( 'path'  => 'civicrm/gcc/options',
-                                      'query' => 'reset=1',
-                                      'title' => ts('List Option Groups')
-                                      );                
-                $shortCuts[] = array( 'path'  => 'civicrm/gcc/importFAT',
-                                      'query' => 'reset=1',
-                                      'title' => ts('Update FAT')
-                                      );
-                self::$_properties[self::GCC]['subject'] =
-                    ( $role == 'superadmin' ) ?
-                    'Super Admin' :
-                    self::$_properties[self::GCC]['subject'];
-            }
-
-            $shortCuts[] = array( 'path'  => "user/$ufID",
-                                  'title' => ts('My Account') );
-            $shortCuts[] = array( 'path'  => 'logout',
-                                  'title' => ts('Log out') );
-
-            if ( empty( $shortCuts ) ) {
-                return null;
-            }
-        }
-        
-        $values = array( );
-        
-        foreach ( $shortCuts as $short ) {
-            $value = array( );
-            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['query'] );
-            $value['title'] = $short['title'];
-            $values[] = $value;
-        }
-        self::setProperty( self::GCC, 'templateValues', array( 'shortCuts' => $values ) );
-    }
-    
-    /**
      * create the list of mail urls for the application and format is as a block
      *
      * @return void
@@ -480,19 +402,28 @@ class CRM_Core_Block {
     }
 
     /**
-     * set the contribute values for a given page
+     * create the event blocks for upcoming events
      *
      * @return void
      * @access private
      */
-    private function setTemplateContributeValues( ) {
-        require_once 'CRM/Contribute/BAO/Contribution.php';
+    private function setTemplateEventValues( ) {
+        $config =& CRM_Core_Config::singleton( );
         
-        $session =& CRM_Core_Session::singleton( );
-        $pageID = $session->get( 'pastContributionID' );
-        list( $goal, $current ) = CRM_Contribute_BAO_Contribution::getCurrentandGoalAmount( $pageID );
-        self::setProperty( self::CONTRIBUTE, 'templateValues', array( 'goal'    => $goal,
-                                                                      'current' => $current ) );
+        require_once 'CRM/Event/BAO/Event.php';
+        $info = CRM_Event_BAO_Event::getCompleteInfo( );
+
+        if ( $info ) {
+            $session =& CRM_Core_Session::singleton( );
+            // check if registration link should be displayed
+            foreach ( $info as $id => $event ) {
+                $info[$id]['onlineRegistration'] = CRM_Event_BAO_Event::validRegistrationDate( $event,
+                                                                                               $session->get( 'userID' ) );
+            }
+
+            self::setProperty( self::EVENT, 'templateValues', array( 'event' => $info ) );
+        }
+
     }
 
     /**
