@@ -77,11 +77,10 @@ cj(document).ready(function() {
   cj("#drag-handle").tableDnD({
          onDrop: function(table, row) {
 	   var serialize = cj('#drag-handle').tableDnDSerialize();
-	   serialize = serialize.replace( /&/g , '');
-	   serialize = '0' + serialize.replace( /drag-handle\[\]=/g ,'');
+	   serialize = serialize.replace( /&/g , ',');
+	   eval( "serialize = [ 0,"+ serialize.replace( /drag-handle\[\]=/g ,'')+ " ]");
 	   var ufField = "";
-	   for( var index in serialize ){
-	     if (index == '0' ) continue;
+	   for( var index=1; index < serialize.length; index++ ){
 	     weight  = fieldWeight[index];
 	     fieldId = serialize[index];
 	     ufField += "'"+fieldId+"[weight]':"+weight+",";
