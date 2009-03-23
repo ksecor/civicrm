@@ -216,7 +216,7 @@ function &civicrm_contact_search( &$params ) {
     $rowCount        = 25;
     $smartGroupCache = false;
     foreach ( $params as $n => $v ) {
-        if ( substr( $n, 0, 7 ) == 'return.' ) {
+        if ( substr( $n, 0, 6 ) == 'return' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
         } elseif ( in_array( $n, $otherVars ) ) {
             $$n = $v;

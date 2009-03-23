@@ -445,6 +445,7 @@ class CRM_Core_Block {
             return null;
         }
 
+	require_once 'CRM/Core/Permission.php';
         if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
             return null;
         } else if ( ( $id == self::ADD  ) &&
