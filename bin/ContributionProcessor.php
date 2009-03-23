@@ -36,7 +36,7 @@
 class CiviContributeProcessor {
     static $_paypalParamsMapper = 
         array(
-              //category    => array(paypal_param    => civicrm_param);
+              //category    => array(paypal_param    => civicrm_field);
               'contact'     => array(
                                      'salutation'    => 'prefix_id',
                                      'firstname'     => 'first_name',
@@ -68,7 +68,7 @@ class CiviContributeProcessor {
 
     static $_googleParamsMapper = 
         array(
-              //category    => array(google_param    => civicrm_param);
+              //category    => array(google_param    => civicrm_field);
               'contact'     => array(
                                      'contact-name'  => 'display_name',
                                      'contact-name'  => 'sort_name',
@@ -92,15 +92,11 @@ class CiviContributeProcessor {
               // Note: if csv header is not present in the mapper, header itself 
               // is considered as a civicrm field.
 
-              //category    => array(csv_header      => civicrm_param);
+              //category    => array(csv_header      => civicrm_field);
               'contact'     => array(
-                                     'prefix_id'     => 'prefix_id',
                                      'first_name'    => 'first_name',
                                      'last_name'     => 'last_name',
                                      'middle_name'   => 'middle_name',
-                                     'suffix_id'     => 'suffix_id',
-                                     'display_name'  => 'display_name',
-                                     'sort_name'     => 'sort_name',
                                      'email'         => 'email',
                                      ),
               'location'    => array(
@@ -112,7 +108,6 @@ class CiviContributeProcessor {
                                      ),
               'transaction' => array(
                                      'total_amount'  => 'total_amount',
-                                     'fee_amount'    => 'fee_amount',
                                      'trxn_id'       => 'trxn_id',
                                      'currency'      => 'currency',
                                      'source'        => 'source',
@@ -317,7 +312,7 @@ require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 $config =& CRM_Core_Config::singleton();
 
-// CRM_Utils_System::authenticateScript(true);
+CRM_Utils_System::authenticateScript(true);
 
 require_once 'CRM/Core/Lock.php';
 $lock = new CRM_Core_Lock('CiviContributeProcessor');
