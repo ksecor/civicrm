@@ -355,7 +355,7 @@ LIMIT      0, 10
                              'maxParticipants' => 'max_participants', 'startDate'    => 'start_date', 
                              'endDate'         => 'end_date',         'eventType'    => 'event_type', 
                              'isMap'           => 'is_map',           'participants' => 'participants',
-                             'pending'         => 'pending',          'summary'      => 'summary'
+                             'pending'         => 'pending',
                              );
         
         while ( $dao->fetch( ) ) {
@@ -597,6 +597,10 @@ SELECT
   civicrm_event.end_date as end, 
   civicrm_event.description as description, 
   civicrm_event.is_show_location as is_show_location, 
+  civicrm_event.is_online_registration as is_online_registration,
+  civicrm_event.registration_link_text as registration_link_text,
+  civicrm_event.registration_start_date as registration_start_date,
+  civicrm_event.registration_end_date as registration_end_date,
   civicrm_option_value.label as event_type, 
   civicrm_address.name as address_name, 
   civicrm_address.street_address as street_address, 
@@ -641,10 +645,11 @@ WHERE civicrm_event.is_active = 1
         while ( $dao->fetch( ) ) {
         
             $info                     = array( );
-            $info['event_id'     ]    = $dao->event_id;
             $info['uid'          ]    = 
             $info['uid'          ]    = "CiviCRM_EventID_{$dao->event_id}_" . md5( $config->userFrameworkBaseURL ) . $url;
+
             $info['title'        ]    = $dao->title;
+            $info['event_id'     ]    = $dao->event_id;
             $info['summary'      ]    = $dao->summary;
             $info['description'  ]    = $dao->description;
             $info['start_date'   ]    = $dao->start;
@@ -652,7 +657,10 @@ WHERE civicrm_event.is_active = 1
             $info['contact_email']    = $dao->email;
             $info['event_type'   ]    = $dao->event_type;
             $info['is_show_location'] = $dao->is_show_location;
-  
+            $info['is_online_registration'] = $dao->is_online_registration;
+            $info['registration_link_text'] = $dao->registration_link_text;
+            $info['registration_start_date'] = $dao->registration_start_date;
+            $info['registration_end_date'] = $dao->registration_end_date;
   
             $address = '';
 
@@ -1280,5 +1288,28 @@ WHERE  ce.loc_block_id = $locBlockId";
         
         return CRM_Core_DAO::singleValueQuery( $query );
     }
+
+    static function validRegistrationDate( &$values, $contactID ) {
+        // make sure that we are between  registration start date and registration end date
+        $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
+                                                                       $values['event'] ) );
+        $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
+                                                                     $values['event'] ) );
+        $now = time( );
+        $validDate = true;
+        if ( $startDate && $startDate >= $now ) {
+            $validDate = false;
+        }
+        if ( $endDate && $endDate < $now ) {
+            $validDate = false;
+        }
+        
+        // also check that the user has permission to register for this event
+        $hasPermission = CRM_Core_Permission::event( CRM_Core_Permission::EDIT,
+                                                     $contactID );
+
+        return $validDate && $hasPermission;
+    }
+
 }
 

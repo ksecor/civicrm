@@ -119,25 +119,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         }
         
         if ( isset($values['event']['is_online_registration']) ) {
-            // make sure that we are between  registration start date and registration end date
-            $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
-                                                                           $values['event'] ) );
-            $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
-                                                                         $values['event'] ) );
-            $now = time( );
-            $validDate = true;
-            if ( $startDate && $startDate >= $now ) {
-                $validDate = false;
-                
-            }
-            if ( $endDate && $endDate < $now ) {
-                $validDate = false;
-            }
-            
-            // also check that the user has permission to register for this event
-            $hasPermission = CRM_Core_Permission::event( CRM_Core_Permission::EDIT,
-                                                         $this->_id );
-            if ( $validDate && $hasPermission ) {
+            if ( CRM_Event_BAO_Event::validRegistrationDate( $values['event'], $this->_id ) ) {
                 if ( ! $eventFullMessage ) {
                     $registerText = ts('Register Now');
                     if ( CRM_Utils_Array::value('registration_link_text',$values['event']) ) {
