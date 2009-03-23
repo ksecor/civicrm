@@ -149,7 +149,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 	 * store id of event Name custom data type ( option value)
 	 */
 	protected $_eventNameCustomDataTypeID;
-	
+    /*
+     * selected discount id
+     */
+	public $_originalDiscountId = null;
     /** 
      * Function to set variables up before form is built 
      *                                                           
