@@ -268,7 +268,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        if ( CRM_Utils_Array::value( 'is_pay_later', $this->_values )  && ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
+        if ( CRM_Utils_Array::value( 'is_pay_later', $this->_values ) ) {
             $this->buildPayLater( );
         }
 
