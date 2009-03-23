@@ -23,15 +23,15 @@ body {
 input {
   font: 12px/100% Verdana, sans-serif;
   font-weight: bold;
-  color: #494949;
-  border: 1px solid #afaa92;
+  border: 1px solid #494949;
+  padding: 2px;
+  vertical-align: middle;
 }
 
 textarea, select {
   font: 12px/160% Verdana, sans-serif;
   font-weight: bold;
-  color: #494949;
-  border: 1px solid #afaa92;
+  border: 1px solid #494949;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -830,7 +830,6 @@ fieldset {
   margin: 1em 0;
   padding: 1em;
   border: 1px solid #afaa92;
-  background: #fffaf2;
 }
 
 /* Targets IE 7. Fixes background image in field sets. */
@@ -847,9 +846,10 @@ fieldset {
 fieldset legend {
   /* Fix disappearing legend in FFox */
   display: block;
-  padding: 3px;
+  margin-left: 15px;
+  font-weight: bold;
+  padding: 4px;
   border: 1px solid #afaa92;
-  background: #fffae2;
 }
 
 *:first-child+html fieldset legend, *:first-child+html fieldset.collapsed legend {
