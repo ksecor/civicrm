@@ -278,7 +278,7 @@
                                                         for="prefix_id">Prefix</label><br />
                                                             <select name="prefix_id" id="prefix_id" class="form-select">
                                                                 <option value="">
-                                                            --- </option>
+                                                           </option>
                                                                 <option value="1">Mrs</option>
                                                                 <option value="2">Ms</option>
 
@@ -305,7 +305,7 @@
                                                         for="suffix_id">Suffix</label><br />
                                                             <select name="suffix_id" id="suffix_id" class="form-select">
                                                                 <option value="">
-                                                            --- </option>
+                                                           </option>
 
                                                                 <option value="1">Jr</option>
                                                                 <option value="2">Sr</option>
@@ -349,20 +349,26 @@
 
                                                 <table 
                                                 class="form-layout-compressed"
-                                                style="width: 100%">
+                                                style="white-space: nowrap;
+                                                width: 85%">
 						    
                                                     <tr id="row0">
-                                                      <td></td>
+                                                      <td width="20%"
+                                                    align="center">Primary</td>
                                                       <td
                                                     ><b>Email
                                                       addresses:</b></td>
+                                                      <td align="center">On Hold</td>
+                                                      <td align="center" width="35%">Use for Bulk
+                                                      Mailings</td>
                                                     </tr>
-                                                    <tr
-                                                    style="background-color:
-                                                    #AAAAAA;">
+                                                    <tr>
                                                         <td
                                                     style="vertical-align:
-                                                        middle;"><b>PRIMARY</b></td>
+                                                        middle;" align="center"><input
+                                                    name="email-primary"
+                                                        value=""
+                                                    type="radio"></td>
                                                         <td>
 
         <input maxlength="64" size="35" name="location[1][email][1][email]" id="location_1_email_1_email"  type="text">
@@ -375,16 +381,17 @@
             <option value="4">Other</option>
             <option value="2">Work</option>
         </select>
-
-        <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"><label for="location[1][email][1][on_hold]">On
-   Hold</label></span>
-    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"><label for="location[1][email][1][is_bulkmail]">Use for Bulk Mailings</label></span>
-                                                        
-                                                        </td>
+</td><td align="center">
+        <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"></span></td>
+        <td align="center">
+    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"></span>
+</td>                                                        
                                                     </tr>
                                                     <tr>
-                                                        <td><a
-                                                    href="#">make primary -></a></td>
+                                                        <td align="center"><input
+                                                    name="email-primary"
+                                                        value=""
+                                                    type="radio"></td>
                                                         <td>
 
         <input maxlength="64" size="35" name="location[1][email][1][email]" id="location_1_email_1_email"  type="text">
@@ -398,17 +405,20 @@
             <option value="2">Work</option>
         </select>
 
-        <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"><label for="location[1][email][1][on_hold]">On
-   Hold</label></span>
-    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"><label for="location[1][email][1][is_bulkmail]">Use for Bulk Mailings</label></span>
-                                                        
-                                                        </td>
+</td><td align="center">
+        <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"></span></td>
+        <td align="center">
+    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"></span>
+</td>                                                                                                                
+                                                      
                                                     </tr>
                                                     
                                                     
                                                     <tr>
-                                                        <td><a
-                                                    href="#">make primary -></a></td>
+                                                        <td align="center"><input
+                                                    name="email-primary"
+                                                        value=""
+                                                    type="radio"></td>
                                                         <td>
 
         <input maxlength="64" size="35" name="location[1][email][1][email]" id="location_1_email_1_email"  type="text">
@@ -422,11 +432,11 @@
             <option value="2">Work</option>
         </select>
 
-        <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"><label for="location[1][email][1][on_hold]">On
-   Hold</label></span>
-    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"><label for="location[1][email][1][is_bulkmail]">Use for Bulk Mailings</label></span>
-                                                        
-                                                        </td>
+</td><td align="center">
+        <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"></span></td>
+        <td align="center">
+    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"></span>
+</td>
                                                     </tr>                                                    
                                                     
                                                     
@@ -436,7 +446,8 @@
                                                     
                                                     
                                                     <tr>
-                                                      <td></td><td><a
+                                                      <td></td><td
+                                                    colspan="3"><a
                                                     href="#"
 
                                                     onclick="cj('#row3').show();cj('#show2').hide();return
@@ -445,19 +456,21 @@
 
 						    
                                                     <tr id="row0">
-                                                      <td></td>
+                                                      <td align="center">Primary</td>
                                                       <td
                                                     ><b>
                                                     Phone
                                                       numbers:</b></td>
+                                                      <td colspan="2"></td>
                                                     </tr>
 
-                                                    <tr
-                                                    style="background-color:
-                                                    #AAAAAA;">
+                                                    <tr>
                                                         <td
                                                     style="vertical-align:
-                                                        middle;"><b>PRIMARY</b></td>
+                                                        middle;" align="center"><input
+                                                    name="phone-primary"
+                                                        value=""
+                                                    type="radio"></td>
 
                                                         <td>
 
@@ -471,6 +484,7 @@
             <option value="2">Work</option>
         </select>
 
+</td><td colspan="2">
         <select name="location[1][phone][1][phone_type_id]" id="location_1_phone_1_phone_type_id" class="form-select">
 
              <option value="">- select -</option>
@@ -488,8 +502,10 @@
 
 
                                                     <tr>
-                                                        <td><a
-                                                    href="#">make primary -></a></td>
+                                                        <td align="center"><input
+                                                    name="phone-primary"
+                                                        value=""
+                                                    type="radio"></td>
                                                         <td>
 
    <input maxlength="64" size="35" name="location[1][phone][1][phone]" id="location_1_phone_1_phone" type="text">
@@ -501,7 +517,7 @@
             <option value="4">Other</option>
             <option value="2">Work</option>
         </select>
-
+</td><td colspan="2">
         <select name="location[1][phone][1][phone_type_id]" id="location_1_phone_1_phone_type_id" class="form-select">
 
              <option value="">- select -</option>
@@ -515,7 +531,8 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                      <td></td><td><a
+                                                      <td></td><td
+                                                    colspan="3"><a
                                                     href="#"
 
                                                     onclick="cj('#row3').show();cj('#show2').hide();return
@@ -523,16 +540,20 @@
                                                                                                         </tr>
 
                                                     <tr id="row0">
+                                                      <td align="center">Primary</td>
                                                       <td
-                                                    colspan="2">Instant
-                                                      messengers:</td>
+                                                    ><b>Instant
+                                                      messengers:</b></td><td
+                                                      colspan="2"></td>
                                                     </tr>
-                                                    <tr
-                                                    style="background-color:
-                                                    #AAAAAA;">
+                                                    <tr>
                                                         <td
                                                     style="vertical-align:
-                                                        middle;"><b>PRIMARY</b></td>
+                                                        middle;
+                                                    " align="center"><input
+                                                    name="im-primary"
+                                                        value=""
+                                                    type="radio"></td>
                                                         <td>
 
    <input maxlength="64" size="35" name="location[1][phone][1][phone]" id="location_1_phone_1_phone" type="text">
@@ -545,6 +566,7 @@
             <option value="2">Work</option>
         </select>
 
+</td><td colspan="2">
         <select name="location[1][im][1][provider_id]" id="location_1_im_1_provider_id" class="form-select">
             <option value="">- select service -</option>
 
@@ -560,7 +582,8 @@
                                                     </tr>
 
                                                     <tr>
-                                                      <td></td><td><a
+                                                      <td></td><td
+                                                    colspan="3"><a
                                                     href="#"
 
                                                     onclick="cj('#row3').show();cj('#show2').hide();return
