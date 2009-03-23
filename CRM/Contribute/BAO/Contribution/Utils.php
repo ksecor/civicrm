@@ -354,14 +354,13 @@ class CRM_Contribute_BAO_Contribution_Utils {
     static function formatAPIParams( $apiParams, $mapper, $type = 'paypal', $category = true ) {
         $type = strtolower($type);
 
-        if ( ! in_array($type, array('paypal', 'google')) ) {
+        if ( ! in_array($type, array('paypal', 'google', 'csv')) ) {
             // return the params as is
             return $apiParams;
         }
+        $params = $transaction = array( );
         
         if ( $type == 'paypal') {
-            $params = $transaction = array( );
-            
             foreach ( $apiParams as $detail => $val ) {
                 if ( isset($mapper['contact'][$detail]) ) {
                     $params[$mapper['contact'][$detail]] = $val;
@@ -383,6 +382,32 @@ class CRM_Contribute_BAO_Contribution_Utils {
             return $params;
         }
 
+        if ( $type == 'csv') {
+            $header = $apiParams['header'];
+            unset( $apiParams['header'] );
+            foreach ( $apiParams as $key => $val ) {
+                if ( isset($mapper['contact'][$header[$key]]) ) {
+                    $params[$mapper['contact'][$header[$key]]] = $val;
+                } else if ( isset($mapper['location'][$header[$key]]) ) {
+                    $params['location'][1]['address'][$mapper['location'][$header[$key]]] = $val;
+                } else if ( isset($mapper['transaction'][$header[$key]]) ) {
+                    $transaction[$mapper['transaction'][$header[$key]]] = $val;
+                } else {
+                    $params[$header[$key]] = $val;
+                }
+            }
+
+            if ( !empty($transaction) && $category ) {
+                $params['transaction'] = $transaction;
+            } else {
+                $params += $transaction;
+            }
+            
+            self::_fillCommonParams( $params, $type );
+            
+            return $params;
+        }
+
         if ( $type == 'google' ) {
             // return if response smell invalid
             if ( ! array_key_exists('risk-information-notification', $apiParams[1][$apiParams[0]]['notifications']) ) {
@@ -390,7 +415,6 @@ class CRM_Contribute_BAO_Contribution_Utils {
             }
             $details =& $apiParams[1][$apiParams[0]]['notifications']['risk-information-notification'];
 
-            $params = $transaction = array( );
             if ( $details['google-order-number']['VALUE'] == $apiParams[2]['google-order-number']['VALUE'] ) {
                 foreach ( $details['risk-information']['billing-address'] as $field => $info ) {
                     if ( CRM_Utils_Array::value( $field, $mapper['location'] ) ) {

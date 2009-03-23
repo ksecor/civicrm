@@ -43,7 +43,6 @@ class CiviContributeProcessor {
                                      'lastname'      => 'last_name',
                                      'middlename'    => 'middle_name',
                                      'suffix'        => 'suffix_id',
-                                     'ordertime'     => 'receive_date',
                                      'email'         => 'email',
                                      ),
               'location'    => array(
@@ -61,6 +60,7 @@ class CiviContributeProcessor {
                                      'transactionid' => 'trxn_id',
                                      'currencycode'  => 'currencyID',
                                      'l_name0'       => 'source',
+                                     'ordertime'     => 'receive_date',
                                      'note'          => 'note',
                                      'is_test'       => 'is_test',
                                      ),
@@ -68,6 +68,7 @@ class CiviContributeProcessor {
 
     static $_googleParamsMapper = 
         array(
+              //category    => array(google_param    => civicrm_param);
               'contact'     => array(
                                      'contact-name'  => 'display_name',
                                      'contact-name'  => 'sort_name',
@@ -83,6 +84,41 @@ class CiviContributeProcessor {
               'transaction' => array(
                                      'total-charge-amount' => 'total_amount',
                                      'google-order-number' => 'trxn_id',
+                                     ),
+              );
+
+    static $_csvParamsMapper = 
+        array(
+              // Note: if csv header is not present in the mapper, header itself 
+              // is considered as a civicrm field.
+
+              //category    => array(csv_header      => civicrm_param);
+              'contact'     => array(
+                                     'prefix_id'     => 'prefix_id',
+                                     'first_name'    => 'first_name',
+                                     'last_name'     => 'last_name',
+                                     'middle_name'   => 'middle_name',
+                                     'suffix_id'     => 'suffix_id',
+                                     'display_name'  => 'display_name',
+                                     'sort_name'     => 'sort_name',
+                                     'email'         => 'email',
+                                     ),
+              'location'    => array(
+                                     'street_address'         => 'street_address',
+                                     'supplemental_address_1' => 'supplemental_address_1',
+                                     'city'                   => 'city',
+                                     'postal_code'            => 'postal_code',
+                                     'country'                => 'country',
+                                     ),
+              'transaction' => array(
+                                     'total_amount'  => 'total_amount',
+                                     'fee_amount'    => 'fee_amount',
+                                     'trxn_id'       => 'trxn_id',
+                                     'currency'      => 'currency',
+                                     'source'        => 'source',
+                                     'receive_date'  => 'receive_date',
+                                     'note'          => 'note',
+                                     'is_test'       => 'is_test',
                                      ),
               );
 
@@ -198,6 +234,42 @@ class CiviContributeProcessor {
                 }
             }
         }
+    }
+
+    static function csv( ) {
+        $csvFile     = '/home/deepak/Desktop/crm-4247.csv';
+        $delimiter   = ";";
+        $row         = 1;
+
+        $handle = fopen($csvFile, "r");
+        if ( ! $handle ) {
+            CRM_Core_Error::fatal("Can't locate csv file.");
+        }
+
+        require_once "CRM/Contribute/BAO/Contribution/Utils.php";
+        while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+            if ( $row !== 1 ) {
+                $data['header'] = $header;
+                $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $data,
+                                                                                  self::$_csvParamsMapper,
+                                                                                  'csv' );
+                if ( CRM_Contribute_BAO_Contribution_Utils::processAPIContribution( $params ) ) {
+                    CRM_Core_Error::debug_log_message( "Processed - line $row of csv file .. {$params['email']}, {$params['transaction']['total_amount']}, {$params['transaction']['trxn_id']} ..<p>", true ) ;
+                } else {
+                    CRM_Core_Error::debug_log_message( "Skipped - line $row of csv file .. {$params['email']}, {$params['transaction']['total_amount']}, {$params['transaction']['trxn_id']} ..<p>", true ) ;
+                }
+            } else {
+                // we assuming - first row is always the header line
+                $header = $data;
+                CRM_Core_Error::debug_log_message( "Considering first row ( line $row ) as HEADER ..<p>", true );
+                
+                if ( empty($header) ) {
+                    CRM_Core_Error::fatal("Header is empty.");
+                }
+            }
+            $row++;
+        }
+        fclose($handle);
     }
 
     static function process( ) {
