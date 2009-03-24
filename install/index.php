@@ -53,7 +53,10 @@ $docLink = CRM_Utils_System::docURL2( 'Installation and Upgrades', false, 'Insta
 if ( $installType == 'drupal' ) {
     // do not check 'sites/all/modules' only since it could be a multi-site
     // install. Rather check for existance of sites & modules in the url
-    if ( ! preg_match('/sites.[a-zA-Z0-9_.]+.modules/', $_SERVER['SCRIPT_FILENAME']) ) {
+    if ( ! preg_match( "/" . preg_quote('sites' . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR) . 
+                       "([a-zA-Z0-9_.]+)" . 
+                       preg_quote(DIRECTORY_SEPARATOR . 'modules', DIRECTORY_SEPARATOR) . "/",
+                       $_SERVER['SCRIPT_FILENAME'] ) ) {
         $errorTitle = "Oops! Please Correct Your Install Location";
         $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>" . implode(DIRECTORY_SEPARATOR, array('sites', 'all', 'modules')) . "</strong> directory below your Drupal root directory. Refer to the online " . $docLink . " for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
         errorDisplayPage( $errorTitle, $errorMsg );
@@ -94,10 +97,10 @@ if ( isset($_REQUEST['loadGenerated'] ) ) {
 if ( $installType == 'drupal' ) {
     global $cmsPath;
     $cmsPath = dirname( dirname( dirname( dirname( $crmPath ) ) ) );
-    $siteDir = getSiteDir( $_SERVER['SCRIPT_FILENAME'] );
+    $siteDir = getSiteDir( $cmsPath, $_SERVER['SCRIPT_FILENAME'] );
     $alreadyInstalled = file_exists( $cmsPath  . DIRECTORY_SEPARATOR .
                                      'sites'   . DIRECTORY_SEPARATOR .
-        $siteDir  . DIRECTORY_SEPARATOR .
+                                     $siteDir  . DIRECTORY_SEPARATOR .
                                      'civicrm.settings.php' );
 } elseif ( $installType == 'standalone' ) {
     $alreadyInstalled = file_exists( $crmPath     . DIRECTORY_SEPARATOR .
@@ -110,7 +113,7 @@ if ($alreadyInstalled ) {
     $errorTitle = "Oops! CiviCRM is Already Installed";
     if ( $installType == 'drupal' ) {
 
-        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . implode(DIRECTORY_SEPARATOR, array('[your Drupal root directory]', 'sites', 'default')) . "</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online " . $docLink . ".</li></ul>";
+        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . implode(DIRECTORY_SEPARATOR, array('[your Drupal root directory]', 'sites', $siteDir)) . "</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online " . $docLink . ".</li></ul>";
     } elseif ( $installType == 'standalone' ) {
         $errorMsg = "Standalone CiviCRM has already been installed. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]" . DIRECTORY_SEPARATOR . "standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online " . $docLink . ".</li></ul>";
     }
@@ -265,7 +268,7 @@ class InstallRequirements {
 
         if ( $installType == 'drupal' ) {
             global $cmsPath;
-            $siteDir = getSiteDir( $_SERVER['SCRIPT_FILENAME'] );
+            $siteDir = getSiteDir( $cmsPath, $_SERVER['SCRIPT_FILENAME'] );
 
             // make sure that we can write to sites/default and files/
             $writableDirectories = array( 'sites' . DIRECTORY_SEPARATOR . $siteDir . DIRECTORY_SEPARATOR . 'files',
@@ -730,20 +733,26 @@ class Installer extends InstallRequirements {
     }
 }
 
-function getSiteDir( $str ) {
-    $pos1    = strpos($_SERVER['SCRIPT_FILENAME'],
-        DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7;
-    $pos2    = strpos($_SERVER['SCRIPT_FILENAME'],
-        DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
-    $siteDir = substr($_SERVER['SCRIPT_FILENAME'],
-        strpos($_SERVER['SCRIPT_FILENAME'],
-            DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7,
-        ($pos2 - $pos1));
+function getSiteDir( $cmsPath, $str ) {
+    $sites   = DIRECTORY_SEPARATOR . 'sites'   . DIRECTORY_SEPARATOR;
+    $modules = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
+    
+    preg_match( "/" . preg_quote($sites, DIRECTORY_SEPARATOR) . 
+                "([a-zA-Z0-9_.]+)" . 
+                preg_quote($modules, DIRECTORY_SEPARATOR) . "/",
+                $_SERVER['SCRIPT_FILENAME'], $matches );
+    $siteDir = isset($matches[1]) ? $matches[1] : 'default';
 
-    if ( preg_match('/^[a-zA-Z0-9_.]+$/', $siteDir) && ($siteDir != 'all') ) {
-        return $siteDir;
+    if ( strtolower( $siteDir ) == 'all' ) {
+        if ( isset ( $_SERVER['HTTP_HOST'] ) &&
+             is_dir( $cmsPath  . DIRECTORY_SEPARATOR .
+                     'sites'   . DIRECTORY_SEPARATOR . $_SERVER['HTTP_HOST'] ) ) {
+            $siteDir = $_SERVER['HTTP_HOST'];
+        } else {
+            $siteDir = 'default';
+        }
     }
-    return 'default';
+    return $siteDir;
 }
 
 function errorDisplayPage( $errorTitle, $errorMsg ) {
