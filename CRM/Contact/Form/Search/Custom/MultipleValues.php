@@ -188,13 +188,38 @@ contact_a.sort_name    as sort_name,
 
     function alterRow( &$row ) {
         foreach ( $this->_options as $fieldID => $values ) {
+            $customVal = $valueSeparatedArray = array();
             if ( in_array( $values['attributes']['html_type'],
-                           array( 'CheckBox', 'Radio', 'Select', 'Multi-Select' ) ) ) {
+                           array( 'Radio', 'Select' ) ) ) {
                 if ( $row["custom_{$fieldID}"] &&
                      array_key_exists( $row["custom_{$fieldID}"],
                                        $values ) ) {
                     $row["custom_{$fieldID}"] = $values[$row["custom_{$fieldID}"]];
                 }
+            } else if ( in_array( $values['attributes']['html_type'],  
+                                  array( 'CheckBox', 'Multi-Select' ) ) ) {
+                $valueSeparatedArray = array_filter( explode( CRM_Core_DAO::VALUE_SEPARATOR, $row["custom_{$fieldID}"] ) );
+                foreach( $valueSeparatedArray as $val ) {
+                    $customVal[] = $values[$val];
+                }
+                $row["custom_{$fieldID}"] = implode(', ', $customVal);
+            } else if (  in_array( $values['attributes']['html_type'], 
+                                   array( 'Multi-Select State/Province', 'Select State/Province' ) ) ) {
+                $valueSeparatedArray = array_filter( explode( CRM_Core_DAO::VALUE_SEPARATOR, $row["custom_{$fieldID}"] ) );
+                $stateName           = CRM_Core_PseudoConstant::stateProvince();
+                foreach( $valueSeparatedArray as $val ) {
+                    $customVal[] = $stateName[$val];
+                }
+                $row["custom_{$fieldID}"] = implode(', ', $customVal);
+            } else if ( in_array( $values['attributes']['html_type'], 
+                                  array( 'Multi-Select Country', 'Select Country' ) ) ) {
+                $valueSeparatedArray = array_filter( explode( CRM_Core_DAO::VALUE_SEPARATOR, $row["custom_{$fieldID}"] ) );
+                CRM_Core_PseudoConstant::populate( $countryNames, 'CRM_Core_DAO_Country', 
+                                                   true, 'name', 'is_active' );
+                foreach( $valueSeparatedArray as $val ) {
+                    $customVal[] = $countryNames[$val];
+                }
+                $row["custom_{$fieldID}"] = implode(', ', $customVal);
             }
         }
     }
