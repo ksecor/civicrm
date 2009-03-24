@@ -1379,14 +1379,22 @@ SELECT $select
             foreach ( $group['fields'] as $k => $properties ) {
 				$groupID = $group['id'];
                 if ( !empty( $properties['customValue'] ) ) {
+                    
+                    //currently tree contain fid for file,
+                    //and id for other custom field values
+                    $valueId = 'id';
+                    if ( $properties['html_type'] == 'File' ) {
+                        $valueId = 'fid';  
+                    }
+                    
                     foreach ( $properties['customValue'] as $values ) {
-	                    $details[$groupID][$values['id']]['title']            = CRM_Utils_Array::value('title', $group);
-                        $details[$groupID][$values['id']]['name']             = CRM_Utils_Array::value('name', $group); 
-                        $details[$groupID][$values['id']]['help_pre']         = CRM_Utils_Array::value('help_pre', $group );  
-                        $details[$groupID][$values['id']]['help_post']        = CRM_Utils_Array::value('help_post', $group); 
-                        $details[$groupID][$values['id']]['collapse_display'] = CRM_Utils_Array::value('collapse_display', $group);
+	                    $details[$groupID][$values[$valueId]]['title']            = CRM_Utils_Array::value('title', $group);
+                        $details[$groupID][$values[$valueId]]['name']             = CRM_Utils_Array::value('name', $group); 
+                        $details[$groupID][$values[$valueId]]['help_pre']         = CRM_Utils_Array::value('help_pre', $group );  
+                        $details[$groupID][$values[$valueId]]['help_post']        = CRM_Utils_Array::value('help_post', $group); 
+                        $details[$groupID][$values[$valueId]]['collapse_display'] = CRM_Utils_Array::value('collapse_display', $group);
                         
-                        $details[$groupID][$values['id']]['fields'][$k] = 
+                        $details[$groupID][$values[$valueId]]['fields'][$k] = 
                             array( 'field_title'      => CRM_Utils_Array::value('label', $properties) ,
                                    'field_type'       => CRM_Utils_Array::value('html_type',
                                                                                 $properties),
