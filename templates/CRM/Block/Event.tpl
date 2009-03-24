@@ -7,7 +7,7 @@
     <a href="{$ev.url}">{$ev.title}</a><br />
     {$ev.start_date|truncate:10:""|crmDate}<br />
     {assign var=evSummary value=$ev.summary|truncate:80:""}
-    <em>{$evSummary} (<a href="{$ev.url}">{ts}more{/ts}...</a>)</em>
+    <em>{$evSummary}{if $ev.summary|count_characters:true GT 80}  (<a href="{$ev.url}">{ts}more{/ts}...</a>){/if}</em>
     </p>
 {/foreach}
 </div>
