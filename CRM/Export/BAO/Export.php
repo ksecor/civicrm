@@ -515,11 +515,18 @@ class CRM_Export_BAO_Export
         $rows = array( );
         $dao =& CRM_Core_DAO::executeQuery( $sql,
                                             CRM_Core_DAO::$_nullArray );
+        $alterRow = false;
+        if ( method_exists( $search, 'alterRow' ) ) {
+            $alterRow = true;
+        }
         while ( $dao->fetch( ) ) {
             $row = array( );
 
             foreach ( $fields as $field ) {
                 $row[$field] = $dao->$field;
+            }
+            if ( $alterRow ) {
+                $search->alterRow( $row );
             }
             $rows[] = $row;
         }
