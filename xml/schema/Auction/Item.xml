@@ -57,6 +57,19 @@
     <fieldName>auction_item_type_id</fieldName>
     <add>2.3</add>
   </index>
+  <field> 
+      <name>auction_item_category_id</name> 
+      <type>int unsigned</type> 
+      <title>Auction Item Category ID</title>  
+      <default>0</default>                
+      <comment>Auction Category ID.Implicit FK to civicrm_option_value where option_group = auction_item_.</comment> 
+      <add>2.3</add> 
+  </field> 
+  <index>
+    <name>index_auction_item_category_id</name>
+    <fieldName>auction_item_category_id</fieldName>
+    <add>2.3</add>
+  </index>
   <field>
        <name>title</name>
        <title>Item Name</title>
@@ -76,6 +89,23 @@
       <comment>Optional description of the product/premium.</comment>
       <add>2.3</add>
   </field>
+  <field>
+      <name>note</name>
+      <title>Special Note</title>
+      <type>text</type>
+      <localizable>true</localizable>
+      <comment>Optional specific instructions / restrictions regarding this item.</comment>
+      <add>2.3</add>
+  </field>
+  <field> 
+      <name>lot_number</name> 
+      <title>Lot Number</title>
+      <type>varchar</type>
+      <length>50</length>
+      <export>true</export>  
+      <comment>lot numbers associated with this item. could be a range. automatically computed.</comment>
+      <add>2.3</add> 
+  </field> 
   <field>
        <name>url</name>
        <type>varchar</type>
