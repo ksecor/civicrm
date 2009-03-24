@@ -200,8 +200,10 @@ class CRM_Core_Block {
                       ( ! CRM_Core_Permission::check('edit groups') ) ) {
                      continue;
                  }
+
                  if ( $id == self::EVENT &&
-                      ! CRM_Core_Permission::check( 'view event info' ) ) {
+                      ( ! CRM_Core_Permission::access( 'CiviEvent', false ) ||
+                        ! CRM_Core_Permission::check( 'view event info' ) ) ) {
                      continue;
                  }
 
@@ -215,6 +217,8 @@ class CRM_Core_Block {
                                      );
             }
         }
+        CRM_Core_Error::debug( $block );
+        exit( );
         return $block;
     }
 
@@ -451,10 +455,18 @@ class CRM_Core_Block {
         }
 
         require_once 'CRM/Core/Permission.php';
-        if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
+        if ( $id == self::EVENT &&
+             CRM_Core_Permission::check( 'view event info' ) ) {
+            // is CiviEvent enabled?
+            if ( ! CRM_Core_Permission::access( 'CiviEvent', false ) ) {
+                return null;
+            }
+            // do nothing
+        } else if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
             return null;
         } else if ( ( $id == self::ADD  ) &&
-                    ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
+                    ( ! CRM_Core_Permission::check( 'add contacts' ) ) &&
+                    ( ! CRM_Core_Permission::check('edit groups') ) ) {
             return null;
         }
 
