@@ -108,7 +108,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                         $contact->$dbName = $value;
                         $$phpName         = $value;
                     } else if ( empty( $$phpName ) &&
-                                ! CRM_Utils_Array::value( $phpName, $params ) &&
+                                CRM_Utils_Array::value( $phpName, $params ) !== null &&
                                 ! empty( $value ) ) {
                         $$phpName = $value;
                     }
@@ -150,7 +150,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 trim( "$prefix $firstName $middleName $lastName $suffix" );
             $display_name = str_replace( '  ', ' ', $display_name );
         }
-        
+
         if (isset( $display_name ) &&
             trim( $display_name ) ) {
             $contact->display_name = trim( $display_name );
