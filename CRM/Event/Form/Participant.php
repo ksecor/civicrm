@@ -273,6 +273,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             
             parent::preProcess( );
+
             $this->_single    = false;
             $this->_contactID = null;
 
@@ -950,7 +951,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             
             if ( $this->_single ) {
-            $this->_contactIds[] = $this->_contactID;
+                $this->_contactIds[] = $this->_contactID;
             }
             
             if ( CRM_Utils_Array::value( 'record_contribution', $params ) ) {
