@@ -200,6 +200,11 @@ class CRM_Core_Block {
                       ( ! CRM_Core_Permission::check('edit groups') ) ) {
                      continue;
                  }
+                 if ( $id == self::EVENT &&
+                      ! CRM_Core_Permission::check( 'view event info' ) ) {
+                     continue;
+                 }
+
                  $block[$id] = array(
                                      'info'       => $value['info']      ,
                                      'cache'      => $value['cache']     ,
