@@ -1,20 +1,13 @@
-<div class="menu">
-<ul class="indented">
-{foreach from=$event item=values key=id}
-<li class="leaf">
-  <strong><a href="{crmURL p="civicrm/event/info" q="reset=1&id=`$id`"}">{$values.title}</a></strong>
-{if $values.start_date}
-  <strong>{$values.start_date|crmDate}&nbsp;{if $values.end_date}to{/if}&nbsp;{$values.end_date|crmDate}</strong>
-{/if}
-{if $values.summary}
-  <br/>
-  {$values.summary}
-{/if}
-{if $values.onlineRegistration}
-   <br/>
-   <strong><a href="{crmURL p="civicrm/event/register" q="reset=1&id=`$id`"}">&raquo; {$values.registration_link_text}</strong>
-{/if}
-
+{* Block to display upcoming events. *}
+{* You can add the following additional event elements to this tpl as needed: $ev.end_date, $ev.location, $ev.description, $ev.contact_email *}
+{* Change truncate:80 to a larger or smaller value to show more or less of the summary. Remove it to show complete summary. *}
+<div id="crm-event-block">
+{foreach from=$event item=ev}
+    <p>
+    <a href="{$ev.url}">{$ev.title}</a><br />
+    {$ev.start_date|truncate:10:""|crmDate}<br />
+    {assign var=evSummary value=$ev.summary|truncate:80:""}
+    <em>{$evSummary} (<a href="{$ev.url}">{ts}more{/ts}...</a>)</em>
+    </p>
 {/foreach}
-</ul>
 </div>
