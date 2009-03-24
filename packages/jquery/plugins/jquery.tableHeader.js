@@ -20,7 +20,7 @@ $(document).ready(function() {
       }
       
       // Clone and wrap cell contents in sticky wrapper that overlaps the cell's padding.
-      $('<div class="sticky-header" style="position: fixed; visibility: hidden; top: 0px;">'+ html +'</div>').prependTo(this);
+      $('<div class="sticky-header" style="position: fixed; display: none; top: 0px;">'+ html +'</div>').prependTo(this);
       var div = $('div.sticky-header', this).css({
 	  'marginLeft': '-'+ $(this).css('paddingLeft'),
           'marginRight': '-'+ $(this).css('paddingRight'),
@@ -49,10 +49,10 @@ var scroll = function() {
     var scroll = document.documentElement.scrollTop || document.body.scrollTop;
     var offset = scroll - this.stickyPosition - 4;
     if (offset > 0 && offset < this.stickyMax - 100) {
-      $(this).css('visibility', 'visible');
+      $(this).css('display', 'block');
     }
     else {
-      $(this).css('visibility', 'hidden');
+      $(this).css('display', 'none');
     }
   });
 };
