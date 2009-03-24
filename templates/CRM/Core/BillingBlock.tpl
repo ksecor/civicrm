@@ -1,6 +1,6 @@
 {if $form.credit_card_number}
     <div id="payment_information">
-        <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend> 
+        <fieldset><legend>{ts}Credit Card Information{/ts}</legend> 
             {if $paymentProcessor.billing_mode & 2 and !$hidePayPalExpress }
                 <table class="form-layout-compressed">
                 	<tr>

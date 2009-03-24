@@ -35,7 +35,7 @@
 {$address}
 
 ===========================================================
-{ts}Credit or Debit Card Information{/ts}
+{ts}Credit Card Information{/ts}
 
 ===========================================================
 {$credit_card_type}
