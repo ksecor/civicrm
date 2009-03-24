@@ -126,7 +126,7 @@ class CRM_Core_Block {
                                                                    'region'     => 'left' ),
                                        self::EVENT      => array( 'template'   => 'Event.tpl',
                                                                    'info'       => ts('CiviCRM Upcoming Events'),
-                                                                   'subject'    => '',
+                                                                   'subject'    => 'Upcoming Events',
                                                                    'templateValues' => array(),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
@@ -445,7 +445,7 @@ class CRM_Core_Block {
             return null;
         }
 
-	require_once 'CRM/Core/Permission.php';
+        require_once 'CRM/Core/Permission.php';
         if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
             return null;
         } else if ( ( $id == self::ADD  ) &&
