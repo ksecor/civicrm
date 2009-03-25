@@ -105,7 +105,7 @@ class CRM_Contact_Form_Search_Custom_TagContributions
         $select  = "DISTINCT contact_a.id as contact_id";
     } else {
         $select  = "
-distinct
+DISTINCT
 civicrm_contact.id as contact_id,
 civicrm_contact.sort_name as sort_name,
 civicrm_contact.first_name as first_name,
@@ -123,7 +123,7 @@ sum(civicrm_contribution.total_amount) as amount
 SELECT $select
 FROM   $from
 WHERE  $where
-GROUP BY CONCAT( '-', civicrm_contact.id, civicrm_tag.name)
+GROUP BY last_name
 ";
       //for only contact ids ignore order.
       if ( !$onlyIDs ) {
@@ -144,9 +144,9 @@ GROUP BY CONCAT( '-', civicrm_contact.id, civicrm_tag.name)
   function from( ) {
       return "
       civicrm_contribution,
+      civicrm_tag,
       civicrm_contact
       LEFT JOIN civicrm_entity_tag ON civicrm_entity_tag.contact_id = civicrm_contact.id
-      LEFT JOIN civicrm_tag ON civicrm_tag.id = civicrm_entity_tag.tag_id
 ";
   }
 
@@ -171,9 +171,11 @@ function where( $includeContactIDs = false ) {
      }
 
      $tag = CRM_Utils_Array::value( 'tag', $this->_formValues );
-             if ( $tag ) {
-             $clauses[] = "civicrm_entity_tag.tag_id = $tag";
-             $clauses[] = "civicrm_tag.id = civicrm_entity_tag.tag_id";
+     if ( $tag ) {
+         $clauses[] = "civicrm_entity_tag.tag_id = $tag";
+         $clauses[] = "civicrm_tag.id = civicrm_entity_tag.tag_id";
+     } else {
+         $clauses[] = "civicrm_entity_tag.tag_id IS NOT NULL";
      }
 
      if ( $includeContactIDs ) {
