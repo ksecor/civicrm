@@ -47,7 +47,8 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
         } else if ( $upgrade->checkVersion( '2.1.2' ) ||
                     $upgrade->checkVersion( '2.1.3' ) ||
                     $upgrade->checkVersion( '2.1.4' ) ||
-                    $upgrade->checkVersion( '2.1.5' ) ) {
+                    $upgrade->checkVersion( '2.1.5' ) ||
+                    $upgrade->checkVersion( '2.1.6' ) ) {
             // do nothing, db version is changed for all upgrades
         } else if ( $upgrade->checkVersion( '2.1.0' ) ||
                     $upgrade->checkVersion( '2.1' )   || 
@@ -81,7 +82,6 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
                                                   'reset=1' ) );
         $contents = $template->fetch( 'CRM/common/success.tpl' );
         echo $contents;
-        exit( );
     }
 
     function runForm( $stepID ) {
