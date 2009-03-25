@@ -86,6 +86,7 @@ class CiviContributeProcessor {
                                      'google-order-number' => 'trxn_id',
                                      'currency'            => 'currency',
                                      'item-name'           => 'note',
+                                     'timestamp'           => 'receive_date',
                                      ),
               );
 

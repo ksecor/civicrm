@@ -437,6 +437,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
                            'total-charge-amount' => $apiParams[2]['total-charge-amount']['VALUE'],
                            'currency'            => $apiParams[2]['total-charge-amount']['currency'],
                            'item-name'           => $newOrder['shopping-cart']['items']['item']['item-name']['VALUE'],
+                           'timestamp'           => $apiParams[2]['timestamp']['VALUE'],
                            );
                 foreach ( $localMapper as $localKey => $localVal ) {
                     if ( CRM_Utils_Array::value($localKey, $mapper['transaction']) ) {
