@@ -84,6 +84,8 @@ class CiviContributeProcessor {
               'transaction' => array(
                                      'total-charge-amount' => 'total_amount',
                                      'google-order-number' => 'trxn_id',
+                                     'currency'            => 'currency',
+                                     'item-name'           => 'note',
                                      ),
               );
 
