@@ -734,24 +734,37 @@ class Installer extends InstallRequirements {
 }
 
 function getSiteDir( $cmsPath, $str ) {
+    static $siteDir = '';
+    
+    if ( $siteDir ) {
+        return $siteDir;
+    }
+    
     $sites   = DIRECTORY_SEPARATOR . 'sites'   . DIRECTORY_SEPARATOR;
     $modules = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
-    
     preg_match( "/" . preg_quote($sites, DIRECTORY_SEPARATOR) . 
                 "([a-zA-Z0-9_.]+)" . 
                 preg_quote($modules, DIRECTORY_SEPARATOR) . "/",
                 $_SERVER['SCRIPT_FILENAME'], $matches );
     $siteDir = isset($matches[1]) ? $matches[1] : 'default';
-
+    
     if ( strtolower( $siteDir ) == 'all' ) {
-        if ( isset ( $_SERVER['HTTP_HOST'] ) &&
-             is_dir( $cmsPath  . DIRECTORY_SEPARATOR .
-                     'sites'   . DIRECTORY_SEPARATOR . $_SERVER['HTTP_HOST'] ) ) {
-            $siteDir = $_SERVER['HTTP_HOST'];
-        } else {
-            $siteDir = 'default';
+        // For this case - use drupal's way of finding out multi-site directory
+        $uri    = explode(DIRECTORY_SEPARATOR, $_SERVER['SCRIPT_FILENAME']);
+        $server = explode('.', implode('.', array_reverse(explode(':', rtrim($_SERVER['HTTP_HOST'], '.')))));
+        for ($i = count($uri) - 1; $i > 0; $i--) {
+            for ($j = count($server); $j > 0; $j--) {
+                $dir = implode('.', array_slice($server, -$j)) . implode('.', array_slice($uri, 0, $i));
+                if (file_exists($cmsPath  . DIRECTORY_SEPARATOR . 
+                                'sites'   . DIRECTORY_SEPARATOR . $dir)) {
+                    $siteDir = $dir;
+                    return $siteDir;
+                }
+            }
         }
+        $siteDir = 'default';
     }
+
     return $siteDir;
 }
 
