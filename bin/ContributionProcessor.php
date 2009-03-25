@@ -208,12 +208,6 @@ class CiviContributeProcessor {
                                                                         $searchParams );
                     $response[]   = $amtData; // append amount information as well
 
-                    $count++;
-                    CRM_Core_Error::debug( $count, $response );
-                    if ( $count > 20 ) {
-                        exit( );
-                    }
-
                     $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $response,
                                                                                       self::$_googleParamsMapper,
                                                                                       'google' );
@@ -318,7 +312,7 @@ require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 $config =& CRM_Core_Config::singleton();
 
-// CRM_Utils_System::authenticateScript(true);
+CRM_Utils_System::authenticateScript(true);
 
 require_once 'CRM/Core/Lock.php';
 $lock = new CRM_Core_Lock('CiviContributeProcessor');
