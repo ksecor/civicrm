@@ -213,18 +213,18 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
     function createCustomGroup( )
     {
         $params = array(
-                         'title'            => 'Test Custom Group',
-                         'extends'          => array ( 'Activity' ),
-                         'weight'           => 5,
-                         'style'            => 'Inline',
-                         'is_active'        => 1,
-                         'max_multiple'     => 0
-        );
+                        'title'            => 'Test Custom Group',
+                        'extends'          => array ( 'Activity' ),
+                        'weight'           => 5,
+                        'style'            => 'Inline',
+                        'is_active'        => 1,
+                        'max_multiple'     => 0
+                        );
         $customGroup =& civicrm_custom_group_create($params);
-
+        
         return $customGroup;
     }
-
+    
     function createCustomField( $customGroupId )
     {
         $optionValue[] = array (
@@ -232,20 +232,20 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                                 'value'     => 'R',
                                 'weight'    => 1,
                                 'is_active' => 1
-        );
+                                );
         $optionValue[] = array (
                                 'label'     => 'Yellow',
                                 'value'     => 'Y',
                                 'weight'    => 2,
                                 'is_active' => 1
-        );
+                                );
         $optionValue[] = array (
                                 'label'     => 'Green',
                                 'value'     => 'G',
                                 'weight'    => 3,
                                 'is_active' => 1
-        );
-
+                                );
+        
         $params = array(
                         'label'           => 'Color Choser',
                         'html_type'       => 'Select',
@@ -256,25 +256,25 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                         'is_active'       => 1,
                         'option_values'   => $optionValue,
                         'custom_group_id' => $customGroupId,
-        );
-
+                        );
+        
         $customField  =& civicrm_custom_field_create( $params );
-
+        
         $ids = array( );
         $ids[] = $customField['result']['customFieldId'];
-
+        
         $params  = array(
                          'custom_group_id' =>  $customGroupId,
-                          'label'           => 'Enter idea in once sentence',
-                          'html_type'       => 'Text',
-                          'data_type'       => 'String',
-                          'default_value'   => 'xyz',
-                          'weight'          => 4,
-                          'is_required'     => 1,
-                          'is_searchable'   => 0,
-                          'is_active'       => 1
-        );
-
+                         'label'           => 'Enter idea in once sentence',
+                         'html_type'       => 'Text',
+                         'data_type'       => 'String',
+                         'default_value'   => 'xyz',
+                         'weight'          => 4,
+                         'is_required'     => 1,
+                         'is_searchable'   => 0,
+                         'is_active'       => 1
+                         );
+        
         $customField  =& civicrm_custom_field_create( $params );
         $ids[] = $customField['result']['customFieldId'];
         return $ids;
