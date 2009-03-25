@@ -55,7 +55,7 @@ function generateJoomlaConfig( $version ) {
     createDir( $smarty->compile_dir );
 
     $smarty->assign( 'CiviCRMVersion', $version );
-    $smarty->assign( 'creationDate'  , date('m/d/Y') );
+    $smarty->assign( 'creationDate'  , date('F d Y') );
     $smarty->assign( 'pkgType'       , $pkgType );
 
     $xml = $smarty->fetch( 'joomla.tpl' );
