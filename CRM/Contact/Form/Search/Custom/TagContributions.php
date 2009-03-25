@@ -123,7 +123,7 @@ sum(civicrm_contribution.total_amount) as amount
 SELECT $select
 FROM   $from
 WHERE  $where
-GROUP BY contact_id
+GROUP BY CONCAT( '-', civicrm_contact.id, civicrm_tag.name)
 ";
       //for only contact ids ignore order.
       if ( !$onlyIDs ) {
