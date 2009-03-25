@@ -110,7 +110,6 @@ civicrm_contact.id as contact_id,
 civicrm_contact.sort_name as sort_name,
 civicrm_contact.first_name as first_name,
 civicrm_contact.last_name as last_name,
-civicrm_entity_tag.tag_id as tag_id,
 civicrm_tag.name as tag_name,
 sum(civicrm_contribution.total_amount) as amount
 ";
@@ -123,7 +122,7 @@ sum(civicrm_contribution.total_amount) as amount
 SELECT $select
 FROM   $from
 WHERE  $where
-GROUP BY last_name
+GROUP BY civicrm_contact.id, civicrm_tag.name 
 ";
       //for only contact ids ignore order.
       if ( !$onlyIDs ) {
@@ -144,9 +143,9 @@ GROUP BY last_name
   function from( ) {
       return "
       civicrm_contribution,
-      civicrm_tag,
       civicrm_contact
       LEFT JOIN civicrm_entity_tag ON civicrm_entity_tag.contact_id = civicrm_contact.id
+      LEFT JOIN civicrm_tag ON civicrm_tag.id = civicrm_entity_tag.tag_id
 ";
   }
 
