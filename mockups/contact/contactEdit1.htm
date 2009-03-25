@@ -271,6 +271,33 @@
                                         <a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').hide(); return false;" title="Click to edit"> ( edit )</a>
                                         </div>
                                         <fieldset id="name-greet" ><legend><a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').show(); return false;" title="Click to edit">Contact Details</a></legend>
+                                        
+                                            <div style="border: 1px solid
+                                            grey; background-color: #FFF9DD;
+                                            font-size: 9px; padding:3px;
+                                            padding-left: 10px;
+                                            font-style: italic">After
+                                            you type in first name, last
+                                            name and email address,,
+                                            system will check for duplicates
+                                            and will display potential
+                                            existing contacts in this frame.
+                                            <br/><b>Potential duplicates
+                                            found!</b>
+                                            <blockquote>
+                                            <ul>
+                                             <li>- <a href="">Jane Doe,
+                                            jane@otherfoundation.org</a>,
+                                             Completely Different
+                                            Organisation LLC &nbsp; <a
+                                             href="">(see details)</a></li>
+                                             <li>- <a href="">Jane Maria Doe,
+                                            jmdoe@hotmail.com</a> &nbsp; <a
+                                             href="">(see details)</a></li>                                             
+                                            </ul>
+                                            </blockquote>
+                                            </div><br/>
+                                        
                                             <table class="form-layout-compressed">
                                                     <tr>
                                                         <td>
@@ -279,7 +306,8 @@
                                                             <select name="prefix_id" id="prefix_id" class="form-select">
                                                                 <option value="">
                                                            </option>
-                                                                <option value="1">Mrs</option>
+                                                                <option value="1"
+                                                           selected="selected">Mrs</option>
                                                                 <option value="2">Ms</option>
 
                                                                 <option value="3">Mr</option>
@@ -289,6 +317,7 @@
                                                         <td>
                                                             <label for="first_name">First Name</label><br />
                                                             <input maxlength="64"
+                                                            value="Jane"
                                                             size="21"  name="first_name" type="text" id="first_name" />
                                                         </td>
                                                         <td>
@@ -299,6 +328,7 @@
                                                         <td>
                                                             <label for="last_name">Last Name</label><br />
                                                             <input maxlength="64"
+                                                            value="Doe"
                                                             size="21" name="last_name" type="text" id="last_name" />
                                                         </td>
                                                         <td>                                                            <label
@@ -320,6 +350,9 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                    <td
+                                                    style="font-size:
+                                                    3px; color: white">j</td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2"
@@ -327,52 +360,69 @@
                                                         for="current_employer">Current Employer</label><br />
                                                             <div
                                                         align="right">
-                                                            <input size="28" name="current_employer" type="text" id="current_employer" />
+                                                            <input size="28" name="current_employer" type="text" id="current_employer"
+                                                        value="SomeFoundation" />
                                                         </div>
                                                             </td>
                                                             
                                                         <td><label for="job_title">Job title</label><br />
-                                                            <input maxlength="64" size="20" name="job_title" type="text" id="job_title" />
+                                                            <input maxlength="64" size="20" name="job_title" type="text" id="job_title"
+                                                        value="public relations"/>
                                                         </td>
                                                         <td colspan="2"><label for="home_URL">Website</label><br />
                                                             <input maxlength="128"
+                                                        value="http://somefoundation.org/"
                                                         size="28" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" /></td>
                                                     </tr>
                                                 </table>
-                                                
-                                                    <div
-                                                    class="action-link"><br/><input name="_qf_Edit_refresh_dedupe" value="&raquo; Check for Matching Contact(s)" type="submit" id="_qf_Edit_refresh_dedupe" class="form-submit"
-                                                    /><br/><br/></div>                                                
-
-
-
-
-                                                <table 
+                                                <br/>
+                                                <table
                                                 class="form-layout-compressed"
                                                 style="white-space: nowrap;
                                                 width: 85%">
 						    
                                                     <tr id="row0">
-                                                      <td width="20%"
-                                                    align="center">Primary</td>
-                                                      <td
-                                                    ><b>Email
-                                                      addresses:</b></td>
-                                                      <td align="center">On Hold</td>
-                                                      <td align="center" width="35%">Use for Bulk
-                                                      Mailings</td>
+
+                                                      <td style="
+                                                      vertical-align:
+                                                    bottom"
+                                                    ><span style="font-size:
+                                                    12px;">Email</span>
+                                                      &nbsp;
+                                                      
+						<a style="font-size: 10px;"
+                                                    href="#"
+                                                    onclick="cj('#row3').show();cj('#show2').hide();return
+                                                    false;">add</a>                                                      
+                                                      
+                                                      </td>
+                                                      <td align="center"
+                                                      style="vertical-align:
+                                                      bottom;
+                                                      padding-right: 10px;
+                                                      padding-left: 10px">On
+                                                      Hold?</td>
+                                                      <td align="center"                                                       style="vertical-align:
+                                                      bottom;
+                                                      padding-right: 10px;
+                                                      padding-left: 10px">Use
+                                                      for<br/>
+                                                      Bulk
+                                                      Mailings?</td>                                                      
+                                                      <td width="20%"                                                       style="vertical-align:
+                                                      bottom;
+                                                      padding-right: 10px;
+                                                      padding-left: 10px"
+                                                    align="center">Primary?</td>                                                      
+
                                                       <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td
-                                                    style="vertical-align:
-                                                        middle;" align="center"><input
-                                                    name="email-primary"
-                                                        value=""
-                                                    type="radio"></td>
+
                                                         <td>
 
-        <input maxlength="64" size="35" name="location[1][email][1][email]" id="location_1_email_1_email"  type="text">
+        <input maxlength="64" size="35" name="location[1][email][1][email]" id="location_1_email_1_email"  type="text"
+        value="jane@somefoundation.org" >
                                                         
                                                         
         <select name="location[1][location_type_id]" id="location_1_location_type_id" class="form-select">
@@ -382,20 +432,31 @@
             <option value="4">Other</option>
             <option value="2">Work</option>
         </select>
-</td><td align="center">
-        <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"></span></td>
+</td>
+
+
+
+<td align="center">
+        <span><input name="location[1][email][1][on_hold]" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"></span></td>
         <td align="center">
-    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"></span>
-</td>                                               <td><a href="#">[x]</a></td>         
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="center"><input
+    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox" ></span>
+</td>
+
+                                                        <td
+                                                    style="vertical-align:
+                                                        middle;" align="center"><input
                                                     name="email-primary"
                                                         value=""
-                                                    type="radio"></td>
+                                                    type="radio" checked="checked"></td>
+
+                                               <td></td>         
+                                                    </tr>
+                                                    <tr>
+
                                                         <td>
 
-        <input maxlength="64" size="35" name="location[1][email][1][email]" id="location_1_email_1_email"  type="text">
+        <input maxlength="64" size="35" name="location[1][email][1][email]" id="location_1_email_1_email"  type="text"
+        value="jane@homeemail.com" >
                                                         
                                                         
         <select name="location[1][location_type_id]" id="location_1_location_type_id" class="form-select">
@@ -406,153 +467,128 @@
             <option value="2">Work</option>
         </select>
 
-</td><td align="center">
+</td>
+
+
+<td align="center">
         <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"></span></td>
         <td align="center">
     <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"></span>
-</td>                                               <td><a href="#">[x]</a></td>                                                               
-                                                    </tr>
-                                                    
-                                                    
-                                                    <tr>
+</td>
+
+
                                                         <td align="center"><input
                                                     name="email-primary"
                                                         value=""
                                                     type="radio"></td>
-                                                        <td>
 
-        <input maxlength="64" size="35" name="location[1][email][1][email]" id="location_1_email_1_email"  type="text">
-                                                        
-                                                        
-        <select name="location[1][location_type_id]" id="location_1_location_type_id" class="form-select">
-            <option value="5">Billing</option>
-            <option value="1" selected="selected">Other</option>
-            <option value="3">Main</option>
-            <option value="4">Home</option>
-            <option value="2">Work</option>
-        </select>
-
-</td><td align="center">
-        <span><input name="location[1][email][1][on_hold]" value="" type="hidden"><input id="location[1][email][1][on_hold]" name="location[1][email][1][on_hold]" value="1" class="form-checkbox" type="checkbox"></span></td>
-        <td align="center">
-    <span>&nbsp;<input name="location[1][email][1][is_bulkmail]" value="" type="hidden"><input onchange="email_is_bulkmail_onclick('Edit', 1, 5, 1);" id="location[1][email][1][is_bulkmail]" name="location[1][email][1][is_bulkmail]" value="1" class="form-checkbox" type="checkbox"></span>
-</td>                                               <td><a href="#">[x]</a></td>         
-                                                    </tr>                                                    
-                                                    
-                                                    
-                                                    
-                                                    
+                                               <td><a href="#">remove</a></td>                                                               
+                                                    </tr>
                                                     
                                                     
                                                     
                                                     <tr>
-                                                      <td></td><td
-                                                    colspan="3"><a
-                                                    href="#"
-
-                                                    onclick="cj('#row3').show();cj('#show2').hide();return
-                                                    false;">+ add another</a></td>
+                                                      <td
+                                                    colspan="4">&nbsp;</td>
                                                     </tr>
 
 						    
                                                     <tr id="row0">
-                                                      <td align="center">Primary</td>
-                                                      <td
-                                                    ><b>
-                                                    Phone
-                                                      numbers:</b></td>
+
+                                                      <td style="
+                                                      vertical-align:
+                                                    bottom"
+                                                    ><span style="font-size:
+                                                    12px;">Phone</span>
+                                                      &nbsp;
+                                                      
+						<a style="font-size: 10px;"
+                                                    href="#"
+                                                    onclick="cj('#row3').show();cj('#show2').hide();return
+                                                    false;">add</a>                                                      
+                                                      
+                                                      </td>
                                                       <td colspan="2"></td>
+                                                      <td
+                                                      align="center">Primary?</td>                                                                                                            
                                                     </tr>
 
                                                     <tr>
+
+
+                                                        <td>
+
+   <input maxlength="64" size="35" name="location[1][phone][1][phone]" id="location_1_phone_1_phone" type="text">
+
+        <select name="location[1][location_type_id]" id="location_1_location_type_id" class="form-select">
+            <option value="5">Billing</option>
+            <option value="1" selected="selected">Home</option>
+            <option value="3">Main</option>
+            <option value="4">Other</option>
+            <option value="2">Work</option>
+        </select>
+        
+
+
+</td>
+
+<td colspan="2">
+
+        <select name="location[1][phone][1][phone_type_id]" id="location_1_phone_1_phone_type_id" class="form-select">
+
+             <option value="">- select -</option>
+             <option value="1" selected="selected">Phone</option>
+             <option value="2">Mobile</option>
+             <option value="3">Fax</option>
+             <option value="4">Pager</option>
+             <option value="5">Voicemail</option>
+         </select>        
+                                                        
+</td>
+
+
                                                         <td
                                                     style="vertical-align:
                                                         middle;" align="center"><input
                                                     name="phone-primary"
                                                         value=""
+                                                    checked="checked"
+                                                        disabled="disabled"
                                                     type="radio"></td>
 
-                                                        <td>
-
-   <input maxlength="64" size="35" name="location[1][phone][1][phone]" id="location_1_phone_1_phone" type="text">
-
-        <select name="location[1][location_type_id]" id="location_1_location_type_id" class="form-select">
-            <option value="5">Billing</option>
-            <option value="1" selected="selected">Home</option>
-            <option value="3">Main</option>
-            <option value="4">Other</option>
-            <option value="2">Work</option>
-        </select>
-
-</td><td colspan="2">
-        <select name="location[1][phone][1][phone_type_id]" id="location_1_phone_1_phone_type_id" class="form-select">
-
-             <option value="">- select -</option>
-             <option value="1" selected="selected">Phone</option>
-             <option value="2">Mobile</option>
-             <option value="3">Fax</option>
-             <option value="4">Pager</option>
-             <option value="5">Voicemail</option>
-         </select>
-                                                        
-</td>                                               <td><a href="#">[x]</a></td>         
+                                               <td></td>         
                                                     </tr>
 
 
-
-
                                                     <tr>
-                                                        <td align="center"><input
-                                                    name="phone-primary"
-                                                        value=""
-                                                    type="radio"></td>
-                                                        <td>
-
-   <input maxlength="64" size="35" name="location[1][phone][1][phone]" id="location_1_phone_1_phone" type="text">
-
-        <select name="location[1][location_type_id]" id="location_1_location_type_id" class="form-select">
-            <option value="5">Billing</option>
-            <option value="1" selected="selected">Home</option>
-            <option value="3">Main</option>
-            <option value="4">Other</option>
-            <option value="2">Work</option>
-        </select>
-</td><td colspan="2">
-        <select name="location[1][phone][1][phone_type_id]" id="location_1_phone_1_phone_type_id" class="form-select">
-
-             <option value="">- select -</option>
-             <option value="1" selected="selected">Phone</option>
-             <option value="2">Mobile</option>
-             <option value="3">Fax</option>
-             <option value="4">Pager</option>
-             <option value="5">Voicemail</option>
-         </select>
-</td>                                               <td><a href="#">[x]</a></td>                                                                 
-                                                    </tr>
-                                                    <tr>
-                                                      <td></td><td
-                                                    colspan="3"><a
-                                                    href="#"
-
-                                                    onclick="cj('#row3').show();cj('#show2').hide();return
-                                                    false;">+ add another</a></td>
+                                                      <td
+                                                    colspan="4">&nbsp;
+                                                    </td>
                                                                                                         </tr>
 
                                                     <tr id="row0">
-                                                      <td align="center">Primary</td>
+
+                                                      <td style="
+                                                      vertical-align:
+                                                    bottom"
+                                                    ><span style="font-size:
+                                                    12px;">Instant messenger</span>
+                                                      &nbsp;
+                                                      
+						<a style="font-size: 10px;"
+                                                    href="#"
+                                                    onclick="cj('#row3').show();cj('#show2').hide();return
+                                                    false;">add</a>                                                      
+                                                      
+                                                      </td>
                                                       <td
-                                                    ><b>Instant
-                                                      messengers:</b></td><td
                                                       colspan="2"></td>
+                                                      <td
+                                                      align="center">Primary?</td>                                                                                                            
+                                                      
                                                     </tr>
                                                     <tr>
-                                                        <td
-                                                    style="vertical-align:
-                                                        middle;
-                                                    " align="center"><input
-                                                    name="im-primary"
-                                                        value=""
-                                                    type="radio"></td>
+
                                                         <td>
 
    <input maxlength="64" size="35" name="location[1][phone][1][phone]" id="location_1_phone_1_phone" type="text">
@@ -564,8 +600,9 @@
             <option value="4">Other</option>
             <option value="2">Work</option>
         </select>
+        
+<td colspan="2">
 
-</td><td colspan="2">
         <select name="location[1][im][1][provider_id]" id="location_1_im_1_provider_id" class="form-select">
             <option value="">- select service -</option>
 
@@ -576,17 +613,32 @@
             <option value="5">Jabber</option>
             <option value="6">Skype</option>
 
-        </select>                                                        
-</td>                                               <td><a href="#">[x]</a></td>         
+        </select>                                                                
+
+</td>
+
+</td>
+
+                                                        <td
+                                                    style="vertical-align:
+                                                        middle;
+                                                    " align="center"><input
+                                                    name="im-primary"
+                                                        value=""
+                                                    checked="checked"
+                                                        disabled="disabled"                                                        
+                                                    type="radio"></td>
+
+                                               <td></td>         
                                                     </tr>
 
                                                     <tr>
-                                                      <td></td><td
-                                                    colspan="3"><a
+                                                      <td
+                                                    colspan="4"><a
                                                     href="#"
 
                                                     onclick="cj('#row3').show();cj('#show2').hide();return
-                                                    false;">+ add another</a></td>
+                                                    false;">add</a></td>
                                                     </tr>
 
                                                 </table>
