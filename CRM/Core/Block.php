@@ -217,8 +217,6 @@ class CRM_Core_Block {
                                      );
             }
         }
-        CRM_Core_Error::debug( $block );
-        exit( );
         return $block;
     }
 
