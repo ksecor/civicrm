@@ -19,8 +19,16 @@
   </item>
   <item>
      <path>civicrm/auction/item</path>
-     <title>Auction Item</title>
+     <title>Item Listing</title>
      <page_callback>CRM_Auction_Page_Item</page_callback>
+     <access_callback>1</access_callback>
+     <is_public>true</is_public>
+     <is_ssl>true</is_ssl>
+  </item>
+  <item>
+     <path>civicrm/auction/item/manage</path>
+     <title>Auction Item</title>
+     <page_callback>CRM_Auction_Page_ManageItem</page_callback>
      <access_callback>1</access_callback>
      <is_public>true</is_public>
      <is_ssl>true</is_ssl>

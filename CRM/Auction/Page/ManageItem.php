@@ -38,7 +38,7 @@ require_once 'CRM/Core/Page.php';
 /**
  * Page for displaying list of auctions
  */
-class CRM_Auction_Page_Item extends CRM_Core_Page
+class CRM_Auction_Page_ManageItem extends CRM_Core_Page
 {
     /**
      * the id of the auction for this item
@@ -175,8 +175,10 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
      */
     function browse()
     {
-        $this->assign('manageItemURL', CRM_Utils_System::url( 'civicrm/auction/item/manage', 
-                                                              'reset=1&action=add&aid=' . $this->_aid ));
+        $this->assign('newItemURL',     CRM_Utils_System::url( 'civicrm/auction/item/add', 
+                                                               'reset=1&action=add&aid=' . $this->_aid ));
+        $this->assign('previewItemURL', CRM_Utils_System::url( 'civicrm/auction/item', 
+                                                               'reset=1&aid=' . $this->_aid ));
 
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',

@@ -76,7 +76,7 @@ class CRM_Auction_Page_Manage extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Items'),
-                                                                          'url'   => 'civicrm/auction/item',
+                                                                          'url'   => 'civicrm/auction/item/manage',
                                                                           'qs'    => 'aid=%%id%%&reset=1',
                                                                           'title' => ts('Manage Items') 
                                                                           ),

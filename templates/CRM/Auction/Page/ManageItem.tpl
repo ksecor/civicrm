@@ -1,4 +1,5 @@
-<a accesskey="N" href="{$manageItemURL}" id="manageItem" class="button"><span>&raquo; {ts}Manage Items{/ts}</span></a>
+<a accesskey="N" href="{$newItemURL}" id="newAddItem" class="button"><span>&raquo; {ts}New Item{/ts}</span></a>
+<a accesskey="P" href="{$previewItemURL}" id="previewItem" class="button"><span>&raquo; {ts}Preview Items{/ts}</span></a>
 <div class="right">
 </div>
 
@@ -13,19 +14,33 @@
         {include file="CRM/common/pagerAToZ.tpl}    
         <table class="selector">
          <tr class="columnheader">
-            <th></th>
+            <th>{ts}Donor{/ts}</th>
             <th>{ts}Item{/ts}</th>
-            <th>{ts}Max Bid{/ts}</th>
+            <th>{ts}Description{/ts}</th>
+            <th>{ts}Auction Type{/ts}</th>
+            <th>{ts}Quantity{/ts}</th>
             <th>{ts}Retail Value{/ts}</th>
-            <th>{ts}Buy Now Price{/ts}</th>
+            <th>{ts}Buy Now Value{/ts}</th>
+            <th>{ts}Min Bid Value{/ts}</th>
+            <th>{ts}Min Bid Increment{/ts}</th>
+            <th>{ts}Approved?{/ts}</th>
+            <th>{ts}Active?{/ts}</th>
+	    <th></th>
          </tr>
         {foreach from=$rows item=row}
           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-            <td><img src="{$config->resourceBase}i/contribute/default_premium.jpg" width="70px" height="50px"/></td>
-            <td>{$row.title}</td>
-            <td>{$row.max_bid|crmMoney}</td>
-            <td>{$row.retail_value|crmMoney}</td>
-            <td>{if $row.buy_now_value}{$row.buy_now_value|crmMoney} &nbsp;&raquo; <a href="#">buy now</a>{/if}</td>
+            <td>{$row.donorName}</td>
+            <td>{$row.title}&nbsp;&nbsp;({ts}ID:{/ts} {$row.id})</td>
+            <td>{$row.description}</td>
+            <td>{$row.auction_type}</td>
+            <td>{$row.quantity}</td>
+            <td>{$row.retail_value}</td>
+            <td>{$row.buy_now_value}</td>
+            <td>{$row.min_bid_value}</td>
+            <td>{$row.min_bid_increment}</td>
+	    <td>{if $row.is_approved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	    <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	    <td>{$row.action}</td>
           </tr>
         {/foreach}    
         </table>
