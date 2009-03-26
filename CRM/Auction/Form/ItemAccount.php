@@ -59,15 +59,15 @@ class CRM_Auction_Form_ItemAccount extends CRM_Core_Form
     public function preProcess()  
     {
         $session =& CRM_Core_Session::singleton( );
-        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
         $this->_aid    = CRM_Utils_Request::retrieve( 'aid', 'Positive', $this );
-        $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
 
         if ( $session->get( 'userID' ) ) {
             $this->_donorID = $session->get( 'userID' );     
         }
 
         if ( ! $this->_aid ) {
+            $this->_id  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
             $this->_aid = CRM_Core_DAO::getFieldValue( 'CRM_Auction_DAO_Item', $this->_id, 'auction_id' );
         }
 

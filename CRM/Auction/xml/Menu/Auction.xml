@@ -26,6 +26,14 @@
      <is_ssl>true</is_ssl>
   </item>
   <item>
+     <path>civicrm/auction/item/add</path>
+     <title>Auction Item</title>
+     <page_callback>CRM_Auction_Page_AddItem</page_callback>
+     <access_callback>1</access_callback>
+     <is_public>true</is_public>
+     <is_ssl>true</is_ssl>
+  </item>
+  <item>
      <path>civicrm/admin/auction</path>
      <title>Manage Auctions</title>
      <page_callback>CRM_Auction_Page_Manage</page_callback>

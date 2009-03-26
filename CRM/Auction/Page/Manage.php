@@ -70,7 +70,7 @@ class CRM_Auction_Page_Manage extends CRM_Core_Page
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit'),
-                                                                          'url'   => 'civicrm/auction/item/add',
+                                                                          'url'   => 'civicrm/auction/add',
                                                                           'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                           'title' => ts('Edit Auction') 
                                                                           ),

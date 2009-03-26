@@ -73,7 +73,7 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess( ) {
-        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false);
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false, 'add');
 
         $this->_id  = CRM_Utils_Request::retrieve( 'id' , 'Positive', $this );
         $this->_aid = CRM_Utils_Request::retrieve( 'aid', 'Positive', $this, true );
@@ -82,7 +82,7 @@ class CRM_Auction_Form_Item extends CRM_Core_Form
                $this->_action & CRM_Core_Action::UPDATE ||
                $this->_action & CRM_Core_Action::DELETE ) &&
              ! $this->_id ) {
-            CRM_Core_Error::fatal( );
+            CRM_Core_Error::fatal( "I am not sure which item you looking for." );
         }
 
         require_once 'CRM/Auction/BAO/Auction.php';
