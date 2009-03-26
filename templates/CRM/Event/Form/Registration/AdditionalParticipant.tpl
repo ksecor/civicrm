@@ -5,8 +5,8 @@
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
 {/if}
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
-<div class="form-item">
 
+<div class="form-item">
 {if $priceSet}
     <fieldset><legend>{$event.fee_label}</legend>
     <dl>
@@ -71,4 +71,5 @@
 
 <div id="crm-submit-buttons">
  {$form.buttons.html}
+</div>
 </div>
