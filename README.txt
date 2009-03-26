@@ -61,4 +61,3 @@ http://forum.civicrm.org/index.php/board,20.0.html
 
 You can check out the CiviCRM source from
 http://svn.civicrm.org/
-
