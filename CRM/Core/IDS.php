@@ -92,6 +92,7 @@ class CRM_Core_IDS {
     exceptions[]        = __utmc
     exceptions[]        = widget_code
     exceptions[]        = html_message
+    exceptions[]        = body_html
     html[]              = description
     html[]              = intro
     html[]              = thankyou_text
