@@ -32,7 +32,7 @@
         {if $field.groupHelpPre}
             <div class="messages help">{$field.groupHelpPre}</div>
         {/if}
-        <table class="form-layout-compressed">
+        <table class="form-layout-compressed" id="table-1">
     {/if}
     {assign var=n value=$field.name}
     {if $field.options_per_line }
@@ -148,6 +148,16 @@
 cj(document).ready(function(){ 
 	cj('#selector tr:even').addClass('odd-row ');
 	cj('#selector tr:odd ').addClass('even-row');
+
+    // Initialise the table
+    cj("#table-1").tableDnD();
+    
+    cj("#table-5 tr").hover(function() {
+        cj(this.cells[0]).addClass('showDragHandle');
+    }, function() {
+        cj(this.cells[0]).removeClass('showDragHandle');
+    });
+    
 });
 </script>
 {/literal}
