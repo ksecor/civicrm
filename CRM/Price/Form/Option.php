@@ -160,7 +160,9 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             
             // is active ?
             $this->add('checkbox', 'is_active', ts('Active?'));
-            
+
+            //is default 
+            $this->add('checkbox', 'is_default', ts('Default'));
             // add buttons
             $this->addButtons(array(
                                     array ('type'      => 'next',
@@ -250,6 +252,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         $params = $this->controller->exportValues( 'Option' );
         
         $params['is_active']       = CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['is_default']      = CRM_Utils_Array::value( 'is_default', $params, false );
         
         $params['option_group_id'] = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup",
                                                                   "civicrm_price_field.amount.{$this->_fid}",

@@ -90,6 +90,19 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 $defaults['amount'] = key( array_slice( $this->_values['discount'][$discountId], $discountKey-1, $discountKey, true) );
             }
         }
+        if ( $this->_priceSetId ) {
+            foreach( $this->_priceSet['fields'] as $key => $val ) {
+                foreach ( $val['options'] as $keys => $values ) {
+                    if ( $values['is_default'] ) {
+                        if ( $val['html_type'] == 'CheckBox') {
+                            $defaults["price_{$key}"][$keys] = 1;
+                        } else {
+                            $defaults["price_{$key}"] = $keys;
+                        }
+                    }
+                }
+            }
+        }
         $defaults = array_merge( $defaults, $this->_defaults );
         return $defaults;  
     }  

@@ -5,10 +5,11 @@
 	{strip}
 	<table>
 	<tr><th>&nbsp;</th>
+	<th> {ts}Default{/ts}</th>
         <th> {ts}Label{/ts}</th>
         <th> {ts}Amount{/ts}</th>
         <th> {ts}Weight{/ts}</th>
-	    <th> {ts}Active?{/ts}</th>
+	<th> {ts}Active?{/ts}</th>
     </tr>
 	
 	{section name=rowLoop start=1 loop=12}
@@ -19,6 +20,14 @@
             <a onclick="hiderow('optionField_{$index}', 'optionField'); return false;" name="optionField_{$index}" href="#optionField_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>
         {/if}
         </td>
+	    <td> 
+		<div id="radio{$index}" style="display:none">
+		     {$form.default_option[$index].html} 
+		</div>
+		<div id="checkbox{$index}" style="display:none">
+		     {$form.default_checkbox_option.$index.html} 
+		</div>
+	    </td>
 	    <td> {$form.option_label.$index.html}</td>
 	    <td> {$form.option_name.$index.html}</td>
 	    <td> {$form.option_weight.$index.html}</td>

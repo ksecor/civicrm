@@ -15,6 +15,7 @@
         <dt>{$form.name.label}</dt><dd>&nbsp;{$form.name.html}</dd>
         <dt>{$form.weight.label}</dt><dd>&nbsp;{$form.weight.html}</dd>
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
+	<dt>{$form.is_default.label}</dt><dd>&nbsp;{$form.is_default.html}</dd>
 	</dl>
       {/if}
     

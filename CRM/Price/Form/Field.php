@@ -195,9 +195,14 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
 
             // is active ?
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
-            
+
+            $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
+
+            //for checkbox handling of default option
+            $this->add('checkbox', "default_checkbox_option[$i]", null);
         }
-        
+         //default option selection
+        $this->addGroup($defaultOption, 'default_option');
         $_showHide->addToTemplate();                
 
         // is_display_amounts

@@ -177,6 +177,19 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if( $this->_values['event']['default_role_id'] ) {
             $this->_defaults['participant_role_id'] = $this->_values['event']['default_role_id'];
         }
+        if ( $this->_priceSetId ) {
+            foreach( $this->_priceSet['fields'] as $key => $val ) {
+                foreach ( $val['options'] as $keys => $values ) {
+                    if ( $values['is_default'] ) {
+                        if ( $val['html_type'] == 'CheckBox') {
+                            $this->_defaults["price_{$key}"][$keys] = 1;
+                        } else {
+                            $this->_defaults["price_{$key}"] = $keys;
+                        }
+                    }
+                }
+            }
+        }
         return $this->_defaults;
     }
 
