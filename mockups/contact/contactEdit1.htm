@@ -12,6 +12,23 @@
     <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/system.css?J" />
     <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/system-menus.css?J" />
     <link type="text/css" rel="stylesheet" media="all" href="../contact/css/style.css?J" />
+    <script type="text/javascript" src="../../packages/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../packages/jquery/jquery-ui.js"></script>
+    <style type="text/css">@import url(../../packages/jquery/themes/redmond/jquery-ui.css);</style>
+
+    <script type="text/javascript" src="../../packages/jquery/plugins/flexigrid.js"></script>
+    <style type="text/css">@import url(../../packages/jquery/css/flexigrid.css);</style>
+
+    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.autocomplete.js"></script>
+    <style type="text/css">@import url(../../packages/jquery/css/jquery.autocomplete.css);</style>
+
+    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.chainedSelects.js"></script>
+    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.treeview.min.js"></script>
+
+    <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+    <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><script type="text/javascript">
+    </script>
+    <script type="text/javascript" src="../../js/Common.js"></script>    
     
     </head>
     <body class="sidebar-left">
@@ -117,21 +134,8 @@
 
                             <h2><span class='crm_blocktitle'>Contact Search</span></h2>
 
-                            <div class="content"><script type="text/javascript" src="../../packages/jquery/jquery.js"></script>
-                                <script type="text/javascript" src="../../packages/jquery/jquery-ui.js"></script>
-                                <style type="text/css">@import url(../../packages/jquery/themes/ui.all.css);</style>
-
-                                <script type="text/javascript" src="../../packages/jquery/plugins/flexigrid.js"></script>
-                                <style type="text/css">@import url(../../packages/jquery/css/flexigrid.css);</style>
-
-                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.autocomplete.js"></script>
-                                <style type="text/css">@import url(../../packages/jquery/css/jquery.autocomplete.css);</style>
-
-                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.chainedSelects.js"></script>
-                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.treeview.min.js"></script>
-
-                                <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
-                                <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><div class="block-crm">
+                            <div class="content">
+                                <div class="block-crm">
                                 <script type="text/javascript"> 
 
                                 function getSearchURLValue( )
@@ -207,24 +211,6 @@
 
 
                                 <div id="crm-container" lang="en" xml:lang="en">
-                                    <script type="text/javascript" src="../../packages/jquery/jquery.js"></script>
-                                    <script type="text/javascript" src="../../packages/jquery/jquery-ui.js"></script>
-                                    <style type="text/css">@import url(../../packages/jquery/themes/ui.all.css);</style>
-
-                                    <script type="text/javascript" src="../../packages/jquery/plugins/flexigrid.js"></script>
-                                    <style type="text/css">@import url(../../packages/jquery/css/flexigrid.css);</style>
-
-                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.autocomplete.js"></script>
-                                    <style type="text/css">@import url(../../packages/jquery/css/jquery.autocomplete.css);</style>
-
-                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.chainedSelects.js"></script>
-                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.treeview.min.js"></script>
-
-                                    <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
-                                    <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><script type="text/javascript">
-                                    </script>
-                                    <script type="text/javascript" src="../../js/Common.js"></script>
-
                                     <div id="recently-viewed">
                                         <ul>
 
@@ -254,7 +240,10 @@
 
                                         cj(countryID).chainSelect(stateProvinceID, callbackURL, null );
                                     });
-
+                                    
+                                    cj(function() {
+                                    	cj("#accordion").accordion();
+                                    });
                                     </script>
 
                                     <input name="qfKey" type="hidden" value="5396c75c8f15260ecb7585e52b769d51_9630" />
@@ -267,10 +256,9 @@
                                     </div>
                                     
                                     <div id="name">
-                                        <div id="name-show" style="display:none; margin-top: .5em;" class="form-pane"><label>Contact Details</label>
-                                        <a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').hide(); return false;" title="Click to edit"> ( edit )</a>
-                                        </div>
-                                        <fieldset id="name-greet" ><legend><a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').show(); return false;" title="Click to edit">Contact Details</a></legend>
+                                        <div id="accordion">
+                                            <h3><a href="#">Contact Details</a></h3>
+                                             <div>
                                         
                                             <div style="border: 1px solid
                                             grey; background-color: #FFF9DD;
@@ -669,19 +657,9 @@
                                                 </script>
 
 
-                                                </fieldset>
-                                            </div>
-
-                                            <div id="addressBlock">
-                                                <div id="add-1-show" class="form-pane">
-                                                    <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to edit"><img src="../../i/edit.png" /></a>
-                                                    <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to edit"><label>Address</label></a>
                                                 </div>
-                                                <fieldset id='add-1-table' style="display:none;"><legend><a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').show(); return false;" title="Click to close">Address</a></legend>
-                                                    <div id="id_location_1_address" >
-                                                        
-                                                    </div>    
-                                                    <div id="id_location_1_address_show" >
+                                                <h3><a href="#">Address </a></h3>
+                                            <div id="addressBlock">   
                                                         <table class="form-layout-compressed">
                                                             <tr>
                                                                 <td><input id="use_household_address" name="use_household_address" type="checkbox" value="1" class="form-checkbox" /><label for="use_household_address">Use Household Address</label> <img src="../../i/quiz.png" /> &nbsp;&nbsp;</td>
@@ -805,15 +783,11 @@
                                                         <div>
                                                             <a href="#" onclick="alert('This will allow user too add more addresses for this contact.');return false;">+ add</a>
                                                         </div>
-                                                </fieldset>
-                                            </div>
+                                                    </div>
 
-                                            <div id="commPrefs">
-                                                <div id="com-show" class="form-pane">
-                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to edit"><img src="../../i/edit.png" /></a>
-                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to edit"><label>Communication Preferences</label></a>
-                                                </div>
-                                                <fieldset id="com-table" style="display:none;" ><legend><a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').show(); return false;" title="Click to close">Communication Preferences</a></legend>
+                                                <h3><a href="#">Communication Preferences</a></h3>
+                                                    <div>
+                                            
                                                     <table class="form-layout-compressed" >
                                                         <tr>
                                                             <td><label for="greeting_type_id">Greeting</label><br />
@@ -850,14 +824,11 @@
                                                             </td>
                                                         </tr>
                                                         </table>
-                                                    </fieldset>
-                                            </div> 
+                                                    </div> 
+                                                    <h3><a href="#">Contact Source and External ID</a></h3>
                                                                         
                                             <div id="moreDetails">
-                                                <div id="md-show" class="form-pane"><label>Contact Source and External ID</label> <a href="#" onclick="cj('#more-personal-info').toggle(); cj('#md-show').hide(); return false;">( edit )</a>
-                                                </div>
-                                                <fieldset id="more-personal-info" style="display:none;"><legend><a href="#" onclick ="cj('#more-personal-info').toggle(); cj('#md-show').show(); return false;" title="Click to close section">Contact Source and External ID</a></legend>
-                                                <table class="form-layout-compressed">
+                                                 <table class="form-layout-compressed">
                                                     <tr>
                                                         <td><label for="contact_source">Source</label><br />
                                                             <input name="contact_source" type="text" id="contact_source" class="big" /></td>
@@ -865,8 +836,8 @@
                                                             <input maxlength="32" size="20" name="external_identifier" type="text" id="external_identifier" class="form-text medium" /></td>
                                                     </tr>
                                                 </table>
-                                                </fieldset>
                                             </div>
+                                        </div>
 
                                             <div class="form-pane">
                                                 <span><label>Demographics</label><a href="#"> ( edit )</a></span>
