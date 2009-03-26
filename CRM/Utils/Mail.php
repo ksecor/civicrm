@@ -175,7 +175,7 @@ class CRM_Utils_Mail {
             CRM_Core_Error::setCallback();
             if ( is_a( $result, 'PEAR_Error' ) ) {
                 $message = self::errorMessage ($mailer, $result );
-                CRM_Core_Session::setStatus( $message );
+                CRM_Core_Session::setStatus( $message, false );
                 return false;
             }
         }
@@ -184,7 +184,7 @@ class CRM_Utils_Mail {
 
     static function errorMessage( $mailer, $result ) {
         $message =
-        '<p>'  . ts('A error occurred when CiviCRM attempted to send an email (via %1). If you received this error after submitting on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.', array(1 => 'SMTP')) . '</p>' .
+        '<p>'  . ts('An error occurred when CiviCRM attempted to send an email (via %1). If you received this error after submitting on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.', array(1 => 'SMTP')) . '</p>' .
         '<p>'  . ts('The mail library returned the following error message:') . '<br /><span class="font-red"><strong>' . $result->getMessage() . '</strong></span></p>' .
         '<p>'  . ts('This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email), OR the FROM email address specifically configured for your contribution page or event. Possible causes are:') . '</p>';
 

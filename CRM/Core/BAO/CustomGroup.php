@@ -464,6 +464,7 @@ SELECT $select
                                         
                                         if ( $fileDAO->find(true) ) {
                                             $entityIDName = "{$table}_entity_id";
+                                            $customValue['id']      = $dao->$idName; 
                                             $customValue['data']    = $fileDAO->uri;
                                             $customValue['fid']     = $fileDAO->id;
                                             $customValue['fileURL'] = 

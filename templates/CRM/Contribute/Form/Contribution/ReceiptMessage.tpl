@@ -122,7 +122,7 @@
 {if $contributeMode eq 'direct' AND !$is_pay_later AND ( $amount GT 0 OR $membership_amount GT 0 ) }
 
 ===========================================================
-{ts}Credit or Debit Card Information{/ts}
+{ts}Credit Card Information{/ts}
 
 ===========================================================
 {$credit_card_type}

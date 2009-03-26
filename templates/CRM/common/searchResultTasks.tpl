@@ -16,7 +16,7 @@
   </tr>
 {if $context == 'Contribution'}
   <tr>
-    <td colspan=2>
+    <td colspan="2">
 {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
     </td>
   </tr>

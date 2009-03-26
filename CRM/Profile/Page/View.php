@@ -117,11 +117,17 @@ class CRM_Profile_Page_View extends CRM_Core_Page
         $this->assign('profileGroups', $profileGroups);
         $this->assign('recentlyViewed', false);
 
-        $sortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_id, 'display_name' );
         $title    = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'title' );
+        
+        //CRM-4131.
+        $sortName    = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_id, 'display_name' );
+        
         if ( $sortName ) {
+            $sortNameUrl = CRM_Utils_System::url('civicrm/contact/view', "action=view&reset=1&cid={$this->_id}", true);
+            $sortName = "<a href=\"$sortNameUrl\">{$sortName}</a>";
             $title .= ' - ' . $sortName;
         }
+        
         CRM_Utils_System::setTitle( $title );
     }
 

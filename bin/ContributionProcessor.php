@@ -84,6 +84,9 @@ class CiviContributeProcessor {
               'transaction' => array(
                                      'total-charge-amount' => 'total_amount',
                                      'google-order-number' => 'trxn_id',
+                                     'currency'            => 'currency',
+                                     'item-name'           => 'note',
+                                     'timestamp'           => 'receive_date',
                                      ),
               );
 
@@ -203,11 +206,11 @@ class CiviContributeProcessor {
                           as $amtData ) {
                     $searchParams =
                         array( 'order-numbers'      => array($amtData['google-order-number']['VALUE']),
-                               'notification-types' => array('risk-information') );
+                               'notification-types' => array('risk-information', 'new-order','charge-amount') );
                     $response     = CRM_Core_Payment_Google::invokeAPI( $paymentProcessor, 
                                                                         $searchParams );
                     $response[]   = $amtData; // append amount information as well
-                    
+
                     $params = CRM_Contribute_BAO_Contribution_Utils::formatAPIParams( $response,
                                                                                       self::$_googleParamsMapper,
                                                                                       'google' );

@@ -212,9 +212,7 @@ function _civicrm_location_add( &$params ,$locationTypeId) {
          ! is_array( $loc['address'] ) ) {
         $loc['address'] = array();
     }    
-    
-    _civicrm_store_values($fields, $params, $loc['address']);
-    
+      
     $ids = array( 'county', 'country_id', 'country', 
                   'state_province_id', 'state_province',
                   'supplemental_address_1', 'supplemental_address_2',
@@ -222,6 +220,7 @@ function _civicrm_location_add( &$params ,$locationTypeId) {
     
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
+            _civicrm_store_values($fields, $params, $loc['address']);
             $loc['address'][$id] = $params[$id];
         }
     }
@@ -309,7 +308,6 @@ function _civicrm_location_update( $params,$locationArray ) {
     
     require_once 'CRM/Core/DAO/Address.php';
     $fields =& CRM_Core_DAO_Address::fields( );
-    _civicrm_store_values($fields, $params, $loc['address']);
     
     $names = array( 'county', 'country_id', 'country', 'state_province_id',
                     'state_province', 'supplemental_address_1', 'supplemental_address_2',
@@ -317,6 +315,7 @@ function _civicrm_location_update( $params,$locationArray ) {
     
     foreach ( $names as $n ) {
         if ( array_key_exists( $n, $params ) ) {
+            _civicrm_store_values($fields, $params, $loc['address']);
             $loc['address'][$n] = $params[$n];
         }
     }

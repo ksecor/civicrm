@@ -130,7 +130,7 @@ class CRM_Price_Page_Option extends CRM_Core_Page
         
         require_once 'CRM/Core/OptionValue.php';
         CRM_Core_OptionValue::getValues( $groupParams, $customOption );
-        
+        $config =& CRM_Core_Config::singleton( );
         foreach ( $customOption as $id => $values ) {
             $action = array_sum( array_keys( $this->actionLinks( ) ) );
             
@@ -140,13 +140,16 @@ class CRM_Price_Page_Option extends CRM_Core_Page
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
-            
+            if ( CRM_Utils_Array::value('is_default', $customOption[$id] ) ) {
+                $customOption[$id]['is_default'] = '<img src="' . $config->resourceBase . 'i/check.gif" />';
+            } else {
+                $customOption[$id]['is_default'] = '';
+            }
             $customOption[$id]['action'] = CRM_Core_Action::formLink( self::actionLinks( ), $action, 
                                                                       array( 'oid'  => $id,
                                                                              'fid'  => $this->_fid,
                                                                              'sid' => $this->_sid ) );
         }
-        
         // Add order changing widget to selector
         $returnURL = CRM_Utils_System::url( 'civicrm/admin/price/field/option', "action=browse&reset=1&fid={$this->_fid}&sid={$this->_sid}" );
         $filter    = "option_group_id = (SELECT id FROM civicrm_option_group WHERE name = 'civicrm_price_field.amount.{$this->_fid}')";

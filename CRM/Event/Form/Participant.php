@@ -273,6 +273,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             
             parent::preProcess( );
+
             $this->_single    = false;
             $this->_contactID = null;
 
@@ -950,7 +951,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             
             if ( $this->_single ) {
-            $this->_contactIds[] = $this->_contactID;
+                $this->_contactIds[] = $this->_contactID;
             }
             
             if ( CRM_Utils_Array::value( 'record_contribution', $params ) ) {
@@ -1061,11 +1062,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
 
                 $this->assign( 'totalAmount', $contributionParams['total_amount'] );
-                //as we are using same template for online & offline registration.
-                //So we have to build amount as array.
-                $amount[0] = array( 'label'  => $params['amount_level'], 
-                                    'amount' => $params['fee_amount'] );
-                $this->assign( 'amount', $amount );
+                
                 $this->assign( 'isPrimary', 1 );
                 $this->assign('checkNumber', CRM_Utils_Array::value( 'check_number', $params )); 
             }
@@ -1145,11 +1142,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             foreach ( $this->_contactIds as $num => $contactID ) {
                 // Retrieve the name and email of the contact - this will be the TO for receipt email
                 list( $this->_contributorDisplayName, $this->_contributorEmail, $this->_toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
-                
+                $this->_contributorDisplayName = ($this->_contributorDisplayName == ' ') ? $this->_contributorEmail : $this->_contributorDisplayName;
                 $this->assign( 'customGroup', $customGroup );
+                
+                if ( $this->_isPaidEvent ) {
+                    // fix amount for each of participants ( for bulk mode )
+                    $eventAmount = array();
+                    $eventAmount[$num] = array( 'label'  => $params['amount_level'], 
+                                                'amount' => $params['fee_amount'] );
+                    //as we are using same template for online & offline registration.
+                    //So we have to build amount as array.
+                    $this->assign( 'amount', $eventAmount );
+                }
                 $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
                 $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-                
+              
                 //Do not try to send emails if emailID is not present
                 //or doNotEmail option is checked for that contact 
                 if( empty($this->_contributorEmail) or $this->_toDoNotEmail ) {

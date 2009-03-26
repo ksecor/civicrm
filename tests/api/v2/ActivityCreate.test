@@ -123,14 +123,14 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
     function testOtherActivityCreate( )
     {
         $activity_params = array (
-				  'label'       => 'Voice Chat',
-				  'description' => 'Conduct Live Chatting.',
-				  'weight'      => 13,
-				  'is_active'   => 1,
-				  );
-
+                                  'label'       => 'Voice Chat',
+                                  'description' => 'Conduct Live Chatting.',
+                                  'weight'      => 13,
+                                  'is_active'   => 1,
+                                  );
+        
         $activity_type =  civicrm_activity_type_create( $activity_params ); 
-	$params = array(
+        $params = array(
                         'source_contact_id'   => $this->_individualSourceId,
                         'subject'             => 'let test other activities',
                         'activity_date_time'  => date('Ymd'),
@@ -139,7 +139,7 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                         'status_id'           => 1,
                         'activity_name'       => 'Voice Chat',
                         );
- 
+        
         $result = & civicrm_activity_create( $params );
         $this->assertEqual( $result['is_error'], 0 );
         $this->assertEqual( $result['source_contact_id'], $this->_individualSourceId );
@@ -148,7 +148,8 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $result['location'], 'Pensulvania' );
         $this->assertEqual( $result['details'], 'other activity details' );
         $this->assertEqual( $result['status_id'], 1 );
-	civicrm_activity_type_delete( $activity_type['id'] );
+        
+        civicrm_activity_type_delete( $activity_type['id'] );
     }
 
     /**
@@ -156,13 +157,132 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
      * ( fix this once custom * v2 api are ready  )
      */
     function testActivityCreateWithCustomData( )
-    {
+    {  
+        $customGroup = $this->createCustomGroup( );
+        $customGroupId = $customGroup['id'];
+        $customFieldIds  = $this->createCustomField( $customGroupId );
         
+        $params = array(
+                        'source_contact_id'   => $this->_individualSourceId,
+                        'subject'             => 'Test activity v2 api with custom data',
+                        'activity_date_time'  => date('Ymd'),
+                        'duration_hours'      => 30,
+                        'duration_minutes'    => 20,
+                        'location'            => 'Pensulvania',
+                        'details'             => 'need to write test case for activity api test for custom data',
+                        'status_id'           => 1,
+                        'activity_name'       => 'Phone Call',
+                        "custom_{$customFieldIds[0]}" => 'R',
+                        "custom_{$customFieldIds[1]}" => 'Information for custom field of type alphanumeric - text'
+                        );
+        $activity = & civicrm_activity_create( $params );
+        
+        //retrieve single activity with custom data
+        $activity = civicrm_activity_get( array( 'activity_id'      => $activity['id'],
+                                                 'activity_type_id' => $activity['activity_type_id'] ),
+                                          true );
+        
+        //check created custom data. 
+        $this->assertEqual( $activity['result']["custom_$customFieldIds[0]_1"], $params["custom_{$customFieldIds[0]}"]  );
+        $this->assertEqual( $activity['result']["custom_$customFieldIds[1]_1"], $params["custom_{$customFieldIds[1]}"]  );
+        
+        //retrieve all contact activities with custom data
+        $activities = civicrm_activities_get_contact( array( 'contact_id' => $this->_individualSourceId ) );
+        foreach ( $activities['result'] as $activityId => $activityValues ) {
+            $this->assertEqual( $activityValues["custom_$customFieldIds[0]_1"], $params["custom_{$customFieldIds[0]}"]  );
+            $this->assertEqual( $activityValues["custom_$customFieldIds[1]_1"], $params["custom_{$customFieldIds[1]}"]  );
+        }
+        
+        //cleanup db
+        //1. delete custom fields.
+        if ( is_array( $customFieldIds ) && !empty( $customFieldIds )  ) {
+            foreach ( $customFieldIds as $key => $fId ) {
+                $this->customFieldDelete( $fId );
+            }
+        }
+        
+        //2. delete custom group.
+        if ( $customGroupId ) {
+            $this->customGroupDelete( $customGroupId );
+        }
+        
+        //3. delete activity.
+        civicrm_activity_delete( $activity );  
+    }
+    
+    function createCustomGroup( )
+    {
+        $params = array(
+                        'title'            => 'Test Custom Group',
+                        'extends'          => array ( 'Activity' ),
+                        'weight'           => 5,
+                        'style'            => 'Inline',
+                        'is_active'        => 1,
+                        'max_multiple'     => 0
+                        );
+        $customGroup =& civicrm_custom_group_create($params);
+        
+        return $customGroup;
+    }
+    
+    function createCustomField( $customGroupId )
+    {
+        $optionValue[] = array (
+                                'label'     => 'Red',
+                                'value'     => 'R',
+                                'weight'    => 1,
+                                'is_active' => 1
+                                );
+        $optionValue[] = array (
+                                'label'     => 'Yellow',
+                                'value'     => 'Y',
+                                'weight'    => 2,
+                                'is_active' => 1
+                                );
+        $optionValue[] = array (
+                                'label'     => 'Green',
+                                'value'     => 'G',
+                                'weight'    => 3,
+                                'is_active' => 1
+                                );
+        
+        $params = array(
+                        'label'           => 'Color Choser',
+                        'html_type'       => 'Select',
+                        'data_type'       => 'String',
+                        'weight'          => 4,
+                        'is_required'     => 1,
+                        'is_searchable'   => 0,
+                        'is_active'       => 1,
+                        'option_values'   => $optionValue,
+                        'custom_group_id' => $customGroupId,
+                        );
+        
+        $customField  =& civicrm_custom_field_create( $params );
+        
+        $ids = array( );
+        $ids[] = $customField['result']['customFieldId'];
+        
+        $params  = array(
+                         'custom_group_id' =>  $customGroupId,
+                         'label'           => 'Enter idea in once sentence',
+                         'html_type'       => 'Text',
+                         'data_type'       => 'String',
+                         'default_value'   => 'xyz',
+                         'weight'          => 4,
+                         'is_required'     => 1,
+                         'is_searchable'   => 0,
+                         'is_active'       => 1
+                         );
+        
+        $customField  =& civicrm_custom_field_create( $params );
+        $ids[] = $customField['result']['customFieldId'];
+        return $ids;
     }
     
     function tearDown() 
     {
-      $this->contactDelete( $this->_individualSourceId );
+        $this->contactDelete( $this->_individualSourceId );
     }
 }
  

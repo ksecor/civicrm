@@ -108,7 +108,8 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] );
 
         // all contacts or action = save a search
-        if ( ( CRM_Utils_Array::value('radio_ts', $values ) == 'ts_all' ) || ( $this->_task == CRM_Contact_Task::SAVE_SEARCH ) ) {
+        if ( ( CRM_Utils_Array::value('radio_ts', $values ) == 'ts_all' ) ||
+             ( $this->_task == CRM_Contact_Task::SAVE_SEARCH ) ) {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             $sortID = null;

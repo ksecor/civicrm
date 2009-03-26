@@ -60,7 +60,7 @@
     {/if}
     {if $membershipMode}
      <div class="spacer"></div>
-	 <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
+	 <fieldset><legend>{ts}Credit Card Information{/ts}</legend>
 	
         <dt class="label">{$form.credit_card_type.label}</dt><dd class="html-adjust">{$form.credit_card_type.html}</dd><br />
         <dt class="label">{$form.credit_card_number.label}</dt><dd class="html-adjust">{$form.credit_card_number.html}<br />

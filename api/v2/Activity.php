@@ -74,7 +74,7 @@ require_once 'api/v2/ActivityContact.php';
 function &civicrm_activity_create( &$params ) 
 {
     _civicrm_initialize( );
-
+    
     $errors = array( );
     
     // check for various error and required conditions
@@ -90,7 +90,7 @@ function &civicrm_activity_create( &$params )
     if ( ! empty($values['custom']) ) {
         $params['custom'] = $values['custom'];
     }
-
+    
     if ( ! CRM_Utils_Array::value( 'activity_type_id', $params ) ) {
         $params['activity_type_id'] = CRM_Core_OptionGroup::getValue( 'activity_type', $params['activity_name'] , 'name' );
     }
@@ -109,7 +109,7 @@ function &civicrm_activity_create( &$params )
     return $activityArray;
 }
 
-function civicrm_activity_get( $params ) {
+function civicrm_activity_get( $params, $returnCustom = false ) {
     _civicrm_initialize( );
     
     $activityId = $params['activity_id'];
@@ -121,7 +121,7 @@ function civicrm_activity_get( $params ) {
         return civicrm_create_error( ts ( "Invalid activity Id" ) );
     }
     
-    $activity = _civicrm_activity_get( $activityId );
+    $activity = _civicrm_activity_get( $activityId, $returnCustom );
     
     if ( $activity ) {
         return civicrm_create_success( $activity );
@@ -252,13 +252,42 @@ function _civicrm_activity_update( $params )
  * @return array (reference)  activity object
  * @access public
  */
-function _civicrm_activity_get( $activityId ) {
+function _civicrm_activity_get( $activityId, $returnCustom = false ) {
     $dao = new CRM_Activity_BAO_Activity();
-    $dao->activity_id = $activityId;
+    $dao->id = $activityId;
     $dao->find( true );
     $activity = array();
     _civicrm_object_to_array( $dao, $activity );
+    
+    //also return custom data if needed.
+    if ( $returnCustom && !empty( $activity ) ) {
+        $customdata = civicrm_activity_custom_get( array( 'activity_id'      => $activityId, 
+                                                          'activity_type_id' => $activity['activity_type_id']  )  );
+        $activity = array_merge( $activity, $customdata );
+    }
+    
     return $activity;
+}
+
+/**
+ * Retrieve a set of Activities specific to given contact Id.
+ * @param int $contactID.
+ *
+ * @return array (reference)  array of activities.
+ * @access public
+ */
+function &_civicrm_activities_get( $contactID, $type = 'all' ) 
+{
+    $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
+    
+    // handle custom data.
+    foreach ( $activities as $activityId => $values ) {
+        $customData = civicrm_activity_custom_get( array( 'activity_id'      => $activityId, 
+                                                          'activity_type_id' => $values['activity_type_id'] ) );
+        $activities[$activityId] = array_merge( $activities[$activityId], $customData );
+    }
+    
+    return $activities;
 }
 
 /**
@@ -403,3 +432,47 @@ function civicrm_activity_get_types( ) {
     // TODO: Spit out deprecation warning here
     return civicrm_activity_type_get( );
 }
+
+/**
+ * Function retrieve actiovity custom data.
+ * @param  array  $params key => value array.
+ * @return array  $customData activity custom data 
+ *
+ * @access public
+ */
+function civicrm_activity_custom_get( $params ) {
+    
+    $customData = array( );
+    if ( !CRM_Utils_Array::value( 'activity_id', $params ) ) {
+        return $customData;
+    }
+    
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Activity', 
+                                                     CRM_Core_DAO::$_nullObject, 
+                                                     $params['activity_id'], 
+                                                     null,
+                                                     CRM_Utils_Array::value( 'activity_type_id', $params )
+                                                     );
+    //get the group count.
+    $groupCount = 0;
+    foreach ( $groupTree as $key => $value ) {
+        if ( $key === 'info' ) {
+            continue;
+        }
+        $groupCount++;
+    }
+    $formattedGroupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 
+                                                                     $groupCount, 
+                                                                     CRM_Core_DAO::$_nullObject );
+    $defaults = array( );
+    CRM_Core_BAO_CustomGroup::setDefaults( $formattedGroupTree, $defaults );
+    if ( !empty( $defaults ) ) {
+        foreach ( $defaults as $key => $val ) {
+            $customData[$key] = $val;
+        }
+    }
+    
+    return $customData;
+}
+

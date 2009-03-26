@@ -499,3 +499,19 @@ function civitest_civicrm_eventDiscount( &$form, &$params ) {
                    'applied' => true );
     }
 }
+
+
+/**
+ * buildForm hook sample
+ *
+ * we want the custom date to be today's date. custom_3 is marriage date
+ * in the sample data
+ */
+function civitest_civicrm_buildForm( $formName, &$form ) {
+    if ( $formName == 'CRM_Contact_Form_Edit' ) {
+        $defaultDate = array( );
+        CRM_Utils_Date::getAllDefaultValues( $defaultDate );
+        $defaults['custom_3_-1'] = $defaultDate;
+        $form->setDefaults( $defaults );
+    }
+}

@@ -126,7 +126,7 @@ class CRM_Core_Block {
                                                                    'region'     => 'left' ),
                                        self::EVENT      => array( 'template'   => 'Event.tpl',
                                                                    'info'       => ts('CiviCRM Upcoming Events'),
-                                                                   'subject'    => '',
+                                                                   'subject'    => 'Upcoming Events',
                                                                    'templateValues' => array(),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
@@ -200,6 +200,13 @@ class CRM_Core_Block {
                       ( ! CRM_Core_Permission::check('edit groups') ) ) {
                      continue;
                  }
+
+                 if ( $id == self::EVENT &&
+                      ( ! CRM_Core_Permission::access( 'CiviEvent', false ) ||
+                        ! CRM_Core_Permission::check( 'view event info' ) ) ) {
+                     continue;
+                 }
+
                  $block[$id] = array(
                                      'info'       => $value['info']      ,
                                      'cache'      => $value['cache']     ,
@@ -445,10 +452,19 @@ class CRM_Core_Block {
             return null;
         }
 
-        if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
+        require_once 'CRM/Core/Permission.php';
+        if ( $id == self::EVENT &&
+             CRM_Core_Permission::check( 'view event info' ) ) {
+            // is CiviEvent enabled?
+            if ( ! CRM_Core_Permission::access( 'CiviEvent', false ) ) {
+                return null;
+            }
+            // do nothing
+        } else if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
             return null;
         } else if ( ( $id == self::ADD  ) &&
-                    ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
+                    ( ! CRM_Core_Permission::check( 'add contacts' ) ) &&
+                    ( ! CRM_Core_Permission::check('edit groups') ) ) {
             return null;
         }
 

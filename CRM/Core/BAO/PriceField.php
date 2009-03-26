@@ -102,7 +102,20 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         if ( $priceField->html_type == 'Text' ) {
             $maxIndex = 1;
         }
-                
+        $defaultArray = array();
+        if ( $params['html_type'] == 'CheckBox' && isset($params['default_checkbox_option'] ) ) {
+            $tempArray = array_keys( $params['default_checkbox_option'] );
+            foreach ( $tempArray as $v ) {
+                if ( $params['option_value'][$v] ) {
+                    $defaultArray[$v] = 1;
+                }
+            }
+        } else {
+            if ( CRM_Utils_Array::value( 'default_option', $params ) 
+                 && isset( $params['option_value'][$params['default_option']] ) ) {
+                $defaultArray[$params['default_option']] = 1;
+            }
+        }  
         for ( $index = 1; $index <= $maxIndex; $index++ ) {
             if ( $maxIndex == 1 ) {
                 $description = $params['label'];
@@ -117,14 +130,15 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                                     'value'       => trim( $params['option_value'][$index] ),
                                     'description' => $description,
                                     'weight'      => $params['option_weight'][$index],
-                                    'is_active'   => 1 );
+                                    'is_active'   => 1,
+                                    'is_default'  => CRM_Utils_Array::value( $index, $defaultArray)
+                                    );
             }
         }
         
         if ( ! empty( $options ) ) {
             $params['default_amount_id'] = null;
             $groupName                   = "civicrm_price_field.amount.{$priceField->id}";
-            
             require_once 'CRM/Core/OptionGroup.php';
             CRM_Core_OptionGroup::createAssoc( $groupName,
                                                $options,

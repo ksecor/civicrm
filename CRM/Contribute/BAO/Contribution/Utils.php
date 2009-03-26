@@ -413,10 +413,14 @@ class CRM_Contribute_BAO_Contribution_Utils {
             if ( ! array_key_exists('risk-information-notification', $apiParams[1][$apiParams[0]]['notifications']) ) {
                 return false;
             }
-            $details =& $apiParams[1][$apiParams[0]]['notifications']['risk-information-notification'];
+            $riskInfo =& $apiParams[1][$apiParams[0]]['notifications']['risk-information-notification'];
 
-            if ( $details['google-order-number']['VALUE'] == $apiParams[2]['google-order-number']['VALUE'] ) {
-                foreach ( $details['risk-information']['billing-address'] as $field => $info ) {
+            if ( array_key_exists('new-order-notification', $apiParams[1][$apiParams[0]]['notifications']) ) {
+                $newOrder =& $apiParams[1][$apiParams[0]]['notifications']['new-order-notification'];
+            }
+
+            if ( $riskInfo['google-order-number']['VALUE'] == $apiParams[2]['google-order-number']['VALUE'] ) {
+                foreach ( $riskInfo['risk-information']['billing-address'] as $field => $info ) {
                     if ( CRM_Utils_Array::value( $field, $mapper['location'] ) ) {
                         $params['location'][1]['address'][$mapper['location'][$field]] = $info['VALUE'];
                     } else if ( CRM_Utils_Array::value( $field, $mapper['contact'] ) ) {
@@ -426,18 +430,21 @@ class CRM_Contribute_BAO_Contribution_Utils {
                     }
                 }
                 
-                if ( CRM_Utils_Array::value( 'google-order-number', $mapper['transaction'] ) ) {
-                    $transaction[$mapper['transaction']['google-order-number']] = 
-                        $details['google-order-number']['VALUE'];
+                // Response is an huge array. Lets pickup only those which we ineterested in 
+                // using a local mapper, rather than traversing the entire array.
+                $localMapper = 
+                    array( 'google-order-number' => $riskInfo['google-order-number']['VALUE'],
+                           'total-charge-amount' => $apiParams[2]['total-charge-amount']['VALUE'],
+                           'currency'            => $apiParams[2]['total-charge-amount']['currency'],
+                           'item-name'           => $newOrder['shopping-cart']['items']['item']['item-name']['VALUE'],
+                           'timestamp'           => $apiParams[2]['timestamp']['VALUE'],
+                           );
+                foreach ( $localMapper as $localKey => $localVal ) {
+                    if ( CRM_Utils_Array::value($localKey, $mapper['transaction']) ) {
+                        $transaction[$mapper['transaction'][$localKey]] = $localVal;
+                    }
                 }
-                
-                if ( CRM_Utils_Array::value( 'total-charge-amount', $mapper['transaction'] ) ) {
-                    $transaction[$mapper['transaction']['total-charge-amount']] 
-                        = $apiParams[2]['total-charge-amount']['VALUE'];
-                    $transaction['currency'] = 
-                        $apiParams[2]['total-charge-amount']['currency'];
-                }
-                
+
                 if ( empty($params) && empty($transaction) ) {
                     continue;
                 }

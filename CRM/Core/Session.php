@@ -393,7 +393,17 @@ class CRM_Core_Session {
     static function setStatus( $status, $append = true ) {
         if ( isset( self::$_singleton->_session[self::$_singleton->_key]['status'] ) ) {
             if ( $append ) {
-                self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
+                if ( is_array( $status ) ) {
+                    if ( is_array( self::$_singleton->_session[self::$_singleton->_key]['status'] ) ) {
+                        self::$_singleton->_session[self::$_singleton->_key]['status'] += $status;
+                    } else {
+                        $currentStatus = self::$_singleton->_session[self::$_singleton->_key]['status'];
+                        // add an empty element to the beginning which will go in the <h3>
+                        self::$_singleton->_session[self::$_singleton->_key]['status'] = array( '', $currentStatus ) + $status;
+                    }
+                } else {
+                    self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
+                }
             } else {
                 self::$_singleton->_session[self::$_singleton->_key]['status'] = " $status";
             }  

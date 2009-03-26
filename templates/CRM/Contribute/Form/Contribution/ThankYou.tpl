@@ -165,7 +165,7 @@
 
     {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 )}
     <div class="header-dark">
-        {ts}Credit or Debit Card Information{/ts}
+        {ts}Credit Card Information{/ts}
     </div>
     <div class="display-block">
         {$credit_card_type}<br />

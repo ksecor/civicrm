@@ -745,6 +745,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                 'activity_date_time'   => date('YmdHis'),
                                 'subject'              => $subject,
                                 'details'              => ($text) ? $text : $html,
+                                // FIXME: check for name Completed and get ID from that lookup
                                 'status_id'            => 2
                                 );
 

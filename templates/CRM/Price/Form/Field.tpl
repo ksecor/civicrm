@@ -26,7 +26,7 @@
         for (var i=1; i<=11; i++) {
             radioOption = 'radio'+i;
             checkBoxOption = 'checkbox'+i	
-            if (html_type_name == 'Radio' || html_type_name == 'CheckBox') {
+            if (html_type_name == 'Radio' || html_type_name == 'CheckBox' || html_type_name == 'Select') {
                 if (html_type_name == "CheckBox") {
                     document.getElementById(checkBoxOption).style.display="block";
                     document.getElementById(radioOption).style.display="none";
