@@ -221,9 +221,21 @@ class CRM_Event_Form_EventFees
                     $defaults[$form->_pId]["price_{$priceField->id}"] = $optionId;
                 }
             }
-            
+            if ( $form->_action == CRM_Core_Action::ADD ) {
+                foreach( $form->_priceSet['fields'] as $key => $val ) {
+                    foreach ( $val['options'] as $keys => $values ) {
+                        if ( $values['is_default'] ) {
+                            if ( $val['html_type'] == 'CheckBox') {
+                                $defaults[$form->_pId]["price_{$key}"][$keys] = 1;
+                            } else {
+                                $defaults[$form->_pId]["price_{$key}"] = $keys;
+                            }
+                        }
+                    }
+                }
+            }
             //need to build all price set field amount string where price set ids <= current price set
-            $query = "select `id` from civicrm_price_field where `price_set_id` = $priceSetId  ORDER BY `id` desc limit 0, 1"; 
+            $query = "select `id` from civicrm_price_field where `price_set_id` = $priceSetId  ORDER BY `id` desc limit 0, 1";
             $maxFieldId = CRM_Core_DAO::singleValueQuery( $query );
             $allFieldValues = array( );
             for ( $count = 1; $count <= $maxFieldId; $count++ ) {
