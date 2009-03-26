@@ -270,27 +270,6 @@ function _civicrm_activity_get( $activityId, $returnCustom = false ) {
 }
 
 /**
- * Retrieve a set of Activities specific to given contact Id.
- * @param int $contactID.
- *
- * @return array (reference)  array of activities.
- * @access public
- */
-function &_civicrm_activities_get( $contactID, $type = 'all' ) 
-{
-    $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
-    
-    // handle custom data.
-    foreach ( $activities as $activityId => $values ) {
-        $customData = civicrm_activity_custom_get( array( 'activity_id'      => $activityId, 
-                                                          'activity_type_id' => $values['activity_type_id'] ) );
-        $activities[$activityId] = array_merge( $activities[$activityId], $customData );
-    }
-    
-    return $activities;
-}
-
-/**
  * Function to check for required params
  *
  * @param array   $params  associated array of fields
