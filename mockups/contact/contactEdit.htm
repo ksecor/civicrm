@@ -12,7 +12,24 @@
     <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/system.css?J" />
     <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/system-menus.css?J" />
     <link type="text/css" rel="stylesheet" media="all" href="../civicase/css/style.css?J" />
-    
+
+    <script type="text/javascript" src="../../packages/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../packages/jquery/jquery-ui.js"></script>
+    <style type="text/css">@import url({$config->resourceBase}packages/jquery/themes/redmond/jquery-ui.css);</style>
+
+    <script type="text/javascript" src="../../packages/jquery/plugins/flexigrid.js"></script>
+    <style type="text/css">@import url(../../packages/jquery/css/flexigrid.css);</style>
+
+    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.autocomplete.js"></script>
+    <style type="text/css">@import url(../../packages/jquery/css/jquery.autocomplete.css);</style>
+
+    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.chainedSelects.js"></script>
+    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.treeview.min.js"></script>
+
+    <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+    <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><script type="text/javascript">
+    </script>
+    <script type="text/javascript" src="../../js/Common.js"></script>    
     </head>
     <body class="sidebar-left">
 
@@ -117,21 +134,8 @@
 
                             <h2><span class='crm_blocktitle'>Contact Search</span></h2>
 
-                            <div class="content"><script type="text/javascript" src="../../packages/jquery/jquery.js"></script>
-                                <script type="text/javascript" src="../../packages/jquery/jquery-ui.js"></script>
-                                <style type="text/css">@import url(../../packages/jquery/themes/ui.all.css);</style>
-
-                                <script type="text/javascript" src="../../packages/jquery/plugins/flexigrid.js"></script>
-                                <style type="text/css">@import url(../../packages/jquery/css/flexigrid.css);</style>
-
-                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.autocomplete.js"></script>
-                                <style type="text/css">@import url(../../packages/jquery/css/jquery.autocomplete.css);</style>
-
-                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.chainedSelects.js"></script>
-                                <script type="text/javascript" src="../../packages/jquery/plugins/jquery.treeview.min.js"></script>
-
-                                <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
-                                <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><div class="block-crm">
+                            <div class="content">
+                                <div class="block-crm">
                                 <script type="text/javascript"> 
 
                                 function getSearchURLValue( )
@@ -207,24 +211,6 @@
 
 
                                 <div id="crm-container" lang="en" xml:lang="en">
-                                    <script type="text/javascript" src="../../packages/jquery/jquery.js"></script>
-                                    <script type="text/javascript" src="../../packages/jquery/jquery-ui.js"></script>
-                                    <style type="text/css">@import url(../../packages/jquery/themes/ui.all.css);</style>
-
-                                    <script type="text/javascript" src="../../packages/jquery/plugins/flexigrid.js"></script>
-                                    <style type="text/css">@import url(../../packages/jquery/css/flexigrid.css);</style>
-
-                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.autocomplete.js"></script>
-                                    <style type="text/css">@import url(../../packages/jquery/css/jquery.autocomplete.css);</style>
-
-                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.chainedSelects.js"></script>
-                                    <script type="text/javascript" src="../../packages/jquery/plugins/jquery.treeview.min.js"></script>
-
-                                    <script type="text/javascript" src="../../packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
-                                    <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script><script type="text/javascript">
-                                    </script>
-                                    <script type="text/javascript" src="../../js/Common.js"></script>
-
                                     <div id="recently-viewed">
                                         <ul>
 
@@ -254,7 +240,11 @@
 
                                         cj(countryID).chainSelect(stateProvinceID, callbackURL, null );
                                     });
-
+                                    
+                                    cj(function() {
+                                    	cj("#accordion").accordion();
+                                    });
+                                        
                                     </script>
 
                                     <input name="qfKey" type="hidden" value="5396c75c8f15260ecb7585e52b769d51_9630" />
@@ -270,137 +260,129 @@
                                         <div id="name-show" style="display:none; margin-top: .5em;" class="form-pane"><label>Contact Details</label>
                                         <a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').hide(); return false;" title="Click to edit"> ( edit )</a>
                                         </div>
-                                        <fieldset id="name-greet" ><legend><a href="#" onclick ="cj('#name-greet').toggle(); cj('#name-show').show(); return false;" title="Click to edit">Contact Details</a></legend>
-                                            <table class="form-layout-compressed">
-                                                    <tr>
-                                                        <td><br />
-                                                            <select name="prefix_id" id="prefix_id" class="form-select">
-                                                                <option value="">- prefix -</option>
-                                                                <option value="1">Mrs</option>
-                                                                <option value="2">Ms</option>
+                                        
+                                        <div id="accordion">
+                                            <h3><a href="#">Contact Details</a></h3>
+                                             <div>
+                                                    <table class="form-layout-compressed">
+                                                            <tr>
+                                                                <td><br />
+                                                                    <select name="prefix_id" id="prefix_id" class="form-select">
+                                                                        <option value="">- prefix -</option>
+                                                                        <option value="1">Mrs</option>
+                                                                        <option value="2">Ms</option>
 
-                                                                <option value="3">Mr</option>
-                                                                <option value="4">Dr</option>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <label for="first_name">First Name</label><br />
-                                                            <input maxlength="64"  name="first_name" type="text" id="first_name" />
-                                                        </td>
-                                                        <td>
-                                                            <label for="middle_name">Middle Name</label><br />
-                                                            <input maxlength="64"  name="middle_name" type="text" id="middle_name" />
-                                                        </td>
-                                                        <td>
-                                                            <label for="last_name">Last Name</label><br />
-                                                            <input maxlength="64" size="15" name="last_name" type="text" id="last_name" />
-                                                        </td>
-                                                        <td><br />
-                                                            <select name="suffix_id" id="suffix_id" class="form-select">
-                                                                <option value="">- suffix -</option>
+                                                                        <option value="3">Mr</option>
+                                                                        <option value="4">Dr</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <label for="first_name">First Name</label><br />
+                                                                    <input maxlength="64"  name="first_name" type="text" id="first_name" />
+                                                                </td>
+                                                                <td>
+                                                                    <label for="middle_name">Middle Name</label><br />
+                                                                    <input maxlength="64"  name="middle_name" type="text" id="middle_name" />
+                                                                </td>
+                                                                <td>
+                                                                    <label for="last_name">Last Name</label><br />
+                                                                    <input maxlength="64" size="15" name="last_name" type="text" id="last_name" />
+                                                                </td>
+                                                                <td><br />
+                                                                    <select name="suffix_id" id="suffix_id" class="form-select">
+                                                                        <option value="">- suffix -</option>
 
-                                                                <option value="1">Jr</option>
-                                                                <option value="2">Sr</option>
-                                                                <option value="3">II</option>
-                                                                <option value="4">III</option>
-                                                                <option value="5">IV</option>
-                                                                <option value="6">V</option>
+                                                                        <option value="1">Jr</option>
+                                                                        <option value="2">Sr</option>
+                                                                        <option value="3">II</option>
+                                                                        <option value="4">III</option>
+                                                                        <option value="5">IV</option>
+                                                                        <option value="6">V</option>
 
-                                                                <option value="7">VI</option>
-                                                                <option value="8">VII</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>&nbsp;</td>
-                                                        <td><label for="current_employer">Current Employer</label><br />
-                                                            <input name="current_employer" type="text" id="current_employer" />                                                        </td>
-                                                        <td><label for="job_title">Job title</label><br />
-                                                            <input maxlength="64" size="20" name="job_title" type="text" id="job_title" />
-                                                        </td>
-                                                        <td colspan="2"><label for="home_URL">Website</label><br />
-                                                            <input maxlength="128" size="30" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" class="big" /></td>
-                                                    </tr>
-                                                </table><br />
-                                                <fieldset>
-                                                <table class="form-layout-compressed">
-                                                    <tr id="row1">
-                                                        <td>
-                                                            <select name="element_type1" id="element_type1" class="form-select" onchange="buildElement(this.value, 1)">
-                                                                <option value="">- select -</option>
-                                                                <option value="email">Email</option>
-                                                                <option value="phone">Phone</option>
-                                                                <option value="im">IM</option>
-                                                                <option value="openID">Open ID</option>
-                                                            </select>
-                                                        </td>
-                                                        <td id="element_html1">
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="show1" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row2').show();cj('#show1').hide();return false;">+ add</a></td></tr>
-                                                    <tr id="row2">
-                                                            <td>
-                                                                <select name="element_type2" id="element_type2" class="form-select" onchange="buildElement(this.value, 2);cj('#show3').show();">
-                                                                    <option value="">- select -</option>
-                                                                    <option value="email">Email</option>
-                                                                    <option value="phone">Phone</option>
-                                                                    <option value="im">IM</option>
-                                                                    <option value="openID">Open ID</option>
-                                                                </select>
-                                                            </td>
-                                                            <td id="element_html2">
-                                                            </td>
-                                                    </tr>
-                                                    <tr id="show2" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row3').show();cj('#show2').hide();return false;">+ add</a></td></tr>
-                                                    <tr id="row3">
-                                                            <td>
-                                                                    <select name="element_type3" id="element_type3" class="form-select" onchange="buildElement(this.value, 3);cj('#show4').show();">
+                                                                        <option value="7">VI</option>
+                                                                        <option value="8">VII</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><label for="current_employer">Current Employer</label><br />
+                                                                    <input name="current_employer" type="text" id="current_employer" />                                                        </td>
+                                                                <td><label for="job_title">Job title</label><br />
+                                                                    <input maxlength="64" size="20" name="job_title" type="text" id="job_title" />
+                                                                </td>
+                                                                <td colspan="2"><label for="home_URL">Website</label><br />
+                                                                    <input maxlength="128" size="30" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" class="big" /></td>
+                                                            </tr>
+                                                        </table><br />
+                                                        <table class="form-layout-compressed">
+                                                            <tr id="row1">
+                                                                <td>
+                                                                    <select name="element_type1" id="element_type1" class="form-select" onchange="buildElement(this.value, 1)">
                                                                         <option value="">- select -</option>
                                                                         <option value="email">Email</option>
                                                                         <option value="phone">Phone</option>
                                                                         <option value="im">IM</option>
                                                                         <option value="openID">Open ID</option>
                                                                     </select>
-                                                            </td>
-                                                            <td id="element_html3">
-                                                            </td>
-                                                    </tr>
-                                                    <tr id="show3" style="display:none;"><td colspan="3"><a href="#" onclick="alert('This will allow user to add more phones, emails, etc.');return false;">+ add</a></td></tr>
-                                                </table>
-                                                </fieldset>
+                                                                </td>
+                                                                <td id="element_html1">
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="show1" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row2').show();cj('#show1').hide();return false;">+ add</a></td></tr>
+                                                            <tr id="row2">
+                                                                    <td>
+                                                                        <select name="element_type2" id="element_type2" class="form-select" onchange="buildElement(this.value, 2);cj('#show3').show();">
+                                                                            <option value="">- select -</option>
+                                                                            <option value="email">Email</option>
+                                                                            <option value="phone">Phone</option>
+                                                                            <option value="im">IM</option>
+                                                                            <option value="openID">Open ID</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td id="element_html2">
+                                                                    </td>
+                                                            </tr>
+                                                            <tr id="show2" style="display:none;"><td colspan="3"><a href="#" onclick="cj('#row3').show();cj('#show2').hide();return false;">+ add</a></td></tr>
+                                                            <tr id="row3">
+                                                                    <td>
+                                                                            <select name="element_type3" id="element_type3" class="form-select" onchange="buildElement(this.value, 3);cj('#show4').show();">
+                                                                                <option value="">- select -</option>
+                                                                                <option value="email">Email</option>
+                                                                                <option value="phone">Phone</option>
+                                                                                <option value="im">IM</option>
+                                                                                <option value="openID">Open ID</option>
+                                                                            </select>
+                                                                    </td>
+                                                                    <td id="element_html3">
+                                                                    </td>
+                                                            </tr>
+                                                            <tr id="show3" style="display:none;"><td colspan="3"><a href="#" onclick="alert('This will allow user to add more phones, emails, etc.');return false;">+ add</a></td></tr>
+                                                        </table>
                                               
-                                                <script type="text/javascript"> 
-                                                    cj(function(){
-                                                        buildElement( 'email', 1 );
-                                                        buildElement( 'phone', 2 );
-                                                        cj("#row3").hide();
-                                                    });
-                                                    function buildElement( form, no ) {
-                                                        if ( !form ) return;
-                                                        cj('#element_html' + no).load( form + '.htm' );
-                                                        cj('#element_type' + no).val( form );
-                                                        if ( no > 1) {
-                                                            cj('#show' + no).show();
-                                                        }
-                                                    }
-                                                </script>
+                                                        <script type="text/javascript"> 
+                                                            cj(function(){
+                                                                buildElement( 'email', 1 );
+                                                                buildElement( 'phone', 2 );
+                                                                cj("#row3").hide();
+                                                            });
+                                                            function buildElement( form, no ) {
+                                                                if ( !form ) return;
+                                                                cj('#element_html' + no).load( form + '.htm' );
+                                                                cj('#element_type' + no).val( form );
+                                                                if ( no > 1) {
+                                                                    cj('#show' + no).show();
+                                                                }
+                                                            }
+                                                        </script>
 
-                                                    <div class="action-link"><input name="_qf_Edit_refresh_dedupe" value="&raquo; Check for Matching Contact(s)" type="submit" id="_qf_Edit_refresh_dedupe" class="form-submit" /></div>
-                                                </fieldset>
-                                            </div>
-
-                                            <div id="addressBlock">
-                                                <div id="add-1-show" class="form-pane">
-                                                    <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to edit"><img src="../../i/edit.png" /></a>
-                                                    <a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').hide(); return false;" title="Click to edit"><label>Address</label></a>
-                                                </div>
-                                                <fieldset id='add-1-table' style="display:none;"><legend><a href="#" onclick ="cj('#add-1-table').toggle(); cj('#add-1-show').show(); return false;" title="Click to close">Address</a></legend>
-                                                    <div id="id_location_1_address" >
+                                                            <div class="action-link"><input name="_qf_Edit_refresh_dedupe" value="&raquo; Check for Matching Contact(s)" type="submit" id="_qf_Edit_refresh_dedupe" class="form-submit" /></div>
                                                         
-                                                    </div>    
-                                                    <div id="id_location_1_address_show" >
+                                            </div>
+                                            <h3><a href="#">Address </a></h3>
+                                            <div>
                                                         <table class="form-layout-compressed">
                                                             <tr>
                                                                 <td><input id="use_household_address" name="use_household_address" type="checkbox" value="1" class="form-checkbox" /><label for="use_household_address">Use Household Address</label> <img src="../../i/quiz.png" /> &nbsp;&nbsp;</td>
@@ -524,15 +506,10 @@
                                                         <div>
                                                             <a href="#" onclick="alert('This will allow user too add more addresses for this contact.');return false;">+ add</a>
                                                         </div>
-                                                </fieldset>
-                                            </div>
-
-                                            <div id="commPrefs">
-                                                <div id="com-show" class="form-pane">
-                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to edit"><img src="../../i/edit.png" /></a>
-                                                <a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').hide(); return false;" title="Click to edit"><label>Communication Preferences</label></a>
                                                 </div>
-                                                <fieldset id="com-table" style="display:none;" ><legend><a href="#" onclick ="cj('#com-table').toggle(); cj('#com-show').show(); return false;" title="Click to close">Communication Preferences</a></legend>
+                                            
+                                            <h3><a href="#">Communication Preferences</a></h3>
+                                                <div>
                                                     <table class="form-layout-compressed" >
                                                         <tr>
                                                             <td><label for="greeting_type_id">Greeting</label><br />
@@ -569,13 +546,9 @@
                                                             </td>
                                                         </tr>
                                                         </table>
-                                                    </fieldset>
                                             </div> 
-                                                                        
+                                            <h3><a href="#">Contact Source and External ID</a></h3>                            
                                             <div id="moreDetails">
-                                                <div id="md-show" class="form-pane"><label>Contact Source and External ID</label> <a href="#" onclick="cj('#more-personal-info').toggle(); cj('#md-show').hide(); return false;">( edit )</a>
-                                                </div>
-                                                <fieldset id="more-personal-info" style="display:none;"><legend><a href="#" onclick ="cj('#more-personal-info').toggle(); cj('#md-show').show(); return false;" title="Click to close section">Contact Source and External ID</a></legend>
                                                 <table class="form-layout-compressed">
                                                     <tr>
                                                         <td><label for="contact_source">Source</label><br />
@@ -584,9 +557,8 @@
                                                             <input maxlength="32" size="20" name="external_identifier" type="text" id="external_identifier" class="form-text medium" /></td>
                                                     </tr>
                                                 </table>
-                                                </fieldset>
                                             </div>
-
+                                        </div> <!-- End of main div-->
                                             <div class="form-pane">
                                                 <span><label>Demographics</label><a href="#"> ( edit )</a></span>
                                             </div>
