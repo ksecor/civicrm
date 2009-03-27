@@ -241,8 +241,15 @@ div.spacer, .spacer {
 
 #crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
   vertical-align: text-top;
+  width: auto;
   padding: 2px;
 }
+
+/* Assign last-row class to row which ends a logical set of fields */
+#crm-container .form-layout-compressed tr.last-row td {
+  padding-bottom: 8px;
+}
+
 
 /*
  * These two directives prevent dojo comboBox fields from expanding to fill entire table cell.

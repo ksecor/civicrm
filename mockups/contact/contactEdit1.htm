@@ -251,49 +251,21 @@
                                     <input name="MAX_FILE_SIZE" type="hidden" value="20971520" />
 
                                     <script type="text/javascript" src="../../js/Contact.js"></script>
-                                    <div class="crm-submit-buttons">
-                                        <input class="default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_cancel" value="Cancel" type="submit" />
+                                    <div class="crm-submit-buttons" style="margin-bottom: 10px;">
+                                        <input class="default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_cancel" value="Cancel" type="submit" style="font-weight: normal;" />
                                     </div>
                                     
                                     <div id="name">
                                         <div id="accordion">
                                             <h3><a href="#">Contact Details</a></h3>
-                                             <div>
-                                        
-                                            <div style="border: 1px solid
-                                            grey; background-color: #FFF9DD;
-                                            font-size: 9px; padding:3px;
-                                            padding-left: 10px;
-                                            font-style: italic">After
-                                            you type in first name, last
-                                            name and email address,,
-                                            system will check for duplicates
-                                            and will display potential
-                                            existing contacts in this frame.
-                                            <br/><b>Potential duplicates
-                                            found!</b>
-                                            <blockquote>
-                                            <ul>
-                                             <li>- <a href="">Jane Doe,
-                                            jane@otherfoundation.org</a>,
-                                             Completely Different
-                                            Organisation LLC &nbsp; <a
-                                             href="">(see details)</a></li>
-                                             <li>- <a href="">Jane Maria Doe,
-                                            jmdoe@hotmail.com</a> &nbsp; <a
-                                             href="">(see details)</a></li>                                             
-                                            </ul>
-                                            </blockquote>
-                                            </div><br/>
-                                        
+                                            <div>
                                             <table class="form-layout-compressed">
-                                                    <tr>
+                                                    <tr class="last-row">
                                                         <td>
-                                                            <label
-                                                        for="prefix_id">Prefix</label><br />
+                                                            <label for="prefix_id">Prefix</label><br />
                                                             <select name="prefix_id" id="prefix_id" class="form-select">
                                                                 <option value="">
-                                                           </option>
+                                                                </option>
                                                                 <option value="1"
                                                            selected="selected">Mrs</option>
                                                                 <option value="2">Ms</option>
@@ -338,20 +310,11 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    <td
-                                                    style="font-size:
-                                                    3px; color: white">j</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="2"
-                                                  ><label
-                                                        for="current_employer">Current Employer</label><br />
-                                                            <div
-                                                        align="right">
-                                                            <input size="28" name="current_employer" type="text" id="current_employer"
-                                                        value="SomeFoundation" />
+                                                        <td colspan="2"><label for="current_employer">Current Employer</label><br />
+                                                        <div align="right">
+                                                            <input size="28" name="current_employer" type="text" id="current_employer" value="SomeFoundation" />
                                                         </div>
-                                                            </td>
+                                                        </td>
                                                             
                                                         <td><label for="job_title">Job title</label><br />
                                                             <input maxlength="64" size="20" name="job_title" type="text" id="job_title"
@@ -364,10 +327,7 @@
                                                     </tr>
                                                 </table>
                                                 <br/>
-                                                <table
-                                                class="form-layout-compressed"
-                                                style="white-space: nowrap;
-                                                width: 85%">
+                                                <table class="form-layout-compressed" style="white-space: nowrap;">
 						    
                                                     <tr id="row0">
 
@@ -390,11 +350,10 @@
                                                       padding-right: 10px;
                                                       padding-left: 10px">On
                                                       Hold?</td>
-                                                      <td align="center"                                                       style="vertical-align:
+                                                      <td align="center" style="vertical-align:
                                                       bottom;
                                                       padding-right: 10px;
-                                                      padding-left: 10px">Use
-                                                      for<br/>
+                                                      padding-left: 10px">
                                                       Bulk
                                                       Mailings?</td>                                                      
                                                       <td width="20%"                                                       style="vertical-align:
@@ -439,7 +398,7 @@
 
                                                <td></td>         
                                                     </tr>
-                                                    <tr>
+                                                    <tr class="last-row">
 
                                                         <td>
 
@@ -474,13 +433,6 @@
                                                     </tr>
                                                     
                                                     
-                                                    
-                                                    <tr>
-                                                      <td
-                                                    colspan="4">&nbsp;</td>
-                                                    </tr>
-
-						    
                                                     <tr id="row0">
 
                                                       <td style="
@@ -501,7 +453,7 @@
                                                       align="center">Primary?</td>                                                                                                            
                                                     </tr>
 
-                                                    <tr>
+                                                    <tr class="last-row">
 
 
                                                         <td>
@@ -546,13 +498,6 @@
 
                                                <td></td>         
                                                     </tr>
-
-
-                                                    <tr>
-                                                      <td
-                                                    colspan="4">&nbsp;
-                                                    </td>
-                                                                                                        </tr>
 
                                                     <tr id="row0">
 
@@ -605,8 +550,6 @@
 
 </td>
 
-</td>
-
                                                         <td
                                                     style="vertical-align:
                                                         middle;
@@ -618,15 +561,6 @@
                                                     type="radio"></td>
 
                                                <td></td>         
-                                                    </tr>
-
-                                                    <tr>
-                                                      <td
-                                                    colspan="4"><a
-                                                    href="#"
-
-                                                    onclick="cj('#row3').show();cj('#show2').hide();return
-                                                    false;">add</a></td>
                                                     </tr>
 
                                                 </table>
@@ -659,7 +593,7 @@
 
                                                 </div>
                                                 <h3><a href="#">Address </a></h3>
-                                            <div id="addressBlock">   
+                                                        <div id="addressBlock">   
                                                         <table class="form-layout-compressed">
                                                             <tr>
                                                                 <td><input id="use_household_address" name="use_household_address" type="checkbox" value="1" class="form-checkbox" /><label for="use_household_address">Use Household Address</label> <img src="../../i/quiz.png" /> &nbsp;&nbsp;</td>
@@ -781,7 +715,7 @@
                                                             </tr>
                                                         </table>
                                                         <div>
-                                                            <a href="#" onclick="alert('This will allow user too add more addresses for this contact.');return false;">+ add</a>
+                                                            <br /><a href="#" onclick="alert('This will allow user too add more addresses for this contact.');return false;" style="font-size: 10px;">add address</a>
                                                         </div>
                                                     </div>
 
@@ -845,9 +779,9 @@
                                             <div></div>
                                         </div>
                                             <br />
-                                            <div class="crm-submit-buttons">
-                                                <input class="default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_cancel" value="Cancel" type="submit" />
-                                            </div>
+                                        <div class="crm-submit-buttons" style="margin-bottom: 10px;">
+                                            <input class="default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_cancel" value="Cancel" type="submit" style="font-weight: normal;" />
+                                        </div>
 
                                         </form>
 
