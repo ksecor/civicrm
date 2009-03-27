@@ -58,6 +58,7 @@ cd $workdir/$version/export/distmaker
 
 # publish to sf.net
 cd $workdir/$version/tarballs
+cp civicrm-$version-drupal.tar.gz civicrm-$version-standalone.tar.gz
 $md5sum *.tar.gz *.zip > civicrm-$version.MD5SUMS
 echo $gpg_pass | $gpg --armor --batch --passphrase-fd 0 --sign civicrm-$version.MD5SUMS
 $rsync -aP *.tar.gz *.zip *MD5SUMS* civicrm@frs.sf.net:uploads
