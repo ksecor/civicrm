@@ -242,7 +242,11 @@
                                     });
                                     
                                     cj(function() {
-                                    	cj("#accordion").accordion();
+                                        cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
+                                        cj('.accordion .head').click(function() {
+                                            cj(this).next().toggle('slow');
+                                            return false;
+                                        }).next().hide();
                                     
                                         cj("#show-email-2").click( function() {
                                             cj("#email-2").show();
@@ -256,7 +260,7 @@
                                             return false;
                                         });
                                     });
-                                    
+
                                     </script>
 
                                     <input name="qfKey" type="hidden" value="5396c75c8f15260ecb7585e52b769d51_9630" />
@@ -269,8 +273,8 @@
                                     </div>
                                     
                                     <div id="name">
-                                        <div id="accordion">
-                                            <h3><a href="#">Contact Details</a></h3>
+                                        <div class="accordion ui-accordion ui-widget ui-helper-reset ">
+                                            <h3 class="head"><a href="#">Contact Details</a></h3>
                                             <div>
                                             <table class="form-layout-compressed">
                                                     <tr class="last-row">
@@ -579,13 +583,7 @@
                                                 </table>
 
 
-
-
-
-
-
-                                              
-                                                <script type="text/javascript"> 
+                                               <script type="text/javascript"> 
                                                     cj(function(){
                                                         buildElement(
                                                     'email1', 1 );
@@ -605,7 +603,7 @@
 
 
                                                 </div>
-                                                <h3><a href="#">Address </a></h3>
+                                                <h3 class="head"><a href="#">Address </a></h3>
                                                         <div id="addressBlock">   
                                                         <table class="form-layout-compressed">
                                                             <tr>
@@ -732,7 +730,7 @@
                                                         </div>
                                                     </div>
 
-                                                <h3><a href="#">Communication Preferences</a></h3>
+                                                <h3 class="head"><a href="#">Communication Preferences</a></h3>
                                                     <div>
                                             
                                                     <table class="form-layout-compressed" >
@@ -772,7 +770,7 @@
                                                         </tr>
                                                         </table>
                                                     </div> 
-                                                    <h3><a href="#">Contact Source and External ID</a></h3>
+                                                    <h3 class="head"><a href="#">Contact Source and External ID</a></h3>
                                                                         
                                             <div id="moreDetails">
                                                  <table class="form-layout-compressed">
@@ -784,11 +782,11 @@
                                                     </tr>
                                                 </table>
                                             </div>
-                                            <h3><a href="#">Demographics</a></h3>
+                                            <h3 class="head"><a href="#">Demographics</a></h3>
                                             <div></div>
-                                            <h3><a href="#">Notes</a></h3>
+                                            <h3 class="head"><a href="#">Notes</a></h3>
                                             <div></div>
-                                            <h3><a href="#">Tags and Groups</a></h3>
+                                            <h3 class="head"><a href="#">Tags and Groups</a></h3>
                                             <div></div>
                                         </div>
                                             <br />
