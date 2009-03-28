@@ -7,7 +7,7 @@
             <legend>{$membershipBlock.renewal_title}</legend>
         {/if}
         {if $membershipBlock.renewal_text}
-            <div id=membership-intro>
+            <div id="membership-intro">
                 <p>{$membershipBlock.renewal_text}</p>
             </div> 
         {/if}
@@ -17,7 +17,7 @@
             <legend>{$membershipBlock.new_title}</legend>
         {/if}
         {if $membershipBlock.new_text}
-            <div id=membership-intro>
+            <div id="membership-intro">
                 <p>{$membershipBlock.new_text}</p>
             </div> 
         {/if}
