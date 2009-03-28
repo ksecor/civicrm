@@ -8,52 +8,55 @@
 
 </style>
   <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.clickmenu.pack.js"> </script>
-{literal}
   <script type="text/javascript">
 //<![CDATA[
+   var contactViewUrl="{crmURL p='civicrm/contact/view?reset=1'}";
+{literal}
   jQuery(document).ready(function($)  
   {  
      $('#menu').clickMenu(); 
-			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/rest?fnName=civicrm/contact/search&json=1&return[sort_name]=1&return[contact_type]&return[email]'}"{literal};
+			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/rest?fnName=civicrm/contact/search&json=1&return[display_name]=1&return[contact_type]&return[email]&rowCount=25'}"{literal};
 
-			$("#Qsearch").autocomplete( contactUrl, {
-			dataType:"json",
-			extraParams:{sort_name:function () 
-			  { //extra % to force looking to the data typed anywhere in the name
-                            return "%"+$("#Qsearch").val();}
-                        },
-        formatItem: function(data,i,max,value,term){ 
-	  if ("email" in data) 
-            email = " &lt; "+ data["email"]+"&gt; ";
-          else
-            email = ""; 
-          return "<span class='"+data["contact_type"]+ "'>"+ value + email + "</span>";  
-       },  
-     parse: function(data){ 
-         //either a list of objects or {is_error":0} ???
+     $("#Qsearch").autocomplete( contactUrl, {
+       dataType:"json",
+       extraParams:{sort_name:function () { //extra % to force looking to the data typed anywhere in the name
+	      return "%"+$("#Qsearch").val();}
+       },
+       formatMatch: function (data,i,max) { 
+         data.display_name+ " " + data.email;
+       }, 
+       parse: function(data){ 
+         //either an array of objects or {is_error":0} ???
          if ("is_error" in data) { return [{data:{contact_type:"Individual"},value:"create an individual"},
                                            {data:{contact_type:"Organization"},value:"create an Organization"},
                                            {data:{contact_type:"Household"},value:"create an Household"}
                                           ];};;
-         var acd = new Array();  
+         var parsed = new Array();
          for(cid in data){  
-           acd[acd.length] = { data:data[cid], value:data[cid].sort_name, result:data[cid].sort_name };  
+           parsed.push({ data:data[cid], value:data[cid].sort_name, result:data[cid].sort_name });  
          }  
-         return acd;  
-		},
-			width: 500,
-				selectFirst: false 
-			});
+         return parsed;  
+       },
+       formatItem: function(data,i,max,value,term){ 
+	  if ("email" in data) 
+            email = " ("+ data["email"]+")";
+          else
+            email = ""; 
+          return "<span class='"+data["contact_type"]+ "'>"+ value + email + "</span>";  
+       }, 
+       width: 500,
+       delay:200,
+       max:25,
+       minChars:2,
+       selectFirst: true
+     }).result(function(event, data, formatted) {
+         document.location= contactViewUrl+'&cid='+data["contact_id"];
+     });
 			
-			$("#Qsearch").focus();
-			$("#Qsearch").result(function(event, data, formatted) {
-				//location.href=?cid
-				alert ("view:"+data["contact_id"]);
-			});		    
-
 //seems to leak on the blocks ???     $('#searchType li').click (function (){alert ("the idea is to set the search type from here, ala firefox");return false}); 
-  });  
-
+  });
+/*  
+*/
   //]]>
   </script>
 {/literal}
