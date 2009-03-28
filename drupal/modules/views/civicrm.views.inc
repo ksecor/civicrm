@@ -1430,7 +1430,7 @@ function civicrm_views_data() {
                                                    'title' => t('Source'),
                                                    'help' => t('Where did this registration come from?'),
                                                    'field' => array(
-                                                                    'handler' => 'civicrm_handler_field',
+                                                                    'handler' => 'views_handler_field',
                                                                     'click sortable' => TRUE,
                                                                     ),
 
@@ -1504,11 +1504,11 @@ function civicrm_views_data() {
                                                              );
 
     //Fee Level
-    $data['civicrm_participant']['Fee Level'] = array(
+    $data['civicrm_participant']['fee_level'] = array(
                                                       'title' => t('Fee Level'),
                                                       'help' => t('The Fee Level the Participant is registered for.'),
                                                       'field' => array(
-                                                                       'handler' => 'civicrm_handler_field',
+                                                                       'handler' => 'views_handler_field',
                                                                        'click sortable' => TRUE,
                                                                        ),
 
