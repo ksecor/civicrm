@@ -154,7 +154,7 @@ class CRM_Utils_REST
 
         if ( CRM_Utils_Array::value( 'json', $_GET ) ) {
             header( 'Content-Type: text/javascript' );
-            return json_encode($result);
+            return json_encode(array_merge($result));
         }
         
         $xml = "<?xml version=\"1.0\"?>
@@ -269,7 +269,6 @@ class CRM_Utils_REST
         }
         
         require_once $apiPath . $apiFile;
-
         $fnName = "civicrm_{$args[1]}_{$args[2]}";
         if ( ! function_exists( $fnName ) ) {
             return self::error( "Unknown function called: $fnName" );
