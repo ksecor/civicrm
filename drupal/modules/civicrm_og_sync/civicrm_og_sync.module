@@ -204,8 +204,10 @@ function civicrm_og_sync_enable()
     
     require_once 'CRM/Bridge/OG/Drupal.php';
     
-    // do the do
-    $results = db_query("SELECT n.nid FROM {node} n WHERE n.type IN ('". implode("', '", variable_get('og_node_types', array('og'))) ."')");
+    // get OG content types
+    $og_types_str = implode("', '", og_get_types('group'));
+    //build the query
+    $results = db_query("SELECT n.nid FROM {node} n WHERE n.type IN ('%s')", $og_types_str);
     
     while ($result = db_fetch_array($results)) {
         $node = node_load(array('nid' => $result['nid']));
