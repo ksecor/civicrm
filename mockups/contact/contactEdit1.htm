@@ -243,7 +243,20 @@
                                     
                                     cj(function() {
                                     	cj("#accordion").accordion();
+                                    
+                                        cj("#show-email-2").click( function() {
+                                            cj("#email-2").show();
+                                            cj("#email-2").addClass('last-row');
+                                            cj("#email-1").removeClass('last-row');
+                                            return false;
+                                        });
+                                        cj("#hide-email-2").click( function() {
+                                            cj("#email-1").addClass('last-row');
+                                            cj("#email-2").hide();
+                                            return false;
+                                        });
                                     });
+                                    
                                     </script>
 
                                     <input name="qfKey" type="hidden" value="5396c75c8f15260ecb7585e52b769d51_9630" />
@@ -327,6 +340,7 @@
                                                     </tr>
                                                 </table>
                                                 <br/>
+
                                                 <table class="form-layout-compressed" style="white-space: nowrap;">
 						    
                                                     <tr id="row0">
@@ -340,8 +354,7 @@
                                                       
 						<a style="font-size: 10px;"
                                                     href="#"
-                                                    onclick="cj('#row3').show();cj('#show2').hide();return
-                                                    false;">add</a>                                                      
+                                                    id="show-email-2">add</a>                                                      
                                                       
                                                       </td>
                                                       <td align="center"
@@ -364,7 +377,7 @@
 
                                                       <td></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr id="email-1" class="last-row">
 
                                                         <td>
 
@@ -398,7 +411,7 @@
 
                                                <td></td>         
                                                     </tr>
-                                                    <tr class="last-row">
+                                                    <tr id="email-2" style="display:none;">
 
                                                         <td>
 
@@ -429,7 +442,7 @@
                                                         value=""
                                                     type="radio"></td>
 
-                                               <td><a href="#">remove</a></td>                                                               
+                                               <td><a href="#" id="hide-email-2">remove</a></td>                                                               
                                                     </tr>
                                                     
                                                     
