@@ -243,6 +243,9 @@
                                     
                                     cj(function() {
                                         cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
+                                        cj('.accordion .head').hover(function() {
+                                            cj('.accordion .head').addClass( "ui-state-hover");
+                                        });
                                         cj('.accordion .head').click(function() {
                                             cj(this).next().toggle('slow');
                                             return false;
@@ -273,8 +276,8 @@
                                     </div>
                                     
                                     <div id="name">
-                                        <div class="accordion ui-accordion ui-widget ui-helper-reset ">
-                                            <h3 class="head"><a href="#">Contact Details</a></h3>
+                                        <div class="accordion ui-accordion ui-widget ui-helper-reset">
+                                            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Contact Details</a></h3>
                                             <div>
                                             <table class="form-layout-compressed">
                                                     <tr class="last-row">
@@ -603,7 +606,7 @@
 
 
                                                 </div>
-                                                <h3 class="head"><a href="#">Address </a></h3>
+                                                <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Address </a></h3>
                                                         <div id="addressBlock">   
                                                         <table class="form-layout-compressed">
                                                             <tr>
@@ -730,7 +733,7 @@
                                                         </div>
                                                     </div>
 
-                                                <h3 class="head"><a href="#">Communication Preferences</a></h3>
+                                                <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Communication Preferences</a></h3>
                                                     <div>
                                             
                                                     <table class="form-layout-compressed" >
@@ -770,7 +773,7 @@
                                                         </tr>
                                                         </table>
                                                     </div> 
-                                                    <h3 class="head"><a href="#">Contact Source and External ID</a></h3>
+                                                    <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Contact Source and External ID</a></h3>
                                                                         
                                             <div id="moreDetails">
                                                  <table class="form-layout-compressed">
@@ -782,11 +785,11 @@
                                                     </tr>
                                                 </table>
                                             </div>
-                                            <h3 class="head"><a href="#">Demographics</a></h3>
+                                            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Demographics</a></h3>
                                             <div></div>
-                                            <h3 class="head"><a href="#">Notes</a></h3>
+                                            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Notes</a></h3>
                                             <div></div>
-                                            <h3 class="head"><a href="#">Tags and Groups</a></h3>
+                                            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Tags and Groups</a></h3>
                                             <div></div>
                                         </div>
                                             <br />
