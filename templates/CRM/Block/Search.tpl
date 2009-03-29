@@ -32,8 +32,7 @@
         cj( '#sort_name' ).autocomplete( contactUrl, {
             width: 200,
             selectFirst: false 
-        });
-        cj( '#sort_name' ).result(function(event, data, formatted) {
+        }).result(function(event, data, formatted) {
             cj("#contact_id").val(data[1]);
         });	
     });
