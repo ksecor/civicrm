@@ -1299,3 +1299,8 @@ commented since it is overwiting simple td
  padding        : 5px 4px 0px 5px;
  vertical-align : middle;
 }
+
+/* loader autocomplete */
+
+body .ac_loading {background:url('../i/loading.gif') no-repeat right center;}
+.ac_input {background:url('../i/magnify.gif') no-repeat right center;}
