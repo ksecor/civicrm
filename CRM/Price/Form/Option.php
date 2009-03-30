@@ -163,6 +163,15 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
 
             //is default 
             $this->add('checkbox', 'is_default', ts('Default'));
+            
+            if ( $this->_fid ) {
+                //hide the default checkbox option for text field
+                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $this->_fid, 'html_type' );
+                $this->assign( 'hideDefaultOption', false );
+                if ( $htmlType == 'Text' ) {
+                    $this->assign( 'hideDefaultOption', true );
+                }
+            }
             // add buttons
             $this->addButtons(array(
                                     array ('type'      => 'next',
