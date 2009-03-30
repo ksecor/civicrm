@@ -19,7 +19,7 @@
         </tr>
         <tr>
             <td>
-		{$form.activity_role.label}<br />
+		        {$form.activity_role.label}&nbsp;( <a href="#" title="unselect" onclick="unselectRadio('activity_role', 'Advanced'); return false;" >unselect</a> )<br />
                 {$form.activity_role.html}
             </td>
             <td>
