@@ -76,9 +76,9 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      * @access public
      */
     function __construct( )
-    {CRM/Mailing/Selector/Browse.php
+    {
     }//end of constructor
-
+    
 
     /**
      * This method returns the links that are given for each search row.
