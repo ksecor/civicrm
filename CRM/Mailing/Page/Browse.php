@@ -128,6 +128,11 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         }
         $this->set( 'archived', $this->_archived );
 
+        if ( CRM_Utils_Array::value( 3,  $newArgs ) == 'scheduled' ) {
+            $this->_scheduled = true;
+        }
+        $this->set( 'scheduled', $this->_scheduled );
+
         $this->search( );
         
         $session =& CRM_Core_Session::singleton();

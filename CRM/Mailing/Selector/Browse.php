@@ -76,7 +76,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      * @access public
      */
     function __construct( )
-    {
+    {CRM/Mailing/Selector/Browse.php
     }//end of constructor
 
 
@@ -370,6 +370,13 @@ AND       $whereClause";
             $clauses[] = "civicrm_mailing.is_archived = 1";
         }
 
+        // CRM-4290, do not show archived or unscheduled mails 
+        // on 'Scheduled and Sent Mailing' page selector 
+        if( $this->_parent->get( 'scheduled' ) ) { 
+            $clauses[] = "civicrm_mailing.is_archived = 0";
+            $clauses[] = "civicrm_mailing_job.status = 'Scheduled' OR 
+                          civicrm_mailing_job.status = 'Complete'";
+        }
             
         if ( $sortBy &&
              $this->_parent->_sortByCharacter ) {
