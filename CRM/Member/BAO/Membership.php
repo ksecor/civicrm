@@ -566,6 +566,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 if ( ! is_null( $isTest ) ) {
                                     $membership->is_test        = $isTest;
                                 }
+                                //CRM-4297
+                                $membership->orderBy( 'end_date DESC' );
                                 
                                 if ( $membership->find(true) ) {
                                     $form->assign("renewal_mode", true );
@@ -597,7 +599,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             
             $form->assign( 'membershipBlock' , $membershipBlock );
             $form->assign( 'membershipTypes' ,$membershipTypes );
-        
         }
 
         return $separateMembershipPayment;
