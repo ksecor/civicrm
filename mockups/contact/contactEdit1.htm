@@ -280,8 +280,7 @@
                                             <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Contact Details</a></h3>
                                             <div style="border: 1px solid
                                             #999999; border-top: 0px;  padding: 7px">
-                                            <table class="form-layout-compressed"
-                                            >
+                                            <table class="form-layout-compressed">
                                                     <tr class="last-row">
                                                         <td>
                                                             <label for="prefix_id">Prefix</label><br />
@@ -756,44 +755,48 @@
                                                                 <input maxlength="128" size="45" name="nick_name" type="text" id="nick_name" class="big" /></td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="2"><label>Privacy</label><br />
-                                                                <input type="hidden" name="privacy[do_not_phone]" value="" /><input id="privacy[do_not_phone]" name="privacy[do_not_phone]" type="checkbox" value="1" /><label for="privacy[do_not_phone]">Do not phone</label>&nbsp;<input type="hidden" name="privacy[do_not_email]" value="" /><input id="privacy[do_not_email]" name="privacy[do_not_email]" type="checkbox" value="1" /><label for="privacy[do_not_email]">Do not email</label>&nbsp;<input type="hidden" name="privacy[do_not_mail]" value="" /><input id="privacy[do_not_mail]" name="privacy[do_not_mail]" type="checkbox" value="1" /><label for="privacy[do_not_mail]">Do not mail</label>&nbsp;<input type="hidden" name="privacy[do_not_trade]" value="" /><input id="privacy[do_not_trade]" name="privacy[do_not_trade]" type="checkbox" value="1" /><label for="privacy[do_not_trade]">Do not trade</label></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="2"><input id="is_opt_out" name="is_opt_out" type="checkbox" value="1" class="form-checkbox" /> <label for="is_opt_out">NO BULK EMAILS (User Opt Out)</label> <img src="../../i/quiz.png" /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><label>Method</label><br />
-                                                                <table class="form-layout-compressed"><tr><td class="labels font-light"><input type="hidden" name="preferred_communication_method[1]" value="" /><input id="preferred_communication_method[1]" name="preferred_communication_method[1]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[1]">Phone</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[2]" value="" /><input id="preferred_communication_method[2]" name="preferred_communication_method[2]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[2]">Email</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[3]" value="" /><input id="preferred_communication_method[3]" name="preferred_communication_method[3]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[3]">Postal Mail</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[4]" value="" /><input id="preferred_communication_method[4]" name="preferred_communication_method[4]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[4]">SMS</label></td><td class="labels font-light"><input type="hidden" name="preferred_communication_method[5]" value="" /><input id="preferred_communication_method[5]" name="preferred_communication_method[5]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[5]">Fax</label></td></tr></table>
-                                                                <div class="description font-italic">
-                                                                    Select the preferred method of communicating with this contact.</div>
+                                                            <td><label>Privacy</label><br />
+                                                                <input type="hidden" name="privacy[do_not_phone]" value="" />
+                                                                <input id="privacy[do_not_phone]" name="privacy[do_not_phone]" type="checkbox" value="1" /><label for="privacy[do_not_phone]">Do not phone</label><br /><input type="hidden" name="privacy[do_not_email]" value="" /><input id="privacy[do_not_email]" name="privacy[do_not_email]" type="checkbox" value="1" /><label for="privacy[do_not_email]">Do not email</label><br /><input type="hidden" name="privacy[do_not_mail]" value="" /><input id="privacy[do_not_mail]" name="privacy[do_not_mail]" type="checkbox" value="1" /><label for="privacy[do_not_mail]">Do not mail</label><br /><input type="hidden" name="privacy[do_not_trade]" value="" /><input id="privacy[do_not_trade]" name="privacy[do_not_trade]" type="checkbox" value="1" /><label for="privacy[do_not_trade]">Do not trade</label></td>
+                                                            <td><label>Method</label> <img src="../../i/quiz.png" /><br />
+                                                                <input type="hidden" name="preferred_communication_method[1]" value="" /><input id="preferred_communication_method[1]" name="preferred_communication_method[1]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[1]">Phone</label><br /><input type="hidden" name="preferred_communication_method[2]" value="" /><input id="preferred_communication_method[2]" name="preferred_communication_method[2]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[2]">Email</label><br /><input type="hidden" name="preferred_communication_method[3]" value="" /><input id="preferred_communication_method[3]" name="preferred_communication_method[3]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[3]">Postal Mail</label><br /><input type="hidden" name="preferred_communication_method[4]" value="" /><input id="preferred_communication_method[4]" name="preferred_communication_method[4]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[4]">SMS</label><br /><input type="hidden" name="preferred_communication_method[5]" value="" /><input id="preferred_communication_method[5]" name="preferred_communication_method[5]" type="checkbox" value="1" class="form-checkbox" /><label for="preferred_communication_method[5]">Fax</label>
                                                             </td>
-                                                            <td><label for="preferred_mail_format">Email Format</label> <img src="../../i/quiz.png" /><br />
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input id="is_opt_out" name="is_opt_out" type="checkbox" value="1" class="form-checkbox" /> <label for="is_opt_out">NO BULK EMAILS (User Opt Out)</label> <img src="../../i/quiz.png" /> &nbsp;</td>
+                                                            <td><label for="preferred_mail_format">Email Format</label> &nbsp;
                                                                 <select name="preferred_mail_format" id="preferred_mail_format" class="form-select">
                                                                         <option value="Both">Both</option>
                                                                         <option value="HTML">HTML</option>
                                                                         <option value="Text">Text</option>
-                                                                </select> 
+                                                                </select> <img src="../../i/quiz.png" />
                                                             </td>
                                                         </tr>
                                                         </table>
                                                     </div> 
-                                                    <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Contact Source and External ID</a></h3>
-                                                                        
-                                            <div id="moreDetails" style="border: 1px solid
-                                            #999999; border-top: 0px;  padding: 7px">
-                                                 <table class="form-layout-compressed">
-                                                    <tr>
+                                            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Contact Source, IDs, and Notes</a></h3>
+                                            <div id="moreDetails" style="border: 1px solid #999999; border-top: 0px;  padding: 7px">
+                                                    <table class="form-layout-compressed">
+                                                    <tr class="last-row">
                                                         <td><label for="contact_source">Source</label><br />
                                                             <input name="contact_source" type="text" id="contact_source" class="big" /></td>
                                                         <td><label for="external_identifier">External Id</label><br />
                                                             <input maxlength="32" size="20" name="external_identifier" type="text" id="external_identifier" class="form-text medium" /></td>
+                                                        <td><label for="internal_identifier">Internal Id</label><br />
+                                                            203</td>
                                                     </tr>
-                                                </table>
+                                                    <tr>
+                                                        <td colspan=3>
+                                                        <label for="note_subject">Note Subject</label> &nbsp; <input size="30" name="subject" type="text" class="form-text big"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan=3>
+                                                        <textarea class="huge" name="notes"></textarea>
+                                                        </td>
+                                                    </tr>
+                                                    </table>
                                             </div>
                                             <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Demographics</a></h3>
-                                            <div></div>
-                                            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Notes</a></h3>
                                             <div></div>
                                             <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Tags and Groups</a></h3>
                                             <div></div>
