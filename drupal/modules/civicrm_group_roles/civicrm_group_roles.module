@@ -92,6 +92,34 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
                 if ($debug_mode) drupal_set_message(t($msg, $variables));
             } //end if $contact
         } //endif $roles
+
+        //sync for civicrm to drupal for user role
+        if ( $op == 'login' ) {
+            //civicrm to drupal sync
+            //assign user role if contact is present in group
+            $roles = array_diff( $all = user_roles(TRUE), array( 'anonymous user', 'authenticated user' ) );
+            civicrm_initialize(true);
+            require_once 'api/v2/Contact.php';
+            require_once 'api/v2/Group.php';
+            require_once 'api/v2/GroupContact.php';
+            require_once 'api/v2/UFGroup.php';
+
+            //find the contact record
+            $contact = civicrm_uf_match_id_get( $user->uid );
+
+            $params  = array( 'contact_id' => $contact );
+            //find the groups for contact
+            $groups  = civicrm_group_contact_get( $params );
+
+            foreach ( $groups as $key ) {
+                $rid = db_result(db_query("SELECT role_id FROM {civicrm_group_roles_rules} WHERE group_id IN (%d)", $key['group_id'] ));
+                if ( $rid ) {
+                    $role_name = db_result(db_query('SELECT name FROM {role} WHERE rid = %d', $rid));
+                    //assign the role for user
+                    civicrm_group_roles_add_role($user->uid, $rid, $role_name);
+                }
+            }
+        }
     } //endif $op
 }
 
@@ -117,8 +145,8 @@ function civicrm_group_roles_civicrm_post( $op, $objectName, $objectId, &$object
         foreach ($objectRef AS $contact_id) {
             
             //Do we have a Drupal Account?
-            require_once 'api/UFGroup.php';
-            $uid = crm_uf_get_uf_id($contact_id);
+            require_once 'api/v2/UFGroup.php';
+            $uid = civicrm_uf_id_get( $contact_id );
             if (!$uid) { //make sure we have an actual user account
                 continue;
             }
@@ -234,6 +262,17 @@ function civicrm_group_roles_perm() {
  */
 function civicrm_group_roles_show_rules($action = NULL, $id = NULL) 
 {
+    if ($action == 'delete') {
+        if (is_numeric($id)) {
+            $delete = db_query('DELETE FROM {civicrm_group_roles_rules} WHERE id = %d', $id);
+
+            if ($delete) {
+                drupal_set_message(t('Rule ID !1 was successfully deleted.', array('!1' => $id)));
+            } else {
+                drupal_set_message(t('There was an error deleting the association rule. Please check your database settings and try again. If you continue to get this error message then try to reinstall CiviGroup Roles Sync.'), $type = 'error');
+            }
+        }
+    }
     // get drupal roles
     $roles = user_roles(TRUE);
     
