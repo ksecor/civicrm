@@ -190,8 +190,8 @@ FROM      civicrm_mailing
 LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id AND civicrm_mailing_job.is_test = 0)
 LEFT JOIN civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
 LEFT JOIN civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
-AND       $whereClause";
-        
+WHERE     $whereClause";
+
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
