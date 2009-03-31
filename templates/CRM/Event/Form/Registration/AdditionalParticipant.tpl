@@ -1,5 +1,5 @@
 {if $skipCount}
-<h3>Skipped Participant(s): {$skipCount}</h3>
+    <h3>Skipped Participant(s): {$skipCount}</h3>
 {/if}
 {if $action & 1024}
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
@@ -16,22 +16,22 @@
             <dt>{$form.$element_name.label}</dt>
             <dd>
             {assign var="count" value="1"}
-                <table class="form-layout-compressed">
-                    <tr>
+            <table class="form-layout-compressed">
+                <tr>
                     {foreach name=outer key=key item=item from=$form.$element_name}
                         {if is_numeric($key) }
-                                <td class="labels font-light">{$form.$element_name.$key.html}</td>
+                            <td class="labels font-light">{$form.$element_name.$key.html}</td>
                             {if $count == $element.options_per_line}
-                            {assign var="count" value="1"}
-                            </tr>
-                            <tr>
+                                {assign var="count" value="1"}
+                                </tr>
+                                <tr>
                             {else}
                                 {assign var="count" value=`$count+1`}
                             {/if}
                         {/if}
                     {/foreach}
-                    </tr>
-                </table>
+                </tr>
+            </table>
             </dd>
         {else}
             {assign var="name" value=`$element.name`}
@@ -45,30 +45,33 @@
         {/if}
     {/foreach}
     </dl>
-<div class="form-item">
-     <dt></dt>
-     <dd>{include file="CRM/Event/Form/CalculatePriceset.tpl"}</dd>
-</div> 
+    <div class="form-item">
+        <dt></dt>
+        <dd>{include file="CRM/Event/Form/CalculatePriceset.tpl"}</dd>
+    </div> 
     </fieldset>
 {else}
     {if $paidEvent}
-     <table class="form-layout-compressed">
-        <tr><td class="label nowrap">{$event.fee_label} <span class="marker">*</span></td>
-            <td>&nbsp;</td>
-            <td>{$form.amount.html}</td>
-        </tr>
-     </table>
+        <table class="form-layout-compressed">
+            <tr>
+                <td class="label nowrap">{$event.fee_label} <span class="marker">*</span></td>
+                <td>&nbsp;</td>
+                <td>{$form.amount.html}</td>
+            </tr>
+        </table>
     {/if}
 {/if}
 
 {assign var=n value=email-$bltID}
 <table class="form-layout-compressed">
-    <tr><td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
+    <tr>
+        <td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td>
+    </tr>
 </table>
 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPost} 
 
 <div id="crm-submit-buttons">
- {$form.buttons.html}
+    {$form.buttons.html}
 </div>

@@ -49,14 +49,17 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
-        $this->_mode = $mode;
-
+        $this->_mode             = $mode;
         $this->_paymentProcessor = $paymentProcessor;
+        $this->_processorName    = "PayPal Pro";
 
         if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
+            $this->_processorName = "PayPal Standard";
             return;
+        } else if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
+            $this->_processorName = "PayPal Express";
         }
-
+        
         if ( ! $this->_paymentProcessor['user_name'] ) {
             CRM_Core_Error::fatal( ts( 'Could not find user name for payment processor' ) );
         }

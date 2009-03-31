@@ -43,8 +43,9 @@ class CRM_Core_Payment_PayJunction extends CRM_Core_Payment
        //require PayJunction API library
        require_once 'PayJunction/pjClasses.php';
        
-       $this->_mode = $mode;
+       $this->_mode             = $mode;
        $this->_paymentProcessor = $paymentProcessor;
+       $this->_processorName    = 'PayJunction';
    }
 
 
@@ -81,13 +82,13 @@ class CRM_Core_Payment_PayJunction extends CRM_Core_Payment
 
       $expiry_string = sprintf('%04d%02d',$params['year'],$params['month']);
 
-      $txnArray = array(type       => 'purchase',
-                        order_id   => $my_orderid,
-                        amount     => sprintf('%01.2f',$params['amount']),
-                        pan        => $params['credit_card_number'],
-                        expdate    => $expiry_string,
-                        crypt_type => '7',
-                        cust_id    => $params['contact_id']
+      $txnArray = array( 'type'       => 'purchase',
+                         'order_id'   => $my_orderid,
+                         'amount'     => sprintf('%01.2f',$params['amount']),
+                         'pan'        => $params['credit_card_number'],
+                         'expdate'    => $expiry_string,
+                         'crypt_type' => '7',
+                         'cust_id'    => $params['contact_id']
                         );
 
       $pjpgTxn = new pjpgTransaction($txnArray);
@@ -112,19 +113,19 @@ class CRM_Core_Payment_PayJunction extends CRM_Core_Payment
           $recurInterval      = $params['frequency_interval'];
           $dc_schedule_start  = $params['dc_schedule_start'];
           
-          $startDate = date("Y/m/d",$next); // next payment in moneris required format
+          $startDate  = date("Y/m/d",$next); // next payment in moneris required format
           
-          $numRecurs = $params['installments'];
+          $numRecurs  = $params['installments'];
           
-          $recurArray = array(dc_schedule_create => $dc_schedule_create,
-                              recur_unit         => $recurUnit, // (day | week | month)
-                              start_date         => $startDate, //yyyy/mm/dd
-                              num_recurs         => $numRecurs,
-                              start_now          => 'false',
-                              period             => $recurInterval,
-                              dc_schedule_start  => $dc_schedule_start,
-                              amount             => sprintf('%01.2f',$params['amount'])
-                              );
+          $recurArray = array( 'dc_schedule_create' => $dc_schedule_create,
+                               'recur_unit'         => $recurUnit, // (day | week | month)
+                               'start_date'         => $startDate, //yyyy/mm/dd
+                               'num_recurs'         => $numRecurs,
+                               'start_now'          => 'false',
+                               'period'             => $recurInterval,
+                               'dc_schedule_start'  => $dc_schedule_start,
+                               'amount'             => sprintf('%01.2f',$params['amount'])
+                               );
           
           $pjpgRecur = new pjpgRecur($recurArray);
         

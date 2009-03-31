@@ -52,8 +52,9 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
-        $this->_mode = $mode;
+        $this->_mode             = $mode;
         $this->_paymentProcessor = $paymentProcessor;
+        $this->_processorName    = 'Google Checkout';
     }
 
     /** 

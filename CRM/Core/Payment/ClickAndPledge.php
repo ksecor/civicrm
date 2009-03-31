@@ -29,9 +29,9 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
-        $this->_mode = $mode;
-
+        $this->_mode             = $mode;
         $this->_paymentProcessor = $paymentProcessor;
+        $this->_processorName    = 'Click And Pledge';
 
         if ( $this->_paymentProcessor['payment_processor_type'] == 'ClickAndPledge' ) {
             return;
@@ -153,17 +153,16 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
             CRM_Core_Error::fatal( ts( 'Sending a relative URL to Click And Pledge is erroneous. Please make your resource URL (in Administer CiviCRM >> Global Settings) complete' ) );
         }
         
-        $ClickAndPledgeParams =
-            array( 'WID'            => $this->_paymentProcessor['user_name'],
-                   'R'             => $returnURL,
-				   'D'             => $deductAmount,
-				   'B'             => $this->_paymentProcessor['signature'],
-				   'T'        	   => $params['amount'],
-				   'RD'			   => '1',
-				   'C'             => '1',
-				   'I'			   => $params['invoiceID']
-                   );
-
+        $ClickAndPledgeParams = array( 'WID' => $this->_paymentProcessor['user_name'],
+                                       'R'   => $returnURL,
+                                       'D'   => $deductAmount,
+                                       'B'   => $this->_paymentProcessor['signature'],
+                                       'T'   => $params['amount'],
+                                       'RD'  => '1',
+                                       'C'   => '1',
+                                       'I'   => $params['invoiceID']
+                                       );
+        
         // add name and address if available, CRM-3130
         $otherVars = array( 'first_name'     => 'first_name',
                             'last_name'      => 'last_name',
@@ -171,7 +170,8 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
                             'city'           => 'city',
                             'state_province' => 'state',
                             'postal_code'    => 'zip',
-                            'email'          => 'email' );
+                            'email'          => 'email' 
+                            );
 
         foreach ( array_keys( $params ) as $p ) {
             // get the base name without the location type suffixed to it
@@ -198,20 +198,18 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
                 CRM_Core_Error::fatal( ts( 'Recurring contribution, but no database id' ) );
             }
             
-           $ClickAndPledgeParams =
-            array( 'WID'            => $this->_paymentProcessor['user_name'],
-                   'R'             => $returnURL,
-				   'B'             => $this->_paymentProcessor['signature'],
-				   'T'        	   => $params['amount'],
-				   'RD'			   => '1',
-				   'C'             => '1',
-				   'I'			   => $params['invoiceID']
-                   );
+            $ClickAndPledgeParams = array( 'WID' => $this->_paymentProcessor['user_name'],
+                                           'R'   => $returnURL,
+                                           'B'   => $this->_paymentProcessor['signature'],
+                                           'T'   => $params['amount'],
+                                           'RD'	 => '1',
+                                           'C'   => '1',
+                                           'I'	 => $params['invoiceID']
+                                           );
         } else {
-            $ClickAndPledgeParams +=
-                array( 'cmd'                => '_xclick',
-                       'amount'             => $params['amount'],
-                       );
+            $ClickAndPledgeParams += array( 'cmd'    => '_xclick',
+                                            'amount' => $params['amount'],
+                                            );
         }
         
         $uri = '';
@@ -236,9 +234,4 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
 		
         CRM_Utils_System::redirect( $clickandpledgeURL );
     }
-
-
-
 }
-
-

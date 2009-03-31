@@ -257,7 +257,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                         CRM_Core_Error::fatal( $error );
                     }
                 }
-                
+                $this->_paymentProcessor['processorName'] = $payment->_processorName;
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
             }
             

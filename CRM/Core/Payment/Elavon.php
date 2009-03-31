@@ -54,6 +54,7 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
     {
         $this->_mode             = $mode;   // live or test
         $this->_paymentProcessor = $paymentProcessor;
+        $this->_processorName    = 'Elavon';
     }
 
     /**********************************************************
@@ -71,21 +72,21 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
         $requestFields['ssl_first_name']	     = $params['billing_first_name'];//credit card name
         //$requestFields['ssl_middle_name']	     = $params['billing_middle_name'];//credit card name
         $requestFields['ssl_last_name']		     = $params['billing_last_name'];//credit card name
-        $requestFields['ssl_ship_to_first_name'] = $params['first_name'];//contact name
-        $requestFields['ssl_ship_to_last_name']	 = $params['last_name'];//contact name
+        $requestFields['ssl_ship_to_first_name']     = $params['first_name'];//contact name
+        $requestFields['ssl_ship_to_last_name']	     = $params['last_name'];//contact name
         $requestFields['ssl_card_number']	     = $params['credit_card_number'];
         $requestFields['ssl_amount']		     = $params['amount'] ;
         $requestFields['ssl_exp_date']		     = sprintf('%02d', (int) $params['month']).substr ($params['year'], 2, 2);;
         $requestFields['ssl_cvv2cvc2']		     = $params[ 'cvv2'];
-        $requestFields['ssl_cvv2cvc2_indicator'] = "1";    //CVV field passed to processor
+        $requestFields['ssl_cvv2cvc2_indicator']     = "1";    //CVV field passed to processor
         $requestFields['ssl_avs_address']	     = $params['street_address'];
-        $requestFields['ssl_city']		         = $params['city'];
-        $requestFields['ssl_state']		         = $params['state_province'];
+        $requestFields['ssl_city']		     = $params['city'];
+        $requestFields['ssl_state']		     = $params['state_province'];
         $requestFields['ssl_avs_zip']		     = $params['postal_code'];
         $requestFields['ssl_country']		     = $params['country'];
-        $requestFields['ssl_email']		         = $params['email'];
-        $requestFields['ssl_invoice_number']	 = $params['invoiceID'];//32 character string
-        $requestFields['ssl_transaction_type']	 = "CCSALE";
+        $requestFields['ssl_email']		     = $params['email'];
+        $requestFields['ssl_invoice_number']	     = $params['invoiceID'];//32 character string
+        $requestFields['ssl_transaction_type']	     = "CCSALE";
         $requestFields['ssl_description']	     = $params['description'];
 
         /************************************************************************************
@@ -128,9 +129,9 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
          * define variables for connecting with the gateway
          */
         $requestFields['ssl_merchant_id'] = $this->_paymentProcessor['user_name'];
-        $requestFields['user_id']	      = $this->_paymentProcessor['password'];
-        $requestFields['ssl_pin']	      = $this->_paymentProcessor['signature'];
-        $host			    	          = $this->_paymentProcessor['url_site'];
+        $requestFields['user_id']	  = $this->_paymentProcessor['password'];
+        $requestFields['ssl_pin']	  = $this->_paymentProcessor['signature'];
+        $host			    	  = $this->_paymentProcessor['url_site'];
 
         if ( $this->_mode =="test" ) {
             $requestFields['ssl_test_mode'] = "TRUE";
@@ -161,10 +162,10 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
 
         curl_setopt ($ch, CURLOPT_GET, 1);
         curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); // see - http://curl.haxx.se/docs/sslcerts.html
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);  // return the result on success, FALSE on failure
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);   // see - http://curl.haxx.se/docs/sslcerts.html
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);   // return the result on success, FALSE on failure
         curl_setopt ($ch, CURLOPT_TIMEOUT,  36000 );
-        //curl_setopt ($ch,CURLOPT_VERBOSE,1 ); // set this for debugging -look for output in apache error log
+        //curl_setopt ($ch,CURLOPT_VERBOSE,1 );         // set this for debugging -look for output in apache error log
         curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, 1 );  // ensures any Location headers are followed
 
         /**********************************************************
@@ -334,27 +335,27 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
 
     function buildXML($requestFields)
     {
-        $xmlFieldLength['ssl_first_name']	      = 15;
-        $xmlFieldLength['ssl_last_name'	]	      = 15;//credit card name
+        $xmlFieldLength['ssl_first_name']	  = 15;
+        $xmlFieldLength['ssl_last_name'	]	  = 15;//credit card name
         $xmlFieldLength['ssl_ship_to_first_name'] =  15;//contact name
         $xmlFieldLength['ssl_ship_to_last_name']  = 15;//contact name
-        $xmlFieldLength['ssl_card_number']	      = 19;
-        $xmlFieldLength['ssl_amount']		      = 13 ;
+        $xmlFieldLength['ssl_card_number']	  = 19;
+        $xmlFieldLength['ssl_amount']		  = 13 ;
         $xmlFieldLength['ssl_exp_date']	          = 4;
-        $xmlFieldLength['ssl_cvv2cvc2']		      = 4;
+        $xmlFieldLength['ssl_cvv2cvc2']		  = 4;
         $xmlFieldLength['ssl_cvv2cvc2_indicator'] =  1;
-        $xmlFieldLength['ssl_avs_address']	      = 20;
-        $xmlFieldLength['ssl_city']	              = 20;
-        $xmlFieldLength['ssl_state']		      = 30;
-        $xmlFieldLength['ssl_avs_zip']		      = 9;
-        $xmlFieldLength['ssl_country']		      = 50;
-        $xmlFieldLength['ssl_email']		      = 100;
+        $xmlFieldLength['ssl_avs_address']	  = 20;
+        $xmlFieldLength['ssl_city']	          = 20;
+        $xmlFieldLength['ssl_state']		  = 30;
+        $xmlFieldLength['ssl_avs_zip']		  = 9;
+        $xmlFieldLength['ssl_country']		  = 50;
+        $xmlFieldLength['ssl_email']		  = 100;
         $xmlFieldLength['ssl_invoice_number'] 	  = 25;//32 character string
         $xmlFieldLength['ssl_transaction_type']	  = 20;
-        $xmlFieldLength['ssl_description']	      = 255;
-        $xmlFieldLength['ssl_merchant_id']	      = 15;
-        $xmlFieldLength['user_id']		          = 15;
-        $xmlFieldLength['ssl_pin']		          = 6;
+        $xmlFieldLength['ssl_description']	  = 255;
+        $xmlFieldLength['ssl_merchant_id']	  = 15;
+        $xmlFieldLength['user_id']		  = 15;
+        $xmlFieldLength['ssl_pin']		  = 6;
         $xmlFieldLength['ssl_test_mode']          = 5;
 
         $xml = '<txn>';
@@ -413,15 +414,14 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
 
         $processorResponse['ssl_result']    	 = self::GetNodeValue("ssl_result", $Xml);
         $processorResponse['ssl_result_message'] = self::GetNodeValue("ssl_result_message", $Xml);
-        $processorResponse['ssl_txn_id']   	     = self::GetNodeValue("ssl_txn_id", $Xml);
+        $processorResponse['ssl_txn_id']   	 = self::GetNodeValue("ssl_txn_id", $Xml);
         $processorResponse['ssl_cvv2_response']  = self::GetNodeValue("ssl_cvv2_response", $Xml);
         $processorResponse['ssl_avs_response']   = self::GetNodeValue("ssl_avs_response", $Xml);
         $processorResponse['ssl_approval_code']  = self::GetNodeValue("ssl_approval_code", $Xml);
-        $processorResponse['errorCode']		     = self::GetNodeValue("errorCode", $Xml);
-        $processorResponse['errorName']		     = self::GetNodeValue("errorName", $Xml);
-        $processorResponse['errorMessage']	     = self::GetNodeValue("errorMessage", $Xml);
+        $processorResponse['errorCode']		 = self::GetNodeValue("errorCode", $Xml);
+        $processorResponse['errorName']		 = self::GetNodeValue("errorName", $Xml);
+        $processorResponse['errorMessage']	 = self::GetNodeValue("errorMessage", $Xml);
 
         return  $processorResponse;
 	}
 }
-
