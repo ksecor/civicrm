@@ -141,17 +141,23 @@ function civicrm_event_get( &$params )
 
 function civicrm_event_search( &$params ) 
 {
-    $inputParams      = array( );
-    $returnProperties = array( );
-    $otherVars = array( 'sort', 'offset', 'rowCount' );
+    $inputParams            = array( );
+    $returnProperties       = array( );
+    $returnCustomProperties = array( );
+    $otherVars              = array( 'sort', 'offset', 'rowCount' );
 
-    $sort = false;
-    $offset = 0;
+    $sort     = false;
+    $offset   = 0;
     $rowCount = 25;
     
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
-            $returnProperties[]=substr( $n, 7 );
+            if ( substr( $n, 0, 14 ) == 'return.custom_') {
+                //take custom return properties separate
+                $returnCustomProperties[] = substr( $n, 7 );
+            } else {
+                $returnProperties[] = substr( $n, 7 );
+            }
         } elseif ( in_array( $n, $otherVars ) ) {
             $$n = $v;
         } else {
@@ -182,12 +188,19 @@ function civicrm_event_search( &$params )
         CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', CRM_Core_DAO::$_nullObject, $eventDAO->id, false, $eventDAO->event_type_id );
         $groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject );
-        $defaults = array( );
+        $defaults  = array( );
         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
             
         if ( !empty( $defaults ) ) {
             foreach ( $defaults as $key => $val ) {
-                $event[$eventDAO->id][$key] = $val;
+                if (! empty($returnCustomProperties ) ) {
+                    //show only return properties
+                    if ( in_array( substr( $key, 0, 8 ), $returnCustomProperties ) ) {
+                        $event[$eventDAO->id][$key] = $val;
+                    }
+                } else {
+                    $event[$eventDAO->id][$key] = $val;
+                }
             }
         }
     }//end of the loop
