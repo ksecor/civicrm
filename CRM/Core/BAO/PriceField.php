@@ -278,6 +278,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         case 'Text':
             if ($field->is_display_amounts) {
                 $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
+
                 
                 // text fields only have one option
                 $optionKey = key($customOption);
@@ -285,11 +286,9 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                 $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('name', $customOption[$optionKey]) );
             }
 
-            $js =  array( 'onblur'  => "addPrice('".$label."',this.id);",
-                          'onkeyup' => "addPrice('".$label."',this.id);");
-             
             $element =& $qf->add(
-                                 'text', $elementName, $label, array_merge(array('size' =>"4"), $js),
+                                 'text', $elementName, $label, array_merge( array('size' =>"4"), 
+                                                                            array( 'price' => $optionKey."_".$customOption[$optionKey]['name'] )),
                                  $useRequired && $field->is_required
                                  );
             
@@ -300,11 +299,9 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         case 'Radio':
             $choice = array();
             $customOption = CRM_Core_BAO_PriceField::getOptions($field->id, $inactiveNeeded);
-            
             if ( !$field->is_required ) {
                 // add "none" option
-                $choice[] = $qf->createElement('radio', null, '', '-none-', '0',
-                                               array('onclick' =>"return addPrice('0',this.id);") );
+                $choice[] = $qf->createElement('radio', null, '', '-none-', '0', array('price' => $elementName."-0" ));
             }
             
             foreach ($customOption as $opt) {
@@ -313,10 +310,10 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                     $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
                 $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'],
-                                               array('onclick' =>"return addPrice('".$opt['label']."',this.id);") );
+                                               array('price' => $elementName."-".$opt['name'] ) );
             }
             $element =& $qf->addGroup($choice, $elementName, $label);
-            
+
             if ( $useRequired && $field->is_required ) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
@@ -332,11 +329,10 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                 }
                 $selectOption[$opt['id']] = $opt['label'];
             }
-            $qf->assign('selectarray', html_entity_decode( implode('\',\'',$selectOption ) ));
             $element =& $qf->add('select', $elementName, $label,
                                  array( '' => ts('- select -')) + $selectOption,
                                  $useRequired && $field->is_required, 
-                                 array('onchange' =>"return addPrice('',this.id);") );
+                                 array( 'price' => true ) );
             break;
             
         case 'CheckBox':
@@ -348,11 +344,11 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                     $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
                 $check[] =& $qf->createElement('checkbox', $opt['id'], null, $opt['label'], 
-                                               array('onclick' =>"return addPrice('".$opt['label']."',this.id);"));
+                                               array('price' => $opt['id']."_".$opt['name'] ) );
             }
             $element =& $qf->addGroup($check, $elementName, $label);
             if ( $useRequired && $field->is_required ) {
-	      $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
             

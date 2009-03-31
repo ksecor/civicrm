@@ -8,7 +8,7 @@
 
 <div class="form-item">
 {if $priceSet}
-    <fieldset><legend>{$event.fee_label}</legend>
+    <fieldset id="priceset"><legend>{$event.fee_label}</legend>
     <dl>
     {foreach from=$priceSet.fields item=element key=field_id}
         {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}

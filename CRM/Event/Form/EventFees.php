@@ -363,9 +363,6 @@ class CRM_Event_Form_EventFees
      */ 
     static function buildQuickForm( &$form )  
     {
-        $form->add( 'hidden', 'scriptFee'  , null );
-        $form->add( 'hidden', 'scriptArray', null );
-
         if ( $form->_eventId ) {
             $form->_isPaidEvent = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $form->_eventId, 'is_monetary' );
             if ( $form->_isPaidEvent ) {
@@ -470,16 +467,6 @@ class CRM_Event_Form_EventFees
         require_once "CRM/Core/BAO/Preferences.php";
         $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
         $form->assign( 'outBound_option', $mailingInfo['outBound_option'] );
-        $form->addFormRule( array( 'CRM_Event_Form_EventFees', 'formRule' ), $form );
     }
-    
-    static function formRule(&$fields, &$files, &$self) 
-    {
-        $errorMsg = array( );
-        require_once 'CRM/Core/BAO/PriceSet.php';
-        CRM_Core_BAO_PriceSet::calculatePriceSet( $self, $fields );
-        return empty( $errorMsg ) ? true : $errorMsg;
-    }
-
 }
 

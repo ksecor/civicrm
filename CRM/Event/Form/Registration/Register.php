@@ -406,9 +406,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $errors['_qf_default'] = ts( "Select atleast one option from Event Fee(s)" );
             }
         }
-        
-        require_once 'CRM/Core/BAO/PriceSet.php';
-        CRM_Core_BAO_PriceSet::calculatePriceSet( $self, $fields );
                 
         if ( $self->_values['event']['is_monetary'] ) {
             if ( is_array( $self->_paymentProcessor ) ) {
