@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<menu>
+  <item>
+     <path>civicrm/report/register</path>
+     <title>CiviReport</title>
+     <page_callback>CRM_Report_Form_Register</page_callback>
+     <access_arguments>access CiviReport</access_arguments>
+     <weight>1200</weight>
+     <component>CiviReport</component>
+  </item>
+  <item>
+     <path>civicrm/report</path>
+     <title>Run a CiviReport</title>
+     <page_callback>CRM_Report_Page_Report</page_callback>
+     <access_callback>1</access_callback>
+     <weight>1210</weight>
+     <component>CiviReport</component>
+  </item>
+  <item>
+     <path>civicrm/report/list</path>
+     <title>Reports</title>
+     <page_callback>CRM_Report_Page_List</page_callback>
+     <access_callback>1</access_callback>
+     <page_type>1</page_type>
+     <weight>1220</weight>
+     <component>CiviReport</component>
+  </item>
+</menu>
