@@ -358,7 +358,7 @@
       <add>1.7</add>
   </field>
   <field>
-      <name>default_discount_id</name>
+      <name>default_discount_fee_id</name>
       <type>int unsigned</type>
       <comment>FK to civicrm_option_value.</comment>
       <add>1.7</add>

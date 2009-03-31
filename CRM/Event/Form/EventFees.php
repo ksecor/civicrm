@@ -280,7 +280,7 @@ class CRM_Event_Form_EventFees
                 if ( $form->_eventId && $discountId ) {
                     $defaultDiscountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", 
                                                                       $form->_eventId, 
-                                                                      'default_discount_id' );
+                                                                      'default_discount_fee_id' );
                     if ( $defaultDiscountId ) {
                         $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", 
                                                                     $defaultDiscountId, 

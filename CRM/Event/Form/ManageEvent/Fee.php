@@ -189,7 +189,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             if ( isset( $maxKey) &&
                  CRM_Utils_Array::value( 'value', $totalLables[$maxKey] ) ) {
                 foreach ( $totalLables[$maxKey]['value'] as $i => $v ) {
-                    if ( $totalLables[$maxKey]['amount_id'][$i] == CRM_Utils_Array::value( 'default_discount_id', $defaults )) {
+                    if ( $totalLables[$maxKey]['amount_id'][$i] == CRM_Utils_Array::value( 'default_discount_fee_id', $defaults )) {
                         $defaults['discounted_default'] = $i;
                         break;
                     }
@@ -601,11 +601,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                             }
                             
                             if ( ! empty( $discountOptions ) ) {
-                                $params['default_discount_id'] = null;
+                                $params['default_discount_fee_id'] = null;
                                 $discountOptionsGroupId = 
                                     CRM_Core_OptionGroup::createAssoc( "civicrm_event.amount.{$this->_id}.discount.{$params['discount_name'][$j]}",
                                                                        $discountOptions,
-                                                                       $params['default_discount_id'],
+                                                                       $params['default_discount_fee_id'],
                                                                        $params['discount_name'][$j]);
                                 
                                 $discountParams = array(

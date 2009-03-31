@@ -84,8 +84,8 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         if ( ! empty( $this->_values['discount'] ) ){
             require_once 'CRM/Core/BAO/Discount.php';
             $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
-            if ( $discountId && CRM_Utils_Array::value( 'default_discount_id', $this->_values['event'] ) ) {
-                $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event']['default_discount_id']
+            if ( $discountId && CRM_Utils_Array::value( 'default_discount_fee_id', $this->_values['event'] ) ) {
+                $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event']['default_discount_fee_id']
                                                             , 'weight', 'id' );
                 $defaults['amount'] = key( array_slice( $this->_values['discount'][$discountId], $discountKey-1, $discountKey, true) );
             }

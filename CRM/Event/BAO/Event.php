@@ -704,7 +704,7 @@ WHERE civicrm_event.is_active = 1
         
         //get the require event values.
         $eventParams = array( 'id' => $id );
-        $returnProperties = array( 'loc_block_id', 'is_show_location', 'default_fee_id', 'default_discount_id' );
+        $returnProperties = array( 'loc_block_id', 'is_show_location', 'default_fee_id', 'default_discount_fee_id' );
         
         CRM_Core_DAO::commonRetrieve( 'CRM_Event_DAO_Event', $eventParams, $eventValues, $returnProperties );
         
@@ -757,11 +757,11 @@ WHERE civicrm_event.is_active = 1
                 $length         = substr_compare($name, "civicrm_event.amount.". $id, 0);
                 $discountSuffix = substr($name, $length * (-1));
                 
-                $copyEvent->default_discount_id = 
+                $copyEvent->default_discount_fee_id = 
                     CRM_Core_BAO_OptionGroup::copyValue('event', 
                                                         $id, 
                                                         $copyEvent->id, 
-                                                        CRM_Utils_Array::value( 'default_discount_id', $eventValues ),
+                                                        CRM_Utils_Array::value( 'default_discount_fee_id', $eventValues ),
                                                         $discountSuffix );
             }
         }
