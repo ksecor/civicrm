@@ -26,12 +26,12 @@
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {if $is_pay_later}
-           <div class="bold">{$pay_later_receipt}</div>
-            {if $is_email_receipt}
+	    <div class="bold">{$pay_later_receipt}</div>
+	    {if $is_email_receipt}
                 <div>{ts 1=$email}An email confirmation with these payment instructions has been sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if}.</div>
             {/if}
         {elseif $contributeMode EQ 'notify'}
-            <div>{ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{elseif $paymentProcessor.payment_processor_type EQ 'Payment_Express'}DPS Payment Express{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</div>
+            <div>{ts 1=$paymentProcessor.processorName}Your contribution has been submitted to %1 for processing. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
                 <div>{ts 1=$email}An email receipt will be sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if} {ts}once the transaction is processed successfully.{/ts}</div>
             {/if}
@@ -52,31 +52,31 @@
     </div>
     <div class="display-block">
         {if $membership_amount } 
-              {$membership_name} {ts}Membership{/ts}: <strong>{$membership_amount|crmMoney}</strong><br />
-              {if $amount}
-                 {if ! $is_separate_payment }
+            {$membership_name} {ts}Membership{/ts}: <strong>{$membership_amount|crmMoney}</strong><br />
+            {if $amount}
+                {if ! $is_separate_payment }
 		    {ts}Contribution Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
-	         {else}
+	        {else}
 		    {ts}Additional Contribution{/ts}: <strong>{$amount|crmMoney}</strong><br />
-  	         {/if}
-              {/if} 		
-              <strong> -------------------------------------------</strong><br />
-              {ts}Total{/ts}: <strong>{$amount+$membership_amount|crmMoney}</strong><br />
+  	        {/if}
+            {/if} 		
+            <strong> -------------------------------------------</strong><br />
+            {ts}Total{/ts}: <strong>{$amount+$membership_amount|crmMoney}</strong><br />
         {else}
-              {ts}Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
-         {/if}
-          {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
+            {ts}Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
+        {/if}
+        {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
         {if $contributeMode ne 'notify' and $is_monetary and ! $is_pay_later and $trxn_id}
-          {ts}Transaction #{/ts}: {$trxn_id}<br />
+	    {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
         {if $membership_trx_id}
-           {ts}Membership Transaction #{/ts}: {$membership_trx_id}
+	    {ts}Membership Transaction #{/ts}: {$membership_trx_id}
         {/if}
         
         {* Recurring contribution / pledge information *}
         {if $is_recur}
             {if $installments}
-                <p><strong>{ts 1=$frequency_interval 2=$frequency_unit 3=$installments}This recurring contribution will be automatically processed every %1 %2(s) for a total %3 installments (including this initial contribution).{/ts}</strong></p>
+		<p><strong>{ts 1=$frequency_interval 2=$frequency_unit 3=$installments}This recurring contribution will be automatically processed every %1 %2(s) for a total %3 installments (including this initial contribution).{/ts}</strong></p>
             {else}
                 <p><strong>{ts 1=$frequency_interval 2=$frequency_unit}This recurring contribution will be automatically processed every %1 %2(s).{/ts}</strong></p>
             {/if}
@@ -99,9 +99,9 @@
             {else}
                 {ts 1=$receiptFromEmail}Your initial pledge payment has been processed. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}
             {/if}
-                {if $max_reminders}
-                    {ts 1=$initial_reminder_day}We will send you a payment reminder %1 days prior to each scheduled payment date. The reminder will include a link to a page where you can make your payment online.{/ts}
-                {/if}
+            {if $max_reminders}
+                {ts 1=$initial_reminder_day}We will send you a payment reminder %1 days prior to each scheduled payment date. The reminder will include a link to a page where you can make your payment online.{/ts}
+            {/if}
             </p>
         {/if}
     </div>
@@ -109,15 +109,15 @@
     
     {include file="CRM/Contribute/Form/Contribution/Honor.tpl"}
     {if $customPre}
-         {foreach from=$customPre item=field key=cname}
-              {if $field.groupTitle}
+        {foreach from=$customPre item=field key=cname}
+            {if $field.groupTitle}
                 {assign var=groupTitlePre  value=$field.groupTitle} 
-              {/if}
-         {/foreach}
+            {/if}
+        {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePre}{/ts}
-         </div>  
-         {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+	    {ts}{$groupTitlePre}{/ts}
+        </div>  
+        {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
     {if $pcpBlock}
         <div class="header-dark">
@@ -132,7 +132,7 @@
                     {ts}and my name{/ts}: <strong>{$pcp_roll_nickname}</strong>
                 {/if}
             {else}
-                {ts}Don't list my contribution in the honor roll.{/ts}
+		{ts}Don't list my contribution in the honor roll.{/ts}
             {/if}
             <br />
        </div>
@@ -177,15 +177,15 @@
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="thankContribution"}
 
     {if $customPost}
-         {foreach from=$customPost item=field key=cname}
-              {if $field.groupTitle}
+        {foreach from=$customPost item=field key=cname}
+            {if $field.groupTitle}
                 {assign var=groupTitlePost  value=$field.groupTitle} 
-              {/if}
-         {/foreach}
+            {/if}
+        {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePost}{/ts}
-         </div>  
-         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+	    {ts}{$groupTitlePost}{/ts}
+        </div>  
+        {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
 
     <div id="thankyou_footer">

@@ -296,7 +296,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 if ( ! empty( $error ) ) {
                     CRM_Core_Error::fatal( $error );
                 }
-
+                $this->_paymentProcessor['processorName'] = $this->_paymentObject->_processorName;
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
             }
             

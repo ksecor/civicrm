@@ -6,9 +6,9 @@
     {ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes.{/ts}
     {if $contributeMode EQ 'notify' and !$is_pay_later and ! $isAmountzero }
 	{if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}
-	    {ts}Click the <strong>{$paymentProcessor.processorName}</strong> button to checkout to {$paymentProcessor.processorName|truncate:10:""}, where you will select your payment method and complete the registration.{/ts}
+	    {ts 1=$paymentProcessor.processorName}Click the <strong>%1</strong> button to checkout to Google, where you will select your payment method and complete the registration.{/ts}
 	{else} 	
-	    {ts}Click the <strong>Continue</strong> button to checkout to {$paymentProcessor.processorName}, where you will select your payment method and complete the registration.{/ts}
+	    {ts 1=$paymentProcessor.processorName}Click the <strong>Continue</strong> button to checkout to %1, where you will select your payment method and complete the registration.{/ts}
 	{/if }
     {else}
 	{ts}Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}

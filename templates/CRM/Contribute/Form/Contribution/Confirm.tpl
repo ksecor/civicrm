@@ -6,11 +6,11 @@
     <div id="help">
         <p>{ts}Please verify the information below carefully. Click <strong>Go Back</strong> if you need to make changes.{/ts}
             {if $contributeMode EQ 'notify' and ! $is_pay_later}
-               {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'} 
-                  {ts}Click the <strong>Google Checkout</strong> button to checkout to Google, where you will select your payment method and complete the contribution.{/ts}
-               {else} 
-                {ts}Click the <strong>Continue</strong> button to go to PayPal, where you will select your payment method and complete the contribution.{/ts}
-               {/if} 
+                {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'} 
+                    {ts}Click the <strong>Google Checkout</strong> button to checkout to Google, where you will select your payment method and complete the contribution.{/ts}
+                {else} 
+                    {ts 1=$paymentProcessor.processorName}Click the <strong>Continue</strong> button to go to %1, where you will select your payment method and complete the contribution.{/ts}
+                {/if} 
             {elseif ! $is_monetary or $amount LE 0.0 or $is_pay_later}
                 {ts}To complete this transaction, click the <strong>Continue</strong> button below.{/ts}
             {else}
@@ -31,21 +31,21 @@
     <div class="display-block">
         {if $is_separate_payment }
             {if $amount AND $minimum_fee}
-                  {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong><br />
-                  {ts}Additional Contribution{/ts}: <strong>{$amount|crmMoney}</strong><br />
-                  <strong> -------------------------------------------</strong><br />
-                  {ts}Total{/ts}: <strong>{$amount+$minimum_fee|crmMoney}</strong><br />
+                {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong><br />
+                {ts}Additional Contribution{/ts}: <strong>{$amount|crmMoney}</strong><br />
+                <strong> -------------------------------------------</strong><br />
+                {ts}Total{/ts}: <strong>{$amount+$minimum_fee|crmMoney}</strong><br />
             {elseif $amount }
                 {ts}Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
             {else}
-                  {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
+                {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
             {/if}
         {else}
-           {if $amount }
+            {if $amount }
                 {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
-           {else}
+            {else}
                 {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
-           {/if}
+            {/if}
         {/if}
         {if $is_recur}
             {if $installments}
@@ -67,21 +67,20 @@
                 <p>{ts 1=$receiptFromEmail}Your initial pledge payment will be processed when you click &quot;Make Contribution&quot; below. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}</p>
             {/if}
         {/if}
-
     </div>
     {/if}
         
     {include file="CRM/Contribute/Form/Contribution/Honor.tpl"}
     {if $customPre}
-         {foreach from=$customPre item=field key=cname}
-              {if $field.groupTitle}
+        {foreach from=$customPre item=field key=cname}
+            {if $field.groupTitle}
                 {assign var=groupTitlePre  value=$field.groupTitle} 
-              {/if}
-         {/foreach}
+            {/if}
+        {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePre}{/ts}
-         </div>  
-         {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+            {ts}{$groupTitlePre}{/ts}
+        </div>  
+        {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
     {if $pcpBlock}
         <div class="header-dark">
@@ -147,14 +146,14 @@
     
     {if $customPost}
          {foreach from=$customPost item=field key=cname}
-              {if $field.groupTitle}
+            {if $field.groupTitle}
                 {assign var=groupTitlePost  value=$field.groupTitle} 
-              {/if}
-         {/foreach}
+            {/if}
+        {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePost}{/ts}
-         </div>  
-         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+            {ts}{$groupTitlePost}{/ts}
+        </div>  
+        {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
   
     {if $contributeMode NEQ 'notify' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) } {* In 'notify mode, contributor is taken to processor payment forms next *}
@@ -171,10 +170,14 @@
     
     {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) and ! $is_pay_later}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
-         <table class="form-layout-compressed">
-          <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>
-          <tr><td>{$form._qf_Confirm_next_checkout.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
-         </table>
+        <table class="form-layout-compressed">
+            <tr>
+                <td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td>
+            </tr>
+            <tr>
+                <td>{$form._qf_Confirm_next_checkout.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td>
+            </tr>
+        </table>
         </fieldset>    
     {/if}
 
