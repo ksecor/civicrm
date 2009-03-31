@@ -94,18 +94,6 @@ function civicrm_views_data() {
            'field'        => 'uf_id',
     );    
     
-    /*
-    $data['users']['table']['join']['civicrm_contact'] = array(
-           'left_table'   => 'civicrm_uf_match',
-           'left_field'   => 'uf_id',
-           'field'        => 'uid',
-    );
-    $data['civicrm_uf_match']['table']['join']['civicrm_contact'] = array(
-           'left_field'   => 'contact_id',
-           'field'        => 'id',
-    );
-    */
-
     //CiviCRM Contacts - FIELDS
 
 
