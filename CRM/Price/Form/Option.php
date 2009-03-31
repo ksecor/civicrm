@@ -268,7 +268,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                                                                   'id', 'name' );
         $groupName                 = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $params['option_group_id'], 'name' );
         if ( $groupName ) {
-            $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
+            $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, 27 ), 'label') ;
             $params['description'] = $fieldName.' - '.$params['label'] ;
         }  
         $params['value'] = $params['weight'];
