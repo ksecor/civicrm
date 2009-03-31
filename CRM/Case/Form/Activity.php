@@ -178,9 +178,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     public function buildQuickForm( ) 
     {
         // modify core Activity fields
-        $this->_fields['activity_date_time']['label']    = 'Actual Date'; 
+        $this->_fields['activity_date_time']['label']    = ts('Actual Date'); 
         $this->_fields['activity_date_time']['required'] = false;
-        $this->_fields['source_contact_id']['label']     = 'Reported By'; 
+        $this->_fields['source_contact_id']['label']     = ts('Reported By'); 
             
         if ( $this->_caseType ) {
             $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
@@ -462,7 +462,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
             $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
                                                            $activity->id, $mailToContacts, $attachments, $this->_caseId );
-            $mailStatus = "A copy of the activity has also been sent to selected contacts(s).";
+            $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");
         }
 
         // create follow up activity if needed
@@ -474,7 +474,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                 $caseParams = array( 'activity_id' => $followupActivity->id,
                                      'case_id'     => $this->_caseId   );
                 CRM_Case_BAO_Case::processCaseActivity( $caseParams );
-                $followupStatus = "A followup activity has been scheduled.";
+                $followupStatus = ts("A followup activity has been scheduled.");
             }
         }
         
