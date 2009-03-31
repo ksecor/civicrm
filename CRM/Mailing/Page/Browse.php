@@ -176,13 +176,14 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                 $controller->run( );
             }
         }
-        
+     
         $selector =& new CRM_Mailing_Selector_Browse( );
         $selector->setParent( $this );
+        
         $controller =& new CRM_Core_Selector_Controller(
                                                         $selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                        $this->get( CRM_Utils_Sort::SORT_ID ),
+                                                        $this->get( CRM_Utils_Sort::SORT_ID ).$this->get(CRM_Utils_Sort::SORT_DIRECTION),
                                                         CRM_Core_Action::VIEW, 
                                                         $this, 
                                                         CRM_Core_Selector_Controller::TEMPLATE );
@@ -217,6 +218,11 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
             $urlParams .= $crmRowCount ? '&crmRowCount=' . $crmRowCount : ''; 
             $urlParams .= $crmPID ? '&crmPID=' . $crmPID : ''; 
         }
+        
+        $crmSID      = CRM_Utils_Request::retrieve( 'crmSID', 'Integer', CRM_Core_DAO::$_nullObject );
+        if ( $crmSID ) {
+            $urlParams .= '&crmSID=' . $crmSID;
+        } 
 
         $session =& CRM_Core_Session::singleton( );
         $url = CRM_Utils_System::url( $urlString, $urlParams );
