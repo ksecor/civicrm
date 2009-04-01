@@ -29,7 +29,7 @@ fi
 # FIXME: we temporarily reintroced MO files into the repo, so no need for rebuild for now
 #if test ! -d export/l10n/pot/LC_MESSAGES; then
 #  for locale in export/l10n/??_??; do
-#    $msgcat $locale/civicrm*.po $locale/{calendar,countries,provinces}.po | $msgfmt -vo $locale/civicrm.mo -
+#    $msgcat --use-first $locale/civicrm*.po $locale/{calendar,countries,provinces}.po | $msgfmt -o $locale/civicrm.mo -
 #  done
 #fi
 
