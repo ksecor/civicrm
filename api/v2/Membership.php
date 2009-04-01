@@ -439,7 +439,7 @@ function civicrm_contact_memberships_get(&$contactID)
     }
     
     $members[$contactID] = array( );
-    
+    $relationships       = array();;
     foreach ($membershipValues as $membershipId => $values) {
         // populate the membership type name for the membership type id
         require_once 'CRM/Member/BAO/MembershipType.php';
@@ -477,18 +477,20 @@ function civicrm_contact_memberships_get(&$contactID)
     
     // populating contacts in members array based on their relationship with direct members.
     require_once 'CRM/Contact/BAO/Relationship.php';
-    foreach ($relationships as $relTypeId => $membershipId) {
-        // As members are not direct members, there should not be
-        // membership id in the result array.
-        unset($membershipValues[$membershipId]['id']);
-        $relationship = new CRM_Contact_BAO_Relationship();
-        $relationship->contact_id_b            = $contactID;
-        $relationship->relationship_type_id    = $relTypeId;
-        if ($relationship->find()) {
-            while ($relationship->fetch()) {
-                clone($relationship);
-                $membershipValues[$membershipId]['contact_id']    = $relationship->contact_id_a;
-                $members[$contactID][$relationship->contact_id_a] = $membershipValues[$membershipId];
+    if ( !empty( $relationships ) ) {
+        foreach ($relationships as $relTypeId => $membershipId) {
+            // As members are not direct members, there should not be
+            // membership id in the result array.
+            unset($membershipValues[$membershipId]['id']);
+            $relationship = new CRM_Contact_BAO_Relationship();
+            $relationship->contact_id_b            = $contactID;
+            $relationship->relationship_type_id    = $relTypeId;
+            if ($relationship->find()) {
+                while ($relationship->fetch()) {
+                    clone($relationship);
+                    $membershipValues[$membershipId]['contact_id']    = $relationship->contact_id_a;
+                    $members[$contactID][$relationship->contact_id_a] = $membershipValues[$membershipId];
+                }
             }
         }
     }
