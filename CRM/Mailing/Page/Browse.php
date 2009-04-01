@@ -72,6 +72,14 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
 
     public $_unscheduled;
     public $_archived;
+    
+    /**
+     * scheduled mailing
+     *
+     * @boolean
+     * @access public
+     */
+    public $_scheduled;
 
     /**
      * Heart of the viewing process. The runner gets all the meta data for
