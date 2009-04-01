@@ -24,7 +24,6 @@
             <th>{ts}Min Bid Value{/ts}</th>
             <th>{ts}Min Bid Increment{/ts}</th>
             <th>{ts}Approved?{/ts}</th>
-            <th>{ts}Active?{/ts}</th>
 	    <th></th>
          </tr>
         {foreach from=$rows item=row}
@@ -38,7 +37,6 @@
             <td>{$row.buy_now_value}</td>
             <td>{$row.min_bid_value}</td>
             <td>{$row.min_bid_increment}</td>
-	    <td>{if $row.is_approved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	    <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	    <td>{$row.action}</td>
           </tr>

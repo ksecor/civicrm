@@ -176,7 +176,7 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
     function browse()
     {
         $this->assign('manageItemURL', CRM_Utils_System::url( 'civicrm/auction/item/manage', 
-                                                              'reset=1&action=add&aid=' . $this->_aid ));
+                                                              'reset=1&aid=' . $this->_aid ));
 
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',

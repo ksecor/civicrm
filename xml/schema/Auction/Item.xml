@@ -177,9 +177,9 @@
   <field>     
       <name>is_active</name>
       <type>boolean</type> 
-      <default>1</default>
+      <default>0</default>
       <required>true</required> 
-      <comment>Is this item active and available</comment>
+      <comment>Is this item active/approved and available</comment>
       <add>2.3</add>  
   </field>
   <field>     
@@ -220,14 +220,6 @@
        <type>datetime</type>
        <comment>Date and time when item was created.</comment>
        <add>2.3</add>
-  </field>
-  <field>     
-      <name>is_approved</name>
-      <title>Is Approved?</title>
-      <type>boolean</type> 
-      <default>0</default>
-      <required>true</required> 
-      <add>2.3</add>  
   </field>
   <field>
       <name>approver_id</name>
