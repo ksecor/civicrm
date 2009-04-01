@@ -374,8 +374,7 @@ WHERE     $whereClause";
         // on 'Scheduled and Sent Mailing' page selector 
         if( $this->_parent->get( 'scheduled' ) ) { 
             $clauses[] = "civicrm_mailing.is_archived = 0";
-            $clauses[] = "civicrm_mailing_job.status = 'Scheduled' OR 
-                          civicrm_mailing_job.status = 'Complete'";
+            $clauses[] = "civicrm_mailing_job.status IN ('Scheduled', 'Complete')";
         }
             
         if ( $sortBy &&
