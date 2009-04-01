@@ -88,7 +88,7 @@ $sql .= "ORDER BY act.activity_date_time, act.due_date_time";
 
         $subject = $dao->subject ? $dao->subject : ts('(No subject)');
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
-                                      "atype={$dao->activity_type_id}&action=update&reset=1&cid={$dao->source_contact_id}&id={$dao->id}" );
+                                      "atype={$dao->activity_type_id}&action=update&reset=1&context=home&cid={$dao->source_contact_id}&id={$dao->id}" );
         $value['subject'] = "<a href=\"$url\">$subject</a>";
 
         $value['type' ] = $dao->activity_type_label;
@@ -197,7 +197,7 @@ $sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
 
         $subject = $dao->subject ? $dao->subject : ts('(No subject)');
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
-                                      "atype={$dao->activity_type_id}&action=update&reset=1&cid={$dao->source_contact_id}&id={$dao->id}" );
+                                      "atype={$dao->activity_type_id}&action=update&reset=1&context=home&cid={$dao->source_contact_id}&id={$dao->id}" );
 /*
         $url = CRM_Utils_System::url( 'civicrm/activity/view',
                                       "reset=1&action=view&cid={$dao->source_contact_id}&id={$dao->id}" );
