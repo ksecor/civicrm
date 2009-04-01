@@ -181,18 +181,8 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function getTotalCount($action)
     {
-        $params      = array( );
-        $whereClause = $this->whereClause( $params );
-
-        $query = "
-SELECT    count(civicrm_mailing.id)
-FROM      civicrm_mailing
-LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id AND civicrm_mailing_job.is_test = 0)
-LEFT JOIN civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
-LEFT JOIN civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
-WHERE     $whereClause";
-
-        return CRM_Core_DAO::singleValueQuery( $query, $params );
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        return CRM_Mailing_BAO_Mailing::mailingACLIDs( true );
     }
 
     /**
