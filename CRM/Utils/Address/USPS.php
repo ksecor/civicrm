@@ -41,8 +41,6 @@
 class CRM_Utils_Address_USPS {
     
     static function checkAddress( &$values ) {
-        CRM_Utils_System::checkPHPVersion( 5, true );
-        
         if ( ! isset($values['street_address'])     || 
                ( ! isset($values['city']           )   &&
                  ! isset($values['state_province'] )   &&
@@ -53,7 +51,12 @@ class CRM_Utils_Address_USPS {
         require_once 'CRM/Core/BAO/Preferences.php';
         $userID = CRM_Core_BAO_Preferences::value( 'address_standardization_userid' );
         $url    = CRM_Core_BAO_Preferences::value( 'address_standardization_url'    );
-        
+
+        if ( empty( $userID ) ||
+             empty( $url ) ) {
+            return false;
+        }
+
         $address2 = str_replace( ',', '', $values['street_address'] );
         
         $XMLQuery = '<AddressValidateRequest USERID="'.$userID.'"><Address ID="0"><Address1>'.$values['supplemental_address_1'].'</Address1><Address2>'.$address2.'</Address2><City>'.$values['city'].'</City><State>'.$values['state_province'].'</State><Zip5>'.$values['postal_code'].'</Zip5><Zip4>'.$values['postal_code_suffix'].'</Zip4></Address></AddressValidateRequest>';
@@ -75,7 +78,7 @@ class CRM_Utils_Address_USPS {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $xml->Number == '80040b1a' ) {
-            $session->setStatus( ts( 'Your API Authorization is Failed.' ) );
+            $session->setStatus( ts( 'Your USPS API Authorization has Failed.' ) );
             return false;
         }
         
