@@ -10,7 +10,7 @@
 {/if}
 
 {if $priceSet}
-    <fieldset><legend>{$event.fee_label}</legend>
+    <fieldset id="priceset"><legend>{$event.fee_label}</legend>
     <dl>
     {if $priceSet.help_pre}
 	<dt>&nbsp;</dt>

@@ -147,7 +147,7 @@ class BAO_Core_CustomOption extends CiviTestCase
         // Last item should have label = 'Other' (since ordered by weight).
         // might need to fix this. i'm assuming array_pop returns the value and not key
         $lastOption = array_pop( $options );
-        $this->assertEqual( $lastOption, 'Other', 'Verify that label for last option is "Other".');
+        $this->assertEqual( $lastOption['label'], 'Other', 'Verify that label for last option is "Other".');
     }
     
 }

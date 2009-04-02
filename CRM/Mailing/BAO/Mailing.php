@@ -1652,7 +1652,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         return $mailingACL;
     }
 
-    static function &mailingACLIDs( ) {
+    static function &mailingACLIDs( $count = false ) {
         $mailingIDs = array( );
 
         // get all the groups that this user can access
@@ -1661,15 +1661,20 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         if ( ! empty( $groups ) ) {
             $groupIDs = implode( ',',
                                  array_keys( $groups ) );
+            $selectClause = ( $count ) ? 'COUNT(m.id) as count' : 'DISTINCT( m.id ) as id';
             // get all the mailings that are in this subset of groups
             $query = "
-SELECT DISTINCT( m.id ) as id
+SELECT $selectClause 
   FROM civicrm_mailing m,
        civicrm_mailing_group g
  WHERE g.mailing_id   = m.id
    AND g.entity_table = 'civicrm_group'
    AND g.entity_id IN ( $groupIDs )";
             $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            if ( $count ) {
+                $dao->fetch( );
+                return $dao->count;
+            }
             $mailingIDs = array( );
             while ( $dao->fetch( ) ) {
                 $mailingIDs[] = $dao->id;
@@ -1715,7 +1720,7 @@ SELECT DISTINCT( m.id ) as id
             LEFT JOIN   civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
             WHERE       $mailingACL $additionalClause  
             GROUP BY    $mailing.id ";
-        
+
         if ($sort) {
             $orderBy = trim( $sort->orderBy() );
             if ( ! empty( $orderBy ) ) {

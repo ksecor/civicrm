@@ -14,10 +14,10 @@ class civicrm_handler_relationship_contact2users extends views_handler_relations
     // Figure out what base table this relationship brings to the party.
     $join = new views_join();
     $join->definition = array(
-      'table' => 'civicrm_uf_match',
-      'field' => 'contact_id',
-      'left_table' => 'civicrm_contact',
-      'left_field' => 'id',
+      'table' => 'civicrm_contact',
+      'field' => 'id',    
+      'left_table' => 'civicrm_uf_match',
+      'left_field' => 'contact_id',
     );
 
     if (!empty($this->options['required'])) {
@@ -26,7 +26,7 @@ class civicrm_handler_relationship_contact2users extends views_handler_relations
 
     $join->construct();
 
-    $this->first_join = $this->query->add_table('civicrm_contact', $this->relationship, $join);
+    $this->first_join = $this->query->add_table('civicrm_uf_match', $this->relationship, $join);
 
     // Then, create a relationship on that table:
     $join = new views_join();
@@ -49,3 +49,4 @@ class civicrm_handler_relationship_contact2users extends views_handler_relations
   }
 
 }
+?>

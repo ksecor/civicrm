@@ -5,10 +5,10 @@
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
 {/if}
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
-<div class="form-item">
 
+<div class="form-item">
 {if $priceSet}
-    <fieldset><legend>{$event.fee_label}</legend>
+    <fieldset id="priceset"><legend>{$event.fee_label}</legend>
     <dl>
     {foreach from=$priceSet.fields item=element key=field_id}
         {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
@@ -74,4 +74,5 @@
 
 <div id="crm-submit-buttons">
     {$form.buttons.html}
+</div>
 </div>

@@ -184,12 +184,13 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         } else {
             $searchBtn = ts('Search');
         }
-        
+        $membershipRecords = false;
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             require_once 'CRM/Member/BAO/Membership.php';
             $membershipType = new CRM_Member_BAO_Membership();
             $membershipType->membership_type_id = $this->_id;
             if ( $membershipType->find( true ) ) {
+                $membershipRecords = true;
                 $memberRel->freeze( );    
             } 
             $memberOrg->freeze( );
@@ -197,11 +198,16 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $memberOrg->unfreeze( );
             }
         }
-       
+        
         if  ( ($this->_action & CRM_Core_Action::UPDATE) && $reminderDay ) {
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'renewal_msg_id' ) 
-                 &&  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'renewal_reminder_day' ) ) {
-                $reminderMsg  = $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
+            $renewMessage     = array();
+            $returnProperties = array( 'renewal_msg_id', 'renewal_reminder_day' );
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Member_DAO_MembershipType', 'id', $this->_id, $renewMessage, $returnProperties );
+            if ( CRM_Utils_Array::value( 'renewal_msg_id', $renewMessage[$this->_id]) && 
+                 CRM_Utils_Array::value( 'renewal_reminder_day', $renewMessage[$this->_id]) &&
+                 $membershipRecords ) {
+                $reminderMsg  = $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), 
+                                            array('' => ts('- select -')) + $msgTemplates );
                 $reminderDay->freeze( );
                 $reminderMsg->freeze( );
             }

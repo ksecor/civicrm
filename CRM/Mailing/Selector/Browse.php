@@ -78,7 +78,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
     function __construct( )
     {
     }//end of constructor
-
+    
 
     /**
      * This method returns the links that are given for each search row.
@@ -181,18 +181,8 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function getTotalCount($action)
     {
-        $params      = array( );
-        $whereClause = $this->whereClause( $params );
-
-        $query = "
-SELECT    count(civicrm_mailing.id)
-FROM      civicrm_mailing
-LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id AND civicrm_mailing_job.is_test = 0)
-LEFT JOIN civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
-LEFT JOIN civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
-AND       $whereClause";
-        
-        return CRM_Core_DAO::singleValueQuery( $query, $params );
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        return CRM_Mailing_BAO_Mailing::mailingACLIDs( true );
     }
 
     /**
@@ -370,6 +360,12 @@ AND       $whereClause";
             $clauses[] = "civicrm_mailing.is_archived = 1";
         }
 
+        // CRM-4290, do not show archived or unscheduled mails 
+        // on 'Scheduled and Sent Mailing' page selector 
+        if( $this->_parent->get( 'scheduled' ) ) { 
+            $clauses[] = "civicrm_mailing.is_archived = 0";
+            $clauses[] = "civicrm_mailing_job.status IN ('Scheduled', 'Complete')";
+        }
             
         if ( $sortBy &&
              $this->_parent->_sortByCharacter ) {

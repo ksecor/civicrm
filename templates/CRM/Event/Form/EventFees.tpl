@@ -1,5 +1,5 @@
 {if $paid} {* We retrieve this tpl when event is selected - keep it empty if event is not paid *} 
-<fieldset>
+<fieldset id="priceset">
     <div class="form-item">
     <table class="form-layout">
     {if $priceSet}

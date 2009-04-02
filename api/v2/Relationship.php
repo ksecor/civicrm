@@ -212,27 +212,15 @@ function civicrm_relationship_get( $params ) {
     if ( !isset( $params['contact_id'] ) ) {
         return civicrm_create_error( ts( 'Could not find contact_id in input parameters.' ) );
     }
-    require_once 'CRM/Contact/BAO/Relationship.php';
-    $contactID     = $params['contact_id'];
-    $relationships = CRM_Contact_BAO_Relationship::getRelationship($contactID);
-    
-    if ( !empty( $relationshipTypes ) ) {
-        $result = array();
-        foreach ( $relationshipTypes as $relationshipName ) {
-            foreach( $relationships as $key => $relationship ) {
-                if ( $relationship['relation'] ==  $relationshipName ) {
-                    $result[$key] = $relationship;
-                }
-            }
-        }
-        $relationships = $result;
-    }
-    if ( $relationships ) {
-        return civicrm_create_success( $relationships );
-    } else {
-        return civicrm_create_error( ts( 'Invalid Data' ) );
-    }
-  
+
+    return civicrm_contact_relationship_get( $params );
+}
+
+/**
+ * backward compatibility function to match broken naming convention in v2.2.1 and prior
+ */
+function civicrm_get_relationships( $contact_a, $contact_b = null, $relationshipTypes = null, $sort = null ) {
+    return civicrm_contact_relationship_get( $contact_a, $contact_b, $relationshipTypes, $sort );
 }
 
 /**
@@ -247,7 +235,7 @@ function civicrm_relationship_get( $params ) {
  *
  * @access  public
  */
-function civicrm_get_relationships( $contact_a, $contact_b = null, $relationshipTypes = null, $sort = null ) 
+function civicrm_contact_relationship_get( $contact_a, $contact_b = null, $relationshipTypes = null, $sort = null ) 
 {
     if ( !isset( $contact_a['contact_id'] ) ) {
         return civicrm_create_error( ts( 'Could not find contact_id in input parameters.' ) );
@@ -270,7 +258,7 @@ function civicrm_get_relationships( $contact_a, $contact_b = null, $relationship
     
     if( isset( $contact_b['contact_id']) ) {
         $cid = $contact_b['contact_id'];
-        $result =array( );
+        $result = array( );
         
         foreach($relationships as $key => $relationship) {
             if ($relationship['cid'] == $cid ) {

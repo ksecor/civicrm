@@ -251,7 +251,7 @@ class CRM_Core_I18n
     {
         if ($this->_phpgettext) {
             foreach ($array as $key => $value) {
-                $array[$key] = $this->_phpgettext->translate($value);
+                if ($value) $array[$key] = $this->_phpgettext->translate($value);
             }
         }
     }

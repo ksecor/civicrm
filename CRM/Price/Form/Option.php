@@ -163,6 +163,15 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
 
             //is default 
             $this->add('checkbox', 'is_default', ts('Default'));
+            
+            if ( $this->_fid ) {
+                //hide the default checkbox option for text field
+                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $this->_fid, 'html_type' );
+                $this->assign( 'hideDefaultOption', false );
+                if ( $htmlType == 'Text' ) {
+                    $this->assign( 'hideDefaultOption', true );
+                }
+            }
             // add buttons
             $this->addButtons(array(
                                     array ('type'      => 'next',
@@ -259,7 +268,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                                                                   'id', 'name' );
         $groupName                 = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $params['option_group_id'], 'name' );
         if ( $groupName ) {
-            $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
+            $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, 27 ), 'label') ;
             $params['description'] = $fieldName.' - '.$params['label'] ;
         }  
         $params['value'] = $params['weight'];

@@ -76,7 +76,7 @@ class civicrm_handler_field_event_link extends views_handler_field {
            if (user_access('view event info') && $data !== NULL && $data !== '') {
            return civicrm_views_href( $data,
                                             'civicrm/event/info',
-                                            "reset=1&id={$values->id}" );
+                                            "reset=1&id={$values->{$this->aliases['id']}}" );
            }
 
     // LINKING TO EVENT CONFIG PAGE
@@ -84,7 +84,7 @@ class civicrm_handler_field_event_link extends views_handler_field {
            if (user_access('access CiviEvent') && $data !== NULL && $data !== '') {
            return civicrm_views_href( $data,
                                             'civicrm/event/manage',
-                                            "action=update&id={$values->id}&reset=1" );
+                                            "action=update&id={$values->{$this->aliases['id']}}&reset=1" );
            }
 
     // LINKING TO EVENT PARTICIPANTS LIST
@@ -92,13 +92,13 @@ class civicrm_handler_field_event_link extends views_handler_field {
            if (user_access('access CiviEvent') && $data !== NULL && $data !== '') {
            return civicrm_views_href( $data,
                                             'civicrm/event/search',
-                                            "reset=1&force=1&event={$values->id}" );
+                                            "reset=1&force=1&event={$values->{$this->aliases['id']}}" );
            }
            
     // CUSTOM NODE LINKAGE, GOOD FOR LINKING TO OTHER VIEWS WITH AN ARGUMENT
       case 'custom':
            if ($custom_link !== NULL && $custom_link !== '' && $data !== NULL && $data !== '') {
-           return l($data, $custom_link . "{$values->id}" );
+           return l($data, $custom_link . "{$values->{$this->aliases['id']}}" );
            }
     
     // IF THE OTHER CASES AREN'T IN PLAY, THEN JUST PRINT THE DATA

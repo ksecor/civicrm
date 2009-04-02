@@ -65,10 +65,11 @@ class CRM_Admin_Form_Setting_Url extends CRM_Admin_Form_Setting
              $fields['enableSSL'] ) {
             $config = CRM_Core_Config::singleton( );
             $url = str_replace( 'http://', 'https://',
-                                $config->userFrameworkBaseURL );
+                                CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1', true,
+                                                       null, false, false ) );
             if ( ! CRM_Utils_System::checkURL( $url, true ) ) {
                 $errors = array( 'enableSSL' =>
-                                 ts( 'You need to set up a secure server before you can enable SSL' ) );
+                                 ts( 'You need to set up a secure server before you can use the Force Secure URLs option' ) );
                 return $errors;
             }
         }

@@ -148,6 +148,11 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                     array( 'size' => 30, 'maxlength' => 60 ),
                     $required );
         //add buttons
+        $js = null;
+        if ( $this->isLastParticipant( true ) ) {
+           $js = array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" );  
+        }
+       
         $this->addButtons(array(
                                 array ( 'type'      => 'back',
                                         'name'      => ts('<< Go Back'),
@@ -156,7 +161,8 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Continue >>'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true
+                                        'isDefault' => true,
+                                        'js'        => $js 
                                         ),
                                 array ( 'type'       => 'next',
                                         'name'       => ts('Skip Participant >>|'),
@@ -225,9 +231,6 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 if ( empty( $check ) ) {
                     $errors['_qf_default'] = ts( "Select at least one option from Event Fee(s)." );
                 }
-
-                require_once 'CRM/Core/BAO/PriceSet.php';
-                CRM_Core_BAO_PriceSet::calculatePriceSet( $self, $fields );
             }
         }
         
@@ -312,12 +315,11 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         }
         
         //to check whether call processRegistration() 
-        if ( !$this->_values['event']['is_monetary'] && CRM_Utils_Array::value( 'additional_participants', $this->_params[0] ) ) {
-            $participant =  $this->_params[0]['additional_participants'] + 1;
-            if ( count($this->_params) == $participant ) {
-                require_once 'CRM/Event/Form/Registration/Register.php';
-                CRM_Event_Form_Registration_Register::processRegistration(  $this->_params,  null );
-            } 
+        if ( !$this->_values['event']['is_monetary'] 
+             && CRM_Utils_Array::value( 'additional_participants', $this->_params[0] ) 
+             && $this->isLastParticipant( ) ) {
+            require_once 'CRM/Event/Form/Registration/Register.php';
+            CRM_Event_Form_Registration_Register::processRegistration(  $this->_params,  null );
         }
     }
     
@@ -330,6 +332,21 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                                                   );
         }
         return $details;
+    } 
+    
+    /**
+     * check whether call current participant is last one
+     *
+     * @return boolean ture on success.
+     * @access public
+     */
+    function isLastParticipant( $isButtonJs = false ) 
+    {
+        $participant =  $isButtonJs ? $this->_params[0]['additional_participants'] : $this->_params[0]['additional_participants'] + 1;
+        if ( count($this->_params) == $participant ) {
+            return true;
+        }
+        return false;
     } 
 
 }

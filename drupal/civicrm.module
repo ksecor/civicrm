@@ -46,7 +46,7 @@ function civicrm_html_head()
     if ( isset( $config->customCSSURL ) && ! empty( $config->customCSSURL ) ) {
         $head  = "<style type=\"text/css\">@import url({$config->customCSSURL});</style>\n";
     } else {
-        $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
+        drupal_add_css(drupal_get_path('module', 'civicrm') . '/../css/civicrm.css'); 
     }
 
     // include the below files ONLY if needed, since they are heavy weight ( i.e only for civicrm pages)

@@ -356,7 +356,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
                 unset($fields['Contribution']['contribution_contact_id']);
-                $compArray['Contribution'] = 'Contribution';
+                $compArray['Contribution'] = ts('Contribution');
             }
         }
         
@@ -365,7 +365,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 require_once 'CRM/Event/BAO/Participant.php';
                 $fields['Participant'] =& CRM_Event_BAO_Participant::exportableFields( );
                 unset($fields['Participant']['participant_contact_id']);
-                $compArray['Participant'] = 'Participant';
+                $compArray['Participant'] = ts('Participant');
             }
         }
 
@@ -374,7 +374,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 require_once 'CRM/Member/BAO/Membership.php';
                 $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
                 unset($fields['Membership']['membership_contact_id']);
-                $compArray['Membership'] = 'Membership';
+                $compArray['Membership'] = ts('Membership');
             }
         }
 
@@ -383,7 +383,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 require_once 'CRM/Pledge/BAO/Pledge.php';
                 $fields['Pledge'] =& CRM_Pledge_BAO_Pledge::exportableFields( );
                 unset($fields['Pledge']['pledge_contact_id']);
-                $compArray['Pledge'] = 'Pledge';
+                $compArray['Pledge'] = ts('Pledge');
             }
         }
 
@@ -391,11 +391,11 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             if ( CRM_Core_Permission::access( 'CiviCase' ) ) {
                 require_once 'CRM/Case/BAO/Case.php';
                 $fields['Case']    =& CRM_Case_BAO_Case::exportableFields( );
-                $compArray['Case'] = 'Case';
+                $compArray['Case'] = ts('Case');
                 
                 require_once 'CRM/Activity/BAO/Activity.php';
                 $fields['Activity']    =& CRM_Activity_BAO_Activity::exportableFields( );
-                $compArray['Activity'] = 'Case Activity';
+                $compArray['Activity'] = ts('Case Activity');
 
                 unset($fields['Case']['case_contact_id']);
             }
