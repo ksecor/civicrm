@@ -1,4 +1,4 @@
-<a accesskey="N" href="{$manageItemURL}" id="manageItem" class="button"><span>&raquo; {ts}Manage Items{/ts}</span></a>
+{if $manageItemURL}<a accesskey="N" href="{$manageItemURL}" id="manageItem" class="button"><span>&raquo; {ts}Manage Items{/ts}</span></a>{/if}
 <div class="right">
 </div>
 

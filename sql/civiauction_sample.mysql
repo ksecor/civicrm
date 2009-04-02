@@ -10,7 +10,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `civicrm_trunk`
+-- Create Donors / Bidders.
 --
 
 INSERT INTO `civicrm_contact` (`contact_type`, `sort_name`, `display_name`, `first_name`, `last_name`) 
@@ -19,8 +19,14 @@ VALUES
 
 SELECT @donorID := id FROM `civicrm_contact` where `display_name` like 'Mouse Micky';
 
+INSERT INTO `civicrm_contact` (`contact_type`, `sort_name`, `display_name`, `first_name`, `last_name`) 
+VALUES
+('Individual', 'Doo Scooby', 'Doo Scooby', 'Mickey', 'Doo');
+
+SELECT @bidderID := id FROM `civicrm_contact` where `display_name` like 'Doo Scooby';
+
 --
--- Dumping data for table `civicrm_auction`
+-- data for Auction
 --
 
 INSERT INTO `civicrm_auction` (`id`, `title`, `description`, `start_date`, `end_date`, `item_start_date`, `item_end_date`, `is_approval_needed`, `is_item_groups`, `max_items`, `max_items_user`, `event_id`, `donor_profile_id`, `is_active`) VALUES
@@ -29,10 +35,15 @@ INSERT INTO `civicrm_auction` (`id`, `title`, `description`, `start_date`, `end_
 SELECT @auctionID := id FROM `civicrm_auction` where `title` like 'collectibles';
 
 --
--- Dumping data for table `civicrm_auction_item`
+-- data for Auction Items
 --
 
-INSERT INTO `civicrm_auction_item` (`auction_id`, `donor_id`, `auction_item_type_id`, `title`, `description`, `url`, `sku`, `options`, `image`, `quantity`, `retail_value`, `min_bid_value`, `min_bid_increment`, `buy_now_value`, `is_active`, `is_group`, `parent_id`, `creator_id`, `created_date`, `is_approved`, `approver_id`, `approval_date`) VALUES
-(@auctionID, @donorID, 3, 'coins', '<p>Frequently collected coins include those that were in circulation for only a brief time, coins minted with errors, or especially beautiful or historically interesting pieces.</p>', NULL, NULL, NULL, NULL, 5, 60.00, 15.00, 3.00, 55.00, 1, 0, NULL, NULL, NULL, 1, NULL, '2009-01-22 14:48:58'),
-(@auctionID, @donorID, 2, 'Stamps', '<p>Collections such as covers (envelopes or packages with stamps on them).</p>', NULL, NULL, NULL, NULL, 200, 500.00, 600.00, 50.00, 700.00, 1, 0, NULL, @donorID, '2009-01-27 14:27:28', 1, NULL, NULL),
-(@auctionID, @donorID, 1, 'Classic car', '<p>Term frequently used to describe an older car, but the exact meaning is subject to differences in opinion.</p>', NULL, NULL, NULL, NULL, 25, 3000.00, 2800.00, 100.00, 3500.00, 1, 0, NULL, @donorID, '2009-01-27 15:56:49', 1, NULL, NULL);
+INSERT INTO `civicrm_auction_item` (`auction_id`, `donor_id`, `auction_item_type_id`, `title`, `description`, `url`, `sku`, `options`, `image`, `quantity`, `retail_value`, `min_bid_value`, `min_bid_increment`, `buy_now_value`, `is_active`, `is_group`, `parent_id`, `creator_id`, `created_date`, `approver_id`, `approval_date`) VALUES
+(@auctionID, @donorID, 3, 'coins', '<p>Frequently collected coins include those that were in circulation for only a brief time, coins minted with errors, or especially beautiful or historically interesting pieces.</p>', NULL, NULL, NULL, NULL, 5, 60.00, 15.00, 3.00, 55.00, 1, 0, NULL, NULL, NULL, NULL, '2009-01-22 14:48:58'),
+(@auctionID, @donorID, 2, 'Stamps', '<p>Collections such as covers (envelopes or packages with stamps on them).</p>', NULL, NULL, NULL, NULL, 200, 500.00, 600.00, 50.00, 700.00, 1, 0, NULL, @donorID, '2009-01-27 14:27:28', NULL, NULL),
+(@auctionID, @donorID, 1, 'Classic car', '<p>Term frequently used to describe an older car, but the exact meaning is subject to differences in opinion.</p>', NULL, NULL, NULL, NULL, 25, 3000.00, 2800.00, 100.00, 3500.00, 1, 0, NULL, @donorID, '2009-01-27 15:56:49', NULL, NULL);
+
+INSERT INTO `civicrm_auction_bid` (`contact_id`, `auction_item_id`, `bid_value`, `quantity`, `bid_date`, `is_active`, `is_winner`, `quantity_won`, `contribution_id`) VALUES
+(@bidderID, 1, 12.00, 1, '2009-04-02 15:45:36', 1, 0, NULL, NULL),
+(@bidderID, 2, 100.00, 1, '2009-04-02 15:45:36', 1, 0, NULL, NULL),
+(@bidderID, 3, 1500.00, 1, '2009-04-02 15:45:36', 1, 0, NULL, NULL);
