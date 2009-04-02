@@ -1,11 +1,6 @@
 {capture assign=newAuctionURL}{crmURL p="civicrm/admin/auction/add" q="action=add&reset=1"}{/capture}
-
 <a accesskey="N" href="{$newAuctionURL}" id="newManageAuction" class="button"><span>&raquo; {ts}New Auction{/ts}</span></a>
-<div class="right">
-</div>
-
-<br/>
-
+<br/><br/>
 {include file="CRM/Auction/Form/SearchAuction.tpl"}
 
 {if $rows}

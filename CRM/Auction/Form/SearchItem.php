@@ -57,6 +57,12 @@ class CRM_Auction_Form_SearchItem extends CRM_Core_Form
         $this->add( 'text', 'title', ts( 'Find' ),
                     array(CRM_Core_DAO::getAttribute('CRM_Auction_DAO_Auction', 'title') ) );
         
+        $this->add('date', 'start_date', ts('From'), CRM_Core_SelectValues::date('relative')); 
+        $this->addRule('start_date', ts('Select a valid Auction FROM date.'), 'qfDate'); 
+        
+        $this->add('date', 'end_date', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $this->addRule('end_date', ts('Select a valid Auction TO date.'), 'qfDate'); 
+
         $this->addButtons(array( 
                                 array ('type'      => 'refresh', 
                                        'name'      => ts('Search'), 

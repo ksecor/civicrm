@@ -1,9 +1,6 @@
 <a accesskey="N" href="{$newItemURL}" id="newAddItem" class="button"><span>&raquo; {ts}New Item{/ts}</span></a>
 <a accesskey="P" href="{$previewItemURL}" id="previewItem" class="button"><span>&raquo; {ts}Preview Items{/ts}</span></a>
-<div class="right">
-</div>
-
-<br/>
+<br/><br/>
 
 {include file="CRM/Auction/Form/SearchItem.tpl"}
 

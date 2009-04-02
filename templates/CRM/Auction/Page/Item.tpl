@@ -1,8 +1,4 @@
-{if $manageItemURL}<a accesskey="N" href="{$manageItemURL}" id="manageItem" class="button"><span>&raquo; {ts}Manage Items{/ts}</span></a>{/if}
-<div class="right">
-</div>
-
-<br/>
+{if $manageItemURL}<a accesskey="N" href="{$manageItemURL}" id="manageItem" class="button"><span>&raquo; {ts}Manage Items{/ts}</span></a><br/><br/>{/if}
 
 {include file="CRM/Auction/Form/SearchItem.tpl"}
 

@@ -11,10 +11,9 @@
         </td>
         <td class="right" rowspan="2">&nbsp;{$form.buttons.html}</td>  
     </tr>
-  
     <tr>
        <td></td>
-       <td colspan="2">
+       <td>
        <table class="form-layout-compressed" id="id_fromToDates">
          <tr>
            <td>{$form.start_date.label}</td>
@@ -30,8 +29,9 @@
              {include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_2}
             </td> 
           </tr>
-      </table> 
-    </td></tr>  
+       </table> 
+       </td>
+    </tr>  
   </table>
 </fieldset>
 </div>

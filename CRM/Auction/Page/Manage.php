@@ -240,7 +240,8 @@ ORDER BY start_date desc
     }
     
     function search( ) {
-        $form = new CRM_Core_Controller_Simple( 'CRM_Auction_Form_SearchItem', ts( 'Search Items' ), CRM_Core_Action::ADD );
+        $form = new CRM_Core_Controller_Simple( 'CRM_Auction_Form_SearchAuction', 
+                                                ts( 'Search Items' ), CRM_Core_Action::ADD );
         $form->setEmbedded( true );
         $form->setParent( $this );
         $form->process( );

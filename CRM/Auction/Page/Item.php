@@ -157,12 +157,13 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
         }
              
         $query = "
-  SELECT i.*, c.display_name as donorName
-    FROM civicrm_auction_item i, 
-         civicrm_contact c
-   WHERE $whereClause
-     AND i.donor_id = c.id
-   LIMIT $offset, $rowCount";
+  SELECT i.*, c.display_name as donorName, max(b.bid_value) as maxBid
+  FROM civicrm_auction_item i
+    INNER JOIN civicrm_contact c     ON i.donor_id = c.id
+    LEFT  JOIN civicrm_auction_bid b ON i.id = b.auction_item_id
+  WHERE $whereClause
+  GROUP BY i.id
+  LIMIT $offset, $rowCount";
         
         $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Auction_DAO_Item' );
      
@@ -175,6 +176,7 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
 
             $items[$dao->id]['donorName'] = $dao->donorName;
             $items[$dao->id]['auction_item_type'] = CRM_Utils_Array::value( $dao->auction_type_id, $auctionItemTypes );
+            $items[$dao->id]['max_bid']   = $dao->maxBid;
         }
         $this->assign('rows', $items);
     }
