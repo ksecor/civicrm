@@ -5,7 +5,7 @@ function compare($query) {
     $result = mysql_query($query);
     while ($row = mysql_fetch_object($result)) {
         if (!$_GET['current'] and $row->year == date('Y') and $row->month == date('m')) continue;
-        $data["{$row->month} {$row->year}"][$row->compare] = $row->data;
+        $data[$row->month . '’' . substr($row->year, 2)][$row->compare] = $row->data;
         $compares[] = $row->compare;
     }
     $compares = array_unique($compares);
@@ -89,7 +89,7 @@ function trend($query) {
     $result = mysql_query($query);
     while ($row = mysql_fetch_object($result)) {
         if (!$_GET['current'] and $row->year == date('Y') and $row->month == date('m')) continue;
-        $data["{$row->month} {$row->year}"] = $row->data;
+        $data[$row->month . '’' . substr($row->year, 2)] = $row->data;
     }
 
     $max = max($data);
