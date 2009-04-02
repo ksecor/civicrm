@@ -1,0 +1,27 @@
+label, .description {
+	display: block;
+
+}
+
+label {
+	font-size: 0.90em;
+	font-weight: normal !important;
+}
+
+.description img {
+    border: 10px;
+}
+
+textarea.huge {
+	width: 75%; 
+	height: 12em;
+	font-weight: bold;
+}
+
+textarea {
+	
+}
+
+.helpicon {
+	display: none;
+}
