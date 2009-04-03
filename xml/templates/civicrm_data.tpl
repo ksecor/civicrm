@@ -120,7 +120,6 @@ VALUES
    ('payment_instrument'            , '{ts escape="sql"}Payment Instruments{/ts}'                , 0, 1),
    ('contribution_status'           , '{ts escape="sql"}Contribution Status{/ts}'                , 0, 1),
    ('pcp_status'                    , '{ts escape="sql"}PCP Status{/ts}'                         , 0, 1),
-   ('participant_status'            , '{ts escape="sql"}Participant Status{/ts}'                 , 0, 1),
    ('participant_role'              , '{ts escape="sql"}Participant Role{/ts}'                   , 0, 1),
    ('event_type'                    , '{ts escape="sql"}Event Type{/ts}'                         , 0, 1),
    ('contact_view_options'          , '{ts escape="sql"}Contact View Options{/ts}'               , 0, 1),
@@ -162,7 +161,6 @@ SELECT @option_group_id_acc            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_pi             := max(id) from civicrm_option_group where name = 'payment_instrument';
 SELECT @option_group_id_cs             := max(id) from civicrm_option_group where name = 'contribution_status';
 SELECT @option_group_id_pcp            := max(id) from civicrm_option_group where name = 'pcp_status';
-SELECT @option_group_id_ps             := max(id) from civicrm_option_group where name = 'participant_status';
 SELECT @option_group_id_pRole          := max(id) from civicrm_option_group where name = 'participant_role';
 SELECT @option_group_id_etype          := max(id) from civicrm_option_group where name = 'event_type';
 SELECT @option_group_id_cvOpt          := max(id) from civicrm_option_group where name = 'contact_view_options';
@@ -275,12 +273,6 @@ VALUES
   (@option_group_id_pcp, '{ts escape="sql"}Waiting Review{/ts}', 1, 'Waiting Review', NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_pcp, '{ts escape="sql"}Approved{/ts}'      , 2, 'Approved'      , NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_pcp, '{ts escape="sql"}Not Approved{/ts}'  , 3, 'Not Approved'  , NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL, NULL),
-
-  (@option_group_id_ps, '{ts escape="sql"}Registered{/ts}', 1, 'Registered', NULL, 1, NULL, 1, NULL, 0, 1, 1, NULL, 1),
-  (@option_group_id_ps, '{ts escape="sql"}Attended{/ts}',   2, 'Attended',   NULL, 1, NULL, 2, NULL, 0, 0, 1, NULL, 2),
-  (@option_group_id_ps, '{ts escape="sql"}No-show{/ts}',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, 2),
-  (@option_group_id_ps, '{ts escape="sql"}Cancelled{/ts}',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL, 2),
-  (@option_group_id_ps, '{ts escape="sql"}Pending{/ts}'  ,  5, 'Pending',    NULL, 0, NULL, 5, NULL, 0, 1, 1, NULL, 2),
 
   (@option_group_id_pRole, '{ts escape="sql"}Attendee{/ts}',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_pRole, '{ts escape="sql"}Volunteer{/ts}', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
@@ -817,3 +809,11 @@ INSERT INTO civicrm_uf_field
        (8, 2, 'first_name', 1, 0, 1, 1, '', 'User and User Admin Only', 0, 0, NULL, NULL, '{ts escape="sql"}First Name{/ts}', 'Individual'),
        (9, 2, 'last_name', 1, 0, 1, 2, '', 'User and User Admin Only', 0, 0, NULL, NULL, '{ts escape="sql"}Last Name{/ts}', 'Individual'),
        (10, 2, 'email', 1, 0, 1, 3, '', 'User and User Admin Only', 0, 0, NULL, NULL, '{ts escape="sql"}Email Address{/ts}', 'Contact');
+
+INSERT INTO civicrm_participant_status_type
+  (id, name,         label,                              class,      is_reserved, is_active, is_counted, is_expiring) VALUES
+  (1,  'Registered', '{ts escape="sql"}Registered{/ts}', 'Positive', 1,           1,         1,          0          ),
+  (2,  'Attended',   '{ts escape="sql"}Attended{/ts}',   'Positive', 0,           1,         1,          0          ),
+  (3,  'No-show',    '{ts escape="sql"}No-show{/ts}',    'Negative', 0,           1,         0,          0          ),
+  (4,  'Cancelled',  '{ts escape="sql"}Cancelled{/ts}',  'Negative', 1,           1,         0,          0          ),
+  (5,  'Pending',    '{ts escape="sql"}Pending{/ts}',    'Pending',  1,           1,         1,          1          );
