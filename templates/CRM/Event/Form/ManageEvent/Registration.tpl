@@ -25,6 +25,9 @@
             </dd>
             <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html} {help id="id-allow_multiple"}</dd>
             <dt>{$form.allow_same_participant_emails.label}</dt><dd>{$form.allow_same_participant_emails.html} {help id="id-allow_same_email"}</dd> 
+            <dt>{$form.has_waitlist.label}</dt><dd>{$form.has_waitlist.html} {help id="id-has_waitlist"}</dd> 
+            <dt>{$form.requires_approval.label}</dt><dd>{$form.requires_approval.html} {help id="id-requires_approval"}</dd> 
+            <dt>{$form.expiration_time.label}</dt><dd>{$form.expiration_time.html} {help id="id-expiration_time"}</dd>
         </dl>
      </div>
     <div class="spacer"></div>

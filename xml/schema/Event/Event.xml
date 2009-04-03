@@ -431,4 +431,22 @@
     <comment>if true - allows the user to register multiple registrations from same email address.</comment> 
     <add>2.2</add> 
   </field> 
+  <field>
+    <name>has_waitlist</name>
+    <type>boolean</type>
+    <comment>whether the event has waitlist support</comment>
+    <add>2.2</add>
+  </field>
+  <field>
+    <name>requires_approval</name>
+    <type>boolean</type>
+    <comment>whether the event participant require approval before they can finish registering</comment>
+    <add>2.2</add>
+  </field>
+  <field>
+    <name>expiration_time</name>
+    <type>int unsigned</type>
+    <comment>expire pending participants after this many minutes</comment>
+    <add>2.2</add>
+  </field>
  </table>

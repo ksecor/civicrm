@@ -28,3 +28,15 @@
 {htxt id="id-allow_same_email"}  
 {ts}Check this box to allow a user to register multiple participants using the same email address. If you want additional participants to be registered <strong>without requiring an email address to be entered for each person</strong> - check the "Register multiple participants" option, AND include a profile in this registration form which <strong>includes First Name and Last Name fields</strong>.{/ts}
 {/htxt}
+
+{htxt id="id-has_waitlist"}
+{ts}Check this box to allow users to join a waitlist if the event is full. One a place on the event frees, the first participant from the waitlist will move to pending status and will be notified to finish registration.{/ts}
+{/htxt}
+
+{htxt id="id-requires_approval"}
+{ts}Check this box to make all the participants who self-register require admin approval prior to being able to finish the registration for the event.{/ts}
+{/htxt}
+
+{htxt id="id-expiration_time"}
+{ts}Time limit <strong>in hours</strong> for confirming/finishing registration by participants with any of the pending statuses. 0 (or empty) to disable.{/ts}
+{/htxt}
