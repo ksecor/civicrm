@@ -9,7 +9,7 @@
              </div>
              <div style="height: auto; vertical-align: bottom">{$form.auctionsByDates.html}</div>
         </td>
-        <td class="right" rowspan="2">&nbsp;{$form.buttons.html}</td>  
+        <td class="left" rowspan="2">&nbsp;{$form.buttons.html}</td>  
     </tr>
     <tr>
        <td></td>

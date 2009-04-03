@@ -240,7 +240,7 @@ class CRM_Auction_Page_Item extends CRM_Core_Page
 
         $query = "
 SELECT count(id)
-  FROM civicrm_auction
+  FROM civicrm_auction_item
  WHERE $whereClause";
 
         $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
@@ -254,7 +254,7 @@ SELECT count(id)
         
         $query = "
    SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
-     FROM civicrm_auction
+     FROM civicrm_auction_item
     WHERE $whereClause
  ORDER BY LEFT(title, 1)
 ";

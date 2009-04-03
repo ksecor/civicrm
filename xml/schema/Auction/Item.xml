@@ -174,6 +174,20 @@
       <comment>The amount that the item can be bought for immediately</comment>  
       <add>2.3</add>  
   </field> 
+  <field>
+       <name>bid_start_date</name>
+       <type>datetime</type>
+       <title>Bid Start Date</title>
+       <comment>Date and time bidding starts.</comment>
+       <add>2.3</add>
+  </field>
+  <field>
+       <name>bid_end_date</name>
+       <type>datetime</type>
+       <title>Bid End Date</title>
+       <comment>Date and time bidding ends.</comment>
+       <add>2.3</add>
+  </field>
   <field>     
       <name>is_active</name>
       <type>boolean</type> 
