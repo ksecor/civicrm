@@ -34,4 +34,21 @@ UPDATE civicrm_relationship_type SET  civicrm_relationship_type.label_a_b = civi
 --
 ALTER TABLE `civicrm_relationship_type` CHANGE `name_a_b` `name_a_b` VARCHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT 'name for relationship of contact_a to contact_b.' , CHANGE `name_b_a` `name_b_a` VARCHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT 'Optional name for relationship of contact_b to contact_a.';
 
---
+
+
+-- migrate participant status types, CRM-4321
+
+BEGIN;
+
+  INSERT INTO civicrm_participant_status_type (id,    name, label, is_reserved, is_active, is_counted)
+    SELECT                                     value, name, label, is_reserved, is_active, filter
+    FROM civicrm_option_value WHERE option_group_id = @participant_status_ogid;
+
+  UPDATE civicrm_participant_status_type SET class = 'Positive' WHERE name IN ('Registered', 'Attended');
+  UPDATE civicrm_participant_status_type SET class = 'Negative' WHERE name IN ('No-show', 'Cancelled');
+  UPDATE civicrm_participant_status_type SET class = 'Pending'  WHERE name IN ('Pending');
+
+  DELETE FROM civicrm_option_value WHERE option_group_id = @participant_status_ogid;
+  DELETE FROM civicrm_option_group WHERE              id = @participant_status_ogid;
+
+COMMIT;
