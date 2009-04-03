@@ -312,6 +312,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $this->_sid));
         $controller->set('fieldId', $fid);
+        $controller->set('groupId', $this->_sid);
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
