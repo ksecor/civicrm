@@ -1482,7 +1482,24 @@ function civicrm_views_data() {
     // Registered by ID - Participant ID of the person who made the registration
     $data['civicrm_participant']['registered_by_id'] = array(
                                                              'title' => t('Registered by ID'),
-                                                             'help'  => t('The participant who registered this participant.'),
+                                                              'help' => t('The numeric ID of the Participant who registered this Participant'),
+                                                              'field' => array(
+                                                                               'handler' => 'views_handler_field_numeric',
+                                                                               'click sortable' => TRUE,
+                                                                               ),
+
+                                                              'argument' => array(
+                                                                                  'handler' => 'views_handler_argument_numeric',
+                                                                                  'numeric' => TRUE,
+                                                                                  ),
+
+                                                              'filter' => array(
+                                                                                'handler' => 'views_handler_filter_numeric',
+                                                                                ),
+
+                                                              'sort' => array(
+                                                                              'handler' => 'views_handler_sort',
+                                                                              ),
                                                              'relationship' => array(
                                                                                      'base' => 'civicrm_participant',
                                                                                      'field' => 'id',
@@ -2022,29 +2039,7 @@ function civicrm_views_data() {
                                                                           ),
                                                           );
 
-    // Registered by ID - Participant ID of the person who made the registration
-    $data['civicrm_contribution']['registered_by_id'] = array(
-                                                              'title' => t('Registered by ID'),
-                                                              'help' => t('The numeric ID of the Participant who registered this Participant'),
-                                                              'field' => array(
-                                                                               'handler' => 'views_handler_field_numeric',
-                                                                               'click sortable' => TRUE,
-                                                                               ),
-
-                                                              'argument' => array(
-                                                                                  'handler' => 'views_handler_argument_numeric',
-                                                                                  'numeric' => TRUE,
-                                                                                  ),
-
-                                                              'filter' => array(
-                                                                                'handler' => 'views_handler_filter_numeric',
-                                                                                ),
-
-                                                              'sort' => array(
-                                                                              'handler' => 'views_handler_sort',
-                                                                              ),
-                                                              );
-  
+      
   
   
     //----------------------------------------------------------------------------------------
