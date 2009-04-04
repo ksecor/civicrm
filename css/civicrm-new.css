@@ -1,4 +1,4 @@
-label, .description {
+.description {
 	display: block;
 
 }
@@ -18,10 +18,27 @@ textarea.huge {
 	font-weight: bold;
 }
 
+input.huge {
+    width: 30em;
+	font-weight: bold;
+}
+
 textarea {
 	
 }
 
-.helpicon {
+h2, .helpicon, #recently-viewed, #printer-friendly, #access {
 	display: none;
 }
+
+tr.border-bottom {
+    border-bottom: 1px solid #CCCCCC;
+}
+
+
+th.label {
+    width: 25%;
+    background-color: #EEEEEE;
+    border-bottom: 1px solid #CCCCCC;
+}
+
