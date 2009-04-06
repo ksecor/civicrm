@@ -34,7 +34,7 @@
   <field>
     <name>class</name>
     <type>enum</type>
-    <values>Pending, Positive, Negative</values>
+    <values>Positive, Pending, Waiting, Negative</values>
     <comment>the general group of status type this one belongs to</comment>
     <add>2.3</add>
   </field>
