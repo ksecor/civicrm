@@ -435,19 +435,19 @@
     <name>has_waitlist</name>
     <type>boolean</type>
     <comment>whether the event has waitlist support</comment>
-    <add>2.2</add>
+    <add>2.3</add>
   </field>
   <field>
     <name>requires_approval</name>
     <type>boolean</type>
     <comment>whether the event participant require approval before they can finish registering</comment>
-    <add>2.2</add>
+    <add>2.3</add>
   </field>
   <field>
     <name>expiration_time</name>
     <type>int unsigned</type>
     <comment>expire pending participants after this many minutes</comment>
-    <add>2.2</add>
+    <add>2.3</add>
   </field>
   <field>
     <name>waitlist_text</name>
@@ -457,6 +457,6 @@
     <cols>60</cols>
     <localizable>true</localizable>
     <comment>text to show when the event is full, but participants can sign for a waitlist</comment>
-    <add>2.2</add>
+    <add>2.3</add>
   </field>
  </table>
