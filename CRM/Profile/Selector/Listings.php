@@ -391,12 +391,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $rows = array( );
 
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
-
+        if ( $mask & CRM_Core_Permission::EDIT ) {
+            $this->_editLink = true;
+        }
+        $links =& self::links( $this->_map, $this->_editLink, $this->_linkToUF );
+        
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
-        $links =& self::links( $this->_map, $this->_editLink, $this->_linkToUF );
-        
         $names = array( );
         static $skipFields = array( 'group', 'tag' );
 

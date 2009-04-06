@@ -252,6 +252,9 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     }
                 }
             }
+
+            // the selector will override this if the user does have
+            // edit permissions as determined by the mask, CRM-4341
             if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
                 $editLink = false;
             }

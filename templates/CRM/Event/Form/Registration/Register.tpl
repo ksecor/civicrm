@@ -19,7 +19,7 @@
     {foreach from=$priceSet.fields item=element key=field_id}
         {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
             {assign var="element_name" value=price_$field_id}
-            <dt>{$form.$element_name.label}</dt>
+            <dt style="margin-top: .5em;">{$form.$element_name.label}</dt>
             <dd>
             {assign var="count" value="1"}
             <table class="form-layout-compressed">

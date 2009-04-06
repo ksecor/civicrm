@@ -72,25 +72,14 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
         $fieldId  = $this->get('fieldId');
         
         if ($fieldId) {
-            // field preview
-            $defaults = array();
-            $params = array('id' => $fieldId);
-            
-            require_once 'CRM/Core/DAO/PriceField.php';
-            $fieldDAO =& new CRM_Core_DAO_PriceField();                    
-
-            CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_PriceField', $params, $defaults);
-            
-            $this->_groupTree = array();
-            $this->_groupTree[0]['id'] = 0;
-            $this->_groupTree[0]['fields'] = array();
-            $this->_groupTree[0]['fields'][$fieldId] = $defaults;
-            
+            require_once 'CRM/Core/BAO/PriceSet.php';
+            $groupTree = CRM_Core_BAO_PriceSet::getSetDetail($groupId);
+            $this->_groupTree[$groupId]['fields'][$fieldId] = $groupTree[$groupId]['fields'][$fieldId];
             $this->assign('preview_type', 'field');
         } else {
             // group preview
             require_once 'CRM/Core/BAO/PriceSet.php';
-            $this->_groupTree  = CRM_Core_BAO_PriceSet::getSetDetail($groupId);       
+            $this->_groupTree  = CRM_Core_BAO_PriceSet::getSetDetail($groupId);
             $this->assign('preview_type', 'group');
         }
     }
@@ -106,10 +95,21 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-        
-        //require_once 'CRM/Core/BAO/PriceSet.php';
-        //CRM_Core_BAO_PriceSet::setDefaults( $this->_groupTree, $defaults, false, false );
-        
+        $groupId  = $this->get('groupId');
+        $fieldId  = $this->get('fieldId');
+        if ( $this->_groupTree[$groupId] ) {
+            foreach( $this->_groupTree[$groupId]['fields'] as $key => $val ) {
+                foreach ( $val['options'] as $keys => $values ) {
+                    if ( $values['is_default'] ) {
+                        if ( $val['html_type'] == 'CheckBox') {
+                            $defaults["price_{$key}"][$keys] = 1;
+                        } else {
+                            $defaults["price_{$key}"] = $keys;
+                        }
+                    }
+                }
+            }
+        }
         return $defaults;
     }
     

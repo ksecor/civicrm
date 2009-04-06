@@ -227,6 +227,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
         $params      = array( );
         $whereClause = $this->whereClause( $params, true, $this->_force );
+
         $this->pager( $whereClause, $params );
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
@@ -328,6 +329,12 @@ ORDER BY start_date desc
                 } 
                 $type = implode (',' ,$val);
             }
+
+
+
+
+
+
             
             $clauses[] = "event_type_id IN ({$type})";
         }
@@ -379,9 +386,8 @@ ORDER BY start_date desc
             }
         }
 
-        if ( empty( $clauses ) ) {
-            return 1;
-        }
+        require_once 'CRM/Core/Permission.php';
+        $clauses[] = CRM_Core_Permission::eventClause( );
 
         return implode( ' AND ', $clauses );
     }
