@@ -6,6 +6,9 @@
     
 {* Only include joomla.css in administrator (backend). Page layout style id's and classes conflict with typical front-end css and break the page layout. *}
 
+{if $config->civiUI}
+<link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
+{else}
 {if ! $config->userFrameworkFrontend}
     <link rel="stylesheet" href="{$config->resourceBase}css/joomla.css" type="text/css" />
 {else}
@@ -27,6 +30,7 @@
 {include file="CRM/common/jquery.tpl"}
 {include file="CRM/common/dojo.tpl"}
 {include file="CRM/common/action.tpl"}
+{/if}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">
