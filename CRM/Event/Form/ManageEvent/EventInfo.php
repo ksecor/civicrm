@@ -183,7 +183,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts('Max participants should be a positive number') , 'positiveInteger');
-        $this->add('textarea','event_full_text', ts('Message if Event Is Full'), $attributes['event_full_text']);
+
+        $this->add('textarea', 'event_full_text', ts('Message if Event Is Full'),          $attributes['event_full_text']);
+        $this->add('textarea', 'waitlist_text',   ts('Waitlist Message if Event Is Full'), $attributes['waitlist_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is This Event Active?') );
         

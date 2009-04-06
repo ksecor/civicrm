@@ -63,6 +63,11 @@
 			<span class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}</span></td>
 		</tr>
 		<tr>
+			<td class="label">{$form.waitlist_text.label}</td>
+			<td>{$form.waitlist_text.html}<br />
+			<span class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached, but the event offers the possibility to sign up for a waitlist.{/ts}</span></td>
+		</tr>
+		<tr>
 			<td>&nbsp;</td>
 			<td>{$form.is_map.html} {$form.is_map.label}<br />
 			<span class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href='%1'>Global Settings &raquo; Mapping</a>){/ts}</span></td>

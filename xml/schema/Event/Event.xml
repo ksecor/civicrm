@@ -449,4 +449,14 @@
     <comment>expire pending participants after this many minutes</comment>
     <add>2.2</add>
   </field>
+  <field>
+    <name>waitlist_text</name>
+    <type>text</type>
+    <htmlType>textarea</htmlType>
+    <rows>4</rows>
+    <cols>60</cols>
+    <localizable>true</localizable>
+    <comment>text to show when the event is full, but participants can sign for a waitlist</comment>
+    <add>2.2</add>
+  </field>
  </table>
