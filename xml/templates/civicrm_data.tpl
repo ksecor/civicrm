@@ -811,15 +811,15 @@ INSERT INTO civicrm_uf_field
        (10, 2, 'email', 1, 0, 1, 3, '', 'User and User Admin Only', 0, 0, NULL, NULL, '{ts escape="sql"}Email Address{/ts}', 'Contact');
 
 INSERT INTO civicrm_participant_status_type
-  (id, name,                    label,                                         class,      is_reserved, is_active, is_counted) VALUES
-  (1,  'Registered',            '{ts escape="sql"}Registered{/ts}',            'Positive', 1,           1,         1,        ),
-  (2,  'Attended',              '{ts escape="sql"}Attended{/ts}',              'Positive', 0,           1,         1,        ),
-  (3,  'No-show',               '{ts escape="sql"}No-show{/ts}',               'Negative', 0,           1,         0,        ),
-  (4,  'Cancelled',             '{ts escape="sql"}Cancelled{/ts}',             'Negative', 1,           1,         0,        ),
-  (5,  'Pending',               '{ts escape="sql"}Pending{/ts}',               'Pending',  1,           1,         1,        ),
-  (6,  'On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           1,         0,        ),
-  (7,  'Awaiting approval',     '{ts escape="sql"}Awaiting approval{/ts}',     'Waiting',  1,           1,         1,        ),
-  (8,  'Pending from waitlist', '{ts escape="sql"}Pending from waitlist{/ts}', 'Pending',  1,           1,         1,        ),
-  (9,  'Pending from approval', '{ts escape="sql"}Pending from approval{/ts}', 'Pending',  1,           1,         1,        ),
-  (10, 'Rejected',              '{ts escape="sql"}Rejected{/ts}',              'Negative', 1,           1,         0,        ),
-  (11, 'Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,        );
+  (id, name,                    label,                                         class,      is_reserved, is_active, is_counted, weight) VALUES
+  (1,  'Registered',            '{ts escape="sql"}Registered{/ts}',            'Positive', 1,           1,         1,          1     ),
+  (2,  'Attended',              '{ts escape="sql"}Attended{/ts}',              'Positive', 0,           1,         1,          2     ),
+  (3,  'No-show',               '{ts escape="sql"}No-show{/ts}',               'Negative', 0,           1,         0,          3     ),
+  (4,  'Cancelled',             '{ts escape="sql"}Cancelled{/ts}',             'Negative', 1,           1,         0,          4     ),
+  (5,  'Pending',               '{ts escape="sql"}Pending{/ts}',               'Pending',  1,           1,         1,          5     ),
+  (6,  'On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           1,         0,          6     ),
+  (7,  'Awaiting approval',     '{ts escape="sql"}Awaiting approval{/ts}',     'Waiting',  1,           1,         1,          7     ),
+  (8,  'Pending from waitlist', '{ts escape="sql"}Pending from waitlist{/ts}', 'Pending',  1,           1,         1,          8     ),
+  (9,  'Pending from approval', '{ts escape="sql"}Pending from approval{/ts}', 'Pending',  1,           1,         1,          9     ),
+  (10, 'Rejected',              '{ts escape="sql"}Rejected{/ts}',              'Negative', 1,           1,         0,          10    ),
+  (11, 'Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11    );

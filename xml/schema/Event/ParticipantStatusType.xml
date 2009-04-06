@@ -57,4 +57,11 @@
     <comment>whether this status type is counted against event size limit</comment>
     <add>2.3</add>
   </field>
+  <field>
+    <name>weight</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>controls sort order</comment>
+    <add>2.3</add>
+  </field>
 </table>
