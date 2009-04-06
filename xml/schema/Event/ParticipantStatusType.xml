@@ -57,10 +57,4 @@
     <comment>whether this status type is counted against event size limit</comment>
     <add>2.3</add>
   </field>
-  <field>
-    <name>is_expiring</name>
-    <type>boolean</type>
-    <comment>whether participant with this status type can expire</comment>
-    <add>2.3</add>
-  </field>
 </table>
