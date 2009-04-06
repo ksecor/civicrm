@@ -190,6 +190,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
             }
         }
+
+        //hack to simplify credit card entry for testing
+        $this->_defaults['credit_card_type']     = 'Visa';
+        $this->_defaults['credit_card_number']   = '4807731747657838';
+        $this->_defaults['cvv2']                 = '000';
+        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2010', 'M' => '05' );
+        
         return $this->_defaults;
     }
 
@@ -345,7 +352,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
                 $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
-                if ( isset( $form->_online ) && $form->_online ) {
+                if ( isset( $form->_online ) && $form->_online || $form->_registeredParticipant ) {
                     $element->freeze();
                 }
                 if ( $required ) {
@@ -927,11 +934,13 @@ WHERE  id IN ($optionIDs)
     {
         // CRM-3907, skip check for preview registrations
         // CRM-4167, skip check for multiple registrations from same email address setting
+        // CRM-4320 participant need to walk wizard
         if ( $self->_mode == 'test' || 
-             $self->_values['event']['allow_same_participant_emails'] == 1 ) {
+             $self->_values['event']['allow_same_participant_emails'] == 1 ||
+             $self->_registeredParticipant ) {
             return false;
         }
-
+        
         $contactID = null;
         $session =& CRM_Core_Session::singleton( );
         if( ! $isAdditional ) {
@@ -960,7 +969,7 @@ WHERE  id IN ($optionIDs)
 
             $participant->find( );
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
+            $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "is_counted = 1" );
             while ( $participant->fetch( ) ) {
                 if ( array_key_exists ( $participant->status_id, $statusTypes ) ) {
                     if ( !$isAdditional ) {

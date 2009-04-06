@@ -26,6 +26,14 @@
      <is_ssl>true</is_ssl>
   </item>
   <item>
+     <path>civicrm/event/confirm</path>
+     <title>Event Registration Confirmation</title>
+     <page_callback>CRM_Event_Form_Registration_ConfirmParticipation</page_callback>
+     <access_callback>1</access_callback>
+     <is_public>true</is_public>
+     <is_ssl>true</is_ssl>
+  </item>
+  <item>
      <path>civicrm/event/ical</path>
      <title>Upcoming Events</title>
      <page_callback>CRM_Event_Page_ICalendar</page_callback>

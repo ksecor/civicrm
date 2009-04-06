@@ -143,6 +143,16 @@ Participant {$priceset+1}
 {/if}
 {/if} {* End of conditional section for Paid events *}
 
+{if $participantId}
+===========================================================
+{ts}Confirm Your Paticipatation{/ts}
+
+===========================================================
+{capture assign=confirmUrl}{crmURL p='civicrm/event/confirm' q="reset=1&participantId=`$participantId`&cs=`$checksumValue`" a=true h=0}{/capture}
+Click this link to go to a web page where you can confirm your registration online:
+{$confirmUrl} 
+{/if}
+
 {if $customPre}
 ===========================================================
 {ts}{$customPre_grouptitle} {/ts}

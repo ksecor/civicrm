@@ -95,21 +95,18 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * @static
      */
     public static function &participantStatus( $id = null, $cond = null ) 
-    {
+    { 
         if ( self::$participantStatus === null ) {
             self::$participantStatus = array( );
         }
-
+        
         $index = $cond ? $cond : 'No Condition';
         if ( ! CRM_Utils_Array::value( $index, self::$participantStatus ) ) {
             self::$participantStatus[$index] = array( );
-            require_once "CRM/Core/OptionGroup.php";
-            $condition = null;
-
-            if ( $cond ) {
-                $condition = "AND $cond";
-            }
-            self::$participantStatus[$index] = CRM_Core_OptionGroup::values("participant_status", false, false, false, $condition);
+            require_once "CRM/Core/PseudoConstant.php";
+            CRM_Core_PseudoConstant::populate( self::$participantStatus[$index],
+                                               'CRM_Event_DAO_ParticipantStatusType',
+                                               false, 'name', 'is_active', $cond, 'id' );
         }
         
         if ( $id ) {

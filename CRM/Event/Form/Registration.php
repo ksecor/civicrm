@@ -58,6 +58,22 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     protected $_eventId;
     
     /**
+     * the id of the participant we are proceessing
+     *
+     * @var int
+     * @protected
+     */
+    protected $_participantId;
+    
+    /**
+     * is registration payment completed
+     *
+     * @var Boolean
+     * @protected
+     */
+    protected $_registeredParticipant;
+    
+    /**
      * the mode that we are in
      * 
      * @var string
@@ -139,7 +155,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     {
         $this->_eventId = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true  );
         $this->_action  = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
-
+        
+        //CRM-4320
+        $this->_participantId = CRM_Utils_Request::retrieve( 'participnatId', 'Positive', $this );
+        
         // current mode
         $this->_mode = ( $this->_action == 1024 ) ? 'test' : 'live';
         
@@ -149,6 +168,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_paymentProcessor = $this->get( 'paymentProcessor' );
         $this->_priceSetId       = $this->get( 'priceSetId' );
         $this->_priceSet         = $this->get( 'priceSet' ) ;
+        
+        //check if participant completed registration payment
+        $this->_registeredParticipant = $this->get( 'registeredParticipant' ) ;
 
         $config  =& CRM_Core_Config::singleton( );
         
@@ -162,25 +184,36 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                $this->_eventId ) ) {
                 CRM_Core_Error::statusBounce( ts( 'You do not have permission to register for this event' ), $infoUrl );
             }
-
+            
             // get all the values from the dao object
             $this->_values = array( );
             $this->_fields = array( );
-
-            //retrieve event information
-            $params = array( 'id' => $this->_eventId );
-            $ids = array();
-
-
+            
             require_once 'CRM/Event/BAO/Participant.php';
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
             if ( $eventFull ) {
                 CRM_Utils_System::redirect( $infoUrl );            
             }
-
+            
+            //retrieve event information
             require_once 'CRM/Event/BAO/Event.php';
+            $params = array( 'id' => $this->_eventId );
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
-          
+            
+            // get the participant values, CRM-4320
+            if ( $this->_participantId ) {
+                require_once 'CRM/Event/BAO/Event.php';
+                $ids = $participantValues = array( );
+                $participantParams = array( 'id' => $this->_participantId );
+                CRM_Event_BAO_Participant::getValues( $participantParams, $participantValues, $ids );
+                $this->_values['participant'] = $participantValues[$this->_participantId];
+                $allStatuses = CRM_Event_PseudoConstant::participantStatus( null, 'is_counted = 1' );
+                if ( $allStatuses[$participantValues[$this->_participantId]['status_id']] == 'Registered' ) {
+                    $this->_registeredParticipant = true;
+                    $this->set( 'registeredParticipant', true );
+                }
+            }
+            
             // also get the accounting code
             if ( CRM_Utils_Array::value( 'contribution_type_id', $this->_values['event'] ) ) {
                 $this->_values['event']['accountingCode'] =
@@ -317,7 +350,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
-
+        
         $this->assign_by_ref( 'paymentProcessor', $this->_paymentProcessor );
 
         // check if this is a paypal auto return and redirect accordingly
@@ -612,10 +645,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                     $participant->id,
                                                     'Participant' );
         
-
-   
         if ( $this->_values['event']['is_monetary'] && ( $this->_params['amount'] != 0 )
-                                                         &&  CRM_Utils_Array::value( 'contributionID', $this->_params ) ) {
+             &&  CRM_Utils_Array::value( 'contributionID', $this->_params ) ) {
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
             $paymentParams = array( 'participant_id'  => $participant->id ,
                                     'contribution_id' => $contribution->id, ); 

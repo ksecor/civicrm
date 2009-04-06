@@ -882,6 +882,12 @@ WHERE civicrm_event.is_active = 1
                 $isShowLocation = CRM_Utils_Array::value('is_show_location',$values['event']);
                 $template->assign( 'isShowLocation', $isShowLocation );
                 
+                //generate checksum for contact id and assign to template, CRM-4320
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactID );
+                $template->assign( 'checksumValue', $checksumValue );
+                $template->assign( 'participantId', $participantId );
+                
                 $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
                 $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
                 $receiptFrom = '"' . $values['event']['confirm_from_name'] . '" <' . $values['event']['confirm_from_email'] . '>';
