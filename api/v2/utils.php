@@ -704,7 +704,7 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
             } 
             break;
         case 'participant_status_id':
-            $id = CRM_Core_OptionGroup::getValue('participant_status', $value);
+            $id = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_ParticipantStatusType', $value, 'id', 'label');
             $values[$key] = $id;
             break;
         case 'participant_role_id':
