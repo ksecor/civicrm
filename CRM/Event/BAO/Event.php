@@ -448,14 +448,14 @@ LIMIT      0, 10
     {
         if ( !$status ) {
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" ); 
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, 'is_counted = 1' ); 
             $status = implode( ',', array_keys( $statusTypes ) );
             if ( !$status ) {
                 $status = 0;
             }
         } else {
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" ); 
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, 'is_counted = 0' ); 
             $status = implode( ',', array_keys( $statusTypes ) );
             if ( !$status ) {
                 $status = 0;
