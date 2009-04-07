@@ -61,9 +61,15 @@
       <import>true</import>
       <type>int unsigned</type> 
       <default>1</default>
-      <comment>Participant status ID. Implicit FK to civicrm_option_value where option_group = participant_status. Default of 1 should map to status = Registered.</comment> 
+      <comment>Participant status ID. FK to civicrm_participant_status_type. Default of 1 should map to status = Registered.</comment>
       <add>1.7</add> 
   </field>
+  <foreignKey>
+    <name>status_id</name>
+    <table>civicrm_participant_status_type</table>
+    <key>id</key>
+    <add>2.3</add>
+  </foreignKey>
   <index>
     <name>index_status_id</name>
     <fieldName>status_id</fieldName>

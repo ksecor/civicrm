@@ -40,15 +40,21 @@ ALTER TABLE `civicrm_relationship_type` CHANGE `name_a_b` `name_a_b` VARCHAR( 64
 
 BEGIN;
 
+  SELECT @ps_ogid := id FROM civicrm_option_group WHERE name = 'participant_status';
+
   INSERT INTO civicrm_participant_status_type (id,    name, label, is_reserved, is_active, is_counted, weight)
     SELECT                                     value, name, label, is_reserved, is_active, filter,     weight
-    FROM civicrm_option_value WHERE option_group_id = @participant_status_ogid;
+    FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
 
   UPDATE civicrm_participant_status_type SET class = 'Positive' WHERE name IN ('Registered', 'Attended');
   UPDATE civicrm_participant_status_type SET class = 'Negative' WHERE name IN ('No-show', 'Cancelled');
   UPDATE civicrm_participant_status_type SET class = 'Pending'  WHERE name IN ('Pending');
 
-  DELETE FROM civicrm_option_value WHERE option_group_id = @participant_status_ogid;
-  DELETE FROM civicrm_option_group WHERE              id = @participant_status_ogid;
+  DELETE FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
+  DELETE FROM civicrm_option_group WHERE              id = @ps_ogid;
+
+  ALTER TABLE civicrm_participant MODIFY status_id COMMENT 'Participant status ID. FK to civicrm_participant_status_type. Default of 1 should map to status = Registered.';
+  ALTER TABLE civicrm_participant ADD CONSTRAINT FK_civicrm_participant_status_id FOREIGN KEY (status_id) REFERENCES civicrm_participant_status_type (id);
 
 COMMIT;
+
