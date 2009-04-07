@@ -42,13 +42,13 @@
                 </td>
              </tr>
                
-        {elseif $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' }
+        {elseif $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' or $context eq 'smog'}
             { if $activityTypeDescription }  
                 <div id="help">{$activityTypeDescription}</div>
             {/if}
 
             <table class="form-layout">
-             {if $context eq 'standalone' or $context eq 'search' }
+             {if $context eq 'standalone' or $context eq 'search' or $context eq 'smog'}
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
                 </tr>
@@ -165,7 +165,7 @@
         </table>   
       </fieldset> 
 
-{if $action eq 1 or $action eq 2 or $context eq 'search'}
+{if $action eq 1 or $action eq 2 or $context eq 'search' or $context eq 'smog'}
    {*include custom data js file*}
    {include file="CRM/common/customData.tpl"}
     {literal}
