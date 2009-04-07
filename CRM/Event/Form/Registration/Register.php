@@ -191,11 +191,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
 
-        //hack to simplify credit card entry for testing
-        $this->_defaults['credit_card_type']     = 'Visa';
-        $this->_defaults['credit_card_number']   = '4807731747657838';
-        $this->_defaults['cvv2']                 = '000';
-        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2010', 'M' => '05' );
+//         //hack to simplify credit card entry for testing
+//         $this->_defaults['credit_card_type']     = 'Visa';
+//         $this->_defaults['credit_card_number']   = '4807731747657838';
+//         $this->_defaults['cvv2']                 = '000';
+//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2010', 'M' => '05' );
         
         return $this->_defaults;
     }
