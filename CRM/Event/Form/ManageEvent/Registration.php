@@ -222,13 +222,14 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function buildMailBlock(&$form ) 
     {
+        $form->registerRule( 'emailList', 'callback', 'emailList', 'CRM_Utils_Rule' );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
         $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, null, array('onclick' =>"return showHideByValue('is_email_confirm','','confirmEmail','block','radio',false);"));
         $form->add('textarea','confirm_email_text',ts('Text'), $attributes['confirm_email_text']);
-        $form->add('text','cc_confirm',ts('CC Confirmation To'));
-        $form->addRule( "cc_confirm", ts('Email is not valid.'), 'email' );  
-        $form->add('text','bcc_confirm',ts('BCC Confirmation To'));  
-        $form->addRule( "bcc_confirm", ts('Email is not valid.'), 'email' );          
+        $form->add('text','cc_confirm',ts('CC Confirmation To'), CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event', 'cc_confirm'));
+        $form->addRule( "cc_confirm", ts('Please enter a valid list of comma delimited email addresses'), 'emailList' );  
+        $form->add('text','bcc_confirm',ts('BCC Confirmation To'), CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event', 'bcc_confirm') );  
+        $form->addRule( "bcc_confirm", ts('Please enter a valid list of comma delimited email addresses'), 'emailList' );          
         $form->add('text', 'confirm_from_name', ts('Confirm From Name') );
         $form->add('text', 'confirm_from_email', ts('Confirm From Email') );  
         $form->addRule( "confirm_from_email", ts('Email is not valid.'), 'email' );

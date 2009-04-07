@@ -106,9 +106,9 @@
             <dt>{$form.confirm_from_email.label} <span class="marker">*</span></dt><dd>{$form.confirm_from_email.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}FROM email address (this must be a valid email account wiht your SMTP email service provider).{/ts}</dd>
             <dt>{$form.cc_confirm.label}</dt><dd>{$form.cc_confirm.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}You can notify event organizers of each online registration by specifying an email address to receive a cc (carbon copy).{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}You can notify event organizers of each online registration by specifying one or more email addresses to receive a carbon copy (cc). Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
             <dt>{$form.bcc_confirm.label}</dt><dd>{$form.bcc_confirm.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}You may specify an email address to receive a blind carbon copy (bcc) of the confirmation email.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}You may specify one or more email addresses to receive a blind carbon copy (bcc) of the confirmation email. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
         </dl>
         </div>
         {/strip}
