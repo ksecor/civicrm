@@ -38,7 +38,7 @@
                 {$form.enableSSL.label}
             </th>
             <td>
-                {$form.enableSSL.html} {help id='id-enable_ssl'}
+                <div class="checkboxgroup">{$form.enableSSL.html} {help id='id-enable_ssl'}</div>
             </td>
         </tr>
     </table>
