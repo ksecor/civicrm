@@ -25,8 +25,6 @@
 
 {htxt id="id-onDuplicate"}
     <p>
-    {ts}If you check the "Update" option, you can INSERT new participant records, and UPDATE existing records during the import session. If you are UPDATING existing
-    records (to update participant status after an event, for example), you will need to include a column containing the unique CiviCRM-assigned participant ID to match to the existing record.
-    This value is included whenever you Export participant records from Find Participants.{/ts}
+    {ts}If you check the "Update" option, you can INSERT new participant records, and UPDATE existing records during the import session. If you are UPDATING existing records (to update participant status after an event, for example), you will need to include a column containing the unique CiviCRM-assigned participant ID to match to the existing record. This value is included whenever you Export participant records from Find Participants.{/ts}
     </p>
 {/htxt}
