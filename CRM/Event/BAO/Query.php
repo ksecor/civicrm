@@ -415,9 +415,7 @@ class CRM_Event_BAO_Query
             break;
 
         case 'participant_status':
-            $from = " $side JOIN civicrm_option_group option_group_participant_status ON (option_group_participant_status.name = 'participant_status')";
-            $from .= " $side JOIN civicrm_option_value participant_status ON (civicrm_participant.status_id = participant_status.value 
-                               AND option_group_participant_status.id = participant_status.option_group_id ) ";
+            $from .= " $side JOIN civicrm_participant_status_type participant_status ON (civicrm_participant.status_id = participant_status.id) ";
             break;
 
         case 'participant_role':

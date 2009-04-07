@@ -206,9 +206,7 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
                                   'individual_suffix'   => 'suffix_id');
         $contributions    = array('payment_instrument'  => 'payment_instrument_id');
         $activities       = array('activity_type'       => 'activity_type_id');
-        $participant      = array('participant_role'    => 'role_id',
-                                  'participant_status'  => 'status_id'
-                                  );
+        $participant      = array('participant_role'    => 'role_id');
         $eventType        = array('event_type'          => 'event_type_id');
         $aclRole          = array('acl_role'            => 'acl_role_id');
 
