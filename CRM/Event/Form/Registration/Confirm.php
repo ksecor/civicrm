@@ -464,8 +464,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                      $value['amount']         == 0                    ||
                      $this->_contributeMode   == 'checkout'           ||
                      $this->_contributeMode   == 'notify' ||
-                     $this->_registeredParticipant ) {
-                    if ( $value['amount'] != 0 && !$this->_registeredParticipant ) {
+                     $this->_allowParticipant ) {
+                    if ( $value['amount'] != 0 && !$this->_allowParticipant ) {
                         $pending = true;
                         $value['participant_status_id'] = 5; // pending
                     }
@@ -488,7 +488,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 
                 $contribution = null;
                 $value['receive_date'] = $now;
-                if ( $this->_registeredParticipant ) {
+                if ( $this->_allowParticipant ) {
                     //get participant payment and contribution
                     $contributionID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                    $this->_participantId, 

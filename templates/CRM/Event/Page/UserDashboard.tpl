@@ -9,6 +9,7 @@
       <th>{ts}Event{/ts}</th>
       <th>{ts}Event Date(s){/ts}</th>
       <th>{ts}Status{/ts}</th>
+      <th></th>
     </tr>
      {counter start=0 skip=1 print=false}
      {foreach from=$event_rows item=row}
@@ -27,6 +28,7 @@
                 {/if}
            </td>
            <td>{$row.participant_status_id}</td>
+	   <td><a href="{crmURL p='civicrm/event/confirm' q="reset=1&participantId=`$row.participant_id`"}">{ts}Confirm Registration{/ts}</a><br/></td>
         </tr>
       {/foreach}
   </table>

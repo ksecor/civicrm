@@ -58,9 +58,11 @@ class CRM_Event_Form_Registration_ConfirmParticipation extends CRM_Event_Form_Re
         $params = array('id' => $participnatId );
         if ( $participnatId ) {
             require_once 'CRM/Event/BAO/Participant.php';
-            CRM_Core_DAO::commonRetrieve( 'CRM_Event_DAO_Participant', $params, $values, array( 'contact_id', 'event_id' ) );
+            CRM_Core_DAO::commonRetrieve( 'CRM_Event_DAO_Participant', $params, $values, 
+                                          array( 'contact_id', 'event_id', 'status_id' ) );
         }
         
+        $this->_participnatStatusId = $values['status_id'];
         $eventId = CRM_Utils_Array::value( 'event_id', $values );
         $csContactID = CRM_Utils_Array::value( 'contact_id', $values );
         
@@ -88,15 +90,27 @@ class CRM_Event_Form_Registration_ConfirmParticipation extends CRM_Event_Form_Re
      */ 
     public function buildQuickForm( )  
     { 
-        $this->addButtons(array( 
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Confirm'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
-                                array ( 'type'      => 'cancel', 
-                                        'name'      => ts('Cancel') ), 
-                                ) 
-                          );  
+        $buttons = array( );
+        require_once 'CRM/Event/PseudoConstant.php';
+        // only pending status class family able to confirm.
+        if ( array_key_exists( $this->_participnatStatusId, 
+                               CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" ) ) ) {
+            $buttons = array_merge( $buttons, array( array( 'type'      => 'next',
+                                                            'name'      => ts('Confirm'), 
+                                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                                            'isDefault' => true   ))); 
+        }
+        
+        // status class other than Negative should able to cancel registration.
+        if ( array_key_exists( $this->_participnatStatusId,
+                               CRM_Event_PseudoConstant::participantStatus( null, "class != 'Negative'" ) ) ) {
+            $buttons = array_merge( $buttons, array(array( 'type'    => 'submit',
+                                                           'name'    => ts('Cancel the registration'),
+                                                           'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')));
+        }
+        $buttons = array_merge( $buttons,  array( array ( 'type'     => 'cancel', 
+                                                          'name'     => ts('Cancel') ) ) );
+        $this->addButtons( $buttons );
     }
     
     /**
@@ -107,12 +121,25 @@ class CRM_Event_Form_Registration_ConfirmParticipation extends CRM_Event_Form_Re
      */
     public function postProcess( ) 
     {
-        //user want to walk through registration wizard.
-        if ( $this->controller->exportValue( $this->_name, '_qf_ConfirmParticipation_next' ) ) {
-            $eventId = $this->get( 'eventID' );
-            $participnatId = $this->get( 'participantID' );
+        //get the button.
+        $buttonName = $this->controller->getButtonName( );
+        $eventId = $this->get( 'eventID' );
+        $participnatId = $this->get( 'participantID' );
+        
+        if ( $buttonName == '_qf_ConfirmParticipation_next' ) {
+            //check user registration status is from pending class
             $url = CRM_Utils_System::url( 'civicrm/event/register', "reset=1&id={$eventId}&participnatId={$participnatId}" );
             CRM_Utils_System::redirect( $url );
+        } else if ( $buttonName == '_qf_ConfirmParticipation_submit' ) {
+            //need to registration status to 'cancelled'.
+            require_once 'CRM/Event/PseudoConstant.php';
+            $canceledId = array_search( 'Cancelled', CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" ) );
+            
+            //set status to cancelled 
+            CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participnatId, 'status_id', $canceledId );
+            
+            $config =& CRM_Core_Config::singleton( );
+            CRM_Core_Error::statusBounce( ts( 'Event registration have been canceled.' ), $config->userFrameworkBaseURL );
         }
     }
 }

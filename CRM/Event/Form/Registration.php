@@ -66,12 +66,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     protected $_participantId;
     
     /**
-     * is registration payment completed
+     * is participant able to walk registration wizard.
      *
      * @var Boolean
      * @protected
      */
-    protected $_registeredParticipant;
+    protected $_allowParticipant;
     
     /**
      * the mode that we are in
@@ -169,9 +169,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_priceSetId       = $this->get( 'priceSetId' );
         $this->_priceSet         = $this->get( 'priceSet' ) ;
         
-        //check if participant completed registration payment
-        $this->_registeredParticipant = $this->get( 'registeredParticipant' ) ;
-
+        //check if participant allow to walk registration wizard.
+        $this->_allowParticipant = $this->get( 'allowParticipant' );
+                
         $config  =& CRM_Core_Config::singleton( );
         
         if ( ! $this->_values ) {
@@ -207,10 +207,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $participantParams = array( 'id' => $this->_participantId );
                 CRM_Event_BAO_Participant::getValues( $participantParams, $participantValues, $ids );
                 $this->_values['participant'] = $participantValues[$this->_participantId];
-                $allStatuses = CRM_Event_PseudoConstant::participantStatus( null, 'is_counted = 1' );
-                if ( $allStatuses[$participantValues[$this->_participantId]['status_id']] == 'Registered' ) {
-                    $this->_registeredParticipant = true;
-                    $this->set( 'registeredParticipant', true );
+                
+                //allow pending status class walk registration wizard.
+                require_once 'CRM/Core/PseudoConstant.php';
+                if ( array_key_exists( $participantValues[$this->_participantId]['status_id'],
+                                       CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" ) ) ) {
+                    $this->_allowParticipant = true;
+                    $this->set( 'allowParticipant', true );
                 }
             }
             
