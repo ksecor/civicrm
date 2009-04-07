@@ -20,6 +20,7 @@
     <name>name</name>
     <type>varchar</type>
     <length>64</length>
+    <unique>true</unique>
     <comment>non-localized name of the status type</comment>
     <add>2.3</add>
   </field>
@@ -27,6 +28,7 @@
     <name>label</name>
     <type>varchar</type>
     <length>255</length>
+    <unique>true</unique>
     <localizable>true</localizable>
     <comment>localized label for display of this status type</comment>
     <add>2.3</add>
