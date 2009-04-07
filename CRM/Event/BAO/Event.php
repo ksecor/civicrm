@@ -884,7 +884,12 @@ WHERE civicrm_event.is_active = 1
                 
                 //generate checksum for contact id and assign to template, CRM-4320
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactID );
+                $checksumLife = 'inf';
+                if ( $endDate = CRM_Utils_Array::value( 'end_date', $values['event'] ) ) {
+                    $checksumLife = (CRM_Utils_Date::unixTime( $endDate )-time())/(60*60);
+                }
+                $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactID, null, $checksumLife ); 
+                
                 $template->assign( 'checksumValue', $checksumValue );
                 $template->assign( 'participantId', $participantId );
                 

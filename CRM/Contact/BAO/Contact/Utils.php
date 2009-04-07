@@ -94,7 +94,7 @@ WHERE  id IN ( $idString )
      *
      * @param int    $contactID
      * @param int    $ts         timestamp that checksum was generated
-     * @param int    $live       life of this checksum in hours
+     * @param int    $live       life of this checksum in hours/ 'inf' for infinite
      *
      * @return array ( $cs, $ts, $live )
      * @static
@@ -130,7 +130,7 @@ WHERE  id IN ( $idString )
      * @param int    $contactID
      * @param string $cs         checksum to match against
      * @param int    $ts         timestamp that checksum was generated
-     * @param int    $live       life of this checksum in hours
+     * @param int    $live       life of this checksum in hours/ 'inf' for infinite
      *
      * @return boolean           true if valid, else false
      * @static
@@ -150,6 +150,11 @@ WHERE  id IN ( $idString )
             return false;
         }
 
+        // no life limit for checksum
+        if ( $inputLF == 'inf' ) {
+            return true;
+        }
+        
         // checksum matches so now check timestamp
         $now = time( );
         return ( $inputTS + ( $inputLF * 60 * 60 ) >= $now ) ? true : false;
