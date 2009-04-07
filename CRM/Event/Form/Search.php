@@ -475,11 +475,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         if ( isset ( $status ) ) {
             if ( $status === 'true' ) {
                 require_once 'CRM/Event/PseudoConstant.php';
-                $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
+                $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "is_counted = 1" );
                 
             } elseif ( $status === 'false' ) {
                 require_once 'CRM/Event/PseudoConstant.php';
-                $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" );
+                $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "is_counted = 0" );
             }   
             $status = array( );
             foreach ( $statusTypes as $key => $value) {

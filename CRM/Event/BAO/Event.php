@@ -427,8 +427,13 @@ LIMIT      0, 10
         }
         require_once 'CRM/Event/PseudoConstant.php';
 
-        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
-        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" );
+//         $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
+//         $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" );
+        
+        //FIX ME, CRM-4320
+        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( );
+        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( );
+
         
         $eventSummary['statusDisplay'] = implode( '/', array_values( $statusTypes ) );
         $eventSummary['statusDisplayPending'] = implode( '/', array_values( $statusTypesPending ) );

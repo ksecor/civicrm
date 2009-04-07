@@ -76,8 +76,13 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         CRM_Utils_System::setTitle(ts('Configure Event - %1', array(1 => $title)));
 
         require_once 'CRM/Event/PseudoConstant.php';
-        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
-        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" );
+//         $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
+//         $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" );
+        
+        // FIM ME CRM-4320
+        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( );
+        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( );
+
         
         $findParticipants['statusCounted'] = implode( '/', array_values( $statusTypes ) );
         $findParticipants['statusNotCounted'] = implode( '/', array_values( $statusTypesPending ) );
