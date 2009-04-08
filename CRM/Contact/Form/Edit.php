@@ -773,7 +773,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     {
 
         $config =& CRM_Core_Config::singleton( );
-
+     
         if ( $config->civiHRD && ! isset( $fields['tag']) ) {
             $errors["tag"] = ts('Please select at least one tag.');
         }
@@ -829,17 +829,28 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $errors["location[$locationId][location_type_id]"] = ts('The Location Type should be set if there is any location information.');
                     }
                 }
+                
                 require_once 'CRM/Core/BAO/Location.php';
                 // for checking duplicate location type.
                 if ( CRM_Core_BAO_Location::dataExists( $fields ) ) {
-                    if ( $locTypeId ) {
-                        if ( $locTypeId == $fields['location'][$locationId]['location_type_id'] ) {
-                            $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type.');
-                        }
-                    }
-                    $locTypeId = $fields['location'][$locationId]['location_type_id'];
-                }
+                    //check for empty location block.
+                    //unset non required fields.
+                    $locationBlock = $fields['location'][$locationId];
+                    unset($locationBlock['location_type_id']);
+                    unset($locationBlock['is_primary']);
+                    unset($locationBlock['address']['country_id']);
 
+                    if ( !CRM_Utils_Array::crmIsEmptyArray( $locationBlock ) ) {
+                                        
+                        if ( $locTypeId ) {
+                            if ( $locTypeId == $fields['location'][$locationId]['location_type_id'] ) {
+                                $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type.');
+                            }
+                        }
+                        $locTypeId = $fields['location'][$locationId]['location_type_id'];
+                    }
+                }
+                
                 // check for duplicate openid
                 if ( array_key_exists( 'openid', $fields['location'][$locationId] ) &&
                      is_array( $fields['location'][$locationId]['openid'] )       ) {
@@ -874,7 +885,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      */
     static function locationDataExists( &$fields ) {
-        static $skipFields = array( 'location_type_id', 'is_primary', 'phone_type', 'provider_id' );
+        static $skipFields = array( 'location_type_id', 'is_primary', 'phone_type', 'provider_id', 'country_id' );
         foreach ( $fields as $name => $value ) {
             $skipField = false;
             foreach ( $skipFields as $skip ) {
