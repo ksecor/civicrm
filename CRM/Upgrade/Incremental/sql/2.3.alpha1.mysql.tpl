@@ -42,8 +42,8 @@ BEGIN;
 
   SELECT @ps_ogid := id FROM civicrm_option_group WHERE name = 'participant_status';
 
-  INSERT INTO civicrm_participant_status_type (id,    name, label, is_reserved, is_active, is_counted, weight)
-    SELECT                                     value, name, label, is_reserved, is_active, filter,     weight
+  INSERT INTO civicrm_participant_status_type (id,    name, label, is_reserved, is_active, is_counted, weight, visibility_id)
+    SELECT                                     value, name, label, is_reserved, is_active, filter,     weight, visibility_id
     FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
 
   UPDATE civicrm_participant_status_type SET class = 'Positive' WHERE name IN ('Registered', 'Attended');
