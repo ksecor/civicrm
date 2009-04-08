@@ -48,7 +48,11 @@ class CRM_Event_Form_EventFees
      */ 
     static function preProcess( &$form )  
     {
-        $form->_eventId    = CRM_Utils_Request::retrieve( 'eventId', 'Positive', $form );
+        //as when call come from register.php
+        if ( !$form->_eventId ) {
+            $form->_eventId  = CRM_Utils_Request::retrieve( 'eventId', 'Positive', $form );
+        }
+        
         $form->_pId        = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $form );
         $form->_discountId = CRM_Utils_Request::retrieve( 'discountId', 'Positive', $form );
     }
@@ -117,7 +121,9 @@ class CRM_Event_Form_EventFees
             $fields["email-Primary"                 ] = 1;
             
             require_once "CRM/Core/BAO/UFGroup.php";
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $form->_contactID, $fields, $form->_defaults );
+            if ( $form->_contactID ) {
+                CRM_Core_BAO_UFGroup::setProfileDefaults( $form->_contactID, $fields, $form->_defaults );
+            }
             
             $defaultAddress = array("street_address-5","city-5", "state_province_id-5", "country_id-5","postal_code-5" );
             foreach ($defaultAddress as $name) {
@@ -303,8 +309,8 @@ class CRM_Event_Form_EventFees
                 }
             }
 
-            if ( ($form->_action == CRM_Core_Action::UPDATE ) && 
-                 CRM_Utils_Array::value( 'event_id', $defaults[$form->_pId] ) ) {
+            if ( CRM_Utils_Array::value( 'event_id', $defaults[$form->_pId] ) 
+                 && ( $form->_action == CRM_Core_Action::UPDATE || $form->_allowParticipant ) ) { 
                 if ( ! empty($form->_feeBlock) ) {
                     $feeLevel = CRM_Utils_Array::value('fee_level',
                                                        $defaults[$form->_pId] );

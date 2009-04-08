@@ -152,12 +152,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
             }
         }
-
+        
         //fix for CRM-3088, default value for discount set.      
         if ( ! empty( $this->_values['discount'] ) ){
             require_once 'CRM/Core/BAO/Discount.php';
             $discountId  = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
-            
             if ( $discountId ) {
                 if ( isset( $this->_values['event']['default_discount_fee_id'] ) ) {    
                     $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", 
@@ -189,6 +188,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     }
                 }
             }
+        }
+
+        //set default participant fields, CRM-4320.
+        if ( $this->_allowParticipant ) { 
+            require_once 'CRM/Event/Form/EventFees.php';
+            $this->_contactID = $contactID;
+            CRM_Event_Form_EventFees::preProcess( $this );
+            $this->_defaults = array_merge( $this->_defaults, CRM_Event_Form_EventFees::setDefaultValues( $this ) );
         }
 
 //         //hack to simplify credit card entry for testing
@@ -548,7 +555,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //added for discount
             require_once 'CRM/Core/BAO/Discount.php';
             $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
-
+            
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
                 $params['discount_id'] = $discountId;
                 $params['amount_level'] =

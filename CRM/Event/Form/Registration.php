@@ -55,7 +55,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @var int
      * @protected
      */
-    protected $_eventId;
+    public $_eventId;
     
     /**
      * the id of the participant we are proceessing
@@ -71,7 +71,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @var Boolean
      * @protected
      */
-    protected $_allowParticipant;
+    public $_allowParticipant;
     
     /**
      * the mode that we are in
@@ -144,6 +144,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @public
      */
     public $_greetingTypeValue;
+
+    public $_action;
     
     /** 
      * Function to set variables up before form is built 
@@ -157,8 +159,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_action  = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
         
         //CRM-4320
-        $this->_participantId = CRM_Utils_Request::retrieve( 'participnatId', 'Positive', $this );
-        
+        $this->_participantId = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $this );
+                
         // current mode
         $this->_mode = ( $this->_action == 1024 ) ? 'test' : 'live';
         
