@@ -463,9 +463,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ||
                      $value['amount']         == 0                    ||
                      $this->_contributeMode   == 'checkout'           ||
-                     $this->_contributeMode   == 'notify' ||
-                     $this->_allowParticipant ) {
-                    if ( $value['amount'] != 0 && !$this->_allowParticipant ) {
+                     $this->_contributeMode   == 'notify' ) {
+                    if ( $value['amount'] != 0 ) {
                         $pending = true;
                         $value['participant_status_id'] = 5; // pending
                     }
@@ -537,8 +536,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             
             $value['fee_amount'] =  $value['amount'];
             $this->set( 'value', $value );
-            $registerDate = isset( $value['participant_register_date'] ) ?
-                CRM_Utils_Date::format( $value['participant_register_date'] ) : date( 'YmdHis' );
+            
+            // handle register date CRM-4320
+            if ( $this->_allowParticipant ) {
+                $registerDate = $params['participant_register_date'];
+            } else if ( is_array( $params['participant_register_date'] ) && !empty( $params['participant_register_date'] ) ) {
+                $registerDate = CRM_Utils_Date::format( $params['participant_register_date'] ); 
+            } else {
+                $registerDate =  date( 'YmdHis' );
+            }
             $this->assign( 'register_date', $registerDate );
             
             $this->confirmPostProcess( $contactID, $contribution, $payment );

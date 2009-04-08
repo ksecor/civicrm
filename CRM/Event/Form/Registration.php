@@ -697,15 +697,21 @@ WHERE  v.option_group_id = g.id
             $roleID = $dao->value;
         }
         
+        // handle register date CRM-4320
+        $registerDate = null;
+        if ( $this->_allowParticipant && $this->_participantId ) {
+            $registerDate = $params['participant_register_date'];
+        } else if ( is_array( $params['participant_register_date'] ) && !empty( $params['participant_register_date'] ) ) {
+            $registerDate = CRM_Utils_Date::format( $params['participant_register_date'] ); 
+        }
+        
         $participantParams = array('contact_id'    => $contactID,
                                    'event_id'      => $this->_eventId ? $this->_eventId : $params['event_id'],
                                    'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
                                                                               $params, 1 ),
                                    'role_id'       => CRM_Utils_Array::value( 'participant_role_id',
                                                                               $params, $roleID ),
-                                   'register_date' => isset( $params['participant_register_date'] ) ?
-                                   CRM_Utils_Date::format( $params['participant_register_date'] ) :
-                                   date( 'YmdHis' ),
+                                   'register_date' => ( $registerDate ) ? $registerDate : date( 'YmdHis' ),
                                    'source'        => isset( $params['participant_source'] ) ?
                                                       $params['participant_source']:$params['description'],
                                    'fee_level'     => $params['amount_level'],
