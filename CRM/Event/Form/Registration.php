@@ -71,7 +71,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @var Boolean
      * @protected
      */
-    public $_allowParticipant;
+    public $_allowConfirmation;
     
     /**
      * the mode that we are in
@@ -172,7 +172,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_priceSet         = $this->get( 'priceSet' ) ;
         
         //check if participant allow to walk registration wizard.
-        $this->_allowParticipant = $this->get( 'allowParticipant' );
+        $this->_allowConfirmation = $this->get( 'allowConfirmation' );
                 
         $config  =& CRM_Core_Config::singleton( );
         
@@ -214,8 +214,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 require_once 'CRM/Core/PseudoConstant.php';
                 if ( array_key_exists( $participantValues[$this->_participantId]['status_id'],
                                        CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" ) ) ) {
-                    $this->_allowParticipant = true;
-                    $this->set( 'allowParticipant', true );
+                    $this->_allowConfirmation = true;
+                    $this->set( 'allowConfirmation', true );
                 }
             }
             
@@ -613,10 +613,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         // add/update contact information
         $fields = array( );
         unset($this->_params['note']);
-
+        
         //to avoid conflict overwrite $this->_params
         $this->_params = $this->get('value');
-              
+        
         // create CMS user
         if ( CRM_Utils_Array::value( 'cms_create_account', $this->_params ) ) {
             $this->_params['contactID'] = $contactID;
@@ -635,9 +635,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
             $this->_params['fee_amount'] = $this->get( 'primaryParticipantAmount' );
         }
+        
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
-
+        
         //setting register_by_id field and primaryContactId
         if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
             $this->set( 'registerByID', $participant->id );
@@ -654,11 +655,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
              &&  CRM_Utils_Array::value( 'contributionID', $this->_params ) ) {
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
             $paymentParams = array( 'participant_id'  => $participant->id ,
-                                    'contribution_id' => $contribution->id, ); 
+                                    'contribution_id' => $contribution->id, );
             $ids = array();       
-            
             $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, $ids);
         }
+        
         //set only primary participant's params for transfer checkout.
         if ( ($this->_contributeMode == 'checkout'||  $this->_contributeMode == 'notify') 
              && CRM_Utils_Array::value( 'is_primary', $this->_params ) ) {
@@ -699,7 +700,7 @@ WHERE  v.option_group_id = g.id
         
         // handle register date CRM-4320
         $registerDate = null;
-        if ( $this->_allowParticipant && $this->_participantId ) {
+        if ( $this->_allowConfirmation && $this->_participantId ) {
             $registerDate = $params['participant_register_date'];
         } else if ( is_array( $params['participant_register_date'] ) && !empty( $params['participant_register_date'] ) ) {
             $registerDate = CRM_Utils_Date::format( $params['participant_register_date'] ); 

@@ -485,29 +485,20 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $value = array_merge( $value, $result );
                 }
                 
-                $contribution = null;
+                $contributionID = null;
                 $value['receive_date'] = $now;
-                if ( $this->_allowParticipant ) {
+                //if already registered participant get the
+                //contribution id and code will handle rest thing.
+                if ( $this->_allowConfirmation ) {
                     //get participant payment and contribution
                     $contributionID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                    $this->_participantId, 
                                                                    'contribution_id', 
                                                                    'participant_id');
-                    
-                    if ( $contributionID ) {
-                        require_once 'CRM/Contribute/DAO/Contribution.php';
-                        $contribution =& new CRM_Contribute_DAO_Contribution( );
-                        $contribution->id = $contributionID;
-                        if ( $contribution->find( true ) ) {
-                            $value['contributionID'    ] = $contribution->id;
-                            $value['contributionTypeID'] = $contribution->contribution_type_id; 
-                            $value['receive_date']       = $contribution->receive_date;
-                            $value['trxn_id']            = $contribution->trxn_id;
-                            
-                        }
-                        $value['participant_register_date'] = $this->_values['participant']['register_date'];
-                    }
-                } else if ( $value['amount'] != 0 && CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                    $value['participant_register_date'] = $this->_values['participant']['register_date'];
+                }
+                
+                if ( $value['amount'] != 0 && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                     // if paid event add a contribution record
                     //if primary participant contributing additional amount
                     //append (multiple participants) to its fee level. CRM-4196.
@@ -516,15 +507,21 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         $isAdditionalAmount = true;
                     }
                     
-                    $contribution =& self::processContribution( $this, $value, $result, $contactID, $pending, $isAdditionalAmount );
+                    //passing contribution id is already registered.
+                    $contribution =& self::processContribution( $this, $value, $result, $contactID, 
+                                                                $pending, $isAdditionalAmount, $contributionID );
+                    
+                    $value['contributionID'    ] = $contribution->id;
+                    $value['contributionTypeID'] = $contribution->contribution_type_id; 
+                    $value['receive_date']       = $contribution->receive_date;
+                    $value['trxn_id']            = $contribution->trxn_id;
+                    $value['contributionID'    ] = $contribution->id;
+                    $value['contributionTypeID'] = $contribution->contribution_type_id;
                 }
-                $value['contributionID'    ] = $contribution->id;
-                $value['contributionTypeID'] = $contribution->contribution_type_id;
+                $value['contactID'] = $contactID;
+                $value['eventID']   = $this->_eventId;
+                $value['item_name'] = $value['description'];
             }
-            
-            $value['contactID'] = $contactID;
-            $value['eventID']   = $this->_eventId;
-            $value['item_name'] = $value['description'];
             
             if ( !$pending && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                 // transactionID & receive date required while building email template
@@ -538,7 +535,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->set( 'value', $value );
             
             // handle register date CRM-4320
-            if ( $this->_allowParticipant ) {
+            if ( $this->_allowConfirmation ) {
                 $registerDate = $params['participant_register_date'];
             } else if ( is_array( $params['participant_register_date'] ) && !empty( $params['participant_register_date'] ) ) {
                 $registerDate = CRM_Utils_Date::format( $params['participant_register_date'] ); 
@@ -585,7 +582,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             if ( $this->_values['event']['is_monetary'] && $primaryParticipant && $payment ) {
                 $payment->doTransferCheckout( $primaryParticipant );
             }
-
+            
         } else {
             //otherwise send mail Confirmation/Receipt
             $primaryContactId = $this->get('primaryContactId');
@@ -645,7 +642,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      * @return void
      * @access public
      */
-    static function processContribution( &$form, $params, $result, $contactID, $pending = false, $isAdditionalAmount = false ) 
+    static function processContribution( &$form, $params, $result, $contactID, 
+                                         $pending = false, $isAdditionalAmount = false, $contribID = null ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
@@ -687,25 +685,34 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                     'receipt_date' => $receiptDate,
                                     );
         }
-
-        $contribParams["contribution_status_id"] = $pending ? 2 : 1;
-
+        
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $allStatuses = CRM_Contribute_PseudoConstant::contributionStatus( );
+        $contribParams["contribution_status_id"] = array_search( 'Completed', $allStatuses );
+        if ( $pending ) {
+            $contribParams["contribution_status_id"] = array_search( 'Pending', $allStatuses );
+        }
+        
+        $contribParams["is_test"] = 0;
         if( $form->_action & CRM_Core_Action::PREVIEW || CRM_Utils_Array::value( 'mode', $params ) == 'test' ) {
             $contribParams["is_test"] = 1;
         }
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $ids = array( );
-        if ( isset( $contribParams['invoice_id'] ) ) {
+        
+        // get contribution id in case of already registered participant
+        // if not pass, also need to point to original contribution record, CRM-4320 
+        if ( !$contribID && CRM_Utils_Array::value( 'invoice_id', $contribParams ) ) {
             $contribID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
                                                       $contribParams['invoice_id'],
                                                       'id',
                                                       'invoice_id' );
-            if ( isset( $contribID ) ) {
-                $ids['contribution'] = $contribID;
-                $contribParams['id'] = $contribID;
-            }
         }
-
+        
+        $ids = array( );
+        if ( $contribID ) {
+            $ids['contribution'] = $contribID;
+            $contribParams['id'] = $contribID;
+        }
+        
         require_once 'CRM/Contribute/BAO/Contribution.php';
         //create an contribution address
         if ( $form->_contributeMode != 'notify' && !CRM_Utils_Array::value('is_pay_later', $params) ) {  

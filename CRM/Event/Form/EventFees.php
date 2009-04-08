@@ -310,7 +310,7 @@ class CRM_Event_Form_EventFees
             }
 
             if ( CRM_Utils_Array::value( 'event_id', $defaults[$form->_pId] ) 
-                 && ( $form->_action == CRM_Core_Action::UPDATE || $form->_allowParticipant ) ) { 
+                 && ( $form->_action == CRM_Core_Action::UPDATE || $form->_allowConfirmation ) ) { 
                 if ( ! empty($form->_feeBlock) ) {
                     $feeLevel = CRM_Utils_Array::value('fee_level',
                                                        $defaults[$form->_pId] );

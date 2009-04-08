@@ -191,7 +191,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
 
         //set default participant fields, CRM-4320.
-        if ( $this->_allowParticipant ) { 
+        if ( $this->_allowConfirmation ) { 
             require_once 'CRM/Event/Form/EventFees.php';
             $this->_contactID = $contactID;
             CRM_Event_Form_EventFees::preProcess( $this );
@@ -359,7 +359,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
                 $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
-                if ( isset( $form->_online ) && $form->_online || $form->_allowParticipant ) {
+                if ( isset( $form->_online ) && $form->_online || $form->_allowConfirmation ) {
                     $element->freeze();
                 }
                 if ( $required ) {
@@ -944,7 +944,7 @@ WHERE  id IN ($optionIDs)
         // CRM-4320 participant need to walk wizard
         if ( $self->_mode == 'test' || 
              $self->_values['event']['allow_same_participant_emails'] == 1 ||
-             $self->_allowParticipant ) {
+             $self->_allowConfirmation ) {
             return false;
         }
         
