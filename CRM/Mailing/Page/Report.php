@@ -138,8 +138,26 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
         require_once 'CRM/Core/BAO/File.php';
         $report['mailing']['attachment'] = CRM_Core_BAO_File::attachmentInfo( 'civicrm_mailing',
                                                                               $this->_mailing_id );
-        $backUrl = CRM_Utils_System::url( 'civicrm/mailing', 'reset=1');
+
+        //assign backurl
+        $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        $cid     = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        
+        if ( $context == 'activitySelector' ) {
+            $backUrl      = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid={$cid}&selectedChild=activity" );
+            $backUrlTitle = ts( 'Back to Activities');
+        } else if( $context == 'activity' ) {
+            $atype = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
+            $aid   = CRM_Utils_Request::retrieve( 'aid',   'Positive', $this );
+            
+            $backUrl      = CRM_Utils_System::url( 'civicrm/activity/view', "atype={$atype}&action=view&reset=1&id={$aid}&cid={$cid}&context=activity" );
+            $backUrlTitle = ts( 'Back to Activity'); 
+        } else {
+            $backUrl      = CRM_Utils_System::url( 'civicrm/mailing', 'reset=1' );
+            $backUrlTitle = ts( 'Back to CiviMail' );
+        }
         $this->assign( 'backUrl', $backUrl );
+        $this->assign( 'backUrlTitle', $backUrlTitle );
 
         $this->assign( 'report', $report );
         CRM_Utils_System::setTitle( ts( 'CiviMail Report: %1',

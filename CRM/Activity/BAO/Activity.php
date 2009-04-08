@@ -108,15 +108,24 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $defaults['assignee_contact_value'] = null;
             foreach( $assignee_contact_names as $key => $name ) {
                 $defaults['assignee_contact_value'] .= $defaults['assignee_contact_value']?",\"$name\"":"\"$name\"";
+            } 
+            
+            if ($activity->activity_type_id != CRM_Core_OptionGroup::getValue( 'activity_type', 'Bulk Email', 'name' ) ) {  
+                require_once 'CRM/Activity/BAO/ActivityTarget.php';
+                $defaults['target_contact'] = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId( $activity->id );
+                $target_contact_names = CRM_Activity_BAO_ActivityTarget::getTargetNames( $activity->id );
+                
+                $defaults['target_contact_value'] = null;
+                foreach ( $target_contact_names as $key => $name ) {
+                    $defaults['target_contact_value'] .= $defaults['target_contact_value']?",\"$name\"":"\"$name\"";
+                }
+            } else if ( CRM_Core_Permission::check('access CiviMail') ) {
+                $defaults['mailingId'] = CRM_Utils_System::url( 'civicrm/mailing/report', 
+                                                                "mid={$activity->source_record_id}&reset=1&atype={$activity->activity_type_id}&aid={$activity->id}&cid={$activity->source_contact_id}&context=activity" );
+            } else {
+                $defaults['target_contact_value'] = ts('(recipients)');   
             }
-            require_once 'CRM/Activity/BAO/ActivityTarget.php';
-            $defaults['target_contact'] = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId( $activity->id );
-            $target_contact_names = CRM_Activity_BAO_ActivityTarget::getTargetNames( $activity->id );
-
-            $defaults['target_contact_value'] = null;
-            foreach ( $target_contact_names as $key => $name ) {
-                $defaults['target_contact_value'] .= $defaults['target_contact_value']?",\"$name\"":"\"$name\"";
-            }
+            
             if ( $activity->source_contact_id ) {
                 $defaults['source_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                            $activity->source_contact_id,
@@ -460,6 +469,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $params = array( );
         $clause = 1 ;
 
+        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                          'Bulk Email',
+                                                          'name' );
         if ( !$admin ) {
             $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case_contact.contact_id = %1 ) ";
             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
@@ -580,7 +592,15 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while($dao->fetch()) {
             foreach( $selectorFields as $dc => $field ) {
                 if ( isset($dao->$field ) ) {
-                    $values[$rowCnt][$field] = $dao->$field;
+                    if ( $activityTypeID == $dao->activity_type_id && $field == 'target_contact_name' ) {
+                        $values[$rowCnt]['recipients'] = ts('(recipients)');
+                        if ( CRM_Core_Permission::check('access CiviMail') ) {
+                            $values[$rowCnt]['mailingId'] = CRM_Utils_System::url( 'civicrm/mailing/report', 
+                                                                "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" );   
+                        }
+                    } else {
+                        $values[$rowCnt][$field] = $dao->$field;
+                    }
                 }
             }
             $rowCnt++;

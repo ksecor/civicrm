@@ -134,7 +134,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                    $activityTypeId == CRM_Utils_Array::value( 'Pledge Reminder', $activityTypeIds ) ) { //pledge acknowledgment
             $url      = 'civicrm/contact/view/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
-        } elseif ( $activityTypeId == $activityTypeIds['Email'] ) {
+        } elseif ( $activityTypeId == $activityTypeIds['Email'] ||  $activityTypeId == $activityTypeIds['Bulk Email'] ) {
             $url      = 'civicrm/activity/view';
             $delUrl   = 'civicrm/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
@@ -197,7 +197,17 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                                        'qs'       => $qsDetach,
                                                                        'title'    => ts('Detach Activity') ) );
         }
-
+        
+        if ( $activityTypeId == $activityTypeIds['Bulk Email'] && CRM_Core_Permission::check('access CiviMail') ) {
+            self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::BROWSE => 
+                                                                 array(
+                                                                       'name'     => ts('Mailing Report'),
+                                                                       'url'      => 'civicrm/mailing/report',
+                                                                       'qs'       => "mid={$sourceRecordId}&reset=1&cid=%%cid%%&context=activitySelector",
+                                                                       'title'    => ts('View Mailing Report'),
+                                                                       ));    
+        }
+        
         return self::$_actionLinks;
     }
 

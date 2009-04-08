@@ -155,7 +155,7 @@
 {/strip}
 </fieldset>
 <div class="action-link">
-    <a href="{$backUrl}" >&raquo; {ts}Back to CiviMail{/ts}</a>
+    <a href="{$backUrl}" >&raquo; {$backUrlTitle}</a>
 </div>
 
 

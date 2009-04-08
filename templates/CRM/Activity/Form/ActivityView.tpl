@@ -1,4 +1,4 @@
-<div class="form-item">  
+<div class="form-item">
    <fieldset> <legend>{ts}View{/ts} {$activityTypeName}</legend>
       {if $activityTypeDescription}
         <div id="help">{$activityTypeDescription}</div>
@@ -6,10 +6,17 @@
       <table class="form-layout">
         <tr>
             <td class="label">{ts}Added By{/ts}</td><td class="view-value">{$values.source_contact}</td>
-        </tr>  
-        <tr>
-            <td class="label">{ts}With Contact{/ts}</td><td class="view-value">{$values.target_contact_value}</td>
-        </tr>  
+        </tr> 
+       {if $values.target_contact_value} 
+           <tr>
+                <td class="label">{ts}With Contact{/ts}</td><td class="view-value">{$values.target_contact_value}</td>
+           </tr>
+       {/if}
+       {if $values.mailingId}
+           <tr>
+                <td class="label">{ts}With Contact{/ts}</td><td class="view-value"><a href="{$values.mailingId}" title="{ts}View Mailing Report{/ts}">&raquo;{ts}Mailing Report{/ts}</a></td>
+           </tr>
+       {/if} 
         <tr>
             <td class="label">{ts}Subject{/ts}</td><td class="view-value">{$values.subject}</td>
         </tr>  

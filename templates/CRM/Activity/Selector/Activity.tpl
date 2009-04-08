@@ -42,7 +42,11 @@
         </td>
 
         <td>
-        {if !$row.target_contact_name}
+        {if $row.mailingId}
+          <a href="{$row.mailingId}" title="{ts}View Mailing Report{/ts}">{$row.recipients}</a>
+        {elseif $row.recipients}
+          {$row.recipients}
+        {elseif !$row.target_contact_name}
           <em>n/a</em>
         {elseif $contactId NEQ $row.target_contact_id}
           <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}" title="{ts}View contact{/ts}">{$row.target_contact_name}</a>
