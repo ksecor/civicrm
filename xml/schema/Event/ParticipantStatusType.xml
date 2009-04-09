@@ -69,7 +69,7 @@
   <field>
     <name>visibility_id</name>
     <type>int unsigned</type>
-    <comment>whether the status type is visible to the public; an implicit foreign key to option_value.value related to the 'visibility' option_group</comment>
+    <comment>whether the status type is visible to the public; an implicit foreign key to option_value.value related to the `visibility` option_group</comment>
     <add>2.3</add>
   </field>
 </table>
