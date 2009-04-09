@@ -263,7 +263,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      * @param string $sort     the sql string that describes the sort order
      * @param enum   $output   what should the result set include (web/email/csv)
      *
-     * @return int   the total number of rows for this action
+     * @return array  rows in the given offset and rowCount
      */
      function &getRows($action, $offset, $rowCount, $sort, $output = null) 
      {
@@ -284,7 +284,8 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
          require_once 'CRM/Event/BAO/Event.php';
          require_once 'CRM/Event/PseudoConstant.php';
-         $statusTypes  = CRM_Event_PseudoConstant::participantStatus( );
+         $statusTypes   = CRM_Event_PseudoConstant::participantStatus();
+         $statusClasses = CRM_Event_PseudoConstant::participantStatusClass();
 
          $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
@@ -297,17 +298,17 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              }
              
              // gross hack to show extra information for pending status
-             $statusId = array_search( $row['participant_status_id'], $statusTypes );
-             
-             if ( $result->participant_is_pay_later && $statusId == 5 ) {
-                 $row['participant_status_id'] .= ' ( Pay Later ) ';
-             } else if ( $statusId == 5 ) {
-                 $row['participant_status_id'] .= ' ( Incomplete Transaction ) ';
+             $statusId    = array_search($row['participant_status_id'], $statusTypes);
+             $statusClass = $statusClasses[$statusId];
+
+             $extraInfo = array();
+             if ($statusClass == 'Pending') {
+                 $extraInfo[] = ts('Incomplete Transaction');
+                 if ($result->participant_is_pay_later) $extraInfo[] = ts('Pay Later');
              }             
-             
-             if ( CRM_Utils_Array::value( "participant_is_test", $row ) ) {
-                 $row['participant_status_id'] .= ' (test)';
-             }
+             if (CRM_Utils_Array::value('participant_is_test', $row)) $extraInfo[] = ts('test');
+
+             if ($extraInfo) $row['participant_status_id'] .= ' (' . implode(', ', $extraInfo) . ')';
 
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
              

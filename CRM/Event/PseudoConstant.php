@@ -115,6 +115,22 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
         
         return self::$participantStatus[$index];
     }
+
+    /**
+     * Return a status-type-keyed array of status classes
+     *
+     * @return array  of status classes, keyed by status type
+     */
+    static function &participantStatusClass()
+    {
+        static $statusClasses = null;
+
+        if ($statusClasses === null) {
+            self::populate($statusClasses, 'CRM_Event_DAO_ParticipantStatusType', true, 'class');
+        }
+
+        return $statusClasses;
+    }
     
     /**
      * Get all the n participant roles
