@@ -149,7 +149,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                     $required );
         //add buttons
         $js = null;
-        if ( $this->isLastParticipant( true ) ) {
+        if ( $this->isLastParticipant( true ) && !CRM_Utils_Array::value('is_monetary', $this->_values['event']) ) {
            $js = array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" );  
         }
        
