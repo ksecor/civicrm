@@ -1,3 +1,5 @@
+;(function($) {
+
 // Keep track of all header cells.
 var cells = [];
 
@@ -118,3 +120,5 @@ $.fn.y = function(n) {
   });
   return result;
 };
+
+})(jQuery);
