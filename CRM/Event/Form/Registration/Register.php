@@ -75,6 +75,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $this->_availableRegistrations ) {
             $this->assign( 'availableRegistrations', $this->_availableRegistrations );
         }
+
+        // get the participant values from EventFees.php, CRM-4320
+        if ( $this->_allowConfirmation ) {
+            require_once 'CRM/Event/Form/EventFees.php';
+            CRM_Event_Form_EventFees::preProcess( $this );
+        }
     }
 
     /**
@@ -99,7 +105,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 foreach ( $this->_fields as $name => $dontCare ) {
                     if ( substr( $name, 0, 7 ) == 'custom_' ) {  
                         $id = substr( $name, 7 );
-                        if ( ! CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
+                        if ( !$this->_allowConfirmation && 
+                             !CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
                             continue;
                         }
                     } else if ( ( substr( $name, 0, 12 ) == 'participant_' ) ) { //ignore component fields
@@ -194,7 +201,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $this->_allowConfirmation ) { 
             require_once 'CRM/Event/Form/EventFees.php';
             $this->_contactID = $contactID;
-            CRM_Event_Form_EventFees::preProcess( $this );
             $this->_defaults = array_merge( $this->_defaults, CRM_Event_Form_EventFees::setDefaultValues( $this ) );
         }
 
@@ -359,7 +365,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
                 $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
-                if ( isset( $form->_online ) && $form->_online || $form->_allowConfirmation ) {
+                if ( isset( $form->_online ) && $form->_online ) {
                     $element->freeze();
                 }
                 if ( $required ) {
