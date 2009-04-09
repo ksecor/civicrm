@@ -28,7 +28,9 @@
                 {/if}
            </td>
            <td>{$row.participant_status_id}</td>
-	   <td><a href="{crmURL p='civicrm/event/confirm' q="reset=1&participantId=`$row.participant_id`"}">{ts}Confirm Registration{/ts}</a><br/></td>
+	   {if $row.showConfirmUrl}
+           <td><a href="{crmURL p='civicrm/event/confirm' q="reset=1&participantId=`$row.participant_id`"}">{ts}Confirm Registration{/ts}</a><br/></td>
+	   {/if}
         </tr>
       {/foreach}
   </table>
