@@ -75,11 +75,19 @@ class CRM_Activity_Form_ActivityView extends CRM_Core_Form
         $this->assign( 'activityTypeName', $activityTypeName );
         $this->assign( 'activityTypeDescription', $activityTypeDescription );
         
+        if (  CRM_Utils_Array::value('mailingId', $defaults) ) {
+            $this->_mailing_id = CRM_Utils_Array::value( 'source_record_id', $defaults );
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            $mailingReport =& CRM_Mailing_BAO_Mailing::report( $this->_mailing_id, true );
+            CRM_Mailing_BAO_Mailing::getMailingContent( $mailingReport, $this ); 
+            $this->assign( 'mailingReport', $mailingReport );
+        }
+
         foreach ( $defaults as $key => $value ) {
             if ( substr( $key, -3)  != '_id' ) {
                 $values[$key] = $value;
             }
-        }
+        }  
         
         require_once 'CRM/Core/BAO/File.php';
         $values['attachment'] = CRM_Core_BAO_File::attachmentInfo( 'civicrm_activity',

@@ -22,10 +22,57 @@
         </tr>  
         <tr>
             <td class="label">{ts}Date and Time{/ts}</td><td class="view-value">{$values.activity_date_time|crmDate }</td>
-        </tr>  
-        <tr>
-            <td class="label">{ts}Details{/ts}</td><td class="view-value report">{$values.details}</td>
-        </tr>  
+        </tr> 
+        {if $values.mailingId}
+            <tr>
+                <td class="label">{ts}Details{/ts}</td>
+                <td class="view-value report">
+                    
+                    <fieldset>
+                    <legend>{ts}Content / Components{/ts}</legend>
+                    {strip}
+                    <table class="form-layout-compressed">
+                      {if $mailingReport.mailing.body_text}
+                          <tr>
+                              <td class="label nowrap">{ts}Text Message{/ts}</td>
+                              <td>
+                                  {$mailingReport.mailing.body_text|truncate:30|escape|nl2br}
+                                  <br />
+                                  <strong><a href='{$textViewURL}'>&raquo; {ts}View complete message{/ts}</a></strong>
+                              </td>
+                          </tr>
+                      {/if}
+
+                      {if $mailingReport.mailing.body_html}
+                          <tr>
+                              <td class="label nowrap">{ts}HTML Message{/ts}</td>
+                              <td>
+                                  {$mailingReport.mailing.body_html|truncate:30|escape|nl2br}
+                                  <br/>                         
+                                  <strong><a href='{$htmlViewURL}'>&raquo; {ts}View complete message{/ts}</a></strong>
+                              </td>
+                          </tr>
+                      {/if}
+
+                      {if $mailingReport.mailing.attachment}
+                          <tr>
+                              <td class="label nowrap">{ts}Attachments{/ts}</td>
+                              <td>
+                                  {$mailingReport.mailing.attachment}
+                              </td>
+                              </tr>
+                      {/if}
+                      
+                    </table>
+                    {/strip}
+                    </fieldset>
+                </td>
+            </tr>  
+        {else}
+             <tr>
+                 <td class="label">{ts}Details{/ts}</td><td class="view-value report">{$values.details}</td>
+             </tr>
+        {/if}  
 {if $values.attachment}
         <tr>
             <td class="label">{ts}Attachment(s){/ts}</td><td class="view-value report">{$values.attachment}</td>

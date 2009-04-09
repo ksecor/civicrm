@@ -1271,12 +1271,13 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
      * Generate a report.  Fetch event count information, mailing data, and job
      * status.
      *
-     * @param int $id       The mailing id to report
+     * @param int     $id          The mailing id to report
+     * @param boolean $skipDetails whether return all detailed report
      * @return array        Associative array of reporting data
      * @access public
      * @static
      */
-    public static function &report($id) {
+    public static function &report( $id, $skipDetails = false ) {
         $mailing_id = CRM_Utils_Type::escape($id, 'Integer');
         
         $mailing =& new CRM_Mailing_BAO_Mailing();
@@ -1325,6 +1326,11 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             $report['mailing'][$field] = $mailing->$field;
         }
 
+        //mailing report is called by activity
+        //we dont need all detail report
+        if ( $skipDetails ) {
+            return $report;
+        }
 
         /* Get the component info */
         $query = array();
@@ -2017,6 +2023,66 @@ SELECT  $mailing.id as mailing_id
         
         return $mailingIDs;
     }
+
+    /**
+     * Get the content/components of mailing based on mailing Id
+     *
+     * @param $report array of mailing report
+     * 
+     * @param $form reference of this  
+     *
+     * @return $report array content/component.
+     * @access public
+     */
+    public function getMailingContent( &$report, &$form ) 
+    {
+        require_once 'CRM/Mailing/BAO/Component.php';
+        if ($report['mailing']['header_id']) { 
+            $header = new CRM_Mailing_BAO_Component();
+            $header->id = $report['mailing']['header_id'];
+            $header->find(true);
+            $htmlHeader = $header->body_html;
+            $textHeader = $header->body_text;
+        }
+        
+        if ($report['mailing']['footer_id']) { 
+            $footer = new CRM_Mailing_BAO_Component();
+            $footer->id = $report['mailing']['footer_id'];
+            $footer->find(true);
+            $htmlFooter = $footer->body_html;
+            $textFooter = $footer->body_text;
+        }
+        
+        $text = CRM_Utils_Request::retrieve( 'text', 'Boolean', $form );
+        if ( $text ) {
+            echo "<pre>{$textHeader}</br>{$report['mailing']['body_text']}</br>{$textFooter}</pre>";
+            exit( );
+        }
+        
+        $html = CRM_Utils_Request::retrieve( 'html', 'Boolean', $form );
+        if ( $html ) {
+            echo $htmlHeader . $report['mailing']['body_html'] . $htmlFooter;
+            exit( );
+        }
+        
+        if ( ! empty( $report['mailing']['body_text'] ) ) {
+            $url   = CRM_Utils_System::url( 'civicrm/mailing/report', 'reset=1&text=1&mid=' . $form->_mailing_id );
+            $popup =  "javascript:popUp(\"$url\");";
+            $form->assign( 'textViewURL' , $popup  );
+        }
+        
+        if ( ! empty( $report['mailing']['body_html'] ) ) {
+            $url   = CRM_Utils_System::url( 'civicrm/mailing/report', 'reset=1&html=1&mid=' . $form->_mailing_id );
+            $popup =  "javascript:popUp(\"$url\");";
+            $form->assign( 'htmlViewURL' , $popup  );
+        }
+        
+        require_once 'CRM/Core/BAO/File.php';
+        $report['mailing']['attachment'] = CRM_Core_BAO_File::attachmentInfo( 'civicrm_mailing',
+                                                                              $form->_mailing_id );
+        return $report;
+    }
+
 }
 
 

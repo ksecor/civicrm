@@ -94,51 +94,9 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
         if ( count($report['jobs']) > 1 ) {
             CRM_Core_Error::statusBounce(ts('Selected Mailing has more than one live job.'));
         }   
+        //get contents of mailing
+        CRM_Mailing_BAO_Mailing::getMailingContent( $report, $this ); 
         
-        require_once 'CRM/Mailing/BAO/Component.php';
-        if ($report['mailing']['header_id']) { 
-            $header = new CRM_Mailing_BAO_Component();
-            $header->id = $report['mailing']['header_id'];
-            $header->find(true);
-            $htmlHeader = $header->body_html;
-            $textHeader = $header->body_text;
-        }
-        if ($report['mailing']['footer_id']) { 
-            $footer = new CRM_Mailing_BAO_Component();
-            $footer->id = $report['mailing']['footer_id'];
-            $footer->find(true);
-            $htmlFooter = $footer->body_html;
-            $textFooter = $footer->body_text;
-        }
-
-        $text = CRM_Utils_Request::retrieve( 'text', 'Boolean', $this );
-        if ( $text ) {
-            echo "<pre>{$textHeader}</br>{$report['mailing']['body_text']}</br>{$textFooter}</pre>";
-            exit( );
-        }
-
-        $html = CRM_Utils_Request::retrieve( 'html', 'Boolean', $this );
-        if ( $html ) {
-            echo $htmlHeader . $report['mailing']['body_html'] . $htmlFooter;
-            exit( );
-        }
-
-        if ( ! empty( $report['mailing']['body_text'] ) ) {
-            $url   = CRM_Utils_System::url( 'civicrm/mailing/report', 'reset=1&text=1&mid=' . $this->_mailing_id );
-            $popup =  "javascript:popUp(\"$url\");";
-            $this->assign( 'textViewURL' , $popup  );
-        }
-
-        if ( ! empty( $report['mailing']['body_html'] ) ) {
-            $url   = CRM_Utils_System::url( 'civicrm/mailing/report', 'reset=1&html=1&mid=' . $this->_mailing_id );
-            $popup =  "javascript:popUp(\"$url\");";
-            $this->assign( 'htmlViewURL' , $popup  );
-        }
-
-        require_once 'CRM/Core/BAO/File.php';
-        $report['mailing']['attachment'] = CRM_Core_BAO_File::attachmentInfo( 'civicrm_mailing',
-                                                                              $this->_mailing_id );
-
         //assign backurl
         $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         $cid     = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
