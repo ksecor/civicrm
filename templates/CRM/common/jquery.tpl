@@ -15,6 +15,9 @@
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tableHeader.js"></script>
 
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tablednd.js"></script>
-
+{if $context eq 'search' || $context eq 'smog'}
+    {*allow select/unselect checkboxes functionality only for search*}
+    <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/checkboxselect.js"></script>
+{/if}
 <script type="text/javascript" src="{$config->resourceBase}packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script>
