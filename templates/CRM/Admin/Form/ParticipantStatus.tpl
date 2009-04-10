@@ -31,7 +31,7 @@
 
         <tr><td class="label">{$form.weight.label}</td><td>{$form.weight.html}</td></tr>
 
-        <tr><td class="label">{$form.visibility.label}</td><td>{$form.visibility.html}</td></tr>
+        <tr><td class="label">{$form.visibility_id.label}</td><td>{$form.visibility_id.html}</td></tr>
 
         <tr><td class="label">&nbsp;</td><td>{$form.buttons.html}</td></tr>
       </table>

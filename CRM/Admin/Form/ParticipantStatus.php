@@ -64,7 +64,7 @@ class CRM_Admin_Form_ParticipantStatus extends CRM_Admin_Form
         $this->add('text', 'weight',  ts('Weight'),  $attributes['weight'], true);
 
         require_once 'CRM/Core/PseudoConstant.php';
-        $this->add('select', 'visibility', ts('Visibility'), CRM_Core_PseudoConstant::visibility(), true);
+        $this->add('select', 'visibility_id', ts('Visibility'), CRM_Core_PseudoConstant::visibility(), true);
     }
 
     function setDefaultValues()
