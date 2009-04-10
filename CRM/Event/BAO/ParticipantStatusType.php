@@ -75,6 +75,21 @@ class CRM_Event_BAO_ParticipantStatusType extends CRM_Event_DAO_ParticipantStatu
 #       return self::defaultDAO()->localpart;
 #   }
 
+    static function deleteParticipantStatusType($id)
+    {
+        // return early if there are participants with this status
+        require_once 'CRM/Event/DAO/Participant.php';
+        $participant = new CRM_Event_DAO_Participant;
+        $participant->status_id = $id;
+        if ($participant->find()) return false;
+
+        $dao = new CRM_Event_DAO_ParticipantStatusType;
+        $dao->id = $id;
+        $dao->find(true);
+        $dao->delete();
+        return true;
+    }
+
     static function retrieve(&$params, &$defaults)
     {
         $result = null;
@@ -87,6 +102,11 @@ class CRM_Event_BAO_ParticipantStatusType extends CRM_Event_DAO_ParticipantStatu
         }
 
         return $result;
+    }
+
+    static function setIsActive($id, $isActive)
+    {
+        return CRM_Core_DAO::setFieldValue('CRM_Event_BAO_ParticipantStatusType', $id, 'is_active', $isActive);
     }
 
 #   /**

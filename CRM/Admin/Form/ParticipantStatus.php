@@ -67,11 +67,22 @@ class CRM_Admin_Form_ParticipantStatus extends CRM_Admin_Form
         $this->add('select', 'visibility', ts('Visibility'), CRM_Core_PseudoConstant::visibility(), true);
     }
 
+    function setDefaultValues()
+    {
+        $defaults = parent::setDefaultValues();
+        $this->_isReserved = $defaults['is_reserved'];
+        if ($this->_isReserved) $this->freeze(array('name', 'class', 'is_active'));
+        return $defaults;
+    }
+
     function postProcess()
     {
         if ($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Event_BAO_ParticipantStatusType::deleteParticipantStatusType($this->_id);
-            CRM_Core_Session::setStatus(ts('Selected Participant Status has been deleted.'));
+            if (CRM_Event_BAO_ParticipantStatusType::deleteParticipantStatusType($this->_id)) {
+                CRM_Core_Session::setStatus(ts('Selected participant status has been deleted.'));
+            } else {
+                CRM_Core_Session::setStatus(ts('Selected participant status has <strong>NOT</strong> been deleted; there are still participants with this status.'));
+            }
             return;
         }
 
@@ -86,6 +97,9 @@ class CRM_Admin_Form_ParticipantStatus extends CRM_Admin_Form
             'weight'        => CRM_Utils_Array::value('weight',        $formValues),
             'visibility_id' => CRM_Utils_Array::value('visibility_id', $formValues),
         );
+
+        // make sure a malicious POST does not change these on reserved statuses
+        if ($this->_isReserved) unset($params['name'], $params['class'], $params['is_active']);
 
         if ($this->_action & CRM_Core_Action::UPDATE) $params['id'] = $this->_id;
 
