@@ -12,16 +12,18 @@
             <th></th>
             <th>{ts}Item{/ts}</th>
             <th>{ts}Max Bid{/ts}</th>
-            <th>{ts}Retail Value{/ts}</th>
             <th>{ts}Buy Now Price{/ts}</th>
+            <th>{ts}Retail Value{/ts}</th>
+            <th>{ts}Bidding Ends On{/ts}</th>
          </tr>
         {foreach from=$rows item=row}
           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td><img src="{$config->resourceBase}i/contribute/default_premium.jpg" width="70px" height="50px"/></td>
             <td>{$row.title}</td>
             <td>{$row.max_bid|crmMoney}</td>
-            <td>{$row.retail_value|crmMoney}</td>
             <td>{if $row.buy_now_value}{$row.buy_now_value|crmMoney} &nbsp;&raquo; <a href="#">buy now</a>{/if}</td>
+            <td>{$row.retail_value|crmMoney}</td>
+            <td>{$row.bid_end_date|crmDate}</td>
           </tr>
         {/foreach}    
         </table>
