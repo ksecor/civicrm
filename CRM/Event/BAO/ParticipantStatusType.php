@@ -79,7 +79,7 @@ class CRM_Event_BAO_ParticipantStatusType extends CRM_Event_DAO_ParticipantStatu
     {
         $result = null;
 
-        $dao = new CRM_Event_DAO_ParticipantStatusType();
+        $dao = new CRM_Event_DAO_ParticipantStatusType;
         $dao->copyValues($params);
         if ($dao->find(true)) {
             CRM_Core_DAO::storeValues($dao, $defaults);

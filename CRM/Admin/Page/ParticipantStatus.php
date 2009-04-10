@@ -60,6 +60,18 @@ class CRM_Admin_Page_ParticipantStatus extends CRM_Core_Page_Basic
                     'qs'    => 'action=delete&id=%%id%%',
                     'title' => ts('Delete Status'),
                 ),
+                CRM_Core_Action::DISABLE => array(
+                    'name'  => ts('Disable'),
+                    'url'   => 'civicrm/admin/participant_status',
+                    'qs'    => 'action=disable&id=%%id%%',
+                    'title' => ts('Disable Status'),
+                ),
+                CRM_Core_Action::ENABLE => array(
+                    'name'  => ts('Enable'),
+                    'url'   => 'civicrm/admin/participant_status',
+                    'qs'    => 'action=enable&id=%%id%%',
+                    'title' => ts('Enable Status'),
+                ),
             );
         }
         return $links;
@@ -72,11 +84,18 @@ class CRM_Admin_Page_ParticipantStatus extends CRM_Core_Page_Basic
         $dao = new CRM_Event_DAO_ParticipantStatusType;
         $dao->find();
 
+        $visibilities =& CRM_Core_PseudoConstant::visibility();
+
         while ($dao->fetch()) {
             CRM_Core_DAO::storeValues($dao, $statusTypes[$dao->id]);
             $action = array_sum(array_keys($this->links()));
-            if ($dao->is_reserved) $action &= ~CRM_Core_Action::DELETE;
+            if ($dao->is_reserved) {
+                $action &= ~CRM_Core_Action::DELETE;
+                $action &= ~CRM_Core_Action::DISABLE;
+            }
+            $action &= $dao->is_active ? ~CRM_Core_Action::ENABLE : ~CRM_Core_Action::DISABLE;
             $statusTypes[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, array('id' => $dao->id));
+            $statusTypes[$dao->id]['visibility'] = $visibilities[$dao->visibility_id];
         }
         $this->assign('rows', $statusTypes);
     }

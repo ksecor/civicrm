@@ -21,9 +21,9 @@
           <td>{$row.name}</td>
           <td>{$row.label}</td>
           <td>{$row.class}</td>
-          <td>{if $row.is_reserved}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-          <td>{if $row.is_active}  {ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-          <td>{if $row.is_counted} {ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
+          <td class="yes-no">{if $row.is_reserved}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Reserved{/ts}" />{/if}</td>
+          <td class="yes-no">{if $row.is_active}  <img src="{$config->resourceBase}/i/check.gif" alt="{ts}Active{/ts}" />{/if}</td>
+          <td class="yes-no">{if $row.is_counted} <img src="{$config->resourceBase}/i/check.gif" alt="{ts}Counted{/ts}" />{/if}</td>
           <td>{$row.weight}</td>
           <td>{$row.visibility}</td>
           <td>{$row.action|replace:'xx':$row.id}</td>

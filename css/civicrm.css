@@ -636,6 +636,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   background-color: #ffff99;
 }
 
+#crm-container td.yes-no {
+  text-align: center;
+}
+
 #crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue, #crm-container .status-hold {
   color: #FF0105;
 }
