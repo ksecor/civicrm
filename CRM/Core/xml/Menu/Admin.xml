@@ -195,6 +195,16 @@
      <weight>270</weight>
   </item>
   <item>
+     <path>civicrm/admin/options/from_email_address</path>
+     <title>From Email Addresses</title>
+     <desc>List of Email Addresses which can be used when sending emails to contacts.</desc>
+     <path_arguments>group=from_email_address</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Configure</adminGroup>
+     <icon>admin/small/title.png</icon>
+     <weight>275</weight>
+  </item>
+  <item>
      <path>civicrm/admin/setting/updateConfigBackend</path>
      <title>Update Directory Path and URL</title>
      <desc>Reset the Base Directory Path and Base URL settings - generally when a CiviCRM site is moved to another location in the file system and/or to another domain.</desc>
@@ -258,16 +268,6 @@
      <adminGroup>Option Lists</adminGroup>
      <icon>admin/small/10.png</icon>
      <weight>340</weight>
-  </item>
-  <item>
-     <path>civicrm/admin/options/from_email_address</path>
-     <title>From Email Addresses</title>
-     <desc>List of Email Addresses which can be used when sending emails to contacts.</desc>
-     <path_arguments>group=from_email_address</path_arguments>
-     <page_callback>CRM_Admin_Page_Options</page_callback>
-     <adminGroup>Option Lists</adminGroup>
-     <icon>admin/small/title.png</icon>
-     <weight>345</weight>
   </item>
   <item>
      <path>civicrm/admin/options/instant_messenger_service</path>
