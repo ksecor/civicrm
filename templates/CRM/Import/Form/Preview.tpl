@@ -1,9 +1,22 @@
 {if $config->userFramework ne 'Joomla'}
 <script type="text/javascript">
-    {literal}
+{literal}
+cj(document).ready(function() {
+    var imageBase = "{/literal}{$config->resourceBase}{literal}packages/jquery/plugins/images/";
+    cj("#importProgressBar").progressBar({
+        boxImage:       imageBase + 'progressbar.gif',
+        barImage: { 0 : imageBase + 'progressbg_red.gif',
+                    20: imageBase + 'progressbg_orange.gif',
+                    50: imageBase + 'progressbg_yellow.gif',
+                    70: imageBase + 'progressbg_green.gif'
+                  },
+	  });
+});
+{/literal}
+</script>
 
-    dojo.require("dijit.ProgressBar");
-    dojo.require("dojo.parser");
+<script type="text/javascript">
+  {literal}
     var finished = 0;
 
     setFinished = function(data, ioArgs) {
@@ -37,12 +50,9 @@
            var inter = document.getElementById("intermediate");
            var dataStr = response.toString();
            var result  = dataStr.split(",");
-
            inter.innerHTML = result[1];
-           var bar =  dijit.byId("importProgressBar");
-           bar.domNode.style.display = "block";	
-           bar.update({progress :result[0]});
-           
+	   cj("#importProgressBar").css( 'display', 'block' );
+	   cj("#importProgressBar").progressBar( result[0] );
         });
     }
 
@@ -92,10 +102,9 @@
         }
     }
 
-    dojo.addOnLoad( function( ) {
-        dojo.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
-        dijit.byId("importProgressBar").domNode.style.display = "none";
-    } );
+     dojo.addOnLoad( function( ) {
+       dojo.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
+     } );
 
     {/literal}
 </script>
@@ -146,10 +155,8 @@ function verify( )
 <h3>Importing records...</h3>
 <br />
 </div>
-<div class ="tundra">
-<div style="width:400px" maximum="100" progress="0" id="importProgressBar" dojoType="dijit.ProgressBar" annotate="true">
-</div>
-</div>
+
+<div class="progressBar" id="importProgressBar" style="margin-left:45px;display:none;"></div>
 
 <div id="intermediate"></div>
 
