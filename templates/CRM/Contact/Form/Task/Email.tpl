@@ -8,7 +8,7 @@
 {/if}
 <table class="form-layout-compressed">
 <tr>
-    <td class="label">{$form.fromEmailAddress.label}</td><td>{$form.fromEmailAddress.html}</td>
+    <td class="label">{$form.fromEmailAddress.label}</td><td>{$form.fromEmailAddress.html} {help id ="id-from_email"}</td>
 </tr>
 {if $single eq false}
     <tr>

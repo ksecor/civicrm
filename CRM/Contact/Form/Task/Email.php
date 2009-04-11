@@ -88,6 +88,10 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             parent::preProcess( );
         }
         $this->assign( 'single', $this->_single );
+        require_once 'CRM/Core/Permission.php';
+        if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+            $this->assign( 'isAdmin', 1 );
+        }
     }
     
     /**

@@ -7,7 +7,7 @@
   <fieldset>
     <table class="form-layout-compressed">
         <tr><td class="label">{$form.from_email_address.label}</td>
-            <td>{$form.from_email_address.html}</td>
+            <td>{$form.from_email_address.html} {help id ="id-from_email"}</td>
         </tr>
         <tr><td class="label">{$form.subject.label}</td>
             <td colspan="2">{$form.subject.html|crmReplace:class:huge}</td>

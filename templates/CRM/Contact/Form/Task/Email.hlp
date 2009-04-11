@@ -1,3 +1,13 @@
+{htxt id ="id-from_email"}
+<p>{ts}By default, CiviCRM uses the primary email address of the logged in user as the FROM address when sending emails
+to contacts. However, users with Administer CiviCRM permission can configure one or more general email addresses that can be selected
+as an alternative. EXAMPLE: "Client Services" &lt;clientservices@example.org&gt;{/ts}</p>
+{if $isAdmin}
+    {capture assign="fromConfig"}{crmURL p="civicrm/admin/options/from_email_address" q="group=from_email_address&reset=1"}{/capture}
+    <p>{ts 1=$fromConfig}Go to <a href="%1">Administer CiviCRM &raquo; Option Lists &raquo; FROM Email Addresses</a> to add or edit general email addresses. Make sure
+    these email addresses are valid email accounts with your email service provider.{/ts}</p>
+{/if}
+{/htxt}
 {htxt id="id-token-text"}
 <p>{ts}Use tokens when you are sending mail to a number of recipients, and want to include their name and / or other values from their contact record automatically within your message.{/ts}</p>
 <p>{ts}EXAMPLE: If you want your message to begin with "Dear " followed by the recipient's first name, you can use the {literal}{contact.first_name} token in your message. <em>Dear {contact.first_name}</em>{/literal}{/ts}</p>
