@@ -1059,6 +1059,17 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
     function tokenReplace( &$mailing )
     {
         require_once 'CRM/Core/BAO/Domain.php';
+        // replacing token labels in body with Original tokens before replacing actual token values
+        // works for Test mail/ Schedule & send mail/ Preview. Specifically for Custom Fields.CRM-3734
+        $contactTokens = CRM_Core_SelectValues::ContactTokens();
+        $tokenKeys     = array_keys( $contactTokens );
+        if ( $mailing->body_text ) {
+            $mailing->body_text = str_replace( $contactTokens, $tokenKeys, $mailing->body_text );
+        } 
+        if ( $mailing->body_html ) {
+            $mailing->body_html = str_replace( $contactTokens, $tokenKeys, $mailing->body_html );
+        }
+
         $domain =& CRM_Core_BAO_Domain::getDomain( );
         foreach ( array('text', 'html') as $type ) {
             require_once 'CRM/Utils/Token.php';

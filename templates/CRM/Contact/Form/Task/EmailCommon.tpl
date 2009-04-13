@@ -182,7 +182,10 @@ showSaveUpdateChkBox();
 function tokenReplText ( )
 {
     var token = document.getElementById("token1").options[document.getElementById("token1").selectedIndex].text;
-    document.getElementById("text_message").value =  document.getElementById("text_message").value + token;
+    var msg       = document.getElementById("text_message").value;
+    var cursorlen = document.getElementById("text_message").selectionStart;
+    var textlen   = msg.length;
+    document.getElementById("text_message").value = msg.substring(0, cursorlen) + token + msg.substring(cursorlen, textlen);
     verify();
 }
 
@@ -191,14 +194,15 @@ function tokenReplHtml ( )
     var token2 = document.getElementById("token2").options[document.getElementById("token2").selectedIndex].text;
     var editor = {/literal}"{$editor}"{literal};
     if ( editor == "tinymce" ) {
-        var content= tinyMCE.get('html_message').getContent() +token2;
-        tinyMCE.get('html_message').setContent(content);
+        tinyMCE.execInstanceCommand("html_message", "mceInsertContent", false, token2);
     } else if ( editor == "fckeditor" ) {
         oEditor = FCKeditorAPI.GetInstance('html_message');
-        var msg=oEditor.GetHTML() + token2;	
-        oEditor.SetHTML( msg );	
+        oEditor.InsertHtml( token2 );	
     } else {
-        document.getElementById("html_message").value =  document.getElementById("html_message").value + token2;
+        var msg       = document.getElementById("html_message").value;
+        var cursorlen = document.getElementById("html_message").selectionStart;
+        var textlen   = msg.length;
+        document.getElementById("html_message").value = msg.substring(0, cursorlen) + token2 + msg.substring(cursorlen, textlen);
     }
     verify();
 }

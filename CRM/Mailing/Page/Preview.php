@@ -85,8 +85,13 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
                                                           $mailing->id );
 
+        //get details of contact with token value including Custom Field Token Values.CRM-3734
+        $returnProperties = $mailing->getReturnProperties( );
+        $params  = array( 'contact_id' => $session->get('userID') );
+        $details = $mailing->getDetails( $params, $returnProperties );
+       
         $mime =& $mailing->compose(null, null, null, $session->get('userID'), $fromEmail, $fromEmail,
-                                   true, null, $attachments );
+                                   true, $details[0][$session->get('userID')], $attachments );
         
         // there doesn't seem to be a way to get to Mail_Mime's text and HTML
         // parts, so we steal a peek at Mail_Mime's private properties, render 

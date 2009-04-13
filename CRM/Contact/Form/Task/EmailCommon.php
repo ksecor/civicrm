@@ -346,6 +346,18 @@ class CRM_Contact_Form_Task_EmailCommon
         $text = CRM_Utils_Token::replaceDomainTokens( $text_message, $domain, false  );
         $html = CRM_Utils_Token::replaceDomainTokens( $html_message, $domain, false  );
 
+        // replacing token labels in body with Original tokens during Task-send mail to contacts
+        // specifically for Custom Fields.CRM-3734
+        require_once 'CRM/Core/SelectValues.php';
+        $contactTokens = CRM_Core_SelectValues::ContactTokens();
+        $tokenKeys     = array_keys( $contactTokens );
+        if ( $text ) {
+            $text = str_replace( $contactTokens, $tokenKeys, $text );
+        } 
+        if ( $html ) {
+            $html = str_replace( $contactTokens, $tokenKeys, $html );
+        }
+
         $attachments = array( );
         CRM_Core_BAO_File::formatAttachment( $formValues,
                                              $attachments,

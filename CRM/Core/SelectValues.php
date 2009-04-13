@@ -598,19 +598,26 @@ class CRM_Core_SelectValues
         static $tokens = null;
         if ( ! $tokens ) {
             require_once 'CRM/Contact/BAO/Contact.php';
+            require_once 'CRM/Core/BAO/CustomField.php';
             $values= array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
                                   array( 'display_name', 'checksum', 'contact_id' ) );
             unset($values[0]); 
             
             //FIXME:skipping some tokens for time being.
             $skipTokens = array( 'greeting_type', 'is_bulkmail', 'group', 'tag', 'contact_sub_type', 'note' );
-           
+            $customFields = array();
+            $customFields = CRM_Core_BAO_CustomField::getFields('Individual');
+
             foreach($values as $key => $val) {
                 if ( in_array($val, $skipTokens) ) {
                     continue;
                 } 
-                
-                $tokens[$key] = "{contact.$val}";
+                //keys for $tokens should be constant. $token Values are changed for Custom Fields. CRM-3734
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $val )  ) {
+                    $tokens["{contact.$val}"] = "{contact.".$customFields[$customFieldId][groupTitle].": ".$customFields[$customFieldId][label]."}";
+                } else {
+                    $tokens[$key] = "{contact.$val}";
+                }
             }
 
             // might as well get all the hook tokens to
