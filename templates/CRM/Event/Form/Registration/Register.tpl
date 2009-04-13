@@ -153,9 +153,8 @@
     </div>
 {/if}
 </div>
-
 {* Hide Credit Card Block and Billing information if registration is pay later. *}
-{if $form.is_pay_later and $hidePaymentInformation} 
+{if $hidePaymentInformation and $form.is_pay_later}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_pay_later"
     trigger_value       =""

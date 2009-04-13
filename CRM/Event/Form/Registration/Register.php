@@ -238,31 +238,35 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
-
-            if ( $this->_values['event']['is_pay_later'] ) {
-                $attributes = null;
-                $this->assign( 'hidePaymentInformation', false );
-                if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
-                                array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express', 'Payment_Express', 'ClickAndPledge' ) ) && 
-                     is_array( $this->_paymentProcessor ) ) {
-                    $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
+            $hidePaymentInformation = true;
+            if ( !( $this->_requireApproval || $this->_hasWaitlisting ) || $this->_allowConfirmation ) {
+                if ( $this->_values['event']['is_pay_later'] ) {
+                    $attributes = null;
+                    $hidePaymentInformation = false;
+                    if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
+                                    array( 'PayPal_Standard', 'Google_Checkout', 
+                                           'PayPal_Express', 'Payment_Express', 'ClickAndPledge' ) ) && 
+                         is_array( $this->_paymentProcessor ) ) {
+                        $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
                                                      'table-row','radio',true);");
-                                     
-                    $this->assign( 'hidePaymentInformation', true );
-                }
-                if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
-                    $attributes = array('onclick' => "showHidePayPalExpressOption();" );
-                }
-                $element = $this->addElement( 'checkbox', 'is_pay_later', 
-                                              $this->_values['event']['pay_later_text'], null, $attributes );
-                //if payment processor is not available then freeze
-                //the paylater checkbox with default checked.
-                if ( ! is_array( $this->_paymentProcessor ) ) {
-                    $element->freeze();
-                }
-            }            
-            require_once 'CRM/Core/Payment/Form.php';
-            CRM_Core_Payment_Form::buildCreditCard( $this );
+                        
+                        $hidePaymentInformation = true;  
+                    }
+                    if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
+                        $attributes = array('onclick' => "showHidePayPalExpressOption();" );
+                    }
+                    $element = $this->addElement( 'checkbox', 'is_pay_later', 
+                                                  $this->_values['event']['pay_later_text'], null, $attributes );
+                    //if payment processor is not available then freeze
+                    //the paylater checkbox with default checked.
+                    if ( ! is_array( $this->_paymentProcessor ) ) {
+                        $element->freeze( );
+                    }
+                }        
+                require_once 'CRM/Core/Payment/Form.php';
+                CRM_Core_Payment_Form::buildCreditCard( $this );
+            }
+            $this->assign( 'hidePaymentInformation', $hidePaymentInformation );
         }
         
         $session =& CRM_Core_Session::singleton( );
@@ -499,9 +503,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     return empty( $errors ) ? true : $errors;
                 }
             }
+            
             //is pay later and priceset is used avoid credit card and
             //billing address validation  
-            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) && $fields['priceSetId'] ) {
+            if ( ( CRM_Utils_Array::value( 'is_pay_later', $fields ) && $fields['priceSetId'] ) || 
+                 ( !$self->_allowConfirmation && ( $self->_requireApproval || $self->_hasWaitlisting ) ) ) {
                 return empty( $errors ) ? true : $errors;
             }
             
@@ -509,7 +515,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 if ( $fld['is_required'] &&
                      CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
                     $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
-                    
                 }
             }
         }
@@ -531,7 +536,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         return empty( $errors ) ? true : $errors;
     }
     
-    
     /**
      * Function to process the form
      *
@@ -545,7 +549,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         //set as Primary participant
         $params ['is_primary'] = 1;         
-   
+        
+        //make as paylater since we are not taking payment at this time.
+        if ( ( $this->_requireApproval || $this->_hasWaitlisting ) && !$this->_allowConfirmation ) { 
+            $params['is_pay_later'] = true;
+        }
+        
         $params ['defaultRole'] = 1;
         if ( array_key_exists('participant_role_id', $params ) ) {
             $params['defaultRole'] = 0;

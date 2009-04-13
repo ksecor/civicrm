@@ -466,7 +466,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                      $this->_contributeMode   == 'notify' ) {
                     if ( $value['amount'] != 0 ) {
                         $pending = true;
-                        $value['participant_status_id'] = 5; // pending
+                        //get the pending family statuses.
+                        require_once 'CRM/Event/PseudoConstant.php';
+                        $pendingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" );
+                        if ( $this->_hasWaitlisting && !$this->_allowConfirmation ) {
+                            $value['participant_status_id'] = array_search( 'Pending from approval', $pendingStatuses );
+                        } else if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+                            $value['participant_status_id'] = array_search( 'Pending from waitlist', $pendingStatuses );
+                        } else {
+                            $value['participant_status_id'] = array_search( 'Pending', $pendingStatuses );  
+                        }
                     }
                 } else if ( $this->_contributeMode == 'express' && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                     $result =& $payment->doExpressCheckout( $value );

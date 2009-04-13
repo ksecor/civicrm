@@ -72,6 +72,22 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @protected
      */
     public $_allowConfirmation;
+ 
+    /**
+     * is participant requires approval 
+     *
+     * @var Boolean
+     * @public
+     */
+    public $_requireApproval;
+    
+    /**
+     * is event configured for waitlisting.
+     *
+     * @var Boolean
+     * @public
+     */
+    public $_hasWaitlisting;
     
     /**
      * the mode that we are in
@@ -173,7 +189,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         //check if participant allow to walk registration wizard.
         $this->_allowConfirmation = $this->get( 'allowConfirmation' );
-                
+        
+        // check for Approval
+        $this->_requireApproval = $this->get( 'requireApproval' );
+        
+        // check for waitlisting.
+        $this->_hasWaitlisting = $this->get( 'hasWaitlisting' );
+        
         $config  =& CRM_Core_Config::singleton( );
         
         if ( ! $this->_values ) {
@@ -193,9 +215,17 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             require_once 'CRM/Event/BAO/Participant.php';
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
+            $this->_hasWaitlisting = false;
             if ( $eventFull ) {
-                CRM_Utils_System::redirect( $infoUrl );            
+                //lets redirecting the users to some waitlist screen.  
+                if ( $this->_hasWaitlisting = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_eventId, 'has_waitlist' ) ) {
+                    require_once "CRM/Core/Session.php";
+                    CRM_Core_Session::setStatus( ts("Event is currently full, but you can register temporarily and be a part of waiting list."));
+                } else {
+                    CRM_Utils_System::redirect( $infoUrl );      
+                }
             }
+            $this->set( 'hasWaitlisting', $this->_hasWaitlisting );
             
             //retrieve event information
             require_once 'CRM/Event/BAO/Event.php';
@@ -218,6 +248,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                     $this->set( 'allowConfirmation', true );
                 }
             }
+            
+            //check for require requires approval.
+            $this->_requireApproval = false;
+            if ( CRM_Utils_Array::value( 'requires_approval', $this->_values['event']) ) {
+                $this->_requireApproval = true;
+            }
+            $this->set( 'requireApproval', $this->_requireApproval );
             
             // also get the accounting code
             if ( CRM_Utils_Array::value( 'contribution_type_id', $this->_values['event'] ) ) {
