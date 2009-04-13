@@ -22,7 +22,7 @@ class civicrm_handler_filter_contribution_page extends views_handler_filter_in_o
 
     function get_value_options() {
         if (!isset($this->value_options)) {
-            $this->value_title = t('Contribution Type');
+            $this->value_title = t('Contribution Page');
             $options = array( );
             foreach (self::$_contributionPage as $id => $name ) {
                 $options[$id] = $name;
