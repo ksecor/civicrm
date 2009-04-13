@@ -151,19 +151,22 @@
 			dataUrl = dataUrl + '&discountId=' + discountId;	
 		}
 
-		var response = cj.ajax({
-    						url: dataUrl,
-    						async: false,
-    						global: false
-    					}).responseText;
+		cj.ajax({
+			url: dataUrl,
+			async: false,
+			global: false,
+			success: function ( html ) {
+			    cj("#feeBlock").html( html );
+			}
+    	});
     					
         cj("#feeBlock").ajaxStart(function(){
             cj("#overlay").show();
         });
+        
         cj("#feeBlock").ajaxStop(function(){
             cj("#overlay").hide();
         });
-    	cj("#feeBlock").html( response );	
 	}
 </script>
 {/literal}
