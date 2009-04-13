@@ -15,9 +15,20 @@
     <link rel="stylesheet" href="{$config->resourceBase}css/joomla_frontend.css" type="text/css" />
 {/if}
 {if $config->customCSSURL}
-<link rel="stylesheet" href="{$config->customCSSURL}" type="text/css" />
+    <link rel="stylesheet" href="{$config->customCSSURL}" type="text/css" />
 {else}
-<link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
+    {assign var="revamp" value=0}
+    {foreach from=$config->revampPages item=page}
+        {if $page eq $tplFile}
+            {assign var="revamp" value=1}
+        {/if}
+    {/foreach}
+    
+    {if $revamp eq 0}
+        <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
+    {else}
+        <link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
+    {/if}
 {/if}
 <link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
 <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true, usePlainJson: true"></script>

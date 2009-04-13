@@ -43,32 +43,28 @@ function civicrm_html_head()
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
 
-    if ( ! $config->civiUI ) {
-        if ( isset( $config->customCSSURL ) && ! empty( $config->customCSSURL ) ) {
-            $head  = "<style type=\"text/css\">@import url({$config->customCSSURL});</style>\n";
-        } else {
-            drupal_add_css(drupal_get_path('module', 'civicrm') . '/../css/civicrm.css'); 
-	}
-
-        // include the below files ONLY if needed, since they are heavy weight ( i.e only for civicrm pages)
-        $includeCommon = false;
-        if ( arg(0) == 'civicrm' ) {
-            $includeCommon = true;
-        } else {
-            $config->includeDojo = 0;
-        }
-
-        if ( $includeCommon ) {
-            $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
-            $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
-        }
+    if ( isset( $config->customCSSURL ) && ! empty( $config->customCSSURL ) ) {
+        //$head  = "<style type=\"text/css\">@import url({$config->customCSSURL});</style>\n";
     } else {
-        drupal_add_css(drupal_get_path('module', 'civicrm') . '/../css/civicrm-new.css'); 
+        //drupal_add_css(drupal_get_path('module', 'civicrm') . '/../css/civicrm.css'); 
+    }
+
+    // include the below files ONLY if needed, since they are heavy weight ( i.e only for civicrm pages)
+    $includeCommon = false;
+    if ( arg(0) == 'civicrm' ) {
+        $includeCommon = true;
+    } else {
+        $config->includeDojo = 0;
+    }
+
+    if ( $includeCommon ) {
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
     }
 
     return $head;
@@ -274,7 +270,7 @@ function civicrm_initialize( )
 
         // initialize the system by creating a config object
         $config =& CRM_Core_Config::singleton();
-        
+      
         // Add module-specific header elements
         drupal_set_html_head(civicrm_html_head());
     }
@@ -338,7 +334,7 @@ function civicrm_invoke( )
         CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
                                            civicrm_get_ctype( 'Individual' ) );
     }
-
+      
     require_once 'CRM/Core/Invoke.php';
     return CRM_Core_Invoke::invoke( $args );
 }
