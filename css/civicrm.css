@@ -1322,3 +1322,11 @@ body .ac_loading {background:url('../i/loading.gif') no-repeat right center;}
     opacity: .50;  
     filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);  
 }
+
+/*class for CMS user name check used in profile*/
+.cmsmessagebox {
+   position    : absolute;
+   width       : auto;
+   margin-left : 10px;
+   padding     : 3px;
+}

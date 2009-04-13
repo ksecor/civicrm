@@ -346,5 +346,40 @@ WHERE sort_name LIKE '%$name%'";
         
         require_once "CRM/Core/BAO/CustomValue.php";
         CRM_Core_BAO_CustomValue::deleteCustomValue( $customValueID, $customGroupID );
-    }    
+    }
+
+ 
+    /*
+     *Function to check the CMS username
+     *
+    */
+    static public function checkUserName() 
+    {
+        $config   =& CRM_Core_Config::singleton();
+        $username = trim(htmlentities($_POST['cms_name']));
+             
+        $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
+        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
+        $params   = array( 'name' => $username );
+
+        $errors = array();
+        require_once 'CRM/Core/BAO/CMSUser.php';
+        CRM_Core_BAO_CMSUser::checkUserNameEmailExists( $params, $errors );
+	
+        if ( $isDrupal ) {
+            //unset the drupal errors, related to email field is required.
+            unset($errors['email']);
+            unset($errors['mail']);
+        }
+        if ( !empty($errors)) {
+            //user name is not availble
+            $user =  array('name' => 'no');
+            echo json_encode( $user );
+        } else {
+            //user name is available
+            $user =  array('name' => 'yes');
+            echo json_encode( $user );
+        }
+        exit();
+    }
 }
