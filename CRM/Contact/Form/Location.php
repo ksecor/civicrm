@@ -268,9 +268,12 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             }*/
             $blocks = $values[$blockId];
             $blockFlag = false;
-            foreach($blocks as $block) {
-                if($block!='') {
-                    $blockFlag= true;
+
+            if ( is_array($blocks) ) {
+                foreach($blocks as $block) {
+                    if($block!='') {
+                        $blockFlag= true;
+                    }
                 }
             }
 

@@ -126,6 +126,9 @@ class CRM_Core_BAO_Block
             }
             
             $blocks[$block->location_type_id][$count] = $values;
+            if ( $block->is_primary ) {
+                $blocks[$block->location_type_id]['is_primary'] = 1;    
+            }
         }
 
         return $blocks ;
