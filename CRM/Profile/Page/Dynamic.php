@@ -129,8 +129,9 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
             // make sure we dont expose all fields based on permission
             $admin = false; 
             $session  =& CRM_Core_Session::singleton( ); 
-            if ( CRM_Core_Permission::check( 'administer users' ) || 
-                 $this->_id == $session->get( 'userID' ) ) { 
+            if ( CRM_Core_Permission::check( 'administer users' )  ||
+                 CRM_Core_Permission::check( 'view all contacts' ) ||
+                 $this->_id == $session->get( 'userID' ) ) {
                 $admin = true; 
             }
 
