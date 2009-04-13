@@ -581,6 +581,19 @@ abstract class CRM_Import_Parser {
         }
     }
 
+    /**
+     * Function to set IM Service Provider type fields   
+     *
+     * @param array $elements IM service provider type ids
+     * @return void
+     * @access public
+     */
+    function setActiveFieldImProviders( $elements ) {
+        for ($i = 0;$i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_imProvider = $elements[$i];
+        }
+    }
+    
     function setActiveFieldRelated( $elements ) {
         for ($i = 0; $i < count( $elements ); $i++) {
             $this->_activeFields[$i]->_related = $elements[$i];
@@ -610,6 +623,19 @@ abstract class CRM_Import_Parser {
         for ($i = 0; $i < count( $elements ); $i++) {
             $this->_activeFields[$i]->_relatedContactPhoneType = $elements[$i];
         }        
+    }
+
+    /**
+     * Function to set IM Service Provider type fields for related contacts  
+     *
+     * @param array $elements IM service provider type ids of related contact
+     * @return void
+     * @access public
+     */
+    function setActiveFieldRelatedContactImProvider( $elements ) {
+        for ($i = 0;$i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_relatedContactImProvider = $elements[$i];
+         }        
     }
 
     /**
@@ -644,6 +670,11 @@ abstract class CRM_Import_Parser {
                             $this->_activeFields[$i]->_phoneType;
                     }
                     
+                    // get IM service Provider type id
+                    if ( isset( $this->_activeFields[$i]->_imProvider ) ) {
+                        $value['provider_id'] = $this->_activeFields[$i]->_imProvider;
+                    }
+                    
                     $params[$this->_activeFields[$i]->_name][] = $value;
                 }
                 
@@ -674,7 +705,12 @@ abstract class CRM_Import_Parser {
                         if (isset( $this->_activeFields[$i]->_relatedContactPhoneType)) {
                             $value['phone_type_id'] =  $this->_activeFields[$i]->_relatedContactPhoneType;
                         }
-
+                        
+                        // get IM service Provider type id for related contact
+                        if ( isset( $this->_activeFields[$i]->_relatedContactImProvider ) ) {
+                            $value['provider_id'] = $this->_activeFields[$i]->_relatedContactImProvider;
+                        }
+                        
                         $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails][] = $value;
                     } else {
                         $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = 

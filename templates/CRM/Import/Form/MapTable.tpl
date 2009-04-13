@@ -51,7 +51,12 @@
                             {if $relatedContactPhoneType && $relatedContactPhoneType[$i] != ''}
 	                            - {$relatedContactPhoneType[$i]}
                 			{/if}
-
+                            
+                            {* append IM Service Provider type for related contact *}
+                            {if  $relatedContactImProvider && $relatedContactImProvider[$i] != ''}
+                                - {$relatedContactImProvider[$i]}
+                            {/if}
+                                       
 			            {else}                        
 			                {if $locations[$i]}
                                 {$locations[$i]} - 
@@ -59,6 +64,11 @@
 
                             {if $phones[$i]}
                                 {$phones[$i]} - 
+                            {/if}
+                            
+                            {* append IM Service provider type for contact *}
+                            {if $ims[$i]}
+                                {$ims[$i]} - 
                             {/if}
                             {*else*}
                                 {$mapper[$i]}

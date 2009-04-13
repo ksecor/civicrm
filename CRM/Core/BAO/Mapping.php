@@ -166,7 +166,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $mapping->find();
         
         $mappingName = $mappingLocation = $mappingContactType = $mappingPhoneType = array( );
-        $mappingRelation = $mappingOperator = $mappingValue = array( );
+        $mappingImProvider = $mappingRelation = $mappingOperator = $mappingValue = array( );
         while($mapping->fetch()) {
             $mappingName[$mapping->grouping][$mapping->column_number] = $mapping->name;
             $mappingContactType[$mapping->grouping][$mapping->column_number] = $mapping->contact_type;                
@@ -177,6 +177,11 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             
             if ( !empty( $mapping->phone_type_id ) ) {
                 $mappingPhoneType[$mapping->grouping][$mapping->column_number] = $mapping->phone_type_id;
+            }
+
+            // get IM service provider type id from mapping fields
+            if ( !empty( $mapping->im_provider_id ) ) {
+                $mappingImProvider[$mapping->grouping][$mapping->column_number] = $mapping->im_provider_id;
             }
             
             if ( !empty($mapping->relationship_type_id) ) {
@@ -194,7 +199,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         return array ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType,
-                      $mappingRelation, $mappingOperator, $mappingValue);   
+                      $mappingImProvider, $mappingRelation, $mappingOperator, $mappingValue);   
     }
 
     /**
@@ -449,6 +454,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $sel3[''] = null;
         $phoneTypes = CRM_Core_PseudoConstant::phoneType();
+        $imProviders = CRM_Core_PseudoConstant::IMProvider();
         asort($phoneTypes);
 
         foreach($sel1 as $k=>$sel ) {
@@ -456,6 +462,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 foreach ($locationTypes as $key => $value) {
                     if ( trim( $key ) != '' ) {
                         $sel4[$k]['phone'][$key] =& $phoneTypes;
+                        $sel4[$k]['im'][$key] =& $imProviders;
                     }
                 }
             }
@@ -479,7 +486,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         if ( isset($mappingId) ) {
             $colCnt = 0;
             
-            list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation, $mappingOperator, $mappingValue ) = CRM_Core_BAO_Mapping::getMappingFields($mappingId);
+            list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingImProvider, $mappingRelation, $mappingOperator, $mappingValue ) = CRM_Core_BAO_Mapping::getMappingFields($mappingId);
             
             $blkCnt = count($mappingName);
             if ( $blkCnt >= $blockCount ) {
@@ -512,24 +519,31 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     if ( isset($mappingName[$x][$i]) ) {
                         if (is_array($mapperFields[$mappingContactType[$x][$i]])) {
                             $phoneType = isset($mappingPhoneType[$x][$i]) ? $mappingPhoneType[$x][$i] : null;
+                            // get IM service provider type id if present, CRM-3140
+                            $imProvider = isset($mappingImProvider[$x][$i]) ? $mappingImProvider[$x][$i] : null;
                             
                             if ( !$locationId && in_array($mappingName[$x][$i], $specialFields) ) {
                                 $locationId = " ";
                             }
-
+                            
+                            if ( isset($phoneType) ) {
+                                $typeId = $phoneType;
+                            } else if ( isset($imProvider) ) {
+                                $typeId = $imProvider;
+                            }
                             $defaults["mapper[$x][$i]"] = array( $mappingContactType[$x][$i],
                                                                  $mappingName[$x][$i],
                                                                  $locationId,
-                                                                 $phoneType
+                                                                 $typeId
                                                                  );
-
+                            
                             if ( ! $mappingName[$x][$i] ) {
                                 $noneArray[] = array( $x, $i, 1 );
                             }
                             if ( ! $locationId ) {
                                 $noneArray[] = array( $x, $i, 2 );
                             }
-                            if ( ! $phoneType ) {
+                            if ( ! $phoneType && ! $imProvider ) {
                                 $noneArray[] = array( $x, $i, 3 );
                             }
                             $jsSet = true;
@@ -824,8 +838,11 @@ for(var i=0;i<noneArray.length;i++) {
                     
                     $locationId =  CRM_Utils_Array::value( '2' ,$v );
                     $saveMappingFields->location_type_id = is_numeric($locationId) ? $locationId : null;
-                    
-                    $saveMappingFields->phone_type    = CRM_Utils_Array::value( '3' ,$v                       );
+                    if( $v[1] == 'phone' ) {
+                        $saveMappingFields->phone_type_id = CRM_Utils_Array::value( '3' ,$v );
+                    } else if( $v[1] == 'im' ) {
+                        $saveMappingFields->im_provider_id   = CRM_Utils_Array::value( '3' ,$v );
+                    }
                     $saveMappingFields->operator      = CRM_Utils_Array::value( $k, $params['operator'][$key] );
                     $saveMappingFields->value         = CRM_Utils_Array::value( $k, $params['value'][$key]    );
                     $saveMappingFields->grouping      = $key;

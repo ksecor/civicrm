@@ -68,6 +68,7 @@ class CRM_Export_BAO_Export
         $paymentFields    = false;
 
         $phoneTypes = CRM_Core_PseudoConstant::phoneType();
+        $imProviders = CRM_Core_PseudoConstant::IMProvider();
         
         $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
         
@@ -92,8 +93,9 @@ class CRM_Export_BAO_Export
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
-
             foreach ( $fields as $key => $value) {
+                $phoneTypeId  = null;
+                $imProviderId = null;
                 $fieldName   = CRM_Utils_Array::value( 1, $value );
                 
                 if ( ! $fieldName ) {
@@ -102,11 +104,19 @@ class CRM_Export_BAO_Export
                 
                 $contactType = CRM_Utils_Array::value( 0, $value );
                 $locTypeId   = CRM_Utils_Array::value( 2, $value );
-                $phoneTypeId = CRM_Utils_Array::value( 3, $value );
+                // get phoneType id and IM service provider id seperately
+                if ( $fieldName == 'phone' ) { 
+                    $phoneTypeId = CRM_Utils_Array::value( 3, $value );
+                } else if ( $fieldName == 'im' ) { 
+                    $imProviderId = CRM_Utils_Array::value( 3, $value );
+                }
                 
                 if ( is_numeric($locTypeId) ) {
-                    if ($phoneTypeId) {
+                    if ( isset($phoneTypeId) ) {
                         $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
+                    } else if ( isset($imProviderId) ) { 
+                        //build returnProperties for IM service provider
+                        $returnProperties['location'][$locationTypes[$locTypeId]]['im-' .$imProviderId] = 1;
                     } else {
                         $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
                     }
@@ -147,6 +157,7 @@ class CRM_Export_BAO_Export
                 $returnProperties['location_type'   ] = 1;
                 $returnProperties['im_provider'     ] = 1;
                 $returnProperties['phone_type_id'   ] = 1;
+                $returnProperties['provider_id'     ] = 1;
                 $returnProperties['current_employer'] = 1;
             }
             
@@ -284,6 +295,8 @@ class CRM_Export_BAO_Export
                         $headerRows[] = $query->_fields[$field]['title'];
                     } else if ($field == 'phone_type_id'){
                         $headerRows[] = 'Phone Type';
+                    } else if ( $field == 'provider_id' ) { 
+                        $headerRows[] = 'Im Service Provider'; 
                     } else if ( is_array( $value ) && $field == 'location' ) {
                         // fix header for location type case
                         foreach ( $value as $ltype => $val ) {
@@ -292,7 +305,11 @@ class CRM_Export_BAO_Export
                                 $hdr = "{$ltype}-" . $query->_fields[$type[0]]['title'];
                                 
                                 if ( CRM_Utils_Array::value( 1, $type ) ) {
-                                    $hdr .= " " . CRM_Utils_Array::value( $type[1], $phoneTypes );
+                                    if ( CRM_Utils_Array::value( 0, $type ) == 'phone' ) {
+                                        $hdr .= "-" . CRM_Utils_Array::value( $type[1], $phoneTypes );
+                                    } if ( CRM_Utils_Array::value( 0, $type ) == 'im' ) {
+                                        $hdr .= "-" . CRM_Utils_Array::value( $type[1], $imProviders );
+                                    }
                                 }
                                 $headerRows[] = $hdr;
                             }
@@ -314,7 +331,9 @@ class CRM_Export_BAO_Export
                     // to get phone type from phone type id
                     if ( $field == 'phone_type_id' ) {
                         $fieldValue = $phoneTypes[$fieldValue];
-                    }
+                    } else if ( $field == 'provider_id' ) {
+                        $fieldValue = CRM_Utils_Array::value( $fieldValue , $imProviders );  
+                    } 
                 } else {
                     $fieldValue = '';
                 }

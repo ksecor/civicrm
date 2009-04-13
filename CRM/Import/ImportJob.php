@@ -62,11 +62,13 @@ class CRM_Import_ImportJob {
     protected $_mapperKeys;
     protected $_mapperLocTypes;
     protected $_mapperPhoneTypes;
+    protected $_mapperImProviders;
     protected $_mapperRelated;
     protected $_mapperRelatedContactType;
     protected $_mapperRelatedContactDetails;
     protected $_mapperRelatedContactLocType;
     protected $_mapperRelatedContactPhoneType;
+    protected $_mapperRelatedContactImProvider;
     protected $_mapFields;
     
     protected $_parser;
@@ -97,11 +99,13 @@ class CRM_Import_ImportJob {
         $this->_mapperKeys = array();
         $this->_mapperLocTypes = array();
         $this->_mapperPhoneTypes = array();
+        $this->_mapperImProviders = array();
         $this->_mapperRelated = array();
         $this->_mapperRelatedContactType = array();
         $this->_mapperRelatedContactDetails = array();
         $this->_mapperRelatedContactLocType = array();
         $this->_mapperRelatedContactPhoneType = array();
+        $this->_mapperRelatedContactImProvider = array();
     }
     
     public function getTableName() {
@@ -141,13 +145,20 @@ class CRM_Import_ImportJob {
             } else {
                 $this->_mapperLocTypes[$key] = null;
             }
-            
-            if ( is_numeric($mapper[$key][2] ) ) {
-                $this->_mapperPhoneTypes[$key] = $mapper[$key][2];
+            //to store phoneType id and provider id separately for contact
+            if ( is_numeric($mapper[$key][2]) ) {
+                if ( CRM_Utils_Array::value( '0', $mapper[$key] ) == 'phone' ) {
+                    $this->_mapperPhoneTypes[$key]  = $mapper[$key][2];
+                    $this->_mapperImProviders[$key] = null;
+                } else if ( CRM_Utils_Array::value( '0', $mapper[$key] ) == 'im' ) {
+                    $this->_mapperImProviders[$key] = $mapper[$key][2];
+                    $this->_mapperPhoneTypes[$key]  = null;
+                }
             } else {
                 $this->_mapperPhoneTypes[$key] = null;
+                $this->_mapperImProviders[$key] = null;
             }
-
+                        
             list($id, $first, $second) = explode('_', $mapper[$key][0]);
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                 $relationType =& new CRM_Contact_DAO_RelationshipType();
@@ -157,13 +168,23 @@ class CRM_Import_ImportJob {
                 $this->_mapperRelated[$key] = $mapper[$key][0];
                 $this->_mapperRelatedContactDetails[$key] = $mapper[$key][1];
                 $this->_mapperRelatedContactLocType[$key] = $mapper[$key][2];
-                $this->_mapperRelatedContactPhoneType[$key] = $mapper[$key][3];
+                
+                //to store phoneType id and provider id separately for related contact
+                if ( CRM_Utils_Array::value( '1', $mapper[$key] ) == 'phone' ) {
+                    $this->_mapperRelatedContactPhoneType[$key] = $mapper[$key][3];
+                } else if ( CRM_Utils_Array::value( '1', $mapper[$key] ) == 'im' ) {
+                    $this->_mapperRelatedContactImProvider[$key] = $mapper[$key][3];
+                } else {
+                     $this->_mapperRelatedContactPhoneType[$key]  = null;
+                     $this->_mapperRelatedContactImProvider[$key] = null;
+                }
             } else {
                 $this->_mapperRelated[$key] = null;
                 $this->_mapperRelatedContactType[$key] = null;
                 $this->_mapperRelatedContactDetails[$key] = null;
                 $this->_mapperRelatedContactLocType[$key] = null;
                 $this->_mapperRelatedContactPhoneType[$key] = null;
+                $this->_mapperRelatedContactImProvider[$key] = null;
             }
         }
         
@@ -172,14 +193,17 @@ class CRM_Import_ImportJob {
             $this->_mapperKeys, 
             $this->_mapperLocTypes,
             $this->_mapperPhoneTypes,
+            $this->_mapperImProviders,
             $this->_mapperRelated, 
             $this->_mapperRelatedContactType,
             $this->_mapperRelatedContactDetails,
             $this->_mapperRelatedContactLocType, 
-            $this->_mapperRelatedContactPhoneType );
-                                                  
+            $this->_mapperRelatedContactPhoneType, 
+            $this->_mapperRelatedContactImProvider );
+        
         $locationTypes  = CRM_Core_PseudoConstant::locationType();
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        $phoneTypes  = CRM_Core_SelectValues::phoneType();
+        $imProviders = CRM_Core_PseudoConstant::IMProvider();
         
         foreach ($mapper as $key => $value) {
             $header = array();
@@ -196,9 +220,12 @@ class CRM_Import_ImportJob {
                     $header[] = $locationTypes[$mapper[$key][2]];
                 }
                 if ( isset($mapper[$key][3]) ) {
-                    $header[] = $phoneTypes[$mapper[$key][3]];
+                    if ( CRM_Utils_Array::value( '1', $mapper[$key] ) == 'phone' ) {
+                        $header[] = $phoneTypes[$mapper[$key][3]];
+                    } else if ( CRM_Utils_Array::value( '1', $mapper[$key] ) == 'im' ) {
+                        $header[] = $imProviders[$mapper[$key][3]];
+                    }
                 }
-                
             } else {
                 if ( isset($this->_mapFields[$mapper[$key][0]]) ) {
                     $header[] = $this->_mapFields[$mapper[$key][0]];
@@ -206,7 +233,11 @@ class CRM_Import_ImportJob {
                         $header[] = $locationTypes[$mapper[$key][1]];
                     }
                     if ( isset($mapper[$key][2]) ) {
-                        $header[] = $phoneTypes[$mapper[$key][2]];
+                        if( CRM_Utils_Array::value( '0', $mapper[$key] ) == 'phone' ) {
+                            $header[] = $phoneTypes[$mapper[$key][2]];
+                        } else if ( CRM_Utils_Array::value( '0', $mapper[$key] ) == 'im' ) {
+                            $header[] = $imProviders[$mapper[$key][2]];
+                        }
                     }
                 }
             }            

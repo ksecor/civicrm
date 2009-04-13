@@ -520,6 +520,13 @@ class CRM_Contact_BAO_Query
                                 $this->_select ['phone_type_id'] = "civicrm_phone.phone_type_id as phone_type_id";
                                 $this->_element['phone_type_id'] = 1;
                             }
+                            
+                            // if IM then select provider_id also 
+                            // to get "IM Service Provider" in a file to be exported, CRM-3140
+                            if ( $name == 'im' ) {
+                              $this->_select ['provider_id'] = "civicrm_im.provider_id as provider_id";
+                              $this->_element['provider_id'] = 1;
+                            }
                            
                             if ( $name == 'state_province' ) {
                                 $this->_select [$name]                 = "civicrm_state_province.abbreviation as `$name`, civicrm_state_province.name as state_province_name";
@@ -699,12 +706,16 @@ class CRM_Contact_BAO_Query
                 if ( strpos( $elementName, '-' ) !== false ) {
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
+                                        
                     
-                    if( $elementName != 'phone' ){
+                    if( ( $elementName != 'phone' ) && ( $elementName != 'im' ) ) {
                         $cond = self::getPrimaryCondition( $elementType );
                     }
-                    if ( ! $cond ) {
+                    if ( ( ! $cond ) && ( $elementName == 'phone') ) {
                         $cond = "phone_type_id = '$elementType'";
+                    } else if ( ( ! $cond ) && ( $elementName == 'im' ) ) {
+                        // IM service provider id, CRM-3140
+                        $cond = "provider_id = '$elementType'";
                     }
                     $elementType = '-' . $elementType;
                 }

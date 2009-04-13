@@ -1211,19 +1211,13 @@ AND    civicrm_contact.id = %1";
                     }
 
                     if ( $typeId ) {
-                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = $value;
-                        $data['location'][$loc]['im'][$imLoc]['name'       ] = $params["{$fieldName}-{$actualLocTypeId}"];
-                        unset( $params["{$fieldName}-{$actualLocTypeId}"] );
+                       // get IM service provider type id, CRM-3140 
+                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = $typeId;
                     } else {
-                        $data['location'][$loc]['im'][$imLoc]['name'       ] = $value;
-                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = $params["{$fieldName}-{$actualLocTypeId}-provider_id"];
-                        unset( $params["{$fieldName}-{$actualLocTypeId}-provider_id"] );
+                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = '';
+                        $data['location'][$loc]['im'][$imLoc]['is_primary'] = 1;
                     }
-                    
-                    if ( $imLoc == 1 ) {
-                        $data['location'][$loc]['im'][$imLoc]['is_primary']  = 1;
-                    }
-                    
+                    $data['location'][$loc]['im'][$imLoc]['im']  = $value;  
                 } else if ($fieldName == 'openid') {
                     $data['location'][$loc]['openid'][1]['openid']     = $value;
                     $data['location'][$loc]['openid'][1]['is_primary'] = 1;

@@ -45,6 +45,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     protected $_mapperKeys;
     protected $_mapperLocType;
     protected $_mapperPhoneType;
+    protected $_mapperImProvider;
     protected $_mapperRelated;
     protected $_mapperRelatedContactType;
     protected $_mapperRelatedContactDetails;
@@ -90,20 +91,24 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     /**
      * class constructor
      */
-    function __construct( &$mapperKeys, $mapperLocType = null, 
-                          $mapperPhoneType = null, $mapperRelated = null, $mapperRelatedContactType=null,
+    function __construct( &$mapperKeys, $mapperLocType = null, $mapperPhoneType = null, 
+                          $mapperImProvider = null, $mapperRelated = null, $mapperRelatedContactType=null,
                           $mapperRelatedContactDetails = null, $mapperRelatedContactLocType = null, 
-                          $mapperRelatedContactPhoneType = null) 
+                          $mapperRelatedContactPhoneType = null, $mapperRelatedContactImProvider = null) 
     {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
         $this->_mapperLocType =& $mapperLocType;
         $this->_mapperPhoneType =& $mapperPhoneType;
+        // get IM service provider type id for contact
+        $this->_mapperImProvider =& $mapperImProvider;
         $this->_mapperRelated =& $mapperRelated;
         $this->_mapperRelatedContactType =& $mapperRelatedContactType;
         $this->_mapperRelatedContactDetails =& $mapperRelatedContactDetails;
         $this->_mapperRelatedContactLocType =& $mapperRelatedContactLocType;
         $this->_mapperRelatedContactPhoneType =& $mapperRelatedContactPhoneType;
+        // get IM service provider type id for related contact
+        $this->_mapperRelatedContactImProvider =& $mapperRelatedContactImProvider;
 
     }
 
@@ -151,6 +156,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         $this->setActiveFields( $this->_mapperKeys );
         $this->setActiveFieldLocationTypes( $this->_mapperLocType );
         $this->setActiveFieldPhoneTypes( $this->_mapperPhoneType );
+        //set active fields of IM provider of contact
+        $this->setActiveFieldImProviders( $this->_mapperImProvider );
 
         //related info
         $this->setActiveFieldRelated( $this->_mapperRelated );
@@ -158,6 +165,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         $this->setActiveFieldRelatedContactDetails( $this->_mapperRelatedContactDetails );
         $this->setActiveFieldRelatedContactLocType( $this->_mapperRelatedContactLocType );
         $this->setActiveFieldRelatedContactPhoneType( $this->_mapperRelatedContactPhoneType );
+        //set active fields of IM provider of related contact
+        $this->setActiveFieldRelatedContactImProvider( $this->_mapperRelatedContactImProvider );
         
         $this->_phoneIndex = -1;
         $this->_emailIndex = -1;
@@ -1382,7 +1391,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $break = false;
                     if ( is_array( $value ) ) {
                         foreach ( $value as $name => $testForEmpty ) {
-                            if ( $name !== 'phone_type_id' && ( $testForEmpty === '' || $testForEmpty == null ) ) {
+                           // check if $value does not contain IM provider or phoneType 
+                            if ( ( $name !== 'phone_type_id' || $name !== 'provider_id' ) 
+                                 && ( $testForEmpty === '' || $testForEmpty == null ) ) {
                                 $break = true;
                                 break;
                             }

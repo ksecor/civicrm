@@ -94,7 +94,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
 
         
-        $properties = array( 'mapper', 'locations', 'phones',
+        $properties = array( 'mapper', 'locations', 'phones', 'ims',
                              'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
@@ -102,8 +102,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                              'downloadConflictRecordsUrl',
                              'downloadMismatchRecordsUrl',
                              'related', 'relatedContactDetails', 'relatedContactLocType',
-                             'relatedContactPhoneType'
-                    );
+                             'relatedContactPhoneType', 'relatedContactImProvider'
+                             );
                              
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );

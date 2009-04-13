@@ -36,6 +36,12 @@ ALTER TABLE `civicrm_relationship_type` CHANGE `name_a_b` `name_a_b` VARCHAR( 64
 
 
 
+-- CRM-3140
+ALTER TABLE `civicrm_mapping_field`
+  ADD `im_provider_id` int(10) unsigned default NULL COMMENT 'Which type of IM Provider does this name belong' AFTER `phone_type_id`; 
+
+
+
 -- migrate participant status types, CRM-4321
 
 BEGIN;
