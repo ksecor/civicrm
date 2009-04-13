@@ -228,6 +228,8 @@ class CRM_Core_BAO_CMSUser
         if ( $isJoomla ) {
             $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
             $loginUrl .= 'index.php?option=com_user&view=login';
+        } elseif ( $isDrupal ) {
+            $loginUrl .= 'user';
         }
         $form->assign( 'loginUrl', $loginUrl );
         $form->assign( 'showCMS', $showCMS ); 

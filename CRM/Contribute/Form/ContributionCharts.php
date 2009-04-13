@@ -103,19 +103,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         $abbrMonthNames = array( );
         if ( is_array( $chartInfoMonthly ) ) {
             $monthlyData = true;
-            
-            //display bar chart linearly ::showing zero (0)
-            //contribution for month if contribution for that
-            //month not exist
-            if ( ( CRM_Utils_Array::value( 'select_year', $submittedValues ) == date('Y') ) || 
-                 ( ! isset( $submittedValues['select_year'] ) ) ) {
-                //if selected year is current, show the months up to
-                //current month
-                $j = date('m');
-            } else {
-                $j = 12;
-            }
-            for ($i = 1; $i <= $j; $i++) {
+            for ($i = 1; $i <= 12; $i++) {
                 $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i, 10, 1970 ));
             }
             

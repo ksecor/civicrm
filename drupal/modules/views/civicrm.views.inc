@@ -81,7 +81,12 @@ function civicrm_views_data() {
                                                                                   'left_field' => 'source_contact_id',
                                                                                   'field' => 'id',
                                                                                   ),
-                                                      );
+                                                      // Directly links to membership.
+                                                      'civicrm_membership' => array(
+                                                                                  'left_field' => 'contact_id',
+                                                                                  'field' => 'id',
+                                                                                  ),
+                                                     );
 
     // For other base tables, explain how we join -  
     $data['civicrm_contact']['table']['join']['users'] = array(
@@ -526,6 +531,12 @@ function civicrm_views_data() {
                                                                        'left_field' => 'address_id',
                                                                        'field' => 'id',
                                                                        );
+    //CiviCRM Address Using Contacts as a pitstop before going on to Memberships
+    $data['civicrm_address']['table']['join']['civicrm_membership'] = array(
+                                                                       'left_table' => 'civicrm_contact',
+                                                                       'left_field' => 'id',
+                                                                       'field' => 'contact_id',
+                                                                       );
 
     //BOOLEAN : IS PRIMARY ADDRESS
     $data['civicrm_address']['is_primary'] = array(
@@ -725,6 +736,12 @@ function civicrm_views_data() {
                                                                      'left_field' => 'email_id',
                                                                      'field' => 'id',
                                                                      );
+    //CiviCRM Email Using Contacts as a pitstop before going on to Memberhsips
+    $data['civicrm_email']['table']['join']['civicrm_membership'] = array(
+                                                                     'left_table' => 'civicrm_contact',
+                                                                     'left_field' => 'id',
+                                                                     'field' => 'contact_id',
+                                                                     );
 
     //BOOLEAN : IS PRIMARY EMAIL
     $data['civicrm_email']['is_primary'] = array(
@@ -856,6 +873,12 @@ function civicrm_views_data() {
                                                                      'left_table' => 'civicrm_loc_block',
                                                                      'left_field' => 'phone_id',
                                                                      'field' => 'id',
+                                                                     );
+    //CiviCRM Phone Using Contacts as a pitstop before going on to Memberhsips
+    $data['civicrm_phone']['table']['join']['civicrm_membership'] = array(
+                                                                     'left_table' => 'civicrm_contact',
+                                                                     'left_field' => 'id',
+                                                                     'field' => 'contact_id',
                                                                      );
 
     //BOOLEAN : IS PRIMARY EMAIL
@@ -2583,6 +2606,283 @@ function civicrm_views_data() {
                                                                        ),
                                                        );
   
+        //----------------------------------------------------------------
+    // CIVICRM Memberships are here with all the connections.
+    //----------------------------------------------------------------
+  
+  
+    $data['civicrm_membership']['table']['group']  = t('CiviCRM Member');
+  
+    $data['civicrm_membership']['table']['base'] = array(
+                                                           'field' => 'id', // Governs the whole mozilla
+                                                           'title' => t('CiviCRM Memberships'),
+                                                           'help' => t("View displays CiviCRM Memberships, with connection to contacts."),
+                                                           );
+  
+    //CiviCRM Memberships - FIELDS
+  
+    //Numeric Membership ID
+    $data['civicrm_membership']['id'] = array(
+                                                'title' => t('Membership ID'),
+                                                'help' => t('The numeric ID of the Membership'),
+                                                'field' => array(
+                                                                 'handler' => 'views_handler_field_numeric',
+                                                                 'click sortable' => TRUE,
+                                                                 ),
+                                              
+                                                'argument' => array(
+                                                                    'handler' => 'views_handler_argument_numeric',
+                                                                    'numeric' => TRUE,
+                                                                    ),
+                                              
+                                                'filter' => array(
+                                                                  'handler' => 'views_handler_filter_numeric',
+                                                                  ),
+                                              
+                                                'sort' => array(
+                                                                'handler' => 'views_handler_sort',
+                                                                ),
+                                                );
+  
+    //Membership Type
+    $data['civicrm_membership']['membership_type'] = array(
+                                                               'title' => t('Membership Type'),
+                                                               'real field' => 'membership_type_id',
+                                                               'help' => t('The Type of Membership'),
+                                                               'field' => array(
+                                                                                'handler' => 'civicrm_handler_field_membership_type',
+                                                                                'click sortable' => TRUE,
+                                                                                ),
+                                                             
+                                                               'argument' => array(
+                                                                                   'handler' => 'views_handler_argument',
+                                                                                   ),
+                                                             
+                                                               'filter' => array(
+                                                                                 'handler' => 'civicrm_handler_filter_membership_type',
+                                                                                 ),
+                                                             
+                                                               'sort' => array(
+                                                                               'handler' => 'views_handler_sort',
+                                                                               ),
+                                                               );
+  
+    //Membership Join date
+    $data['civicrm_membership']['join_date'] = array(
+                                                        'title' => t('Join Date'),
+                                                        'help' => t('The Membership\'s Start Date'),
+                                                        'field' => array(
+                                                                         'handler' => 'civicrm_handler_field_datetime',
+                                                                         'click sortable' => TRUE,
+                                                                         ),
+
+                                                        'argument' => array(
+                                                                            'handler' => 'views_handler_argument_date',
+                                                                            ),
+
+                                                        'filter' => array(
+                                                                          'handler' => 'civicrm_handler_filter_datetime',
+                                                                          ),
+
+                                                        'sort' => array(
+                                                                        'handler' => 'views_handler_sort_date',
+                                                                        ),
+                                                        );
+    //Membership start date
+    $data['civicrm_membership']['start_date'] = array(
+                                                        'title' => t('Start Date'),
+                                                        'help' => t('The Membership\'s Start Date'),
+                                                        'field' => array(
+                                                                         'handler' => 'civicrm_handler_field_datetime',
+                                                                         'click sortable' => TRUE,
+                                                                         ),
+
+                                                        'argument' => array(
+                                                                            'handler' => 'views_handler_argument_date',
+                                                                            ),
+
+                                                        'filter' => array(
+                                                                          'handler' => 'civicrm_handler_filter_datetime',
+                                                                          ),
+
+                                                        'sort' => array(
+                                                                        'handler' => 'views_handler_sort_date',
+                                                                        ),
+                                                        );
+
+    //Membership end date
+    $data['civicrm_membership']['end_date'] = array(
+                                                      'title' => t('End Date'),
+                                                      'help' => t('The Membership\'s End Date'),
+                                                      'field' => array(
+                                                                       'handler' => 'civicrm_handler_field_datetime',
+                                                                       'click sortable' => TRUE,
+                                                                       ),
+
+                                                      'argument' => array(
+                                                                          'handler' => 'views_handler_argument_date',
+                                                                          ),
+
+                                                      'filter' => array(
+                                                                        'handler' => 'civicrm_handler_filter_datetime',
+                                                                        ),
+
+                                                      'sort' => array(
+                                                                      'handler' => 'views_handler_sort_date',
+                                                                      ),
+                                                      );
+    //membership Source
+    $data['civicrm_membership']['source'] = array(
+                                                         'title' => t('Source'),
+                                                         'help' =>  t('Source of the relationship'),
+                                                         'field' => array(
+                                                                          'handler' => 'views_handler_field',
+                                                                          'click sortable' => TRUE,
+                                                                          ),
+
+                                                         'argument' => array(
+                                                                             'handler' => 'views_handler_argument',
+                                                                             ),
+
+                                                         'filter' => array(
+                                                                           'handler' => 'views_handler_filter_string',
+                                                                           ),
+
+                                                         'sort' => array(
+                                                                         'handler' => 'views_handler_sort',
+                                                                         ),
+                                                            );
+    //Membership Status
+    $data['civicrm_membership']['status'] = array(
+                                                               'title' => t('Status'),
+                                                               'real field' => 'status_id',
+                                                               'help' => t('The Status of the Membership'),
+                                                               'field' => array(
+                                                                                'handler' => 'civicrm_handler_field_membership_status',
+                                                                                'click sortable' => TRUE,
+                                                                                ),
+
+                                                               'argument' => array(
+                                                                                   'handler' => 'views_handler_argument',
+                                                                                   ),
+
+                                                               'filter' => array(
+                                                                                 'handler' => 'civicrm_handler_filter_membership_status',
+                                                                                 ),
+
+                                                               'sort' => array(
+                                                                               'handler' => 'views_handler_sort',
+                                                                               ),
+                                                               );
+
+    //BOOLEAN : IS Status Overridden
+    $data['civicrm_membership']['is_override'] = array(
+                                                       'title' => t('Status overridden?'),
+                                                       'help' => t('Is the membership status overridden?'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field_boolean',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                       'argument' => array(
+                                                                           'handler' => 'views_handler_argument',
+                                                                           ),
+
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_boolean_operator',
+                                                                         ),
+
+                                                       'sort' => array(
+                                                                       'handler' => 'views_handler_sort',
+                                                                       ),
+                                                       );
+    //Membership end date
+    $data['civicrm_membership']['reminder_date'] = array(
+                                                      'title' => t('Reminder Date'),
+                                                      'help' => t('The Membership\'s Reminder Date'),
+                                                      'field' => array(
+                                                                       'handler' => 'civicrm_handler_field_datetime',
+                                                                       'click sortable' => TRUE,
+                                                                       ),
+
+                                                      'argument' => array(
+                                                                          'handler' => 'views_handler_argument_date',
+                                                                          ),
+
+                                                      'filter' => array(
+                                                                        'handler' => 'civicrm_handler_filter_datetime',
+                                                                        ),
+
+                                                      'sort' => array(
+                                                                      'handler' => 'views_handler_sort_date',
+                                                                      ),
+                                                      );
+   
+   //Numeric Membership Owner ID
+    $data['civicrm_membership']['owner_membership_id'] = array(
+                                         'title' => t('Membership Owner ID'),
+                                         'help' => t('The numeric ID Contact that owns the membership'),
+                                         'field' => array(
+                                                          'handler' => 'views_handler_field_numeric',
+                                                          'click sortable' => TRUE,
+                                                          ),
+
+                                         'argument' => array(
+                                                             'handler' => 'views_handler_argument_numeric',
+                                                             'numeric' => TRUE,
+                                                             ),
+
+                                         'filter' => array(
+                                                           'handler' => 'views_handler_filter_numeric',
+                                                           ),
+
+                                         'sort' => array(
+                                                         'handler' => 'views_handler_sort',
+                                                         ),
+                                         );
+
+   //BOOLEAN : IS test membership
+    $data['civicrm_membership']['is_test'] = array(
+                                                       'title' => t('Test Membership?'),
+                                                       'help' => t('Is this a test membership?'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field_boolean',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                       'argument' => array(
+                                                                           'handler' => 'views_handler_argument',
+                                                                           ),
+
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_boolean_operator',
+                                                                         ),
+
+                                                       'sort' => array(
+                                                                       'handler' => 'views_handler_sort',
+                                                                       ),
+                                                       );
+    //BOOLEAN : IS Pay later
+    $data['civicrm_membership']['is_pay_later'] = array(
+                                                       'title' => t('Is Pay Later'),
+                                                       'help' => t('Is the Membership pay later?'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field_boolean',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                       'argument' => array(
+                                                                           'handler' => 'views_handler_argument',
+                                                                           ),
+
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_boolean_operator',
+                                                                         ),
+
+                                                       'sort' => array(
+                                                                       'handler' => 'views_handler_sort',
+                                                                       ),
+                                                       );
     //Activity Text Link
     $data['civicrm_activity']['text_link'] =
         array(
@@ -2691,7 +2991,9 @@ function civicrm_views_custom_data_cache($data, $entity_type, $groupID, $subType
     case "Relationship":
         $jointable = 'civicrm_relationship';
         break;
-
+    case "Membership":
+        $jointable = 'civicrm_membership';
+        break;
     }
 
     foreach ($tree as $groupkey => $currentgroup) {
@@ -2945,6 +3247,12 @@ function civicrm_views_handlers() {
                        'civicrm_handler_field_drupalid' => array(
                                                             'parent' => 'views_handler_field',
                                                            ),      
+                       'civicrm_handler_field_membership_type' => array(
+                                                                          'parent' => 'views_handler_field',
+                                                                          ),
+                       'civicrm_handler_field_membership_status' => array(
+                                                                          'parent' => 'views_handler_field',
+                                                                          ),
                        'civicrm_handler_relationship_contact2users' => array(
                                                             'parent' => 'views_handler_relationship',
                                                            ),                                                                                                                 
@@ -3003,7 +3311,13 @@ function civicrm_views_handlers() {
                        'civicrm_handler_filter_contact_type' => array(
                                                                       'parent' => 'views_handler_filter_in_operator',
                                                                       ),                                                                           
-                                                                           
+                       'civicrm_handler_filter_membership_type' => array(
+                                                                           'parent' => 'views_handler_filter_in_operator',
+                                                                           ),
+                       'civicrm_handler_filter_membership_status' => array(
+                                                                           'parent' => 'views_handler_filter_in_operator',
+                                                                           ),
+                                                               
                                                         
                        // ARGUMENT HANDLERS
                        'civicrm_handler_argument_date_api_contact' => array(

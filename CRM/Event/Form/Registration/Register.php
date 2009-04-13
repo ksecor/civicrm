@@ -286,11 +286,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         if ( !( $this->_paymentProcessor['billing_mode'] == CRM_Core_Payment::BILLING_MODE_BUTTON &&
                 ! $this->_values['event']['is_pay_later'] ) ) {
+            //freeze button to avoid multiple calls.
+            $js = null;
+            if ( !CRM_Utils_Array::value('is_monetary', $this->_values['event']) ) {
+                $js = array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" );
+            }
             $this->addButtons(array( 
                                     array ( 'type'      => 'upload', 
                                             'name'      => ts('Continue >>'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                            'isDefault' => true   ), 
+                                            'isDefault' => true,
+                                            'js'        => $js ), 
                                     ) 
                               );
         }
