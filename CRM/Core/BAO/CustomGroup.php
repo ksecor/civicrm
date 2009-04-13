@@ -111,16 +111,20 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         $group->is_active        = CRM_Utils_Array::value('is_active', $params, false);
 
         $group->is_multiple      = CRM_Utils_Array::value('is_multiple'    , $params, false );
-        //$group->min_multiple     = ( $params['min_multiple'] >= '0' ) ? $params['min_multiple'] : 'null';
-        $group->max_multiple     = ( $params['max_multiple'] >= '0' ) ? $params['max_multiple'] : 'null';
+        $group->max_multiple     = ( isset( $params['max_multiple'] ) &&
+                                     $params['max_multiple'] >= '0' ) ? $params['max_multiple'] : 'null';
 
         $tableName = null;
         if ( isset( $params['id'] ) ) {
             $group->id = $params['id'] ;
             //check whether custom group was changed from single-valued to multiple-valued
             if ($params['is_multiple'] && 
-                $params['is_multiple'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'is_multiple' ) ) {
-                $oldTableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'table_name' );
+                $params['is_multiple'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                                       $params['id'],
+                                                                       'is_multiple' ) ) {
+                $oldTableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                             $params['id'],
+                                                             'table_name' );
             }
         } else {
             // lets create the table associated with the group and save it
