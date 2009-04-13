@@ -151,11 +151,23 @@
 			dataUrl = dataUrl + '&discountId=' + discountId;	
 		}
 
-		cj("#feeBlock").load( dataUrl );	
+		var response = cj.ajax({
+    						url: dataUrl,
+    						async: false,
+    						global: false
+    					}).responseText;
+    					
+        cj("#feeBlock").ajaxStart(function(){
+            cj("#overlay").show();
+        });
+        cj("#feeBlock").ajaxStop(function(){
+            cj("#overlay").hide();
+        });
+    	cj("#feeBlock").html( response );	
 	}
 </script>
 {/literal}
-
+<div id="overlay">Loading...</div>
 {*include custom data js file*}
 {include file="CRM/common/customData.tpl"}
 {literal}
