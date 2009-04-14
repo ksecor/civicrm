@@ -71,6 +71,19 @@
 	 /*if user checking the same user name more than one times. avoid the ajax call*/
 	 return;
       }
+      /*don't allow special character and for joomla minimum username length is two*/
+      var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\\\\|\/]", "i");
+      /*regular expression \\ matches a single backslash. this becomes r = /\\/ or r = new RegExp("\\\\").*/
+      if ( r.exec(cmsUserName) ) {
+	 alert("Your username contains invalid characters");
+      	 return;
+      } 
+      {/literal}{if $config->userFramework == "Joomla"}{literal}
+	 else if ( cmsUserName && cmsUserName.length < 2 ) {
+	    alert("Your username is too short");
+	    return;	
+	 }
+      {/literal}{/if}{literal}
       if (cmsUserName) {
 	 /*take all messages in javascript variable*/
 	 var check        = "{/literal}{ts}Checking...{/ts}{literal}";

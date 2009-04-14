@@ -357,6 +357,12 @@ SELECT count(*)
  WHERE LOWER(name) = LOWER('$name')
 ";
         } elseif ( $isJoomla ) {
+            //don't allow the special characters and min. username length is two
+            //regex \\ to match a single backslash would become '/\\\\/' 
+            $isNotValid = (bool) preg_match('/[\<|\>|\"|\'|\%|\;|\(|\)|\&|\\\\|\/]/im', $name );
+            if ( $isNotValid || strlen( $name ) < 2 ) {
+                $errors['cms_name'] = ts("Your username contains invalid characters or is too short");
+            }
             $sql = "
 SELECT count(*)
   FROM {$config->userFrameworkUsersTableName}
