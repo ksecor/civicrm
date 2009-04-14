@@ -225,14 +225,12 @@ WHERE ca.subject      LIKE {$this->_text}
     function fillCase( ) {
         $sql = "
 INSERT INTO {$this->_tableName}
-( table_name, contact_id, display_name, case_id, subject, details )
-SELECT    'Case', c.id, c.display_name, cc.id, cc.subject, substring(cc.details, 255)
+( table_name, contact_id, display_name, case_id )
+SELECT    'Case', c.id, c.display_name, cc.id
 FROM      civicrm_case cc 
 LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
 LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
-WHERE     cc.subject LIKE {$this->_text}
-OR        cc.details LIKE {$this->_text}
-OR        c.display_name LIKE {$this->_text}
+WHERE    c.display_name LIKE {$this->_text}
 ";
 
         if ( ! $this->_table ) {
@@ -251,7 +249,7 @@ OR        c.display_name LIKE {$this->_text}
         $tables = array( ''          => ts( 'All Tables' ),
                          'Contact'   => ts( 'Contacts' ),
                          'Activity'  => ts( 'Activities' ),
-                         'Case'     => ts( 'Cases' ), );
+                         'Case'      => ts( 'Cases' ) );
         $form->add( 'select',
                     'table',
                     ts( 'Tables' ),
