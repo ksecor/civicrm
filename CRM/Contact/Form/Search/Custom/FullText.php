@@ -98,7 +98,7 @@ class CRM_Contact_Form_Search_Custom_FullText
 
     function buildTempTable( ) {
         $randomNum = md5( uniqid( ) );
-        $this->_tableName = "civicrm_temp_custom_search";
+        $this->_tableName = "civicrm_temp_custom_{$randomNum}";
 
         $sql = "DROP TABLE IF EXISTS {$this->_tableName}";
         CRM_Core_DAO::executeQuery( $sql );
@@ -140,22 +140,20 @@ CREATE TEMPORARY TABLE {$this->_tableName} (
         CRM_Core_DAO::executeQuery( $sql );
 
         $sql = "
-        CREATE TABLE {$this->_cacheContactTable} (
-          id INT PRIMARY KEY AUTO_INCREMENT,
-          contact_id INT,
-          display_name VARCHAR(64)
-        ) ENGINE=HEAP;
-        ";       
-        
+CREATE TABLE {$this->_cacheContactTable} (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  contact_id INT,
+  display_name VARCHAR(64)
+) ENGINE=HEAP;
+";
         CRM_Core_DAO::executeQuery( $sql );
 
         $sql = "
-        REPLACE INTO  {$this->_cacheContactTable} ( contact_id, display_name )
-        SELECT  id contact_id, display_name
-        FROM civicrm_contact                
-        WHERE display_name LIKE {$this->_text}
-        ";
-        
+INSERT INTO  {$this->_cacheContactTable} ( contact_id, display_name )
+SELECT  id contact_id, display_name
+FROM    civicrm_contact                
+WHERE   display_name LIKE {$this->_text}
+";
         CRM_Core_DAO::executeQuery( $sql );
         
         if ( ! $this->_table ||
@@ -174,20 +172,19 @@ CREATE TEMPORARY TABLE {$this->_tableName} (
         }
         
         $sql = "DROP TABLE IF EXISTS {$this->_cacheContactTable}";
-        CRM_Core_DAO::executeQuery( $sql );
+        // CRM_Core_DAO::executeQuery( $sql );
     }
 
     function fillContact( ) {
         $sql = "
 INSERT INTO {$this->_tableName}
-( table_name, contact_id, display_name )
-SELECT 'Contact', c.contact_id, c.display_name
+( contact_id, display_name, table_name )
+SELECT DISTINCT( c.contact_id ), c.display_name, 'Contact'
 FROM {$this->_cacheContactTable} c
 LEFT JOIN civicrm_address ca ON c.id = ca.contact_id
 LEFT JOIN civicrm_email   ce ON c.id = ce.contact_id
 LEFT JOIN civicrm_phone   cp ON c.id = cp.contact_id
-WHERE c.contact_id   IS NOT NULL
-OR    ca.street_address LIKE {$this->_text}
+WHERE ca.street_address LIKE {$this->_text}
 OR    ca.city LIKE {$this->_text}
 OR    ce.email LIKE {$this->_text}
 OR    cp.phone LIKE {$this->_text}
