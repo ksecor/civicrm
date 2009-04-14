@@ -76,7 +76,7 @@ class CRM_Contact_Form_Search_Custom_FullText
         // fix text to include wild card characters at begining and end
         if ( $this->_text ) {
             $this->_text = strtolower( addslashes( $this->_text ) );
-            if ( strpos( $this->_text, '%' ) !== false ) {
+            if ( strpos( $this->_text, '%' ) === false ) {
                 $this->_text = "'%{$this->_text}%'";
             } else {
                 $this->_text = "'{$this->_text}'";
@@ -94,13 +94,13 @@ class CRM_Contact_Form_Search_Custom_FullText
 
     function buildTempTable( ) {
         $randomNum = md5( uniqid( ) );
-        $this->_tableName = "civicrm_temp_custom_{$randomNum}";
+        $this->_tableName = "civicrm_temp_custom_search";
 
         $sql = "DROP TABLE IF EXISTS {$this->_tableName}";
         CRM_Core_DAO::executeQuery( $sql );
 
         $sql = "
-CREATE TEMPORARY TABLE {$this->_tableName} (
+CREATE TABLE {$this->_tableName} (
   id int unsigned NOT NULL AUTO_INCREMENT,
   table_name  varchar(16),
   contact_id int unsigned,
