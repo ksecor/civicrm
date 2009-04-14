@@ -413,12 +413,12 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->assign( 'addToGroupId' , $addToGroupId );
                 $this->_addToGroupID = $addToGroupId;
             }
-            
-            // also do state country js
-            require_once 'CRM/Core/BAO/Address.php';
-            CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap,
-                                                      $this->_defaults );
         }
+            
+	// also do state country js
+	require_once 'CRM/Core/BAO/Address.php';
+	CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap,
+						  $this->_defaults );
         
         $action = CRM_Utils_Request::retrieve('action', 'String',$this, false, null );
         if ( $this->_mode == self::MODE_CREATE  ) { 
