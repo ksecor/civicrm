@@ -49,6 +49,8 @@ class CRM_Contact_Form_Search_Custom_FullText
     protected $_tableName = null;
 
     protected $_tableFields = null;
+    
+    protected $_cacheContactTable = 'civicrm_contact_cache';
 
     function __construct( &$formValues ) {
         $this->_formValues =& $formValues;
@@ -134,6 +136,28 @@ CREATE TEMPORARY TABLE {$this->_tableName} (
     }
 
     function fillTable( ) {
+        $sql = "DROP TABLE IF EXISTS {$this->_cacheContactTable}";
+        CRM_Core_DAO::executeQuery( $sql );
+
+        $sql = "
+        CREATE TABLE {$this->_cacheContactTable} (
+          id INT PRIMARY KEY AUTO_INCREMENT,
+          contact_id INT,
+          display_name VARCHAR(64)
+        ) ENGINE=HEAP;
+        ";       
+        
+        CRM_Core_DAO::executeQuery( $sql );
+
+        $sql = "
+        REPLACE INTO  {$this->_cacheContactTable} ( contact_id, display_name )
+        SELECT  id contact_id, display_name
+        FROM civicrm_contact                
+        WHERE display_name LIKE {$this->_text}
+        ";
+        
+        CRM_Core_DAO::executeQuery( $sql );
+        
         if ( ! $this->_table ||
              $this->_table == 'Contact') {
             $this->fillContact( );
@@ -148,18 +172,21 @@ CREATE TEMPORARY TABLE {$this->_tableName} (
              $this->_table == 'Case') {
             $this->fillCase( );
         }
+        
+        $sql = "DROP TABLE IF EXISTS {$this->_cacheContactTable}";
+        CRM_Core_DAO::executeQuery( $sql );
     }
 
     function fillContact( ) {
         $sql = "
 INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name )
-SELECT 'Contact', c.id, c.display_name
-FROM civicrm_contact c
+SELECT 'Contact', c.contact_id, c.display_name
+FROM {$this->_cacheContactTable} c
 LEFT JOIN civicrm_address ca ON c.id = ca.contact_id
 LEFT JOIN civicrm_email   ce ON c.id = ce.contact_id
 LEFT JOIN civicrm_phone   cp ON c.id = cp.contact_id
-WHERE c.display_name LIKE {$this->_text}
+WHERE c.contact_id   IS NOT NULL
 OR    ca.street_address LIKE {$this->_text}
 OR    ca.city LIKE {$this->_text}
 OR    ce.email LIKE {$this->_text}
@@ -173,25 +200,6 @@ OR    cp.phone LIKE {$this->_text}
     }
 
     function fillActivity( ) {
-        $sql = "DROP TABLE IF EXISTS civicrm_temp_custom_contact";
-        CRM_Core_DAO::executeQuery( $sql );
-
-        $sql = "
-CREATE TABLE civicrm_temp_custom_contact (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  contact_id INT,
-  display_name VARCHAR(64)
-) ENGINE=HEAP;
-";       
-        CRM_Core_DAO::executeQuery( $sql );
-
-        $sql = "
-REPLACE INTO  civicrm_temp_custom_contact ( contact_id, display_name )
-SELECT  id contact_id, display_name
-FROM civicrm_contact                
-WHERE display_name LIKE {$this->_text}
-";
-        CRM_Core_DAO::executeQuery( $sql );
 
         $sql = "
 INSERT INTO {$this->_tableName}
@@ -202,10 +210,10 @@ SELECT    'Activity', ca.id, ca.subject, substring(ca.details, 250),
            c3.contact_id, c3.display_name
 FROM      civicrm_activity ca
 LEFT JOIN civicrm_activity_assignment caa ON caa.activity_id = ca.id
-LEFT JOIN civicrm_temp_custom_contact c1 ON caa.assignee_contact_id = c1.id
+LEFT JOIN {$this->_cacheContactTable} c1 ON caa.assignee_contact_id = c1.id
 LEFT JOIN civicrm_activity_target cat ON cat.activity_id = ca.id
-LEFT JOIN civicrm_temp_custom_contact c2 ON cat.target_contact_id = c2.id
-LEFT JOIN civicrm_temp_custom_contact c3 ON ca.source_contact_id = c3.id
+LEFT JOIN {$this->_cacheContactTable} c2 ON cat.target_contact_id = c2.id
+LEFT JOIN {$this->_cacheContactTable} c3 ON ca.source_contact_id = c3.id
 WHERE ca.subject      LIKE {$this->_text}
    OR ca.details      LIKE {$this->_text}
    OR c1.contact_id   IS NOT NULL
@@ -217,25 +225,23 @@ WHERE ca.subject      LIKE {$this->_text}
         }
 
         CRM_Core_DAO::executeQuery( $sql );
-
-        $sql = "DROP TABLE IF EXISTS civicrm_temp_custom_contact";
-        CRM_Core_DAO::executeQuery( $sql );
     }
 
     function fillCase( ) {
         $sql = "
 INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name, case_id )
-SELECT    'Case', c.id, c.display_name, cc.id
+SELECT    'Case', c.contact_id, c.display_name, cc.id
 FROM      civicrm_case cc 
 LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
-LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
-WHERE    c.display_name LIKE {$this->_text}
+LEFT JOIN {$this->_cacheContactTable} c ON ccc.contact_id = c.contact_id
+WHERE   c.contact_id   IS NOT NULL
 ";
 
         if ( ! $this->_table ) {
             $sql .= " LIMIT 10 ";
         }
+
         CRM_Core_DAO::executeQuery( $sql );
     }
 
@@ -287,7 +293,7 @@ WHERE    c.display_name LIKE {$this->_text}
             }
             $summary[$dao->table_name][] = $row;
         }
-
+        
         return $summary;
     }
 

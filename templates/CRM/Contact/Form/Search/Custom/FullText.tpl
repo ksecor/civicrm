@@ -29,7 +29,7 @@
 {if $rowsEmpty}
     {include file="CRM/Contact/Form/Search/Custom/EmptyResults.tpl"}
 {/if}
-{debug}
+
 {if !empty($summary.Contact) }
     {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
     {assign var="showBlock" value="'searchForm_show'"}
