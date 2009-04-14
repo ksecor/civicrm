@@ -621,7 +621,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( $this->_grid ){
             $params['group'] = $groupSubscribed;
         }
-        
+
+        // CRM-4343
+        $params['preserveDBName'] = true;
+
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype,
