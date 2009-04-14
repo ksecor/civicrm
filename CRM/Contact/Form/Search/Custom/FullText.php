@@ -48,6 +48,8 @@ class CRM_Contact_Form_Search_Custom_FullText
 
     protected $_tableName = null;
 
+    protected $_tableFields = null;
+
     function __construct( &$formValues ) {
         $this->_formValues =& $formValues;
 
@@ -98,22 +100,32 @@ class CRM_Contact_Form_Search_Custom_FullText
 
         $sql = "DROP TABLE IF EXISTS {$this->_tableName}";
         CRM_Core_DAO::executeQuery( $sql );
-
+        
+        $this->_tableFields =
+            array(
+                  'id' => 'int unsigned NOT NULL AUTO_INCREMENT',
+                  'table_name' => 'varchar(16)',
+                  'contact_id' => 'int unsigned',
+                  'display_name' => 'varchar(128)',
+                  'assignee_contact_id' => 'int unsigned',
+                  'assignee_display_name' => 'varchar(128)',
+                  'target_contact_id' => 'int unsigned',
+                  'target_display_name' => 'varchar(128)',
+                  'activity_id' => 'int unsigned',
+                  'case_id' => 'int unsigned',
+                  'subject' => ' varchar(255)',
+                  'details' => ' varchar(255)',
+                  );
+                  
         $sql = "
-CREATE TABLE {$this->_tableName} (
-  id int unsigned NOT NULL AUTO_INCREMENT,
-  table_name  varchar(16),
-  contact_id int unsigned,
-  display_name varchar(128),
-  assignee_contact_id int unsigned,
-  assignee_display_name varchar(128),
-  target_contact_id int unsigned,
-  target_display_name varchar(128),
-  activity_id int unsigned,
-  case_id int unsigned,
-  subject varchar(255),
-  details varchar(255),
+CREATE TEMPORARY TABLE {$this->_tableName} (
+";
 
+        foreach ( $this->_tableFields as $name => $desc ) {
+            $sql .= "$name $desc,\n"; 
+        }
+
+        $sql .= "
   PRIMARY KEY ( id )
 ) ENGINE=HEAP
 ";
@@ -143,8 +155,15 @@ CREATE TABLE {$this->_tableName} (
 INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name )
 SELECT 'Contact', c.id, c.display_name
-FROM   civicrm_contact c
-WHERE  c.display_name LIKE {$this->_text}
+FROM civicrm_contact c
+LEFT JOIN civicrm_address ca ON c.id = ca.contact_id
+LEFT JOIN civicrm_email   ce ON c.id = ce.contact_id
+LEFT JOIN civicrm_phone   cp ON c.id = cp.contact_id
+WHERE c.display_name LIKE {$this->_text}
+OR    ca.street_address LIKE {$this->_text}
+OR    ca.city LIKE {$this->_text}
+OR    ce.email LIKE {$this->_text}
+OR    cp.phone LIKE {$this->_text}
 ";
 
         if ( ! $this->_table ) {
@@ -193,6 +212,10 @@ WHERE ca.subject      LIKE {$this->_text}
    OR c2.contact_id   IS NOT NULL
    OR c3.contact_id   IS NOT NULL
 ";         
+        if ( ! $this->_table ) {
+            $sql .= " LIMIT 10 ";
+        }
+
         CRM_Core_DAO::executeQuery( $sql );
 
         $sql = "DROP TABLE IF EXISTS civicrm_temp_custom_contact";
@@ -200,6 +223,22 @@ WHERE ca.subject      LIKE {$this->_text}
     }
 
     function fillCase( ) {
+        $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, case_id, subject, details )
+SELECT    'Case', c.id, c.display_name, cc.id, cc.subject, substring(cc.details, 255)
+FROM      civicrm_case cc 
+LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
+LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
+WHERE     cc.subject LIKE {$this->_text}
+OR        cc.details LIKE {$this->_text}
+OR        c.display_name LIKE {$this->_text}
+";
+
+        if ( ! $this->_table ) {
+            $sql .= " LIMIT 10 ";
+        }
+        CRM_Core_DAO::executeQuery( $sql );
     }
 
     function buildForm( &$form ) {
@@ -233,7 +272,25 @@ WHERE ca.subject      LIKE {$this->_text}
     }
 
     function summary( ) {
-        return null;
+        $summary = array( 'Contact'  => array( ),
+                          'Activity' => array( ),
+                          'Case'     => array( ) );
+        
+        
+        // now iterate through the table and add entries to the relevant section
+        $sql = "SELECT * FROM {$this->_tableName}";
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+
+        
+        while ( $dao->fetch( ) ) {
+            $row = array( );
+            foreach ( $this->_tableFields as $name => $dontCare ) {
+                $row[$name] = $dao->$name;
+            }
+            $summary[$dao->table_name][] = $row;
+        }
+
+        return $summary;
     }
 
     function count( ) {
