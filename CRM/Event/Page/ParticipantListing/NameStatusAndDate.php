@@ -73,12 +73,11 @@ class CRM_Event_Page_ParticipantListing_NameStatusAndDate extends CRM_Core_Page 
 FROM       civicrm_contact
 INNER JOIN civicrm_participant ON civicrm_contact.id = civicrm_participant.contact_id 
 INNER JOIN civicrm_event       ON civicrm_participant.event_id = civicrm_event.id
-LEFT JOIN  civicrm_email       ON ( civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1 )
 ";
 
         $whereClause = "
-WHERE    civicrm_event.id = %1
-AND      civicrm_participant.status_id IN ( 1, 2 )";
+WHERE    civicrm_event.id = %1";
+
         $params = array( 1 => array( $this->_id, 'Integer' ) );
         $this->pager( $fromClause, $whereClause, $params );
         $orderBy = $this->orderBy( );
@@ -89,7 +88,6 @@ AND      civicrm_participant.status_id IN ( 1, 2 )";
 SELECT   civicrm_contact.id                as contact_id   ,
          civicrm_contact.display_name      as name         ,
          civicrm_contact.sort_name         as sort_name    ,
-         civicrm_email.email               as email        ,
          civicrm_participant.status_id     as status_id    ,
          civicrm_participant.register_date as register_date
          $fromClause
@@ -147,13 +145,10 @@ SELECT count( civicrm_contact.id )
             $headers[1] = array( 'name'      => ts( 'Name' ),
                                  'sort'      => 'civicrm_contact.sort_name',
                                  'direction' => CRM_Utils_Sort::ASCENDING );
-            $headers[2] = array( 'name'      => ts( 'Email' ),
-                                 'sort'      => 'civicrm_email.email',
-                                 'direction' => CRM_Utils_Sort::DONTCARE );
-            $headers[3] = array( 'name'      => ts( 'Status' ),
+            $headers[2] = array( 'name'      => ts( 'Status' ),
                                  'sort'      => 'civicrm_participant.status_id',
                                  'direction' => CRM_Utils_Sort::DONTCARE );
-            $headers[4] = array( 'name'      => ts( 'Register Date' ),
+            $headers[3] = array( 'name'      => ts( 'Register Date' ),
                                  'sort'      => 'civicrm_participant.register_date',
                                  'direction' => CRM_Utils_Sort::DONTCARE );
         }
