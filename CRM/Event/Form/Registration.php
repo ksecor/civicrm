@@ -212,31 +212,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             // get all the values from the dao object
             $this->_values = array( );
             $this->_fields = array( );
-            
-            require_once 'CRM/Event/BAO/Participant.php';
-            $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
-            $this->_hasWaitlisting = false;
-            if ( $eventFull ) {
-                //lets redirecting the users to some waitlist screen.  
-                if ( $this->_hasWaitlisting = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_eventId, 'has_waitlist' ) ) {
-                    require_once "CRM/Core/Session.php";
-                    CRM_Core_Session::setStatus( ts("Event is currently full, but you can register temporarily and be a part of waiting list."));
-                } else {
-                    CRM_Utils_System::redirect( $infoUrl );      
-                }
-            }
-            $this->set( 'hasWaitlisting', $this->_hasWaitlisting );
-            
-            //retrieve event information
-            require_once 'CRM/Event/BAO/Event.php';
-            $params = array( 'id' => $this->_eventId );
-            CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
-            
+
             // get the participant values, CRM-4320
+            $this->_allowConfirmation = false;
             if ( $this->_participantId ) {
                 require_once 'CRM/Event/BAO/Event.php';
                 $ids = $participantValues = array( );
                 $participantParams = array( 'id' => $this->_participantId );
+                require_once 'CRM/Event/BAO/Participant.php';
                 CRM_Event_BAO_Participant::getValues( $participantParams, $participantValues, $ids );
                 $this->_values['participant'] = $participantValues[$this->_participantId];
                 
@@ -248,6 +231,27 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                     $this->set( 'allowConfirmation', true );
                 }
             }
+            
+            //retrieve event information
+            require_once 'CRM/Event/BAO/Event.php';
+            $params = array( 'id' => $this->_eventId );
+            CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
+            
+            require_once 'CRM/Event/BAO/Participant.php';
+            $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
+            $this->_hasWaitlisting = false;
+            if ( $eventFull && !$this->_allowConfirmation ) {
+                //lets redirecting to info only when to waiting list.
+                if ( $this->_hasWaitlisting = CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) {
+                    $status = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
+                                                      'Event is currently full, but you can register temporarily and be a part of waiting list.' );
+                    require_once "CRM/Core/Session.php";
+                    CRM_Core_Session::setStatus( $status );
+                } else {
+                    CRM_Utils_System::redirect( $infoUrl );      
+                }
+            }
+            $this->set( 'hasWaitlisting', $this->_hasWaitlisting );
             
             //check for require requires approval.
             $this->_requireApproval = false;

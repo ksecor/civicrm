@@ -143,7 +143,7 @@ Participant {$priceset+1}
 {/if}
 {/if} {* End of conditional section for Paid events *}
 
-{if $participantId}
+{if $isPrimary and $participantId}
 ===========================================================
 {ts}Confirm Your Paticipatation{/ts}
 

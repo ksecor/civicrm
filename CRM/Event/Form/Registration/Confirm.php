@@ -471,9 +471,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         $pendingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" );
                         $waitingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Waiting'" );
                         if ( $this->_hasWaitlisting && !$this->_allowConfirmation ) {
-                            $value['participant_status_id'] = array_search( 'Awaiting approval', $waitingStatuses );
-                        } else if ( $this->_requireApproval && !$this->_allowConfirmation ) {
                             $value['participant_status_id'] = array_search( 'On waitlist', $waitingStatuses );
+                        } else if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+                            $value['participant_status_id'] = array_search( 'Awaiting approval', $waitingStatuses );
                         } else {
                             $value['participant_status_id'] = array_search( 'Pending', $pendingStatuses );  
                         }
@@ -640,8 +640,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 }
                 
                 //send Confirmation mail to Primary & additional Participants if exists
-                CRM_Event_BAO_Event::sendMail( $contactId, $this->_values, $participantID, $isTest );
-            } 
+                //only send mail when registration has been confirmed
+                //or no approval require or no waiting list, CRM-4319, CRM-4326.
+                if ( $this->_allowConfirmation || !( $this->_requireApproval || $this->_hasWaitlisting ) ) {
+                    CRM_Event_BAO_Event::sendMail( $contactId, $this->_values, $participantID, $isTest );
+                }
+            }
+                
         }
         
     } //end of function

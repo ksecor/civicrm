@@ -869,7 +869,7 @@ WHERE civicrm_event.is_active = 1
                 $bltID = array_search( 'Billing',  $locationTypes );
                 list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $bltID );
             }
-    
+            
             //send email only when email is present
             if ( isset( $email ) ) {
                 self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
@@ -882,16 +882,18 @@ WHERE civicrm_event.is_active = 1
                 $isShowLocation = CRM_Utils_Array::value('is_show_location',$values['event']);
                 $template->assign( 'isShowLocation', $isShowLocation );
                 
-                //generate checksum for contact id and assign to template, CRM-4320
-                require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                $checksumLife = 'inf';
-                if ( $endDate = CRM_Utils_Array::value( 'end_date', $values['event'] ) ) {
-                    $checksumLife = (CRM_Utils_Date::unixTime( $endDate )-time())/(60*60);
+                //generate checksum only for primary participant contact id and assign to template, CRM-4320
+                if ( CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) === false ) {
+                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                    $checksumLife = 'inf';
+                    if ( $endDate = CRM_Utils_Array::value( 'end_date', $values['event'] ) ) {
+                        $checksumLife = (CRM_Utils_Date::unixTime( $endDate )-time())/(60*60);
+                    }
+                    $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactID, null, $checksumLife ); 
+                    
+                    $template->assign( 'checksumValue', $checksumValue );
+                    $template->assign( 'participantId', $participantId );
                 }
-                $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactID, null, $checksumLife ); 
-                
-                $template->assign( 'checksumValue', $checksumValue );
-                $template->assign( 'participantId', $participantId );
                 
                 $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
                 $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
