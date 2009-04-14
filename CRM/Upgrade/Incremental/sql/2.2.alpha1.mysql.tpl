@@ -105,6 +105,12 @@ SET
 
 -- CRM-3391
 -- Update table name in civicrm_option_group (Fee Level) 
+-- cleanup for unused option group
+
+DELETE og.* FROM civicrm_option_group og 
+ LEFT JOIN civicrm_event_page ep ON ep.id = SUBSTRING_INDEX( SUBSTRING( og.name, 27 ) , '.discount', 1) 
+ WHERE og.name LIKE 'civicrm_event_page.amount%' AND ep.id IS NULL;
+
 {foreach from =$eventFees item=ogid}
 
   SELECT @option_group_id := id ,@event_page_id := SUBSTRING_INDEX( SUBSTRING( name, 27 ) , '.discount', 1 )
