@@ -466,13 +466,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                      $this->_contributeMode   == 'notify' ) {
                     if ( $value['amount'] != 0 ) {
                         $pending = true;
-                        //get the pending family statuses.
+                        //get the participant statuses.
                         require_once 'CRM/Event/PseudoConstant.php';
                         $pendingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" );
+                        $waitingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Waiting'" );
                         if ( $this->_hasWaitlisting && !$this->_allowConfirmation ) {
-                            $value['participant_status_id'] = array_search( 'Pending from approval', $pendingStatuses );
+                            $value['participant_status_id'] = array_search( 'Awaiting approval', $waitingStatuses );
                         } else if ( $this->_requireApproval && !$this->_allowConfirmation ) {
-                            $value['participant_status_id'] = array_search( 'Pending from waitlist', $pendingStatuses );
+                            $value['participant_status_id'] = array_search( 'On waitlist', $waitingStatuses );
                         } else {
                             $value['participant_status_id'] = array_search( 'Pending', $pendingStatuses );  
                         }
