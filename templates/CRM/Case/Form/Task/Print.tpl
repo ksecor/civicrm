@@ -16,7 +16,7 @@
     <th>{ts}Most Recent Activity{/ts}</th>
     <th>{ts}Next Scheduled Activity{/ts}</th>
   </tr>
-{debug}
+
 {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"}">
         <td>{$row.sort_name}<br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
