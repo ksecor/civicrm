@@ -217,11 +217,16 @@ class CRM_Core_Action {
             }
         }
         
-        $result = $resultDiv = '';
-        $actionLink = array_slice ( $url, 0, 2 );
-        $actionDiv  = array_splice( $url, 2    );
+        $result     = $resultDiv = '';
+        $actionLink = $url;
+        $actionDiv  = array_splice( $url, 2 );
+        $showDiv    = false;
+        if ( count( $actionDiv ) > 1 ) {
+            $actionLink = array_slice ( $url, 0, 2 );
+            $showDiv = true;
+        }
         CRM_Utils_String::append( $resultLink, '&nbsp;|&nbsp;', $actionLink );
-        if ( $actionDiv ) {
+        if ( $showDiv ) {
             CRM_Utils_String::append( $resultDiv, '</li><li>', $actionDiv );
             $resultDiv = "| <img src='{$config->resourceBase}i/menu-collapsed.png' title='".ts('more actions')."'/> ".ts('more actions')."<ul id='panel_xx' class='panel'><li>{$resultDiv}</li></ul>";
         }
