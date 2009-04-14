@@ -234,11 +234,17 @@ class CRM_Contact_Form_Address
                 $countryID = $countryDefaultValue;
             }
         }
+        
+        $stateTitle = ts( 'State/Province' );
+        if ( isset( $form->_fields[$stateElementName]['title'] ) ) {
+            $stateTitle = $form->_fields[$stateElementName]['title'];
+        }
+            
         if ( $countryID &&
              isset( $form->_elementIndex[$stateElementName] ) ) {
             $form->addElement( 'select',
                                $stateElementName,
-                               ts( 'State/Province' ),
+                               $stateTitle,
                                array( '' => ts( '- select -' ) ) +
                                CRM_Core_PseudoConstant::stateProvinceForCountry( $countryID ) );
         }

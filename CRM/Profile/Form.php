@@ -88,7 +88,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * 
      * @var array 
      */ 
-    protected $_fields; 
+    public $_fields; 
     
     /** 
      * to store contact details
