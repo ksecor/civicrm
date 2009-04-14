@@ -616,7 +616,7 @@ class CRM_Core_SelectValues
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $val )  ) {
                     $tokens["{contact.$val}"] = "{contact.".$customFields[$customFieldId][groupTitle].": ".$customFields[$customFieldId][label]."}";
                 } else {
-                    $tokens[$key] = "{contact.$val}";
+                    $tokens["{contact.$val}"] = "{contact.$val}";
                 }
             }
 
