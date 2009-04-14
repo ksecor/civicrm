@@ -145,6 +145,7 @@ class CRM_Utils_Address
                       'phone'                  => CRM_Utils_Array::value( 'phone', $fields ),
                       'home_URL'               => CRM_Utils_Array::value( 'home_URL', $fields ),
                       'contact_source'         => CRM_Utils_Array::value( 'contact_source', $fields ),
+                      'external_identifier'    => CRM_Utils_Array::value( 'external_identifier', $fields ),
                       'contact_id'             => CRM_Utils_Array::value( 'id', $fields )
                        );
         } else {
