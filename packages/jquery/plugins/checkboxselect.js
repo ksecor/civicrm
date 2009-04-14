@@ -1,6 +1,16 @@
 /*
  * select / unselect checkboxes plugin for jQuery
+ *########################################
+ *# Logic to select/unselect checkboxes  #
+ *########################################
+ * Last Action   Current Status	     Result
+ *	         ( of the checkbox 
+ *		   you selected )
  *
+ * Checked       Checked             Uncheck the all checkboxes between the two
+ * Checked       UnChecked	     Check the all checkboxes between the two
+ * UnChecked     Checked	     Uncheck the all checkboxes between the two
+ * UnChecked     UnChecked 	     Check the all checkboxes between the two
  */
 
 
@@ -18,6 +28,16 @@ $(document).ready(function() {
 	    if ( start == end ) {
 		return;
 	    }
+	    var validLastcheck = $(lastChecked).parent().parent().attr('class');
+	    var validthischeck = $(this).parent().parent().attr('class');
+	    //don't allow the select/unslect other than search result e.g.(search form)
+	    //TODO: once all headers are sticky( under development), we can remove the columnheader check	    
+	    var params = new Array( "listing-box", "columnheader", "sticky", "" );
+	    for ( i = 0; i < params.length; i++ ) {		
+		if ( params[i] == validLastcheck || params[i] == validthischeck ) {
+		    return;
+		}
+	    }
 	    var min   = Math.min( start, end );
 	    var max   = Math.max( start, end );
 	    if ( lastChecked.checked && this.checked ) {
@@ -29,7 +49,7 @@ $(document).ready(function() {
 	    } else if (! lastChecked.checked && !this.checked ) {
 		lastChecked.checked = false;
 	    } 
-	    for( i = min; i <= max; i++ ) {
+	    for ( i = min; i <= max; i++ ) {
 		//check the checkboxes between the two chech boxes
 		$('.form-checkbox')[i].checked = lastChecked.checked;
 	    }
