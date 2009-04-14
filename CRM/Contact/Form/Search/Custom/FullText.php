@@ -43,6 +43,8 @@ class CRM_Contact_Form_Search_Custom_FullText
     protected $_columns;
 
     protected $_text  = null;
+    
+    protected $_textID  = null;
 
     protected $_table = null;
 
@@ -79,6 +81,10 @@ class CRM_Contact_Form_Search_Custom_FullText
 
         // fix text to include wild card characters at begining and end
         if ( $this->_text ) {
+            if ( is_numeric( $this->_text ) ) {
+                $this->_textID = $this->_text;
+            } 
+
             $this->_text = strtolower( addslashes( $this->_text ) );
             if ( strpos( $this->_text, '%' ) === false ) {
                 $this->_text = "'%{$this->_text}%'";
@@ -114,6 +120,7 @@ class CRM_Contact_Form_Search_Custom_FullText
                   'target_contact_id' => 'int unsigned',
                   'target_display_name' => 'varchar(128)',
                   'activity_id' => 'int unsigned',
+                  'activity_type_id' => 'int unsigned',
                   'case_id' => 'int unsigned',
                   'subject' => ' varchar(255)',
                   'details' => ' varchar(255)',
@@ -201,17 +208,18 @@ OR    cp.phone LIKE {$this->_text}
 
         $sql = "
 INSERT INTO {$this->_tableName}
-( table_name, activity_id, subject, details, contact_id, display_name, assignee_contact_id, assignee_display_name, target_contact_id, target_display_name )
+( table_name, activity_id, subject, details, contact_id, display_name, assignee_contact_id, assignee_display_name, target_contact_id, target_display_name, activity_type_id )
 SELECT    'Activity', ca.id, ca.subject, substring(ca.details, 250),
            c1.contact_id, c1.display_name,
            c2.contact_id, c2.display_name,
-           c3.contact_id, c3.display_name
+           c3.contact_id, c3.display_name,
+           ca.activity_type_id
 FROM      civicrm_activity ca
+LEFT JOIN {$this->_cacheContactTable} c1 ON ca.source_contact_id = c1.id
 LEFT JOIN civicrm_activity_assignment caa ON caa.activity_id = ca.id
-LEFT JOIN {$this->_cacheContactTable} c1 ON caa.assignee_contact_id = c1.id
+LEFT JOIN {$this->_cacheContactTable} c2 ON caa.assignee_contact_id = c2.id
 LEFT JOIN civicrm_activity_target cat ON cat.activity_id = ca.id
-LEFT JOIN {$this->_cacheContactTable} c2 ON cat.target_contact_id = c2.id
-LEFT JOIN {$this->_cacheContactTable} c3 ON ca.source_contact_id = c3.id
+LEFT JOIN {$this->_cacheContactTable} c3 ON cat.target_contact_id = c3.id
 WHERE ca.subject      LIKE {$this->_text}
    OR ca.details      LIKE {$this->_text}
    OR c1.contact_id   IS NOT NULL
@@ -234,6 +242,7 @@ FROM      civicrm_case cc
 LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
 LEFT JOIN {$this->_cacheContactTable} c ON ccc.contact_id = c.contact_id
 WHERE   c.contact_id   IS NOT NULL
+    
 ";
 
         if ( ! $this->_table ) {
@@ -241,6 +250,24 @@ WHERE   c.contact_id   IS NOT NULL
         }
 
         CRM_Core_DAO::executeQuery( $sql );
+        if ( $this->_textID ) { 
+            $sql = "
+    INSERT INTO {$this->_tableName}
+    ( table_name, contact_id, display_name, case_id )
+    SELECT    'Case', c.id, c.display_name, cc.id
+    FROM      civicrm_case cc 
+    LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
+    LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
+    WHERE   cc.id = {$this->_textID}
+    
+    ";
+
+            if ( ! $this->_table ) {
+                $sql .= " LIMIT 10 ";
+            }
+
+            CRM_Core_DAO::executeQuery( $sql );
+        }
     }
 
     function buildForm( &$form ) {
@@ -282,12 +309,16 @@ WHERE   c.contact_id   IS NOT NULL
         // now iterate through the table and add entries to the relevant section
         $sql = "SELECT * FROM {$this->_tableName}";
         $dao = CRM_Core_DAO::executeQuery( $sql );
-
         
+        $activityTypes = CRM_Core_PseudoConstant::activityType( true, true );
         while ( $dao->fetch( ) ) {
             $row = array( );
             foreach ( $this->_tableFields as $name => $dontCare ) {
-                $row[$name] = $dao->$name;
+                if ( $name != 'activity_type_id' ) {
+                    $row[$name] = $dao->$name;
+                } else {
+                    $row['activity_type'] = $activityTypes[$dao->$name];
+                }
             }
             $summary[$dao->table_name][] = $row;
         }

@@ -60,7 +60,7 @@
     </fieldset>
     {* END Actions/Results section *}
 {/if}
-
+{debug}
 {if !empty($summary.Activity) }
     {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
     {assign var="showBlock" value="'searchForm_show'"}
@@ -73,6 +73,7 @@
             {strip}
             <table summary="{ts}Contact listings.{/ts}">
                 <tr class="columnheader">
+                    <th scope="col">{ts}Type{/ts}</th>
                     <th scope="col">{ts}Subject{/ts}</th>
                     <th scope="col">{ts}Details{/ts}</th>
                     <th scope="col">{ts}Target Contact{/ts}</th>
@@ -82,11 +83,12 @@
 
                 {foreach from=$summary.Activity item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
+                        <td>{$row.activity_type}</td>
                         <td>{$row.subject}</td>
                         <td>{$row.details}</td>
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_display_name}</a></td>
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}">{$row.assignee_display_name}</a></td>
-                        <td><a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&id=`$row.activity_id`"}">{ts}View{/ts}</a></td>
+                        <td><a href="{crmURL p='civicrm/contact/view/activity' q="atype=`$row.activity_type_id`&action=view&reset=1&id=`$row.activity_id`&cid=`$row.contact_id`"}">{ts}View{/ts}</a></td>
                     </tr>
                 {/foreach}
             </table>
@@ -114,8 +116,8 @@
 
                 {foreach from=$summary.Case item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
-                        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.id`"}">{$row.display_name}</a></td>
-                        <td><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&id=`$row.case_id`"}">{ts}View{/ts}</a></td>
+                        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.display_name}</a></td>
+                        <td><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&id=`$row.case_id`&cid=`$row.contact_id`&action=view"}">{ts}View{/ts}</a></td>
                     </tr>
                 {/foreach}
             </table>
