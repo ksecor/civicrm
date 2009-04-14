@@ -441,11 +441,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 if ( array_key_exists( 'phone', $location ) ) {
                     $phones =& $location['phone'];
                     foreach ( $phones as $innerIndex => $phone) {
-                        $phone =& $phones[$innerIndex];
-                        CRM_Utils_Array::lookupValue( $phone, 'phone_type', 
-                                                      CRM_Core_PseudoConstant::phoneType( ), 
-                                                      $reverse );
-                        unset($phone);
+                        if ( is_array($phone) ) {
+                            $phone =& $phones[$innerIndex];
+                            CRM_Utils_Array::lookupValue( $phone, 'phone_type', 
+                                                          CRM_Core_PseudoConstant::phoneType( ), 
+                                                          $reverse );
+                            unset($phone);
+                        }
                     }
                 }
                 unset($location);

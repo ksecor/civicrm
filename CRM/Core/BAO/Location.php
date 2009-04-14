@@ -299,13 +299,13 @@ WHERE e.id = %1";
         //format locations blocks for setting defaults
         $locationCount = 1;
         $locationTypes = array( );
+        $primary_location_type = null;
         foreach ( $location as $key => $value ) {
             
             if ( ! is_array( $value ) || empty( $value) ) {
                 continue;
             }
             
-            $primary_location_type = null;
             foreach ( $value as $locationTypeId => $val ) { 
                 //logic to check when we should increment counter
                 if ( !empty( $locationTypes ) ) {
