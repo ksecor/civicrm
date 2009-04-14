@@ -76,6 +76,7 @@
                     <th scope="col">{ts}Type{/ts}</th>
                     <th scope="col">{ts}Subject{/ts}</th>
                     <th scope="col">{ts}Details{/ts}</th>
+                    <th scope="col">{ts}Source Contact{/ts}</th>
                     <th scope="col">{ts}Target Contact{/ts}</th>
                     <th scope="col">{ts}Assignee Contact{/ts}</th>
                     <th>&nbsp;</th>
@@ -84,8 +85,9 @@
                 {foreach from=$summary.Activity item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td>{$row.activity_type}</td>
-                        <td>{$row.subject}</td>
+                        <td>{$row.subject|truncate:40}</td>
                         <td>{$row.details}</td>
+                        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.display_name}</a></td>
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_display_name}</a></td>
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}">{$row.assignee_display_name}</a></td>
                         <td><a href="{crmURL p='civicrm/contact/view/activity' q="atype=`$row.activity_type_id`&action=view&reset=1&id=`$row.activity_id`&cid=`$row.contact_id`"}">{ts}View{/ts}</a></td>
