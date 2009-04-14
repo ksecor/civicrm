@@ -294,6 +294,10 @@ WHERE   c.contact_id   IS NOT NULL
             $summary[$dao->table_name][] = $row;
         }
         
+        if ( ! $this->_table ) {
+            $summary['addShowAllLink'] = true;
+        }
+
         return $summary;
     }
 
