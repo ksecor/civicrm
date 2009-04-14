@@ -51,7 +51,7 @@
                 {foreach from=$summary.Contact item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td>{$row.display_name}</td>
-                        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.id`"}">{ts}View{/ts}</a></td>
+                        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{ts}View{/ts}</a></td>
                     </tr>
                 {/foreach}
             </table>
