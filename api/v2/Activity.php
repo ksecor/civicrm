@@ -390,22 +390,27 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
 /**
  * Convert an email file to an activity
  */
-function civicrm_activity_process_email( $file, $activiyTypeID ) {
-    // might want to check that email is ok here
-    if ( ! file_exists( $file ) ||
-         ! is_readable( $file ) ) {
-        return CRM_Core_Error::createAPIError( ts( 'File %1 does not exist or is not readable',
-                                                   array( 1 => $file ) ) );
+function civicrm_activity_process_email( $file, $activiyTypeID, $result = array( ) ) {
+    // do not parse if result array already passed (towards EmailProcessor..)
+    if ( empty($result) ) {
+        // might want to check that email is ok here
+        if ( ! file_exists( $file ) ||
+             ! is_readable( $file ) ) {
+            return CRM_Core_Error::createAPIError( ts( 'File %1 does not exist or is not readable',
+                                                       array( 1 => $file ) ) );
+        }
+
+        require_once 'CRM/Utils/Mail/Incoming.php';
+        $result = CRM_Utils_Mail_Incoming::parse( $file );
     }
 
-    require_once 'CRM/Utils/Mail/Incoming.php';
-    $result = CRM_Utils_Mail_Incoming::parse( $file );
     if ( $result['is_error'] ) {
         return $result;
     }
 
     // get ready for collecting data about activity to be created
     $params = array();
+
     $params['activity_type_id']   = $activiyTypeID;
     $params['status_id']          = 1;
     $params['source_contact_id']  = $params['assignee_contact_id'] = $result['from']['id'];
