@@ -50,7 +50,7 @@ class CRM_Contact_Form_Search_Custom_FullText
 
     protected $_tableFields = null;
     
-    protected $_cacheContactTable = 'civicrm_contact_cache';
+    protected $_cacheContactTable = 'civicrm_temp_contact_cache';
 
     function __construct( &$formValues ) {
         $this->_formValues =& $formValues;
@@ -120,7 +120,7 @@ class CRM_Contact_Form_Search_Custom_FullText
                   );
                   
         $sql = "
-CREATE TEMPORARY TABLE {$this->_tableName} (
+CREATE TABLE {$this->_tableName} (
 ";
 
         foreach ( $this->_tableFields as $name => $desc ) {
@@ -172,7 +172,7 @@ WHERE   display_name LIKE {$this->_text}
         }
         
         $sql = "DROP TABLE IF EXISTS {$this->_cacheContactTable}";
-        // CRM_Core_DAO::executeQuery( $sql );
+        CRM_Core_DAO::executeQuery( $sql );
     }
 
     function fillContact( ) {
@@ -184,7 +184,8 @@ FROM {$this->_cacheContactTable} c
 LEFT JOIN civicrm_address ca ON c.id = ca.contact_id
 LEFT JOIN civicrm_email   ce ON c.id = ce.contact_id
 LEFT JOIN civicrm_phone   cp ON c.id = cp.contact_id
-WHERE ca.street_address LIKE {$this->_text}
+WHERE c.contact_id IS NOT NULL
+OR    ca.street_address LIKE {$this->_text}
 OR    ca.city LIKE {$this->_text}
 OR    ce.email LIKE {$this->_text}
 OR    cp.phone LIKE {$this->_text}
