@@ -1864,13 +1864,15 @@ SELECT $selectClause
     /**
      * gives required details of contacts 
      *
-     * @param  array  $contactIds       of conatcts
-     * @param  array  $returnProperties of required properties
+     * @param  array   $contactIds       of conatcts
+     * @param  array   $returnProperties of required properties
+     * @param  boolean $skipOnHold       don't return on_hold contact info also.
+     * @param  boolean $skipDeceased     don't return deceased contact info.
      *
      * @return array
      * @access public
      */
-    function getDetails($contactIDs, $returnProperties = null ) 
+    function getDetails($contactIDs, $returnProperties = null, $skipOnHold = true, $skipDeceased = true ) 
     {
         $params = array( );
         foreach ( $contactIDs  as $key => $contactID ) {
@@ -1879,10 +1881,14 @@ SELECT $selectClause
         }
         
         // fix for CRM-2613
-        $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+        if ( $skipDeceased ) {
+            $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+        }
         
         //fix for CRM-3798
-        $params[] = array( 'on_hold', '=', 0, 0, 1 );
+        if ( $skipOnHold ) {
+            $params[] = array( 'on_hold', '=', 0, 0, 1 );
+        }
         
         // if return properties are not passed then get all return properties
         if ( empty( $returnProperties ) ) {
