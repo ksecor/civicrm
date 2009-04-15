@@ -68,6 +68,10 @@ class CRM_Mailing_MailStore
             require_once 'CRM/Mailing/MailStore/Maildir.php';
             return new CRM_Mailing_MailStore_Maildir($dao->source);
 
+        case 'Localdir':
+            require_once 'CRM/Mailing/MailStore/Localdir.php';
+            return new CRM_Mailing_MailStore_Localdir($dao->source);
+
         // DO NOT USE the mbox transport for anything other than testing
         // in particular, it does not clear the mbox afterwards
         case 'mbox':

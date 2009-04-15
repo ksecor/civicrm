@@ -459,9 +459,10 @@ VALUES
   (@option_group_id_vis, 'Admin', 2, 'admin', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL ),	
 
 -- mail protocol.
-  (@option_group_id_mp, 'IMAP',    1, 'IMAP',    NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL ),
-  (@option_group_id_mp, 'Maildir', 2, 'Maildir', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL ),	
-  (@option_group_id_mp, 'POP3',    3, 'POP3',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL );
+  (@option_group_id_mp, 'IMAP',     1, 'IMAP',     NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL ),
+  (@option_group_id_mp, 'Maildir',  2, 'Maildir',  NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL ),	
+  (@option_group_id_mp, 'POP3',     3, 'POP3',     NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL ),
+  (@option_group_id_mp, 'Localdir', 4, 'Localdir', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL, NULL );	
   
 -- /*******************************************************
 -- *
