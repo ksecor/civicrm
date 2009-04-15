@@ -50,10 +50,11 @@ class CRM_Core_Block {
     const
         MENU       =   1,
         SHORTCUTS  =   2,
-        SEARCH     =   4,
-        ADD        =   8,
-        LANGSWITCH =  64,
-        EVENT      = 128;
+        SEARCH     =   3,
+        ADD        =   4,
+        LANGSWITCH =   5,
+        EVENT      =   6,
+        FULLTEXT_SEARCH = 7;
     
     /**
      * template file names for the above blocks
@@ -133,6 +134,14 @@ class CRM_Core_Block {
                                                                    'visibility' => 1,
                                                                    'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
+                                       self::FULLTEXT_SEARCH => array(  'template'   => 'FullTextSearch.tpl',
+                                                                        'info'       => ts('CiviCRM FullText Search'),
+                                                                        'subject'    => ts('FullText Search'),
+                                                                        'active'     => true,
+                                                                        'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                        'visibility' => 1,
+                                                                        'pages'      => 'civicrm*',
+                                                                        'region'     => 'left' ),
                                        );
 
         }
