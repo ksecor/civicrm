@@ -78,6 +78,7 @@ class CRM_Core_Component
     public function &getComponents( $force = false )
     {
         static $_cache = null;
+        $config =& CRM_Core_Config::singleton( );
 
         if ( ! $_cache || $force ) {
             $_cache = array( );
@@ -86,14 +87,16 @@ class CRM_Core_Component
             $cr =& new CRM_Core_DAO_Component();
             $cr->find( false );
             while ( $cr->fetch( ) ) {
-                $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
-                require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
-                $infoObject = new $infoClass( $cr->name, $cr->namespace, $cr->id );
-                if( $infoObject->info['name'] !== $cr->name ) {
-                    CRM_Core_Error::fatal( "There is a discrepancy between name in component registry and in info file ({$cr->name})." );
+                if ( in_array( $cr->name, $config->enableComponents ) ) {
+                    $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
+                    require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
+                    $infoObject = new $infoClass( $cr->name, $cr->namespace, $cr->id );
+                    if ( $infoObject->info['name'] !== $cr->name ) {
+                        CRM_Core_Error::fatal( "There is a discrepancy between name in component registry and in info file ({$cr->name})." );
+                    }
+                    $_cache[$cr->name] = $infoObject;
+                    unset( $infoObject );
                 }
-                $_cache[$cr->name] = $infoObject;
-                unset( $infoObject );
             }
         }
 
