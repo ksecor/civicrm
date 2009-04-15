@@ -32,7 +32,7 @@
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
-class CRM_EventParticipantion 
+class CRM_EventParticipation 
 {
     function __construct( ) 
     {
@@ -207,7 +207,7 @@ SELECT  participant.id as participant_id,
     }
 }
 
-$obj =& new CRM_EventParticipantion( );
+$obj =& new CRM_EventParticipation( );
 echo "Updating<br />";
 $obj->updateParticipantStatus( );
 echo "<br />Participant records updated. (Done)";
