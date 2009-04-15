@@ -354,6 +354,11 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
         } else {
             if ( !is_numeric( $params['activity_type_id'] ) ) {
                 return  civicrm_create_error( ts('Invalid Activity Type ID') );
+            } else {
+                $activityTypes =& CRM_Core_PseudoConstant::activityType( );
+                if ( !array_key_exists( $params['activity_type_id'], $activityTypes ) ) {
+                    return  civicrm_create_error( ts('Invalid Activity Type ID') ); 
+                }
             }
         }
     }
