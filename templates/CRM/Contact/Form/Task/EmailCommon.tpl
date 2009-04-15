@@ -186,6 +186,10 @@ function tokenReplText ( )
     var cursorlen = document.getElementById("text_message").selectionStart;
     var textlen   = msg.length;
     document.getElementById("text_message").value = msg.substring(0, cursorlen) + token + msg.substring(cursorlen, textlen);
+    var cursorPos = (cursorlen + token.length);
+    document.getElementById("text_message").selectionStart = cursorPos;
+    document.getElementById("text_message").selectionEnd   = cursorPos;
+    document.getElementById("text_message").focus();
     verify();
 }
 
@@ -203,6 +207,10 @@ function tokenReplHtml ( )
         var cursorlen = document.getElementById("html_message").selectionStart;
         var textlen   = msg.length;
         document.getElementById("html_message").value = msg.substring(0, cursorlen) + token2 + msg.substring(cursorlen, textlen);
+        var cursorPos = (cursorlen + token2.length);
+        document.getElementById("html_message").selectionStart = cursorPos;
+        document.getElementById("html_message").selectionEnd   = cursorPos;
+        document.getElementById("html_message").focus();
     }
     verify();
 }
