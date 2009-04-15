@@ -1,5 +1,9 @@
+
+
+<h1 style="font-size: 1.8em;">{ts}Settings - Address Settings{/ts}</h1>
 <table class="ui-widget">
 	<tr><td>
+
 
 		&nbsp;{$form.buttons.html}
 
