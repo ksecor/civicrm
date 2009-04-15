@@ -219,7 +219,8 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Close Case{/ts}',         17, 'Close Case',         NULL, 0,  0, 17, '', 0, 0, 1, 7, NULL ),  
 
    (@option_group_id_act, '{ts escape="sql"}Membership Renewal Reminder{/ts}',        18, 'Membership Renewal Reminder',  NULL, 1, NULL, 18, '{ts escape="sql"}offline membership renewal reminder.{/ts}',                      0, 1, 1, 3, NULL),
-   (@option_group_id_act, '{ts escape="sql"}Bulk Email{/ts}',                         19, 'Bulk Email',         NULL, 1, NULL, 19, '{ts escape="sql"}Bulk Email Sent.{/ts}',                                                    0, 1, 1, NULL, NULL),
+   (@option_group_id_act, '{ts escape="sql"}Change Case Start Date{/ts}',         19, 'Change Case Start Date',         NULL, 0,  0, 19, '', 0, 0, 1, 7, NULL ), 
+   (@option_group_id_act, '{ts escape="sql"}Bulk Email{/ts}',                         20, 'Bulk Email',         NULL, 1, NULL, 20, '{ts escape="sql"}Bulk Email Sent.{/ts}',                                                    0, 1, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Transgender{/ts}', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
@@ -453,6 +454,7 @@ VALUES
   (@option_group_id_mp, 'IMAP',    1, 'IMAP',    NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL ),
   (@option_group_id_mp, 'Maildir', 2, 'Maildir', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL ),	
   (@option_group_id_mp, 'POP3',    3, 'POP3',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL ),
+  (@option_group_id_mp, 'Localdir', 4, 'Localdir', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL, NULL ),
 
 -- auction types
   (@option_group_id_aitype, '{ts escape="sql"}Live{/ts}'  , 1, 'Live'  ,  NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),

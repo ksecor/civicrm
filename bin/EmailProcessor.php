@@ -1,0 +1,241 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+
+define( 'EMAIL_ACTIVITY_TYPE_ID', 1  );
+define( 'MAIL_BATCH_SIZE'       , 50 );
+
+class EmailProcessor {
+
+    /**
+     * Process the mailbox for all the settings from civicrm_mail_settings
+     *
+     * @param string $civiMail  if true, processing is done in CiviMail context, or Activities otherwise.
+     * @return void
+     */
+    static function process( $civiMail = true ) {
+
+        require_once 'CRM/Core/DAO/MailSettings.php';
+        $dao = new CRM_Core_DAO_MailSettings;
+        $dao->find( );
+
+        while ( $dao->fetch() ) {
+            // FIXME: legacy regexen to handle CiviCRM 2.1 address patterns, with domain id and possible VERP part
+            $commonRegex = '/^' . preg_quote($dao->localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?@' . preg_quote($dao->domain) . '$/';
+            $subscrRegex = '/^' . preg_quote($dao->localpart) . '(s|subscribe)\.(\d+)\.(\d+)@' . preg_quote($dao->domain) . '$/';
+            
+            // a common-for-all-actions regex to handle CiviCRM 2.2 address patterns
+            $regex = '/^' . preg_quote($dao->localpart) . '(b|c|e|o|r|u)\.(\d+)\.(\d+)\.([0-9a-f]{16})@' . preg_quote($dao->domain) . '$/';
+
+            // retrieve the emails
+            require_once 'CRM/Mailing/MailStore.php';
+            $store = CRM_Mailing_MailStore::getStore($dao->name);
+            
+            require_once 'api/Mailer.php';
+            
+            // process fifty at a time, CRM-4002
+            while ($mails = $store->fetchNext(MAIL_BATCH_SIZE)) {
+                foreach ($mails as $key => $mail) {
+                    
+                    // for every addressee: match address elements if it's to CiviMail
+                    $matches = array();
+
+                    if ( $civiMail ) {
+                        foreach ($mail->to as $address) {
+                            if (preg_match($regex, $address->email, $matches)) {
+                                list($match, $action, $job, $queue, $hash) = $matches;
+                                break;
+                                // FIXME: the below elseifs should be dropped when we drop legacy support
+                            } elseif (preg_match($commonRegex, $address->email, $matches)) {
+                                list($match, $action, $_, $job, $queue, $hash) = $matches;
+                                break;
+                            } elseif (preg_match($subscrRegex, $address->email, $matches)) {
+                                list($match, $action, $_, $job) = $matches;
+                                break;
+                            }
+                        }
+                    } else {
+                        // if its the activities that needs to be processed ..
+                        
+                        // FIXME: following code is a copy from CRM_Utils_Mail_Incoming::parse() method. 
+                        // We should modify that method itself and reuse here -
+ 
+                        require_once 'CRM/Utils/Mail/Incoming.php';
+                            
+                        // get ready for collecting data about this email
+                        // and put it in a standardized format
+                        $params = array( 'is_error' => 0 );
+                        
+                        $params['from'] = array( );
+                        CRM_Utils_Mail_Incoming::parseAddress( $mail->from, $field, $params['from'] );
+                        
+                        $emailFields = array( 'to', 'cc', 'bcc' );
+                        foreach ( $emailFields as $field ) {
+                            $value = $mail->$field;
+                            CRM_Utils_Mail_Incoming::parseAddresses( $value, $field, $params );
+                            if ( $params['is_error'] ) {
+                                return;
+                            }
+                        }
+                        
+                        // define other parameters
+                        $params['subject'] = $mail->subject;
+                        $params['date']    = date( "YmdHi00",
+                                                   strtotime( $mail->getHeader( "Date" ) ) );
+                        $attachments       = array( );
+                        $params['body']    = CRM_Utils_Mail_Incoming::formatMailPart( $mail->body, $attachments );
+                        
+                        // format and move attachments to the civicrm area
+                        if ( ! empty( $attachments ) ) {
+                            require_once 'CRM/Utils/File.php';
+                            $date   =  date( 'Ymdhis' );
+                            $config =& CRM_Core_Config::singleton( );
+                            for ( $i = 0; $i < count( $attachments ); $i++ ) {
+                                $attachNum = $i + 1;
+                                $fileName = basename( $attachments[$i]['fullName'] );
+                                $newName = CRM_Utils_File::makeFileName( $fileName );
+                                $location = $config->uploadDir . $newName;
+                                
+                                // move file to the civicrm upload directory
+                                rename( $attachments[$i]['fullName'], $location );
+                                
+                                $mimeType = "{$attachments[$i]['contentType']}/{$attachments[$i]['mimeType']}";
+                                
+                                $params["attachFile_$attachNum"] = array( 'uri'         => $fileName,
+                                                                          'type'        => $mimeType,
+                                                                          'upload_date' => $date,
+                                                                          'location'    => $location );
+                            }
+                        }
+                        
+                        require_once 'api/v2/Activity.php';
+                        $result = civicrm_activity_process_email( 'dnc', EMAIL_ACTIVITY_TYPE_ID, $params );
+                        
+                        if ( $result['is_error'] ) {
+                            $matches = false;
+                            echo "Failed Processing: {$mail->subject}. Reason: {$result['error_message']}\n";
+                        } else {
+                            $matches = true;
+                            echo "Processed: {$mail->subject}\n";
+                        }
+                    }
+                    
+                    // if $matches is empty, this email is not CiviMail-bound
+                    if (!$matches) {
+                        $store->markIgnored($key);
+                        continue;
+                    }
+                    
+                    // get $replyTo from either the Reply-To header or from From
+                    // FIXME: make sure it works with Reply-Tos containing non-email stuff
+                    $replyTo = $mail->getHeader('Reply-To') ? $mail->getHeader('Reply-To') : $mail->from->email;
+                    
+                    // handle the action by passing it to the proper API call
+                    // FIXME: leave only one-letter cases when dropping legacy support
+                    switch ($action) {
+                    case 'b':
+                    case 'bounce':
+                        $text = '';
+                        if ($mail->body instanceof ezcMailText) {
+                            $text = $mail->body->text;
+                        } elseif ($mail->body instanceof ezcMailMultipart) {
+                            foreach ($mail->body->getParts() as $part) {
+                                if (isset($part->subType) and $part->subType == 'plain') {
+                                    $text = $part->text;
+                                    break;
+                                }
+                            }
+                        }
+                        crm_mailer_event_bounce($job, $queue, $hash, $text);
+                        break;
+                    case 'c':
+                    case 'confirm':
+                        crm_mailer_event_confirm($job, $queue, $hash);
+                        break;
+                    case 'o':
+                    case 'optOut':
+                        crm_mailer_event_domain_unsubscribe($job, $queue, $hash);
+                        break;
+                    case 'r':
+                    case 'reply':
+                        // instead of text and HTML parts (4th and 6th params) send the whole email as the last param
+                        crm_mailer_event_reply($job, $queue, $hash, null, $replyTo, null, $mail->generate());
+                        break;
+                    case 'e':
+                    case 're':
+                    case 'resubscribe':
+                        crm_mailer_event_resubscribe($job, $queue, $hash);
+                        break;
+                    case 's':
+                    case 'subscribe':
+                        crm_mailer_event_subscribe($mail->from->email, $job);
+                        break;
+                    case 'u':
+                    case 'unsubscribe':
+                        crm_mailer_event_unsubscribe($job, $queue, $hash);
+                        break;
+                    }
+                    
+                    $store->markProcessed($key);
+                }
+            }
+        }
+    }
+}
+
+// bootstrap the environment and run the processor
+session_start();
+require_once '../civicrm.config.php';
+require_once 'CRM/Core/Config.php';
+$config =& CRM_Core_Config::singleton();
+
+CRM_Utils_System::authenticateScript(true);
+
+require_once 'CRM/Core/Lock.php';
+$lock = new CRM_Core_Lock('EmailProcessor');
+
+if ($lock->isAcquired()) {
+    // try to unset any time limits
+    if (!ini_get('safe_mode')) set_time_limit(0);
+
+    // if there are named sets of settings, use them - otherwise use the default (null)
+    $names = is_array($_REQUEST['names']) ? $_REQUEST['names'] : array(null);
+    foreach ($names as $name) {
+        EmailProcessor::process($name);
+    }
+} else {
+    throw new Exception('Could not acquire lock, another EmailProcessor process is running');
+}
+
+$lock->release();

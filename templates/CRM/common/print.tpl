@@ -9,7 +9,7 @@
   <style type="text/css" media="screen, print">@import url({$config->resourceBase}css/civicrm.css);</style>
   <style type="text/css" media="print">@import url({$config->resourceBase}css/print.css);</style>
   <style type="text/css">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>
-  <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true " ></script>
+  <script type="text/javascript" src="{$config->userFrameworkResourceURL}packages/dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true " ></script>
   <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/commonWidgets.js"></script>
   <style type="text/css" media="screen">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>
   <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>

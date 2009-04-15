@@ -123,8 +123,30 @@ class CRM_Utils_Address
                       'postal_code'            => $fullPostalCode,
                       'country'                => CRM_Utils_Array::value( 'country', $fields ),
                       'world_region'           => CRM_Utils_Array::value( 'world_region', $fields ),
-                      'current_employer'       => CRM_Utils_Array::value( 'current_employer', $fields )
-                      );
+                      'geo_code_1'             => CRM_Utils_Array::value( 'geo_code_1', $fields ),
+                      'geo_code_2'             => CRM_Utils_Array::value( 'geo_code_2', $fields ),
+                      'current_employer'       => CRM_Utils_Array::value( 'current_employer', $fields ),
+                      'nick_name'              => CRM_Utils_Array::value( 'nick_name', $fields ),
+                      'email'                  => CRM_Utils_Array::value( 'email', $fields ),
+                      'im'                     => CRM_Utils_Array::value( 'im', $fields ),
+                      'do_not_email'           => CRM_Utils_Array::value( 'do_not_email', $fields ),
+                      'do_not_phone'           => CRM_Utils_Array::value( 'do_not_phone', $fields ),
+                      'do_not_mail'            => CRM_Utils_Array::value( 'do_not_mail', $fields ),
+                      'do_not_trade'           => CRM_Utils_Array::value( 'do_not_trade', $fields ),
+                      'job_title'              => CRM_Utils_Array::value( 'job_title', $fields ),
+                      'birth_date'             => CRM_Utils_Array::value( 'birth_date', $fields ),
+                      'gender'                 => CRM_Utils_Array::value( 'gender', $fields ),
+                      'is_opt_out'             => CRM_Utils_Array::value( 'is_opt_out', $fields ),
+                      'home_URL'               => CRM_Utils_Array::value( 'home_URL', $fields ),
+                      'preferred_communication_method'              => str_replace( CRM_CORE_DAO::VALUE_SEPARATOR, ',', 
+                                                                                    CRM_Utils_Array::value( 'preferred_communication_method', $fields )),
+                      'preferred_mail_format'  => CRM_Utils_Array::value( 'preferred_mail_format', $fields ),
+                      'phone'                  => CRM_Utils_Array::value( 'phone', $fields ),
+                      'home_URL'               => CRM_Utils_Array::value( 'home_URL', $fields ),
+                      'contact_source'         => CRM_Utils_Array::value( 'contact_source', $fields ),
+                      'external_identifier'    => CRM_Utils_Array::value( 'external_identifier', $fields ),
+                      'contact_id'             => CRM_Utils_Array::value( 'id', $fields )
+                       );
         } else {
             $replacements =
                 array(

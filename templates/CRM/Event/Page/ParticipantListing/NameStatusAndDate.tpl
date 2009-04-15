@@ -17,7 +17,6 @@
       {foreach from=$rows item=row}
          <tr class="{cycle values="odd-row,even-row"}">
             <td>{$row.name}</td>	
-            <td>{$row.email}</td>
             <td>{$row.status}</td>
             <td>{$row.date}</td>
          </tr>

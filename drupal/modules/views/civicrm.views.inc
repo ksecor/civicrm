@@ -1267,8 +1267,6 @@ function civicrm_views_data() {
   
 
   
-    //TODO: CIVICRM_EVENT_PAGE TO BE LINKED IN TO THIS MOFO
-
     // CHILLING OUT AT THE CIVICRM_LOC_BLOCK TABLE
 
     $data['civicrm_loc_block']['table']['group']  = t('CiviCRM Locations');
@@ -1304,28 +1302,6 @@ function civicrm_views_data() {
                                                                ),
                                                );
   
-    //CIVICRM_EVENT_PAGE TABLE
-
-    $data['civicrm_event_page']['table']['group']  = t('CiviCRM Event Pages');
-
-    // Explain how this table joins to others.
-    $data['civicrm_event_page']['table']['join'] = array(
-                                                         // Directly links to event table
-                                                         'civicrm_event' => array(
-                                                                                  'left_field' => 'id',
-                                                                                  'field' => 'event_id',
-                                                                                  ),
-                                                         );
-                                                    
-    //Event Type
-    $data['civicrm_event_page']['price_set'] = array(
-                                                     'title' => t('Event Prices'),
-                                                     'help' => t('The Prices available for this event'),
-                                                     'field' => array(
-                                                                      'handler' => 'civicrm_handler_field_event_price_set',
-                                                                      'click sortable' => TRUE,
-                                                                      ),
-                                                     );
     //----------------------------------------------------------------
     // CIVICRM Participants are here, base tabling it up.
     //----------------------------------------------------------------
