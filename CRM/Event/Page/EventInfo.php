@@ -56,7 +56,8 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
     {
         //get the event id.
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
-        
+        $config    =& CRM_Core_Config::singleton( );
+        require_once 'CRM/Event/BAO/Event.php';
         // ensure that the user has permission to see this page
         if ( ! CRM_Core_Permission::event( CRM_Core_Permission::VIEW,
                                            $this->_id ) ) {
@@ -68,11 +69,10 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $this->assign( 'context', $context );
 
         // set breadcrumb to append to 2nd layer pages
-        $breadCrumbPath = CRM_Utils_System::url( "civicrm/event/info", "id={$this->_id}&reset=1" );
+        $breadCrumbPath       = CRM_Utils_System::url( "civicrm/event/info", "id={$this->_id}&reset=1" );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Events') . '</a>';
        
         //retrieve event information
-        require_once 'CRM/Event/BAO/Event.php';
         $params = array( 'id' => $this->_id );
         CRM_Event_BAO_Event::retrieve( $params, $values['event'] );
         
@@ -93,9 +93,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                 $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
                 if ( $discountId ) {
                     CRM_Core_OptionGroup::getAssoc( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $discountId, 'option_group_id' ),
-                                                    $values['feeBlock'], 
-                                                    false,
-                                                    'id' );
+                                                    $values['feeBlock'], false, 'id' );
                 } else {
                     CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$this->_id}", $values['feeBlock'] );
                 }
@@ -109,9 +107,43 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         //retrieve custom field information
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this, $this->_id, 0, $values['event']['event_type_id'] );
-		CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
         $this->assign( 'action', CRM_Core_Action::VIEW);
-        
+        //To show the event location on maps directly on event info page
+        $locations =& CRM_Event_BAO_Event::getMapInfo( $this->_id );
+        if ( !empty( $locations ) && CRM_Utils_Array::value( 'is_map', $values['event'] ) ) {
+            $this->assign( 'locations', $locations );
+            $this->assign( 'mapProvider', $config->mapProvider );
+            $this->assign( 'mapKey', $config->mapAPIKey );
+            $sumLat = $sumLng = 0;
+            $maxLat = $maxLng = -400;
+            $minLat = $minLng = +400;
+            foreach ( $locations as $location ) {
+                $sumLat += $location['lat'];
+                $sumLng += $location['lng'];
+                
+                if ( $location['lat'] > $maxLat ) {
+                    $maxLat = $location['lat'];
+                }
+                if ( $location['lat'] < $minLat ) {
+                    $minLat = $location['lat'];
+                }
+                
+                if ( $location['lng'] > $maxLng ) {
+                    $maxLng = $location['lng'];
+                }
+                if ( $location['lng'] < $minLng ) {
+                    $minLng = $location['lng'];
+                }
+            }
+            
+            $center = array( 'lat' => (float ) $sumLat / count( $locations ),
+                             'lng' => (float ) $sumLng / count( $locations ) );
+            $span   = array( 'lat' => (float ) ( $maxLat - $minLat ),
+                             'lng' => (float ) ( $maxLng - $minLng ) );
+            $this->assign_by_ref( 'center', $center );
+            $this->assign_by_ref( 'span'  , $span   );
+        }
         require_once 'CRM/Event/BAO/Participant.php';
         $eventFullMessage = CRM_Event_BAO_Participant::eventFull( $this->_id );
         if( $eventFullMessage ) {

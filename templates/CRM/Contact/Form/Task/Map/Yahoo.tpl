@@ -1,8 +1,16 @@
-{literal}<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid={$mapKey}"></script>
+{if $showDirectly}
+    {assign var=height value="400px"}
+    {assign var=width  value="450px"}
+{else}	
+    {assign var=height value="600px"}
+    {assign var=width  value="100%"}
+{/if}
+{literal}
+<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid={/literal}{$mapKey}{literal}"></script>
 <style type="text/css">
-    #mapContainer { 
-        height: 600px; 
-        width: 600px; 
+    #mapContainer {
+        height: {/literal}{$height}{literal}; 
+        width : {/literal}{$width}{literal}; 
     } 
     #mapContainer table {
         border: none;
@@ -24,10 +32,10 @@
 
     /* Create a map object */
     var map = new  YMap(document.getElementById('mapContainer'));
-
-    /* Add a pan control */
-    map.addPanControl();
-
+    {/literal}{if !$showDirectly}{literal}
+	/* Add a pan control */
+	map.addPanControl();
+    {/literal}{/if}{literal}
     /* Add map type */
     map.addTypeControl();
 
@@ -38,14 +46,14 @@
     /* map.drawZoomAndCenter(myPoint,13); */
 
     function createYahooMarker(geopoint, data, img) { 
-        var myImage = new YImage(); 
-        myImage.src = 'http://us.i1.yimg.com/us.yimg.com/i/us/map/gr/mt_ic_cw.gif'; 
+        var myImage  = new YImage(); 
+        myImage.src  = 'http://us.i1.yimg.com/us.yimg.com/i/us/map/gr/mt_ic_cw.gif'; 
         myImage.size = new YSize(20,20); 
         myImage.offsetSmartWindow = new YCoordPoint(0,0); 
-        var marker = new YMarker(geopoint,myImage); 
-        var label = img;
-        marker.addLabel(label); 
-        YEvent.Capture(marker,EventsList.MouseClick, function() { marker.openSmartWindow(data) }); 
+        var marker   = new YMarker(geopoint,myImage); 
+        var label    = img;
+        marker.addLabel(label);
+	YEvent.Capture(marker,EventsList.MouseClick, function() { marker.openSmartWindow(data) }); 
         return marker; 
     } 
 
@@ -80,9 +88,9 @@
     function ypopUp() {
         var from   = document.getElementById('from').value;
         var to     = document.getElementById('to').value;	
-        var URL  = "http://maps.yahoo.com/#mvt=m&q1=" + from + "&q2=" + to;
+        var URL    = "http://maps.yahoo.com/#mvt=m&q1=" + from + "&q2=" + to;
         day = new Date();
-        id = day.getTime();
+        id  = day.getTime();
         eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=780,height=640,left = 202,top = 100');");
     }
 </script> 
