@@ -73,6 +73,7 @@ class CRM_Core_I18n
         if (!$all) {
             $all = array('en_US' => 'English (USA)',
                          'af_ZA' => 'Afrikaans',
+                         'ar_EG' => 'العربية'
                          'bg_BG' => 'български',
                          'ca_ES' => 'Català',
                          'cs_CZ' => 'Česky',
@@ -84,6 +85,7 @@ class CRM_Core_I18n
                          'es_ES' => 'español',
                          'fr_FR' => 'français',
                          'fr_CA' => 'français (Canada)',
+                         'id_ID' => 'Bahasa Indonesia',
                          'hi_IN' => 'हिन्दी',
                          'it_IT' => 'Italiano',
                          'he_IL' => 'עברית',
