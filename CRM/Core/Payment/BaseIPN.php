@@ -657,9 +657,15 @@ class CRM_Core_Payment_BaseIPN {
                     $additional->find(true);
                     $additional->register_date = $participant->register_date;
                     $additional->status_id = 1;
-                    $additionalEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $additional->contact_id, 'email', 'contact_id' );  
+                    $additionalParticipantInfo = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $additional->contact_id, 'email', 'contact_id' ); 
+                    //if additional participant dont have email
+                    //use display name.
+                    if ( !$additionalParticipantInfo ) {
+                        require_once "CRM/Contact/BAO/Contact.php";
+                        $additionalParticipantInfo = CRM_Contact_BAO_Contact::displayName( $additional->contact_id ); 
+                    }
                     $amount[0] = array( 'label' => $additional->fee_level, 'amount' =>  $additional->fee_amount );
-                    $primaryAmount[] = array( 'label' => $additional->fee_level.' - '.$additionalEmail, 'amount' =>  $additional->fee_amount ); 
+                    $primaryAmount[] = array( 'label' => $additional->fee_level.' - '.$additionalParticipantInfo, 'amount' =>  $additional->fee_amount ); 
                     $additional->save( );
                     $additional->free( );
                     $template->assign( 'amount', $amount );

@@ -1077,7 +1077,7 @@ WHERE  contribution_id = {$this->_id}
                 if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
                     CRM_Core_Error::fatal( );
                 }
-              
+                                
                 $membership     =& $objects['membership']  ;
                 $participant    =& $objects['participant'] ;
                 $pledgePayment  = array ( );
@@ -1091,15 +1091,15 @@ WHERE  contribution_id = {$this->_id}
                     }
                     $pledgeID = $pledgePayment[0]->pledge_id;
                 }
-                
+
+                require_once 'CRM/Event/BAO/Participant.php';
                 if ( $contribution->contribution_status_id == 3 ) {
                     if ( $membership ) {
                         $membership->status_id = 6;
                         $membership->save( );
                     }
                     if ( $participant ) {
-                        $participant->status_id = 4;
-                        $participant->save( );
+                        CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, 4 );
                     }
                     if ( $pledgePayment ) {
                         CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 3 );   
@@ -1111,8 +1111,7 @@ WHERE  contribution_id = {$this->_id}
                         $membership->save( );
                     }
                     if ( $participant ) {
-                        $participant->status_id = 4;
-                        $participant->save( );
+                        CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, 4 );
                     }
                     if ( $pledgePayment ) {
                         CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 4 );   
@@ -1135,9 +1134,8 @@ WHERE  contribution_id = {$this->_id}
                         $membership->status_id = 2;
                         $membership->save( );
                     }
-                    if ( $participant ) {
-                        $participant->status_id = 1;
-                        $participant->save( );
+                    if ( $participant ) { 
+                        CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, 1 );
                     }
                     if ( $pledgePayment ) {
                         CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 1 );   
