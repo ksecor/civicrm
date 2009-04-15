@@ -50,7 +50,13 @@ class CRM_Contact_Form_Search_Custom_FullText
 
     protected $_tableName = null;
 
+    protected $_entityIDTableName = null;
+
     protected $_tableFields = null;
+
+    protected $_limitClause = null;
+    
+    protected $_limitNumber = 10;
 
     function __construct( &$formValues ) {
         $this->_formValues =& $formValues;
@@ -90,10 +96,17 @@ class CRM_Contact_Form_Search_Custom_FullText
                 $this->_text = "'{$this->_text}'";
             }
 
-            $this->buildTempTable( );
-        
-            $this->fillTable( );
+        } else {
+            $this->_text = "'%'";
         }
+
+        if ( ! $this->_table ) {
+            $this->_limitClause = " LIMIT {$this->_limitNumber}";
+        }
+
+        $this->buildTempTable( );
+        
+        $this->fillTable( );
 
     }
 
@@ -102,11 +115,8 @@ class CRM_Contact_Form_Search_Custom_FullText
 
     function buildTempTable( ) {
         $randomNum = md5( uniqid( ) );
-        $this->_tableName = "civicrm_temp_custom_{$randomNum}";
+        $this->_tableName = "civicrm_temp_custom_details_{$randomNum}";
 
-        $sql = "DROP TABLE IF EXISTS {$this->_tableName}";
-        CRM_Core_DAO::executeQuery( $sql );
-        
         $this->_tableFields =
             array(
                   'id' => 'int unsigned NOT NULL AUTO_INCREMENT',
@@ -125,7 +135,7 @@ class CRM_Contact_Form_Search_Custom_FullText
                   );
                   
         $sql = "
-CREATE TABLE {$this->_tableName} (
+CREATE TEMPORARY TABLE {$this->_tableName} (
 ";
 
         foreach ( $this->_tableFields as $name => $desc ) {
@@ -134,9 +144,20 @@ CREATE TABLE {$this->_tableName} (
 
         $sql .= "
   PRIMARY KEY ( id )
-) ENGINE=HEAP
+) ENGINE=HEAP DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci
 ";
+        CRM_Core_DAO::executeQuery( $sql );
 
+        $this->_entityIDTableName = "civicrm_temp_custom_entityID_{$randomNum}";
+        $sql = "
+CREATE TEMPORARY TABLE {$this->_entityIDTableName} (
+  id int unsigned NOT NULL AUTO_INCREMENT,
+  entity_id int unsigned NOT NULL,
+  
+  UNIQUE INDEX unique_entity_id ( entity_id ),
+  PRIMARY KEY ( id )
+) ENGINE=HEAP DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci
+";
         CRM_Core_DAO::executeQuery( $sql );
     }
 
@@ -157,29 +178,157 @@ CREATE TABLE {$this->_tableName} (
         }
     }
 
+    function fillCustomInfo( &$tables,
+                             $extends ) {
+        
+        $sql = "
+SELECT cg.table_name, cf.column_name
+FROM   civicrm_custom_group cg,
+       civicrm_custom_field cf
+WHERE  cf.custom_group_id = cg.id
+AND    cg.extends IN $extends
+AND    cg.is_active = 1
+AND    cf.is_active = 1
+AND    cf.is_searchable = 1
+AND    cf.html_type IN ( 'Text', 'TextArea', 'RichTextEditor' )
+";
+
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        while ( $dao->fetch( ) ) {
+            if ( ! array_key_exists( $dao->table_name,
+                                     $tables ) ) {
+                $tables[$dao->table_name] = array( 'id' => 'entity_id',
+                                                   'fields' => array( ) );
+            }
+            $tables[$dao->table_name]['fields'][$dao->column_name] = null;
+        }
+    }
+
+    function runQueries( &$tables ) {
+        $sql = "TRUNCATE {$this->_entityIDTableName}";
+        CRM_Core_DAO::executeQuery( $sql );
+        
+        foreach ( $tables as $tableName => $tableValues ) {
+            if ( $tableName == 'sql' ) {
+                foreach ( $tableValues as $sqlStatement ) {
+                    $sql = "
+REPLACE INTO {$this->_entityIDTableName} ( entity_id )
+$sqlStatement
+{$this->_limitClause}
+";
+                    CRM_Core_DAO::executeQuery( $sql );
+                }
+            } else {
+                $clauses = array( );
+
+                foreach ( $tableValues['fields'] as $fieldName => $fieldType ) {
+                    if ( $fieldType == 'Int') {
+                        if ( $this->_textID ) {
+                            $clauses[] = "$fieldName = {$this->_textID}";
+                        }
+                    } else {
+                        $clauses[] = "$fieldName LIKE {$this->_text}";
+                    } 
+                }
+                
+                if ( empty( $clauses ) ) {
+                    continue;
+                }
+                
+                $whereClause = implode( ' OR ', $clauses );
+
+                $sql = "
+REPLACE INTO {$this->_entityIDTableName} ( entity_id )
+SELECT  {$tableValues['id']}
+FROM    $tableName
+WHERE   ( $whereClause )
+AND     {$tableValues['id']} IS NOT NULL
+{$this->_limitClause}
+";
+                CRM_Core_DAO::executeQuery( $sql );
+            }
+        }
+    }
+
+
+    function fillContactIDs( ) {
+        $tables = 
+            array( 'civicrm_contact' => array( 'id' => 'id',
+                                               'fields' => array( 'display_name' => null) ),
+                   'civicrm_address' => array( 'id' => 'contact_id',
+                                               'fields' => array( 'street_address' => null,
+                                                                  'city' => null,
+                                                                  'postal_code' => null ) ),
+                   'civicrm_email'   => array( 'id' => 'contact_id',
+                                               'fields' => array( 'email' => null ) ),
+                   'civicrm_phone'   => array( 'id' => 'contact_id',
+                                               'fields' => array( 'phone' => null ) ),
+                   );
+        
+        // get the custom data info
+        $this->fillCustomInfo( $tables,
+                               "( 'Contact', 'Individual', 'Organization', 'Household' )" );
+         
+        $this->runQueries( $tables );
+   }
+
     function fillContact( ) {
+
+        $this->fillContactIDs( );
+
         $sql = "
 INSERT INTO {$this->_tableName}
 ( contact_id, display_name, table_name )
-SELECT DISTINCT( c.id ), c.display_name, 'Contact'
-FROM civicrm_contact c
-LEFT JOIN civicrm_address ca ON c.id = ca.contact_id
-LEFT JOIN civicrm_email   ce ON c.id = ce.contact_id
-LEFT JOIN civicrm_phone   cp ON c.id = cp.contact_id
-WHERE c.display_name LIKE {$this->_text}
-OR    ca.street_address LIKE {$this->_text}
-OR    ca.city LIKE {$this->_text}
-OR    ce.email LIKE {$this->_text}
-OR    cp.phone LIKE {$this->_text}
+SELECT c.id, c.display_name, 'Contact'
+FROM   civicrm_contact c, {$this->_entityIDTableName} ct
+WHERE  c.id = ct.entity_id
+{$this->_limitClause}
 ";
 
-        if ( ! $this->_table ) {
-            $sql .= " LIMIT 10 ";
-        }
         CRM_Core_DAO::executeQuery( $sql );
     }
 
+    function fillActivityIDs( ) {
+        $contactSQL = array( );
+
+        $contactSQL[] = "
+SELECT ca.id 
+FROM   civicrm_activity ca, civicrm_contact c
+WHERE  ca.source_contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
+
+        $contactSQL[] = "
+SELECT ca.id 
+FROM   civicrm_activity ca, civicrm_activity_target cat, civicrm_contact c
+WHERE  cat.activity_id = ca.id
+AND    cat.target_contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
+
+        $contactSQL[] = "
+SELECT ca.id 
+FROM   civicrm_activity ca, civicrm_activity_assignment caa, civicrm_contact c
+WHERE  caa.activity_id = ca.id
+AND    caa.assignee_contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
+        
+
+                   
+        $tables = array( 'civicrm_activity' => array( 'id' => 'id',
+                                                      'fields' => array( 'subject' => null,
+                                                                         'details' => null ) ),
+                         'sql'              => $contactSQL );
+        $this->fillCustomInfo( $tables,
+                               "( 'Activity' )" );
+
+        $this->runQueries( $tables );
+    }
+
     function fillActivity( ) {
+        
+        $this->fillActivityIDs( ) ;
 
         $sql = "
 INSERT INTO {$this->_tableName}
@@ -189,21 +338,15 @@ SELECT    'Activity', ca.id, substr(ca.subject, 1, 50), substr(ca.details, 1, 25
            c2.id, c2.display_name,
            c3.id, c3.display_name,
            ca.activity_type_id
-FROM      civicrm_activity ca
-LEFT JOIN civicrm_contact c1 ON ca.source_contact_id = c1.id
-LEFT JOIN civicrm_activity_assignment caa ON caa.activity_id = ca.id
-LEFT JOIN civicrm_contact c2 ON caa.assignee_contact_id = c2.id
-LEFT JOIN civicrm_activity_target cat ON cat.activity_id = ca.id
-LEFT JOIN civicrm_contact c3 ON cat.target_contact_id = c3.id
-WHERE ca.subject      LIKE {$this->_text}
-   OR ca.details      LIKE {$this->_text}
-   OR c1.display_name   LIKE {$this->_text}
-   OR c2.display_name   LIKE {$this->_text}
-   OR c3.display_name   LIKE {$this->_text}
+FROM       {$this->_entityIDTableName} eid, civicrm_activity ca
+LEFT JOIN  civicrm_contact c1 ON ca.source_contact_id = c1.id
+LEFT JOIN  civicrm_activity_assignment caa ON caa.activity_id = ca.id
+LEFT JOIN  civicrm_contact c2 ON caa.assignee_contact_id = c2.id
+LEFT JOIN  civicrm_activity_target cat ON cat.activity_id = ca.id
+LEFT JOIN  civicrm_contact c3 ON cat.target_contact_id = c3.id
+WHERE ca.id = eid.entity_id
+{$this->_limitClause}
 ";         
-        if ( ! $this->_table ) {
-            $sql .= " LIMIT 10 ";
-        }
 
         CRM_Core_DAO::executeQuery( $sql );
     }
@@ -217,29 +360,21 @@ FROM      civicrm_case cc
 LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
 LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
 WHERE   c.display_name LIKE {$this->_text}
-    
+{$this->_limitClause}
 ";
-
-        if ( ! $this->_table ) {
-            $sql .= " LIMIT 10 ";
-        }
 
         CRM_Core_DAO::executeQuery( $sql );
         if ( $this->_textID ) { 
             $sql = "
-    INSERT INTO {$this->_tableName}
-    ( table_name, contact_id, display_name, case_id )
-    SELECT    'Case', c.id, c.display_name, cc.id
-    FROM      civicrm_case cc 
-    LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
-    LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
-    WHERE   cc.id = {$this->_textID}
-    
+INSERT INTO {$this->_tableName}
+  ( table_name, contact_id, display_name, case_id )
+SELECT    'Case', c.id, c.display_name, cc.id
+FROM      civicrm_case cc 
+LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
+LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
+WHERE     cc.id = {$this->_textID}
+{$this->_limitClause}
     ";
-
-            if ( ! $this->_table ) {
-                $sql .= " LIMIT 10 ";
-            }
 
             CRM_Core_DAO::executeQuery( $sql );
         }
