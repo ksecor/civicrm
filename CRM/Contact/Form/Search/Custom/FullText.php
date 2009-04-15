@@ -184,7 +184,7 @@ OR    cp.phone LIKE {$this->_text}
         $sql = "
 INSERT INTO {$this->_tableName}
 ( table_name, activity_id, subject, details, contact_id, display_name, assignee_contact_id, assignee_display_name, target_contact_id, target_display_name, activity_type_id )
-SELECT    'Activity', ca.id, ca.subject, substring(ca.details, 250),
+SELECT    'Activity', ca.id, substr(ca.subject, 1, 50), substr(ca.details, 1, 250),
            c1.id, c1.display_name,
            c2.id, c2.display_name,
            c3.id, c3.display_name,
