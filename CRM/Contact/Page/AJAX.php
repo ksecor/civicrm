@@ -382,4 +382,44 @@ WHERE sort_name LIKE '%$name%'";
         }
         exit();
     }
+     
+     /**
+     * Function to add CiviCRM Menu
+     *
+     */
+    static function civicrmAdminMenu()
+     {
+        static $object = '';
+	if( ! $object ) {
+	    require_once 'CRM/Core/Menu.php';
+	    $values =& CRM_Core_Menu::getNavigation( true );
+	    foreach( $values as $key => $value ) {
+		if ( $value['parent'] ){
+            list(,$class) = explode( '.' , $value['parent']);
+		    if ( ! $child ) {
+			$object .= '<ul>';
+		    }
+		    $object .= '<li><a href='.$value['url'].'>'.$value['title'].'</a></li>';
+		    $child = true;
+		} else {
+		    if ( $child ) {
+			$object .= '</ul></li>';
+		    }
+		    
+		    if ( $value['title'] == 'Log out') {
+			    $session=& CRM_Core_Session::singleton();
+			    $config   =& CRM_Core_Config::singleton();
+			    require_once 'CRM/Contact/BAO/Contact.php';
+			    $displayAndImage = CRM_Contact_BAO_Contact::getDisplayAndImage($session->get('userID'));
+			    $object .= '<li class="online"><img src='. $config->resourceBase .'i/admin/small/02.png width="12px"/>&nbsp; <a href='.$value['url'].'>'.$value['title'].'&nbsp;'.$displayAndImage['0'].'</a></li>';
+		    } else {
+			$object .= '<li><a href='.$value['url'].'>'.$value['title'].'</a>';
+		    }
+		    $child   = false;
+		}
+	    }
+	}
+        echo json_encode( $object );
+        exit();
+     }
 }

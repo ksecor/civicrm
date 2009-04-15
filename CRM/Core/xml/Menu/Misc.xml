@@ -79,5 +79,10 @@
      <path>civicrm/ajax/rest</path>
      <page_callback>CRM_Utils_REST::ajax</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/ajax/adminmenu</path>
+     <page_callback>CRM_Contact_Page_AJAX::civicrmAdminMenu</page_callback>
+     <access_callback>1</access_callback>
   </item>  
 </menu>

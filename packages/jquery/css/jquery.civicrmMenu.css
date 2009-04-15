@@ -1,0 +1,85 @@
+/* CiviCRM admin Menu */
+ul.civicrm_menu {
+	margin: -3px;
+	padding: 0px;
+	list-style-type: none;
+}
+ul.civicrm_menu ul {
+	border-bottom:medium none;
+	position: absolute;
+	display:none;
+	list-style-type: none;
+	margin:  0px;
+	padding: 0px;
+	z-index: 1;
+}
+ul.civicrm_menu li {
+	float: left;
+	padding: 0px 2px 0px 2px; 
+        background-image:none;   
+}
+
+ul.civicrm_menu ul li {
+	float: none;
+	margin: 0px;
+	width:160px;
+}
+
+ul.civicrm_menu ul li:hover {
+	background:#2D2D2D repeat-x;
+}
+
+#civicrm_menu {
+	height: 24px;
+	background:#1B1B1B repeat-x;
+	z-index:1;
+	position:absolute;
+	width:100%;
+        font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+	font-size:9px;
+}
+
+#civicrm_menu a {
+	color: #EEEEEE;
+        text-decoration:none;
+}
+
+ul.civicrm_menu_slate {
+	clear: both;
+	width: 100%;
+}
+
+ul.civicrm_menu_slate a, 
+ul.civicrm_menu_slate a:active,
+ul.civicrm_menu_slate a:link,
+ul.civicrm_menu_slate a:visited {
+	text-decoration: none;
+	color: #FFF;
+}
+ul.civicrm_menu_slate ul li a,
+ul.civicrm_menu_slate ul li a:active,
+ul.civicrm_menu_slate ul li a:link,
+ul.civicrm_menu_slate ul li a:visited {
+	color: #70777D;
+}
+ul.civicrm_menu_slate li {
+	font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+	font-size: 9px;
+	padding: 2px 6px 4px 6px;
+	cursor: pointer;
+	color: #FFF;
+}
+
+ul.civicrm_menu_slate ul {
+	background: #1B1B1B repeat-x;
+}
+ul.civicrm_menu_slate ul li {
+        padding:0px 0px 0px 5px;
+	background:#202020 none repeat scroll 0 0;
+	border: none;
+	color: #70777D;
+}
+
+ul.civicrm_menu li.online {
+	float: right;
+}
