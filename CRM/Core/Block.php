@@ -270,7 +270,11 @@ class CRM_Core_Block {
             );
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
             break;
-
+        case self::FULLTEXT_SEARCH:
+            $urlArray = array( 'fullTextSearchID'  => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',
+                                                    'CRM_Contact_Form_Search_Custom_FullText', 'value', 'name' ) );
+            self::setProperty( self::FULLTEXT_SEARCH, 'templateValues', $urlArray );
+            break;    
         case self::MENU:
             self::setTemplateMenuValues( );
             break;

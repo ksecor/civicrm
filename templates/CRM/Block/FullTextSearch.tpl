@@ -4,7 +4,7 @@
         cj("#fulltext_submit").click( function() {
             var text  = cj("#text").val();
             var table = cj("#fulltext_table").val();
-            var url = {/literal}"{crmURL p='civicrm/contact/search/custom' h=0 q='csid=15&reset=1&force=1&text='}"{literal} + text;
+            var url = {/literal}'{crmURL p="civicrm/contact/search/custom" h=0 q="csid=`$fullTextSearchID`&reset=1&force=1&text="}'{literal} + text;
             if ( table ) {
                 url = url + '&table=' + table;
             }
