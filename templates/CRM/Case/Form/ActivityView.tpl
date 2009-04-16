@@ -1,4 +1,4 @@
-{* View Case Activities *} {* Uses inline styles since we haven't figured out yet how to include our normal .css files. *}
+{* View Case Activities *} {* Uses inline styles since we have not figured out yet how to include our normal .css files. *}
 {if $revs}
   <strong>{$subject}</strong> ({ts}all revisions{/ts})<br />
   {strip}
@@ -47,6 +47,9 @@
     {/foreach}
 {/if}
 </table>
+{if $caseID}
+    <div><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&id=`$caseID`&cid=`$contactID`&action=view"}">{ts}&raquo; Manage Case{/ts}</a></div>
+{/if}
 {else}
     <div class="messages status">{ts}This activity might not be attached to any case. Please investigate.{/ts}</div>
 {/if}

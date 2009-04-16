@@ -332,18 +332,20 @@ AND    c.display_name LIKE {$this->_text}
 
         $sql = "
 INSERT INTO {$this->_tableName}
-( table_name, activity_id, subject, details, contact_id, display_name, assignee_contact_id, assignee_display_name, target_contact_id, target_display_name, activity_type_id )
+( table_name, activity_id, subject, details, contact_id, display_name, assignee_contact_id, assignee_display_name, target_contact_id, target_display_name, activity_type_id, case_id )
 SELECT    'Activity', ca.id, substr(ca.subject, 1, 50), substr(ca.details, 1, 250),
            c1.id, c1.display_name,
            c2.id, c2.display_name,
            c3.id, c3.display_name,
-           ca.activity_type_id
+           ca.activity_type_id,
+           cca.case_id
 FROM       {$this->_entityIDTableName} eid, civicrm_activity ca
 LEFT JOIN  civicrm_contact c1 ON ca.source_contact_id = c1.id
 LEFT JOIN  civicrm_activity_assignment caa ON caa.activity_id = ca.id
 LEFT JOIN  civicrm_contact c2 ON caa.assignee_contact_id = c2.id
 LEFT JOIN  civicrm_activity_target cat ON cat.activity_id = ca.id
 LEFT JOIN  civicrm_contact c3 ON cat.target_contact_id = c3.id
+LEFT JOIN  civicrm_case_activity cca ON cca.activity_id = ca.id
 WHERE ca.id = eid.entity_id
 {$this->_limitClause}
 ";         

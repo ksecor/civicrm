@@ -65,7 +65,7 @@
     {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
     {assign var="showBlock" value="'searchForm_show'"}
     {assign var="hideBlock" value="'searchForm'"}
-
+    {debug}
     <fieldset>
         <legend>Activity</legend>
         {* This section displays the rows along and includes the paging controls *}
@@ -90,7 +90,13 @@
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.display_name}</a></td>
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_display_name}</a></td>
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}">{$row.assignee_display_name}</a></td>
-                        <td><a href="{crmURL p='civicrm/contact/view/activity' q="atype=`$row.activity_type_id`&action=view&reset=1&id=`$row.activity_id`&cid=`$row.contact_id`"}">{ts}View{/ts}</a></td>
+                        <td>
+                            {if $row.case_id }
+                                <a href="{crmURL p='civicrm/case/activity/view' q="reset=1&aid=`$row.activity_id`&cid=`$row.contact_id`&caseID=`$row.case_id`"}">
+                            {else}
+                                <a href="{crmURL p='civicrm/contact/view/activity' q="atype=`$row.activity_type_id`&action=view&reset=1&id=`$row.activity_id`&cid=`$row.contact_id`"}">
+                            {/if}
+                        {ts}View{/ts}</a></td>
                     </tr>
                 {/foreach}
             </table>
