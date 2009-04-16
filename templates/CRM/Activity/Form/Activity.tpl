@@ -226,23 +226,6 @@
     
   {/literal}
 
-</script>
-   {literal}
-    <script type="text/javascript">
-     function verify( ) {
-          var element = document.getElementsByName("status_id");
-	  var status = cj('#status_id :selected').text();
-
-          if ( status == "Scheduled" ) {
-	     var ok = confirm( 'This activity has an Actual Date set, but the status is still "Scheduled". If you meant to set the status to "Completed", click Cancel and update the status field. Otherwise click OK to save the activity with "Scheduled" status.' );    
-             if (!ok ) {
-                return false;
-	     }
-          }
-     }
-    </script>
-    {/literal}
-
 {*include add contact js file*}
 {include file="CRM/common/addContact.tpl"}
 
