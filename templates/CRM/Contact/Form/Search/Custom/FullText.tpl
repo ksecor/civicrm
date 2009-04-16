@@ -65,7 +65,7 @@
     {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
     {assign var="showBlock" value="'searchForm_show'"}
     {assign var="hideBlock" value="'searchForm'"}
-    {debug}
+
     <fieldset>
         <legend>Activity</legend>
         {* This section displays the rows along and includes the paging controls *}
