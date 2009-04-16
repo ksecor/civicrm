@@ -600,7 +600,9 @@ class CRM_Core_SelectValues
             unset($values[0]); 
             
             //FIXME:skipping some tokens for time being.
-            $skipTokens = array( 'greeting_type', 'is_bulkmail', 'group', 'tag', 'contact_sub_type', 'note' );
+            $skipTokens = array( 'greeting_type', 'is_bulkmail', 'group', 'tag', 'contact_sub_type', 'note', 
+                                 'is_deceased','deceased_date','legal_identifier','contact_sub_type', 'user_unique_id'
+                                 );
            
             foreach($values as $key => $val) {
                 if ( in_array($val, $skipTokens) ) {
