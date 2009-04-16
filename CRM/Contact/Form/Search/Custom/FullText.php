@@ -534,7 +534,7 @@ WHERE   ( cm.source LIKE {$this->_text} )
                     true );
         
         // also add a select box to allow the search to be constrained
-        $tables = array( ''             => ts( 'All Tables' ),
+        $tables = array( ''             => ts( 'All tables' ),
                          'Contact'      => ts( 'Contacts' ),
                          'Activity'     => ts( 'Activities' ),
                          'Case'         => ts( 'Cases' ) ,
@@ -549,7 +549,7 @@ WHERE   ( cm.source LIKE {$this->_text} )
         /**
          * You can define a custom title for the search form
          */
-         $this->setTitle('Full Text Search');
+         $this->setTitle( ts('Full-text Search') );
          
     }
 

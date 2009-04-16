@@ -16,16 +16,17 @@
 
 <div class="block-crm">
     <form method="post" id="id_fulltext_search">
-    <input type="text" name="text" id='text' value="" style="width: 10em;" />
-	<br/><br/>
+    <div style="margin-bottom: 8px;">
+    <input type="text" name="text" id='text' value="" style="width: 10em;" />&nbsp;<input type="submit" name="submit" id="fulltext_submit" value="{ts}Go{/ts}" class="form-submit"/>
+	</div>
 	<select class="form-select" id="fulltext_table" name="fulltext_table">
-    	<option value="">All Tables</option>
+    	<option value="">All</option>
     	<option value="Contact">Contacts</option>
     	<option value="Activity">Activities</option>
     	<option value="Case">Cases</option>
       	<option value="Contribution">Contributions</option>
         <option value="Participant">Participants</option>
         <option value="Membership">Memberships</option>
-    </select><input type="submit" name="submit" id="fulltext_submit" value="{ts}Go{/ts}" class="form-submit"/>
+    </select> {help id="id-fullText-block" file="CRM/Contact/Form/Search/Custom/FullText.hlp"}
     </form>
 </div>
