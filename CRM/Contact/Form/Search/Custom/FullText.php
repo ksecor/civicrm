@@ -60,7 +60,7 @@ class CRM_Contact_Form_Search_Custom_FullText
 
     function __construct( &$formValues ) {
         $this->_formValues =& $formValues;
-
+        
         $this->_text   = CRM_Utils_Array::value( 'text',
                                                  $formValues );
         $this->_table = CRM_Utils_Array::value( 'table',
@@ -73,7 +73,7 @@ class CRM_Contact_Form_Search_Custom_FullText
                 $formValues['text'] = $this->_text;
             }
         }
-
+    
         if ( ! $this->_table ) {
             $this->_table   = CRM_Utils_Request::retrieve( 'table', 'String',
                                                           CRM_Core_DAO::$_nullObject );
@@ -119,19 +119,43 @@ class CRM_Contact_Form_Search_Custom_FullText
 
         $this->_tableFields =
             array(
-                  'id' => 'int unsigned NOT NULL AUTO_INCREMENT',
-                  'table_name' => 'varchar(16)',
-                  'contact_id' => 'int unsigned',
-                  'display_name' => 'varchar(128)',
-                  'assignee_contact_id' => 'int unsigned',
-                  'assignee_display_name' => 'varchar(128)',
-                  'target_contact_id' => 'int unsigned',
-                  'target_display_name' => 'varchar(128)',
-                  'activity_id' => 'int unsigned',
-                  'activity_type_id' => 'int unsigned',
-                  'case_id' => 'int unsigned',
-                  'subject' => ' varchar(255)',
-                  'details' => ' varchar(255)',
+                  'id'                        => 'int unsigned NOT NULL AUTO_INCREMENT',
+                  'table_name'                => 'varchar(16)',
+                  'contact_id'                => 'int unsigned',
+                  'display_name'              => 'varchar(128)',
+                  'assignee_contact_id'       => 'int unsigned',
+                  'assignee_display_name'     => 'varchar(128)',
+                  'target_contact_id'         => 'int unsigned',
+                  'target_display_name'       => 'varchar(128)',
+                  'activity_id'               => 'int unsigned',
+                  'activity_type_id'          => 'int unsigned',
+                  'case_id'                   => 'int unsigned',
+                  'subject'                   => 'varchar(255)',
+                  'details'                   => 'varchar(255)',
+                  'contribution_id'           => 'int unsigned',
+                  'contribution_type'         => 'varchar(255)',
+                  'contribution_page'         => 'varchar(255)',
+                  'contribution_receive_date' => 'datetime',
+                  'contribution_total_amount' => 'decimal(20,2)',
+                  'contribution_trxn_Id'      => 'varchar(255)',
+                  'contribution_source'       => 'varchar(255)',
+                  'contribution_status'       => 'varchar(255)',
+                  'contribution_check_number' => 'varchar(255)',
+                  'participant_id'            => 'int unsigned',
+                  'event_title'               => 'varchar(255)',
+                  'participant_fee_level'     => 'varchar(255)',
+                  'participant_fee_amount'    => 'int unsigned',
+                  'participant_source'        => 'varchar(255)',
+                  'participant_register_date' => 'datetime',
+                  'participant_status'        => 'varchar(255)',
+                  'participant_role'          => 'varchar(255)',
+                  'membership_id'             => 'int unsigned',
+                  'membership_fee'            => 'int unsigned',
+                  'membership_type'           => 'varchar(255)',
+                  'membership_start_date'     => 'datetime',
+                  'membership_end_date'       => 'datetime',
+                  'membership_source'         => 'varchar(255)',
+                  'membership_status'         => 'varchar(255)'
                   );
                   
         $sql = "
@@ -175,6 +199,21 @@ CREATE TEMPORARY TABLE {$this->_entityIDTableName} (
         if ( ! $this->_table ||
              $this->_table == 'Case') {
             $this->fillCase( );
+        }
+
+        if ( ! $this->_table ||
+             $this->_table == 'Contribution') {
+            $this->fillContribution( );
+        }
+
+        if ( ! $this->_table ||
+             $this->_table == 'Participant') {
+            $this->fillParticipant( );
+        }
+
+        if ( ! $this->_table ||
+             $this->_table == 'Membership') {
+            $this->fillMembership( );
         }
     }
 
@@ -382,22 +421,131 @@ WHERE     cc.id = {$this->_textID}
         }
     }
 
+    function fillContribution( ) {
+       $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, contribution_id, contribution_type, contribution_page, contribution_receive_date, 
+contribution_total_amount, contribution_trxn_Id, contribution_source, contribution_status, contribution_check_number )
+SELECT    'Contribution', c.id, c.display_name, cc.id, cct.name, ccp.title, cc.receive_date, 
+cc.total_amount, cc.trxn_id, cc.source, contribution_status.label, cc.check_number 
+FROM  civicrm_contribution cc 
+LEFT JOIN civicrm_contact c ON cc.contact_id = c.id
+LEFT JOIN civicrm_contribution_type cct ON cct.id = cc.contribution_type_id
+LEFT JOIN civicrm_contribution_page ccp ON ccp.id = cc.contribution_page_id 
+LEFT JOIN civicrm_option_group option_group_contributionStatus ON option_group_contributionStatus.name = 'contribution_status'
+LEFT JOIN civicrm_option_value contribution_status 
+ON ( contribution_status.option_group_id = option_group_contributionStatus.id AND contribution_status.value = cc.contribution_status_id )
+WHERE   ( cc.source LIKE {$this->_text} OR cc.amount_level LIKE {$this->_text} OR cc.trxn_id LIKE {$this->_text} 
+          OR cc.invoice_id LIKE {$this->_text} OR cc.check_number  LIKE {$this->_text} )
+{$this->_limitClause}
+"; 
+
+CRM_Core_DAO::executeQuery( $sql );
+ 
+ if ( $this->_textID ) { 
+     $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, contribution_id, contribution_type, contribution_page, contribution_receive_date, 
+contribution_total_amount, contribution_trxn_Id, contribution_source, contribution_status, contribution_check_number )
+SELECT    'Contribution', c.id, c.display_name, cc.id, cct.name, ccp.title, cc.receive_date, 
+cc.total_amount, cc.trxn_id, cc.source, contribution_status.label, cc.check_number 
+FROM  civicrm_contribution cc 
+LEFT JOIN civicrm_contact c ON cc.contact_id = c.id
+LEFT JOIN civicrm_contribution_type cct ON cct.id = cc.contribution_type_id
+LEFT JOIN civicrm_contribution_page ccp ON ccp.id = cc.contribution_page_id 
+LEFT JOIN civicrm_option_group option_group_contributionStatus ON option_group_contributionStatus.name = 'contribution_status'
+LEFT JOIN civicrm_option_value contribution_status 
+ON ( contribution_status.option_group_id = option_group_contributionStatus.id AND contribution_status.value = cc.contribution_status_id )
+WHERE   ( cc.total_amount = {$this->_textID} OR cc.check_number = {$this->_textID} )
+{$this->_limitClause}
+";
+     CRM_Core_DAO::executeQuery( $sql );
+ }
+    }
+    
+    function fillParticipant( ) {
+        $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, participant_id, event_title, participant_fee_level, participant_fee_amount, participant_register_date, 
+participant_source, participant_status, participant_role )
+SELECT    'Participant', c.id, c.display_name, cp.id, ce.title, cp.fee_level, cp.fee_amount, 
+cp.register_date, cp.source, participant_status.label, participant_role.label 
+FROM  civicrm_participant cp 
+LEFT JOIN civicrm_contact c ON cp.contact_id = c.id
+LEFT JOIN civicrm_event ce ON ce.id = cp.event_id
+LEFT JOIN civicrm_option_group option_group_participantStatus ON option_group_participantStatus.name = 'participant_status'
+LEFT JOIN civicrm_option_value participant_status 
+ON ( participant_status.option_group_id = option_group_participantStatus.id AND participant_status.value = cp.status_id )
+LEFT JOIN civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
+LEFT JOIN civicrm_option_value participant_role 
+ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
+WHERE   ( cp.fee_level LIKE {$this->_text} )
+{$this->_limitClause}
+"; 
+        
+        CRM_Core_DAO::executeQuery( $sql );
+        
+        if ( $this->_textID ) { 
+            $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, participant_id, event_title, participant_fee_level, participant_fee_amount, participant_register_date, 
+participant_source, participant_status, participant_role )
+SELECT    'Participant', c.id, c.display_name, cp.id, ce.title, cp.fee_level, cp.fee_amount, 
+cp.register_date, cp.source, participant_status.label, participant_role.label 
+FROM  civicrm_participant cp 
+LEFT JOIN civicrm_contact c ON cp.contact_id = c.id
+LEFT JOIN civicrm_event ce ON ce.id = cp.event_id
+LEFT JOIN civicrm_option_group option_group_participantStatus ON option_group_participantStatus.name = 'participant_status'
+LEFT JOIN civicrm_option_value participant_status 
+ON ( participant_status.option_group_id = option_group_participantStatus.id AND participant_status.value = cp.status_id )
+LEFT JOIN civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
+LEFT JOIN civicrm_option_value participant_role 
+ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
+WHERE   ( cp.fee_amount = {$this->_textID} )
+{$this->_limitClause}
+";
+            CRM_Core_DAO::executeQuery( $sql );
+        }
+    }
+    
+    function fillMembership( ) {
+        $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, membership_id, membership_type, membership_fee, membership_start_date, 
+membership_end_date, membership_source, membership_status )
+SELECT    'Membership', c.id, c.display_name, cm.id, cmt.name, cc.total_amount, cm.start_date, 
+cm.end_date, cm.source, cms.name 
+FROM  civicrm_membership cm 
+LEFT JOIN civicrm_contact c ON cm.contact_id = c.id
+LEFT JOIN civicrm_membership_type cmt ON cmt.id = cm.membership_type_id
+LEFT JOIN civicrm_membership_payment cmp ON cmp.membership_id = cm.id
+LEFT JOIN civicrm_contribution cc ON cc.id = cmp.contribution_id
+LEFT JOIN civicrm_membership_status cms ON cms.id = cm.status_id
+WHERE   ( cm.source LIKE {$this->_text} )
+{$this->_limitClause}
+"; 
+        CRM_Core_DAO::executeQuery( $sql );
+    }
+    
     function buildForm( &$form ) {
         $form->add( 'text',
                     'text',
                     ts( 'Find' ),
                     true );
-
+        
         // also add a select box to allow the search to be constrained
-        $tables = array( ''          => ts( 'All Tables' ),
-                         'Contact'   => ts( 'Contacts' ),
-                         'Activity'  => ts( 'Activities' ),
-                         'Case'      => ts( 'Cases' ) );
+        $tables = array( ''             => ts( 'All Tables' ),
+                         'Contact'      => ts( 'Contacts' ),
+                         'Activity'     => ts( 'Activities' ),
+                         'Case'         => ts( 'Cases' ) ,
+                         'Contribution' => ts( 'Contributions' ),
+                         'Participant'  => ts( 'Participants' ),
+                         'Membership'   => ts( 'Memberships' ));
         $form->add( 'select',
                     'table',
                     ts( 'Tables' ),
                     $tables );
-
+        
         /**
          * You can define a custom title for the search form
          */
@@ -408,14 +556,18 @@ WHERE     cc.id = {$this->_textID}
     function &columns( ) {
         $this->_columns = array( ts('Contact Id')      => 'contact_id'    ,
                                  ts('Name')            => 'display_name'  );
-
+        
         return $this->_columns;
     }
-
+    
     function summary( ) {
-        $summary = array( 'Contact'  => array( ),
-                          'Activity' => array( ),
-                          'Case'     => array( ) );
+        $summary = array( 'Contact'      => array( ),
+                          'Activity'     => array( ),
+                          'Case'         => array( ),
+                          'Contribution' => array( ),
+                          'Participant'  => array( ),
+                          'Membership'   => array( )
+                        );
         
         
         // now iterate through the table and add entries to the relevant section

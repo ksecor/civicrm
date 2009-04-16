@@ -23,6 +23,9 @@
     	<option value="Contact">Contacts</option>
     	<option value="Activity">Activities</option>
     	<option value="Case">Cases</option>
+      	<option value="Contribution">Contributions</option>
+        <option value="Participant">Participants</option>
+        <option value="Membership">Memberships</option>
     </select><input type="submit" name="submit" id="fulltext_submit" value="{ts}Go{/ts}" class="form-submit"/>
     </form>
 </div>

@@ -135,6 +135,129 @@
     {* END Actions/Results section *}
 {/if}
 
+{if !empty($summary.Contribution) }
+    {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
+    {assign var="showBlock" value="'searchForm_show'"}
+    {assign var="hideBlock" value="'searchForm'"}
+
+    <fieldset>
+        <legend>Contribution</legend>
+        {* This section displays the rows along and includes the paging controls *}
+        <p>
+            {strip}
+            <table summary="{ts}Contribution listings.{/ts}">
+                <tr class="columnheader">
+                    <th scope="col">{ts}Contributor's Name{/ts}</th>
+                    <th scope="col">{ts}Amount{/ts}</th>
+                    <th scope="col">{ts}Contribution Type{/ts}</th>
+                    <th scope="col">{ts}Source{/ts}</th>
+                    <th scope="col">{ts}Received{/ts}</th>
+                    <th scope="col">{ts}Status{/ts}</th>
+                    <th>&nbsp;</th>
+                </tr>
+
+                {foreach from=$summary.Contribution item=row}
+                    <tr class="{cycle values="odd-row,even-row"}">
+                        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.display_name}</a></td>
+                        <td>{$row.contribution_total_amount}</td>
+                        <td>{$row.contribution_type}</td>
+                        <td>{$row.contribution_source}</td>
+                        <td>{$row.contribution_receive_date|crmDate}</td>
+                        <td>{$row.contribution_status}</td>
+                        <td><a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&id=`$row.contribution_id`&cid=`$row.contact_id`&action=view"}">{ts}View{/ts}</a></td>
+                    </tr>
+                {/foreach}
+            </table>
+            {/strip}
+       </p>
+    </fieldset>
+    {* END Actions/Results section *}
+{/if}
+
+{if !empty($summary.Participant) }
+    {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
+    {assign var="showBlock" value="'searchForm_show'"}
+    {assign var="hideBlock" value="'searchForm'"}
+
+    <fieldset>
+        <legend>Participant</legend>
+        {* This section displays the rows along and includes the paging controls *}
+        <p>
+            {strip}
+            <table summary="{ts}Participant listings.{/ts}">
+                <tr class="columnheader">
+                    <th scope="col">{ts}Participant's Name{/ts}</th>
+                    <th scope="col">{ts}Event{/ts}</th>
+                    <th scope="col">{ts}Fee Level{/ts}</th>
+                    <th scope="col">{ts}Fee Amount{/ts}</th>
+                    <th scope="col">{ts}Register Date{/ts}</th>
+                    <th scope="col">{ts}Source{/ts}</th>
+                    <th scope="col">{ts}Status{/ts}</th>
+                    <th scope="col">{ts}Role{/ts}</th>
+                    <th>&nbsp;</th>
+                </tr>
+
+                {foreach from=$summary.Participant item=row}
+                    <tr class="{cycle values="odd-row,even-row"}">
+                        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.display_name}</a></td>
+                        <td>{$row.event_title}</td>
+                        <td>{$row.participant_fee_level}</td>
+                        <td>{$row.participant_fee_amount}</td>
+                        <td>{$row.participant_register_date|crmDate}</td>
+                        <td>{$row.participant_source}</td>
+                        <td>{$row.participant_status}</td>
+                        <td>{$row.participant_role}</td>
+                        <td><a href="{crmURL p='civicrm/contact/view/participant' q="reset=1&id=`$row.participant_id`&cid=`$row.contact_id`&action=view"}">{ts}View{/ts}</a></td>
+                    </tr>
+                {/foreach}
+            </table>
+            {/strip}
+       </p>
+    </fieldset>
+    {* END Actions/Results section *}
+{/if}
+
+{if !empty($summary.Membership) }
+    {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
+    {assign var="showBlock" value="'searchForm_show'"}
+    {assign var="hideBlock" value="'searchForm'"}
+
+    <fieldset>
+        <legend>Membership</legend>
+        {* This section displays the rows along and includes the paging controls *}
+        <p>
+            {strip}
+            <table summary="{ts}Membership listings.{/ts}">
+                <tr class="columnheader">
+                    <th scope="col">{ts}Member's Name{/ts}</th>
+                    <th scope="col">{ts}Membership Type{/ts}</th>
+                    <th scope="col">{ts}Membership Fee{/ts}</th>      
+                    <th scope="col">{ts}Membership Start Date{/ts}</th>
+                    <th scope="col">{ts}Membership End Date{/ts}</th>
+                    <th scope="col">{ts}Source{/ts}</th>
+                    <th scope="col">{ts}Status{/ts}</th>
+                    <th>&nbsp;</th>
+                </tr>
+
+                {foreach from=$summary.Membership item=row}
+                    <tr class="{cycle values="odd-row,even-row"}">
+                        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.display_name}</a></td>
+                        <td>{$row.membership_type}</td>
+                        <td>{$row.participant_fee}</td>
+                        <td>{$row.membership_start_date|crmDate}</td>
+                        <td>{$row.membership_end_date|crmDate}</td>
+                        <td>{$row.membership_source}</td>
+                        <td>{$row.membership_status}</td>
+                        <td><a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&id=`$row.membership_id`&cid=`$row.contact_id`&action=view"}">{ts}View{/ts}</a></td>
+                    </tr>
+                {/foreach}
+            </table>
+            {/strip}
+       </p>
+    </fieldset>
+    {* END Actions/Results section *}
+{/if}
+
 <script type="text/javascript">
 var showBlock = new Array({$showBlock});
 var hideBlock = new Array({$hideBlock});
