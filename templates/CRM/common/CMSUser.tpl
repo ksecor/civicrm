@@ -72,7 +72,13 @@
 	 return;
       }
       /*don't allow special character and for joomla minimum username length is two*/
-      var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\\\\|\/]", "i");
+
+      var spchar = "\<|\>|\"|\'|\%|\;|\(|\)|\&|\\\\|\/";
+
+      {/literal}{if $config->userFramework == "Drupal"}{literal}
+	 spchar = spchar + "|\~|\`|\:|\@|\!|\=|\#|\$|\^|\*|\{|\}|\\[|\\]|\+|\?|\,"; 
+      {/literal}{/if}{literal}	
+      var r = new RegExp( "["+spchar+"]", "i");
       /*regular expression \\ matches a single backslash. this becomes r = /\\/ or r = new RegExp("\\\\").*/
       if ( r.exec(cmsUserName) ) {
 	 alert("Your username contains invalid characters");
