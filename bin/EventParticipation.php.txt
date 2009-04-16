@@ -50,44 +50,43 @@ class CRM_EventParticipation
     {
         $expiredParticipantCount = 0;
         
+        require_once 'CRM/Event/PseudoConstant.php';
+        $participantRole = CRM_Event_PseudoConstant::participantRole( );
+        $pendingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'"  );
+        $expiredStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" );
+        $waitingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Waiting'"  );
+        
+        //build the required status ids.
+        $statusIds =  '(' . implode( ',', array_merge( array_keys( $pendingStatuses ), array_keys( $waitingStatuses ) ) ) . ')';
+        
+        //get all participant whoes status in class pending and waiting
         $query = "
 SELECT  participant.id as participant_id,
         participant.contact_id as contact_id,
         participant.event_id as event_id,
         participant.status_id as status_id,
-        participant.register_date,
-        event.end_date as end_date,
-        event.expiration_time as event_expiration_time
-  FROM  civicrm_participant participant, civicrm_event event
- WHERE  event.id = participant.event_id
-";
+        participant.register_date as register_date,
+        participant.fee_amount as fee_amount,
+        participant.role_id as role_id 
+  FROM  civicrm_participant participant
+ WHERE  participant.status_id IN {$statusIds}";
+        
         $dao =& CRM_Core_DAO::executeQuery( $query );
         
-        require_once 'CRM/Utils/Date.php';
-        require_once 'CRM/Contact/BAO/Contact/Utils.php';
-        $participantDetails = $contactIds = $expiredParticipantIds = array( );
-        
+        $participantDetails = $contactIds = $eventIds = $expiredParticipantIds = array( );
         while ( $dao->fetch( ) ) {
-            $checksumLife = 'inf';
-            if ( $dao->end_date ) {
-                $checksumLife = (CRM_Utils_Date::unixTime( $dao->end_date )-time())/(60*60);
-            }
-            $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $dao->contact_id, null, $checksumLife ); 
-            
-            $participantDetails[$dao->participant_id] = array( 'participant_id'        => $dao->participant_id,
-                                                               'contact_id'            => $dao->contact_id,
-                                                               'event_id'              => $dao->event_id,
-                                                               'status_id'             => $dao->status_id,
-                                                               'register_date'         => $dao->register_date,
-                                                               'event_expiration_time' => $dao->event_expiration_time,
-                                                               'checksumValue'         => $checksumValue
+            $participantDetails[$dao->participant_id] = array( 'id'            => $dao->participant_id,
+                                                               'contact_id'    => $dao->contact_id,
+                                                               'event_id'      => $dao->event_id,
+                                                               'status_id'     => $dao->status_id,
+                                                               'register_date' => $dao->register_date,
+                                                               'fee_amount'    => $dao->fee_amount,
+                                                               'role'          => $participantRole[$dao->role_id]
                                                                );
+            
+            $eventIds[$dao->event_id] = $dao->event_id;
             $contactIds[$dao->contact_id] = $dao->contact_id;
         }
-        
-        require_once 'CRM/Event/PseudoConstant.php';
-        $pendingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" );
-        $expiredStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" );
         
         if ( !empty( $contactIds ) ) {
             // making all tokens available to templates.
@@ -114,11 +113,25 @@ SELECT  participant.id as participant_id,
             //set receipt from
             $receiptFrom = '"' . $domainValues['name'] . '" <' . $domainValues['email'] . '>';
             
-            //need to check expiration.
+            //get all events  detail that are required.
+            $allEvents = array( );
+            foreach ( $eventIds as $eventId ) {
+                //retrieve event information
+                require_once 'CRM/Event/BAO/Event.php';
+                $eventParams = array( 'id' => $eventId );
+                CRM_Event_BAO_Event::retrieve( $eventParams, $allEvents[$eventId] );
+                
+                //get the location info
+                $locParams = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
+                require_once 'CRM/Core/BAO/Location.php';
+                CRM_Core_BAO_Location::getValues( $locParams, $allEvents[$eventId], true );
+            }
+            
+            
             foreach ( $participantDetails as $participantId => $values ) {
                 
                 // cron 1. handle registration expiration related stuff 
-                if ( $expirationTime = CRM_Utils_Array::value( 'event_expiration_time', $values ) && 
+                if ( $expirationTime = CRM_Utils_Array::value( 'expiration_time', $allEvents[$values['event_id']] ) && 
                      array_key_exists( $values['status_id'], $pendingStatuses ) ) {
                     
                     //get the expiration and registration pending time.
@@ -138,28 +151,35 @@ SELECT  participant.id as participant_id,
                         //send emial to all expired participants + set status to expired.
                         if ( array_key_exists ( $values['contact_id'], $contactDetails ) ) {
                             $contactId       = $values['contact_id'];
-                            $participantName = $contactDetails[$contactId]['display_name']; 
+                            $participantName = $contactDetails[$contactId]['display_name'];
+                            //assign contact value to templates.
+                            $template =& CRM_Core_Smarty::singleton( );
+                            $template->assign( 'contact', $contactDetails[$contactId] );
                         } else {
                             continue;
                         }
                         
-                        //check the privacy setting for contact.
-                        $toEmail = $doNotEmail = $onHold = null;
-                        if ( ! empty( $contactDetails[$contactId]['email'] ) ) {
-                            $toEmail = $contactDetails[$contactId]['email']; 
-                        }
-                        
                         // 2. send expiration email
-                        if ( $toEmail ) {
-                            // assign values to template
-                            $template =& CRM_Core_Smarty::singleton( );
-                            foreach ( $values as $propertyName => $propertyValue ) {
-                                $template->assign( $propertyName, $propertyValue );
-                            }
+                        if ( $toEmail = CRM_Utils_Array::value( 'email', $contactDetails[$contactId] ) ) {
                             
-                            //FIXME : fetch the subject and message from templates.
-                            $message = "Event Registration has been Expired.";
-                            $subject = "Registration Expiration Email";
+                            //assign values to template
+                            $template =& CRM_Core_Smarty::singleton( );
+                            
+                            //assign participant values to templates.
+                            $template->assign( 'participant', $values );
+                            
+                            //assign event values to templates.
+                            $template->assign( 'event', $allEvents[$values['event_id']] );
+                            
+                            //is it paid event
+                            $template->assign( 'paidEvent', CRM_Utils_Array::value( 'is_monetary', $allEvents[$values['event_id']] ) );
+                            
+                            //is show location
+                            $template->assign( 'isShowLocation', CRM_Utils_Array::value( 'is_show_location', 
+                                                                                         $allEvents[$values['event_id']] ) );
+                            
+                            $message = $template->fetch( 'CRM/Event/Form/ParticipationExpiredMessage.tpl' );
+                            $subject = $template->fetch( 'CRM/Event/Form/ParticipationExpiredSubject.tpl' );
                             
                             //send mail to pledger
                             require_once 'CRM/Utils/Mail.php';
@@ -167,8 +187,7 @@ SELECT  participant.id as participant_id,
                                                               $participantName,
                                                               $toEmail,
                                                               $subject,
-                                                              $message
-                                                              );
+                                                              $message );
                             
                             // 3. create activity record.
                             if ( $mailSent ) {
