@@ -48,7 +48,7 @@ class CRM_EventParticipation
     
     public function updateParticipantStatus( $sendReminders = false )
     {
-        $expiredParticipantCount = 0;
+        $expiredParticipantCount = $waitingConfirmCount = 0;
         
         require_once 'CRM/Event/PseudoConstant.php';
         $participantRole = CRM_Event_PseudoConstant::participantRole( );
@@ -67,24 +67,26 @@ SELECT  participant.id as participant_id,
         participant.status_id as status_id,
         participant.register_date as register_date,
         participant.fee_amount as fee_amount,
-        participant.role_id as role_id 
+        participant.role_id as role_id,
+        participant.registered_by_id as registered_by_id
   FROM  civicrm_participant participant
  WHERE  participant.status_id IN {$statusIds}";
         
         $dao =& CRM_Core_DAO::executeQuery( $query );
         
-        $participantDetails = $contactIds = $eventIds = $expiredParticipantIds = array( );
+        $participantDetails = $contactIds = $eventIds = $expiredParticipantIds = $fullEvents = array( );
         while ( $dao->fetch( ) ) {
-            $participantDetails[$dao->participant_id] = array( 'id'            => $dao->participant_id,
-                                                               'contact_id'    => $dao->contact_id,
-                                                               'event_id'      => $dao->event_id,
-                                                               'status_id'     => $dao->status_id,
-                                                               'register_date' => $dao->register_date,
-                                                               'fee_amount'    => $dao->fee_amount,
-                                                               'role'          => $participantRole[$dao->role_id]
+            $participantDetails[$dao->participant_id] = array( 'id'               => $dao->participant_id,
+                                                               'role'             => $participantRole[$dao->role_id],
+                                                               'event_id'         => $dao->event_id,
+                                                               'status_id'        => $dao->status_id,
+                                                               'fee_amount'       => $dao->fee_amount, 
+                                                               'contact_id'       => $dao->contact_id,
+                                                               'register_date'    => $dao->register_date,
+                                                               'registered_by_id' => $dao->registered_by_id,
                                                                );
             
-            $eventIds[$dao->event_id] = $dao->event_id;
+            $eventIds[$dao->event_id]     = $dao->event_id;
             $contactIds[$dao->contact_id] = $dao->contact_id;
         }
         
@@ -127,12 +129,11 @@ SELECT  participant.id as participant_id,
                 CRM_Core_BAO_Location::getValues( $locParams, $allEvents[$eventId], true );
             }
             
-            
             foreach ( $participantDetails as $participantId => $values ) {
                 
                 // cron 1. handle registration expiration related stuff 
                 if ( $expirationTime = CRM_Utils_Array::value( 'expiration_time', $allEvents[$values['event_id']] ) && 
-                     array_key_exists( $values['status_id'], $pendingStatuses ) ) {
+                     array_key_exists( $values['status_id'], $pendingStatuses ) ) { 
                     
                     //get the expiration and registration pending time.
                     $expirationSeconds          = $expirationTime * 3600; 
@@ -146,88 +147,160 @@ SELECT  participant.id as participant_id,
                         CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participantId, 'status_id', $expiredId );
                         $expiredParticipantCount += 1;
                         
-                        echo "<br />- status updated to: Expired";
-                        
-                        //send emial to all expired participants + set status to expired.
-                        if ( array_key_exists ( $values['contact_id'], $contactDetails ) ) {
-                            $contactId       = $values['contact_id'];
-                            $participantName = $contactDetails[$contactId]['display_name'];
-                            //assign contact value to templates.
-                            $template =& CRM_Core_Smarty::singleton( );
-                            $template->assign( 'contact', $contactDetails[$contactId] );
-                        } else {
-                            continue;
-                        }
-                        
-                        // 2. send expiration email
-                        if ( $toEmail = CRM_Utils_Array::value( 'email', $contactDetails[$contactId] ) ) {
-                            
-                            //assign values to template
-                            $template =& CRM_Core_Smarty::singleton( );
-                            
-                            //assign participant values to templates.
-                            $template->assign( 'participant', $values );
-                            
-                            //assign event values to templates.
-                            $template->assign( 'event', $allEvents[$values['event_id']] );
-                            
-                            //is it paid event
-                            $template->assign( 'paidEvent', CRM_Utils_Array::value( 'is_monetary', $allEvents[$values['event_id']] ) );
-                            
-                            //is show location
-                            $template->assign( 'isShowLocation', CRM_Utils_Array::value( 'is_show_location', 
-                                                                                         $allEvents[$values['event_id']] ) );
-                            
-                            $message = $template->fetch( 'CRM/Event/Form/ParticipationExpiredMessage.tpl' );
-                            $subject = $template->fetch( 'CRM/Event/Form/ParticipationExpiredSubject.tpl' );
-                            
-                            //send mail to pledger
-                            require_once 'CRM/Utils/Mail.php';
-                            $mailSent = CRM_Utils_Mail::send( $receiptFrom,
-                                                              $participantName,
-                                                              $toEmail,
-                                                              $subject,
-                                                              $message );
-                            
-                            // 3. create activity record.
-                            if ( $mailSent ) {
-                                $now = date( 'YmdHis' );
-                                $activityType = 'Event Registration';
-                                $activityParams = array( 'subject'            => $subject,
-                                                         'source_contact_id'  => $contactId,
-                                                         'source_record_id'   => $participantId,
-                                                         'activity_type_id'   => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                                                 $activityType,
-                                                                                                                 'name' ),
-                                                         'activity_date_time' => CRM_Utils_Date::isoToMysql( $now ),
-                                                         'due_date_time'      => CRM_Utils_Date::isoToMysql( $values['register_date'] ),
-                                                         'is_test'            => $values['is_test'],
-                                                         'status_id'          => 2
-                                                         );
-                                
-                                require_once 'api/v2/Activity.php';
-                                if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
-                                    CRM_Core_Error::fatal("Failed creating Activity for expiration mail");
-                                }
-                                echo "<br />Expiration Mail sent to: {$participantName} - {$toEmail}";
-                            }
-                        }//email stuff end here. 
+                        //send email to  primary as well as additional participants.
+                        $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $receiptFrom, true );
+                        echo "<br />- status updated to: Expired<br />";
                     }
-                }//status expiration stuff complete here.
-                
-                
-                //cron 2 : handle moving participants from waitlist to
-                //the event, need to send email with confirmation links.
-                
-                
+                    //status expiration stuff complete here.
+                } else if ( array_key_exists( $values['status_id'], $waitingStatuses ) && 
+                            !array_key_exists( $values['event_id'], $fullEvents ) ) {
+                    
+                    //cron 2 : handle moving participants from waitlist to event with pending status
+                    //consider only primary participants.
+                    
+                    if ( $waitingStatuses[$values['status_id']] == 'On waitlist' && !$values['registered_by_id'] ) {
+                        //check the target event having space.
+                        require_once 'CRM/Event/BAO/Participant.php';
+                        $eventOpenSpaces = CRM_Event_BAO_Participant::eventFull( $values['event_id'], true );
+                        if ( $eventOpenSpaces && is_numeric( $eventOpenSpaces ) ||  ( $eventOpenSpaces === null ) ) {
+                            //get the additional participant if any.
+                            $additonalParticipants = CRM_Event_BAO_Participant::getAdditionalParticipantIds( $participantId ); 
+                            $requiredSpaces = 1 + count( $additonalParticipants );
+                            
+                            //need to check as to see if event has enough speces
+                            if ( ( $requiredSpaces <= $eventOpenSpaces ) || ( $eventOpenSpaces === null ) ) {
+                                //hey time to move participant to event.
+                                $updateStatusId = array_search( 'Pending from waitlist', $pendingStatuses );
+                                CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participantId, 'status_id', $updateStatusId );
+                                $waitingConfirmCount += 1;
+                                
+                                //need to send email with confirmation link.
+                                //send email to only primary participants.
+                                $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $receiptFrom, false, true  );
+                                echo "<br />- status updated to: Pending from waitlist<br />";
+                            } else {
+                                $fullEvents[$values['event_id']] = $allEvents[$values['event_id']]['title'];
+                            }
+                        } else {
+                            //target event is full.
+                            $fullEvents[$values['event_id']] = $allEvents[$values['event_id']]['title'];
+                        }
+                    }
+                } //cron 2 ends.
             }
         }
+        
+        //give statuses of crons run.
         echo "<br />{$expiredParticipantCount} participant registration has been expired.";
+        echo "<br /><br />{$waitingConfirmCount} participant registration has been changed to Pending from waitlist.<br />";
+        if ( !empty( $fullEvents ) ) {
+            foreach ( $fullEvents as $eventId => $title ) {
+                echo "<br />Full Event : {$title}";
+            }
+        }
     }
+    
+    function sendMail( $participantId, &$values, &$allEvents, &$contactDetails, $receiptFrom, 
+                       $isExpiredMail = false, $isConfirmMail = false ) 
+    {
+        if ( !array_key_exists( $values['contact_id'], $contactDetails ) ) {
+            return;
+        }
+        
+        $contactId       = $values['contact_id'];
+        $participantName = $contactDetails[$contactId]['display_name'];
+        
+        //assign contact value to templates.
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'contact', $contactDetails[$contactId] );
+        
+        //send emails.
+        if ( $toEmail = CRM_Utils_Array::value( 'email', $contactDetails[$contactId] ) ) {
+            
+            //assign values to template.
+            $template =& CRM_Core_Smarty::singleton( );
+            
+            //assign participant values to templates.
+            $template->assign( 'participant', $values );
+            
+            //assign event values to templates.
+            $template->assign( 'event', $allEvents[$values['event_id']] );
+            
+            //is it paid event
+            $template->assign( 'paidEvent', CRM_Utils_Array::value( 'is_monetary', $allEvents[$values['event_id']] ) );
+            
+            //is show location
+            $template->assign( 'isShowLocation', CRM_Utils_Array::value( 'is_show_location', 
+                                                                         $allEvents[$values['event_id']] ) );
+            
+            //is it primary participant.
+            $template->assign( 'isAdditional', $values['registered_by_id'] );
+            
+            //is expiraed registration mail
+            $template->assign( 'isExpired', $isExpiredMail );
+            
+            //is it confirm mail.
+            $template->assign( 'isConfirm', $isConfirmMail );
+            
+            //calculate the checksum value.
+            $checksumValue = null;
+            if ( $isConfirmMail ) {
+                require_once 'CRM/Utils/Date.php';
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                $checksumLife = 'inf';
+                if ( $endDate = CRM_Utils_Array::value( 'end_date',  $allEvents[$values['event_id']] )  ) {
+                    $checksumLife = (CRM_Utils_Date::unixTime( $endDate )-time())/(60*60);
+                }
+                $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactId, null, $checksumLife );
+            }
+            $template->assign( 'checksumValue', $checksumValue );
+            
+            $subject = $template->fetch( 'CRM/Event/Form/ParticipationExpiredSubject.tpl' );
+            $message = $template->fetch( 'CRM/Event/Form/ParticipationExpiredMessage.tpl' );
+            
+            //send mail to pledger
+            require_once 'CRM/Utils/Mail.php';
+            $mailSent = CRM_Utils_Mail::send( $receiptFrom,
+                                              $participantName,
+                                              $toEmail,
+                                              $subject,
+                                              $message );
+            
+            // 3. create activity record.
+            if ( $mailSent ) {
+                $now = date( 'YmdHis' );
+                $activityType = 'Event Registration';
+                $activityParams = array( 'subject'            => $subject,
+                                         'source_contact_id'  => $contactId,
+                                         'source_record_id'   => $participantId,
+                                         'activity_type_id'   => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                                 $activityType,
+                                                                                                 'name' ),
+                                         'activity_date_time' => CRM_Utils_Date::isoToMysql( $now ),
+                                         'due_date_time'      => CRM_Utils_Date::isoToMysql( $values['register_date'] ),
+                                         'is_test'            => $values['is_test'],
+                                         'status_id'          => 2
+                                         );
+                
+                require_once 'api/v2/Activity.php';
+                if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
+                    CRM_Core_Error::fatal("Failed creating Activity for expiration mail");
+                }
+                
+                //set message related to mail sent.
+                if ( $isConfirmMail ) {
+                    echo "<br />Confirmation Mail sent to: {$participantName} - {$toEmail}";
+                } else if ( $isExpiredMail ) {
+                    echo "<br />Expiration Mail sent to: {$participantName} - {$toEmail}";
+                }
+            }
+        }//email stuff end here.
+    }
+    
 }
 
 $obj =& new CRM_EventParticipation( );
 echo "Updating<br />";
 $obj->updateParticipantStatus( );
-echo "<br />Participant records updated. (Done)";
+echo "<br /><br />Participant records updated. (Done)";
 ?>

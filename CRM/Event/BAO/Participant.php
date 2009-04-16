@@ -268,10 +268,13 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         
         return $participant;
     }
-
+    
     /**
      * check whether the event is 
      * full for participation
+     *
+     * This function return event full message if it is full 
+     * else null/limit when required difference else false.
      *
      * @param int $eventId
      *
@@ -281,8 +284,9 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
     static function eventFull( $eventId, $isDeference = false )
     {
         require_once 'CRM/Event/PseudoConstant.php';
-        $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, 'is_counted = 1' );
+        $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Positive' AND is_counted = 1" );
         $status = implode( ',', array_keys( $statusTypes ) );
+        
         if ( !$status ) {
             $status = 0;
         }
@@ -303,7 +307,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         if ( $dao->fetch( ) ) {
             if( $dao->max_participants == NULL ||
                 $dao->max_participants <= 0 ) {
-                return false;
+                return null;
             }
             
             if( $dao->total_participants >= $dao->max_participants ) {
@@ -316,7 +320,13 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 return $dao->max_participants - $dao->total_participants;
             }
         }
-        return false;
+        
+        // might be there is no participant with given status.
+        if ( $isDeference ) {
+            return CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'max_participants' );
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -601,6 +611,34 @@ WHERE  civicrm_participant.id = {$participantId}
             $eventLevel = implode( ', ', explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                                   substr( $eventLevel, 1, -1) ) );
         }
+    }
+    
+    /**
+     * get the additional participant ids.
+     *
+     * @param int    $primaryParticipantId  primary partycipant Id
+     * 
+     * @return array $additionalParticipantIds
+     * @static
+     */
+    static function getAdditionalParticipantIds( $primaryParticipantId )
+    {
+        $additionalParticipantIds = array( );
+        if ( !$primaryParticipantId ) {
+            return $additionalParticipantIds;
+        }
+        
+        $query = "
+SELECT  participant.id
+  FROM  civicrm_participant participant
+ WHERE  participant.registered_by_id={$primaryParticipantId}";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            $additionalParticipantIds[$dao->id] = $dao->id;
+        }
+        
+        return $additionalParticipantIds;
     }
 }
 
