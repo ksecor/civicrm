@@ -272,14 +272,18 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 require_once 'CRM/Core/BAO/Location.php';    
                 $valuesothers = CRM_Core_BAO_Location::getValues( $paramsothers, $valuesothers );
                 if ( CRM_Utils_Array::value('location_type_id', $fv ) ) {
-                    foreach( $valuesothers[$fv['location_type_id']] as $k => $v ) {
-                        if ( in_array( $k, array( 'email', 'phone', 'im','openid' ) ) ) {
-                            if ( $k == 'im' ) {
-                                $rows[$value][$k] = $v['1']['name'];                                                     
-                            } else {
-                                $rows[$value][$k] = $v['1'][$k];
-                            }
-                            $rows[$value][$k.'_id'] = $v['1']['id'];
+                    foreach ( $valuesothers as $vals ) {
+                        if ( $vals['location_type_id'] == CRM_Utils_Array::value('location_type_id', $fv ) ) {
+                            foreach ( $vals as $k => $v ){
+                                if ( in_array( $k, array( 'email', 'phone', 'im','openid' ) ) ) {
+                                    if ( $k == 'im' ) {
+                                        $rows[$value][$k] = $v['1']['name'];
+                                    } else {
+                                        $rows[$value][$k] = $v['1'][$k];
+                                    }
+                                    $rows[$value][$k.'_id'] = $v['1']['id'];
+                                }
+                            }                            
                         }
                     }
                 }
