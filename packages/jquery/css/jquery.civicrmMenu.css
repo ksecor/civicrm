@@ -32,11 +32,12 @@ ul.civicrm_menu ul li:hover {
 #civicrm_menu {
 	height: 24px;
 	background:#1B1B1B repeat-x;
-	z-index:1;
+	z-index:9999;
 	position:absolute;
 	width:100%;
         font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 	font-size:9px;
+	top:0px;
 }
 
 #civicrm_menu a {
@@ -82,4 +83,9 @@ ul.civicrm_menu_slate ul li {
 
 ul.civicrm_menu li.online {
 	float: right;
+}
+
+ul.civicrm_menu li ul.child {
+        left:164px;
+        margin-top:-20px;
 }

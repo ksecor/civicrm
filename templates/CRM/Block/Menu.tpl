@@ -36,5 +36,10 @@ if(! $("#civicrm_menu").text() ) {
     }
   });
 }
+// Track scrolling.
+$(window).scroll( function () {
+    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+    $("#civicrm_menu").css('top', scroll);
+});
 </script>
 {/literal}

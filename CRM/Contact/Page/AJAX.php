@@ -388,14 +388,13 @@ WHERE sort_name LIKE '%$name%'";
      *
      */
     static function civicrmAdminMenu()
-     {
-        static $object = '';
+    {
+	static $object = '';
 	if( ! $object ) {
 	    require_once 'CRM/Core/Menu.php';
 	    $values =& CRM_Core_Menu::getNavigation( true );
 	    foreach( $values as $key => $value ) {
 		if ( $value['parent'] ){
-            list(,$class) = explode( '.' , $value['parent']);
 		    if ( ! $child ) {
 			$object .= '<ul>';
 		    }
@@ -405,21 +404,37 @@ WHERE sort_name LIKE '%$name%'";
 		    if ( $child ) {
 			$object .= '</ul></li>';
 		    }
-		    
-		    if ( $value['title'] == 'Log out') {
+		    if ( $value['title'] == ts('Log out') ) {
 			    $session=& CRM_Core_Session::singleton();
 			    $config   =& CRM_Core_Config::singleton();
 			    require_once 'CRM/Contact/BAO/Contact.php';
 			    $displayAndImage = CRM_Contact_BAO_Contact::getDisplayAndImage($session->get('userID'));
 			    $object .= '<li class="online"><img src='. $config->resourceBase .'i/admin/small/02.png width="12px"/>&nbsp; <a href='.$value['url'].'>'.$value['title'].'&nbsp;'.$displayAndImage['0'].'</a></li>';
 		    } else {
-			$object .= '<li><a href='.$value['url'].'>'.$value['title'].'</a>';
+		      $object .= '<li><a href='.$value['url'].'>'.$value['title'].'</a>';
+		      if( $value['title'] == ts('Administer CiviCRM') ){
+			$groups = array( 'Customize'    => ts( 'Customize' ),
+					 'Configure'    => ts( 'Configure' ),
+					 'Manage'       => ts( 'Manage'    ),
+					 'Option Lists' => ts( 'Option Lists' ) );
+			require_once 'CRM/Core/Menu.php';
+			$adminLinks =& CRM_Core_Menu::getAdminLinks( );
+                        $object .= '<ul>';
+                        foreach( $groups as $gval ){
+                            $object .= '<li><a href=#>'.$gval.'</a><ul class="child">';
+                            foreach( $adminLinks[$gval]['fields'] as $v){
+                                $object .= '<li><a href='.$v['url'].'>'.$v['title'].'</a></li>';
+                            }
+                            $object .= '</ul></li>';
+                        }
+                        $object .= '</ul></li>';
+			}
 		    }
 		    $child   = false;
 		}
 	    }
 	}
-        echo json_encode( $object );
-        exit();
-     }
+	echo json_encode( $object );
+	exit();
+    }
 }
