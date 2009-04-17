@@ -375,6 +375,19 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                                 $submitted[$key] = $mergeValue; 
                             }
                         }
+                    } else if ( in_array( $htmlType, array( 'Multi-Select Country', 'Multi-Select State/Province' ) ) ) {
+                        //we require submitted values should be in array format
+                        if ( $value ) {
+                            $mergeValueArray = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );   
+                            //hack to remove null values from array.
+                            $mergeValue = array( );
+                            foreach (  $mergeValueArray as $k => $v ) {
+                                if ( $v != '' ) {
+                                    $mergeValue[] = $v;
+                                }
+                            }
+                            $submitted[$key] = $mergeValue; 
+                        }
                     }
                     break;
                     
