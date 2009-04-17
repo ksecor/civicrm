@@ -235,7 +235,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-        
+
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
             $hidePaymentInformation = true;
@@ -243,9 +243,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 if ( $this->_values['event']['is_pay_later'] ) {
                     $attributes = null;
                     $hidePaymentInformation = false;
-                    if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
-                                    array( 'PayPal_Standard', 'Google_Checkout', 
-                                           'PayPal_Express', 'Payment_Express', 'ClickAndPledge' ) ) && 
+                    if ( !in_array( $this->_paymentProcessor['billing_mode'], array( 2, 4 ) ) && 
                          is_array( $this->_paymentProcessor ) ) {
                         $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
                                                      'table-row','radio',true);");

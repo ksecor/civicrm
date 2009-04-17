@@ -504,9 +504,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $attributes = null;
         $this->assign( 'hidePaymentInformation', false );
                    
-        if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
-                        array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express', 'Payment_Express', 'ClickAndPledge' ) ) 
-             && $this->_values['is_monetary'] && is_array( $this->_paymentProcessor ) ) {
+        if ( !in_array( $this->_paymentProcessor['billing_mode'], array( 2, 4 ) ) && 
+             $this->_values['is_monetary'] && is_array( $this->_paymentProcessor ) ) {
             $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
                                                      'table-row','radio',true);");
             
