@@ -14,8 +14,8 @@ ul.civicrm_menu ul {
 }
 ul.civicrm_menu li {
 	float: left;
-	padding: 0px 2px 0px 2px; 
-        background-image:none;   
+    background-image:none;   
+    margin-top:1px;
 }
 
 ul.civicrm_menu ul li {
@@ -30,20 +30,21 @@ ul.civicrm_menu ul li:hover {
 }
 
 #civicrm_menu {
-	height: 24px;
+	height: 21px;
 	background:#1B1B1B repeat-x;
 	z-index:9999;
 	position:absolute;
 	width:100%;
-        font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 	font-size:9px;
+    font-weight:normal;
 	top:0px;
 	left:0px;
 }
 
 #civicrm_menu a {
 	color: #EEEEEE;
-        text-decoration:none;
+    text-decoration:none;
 }
 
 ul.civicrm_menu_slate {
@@ -57,6 +58,8 @@ ul.civicrm_menu_slate a:link,
 ul.civicrm_menu_slate a:visited {
 	text-decoration: none;
 	color: #FFF;
+    font-size:9px;
+    font-weight:normal; 
 }
 ul.civicrm_menu_slate ul li a,
 ul.civicrm_menu_slate ul li a:active,
@@ -76,7 +79,7 @@ ul.civicrm_menu_slate ul {
 	background: #1B1B1B repeat-x;
 }
 ul.civicrm_menu_slate ul li {
-        padding:0px 0px 0px 5px;
+    padding:0px 0px 0px 5px;
 	background:#202020 none repeat scroll 0 0;
 	border: none;
 	color: #70777D;

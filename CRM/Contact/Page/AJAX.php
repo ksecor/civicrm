@@ -391,6 +391,7 @@ WHERE sort_name LIKE '%$name%'";
     {
 	static $object = '';
 	if( ! $object ) {
+        $child = false;
 	    require_once 'CRM/Core/Menu.php';
 	    $values =& CRM_Core_Menu::getNavigation( true );
 	    foreach( $values as $key => $value ) {

@@ -10,7 +10,17 @@
 
 {include file="CRM/common/jquery.tpl"}
 <link type="text/css" rel="stylesheet" href="{$config->resourceBase}packages/jquery/css/jquery.civicrmMenu.css"/>
-
+{if $config->userFramework eq 'Drupal'}
+    {literal}<script type="text/javascript">var menuId = "#header-region";</script>{/literal}
+{elseif $config->userFramework eq 'Joomla'}
+    {literal}
+    <script type="text/javascript">var menuId = "#header-box";</script>
+    <style type="text/css">#border-top { margin-top: 25px; } ul.civicrm_menu ul li{ margin: 5px 0 5px 0; } </style>
+    {/literal}
+{else}
+    //FIXME:if called by standalone
+    {literal}<script type="text/javascript">var menuId = "";</script>{/literal}
+{/if}
 {literal}
 <script type="text/javascript">
 $(function(){
@@ -32,7 +42,7 @@ if(! $("#civicrm_menu").text() ) {
                                     html  = '<div id="civicrm_menu"><ul class="civicrm_menu civicrm_menu_slate"><li>';
   				    html += '<img src={/literal}{$config->resourceBase}i/widget/favicon.png{literal}';
 				    html += ' width="20px"/></li>'+link+'</ul></div>';
-				    $("#header-region").before(html);
+				    $(menuId).before(html);
     }
   });
 }
