@@ -60,7 +60,7 @@ class CRM_Contact_Form_Search_Custom_FullText
 
     function __construct( &$formValues ) {
         $this->_formValues =& $formValues;
-        
+       
         $this->_text   = CRM_Utils_Array::value( 'text',
                                                  $formValues );
         $this->_table = CRM_Utils_Array::value( 'table',
@@ -302,6 +302,10 @@ AND     {$tableValues['id']} IS NOT NULL
                                                'fields' => array( 'email' => null ) ),
                    'civicrm_phone'   => array( 'id' => 'contact_id',
                                                'fields' => array( 'phone' => null ) ),
+                   'civicrm_note'   => array( 'id'           => 'entity_id',
+                                              'entity_table' => 'civicrm_contact',
+                                              'fields'       => array( 'subject' => null,
+                                                                       'note' => null ) ),
                    );
         
         // get the custom data info
@@ -422,7 +426,8 @@ WHERE     cc.id = {$this->_textID}
     }
 
     function fillContribution( ) {
-       $sql = "
+        
+        $sql = "
 INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name, contribution_id, contribution_type, contribution_page, contribution_receive_date, 
 contribution_total_amount, contribution_trxn_Id, contribution_source, contribution_status, contribution_check_number )
@@ -435,15 +440,16 @@ LEFT JOIN civicrm_contribution_page ccp ON ccp.id = cc.contribution_page_id
 LEFT JOIN civicrm_option_group option_group_contributionStatus ON option_group_contributionStatus.name = 'contribution_status'
 LEFT JOIN civicrm_option_value contribution_status 
 ON ( contribution_status.option_group_id = option_group_contributionStatus.id AND contribution_status.value = cc.contribution_status_id )
+LEFT JOIN civicrm_note cn ON ( cn.entity_id = cc.id AND cn.entity_table = 'civicrm_contribution' )
 WHERE   ( cc.source LIKE {$this->_text} OR cc.amount_level LIKE {$this->_text} OR cc.trxn_id LIKE {$this->_text} 
-          OR cc.invoice_id LIKE {$this->_text} OR cc.check_number  LIKE {$this->_text} )
+          OR cc.invoice_id LIKE {$this->_text} OR cc.check_number  LIKE {$this->_text} OR cn.subject LIKE  {$this->_text} OR cn.note LIKE  {$this->_text} )
 {$this->_limitClause}
 "; 
-
-CRM_Core_DAO::executeQuery( $sql );
- 
- if ( $this->_textID ) { 
-     $sql = "
+        
+        CRM_Core_DAO::executeQuery( $sql );
+        
+        if ( $this->_textID ) { 
+            $sql = "
 INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name, contribution_id, contribution_type, contribution_page, contribution_receive_date, 
 contribution_total_amount, contribution_trxn_Id, contribution_source, contribution_status, contribution_check_number )
@@ -456,14 +462,21 @@ LEFT JOIN civicrm_contribution_page ccp ON ccp.id = cc.contribution_page_id
 LEFT JOIN civicrm_option_group option_group_contributionStatus ON option_group_contributionStatus.name = 'contribution_status'
 LEFT JOIN civicrm_option_value contribution_status 
 ON ( contribution_status.option_group_id = option_group_contributionStatus.id AND contribution_status.value = cc.contribution_status_id )
+LEFT JOIN civicrm_note cn ON ( cn.entity_id = cc.id AND cn.entity_table = 'civicrm_contribution' )
 WHERE   ( cc.total_amount = {$this->_textID} OR cc.check_number = {$this->_textID} )
 {$this->_limitClause}
 ";
-     CRM_Core_DAO::executeQuery( $sql );
- }
+            CRM_Core_DAO::executeQuery( $sql );
+        }
+        
+        $tables = array( );
+        // get the custom data info
+        $this->fillCustomInfo( $tables, "( 'Contribution' )" );
+        $this->runQueries( $tables );
     }
     
     function fillParticipant( ) {
+    
         $sql = "
 INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name, participant_id, event_title, participant_fee_level, participant_fee_amount, participant_register_date, 
@@ -479,7 +492,8 @@ ON ( participant_status.option_group_id = option_group_participantStatus.id AND 
 LEFT JOIN civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
 LEFT JOIN civicrm_option_value participant_role 
 ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
-WHERE   ( cp.fee_level LIKE {$this->_text} )
+LEFT JOIN civicrm_note cn ON ( cn.entity_id = cp.id AND cn.entity_table = 'civicrm_participant' )
+WHERE   ( cp.fee_level LIKE {$this->_text} OR cn.subject LIKE  {$this->_text} OR cn.note LIKE  {$this->_text} )
 {$this->_limitClause}
 "; 
         
@@ -501,14 +515,21 @@ ON ( participant_status.option_group_id = option_group_participantStatus.id AND 
 LEFT JOIN civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
 LEFT JOIN civicrm_option_value participant_role 
 ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
+LEFT JOIN civicrm_note cn ON ( cn.entity_id = cp.id AND cn.entity_table = 'civicrm_participant' )
 WHERE   ( cp.fee_amount = {$this->_textID} )
 {$this->_limitClause}
 ";
             CRM_Core_DAO::executeQuery( $sql );
         }
+        
+        $tables = array( );
+        // get the custom data info
+        $this->fillCustomInfo( $tables, "( 'Participant' )" );
+        $this->runQueries( $tables );
     }
     
     function fillMembership( ) {
+        
         $sql = "
 INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name, membership_id, membership_type, membership_fee, membership_start_date, 
@@ -525,6 +546,11 @@ WHERE   ( cm.source LIKE {$this->_text} )
 {$this->_limitClause}
 "; 
         CRM_Core_DAO::executeQuery( $sql );
+
+        $tables = array( );
+        // get the custom data info
+        $this->fillCustomInfo( $tables, "( 'Membership' )" );
+        $this->runQueries( $tables );
     }
     
     function buildForm( &$form ) {
