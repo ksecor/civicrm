@@ -607,7 +607,8 @@ WHERE   ( cm.source LIKE {$this->_text} )
                 if ( $name != 'activity_type_id' ) {
                     $row[$name] = $dao->$name;
                 } else {
-                    $row['activity_type'] = $activityTypes[$dao->$name];
+                    $row['activity_type'] = CRM_Utils_Array::value( $dao->$name,
+                                                                   $activityTypes );
                 }
             }
             $summary[$dao->table_name][] = $row;
