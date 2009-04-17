@@ -288,7 +288,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     public function postProcess()
     {
         $formValues = $this->exportValues();
-
+        
         // user can't choose to move cases without activities (CRM-3778)
         if ( $formValues['move_rel_table_cases'] == '1' && 
              array_key_exists('move_rel_table_activities', $formValues) ) {
@@ -323,12 +323,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $cFields[$fid]['attributes'] = $field;
             }
         }
-     
+        
         if (!isset($submitted)) $submitted = array();
         foreach ($submitted as $key => $value) {
             if (substr($key, 0, 7) == 'custom_') {
                 $fid = (int) substr($key, 7);
-                switch ($cFields[$fid]['attributes']['html_type']) {
+                $htmlType = $cFields[$fid]['attributes']['html_type'];
+                switch ( $htmlType ) {
                 case 'File':
                     $customFiles[] = $fid;
                     unset($submitted["custom_$fid"]);
@@ -337,12 +338,52 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 case 'Select State/Province':
                     $submitted[$key] = CRM_Core_BAO_CustomField::getDisplayValue($value, $fid, $cFields);
                     break;
+                    
+                case 'CheckBox':
+                case 'Multi-Select':
+                case 'Multi-Select Country':
+                case 'Multi-Select State/Province':
+                    // Merge values from both contacts for multivalue fields, CRM-4385
+                    // get the existing custom values from db.
+                    require_once 'CRM/Core/BAO/CustomValueTable.php';
+                    $customParams = array( 'entityID' => $this->_cid, $key => true );
+                    $customfieldValues = CRM_Core_BAO_CustomValueTable::getValues( $customParams ); 
+                    if ( CRM_Utils_array::value( $key, $customfieldValues ) ) {
+                        $existingValue = explode( CRM_Core_DAO::VALUE_SEPARATOR, $customfieldValues[$key] );
+                        if ( is_array( $existingValue ) && !empty( $existingValue ) ) {
+                            $mergeValue = $submmtedCustomValue = array( );
+                            if ( $value ) {
+                                $submmtedCustomValue = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+                            }
+                            
+                            //hack to remove null and duplicate values from array.
+                            foreach ( array_merge( $submmtedCustomValue, $existingValue ) as $k => $v ) {
+                                if ( $v != '' && !in_array( $v, $mergeValue ) ) {
+                                    $mergeValue[] = $v;
+                                }
+                            }
+                            
+                            //keep state and country as array format. 
+                            //for checkbox and m-select format w/ VALUE_SEPERATOR
+                            if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select' ) ) ) {
+                                $submitted[$key] = 
+                                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
+                                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                             $mergeValue ) .
+                                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                            } else {
+                                $submitted[$key] = $mergeValue; 
+                            }
+                        }
+                    }
+                    break;
+                    
                 default:
                     break;
                 }
             }
         }
-
+        
         // FIXME: the simplest approach to locations
         $locTypes =& CRM_Core_PseudoConstant::locationType();
         if (!isset($locations)) $locations = array();

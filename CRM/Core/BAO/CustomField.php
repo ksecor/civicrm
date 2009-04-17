@@ -1214,15 +1214,20 @@ SELECT id
         
         if ( $customFields[$customFieldId]['html_type'] == 'Multi-Select' ) {
             if ( $value ) {
-                $value = 
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
-                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                             array_values( $value ) ) .
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                // Note that only during merge this is not an array,
+                // and you can directly use value, CRM-4385
+                if ( is_array( $value ) ) {
+                    $value = 
+                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
+                        implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                 array_values( $value ) ) .
+                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                }
             } else {
                 $value = '';
             }
         }
+        
         $date = null;
         // fix the date field 
         if ( $customFields[$customFieldId]['data_type'] == 'Date' ) {
