@@ -107,11 +107,10 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-        require_once "CRM/Profile/Form.php";
-        foreach ( $this->_groupTree[$this->_groupId]['fields'] as $field ) {
-            $elementName = 'custom_' . $field['id'];
-            CRM_Core_BAO_CustomField::setProfileDefaults( $field['id'], $elementName, $defaults, null, CRM_Profile_Form::MODE_REGISTER );
-        }
+
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
+
         return $defaults;
     }
 
@@ -134,7 +133,7 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                  count( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts'] ) ) < 3 ) {
                 $field['skip_calendar'] = true;
             }
-            $elementName = 'custom_' . $field['id'];
+            $elementName = $field['element_name'];
             //add the form elements
             CRM_Core_BAO_CustomField::addQuickFormElement( $this, $elementName, $field['id'], false, $field['is_required'] );
         }
