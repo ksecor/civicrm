@@ -73,7 +73,7 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
         if ($fieldId) {
             // field preview
             $defaults = array();
-            $params = array('id' => $fieldId);
+            $params   = array('id' => $fieldId);
             $fieldDAO =& new CRM_Core_DAO_CustomField();                    
             CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_CustomField', $params, $defaults);
             
@@ -85,14 +85,15 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('This field is inactive so it will not display on edit form.') );
             }
             
-            $this->_groupTree = array();
-            $this->_groupTree[0]['id'] = 0;
-            $this->_groupTree[0]['fields'] = array();
-            $this->_groupTree[0]['fields'][$fieldId] = $defaults;
+            $groupTree = array();
+            $groupTree[$groupId]['id']     = 0;
+            $groupTree[$groupId]['fields'] = array();
+            $groupTree[$groupId]['fields'][$fieldId] = $defaults;
+            $this->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, $this );
             $this->assign('preview_type', 'field');
         } else {
-            // group preview
-            $this->_groupTree  = CRM_Core_BAO_CustomGroup::getGroupDetail($groupId);        
+            $groupTree        = CRM_Core_BAO_CustomGroup::getGroupDetail( $groupId);
+            $this->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, true, $this );
             $this->assign('preview_type', 'group');
         }
     }
@@ -126,10 +127,12 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        //this is fix for calendar for date field
+
+        //fix for calendar for date field
+        //if date elements are less than 3 then don't show the date picker icon
         foreach ($this->_groupTree as $key1 => $group) { 
-            foreach ($group['fields'] as $key2 => $field) {
-                if ($field['data_type'] == 'Date' && $field['date_parts'] ) {
+            foreach ( $group['fields'] as $key2 => $field) {
+                if ( $field['data_type'] == 'Date' && $field['date_parts'] ) {
                     $datePart = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts']);
                     if ( count( $datePart ) < 3) {
                         $this->_groupTree[$key1]['fields'][$key2]['skip_calendar'] = true;
@@ -137,11 +140,10 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                 }
             }
         }
+        
         $this->assign('groupTree', $this->_groupTree);
-
         // add the form elements
         require_once 'CRM/Core/BAO/CustomField.php';
-
         foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
@@ -149,10 +151,8 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                 if ( CRM_Utils_Array::value( 'is_view', $field ) ) {
                     continue;
                 }
-                
                 $fieldId = $field['id'];     
-                //$elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-                $elementName = 'custom_' . $fieldId;
+                $elementName = $field['element_name'];
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
             }
         }

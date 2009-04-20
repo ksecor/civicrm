@@ -1067,27 +1067,28 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             
         case 'CheckBox':
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldId, false);
-
             $defaults[$elementName] = array();
 
             $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             foreach($customOption as $customValue => $customLabel) {
-                if ( in_array($customValue, $checkedValue) ) {
-                    $defaults[$elementName][$customValue] = 1;
+                if ( in_array($customLabel['value'], $checkedValue) ) {
+                    $defaults[$elementName][$customLabel['value']] = 1;
                 } else {
-                    $defaults[$elementName][$customValue] = 0;
+                    $defaults[$elementName][$customLabel['value']] = 0;
                 }
             }                            
             break;
             
             //added a case for Multi-Select option                    
         case 'Multi-Select':
-            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], false);
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldId, false);
             $defaults[$elementName] = array();
             $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             foreach($customOption as $customValue => $customLabel) {
-                if ( in_array($customValue, $checkedValue) ) {
-                    $defaults[$elementName][$customValue] = $customValue;
+                if ( in_array($customLabel['value'], $checkedValue) ) {
+                    $defaults[$elementName][$customLabel['value']] = $customLabel['value'];
+                } else {
+                    $defaults[$elementName][$customLabel['value']] = 0;
                 }
             }                            
             break;
