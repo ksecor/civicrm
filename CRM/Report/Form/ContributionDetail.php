@@ -54,11 +54,11 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                                'receipt_date'  => null,
                                                ) ) );
 
-        $this->_filter =
+        $this->_filters =
             array( 'receive_date' => array( 'label'      => ts( 'Date Range' ),
                                             'table'      => 'civicrm_contribution',
-                                            'operator'   => 'date_range'
-                                            'type'       => 'date'
+                                            'operator'   => 'date_range',
+                                            'type'       => 'date',
                                             'default'    => 'this month' ),
                    'total_amount' => array( 'label'      => ts( 'Aggregate Total Between' ),
                                             'table'      => 'civicrm_contribution',
@@ -74,6 +74,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                                                 'type'  => 'checkbox' ),
                                  );
         
+        parent::__construct( );
     }
 
     function preProcess( ) {

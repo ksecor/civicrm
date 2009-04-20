@@ -75,10 +75,54 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     /**
      * 
+     */
     function __construct( ) {
+        parent::__construct( );
     }
 
     function addColumns( ) {
+        $options = array();
+        
+        foreach ( $this->_columns as $table => $tblProperties ) {
+            foreach ( $tblProperties['fields'] as $field => $fldProperties ) {
+                $label = ( is_array($fldProperties) && 
+                           array_key_exists('label', $fldProperties) ) ? $fldProperties['label'] : $field;
+                $options[$label] = $field;
+            } 
+        }
+        $this->addCheckBox( 'select_columns', ts('Select Columns'), $options );
+    }
+
+    function addFilters( ) {
+        $options = $filterFields = array();
+
+        foreach ( $this->_filters as $field => $fltrProperties ) {
+            $label = ( is_array($fltrProperties) && 
+                       array_key_exists('label', $fltrProperties) ) ? $fltrProperties['label'] : $field;
+            $filterFields[$label] = $field;
+
+            switch ( $fltrProperties['type'] ) {
+            case 'integer':
+                $operationList = array( 'Is less than', 'Is equal to', 'Is greater than' );
+                foreach ( $operationList as $listing ) {
+                    $operations[str_replace(' ', '_', strtolower($listing))] = $listing; 
+                }
+                $this->addRadio( "{$field}_operation", ts( 'Operator:' ), $operations );
+                break;
+            case 'date':
+            default:
+                // consider type as string
+                $operationList = array( 'Is equal to', 'Starts with', 'Ends with' );
+                foreach ( $operationList as $listing ) {
+                    $operations[str_replace(' ', '_', strtolower($listing))] = $listing; 
+                }
+                $this->addRadio( "{$field}_operation", ts( 'Operator:' ), $operations );
+                break;
+            }
+            $this->add( 'text', "{$field}_operation_value", ts('Value') );
+        }
+
+        $this->assign( 'filterFields', $filterFields );
     }
 
 }
