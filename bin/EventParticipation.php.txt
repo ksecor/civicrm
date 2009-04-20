@@ -61,16 +61,17 @@ class CRM_EventParticipation
         
         //get all participant whoes status in class pending and waiting
         $query = "
-SELECT  participant.id as participant_id,
-        participant.contact_id as contact_id,
-        participant.event_id as event_id,
-        participant.status_id as status_id,
-        participant.register_date as register_date,
-        participant.fee_amount as fee_amount,
-        participant.role_id as role_id,
-        participant.registered_by_id as registered_by_id
-  FROM  civicrm_participant participant
- WHERE  participant.status_id IN {$statusIds}";
+   SELECT  participant.id as participant_id,
+           participant.contact_id as contact_id,
+           participant.event_id as event_id,
+           participant.status_id as status_id,
+           participant.register_date as register_date,
+           participant.fee_amount as fee_amount,
+           participant.role_id as role_id,
+           participant.registered_by_id as registered_by_id
+     FROM  civicrm_participant participant
+    WHERE  participant.status_id IN {$statusIds}
+ ORDER BY  register_date";
         
         $dao =& CRM_Core_DAO::executeQuery( $query );
         
@@ -108,12 +109,6 @@ SELECT  participant.id as participant_id,
             require_once 'CRM/Mailing/BAO/Mailing.php';
             list( $contactDetails ) = CRM_Mailing_BAO_Mailing::getDetails( $contactIds, null, false, false );
             
-            // assign domain values to template
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign( 'domain', $domainValues );
-            
-            //set receipt from
-            $receiptFrom = '"' . $domainValues['name'] . '" <' . $domainValues['email'] . '>';
             
             //get all events  detail that are required.
             $allEvents = array( );
@@ -131,24 +126,23 @@ SELECT  participant.id as participant_id,
             
             foreach ( $participantDetails as $participantId => $values ) {
                 
-                // cron 1. handle registration expiration related stuff 
-                if ( $expirationTime = CRM_Utils_Array::value( 'expiration_time', $allEvents[$values['event_id']] ) && 
-                     array_key_exists( $values['status_id'], $pendingStatuses ) ) { 
+                // cron 1. handle registration expiration related stuff
+                $expirationTime = CRM_Utils_Array::value( 'expiration_time', $allEvents[$values['event_id']] );
+                if ( $expirationTime && array_key_exists( $values['status_id'], $pendingStatuses ) ) { 
                     
                     //get the expiration and registration pending time.
-                    $expirationSeconds          = $expirationTime * 3600; 
+                    $expirationSeconds = $expirationTime * 3600;
                     $registrationPendingSeconds = CRM_Utils_Date::unixTime( $values['register_date'] );
                     
                     // expired registration since registration cross allow confirmation time.
-                    if ( ( $expirationTime + $registrationPendingHrs ) < time( ) ) {
-                        
+                    if ( ( $expirationSeconds + $registrationPendingSeconds ) < time( ) ) {
                         //set status to expired.
                         $expiredId = array_search( 'Expired', $expiredStatuses );
                         CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participantId, 'status_id', $expiredId );
                         $expiredParticipantCount += 1;
                         
                         //send email to  primary as well as additional participants.
-                        $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $receiptFrom, true );
+                        $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $domainValues, true );
                         echo "<br />- status updated to: Expired<br />";
                     }
                     //status expiration stuff complete here.
@@ -161,7 +155,8 @@ SELECT  participant.id as participant_id,
                     if ( $waitingStatuses[$values['status_id']] == 'On waitlist' && !$values['registered_by_id'] ) {
                         //check the target event having space.
                         require_once 'CRM/Event/BAO/Participant.php';
-                        $eventOpenSpaces = CRM_Event_BAO_Participant::eventFull( $values['event_id'], true );
+                        $eventOpenSpaces = CRM_Event_BAO_Participant::getEventEmptySeats( $values['event_id'] );
+                        
                         if ( $eventOpenSpaces && is_numeric( $eventOpenSpaces ) ||  ( $eventOpenSpaces === null ) ) {
                             //get the additional participant if any.
                             $additonalParticipants = CRM_Event_BAO_Participant::getAdditionalParticipantIds( $participantId ); 
@@ -176,7 +171,7 @@ SELECT  participant.id as participant_id,
                                 
                                 //need to send email with confirmation link.
                                 //send email to only primary participants.
-                                $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $receiptFrom, false, true  );
+                                $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $domainValues, false, true  );
                                 echo "<br />- status updated to: Pending from waitlist<br />";
                             } else {
                                 $fullEvents[$values['event_id']] = $allEvents[$values['event_id']]['title'];
@@ -200,8 +195,8 @@ SELECT  participant.id as participant_id,
         }
     }
     
-    function sendMail( $participantId, &$values, &$allEvents, &$contactDetails, $receiptFrom, 
-                       $isExpiredMail = false, $isConfirmMail = false ) 
+    function sendMail( $participantId, &$values, &$allEvents, &$contactDetails, 
+                       &$domainValues, $isExpiredMail = false, $isConfirmMail = false ) 
     {
         if ( !array_key_exists( $values['contact_id'], $contactDetails ) ) {
             return;
@@ -219,6 +214,9 @@ SELECT  participant.id as participant_id,
             
             //assign values to template.
             $template =& CRM_Core_Smarty::singleton( );
+            
+            // assign domain values to template
+            $template->assign( 'domain', $domainValues );
             
             //assign participant values to templates.
             $template->assign( 'participant', $values );
@@ -258,13 +256,24 @@ SELECT  participant.id as participant_id,
             $subject = $template->fetch( 'CRM/Event/Form/ParticipationExpiredSubject.tpl' );
             $message = $template->fetch( 'CRM/Event/Form/ParticipationExpiredMessage.tpl' );
             
-            //send mail to pledger
+            //take a receipt from as event else domain.
+            if ( CRM_Utils_Array::value('confirm_from_name', $allEvents[$values['event_id']] ) && 
+                 CRM_Utils_Array::value('confirm_from_email', $allEvents[$values['event_id']] ) ) {
+                $receiptFrom = '"' . $allEvents[$values['event_id']]['confirm_from_name'] . '" <' . $allEvents[$values['event_id']]['confirm_from_email'] . '>';
+            } else {
+                $receiptFrom = '"' . $domainValues['name'] . '" <' . $domainValues['email'] . '>';
+            }
+            
+            //send mail to participant.
             require_once 'CRM/Utils/Mail.php';
             $mailSent = CRM_Utils_Mail::send( $receiptFrom,
                                               $participantName,
                                               $toEmail,
                                               $subject,
-                                              $message );
+                                              $message,
+                                              CRM_Utils_Array::value( 'cc_confirm', $allEvents[$values['event_id']] ), 
+                                              CRM_Utils_Array::value( 'bcc_confirm', $allEvents[$values['event_id']] ) 
+                                              );
             
             // 3. create activity record.
             if ( $mailSent ) {
