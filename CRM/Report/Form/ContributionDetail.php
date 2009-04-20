@@ -47,53 +47,46 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                  'civicrm_contribution' =>
                                  array( 'dao'    => 'CRM_Contribute_DAO_Contribution',
                                         'fields' =>
-                                        array( 'amount'  => array( 'label'    => ts( 'Total Amount' ),
-                                                                  'required' => true ),
+                                        array( 'amount'        => array( 'label'    => ts( 'Amount' ),
+                                                                         'required' => true ),
                                                'trxn_id'       => null,
                                                'received_date' => null,
                                                'receipt_date'  => null,
                                                ) ) );
 
         $this->_filter =
-            array( 'start_date' => array( 'label'      => ts( 'From' ),
-                                          'table'      => 'civicrm_contribution',
-                                          'field'      => 'receive_date',
-                                          'operator'   => '>=',
-                                          'type'       => 'date',
-                                          'attributes' => CRM_Core_SelectValues::date('custom', 10, 3 ) ),
-                   'end_date'   => array( 'label'      => ts( '...through' ),
-                                          'table'      => 'civicrm_contribution',
-                                          'field'      => 'receive_date',
-                                          'operator'   => '<=',
-                                          'type'       => 'date',
-                                          'attributes' => CRM_Core_SelectValues::date('custom', 10, 3 ) ),
-                   'min_amount' => array( 'label'      => ts( 'Aggregate Total Between' ),
-                                          'table'      => 'civicrm_contribution',
-                                          'field'      => 'total_amount',
-                                          'operator'   => '>=',
-                                          'type'       => 'money' ),
-                   'max_amount' => array( 'label'      => ts( 'Aggregate Total Between' ),
-                                          'table'      => 'civicrm_contribution',
-                                          'field'      => 'total_amount',
-                                          'operator'   => '<=',
-                                          'type'       => 'money' ),
-                   'name'       => array( 'label'      => ts( 'Contact Name' ),
-                                          'table'      => 'civicrm_contact',
-                                          'field'      => 'sort_name',
-                                          'operator'   => 'like' )
+            array( 'receive_date' => array( 'label'      => ts( 'Date Range' ),
+                                            'table'      => 'civicrm_contribution',
+                                            'operator'   => 'date_range'
+                                            'type'       => 'date'
+                                            'default'    => 'this month' ),
+                   'total_amount' => array( 'label'      => ts( 'Aggregate Total Between' ),
+                                            'table'      => 'civicrm_contribution',
+                                            'operator'   => 'money_range',
+                                            'type'       => 'money' ),
+                   'sort_name'    => array( 'label'      => ts( 'Contact Name' ),
+                                            'table'      => 'civicrm_contact',
+                                            'field'      => 'sort_name',
+                                            'operator'   => 'like' )
                    );
 
         $this->_options = array( 'include_statistics' => array( 'label' => ts( 'Include Contribution Statistics' ),
                                                                 'type'  => 'checkbox' ),
                                  );
-                                                               
-
+        
     }
 
     function preProcess( ) {
     }
 
     function buildQuickForm( ) {
+        $this->addColumns( );
+        
+        $this->addFilters( );
+    }
+
+    function setDefaultValues( ) {
+        $this->setDefaults( );
     }
 
     function postProcess( ) {

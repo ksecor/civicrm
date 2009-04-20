@@ -74,12 +74,12 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_filters;
 
     /**
-
-    /**
      * 
     function __construct( ) {
     }
 
+    function addColumns( ) {
+    }
 
 }
 
