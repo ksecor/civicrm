@@ -1,4 +1,3 @@
-{include file="CRM/common/jquery.tpl"}
 <div class="block-crm">
 <script type="text/javascript"> 
 {literal}
