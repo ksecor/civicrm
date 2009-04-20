@@ -733,6 +733,161 @@ class CRM_Utils_Date
         }
         return false;
     }
+    
+    /**
+     * resolves the given relative time interval into finite time limits
+     *
+     * @param  array $relativeTerm relative time frame like this, previous, etc
+     * @param  int   $unit         frequency unit like year, month, week etc..
+     * @return array $dateRange    start date and end date for the relative time frame
+     * @static
+     */
+    function relativeToAbsolute( $relativeTerm, $unit) 
+    {
+        $now  = getDate();
+        $from = $to = $dateRange = array();
+        $from['H'] = $from['i'] = $from['s'] = 0;
+
+        $to['H'] = 11;
+        $to['i'] = 59;
+        $to['s'] = 59;
+        switch( $unit ) {
+
+        case 'year':
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['d'] = 1;
+                $from['M'] = 1;
+                $to['d'] = 31;
+                $to['M'] = 12;
+                $to['Y'] = $from['Y'] = $now['year'];
+                break;
+
+            case 'previous':
+                $from['M'] = 1;
+                $from['d'] = 1;
+                $to['d'] = 31;
+                $to['M'] = 12;
+                $to['Y'] = $from['Y'] = $now['year'] - 1;
+                break;
+
+            case 'previous before':
+                break;
+
+            case 'previous 2':
+                break;
+
+            case 'earlier':
+                $to['d'] = 31;
+                $to['M'] = 12;
+                $to['Y'] = $now['year'] - 1;
+                unset($from);
+                break;
+                
+            case 'greater':
+                $from['M'] = 1;
+                $from['d'] = 1;
+                $from['Y'] = $now['year'];
+                unset($to);
+                break;
+            }
+            
+            break;
+            
+        case 'quarter':
+            break;
+            
+        case 'month':
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['d'] = 1;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $now['mon'], $now['year']);
+                $from['M'] = $to['M'] = $now['mon'];
+                $to['Y'] = $from['Y'] = $now['year'];
+                break;
+                
+            case 'previous':
+                $from['d'] = 1;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $now['mon'] - 1, $now['year']);
+                $from['M'] = $to['M'] = $now['mon'] - 1;
+                $to['Y'] = $from['Y'] = $now['year'];
+                break;
+
+            case 'previous before':
+                break;
+
+            case 'previous 2':
+                break;
+
+            case 'earlier':
+                //before end of past month
+                $to['d'] = cal_days_in_month(CAL_GREGORIAN, $now['mon'] - 1, $now['year']);
+                $to['M'] = $now['mon'] - 1;
+                $to['Y'] = $now['year'];
+                unset($from);
+                break;
+                
+            case 'greater':
+                $from['d'] = 1;
+                $from['M'] = $now['mon'];;
+                $from['Y'] = $now['year'];
+                unset($to);
+                break;
+            }
+            break;
+            
+        case 'week':
+            break;
+
+        case 'day':
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['d'] = $to['d'] = $now['mday'];
+                $from['M'] = $to['M'] = $now['mon'];
+                $from['Y'] = $to['Y'] = $now['year'];
+                break;
+                
+            case 'previous':
+                $from['d'] = $to['d'] = $now['mday'];
+                $from['M'] = $to['M'] = $now['mon'];
+                $from['Y'] = $to['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1, $from );
+                $to['d'] = $from['d'];
+                $to['M'] = $from['M'];
+                $to['Y'] = $from['Y'];
+                break;
+
+            case 'previous before':
+                break;
+                
+            case 'previous 2':
+                break;
+                
+            case 'earlier':
+                $to['d'] = $now['mday'];
+                $to['M'] = $now['mon'];
+                $to['Y'] = $now['year']; 
+                unset($from);
+                break;
+                
+            case 'greater':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];;
+                $from['Y'] = $now['year'];
+                unset($to);
+                break;
+            }
+            break;
+        }
+        
+        foreach ( array( 'from', 'to' ) as $item ) {
+            if ( !empty ( $$item ) ) {
+                $dateRange = array_merge( $dateRange, array ( $item => $$item ) );
+            }
+        }
+        //CRM_Core_Error::debug( '$date', $dateRange );
+        return $dateRange;
+    }
 
     static function isDate( &$date ) 
     {
