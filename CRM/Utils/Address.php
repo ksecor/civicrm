@@ -138,14 +138,13 @@ class CRM_Utils_Address
                       'gender'                 => CRM_Utils_Array::value( 'gender', $fields ),
                       'is_opt_out'             => CRM_Utils_Array::value( 'is_opt_out', $fields ),
                       'home_URL'               => CRM_Utils_Array::value( 'home_URL', $fields ),
-                      'preferred_communication_method'              => str_replace( CRM_CORE_DAO::VALUE_SEPARATOR, ',', 
-                                                                                    CRM_Utils_Array::value( 'preferred_communication_method', $fields )),
                       'preferred_mail_format'  => CRM_Utils_Array::value( 'preferred_mail_format', $fields ),
                       'phone'                  => CRM_Utils_Array::value( 'phone', $fields ),
                       'home_URL'               => CRM_Utils_Array::value( 'home_URL', $fields ),
                       'contact_source'         => CRM_Utils_Array::value( 'contact_source', $fields ),
                       'external_identifier'    => CRM_Utils_Array::value( 'external_identifier', $fields ),
-                      'contact_id'             => CRM_Utils_Array::value( 'id', $fields )
+                      'contact_id'             => CRM_Utils_Array::value( 'id', $fields ),
+                      'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields )
                        );
         } else {
             $replacements =
@@ -196,9 +195,9 @@ class CRM_Utils_Address
         // the value is not empty, otherwise drop the whole {fooTOKENbar}
         foreach ($replacements as $token => $value) {
             if ($value) {
-                $formatted = preg_replace("/{([^{}]*){$token}([^{}]*)}/u", "\${1}{$value}\${2}", $formatted);
+                $formatted = preg_replace("/{([^{}]*)\b{$token}\b([^{}]*)}/u", "\${1}{$value}\${2}", $formatted);
             } else {
-                $formatted = preg_replace("/{[^{}]*{$token}[^{}]*}/u", '', $formatted);
+                $formatted = preg_replace("/{[^{}]*\b{$token}\b[^{}]*}/u", '', $formatted);
             }
         }
 

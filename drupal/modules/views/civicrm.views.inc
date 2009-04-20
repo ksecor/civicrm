@@ -695,6 +695,27 @@ function civicrm_views_data() {
                                                                 ),
                                                 );
   
+    //Address name
+    $data['civicrm_address']['name'] = array(
+                                             'title' => t('Address Name'),
+                                             'help' => t('Name of the address'),
+                                             'field' => array(
+                                                              'handler' => 'views_handler_field',
+                                                              'click sortable' => TRUE,
+                                                              ),
+
+                                             'argument' => array(
+                                                                 'handler' => 'views_handler_argument',
+                                                                 ),
+
+                                             'filter' => array(
+                                                               'handler' => 'views_handler_filter_string',
+                                                               ),
+
+                                             'sort' => array(
+                                                             'handler' => 'views_handler_sort',
+                                                             ),
+                                             );
 
     // CHILLING OUT AT THE CIVICRM_EMAIL TABLE
 

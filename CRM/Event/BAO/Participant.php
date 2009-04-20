@@ -632,6 +632,29 @@ SELECT  participant.id
         
         return $additionalParticipantIds;
     }
+
+    /**
+     * Function for update primary and additional participant status 
+     *      
+     * @param  int $participantID primary participant's id 
+     * @param  int $statusId status id for participant
+     * return void
+     * @access public
+     * @static
+     */
+    static function updateParticipantStatus( $participantID, $statusID ) 
+    {    
+        if ( !$participantID ) {
+            return;
+        }
+
+        $query = "UPDATE civicrm_participant cp SET cp.status_id = %1 WHERE ( cp.id = %2 OR cp.registered_by_id = %2 )";
+
+        $params = array( 1 => array( $statusID, 'Integer' ), 2 => array( $participantID, 'Integer' ) );
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+    }
+
     
     /**
      * This function return number of empty seats available,

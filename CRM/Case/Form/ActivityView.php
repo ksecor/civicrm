@@ -53,8 +53,10 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
         $contactID  = CRM_Utils_Request::retrieve( 'cid' , 'Integer', $this, true );
         $activityID = CRM_Utils_Request::retrieve( 'aid' , 'Integer', $this, true );
         $revs       = CRM_Utils_Request::retrieve( 'revs', 'Boolean', CRM_Core_DAO::$_nullObject );
+        $caseID     = CRM_Utils_Request::retrieve( 'caseID', 'Boolean', CRM_Core_DAO::$_nullObject );
 
         $this->assign('contactID', $contactID );
+        $this->assign('caseID', $caseID );
        
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );

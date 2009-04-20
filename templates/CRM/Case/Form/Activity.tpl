@@ -64,7 +64,7 @@
                 <td class="label">{ts}Assigned To {/ts}</td>
                 <td class="tundra">                  
                     <div id="assignee_contact_1"></div>
-                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
+                    {edit}<span class="description">{ts}You can optionally assign this activity to someone.{/ts}</span>{/edit}
                 </td>
             </tr>
 
@@ -224,3 +224,20 @@
         {include file="CRM/common/addContact.tpl"}
     {/if}
 {/if } {* end of main if block*}
+
+</script>
+   {literal}
+    <script type="text/javascript">
+     function verify( ) {
+          var element = document.getElementsByName("status_id");
+	  var status = cj('#status_id :selected').text();
+
+          if ( status == "Scheduled" ) {
+	     var ok = confirm( 'This activity has an Actual Date set, but the status is still "Scheduled". If you meant to set the status to "Completed", click Cancel and update the status field. Otherwise click OK to save the activity with "Scheduled" status.' );    
+             if (!ok ) {
+                return false;
+	     }
+          }
+     }
+    </script>
+    {/literal}

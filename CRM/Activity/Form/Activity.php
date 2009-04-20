@@ -602,9 +602,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                      )
                                );
         } else {
+            $js = null;
+            if ( $this->_action & CRM_Core_Action::UPDATE && $this->_context == 'caseActivity' ) {
+                $js = array( 'onclick' => "return verify( );" ); 
+            }
             $this->addButtons( array(
                                      array ( 'type'      => 'upload',
                                              'name'      => ts('Save'),
+                                             'js'        => $js,
                                              'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Cancel') ),

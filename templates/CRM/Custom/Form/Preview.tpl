@@ -24,7 +24,7 @@
         {/if}
 	{if $element.options_per_line }
         {*assign var="element_name" value=$element.custom_group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
-        {assign var="element_name" value=custom_$field_id}
+        {assign var="element_name" value=$element.element_name}
         <dt>{$form.$element_name.label} </dt>
         <dd>
             {assign var="count" value="1"}
@@ -58,7 +58,7 @@
 	{else}
         {assign var="name" value=`$element.name`} 
         {*assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
-        {assign var="element_name" value="custom_"|cat:$field_id}  
+        {assign var="element_name" value=$element.element_name}  
         <dt>{$form.$element_name.label}</dt>
 	<dd>{$form.$element_name.html}&nbsp;
 	    {if $element.html_type eq 'Radio'}

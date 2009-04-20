@@ -83,14 +83,16 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('This field is inactive so it will not display on edit form.') );
             }
             
-            $this->_groupId   = $this->_groupTree[0]['id'] = 0;
-            $this->_groupTree = $this->_groupTree[0]['fields'] = array();
-            $this->_groupTree[0]['fields'][$this->_fieldId] = $defaults;
+            $groupTree = array();
+            $groupTree[$groupId]['id']     = 0;
+            $groupTree[$groupId]['fields'] = array();
+            $groupTree[$groupId]['fields'][$fieldId] = $defaults;
+            $this->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, $this );
             $this->assign('preview_type', 'field');
         } else {
-            // group preview
-            $this->_groupTree  = CRM_Core_BAO_CustomGroup::getGroupDetail( $this->_groupId );        
-            $this->assign( 'preview_type', 'group' );
+            $groupTree        = CRM_Core_BAO_CustomGroup::getGroupDetail( $this->_groupId );
+            $this->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, true, $this );
+            $this->assign('preview_type', 'group');
         }
     }
 
@@ -124,7 +126,9 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
     public function buildQuickForm()
     {
         foreach ( $this->_groupTree[$this->_groupId]['fields'] as &$field ) {
-            //fix for calendar for date field 
+
+            //fix for calendar for date field
+            //if date elements are less than 3 then don't show the date picker icon
             if ( CRM_Utils_Array::value( 'data_type', $field ) == 'Date' && 
                  isset ( $field['date_parts'] ) && 
                  count( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts'] ) ) < 3 ) {

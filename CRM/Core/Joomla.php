@@ -58,6 +58,7 @@ class CRM_Core_Joomla {
             CRM_Core_Block::MENU,
             CRM_Core_Block::SHORTCUTS,
             CRM_Core_Block::SEARCH,
+            CRM_Core_Block::FULLTEXT_SEARCH,
             CRM_Core_Block::ADD,
             CRM_Core_Block::LANGSWITCH,
         );

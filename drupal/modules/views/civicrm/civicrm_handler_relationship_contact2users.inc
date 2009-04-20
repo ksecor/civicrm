@@ -49,4 +49,3 @@ class civicrm_handler_relationship_contact2users extends views_handler_relations
   }
 
 }
-?>

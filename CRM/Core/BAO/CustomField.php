@@ -371,6 +371,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                             $cgTable.extends_entity_column_value,
                             $cgTable.extends_entity_column_id,
                             $cfTable.is_view,
+                            $cfTable.option_group_id,
+                            $cfTable.date_parts,
                             $cgTable.is_multiple
                      FROM $cfTable
                      INNER JOIN $cgTable
@@ -420,6 +422,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     $fields[$dao->id]['extends_entity_column_id']    = $dao->extends_entity_column_id;
                     $fields[$dao->id]['is_view']                     = $dao->is_view;
                     $fields[$dao->id]['is_multiple']                 = $dao->is_multiple;
+                    $fields[$dao->id]['option_group_id']             = $dao->option_group_id;
+                    $fields[$dao->id]['date_parts']                  = $dao->date_parts;
                 }
 
                 CRM_Core_BAO_Cache::setItem( $fields,
@@ -1185,15 +1189,20 @@ SELECT id
         
         if ( $customFields[$customFieldId]['html_type'] == 'Multi-Select' ) {
             if ( $value ) {
-                $value = 
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
-                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                             array_values( $value ) ) .
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                // Note that only during merge this is not an array,
+                // and you can directly use value, CRM-4385
+                if ( is_array( $value ) ) {
+                    $value = 
+                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
+                        implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                 array_values( $value ) ) .
+                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                }
             } else {
                 $value = '';
             }
         }
+        
         $date = null;
         // fix the date field 
         if ( $customFields[$customFieldId]['data_type'] == 'Date' ) {

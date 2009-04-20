@@ -1122,23 +1122,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             } 
             
             $template =& CRM_Core_Smarty::singleton( );
-            $customGroup = array(); 
-            // retrieve custom data
-            require_once "CRM/Core/BAO/UFGroup.php";
-            foreach ( $this->_groupTree as $groupID => $group ) {
-                $customFields = $customValues = array( );
-                if ( $groupID == 'info' ) {
-                    continue;
-                } 
-                foreach ( $group['fields'] as $k => $field ) {
-                    $field['title'] = $field['label'];
-                    $customFields["custom_{$k}"] = $field;
-                }
-                //to build array of customgroup & customfields in it
-                CRM_Core_BAO_UFGroup::getValues( $this->_contactIds[0] , $customFields, $customValues , false, $participant );
-                $customGroup[$group['title']] = $customValues;
+            $customGroup = array( );
+            //format submitted data
+            foreach ( $params['custom'] as $fieldID => $values) {
+                foreach ( $values as $fieldValue ) {
+                    $customValue = array( 'data' => $fieldValue['value'] );
+                    $customFields[$fieldID]['id'] = $fieldID;
+                    $customGroup[$customFields[$fieldID]['groupTitle']][$customFields[$fieldID]['label']] = CRM_Core_BAO_CustomGroup::formatCustomValues( $customValue, $customFields[$fieldID] );
+                }                
             }
-            
+                 
             foreach ( $this->_contactIds as $num => $contactID ) {
                 // Retrieve the name and email of the contact - this will be the TO for receipt email
                 list( $this->_contributorDisplayName, $this->_contributorEmail, $this->_toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );

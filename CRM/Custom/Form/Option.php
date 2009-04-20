@@ -184,6 +184,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form
                                     array ('type'      => 'next',
                                            'name'      => ts('Save'),
                                            'isDefault' => true),
+                                    array ('type'      => 'next',
+                                           'name'      => ts('Save and New'),
+                                           'subName'   => 'new' ),
                                     array ('type'      => 'cancel',
                                            'name'      => ts('Cancel')),
                                     )
@@ -433,6 +436,12 @@ SELECT data_type
         $customOption->save();
              
         CRM_Core_Session::setStatus(ts('Your multiple choice option \'%1\' has been saved', array(1 => $customOption->label)));
+        $buttonName = $this->controller->getButtonName( );
+        $session =& CRM_Core_Session::singleton( );
+        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+            CRM_Core_Session::setStatus( ts(' You can add another option.') );
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', 'reset=1&action=add&fid=' . $this->_fid . '&gid=' . $this->_gid));
+        }
     }
 }
 

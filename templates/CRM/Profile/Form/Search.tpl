@@ -82,7 +82,7 @@
 		 </table></td>
                 {else}
                     <td class="description">{$form.$n.html}
-		    	{if $field.html_type eq 'Radio' and $form.formName eq 'Search'}
+		    	{if ($n eq 'gender') or ($field.html_type eq 'Radio' and $form.formName eq 'Search')}
 			    &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
 	    	        {/if}
 		    </td>
