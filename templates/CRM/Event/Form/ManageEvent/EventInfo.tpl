@@ -55,7 +55,7 @@
 		<tr>
 			<td class="label">{$form.max_participants.label}</td>
 			<td>{$form.max_participants.html|crmReplace:class:four}<br />
-			<span class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached. Participants with Pending or Cancelled status are NOT included when checking if the event is full.{/ts}</span></td>
+			<span class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached. Only participants with status types marked as 'counted' are included when checking if the event is full.{/ts}</span></td>
 		</tr>
 		<tr>
 			<td class="label">{$form.event_full_text.label}</td>

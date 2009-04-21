@@ -476,7 +476,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         } else if ( $this->_requireApproval && !$this->_allowConfirmation ) {
                             $value['participant_status_id'] = array_search( 'Awaiting approval', $waitingStatuses );
                         } else {
-                            $value['participant_status_id'] = array_search( 'Pending', $pendingStatuses );  
+                            $value['participant_status_id'] = array_search( 'Pending from pay later', $pendingStatuses );  
                         }
                     }
                 } else if ( $this->_contributeMode == 'express' && CRM_Utils_Array::value( 'is_primary', $value ) ) {
