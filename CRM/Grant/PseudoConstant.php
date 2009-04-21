@@ -70,7 +70,7 @@ class CRM_Grant_PseudoConstant extends CRM_Core_PseudoConstant
             self::$grantStatus =  CRM_Core_OptionGroup::values("grant_status");
         }
         
-        If( $id ) {
+        if( $id ) {
             return self::$grantStatus[$id];
         }
         

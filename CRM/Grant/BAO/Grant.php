@@ -38,13 +38,11 @@ require_once 'CRM/Grant/DAO/Grant.php';
 class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant 
 {
 
-
     /**
      * the name of option value group from civicrm_option_group table
      * that stores grant statuses
      */
-    static $statusGroupName = 'grant_status';
-    
+    static $statusGroupName = 'grant_status';    
     
     /**
      * the name of option value group from civicrm_option_group table
@@ -209,12 +207,12 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
             CRM_Utils_Hook::pre( 'create', 'Grant', null, $params ); 
         }
         
-	// first clean up all the money fields
+	    // first clean up all the money fields
         $moneyFields = array( 'amount_total',
                               'amount_granted',
                               'amount_requested' );
         foreach ( $moneyFields as $field ) {
-	  if ( isset( $params[$field] ) ) {
+	        if ( isset( $params[$field] ) ) {
                 $params[$field] = CRM_Utils_Rule::cleanMoney( $params[$field] );
             }
         }
@@ -223,6 +221,22 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         
         $grant->copyValues( $params );
         $result = $grant->save( );
+        
+        require_once 'CRM/Utils/Recent.php';
+        require_once 'CRM/Grant/PseudoConstant.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/grant', 
+               "action=view&reset=1&id={$grant->id}&cid={$grant->contact_id}" );
+       
+        $grantTypes = CRM_Grant_PseudoConstant::grantType();
+        $title = $grantTypes[$grant->grant_type_id] . " - " . CRM_Contact_BAO_Contact::displayName( $grant->contact_id );
+
+        // add the recently created Activity
+        CRM_Utils_Recent::add( $title,
+                               $url,
+                               null,
+                               $grant->id,
+                               ts('Grant') );
         
         if ( CRM_Utils_Array::value( 'grant', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Grant', $grant->id, $grant );

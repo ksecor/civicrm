@@ -132,6 +132,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             return $case;
         }
         $transaction->commit( );
+                
         //we are not creating log for case
         //since case log can be tracked using log for activity.
         return $case;
@@ -153,6 +154,24 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $caseContact->find(true);
         $caseContact->save();
 
+        // add to recently viewed    
+        require_once 'CRM/Utils/Recent.php';
+        require_once 'CRM/Case/PseudoConstant.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $caseType   = CRM_Case_PseudoConstant::caseTypeName( $caseContact->case_id );
+        
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case', 
+               "action=view&reset=1&id={$caseContact->case_id}&cid={$caseContact->contact_id}" );
+
+        $title = $caseType['name'] . " - " . CRM_Contact_BAO_Contact::displayName( $caseContact->contact_id );
+        
+        // add the recently created case
+        CRM_Utils_Recent::add( $title,
+                               $url,
+                               null,
+                               $caseContact->case_id,
+                               ts('Case') );
+        
         return $caseContact;
     }
 
