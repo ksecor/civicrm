@@ -52,7 +52,6 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         'filters' =>             
                                         array('sort_name'    => 
                                               array( 'title'      => ts( 'Contact Name' ),
-                                                     'type'       => 'String',
                                                      'operator'   => 'like' ) ),
                                         ),
                                  
@@ -68,11 +67,9 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         'filters' =>             
                                         array( 'receive_date' => 
                                                array( 'title'      => ts( 'Date Range' ),
-                                                      'type'       => 'Date',
                                                       'default'    => 'this month' ),
                                                'total_amount' => 
-                                               array( 'title'      => ts( 'Aggregate Total Between' ),
-                                                      'type'       => 'Money' ),
+                                               array( 'title'      => ts( 'Aggregate Total Between' ) ),
                                                ),
                                         ),
 

@@ -128,6 +128,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $this->_filters[$tableName] = $this->_columns[$tableName]['filters'];
             }
         }
+
+        $this->assign( 'filters', $this->_filters );
     }
 
 
@@ -147,38 +149,36 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function addFilters( ) {
-        $options = $filterFields = array();
+        require_once 'CRM/Utils/Date.php';
+        $options = array();
 
-        foreach ( $this->_filters as $table => $fieldNames ) {
-            foreach ( $fieldNames as $fieldName => $properties ) {
-                $filterFields[$properties['title']] = $fieldName;
-                
+        foreach ( $this->_filters as $table => $attributes ) {
+            foreach ( $attributes as $fieldName => $field ) {
                 // get ready with option value pair
-                $operations = self::getOperationPair( $fltrProperties['type'] );
+                $operations = self::getOperationPair( $field['type'] );
                 
-                // build form elements based on types
-                switch ( $fltrProperties['type'] ) {
-                case 'integer':
+                switch ( $field['type'] ) {
+                case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
+                case CRM_Utils_Type::T_DATE :
+                    // build datetime fields
+                    break;
                 default:
                     // default type is string
-                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations, 
+                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
                                       array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
                     
+                    // we need text box for value input
+                    $this->add( 'text', "{$fieldName}_value", ts('Value') );
+                    
+                    // and a min value input box
+                    $this->add( 'text', "{$fieldName}_min", ts('Min') );
+                    
+                    // and a max value input box
+                    $this->add( 'text', "{$fieldName}_max", ts('Max') );
                     break;
                 }
-                
-                // we need text box for value input
-                $this->add( 'text', "{$fieldName}_value", ts('Value') );
-                
-                // and a min value input box
-                $this->add( 'text', "{$fieldName}_min", ts('Min') );
-                
-                // and a max value input box
-                $this->add( 'text', "{$fieldName}_max", ts('Max') );
             }
         }
-
-        $this->assign( 'filterFields', $filterFields );
     }
 
     function buildQuickForm( ) {
@@ -201,8 +201,8 @@ class CRM_Report_Form extends CRM_Core_Form {
         // to option_group and option_value table.
 
         switch ( $type ) {
-        case 'money':
-        case 'integer':
+        case CRM_Utils_Type::T_INT :
+        case CRM_Utils_Type::T_MONEY :
             return array( 'lt'  => 'Is less than', 
                           'lte' => 'Is less than or equal to', 
                           'eq'  => 'Is equal to', 
@@ -214,7 +214,6 @@ class CRM_Report_Form extends CRM_Core_Form {
                           );
             break;
 
-        case 'date':
         default:
             // type is string
             return array( 'like' => 'Is equal to', 

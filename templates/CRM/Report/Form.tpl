@@ -5,22 +5,21 @@
 </fieldset>
 
 <fieldset><legend>{ts}Select Filters{/ts}</legend>
-<dl>
-   {foreach from=$filterFields item=filterField key=label}
-      {assign var=field value=$filterField|cat:"_op"}
-      {assign var=filterValue value=$filterField|cat:"_value"}
-      {assign var=filterMin value=$filterField|cat:"_min"}
-      {assign var=filterMax value=$filterField|cat:"_max"}
-      <dt>{$label}</dt>
-      <dd><table class="form-layout">
-            <tr><td width="30%">{$form.$field.html}</td>
-                <td id="{$filterValue}_cell">{$form.$filterValue.label}:&nbsp;{$form.$filterValue.html}</td>
-                <td id="{$filterMin}_max_cell">{$form.$filterMin.label}:&nbsp;{$form.$filterMin.html}&nbsp;{$form.$filterMax.label}:&nbsp;{$form.$filterMax.html}</td>
-            </tr>
-          </table>
-      </dd>
+   <table class="form-layout">
+   {foreach from=$filters     item=table key=tableName}
+   {foreach from=$table       item=field key=fieldName}
+      {assign var=fieldOp     value=$fieldName|cat:"_op"}
+      {assign var=filterVal   value=$fieldName|cat:"_value"}
+      {assign var=filterMin   value=$fieldName|cat:"_min"}
+      {assign var=filterMax   value=$fieldName|cat:"_max"}
+         <tr><td width="20%">{$field.title}</td>
+             <td width="20%">{$form.$fieldOp.html}</td>
+             <td id="{$filterVal}_cell">{$form.$filterVal.label}:&nbsp;{$form.$filterVal.html}</td>
+             <td id="{$filterMin}_max_cell">&nbsp;&nbsp;&nbsp;{$form.$filterMin.label}:&nbsp;{$form.$filterMin.html}&nbsp;&nbsp;{$form.$filterMax.label}:&nbsp;{$form.$filterMax.html}</td>
+         </tr>
    {/foreach}
-</dl>
+   {/foreach}
+   </table>
 </fieldset>
 	
 <div id="crm-submit-buttons">{$form.buttons.html}</div>
@@ -30,8 +29,10 @@
 {literal}
 <script type="text/javascript">
    {/literal}
-   {foreach from=$filterFields item=filterField key=label}
-      {literal}showHideMaxMinVal( "{/literal}{$filterField}{literal}", "dnc" );{/literal}
+   {foreach from=$filters     item=table key=tableName}
+   {foreach from=$table       item=field key=fieldName}
+      {literal}showHideMaxMinVal( "{/literal}{$fieldName}{literal}", "dnc" );{/literal}
+   {/foreach}
    {/foreach}
    {literal}
 
