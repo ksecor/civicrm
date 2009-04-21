@@ -22,6 +22,10 @@
    {/foreach}
 </dl>
 </fieldset>
+	
+<fieldset><legend>{ts}Sub-total columns{/ts}</legend>
+    {include file="CRM/Core/DateRange.tpl"}
+</fieldset>
 
 <div id="crm-submit-buttons">{$form.buttons.html}</div>
 

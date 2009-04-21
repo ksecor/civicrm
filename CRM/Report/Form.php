@@ -93,6 +93,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->addCheckBox( 'select_columns', ts('Select Columns'), $options );
     }
 
+    function addSubtotalColumns( ) {
+        require_once 'CRM/Core/Form/Date.php';
+        CRM_Core_Form_Date::buildDateRange($this);
+    }
+     
     function addFilters( ) {
         $options = $filterFields = array();
 
@@ -130,9 +135,11 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function buildQuickForm( ) {
         $this->addColumns( );
-        
-        $this->addFilters( );
 
+        $this->addSubtotalColumns( );
+
+        $this->addFilters( );
+      
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Next'),
