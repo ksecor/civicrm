@@ -39,9 +39,7 @@ if ( !cj("#civicrm_menu").text() ) {
     url         : {/literal}"{crmURL p='civicrm/ajax/adminmenu' h=0 }"{literal},
     data        : "{}",
     success     : function( link ) {
-                    html  = '<div id="civicrm_menu"><ul class="civicrm_menu civicrm_menu_slate"><li>';
-  				    html += '<img src={/literal}{$config->resourceBase}i/widget/favicon.png{literal}';
-				    html += ' width="20px"/></li>'+link+'</ul></div>';
+                    html  = '<div id="civicrm_menu"><ul class="civicrm_menu civicrm_menu_slate">'+link+'</ul></div>';
 				    cj(menuId).before(html);
                   }
   });

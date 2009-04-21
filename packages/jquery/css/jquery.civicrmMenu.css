@@ -25,7 +25,7 @@ ul.civicrm_menu ul li {
 	text-align:left;
 }
 
-ul.civicrm_menu ul li:hover {
+ul.civicrm_menu ul li:hover, #civicrm_menu ul li:hover {
     background:#5D5D5D repeat-x;
 }
 
@@ -71,12 +71,15 @@ ul.civicrm_menu_slate ul li a:visited {
 ul.civicrm_menu_slate li {
 	cursor: pointer;
 	color: #FFF;
-	border-top: 1px solid #323232;
-	border-left: 1px solid #323232;
+	border-top: 1px solid #5D5D5D;
+	border-left: 1px solid #5D5D5D;
+    padding-right: 10px;
 }
 
 ul.civicrm_menu_slate ul {
 	background: #1B1B1B repeat-x;
+    margin-left: -16px;
+    margin-top: 3px;
 }
 
 ul.civicrm_menu_slate ul li {
@@ -91,7 +94,7 @@ ul.civicrm_menu li.online {
 
 ul.civicrm_menu li ul.child {
     left:164px;
-    margin-top:-20px;
+    margin-top:-24px;
 }
 
 ul.civicrm_menu li li.parent {
