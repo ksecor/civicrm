@@ -155,8 +155,7 @@ class CRM_EventParticipation
                     if ( $waitingStatuses[$values['status_id']] == 'On waitlist' && !$values['registered_by_id'] ) {
                         //check the target event having space.
                         require_once 'CRM/Event/BAO/Participant.php';
-                        $eventOpenSpaces = CRM_Event_BAO_Participant::getEventEmptySeats( $values['event_id'] );
-                        
+                        $eventOpenSpaces = CRM_Event_BAO_Participant::eventFull( $values['event_id'], true, false );
                         if ( $eventOpenSpaces && is_numeric( $eventOpenSpaces ) ||  ( $eventOpenSpaces === null ) ) {
                             //get the additional participant if any.
                             $additonalParticipants = CRM_Event_BAO_Participant::getAdditionalParticipantIds( $participantId ); 

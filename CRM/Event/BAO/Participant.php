@@ -731,59 +731,5 @@ SELECT  participant.id
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
     }
 
-    
-    /**
-     * This function return number of empty seats available,
-     * if event having limited seats for participants. so these are
-     * seats that we can grant for 'On waitlist' => 'Pending from waitlist'. 
-     *
-     * @param int $eventId
-     *
-     * @return $noSeats number of seats/limit.
-     * @static
-     * @access public
-     */
-    static function getEventEmptySeats( $eventId )
-    {
-        require_once 'CRM/Event/PseudoConstant.php';
-        $pendingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" );
-        $registeredStatus  = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Positive'" );
-        $status = implode( ',',   array_merge( array_keys( $pendingStatuses ), array_keys( $registeredStatus ) ) );
-        
-        if ( !$status ) {
-            $status = 0;
-        }
-        
-        $query = "
-  SELECT  count(civicrm_participant.id) as total_participants,
-          civicrm_event.max_participants as max_participants
-    FROM  civicrm_participant, civicrm_event 
-   WHERE  civicrm_participant.event_id = civicrm_event.id
-     AND  civicrm_participant.status_id IN ( {$status} )
-     AND  civicrm_participant.is_test = 0 
-     AND  civicrm_participant.event_id = {$eventId} 
-GROUP BY  civicrm_participant.event_id";
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        
-        $noSeats = null;
-        if ( $dao->fetch( ) ) {
-            if ( $dao->max_participants == NULL ||
-                 $dao->max_participants <= 0 ) {
-                return $noSeats;
-            }
-            
-            if ( $dao->total_participants >= $dao->max_participants ) {
-                $noSeats = 0;
-            } else {
-                $noSeats = $dao->max_participants - $dao->total_participants;
-            }
-            
-            return $noSeats;
-        }
-        
-        // might be there is no participant with given status.
-        return CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'max_participants' );
-    }
 }
 
