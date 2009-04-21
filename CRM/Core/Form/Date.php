@@ -78,6 +78,60 @@ Class CRM_Core_Form_Date
         $form->setDefaults(array('dateFormats' => self::DATE_yyyy_mm_dd));
     }
     
+    /**
+     * This function is to build the date range - relative or absolute
+     *
+     * @param Object  $form   the form object that we are operating on
+     * 
+     * @static
+     * @access public
+     */
+    static function buildDateRange( &$form ) {
+        $selector = array ('-select-',
+                           'this - year',
+                           'this - quarter',
+                           'this - month',
+                           'this - week',
+                           'this - day',
+                           
+                           'previous - year',
+                           'previous - quarter',
+                           'previous - month',
+                           'previous - week',
+                           'previous - day',
+
+                           'previous before - year',
+                           'previous before - quarter',
+                           'previous before - month',
+                           'previous before - week',
+                           'previous before - day',
+
+                           'previous 2 - year',
+                           'previous 2 - quarter',
+                           'previous 2 - month',
+                           'previous 2 - week',
+                           'previous 2 - day',
+
+                           'earlier - year',
+                           'earlier - quarter',
+                           'earlier - month',
+                           'earlier - week',
+                           'earlier - day',
+
+                           'greater - year',
+                           'greater - quarter',
+                           'greater - month',
+                           'greater - week',
+                           'greater - day'
+                           );
+        
+        $form->add('select', 'relative_date_range', ts('Relative Date Range'), $selector, false,
+                   array('onclick' => 'showAbsoluteRange(this.value);'));
+
+        $form->addDateRange('absolute_date', ts('Absolute Date'), 'relative' );
+        //$form->setDefaults(array('dateFormats' => self::DATE_yyyy_mm_dd));
+    }
+
 }
 
 
