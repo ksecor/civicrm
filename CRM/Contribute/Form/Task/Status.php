@@ -80,7 +80,7 @@ AND    {$this->_componentClause}";
         $count = CRM_Core_DAO::singleValueQuery( $query,
                                                  CRM_Core_DAO::$_nullArray );
         if ( $count != 0 ) {
-            CRM_Core_Error::statusBounce( "Please select only online contributions with Pending status." ); 
+            CRM_Core_Error::statusBounce(ts('Please select only online contributions with Pending status.'));
         }
 
         // ensure that all contributions are generated online by pay later
