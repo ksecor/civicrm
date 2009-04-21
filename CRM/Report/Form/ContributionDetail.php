@@ -80,12 +80,6 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
     function preProcess( ) {
     }
 
-    function buildQuickForm( ) {
-        $this->addColumns( );
-        
-        $this->addFilters( );
-    }
-
     function setDefaultValues( ) {
         $this->setDefaults( );
     }

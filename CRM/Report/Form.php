@@ -125,6 +125,21 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->assign( 'filterFields', $filterFields );
     }
 
+    function buildQuickForm( ) {
+        $this->addColumns( );
+        
+        $this->addFilters( );
+
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Next'),
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => ts('Cancel') ),
+                                 )
+                           );
+    }
+
 }
 
 
