@@ -163,6 +163,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                           'bw'  => 'Is between',
                           );
             break;
+
         case 'date':
         default:
             // type is string
@@ -173,21 +174,76 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
-    static function getValueQuery( $value, $operator = "like" ) {
+    static function getSQLOperator( $operator = "like" ) {
         switch ( $operator ) {
         case 'eq':
-            return "= {$value}"; 
+            return "=";
         case 'lt':
-            return "< {$value}"; 
+            return "<"; 
         case 'lte':
-            return "<= {$value}"; 
+            return "<="; 
         case 'gt':
-            return "> {$value}"; 
+            return ">"; 
         case 'gte':
-            return ">= {$value}"; 
+            return ">="; 
+        case 'ne':
+            return "!=";
         default:
             // type is string
-            return "like '%{$value}%'"; 
+            return "like";
         }
     }
+
+    static function whereClause( &$field, $op,
+                                 $value, $min, $max ) {
+        switch ( $op ) {
+        case 'bw':
+            $min = CRM_Utils_Type::escape( $min, $field['type'] );
+            $max = CRM_Utils_Type::escape( $max, $field['type'] );
+            $clause = "( ( {$field['name']} >= $min ) AND ( {$field['name']} <= $max ) )";
+            break;
+
+        default:
+            $value  = CRM_Utils_Type::escape( $value, $field['type'] );
+            $sqlOP  = self::getSQLOperator( $op );
+            $clause = "( {$field['name']} $sqlOP $value )";
+            break;
+        }
+        
+        return $clause;
+    }
+
+    static function dateClause( &$field,
+                                $relative, $from, $to ) {
+
+        if ( $relative ) {
+            require_once 'CRM/Utils/Date.php';
+            list( $term, $unit ) = explode( '.', $relative );
+            $dateRange = CRM_Utils_Date::relativeToAbsolute( $term, $unit );
+            $from = $dateRange['from'];
+            $to   = $dateRange['to'];
+        }
+
+        $clauses = array( );
+        if ( ! empty( $from ) ) {
+            $revDate = array_reverse( $from );
+            $date    = CRM_Utils_Date::format( $revDate );
+            if ( $date ) {
+                $clauses[] = "( {$field['name']} >= $date )";
+            }
+        }
+
+        if ( ! empty( $to ) ) {
+            $revDate = array_reverse( $to );
+            $date    = CRM_Utils_Date::format( $revDate );
+            $clauses[] = "( {$field['name']} >= $to )";
+        }
+
+        if ( ! empty( $clauses ) ) {
+            return implode( ' AND ', $clauses );
+        }
+
+        return null;
+    }
+
 }

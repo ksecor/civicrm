@@ -1043,7 +1043,9 @@ class CRM_Utils_Date
         
         foreach ( array( 'from', 'to' ) as $item ) {
             if ( !empty ( $$item ) ) {
-                $dateRange = array_merge( $dateRange, array ( $item => $$item ) );
+                $dateRange[$item] = $$item;
+            } else {
+                $dateRange[$item] = null;
             }
         }
         //CRM_Core_Error::debug( '$date', $dateRange );

@@ -37,6 +37,10 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
 
+    protected $_addressFields = false;
+
+    protected $_emailField = false;
+
     function __construct( ) {
         $this->_columns = array( 'civicrm_contact'      =>
                                  array( 'dao'    => 'CRM_Contact_DAO_Contact',
@@ -55,6 +59,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                                'receipt_date'  => null,
                                                )
                                         ),
+                                 'civicrm_address' =>
                                  array( 'dao' => 'CRM_Core_DAO_Address',
                                         'fields' =>
                                         array( 'street_address'    => null,
@@ -64,6 +69,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                                'country_id'        => array( 'label' => ts( 'Country' ) ),
                                                ),
                                         ),
+                                 'civicrm_email' => 
                                  array( 'dao' => 'CRM_Core_DAO_Email',
                                         'fields' =>
                                         array( 'email' => null)
@@ -104,10 +110,24 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
 
 
     function select( ) {
-        
-        $this->_select = "
-SELECT 
-";
+        $select = array( );
+
+        foreach ( $this->_columns as $table => $tblProperties ) {
+            foreach ( $tblProperties['fields'] as $field => $fldProperties ) {
+                if ( CRM_Utils_Array::value( 'required', $fldProperties ) ||
+                     CRM_Utils_Array::value( $field, $this->_params ) ) {
+                    if ( $table == 'civicrm_address' ) {
+                        $this->_addressField = true;
+                    } else if ( $table == 'civicrm_email' ) {
+                        $this->_emailField = true;
+                    }
+
+                    $select[] = "{$table}.{$field} as {$table}_{$field}";
+                }
+            }
+        }
+
+        $this->_select = "SELECT " . implode( ', ', $select ) . " ";
     }
 
     function from( ) {
@@ -128,10 +148,53 @@ INNER JOIN civicrm_contribution co ON c.id = co.contact_id
     }
 
     function where( ) {
+        $clauses = array( );
+        foreach ( $this->_filters as $fieldName => $field ) {
+            $field['name'] = $fieldName;
+
+            if ( $field['type'] == 'date' ) {
+                $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
+                $from     = CRM_Utils_Array::value( "{$fieldName}_from", $this->_params );
+                $to       = CRM_Utils_Array::value( "{$fieldName}_to", $this->_params );
+
+                if ( $relative || $from || $to ) {
+                    $clause = $this->dateClause( $field, $relative, $from, $to );
+                }
+            } else {
+                $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                if ( $op ) {
+                    $clause = $this->whereClause( $field,
+                                                  $op,
+                                                  CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
+                                                  CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                  CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                }
+            }
+
+            if ( ! empty( $clause ) ) {
+                $clauses[] = $clause;
+            }
+        }
+
+        if ( empty( $clauses ) ) {
+            return " ( 1 ) ";
+        } else {
+            return implode( ' AND ', $clauses );
+        }
+
     }
 
 
     function postProcess( ) {
+        $this->_params = $this->controller->exportValues( $this->_name );
+
+        $sql =
+            $this->select( ) .
+            $this->from  ( ) .
+            $this->where ( );
+
+        CRM_Core_Error::debug( $sql );
+        exit( );
     }
 
 }
