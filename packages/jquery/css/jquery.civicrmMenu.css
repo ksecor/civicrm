@@ -11,18 +11,16 @@ ul.civicrm_menu ul {
 	display:none;
 	list-style-type: none;
 	margin:  0px;
-	padding: 0px;
 }
 
 ul.civicrm_menu li {
 	float: left;
     background-image:none;   
-    margin-top:1px;
+    margin:  0px;
 }
 
 ul.civicrm_menu ul li {
 	float: none;
-	margin: 0px;
 	width:160px;
 	text-align:left;
 }
@@ -60,8 +58,6 @@ ul.civicrm_menu_slate a:link,
 ul.civicrm_menu_slate a:visited {
 	text-decoration: none;
 	color: #FFF;
-    font-size:9px;
-    font-weight:normal; 
 }
 
 ul.civicrm_menu_slate ul li a,
@@ -73,12 +69,10 @@ ul.civicrm_menu_slate ul li a:visited {
 }
 
 ul.civicrm_menu_slate li {
-	font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-	font-size: 10px;
-	padding: 2px 6px 4px 6px;
 	cursor: pointer;
 	color: #FFF;
 	border-top: 1px solid #323232;
+	border-left: 1px solid #323232;
 }
 
 ul.civicrm_menu_slate ul {
@@ -86,7 +80,7 @@ ul.civicrm_menu_slate ul {
 }
 
 ul.civicrm_menu_slate ul li {
-    padding:0px 0px 0px 5px;
+    padding: 2px 6px 4px 6px;
 	background:#202020 none repeat scroll 0 0;
 	color: #70777D;
 }
