@@ -300,3 +300,24 @@ function civicrm_contact_relationship_get( $contact_a, $contact_b = null, $relat
         return civicrm_create_error( ts( 'Invalid Data' ) );
     }
 }
+
+/**
+ * Function to get all relationship type
+ * @params  $params retrieve criteria
+ *
+ * retruns  $relationshipTypes array of relationship Types.
+ * @access  public
+ */
+function civicrm_relationship_type_get( $params ) {
+    require_once 'CRM/Contact/DAO/RelationshipType.php';
+    $relationshipTypes = array();
+    $relationType = & new CRM_Contact_DAO_RelationshipType();
+    $relationType->copyValues( $params );
+    $relationType->find( );
+    while ( $relationType->fetch( ) ) {
+        _civicrm_object_to_array( $relationType, $relationshipTypes[] );
+    }
+    
+    return $relationshipTypes;
+}
+
