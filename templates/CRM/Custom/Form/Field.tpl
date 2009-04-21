@@ -36,15 +36,18 @@
 		document.getElementById("hideDefaultValTxt").style.display="none";
                 document.getElementById("hideDefaultValDef").style.display="none";		
 	        document.getElementById("is_searchable").style.display = "none";
+		document.getElementById("hideDescTxt").style.display="none";
+	        document.getElementById("hideDescDef").style.display="none";
             } else {
 		document.getElementById("hideDefaultValTxt").style.display="block";
 		document.getElementById("hideDefaultValDef").style.display="block";
  	        document.getElementById("is_searchable").style.display = "block";
+		document.getElementById("hideDescTxt").style.display="block";
+	        document.getElementById("hideDescDef").style.display="block";
 	    }
 
     	    document.getElementById("showoption").style.display="none";           
-            document.getElementById("hideDescTxt").style.display="block";
-            document.getElementById("hideDescDef").style.display="block";
+          
         }
 	
 	var radioOption, checkBoxOption;
