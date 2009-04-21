@@ -228,7 +228,7 @@ class CRM_Core_Action {
         CRM_Utils_String::append( $resultLink, '&nbsp;|&nbsp;', $actionLink );
         if ( $showDiv ) {
             CRM_Utils_String::append( $resultDiv, '</li><li>', $actionDiv );
-            $resultDiv = "| <img src='{$config->resourceBase}i/menu-collapsed.png' title='".ts('more actions')."'/> ".ts('more actions')."<ul id='panel_xx' class='panel'><li>{$resultDiv}</li></ul>";
+            $resultDiv = "| <img src='{$config->resourceBase}i/menu-collapsed.png' title='".ts('more')."'/> ".ts('more')."<ul id='panel_xx' class='panel'><li>{$resultDiv}</li></ul>";
         }
         $result = "<span>{$resultLink} &nbsp;</span><span class='btn-slide' id=xx>{$resultDiv}</span>";
         return $result;
