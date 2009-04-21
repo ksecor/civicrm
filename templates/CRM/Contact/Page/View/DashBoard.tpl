@@ -15,7 +15,7 @@
          {/foreach}
 
          {if $hookContentPlacement == 2}
-           {include file="CRM/Activity/Selector/Activity.tpl}
+           {include file="CRM/Activity/Selector/Activity.tpl"}
          {/if}
        {/if}
    </td>
@@ -33,9 +33,6 @@
         <a href="{$advancedSearchURL}" title="{ts}Go to Advanced Search{/ts}">&raquo; {ts}Advanced Search{/ts}</a>
       </div>
       </form>
-     </fieldset>
-     <fieldset><legend>{ts}Menu{/ts}</legend>
-       {$menuBlock.content}
      </fieldset>
      {if $shortcutBlock.content}
          <fieldset><legend>{ts}Shortcuts{/ts}</legend>

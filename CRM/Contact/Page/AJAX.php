@@ -431,7 +431,7 @@ WHERE sort_name LIKE '%$name%'";
                             }
                             $object .= '</ul></li>';
                         } else if ( $value['title'] == ts('CiviCRM Home') && $config->userFramework == 'Drupal' ) {
-                            $object .= '<ul><li><a href='.$config->userFrameworkBaseURL.'admin>'.ts('Drupal Administer').'</a></li></ul>';
+                            $object .= '<ul><li><a href='.$config->userFrameworkBaseURL.'admin>'.ts('Administer Drupal').'</a></li></ul>';
                         }
                     }
                     $child   = false;
