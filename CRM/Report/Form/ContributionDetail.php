@@ -44,6 +44,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         array( 'display_name' => array( 'label'    => ts( 'Contact Name' ),
                                                                         'required' => true ) )
                                         ),
+                                 
                                  'civicrm_contribution' =>
                                  array( 'dao'    => 'CRM_Contribute_DAO_Contribution',
                                         'fields' =>
@@ -52,7 +53,24 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                                'trxn_id'       => null,
                                                'received_date' => null,
                                                'receipt_date'  => null,
-                                               ) ) );
+                                               )
+                                        ),
+                                 array( 'dao' => 'CRM_Core_DAO_Address',
+                                        'fields' =>
+                                        array( 'street_address'    => null,
+                                               'city'              => null,
+                                               'postal_code'       => null,
+                                               'state_province_id' => array( 'label' => ts( 'State/Province' ) ),
+                                               'country_id'        => array( 'label' => ts( 'Country' ) ),
+                                               ),
+                                        ),
+                                 array( 'dao' => 'CRM_Core_DAO_Email',
+                                        'fields' =>
+                                        array( 'email' => null)
+                                        ),
+                                 );
+                                                          
+
 
         $this->_filters =
             array( 'receive_date' => array( 'label'      => ts( 'Date Range' ),
@@ -83,6 +101,35 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
     function setDefaultValues( ) {
         $this->setDefaults( );
     }
+
+
+    function select( ) {
+        
+        $this->_select = "
+SELECT 
+";
+    }
+
+    function from( ) {
+        $this->_from = null;
+
+        $this->_from = "
+FROM       civicrm_contact c
+INNER JOIN civicrm_contribution co ON c.id = co.contact_id
+";
+
+        if ( $this->_addressFields ) {
+            $this->_from .= "LEFT JOIN civicrm_address a ON c.id = a.contact_id AND a.is_primary = 1\n";
+        }
+        
+        if ( $this->_emailField ) {
+            $this->_from .= "LEFT JOIN civicrm_email e ON c.id = e.contact_id AND e.is_primary = 1\n";
+        }
+    }
+
+    function where( ) {
+    }
+
 
     function postProcess( ) {
     }
