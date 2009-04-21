@@ -123,10 +123,12 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
 
             $fv          = $this->get( 'formValues' );
             $customClass = $this->get( 'customSearchClass' );
+            require_once "CRM/Core/BAO/Mapping.php";
+            $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $values);
 
             eval( '$selector   =& new ' .
                   $selectorName . 
-                  '( $customClass, $fv ); '
+                  '( $customClass, $fv, null, $returnProperties ); '
                   );
 
             $params    =  $this->get( 'queryParams' );
