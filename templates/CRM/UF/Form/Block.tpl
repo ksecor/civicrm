@@ -85,6 +85,9 @@
 		</table>
    	     {else}
                {$form.$n.html}
+               {if $n eq 'gender' && $form.$fieldName.frozen neq true}
+                  &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
+               {/if}
              {/if}
              {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
              {if $field.help_post && $action neq 4 && $action neq 1028}

@@ -89,7 +89,7 @@
           </table>
 	{else}
 	   {$form.$n.html}
-	   {if $field.html_type eq 'Radio' and $form.formName eq 'Preview'}
+	   {if ( $field.html_type eq 'Radio' or  $n eq 'gender') and $form.formName eq 'Preview'}
                &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
 	   {elseif $field.data_type eq 'Date'}
 	        {if $element.skip_calendar NEQ true } 
