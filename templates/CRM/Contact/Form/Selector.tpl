@@ -90,12 +90,14 @@
 
 <!-- Context Menu -->
 <ul id="contactMenu" class="contextMenu">
-   <li><a href="#contribution">Record Contribution</a></li>
-   <li><a href="#participant">Register for Event</a></li>
-   <li><a href="#activity">Record Activity</a></li>
-   <li><a href="#pledge">Add Pledge</a></li>
-   <li><a href="#membership">Enter Membership</a></li>
-   <li><a href="#email">Send an Email</a></li>
+   <li><a href="#view">{ts}View Contact{/ts}</a></li>
+   <li><a href="#add">{ts}Edit Contact{/ts}</a></li>
+   <li><a href="#contribution">{ts}Record Contribution{/ts}</a></li>
+   <li><a href="#participant">{ts}Register for Event{/ts}</a></li>
+   <li><a href="#activity">{ts}Record Activity{/ts}</a></li>
+   <li><a href="#pledge">{ts}Add Pledge{/ts}</a></li>
+   <li><a href="#membership">{ts}Enter Membership{/ts}</a></li>
+   <li><a href="#email">{ts}Send an Email{/ts}</a></li>
 </ul>
 <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}
@@ -105,7 +107,7 @@
 cj(document).ready( function() {
 var url= "{/literal}{crmURL p='civicrm/contact/view/changeaction q="reset=1&action=add&cid=changeid&context=changeaction" h=0}{literal}";
 var activityUrl = "{/literal}{crmURL p='civicrm/contact/view/activity q="reset=1&snippet=1&cid=changeid" h=0}{literal}";
-
+var contactUrl = "{/literal}{crmURL p='civicrm/contact/changeaction q="reset=1&cid=changeid" h=0}{literal}";
 // Show menu when contact row is right clicked
 cj(".selector tr").contextMenu({
 		menu: 'contactMenu'
@@ -117,7 +119,11 @@ cj(".selector tr").contextMenu({
                   activityUrl = activityUrl.replace( /&snippet=1/, '&atype=3&action=add' );
                  }
                url = activityUrl.replace( /changeid/, contactId );
-             } else {
+             } else if ( action == 'view' || action == 'add' ) {
+               url = ( action == 'add') ? contactUrl.replace( /changeid/, contactId+'&action=update' ) 
+                                        : contactUrl.replace( /changeid/, contactId ); 
+               url =  url.replace( /changeaction/, action);
+             }else {
                url =  url.replace( /changeaction/g, action ); url = url.replace( /changeid/, contactId );
              }
            window.location = url;
