@@ -56,6 +56,8 @@ BEGIN;
   UPDATE civicrm_participant_status_type SET class = 'Negative' WHERE name IN ('No-show', 'Cancelled');
   UPDATE civicrm_participant_status_type SET class = 'Pending'  WHERE name IN ('Pending');
 
+  UPDATE civicrm_participant_status_type SET name = 'Pending from pay later', label = 'Pending from pay later' WHERE name = 'Pending';
+
   INSERT INTO civicrm_participant_status_type
     (name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id) VALUES
     ('On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           1,         0,          6,      2            ),
