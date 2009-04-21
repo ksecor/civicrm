@@ -56,6 +56,15 @@ BEGIN;
   UPDATE civicrm_participant_status_type SET class = 'Negative' WHERE name IN ('No-show', 'Cancelled');
   UPDATE civicrm_participant_status_type SET class = 'Pending'  WHERE name IN ('Pending');
 
+  INSERT INTO civicrm_participant_status_type
+    (name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id) VALUES
+    ('On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           1,         0,          6,      2            ),
+    ('Awaiting approval',     '{ts escape="sql"}Awaiting approval{/ts}',     'Waiting',  1,           1,         1,          7,      2            ),
+    ('Pending from waitlist', '{ts escape="sql"}Pending from waitlist{/ts}', 'Pending',  1,           1,         1,          8,      2            ),
+    ('Pending from approval', '{ts escape="sql"}Pending from approval{/ts}', 'Pending',  1,           1,         1,          9,      2            ),
+    ('Rejected',              '{ts escape="sql"}Rejected{/ts}',              'Negative', 1,           1,         0,          10,     2            ),
+    ('Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11,     2            );
+
   DELETE FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
   DELETE FROM civicrm_option_group WHERE              id = @ps_ogid;
 
