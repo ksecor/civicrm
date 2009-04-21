@@ -81,34 +81,34 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function preProcess( ) {
-        foreach ( $this->_columns as $table => $tblProperties ) {
+        foreach ( $this->_columns as $tableName => $table ) {
             // get export fields
-            require_once str_replace( '_', DIRECTORY_SEPARATOR, $tblProperties['dao'] .'.php' );
-            eval( "\$impFields = {$tblProperties['dao']}::export( );");
+            require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['dao'] .'.php' );
+            eval( "\$impFields = {$table['dao']}::export( );");
 
-            foreach ( $impFields as $field => $fldProperties ) {
+            foreach ( $impFields as $fieldName => $field ) {
                 // prepare columns
-                if ( array_key_exists($field, $this->_columns[$table]['fields']) ) {
-                    if ( empty($this->_columns[$table]['fields'][$field]) ) {
-                        $this->_columns[$table]['fields'][$field] = $impFields[$field];
+                if ( array_key_exists($fieldName, $this->_columns[$tableName]['fields']) ) {
+                    if ( empty($this->_columns[$tableName]['fields'][$fieldName]) ) {
+                        $this->_columns[$tableName]['fields'][$fieldName] = $impFields[$fieldName];
                     } else {
-                        foreach ( $fldProperties as $property => $val ) {
-                            if ( ! array_key_exists($property, $this->_columns[$table]['fields'][$field]) ) {
-                                $this->_columns[$table]['fields'][$field][$property]  = $val;
+                        foreach ( $field as $property => $val ) {
+                            if ( ! array_key_exists($property, $this->_columns[$tableName]['fields'][$fieldName]) ) {
+                                $this->_columns[$tableName]['fields'][$fieldName][$property]  = $val;
                             }
                         }
                     }
                 }
 
                 // prepare filters
-                if ( is_array($this->_columns[$table]['filters']) && 
-                     array_key_exists($field, $this->_columns[$table]['filters']) ) {
-                    if ( empty($this->_columns[$table]['filters'][$field]) ) {
-                        $this->_columns[$table]['filters'][$field] = $impFields[$field];
+                if ( is_array($this->_columns[$tableName]['filters']) && 
+                     array_key_exists($fieldName, $this->_columns[$tableName]['filters']) ) {
+                    if ( empty($this->_columns[$tableName]['filters'][$fieldName]) ) {
+                        $this->_columns[$tableName]['filters'][$fieldName] = $impFields[$fieldName];
                     } else {
-                        foreach ( $fldProperties as $property => $val ) {
-                            if ( ! array_key_exists($property, $this->_columns[$table]['filters'][$field]) ) {
-                                $this->_columns[$table]['filters'][$field][$property] = $val;
+                        foreach ( $field as $property => $val ) {
+                            if ( ! array_key_exists($property, $this->_columns[$tableName]['filters'][$fieldName]) ) {
+                                $this->_columns[$tableName]['filters'][$fieldName][$property] = $val;
                             }
                         }
                     }
@@ -116,8 +116,8 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
             
             // copy filters to a separate handy variable
-            if ( array_key_exists('filters', $tblProperties) ) {
-                $this->_filters[$table] = $this->_columns[$table]['filters'];
+            if ( array_key_exists('filters', $table) ) {
+                $this->_filters[$tableName] = $this->_columns[$tableName]['filters'];
             }
         }
     }
@@ -126,11 +126,11 @@ class CRM_Report_Form extends CRM_Core_Form {
     function addColumns( ) {
         $options = array();
         
-        foreach ( $this->_columns as $table => $tblProperties ) {
-            require_once str_replace( '_', DIRECTORY_SEPARATOR, $tblProperties['dao'] .'.php' );
-            eval( "\$impFields = {$tblProperties['dao']}::import( );");
-            foreach ( $tblProperties['fields'] as $field => $fldProperties ) {
-                $options[$fldProperties['title']] = $field;
+        foreach ( $this->_columns as $tableName => $table ) {
+            require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['dao'] .'.php' );
+            eval( "\$impFields = {$table['dao']}::import( );");
+            foreach ( $table['fields'] as $fieldName => $field ) {
+                $options[$field['title']] = $fieldName;
             } 
         }
         $this->addCheckBox( 'select_columns', ts('Select Columns'), $options, null, 
@@ -141,9 +141,9 @@ class CRM_Report_Form extends CRM_Core_Form {
     function addFilters( ) {
         $options = $filterFields = array();
 
-        foreach ( $this->_filters as $table => $fields ) {
-            foreach ( $fields as $field => $properties ) {
-                $filterFields[$properties['title']] = $field;
+        foreach ( $this->_filters as $table => $fieldNames ) {
+            foreach ( $fieldNames as $fieldName => $properties ) {
+                $filterFields[$properties['title']] = $fieldName;
                 
                 // get ready with option value pair
                 $operations = self::getOperationPair( $fltrProperties['type'] );
@@ -153,20 +153,20 @@ class CRM_Report_Form extends CRM_Core_Form {
                 case 'integer':
                 default:
                     // default type is string
-                    $this->addElement('select', "{$field}_op", ts( 'Operator:' ), $operations, 
-                                      array('onchange' =>"return showHideMaxMinVal( '$field', this.value );"));
+                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations, 
+                                      array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
                     
                     break;
                 }
                 
                 // we need text box for value input
-                $this->add( 'text', "{$field}_value", ts('Value') );
+                $this->add( 'text', "{$fieldName}_value", ts('Value') );
                 
                 // and a min value input box
-                $this->add( 'text', "{$field}_min", ts('Min') );
+                $this->add( 'text', "{$fieldName}_min", ts('Min') );
                 
                 // and a max value input box
-                $this->add( 'text', "{$field}_max", ts('Max') );
+                $this->add( 'text', "{$fieldName}_max", ts('Max') );
             }
         }
 

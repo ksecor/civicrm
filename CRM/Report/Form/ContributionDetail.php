@@ -37,29 +37,27 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
 
-    protected $_addressFields = false;
+    protected $_addressField = false;
 
     protected $_emailField = false;
+
+    protected $_summary = null;
 
     function __construct( ) {
         $this->_columns = array( 'civicrm_contact'      =>
                                  array( 'dao'    => 'CRM_Contact_DAO_Contact',
-                                        'alias'  => 'c',
                                         'fields' =>
                                         array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
                                                                         'required'  => true ) ),
                                         'filters' =>             
                                         array('sort_name'    => 
                                               array( 'title'      => ts( 'Contact Name' ),
-                                                     'table'      => 'civicrm_contact',
-                                                     'field'      => 'sort_name',
                                                      'type'       => 'String',
                                                      'operator'   => 'like' ) ),
                                         ),
                                  
                                  'civicrm_contribution' =>
                                  array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
-                                        'alias'   => 'co',
                                         'fields'  =>
                                         array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
                                                                          'required' => true ),
@@ -80,7 +78,6 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
 
                                  'civicrm_address' =>
                                  array( 'dao' => 'CRM_Core_DAO_Address',
-                                        'alias'  => 'a',
                                         'fields' =>
                                         array( 'street_address'    => null,
                                                'city'              => null,
@@ -92,7 +89,6 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
 
                                  'civicrm_email' => 
                                  array( 'dao' => 'CRM_Core_DAO_Email',
-                                        'alias'  => 'e',
                                         'fields' =>
                                         array( 'email' => null)
                                         ),
@@ -143,7 +139,7 @@ FROM       civicrm_contact c
 INNER JOIN civicrm_contribution co ON c.id = co.contact_id
 ";
 
-        if ( $this->_addressFields ) {
+        if ( $this->_addressField ) {
             $this->_from .= "LEFT JOIN civicrm_address a ON c.id = a.contact_id AND a.is_primary = 1\n";
         }
         
@@ -154,30 +150,32 @@ INNER JOIN civicrm_contribution co ON c.id = co.contact_id
 
     function where( ) {
         $clauses = array( );
-        foreach ( $this->_filters as $fieldName => $field ) {
-            $field['name'] = "{$field['table']}.$fieldName";
-
-            if ( $field['type'] == 'date' ) {
-                $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
-                $from     = CRM_Utils_Array::value( "{$fieldName}_from", $this->_params );
-                $to       = CRM_Utils_Array::value( "{$fieldName}_to", $this->_params );
-
-                if ( $relative || $from || $to ) {
-                    $clause = $this->dateClause( $field, $relative, $from, $to );
+        foreach ( $this->_columns as $tableName => $table ) {
+            foreach ( $table['filters'] as $fieldName=> $field ) {
+                $field['name'] = "{$field['table']}.$fieldName";
+                
+                if ( $field['type'] == 'date' ) {
+                    $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
+                    $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
+                    $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
+                    
+                    if ( $relative || $from || $to ) {
+                        $clause = $this->dateClause( $field, $relative, $from, $to );
+                    }
+                } else {
+                    $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                    if ( $op ) {
+                        $clause = $this->whereClause( $field,
+                                                      $op,
+                                                      CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
+                                                      CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                      CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                    }
                 }
-            } else {
-                $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
-                if ( $op ) {
-                    $clause = $this->whereClause( $field,
-                                                  $op,
-                                                  CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
-                                                  CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                  CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
-                }
-            }
 
-            if ( ! empty( $clause ) ) {
-                $clauses[] = $clause;
+                if ( ! empty( $clause ) ) {
+                    $clauses[] = $clause;
+                }
             }
         }
 
@@ -189,6 +187,25 @@ INNER JOIN civicrm_contribution co ON c.id = co.contact_id
 
     }
 
+
+    function statistics( ) {
+        $select = "
+SELECT COUNT( contribution.total_amount ) as count,
+       SUM(   contribution.total_amount ) as amount,
+       AVG(   contribution.total_amount ) as avg
+";
+
+        $sql = "{$select} {$this->_from} {$this->_where}";
+        $dao = CRM_Core_DAO::executeQuery( $dao );
+        $statistics = null;
+        if ( $dao->fetch( ) ) {
+            $statistics = array( 'count'  => $dao->count,
+                                 'amount' => $dao->amount,
+                                 'avg'    => $dao->avg );
+        }
+        
+        return $statistics;
+    }
 
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
