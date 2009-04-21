@@ -46,21 +46,38 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                  array( 'dao'    => 'CRM_Contact_DAO_Contact',
                                         'alias'  => 'c',
                                         'fields' =>
-                                        array( 'display_name' => array( 'label'    => ts( 'Contact Name' ),
-                                                                        'required' => true ) )
+                                        array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
+                                                                        'required'  => true ) ),
+                                        'filters' =>             
+                                        array('sort_name'    => 
+                                              array( 'title'      => ts( 'Contact Name' ),
+                                                     'table'      => 'civicrm_contact',
+                                                     'field'      => 'sort_name',
+                                                     'type'       => 'String',
+                                                     'operator'   => 'like' ) ),
                                         ),
                                  
                                  'civicrm_contribution' =>
-                                 array( 'dao'    => 'CRM_Contribute_DAO_Contribution',
-                                        'alias'  => 'co',
-                                        'fields' =>
-                                        array( 'total_amount'  => array( 'label'    => ts( 'Amount' ),
+                                 array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
+                                        'alias'   => 'co',
+                                        'fields'  =>
+                                        array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
                                                                          'required' => true ),
                                                'trxn_id'       => null,
-                                               'received_date' => null,
+                                               'receive_date'  => null,
                                                'receipt_date'  => null,
-                                               )
+                                               ),
+                                        'filters' =>             
+                                        array( 'receive_date' => 
+                                               array( 'title'      => ts( 'Date Range' ),
+                                                      'type'       => 'Date',
+                                                      'default'    => 'this month' ),
+                                               'total_amount' => 
+                                               array( 'title'      => ts( 'Aggregate Total Between' ),
+                                                      'type'       => 'Money' ),
+                                               ),
                                         ),
+
                                  'civicrm_address' =>
                                  array( 'dao' => 'CRM_Core_DAO_Address',
                                         'alias'  => 'a',
@@ -68,10 +85,11 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         array( 'street_address'    => null,
                                                'city'              => null,
                                                'postal_code'       => null,
-                                               'state_province_id' => array( 'label' => ts( 'State/Province' ) ),
-                                               'country_id'        => array( 'label' => ts( 'Country' ) ),
+                                               'state_province_id' => array( 'title' => ts( 'State/Province' ) ),
+                                               'country_id'        => array( 'title' => ts( 'Country' ) ),
                                                ),
                                         ),
+
                                  'civicrm_email' => 
                                  array( 'dao' => 'CRM_Core_DAO_Email',
                                         'alias'  => 'e',
@@ -79,27 +97,8 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         array( 'email' => null)
                                         ),
                                  );
-                                                          
 
-
-        $this->_filters =
-            array( 'receive_date' => array( 'label'      => ts( 'Date Range' ),
-                                            'table'      => 'civicrm_contribution',
-                                            'operator'   => 'date_range',
-                                            'type'       => 'Date',
-                                            'default'    => 'this month' ),
-                   'total_amount' => array( 'label'      => ts( 'Aggregate Total Between' ),
-                                            'table'      => 'civicrm_contribution',
-                                            'operator'   => 'money_range',
-                                            'type'       => 'Money' ),
-                   'sort_name'    => array( 'label'      => ts( 'Contact Name' ),
-                                            'table'      => 'civicrm_contact',
-                                            'field'      => 'sort_name',
-                                            'type'       => 'String',
-                                            'operator'   => 'like' )
-                   );
-
-        $this->_options = array( 'include_statistics' => array( 'label' => ts( 'Include Contribution Statistics' ),
+        $this->_options = array( 'include_statistics' => array( 'title' => ts( 'Include Contribution Statistics' ),
                                                                 'type'  => 'checkbox' ),
                                  );
         
@@ -107,6 +106,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
     }
 
     function preProcess( ) {
+        parent::preProcess( );
     }
 
     function setDefaultValues( ) {
@@ -203,6 +203,3 @@ INNER JOIN civicrm_contribution co ON c.id = co.contact_id
     }
 
 }
-
-
-
