@@ -252,8 +252,14 @@ class CRM_EventParticipation
             }
             $template->assign( 'checksumValue', $checksumValue );
             
-            $subject = $template->fetch( 'CRM/Event/Form/ParticipationExpiredSubject.tpl' );
-            $message = $template->fetch( 'CRM/Event/Form/ParticipationExpiredMessage.tpl' );
+            //support different templates for both mails.
+            if ( $isExpiredMail ) {
+                $subject = $template->fetch( 'CRM/Event/Form/ParticipationExpiredSubject.tpl' );
+                $message = $template->fetch( 'CRM/Event/Form/ParticipationExpiredMessage.tpl' );
+            } else {
+                $subject = $template->fetch( 'CRM/Event/Form/ParticipationConfirmSubject.tpl' );
+                $message = $template->fetch( 'CRM/Event/Form/ParticipationConfirmMessage.tpl' );
+            }
             
             //take a receipt from as event else domain.
             if ( CRM_Utils_Array::value('confirm_from_name', $allEvents[$values['event_id']] ) && 

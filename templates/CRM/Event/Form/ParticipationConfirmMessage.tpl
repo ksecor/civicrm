@@ -1,7 +1,16 @@
 {ts 1=$contact.display_name}Dear %1{/ts},
 
-{ts}Your Event Registration has been Expired.{/ts}
+{ts}You need to Confirm your Event Participation.{/ts}	
+{if !$isAdditional and $participant.id}
 
+===========================================================
+{ts}Confirm Your Paticipatation{/ts}
+
+===========================================================
+{capture assign=confirmUrl}{crmURL p='civicrm/event/confirm' q="reset=1&participantId=`$participant.id`&cs=`$checksumValue`" a=true h=0}{/capture}
+Click this link to go to a web page where you can confirm your registration online:
+{$confirmUrl}
+{/if}
 
 ===========================================================
 {ts}Event Information and Location{/ts}
