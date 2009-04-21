@@ -97,29 +97,31 @@ class CRM_Report_Form extends CRM_Core_Form {
         $options = $filterFields = array();
 
         foreach ( $this->_filters as $field => $fltrProperties ) {
+            // make a list of filter fields
             $label = ( is_array($fltrProperties) && 
                        array_key_exists('label', $fltrProperties) ) ? $fltrProperties['label'] : $field;
             $filterFields[$label] = $field;
 
+            // get ready with option value pair
+            $operations = self::getOperationPair( $fltrProperties['type'] );
+            
+            // build form elements based on types
             switch ( $fltrProperties['type'] ) {
             case 'integer':
-                $operationList = array( 'Is less than', 'Is equal to', 'Is greater than' );
-                foreach ( $operationList as $listing ) {
-                    $operations[str_replace(' ', '_', strtolower($listing))] = $listing; 
-                }
-                $this->addRadio( "{$field}_operation", ts( 'Operator:' ), $operations );
-                break;
-            case 'date':
             default:
-                // consider type as string
-                $operationList = array( 'Is equal to', 'Starts with', 'Ends with' );
-                foreach ( $operationList as $listing ) {
-                    $operations[str_replace(' ', '_', strtolower($listing))] = $listing; 
-                }
-                $this->addRadio( "{$field}_operation", ts( 'Operator:' ), $operations );
+                // default type is string
+                $this->addRadio( "{$field}_operation", ts( 'Operator:' ), $operations, null, '<br/>' );
                 break;
             }
+            
+            // we need text box for value input
             $this->add( 'text', "{$field}_operation_value", ts('Value') );
+
+            // and a min value input box
+            $this->add( 'text', "{$field}_operation_min", ts('Min') );
+
+            // and a max value input box
+            $this->add( 'text', "{$field}_operation_max", ts('Max') );
         }
 
         $this->assign( 'filterFields', $filterFields );
@@ -140,7 +142,42 @@ class CRM_Report_Form extends CRM_Core_Form {
                            );
     }
 
+    static function getOperationPair( $type = "string" ) {
+        // FIXME: At some point we should move these key-val pairs 
+        // to option_group and option_value table.
+
+        switch ( $type ) {
+        case 'integer':
+            return array( 'lt'  => 'Is less than', 
+                          'eq'  => 'Is equal to', 
+                          'gt'  => 'Is greater than',
+                          );
+            break;
+        case 'date':
+        default:
+            // type is string
+            return array( 'like' => 'Is equal to', 
+                          'sw'   => 'Starts with', 
+                          'lt'   => 'Ends with',
+                          );
+        }
+    }
+
+    static function getValueQuery( $value, $operator = "like" ) {
+        switch ( $operator ) {
+        case 'eq':
+            return "= {$value}"; 
+        case 'lt':
+            return "< {$value}"; 
+        case 'lte':
+            return "<= {$value}"; 
+        case 'gt':
+            return "> {$value}"; 
+        case 'gte':
+            return ">= {$value}"; 
+        default:
+            // type is string
+            return "like '%{$value}%'"; 
+        }
+    }
 }
-
-
-
