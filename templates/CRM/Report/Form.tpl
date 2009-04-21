@@ -23,10 +23,6 @@
 </dl>
 </fieldset>
 	
-<fieldset><legend>{ts}Sub-total Columns{/ts}</legend>
-    {include file="CRM/Core/DateRange.tpl"}
-</fieldset>
-
 <div id="crm-submit-buttons">{$form.buttons.html}</div>
 
 </div>

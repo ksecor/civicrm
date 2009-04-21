@@ -99,11 +99,6 @@ class CRM_Report_Form extends CRM_Core_Form {
                                                     '</td><td>', '</tr><tr><td>') );
     }
 
-    function addSubtotalColumns( ) {
-        require_once 'CRM/Core/Form/Date.php';
-        CRM_Core_Form_Date::buildDateRange($this);
-    }
-     
     function addFilters( ) {
         $options = $filterFields = array();
 
@@ -142,8 +137,6 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function buildQuickForm( ) {
         $this->addColumns( );
-
-        $this->addSubtotalColumns( );
 
         $this->addFilters( );
       
