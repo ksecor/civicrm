@@ -110,7 +110,8 @@ class CRM_Report_Form extends CRM_Core_Form {
             case 'integer':
             default:
                 // default type is string
-                $this->addRadio( "{$field}_operation", ts( 'Operator:' ), $operations, null, '<br/>' );
+                $this->addRadio( "{$field}_operation", ts( 'Operator:' ), $operations, 
+                                 array('onclick' =>"return showHideMaxMinVal( '$field', this.value );"), '<br/>' );
                 break;
             }
             
@@ -147,10 +148,12 @@ class CRM_Report_Form extends CRM_Core_Form {
         // to option_group and option_value table.
 
         switch ( $type ) {
+        case 'money':
         case 'integer':
             return array( 'lt'  => 'Is less than', 
                           'eq'  => 'Is equal to', 
                           'gt'  => 'Is greater than',
+                          'bw'  => 'Is between',
                           );
             break;
         case 'date':
@@ -158,7 +161,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             // type is string
             return array( 'like' => 'Is equal to', 
                           'sw'   => 'Starts with', 
-                          'lt'   => 'Ends with',
+                          'ew'   => 'Ends with',
                           );
         }
     }
