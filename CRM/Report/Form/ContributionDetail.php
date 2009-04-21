@@ -44,6 +44,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
     function __construct( ) {
         $this->_columns = array( 'civicrm_contact'      =>
                                  array( 'dao'    => 'CRM_Contact_DAO_Contact',
+                                        'alias'  => 'c',
                                         'fields' =>
                                         array( 'display_name' => array( 'label'    => ts( 'Contact Name' ),
                                                                         'required' => true ) )
@@ -51,6 +52,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                  
                                  'civicrm_contribution' =>
                                  array( 'dao'    => 'CRM_Contribute_DAO_Contribution',
+                                        'alias'  => 'co',
                                         'fields' =>
                                         array( 'total_amount'  => array( 'label'    => ts( 'Amount' ),
                                                                          'required' => true ),
@@ -61,6 +63,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         ),
                                  'civicrm_address' =>
                                  array( 'dao' => 'CRM_Core_DAO_Address',
+                                        'alias'  => 'a',
                                         'fields' =>
                                         array( 'street_address'    => null,
                                                'city'              => null,
@@ -71,6 +74,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         ),
                                  'civicrm_email' => 
                                  array( 'dao' => 'CRM_Core_DAO_Email',
+                                        'alias'  => 'e',
                                         'fields' =>
                                         array( 'email' => null)
                                         ),
@@ -82,15 +86,16 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
             array( 'receive_date' => array( 'label'      => ts( 'Date Range' ),
                                             'table'      => 'civicrm_contribution',
                                             'operator'   => 'date_range',
-                                            'type'       => 'date',
+                                            'type'       => 'Date',
                                             'default'    => 'this month' ),
                    'total_amount' => array( 'label'      => ts( 'Aggregate Total Between' ),
                                             'table'      => 'civicrm_contribution',
                                             'operator'   => 'money_range',
-                                            'type'       => 'money' ),
+                                            'type'       => 'Money' ),
                    'sort_name'    => array( 'label'      => ts( 'Contact Name' ),
                                             'table'      => 'civicrm_contact',
                                             'field'      => 'sort_name',
+                                            'type'       => 'String',
                                             'operator'   => 'like' )
                    );
 
@@ -112,17 +117,17 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
     function select( ) {
         $select = array( );
 
-        foreach ( $this->_columns as $table => $tblProperties ) {
-            foreach ( $tblProperties['fields'] as $field => $fldProperties ) {
-                if ( CRM_Utils_Array::value( 'required', $fldProperties ) ||
-                     CRM_Utils_Array::value( $field, $this->_params ) ) {
+        foreach ( $this->_columns as $tableName => $table ) {
+            foreach ( $table['fields'] as $fieldName=> $field ) {
+                if ( CRM_Utils_Array::value( 'required', $field ) ||
+                     CRM_Utils_Array::value( $fieldName, $this->_params ) ) {
                     if ( $table == 'civicrm_address' ) {
                         $this->_addressField = true;
                     } else if ( $table == 'civicrm_email' ) {
                         $this->_emailField = true;
                     }
 
-                    $select[] = "{$table}.{$field} as {$table}_{$field}";
+                    $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
                 }
             }
         }
@@ -150,7 +155,7 @@ INNER JOIN civicrm_contribution co ON c.id = co.contact_id
     function where( ) {
         $clauses = array( );
         foreach ( $this->_filters as $fieldName => $field ) {
-            $field['name'] = $fieldName;
+            $field['name'] = "{$field['table']}.$fieldName";
 
             if ( $field['type'] == 'date' ) {
                 $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
@@ -177,9 +182,9 @@ INNER JOIN civicrm_contribution co ON c.id = co.contact_id
         }
 
         if ( empty( $clauses ) ) {
-            return " ( 1 ) ";
+            $this->_where = "WHERE ( 1 ) ";
         } else {
-            return implode( ' AND ', $clauses );
+            $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
 
     }
@@ -188,11 +193,11 @@ INNER JOIN civicrm_contribution co ON c.id = co.contact_id
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
 
-        $sql =
-            $this->select( ) .
-            $this->from  ( ) .
-            $this->where ( );
+        $this->select( );
+        $this->from  ( );
+        $this->where ( );
 
+        $sql = "{$this->_select} {$this->_from} {$this->_where}";
         CRM_Core_Error::debug( $sql );
         exit( );
     }

@@ -204,23 +204,41 @@ class CRM_Report_Form extends CRM_Core_Form {
             return "!=";
         default:
             // type is string
-            return "like";
+            return "LIKE";
         }
     }
 
     static function whereClause( &$field, $op,
                                  $value, $min, $max ) {
+        $clause = null;
         switch ( $op ) {
         case 'bw':
-            $min = CRM_Utils_Type::escape( $min, $field['type'] );
-            $max = CRM_Utils_Type::escape( $max, $field['type'] );
-            $clause = "( ( {$field['name']} >= $min ) AND ( {$field['name']} <= $max ) )";
+            if ( $min !== null &&
+                 strlen( $min ) > 0 &&
+                 $max !== null &&
+                 strlen( $max ) > 0 ) {
+                $min = CRM_Utils_Type::escape( $min, $field['type'] );
+                $max = CRM_Utils_Type::escape( $max, $field['type'] );
+                $clause = "( ( {$field['name']} >= $min ) AND ( {$field['name']} <= $max ) )";
+            }
             break;
 
         default:
-            $value  = CRM_Utils_Type::escape( $value, $field['type'] );
-            $sqlOP  = self::getSQLOperator( $op );
-            $clause = "( {$field['name']} $sqlOP $value )";
+            if ( $value !== null &&
+                 strlen( $value ) > 0 ) {
+                $value  = CRM_Utils_Type::escape( $value, $field['type'] );
+                $sqlOP  = self::getSQLOperator( $op );
+                if ( $field['type'] == 'String' ) {
+                    if ( $sqlOP == 'LIKE' &&
+                         strpos( '%', $value ) === false ) {
+                        $value = "'%{$value}%'";
+                    } else {
+                        $value = "'{$value}'";
+                    }
+                }
+
+                $clause = "( {$field['name']} $sqlOP $value )";
+            }
             break;
         }
         
