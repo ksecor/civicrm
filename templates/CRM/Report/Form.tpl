@@ -23,7 +23,7 @@
 </dl>
 </fieldset>
 	
-<fieldset><legend>{ts}Sub-total columns{/ts}</legend>
+<fieldset><legend>{ts}Sub-total Columns{/ts}</legend>
     {include file="CRM/Core/DateRange.tpl"}
 </fieldset>
 
