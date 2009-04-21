@@ -307,7 +307,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
     {
         // consider event is full when. 
         // 1. (count(is_counted) >= event_size) or 
-        // 2. (count(participants-with-status-on-waitlist) + count(is_counted) >= event_size)
+        // 2. (count(participants-with-status-on-waitlist) >= 0)
         // It might be case there are some empty spaces and still event
         // is full, as waitlist might represent group require spaces > empty.
         
@@ -323,6 +323,29 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         
         if ( !$onWaitlistStatusId ) {
             $onWaitlistStatusId = 0;
+        }
+        
+        //if waiting straight forward consider event as full.
+        if ( $includeWaitingList ) {
+            $waitingQuery = "
+  SELECT  waiting.id as waiting_participant,
+          civicrm_event.event_full_text as event_full_text
+    FROM  civicrm_participant waiting, civicrm_event 
+   WHERE  waiting.event_id = civicrm_event.id
+     AND  waiting.status_id = {$onWaitlistStatusId}
+     AND  waiting.is_test = 0
+     AND  waiting.event_id = {$eventId}
+";
+            $waiting =& CRM_Core_DAO::executeQuery( $waitingQuery, CRM_Core_DAO::$_nullArray );
+            if ( $waiting->fetch( ) ) { 
+                //get the event full message.
+                $eventFullmsg = ts( "This event is full !!!" );
+                if ( $waiting->event_full_text ) {
+                    $eventFullmsg = $waiting->event_full_text;
+                }
+                
+                return $eventFullmsg;
+            }
         }
         
         // participant has to have is_counted true for event to be full
@@ -352,28 +375,7 @@ GROUP BY  counted.event_id
             
             if ( $counted->counted_participants >= $counted->max_participants ) {
                 return $eventFullmsg;
-            } else if ( $includeWaitingList ) { 
-                //need to give preference to waiting list participants.
-                $waitingQuery = "
-  SELECT  count(waiting.id) as waiting_participants
-    FROM  civicrm_participant waiting, civicrm_event 
-   WHERE  waiting.event_id = civicrm_event.id
-     AND  waiting.status_id = {$onWaitlistStatusId}
-     AND  waiting.is_test = 0
-     AND  waiting.event_id = {$eventId}
-GROUP BY  waiting.event_id
-";
-                $waiting =& CRM_Core_DAO::executeQuery( $waitingQuery, CRM_Core_DAO::$_nullArray );
-                if ( $waiting->fetch( ) ) { 
-                    $totalSeats = $counted->counted_participants + $waiting->waiting_participants;
-                    if ( $totalSeats >= $counted->max_participants ) {
-                        return $eventFullmsg;
-                    } else if ( $returnEmptySeats ) {
-                        //return difference( include waitings. )
-                        return  $counted->max_participants - $totalSeats;
-                    }
-                }
-            }
+            }         
             
             //return the difference ( exclude waitings. )
             if ( $returnEmptySeats ) {
