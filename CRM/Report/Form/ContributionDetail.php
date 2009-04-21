@@ -52,7 +52,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                  'civicrm_contribution' =>
                                  array( 'dao'    => 'CRM_Contribute_DAO_Contribution',
                                         'fields' =>
-                                        array( 'amount'        => array( 'label'    => ts( 'Amount' ),
+                                        array( 'total_amount'  => array( 'label'    => ts( 'Amount' ),
                                                                          'required' => true ),
                                                'trxn_id'       => null,
                                                'received_date' => null,

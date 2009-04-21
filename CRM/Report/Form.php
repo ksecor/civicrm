@@ -84,13 +84,19 @@ class CRM_Report_Form extends CRM_Core_Form {
         $options = array();
         
         foreach ( $this->_columns as $table => $tblProperties ) {
-            foreach ( $tblProperties['fields'] as $field => $fldProperties ) {
-                $label = ( is_array($fldProperties) && 
-                           array_key_exists('label', $fldProperties) ) ? $fldProperties['label'] : $field;
+            require_once str_replace( '_', DIRECTORY_SEPARATOR, $tblProperties['dao'] .'.php' );
+            eval( "\$impFields = {$tblProperties['dao']}::import( );");
+            foreach ( $impFields as $field => $fldProperties ) {
+                $label = array_key_exists($field, 
+                                          $this->_columns[$table]['fields']) && 
+                    isset($this->_columns[$table]['fields'][$field]['label']) ? 
+                    $this->_columns[$table]['fields'][$field]['label'] : $fldProperties['title'];
                 $options[$label] = $field;
             } 
         }
-        $this->addCheckBox( 'select_columns', ts('Select Columns'), $options );
+        $this->addCheckBox( 'select_columns', ts('Select Columns'), $options, null, 
+                            null, null, null, array('</td><td>', '</td><td>', 
+                                                    '</td><td>', '</tr><tr><td>') );
     }
 
     function addSubtotalColumns( ) {
@@ -115,19 +121,20 @@ class CRM_Report_Form extends CRM_Core_Form {
             case 'integer':
             default:
                 // default type is string
-                $this->addRadio( "{$field}_operation", ts( 'Operator:' ), $operations, 
-                                 array('onclick' =>"return showHideMaxMinVal( '$field', this.value );"), '<br/>' );
+                $this->addElement('select', "{$field}_op", ts( 'Operator:' ), $operations, 
+                                  array('onchange' =>"return showHideMaxMinVal( '$field', this.value );"));
+
                 break;
             }
             
             // we need text box for value input
-            $this->add( 'text', "{$field}_operation_value", ts('Value') );
+            $this->add( 'text', "{$field}_value", ts('Value') );
 
             // and a min value input box
-            $this->add( 'text', "{$field}_operation_min", ts('Min') );
+            $this->add( 'text', "{$field}_min", ts('Min') );
 
             // and a max value input box
-            $this->add( 'text', "{$field}_operation_max", ts('Max') );
+            $this->add( 'text', "{$field}_max", ts('Max') );
         }
 
         $this->assign( 'filterFields', $filterFields );
@@ -158,9 +165,13 @@ class CRM_Report_Form extends CRM_Core_Form {
         case 'money':
         case 'integer':
             return array( 'lt'  => 'Is less than', 
+                          'lte' => 'Is less than or equal to', 
                           'eq'  => 'Is equal to', 
+                          'neq' => 'Is not equal to', 
                           'gt'  => 'Is greater than',
+                          'gte' => 'Is greater than or equal to',
                           'bw'  => 'Is between',
+                          'nbw' => 'Is not between',
                           );
             break;
 
@@ -168,8 +179,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         default:
             // type is string
             return array( 'like' => 'Is equal to', 
+                          'neq'  => 'Is not equal to', 
+                          'has'  => 'Contains', 
                           'sw'   => 'Starts with', 
                           'ew'   => 'Ends with',
+                          'nhas' => 'Does not contain', 
                           );
         }
     }
