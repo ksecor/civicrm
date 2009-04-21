@@ -424,6 +424,18 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         $transaction->commit( );  
+        
+        require_once 'CRM/Utils/Recent.php';
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
+               "action=view&reset=1&id={$activity->id}&atype={$activity->activity_type_id}&cid={$activity->source_contact_id}" );
+        
+        // add the recently created Activity
+        CRM_Utils_Recent::add( $activity->subject,
+                               $url,
+                               null,
+                               $activity->id,
+                               ts('Activity') );
+        
 
         return $result;
     }

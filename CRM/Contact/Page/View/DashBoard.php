@@ -98,7 +98,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $uid ),
-                               $contactImage,$uid );
+                               $contactImage,$uid, ts('Contact') );
         
         // call hook to get html from other modules
         require_once 'CRM/Utils/Hook.php';

@@ -24,10 +24,6 @@
 {include file="CRM/common/action.tpl"}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
-{if $displayRecent and $recentlyViewed}
-    {include file="CRM/common/recentlyViewed.tpl"}
-{/if}
-
 {if isset($browserPrint) and $browserPrint}
 {* Javascript window.print link. Used for public pages where we can't do printer-friendly view. *}
 <div id="printer-friendly"><a href="javascript:window.print()" title="{ts}Print this page.{/ts}"><img src="{$config->resourceBase}i/print_preview.gif" alt="{ts}Print this page.{/ts}" /></a></div>

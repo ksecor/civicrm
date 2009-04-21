@@ -54,7 +54,8 @@ class CRM_Core_Block {
         ADD        =   4,
         LANGSWITCH =   5,
         EVENT      =   6,
-        FULLTEXT_SEARCH = 7;
+        FULLTEXT_SEARCH = 7,
+        RECENTLY_VIEWED = 8;
     
     /**
      * template file names for the above blocks
@@ -127,7 +128,7 @@ class CRM_Core_Block {
                                                                    'region'     => 'left' ),
                                        self::EVENT      => array( 'template'   => 'Event.tpl',
                                                                    'info'       => ts('CiviCRM Upcoming Events'),
-                                                                   'subject'    => 'Upcoming Events',
+                                                                   'subject'    => ts('Upcoming Events'),
                                                                    'templateValues' => array(),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
@@ -142,6 +143,14 @@ class CRM_Core_Block {
                                                                         'visibility' => 1,
                                                                         'pages'      => 'civicrm*',
                                                                         'region'     => 'left' ),
+                                       self::RECENTLY_VIEWED => array(  'template'   => 'RecentlyViewed.tpl',
+                                                                        'info'       => ts('CiviCRM Recently Viewed'),
+                                                                        'subject'    => ts('Recently Viewed'),
+                                                                        'active'     => true,
+                                                                        'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                        'visibility' => 1,
+                                                                        'pages'      => 'civicrm*',
+                                                                        'region'     => 'left' )
                                        );
 
         }
@@ -270,13 +279,21 @@ class CRM_Core_Block {
             );
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
             break;
+
         case self::FULLTEXT_SEARCH:
             $urlArray = array( 'fullTextSearchID'  => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',
                                                     'CRM_Contact_Form_Search_Custom_FullText', 'value', 'name' ) );
             self::setProperty( self::FULLTEXT_SEARCH, 'templateValues', $urlArray );
             break;    
+
         case self::MENU:
             self::setTemplateMenuValues( );
+            break;
+
+        case self::RECENTLY_VIEWED:
+            require_once 'CRM/Utils/Recent.php';
+            $recent  =& CRM_Utils_Recent::get( );
+            self::setProperty( self::RECENTLY_VIEWED, 'templateValues', array( 'recentlyViewed' => $recent ) );
             break;
 
         case self::EVENT:

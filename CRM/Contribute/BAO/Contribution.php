@@ -262,6 +262,23 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         $transaction->commit( );
         
+        require_once 'CRM/Utils/Recent.php';
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution', 
+               "action=view&reset=1&id={$contribution->id}&cid={$contribution->contact_id}" );
+       
+        $contributionTypes = CRM_Contribute_PseudoConstant::contributionType();
+        $title = $contributionTypes[$contribution->contribution_type_id] . " - " . CRM_Contact_BAO_Contact::displayName( $contribution->contact_id );
+
+        // add the recently created Activity
+        CRM_Utils_Recent::add( $title,
+                               $url,
+                               null,
+                               $contribution->id,
+                               ts('Contribution') );
+        
+        
         return $contribution;
     }
 

@@ -92,13 +92,13 @@ class CRM_Utils_Recent {
      * @param string $title  the title to display
      * @param string $url    the link for the above title
      * @param string $icon   a link to a graphical image
-     * @param string $id     contact id
+     * @param string $id     object id
      *
      * @return void
      * @access public
      * @static
      */
-    static function add( $title, $url, $icon, $id ) {
+    static function add( $title, $url, $icon, $id, $tooltip = null ) {
         self::initialize( );
 
         $session =& CRM_Core_Session::singleton( );
@@ -113,10 +113,11 @@ class CRM_Utils_Recent {
         }
         
         array_unshift( self::$_recent,
-                       array( 'title' => $title, 
-                              'url'   => $url,
-                              'icon'  => $icon,
-                              'id'  => $id ) );
+                       array( 'title'   => $title, 
+                              'url'     => $url,
+                              'icon'    => $icon,
+                              'id'      => $id,
+                              'tooltip' => $tooltip ) );
         if ( count( self::$_recent ) > self::MAX_ITEMS ) {
             array_pop( self::$_recent );
         }
