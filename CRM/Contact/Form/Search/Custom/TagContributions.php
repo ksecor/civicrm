@@ -102,7 +102,7 @@ class CRM_Contact_Form_Search_Custom_TagContributions
 
     // SELECT clause must include contact_id as an alias for civicrm_contact.id
     if ( $onlyIDs ) {
-        $select  = "DISTINCT contact_a.id as contact_id";
+        $select  = "DISTINCT civicrm_contact.id as contact_id";
     } else {
         $select  = "
 DISTINCT

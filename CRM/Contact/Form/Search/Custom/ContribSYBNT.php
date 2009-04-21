@@ -114,6 +114,7 @@ implements CRM_Contact_Form_Search_Interface {
     }
         
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
+        return $this->all( $offset, $rowcount, $sort, false, true );
     }
         
     function all( $offset = 0, $rowcount = 0, $sort = null,
@@ -296,7 +297,7 @@ AND      c.receive_date < {$this->start_date_1}
     function &columns( ) {
         return $this->_columns;
     }
-        
+    
     function templateFile( ) {
         return 'CRM/Contact/Form/Search/Custom/ContribSYBNT.tpl';
     }

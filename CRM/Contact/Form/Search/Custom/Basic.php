@@ -132,7 +132,10 @@ class CRM_Contact_Form_Search_Custom_Basic
     }
 
     function where( $includeContactIDs = false ) {
-        return $this->_query->whereClause( );
+        if ( $whereClause = $this->_query->whereClause( ) ) {
+            return $whereClause;
+        }
+        return ' (1) ' ;
     }
 
     function templateFile( ) {
