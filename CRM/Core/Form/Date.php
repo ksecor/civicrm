@@ -88,48 +88,47 @@ Class CRM_Core_Form_Date
      */
     static function buildDateRange( &$form ) {
         $selector = array ('-select-',
-                           'this - year',
-                           'this - quarter',
-                           'this - month',
-                           'this - week',
-                           'this - day',
+                           'this.year'    => 'This Year',
+                           'this.quarter' => 'This Quarter',
+                           'this.month'   => 'This Month',
+                           'this.week'    => 'This Week',
+                           'this.day'     => 'This Day',
                            
-                           'previous - year',
-                           'previous - quarter',
-                           'previous - month',
-                           'previous - week',
-                           'previous - day',
+                           'previous.year'    => 'Previous Year',
+                           'previous.quarter' => 'Previous Quarter',
+                           'previous.month'   => 'Previous Month',
+                           'previous.week'    => 'Previous Week',
+                           'previous.day'     => 'Previous Day',
 
-                           'previous before - year',
-                           'previous before - quarter',
-                           'previous before - month',
-                           'previous before - week',
-                           'previous before - day',
+                           'previous_before.year'    => 'Previous Before Year',
+                           'previous_before.quarter' => 'Previous Before Quarter',
+                           'previous_before.month'   => 'Previous Before Month',
+                           'previous_before.week'    => 'Previous Before Week',
+                           'previous_before.day'     => 'Previous Before Day',
+                           
+                           'previous_2.year'    => 'Previous 2 Years',
+                           'previous_2.quarter' => 'Previous 2 Quarters',
+                           'previous_2.month'   => 'Previous 2 Months',
+                           'previous_2.week'    => 'Previous 2 Weeks',
+                           'previous_2.day'     => 'Previous 2 Days',
 
-                           'previous 2 - year',
-                           'previous 2 - quarter',
-                           'previous 2 - month',
-                           'previous 2 - week',
-                           'previous 2 - day',
+                           'earlier.year'    => 'Earlier Year',
+                           'earlier.quarter' => 'Earlier Quarter',
+                           'earlier.month'   => 'Earlier Month',
+                           'earlier.week'    => 'Earlier Week',
+                           'earlier.day'     => 'Earlier Day',
 
-                           'earlier - year',
-                           'earlier - quarter',
-                           'earlier - month',
-                           'earlier - week',
-                           'earlier - day',
-
-                           'greater - year',
-                           'greater - quarter',
-                           'greater - month',
-                           'greater - week',
-                           'greater - day'
+                           'greater.year'    => 'Greater Year',
+                           'greater.quarter' => 'Greater Quarter',
+                           'greater.month'   => 'Greater Month',
+                           'greater.week'    => 'Greater Week',
+                           'greater.day'     => 'Greater Day'
                            );
         
         $form->add('select', 'relative_date_range', ts('Relative Date Range'), $selector, false,
                    array('onclick' => 'showAbsoluteRange(this.value);'));
-
+        
         $form->addDateRange('absolute_date', ts('Absolute Date'), 'relative' );
-        //$form->setDefaults(array('dateFormats' => self::DATE_yyyy_mm_dd));
     }
 
 }
