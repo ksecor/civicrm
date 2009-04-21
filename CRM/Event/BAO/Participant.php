@@ -266,6 +266,22 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         
         $transaction->commit( );
         
+        require_once 'CRM/Utils/Recent.php';
+        require_once 'CRM/Event/PseudoConstant.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/participant', 
+               "action=view&reset=1&id={$participant->id}&cid={$participant->contact_id}" );
+               
+        $participantRoles = CRM_Event_PseudoConstant::participantRole();
+        $title = $participantRoles[$participant->role_id] . " - " . CRM_Contact_BAO_Contact::displayName( $participant->contact_id );
+        
+        // add the recently created Activity
+        CRM_Utils_Recent::add( $title,
+                               $url,
+                               null,
+                               $participant->id,
+                               ts('Participant') );
+        
         return $participant;
     }
     

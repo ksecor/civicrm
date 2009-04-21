@@ -100,14 +100,17 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         
         $note->copyValues( $params );
         if ( ! $params['contact_id'] ) {
-            if( $params['entity_table'] =='civicrm_contact' ) {
+            if ( $params['entity_table'] =='civicrm_contact' ) {
                 $note->contact_id = $params['entity_id'];   
-            }else {
+            } else {
                 CRM_Core_Error::statusBounce(ts('We could not find your logged in user ID'));
             }
         }
-
-        $note->id = CRM_Utils_Array::value( 'id', $ids );
+        
+        if ( CRM_Utils_Array::value( 'id', $ids ) ) {
+            $note->id = CRM_Utils_Array::value( 'id', $ids );
+        }
+        
         $note->save( );
 
         if ( $note->entity_table == 'civicrm_contact' ) {
@@ -115,6 +118,13 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
             CRM_Core_BAO_Log::register( $note->entity_id,
                                         'civicrm_note',
                                         $note->id );
+                                    
+            require_once 'CRM/Utils/Recent.php';
+            CRM_Utils_Recent::add( $note->subject,
+                                   CRM_Utils_System::url( 'civicrm/contact/view/note', "reset=1&action=view&cid={$note->entity_id}&id={$note->id}" ),
+                                   null,
+                                   $note->entity_id,
+                                   ts('Note') );
         }
 
         return $note;

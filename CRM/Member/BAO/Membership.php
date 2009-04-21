@@ -311,6 +311,22 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         self::createRelatedMemberships( $params, $membership );
         
+        require_once 'CRM/Utils/Recent.php';
+        require_once 'CRM/Member/PseudoConstant.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/membership', 
+               "action=view&reset=1&id={$membership->id}&cid={$membership->contact_id}" );
+       
+        $membershipTypes = CRM_Member_PseudoConstant::membershipType();
+        $title = $membershipTypes[$membership->membership_type_id] . " - " . CRM_Contact_BAO_Contact::displayName( $membership->contact_id );
+
+        // add the recently created Activity
+        CRM_Utils_Recent::add( $title,
+                               $url,
+                               null,
+                               $membership->id,
+                               ts('Membership') );
+        
         return $membership;
     }
     
