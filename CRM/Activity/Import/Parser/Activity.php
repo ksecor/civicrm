@@ -100,6 +100,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {
             case 'target_contact_id':
+            case 'external_identifier':
                 $this->_contactIdIndex        = $index;
                 break;
             case 'activity_name' :
@@ -346,13 +347,19 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             }
           
         } else {
-            if ( $values['external_identifier'] ) {
-                $checkCid = new CRM_Contact_DAO_Contact();
-                $checkCid->external_identifier = $values['external_identifier'];
-                $checkCid->find(true);
-                if ($checkCid->id != $formatted['contact_id']) {
-                    array_unshift($values, "Mismatch of External identifier :" . $values['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
-                    return CRM_Contribute_Import_Parser::ERROR;
+            if ( CRM_Utils_Array::value('external_identifier', $params ) ) {
+                $targetContactId = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', 
+                                                               $params['external_identifier'], 'id', 'external_identifier' ); 
+                
+                if ( CRM_Utils_Array::value( 'target_contact_id', $params ) && 
+                     $params['target_contact_id'] != $targetContactId ) {
+                    array_unshift($values, "Mismatch of External identifier :" . $params['external_identifier'] . " and Contact Id:" . $params['target_contact_id']);
+                    return CRM_Activity_Import_Parser::ERROR;
+                } else if ( $targetContactId )  {
+                    $params['target_contact_id'] = $targetContactId;
+                } else {
+                    array_unshift($values, "No Matching Contact for External identifier :" . $params['external_identifier'] );
+                    return CRM_Activity_Import_Parser::ERROR;
                 }
             }
             
