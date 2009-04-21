@@ -117,9 +117,9 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
             foreach ( $table['fields'] as $fieldName=> $field ) {
                 if ( CRM_Utils_Array::value( 'required', $field ) ||
                      CRM_Utils_Array::value( $fieldName, $this->_params ) ) {
-                    if ( $table == 'civicrm_address' ) {
+                    if ( $tableName == 'civicrm_address' ) {
                         $this->_addressField = true;
-                    } else if ( $table == 'civicrm_email' ) {
+                    } else if ( $tableName == 'civicrm_email' ) {
                         $this->_emailField = true;
                     }
 
@@ -135,16 +135,16 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
         $this->_from = null;
 
         $this->_from = "
-FROM       civicrm_contact c
-INNER JOIN civicrm_contribution co ON c.id = co.contact_id
+FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
+INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
 ";
 
         if ( $this->_addressField ) {
-            $this->_from .= "LEFT JOIN civicrm_address a ON c.id = a.contact_id AND a.is_primary = 1\n";
+            $this->_from .= "LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND {$this->_aliases['civicrm_address']}.is_primary = 1\n";
         }
         
         if ( $this->_emailField ) {
-            $this->_from .= "LEFT JOIN civicrm_email e ON c.id = e.contact_id AND e.is_primary = 1\n";
+            $this->_from .= "LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND {$this->_aliases['civicrm_email']}.is_primary = 1\n";
         }
     }
 
@@ -152,8 +152,6 @@ INNER JOIN civicrm_contribution co ON c.id = co.contact_id
         $clauses = array( );
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['filters'] as $fieldName=> $field ) {
-                $field['name'] = "{$field['table']}.$fieldName";
-                
                 if ( $field['type'] == 'date' ) {
                     $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                     $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );

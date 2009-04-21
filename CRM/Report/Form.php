@@ -82,6 +82,13 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function preProcess( ) {
         foreach ( $this->_columns as $tableName => $table ) {
+            // add alias
+            if ( ! isset( $table['alias'] ) ) {
+                $this->_columns[$tableName]['alias'] = substr( $tableName, 8 );
+            }
+
+            $this->_aliases[$tableName] = $this->_columns[$tableName]['alias'];
+
             // get export fields
             require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['dao'] .'.php' );
             eval( "\$impFields = {$table['dao']}::export( );");
@@ -112,6 +119,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                             }
                         }
                     }
+                    $this->_columns[$tableName]['filters'][$fieldName]['name'] = "{$this->_aliases[$tableName]}.{$fieldName}";
                 }
             }
             
