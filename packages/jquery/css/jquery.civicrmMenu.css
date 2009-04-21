@@ -4,6 +4,7 @@ ul.civicrm_menu {
 	padding: 0px;
 	list-style-type: none;
 }
+
 ul.civicrm_menu ul {
 	border-bottom:medium none;
 	position: absolute;
@@ -12,6 +13,7 @@ ul.civicrm_menu ul {
 	margin:  0px;
 	padding: 0px;
 }
+
 ul.civicrm_menu li {
 	float: left;
     background-image:none;   
@@ -36,7 +38,7 @@ ul.civicrm_menu ul li:hover {
 	position:absolute;
 	width:100%;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-	font-size:9px;
+	font-size:10px;
     font-weight:normal;
 	top:0px;
 	left:0px;
@@ -61,6 +63,7 @@ ul.civicrm_menu_slate a:visited {
     font-size:9px;
     font-weight:normal; 
 }
+
 ul.civicrm_menu_slate ul li a,
 ul.civicrm_menu_slate ul li a:active,
 ul.civicrm_menu_slate ul li a:link,
@@ -68,21 +71,24 @@ ul.civicrm_menu_slate ul li a:visited {
 	color: #70777D;
     display:block;
 }
+
 ul.civicrm_menu_slate li {
 	font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-	font-size: 9px;
+	font-size: 10px;
 	padding: 2px 6px 4px 6px;
 	cursor: pointer;
 	color: #FFF;
+	border-top: 1px solid #323232;
+	/*border-right: 1px solid #323232;*/
 }
 
 ul.civicrm_menu_slate ul {
 	background: #1B1B1B repeat-x;
 }
+
 ul.civicrm_menu_slate ul li {
     padding:0px 0px 0px 5px;
 	background:#202020 none repeat scroll 0 0;
-	border: none;
 	color: #70777D;
 }
 
@@ -91,12 +97,12 @@ ul.civicrm_menu li.online {
 }
 
 ul.civicrm_menu li ul.child {
-        left:164px;
-        margin-top:-20px;
+    left:164px;
+    margin-top:-20px;
 }
 
 ul.civicrm_menu li li.parent {
- 	 background: url(images/arrow.png) no-repeat scroll 150px 50%;
+ 	background: url(images/arrow.png) no-repeat scroll 150px 50%;
 }
 
 ul.civicrm_menu li li.parent:hover {
