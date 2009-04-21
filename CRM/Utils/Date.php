@@ -746,11 +746,10 @@ class CRM_Utils_Date
     {
         $now  = getDate();
         $from = $to = $dateRange = array();
-        $from['H'] = $from['i'] = $from['s'] = 0;
-
+        $from['H']  = $from['i'] = $from['s'] = 0;
         $to['H'] = 11;
-        $to['i'] = 59;
-        $to['s'] = 59;
+        $to['i'] = $to['s'] = 59;
+        
         switch( $unit ) {
 
         case 'year':
@@ -928,6 +927,65 @@ class CRM_Utils_Date
             break;
             
         case 'week':
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday']), $from );
+                $to   = self::intervalAdd( 'day', 6, $from );
+                $to['H'] = 11;
+                $to['i'] = $to['s'] = 59;
+                break;
+                
+            case 'previous':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday'])-7, $from );
+                $to   = self::intervalAdd( 'day', 6, $from );
+                $to['H'] = 11;
+                $to['i'] = $to['s'] = 59;
+                break;
+
+            case 'previous before':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday'])-14, $from );
+                $to   = self::intervalAdd( 'day', 6, $from );
+                $to['H'] = 11;
+                $to['i'] = $to['s'] = 59;
+                break;
+                
+            case 'previous 2':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday'])-14, $from );
+                $to   = self::intervalAdd( 'day', 13, $from );
+                $to['H'] = 11;
+                $to['i'] = $to['s'] = 59;
+                break;
+
+            case 'earlier':
+                $to['d'] = $now['mday'];
+                $to['M'] = $now['mon'];
+                $to['Y'] = $now['year'];
+                $to['H'] = 11;
+                $to['i'] = $to['s'] = 59;
+                $to   = self::intervalAdd( 'day', -1*($now['wday'])-1, $to );
+                unset($from);
+                break;
+                
+            case 'greater':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday']), $from );
+                unset($to);
+                break;
+            }
             break;
 
         case 'day':
