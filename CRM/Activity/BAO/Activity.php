@@ -436,6 +436,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                    $activity->id,
                                    ts('Activity') );
         }
+        
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Activity', $activity->id, $activity );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Activity', $activity->id, $activity );
+        }
+        
         return $result;
     }
         
