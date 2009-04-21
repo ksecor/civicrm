@@ -768,14 +768,14 @@ class CRM_Utils_Date
                 $to['Y'] = $from['Y'] = $now['year'] - 1;
                 break;
 
-            case 'previous before':
+            case 'previous_before':
                 $from['M'] = $from['d'] = 1;
                 $to['d'] = 31;
                 $to['M'] = 12;
                 $to['Y'] = $from['Y'] = $now['year'] - 2;
                 break;
 
-            case 'previous 2':
+            case 'previous_2':
                 $from['M'] = $from['d'] = 1;
                 $to['d'] = 31;
                 $to['M'] = 12;
@@ -826,7 +826,7 @@ class CRM_Utils_Date
                 $to['d']   = cal_days_in_month(CAL_GREGORIAN, $to['M'],  $to['Y']);
                 break;
 
-            case 'previous before':
+            case 'previous_before':
                 $difference = 2;
                 $quarter   = (int)$now['mon']/4;
                 $quarter = $quarter - $difference;
@@ -841,7 +841,7 @@ class CRM_Utils_Date
                 $to['d']   = cal_days_in_month(CAL_GREGORIAN, $to['M'], $to['Y'] );
                 break;
 
-            case 'previous 2':
+            case 'previous_2':
                 $difference = 2;
                 $quarter   = (int)$now['mon']/4;
                 $quarter = $quarter - $difference;
@@ -894,14 +894,14 @@ class CRM_Utils_Date
                 $to['Y'] = $from['Y'] = $now['year'];
                 break;
 
-            case 'previous before':
+            case 'previous_before':
                 $from['d'] = 1;
                 $to['d']   = cal_days_in_month(CAL_GREGORIAN, $now['mon'] - 2, $now['year']);
                 $from['M'] = $to['M'] = $now['mon'] - 2;
                 $to['Y'] = $from['Y'] = $now['year'];
                 break;
 
-            case 'previous 2':
+            case 'previous_2':
                 $from['d'] = 1;
                 $to['d']   = cal_days_in_month(CAL_GREGORIAN, $now['mon'] - 1, $now['year']);
                 $from['M'] = $now['mon'] - 2;
@@ -948,7 +948,7 @@ class CRM_Utils_Date
                 $to['i'] = $to['s'] = 59;
                 break;
 
-            case 'previous before':
+            case 'previous_before':
                 $from['d'] = $now['mday'];
                 $from['M'] = $now['mon'];
                 $from['Y'] = $now['year'];
@@ -958,7 +958,7 @@ class CRM_Utils_Date
                 $to['i'] = $to['s'] = 59;
                 break;
                 
-            case 'previous 2':
+            case 'previous_2':
                 $from['d'] = $now['mday'];
                 $from['M'] = $now['mon'];
                 $from['Y'] = $now['year'];
@@ -1006,7 +1006,7 @@ class CRM_Utils_Date
                 $to['Y'] = $from['Y'];
                 break;
 
-            case 'previous before':
+            case 'previous_before':
                 $from['d'] = $now['mday'];
                 $from['M'] = $now['mon'];
                 $from['Y'] = $now['year'];
@@ -1016,7 +1016,7 @@ class CRM_Utils_Date
                 $to['Y'] = $from['Y'];
                 break;
                 
-            case 'previous 2':
+            case 'previous_2':
                 $from['d'] = $to['d'] = $now['mday'];
                 $from['M'] = $to['M'] = $now['mon'];
                 $from['Y'] = $to['Y'] = $now['year'];
