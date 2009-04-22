@@ -1072,9 +1072,9 @@ class CRM_Utils_Date
             return false;
         }
         
+        $i = 1;
         switch( $unit ) {
         case 'month':
-            $i = 0;
             $dateSplitted[$i] = array ('from' => $from,
                                        'to'   => array( 'd' => cal_days_in_month(CAL_GREGORIAN, $from['M'], $from['Y']),
                                                         'M' => $from['M'],
@@ -1091,11 +1091,9 @@ class CRM_Utils_Date
                                                 'Y' => $dateSplitted[$i]['from']['Y']
                                                 );
             }
-            $dateSplitted[$i]['to'] = $to;
             break;
 
         case 'day'  :
-            $i = 0;
             $dateSplitted[$i] = array ('from' => $from,
                                        'to'   => $from );
             while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
@@ -1103,11 +1101,9 @@ class CRM_Utils_Date
                 $dateSplitted[$i]['from'] = self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true );
                 $dateSplitted[$i]['to'] = $dateSplitted[$i]['from'];
             }
-            $dateSplitted[$i]['to'] = $to;
             break;
             
         case 'year' :
-            $i = 0;
             $dateSplitted[$i] = array ('from' => $from,
                                        'to'   => array( 'd' => 31,
                                                         'M' => 12,
@@ -1123,12 +1119,9 @@ class CRM_Utils_Date
                                                  'Y' => $dateSplitted[$i]['from']['Y']
                                                  );
             }
-            $dateSplitted[$i]['to'] = $to;
-
             break;
 
         case 'quarter':
-            $i = 0;
             $quarter = 3 * ((int) ($from['M'] / 4) + 1);
             $dateSplitted[$i] = array ('from' => $from,
                                        'to'   => array( 'd' => cal_days_in_month(CAL_GREGORIAN, $quarter, $from['Y']),
@@ -1143,14 +1136,35 @@ class CRM_Utils_Date
                 $start = self::intervalAdd( 'month', 3, $dateSplitted[$i]['from'], true );
                 $dateSplitted[$i]['to'] = self::intervalAdd( 'day', -1, $start, true );
             }
-            $dateSplitted[$i]['to'] = $to;
             break;
 
         case 'week':
+            $day = $from['Y'] .'/'. $from['M'] . '/' . $from['d'];
+            $weekday   = date( 'l', strtotime( $day ) );
+            $week      = self::getFullWeekdayNames();
+            $dayOfWeek = CRM_Utils_Array::key($weekday,$week);
+            
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => self::intervalAdd( 'day', 6 - $dayOfWeek, $from, true ) );
+            
+            // check whether the week  end date  < to date
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i]['from'] = self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true );
+                $dateSplitted[$i]['to'] = self::intervalAdd( 'day', 7, $dateSplitted[$i-1]['to'], true );
+            }
             break;
         } 
         
+        $dateSplitted[$i]['to'] = $to;
+        foreach ( $dateSplitted as $key => &$value) {
+            $value['from']['H'] = $value['from']['i'] = $value['from']['s'] = 0;
+            $value['to']['H'] = 11;
+            $value['to']['i'] = $value['to']['s'] = 59;
+        }
         //CRM_Core_Error::debug( '$dateSplitted', $dateSplitted );
+
+
         return $dateSplitted;
     }
 
