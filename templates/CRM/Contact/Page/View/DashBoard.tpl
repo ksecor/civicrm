@@ -30,6 +30,7 @@
         <input type="text" name="sort_name" class="form-text required eight" value="" />
         <input type="submit" name="_qf_Basic_refresh" value="{ts}Search{/ts}" class="form-submit" />
         <br />
+        {capture assign="advancedSearchURL"}{crmURL p='civicrm/contact/search/advanced' q='reset=1'}{/capture}
         <a href="{$advancedSearchURL}" title="{ts}Go to Advanced Search{/ts}">&raquo; {ts}Advanced Search{/ts}</a>
       </div>
       </form>
