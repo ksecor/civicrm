@@ -263,7 +263,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
-                if (!($row['status'] == 'Not scheduled')) {
+                if (!($row['status'] == ts('Not scheduled'))) {
                     $actionMask = CRM_Core_Action::VIEW;
                     if ( !in_array( $row['id'], $searchMailings ) ) {
                         $actionMask |= CRM_Core_Action::UPDATE;
@@ -277,10 +277,10 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                         $actionMask = CRM_Core_Action::DELETE;
                     }
                 }
-                if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
+                if (in_array($row['status'], array(ts('Scheduled'), ts('Running'), ts('Paused')))) {
                     $actionMask |= CRM_Core_Action::DISABLE;
                 }
-                if ( $row['status'] == 'Complete' && !$row['archived'] ) {
+                if ( $row['status'] == ts('Complete') && !$row['archived'] ) {
                     $actionMask |= CRM_Core_Action::RENEW;
                 }
                 
