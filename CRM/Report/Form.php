@@ -74,6 +74,13 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_filters = array( );
 
     /**
+     * The set of optional columns in the report
+     *
+     * @var array
+     */
+    protected $_options = array( );
+
+    /**
      * 
      */
     function __construct( ) {
@@ -129,7 +136,6 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
         }
 
-        $this->assign( 'filters', $this->_filters );
     }
 
     function setDefaultValues( ) {
@@ -193,6 +199,23 @@ class CRM_Report_Form extends CRM_Core_Form {
                 }
             }
         }
+        $this->assign( 'filters', $this->_filters );
+    }
+
+    function addOptions( ) {
+        if ( !empty( $this->_options ) ) {
+            foreach ( $this->_options as $fieldName => $field ) {
+                $options = array( $field['title'] => $fieldName );
+                switch ( strtolower($field['type']) ) {
+                case "checkbox" :
+                    $this->addCheckBox( "$fieldName", $field['title'], $options, null, 
+                                        null, null, null, array('</td><td>', '</td><td>', 
+                                                                '</td><td>', '</tr><tr><td>') );
+                    break;
+                }
+            }
+            $this->assign( 'options', $this->_options );
+        }
     }
 
     function buildQuickForm( ) {
@@ -200,9 +223,11 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $this->addFilters( );
       
+        $this->addOptions( );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Next'),
+                                         'name'      => ts('Generate Report'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),

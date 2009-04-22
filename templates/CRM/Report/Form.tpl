@@ -3,6 +3,14 @@
     <table class="form-layout"><tr><td>{$form.select_columns.html}</td></tr></table>
 </fieldset>
 
+<fieldset><legend>{ts}Options{/ts}</legend>
+   <table class="form-layout">
+   {foreach from=$options     item=field key=fieldName}
+      <tr><td>{$form.$fieldName.html}</td></tr>
+   {/foreach}
+   </table>
+</fieldset>
+
 <fieldset><legend>{ts}Select Filters{/ts}</legend>
    <table class="form-layout">
    {foreach from=$filters     item=table key=tableName}
