@@ -1114,7 +1114,7 @@ class CRM_Utils_Date
                                                         'Y' => $from['Y']
                                                         ) );
             
-            // check whether the month  end date  < to date         
+            // check whether the year end   < to date         
             while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
                 $i++;
                 $dateSplitted[$i] = array ('from' => self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true ));
@@ -1128,6 +1128,22 @@ class CRM_Utils_Date
             break;
 
         case 'quarter':
+            $i = 0;
+            $quarter = 3 * ((int) ($from['M'] / 4) + 1);
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => array( 'd' => cal_days_in_month(CAL_GREGORIAN, $quarter, $from['Y']),
+                                                        'M' => $quarter,
+                                                        'Y' => $from['Y']
+                                                        ) );
+            
+            // check whether the quarter  end date  < to date         
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i] = array ('from' => self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true ));
+                $start = self::intervalAdd( 'month', 3, $dateSplitted[$i]['from'], true );
+                $dateSplitted[$i]['to'] = self::intervalAdd( 'day', -1, $start, true );
+            }
+            $dateSplitted[$i]['to'] = $to;
             break;
 
         case 'week':
