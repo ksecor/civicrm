@@ -1095,9 +1095,36 @@ class CRM_Utils_Date
             break;
 
         case 'day'  :
+            $i = 0;
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => $from );
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i]['from'] = self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true );
+                $dateSplitted[$i]['to'] = $dateSplitted[$i]['from'];
+            }
+            $dateSplitted[$i]['to'] = $to;
             break;
             
         case 'year' :
+            $i = 0;
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => array( 'd' => 31,
+                                                        'M' => 12,
+                                                        'Y' => $from['Y']
+                                                        ) );
+            
+            // check whether the month  end date  < to date         
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i] = array ('from' => self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true ));
+                $dateSplitted[$i]['to'] = array( 'd' => 31,
+                                                 'M' => 12,
+                                                 'Y' => $dateSplitted[$i]['from']['Y']
+                                                 );
+            }
+            $dateSplitted[$i]['to'] = $to;
+
             break;
 
         case 'quarter':
