@@ -194,7 +194,7 @@ SELECT COUNT( contribution.total_amount ) as count,
 ";
 
         $sql = "{$select} {$this->_from} {$this->_where}";
-        $dao = CRM_Core_DAO::executeQuery( $dao );
+        $dao = CRM_Core_DAO::executeQuery( $sql );
         $statistics = null;
         if ( $dao->fetch( ) ) {
             $statistics = array( 'count'  => $dao->count,
@@ -227,6 +227,9 @@ SELECT COUNT( contribution.total_amount ) as count,
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
 
+        CRM_Core_Error::debug( $rows );
+        CRM_Core_Error::debug( $this->_columnHeaders  );
+        CRM_Core_Error::debug( $this->statistics( ) );
         if ( CRM_Utils_Array::value( 'include_statistics', $this->_params ) ) {
             $this->assign( 'statistics',
                            $this->statistics( ) );
