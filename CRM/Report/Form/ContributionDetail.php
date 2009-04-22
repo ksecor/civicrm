@@ -161,9 +161,7 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
                         
-                        if ( $relative || $from || $to ) {
-                            $clause = $this->dateClause( $field, $relative, $from, $to );
-                        }
+                        $clause = $this->dateClause( $field, $relative, $from, $to );
                     } else {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         if ( $op ) {

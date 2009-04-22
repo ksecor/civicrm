@@ -368,8 +368,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     static function dateClause( &$field,
                                 $relative, $from, $to ) {
 
+        require_once 'CRM/Utils/Date.php';
         if ( $relative ) {
-            require_once 'CRM/Utils/Date.php';
             list( $term, $unit ) = explode( '.', $relative );
             $dateRange = CRM_Utils_Date::relativeToAbsolute( $term, $unit );
             $from = $dateRange['from'];
@@ -377,7 +377,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         $clauses = array( );
-        if ( ! empty( $from ) ) {
+        if ( CRM_Utils_Date::isDate( $from ) ) {
             $revDate = array_reverse( $from );
             $date    = CRM_Utils_Date::format( $revDate );
             if ( $date ) {
@@ -385,7 +385,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
         }
 
-        if ( ! empty( $to ) ) {
+        if ( CRM_Utils_Date::isDate( $to ) ) {
             $revDate = array_reverse( $to );
             $date    = CRM_Utils_Date::format( $revDate );
             $clauses[] = "( {$field['name']} <= $date )";

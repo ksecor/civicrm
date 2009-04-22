@@ -35,7 +35,6 @@
 </fieldset>
 	
 <div id="crm-submit-buttons">{$form.buttons.html}</div>
-</div>
 
 {literal}
 <script type="text/javascript">
@@ -63,7 +62,6 @@
 
 {if $rows}
 <br/>
-<fieldset><legend>{ts}Result Set{/ts}</legend>
    <table class="form-layout">
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header key=field}
@@ -79,5 +77,5 @@
       </tr>
       {/foreach}
    </table>
-</fieldset>
 {/if}
+</div>
