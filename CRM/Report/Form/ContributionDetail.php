@@ -110,6 +110,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
     function select( ) {
         $select = array( );
 
+        $this->_columnHeaders = array( );
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName=> $field ) {
                 if ( CRM_Utils_Array::value( 'required', $field ) ||
@@ -121,6 +122,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                     }
 
                     $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                    $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
                 }
             }
         }
@@ -210,6 +212,25 @@ SELECT COUNT( contribution.total_amount ) as count,
         $this->where ( );
 
         $sql = "{$this->_select} {$this->_from} {$this->_where}";
+
+        $dao  = CRM_Core_DAO::executeQuery( $sql );
+        $rows = array( );
+        while ( $dao->fetch( ) ) {
+            $row = array( ):
+            foreach ( $this->_columnHeaders as $key => $value ) {
+                $row[$key] = $dao->$key;
+            }
+            $rows[] = $row;
+        }
+
+        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
+        $this->assign_by_ref( 'rows', $rows );
+
+        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params ) ) {
+            $this->assign( 'statistics',
+                           $this->statistics( ) );
+        }
+
         CRM_Core_Error::debug( $sql );
         exit( );
     }
