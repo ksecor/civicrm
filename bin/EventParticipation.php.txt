@@ -68,7 +68,8 @@ class CRM_EventParticipation
            participant.register_date as register_date,
            participant.fee_amount as fee_amount,
            participant.role_id as role_id,
-           participant.registered_by_id as registered_by_id
+           participant.registered_by_id as registered_by_id,
+           participant.is_test as is_test
      FROM  civicrm_participant participant
     WHERE  participant.status_id IN {$statusIds}
  ORDER BY  register_date";
@@ -79,12 +80,13 @@ class CRM_EventParticipation
         while ( $dao->fetch( ) ) {
             $participantDetails[$dao->participant_id] = array( 'id'               => $dao->participant_id,
                                                                'role'             => $participantRole[$dao->role_id],
+                                                               'is_test'          => $dao->is_test,
                                                                'event_id'         => $dao->event_id,
                                                                'status_id'        => $dao->status_id,
                                                                'fee_amount'       => $dao->fee_amount, 
                                                                'contact_id'       => $dao->contact_id,
                                                                'register_date'    => $dao->register_date,
-                                                               'registered_by_id' => $dao->registered_by_id,
+                                                               'registered_by_id' => $dao->registered_by_id
                                                                );
             
             $eventIds[$dao->event_id]     = $dao->event_id;

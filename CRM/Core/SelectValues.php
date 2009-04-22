@@ -609,14 +609,14 @@ class CRM_Core_SelectValues
                                  );
             $customFields = array();
             $customFields = CRM_Core_BAO_CustomField::getFields('Individual');
-
+            
             foreach($values as $key => $val) {
                 if ( in_array($val, $skipTokens) ) {
                     continue;
                 } 
                 //keys for $tokens should be constant. $token Values are changed for Custom Fields. CRM-3734
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $val )  ) {
-                    $tokens["{contact.$val}"] = "{contact.".$customFields[$customFieldId][groupTitle].": ".$customFields[$customFieldId][label]."}";
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $val ) ) {
+                    $tokens["{contact.$val}"] = "{contact.".$customFields[$customFieldId]['groupTitle'].": ".$customFields[$customFieldId]['label']."}";
                 } else {
                     $tokens["{contact.$val}"] = "{contact.$val}";
                 }
@@ -632,6 +632,7 @@ class CRM_Core_SelectValues
                 }
             }
         }
+        
         return $tokens;
     }
 }
