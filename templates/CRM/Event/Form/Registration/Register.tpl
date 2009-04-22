@@ -192,5 +192,9 @@
         }
     }
 
+    {/literal}{if $hasAdditionalParticipants}{literal}
+	show( 'noOfparticipants' );
+	hide( 'noOfparticipants_show' );
+    {/literal} {/if}{literal}
 </script>
 {/literal} 

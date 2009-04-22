@@ -70,7 +70,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         self::checkRegistration(null , $this);
 
         require_once 'CRM/Event/BAO/Participant.php';
-        $this->_availableRegistrations = CRM_Event_BAO_Participant::eventfull( $this->_values['event']['id'], true );
+        $this->_availableRegistrations = CRM_Event_BAO_Participant::eventFull( $this->_values['event']['id'], true );
         
         if ( $this->_availableRegistrations ) {
             $this->assign( 'availableRegistrations', $this->_availableRegistrations );
@@ -126,7 +126,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             
             require_once 'CRM/Core/BAO/UFGroup.php';
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
-
+            
             // use primary email address if billing email address is empty
             if ( empty( $this->_defaults["email-{$this->_bltID}"] ) &&
                  ! empty( $this->_defaults["email-Primary"] ) ) {
@@ -198,12 +198,18 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
 
         //set default participant fields, CRM-4320.
+        $hasAdditionalParticipants = false;
         if ( $this->_allowConfirmation ) { 
             require_once 'CRM/Event/Form/EventFees.php';
             $this->_contactID = $contactID;
             $this->_defaults = array_merge( $this->_defaults, CRM_Event_Form_EventFees::setDefaultValues( $this ) );
+            if ( $this->_additionalParticipantIds  ) {
+                $hasAdditionalParticipants = true;
+                $this->_defaults['additional_participants'] = count( $this->_additionalParticipantIds );
+            }
         }
-
+        $this->assign( 'hasAdditionalParticipants', $hasAdditionalParticipants );
+        
 //         //hack to simplify credit card entry for testing
 //         $this->_defaults['credit_card_type']     = 'Visa';
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
@@ -229,8 +235,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
                     array( 'size' => 30, 'maxlength' => 60 ), true );
+        
         if ( $this->_values['event']['is_multiple_registrations'] ) {
-            $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'onKeyup' => "allowParticipant()", 'size' => 10, 'maxlength' => 10) );
+            $element = $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'onKeyup' => "allowParticipant()", 'size' => 10, 'maxlength' => 10) );
+            if ( $this->_additionalParticipantIds ) {
+                $element->freeze( );
+            }
         }
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
@@ -551,6 +561,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         //make as paylater since we are not taking payment at this time.
         if ( ( $this->_requireApproval || $this->_hasWaitlisting ) && !$this->_allowConfirmation ) { 
             $params['is_pay_later'] = true;
+        }
+        
+        //carry participant id if pre-registered.
+        if ( $this->_allowConfirmation && $this->_participantId ) {
+            $params['participant_id'] = $this->_participantId;
         }
         
         $params ['defaultRole'] = 1;

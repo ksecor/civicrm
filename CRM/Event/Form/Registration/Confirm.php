@@ -427,7 +427,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             
             //Unset ContactID for additional participants and set RegisterBy Id.
             if ( !CRM_Utils_Array::value( 'is_primary', $value ) ) {
-                $contactID = null;
+                $contactID = CRM_Utils_Array::value( 'contact_id', $value );
                 $registerByID = $this->get( 'registerByID' );
                 if ( $registerByID ) {
                     $value['registered_by_id'] = $registerByID;

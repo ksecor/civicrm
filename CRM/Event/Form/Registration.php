@@ -88,7 +88,16 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @public
      */
     public $_hasWaitlisting;
-    
+
+    /**
+     * store additional participant ids
+     * when there are pre-registered.
+     *
+     * @var array
+     * @public
+     */
+    public $_additionalParticipantIds ;
+      
     /**
      * the mode that we are in
      * 
@@ -196,6 +205,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         // check for waitlisting.
         $this->_hasWaitlisting = $this->get( 'hasWaitlisting' );
         
+        //get the additional participant ids.
+        $this->_additionalParticipantIds = $this->get( 'additionalParticipantIds' );
+        
         $config  =& CRM_Core_Config::singleton( );
         
         if ( ! $this->_values ) {
@@ -238,6 +250,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
             
             require_once 'CRM/Event/BAO/Participant.php';
+            //check for additional participants.
+            if ( $this->_allowConfirmation && $this->_values['event']['is_multiple_registrations'] ) {
+                $this->_additionalParticipantIds = CRM_Event_BAO_Participant::getAdditionalParticipantIds($this->_participantId);
+                $this->set( 'additionalParticipantIds', $this->_additionalParticipantIds );
+            }
+            
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
             $this->_hasWaitlisting = false;
             if ( $eventFull && !$this->_allowConfirmation ) {
@@ -747,7 +765,8 @@ WHERE  v.option_group_id = g.id
             $registerDate = CRM_Utils_Date::format( $params['participant_register_date'] ); 
         }
         
-        $participantParams = array('contact_id'    => $contactID,
+        $participantParams = array('id'            => CRM_Utils_Array::value( 'participant_id', $params ),
+                                   'contact_id'    => $contactID,
                                    'event_id'      => $this->_eventId ? $this->_eventId : $params['event_id'],
                                    'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
                                                                               $params, 1 ),
@@ -777,7 +796,8 @@ WHERE  v.option_group_id = g.id
         
         // reuse id if one already exists for this one (can happen
         // with back button being hit etc)
-        if ( CRM_Utils_Array::value( 'contributionID', $params ) ) {
+        if ( !$participantParams['id'] &&
+             CRM_Utils_Array::value( 'contributionID', $params ) ) {
             $pID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                 $params['contributionID'], 
                                                 'participant_id', 

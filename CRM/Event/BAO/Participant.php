@@ -697,13 +697,16 @@ WHERE  civicrm_participant.id = {$participantId}
         }
         
         $query = "
-SELECT  participant.id
-  FROM  civicrm_participant participant
- WHERE  participant.registered_by_id={$primaryParticipantId}";
+  SELECT  participant.id
+    FROM  civicrm_participant participant
+   WHERE  participant.registered_by_id={$primaryParticipantId}
+ORDER BY  participant.id";
         
         $dao = CRM_Core_DAO::executeQuery( $query );
+        $cnt = 1;
         while ( $dao->fetch( ) ) {
-            $additionalParticipantIds[$dao->id] = $dao->id;
+            $additionalParticipantIds[$cnt] = $dao->id;
+            $cnt++;
         }
         
         return $additionalParticipantIds;
