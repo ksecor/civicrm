@@ -145,14 +145,40 @@ class CRM_Report_Form extends CRM_Core_Form {
             foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( isset($field['required']) ) {
                     if ( isset($table['grouping']) ) { 
-                        $defaults["select_columns[{$table['grouping']}][$fieldName]"] = 1;
+                        $group = $table['grouping'];
                     } else {
-                        $defaults["select_columns[$tableName][$fieldName]"] = 1;
+                        $group = $tableName;
+                    }
+                    // set default
+                    $defaults['select_columns'][$group][$fieldName] = 1;
+
+                    // find element object, so that we could use quickform's freeze method 
+                    // for required elements
+                    $obj = $this->getElementFromGroup("select_columns[{$table['grouping']}]", 
+                                                      $fieldName);
+                    if ( $obj ) {
+                        $freezeGroup[] = $obj;
                     }
                 }
             }
         }
+
+        // lets finish freezing task here itself
+        foreach ( $freezeGroup as $elem ) {
+            $elem->freeze();
+        }
+
         return $defaults;
+    }
+
+    function getElementFromGroup( $group, $grpFieldName ) {
+        $eleObj = $this->getElement( $group );
+        foreach ( $eleObj->_elements as $index => $obj ) {
+            if ( $grpFieldName == $obj->_attributes['name']) {
+                return $obj;
+            }
+        }
+        return false;
     }
 
     function addColumns( ) {

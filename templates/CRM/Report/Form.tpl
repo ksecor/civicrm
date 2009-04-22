@@ -39,10 +39,6 @@
 
 {literal}
 <script type="text/javascript">
-   cj(function() {
-      cj("[type=checkbox]:checked").attr('disabled', true);
-   });
-
    {/literal}
    {foreach from=$filters     item=table key=tableName}
    {foreach from=$table       item=field key=fieldName}
