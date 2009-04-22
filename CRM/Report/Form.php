@@ -266,9 +266,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         default:
             if ( $value !== null &&
                  strlen( $value ) > 0 ) {
-                $value  = CRM_Utils_Type::escape( $value, $field['type'] );
+                $value  = CRM_Utils_Type::escape( $value,
+                                                  CRM_Utils_Type::typeToString( $field['type'] ) );
                 $sqlOP  = self::getSQLOperator( $op );
-                if ( $field['type'] == 'String' ) {
+                if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
                     if ( $sqlOP == 'LIKE' &&
                          strpos( '%', $value ) === false ) {
                         $value = "'%{$value}%'";

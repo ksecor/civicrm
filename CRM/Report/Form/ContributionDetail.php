@@ -111,9 +111,9 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
 
         $this->_columnHeaders = array( );
         foreach ( $this->_columns as $tableName => $table ) {
-            foreach ( $table['fields'] as $fieldName=> $field ) {
+            foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( CRM_Utils_Array::value( 'required', $field ) ||
-                     CRM_Utils_Array::value( $fieldName, $this->_params ) ) {
+                     CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'] ) ) {
                     if ( $tableName == 'civicrm_address' ) {
                         $this->_addressField = true;
                     } else if ( $tableName == 'civicrm_email' ) {
@@ -150,6 +150,7 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
         $clauses = array( );
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['filters'] as $fieldName=> $field ) {
+                $clause = null;
                 if ( $field['type'] == 'date' ) {
                     $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                     $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
@@ -174,6 +175,7 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
                 }
             }
         }
+
 
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
