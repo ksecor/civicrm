@@ -1,13 +1,14 @@
 <div id="searchForm">
 <fieldset><legend>{ts}Select Columns{/ts}</legend>
-    <table class="form-layout"><tr><td>{$form.select_columns.html}</td></tr></table>
+   {foreach from=$colGroups item=grp key=dnc}
+   {if $dnc neq 0}<br/>{/if}
+   <table class="form-layout"><tr><td width="25%">{$form.select_columns[$grp].html}</td></tr></table>
+   {/foreach}
 </fieldset>
 
 <fieldset><legend>{ts}Options{/ts}</legend>
    <table class="form-layout">
-   {foreach from=$options     item=field key=fieldName}
-      <tr><td>{$form.$fieldName.html}</td></tr>
-   {/foreach}
+      <tr><td>{$form.options.html}</td></tr>
    </table>
 </fieldset>
 
@@ -38,6 +39,10 @@
 
 {literal}
 <script type="text/javascript">
+   cj(function() {
+      cj("[type=checkbox]:checked").attr('disabled', true);
+   });
+
    {/literal}
    {foreach from=$filters     item=table key=tableName}
    {foreach from=$table       item=field key=fieldName}
@@ -57,9 +62,5 @@
         cj('#' + fldMinMax ).hide();
       }
    }
-
-   cj(function() {
-      cj("[type=checkbox]:checked").attr('disabled', true);
-   });
 </script>
 {/literal}

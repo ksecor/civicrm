@@ -144,7 +144,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( isset($field['required']) ) {
-                    $defaults["select_columns[$fieldName]"] = 1;
+                    if ( isset($table['grouping']) ) { 
+                        $defaults["select_columns[{$table['grouping']}][$fieldName]"] = 1;
+                    } else {
+                        $defaults["select_columns[$tableName][$fieldName]"] = 1;
+                    }
                 }
             }
         }
@@ -158,12 +162,22 @@ class CRM_Report_Form extends CRM_Core_Form {
             require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['dao'] .'.php' );
             eval( "\$impFields = {$table['dao']}::import( );");
             foreach ( $table['fields'] as $fieldName => $field ) {
-                $options[$field['title']] = $fieldName;
+                if ( isset($table['grouping']) ) { 
+                    $options[$table['grouping']][$field['title']] = $fieldName;
+                } else {
+                    $options[$tableName][$field['title']] = $fieldName;
+                }
             } 
         }
-        $this->addCheckBox( 'select_columns', ts('Select Columns'), $options, null, 
-                            null, null, null, array('</td><td>', '</td><td>', 
-                                                    '</td><td>', '</tr><tr><td>') );
+        
+        $colGroups = array( );
+        foreach ( $options as $grp => $grpOptions ) {
+            $this->addCheckBox( "select_columns[$grp]", ts('Select Columns'), $grpOptions, null, 
+                                null, null, null, array('</td><td width="25%">', '</td><td width="25%">', 
+                                                        '</td><td width="25%">', '</tr><tr><td>') );
+            $colGroups[] = $grp;
+        }
+        $this->assign( 'colGroups', $colGroups );
     }
 
     function addFilters( ) {
@@ -204,16 +218,15 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function addOptions( ) {
         if ( !empty( $this->_options ) ) {
+            // FIXME: For now lets build all elements as checkboxes. 
+            // Once we clear with the format we can build elements based on type
+
             foreach ( $this->_options as $fieldName => $field ) {
                 $options = array( $field['title'] => $fieldName );
-                switch ( strtolower($field['type']) ) {
-                case "checkbox" :
-                    $this->addCheckBox( "$fieldName", $field['title'], $options, null, 
-                                        null, null, null, array('</td><td>', '</td><td>', 
-                                                                '</td><td>', '</tr><tr><td>') );
-                    break;
-                }
             }
+            $this->addCheckBox( "options", $field['title'], $options, null, 
+                                null, null, null, array('</td><td>', '</td><td>', 
+                                                        '</td><td>', '</tr><tr><td>') );
             $this->assign( 'options', $this->_options );
         }
     }

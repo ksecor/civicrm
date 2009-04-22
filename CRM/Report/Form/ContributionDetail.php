@@ -45,14 +45,15 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
 
     function __construct( ) {
         $this->_columns = array( 'civicrm_contact'      =>
-                                 array( 'dao'    => 'CRM_Contact_DAO_Contact',
-                                        'fields' =>
+                                 array( 'dao'     => 'CRM_Contact_DAO_Contact',
+                                        'fields'  =>
                                         array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
                                                                         'required'  => true ) ),
                                         'filters' =>             
                                         array('sort_name'    => 
                                               array( 'title'      => ts( 'Contact Name' ),
                                                      'operator'   => 'like' ) ),
+                                        'grouping'=> 'contact-fields',
                                         ),
                                  
                                  'civicrm_contribution' =>
@@ -70,6 +71,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                                'total_amount' => 
                                                array( 'title'      => ts( 'Aggregate Total Between' ) ),
                                                ),
+                                        'grouping'=> 'contri-fields',
                                         ),
 
                                  'civicrm_address' =>
@@ -81,12 +83,14 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                                'state_province_id' => array( 'title' => ts( 'State/Province' ) ),
                                                'country_id'        => array( 'title' => ts( 'Country' ) ),
                                                ),
+                                        'grouping'=> 'contact-fields',
                                         ),
 
                                  'civicrm_email' => 
                                  array( 'dao' => 'CRM_Core_DAO_Email',
                                         'fields' =>
-                                        array( 'email' => null)
+                                        array( 'email' => null),
+                                        'grouping'=> 'contact-fields',
                                         ),
                                  );
 
@@ -112,7 +116,8 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( CRM_Utils_Array::value( 'required', $field ) ||
-                     CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'] ) ) {
+                     CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$table['grouping']] ) ||
+                     CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
                     if ( $tableName == 'civicrm_address' ) {
                         $this->_addressField = true;
                     } else if ( $tableName == 'civicrm_email' ) {
