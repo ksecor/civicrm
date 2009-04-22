@@ -89,44 +89,45 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function preProcess( ) {
         foreach ( $this->_columns as $tableName => $table ) {
-            // add alias
+            // set alias
             if ( ! isset( $table['alias'] ) ) {
                 $this->_columns[$tableName]['alias'] = substr( $tableName, 8 );
             }
-
             $this->_aliases[$tableName] = $this->_columns[$tableName]['alias'];
 
             // get export fields
             require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['dao'] .'.php' );
             eval( "\$impFields = {$table['dao']}::export( );");
 
-            foreach ( $impFields as $fieldName => $field ) {
-                // prepare columns
-                if ( array_key_exists($fieldName, $this->_columns[$tableName]['fields']) ) {
-                    if ( empty($this->_columns[$tableName]['fields'][$fieldName]) ) {
+            // prepare columns
+            foreach ( $table['fields'] as $fieldName => $field ) {
+                if ( array_key_exists($fieldName, $impFields) ) {
+                    if ( empty($field) ) {
                         $this->_columns[$tableName]['fields'][$fieldName] = $impFields[$fieldName];
                     } else {
-                        foreach ( $field as $property => $val ) {
-                            if ( ! array_key_exists($property, $this->_columns[$tableName]['fields'][$fieldName]) ) {
-                                $this->_columns[$tableName]['fields'][$fieldName][$property]  = $val;
+                        foreach ( $impFields[$fieldName] as $property => $val ) {
+                            if ( ! array_key_exists($property, $field) ) {
+                                $this->_columns[$tableName]['fields'][$fieldName][$property] = $val;
                             }
                         }
                     }
                 }
+            }
 
-                // prepare filters
-                if ( is_array($this->_columns[$tableName]['filters']) && 
-                     array_key_exists($fieldName, $this->_columns[$tableName]['filters']) ) {
-                    if ( empty($this->_columns[$tableName]['filters'][$fieldName]) ) {
-                        $this->_columns[$tableName]['filters'][$fieldName] = $impFields[$fieldName];
-                    } else {
-                        foreach ( $field as $property => $val ) {
-                            if ( ! array_key_exists($property, $this->_columns[$tableName]['filters'][$fieldName]) ) {
-                                $this->_columns[$tableName]['filters'][$fieldName][$property] = $val;
+            // prepare filters
+            if ( array_key_exists('filters', $table) ) {
+                foreach ( $table['filters'] as $fieldName => $field ) {
+                    if ( array_key_exists($fieldName, $impFields) ) {
+                        if ( empty($field) ) {
+                            $this->_columns[$tableName]['filters'][$fieldName] = $impFields[$fieldName];
+                        } else {
+                            foreach ( $impFields[$fieldName] as $property => $val ) {
+                                if ( ! array_key_exists($property, $field) ) {
+                                    $this->_columns[$tableName]['filters'][$fieldName][$property] = $val;
+                                }
                             }
                         }
                     }
-                    $this->_columns[$tableName]['filters'][$fieldName]['name'] = "{$this->_aliases[$tableName]}.{$fieldName}";
                 }
             }
             
@@ -135,7 +136,6 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $this->_filters[$tableName] = $this->_columns[$tableName]['filters'];
             }
         }
-
     }
 
     function setDefaultValues( ) {
