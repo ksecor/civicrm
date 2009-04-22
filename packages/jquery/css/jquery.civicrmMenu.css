@@ -47,6 +47,10 @@ ul.civicrm_menu ul li:hover, #civicrm_menu ul li:hover {
     text-decoration:none;
 }
 
+li#crm-qsearch {
+    background-color:#ffffff;
+}
+
 ul.civicrm_menu_slate {
 	clear: both;
 	width: 100%;
