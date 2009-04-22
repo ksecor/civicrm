@@ -307,7 +307,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
     {
         // consider event is full when. 
         // 1. (count(is_counted) >= event_size) or 
-        // 2. (count(participants-with-status-on-waitlist) >= 0)
+        // 2. (count(participants-with-status-on-waitlist) > 0)
         // It might be case there are some empty spaces and still event
         // is full, as waitlist might represent group require spaces > empty.
         
