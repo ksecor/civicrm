@@ -23,10 +23,9 @@ class CiviUnitTestCase extends DrupalTestCase {
     */
     function assertDBState( $daoName, $id, $match, $delete=false ) {
         if ( empty( $id ) ) {
-            // adding this year since developers forget to check for an id
+            // adding this here since developers forget to check for an id
             // and hence we get the first value in the db
-            CRM_Core_Error::fatal( 'Please file an issue with the backtrace.' );
-            return null;
+            $this->fail( 'ID not populated. Please fix your asserDBState usage!!!' );
         }
         
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");

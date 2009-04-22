@@ -80,7 +80,7 @@ function civicrm_contact_memberships_get(&$contactID)
     return civicrm_membership_contact_get($contactID);
 }
 
-function civicrm_membership_contact_create(&$params)
+function civicrm_contact_membership_create(&$params)
 {
     return civicrm_membership_contact_create($params);
 }
