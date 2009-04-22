@@ -62,6 +62,15 @@
 
 {if $rows}
 <br/>
+   {if $statistics}
+   <table class="report">
+   <tr class="columnheader-dark"><th colspan=2>Statistics</th></tr>
+   {foreach from=$statistics item=stats key=statName}
+      <tr><td><strong>{$stats.title}</strong></td><td>{$stats.value}</td></tr>
+   {/foreach}
+   </table>
+   {/if}
+
    <table class="form-layout">
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header key=field}

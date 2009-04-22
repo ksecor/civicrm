@@ -201,9 +201,13 @@ SELECT COUNT( contribution.total_amount ) as count,
 
         $statistics = null;
         if ( $dao->fetch( ) ) {
-            $statistics = array( 'count'  => $dao->count,
-                                 'amount' => $dao->amount,
-                                 'avg'    => $dao->avg );
+            $statistics = array( 'count'  => array( 'value' => $dao->count,
+                                                    'title' => 'Count' ),
+                                 'amount' => array( 'value' => $dao->amount,
+                                                    'title' => 'Total Amount' ),
+                                 'avg'    => array( 'value' => $dao->avg,
+                                                    'title' => 'Average' ),
+                                 );
         }
         
         return $statistics;
@@ -234,7 +238,7 @@ SELECT COUNT( contribution.total_amount ) as count,
 /*         CRM_Core_Error::debug( '$rows', $rows ); */
 /*         CRM_Core_Error::debug( '$this->_columnHeaders', $this->_columnHeaders  ); */
 /*         CRM_Core_Error::debug( 'statistics', $this->statistics( ) ); */
-        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params ) ) {
+        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
             $this->assign( 'statistics',
                            $this->statistics( ) );
         }
