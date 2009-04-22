@@ -1052,6 +1052,65 @@ class CRM_Utils_Date
         return $dateRange;
     }
 
+    /**
+     * splits the given date range into given units
+     *
+     * @param  array $from          start date for the time frame to be splitted
+     * @param  array $to            end date for the time frame to be splitted
+     * @param  int   $unit          frequency unit like year, month, week etc..
+     * @return array $dateSplitted  array of dates having splitted time period between 
+     *                              from date and to date on the basis of unit
+     * @static
+     */
+    function splitIntoInterval( $from, $to, $unit ) 
+    {
+        $fromFormat = self::format($from);
+        $toFormat   = self::format($to);
+        
+        //compare to ensure from date > to date 
+        if ( self::overdue( $toFormat, $fromFormat ) == true ) {
+            return false;
+        }
+        
+        switch( $unit ) {
+        case 'month':
+            $i = 0;
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => array( 'd' => cal_days_in_month(CAL_GREGORIAN, $from['M'], $from['Y']),
+                                                        'M' => $from['M'],
+                                                        'Y' => $from['Y']
+                                                        ) );
+            
+            // check whether the month  end date  < to date         
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i] = array ('from' => self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true ));
+                $dateSplitted[$i]['to'] = array(
+                                                'd' => cal_days_in_month(CAL_GREGORIAN, $dateSplitted[$i]['from']['M'], $dateSplitted[$i]['from']['Y']),
+                                                'M' => $dateSplitted[$i]['from']['M'],
+                                                'Y' => $dateSplitted[$i]['from']['Y']
+                                                );
+            }
+            $dateSplitted[$i]['to'] = $to;
+            break;
+
+        case 'day'  :
+            break;
+            
+        case 'year' :
+            break;
+
+        case 'quarter':
+            break;
+
+        case 'week':
+            break;
+        } 
+        
+        //CRM_Core_Error::debug( '$dateSplitted', $dateSplitted );
+        return $dateSplitted;
+    }
+
     static function isDate( &$date ) 
     {
         if ( ! is_array( $date )                    ||
@@ -1264,7 +1323,7 @@ class CRM_Utils_Date
      * @return array $result contains new date with added interval
      * @access public
      */
-    function intervalAdd($unit, $interval, $date) 
+    function intervalAdd($unit, $interval, $date, $dontCareTime = false ) 
     {  
         $hours   = $date['H'];
         $minutes = $date['i'];
@@ -1299,10 +1358,11 @@ class CRM_Utils_Date
         $date['M'] = $scheduleDate[0];
         $date['d'] = $scheduleDate[1];
         $date['Y'] = $scheduleDate[2];
-        $date['H'] = $scheduleDate[3];
-        $date['i'] = $scheduleDate[4];
-        $date['s'] = $scheduleDate[5];
-                       
+        if ( $dontCareTime == false) {
+            $date['H'] = $scheduleDate[3];
+            $date['i'] = $scheduleDate[4];
+            $date['s'] = $scheduleDate[5];
+        }
         return $date;
     }
     
