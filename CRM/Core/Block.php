@@ -50,12 +50,11 @@ class CRM_Core_Block {
     const
         MENU       =   1,
         SHORTCUTS  =   2,
-        SEARCH     =   3,
-        ADD        =   4,
-        LANGSWITCH =   5,
-        EVENT      =   6,
-        FULLTEXT_SEARCH = 7,
-        RECENTLY_VIEWED = 8;
+        ADD        =   3,
+        LANGSWITCH =   4,
+        EVENT      =   5,
+        FULLTEXT_SEARCH = 6,
+        RECENTLY_VIEWED = 7;
     
     /**
      * template file names for the above blocks
@@ -96,14 +95,6 @@ class CRM_Core_Block {
                                        self::ADD         => array( 'template'   => 'Add.tpl',
                                                                    'info'       => ts('CiviCRM Quick Add'),
                                                                    'subject'    => ts('New Individual'),
-                                                                   'active'     => true,
-                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
-                                                                   'visibility' => 1,
-                                                                   'pages'      => 'civicrm*',
-                                                                   'region'     => 'left' ),
-                                       self::SEARCH      => array( 'template'   => 'Search.tpl',
-                                                                   'info'       => ts('CiviCRM Search'),
-                                                                   'subject'    => ts('Contact Search'),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
@@ -264,20 +255,6 @@ class CRM_Core_Block {
             self::setProperty( self::ADD,
                                'templateValues',
                                $values );
-            break;
-
-        case self::SEARCH:
-            $urlArray = array(
-                'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic',
-                                                              'reset=1', false, null, false ) ,
-                'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
-                                                              'reset=1', false ),
-                'dataURL'           => CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                              'reset=1', false, null, false ),
-                'viewContactURL'    => CRM_Utils_System::url( 'civicrm/contact/view',
-                                                              'reset=1' ) ,
-            );
-            self::setProperty( self::SEARCH, 'templateValues', $urlArray );
             break;
 
         case self::FULLTEXT_SEARCH:
