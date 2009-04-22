@@ -239,7 +239,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->addOptions( );
 
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => 'submit',
                                          'name'      => ts('Generate Report'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',

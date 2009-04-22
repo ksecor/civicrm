@@ -64,3 +64,24 @@
    }
 </script>
 {/literal}
+
+{if $rows}
+<br/>
+<fieldset><legend>{ts}Result Set{/ts}</legend>
+   <table class="form-layout">
+      <tr class="columnheader">
+      {foreach from=$columnHeaders item=header key=field}
+         <th>{$header}</th>
+      {/foreach}
+      </tr>
+
+      {foreach from=$rows item=row}
+      <tr class="{cycle values="odd-row,even-row"}">
+         {foreach from=$columnHeaders item=header key=field}
+            <td>{$row.$field}</td>
+         {/foreach}
+      </tr>
+      {/foreach}
+   </table>
+</fieldset>
+{/if}

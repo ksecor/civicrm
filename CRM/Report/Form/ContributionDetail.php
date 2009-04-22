@@ -153,40 +153,41 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
     function where( ) {
         $clauses = array( );
         foreach ( $this->_columns as $tableName => $table ) {
-            foreach ( $table['filters'] as $fieldName=> $field ) {
-                $clause = null;
-                if ( $field['type'] == 'date' ) {
-                    $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
-                    $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
-                    $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
+            if ( array_key_exists('filters', $table) ) {
+                foreach ( $table['filters'] as $fieldName=> $field ) {
+                    $clause = null;
+                    if ( $field['type'] == 'date' ) {
+                        $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
+                        $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
+                        $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
+                        
+                        if ( $relative || $from || $to ) {
+                            $clause = $this->dateClause( $field, $relative, $from, $to );
+                        }
+                    } else {
+                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                        if ( $op ) {
+                            $clause = 
+                                $this->whereClause( $field,
+                                                    $op,
+                                                    CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                        }
+                    }
                     
-                    if ( $relative || $from || $to ) {
-                        $clause = $this->dateClause( $field, $relative, $from, $to );
+                    if ( ! empty( $clause ) ) {
+                        $clauses[] = $clause;
                     }
-                } else {
-                    $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
-                    if ( $op ) {
-                        $clause = $this->whereClause( $field,
-                                                      $op,
-                                                      CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
-                                                      CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                      CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
-                    }
-                }
-
-                if ( ! empty( $clause ) ) {
-                    $clauses[] = $clause;
                 }
             }
         }
-
 
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
-
     }
 
 
@@ -231,16 +232,16 @@ SELECT COUNT( contribution.total_amount ) as count,
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
 
-        CRM_Core_Error::debug( $rows );
-        CRM_Core_Error::debug( $this->_columnHeaders  );
-        CRM_Core_Error::debug( $this->statistics( ) );
+/*         CRM_Core_Error::debug( '$rows', $rows ); */
+/*         CRM_Core_Error::debug( '$this->_columnHeaders', $this->_columnHeaders  ); */
+/*         CRM_Core_Error::debug( 'statistics', $this->statistics( ) ); */
         if ( CRM_Utils_Array::value( 'include_statistics', $this->_params ) ) {
             $this->assign( 'statistics',
                            $this->statistics( ) );
         }
 
-        CRM_Core_Error::debug( $sql );
-        exit( );
+/*         CRM_Core_Error::debug( '$sql', $sql ); */
+/*         exit( ); */
     }
 
 }
