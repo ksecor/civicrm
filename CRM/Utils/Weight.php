@@ -194,7 +194,7 @@ class CRM_Utils_Weight {
             if ( $newWeight > $calMaxWt ) {
                 $newWeight = $calMaxWt;
             }
-        } else {
+        } elseif( !empty($weights) ) {
             $newWeight = max( $weights );
         }
         
