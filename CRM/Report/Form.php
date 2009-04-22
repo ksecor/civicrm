@@ -194,8 +194,9 @@ class CRM_Report_Form extends CRM_Core_Form {
                 case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
                 case CRM_Utils_Type::T_DATE :
                     // build datetime fields
-                    CRM_Core_Form_Date::buildDateRange( $this );
+                    CRM_Core_Form_Date::buildDateRange( $this, $fieldName );
                     break;
+
                 default:
                     // default type is string
                     $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
@@ -307,8 +308,10 @@ class CRM_Report_Form extends CRM_Core_Form {
                  strlen( $min ) > 0 &&
                  $max !== null &&
                  strlen( $max ) > 0 ) {
-                $min = CRM_Utils_Type::escape( $min, $field['type'] );
-                $max = CRM_Utils_Type::escape( $max, $field['type'] );
+                $min = CRM_Utils_Type::escape( $min,
+                                               CRM_Utils_Type::typeToString( $field['type'] ) );
+                $max = CRM_Utils_Type::escape( $max,
+                                               CRM_Utils_Type::typeToString( $field['type'] ) );
                 $clause = "( ( {$field['name']} >= $min ) AND ( {$field['name']} <= $max ) )";
             }
             break;
@@ -359,7 +362,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( ! empty( $to ) ) {
             $revDate = array_reverse( $to );
             $date    = CRM_Utils_Date::format( $revDate );
-            $clauses[] = "( {$field['name']} >= $to )";
+            $clauses[] = "( {$field['name']} <= $date )";
         }
 
         if ( ! empty( $clauses ) ) {

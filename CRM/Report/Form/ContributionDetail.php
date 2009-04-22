@@ -154,9 +154,9 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
         $clauses = array( );
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('filters', $table) ) {
-                foreach ( $table['filters'] as $fieldName=> $field ) {
+                foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( $field['type'] == 'date' ) {
+                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
@@ -200,6 +200,7 @@ SELECT COUNT( contribution.total_amount ) as count,
 
         $sql = "{$select} {$this->_from} {$this->_where}";
         $dao = CRM_Core_DAO::executeQuery( $sql );
+
         $statistics = null;
         if ( $dao->fetch( ) ) {
             $statistics = array( 'count'  => $dao->count,

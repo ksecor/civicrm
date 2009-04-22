@@ -21,7 +21,7 @@
       {assign var=filterMin   value=$fieldName|cat:"_min"}
       {assign var=filterMax   value=$fieldName|cat:"_max"}
       {if $field.type eq 12}
-         <tr><td style="vertical-align: top;">{$field.title}</td><td colspan=2>{include file="CRM/Core/DateRange.tpl"}</td></tr>
+         <tr><td style="vertical-align: top;">{$field.title}</td><td colspan=2>{include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}</td></tr>
       {else}
          <tr><td width="20%">{$field.title}</td>
              <td width="20%">{$form.$fieldOp.html}</td>
