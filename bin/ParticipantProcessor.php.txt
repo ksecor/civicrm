@@ -32,7 +32,7 @@
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
-class CRM_EventParticipation 
+class CRM_ParticipantProcessor 
 {
     function __construct( ) 
     {
@@ -256,11 +256,11 @@ class CRM_EventParticipation
             
             //support different templates for both mails.
             if ( $isExpiredMail ) {
-                $subject = $template->fetch( 'CRM/Event/Form/ParticipationExpiredSubject.tpl' );
-                $message = $template->fetch( 'CRM/Event/Form/ParticipationExpiredMessage.tpl' );
+                $subject = $template->fetch( 'CRM/Event/Form/ParticipantExpiredSubject.tpl' );
+                $message = $template->fetch( 'CRM/Event/Form/ParticipantExpiredMessage.tpl' );
             } else {
-                $subject = $template->fetch( 'CRM/Event/Form/ParticipationConfirmSubject.tpl' );
-                $message = $template->fetch( 'CRM/Event/Form/ParticipationConfirmMessage.tpl' );
+                $subject = $template->fetch( 'CRM/Event/Form/ParticipantConfirmSubject.tpl' );
+                $message = $template->fetch( 'CRM/Event/Form/ParticipantConfirmMessage.tpl' );
             }
             
             //take a receipt from as event else domain.
@@ -315,7 +315,7 @@ class CRM_EventParticipation
     
 }
 
-$obj =& new CRM_EventParticipation( );
+$obj =& new CRM_ParticipantProcessor( );
 echo "Updating<br />";
 $obj->updateParticipantStatus( );
 echo "<br /><br />Participant records updated. (Done)";
