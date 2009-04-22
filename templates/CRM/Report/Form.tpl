@@ -49,5 +49,9 @@
         cj('#' + fldMinMax ).hide();
       }
    }
+
+   cj(function() {
+      cj("[type=checkbox]:checked").attr('disabled', true);
+   });
 </script>
 {/literal}

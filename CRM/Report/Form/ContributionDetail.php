@@ -102,9 +102,8 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
     }
 
     function setDefaultValues( ) {
-        $this->setDefaults( );
+        return parent::setDefaultValues( );
     }
-
 
     function select( ) {
         $select = array( );

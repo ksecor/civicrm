@@ -132,6 +132,18 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->assign( 'filters', $this->_filters );
     }
 
+    function setDefaultValues( ) {
+        $defaults = array();
+
+        foreach ( $this->_columns as $tableName => $table ) {
+            foreach ( $table['fields'] as $fieldName => $field ) {
+                if ( isset($field['required']) ) {
+                    $defaults["select_columns[$fieldName]"] = 1;
+                }
+            }
+        }
+        return $defaults;
+    }
 
     function addColumns( ) {
         $options = array();
