@@ -728,9 +728,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addButtons( $buttons );
     }
 
-    function addDateRange( $name, $label, $dateFormat = 'relative', $required = null ) {
-        $this->add('date', $name . '_from', $label . ' - ' .ts('From'), CRM_Core_SelectValues::date($dateFormat)); 
-        $this->add('date', $name . '_to', ts('To'), CRM_Core_SelectValues::date($dateFormat)); 
+    function addDateRange( $name, $label = 'From:', $dateFormat = 'relative', $required = null ) {
+        $this->add('date', $name . '_from', $label, CRM_Core_SelectValues::date($dateFormat)); 
+        $this->add('date', $name . '_to', ts('To:'), CRM_Core_SelectValues::date($dateFormat)); 
         
         if ( $required ) {
             foreach ( array ( 'from', 'to' ) as $key ) { 

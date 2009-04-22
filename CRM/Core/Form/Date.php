@@ -128,7 +128,7 @@ Class CRM_Core_Form_Date
         $form->add('select', 'relative_date_range', ts('Relative Date Range'), $selector, false,
                    array('onclick' => 'showAbsoluteRange(this.value);'));
         
-        $form->addDateRange('absolute_date', ts('Absolute Date'), 'relative' );
+        $form->addDateRange('absolute_date');
     }
 
 }

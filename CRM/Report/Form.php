@@ -150,6 +150,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function addFilters( ) {
         require_once 'CRM/Utils/Date.php';
+        require_once 'CRM/Core/Form/Date.php';
         $options = array();
 
         foreach ( $this->_filters as $table => $attributes ) {
@@ -161,6 +162,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                 case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
                 case CRM_Utils_Type::T_DATE :
                     // build datetime fields
+                    CRM_Core_Form_Date::buildDateRange( $this );
                     break;
                 default:
                     // default type is string

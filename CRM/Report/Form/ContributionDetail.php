@@ -66,8 +66,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                                ),
                                         'filters' =>             
                                         array( 'receive_date' => 
-                                               array( 'title'      => ts( 'Date Range' ),
-                                                      'default'    => 'this month' ),
+                                               array( 'default'    => 'this month' ),
                                                'total_amount' => 
                                                array( 'title'      => ts( 'Aggregate Total Between' ) ),
                                                ),
@@ -216,7 +215,7 @@ SELECT COUNT( contribution.total_amount ) as count,
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
         while ( $dao->fetch( ) ) {
-            $row = array( ):
+            $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
             }
