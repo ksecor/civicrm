@@ -50,15 +50,20 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                                'receive_date'  => null,
                                                'receipt_date'  => null,
                                                ),
-                                        'filters' =>             
+                                        'filters'  =>             
                                         array( 'receive_date' => 
                                                array( 'default'    => 'this month' ),
                                                'total_amount' => 
                                                array( 'title'      => ts( 'Total  Amount Between' ) ),
                                                ),
-                                        'grouping'=> 'contri-fields',
-                                        ),
 
+                                        'group_bys'=>             
+                                        array( 'receive_date' => 
+                                               array( 'default'    => 'this month' ),
+                                               'contribution_source'  => null,
+                                               'contribution_type_id' => null,
+                                               ),
+                                        ),
                                  );
 
         $this->_options = array( 'include_statistics' => array( 'title' => ts( 'Include Grand Totals' ),

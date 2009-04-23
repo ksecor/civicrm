@@ -1,18 +1,28 @@
 <div id="searchForm">
-<fieldset><legend>{ts}Select Columns{/ts}</legend>
+<fieldset><legend>{ts}Display Columns{/ts}</legend>
    {foreach from=$colGroups item=grp key=dnc}
    {if $dnc neq 0}<br/>{/if}
    <table class="form-layout"><tr><td width="25%">{$form.select_columns[$grp].html}</td></tr></table>
    {/foreach}
 </fieldset>
 
-<fieldset><legend>{ts}Options{/ts}</legend>
+{if $form.options.html}
+<fieldset><legend>{ts}Other Options{/ts}</legend>
    <table class="form-layout">
-      <tr><td>{$form.options.html}</td></tr>
+      <tr><td width="25%">{$form.options.html}</td></tr>
    </table>
 </fieldset>
+{/if}
 
-<fieldset><legend>{ts}Select Filters{/ts}</legend>
+{if $form.group_bys.html}
+<fieldset><legend>{ts}Group by Columns{/ts}</legend>
+   <table class="form-layout">
+      <tr><td width="25%">{$form.group_bys.html}</td></tr>
+   </table>
+</fieldset>
+{/if}
+
+<fieldset><legend>{ts}Set Filters{/ts}</legend>
    <table class="form-layout">
    {foreach from=$filters     item=table key=tableName}
    {foreach from=$table       item=field key=fieldName}

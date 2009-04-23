@@ -81,6 +81,14 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_options = array( );
 
     /**
+     * The set of optional columns in the report
+     *
+     * @var array
+     */
+    protected $_fourColumnAttribute = array('</td><td width="25%">', '</td><td width="25%">', 
+                                            '</td><td width="25%">', '</tr><tr><td>');
+
+    /**
      * 
      */
     function __construct( ) {
@@ -131,6 +139,23 @@ class CRM_Report_Form extends CRM_Core_Form {
                 }
             }
             
+            // prepare group_bys
+            if ( array_key_exists('group_bys', $table) ) {
+                foreach ( $table['group_bys'] as $fieldName => $field ) {
+                    if ( array_key_exists($fieldName, $impFields) ) {
+                        if ( empty($field) ) {
+                            $this->_columns[$tableName]['group_bys'][$fieldName] = $impFields[$fieldName];
+                        } else {
+                            foreach ( $impFields[$fieldName] as $property => $val ) {
+                                if ( ! array_key_exists($property, $field) ) {
+                                    $this->_columns[$tableName]['group_bys'][$fieldName][$property] = $val;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // copy filters to a separate handy variable
             if ( array_key_exists('filters', $table) ) {
                 $this->_filters[$tableName] = $this->_columns[$tableName]['filters'];
@@ -154,7 +179,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
                     // find element object, so that we could use quickform's freeze method 
                     // for required elements
-                    $obj = $this->getElementFromGroup("select_columns[{$table['grouping']}]", 
+                    $obj = $this->getElementFromGroup("select_columns[$group]", 
                                                       $fieldName);
                     if ( $obj ) {
                         $freezeGroup[] = $obj;
@@ -199,8 +224,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $colGroups = array( );
         foreach ( $options as $grp => $grpOptions ) {
             $this->addCheckBox( "select_columns[$grp]", ts('Select Columns'), $grpOptions, null, 
-                                null, null, null, array('</td><td width="25%">', '</td><td width="25%">', 
-                                                        '</td><td width="25%">', '</tr><tr><td>') );
+                                null, null, null, $this->_fourColumnAttribute );
             $colGroups[] = $grp;
         }
         $this->assign( 'colGroups', $colGroups );
@@ -252,10 +276,24 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $options = array( $field['title'] => $fieldName );
             }
             $this->addCheckBox( "options", $field['title'], $options, null, 
-                                null, null, null, array('</td><td>', '</td><td>', 
-                                                        '</td><td>', '</tr><tr><td>') );
+                                null, null, null, $this->_fourColumnAttribute );
             $this->assign( 'options', $this->_options );
         }
+    }
+
+    function addGroupBys( ) {
+        $options = array( );
+        foreach ( $this->_columns as $tableName => $table ) {
+            if ( array_key_exists('group_bys', $table) ) {
+                foreach ( $table['group_bys'] as $fieldName => $field ) {
+                    if ( !empty($field) ) {
+                        $options[$field['title']] = $fieldName;
+                    }
+                }
+            }
+        }
+        $this->addCheckBox( "group_bys", ts('Group by columns'), $options, null, 
+                            null, null, null, $this->_fourColumnAttribute );
     }
 
     function buildQuickForm( ) {
@@ -264,6 +302,8 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->addFilters( );
       
         $this->addOptions( );
+
+        $this->addGroupBys( );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'submit',
@@ -282,26 +322,26 @@ class CRM_Report_Form extends CRM_Core_Form {
         switch ( $type ) {
         case CRM_Utils_Type::T_INT :
         case CRM_Utils_Type::T_MONEY :
-            return array( 'lt'  => 'Is less than', 
-                          'lte' => 'Is less than or equal to', 
-                          'eq'  => 'Is equal to', 
-                          'neq' => 'Is not equal to', 
-                          'gt'  => 'Is greater than',
+            return array( 'lte' => 'Is less than or equal to', 
                           'gte' => 'Is greater than or equal to',
                           'bw'  => 'Is between',
+                          'eq'  => 'Is equal to', 
+                          'lt'  => 'Is less than', 
+                          'gt'  => 'Is greater than',
+                          'neq' => 'Is not equal to', 
                           'nbw' => 'Is not between',
                           );
             break;
 
         default:
             // type is string
-            return array( 'like' => 'Is equal to', 
-                          'neq'  => 'Is not equal to', 
-                          'has'  => 'Contains', 
-                          'sw'   => 'Starts with', 
-                          'ew'   => 'Ends with',
-                          'nhas' => 'Does not contain', 
-                          );
+            return array('has'  => 'Contains', 
+                         'sw'   => 'Starts with', 
+                         'ew'   => 'Ends with',
+                         'nhas' => 'Does not contain', 
+                         'like' => 'Is equal to', 
+                         'neq'  => 'Is not equal to', 
+                         );
         }
     }
 
@@ -350,7 +390,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $sqlOP  = self::getSQLOperator( $op );
                 if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
                     if ( $sqlOP == 'LIKE' &&
-                         strpos( '%', $value ) === false ) {
+                         strpos( $value, '%' ) === false ) {
                         $value = "'%{$value}%'";
                     } else {
                         $value = "'{$value}'";
