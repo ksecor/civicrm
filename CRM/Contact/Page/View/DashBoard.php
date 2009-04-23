@@ -162,8 +162,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         }
 
         require_once 'CRM/Core/Block.php';
-        $this->assign( 'shortcutBlock', CRM_Core_Block::getContent( 2 ) );
-        $this->assign( 'searchBlock'  , CRM_Core_Block::getContent( 3 ) );
+        $this->assign( 'shortcutBlock', CRM_Core_Block::getContent( 1 ) );
     }
         
     /**
