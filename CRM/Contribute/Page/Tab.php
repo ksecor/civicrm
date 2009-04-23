@@ -207,8 +207,15 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        $this->preProcess( );
+        $contactId  = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullArray );
+        //$action     = CRM_Utils_Request::retrieve('action', 'String', $this );
         
+        if ( $contactId ) {
+            $this->preProcess( );
+        } else {
+            $this->_action = CRM_Core_Action::ADD;
+        }
+            
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit contributions' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit contrib rights
             $this->assign( 'permission', 'view' );
