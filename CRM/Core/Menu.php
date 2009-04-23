@@ -670,7 +670,8 @@ UNION (
      * Function to create navigation for CiviCRM Admin Menu
      */
     static function createNavigation(  ) {
-        $navigationXML = '/Users/kurund/svn/civicrm/templates/CRM/xml/Navigation.xml';
+        $config =& CRM_Core_Config::singleton( );
+        $navigationXML = "{$config->userFrameworkResourceURL}/templates/CRM/xml/Navigation.xml";
         $dom = DomDocument::load( $navigationXML );
         $dom->xinclude( );
         $menuXML = simplexml_import_dom( $dom );
