@@ -160,9 +160,6 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         
             $this->assign( 'enableCase', $enableCase);
         }
-
-        require_once 'CRM/Core/Block.php';
-        $this->assign( 'shortcutBlock', CRM_Core_Block::getContent( 1 ) );
     }
         
     /**

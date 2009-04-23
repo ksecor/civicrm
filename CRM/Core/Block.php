@@ -48,13 +48,14 @@ class CRM_Core_Block {
      * @var int
      */
     const
-        SHORTCUTS  =   1,
-        ADD        =   2,
-        LANGSWITCH =   3,
-        EVENT      =   4,
-        FULLTEXT_SEARCH = 5,
-        RECENTLY_VIEWED = 6,
-        DASHBOARD       = 7;
+        SHORTCUTS       = 1,
+        RECENTLY_VIEWED = 2,
+        DASHBOARD       = 3,
+        ADD             = 4,
+        LANGSWITCH      = 5,
+        EVENT           = 6,
+        FULLTEXT_SEARCH = 7,
+        RECENTLY_VIEWED = 8;
     
     /**
      * template file names for the above blocks
@@ -341,11 +342,18 @@ class CRM_Core_Block {
                                                               'title' => ts('Case for New Client') ) ));
                 }
             }
+            
+            if ( CRM_Core_Permission::check('access CiviContribute') ) {
+                $shortCuts = 
+                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/contribution',
+                                                          'query' => "reset=1&action=add",
+                                                          'title' => ts('Contribution') ) ));
+            
+            }
 
             if ( empty( $shortCuts ) ) {
                 return null;
             }
-
         }
 
         $values = array( );
