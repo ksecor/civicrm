@@ -49,7 +49,7 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                                'trxn_id'       => null,
                                                'receive_date'  => null,
                                                'receipt_date'  => null,
-                                         //      'source'        => null,
+                                               //'source'        => null,
                                                ),
                                         'filters'  =>             
                                         array( 'receive_date' => 
@@ -61,8 +61,9 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                         'group_bys'=>             
                                         array( 'receive_date' => 
                                                array( 'default'    => 'this month' ),
-                                               'source'  => null,
-                                               'contribution_type_id' => null,
+                                               'source'  => array( 'title' => ts( 'Contribution Source' ) ),
+                                               'contribution_type_id' => array( 'title' => ts( 'Contribution Type' ) ),
+                                               'contribution_page_id' => array( 'title' => ts( 'Contribution Page' ) ),
                                                ),
                                         ),
                                  );
@@ -91,7 +92,11 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                 if ( CRM_Utils_Array::value( 'required', $field ) ||
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$table['grouping']] ) ||
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
-                    $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                    if ( $fieldName == 'total_amount') {
+                        $select[] = "SUM({$table['alias']}.{$fieldName}) as {$tableName}_{$fieldName}";
+                    } else {
+                        $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                    }
                     $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
                 }
             }
@@ -150,6 +155,7 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
 
     function groupBy( ) {
         $this->_groupBy = "";
+        
         if ( !empty( $this->_params['group_bys'] ) ) {
                 $groupBy = array_keys($this->_params['group_bys'] );
                 $this->_groupBy = " GROUP BY `{$groupBy[0]}`";
@@ -185,6 +191,7 @@ SELECT COUNT( contribution.total_amount ) as count,
 
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
         //CRM_Core_Error::debug( '$sql', $sql );
+        //        exit;
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
         while ( $dao->fetch( ) ) {
