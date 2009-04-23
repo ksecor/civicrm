@@ -20,13 +20,13 @@
     <input type="text" name="text" id='text' value="" style="width: 10em;" />&nbsp;<input type="submit" name="submit" id="fulltext_submit" value="{ts}Go{/ts}" class="form-submit"/>
 	</div>
 	<select class="form-select" id="fulltext_table" name="fulltext_table">
-    	<option value="">All</option>
-    	<option value="Contact">Contacts</option>
-    	<option value="Activity">Activities</option>
-    	<option value="Case">Cases</option>
-      	<option value="Contribution">Contributions</option>
-        <option value="Participant">Participants</option>
-        <option value="Membership">Memberships</option>
+    	<option value="">{ts}All{/ts}</option>
+    	<option value="Contact">{ts}Contacts{/ts}</option>
+    	<option value="Activity">{ts}Activities{/ts}</option>
+    	<option value="Case">{ts}Cases{/ts}</option>
+      	<option value="Contribution">{ts}Contributions{/ts}</option>
+        <option value="Participant">{ts}Participants{/ts}</option>
+        <option value="Membership">{ts}Memberships{/ts}</option>
     </select> {help id="id-fullText-block" file="CRM/Contact/Form/Search/Custom/FullText.hlp"}
     </form>
 </div>

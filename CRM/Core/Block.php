@@ -53,7 +53,8 @@ class CRM_Core_Block {
         LANGSWITCH =   3,
         EVENT      =   4,
         FULLTEXT_SEARCH = 5,
-        RECENTLY_VIEWED = 6;
+        RECENTLY_VIEWED = 6,
+        DASHBOARD       = 7;
     
     /**
      * template file names for the above blocks
@@ -132,7 +133,15 @@ class CRM_Core_Block {
                                                                         'cache'      => BLOCK_CACHE_GLOBAL,
                                                                         'visibility' => 1,
                                                                         'pages'      => 'civicrm*',
-                                                                        'region'     => 'left' )
+                                                                        'region'     => 'left' ),
+                                       self::DASHBOARD   => array( 'template'   => 'Dashboard.tpl',
+                                                                   'info'       => ts('CiviCRM Dashboard'),
+                                                                   //'subject'    => ts('CiviCRM Shortcuts'),
+                                                                   'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'visibility' => 1,
+                                                                   'pages'      => 'civicrm*',
+                                                                   'region'     => 'left' ),
                                        );
 
         }
@@ -236,6 +245,10 @@ class CRM_Core_Block {
             self::setTemplateShortcutValues( );
             break;
 
+        case self::DASHBOARD:
+            self::setTemplateDashboardValues( );
+            break;    
+
         case self::ADD:
             require_once "CRM/Core/BAO/LocationType.php";
             $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
@@ -283,15 +296,15 @@ class CRM_Core_Block {
                 $shortCuts = array( array( 'path'  => 'civicrm/contact/add',
                                            'query' => 'ct=Individual&reset=1',
                                            'key'   => 'I',
-                                           'title' => ts('New Individual') ),
+                                           'title' => ts('Individual') ),
                                     array( 'path'  => 'civicrm/contact/add',
                                            'query' => 'ct=Organization&reset=1',
                                            'key'   => 'O',
-                                           'title' => ts('New Organization') ),
+                                           'title' => ts('Organization') ),
                                     array( 'path'  => 'civicrm/contact/add',
                                            'query' => 'ct=Household&reset=1',
                                            'key'   => 'H',
-                                           'title' => ts('New Household') ),
+                                           'title' => ts('Household') ),
                                     );
                 if ( CRM_Core_Permission::access( 'Quest' ) ) {
                     $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/quest/search',
@@ -305,14 +318,14 @@ class CRM_Core_Block {
             $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/activity',
                                                               'query' => 'action=add&reset=1&context=standalone',
                                                               'key'   => 'A',
-                                                              'title' => ts('New Activity') ) ));
+                                                              'title' => ts('Activity') ) ));
             
             
             if ( CRM_Core_Permission::check('edit groups')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
                                                                    'query' => 'reset=1',
                                                                    'key'   => 'G',
-                                                                   'title' => ts('New Group') ) ));
+                                                                   'title' => ts('Group') ) ));
             }
 
             if ( CRM_Core_Permission::check('access CiviCase') && 
@@ -325,14 +338,8 @@ class CRM_Core_Block {
                     $shortCuts = 
                         array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/case',
                                                               'query' => "reset=1&action=add&atype=$atype",
-                                                              'title' => ts('New Case for New Client') ) ));
+                                                              'title' => ts('Case for New Client') ) ));
                 }
-            }
-
-            if ( CRM_Core_Permission::check('access Contact Dashboard')) {
-                $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/user',
-                                                                   'query' => 'reset=1',
-                                                                   'title' => ts('My Contact Dashboard') ) ));
             }
 
             if ( empty( $shortCuts ) ) {
@@ -354,6 +361,40 @@ class CRM_Core_Block {
             $values[] = $value;
         }
         self::setProperty( self::SHORTCUTS, 'templateValues', array( 'shortCuts' => $values ) );
+    }
+
+    /**
+     * create the list of dashboard links
+     *
+     * @return void
+     * @access private
+     */
+    private function setTemplateDashboardValues( ) {
+        static $dashboardLinks = array( );
+        require_once 'CRM/Core/Permission.php';
+        if ( CRM_Core_Permission::check('access Contact Dashboard')) {
+            $dashboardLinks = array( array( 'path'  => 'civicrm/user',
+                                            'query' => 'reset=1',
+                                            'title' => ts('My Contact Dashboard') ) );
+        }
+
+        if ( empty( $dashboardLinks ) ) {
+            return null;
+        }
+
+        $values = array( );
+        foreach ( $dashboardLinks as $dash ) {
+            $value = array( );
+            if ( isset( $dash['url'] ) ) {
+                $value['url'] = $dash['url'];
+            } else {
+                $value['url'] = CRM_Utils_System::url( $dash['path'], $dash['query'], false );
+            }
+            $value['title'] = $dash['title'];
+            $value['key'] = CRM_Utils_Array::value( 'key', $dash );
+            $values[] = $value;
+        }
+        self::setProperty( self::DASHBOARD, 'templateValues', array( 'dashboardLinks' => $values ) );
     }
 
     /**
