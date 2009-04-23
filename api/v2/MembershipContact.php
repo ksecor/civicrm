@@ -1,11 +1,49 @@
 <?php
 
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * Definition of CRM API for Membership<->Contact relationships.
+ * More detailed documentation can be found 
+ * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
+ * here}
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
 
 /**
  * Files required for this package
  */
 require_once 'api/v2/utils.php';
 require_once 'CRM/Utils/Rule.php';
+require_once 'CRM/Utils/Array.php';
 
 /**
  * Create a Contact Membership
@@ -72,20 +110,36 @@ function civicrm_membership_contact_create(&$params)
 }
 
 /**
- * Get conatct membership record.
+ * Get contact membership record.
  * 
  * This api is used for finding an existing membership record.
  * This api will also return the mebership records for the contacts
  * having mebership based on the relationship with the direct members.
  * 
- * @params  Int  $contactID  ID of a contact
+ * @params  Array $params key/value pairs for contact_id and some
+ *          options affecting the desired results; has legacy support
+ *          for just passing the contact_id itself as the argument
  *
  * @return  Array of all found membership property values.
  * @access public
  */
-function civicrm_membership_contact_get(&$contactID)
+function civicrm_membership_contact_get(&$params)
 {
     _civicrm_initialize();
+    
+    $active_only = false;
+    if ( is_array($params) ) {
+        $contactID = CRM_Utils_Array::value('contact_id', $params);
+        $activeOnly = CRM_Utils_Array::value('active_only', $params, false);
+        if ($activeOnly == 1) {
+            $activeOnly = true;
+        } else {
+            $activeOnly = false;
+        }
+    } else {
+        $contactID = $params;
+    }
+    
     if ( empty($contactID) ) {
         return civicrm_create_error( 'Invalid value for ContactID.' );
     }
@@ -94,7 +148,7 @@ function civicrm_membership_contact_get(&$contactID)
     require_once 'CRM/Member/BAO/Membership.php';
     $membership       = array('contact_id' => $contactID);
     $membershipValues = array();
-    CRM_Member_BAO_Membership::getValues($membership, $membershipValues);
+    CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $activeOnly);
     
     if ( empty( $membershipValues ) ) {
         return civicrm_create_error('No memberships for this contact.');
