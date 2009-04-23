@@ -356,7 +356,6 @@ class CRM_Core_Menu
             ksort( $values[$group] );
         }
 
-        // CRM_Core_Error::debug( 'v', $values );
         $menu['admin'] = array( 'breadcrumb' => $values );
     }
 
@@ -375,11 +374,11 @@ class CRM_Core_Menu
             // menu store and try again
             self::store( );            
 
-	    // here we goo 
+	        // here we goo 
             self::get( 'navigation' );
-	    if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
-	      CRM_Core_Error::fatal( );
-	    }
+	        if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
+	            CRM_Core_Error::fatal( );
+	        }
         }
         $nav =& self::$_menuCache['navigation'];
 
@@ -666,6 +665,97 @@ UNION (
         }
         return $arr;
     }
+    
+    /**
+     * Function to create navigation for CiviCRM Admin Menu
+     */
+    static function createNavigation(  ) {
+        $navigationXML = '/Users/kurund/svn/civicrm/templates/CRM/xml/Navigation.xml';
+        $dom = DomDocument::load( $navigationXML );
+        $dom->xinclude( );
+        $menuXML = simplexml_import_dom( $dom );
+
+        foreach($menuXML->children() as $children) {
+            $name = self::getMenuName( $children );
+            if ( $name ) { 
+                $string .= '<li>' . $name;
+                self::recurseNavigation( $children, $string  );
+            }
+        }
+        
+        return $string;
+    }
+
+    /**
+     * Recursively check child menus
+     */
+    function recurseNavigation(&$child, &$string ) {
+        if ( count( $child->children() ) > 0 ) {
+            $string .= '<ul>';  
+        } else {
+            $string .= '</li>'; 
+        }
+
+        foreach($child->children() as $children) {
+            $name = self::getMenuName( $children );
+            if ( $name ) { 
+                $string .= '<li>' . $name;
+                self::recurseNavigation($children, $string );
+            }
+        }
+
+        if ( count( $child->children() ) > 0 ) {
+            $string .= '</ul></li>';
+        }
+        return $string;
+     }
+     
+     /**
+      *  Get Menu name
+      */
+     function getMenuName( &$children ) {
+         $name = $children['key'];
+         
+         //localize the label     
+         $i18n =& CRM_Core_I18n::singleton();
+         $menuTitleArray = array( 'title' => $name );
+         $i18n->localizeTitles($menuTitleArray);
+         $name = $menuTitleArray['title'];
+         
+         if ( isset( $children['label'] ) ) {
+             $name = $children['label'];
+         }
+         
+         if ( !isset( $children['group'] ) ) {
+             if ( isset( $children['url'] ) ) {
+                 $url = $children['url'];
+             } else {
+                 // search for url in civicrm
+                 // TO FIX: need to optimize this.
+                 $menuArray = self::getNavigation( true );
+
+                 $urlFound = false;
+                 foreach ( $menuArray as $key => $values ) {
+                     $menuTitle = explode('.', $key );
+                     if ( $menuTitle[1] == $children['key'] ) {
+                         $url  = $values['url'];
+                         $urlFound = true;
+                         break;
+                     }
+                 }
+                 
+                 if ( !$urlFound ) {
+                     return false;
+                     //CRM_Core_Error::fatal( ts('Could not find valid url for %1 menu item.', array( 1 => $children['key'] )));
+                     //exit();
+                 }
+             }
+                         
+            $name = '<a href=' . $url . '>'. $name .'</a>';
+         }
+         
+         return $name;
+     }
 }
 
 

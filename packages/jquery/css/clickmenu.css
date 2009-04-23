@@ -1,23 +1,16 @@
-
-
 div.cmDiv
 {
-	border: 1px solid #4A88DF;
-	background-color: #EDF2FF;
-position:absolute;
-top:-13px;
-left:8px;
-z-index:100000;
+	border: 1px solid black;
+	/*background-color: #eee;*/
+	/* Added by CiviCRM*/
+	position:absolute;
+	width: 100%;
+	height: 25px;
+	top:0px;
+    left:0px;
+    z-index:9999;
+    background:#1B1B1B repeat-x;
 }
-
-li#searchType {padding:0;
-background:lightgrey;}
-
-.cmDiv .clickMenu li.search {padding:0 10px 0 0;margin:1px 0 0 0;
-background:lightgrey;}
-
-.li search input {height:15px;}
-
 .clickMenu
 {
 	margin: 0;
@@ -33,8 +26,9 @@ background:lightgrey;}
 	margin: 0;
 	padding: 2px;
 	border: 1px solid black;
-	background-color: #EDF2FF;
-	min-width: 150px; /* ie doesnt know this :/ */
+	/*background-color: #eee;*/
+	background:#5D5D5D repeat-x;
+	min-width: 100px; /* ie doesnt know this :/ */
 	//float: left;/*ie again*/
 	//width: 100%;/*and again*/
 }
@@ -61,23 +55,26 @@ background:lightgrey;}
 	position: relative;
 	padding: 0 20px 0 2px;
 	/*white-space: nowrap; does not really work in ie */
+	background-image:none;
 }
 .clickMenu li.main
 {
 	float: left;
 	padding: 0 10px;
-	background-color: #EDF2FF;
-	//height: 20px; /* for ie */
+	/*background-color: #eee;*/
+	color: white;
+	border-right: 1px solid #5D5D5D;
+	//height: 20px; /* for ie */	
 }
 .clickMenu li.main li
 {
 	z-index: 2;
-	min-width: 78px;
+	min-width: 90px;
 }
 .clickMenu li.hover
 {
 	z-index: 1 !important; /* the hover z-index has to be below the normal one the hovering items may be drawn over a submenu */
-	background-color: #4A88DF;
+	background-color: #aaa;
 }
 .clickMenu img.liArrow
 {
@@ -127,4 +124,9 @@ html>body .innerbox
 {
 	margin: 0;
 	display: inherit;
+}
+
+/** Added by civicrm */
+li#crm-qsearch {
+    background-color:#ffffff;
 }

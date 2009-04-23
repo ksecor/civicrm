@@ -1,0 +1,22 @@
+<?xml version="1.0"?> 
+<navigation>
+    <item key='Contacts' group='1' >
+        <item key='Search' group='1'>
+            <item key='Find Contacts' label='Basic'/>
+            <item key='Advanced Search' label='Advanced'/>
+            <item key='Search Builder'/>
+        </item>
+        <item key='Create new ...' group='1'>
+            <item key='Individual' url=''/>
+            <item key='Organization' url=''/>
+        </item>
+        <item key='My Own Link' url='http://www.foo.org' />
+    </item>
+    <item key='Events' group='1'>
+        <item key='New Event' label='Create new ...'/>
+        <item key='Manage' group='1'>
+            <item key='Manage Events' label='Events'/>
+            <item key='Manage Price Sets' label='Price Sets'/>
+        </item>
+    </item>    
+</navigation>

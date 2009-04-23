@@ -389,12 +389,18 @@ WHERE sort_name LIKE '%$name%'";
      */
     static function civicrmAdminMenu()
     {
+        require_once 'CRM/Core/Menu.php';
+        echo $object =& CRM_Core_Menu::createNavigation( );
+        exit();
+        
+        /*        
         static $object = '';
         if( ! $object ) {
             $child = false;
             $config   =& CRM_Core_Config::singleton();
             require_once 'CRM/Core/Menu.php';
             $values =& CRM_Core_Menu::getNavigation( true );
+                
             foreach( $values as $key => $value ) {
                 if ( $value['parent'] ){
                     if ( ! $child ) {
@@ -438,7 +444,9 @@ WHERE sort_name LIKE '%$name%'";
                 }
             }
         }
+
         echo json_encode( $object );
-        exit();
+        
+        */       
     }
 }
