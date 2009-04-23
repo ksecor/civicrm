@@ -142,7 +142,7 @@ showHideSeletorSearch();
 	
 function showHideSeletorSearch()
 {
-    var vsbl= document.getElementById("visibility").options[document.getElementById("visibility").selectedIndex].text;
+    var vsbl= document.getElementById("visibility").options[document.getElementById("visibility").selectedIndex].value;
     if ( vsbl == "User and User Admin Only" ){
         hide("is_search_label");
         hide("is_search_html");
