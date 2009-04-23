@@ -124,6 +124,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                             }
                         }
                     }
+                    $this->_columns[$tableName]['fields'][$fieldName]['dbAlias'] = 
+                        $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
                 }
             }
 
@@ -140,6 +142,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                                 }
                             }
                         }
+                        $this->_columns[$tableName]['filters'][$fieldName]['dbAlias'] = 
+                            $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
                     }
                 }
             }
@@ -157,6 +161,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                                 }
                             }
                         }
+                        $this->_columns[$tableName]['group_bys'][$fieldName]['dbAlias'] = 
+                            $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
                     }
                 }
             }

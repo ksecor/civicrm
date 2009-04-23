@@ -89,32 +89,57 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
         $interval = 'month';
         $this->_columnHeaders = array( );
         foreach ( $this->_columns as $tableName => $table ) {
+            $once = false;
             foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( CRM_Utils_Array::value( 'required', $field ) ||
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$table['grouping']] ) ||
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
-                    if ( $fieldName == 'total_amount') {
-                        $select[] = "SUM({$table['alias']}.{$fieldName}) as {$tableName}_{$fieldName}";
-                        switch ( $interval ) {
-                        case 'week' :
-                            $select[] = "DATE_SUB( {$table['alias']}.receive_date, INTERVAL WEEKDAY( {$table['alias']}.receive_date )DAY ) AS start";
-                            $select[] = "DATE_ADD( {$table['alias']}.receive_date, INTERVAL( 6 - WEEKDAY( {$table['alias']}.receive_date ) )DAY ) AS end"; 
-                            break;
-                            
-                        case 'year':
-                            $select[] = "MAKEDATE(YEAR({$table['alias']}.receive_date ),1)  AS start";
-                            $select[] = "LAST_DAY(MAKEDATE(YEAR({$table['alias']}.receive_date ),365)) AS end"; 
-                            break;
-                            
-                        case 'month':
-                            $select[] = "DATE_SUB({$table['alias']}.receive_date, INTERVAL (DAYOFMONTH({$table['alias']}.receive_date)-1) DAY) as start";
-                            $select[] = "{$table['alias']}.receive_date, LAST_DAY({$table['alias']}.receive_date) as end"; 
-                        break;
-                        }
-                    } else {
-                        $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
-                    }
+
+                    $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
                     $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
+                    
+                    
+                    if ( !$once ) {
+                        $select[] = "SUM({$table['alias']}.total_amount) as amount";
+                        $select[] = "count({$table['alias']}.total_amount) as count";
+                        $select[] = "AVG({$table['alias']}.total_amount) as avg";
+                        $once     = true;
+                    }
+                }
+            }
+
+            foreach ( $table['group_bys'] as $fieldName => $field ) {
+                if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                    
+                    $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
+                    $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
+                    
+                    switch ( $this->_params['group_bys_freq'] ) {
+                    case 'YEARWEEK' :
+                        $select[] = "DATE_SUB({$table['alias']}.receive_date, 
+INTERVAL WEEKDAY({$table['alias']}.receive_date )DAY) AS {$tableName}_{$fieldName}_start";
+                        $select[] = "DATE_ADD({$table['alias']}.receive_date, 
+INTERVAL(6 - WEEKDAY({$table['alias']}.receive_date ))DAY) AS {$tableName}_{$fieldName}_end"; 
+                        break;
+
+                    case 'YEAR' :
+                        $select[] = "MAKEDATE(YEAR({$table['alias']}.receive_date ),1)  
+AS {$tableName}_{$fieldName}_start";
+                        $select[] = "LAST_DAY(MAKEDATE(YEAR({$table['alias']}.receive_date ),365)) 
+AS {$tableName}_{$fieldName}_end"; 
+                        break;
+
+                    case 'MONTH':
+                        $select[] = "DATE_SUB({$table['alias']}.receive_date, 
+INTERVAL (DAYOFMONTH({$table['alias']}.receive_date)-1) DAY) as {$tableName}_{$fieldName}_start";
+                        $select[] = "{$table['alias']}.receive_date, 
+LAST_DAY({$table['alias']}.receive_date) as {$tableName}_{$fieldName}_end"; 
+                        break;
+                    }
+                    if ( CRM_Utils_Array::value( 'group_bys_freq', $this->_params ) ) {
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"] = $field['title'] . ' start';
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]   = $field['title'] . ' end';
+                    }
                 }
             }
         }
@@ -123,8 +148,6 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
     }
 
     function from( ) {
-        $this->_from = null;
-
         $this->_from = "
 FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
 ";
@@ -172,20 +195,15 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
 
     function groupBy( ) {
         $this->_groupBy = "";
-        
-        //$interval = "YEARWEEK";
-        $interval = "MONTH";
-        if ( !empty( $this->_params['group_bys'] ) ) {
-            $groupBy = array_keys($this->_params['group_bys'] );
-            switch ( $interval) {
-            case 'YEARWEEK' :
-                $this->_groupBy = " GROUP BY {$interval}(`{$groupBy[0]}`, 1)";
-                break;
-            case 'YEAR':
-            case 'MONTH':
-                $this->_groupBy = " GROUP BY {$interval}(`{$groupBy[0]}`)";
-                break;
+        if ( ! empty($this->_params['group_bys']) ) {
+            foreach ( $this->_columns as $tableName => $table ) {
+                foreach ( $table['group_bys'] as $fieldName => $field ) {
+                    if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                        $this->_groupBy[] = $field['dbAlias'];
+                    }
+                }
             }
+            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " ";
         }
     }
 
@@ -211,15 +229,15 @@ SELECT COUNT( contribution.total_amount ) as count,
 
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
+
         $this->select  ( );
         $this->from    ( );
         $this->where   ( );
         $this->groupBy ( );
 
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
-        //CRM_Core_Error::debug( '_groupBy', $this->_groupBy );
-        //CRM_Core_Error::debug( '$sql', $sql );
-        //        exit;
+/*         CRM_Core_Error::debug( '$sql', $sql ); */
+
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
         while ( $dao->fetch( ) ) {
@@ -227,16 +245,16 @@ SELECT COUNT( contribution.total_amount ) as count,
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
             }
-            $row['civicrm_contribution_receive_date'] = $dao->start . ' to ' . $dao->end;
             $rows[] = $row;
         }
 
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
-
-        //  CRM_Core_Error::debug( '$rows', $rows ); 
+        
 /*         CRM_Core_Error::debug( '$this->_columnHeaders', $this->_columnHeaders  ); */
+/*         CRM_Core_Error::debug( '$rows', $rows ); */
 /*         CRM_Core_Error::debug( 'statistics', $this->statistics( ) ); */
+
         if ( CRM_Utils_Array::value( 'include_statistics', $this->_params ) ) {
             $this->assign( 'statistics',
                            $this->statistics( ) );
