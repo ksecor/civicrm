@@ -59,43 +59,29 @@ class CRM_ParticipantProcessor
         //build the required status ids.
         $statusIds =  '(' . implode( ',', array_merge( array_keys( $pendingStatuses ), array_keys( $waitingStatuses ) ) ) . ')';
         
-        //get all participant whoes status in class pending and waiting
-        $query = "
-   SELECT  participant.id as participant_id,
-           participant.contact_id as contact_id,
-           participant.event_id as event_id,
-           participant.status_id as status_id,
-           participant.register_date as register_date,
-           participant.fee_amount as fee_amount,
-           participant.role_id as role_id,
-           participant.registered_by_id as registered_by_id,
-           participant.is_test as is_test
-     FROM  civicrm_participant participant
-    WHERE  participant.status_id IN {$statusIds}
- ORDER BY  register_date";
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        //get all participant who's status in class pending and waiting
+        $query = "SELECT * FROM civicrm_participant WHERE status_id IN {$statusIds} ORDER BY register_date";
+        $dao   =& CRM_Core_DAO::executeQuery( $query );
         
         $primaryToAdditonalIds = array( );
         $participantDetails = $contactIds = $eventIds = $expiredParticipantIds = $fullEvents = array( );
         while ( $dao->fetch( ) ) {
-            $participantDetails[$dao->participant_id] = array( 'id'               => $dao->participant_id,
-                                                               'role'             => $participantRole[$dao->role_id],
-                                                               'is_test'          => $dao->is_test,
-                                                               'event_id'         => $dao->event_id,
-                                                               'status_id'        => $dao->status_id,
-                                                               'fee_amount'       => $dao->fee_amount, 
-                                                               'contact_id'       => $dao->contact_id,
-                                                               'register_date'    => $dao->register_date,
-                                                               'registered_by_id' => $dao->registered_by_id
-                                                               );
-            
+            $participantDetails[$dao->id] = array( 'id'               => $dao->id,
+                                                   'role'             => $participantRole[$dao->role_id],
+                                                   'is_test'          => $dao->is_test,
+                                                   'event_id'         => $dao->event_id,
+                                                   'status_id'        => $dao->status_id,
+                                                   'fee_amount'       => $dao->fee_amount, 
+                                                   'contact_id'       => $dao->contact_id,
+                                                   'register_date'    => $dao->register_date,
+                                                   'registered_by_id' => $dao->registered_by_id
+                                                   );
             $eventIds[$dao->event_id]     = $dao->event_id;
             $contactIds[$dao->contact_id] = $dao->contact_id;
             
             //build the array of all additional participants w/ primary.
             if ( $dao->registered_by_id ) {
-                $primaryToAdditonalIds[$dao->registered_by_id][] = $dao->participant_id;
+                $primaryToAdditonalIds[$dao->registered_by_id][] = $dao->id;
             }
         }
         
@@ -117,7 +103,6 @@ class CRM_ParticipantProcessor
             require_once 'CRM/Mailing/BAO/Mailing.php';
             list( $contactDetails ) = CRM_Mailing_BAO_Mailing::getDetails( $contactIds, null, false, false );
             
-            
             //get all events  detail that are required.
             $allEvents = array( );
             foreach ( $eventIds as $eventId ) {
@@ -132,6 +117,8 @@ class CRM_ParticipantProcessor
                 CRM_Core_BAO_Location::getValues( $locParams, $allEvents[$eventId], true );
             }
             
+            //now we have all information in hand so actual processing start here
+            //cron 1. move participant from pending to expire if needed
             foreach ( $participantDetails as $participantId => $values ) {
                 //process the additional participant at the time of
                 //primary participant, don't process separately.
@@ -154,14 +141,6 @@ class CRM_ParticipantProcessor
                         require_once 'CRM/Core/Transaction.php';
                         $transaction = new CRM_Core_Transaction( );
                         
-                        //set status to expired.
-                        $expiredId = array_search( 'Expired', $expiredStatuses );
-                        
-                        require_once 'CRM/Event/BAO/Participant.php';
-                        //lets update all family member at once. 
-                        CRM_Event_BAO_Participant::updateParticipantStatus( $participantId, $expiredId );
-                        $expiredParticipantCount += 1;
-                        
                         //send email to primary participant.
                         $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $domainValues, true );
                         echo "<br />- status updated to: Expired<br />";
@@ -177,15 +156,36 @@ class CRM_ParticipantProcessor
                                 echo "<br />- status updated to: Expired<br />"; 
                             }
                         }
+                        
+                        //set status to expired.
+                        $expiredId = array_search( 'Expired', $expiredStatuses );
+                        
+                        require_once 'CRM/Event/BAO/Participant.php';
+                        //lets update all family member at once. 
+                        CRM_Event_BAO_Participant::updateParticipantStatus( $participantId, $expiredId );
+                        
+                        //get primary in counter.
+                        $expiredParticipantCount += 1;
+                        
                         //commit the transaction.
                         $transaction->commit( );
                     }
                     //status expiration stuff complete here.
-                } else if ( array_key_exists( $values['status_id'], $waitingStatuses ) && 
-                            !array_key_exists( $values['event_id'], $fullEvents ) ) {
+                } 
+            }//cron 1 end. 
+            
+            //cron 2. lets move participants from waiting to pending.
+            foreach ( $participantDetails as $participantId => $values ) {
+                //process the additional participant at the time of
+                //primary participant, don't process separately.
+                if ( CRM_Utils_Array::value( 'registered_by_id', $values ) ) {
+                    continue;
+                }
+                
+                if ( array_key_exists( $values['status_id'], $waitingStatuses ) && 
+                     !array_key_exists( $values['event_id'], $fullEvents ) ) {
                     
                     //cron 2 : handle moving participants from waitlist to event with pending status
-                    
                     if ( $waitingStatuses[$values['status_id']] == 'On waitlist' ) {
                         
                         //check the target event having space.
@@ -203,16 +203,7 @@ class CRM_ParticipantProcessor
                                 require_once 'CRM/Core/Transaction.php';
                                 $transaction = new CRM_Core_Transaction( );
                                 
-                                //hey time to move participant to event.
-                                $updateStatusId = array_search( 'Pending from waitlist', $pendingStatuses );
-                                
-                                require_once 'CRM/Event/BAO/Participant.php';
-                                //lets update all family member at once.
-                                CRM_Event_BAO_Participant::updateParticipantStatus( $participantId, $updateStatusId );
-                                $waitingConfirmCount += 1;
-                                
-                                //need to send email with confirmation link.
-                                //send email to primary participant.
+                                //send email to primary participant, w/ confirmation link
                                 $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $domainValues, false, true  );
                                 echo "<br />- status updated to: Pending from waitlist<br />";
                                 
@@ -220,13 +211,24 @@ class CRM_ParticipantProcessor
                                 //get mails and update status appropriate.
                                 if ( array_key_exists( $participantId, $primaryToAdditonalIds ) ) {
                                     foreach ( $primaryToAdditonalIds[$participantId] as $additionParticipantId ) {
-                                        $waitingConfirmCount += 1;
                                         //send email to additional participants.
                                         $this->sendMail( $additionParticipantId, $participantDetails[$additionParticipantId], 
                                                          $allEvents, $contactDetails, $domainValues, false, true );
                                         echo "<br />- status updated to: Pending from waitlist<br />"; 
+                                        $waitingConfirmCount += 1;
                                     }
                                 }
+                                
+                                //now update status.
+                                $updateStatusId = array_search( 'Pending from waitlist', $pendingStatuses );
+                                require_once 'CRM/Event/BAO/Participant.php';
+                                
+                                //lets update status for all family member at once.
+                                CRM_Event_BAO_Participant::updateParticipantStatus( $participantId, $updateStatusId );
+                                
+                                //get primary in counter.
+                                $waitingConfirmCount += 1;
+                                
                                 //commit the transaction.
                                 $transaction->commit( );
                             } else {
@@ -237,8 +239,8 @@ class CRM_ParticipantProcessor
                             $fullEvents[$values['event_id']] = $allEvents[$values['event_id']]['title'];
                         }
                     }
-                } //cron 2 ends.
-            }
+                } 
+            }//cron 2 ends.
         }
         
         //give statuses of crons run.
