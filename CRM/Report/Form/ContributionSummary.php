@@ -110,36 +110,35 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
             }
 
             foreach ( $table['group_bys'] as $fieldName => $field ) {
-                if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                    
+                if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) && $fieldName == 'receive_date') {
                     $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                     $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
                     
                     switch ( $this->_params['group_bys_freq'] ) {
                     case 'YEARWEEK' :
-                        $select[] = "DATE_SUB({$table['alias']}.receive_date, 
-INTERVAL WEEKDAY({$table['alias']}.receive_date )DAY) AS {$tableName}_{$fieldName}_start";
-                        $select[] = "DATE_ADD({$table['alias']}.receive_date, 
-INTERVAL(6 - WEEKDAY({$table['alias']}.receive_date ))DAY) AS {$tableName}_{$fieldName}_end"; 
+                        $select[] = "DATE_SUB({$table['alias']}.{$fieldName}, 
+INTERVAL WEEKDAY({$table['alias']}.{$fieldName} )DAY) AS {$tableName}_{$fieldName}_start";
+                        $select[] = "DATE_ADD({$table['alias']}.{$fieldName}, 
+INTERVAL(6 - WEEKDAY({$table['alias']}.{$fieldName} ))DAY) AS {$tableName}_{$fieldName}_end"; 
                         break;
 
                     case 'YEAR' :
-                        $select[] = "MAKEDATE(YEAR({$table['alias']}.receive_date ),1)  
+                        $select[] = "MAKEDATE(YEAR({$table['alias']}.{$fieldName} ),1)  
 AS {$tableName}_{$fieldName}_start";
-                        $select[] = "LAST_DAY(MAKEDATE(YEAR({$table['alias']}.receive_date ),365)) 
+                        $select[] = "LAST_DAY(MAKEDATE(YEAR({$table['alias']}.{$fieldName} ),365)) 
 AS {$tableName}_{$fieldName}_end"; 
                         break;
 
                     case 'MONTH':
-                        $select[] = "DATE_SUB({$table['alias']}.receive_date, 
-INTERVAL (DAYOFMONTH({$table['alias']}.receive_date)-1) DAY) as {$tableName}_{$fieldName}_start";
-                        $select[] = "{$table['alias']}.receive_date, 
-LAST_DAY({$table['alias']}.receive_date) as {$tableName}_{$fieldName}_end"; 
+                        $select[] = "DATE_SUB({$table['alias']}.{$fieldName}, 
+INTERVAL (DAYOFMONTH({$table['alias']}.{$fieldName})-1) DAY) as {$tableName}_{$fieldName}_start";
+                        $select[] = "{$table['alias']}.{$fieldName}, 
+LAST_DAY({$table['alias']}.{$fieldName}) as {$tableName}_{$fieldName}_end"; 
                         break;
 
                     case 'QUARTER':
-                        $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$table['alias']}.receive_date ) -2 , '/', '1', '/', YEAR( {$table['alias']}.receive_date ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
-                        $select[] = "LAST_DAY(STR_TO_DATE(CONCAT( 3 * QUARTER( {$table['alias']}.receive_date ) , '/', '1', '/', YEAR( {$table['alias']}.receive_date ) ), '%m/%d/%Y')) AS {$tableName}_{$fieldName}_end"; 
+                        $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$table['alias']}.{$fieldName} ) -2 , '/', '1', '/', YEAR( {$table['alias']}.{$fieldName} ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
+                        $select[] = "LAST_DAY(STR_TO_DATE(CONCAT( 3 * QUARTER( {$table['alias']}.{$fieldName} ) , '/', '1', '/', YEAR( {$table['alias']}.{$fieldName} ) ), '%m/%d/%Y')) AS {$tableName}_{$fieldName}_end"; 
                         break;
 
                     }
@@ -210,7 +209,7 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
                     }
                 }
             }
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " ";
+            $this->_groupBy = "GROUP BY (" . implode( ', ', $this->_groupBy ) . " )";
         }
     }
 
