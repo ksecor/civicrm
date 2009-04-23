@@ -804,15 +804,14 @@ div.crm-pager a {
 }
 
 /* Recently Viewed bar */
-#crm-container div#recently-viewed {
-  float: none;
-  width: 95%;
-  margin-bottom: 8px;
-  font-weight: bold;
+.block-civicrm div#recently-viewed ul li {
   font-size: .9em;
-  background-color: #EDF2FF;
-  border: 1px solid #4A88DF;
-  overflow: hidden;
+ // overflow: hidden;
+  background-color: #fff;
+  margin: -.5em 0em 0em -2.0em;
+  border: 1px solid #92B6EC;
+  padding: 2px;
+  list-style-image: url(../../misc/menu-leaf.png);
 }
 
 #crm-container div#alpha-filter {

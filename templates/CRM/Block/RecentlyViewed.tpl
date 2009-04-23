@@ -2,7 +2,7 @@
 <div id="recently-viewed">
     <ul>
     {foreach from=$recentlyViewed item=item}
-         <li>{*<a href="{$item.url}">{$item.icon}</a>*}<a href="{$item.url}" title="{$item.tooltip}">{$item.title}</a></li>
+         <li><a href="{$item.url}" title="{$item.tooltip}">{$item.title}</a></li>
     {/foreach}
    </ul>
 </div>
