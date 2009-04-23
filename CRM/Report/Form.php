@@ -103,17 +103,22 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
             $this->_aliases[$tableName] = $this->_columns[$tableName]['alias'];
 
-            // get export fields
-            require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['dao'] .'.php' );
-            eval( "\$impFields = {$table['dao']}::export( );");
+            // higher preference to bao object
+            if ( array_key_exists('bao', $table) ) {
+                require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['bao'] . '.php' );
+                eval( "\$expFields = {$table['bao']}::exportableFields( );");
+            } else {
+                require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['dao'] . '.php' );
+                eval( "\$expFields = {$table['dao']}::export( );");
+            }
 
             // prepare columns
             foreach ( $table['fields'] as $fieldName => $field ) {
-                if ( array_key_exists($fieldName, $impFields) ) {
+                if ( array_key_exists($fieldName, $expFields) ) {
                     if ( empty($field) ) {
-                        $this->_columns[$tableName]['fields'][$fieldName] = $impFields[$fieldName];
+                        $this->_columns[$tableName]['fields'][$fieldName] = $expFields[$fieldName];
                     } else {
-                        foreach ( $impFields[$fieldName] as $property => $val ) {
+                        foreach ( $expFields[$fieldName] as $property => $val ) {
                             if ( ! array_key_exists($property, $field) ) {
                                 $this->_columns[$tableName]['fields'][$fieldName][$property] = $val;
                             }
@@ -125,11 +130,11 @@ class CRM_Report_Form extends CRM_Core_Form {
             // prepare filters
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
-                    if ( array_key_exists($fieldName, $impFields) ) {
+                    if ( array_key_exists($fieldName, $expFields) ) {
                         if ( empty($field) ) {
-                            $this->_columns[$tableName]['filters'][$fieldName] = $impFields[$fieldName];
+                            $this->_columns[$tableName]['filters'][$fieldName] = $expFields[$fieldName];
                         } else {
-                            foreach ( $impFields[$fieldName] as $property => $val ) {
+                            foreach ( $expFields[$fieldName] as $property => $val ) {
                                 if ( ! array_key_exists($property, $field) ) {
                                     $this->_columns[$tableName]['filters'][$fieldName][$property] = $val;
                                 }
@@ -142,11 +147,11 @@ class CRM_Report_Form extends CRM_Core_Form {
             // prepare group_bys
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
-                    if ( array_key_exists($fieldName, $impFields) ) {
+                    if ( array_key_exists($fieldName, $expFields) ) {
                         if ( empty($field) ) {
-                            $this->_columns[$tableName]['group_bys'][$fieldName] = $impFields[$fieldName];
+                            $this->_columns[$tableName]['group_bys'][$fieldName] = $expFields[$fieldName];
                         } else {
-                            foreach ( $impFields[$fieldName] as $property => $val ) {
+                            foreach ( $expFields[$fieldName] as $property => $val ) {
                                 if ( ! array_key_exists($property, $field) ) {
                                     $this->_columns[$tableName]['group_bys'][$fieldName][$property] = $val;
                                 }
@@ -210,8 +215,6 @@ class CRM_Report_Form extends CRM_Core_Form {
         $options = array();
         
         foreach ( $this->_columns as $tableName => $table ) {
-            require_once str_replace( '_', DIRECTORY_SEPARATOR, $table['dao'] .'.php' );
-            eval( "\$impFields = {$table['dao']}::import( );");
             foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( isset($table['grouping']) ) { 
                     $options[$table['grouping']][$field['title']] = $fieldName;

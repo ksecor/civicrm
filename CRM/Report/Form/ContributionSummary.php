@@ -43,13 +43,10 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
         $this->_columns = array( 
                                  'civicrm_contribution' =>
                                  array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
+                                        'bao'     => 'CRM_Contribute_BAO_Contribution',
                                         'fields'  =>
                                         array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
                                                                          'required' => true ),
-                                               'trxn_id'       => null,
-                                               'receive_date'  => null,
-                                               'receipt_date'  => null,
-                                               //'source'        => null,
                                                ),
                                         'filters'  =>             
                                         array( 'receive_date' => 
@@ -57,13 +54,13 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                                'total_amount' => 
                                                array( 'title'      => ts( 'Total  Amount Between' ) ),
                                                ),
-
+                                        
                                         'group_bys'=>             
                                         array( 'receive_date' => 
                                                array( 'default'    => 'this month' ),
-                                               'source'  => array( 'title' => ts( 'Contribution Source' ) ),
-                                               'contribution_type_id' => array( 'title' => ts( 'Contribution Type' ) ),
-                                               'contribution_page_id' => array( 'title' => ts( 'Contribution Page' ) ),
+                                               'contribution_source'  => null,
+                                               'contribution_type' => null,
+                                               'contribution_page_id' => null,
                                                ),
                                         ),
                                  );
