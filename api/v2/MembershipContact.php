@@ -127,7 +127,7 @@ function civicrm_membership_contact_get(&$params)
 {
     _civicrm_initialize();
     
-    $active_only = false;
+    $activeOnly = false;
     if ( is_array($params) ) {
         $contactID = CRM_Utils_Array::value('contact_id', $params);
         $activeOnly = CRM_Utils_Array::value('active_only', $params, false);
