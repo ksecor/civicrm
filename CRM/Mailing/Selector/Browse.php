@@ -263,7 +263,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
-                if (!($row['status'] == ts('Not scheduled'))) {
+                if (!($row['status'] == 'Not scheduled')) {
                     $actionMask = CRM_Core_Action::VIEW;
                     if ( !in_array( $row['id'], $searchMailings ) ) {
                         $actionMask |= CRM_Core_Action::UPDATE;
@@ -277,15 +277,18 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                         $actionMask = CRM_Core_Action::DELETE;
                     }
                 }
-                if (in_array($row['status'], array(ts('Scheduled'), ts('Running'), ts('Paused')))) {
+                if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
                     $actionMask |= CRM_Core_Action::DISABLE;
                 }
-                if ( $row['status'] == ts('Complete') && !$row['archived'] ) {
+                if ( $row['status'] == 'Complete' && !$row['archived'] ) {
                     $actionMask |= CRM_Core_Action::RENEW;
                 }
                 
                 $actionMask |= CRM_Core_Action::DELETE;
                
+                //get status strings as per locale settings CRM-4411.
+                $rows[$key]['status'] = CRM_Mailing_BAO_Job::status( $row['status'] );
+                               
                 $rows[$key]['action'] = 
                     CRM_Core_Action::formLink(  $actionLinks,
                                                 $actionMask,
