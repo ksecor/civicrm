@@ -175,8 +175,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         //get the pledge payment id
         $this->_ppID = CRM_Utils_Request::retrieve( 'ppid', 'Positive', $this );
         //get the contact id
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
         //get the action.
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
         $this->assign( 'action', $this->_action );
@@ -224,13 +223,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // this required to show billing block    
         $this->assign_by_ref( 'paymentProcessor', $paymentProcessor );
         $this->assign( 'hidePayPalExpress', true );           
-        
-        if ( $this->_contactID ) {  
-            require_once 'CRM/Contact/BAO/Contact/Location.php';
-            list( $this->userDisplayName, 
-                $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
-            $this->assign( 'displayName', $this->userDisplayName );
-        }
+            
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
+        list( $this->userDisplayName, 
+              $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+        $this->assign( 'displayName', $this->userDisplayName );
         
         // also check for billing information
         // get the billing location type
