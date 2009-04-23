@@ -162,4 +162,10 @@
        <comment>This field saves field type (ie individual,household.. field etc).</comment>
       <add>1.4</add>
   </field>
+  <field>
+    <name>is_reserved</name>
+    <type>boolean</type>
+    <comment>Is this field reserved for use by some other CiviCRM functionality?</comment>
+    <add>2.3</add>
+  </field>
 </table>

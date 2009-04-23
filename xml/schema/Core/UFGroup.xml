@@ -170,5 +170,17 @@
        <length>255</length>
        <add>1.8</add>
   </field>
-
+  <field>
+    <name>is_reserved</name>
+    <type>boolean</type>
+    <comment>Is this group reserved for use by some other CiviCRM functionality?</comment>
+    <add>2.3</add>
+  </field>
+  <field>
+    <name>name</name>
+    <type>varchar</type>
+    <length>64</length>
+    <comment>Name of the UF group for directly addressing it in the codebase</comment>
+    <add>2.3</add>
+  </field>
 </table>
