@@ -65,6 +65,7 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                         array( 'YEARWEEK' => 'Week',
                                                'MONTH'    => 'Month',
                                                'QUARTER'  => 'Quarter',
+                                               'YEAR'     => 'Year',
                                                ),
                                         ),
                                  );
@@ -135,6 +136,12 @@ INTERVAL (DAYOFMONTH({$table['alias']}.receive_date)-1) DAY) as {$tableName}_{$f
                         $select[] = "{$table['alias']}.receive_date, 
 LAST_DAY({$table['alias']}.receive_date) as {$tableName}_{$fieldName}_end"; 
                         break;
+
+                    case 'QUARTER':
+                        $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$table['alias']}.receive_date ) -2 , '/', '1', '/', YEAR( {$table['alias']}.receive_date ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
+                        $select[] = "LAST_DAY(STR_TO_DATE(CONCAT( 3 * QUARTER( {$table['alias']}.receive_date ) , '/', '1', '/', YEAR( {$table['alias']}.receive_date ) ), '%m/%d/%Y')) AS {$tableName}_{$fieldName}_end"; 
+                        break;
+
                     }
                     if ( CRM_Utils_Array::value( 'group_bys_freq', $this->_params ) ) {
                         $this->_columnHeaders["{$tableName}_{$fieldName}_start"] = $field['title'] . ' start';
