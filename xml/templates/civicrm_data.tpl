@@ -785,10 +785,10 @@ INSERT INTO civicrm_mailing_bounce_pattern
 -- add sample profile
 
 INSERT INTO civicrm_uf_group
-    (id, is_active, name,                 group_type,           title,                                      is_cms_user, is_reserved, help_post) VALUES
-    (1,  1,         NULL,                 'Individual,Contact', '{ts escape="sql"}Name and Address{/ts}',   0,           0,           NULL),
-    (2,  1,         NULL,                 'Individual,Contact', '{ts escape="sql"}Supporter Profile{/ts}',  2,           0,           '<p><strong>{ts escape="sql"}The information you provide will NOT be shared with any third party organisations.{/ts}</strong></p><p>{ts escape="sql"}Thank you for getting involved in our campaign!{/ts}</p>', 0),
-    (3,  1,         'participant_status', 'Participant',        '{ts escape="sql"}Participant Status{/ts}', 0,           1,           NULL);
+    (id, name,                 group_type,           title,                                      is_cms_user, is_reserved, help_post) VALUES
+    (1,  NULL,                 'Individual,Contact', '{ts escape="sql"}Name and Address{/ts}',   0,           0,           NULL),
+    (2,  NULL,                 'Individual,Contact', '{ts escape="sql"}Supporter Profile{/ts}',  2,           0,           '<p><strong>{ts escape="sql"}The information you provide will NOT be shared with any third party organisations.{/ts}</strong></p><p>{ts escape="sql"}Thank you for getting involved in our campaign!{/ts}</p>'),
+    (3,  'participant_status', 'Participant',        '{ts escape="sql"}Participant Status{/ts}', 0,           1,           NULL);
 
 INSERT INTO civicrm_uf_join
    (is_active,module,entity_table,entity_id,weight,uf_group_id)
@@ -799,18 +799,18 @@ VALUES
    (1, 'Profile', NULL, NULL, 2, 2);
    
 INSERT INTO civicrm_uf_field
-       (id, uf_group_id, field_name,              is_active, is_view, is_required, is_reserved, weight, visibility,                  in_selector, is_searchable, location_type_id, phone_type_id, label,                                         field_type,    help_post) VALUES
-       (1,  1,           'first_name',            1,         0,       1,           0,           1,      'Public Pages and Listings', 0,           1,             NULL,             NULL,          '{ts escape="sql"}First Name{/ts}',            'Individual',  ''),
-       (2,  1,           'last_name',             1,         0,       1,           0,           2,      'Public Pages and Listings', 0,           1,             NULL,             NULL,          '{ts escape="sql"}Last Name{/ts}',             'Individual',  '{ts escape="sql"}First and last name will be shared with other visitors to the site.{/ts}'),
-       (3,  1,           'street_address',        1,         0,       0,           0,           3,      'User and User Admin Only',  0,           0,             1,                NULL,          '{ts escape="sql"}Street Address (Home){/ts}', 'Contact',     ''),
-       (4,  1,           'city',                  1,         0,       0,           0,           4,      'User and User Admin Only',  0,           0,             1,                NULL,          '{ts escape="sql"}City (Home){/ts}',           'Contact',     ''),
-       (5,  1,           'postal_code',           1,         0,       0,           0,           5,      'User and User Admin Only',  0,           0,             1,                NULL,          '{ts escape="sql"}Postal Code (Home){/ts}',    'Contact',     ''),
-       (6,  1,           'country',               1,         0,       0,           0,           6,      'Public Pages and Listings', 0,           1,             1,                NULL,          '{ts escape="sql"}Country (Home){/ts}',        'Contact',     '{ts escape="sql"}Your state/province and country of residence will be shared with others so folks can find others in their community.{/ts}'),
-       (7,  1,           'state_province',        1,         0,       0,           0,           7,      'Public Pages and Listings', 1,           1,             1,                NULL,          '{ts escape="sql"}State (Home){/ts}',          'Contact',     ''),
-       (8,  2,           'first_name',            1,         0,       1,           0,           1,      'User and User Admin Only',  0,           0,             NULL,             NULL,          '{ts escape="sql"}First Name{/ts}',            'Individual',  ''),
-       (9,  2,           'last_name',             1,         0,       1,           0,           2,      'User and User Admin Only',  0,           0,             NULL,             NULL,          '{ts escape="sql"}Last Name{/ts}',             'Individual',  ''),
-       (10, 2,           'email',                 1,         0,       1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             NULL,          '{ts escape="sql"}Email Address{/ts}',         'Contact',     ''),
-       (11, 3,           'participant_status_id', 1,         0,       1,           1,           1,      'User and User Admin Only',  0,           0,             NULL,             NULL,          '{ts escape="sql"}Participant Status{/ts}',    'Participant', '');
+       (id, uf_group_id, field_name,              is_required, is_reserved, weight, visibility,                  in_selector, is_searchable, location_type_id, label,                                         field_type,    help_post) VALUES
+       (1,  1,           'first_name',            1,           0,           1,      'Public Pages and Listings', 0,           1,             NULL,             '{ts escape="sql"}First Name{/ts}',            'Individual',  NULL),
+       (2,  1,           'last_name',             1,           0,           2,      'Public Pages and Listings', 0,           1,             NULL,             '{ts escape="sql"}Last Name{/ts}',             'Individual',  '{ts escape="sql"}First and last name will be shared with other visitors to the site.{/ts}'),
+       (3,  1,           'street_address',        0,           0,           3,      'User and User Admin Only',  0,           0,             1,                '{ts escape="sql"}Street Address (Home){/ts}', 'Contact',     NULL),
+       (4,  1,           'city',                  0,           0,           4,      'User and User Admin Only',  0,           0,             1,                '{ts escape="sql"}City (Home){/ts}',           'Contact',     NULL),
+       (5,  1,           'postal_code',           0,           0,           5,      'User and User Admin Only',  0,           0,             1,                '{ts escape="sql"}Postal Code (Home){/ts}',    'Contact',     NULL),
+       (6,  1,           'country',               0,           0,           6,      'Public Pages and Listings', 0,           1,             1,                '{ts escape="sql"}Country (Home){/ts}',        'Contact',     '{ts escape="sql"}Your state/province and country of residence will be shared with others so folks can find others in their community.{/ts}'),
+       (7,  1,           'state_province',        0,           0,           7,      'Public Pages and Listings', 1,           1,             1,                '{ts escape="sql"}State (Home){/ts}',          'Contact',     NULL),
+       (8,  2,           'first_name',            1,           0,           1,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}First Name{/ts}',            'Individual',  NULL),
+       (9,  2,           'last_name',             1,           0,           2,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Last Name{/ts}',             'Individual',  NULL),
+       (10, 2,           'email',                 1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL),
+       (11, 3,           'participant_status_id', 1,           1,           1,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Participant Status{/ts}',    'Participant', NULL);
 
 INSERT INTO civicrm_participant_status_type
   (id, name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id) VALUES
