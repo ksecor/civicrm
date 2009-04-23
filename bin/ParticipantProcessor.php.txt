@@ -76,6 +76,7 @@ class CRM_ParticipantProcessor
         
         $dao =& CRM_Core_DAO::executeQuery( $query );
         
+        $primaryToAdditonalIds = array( );
         $participantDetails = $contactIds = $eventIds = $expiredParticipantIds = $fullEvents = array( );
         while ( $dao->fetch( ) ) {
             $participantDetails[$dao->participant_id] = array( 'id'               => $dao->participant_id,
@@ -91,6 +92,11 @@ class CRM_ParticipantProcessor
             
             $eventIds[$dao->event_id]     = $dao->event_id;
             $contactIds[$dao->contact_id] = $dao->contact_id;
+            
+            //build the array of all additional participants w/ primary.
+            if ( $dao->registered_by_id ) {
+                $primaryToAdditonalIds[$dao->registered_by_id][] = $dao->participant_id;
+            }
         }
         
         if ( !empty( $contactIds ) ) {
@@ -127,6 +133,11 @@ class CRM_ParticipantProcessor
             }
             
             foreach ( $participantDetails as $participantId => $values ) {
+                //process the additional participant at the time of
+                //primary participant, don't process separately.
+                if ( CRM_Utils_Array::value( 'registered_by_id', $values ) ) {
+                    continue;
+                }
                 
                 // cron 1. handle registration expiration related stuff
                 $expirationTime = CRM_Utils_Array::value( 'expiration_time', $allEvents[$values['event_id']] );
@@ -138,23 +149,45 @@ class CRM_ParticipantProcessor
                     
                     // expired registration since registration cross allow confirmation time.
                     if ( ( $expirationSeconds + $registrationPendingSeconds ) < time( ) ) {
+                        
+                        //lets get the transaction mechanism.
+                        require_once 'CRM/Core/Transaction.php';
+                        $transaction = new CRM_Core_Transaction( );
+                        
                         //set status to expired.
                         $expiredId = array_search( 'Expired', $expiredStatuses );
-                        CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participantId, 'status_id', $expiredId );
+                        
+                        require_once 'CRM/Event/BAO/Participant.php';
+                        //lets update all family member at once. 
+                        CRM_Event_BAO_Participant::updateParticipantStatus( $participantId, $expiredId );
                         $expiredParticipantCount += 1;
                         
-                        //send email to  primary as well as additional participants.
+                        //send email to primary participant.
                         $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $domainValues, true );
                         echo "<br />- status updated to: Expired<br />";
+                        
+                        //we need to make sure all participant family
+                        //get mails and update status appropriate.
+                        if ( array_key_exists( $participantId, $primaryToAdditonalIds ) ) {
+                            foreach ( $primaryToAdditonalIds[$participantId] as $additionParticipantId ) {
+                                $expiredParticipantCount += 1;
+                                //send email to additional participants.
+                                $this->sendMail( $additionParticipantId, $participantDetails[$additionParticipantId], 
+                                                 $allEvents, $contactDetails, $domainValues, true );
+                                echo "<br />- status updated to: Expired<br />"; 
+                            }
+                        }
+                        //commit the transaction.
+                        $transaction->commit( );
                     }
                     //status expiration stuff complete here.
                 } else if ( array_key_exists( $values['status_id'], $waitingStatuses ) && 
                             !array_key_exists( $values['event_id'], $fullEvents ) ) {
                     
                     //cron 2 : handle moving participants from waitlist to event with pending status
-                    //consider only primary participants.
                     
-                    if ( $waitingStatuses[$values['status_id']] == 'On waitlist' && !$values['registered_by_id'] ) {
+                    if ( $waitingStatuses[$values['status_id']] == 'On waitlist' ) {
+                        
                         //check the target event having space.
                         require_once 'CRM/Event/BAO/Participant.php';
                         $eventOpenSpaces = CRM_Event_BAO_Participant::eventFull( $values['event_id'], true, false );
@@ -165,15 +198,37 @@ class CRM_ParticipantProcessor
                             
                             //need to check as to see if event has enough speces
                             if ( ( $requiredSpaces <= $eventOpenSpaces ) || ( $eventOpenSpaces === null ) ) {
+                                
+                                //lets get the transaction mechanism.
+                                require_once 'CRM/Core/Transaction.php';
+                                $transaction = new CRM_Core_Transaction( );
+                                
                                 //hey time to move participant to event.
                                 $updateStatusId = array_search( 'Pending from waitlist', $pendingStatuses );
-                                CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participantId, 'status_id', $updateStatusId );
+                                
+                                require_once 'CRM/Event/BAO/Participant.php';
+                                //lets update all family member at once.
+                                CRM_Event_BAO_Participant::updateParticipantStatus( $participantId, $updateStatusId );
                                 $waitingConfirmCount += 1;
                                 
                                 //need to send email with confirmation link.
-                                //send email to only primary participants.
+                                //send email to primary participant.
                                 $this->sendMail( $participantId, $values, $allEvents, $contactDetails, $domainValues, false, true  );
                                 echo "<br />- status updated to: Pending from waitlist<br />";
+                                
+                                //we need to make sure all participant family
+                                //get mails and update status appropriate.
+                                if ( array_key_exists( $participantId, $primaryToAdditonalIds ) ) {
+                                    foreach ( $primaryToAdditonalIds[$participantId] as $additionParticipantId ) {
+                                        $waitingConfirmCount += 1;
+                                        //send email to additional participants.
+                                        $this->sendMail( $additionParticipantId, $participantDetails[$additionParticipantId], 
+                                                         $allEvents, $contactDetails, $domainValues, false, true );
+                                        echo "<br />- status updated to: Pending from waitlist<br />"; 
+                                    }
+                                }
+                                //commit the transaction.
+                                $transaction->commit( );
                             } else {
                                 $fullEvents[$values['event_id']] = $allEvents[$values['event_id']]['title'];
                             }
@@ -199,7 +254,7 @@ class CRM_ParticipantProcessor
     function sendMail( $participantId, &$values, &$allEvents, &$contactDetails, 
                        &$domainValues, $isExpiredMail = false, $isConfirmMail = false ) 
     {
-        if ( !array_key_exists( $values['contact_id'], $contactDetails ) ) {
+        if ( !CRM_Utils_Array::value('contact_id', $values ) || !array_key_exists( $values['contact_id'], $contactDetails ) ) {
             return;
         }
         
@@ -243,7 +298,7 @@ class CRM_ParticipantProcessor
             
             //calculate the checksum value.
             $checksumValue = null;
-            if ( $isConfirmMail ) {
+            if ( $isConfirmMail && !$values['registered_by_id'] ) {
                 require_once 'CRM/Utils/Date.php';
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
                 $checksumLife = 'inf';
