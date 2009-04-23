@@ -54,8 +54,7 @@ class CRM_Core_Block {
         ADD             = 4,
         LANGSWITCH      = 5,
         EVENT           = 6,
-        FULLTEXT_SEARCH = 7,
-        RECENTLY_VIEWED = 8;
+        FULLTEXT_SEARCH = 7;
     
     /**
      * template file names for the above blocks
