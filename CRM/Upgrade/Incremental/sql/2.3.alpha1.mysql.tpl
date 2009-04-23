@@ -43,6 +43,7 @@ ALTER TABLE `civicrm_mapping_field`
 
 
 -- migrate participant status types, CRM-4321
+-- FIXME for multilingual
 
 BEGIN;
 
@@ -75,3 +76,21 @@ BEGIN;
 
 COMMIT;
 
+
+
+-- add a profile for CRM-4323
+-- FIXME for multilingual
+
+BEGIN;
+
+  INSERT INTO civicrm_uf_group
+    (name,                 group_type,    title,                                      is_reserved) VALUES
+    ('participant_status', 'Participant', '{ts escape="sql"}Participant Status{/ts}', 1);
+
+  SELECT @ufgid := id FROM civicrm_uf_group WHERE name = 'participant_status';
+
+  INSERT INTO civicrm_uf_field
+    (uf_group_id, field_name,              is_required, is_reserved, label,                                      field_type) VALUES
+    (@ufgid,      'participant_status_id', 1,           1,           '{ts escape="sql"}Participant Status{/ts}', 'Participant');
+
+COMMIT;
