@@ -127,6 +127,16 @@ html>body .innerbox
 }
 
 /** Added by civicrm */
-li#crm-qsearch {
+
+.clickMenu li#crm-qsearch {
+    padding: 0 3px 2px 0;
+}
+
+.clickMenu li.hover#crm-qsearch {
+    background-color: #1B1B1B;
+}
+
+li#crm-qsearch input {
     background-color:#ffffff;
+    border: 1px solid black;
 }
