@@ -224,12 +224,12 @@ class CRM_Core_Menu
             self::buildReturnUrl  ( $menu, $path );
 
             // add add page_type if not present
-            if ( ! isset( $path['page_type'] ) ) {
-                $path['page_type'] = 0;
+            if ( ! isset( $menu[$path]['page_type'] ) ) {
+                $menu[$path]['page_type'] = 0;
             }
 
         }
-        
+
         self::buildNavigation( $menu );
 
         self::buildAdminLinks( $menu );
