@@ -48,13 +48,12 @@ class CRM_Core_Block {
      * @var int
      */
     const
-        MENU       =   1,
-        SHORTCUTS  =   2,
-        ADD        =   3,
-        LANGSWITCH =   4,
-        EVENT      =   5,
-        FULLTEXT_SEARCH = 6,
-        RECENTLY_VIEWED = 7;
+        SHORTCUTS  =   1,
+        ADD        =   2,
+        LANGSWITCH =   3,
+        EVENT      =   4,
+        FULLTEXT_SEARCH = 5,
+        RECENTLY_VIEWED = 6;
     
     /**
      * template file names for the above blocks
@@ -97,14 +96,6 @@ class CRM_Core_Block {
                                                                    'subject'    => ts('New Individual'),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
-                                                                   'visibility' => 1,
-                                                                   'pages'      => 'civicrm*',
-                                                                   'region'     => 'left' ),
-                                       self::MENU        => array( 'template'   => 'Menu.tpl',
-                                                                   'info'       => ts('CiviCRM Menu'),
-                                                                   'subject'    => ts('CiviCRM'),
-                                                                   'active'     => true,
-                                                                   'cache'      => BLOCK_CACHE_PER_PAGE,
                                                                    'visibility' => 1,
                                                                    'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
@@ -263,10 +254,6 @@ class CRM_Core_Block {
             self::setProperty( self::FULLTEXT_SEARCH, 'templateValues', $urlArray );
             break;    
 
-        case self::MENU:
-            self::setTemplateMenuValues( );
-            break;
-
         case self::RECENTLY_VIEWED:
             require_once 'CRM/Utils/Recent.php';
             $recent  =& CRM_Utils_Recent::get( );
@@ -278,7 +265,6 @@ class CRM_Core_Block {
             break;
 
         }
-
     }
 
     /**
