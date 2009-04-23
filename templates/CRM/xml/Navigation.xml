@@ -18,5 +18,27 @@
             <item key='Manage Events' label='Events'/>
             <item key='Manage Price Sets' label='Price Sets'/>
         </item>
-    </item>    
+    </item>
+    <item key='Administer CiviCRM' group='1'>
+        <item key='Customize' group='1'>
+            <item key='Custom Data'/>
+            <item key='CiviCRM Profile'/>
+			<item key='Manage Custom Searches'/>
+		</item>
+		<item key='Configure' group='1'>
+            <item key='Configuration Checklist'/>
+            <item key='Global Settings'/>
+			<item key='Find and Merge Duplicate Contacts'/>
+			<item key='Import/Export Mappings'/>
+            <item key='Message Templates'/>
+		</item>
+        <item key='Manage' group='1'>
+            <item key='Synchronize Users to Contacts'/>
+            <item key='Access Control'/>
+        </item>
+		<item key='Option Lists' group='1'>
+            <item key='Activity Types'/>
+            <item key='Gender Options'/>			
+        </item>
+    </item>
 </navigation>

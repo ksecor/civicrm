@@ -453,6 +453,7 @@ class CRM_Core_Menu
         ksort($values, SORT_NUMERIC );
         $i18n =& CRM_Core_I18n::singleton();
         $i18n->localizeTitles($values);
+        
         return $values;
     }
 
@@ -734,6 +735,14 @@ UNION (
                  // search for url in civicrm
                  // TO FIX: need to optimize this.
                  $menuArray = self::getNavigation( true );
+                 $adminArray = self::getAdminLinks();
+                 
+                 // FIXME: very quick hack to have admin stuff included, needs to be fixed!
+                 foreach( $adminArray as $key => $fields ) {
+                     if( $key !== '' ) {
+                         $menuArray = CRM_Utils_Array::crmArrayMerge( $menuArray, $fields['fields'] );
+                     }
+                 }
 
                  $urlFound = false;
                  foreach ( $menuArray as $key => $values ) {
