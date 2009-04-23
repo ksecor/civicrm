@@ -1201,12 +1201,9 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         require_once 'CRM/Core/DAO.php';
 
         $dao =& new CRM_Core_DAO( );
-        $queryString = 'SELECT civicrm_uf_group.id as id, civicrm_uf_group.title as title,
-                               civicrm_uf_group.is_active as is_active,
-                               civicrm_uf_group.is_reserved as is_reserved,
-                               civicrm_uf_group.group_type as group_type
+        $queryString = 'SELECT civicrm_uf_group.id, title, civicrm_uf_group.is_active, is_reserved, group_type
                         FROM civicrm_uf_group
-                        LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )';
+                        LEFT JOIN civicrm_uf_join ON (civicrm_uf_group.id = uf_group_id)';
         $p = array( );
         if ( $moduleName ) {
             $queryString .= ' AND civicrm_uf_group.is_active = 1
