@@ -1,16 +1,30 @@
 <?xml version="1.0"?> 
 <navigation>
+    <item key='Favourites' group='1'>
+       <item key='My Own Link' url='http://www.foo.org' />
+       <item key='Yet Another Link' url='http://www.foo.org' />
+    </item>
     <item key='Contacts' group='1' >
-        <item key='Search' group='1'>
-            <item key='Find Contacts' label='Basic'/>
-            <item key='Advanced Search' label='Advanced'/>
-            <item key='Search Builder'/>
-        </item>
         <item key='Create new ...' group='1'>
             <item key='Individual' url=''/>
             <item key='Organization' url=''/>
+            <item key='Household' url=''/>
         </item>
-        <item key='My Own Link' url='http://www.foo.org' />
+        <item key='Search' group='1'>
+            <item key='Find Contacts' label='Basic'/>
+			<item key='Fulltext' url=''/>
+            <item key='Advanced Search' label='Advanced'/>
+            <item key='Search Builder'/>
+        </item>
+        <item key='Groups and Tags' group='1'>
+            <item key='New Tag'/>
+			<item key='New Group'/>
+            <item key='Advanced Search' label='Advanced'/>
+            <item key='Search Builder'/>
+        </item>
+    </item>
+    <item key='Contributions' group='1'>
+       <item key='New Contribution' label='Create new ...'  url=''/>
     </item>
     <item key='Events' group='1'>
         <item key='New Event' label='Create new ...'/>
@@ -18,6 +32,21 @@
             <item key='Manage Events' label='Events'/>
             <item key='Manage Price Sets' label='Price Sets'/>
         </item>
+    </item>
+    <item key='Mailings' group='1'>
+        <item key='New Mailing' label='Create new ...'/>
+    </item>
+    <item key='Memberships' group='1'>
+    </item>
+    <item key='Other' group='1'>
+        <item key='Grants' group='1'>
+            <item key='New Grant' label='Create new ...'/>
+		</item>
+        <item key='Cases' group='1'>
+            <item key='Custom Data'/>
+            <item key='CiviCRM Profile'/>
+			<item key='Manage Custom Searches'/>
+		</item>		
     </item>
     <item key='Administer CiviCRM' group='1'>
         <item key='Customize' group='1'>
