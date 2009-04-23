@@ -31,8 +31,7 @@ cj( function( ) {
         success     : function( link ) {
                         var postURL = {/literal}"{crmURL p='civicrm/contact/search/basic' h=0 q='reset=1'}"{literal};
                         var menuHTML = '<ul id="civicrm_menu"><li id="crm-qsearch"><form action="'+ postURL +'" name="search_block" id="id_search_block" method="post" onsubmit="getSearchURLValue( );"><input type="text" class="form-text" id="sort_name" name="sort_name" style="width: 12em;"/><input type="hidden" id="contact_id" value=""><input type="submit" value="{ts}Go{/ts}" name="_qf_Basic_refresh" class="form-submit default" style="display: none;"/></form></li>' + link + '</ul>';
-    				    // temp hack
-    				    cj('#header-region').before( menuHTML );
+    				    cj('body').prepend( menuHTML );
     				    
     				    var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
     				    cj('#civicrm_menu').clickMenu( {arrowSrc: resourceBase + 'packages/jquery/css/images/arrow.png'} ); 
