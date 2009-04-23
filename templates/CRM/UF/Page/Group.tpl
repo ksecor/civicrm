@@ -39,6 +39,7 @@
             <th>{ts}ID{/ts}</th>
             <th>{ts}Used For{/ts}</th>
             <th>{ts}Status?{/ts}</th>
+            <th>{ts}Reserved{/ts}</th>
             <th></th>
          </tr>
         {foreach from=$rows item=row}
@@ -49,6 +50,7 @@
             <td>{$row.id}</td>
             <td>{$row.module}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td>{if $row.is_reserved}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}

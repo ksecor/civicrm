@@ -163,6 +163,12 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
+
+            if ($ufFieldBAO->is_reserved) {
+                $action -= CRM_Core_Action::UPDATE;
+                $action -= CRM_Core_Action::DISABLE;
+                $action -= CRM_Core_Action::DELETE;
+            }
             
             $ufField[$ufFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                             array('id'  => $ufFieldBAO->id,

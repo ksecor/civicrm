@@ -274,6 +274,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
             $ufGroup[$id]['title'     ] = $value['title'];
             $ufGroup[$id]['is_active' ] = $value['is_active'];
             $ufGroup[$id]['group_type'] = $value['group_type'];
+            $ufGroup[$id]['is_reserved'] = $value['is_reserved'];
 
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
@@ -283,6 +284,13 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
+            }
+
+            // drop certain actions if the profile is reserved
+            if ($value['is_reserved']) {
+                $action -= CRM_Core_Action::UPDATE;
+                $action -= CRM_Core_Action::DISABLE;
+                $action -= CRM_Core_Action::DELETE;
             }
             
             $ufGroup[$id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 

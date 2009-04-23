@@ -21,6 +21,7 @@
                 <th>{ts}Active{/ts}</th>	
                 <th>{ts}Required{/ts}</th>	
                 <th>{ts}View Only{/ts}</th>	
+                <th>{ts}Reserved{/ts}</th>
                 <th>&nbsp;</th>
             </thead>
             {foreach from=$ufField item=row}
@@ -34,6 +35,7 @@
                 <td>{if $row.is_active       eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                 <td>{if $row.is_required     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                 <td>{if $row.is_view         eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+                <td>{if $row.is_reserved     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                 <td>{$row.action|replace:'xx':$row.id}</td>
             </tr>
             {/foreach}
