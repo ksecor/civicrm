@@ -285,7 +285,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function addGroupBys( ) {
-        $options = array( );
+        $options = $freqOptions = array( );
+
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
@@ -294,9 +295,18 @@ class CRM_Report_Form extends CRM_Core_Form {
                     }
                 }
             }
+            if ( array_key_exists('group_bys_freq', $table) ) {
+                $freqOptions = $table['group_bys_freq'];
+            }
         }
+
         $this->addCheckBox( "group_bys", ts('Group by columns'), $options, null, 
                             null, null, null, $this->_fourColumnAttribute );
+        
+        if ( ! empty($freqOptions) ) {
+            $this->addElement( 'select', "group_bys_freq", 
+                               ts( 'Frequency' ), $freqOptions );
+        }
     }
 
     function buildQuickForm( ) {

@@ -54,13 +54,17 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                                'total_amount' => 
                                                array( 'title'      => ts( 'Total  Amount Between' ) ),
                                                ),
-                                        
                                         'group_bys'=>             
                                         array( 'receive_date' => 
                                                array( 'default'    => 'this month' ),
                                                'contribution_source'  => null,
-                                               'contribution_type' => null,
+                                               'contribution_type'    => null,
                                                'contribution_page_id' => null,
+                                               ),
+                                        'group_bys_freq'=>             
+                                        array( 'YEARWEEK' => 'Week',
+                                               'MONTH'    => 'Month',
+                                               'QUARTER'  => 'Quarter',
                                                ),
                                         ),
                                  );
