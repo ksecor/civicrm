@@ -54,7 +54,7 @@ div.cmDiv
 {
 	position: relative;
 	padding: 0 20px 0 2px;
-	/*white-space: nowrap; does not really work in ie */
+	white-space: nowrap;
 	background-image:none;
 }
 .clickMenu li.main
@@ -85,7 +85,7 @@ div.cmDiv
 .clickMenu a
 {
 	text-decoration: none;
-	color: black;
+	color: white;
 	cursor: default;
 }
 /* thats for the shadowbox */
