@@ -684,23 +684,30 @@ WHERE  civicrm_participant.id = {$participantId}
     /**
      * get the additional participant ids.
      *
-     * @param int    $primaryParticipantId  primary partycipant Id
-     * 
+     * @param int     $primaryParticipantId  primary partycipant Id
+     * @param boolean $excludeCancel         do not include participant those are cancelled.
+     *
      * @return array $additionalParticipantIds
      * @static
      */
-    static function getAdditionalParticipantIds( $primaryParticipantId )
+    static function getAdditionalParticipantIds( $primaryParticipantId, $excludeCancel = true )
     {
         $additionalParticipantIds = array( );
         if ( !$primaryParticipantId ) {
             return $additionalParticipantIds;
         }
         
+        $where = "participant.registered_by_id={$primaryParticipantId}";
+        if ( $excludeCancel ) {
+            $negativeStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'"  ); 
+            $cancelStatusId = array_search( 'Cancelled', $negativeStatuses );
+            $where .= " AND participant.status_id != {$cancelStatusId}";
+        }
+        
         $query = "
   SELECT  participant.id
     FROM  civicrm_participant participant
-   WHERE  participant.registered_by_id={$primaryParticipantId}
-ORDER BY  participant.id";
+   WHERE  {$where}"; 
         
         $dao = CRM_Core_DAO::executeQuery( $query );
         $cnt = 1;
@@ -711,7 +718,7 @@ ORDER BY  participant.id";
         
         return $additionalParticipantIds;
     }
-
+    
     /**
      * Function for update primary and additional participant status 
      *      
@@ -726,7 +733,7 @@ ORDER BY  participant.id";
         if ( !$participantID ) {
             return;
         }
-
+        
         $query = "UPDATE civicrm_participant cp SET cp.status_id = %1 WHERE ( cp.id = %2 OR cp.registered_by_id = %2 )";
 
         $params = array( 1 => array( $statusID, 'Integer' ), 2 => array( $participantID, 'Integer' ) );
