@@ -323,9 +323,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,
                                $url,
-                               null,
                                $membership->id,
-                               ts('Membership') );
+                               'Membership',
+                               $membership->contact_id,
+                               null );
         
         return $membership;
     }

@@ -278,9 +278,10 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,
                                $url,
-                               null,
                                $participant->id,
-                               ts('Participant') );
+                               'Participant',
+                               $participant->contact_id,
+                               null );
         
         return $participant;
     }

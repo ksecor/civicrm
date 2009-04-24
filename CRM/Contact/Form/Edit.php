@@ -701,9 +701,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $contact->id );
             CRM_Utils_Recent::add( $displayName,
                                    CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ),
-                                   $contactImage,
                                    $contact->id,
-                                   ts('Contact') );
+                                   $this->_contactType,
+                                   $contact->id,
+                                   $displayName );
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', 'reset=1&ct=' . $contact->contact_type ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));

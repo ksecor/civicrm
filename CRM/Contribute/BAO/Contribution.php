@@ -274,9 +274,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,
                                $url,
-                               null,
                                $contribution->id,
-                               ts('Contribution') );
+                               'Contribution',
+                               $contribution->contact_id,
+                               null );
         
         
         return $contribution;

@@ -346,7 +346,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @access public
      * @static
      */
-    static function getDisplayAndImage( $id ) 
+    static function getDisplayAndImage( $id, $type = false ) 
     {
         $sql = "
 SELECT    civicrm_contact.display_name as display_name,
@@ -366,7 +366,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             if ( empty( $dao->display_name ) ) {
                 $dao->display_name = $dao->email;
             }
-            return array( $dao->display_name, $image );
+            return $type ? array( $dao->display_name, $image, $dao->contact_type ) : array( $dao->display_name, $image );
         }
         return null;
     }
@@ -580,7 +580,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact->delete( );
 
         //delete the contact id from recently view
-        CRM_Utils_Recent::del($id);
+        CRM_Utils_Recent::delContact($id);
 
         // reset the group contact cache for this group
         require_once 'CRM/Contact/BAO/GroupContactCache.php';

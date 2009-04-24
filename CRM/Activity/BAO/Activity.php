@@ -432,9 +432,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             // add the recently created Activity
             CRM_Utils_Recent::add( $activity->subject,
                                    $url,
-                                   null,
                                    $activity->id,
-                                   ts('Activity') );
+                                   'Activity',
+                                   $params['target_contact_id'],
+                                   null
+                                   );
         }
         
         if ( CRM_Utils_Array::value( 'id', $params ) ) {

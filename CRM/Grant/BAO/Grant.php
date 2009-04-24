@@ -234,9 +234,10 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,
                                $url,
-                               null,
                                $grant->id,
-                               ts('Grant') );
+                               'Grant',
+                               $grant->contact_id,
+                               null );
         
         if ( CRM_Utils_Array::value( 'grant', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Grant', $grant->id, $grant );

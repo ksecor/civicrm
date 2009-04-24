@@ -46,7 +46,7 @@ class CRM_Utils_Recent {
      * @int
      */
     const
-        MAX_ITEMS  = 5,
+        MAX_ITEMS  = 10,
         STORE_NAME = 'CRM_Utils_Recent';
 
     /**
@@ -98,7 +98,7 @@ class CRM_Utils_Recent {
      * @access public
      * @static
      */
-    static function add( $title, $url, $icon, $id, $tooltip = null ) {
+    static function add( $title, $url, $id, $type, $contactId, $contactName ) {
         self::initialize( );
 
         $session =& CRM_Core_Session::singleton( );
@@ -111,13 +111,18 @@ class CRM_Utils_Recent {
                 break;
             }
         }
+
+//        switch ( $tableName ) {
+//            case 'civicrm_phone':
+                                                                                               
         
         array_unshift( self::$_recent,
-                       array( 'title'   => $title, 
-                              'url'     => $url,
-                              'icon'    => $icon,
-                              'id'      => $id,
-                              'tooltip' => $tooltip ) );
+                       array( 'title'       => $title,
+                              'url'         => $url,
+                              'id'          => $id,
+                              'type'        => $type,
+                              'contact_id'  => $contactId,
+                              'contactName' => $contactName) );
         if ( count( self::$_recent ) > self::MAX_ITEMS ) {
             array_pop( self::$_recent );
         }
@@ -135,6 +140,34 @@ class CRM_Utils_Recent {
      * @static
      */
     static function del( $id ) {
+        self::initialize( );
+
+        $tempRecent = self::$_recent;
+        
+        self::$_recent = '';
+        
+        // make sure item is not already present in list
+        for ( $i = 0; $i < count( $tempRecent ); $i++ ) {
+            if ( $tempRecent[$i]['id' ] != $id ) {
+                self::$_recent[] = $tempRecent[$i];
+            }
+        }
+        
+        $session =& CRM_Core_Session::singleton( );
+        $session->set( self::STORE_NAME, self::$_recent );
+    }
+
+
+    /**
+     * delete an item from the recent stack
+     *
+     * @param string $id  contact id that had to be removed
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function delContact( $id ) {
         self::initialize( );
 
         $tempRecent = self::$_recent;

@@ -168,9 +168,11 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         // add the recently created case
         CRM_Utils_Recent::add( $title,
                                $url,
-                               null,
                                $caseContact->case_id,
-                               ts('Case') );
+                               'Case',
+                               $params['contact_id'],
+                               null
+                               );
         
         return $caseContact;
     }

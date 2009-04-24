@@ -226,9 +226,10 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,
                                $url,
-                               null,
                                $pledge->id,
-                               ts('Pledge') );
+                               'Pledge',
+                               $pledge->contact_id,
+                               null );
         
         return $pledge;
    }

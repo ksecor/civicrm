@@ -2,7 +2,7 @@
 <div id="recently-viewed">
     <ul>
     {foreach from=$recentlyViewed item=item}
-         <li><a href="{$item.url}" title="{$item.tooltip}">{$item.title}</a></li>
+         <li><img src="{$config->resourceBase}/i/recent/{$item.type}.png" alt="{$item.type}"><a href="{$item.url}" title="{$item.tooltip}">{$item.title}</a></li>
     {/foreach}
    </ul>
 </div>

@@ -90,7 +90,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
 
         $displayName = $this->get( 'displayName' );
         
-        list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $uid);
+        list( $displayName, $contactImage, $contactType ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $uid, true );
         
         $this->set( 'displayName' , $displayName );
         $this->set( 'contactImage', $contactImage );
@@ -98,7 +98,10 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $uid ),
-                               $contactImage,$uid, ts('Contact') );
+                               $uid,
+                               $contactType,
+                               $uid,
+                               $displayName );
         
         // call hook to get html from other modules
         require_once 'CRM/Utils/Hook.php';

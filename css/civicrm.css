@@ -804,14 +804,29 @@ div.crm-pager a {
 }
 
 /* Recently Viewed bar */
-.block-civicrm div#recently-viewed ul li {
+.block-civicrm div#recently-viewed ul {
   font-size: .9em;
- // overflow: hidden;
-  background-color: #fff;
-  margin: -.5em 0em 0em -2.0em;
+  // overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+.block-civicrm div#recently-viewed ul li {
+  margin: 1px;
+  padding: 1px;
+  padding-left: 3px;
   border: 1px solid #92B6EC;
-  padding: 2px;
-  list-style-image: url(../../misc/menu-leaf.png);
+  background-color: #fff;
+  background-position: middle left;
+  white-space: nowrap;
+}
+
+.block-civicrm div#recently-viewed ul li a {
+  margin-left: 4px;
+}
+
+.block-civicrm div#recently-viewed ul li img {
+  vertical-align: middle;
 }
 
 #crm-container div#alpha-filter {
@@ -823,17 +838,10 @@ div.crm-pager a {
 #crm-container #recently-viewed ul, #crm-container #alpha-filter ul {
   border-collapse: collapse;
   padding: 0em;
-  white-space: nowrap;
   list-style-type: none;
   margin: 3px;
   height: auto;
   width: auto;
-}
-#crm-container #recently-viewed li {
-  display: inline;
-  height: auto;
-  margin: 0em;
-  padding: 5px;
 }
 
 #crm-container #alpha-filter li {

@@ -145,6 +145,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         $contactImage = $this->get( 'contactImage' );
         $displayName  = $this->get( 'displayName'  );
+        $contactType  = $this->get( 'contactType' );
         $this->assign( 'displayName', $displayName );
 
         // see if other modules want to add a link activtity bar
@@ -157,8 +158,10 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         CRM_Utils_System::setTitle( $displayName, $contactImage . ' ' . $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId ),
-                               $contactImage,
-                               $this->_contactId );
+                               $this->_contactId,
+                               $contactType,
+                               $this->_contactId,
+                               $displayName );
         
         //display OtherActivity link 
         $otherAct = CRM_Core_PseudoConstant::activityType(false);
@@ -197,15 +200,11 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     {
         $displayName = $this->get( 'displayName' );
              
-        // if the display name is cached, we can skip the other processing
-        if ( isset( $displayName ) ) {
-            // return;
-        }
-
-        list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
+        list( $displayName, $contactImage, $contactType ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId, true );
 
         $this->set( 'displayName' , $displayName );
         $this->set( 'contactImage', $contactImage );
+        $this->set( 'contactType', $contactType );
     }
 
     function getSearchURL( ) {
