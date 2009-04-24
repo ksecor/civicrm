@@ -1,8 +1,7 @@
- <div id="id_{$formTpl}_show" class="section-hidden section-hidden-border">
-       <a href="#" onclick="hide('id_{$formTpl}_show'); show('id_{$formTpl}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}New Report{/ts}</label><br />
-    </div>
+<div id="id_{$formTpl}_show" class="section-hidden section-hidden-border">
+       <a href="#" onclick="hide('id_{$formTpl}_show');show('id_{$formTpl}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif"   class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Report Criteria{/ts}</label><br /></div>
 
-    <div id="id_{$formTpl}">
+<div id="id_{$formTpl}">
       <fieldset><legend><a href="#" onclick="hide('id_{$formTpl}'); show('id_{$formTpl}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Report Criteria{/ts}</legend>
 
 {if ! $printOnly}
@@ -53,13 +52,10 @@
    {/foreach}
    </table>
 </fieldset>
-
-{if $instanceForm}
-  {include file="CRM/Report/Form/Instance.tpl"}
-{/if}
-	
-<div id="crm-submit-buttons">{$form.buttons.html}</div>
 </div>
+
+
+
 {literal}
 <script type="text/javascript">
    {/literal}
@@ -89,6 +85,19 @@
 
 </div>
 
+{if $instanceForm}
+<div id="id_{$instanceForm}_show" class="section-hidden section-hidden-border">
+      <a href="#" onclick="hide('id_{$instanceForm}_show'); show('id_{$instanceForm}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Report Settings{/ts}</label><br />
+</div>
+
+<div id="id_{$instanceForm}">
+      <fieldset><legend><a href="#" onclick="hide('id_{$instanceForm}'); show('id_{$instanceForm}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Report Settings{/ts}</legend>
+{include file="CRM/Report/Form/Instance.tpl"}
+</div>
+  
+{/if}
+<div id="crm-submit-buttons">{$form.buttons.html}</div>
+
 {include file="CRM/Report/Form/Layout/Table.tpl"}
 <script type="text/javascript">
     {if empty($rows) }
@@ -97,6 +106,21 @@
     {else}
 	var showBlocks = new Array("id_{$formTpl}_show");
         var hideBlocks = new Array("id_{$formTpl}");
+    {/if}
+    {* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+</script>
+
+
+<script type="text/javascript">
+    {if $instanceForm}
+    {if empty($rows) }
+	var showBlocks = new Array("id_{$instanceForm}");
+        var hideBlocks = new Array("id_{$instanceForm}_show");
+    {else}
+	var showBlocks = new Array("id_{$instanceForm}_show");
+        var hideBlocks = new Array("id_{$instanceForm}");
+    {/if}
     {/if}
     {* hide and display the appropriate blocks as directed by the php code *}
     on_load_init_blocks( showBlocks, hideBlocks );

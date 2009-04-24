@@ -1,6 +1,4 @@
 <div id="instanceForm">
-<fieldset>
-  <legend>{ts}Report Settings{/ts}</legend>
   <table class="form-layout">
     <tr><td class="label">{$form.title.label}</td><td>{$form.title.html}</td></tr>
     <tr><td class="label">{$form.to_emails.label}</td><td>{$form.to_emails.html|crmReplace:class:huge}</td></tr>
@@ -8,5 +6,4 @@
     <tr><td class="label">{$form.report_header.label}</td><td>{$form.report_header.html}</td></tr>
     <tr><td class="label">{$form.report_footer.label}</td><td>{$form.report_footer.html}</td></tr>
  </table>
-</fieldset>
 </div>
