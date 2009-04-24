@@ -67,6 +67,7 @@ CRM/Mailing/Event/DAO
 CRM/Member/DAO
 CRM/Pledge/DAO
 CRM/Project/DAO
+CRM/Report/DAO
 bin/setup.sh
 l10n
 settings_location.php
