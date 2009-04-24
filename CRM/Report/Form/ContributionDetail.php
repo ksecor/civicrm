@@ -125,7 +125,8 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                     }
 
                     $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
-                    $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
+                    $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
+                    $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = $field['type'];
                 }
             }
         }
