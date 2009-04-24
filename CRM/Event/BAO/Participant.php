@@ -747,7 +747,7 @@ ORDER BY  participant.id";
      * @access public
      * @static
      */
-    static function transitionParticipants( $participantIds, $fromStatusId, $toStatusId )
+    static function transitionParticipants( $participantIds, $fromStatusId, $toStatusId, $returnResult = false )
     {    
         if ( !is_array( $participantIds ) || empty( $participantIds ) ) {
             return;
@@ -877,24 +877,29 @@ ORDER BY  participant.id";
         //as we process additional w/ primary, there might be case if user
         //select primary as well as additionals, so avoid double processing.
         $processedParticipantIds = array( );
+        $mailedParticipantIds    = array( );
         
         //send mails and update status.
         foreach ( $participantDetails as $participantId => $participantValues ) {
             if ( in_array( $participantId,  $processedParticipantIds ) ) {
                 continue;
             }
-            $processedParticipantIds[] = $participantId;
             
             //check is it primary and has additional.
             if ( array_key_exists( $participantId, $primaryANDAdditonalIds ) ) {
                 foreach ( $primaryANDAdditonalIds[$participantId] as $additonalId ) {
                     if ( $emailType ) {
-                        self::sendTransitionParticipantMail( $additonalId, 
-                                                             $participantDetails[$additonalId],
-                                                             $eventDetails[$participantDetails[$additonalId]['event_id']],
-                                                             $contactDetails[$participantDetails[$additonalId]['contact_id']],
-                                                             $domainValues,
-                                                             $emailType );
+                        $mail = self::sendTransitionParticipantMail( $additonalId, 
+                                                                     $participantDetails[$additonalId],
+                                                                     $eventDetails[$participantDetails[$additonalId]['event_id']],
+                                                                     $contactDetails[$participantDetails[$additonalId]['contact_id']],
+                                                                     $domainValues,
+                                                                     $emailType );
+                        
+                        //get the mail participant ids
+                        if ( $mail ) {
+                            $mailedParticipantIds[] = $additonalId;
+                        }
                     }
                     $processedParticipantIds[] = $additonalId;
                 }
@@ -902,16 +907,29 @@ ORDER BY  participant.id";
             
             //now send email appropriate mail to primary.
             if ( $emailType ) {
-                self::sendTransitionParticipantMail( $participantId, 
-                                                     $participantValues, 
-                                                     $eventDetails[$participantValues['event_id']],
-                                                     $contactDetails[$participantValues['contact_id']],
-                                                     $domainValues,
-                                                     $emailType );
+                $mail = self::sendTransitionParticipantMail( $participantId, 
+                                                             $participantValues, 
+                                                             $eventDetails[$participantValues['event_id']],
+                                                             $contactDetails[$participantValues['contact_id']],
+                                                             $domainValues,
+                                                             $emailType );
+                
+                //get the mail participant ids
+                if ( $mail ) {
+                    $mailedParticipantIds[] = $participantId;
+                }
             }
             
             //now update status of group/one at once.
             self::updateParticipantStatus( $participantId, $toStatusId );
+            $processedParticipantIds[] = $participantId;
+        }
+        
+        //return result for cron.
+        if ( $returnResult ) {
+            $results = array( 'noUpdatedParticipantIds' => $processedParticipantIds,
+                              'noMailedParticipantIds'  => $mailedParticipantIds );
+            return $results;
         }
     }
     
@@ -937,6 +955,7 @@ ORDER BY  participant.id";
                                             &$domainValues,
                                             $mailType ) {
         //send emails.
+        $mailSent = false;
         if ( $toEmail = CRM_Utils_Array::value( 'email', $contactDetails ) ) {
             
             $contactId       = $participantValues['contact_id'];
@@ -1042,16 +1061,10 @@ ORDER BY  participant.id";
                 if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::fatal("Failed creating Activity for expiration mail");
                 }
-                
-                //set message related to mail sent.
-                if ( $isConfirmMail ) {
-                    echo "<br />Confirmation Mail sent to: {$participantName} - {$toEmail}";
-                } else if ( $isExpiredMail ) {
-                    echo "<br />Expiration Mail sent to: {$participantName} - {$toEmail}";
-                }
             }
         }
         
+        return $mailSent;
     }
     
 }
