@@ -135,41 +135,34 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                     case 'YEARWEEK' :
                         $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
-                        $select[] = "DATE_ADD({$field['dbAlias']}, 
-INTERVAL(6 - WEEKDAY({$field['dbAlias']})) DAY) AS {$tableName}_{$fieldName}_end"; 
                         $field['title'] = 'Week';
                         break;
 
                     case 'YEAR' :
                         $select[] = "MAKEDATE(YEAR({$field['dbAlias']}), 1)  
 AS {$tableName}_{$fieldName}_start";
-                        $select[] = "LAST_DAY(MAKEDATE(YEAR({$field['dbAlias']}), 365)) 
-AS {$tableName}_{$fieldName}_end"; 
                         $field['title'] = 'Year';
                         break;
 
                     case 'MONTH':
                         $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_start";
-                        $select[] = "{$field['dbAlias']}, 
-LAST_DAY({$field['dbAlias']}) as {$tableName}_{$fieldName}_end"; 
                         $field['title'] = 'Month';
                         break;
 
                     case 'QUARTER':
                         $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) -2 , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
-                        $select[] = "LAST_DAY(STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y')) AS {$tableName}_{$fieldName}_end"; 
                         $field['title'] = 'Quarter';
                         break;
 
                     }
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = $field['title'] . ' Begins';
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type']  = $field['type'];
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['group_by'] = $this->_params['group_bys_freq'][$fieldName];
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]['title']   = $field['title'] . ' Ends';
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]['type']    = $field['type'];
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]['group_by'] = $this->_params['group_bys_freq'][$fieldName];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = 
+                            $field['title'] . ' Begins';
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type']  = 
+                            $field['type'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['group_by'] = 
+                            $this->_params['group_bys_freq'][$fieldName];
                     }
                 }
             }
