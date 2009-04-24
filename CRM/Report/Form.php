@@ -80,6 +80,8 @@ class CRM_Report_Form extends CRM_Core_Form {
      */
     protected $_options = array( );
 
+    protected $_defaults = array( );
+
     /**
      * Set of statistic fields
      *
@@ -237,6 +239,10 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->postProcess( );
         }
 
+    }
+
+
+    funtion processGetParams( ) {
     }
 
     function setDefaultValues( ) {
