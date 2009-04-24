@@ -749,7 +749,7 @@ ORDER BY  participant.id";
      */
     static function transitionParticipants( $participantIds, $fromStatusId, $toStatusId )
     {    
-        if ( !is_array( $participantIds ) && empty( $participantIds ) ) {
+        if ( !is_array( $participantIds ) || empty( $participantIds ) ) {
             return;
         }
         
@@ -848,55 +848,29 @@ ORDER BY  participant.id";
         //now we are ready w/ all required data.
         //take a decision as per statuses. 
         
-        $emailType = null;
+        $emailType  = null;
         $toStatus   = $statusTypes[$toStatusId];
         $fromStatus = $statusTypes[$fromStatusId];
         
-        switch ( $fromStatus ) {
-        case 'On waitlist' :
-            //need to handle cases that from waitlist
-            switch ( $toStatus ) {
-            case 'Pending from waitlist' :
+        switch ( $toStatus ) { 
+        case 'Pending from waitlist' :
+        case 'Pending from approval':
+            switch ( $fromStatus ) {
+            case 'On waitlist':
+            case 'Awaiting approval':
                 $emailType = 'Confirm';
                 break;
-                
-            case 'Cancelled' :
-                break;
             }
             break;
             
-        case 'Pending from waitlist' :
-            switch ( $toStatus ) {
-            case 'Expired':
-                //need to send mails for expired registration.
-                break;
-                
-            case 'Cancelled' :
-                break;
-            }
+        case 'Expired' :
+            //no matter from where u come send expired mail.
+            $emailType = $toStatus;
             break;
             
-        case 'Pending from approval' :
-            switch ( $toStatus ) {
-            case 'Expired':
-                //need to send mails for expired registration.
-                break;
-                
-            case 'Cancelled' :
-                break;   
-            }
-            break;
-            
-        case 'Pending from pay later' :
-            switch ( $toStatus ) {
-            case 'Expired':
-                //need to send mails for expired registration.
-                break;
-                
-            case 'Cancelled' :
-                break;
-            }
-            
+        case 'Cancelled':
+            //no matter from where u come send cancel mail.
+            $emailType = $toStatus;
             break;
         }
         
