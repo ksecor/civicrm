@@ -724,7 +724,7 @@ UNION (
             $preference->contact_id = $contactID;
             $preference->find(true);
             $preference->navigation = self::$_navigationCache;
-            $preference->save();
+            //$preference->save();
         }
         return self::$_navigationCache;
     }
@@ -771,6 +771,8 @@ UNION (
                 if ( $name ) { 
                     $object .= '<li>' . $name;
                     self::recurseNavigation($children, $object );
+                } else if ( isset( $children['separator'] ) ) {
+                    $object .= '<li class="menu-separator"></li>';
                 }
             }
 
@@ -792,6 +794,10 @@ UNION (
       *  Get Menu name
       */
      function getMenuName( &$children ) {
+         if ( isset( $children['separator'] ) ) {
+             return false;
+         }
+         
          $name = $children['key'];
          
          //localize the label     
@@ -805,8 +811,12 @@ UNION (
          }
 
          if ( !isset( $children['group'] ) ) {
-             if ( isset( $children['url'] ) && substr( $children['url'], 0, 4 ) === 'http' ) {
-                 $url = $children['url'];
+             if ( isset( $children['url'] ) ) {
+                if ( substr( $children['url'], 0, 4 ) === 'http' ) {
+                    $url = $children['url'];
+                } else {
+                    $url = CRM_Utils_System::url( $children['url'] );
+                }
              } else {
                  // get url from civicrm based on permission                
                  $validMenus = self::retrieveNavigation( );

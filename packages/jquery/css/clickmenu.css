@@ -24,7 +24,7 @@ div.cmDiv
 .clickMenu ul
 {
 	margin: 0;
-	padding: 2px;
+	padding: 0px;
 	border: 1px solid black;
 	/*background-color: #eee;*/
 	background:#5D5D5D repeat-x;
@@ -144,4 +144,12 @@ li#crm-qsearch input {
 li#menu-logout {
     float: right;
     border-left: 1px solid #5D5D5D;
+}
+
+li.menu-separator {
+    border-bottom:1px solid #000000;
+    font-size:0pt;
+    height:0pt;
+    line-height:0pt;
+    margin:0pt;
 }
