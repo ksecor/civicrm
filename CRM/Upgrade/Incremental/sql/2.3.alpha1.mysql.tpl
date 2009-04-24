@@ -94,3 +94,6 @@ BEGIN;
     (@ufgid,      'participant_status_id', 1,           1,           '{ts escape="sql"}Participant Status{/ts}', 'Participant');
 
 COMMIT;
+
+-- CRM-4407
+ALTER TABLE `civicrm_preferences` ADD `navigation` TEXT NULL AFTER `mailing_backend` ;

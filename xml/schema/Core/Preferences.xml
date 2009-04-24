@@ -155,4 +155,10 @@
        <cols>80</cols>
        <add>2.2</add>
   </field>
+  <field>
+       <name>navigation</name>
+       <type>text</type>
+       <comment>Store navigation for the Contact</comment>
+       <add>2.3</add>
+  </field>
 </table>

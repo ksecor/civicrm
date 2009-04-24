@@ -674,51 +674,59 @@ UNION (
      * Function to get existing / build navigation for CiviCRM Admin Menu
      */
     static function retrieveNavigation(  ) {
-        if ( ! self::$_navigationCache ) {
-            $navigationArray = self::parseNavigation( true );
-            $titleClause = implode( ',', array_keys($navigationArray) );
+        $navigationArray = self::parseNavigation( true );
+        $titleClause = implode( ',', array_keys($navigationArray) );
+    
+        $query = "
+          SELECT * 
+          FROM     civicrm_menu 
+          WHERE    title in ( $titleClause )";
+
+        require_once "CRM/Core/DAO/Menu.php";
+        $menu  =& new CRM_Core_DAO_Menu( );
+        $menu->query( $query );
+
+        $validMenus = array();
+        while ( $menu->fetch() ) {
+            $path = $menu->path;
+            $query = $menu->path_arguments 
+                 ? str_replace(',', '&', $menu->path_arguments) . '&reset=1' : 'reset=1';
         
-            $query = "
-              SELECT * 
-              FROM     civicrm_menu 
-              WHERE    title in ( $titleClause )";
-
-            require_once "CRM/Core/DAO/Menu.php";
-            $menu  =& new CRM_Core_DAO_Menu( );
-            $menu->query( $query );
-
-            $validMenus = array();
-            while ( $menu->fetch() ) {
-                $path = $menu->path;
-                $query = $menu->path_arguments 
-                     ? str_replace(',', '&', $menu->path_arguments) . '&reset=1' : 'reset=1';
-            
-                $value = array( );
-                $value['url'  ]  = CRM_Utils_System::url( $path, $query, false );
-                $value['title']  = $menu->title;
-                $value['path']   = $path;
-                $value['access_callback' ] = unserialize($menu->access_callback);
-                $value['access_arguments'] = unserialize($menu->access_arguments);
-                $value['component_id'    ] = $menu->component_id;
-               
-                // check permission
-                if ( CRM_Core_Permission::checkMenuItem( $value ) ) {
-                    $validMenus[$value['title']] = $value;
-                }
-            }    
-            self::$_navigationCache = $validMenus;        
-        }
-             
-        return self::$_navigationCache;
+            $value = array( );
+            $value['url'  ]  = CRM_Utils_System::url( $path, $query, false );
+            $value['title']  = $menu->title;
+            $value['path']   = $path;
+            $value['access_callback' ] = unserialize($menu->access_callback);
+            $value['access_arguments'] = unserialize($menu->access_arguments);
+            $value['component_id'    ] = $menu->component_id;
+           
+            // check permission
+            if ( CRM_Core_Permission::checkMenuItem( $value ) ) {
+                $validMenus[$value['title']] = $value;
+            }
+        }    
+        return $validMenus;        
     }
     
     /**
      * Function to create navigation for CiviCRM Admin Menu
      */
     static function createNavigation(  ) {
-        //retrieveNavigation       
-        $menuString = self::parseNavigation( );
-        return $menuString;
+        $session=& CRM_Core_Session::singleton( );
+        $contactID = $session->get('userID');
+        
+        self::$_navigationCache = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
+        if ( ! self::$_navigationCache ) {
+            //retrieve navigation if it's not cached.       
+            self::$_navigationCache = self::parseNavigation( );
+            require_once 'CRM/Core/DAO/Preferences.php';
+            $preference =& new CRM_Core_DAO_Preferences();
+            $preference->contact_id = $contactID;
+            $preference->find(true);
+            $preference->navigation = self::$_navigationCache;
+            $preference->save();
+        }
+        return self::$_navigationCache;
     }
     
     static function parseNavigation( $flatList = false ) {
