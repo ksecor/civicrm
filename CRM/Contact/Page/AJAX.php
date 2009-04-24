@@ -389,64 +389,16 @@ WHERE sort_name LIKE '%$name%'";
      */
     static function civicrmAdminMenu()
     {
-        require_once 'CRM/Core/Menu.php';
-        echo $object =& CRM_Core_Menu::createNavigation( );
-        exit();
-        
-        /*        
-        static $object = '';
-        if( ! $object ) {
-            $child = false;
-            $config   =& CRM_Core_Config::singleton();
-            require_once 'CRM/Core/Menu.php';
-            $values =& CRM_Core_Menu::getNavigation( true );
+        $logoutURL       = CRM_Utils_System::url( 'civicrm/logout', 'reset=1');
+        $appendSring     = "<li id='menu-logout'><a href={$logoutURL} title=". ts('Logout') .">". ts('Logout')."</a></li>";
                 
-            foreach( $values as $key => $value ) {
-                if ( $value['parent'] ){
-                    if ( ! $child ) {
-                        $object .= '<ul>';
-                    }
-                    $object .= '<li><a href='.$value['url'].'>'.$value['title'].'</a></li>';
-                    $child = true;
-                } else {
-                    if ( $child ) {
-                        $object .= '</ul></li>';
-                    }
-                    if ( $value['title'] == ts('Log out') ) {
-                        $session=& CRM_Core_Session::singleton();
-                        require_once 'CRM/Contact/BAO/Contact.php';
-                        $displayAndImage = CRM_Contact_BAO_Contact::getDisplayAndImage($session->get('userID'));
-                        $object .= '<li class="online"><img src='. $config->resourceBase .'i/admin/small/02.png width="12px"/>&nbsp;';
-                        $object .= '<a href='.$value['url'].'>'.$value['title'].'&nbsp;'.$displayAndImage['0'].'</a></li>';
-                    } else {
-                        $object .= '<li><a href='.$value['url'].'>'.$value['title'].'</a>';
-                        if( $value['title'] == ts('Administer CiviCRM') ) {
-                            $groups = array( 'Customize'    => ts( 'Customize' ),
-                                             'Configure'    => ts( 'Configure' ),
-                                             'Manage'       => ts( 'Manage'    ),
-                                             'Option Lists' => ts( 'Option Lists' ) );
-                            require_once 'CRM/Core/Menu.php';
-                            $adminLinks =& CRM_Core_Menu::getAdminLinks( );
-                            $object .= '<ul>';
-                            foreach( $groups as $gval ){
-                                $object .= '<li class="parent"><a href=#>'.$gval.'</a><ul class="child">';
-                                foreach( $adminLinks[$gval]['fields'] as $v){
-                                    $object .= '<li><a href='.$v['url'].'>'.$v['title'].'</a></li>';
-                                }
-                                $object .= '</ul></li>';
-                            }
-                            $object .= '</ul></li>';
-                        } else if ( $value['title'] == ts('CiviCRM Home') && $config->userFramework == 'Drupal' ) {
-                            $object .= '<ul><li><a href='.$config->userFrameworkBaseURL.'admin>'.ts('Administer Drupal').'</a></li></ul>';
-                        }
-                    }
-                    $child   = false;
-                }
-            }
-        }
-
-        echo json_encode( $object );
+        require_once 'CRM/Core/Menu.php';
+        $object =& CRM_Core_Menu::createNavigation( $contactID );
         
-        */       
+        $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
+        $prepandString = "<li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a></li>";
+
+        echo $prepandString.$object.$appendSring;
+        exit();
     }
 }

@@ -140,3 +140,8 @@ li#crm-qsearch input {
     background-color:#ffffff;
     border: 1px solid black;
 }
+
+li#menu-logout {
+    float: right;
+    border-left: 1px solid #5D5D5D;
+}
