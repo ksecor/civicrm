@@ -127,7 +127,7 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                             if ( is_array( $results['noUpdatedParticipantIds'] ) && !empty( $results['noUpdatedParticipantIds'] ) ) {
                                 foreach ( $results['noUpdatedParticipantIds'] as $processedId ) {
                                     $expiredParticipantCount += 1;   
-                                    echo "<br />- status updated to: Expired<br />";
+                                    echo "<br /><br />- status updated to: Expired";
                                 }
                             }
                             
@@ -183,7 +183,7 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                                          !empty( $results['noUpdatedParticipantIds'] ) ) {
                                         foreach ( $results['noUpdatedParticipantIds'] as $processedId ) {
                                             $waitingConfirmCount += 1;  
-                                            echo "<br />- status updated to: Pending from waitlist<br />";
+                                            echo "<br /><br />- status updated to: Pending from waitlist";
                                         }
                                     }
                                     
@@ -209,17 +209,17 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
         }
         
         echo "<br /><br />Numebr of Expired registration(s) = {$expiredParticipantCount}";
-        echo "<br /><br />Numebr of registration changed to Pending from waitlist = {$waitingConfirmCount}<br />";
+        echo "<br />Numebr of registration changed to Pending from waitlist = {$waitingConfirmCount}<br /><br />";
         if ( !empty( $fullEvents ) ) {
             foreach ( $fullEvents as $eventId => $title ) {
-                echo "<br />Full Event : {$title}";
+                echo "Full Event : {$title}<br />";
             }
         }
     }
 }
 
 $obj =& new CRM_ParticipantProcessor( );
-echo "Updating..<br />";
+echo "Updating..";
 $obj->updateParticipantStatus( );
-echo "<br /><br />Participant records updated. (Done)";
+echo "<br />Participant records updated. (Done)";
 ?>
