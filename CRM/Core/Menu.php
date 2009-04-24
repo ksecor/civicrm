@@ -61,6 +61,8 @@ class CRM_Core_Menu
                                          'breadcrumb'      );
 
     static $_menuCache = null;
+    
+    static $_navigationCache = null;
 
     const
         MENU_ITEM  = 1;
@@ -433,6 +435,7 @@ class CRM_Core_Menu
         // check permissions for the rest
         require_once 'CRM/Core/Permission.php';
         $activeChildren = array( );
+            
         foreach ( $values as $weight => $v ) {
             if ( CRM_Core_Permission::checkMenuItem( $v ) ) {
                 if ( $v['parent'] ) {
@@ -668,48 +671,113 @@ UNION (
     }
     
     /**
+     * Function to get existing / build navigation for CiviCRM Admin Menu
+     */
+    static function retrieveNavigation(  ) {
+        if ( ! self::$_navigationCache ) {
+            $navigationArray = self::parseNavigation( true );
+            $titleClause = implode( ',', array_keys($navigationArray) );
+        
+            $query = "
+              SELECT * 
+              FROM     civicrm_menu 
+              WHERE    title in ( $titleClause )";
+
+            require_once "CRM/Core/DAO/Menu.php";
+            $menu  =& new CRM_Core_DAO_Menu( );
+            $menu->query( $query );
+
+            $validMenus = array();
+            while ( $menu->fetch() ) {
+                $path = $menu->path;
+                $query = $menu->path_arguments 
+                     ? str_replace(',', '&', $menu->path_arguments) . '&reset=1' : 'reset=1';
+            
+                $value = array( );
+                $value['url'  ]  = CRM_Utils_System::url( $path, $query, false );
+                $value['title']  = $menu->title;
+                $value['path']   = $path;
+                $value['access_callback' ] = unserialize($menu->access_callback);
+                $value['access_arguments'] = unserialize($menu->access_arguments);
+                $value['component_id'    ] = $menu->component_id;
+               
+                // check permission
+                if ( CRM_Core_Permission::checkMenuItem( $value ) ) {
+                    $validMenus[$value['title']] = $value;
+                }
+            }    
+            self::$_navigationCache = $validMenus;        
+        }
+             
+        return self::$_navigationCache;
+    }
+    
+    /**
      * Function to create navigation for CiviCRM Admin Menu
      */
     static function createNavigation(  ) {
+        //retrieveNavigation       
+        $menuString = self::parseNavigation( );
+        return $menuString;
+    }
+    
+    static function parseNavigation( $flatList = false ) {
         $config =& CRM_Core_Config::singleton( );
         $navigationXML = "{$config->userFrameworkResourceURL}/templates/CRM/xml/Navigation.xml";
         $dom = DomDocument::load( $navigationXML );
         $dom->xinclude( );
         $menuXML = simplexml_import_dom( $dom );
-
+        
+        $object = null;
         foreach($menuXML->children() as $children) {
-            $name = self::getMenuName( $children );
-            if ( $name ) { 
-                $string .= '<li>' . $name;
-                self::recurseNavigation( $children, $string  );
+            if ( !$flatList ) {
+                $name = self::getMenuName( $children );
+                if ( $name ) { 
+                    $object .= '<li>' . $name;
+                    self::recurseNavigation( $children, $object  );
+                }
+            } else {
+                if ( !isset( $children['group'] ) ) {
+                    $object["'{$children['key']}'"] = 1;
+                }
+                self::recurseNavigation( $children, $object, true );
             }
         }
         
-        return $string;
+        return $object;
     }
 
     /**
      * Recursively check child menus
      */
-    function recurseNavigation(&$child, &$string ) {
-        if ( count( $child->children() ) > 0 ) {
-            $string .= '<ul>';  
-        } else {
-            $string .= '</li>'; 
-        }
+    function recurseNavigation(&$child, &$object, $flatList = false ) {
+        if ( !$flatList ) {
+            if ( count( $child->children() ) > 0 ) {
+                $object .= '<ul>';  
+            } else {
+                $object .= '</li>'; 
+            }
 
-        foreach($child->children() as $children) {
-            $name = self::getMenuName( $children );
-            if ( $name ) { 
-                $string .= '<li>' . $name;
-                self::recurseNavigation($children, $string );
+            foreach($child->children() as $children) {
+                $name = self::getMenuName( $children );
+                if ( $name ) { 
+                    $object .= '<li>' . $name;
+                    self::recurseNavigation($children, $object );
+                }
+            }
+
+            if ( count( $child->children() ) > 0 ) {
+                $object .= '</ul></li>';
+            }
+        } else {
+            foreach($child->children() as $children) {
+                if ( !isset( $children['group'] ) ) {
+                    $object["'{$children['key']}'"] = 1;
+                }
+                self::recurseNavigation( $children, $object, true );
             }
         }
-
-        if ( count( $child->children() ) > 0 ) {
-            $string .= '</ul></li>';
-        }
-        return $string;
+        return $object;
      }
      
      /**
@@ -727,27 +795,18 @@ UNION (
          if ( isset( $children['label'] ) ) {
              $name = $children['label'];
          }
-         
+
          if ( !isset( $children['group'] ) ) {
-             if ( isset( $children['url'] ) ) {
+             if ( isset( $children['url'] ) && substr( $children['url'], 0, 4 ) === 'http' ) {
                  $url = $children['url'];
              } else {
-                 // search for url in civicrm
-                 // TO FIX: need to optimize this.
-                 $menuArray = self::getNavigation( true );
-                 $adminArray = self::getAdminLinks();
+                 // get url from civicrm based on permission                
+                 $validMenus = self::retrieveNavigation( );
                  
-                 // FIXME: very quick hack to have admin stuff included, needs to be fixed!
-                 foreach( $adminArray as $key => $fields ) {
-                     if( $key !== '' ) {
-                         $menuArray = CRM_Utils_Array::crmArrayMerge( $menuArray, $fields['fields'] );
-                     }
-                 }
-
+                 // get the url for menus
                  $urlFound = false;
-                 foreach ( $menuArray as $key => $values ) {
-                     $menuTitle = explode('.', $key );
-                     if ( $menuTitle[1] == $children['key'] ) {
+                 foreach ( $validMenus as $key => $values ) {
+                     if ( $values['title'] == $children['key'] ) {
                          $url  = $values['url'];
                          $urlFound = true;
                          break;
@@ -756,11 +815,8 @@ UNION (
                  
                  if ( !$urlFound ) {
                      return false;
-                     //CRM_Core_Error::fatal( ts('Could not find valid url for %1 menu item.', array( 1 => $children['key'] )));
-                     //exit();
                  }
              }
-                         
             $name = '<a href=' . $url . '>'. $name .'</a>';
          }
          
