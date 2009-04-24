@@ -98,7 +98,13 @@
       <tr class="{cycle values="odd-row,even-row"}">
          {foreach from=$columnHeaders item=header key=field}
             <td>{if $header.type eq 12}
-	    	    {$row.$field|truncate:10:''|crmDate}
+	            {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}
+		    	{$row.$field|crmDate:$config->dateformatPartial}
+		    {elseif $header.group_by eq 'YEAR'}	
+		    	{$row.$field|crmDate:$config->dateformatYear}
+	     	    {else}				
+		        {$row.$field|truncate:10:''|crmDate}
+		    {/if}	
 		{elseif $header.type eq 1024}
 	    	    {$row.$field|crmMoney}
 	        {else}

@@ -62,9 +62,10 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                         array( 'receive_date' => 
                                                array( 'default'    => 'this month',
                                                       'frequency'  => true ),
-                                               'contribution_source'  => null,
-                                               'contribution_type'    => null,
-                                               'contribution_page_id' => null,
+                                               'contribution_contact_id' => null,
+                                               'contribution_source'     => null,
+                                               'contribution_type'       => null,
+                                               'contribution_page_id'    => null,
                                                ),
                                         ),
                                  );
@@ -162,8 +163,10 @@ LAST_DAY({$field['dbAlias']}) as {$tableName}_{$fieldName}_end";
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
                         $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = $field['title'] . ' Begins';
                         $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type']  = $field['type'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['group_by'] = $this->_params['group_bys_freq'][$fieldName];
                         $this->_columnHeaders["{$tableName}_{$fieldName}_end"]['title']   = $field['title'] . ' Ends';
                         $this->_columnHeaders["{$tableName}_{$fieldName}_end"]['type']    = $field['type'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]['group_by'] = $this->_params['group_bys_freq'][$fieldName];
                     }
                 }
             }
