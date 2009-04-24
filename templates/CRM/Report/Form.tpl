@@ -6,18 +6,13 @@
    {/foreach}
 </fieldset>
 
-{if $form.group_bys.html}
 <fieldset><legend>{ts}Group by Columns{/ts}</legend>
-   <table class="form-layout">
-      <tr><td width="25%">{$form.group_bys.html}</td></tr>
-   </table>
-{if $form.group_bys_freq.html}
-   <table class="form-layout">
-      <tr><td>&nbsp;{$form.group_bys_freq.label}&nbsp;{$form.group_bys_freq.html}</td></tr>
-   </table>
-{/if}
+   <table class="form-layout"><tr>
+   {foreach from=$groupByElements item=gbElem key=dnc}
+      <td width="25%">{$form.group_bys[$gbElem].html}{if $form.group_bys_freq[$gbElem].html},&nbsp;&nbsp;{$form.group_bys_freq[$gbElem].label}&nbsp;{$form.group_bys_freq[$gbElem].html}{/if}</td>
+   {/foreach}
+   </table></tr>
 </fieldset>
-{/if}
 
 {if $form.options.html}
 <fieldset><legend>{ts}Other Options{/ts}</legend>

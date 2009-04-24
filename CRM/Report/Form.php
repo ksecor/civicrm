@@ -81,7 +81,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_options = array( );
 
     /**
-     * The set of optional columns in the report
+     * An attribute for checkbox/radio form field layout
      *
      * @var array
      */
@@ -92,6 +92,17 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     protected $_instanceForm = false;
 
+    /**
+     * To what frequency group-by a date column
+     *
+     * @var array
+     */
+    protected $_groupByDateFreq = array( ''         => '-select-',
+                                         'YEARWEEK' => 'Week',
+                                         'MONTH'    => 'Month',
+                                         'QUARTER'  => 'Quarter',
+                                         'YEAR'     => 'Year'  );
+    
     /**
      * 
      */
@@ -312,27 +323,27 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function addGroupBys( ) {
-        $options = $freqOptions = array( );
+        $options = $freqElements = array( );
 
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
                     if ( !empty($field) ) {
                         $options[$field['title']] = $fieldName;
+                        if ( $field['frequency'] ) {
+                            $freqElements[$field['title']] = $fieldName;
+                        }
                     }
                 }
             }
-            if ( array_key_exists('group_bys_freq', $table) ) {
-                $freqOptions = $table['group_bys_freq'];
-            }
         }
-
         $this->addCheckBox( "group_bys", ts('Group by columns'), $options, null, 
                             null, null, null, $this->_fourColumnAttribute );
-        
-        if ( ! empty($freqOptions) ) {
-            $this->addElement( 'select', "group_bys_freq", 
-                               ts( 'Frequency' ), $freqOptions );
+        $this->assign( 'groupByElements', $options );
+
+        foreach ( $freqElements as $name ) {
+            $this->addElement( 'select', "group_bys_freq[$name]", 
+                               ts( 'Frequency' ), $this->_groupByDateFreq );
         }
     }
 
