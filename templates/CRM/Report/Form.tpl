@@ -48,6 +48,10 @@
    {/foreach}
    </table>
 </fieldset>
+
+{if $instanceForm}
+  {include file="CRM/Report/Form/Instance.tpl"}
+{/if}
 	
 <div id="crm-submit-buttons">{$form.buttons.html}</div>
 

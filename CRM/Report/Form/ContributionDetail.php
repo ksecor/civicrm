@@ -235,16 +235,12 @@ SELECT COUNT( contribution.total_amount ) as count,
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
 
-/*         CRM_Core_Error::debug( '$rows', $rows ); */
-/*         CRM_Core_Error::debug( '$this->_columnHeaders', $this->_columnHeaders  ); */
-/*         CRM_Core_Error::debug( 'statistics', $this->statistics( ) ); */
         if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
             $this->assign( 'statistics',
                            $this->statistics( ) );
         }
 
-/*         CRM_Core_Error::debug( '$sql', $sql ); */
-/*         exit( ); */
+        parent::postProcess( );
     }
 
 }

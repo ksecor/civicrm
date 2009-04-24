@@ -88,6 +88,10 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_fourColumnAttribute = array('</td><td width="25%">', '</td><td width="25%">', 
                                             '</td><td width="25%">', '</tr><tr><td>');
 
+    protected $_force = 1;
+
+    protected $_instanceForm = false;
+
     /**
      * 
      */
@@ -96,6 +100,14 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function preProcess( ) {
+        
+        $this->_force = CRM_Utils_Request::retrieve( 'force',
+                                                     'Boolean',
+                                                     CRM_Core_DAO::$_nullObject );
+
+        // lets display the 
+        $this->_instanceForm = $this->_force || ( ! empty( $_POST ) );
+
         foreach ( $this->_columns as $tableName => $table ) {
             // set alias
             if ( ! isset( $table['alias'] ) ) {
@@ -172,6 +184,11 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $this->_filters[$tableName] = $this->_columns[$tableName]['filters'];
             }
         }
+        
+        if ( $this->_force ) {
+            $this->postProcess( );
+        }
+
     }
 
     function setDefaultValues( ) {
@@ -204,6 +221,10 @@ class CRM_Report_Form extends CRM_Core_Form {
             $elem->freeze();
         }
 
+        if ( $this->_instanceForm ) {
+            CRM_Report_Form_Instance::setDefaultValues( $this, $defaults );
+        }
+        
         return $defaults;
     }
 
@@ -324,14 +345,35 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $this->addGroupBys( );
 
-        $this->addButtons( array(
-                                 array ( 'type'      => 'submit',
-                                         'name'      => ts('Generate Report'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
+        if ( $this->_instanceForm ) {
+            require_once 'CRM/Report/Form/Instance.php';
+            CRM_Report_Form_Instance::buildForm( $this );
+
+            $this->_instanceButtonName = $this->getButtonName( 'submit', 'save' );
+
+            $this->addButtons( array(
+                                     array ( 'type'      => 'submit',
+                                             'name'      => ts('Generate Report'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'      => 'submit',
+                                             'name'      => ts('Save Report'),
+                                             'subName'   => 'save' ),
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+
+            $this->assign( 'instanceForm', true );
+        } else {
+            $this->addButtons( array(
+                                     array ( 'type'      => 'submit',
+                                             'name'      => ts('Generate Report'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+        }
     }
 
     static function getOperationPair( $type = "string" ) {
@@ -455,6 +497,13 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         return null;
+    }
+
+    function postProcess( ) {
+        if ( $this->_instanceForm &&
+             CRM_Utils_Array::value( 'title', $this->_params ) ) {
+            CRM_Report_Form_Instance::postProcess( );
+        }
     }
 
 }
