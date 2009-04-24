@@ -5,10 +5,10 @@
     </item>
     <item key='Contacts' group='1' >
         <item key='Create new ...' group='1'>
-            <item key='Individual' url=''/>
-            <item key='Organization' url=''/>
-            <item key='Household' url=''/>
-            <item key='Activity' url=''/>
+            <item key='New Individual' label='Individual'/>
+            <item key='New Household' label='Household' />
+            <item key='New Organization' label='Organization' />
+            <item key='New Activity' label='Activity'/>
         </item>
         <item key='Search...' group='1'>
             <item key='Find Contacts' label='Basic'/>

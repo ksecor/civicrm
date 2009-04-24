@@ -14,7 +14,7 @@
      <path>civicrm/contribute/add</path>
      <title>New Contribution</title>
      <page_callback>CRM_Contribute_Page_Tab</page_callback>
-     <path_arguments>reset=1&amp;action=add</path_arguments>
+     <path_arguments>action=add</path_arguments>
      <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>10</weight>

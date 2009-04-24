@@ -68,7 +68,31 @@
      <title>New Contact</title>
      <page_callback>CRM_Contact_Form_Edit</page_callback>
      <page_arguments>addSequence=1</page_arguments>
-     <access_arguments>access CiviCRM</access_arguments>
+     <access_arguments>access CiviCRM, add contacts</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/contact/add</path>
+     <title>New Individual</title>
+     <page_callback>CRM_Contact_Form_Edit</page_callback>
+     <page_arguments>addSequence=1</page_arguments>
+     <path_arguments>ct=Individual</path_arguments>
+     <access_arguments>access CiviCRM, add contacts</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/contact/add</path>
+     <title>New Household</title>
+     <page_callback>CRM_Contact_Form_Edit</page_callback>
+     <page_arguments>addSequence=1</page_arguments>
+     <path_arguments>ct=Household</path_arguments>
+     <access_arguments>access CiviCRM, add contacts</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/contact/add</path>
+     <title>New Organization</title>
+     <page_callback>CRM_Contact_Form_Edit</page_callback>
+     <page_arguments>addSequence=1</page_arguments>
+     <path_arguments>ct=Organization</path_arguments>
+     <access_arguments>access CiviCRM, add contacts</access_arguments>
   </item>
   <item>
      <path>civicrm/contact/relatedcontact</path>
