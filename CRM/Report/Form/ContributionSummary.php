@@ -247,7 +247,6 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
 
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
-/*         CRM_Core_Error::debug( '$this->_params', $this->_params ); */
 
         $this->select  ( );
         $this->from    ( );
@@ -255,7 +254,6 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
         $this->groupBy ( );
 
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
-/*         CRM_Core_Error::debug( '$sql', $sql ); */
 
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
@@ -272,13 +270,8 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
 
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
-        
-/*         CRM_Core_Error::debug( '$this->_columnHeaders', $this->_columnHeaders  ); */
-/*         CRM_Core_Error::debug( 'statistics', $this->statistics( ) ); */
-/*         CRM_Core_Error::debug( '$rows', $rows ); */
 
-/*         CRM_Core_Error::debug( '$sql', $sql ); */
-/*         exit( ); */
+        parent::postProcess( );
     }
 
 }

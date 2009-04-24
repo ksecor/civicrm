@@ -1,3 +1,4 @@
+{if ! $printOnly}
 <div id="searchForm">
 <fieldset><legend>{ts}Display Columns{/ts}</legend>
    {foreach from=$colGroups item=grp key=dnc}
@@ -73,6 +74,8 @@
    }
 </script>
 {/literal}
+
+{/if}
 
 {if $rows}
 <br/>
