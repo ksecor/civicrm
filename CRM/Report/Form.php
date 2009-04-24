@@ -85,6 +85,13 @@ class CRM_Report_Form extends CRM_Core_Form {
      *
      * @var string
      */
+    protected $_statFields = array();
+
+    /**
+     * Set of statistics data
+     *
+     * @var string
+     */
     protected $_statistics = array();
 
     /**

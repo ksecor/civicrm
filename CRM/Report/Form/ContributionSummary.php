@@ -103,18 +103,18 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                 $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
                                 $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
                                 $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = $field['type'];
-                                $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
+                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             case 'count':
                                 $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
                                 $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
-                                $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
+                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             case 'avg':
                                 $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
                                 $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] =  $field['type'];
                                 $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
-                                $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
+                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             }
                         }   
@@ -218,6 +218,40 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
         }
     }
 
+    function grandTotal( &$rows ) {
+        $grandStat = array();
+        $grandStat[] = array_pop($rows);
+        
+        foreach ($grandStat[0] as $fld => $val) {
+            if ( !in_array($fld, $this->_statFields) ) {
+                $grandStat[0][$fld] = "";
+            }
+        }
+        return $grandStat;
+    }
+
+    function statistics( &$rows ) {
+        $statistics = array();
+
+        $statistics[] = array( 'title' => ts('Row(s) Listed'),
+                               'value' => count($rows) );
+
+        if ( ! empty($this->_params['group_bys']) ) {
+            foreach ( $this->_columns as $tableName => $table ) {
+                foreach ( $table['group_bys'] as $fieldName => $field ) {
+                    if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                        $combinations[] = $field['title'];
+                    }
+                }
+            }
+            $statistics[] = array( 'title' => ts('Grouping(s)'),
+                                   'value' => implode( ' & ', $combinations ) );
+        }
+        
+
+        return $statistics;
+    }
+
     function groupBy( ) {
         $this->_groupBy = "";
         if ( ! empty($this->_params['group_bys']) ) {
@@ -237,18 +271,6 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
             
             $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " WITH ROLLUP";
         }
-    }
-
-    function grandTotal( &$rows ) {
-        $grandStat = array();
-        $grandStat[] = array_pop($rows);
-        
-        foreach ($grandStat[0] as $fld => $val) {
-            if ( !in_array($fld, $this->_statistics) ) {
-                $grandStat[0][$fld] = "";
-            }
-        }
-        return $grandStat;
     }
 
     function postProcess( ) {
@@ -276,6 +298,8 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
         $this->assign( 'grandStat', $this->grandTotal( $rows ) );
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
+
+        $this->assign( 'statistics', $this->statistics( $rows ) );
 
         parent::postProcess( );
     }

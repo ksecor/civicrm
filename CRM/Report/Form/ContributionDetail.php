@@ -194,7 +194,7 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
         $select = "
 SELECT COUNT( contribution.total_amount ) as count,
        SUM(   contribution.total_amount ) as amount,
-       AVG(   contribution.total_amount ) as avg
+       ROUND(AVG(contribution.total_amount), 2) as avg
 ";
 
         $sql = "{$select} {$this->_from} {$this->_where}";

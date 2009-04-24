@@ -80,12 +80,11 @@
 {if $rows}
 <br/>
    {if $statistics}
-   <table class="report">
-   <tr class="columnheader-dark"><th colspan=2>Statistics</th></tr>
+   <table class="form-layout"><tr><td>
    {foreach from=$statistics item=stats key=statName}
-      <tr><td><strong>{$stats.title}</strong></td><td>{$stats.value}</td></tr>
+      &nbsp;&nbsp;{$stats.title}:&nbsp;{$stats.value},
    {/foreach}
-   </table>
+   </td></tr></table><br/>
    {/if}
 
    <table class="form-layout">
@@ -126,5 +125,13 @@
       </tr>
       {/foreach}
    </table>
+
+   {if $statistics}
+   <br/><table class="form-layout">
+      {foreach from=$statistics item=row}
+          <tr><td>{$row.title}:&nbsp;{$row.value}</strong></td></tr>
+      {/foreach}
+   </table>
+   {/if}
 {/if}
 </div>
