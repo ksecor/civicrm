@@ -229,7 +229,7 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
                "action=view&reset=1&id={$grant->id}&cid={$grant->contact_id}" );
        
         $grantTypes = CRM_Grant_PseudoConstant::grantType();
-        $title = $grantTypes[$grant->grant_type_id] . " - " . CRM_Contact_BAO_Contact::displayName( $grant->contact_id );
+        $title = CRM_Contact_BAO_Contact::displayName( $grant->contact_id ) . ' - ' . $grantTypes[$grant->grant_type_id];
 
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,

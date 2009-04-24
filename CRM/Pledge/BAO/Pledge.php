@@ -217,11 +217,15 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         require_once 'CRM/Utils/Recent.php';
         require_once 'CRM/Contribute/PseudoConstant.php';
         require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Core/Config.php';
         $url = CRM_Utils_System::url( 'civicrm/contact/view/pledge', 
                "action=view&reset=1&id={$pledge->id}&cid={$pledge->contact_id}" );
        
+        $config =& CRM_Core_Config::singleton();
         $contributionTypes = CRM_Contribute_PseudoConstant::contributionType();
-        $title = $contributionTypes[$pledge->contribution_type_id] . " - " . CRM_Contact_BAO_Contact::displayName( $pledge->contact_id );
+        $title = CRM_Contact_BAO_Contact::displayName( $pledge->contact_id ) . 
+                 ' - (' . $pledge->amount . ' ' . $config->defaultCurrency . 
+                 ' - ' . $contributionTypes[$pledge->contribution_type_id] . ')';
 
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,

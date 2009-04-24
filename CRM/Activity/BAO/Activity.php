@@ -401,9 +401,18 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( isset( $params['target_contact_id'] ) ) {
             if ( is_array( $params['target_contact_id'] ) ) {
                 $msgs[] = "target=" . implode( ',', $params['target_contact_id'] );
+                // take only first target
+                // will be used for recently viewed display
+                $t = array_slice($params['target_contact_id'], 0, 1 );
+                $recentContactId = $t[0];
             } else {
                 $msgs[] = "target={$params['target_contact_id']}";
+                // will be used for recently viewed display
+                $recentContactId = $params['target_contact_id'];
             }
+        } else {
+            // at worst, take source for recently viewed display
+            $recentContactId = $params['source_contact_id'];
         }
 
         if ( isset( $params['assignee_contact_id'] ) ) {
@@ -428,14 +437,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             require_once 'CRM/Utils/Recent.php';
             $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
                    "action=view&reset=1&id={$activity->id}&atype={$activity->activity_type_id}&cid={$activity->source_contact_id}" );
-        
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $recentContactDisplay = CRM_Contact_BAO_Contact::displayName( $recentContactId );
             // add the recently created Activity
-            CRM_Utils_Recent::add( $activity->subject,
+            $activityTypes = CRM_Core_Pseudoconstant::activityType( true );
+            
+            $title = $activity->subject . ' - ' . $recentContactDisplay .' - (' . $activityTypes[$activity->activity_type_id] . ')';
+
+            CRM_Utils_Recent::add( $title,
                                    $url,
                                    $activity->id,
                                    'Activity',
-                                   $params['target_contact_id'],
-                                   null
+                                   $recentContactId,
+                                   $recentContactDisplay
                                    );
         }
         

@@ -273,7 +273,10 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                "action=view&reset=1&id={$participant->id}&cid={$participant->contact_id}" );
                
         $participantRoles = CRM_Event_PseudoConstant::participantRole();
-        $title = $participantRoles[$participant->role_id] . " - " . CRM_Contact_BAO_Contact::displayName( $participant->contact_id );
+        $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $participant->event_id, 'title' );
+        $title = CRM_Contact_BAO_Contact::displayName( $participant->contact_id ) . '(' . $participantRoles[$participant->role_id] . ' - ' . $eventTitle . ')' ;
+
+//        CRM_Core_Error::debug( 't', $eventTitle);
         
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,
