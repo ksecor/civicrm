@@ -242,8 +242,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
 
-    funtion processGetParams( ) {
-    }
+//     funtion processGetParams( ) {
+//     }
 
     function setDefaultValues( ) {
         $defaults = array();
