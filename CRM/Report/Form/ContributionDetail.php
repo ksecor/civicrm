@@ -214,7 +214,12 @@ SELECT COUNT( contribution.total_amount ) as count,
     }
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
+        if ( $this->_id &&
+             $this->_force ) {
+            $this->_params = $this->_formValues;
+        } else {
+            $this->_params = $this->controller->exportValues( $this->_name );
+        }
 
         $this->select( );
         $this->from  ( );

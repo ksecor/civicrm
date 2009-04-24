@@ -80,8 +80,7 @@ class CRM_Report_Form_Instance {
         $selfButtonName = $self->getVar( '_instanceButtonName' );
         
         $errors = array( );
-        if ( $selfButtonName &&
-             $selfButtonName == $buttonName ) {
+        if ( $selfButtonName == $buttonName ) {
             if ( empty( $fields['title'] ) ) {
                 $errors['title'] = ts( 'Title is a required field' );
             }
@@ -93,11 +92,7 @@ class CRM_Report_Form_Instance {
     static function setDefaultValues( &$form, &$defaults ) {
         $instanceID = $form->getVar( '_id' );
         if ( $instanceID ) {
-            $params   = array( 'id' => $instanceID );
-            CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
-                                          $params,
-                                          $defaults );
-
+            // this is already retrieved via Form.php
             $defaults['report_header'] = $defaults['header'];
             $defaults['report_footer'] = $defaults['footer'];
         } else {
@@ -105,9 +100,9 @@ class CRM_Report_Form_Instance {
   <head>
     <title>CiviCRM Report</title>
   </head>
-<body>";
+  <body>";
 
-            $defaults['report_footer'] = "</body>
+            $defaults['report_footer'] = "  </body>
 </html>
 ";
         }
@@ -116,6 +111,9 @@ class CRM_Report_Form_Instance {
 
     static function postProcess( &$form ) {
         $params = $form->getVar( '_params' );
+        
+        $params['header'] = $params['report_header'];
+        $params['footer'] = $params['report_footer'];
 
         require_once 'CRM/Report/DAO/Instance.php';
         $dao = new CRM_Report_DAO_Instance( );
@@ -123,7 +121,7 @@ class CRM_Report_Form_Instance {
 
         // unset all the params that we use
         $fields = array( 'title', 'to_emails', 'cc_emails', 'header', 'footer',
-                         'qfKey', '_qf_default' );
+                         'qfKey', '_qf_default', 'report_header', 'report_footer' );
         foreach ( $fields as $field ) {
             unset( $params[$field] );
         }
@@ -136,6 +134,8 @@ class CRM_Report_Form_Instance {
 
         
         $dao->save( );
+
+        $form->set( 'id', $dao->id );
     }
 
 }

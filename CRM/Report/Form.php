@@ -97,6 +97,8 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     protected $_force = 1;
 
+    protected $_formValues = null;
+
     protected $_instanceForm = false;
     protected $_instanceButtonName = null;
 
@@ -119,13 +121,25 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function preProcess( ) {
-        
+
+        $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
+
+        if ( $this->_id ) {
+            $params = array( 'id', $this->_id );
+            $this->_instanceValues = array( );
+            CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
+                                          $params,
+                                          $this->_instanceValues );
+            $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
+        }
+
         $this->_force = CRM_Utils_Request::retrieve( 'force',
                                                      'Boolean',
                                                      CRM_Core_DAO::$_nullObject );
 
         // lets display the 
         $this->_instanceForm = $this->_force || ( ! empty( $_POST ) );
+        $this->_instanceButtonName = $this->getButtonName( 'submit', 'save' );
 
         foreach ( $this->_columns as $tableName => $table ) {
             // set alias
@@ -238,6 +252,15 @@ class CRM_Report_Form extends CRM_Core_Form {
         // lets finish freezing task here itself
         foreach ( $freezeGroup as $elem ) {
             $elem->freeze();
+        }
+
+
+        if ( $this->_formValues ) {
+            $defaults = array_merge( $defaults, $this->_formValues );
+        }
+
+        if ( $this->_instanceValues ) {
+            $defaults = array_merge( $defaults, $this->_instanceValues );
         }
 
         if ( $this->_instanceForm ) {
@@ -368,7 +391,6 @@ class CRM_Report_Form extends CRM_Core_Form {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::buildForm( $this );
 
-            $this->_instanceButtonName = $this->getButtonName( 'submit', 'save' );
 
             $this->addButtons( array(
                                      array ( 'type'      => 'submit',
@@ -522,8 +544,8 @@ class CRM_Report_Form extends CRM_Core_Form {
         $buttonName = $this->controller->getButtonName( );
 
         if ( $this->_instanceForm &&
-             $this->_instanceButtonName &&
              $this->_instanceButtonName == $buttonName ) {
+            require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::postProcess( $this );
         }
     }
