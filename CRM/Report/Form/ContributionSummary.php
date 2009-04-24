@@ -94,29 +94,33 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
                     
                     $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
-                    $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
+                    $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                     
                     if ( CRM_Utils_Array::value('statistics', $field) ) {
                         foreach ( $field['statistics'] as $stat => $label ) {
                             switch (strtolower($stat)) {
                             case 'sum':
                                 $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = 'Money';
                                 $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             case 'count':
                                 $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
                                 $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             case 'avg':
                                 $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = 'Money';
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
                                 $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             }
                         }   
+
                     }
+                    $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = 'Money';
                 }
             }
 
@@ -156,8 +160,10 @@ LAST_DAY({$field['dbAlias']}) as {$tableName}_{$fieldName}_end";
 
                     }
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"] = $field['title'] . ' Begins';
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]   = $field['title'] . ' Ends';
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = $field['title'] . ' Begins';
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type'] = 'Date';
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]['title']   = $field['title'] . ' Ends';
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]['type'] = 'Date';
                     }
                 }
             }
@@ -264,10 +270,9 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
             }
             $rows[] = $row;
         }
-
+        
         //if ( CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
         $this->assign( 'grandStat', $this->grandTotal( $rows ) );
-
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
 

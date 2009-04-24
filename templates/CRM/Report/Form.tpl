@@ -91,14 +91,21 @@
    <table class="form-layout">
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header key=field}
-         <th>{$header}</th>
+         <th>{$header.title}</th>
       {/foreach}
       </tr>
 
       {foreach from=$rows item=row}
       <tr class="{cycle values="odd-row,even-row"}">
          {foreach from=$columnHeaders item=header key=field}
-            <td>{$row.$field}</td>
+            <td>{if $header.type eq 'Date'}
+	    	    {$row.$field|truncate:10:''|crmDate}
+		{elseif $header.type eq 'Money'}
+	    	    {$row.$field|crmMoney}
+	        {else}
+	    	    {$row.$field}
+		{/if}
+	    </td>
          {/foreach}
       </tr>
       {/foreach}
@@ -106,7 +113,15 @@
       {foreach from=$grandStat item=row}
       <tr>
          {foreach from=$columnHeaders item=header key=field}
-            <td><strong>{$row.$field}</strong></td>
+            <td><strong>
+		{if $header.type eq 'Date'}
+	    	    {$row.$field|truncate:10:''|crmDate}
+		{elseif $header.type eq 'Money'}
+	    	    {$row.$field|crmMoney}
+	        {else}
+	    	    {$row.$field}
+		{/if}
+		</strong></td>
          {/foreach}
       </tr>
       {/foreach}
