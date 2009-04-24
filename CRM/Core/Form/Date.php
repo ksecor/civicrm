@@ -87,7 +87,7 @@ Class CRM_Core_Form_Date
      * @access public
      */
     static function buildDateRange( &$form, $fieldName ) {
-        $selector = array ('-select-',
+        $selector = array ('Choose Date Range',
                            'this.year'    => 'This Year',
                            'this.quarter' => 'This Quarter',
                            'this.month'   => 'This Month',

@@ -1,3 +1,10 @@
+ <div id="id_{$formTpl}_show" class="section-hidden section-hidden-border">
+       <a href="#" onclick="hide('id_{$formTpl}_show'); show('id_{$formTpl}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}New Report{/ts}</label><br />
+    </div>
+
+    <div id="id_{$formTpl}">
+      <fieldset><legend><a href="#" onclick="hide('id_{$formTpl}'); show('id_{$formTpl}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Report Criteria{/ts}</legend>
+
 {if ! $printOnly}
 <div id="searchForm">
 <fieldset><legend>{ts}Display Columns{/ts}</legend>
@@ -52,7 +59,7 @@
 {/if}
 	
 <div id="crm-submit-buttons">{$form.buttons.html}</div>
-
+</div>
 {literal}
 <script type="text/javascript">
    {/literal}
@@ -75,65 +82,22 @@
       }
    }
 </script>
+
 {/literal}
 
 {/if}
 
-{if $rows}
-<br/>
-   <table class="form-layout">
-      <tr class="columnheader">
-      {foreach from=$columnHeaders item=header key=field}
-         <th>{$header.title}</th>
-      {/foreach}
-      </tr>
-
-      {foreach from=$rows item=row}
-      <tr class="{cycle values="odd-row,even-row"}">
-         {foreach from=$columnHeaders item=header key=field}
-            <td>{if $header.type eq 12}
-	            {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}
-		    	{$row.$field|crmDate:$config->dateformatPartial}
-		    {elseif $header.group_by eq 'YEAR'}	
-		    	{$row.$field|crmDate:$config->dateformatYear}
-	     	    {else}				
-		        {$row.$field|truncate:10:''|crmDate}
-		    {/if}	
-		{elseif $header.type eq 1024}
-	    	    {$row.$field|crmMoney}
-	        {else}
-	    	    {$row.$field}
-		{/if}
-	    </td>
-         {/foreach}
-      </tr>
-      {/foreach}
-
-      {if $grandStat}
-      {foreach from=$grandStat item=row}
-      <tr>
-         {foreach from=$columnHeaders item=header key=field}
-            <td><strong>
-		{if $header.type eq 12}
-	    	    {$row.$field|truncate:10:''|crmDate}
-		{elseif $header.type eq 1024}
-	    	    {$row.$field|crmMoney}
-	        {else}
-	    	    {$row.$field}
-		{/if}
-		</strong></td>
-         {/foreach}
-      </tr>
-      {/foreach}
-      {/if}
-   </table>
-
-   {if $statistics}
-   <br/><table class="form-layout">
-      {foreach from=$statistics item=row}
-          <tr><td>{$row.title}:&nbsp;{$row.value}</strong></td></tr>
-      {/foreach}
-   </table>
-   {/if}
-{/if}
 </div>
+
+{include file="CRM/Report/Form/Layout/Table.tpl"}
+<script type="text/javascript">
+    {if empty($rows) }
+	var showBlocks = new Array("id_{$formTpl}");
+        var hideBlocks = new Array("id_{$formTpl}_show");
+    {else}
+	var showBlocks = new Array("id_{$formTpl}_show");
+        var hideBlocks = new Array("id_{$formTpl}");
+    {/if}
+    {* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+</script>
