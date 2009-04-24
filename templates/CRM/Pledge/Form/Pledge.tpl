@@ -77,20 +77,43 @@
             <span class="description">{ts}Pledges are "Pending" until the first payment is received. Once a payment is received, status is "In Progress" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
 		<tr><td colspan=2>{include file="CRM/Custom/Form/CustomData.tpl"}</td></tr>
        </table>
+{literal}
+<script type="text/javascript">
+var showPane = "";
+cj(function() {
+  cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
 
-{* dojo pane *}
-<div class="form-item" id="additionalInformation">
-   {* Honoree Information / Payment Reminders*}
-   <div class="tundra">
-      {foreach from=$allPanes key=paneName item=paneValue}
-        {if $paneValue.open eq 'true'}
-           <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" width="200" executeScript="true"></div>
-        {else}
-           <div id="{$paneValue.id}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" href ="{$paneValue.url}" executeScript="true"></div>
-        {/if}
-      {/foreach}
-   </div>
-</div>
+  cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
+                             }, function() { cj(this).removeClass( "ui-state-hover");
+               }).bind('click', function() { 
+		                             var checkClass = cj(this).find('span').attr( 'class' );
+					     var len        = checkClass.length;
+					     if( checkClass.substring( len - 1, len ) == 's' ) {
+					       cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
+					     } else {
+					       cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+					     }
+					     cj(this).next().toggle('blind'); return false; }).next().hide();
+  if( showPane.length > 1 ) {
+    eval("showPane =[ '" + showPane.substring( 0,showPane.length - 2 ) +"]");
+    cj.each( showPane, function( index, value ) {
+      var id = "#id-"+value.charAt(0).toLowerCase()+value.substr(1);
+      cj('span#'+value).removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+      cj(id).show();
+    });
+  }
+});
+</script>
+{/literal}
+{* jQuery pane *}
+<div class="accordion ui-accordion ui-widget ui-helper-reset">
+{foreach from=$allPanes key=paneName item=paneValue}
+<h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id="{$paneValue.id}"></span><a href="#">{$paneName}</a></h3>
+{include file="CRM/Contribute/Form/AdditionalInfo/`$paneValue.id`.tpl"}
+{if $paneValue.open eq 'true'}
+{literal}<script type="text/javascript"> showPane += "{/literal}{$paneValue.id}{literal}"+"','";</script>{/literal}
+{/if}
+{/foreach}
 {/if} {* not delete mode if*}      
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   

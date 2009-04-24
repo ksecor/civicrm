@@ -304,12 +304,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                  CRM_Utils_Array::value( "hidden_{$type}", $defaults ) ) {
                 $showAdditionalInfo = true;
                 $allPanes[$name]['open'] = 'true';
-                eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
             }
+            eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );       
         }
         
         $this->assign( 'allPanes', $allPanes );
-        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
         $this->assign( 'showAdditionalInfo', $showAdditionalInfo );
         
         if ( $this->_formType ) {
