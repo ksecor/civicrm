@@ -111,7 +111,7 @@ class CRM_Report_Form_Instance {
 
     static function postProcess( &$form ) {
         $params = $form->getVar( '_params' );
-        
+
         $params['header'] = $params['report_header'];
         $params['footer'] = $params['report_footer'];
 
@@ -132,7 +132,7 @@ class CRM_Report_Form_Instance {
             $dao->id = $instanceID;
         }
 
-        
+
         $dao->save( );
 
         $form->set( 'id', $dao->id );
