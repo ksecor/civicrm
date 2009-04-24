@@ -104,7 +104,7 @@ class CRM_Event_Form_Registration_ConfirmParticipation extends CRM_Event_Form_Re
             $emptySeats = CRM_Event_BAO_participant::pendingToConfirmSpaces( $this->_eventId );
             $additonalIds = CRM_Event_BAO_participant::getAdditionalParticipantIds( $this->_participantId );
             $requireSpace = 1 + count( $additonalIds );
-            if ( $requireSpace > $emptySeats ) {
+            if ( $emptySeats !== null && ( $requireSpace > $emptySeats ) ) {
                 CRM_Core_Session::setStatus( ts( "Oops it's looks like there are no enough space for your event registration." ) );
             } else {
                 $buttons = array_merge( $buttons, array( array( 'type'      => 'next',
