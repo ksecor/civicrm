@@ -61,7 +61,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         'fields'  =>
                                         array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
                                                                          'required' => true ),
-                                               'trxn_id'       => null,
+                                               'trxn_id'       => array( 'default' => true ),
                                                'receive_date'  => null,
                                                'receipt_date'  => null,
                                                ),
@@ -94,8 +94,9 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         ),
                                  );
 
-        $this->_options = array( 'include_statistics' => array( 'title' => ts( 'Include Contribution Statistics' ),
-                                                                'type'  => 'checkbox' ),
+        $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Contribution Statistics' ),
+                                                                'type'   => 'checkbox',
+                                                                'default'=> true ),
                                  );
         
         parent::__construct( );

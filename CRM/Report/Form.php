@@ -121,12 +121,12 @@ class CRM_Report_Form extends CRM_Core_Form {
      *
      * @var array
      */
-    protected $_groupByDateFreq = array( ''         => '-select-',
+    protected $_groupByDateFreq = array( 'MONTH'    => 'Month',
+                                         ''         => '-select-',
                                          'YEARWEEK' => 'Week',
-                                         'MONTH'    => 'Month',
                                          'QUARTER'  => 'Quarter',
                                          'YEAR'     => 'Year'  );
-    
+
     /**
      * 
      */
@@ -174,9 +174,15 @@ class CRM_Report_Form extends CRM_Core_Form {
                 eval( "\$expFields = {$table['dao']}::export( );");
             }
 
+            $doNotCopy = array('required');
+
             // prepare columns
             foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( array_key_exists($fieldName, $expFields) ) {
+                    foreach ( $doNotCopy as $dnc ) {
+                        // unset the values we don't want to be copied.
+                        unset($expFields[$fieldName][$dnc]);
+                    }
                     if ( empty($field) ) {
                         $this->_columns[$tableName]['fields'][$fieldName] = $expFields[$fieldName];
                     } else {
@@ -195,6 +201,10 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     if ( array_key_exists($fieldName, $expFields) ) {
+                        foreach ( $doNotCopy as $dnc ) {
+                            // unset the values we don't want to be copied.
+                            unset($expFields[$fieldName][$dnc]);
+                        }
                         if ( empty($field) ) {
                             $this->_columns[$tableName]['filters'][$fieldName] = $expFields[$fieldName];
                         } else {
@@ -214,6 +224,10 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
                     if ( array_key_exists($fieldName, $expFields) ) {
+                        foreach ( $doNotCopy as $dnc ) {
+                            // unset the values we don't want to be copied.
+                            unset($expFields[$fieldName][$dnc]);
+                        }
                         if ( empty($field) ) {
                             $this->_columns[$tableName]['group_bys'][$fieldName] = $expFields[$fieldName];
                         } else {
@@ -246,16 +260,18 @@ class CRM_Report_Form extends CRM_Core_Form {
 //     }
 
     function setDefaultValues( ) {
-        $defaults = array();
+        $defaults = $freezeGroup = array();
 
+        // FIXME: generalizing form field naming conventions would reduce 
+        // lots of lines below.
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName => $field ) {
+                if ( isset($table['grouping']) ) { 
+                    $group = $table['grouping'];
+                } else {
+                    $group = $tableName;
+                }
                 if ( isset($field['required']) ) {
-                    if ( isset($table['grouping']) ) { 
-                        $group = $table['grouping'];
-                    } else {
-                        $group = $tableName;
-                    }
                     // set default
                     $defaults['select_columns'][$group][$fieldName] = 1;
 
@@ -266,15 +282,30 @@ class CRM_Report_Form extends CRM_Core_Form {
                     if ( $obj ) {
                         $freezeGroup[] = $obj;
                     }
+                } else if ( isset($field['default']) ) {
+                    $defaults['select_columns'][$group][$fieldName] = $field['default'];
+                }
+            }
+            if ( array_key_exists('group_bys', $table) ) {
+                foreach ( $table['group_bys'] as $fieldName => $field ) {
+                    if ( isset($field['default']) ) {
+                        $defaults['group_bys'][$fieldName] = $field['default'];
+                    }
+                }
+            }
+            foreach ( $this->_options as $fieldName => $field ) {
+                if ( isset($field['default']) ) {
+                    $defaults['options'][$fieldName] = $field['default'];
                 }
             }
         }
 
         // lets finish freezing task here itself
-        foreach ( $freezeGroup as $elem ) {
-            $elem->freeze();
+        if ( !empty($freezeGroup) ) {
+            foreach ( $freezeGroup as $elem ) {
+                $elem->freeze();
+            }
         }
-
 
         if ( $this->_formValues ) {
             $defaults = array_merge( $defaults, $this->_formValues );

@@ -7,6 +7,7 @@
    {/foreach}
 </fieldset>
 
+{if $groupByElements}
 <fieldset><legend>{ts}Group by Columns{/ts}</legend>
    <table class="form-layout"><tr>
    {foreach from=$groupByElements item=gbElem key=dnc}
@@ -14,6 +15,7 @@
    {/foreach}
    </table></tr>
 </fieldset>
+{/if}
 
 {if $form.options.html}
 <fieldset><legend>{ts}Other Options{/ts}</legend>
@@ -79,14 +81,6 @@
 
 {if $rows}
 <br/>
-   {if $statistics}
-   <table class="form-layout"><tr><td>
-   {foreach from=$statistics item=stats key=statName}
-      &nbsp;&nbsp;{$stats.title}:&nbsp;{$stats.value},
-   {/foreach}
-   </td></tr></table><br/>
-   {/if}
-
    <table class="form-layout">
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header key=field}
@@ -115,6 +109,7 @@
       </tr>
       {/foreach}
 
+      {if $grandStat}
       {foreach from=$grandStat item=row}
       <tr>
          {foreach from=$columnHeaders item=header key=field}
@@ -130,6 +125,7 @@
          {/foreach}
       </tr>
       {/foreach}
+      {/if}
    </table>
 
    {if $statistics}

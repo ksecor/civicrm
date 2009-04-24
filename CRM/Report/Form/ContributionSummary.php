@@ -46,23 +46,24 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                         'bao'     => 'CRM_Contribute_BAO_Contribution',
                                         'fields'  =>
                                         array( 'total_amount'  => 
-                                               array( 'title'     => ts( 'Amount' ),
-                                                      'required'  => true,
-                                                      'statistics'=> array('sum'  => ts( 'Amount Total' ), 
+                                               array( 'title'     => ts( 'Amount Statistics' ),
+                                                      'default'   => true,
+                                                      'statistics'=> array('sum'  => ts( 'Total Amount' ), 
                                                                            'count'=> ts( 'Count' ), 
                                                                            'avg'  => ts( 'Average' )) ),
                                                ),
                                         'filters'  =>             
                                         array( 'receive_date' => 
-                                               array( 'default'    => 'this month' ),
+                                               array( 'default'    => 'this.month' ),
                                                'total_amount' => 
                                                array( 'title'      => ts( 'Total  Amount Between' ) ),
                                                ),
                                         'group_bys'=>             
                                         array( 'receive_date' => 
-                                               array( 'default'    => 'this month',
+                                               array( 'default'    => true,
                                                       'frequency'  => true ),
-                                               'contribution_contact_id' => null,
+                                               'contribution_contact_id' => 
+                                               array( 'title'      => ts( 'Contacts' ) ),
                                                'contribution_source'     => null,
                                                'contribution_type'       => null,
                                                'contribution_page_id'    => null,
@@ -70,8 +71,9 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                         ),
                                  );
 
-        $this->_options = array( 'include_grand_total' => array( 'title' => ts( 'Include Grand Totals' ),
-                                                                 'type'  => 'checkbox' ),
+        $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
+                                                                 'type'   => 'checkbox',
+                                                                 'default'=> true ),
                                  );
         
         parent::__construct( );
@@ -94,9 +96,7 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$table['grouping']] ) ||
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
                     
-                    $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
-                    $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
-                    
+                    // only include statistics columns if set
                     if ( CRM_Utils_Array::value('statistics', $field) ) {
                         foreach ( $field['statistics'] as $stat => $label ) {
                             switch (strtolower($stat)) {
@@ -120,8 +120,11 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                             }
                         }   
 
+                    } else {
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
+                        $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                     }
-                    $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
                 }
             }
 
@@ -222,15 +225,19 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
     }
 
     function grandTotal( &$rows ) {
-        $grandStat = array();
-        $grandStat[] = array_pop($rows);
-        
-        foreach ($grandStat[0] as $fld => $val) {
-            if ( !in_array($fld, $this->_statFields) ) {
-                $grandStat[0][$fld] = "";
+        if ( !empty($this->_statFields) && 
+             CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
+            $grandStat = array();
+            $grandStat[] = array_pop($rows);
+            
+            foreach ($grandStat[0] as $fld => $val) {
+                if ( !in_array($fld, $this->_statFields) ) {
+                    $grandStat[0][$fld] = "";
+                }
             }
+            return $grandStat;
         }
-        return $grandStat;
+        return false;
     }
 
     function statistics( &$rows ) {
@@ -271,8 +278,12 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
                     }
                 }
             }
-            
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " WITH ROLLUP";
+            $rollUP = "";
+            if ( !empty($this->_statFields) && 
+                 CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
+                $rollUP = "WITH ROLLUP";
+            }
+            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " $rollUP ";
         }
     }
 
@@ -302,9 +313,8 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
             }
             $rows[] = $row;
         }
-
-        //if ( CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
         $this->assign( 'grandStat', $this->grandTotal( $rows ) );
+
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
 
