@@ -135,6 +135,11 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
             $task   = 'CRM_Event_Form_Task_SaveSearch_Update';
             $result = true;
             break;
+
+        case CRM_Event_Task::PARTICIPANT_STATUS:
+            $task = array('CRM_Event_Form_Task_ParticipantStatus',
+                          'CRM_Event_Form_Task_Result');
+            break;
             
         default: // the print task is the default and catch=all task
             $task = 'CRM_Event_Form_Task_Print';

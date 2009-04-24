@@ -49,7 +49,8 @@ class CRM_Event_Task
         EMAIL_CONTACTS                    =     6,
         // Value for SAVE_SEARCH is set as 13 in accordance with CRM_Contact_Task::SAVE_SEARCH
         SAVE_SEARCH                       =     13,
-        SAVE_SEARCH_UPDATE                =     14;
+        SAVE_SEARCH_UPDATE                =     14,
+        PARTICIPANT_STATUS                =     15;
 
     /**
      * the task array
@@ -85,6 +86,7 @@ class CRM_Event_Task
                                   5     => ts( 'Cancel Registration'                   ),
                                   13    => ts( 'New Smart Group'                       ),
                                   6     => ts( 'Send Email to Contacts'                ), 
+                                  15    => ts( 'Change Participant Status'             ),
                                   );
         }
 

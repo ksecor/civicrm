@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Profile/Form.php';
+require_once 'CRM/Event/Form/Task.php';
 
 /**
  * This class provides the functionality for batch profile update for events
