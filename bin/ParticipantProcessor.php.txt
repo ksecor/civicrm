@@ -208,8 +208,8 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
             }//cron 2 ends.
         }
         
-        echo "<br /><br />Numebr of Expired registration(s) = {$expiredParticipantCount}";
-        echo "<br />Numebr of registration changed to Pending from waitlist = {$waitingConfirmCount}<br /><br />";
+        echo "<br /><br />Number of Expired registration(s) = {$expiredParticipantCount}";
+        echo "<br />Number of registration changed to Pending from waitlist = {$waitingConfirmCount}<br /><br />";
         if ( !empty( $fullEvents ) ) {
             foreach ( $fullEvents as $eventId => $title ) {
                 echo "Full Event : {$title}<br />";

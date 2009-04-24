@@ -50,28 +50,26 @@ class CRM_Event_Form_Registration_ConfirmParticipation extends CRM_Event_Form_Re
      */ 
     public function preProcess( ) 
     {
-        $participnatId = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $this );
+        $this->_participantId = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $this );
         
         //get the contact and event id and assing to session.
         $values = array( );
         $csContactID = $eventId = null;
-        $params = array('id' => $participnatId );
-        if ( $participnatId ) {
+        if ( $this->_participantId ) {
             require_once 'CRM/Event/BAO/Participant.php';
+            $params = array('id' => $this->_participantId );
             CRM_Core_DAO::commonRetrieve( 'CRM_Event_DAO_Participant', $params, $values, 
                                           array( 'contact_id', 'event_id', 'status_id' ) );
         }
         
         $this->_participantStatusId = $values['status_id'];
-        $eventId = CRM_Utils_Array::value( 'event_id', $values );
+        $this->_eventId = CRM_Utils_Array::value( 'event_id', $values );
         $csContactID = CRM_Utils_Array::value( 'contact_id', $values );
         
         // make sure we have right permission to edit this user
         require_once 'CRM/Contact/BAO/Contact.php';
-        if ( $csContactID && $eventId ) {
+        if ( $csContactID && $this->_eventId ) {
             $session =& CRM_Core_Session::singleton( );
-            $this->set( 'eventId', $eventId );
-            $this->set( 'participantId', $participnatId );
             if ( $csContactID != $session->get( 'userID' ) ) {
                 require_once 'CRM/Contact/BAO/Contact/Permission.php';
                 if ( CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $csContactID, $this ) ) {
@@ -98,10 +96,22 @@ class CRM_Event_Form_Registration_ConfirmParticipation extends CRM_Event_Form_Re
         // only pending status class family able to confirm.
         if ( array_key_exists( $this->_participantStatusId, 
                                CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" ) ) ) {
-            $buttons = array_merge( $buttons, array( array( 'type'      => 'next',
-                                                            'name'      => ts('Confirm'), 
-                                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                                            'isDefault' => true   ))); 
+            
+            //need to confirm that though participant confirming
+            //registration but is there enough space to confirm.
+            require_once 'CRM/Event/PseudoConstant.php';
+            require_once 'CRM/Event/BAO/Participant.php';
+            $emptySeats = CRM_Event_BAO_participant::pendingToConfirmSpaces( $this->_eventId );
+            $additonalIds = CRM_Event_BAO_participant::getAdditionalParticipantIds( $this->_participantId );
+            $requireSpace = 1 + count( $additonalIds );
+            if ( $requireSpace > $emptySeats ) {
+                CRM_Core_Session::setStatus( ts( "Oops it's looks like there are no enough space for your event registration." ) );
+            } else {
+                $buttons = array_merge( $buttons, array( array( 'type'      => 'next',
+                                                                'name'      => ts('Confirm'), 
+                                                                'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                                                'isDefault' => true   ))); 
+            }
         }
         
         // status class other than Negative should able to cancel registration.
@@ -126,8 +136,8 @@ class CRM_Event_Form_Registration_ConfirmParticipation extends CRM_Event_Form_Re
     {
         //get the button.
         $buttonName = $this->controller->getButtonName( );
-        $eventId = $this->get( 'eventId' );
-        $participantId = $this->get( 'participantId' );
+        $eventId = $this->_eventId;
+        $participantId = $this->_participantId;
 
         if ( $buttonName == '_qf_ConfirmParticipation_next' ) {
             //check user registration status is from pending class

@@ -398,6 +398,56 @@ GROUP BY  counted.event_id
     }
     
     /**
+     * Get the empty spaces for event those we can allocate
+     * to pending participant to become confirm.
+     *
+     * @param int  $eventId event id.
+     *
+     * @return int $spaces  Number of Empty Seats/null.
+     * @static
+     * @access public
+     */
+    static function pendingToConfirmSpaces( $eventId )
+    {
+        $emptySeats = 0;
+        if ( !$eventId ) {
+            return $emptySeats;
+        }
+        
+        $positiveStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Positive'"  ); 
+        $statusIds = "(" . implode( ',', array_keys( $positiveStatuses ) ) . ")";
+        
+        $query ="
+  SELECT  count(participant.id) as registered,
+          civicrm_event.max_participants
+    FROM  civicrm_participant participant, civicrm_event
+   WHERE  participant.event_id = {$eventId}
+     AND  civicrm_event.id = participant.event_id
+     AND  participant.status_id IN {$statusIds}
+GROUP BY  participant.event_id
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query ); 
+        if ( $dao->fetch( ) ) { 
+            
+            //unlimited space.
+            if ( $dao->max_participants == NULL || $dao->max_participants <= 0  ) {
+                return null;
+            }
+            
+            //no space.
+            if ( $dao->registered >= $dao->max_participants ) {
+                return $emptySeats;
+            }
+            
+            //difference.
+            return $dao->max_participants - $dao->registered; 
+        }
+        
+        //space in case no registeration yet.
+        return CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'max_participants' );
+    }
+    
+    /**
      * combine all the importable fields from the lower levels object
      *
      * @return array array of importable Fields
