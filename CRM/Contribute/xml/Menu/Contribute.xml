@@ -10,6 +10,16 @@
      <weight>500</weight>
      <component>CiviContribute</component>
   </item>
+  <item>
+     <path>civicrm/contribute/add</path>
+     <title>New Contribution</title>
+     <page_callback>CRM_Contribute_Page_Tab</page_callback>
+     <path_arguments>reset=1&amp;action=add</path_arguments>
+     <access_arguments>access CiviContribute</access_arguments>
+     <page_type>1</page_type>
+     <weight>10</weight>
+     <component>CiviContribute</component>
+  </item>
  <item>
      <path>civicrm/contribute/chart</path>
      <title>Contribution Summary - Chart View</title>

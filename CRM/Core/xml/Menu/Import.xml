@@ -11,7 +11,7 @@
   </item>
   <item>
      <path>civicrm/import/contact</path>
-     <title>Contacts</title>
+     <title>Import Contacts</title>
      <access_arguments>import contacts,access CiviCRM</access_arguments>
      <page_type>1</page_type>
      <page_callback>CRM_Import_Controller</page_callback>
@@ -19,7 +19,7 @@
   </item>
   <item>
      <path>civicrm/import/activity</path>
-     <title>Activity</title>
+     <title>Import Activities</title>
      <access_arguments>import contacts,access CiviCRM</access_arguments>
      <page_type>1</page_type>
      <page_callback>CRM_Activity_Import_Controller</page_callback>

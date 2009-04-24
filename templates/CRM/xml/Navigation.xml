@@ -1,30 +1,38 @@
 <?xml version="1.0"?> 
 <navigation>
     <item key='Favourites' group='1'>
-       <item key='My Own Link' url='http://www.foo.org' />
-       <item key='Yet Another Link' url='http://www.foo.org' />
+       <item key='CiviCRM Blog' url='http://civicrm.org/blog' />
     </item>
     <item key='Contacts' group='1' >
         <item key='Create new ...' group='1'>
             <item key='Individual' url=''/>
             <item key='Organization' url=''/>
             <item key='Household' url=''/>
+            <item key='Activity' url=''/>
         </item>
-        <item key='Search' group='1'>
+        <item key='Search...' group='1'>
             <item key='Find Contacts' label='Basic'/>
-			<item key='Fulltext' url=''/>
+			<item key='Full-text' url='civicrm/contact/search/custom?reset=1&amp;csid=15'/>
             <item key='Advanced Search' label='Advanced'/>
             <item key='Search Builder'/>
+            <item key='Custom...' group='1'>
+                <item key='Contacts by Date Added' url='civicrm/contact/search/custom?reset=1&amp;csid=11'/>
+                <item key='Proximity Search' url='civicrm/contact/search/custom?reset=1&amp;csid=6'/>
+            </item>
         </item>
-        <item key='Groups and Tags' group='1'>
-            <item key='New Tag'/>
-			<item key='New Group'/>
-            <item key='Advanced Search' label='Advanced'/>
-            <item key='Search Builder'/>
+        <item key='Groups and Tags...' group='1'>
+            <item key='New Tag' />
+            <item key='New Group' />
+            <item key='Manage Groups'/>
+            <item key='Manage Tags (Categories)' />
+        </item>
+        <item key='Import...' group='1'>
+                <item key='Import Contacts' label='Contacts' />
+                <item key='Import Activities' label='Activities' />
         </item>
     </item>
     <item key='Contributions' group='1'>
-       <item key='New Contribution' label='Create new ...'  url=''/>
+       <item key='New Contribution'/>
     </item>
     <item key='Events' group='1'>
         <item key='New Event' label='Create new ...'/>
@@ -69,5 +77,11 @@
             <item key='Activity Types'/>
             <item key='Gender Options'/>			
         </item>
+    </item>
+    <item key='Help' group='1'>
+        <item key='Documentation' url='http://documentation.civicrm.org'/>
+        <item key='Forums' url='http://forum.civicrm.org'/>
+        <item key='Participate' url='http://civicrm.org/participate'/>
+        <item key='About'/>
     </item>
 </navigation>
