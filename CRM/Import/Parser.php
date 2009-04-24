@@ -346,7 +346,7 @@ abstract class CRM_Import_Parser {
             /* trim whitespace around the values */
             $empty = true;
             foreach ($values as $k => $v) {
-                $values[$k] = trim($v, " \t\r\n\xA0");
+                $values[$k] = trim($v, " \t\r\n");
             }
             if ( CRM_Utils_System::isNull( $values ) ) {
                 continue;
