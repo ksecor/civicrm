@@ -371,19 +371,18 @@ class CRM_Report_Form extends CRM_Core_Form {
                     CRM_Core_Form_Date::buildDateRange( $this, $fieldName );
                     break;
 
+                case CRM_Utils_Type::T_INT:
+                case CRM_Utils_Type::T_MONEY:
+                    // and a min value input box
+                    $this->add( 'text', "{$fieldName}_min", ts('Min') );
+                    // and a max value input box
+                    $this->add( 'text', "{$fieldName}_max", ts('Max') );
                 default:
                     // default type is string
                     $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
                                       array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
-                    
                     // we need text box for value input
                     $this->add( 'text', "{$fieldName}_value", ts('Value') );
-                    
-                    // and a min value input box
-                    $this->add( 'text', "{$fieldName}_min", ts('Min') );
-                    
-                    // and a max value input box
-                    $this->add( 'text', "{$fieldName}_max", ts('Max') );
                     break;
                 }
             }
@@ -499,7 +498,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                          'sw'   => 'Starts with', 
                          'ew'   => 'Ends with',
                          'nhas' => 'Does not contain', 
-                         'like' => 'Is equal to', 
+                         'eq'   => 'Is equal to', 
                          'neq'  => 'Is not equal to', 
                          );
         }
