@@ -45,8 +45,12 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                  array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
                                         'bao'     => 'CRM_Contribute_BAO_Contribution',
                                         'fields'  =>
-                                        array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
-                                                                         'required' => true ),
+                                        array( 'total_amount'  => 
+                                               array( 'title'     => ts( 'Amount' ),
+                                                      'required'  => true,
+                                                      'statistics'=> array('sum'  => ts( 'Amount Total' ), 
+                                                                           'count'=> ts( 'Count' ), 
+                                                                           'avg'  => ts( 'Average' )) ),
                                                ),
                                         'filters'  =>             
                                         array( 'receive_date' => 
@@ -82,39 +86,47 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
 
     function select( ) {
         $select = array( );
-        $interval = 'month';
         $this->_columnHeaders = array( );
         foreach ( $this->_columns as $tableName => $table ) {
-            $stat = false;
             foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( CRM_Utils_Array::value( 'required', $field ) ||
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$table['grouping']] ) ||
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
-
+                    
                     $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
                     $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
                     
-                    
-                    if ( !$stat ) {
-                        $select[] = "SUM({$table['alias']}.total_amount) as amount";
-                        $select[] = "count({$table['alias']}.total_amount) as count";
-                        $select[] = "AVG({$table['alias']}.total_amount) as avg";
-                        $stat     = true;
+                    if ( CRM_Utils_Array::value('statistics', $field) ) {
+                        foreach ( $field['statistics'] as $stat => $label ) {
+                            switch (strtolower($stat)) {
+                            case 'sum':
+                                $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                break;
+                            case 'count':
+                                $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                break;
+                            case 'avg':
+                                $select[] = "AVG({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                break;
+                            }
+                        }   
                     }
                 }
             }
 
             foreach ( $table['group_bys'] as $fieldName => $field ) {
                 if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                    $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                    $this->_columnHeaders["{$tableName}_{$fieldName}"] = $field['title'];
-                    
+
                     switch ( $this->_params['group_bys_freq'][$fieldName] ) {
                     case 'YEARWEEK' :
                         $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
                         $select[] = "DATE_ADD({$field['dbAlias']}, 
 INTERVAL(6 - WEEKDAY({$field['dbAlias']})) DAY) AS {$tableName}_{$fieldName}_end"; 
+                        $field['title'] = 'Week';
                         break;
 
                     case 'YEAR' :
@@ -122,6 +134,7 @@ INTERVAL(6 - WEEKDAY({$field['dbAlias']})) DAY) AS {$tableName}_{$fieldName}_end
 AS {$tableName}_{$fieldName}_start";
                         $select[] = "LAST_DAY(MAKEDATE(YEAR({$field['dbAlias']}), 365)) 
 AS {$tableName}_{$fieldName}_end"; 
+                        $field['title'] = 'Year';
                         break;
 
                     case 'MONTH':
@@ -129,17 +142,19 @@ AS {$tableName}_{$fieldName}_end";
 INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_start";
                         $select[] = "{$field['dbAlias']}, 
 LAST_DAY({$field['dbAlias']}) as {$tableName}_{$fieldName}_end"; 
+                        $field['title'] = 'Month';
                         break;
 
                     case 'QUARTER':
                         $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) -2 , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
                         $select[] = "LAST_DAY(STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y')) AS {$tableName}_{$fieldName}_end"; 
+                        $field['title'] = 'Quarter';
                         break;
 
                     }
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"] = $field['title'] . ' start';
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]   = $field['title'] . ' end';
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"] = $field['title'] . ' Begins';
+                        $this->_columnHeaders["{$tableName}_{$fieldName}_end"]   = $field['title'] . ' Ends';
                     }
                 }
             }
@@ -200,7 +215,13 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
             foreach ( $this->_columns as $tableName => $table ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                        $this->_groupBy[] = $field['dbAlias'];
+                        if ( CRM_Utils_Array::value('frequency', $table['group_bys'][$fieldName]) && 
+                             CRM_Utils_Array::value($fieldName, $this->_params['group_bys_freq']) ) {
+                            $this->_groupBy[] = 
+                                $this->_params['group_bys_freq'][$fieldName] . "({$field['dbAlias']})";
+                        } else {
+                            $this->_groupBy[] = $field['dbAlias'];
+                        }
                     }
                 }
             }
