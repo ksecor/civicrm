@@ -89,36 +89,32 @@
          {include file="CRM/Report/Form/Instance.tpl"}
       </div>
 
-      <script type="text/javascript">
-         {if empty($rows) }
-	    var showBlocks = new Array("id_{$formTpl}");
-            var hideBlocks = new Array("id_{$formTpl}_show");
-         {else}
-	    var showBlocks = new Array("id_{$formTpl}_show");
-            var hideBlocks = new Array("id_{$formTpl}");
-         {/if}
-         {* hide and display the appropriate blocks as directed by the php code *}
-         on_load_init_blocks( showBlocks, hideBlocks );
-      </script>
-
-      <script type="text/javascript">
-         {if $instanceForm}
-         {if empty($rows) }
-	    var showBlocks = new Array("id_{$instanceForm}");
-            var hideBlocks = new Array("id_{$instanceForm}_show");
-         {else}
-	    var showBlocks = new Array("id_{$instanceForm}_show");
-            var hideBlocks = new Array("id_{$instanceForm}");
-         {/if}
-         {/if}
-         {* hide and display the appropriate blocks as directed by the php code *}
-         on_load_init_blocks( showBlocks, hideBlocks );
-      </script>
    {/if} {* settings section ends *}
 
 
    {* all the buttons *}
    <div id="crm-submit-buttons">{$form.buttons.html}</div>
+
+   <script type="text/javascript">
+      var showBlocks = [];
+      var hideBlocks = [];
+
+      {if $rows}
+         showBlocks[0] = "id_{$formTpl}_show";
+	 hideBlocks[0] = "id_{$formTpl}";
+      {else}
+	 hideBlocks[0] = "id_{$formTpl}_show";
+         showBlocks[0] = "id_{$formTpl}";
+      {/if}
+
+      {if $instanceForm and $rows}
+	 hideBlocks[1] = "id_{$instanceForm}";
+         showBlocks[1] = "id_{$instanceForm}_show";
+      {/if}
+
+      {* hide and display the appropriate blocks as directed by the php code *}
+      on_load_init_blocks( showBlocks, hideBlocks );
+   </script>
 
 {/if} {* NO print section ends *}
 
