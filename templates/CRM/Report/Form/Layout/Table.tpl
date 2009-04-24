@@ -1,13 +1,5 @@
 {if $rows}
 <br/>
-   {if $statistics}
-   <table class="form-layout"><tr><td>
-   {foreach from=$statistics item=stats key=statName}
-      &nbsp;&nbsp;{$stats.title}:&nbsp;{$stats.value},
-   {/foreach}
-   </td></tr></table><br/>
-   {/if}
-
    <table class="form-layout">
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header key=field}
