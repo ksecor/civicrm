@@ -71,6 +71,23 @@ class CRM_Report_Form_Instance {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+
+        $form->addFormRule( array( 'CRM_Report_Form_Instance', 'formRule' ), $form );
+    }
+
+    static function formRule( &$fields, &$errors, &$self ) {
+        $buttonName = $self->controller->getButtonName( );
+        $selfButtonName = $self->getVar( '_instanceButtonName' );
+        
+        $errors = array( );
+        if ( $selfButtonName &&
+             $selfButtonName == $buttonName ) {
+            if ( empty( $fields['title'] ) ) {
+                $errors['title'] = ts( 'Title is a required field' );
+            }
+        }
+
+        return empty( $errors ) ? true : $errors;
     }
 
     static function setDefaultValues( &$form, &$defaults ) {
@@ -105,7 +122,8 @@ class CRM_Report_Form_Instance {
         $dao->copyValues( $params );
 
         // unset all the params that we use
-        $fields = array( 'title', 'to_emails', 'cc_emails', 'header', 'footer' );
+        $fields = array( 'title', 'to_emails', 'cc_emails', 'header', 'footer',
+                         'qfKey', '_qf_default' );
         foreach ( $fields as $field ) {
             unset( $params[$field] );
         }

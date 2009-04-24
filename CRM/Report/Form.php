@@ -91,6 +91,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_force = 1;
 
     protected $_instanceForm = false;
+    protected $_instanceButtonName = null;
 
     /**
      * To what frequency group-by a date column
@@ -511,9 +512,12 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function postProcess( ) {
+        $buttonName = $this->controller->getButtonName( );
+
         if ( $this->_instanceForm &&
-             CRM_Utils_Array::value( 'title', $this->_params ) ) {
-            CRM_Report_Form_Instance::postProcess( );
+             $this->_instanceButtonName &&
+             $this->_instanceButtonName == $buttonName ) {
+            CRM_Report_Form_Instance::postProcess( $this );
         }
     }
 
