@@ -5,6 +5,7 @@ var showPane = "";
 cj(function() {
   cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
   cj('.ui-accordion .ui-accordion-header').css( 'width', '98%' );
+  cj('div#constituent_information').css( 'width', '98%' );
   cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
                              }, function() { cj(this).removeClass( "ui-state-hover");
                }).bind('click', function() { 

@@ -31,7 +31,7 @@
         <tr>
              <td>
                 {$form.activity_subject.label}<br />
-                {$form.activity_subject.html} 
+                {$form.activity_subject.html|crmReplace:class:twenty} 
              </td>
 	         <td>
                 {$form.activity_status.label}<br />
