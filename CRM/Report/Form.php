@@ -152,7 +152,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                                                      CRM_Core_DAO::$_nullObject );
 
         // lets display the 
-        $this->_instanceForm = $this->_force || ( ! empty( $_POST ) );
+        $this->_instanceForm = $this->_force || $this->_id || ( ! empty( $_POST ) );
 
         $this->_instanceButtonName = $this->getButtonName( 'submit', 'save'  );
         $this->_printButtonName    = $this->getButtonName( 'submit', 'print' );
@@ -248,19 +248,24 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $this->_filters[$tableName] = $this->_columns[$tableName]['filters'];
             }
         }
-        
+
         if ( $this->_force ) {
+            $this->setDefaultValues( false );
+        }
+
+        require_once 'CRM/Report/Utils/Get.php';
+        CRM_Report_Utils_Get::process( $this->_filters,
+                                       $this->_defaults );
+
+        if ( $this->_force ) {
+            $this->_formValues = $this->_defaults;
             $this->postProcess( );
         }
 
     }
 
-
-//     funtion processGetParams( ) {
-//     }
-
-    function setDefaultValues( ) {
-        $defaults = $freezeGroup = array();
+    function setDefaultValues( $freeze = true ) {
+        $freezeGroup = array();
 
         // FIXME: generalizing form field naming conventions would reduce 
         // lots of lines below.
@@ -273,29 +278,33 @@ class CRM_Report_Form extends CRM_Core_Form {
                 }
                 if ( isset($field['required']) ) {
                     // set default
-                    $defaults['select_columns'][$group][$fieldName] = 1;
+                    $this->_defaults['select_columns'][$group][$fieldName] = 1;
 
-                    // find element object, so that we could use quickform's freeze method 
-                    // for required elements
-                    $obj = $this->getElementFromGroup("select_columns[$group]", 
-                                                      $fieldName);
-                    if ( $obj ) {
-                        $freezeGroup[] = $obj;
+                    if ( $freeze ) {
+                        // find element object, so that we could use quickform's freeze method 
+                        // for required elements
+                        $obj = $this->getElementFromGroup("select_columns[$group]", 
+                                                          $fieldName);
+                        if ( $obj ) {
+                            $freezeGroup[] = $obj;
+                        }
                     }
                 } else if ( isset($field['default']) ) {
-                    $defaults['select_columns'][$group][$fieldName] = $field['default'];
+                    $this->_defaults['select_columns'][$group][$fieldName] = $field['default'];
                 }
             }
+
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
                     if ( isset($field['default']) ) {
-                        $defaults['group_bys'][$fieldName] = $field['default'];
+                        $this->_defaults['group_bys'][$fieldName] = $field['default'];
                     }
                 }
             }
+
             foreach ( $this->_options as $fieldName => $field ) {
                 if ( isset($field['default']) ) {
-                    $defaults['options'][$fieldName] = $field['default'];
+                    $this->_defaults['options'][$fieldName] = $field['default'];
                 }
             }
         }
@@ -308,18 +317,19 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         if ( $this->_formValues ) {
-            $defaults = array_merge( $defaults, $this->_formValues );
+            $this->_defaults = array_merge( $this->_defaults, $this->_formValues );
         }
 
         if ( $this->_instanceValues ) {
-            $defaults = array_merge( $defaults, $this->_instanceValues );
+            $this->_defaults = array_merge( $this->_defaults, $this->_instanceValues );
         }
 
         if ( $this->_instanceForm ) {
-            CRM_Report_Form_Instance::setDefaultValues( $this, $defaults );
+            require_once 'CRM/Report/Form/Instance.php';
+            CRM_Report_Form_Instance::setDefaultValues( $this, $this->_defaults );
         }
         
-        return $defaults;
+        return $this->_defaults;
     }
 
     function getElementFromGroup( $group, $grpFieldName ) {

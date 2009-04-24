@@ -69,7 +69,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         array( 'receive_date' => 
                                                array( 'default'    => 'this month' ),
                                                'total_amount' => 
-                                               array( 'title'      => ts( 'Aggregate Total Between' ) ),
+                                               array( 'title'      => ts( 'Amount Between' ) ),
                                                ),
                                         'grouping'=> 'contri-fields',
                                         ),
@@ -100,14 +100,6 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                  );
         
         parent::__construct( );
-    }
-
-    function preProcess( ) {
-        parent::preProcess( );
-    }
-
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
     }
 
     function select( ) {
@@ -216,8 +208,7 @@ SELECT COUNT( contribution.total_amount ) as count,
     }
 
     function postProcess( ) {
-        if ( $this->_id &&
-             $this->_force ) {
+        if ( $this->_force ) {
             $this->_params = $this->_formValues;
         } else {
             $this->_params = $this->controller->exportValues( $this->_name );
