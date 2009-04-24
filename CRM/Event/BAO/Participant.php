@@ -733,6 +733,352 @@ ORDER BY  participant.id";
         
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
     }
-
+    
+    /**
+     * Function takes participant ids and statuses
+     * update status from $fromStatusId to $toStatusId 
+     * and send mail + create activities.
+     *      
+     * @param  array $participantIds   participant ids.
+     * @param  int   $fromStatusId     from status id
+     * @param  int   $toStatusId       update status id.
+     *
+     * return  void
+     * @access public
+     * @static
+     */
+    static function transitionParticipants( $participantIds, $fromStatusId, $toStatusId )
+    {    
+        if ( !is_array( $participantIds ) && empty( $participantIds ) ) {
+            return;
+        }
+        
+        //thumb rule is if we triggering  primary participant need to triggered additional
+        $allParticipantIds = $primaryANDAdditonalIds = array( );
+        require_once 'CRM/Event/BAO/Participant.php';
+        foreach ( $participantIds as $id ) {
+            $allParticipantIds[] = $id; 
+            $additionalIds = CRM_Event_BAO_Participant::getAdditionalParticipantIds( $id );
+            if ( !empty( $additionalIds ) ) {
+                $primaryANDAdditonalIds[$id] = $additionalIds;
+                $allParticipantIds = array_merge( $allParticipantIds, $additionalIds );
+            }
+        }
+        
+        //get the unique participant ids,
+        $allParticipantIds = array_unique( $allParticipantIds );
+        
+        //pull required participants, contacts, events  data, if not in hand
+        static $eventDetails   = array( );
+        static $domainValues   = array( );
+        static $contactDetails = array( );
+        
+        $contactIds = $eventIds = $primaryANDAdditonalIds = $participantDetails = array( );
+        
+        require_once 'CRM/Event/PseudoConstant.php';
+        $statusTypes = CRM_Event_PseudoConstant::participantStatus( );
+        $participantRoles = CRM_Event_PseudoConstant::participantRole( );
+        
+        //first thing is pull all necessory data from db.
+        $participantIdClause = "(" . implode( ',', $allParticipantIds ) . ")";  
+        
+        //get all participants data.
+        $query = "SELECT * FROM civicrm_participant WHERE id IN {$participantIdClause}";
+        $dao   =& CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            $participantDetails[$dao->id] = array( 'id'               => $dao->id,
+                                                   'role'             => $participantRoles[$dao->role_id],
+                                                   'is_test'          => $dao->is_test,
+                                                   'event_id'         => $dao->event_id,
+                                                   'status_id'        => $dao->status_id,
+                                                   'fee_amount'       => $dao->fee_amount, 
+                                                   'contact_id'       => $dao->contact_id,
+                                                   'register_date'    => $dao->register_date,
+                                                   'registered_by_id' => $dao->registered_by_id
+                                                   );
+            if ( !array_key_exists( $dao->contact_id, $contactDetails ) ) {
+                $contactIds[$dao->contact_id] = $dao->contact_id; 
+            }
+            
+            if ( !array_key_exists( $dao->event_id, $eventDetails ) ) {
+                $eventIds[$dao->event_id] = $dao->event_id;
+            }
+        }
+        
+        //get the domain values.
+        if ( empty( $domainValues ) ) { 
+            // making all tokens available to templates.
+            require_once 'CRM/Core/BAO/Domain.php';
+            require_once 'CRM/Core/SelectValues.php';
+            $domain =& CRM_Core_BAO_Domain::getDomain( );
+            $tokens = array ( 'domain'  => array( 'name', 'phone', 'address', 'email'),
+                              'contact' => CRM_Core_SelectValues::contactTokens( ));
+            
+            require_once 'CRM/Utils/Token.php';
+            foreach( $tokens['domain'] as $token ){ 
+                $domainValues[$token] = CRM_Utils_Token::getDomainTokenReplacement( $token, $domain );
+            }
+        }
+        
+        //get all required contacts detail.
+        if ( !empty( $contactIds ) ) { 
+            // get the contact details.
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            list( $currentContactDetails ) = CRM_Mailing_BAO_Mailing::getDetails( $contactIds, null, false, false );
+            foreach ( $currentContactDetails as $contactId => $contactValues ) {
+                $contactDetails[$contactId] = $contactValues;
+            }
+        }
+        
+        //get all required events detail.
+        if ( !empty( $eventIds ) ) {
+            foreach ( $eventIds as $eventId ) {
+                //retrieve event information
+                require_once 'CRM/Event/BAO/Event.php';
+                $eventParams = array( 'id' => $eventId );
+                CRM_Event_BAO_Event::retrieve( $eventParams, $eventDetails[$eventId] );
+                
+                //get the location info
+                $locParams = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
+                require_once 'CRM/Core/BAO/Location.php';
+                CRM_Core_BAO_Location::getValues( $locParams, $eventDetails[$eventId], true );
+            }
+        }
+        
+        //now we are ready w/ all required data.
+        //take a decision as per statuses. 
+        
+        $emailType = null;
+        $toStatus   = $statusTypes[$toStatusId];
+        $fromStatus = $statusTypes[$fromStatusId];
+        
+        switch ( $fromStatus ) {
+        case 'On waitlist' :
+            //need to handle cases that from waitlist
+            switch ( $toStatus ) {
+            case 'Pending from waitlist' :
+                $emailType = 'Confirm';
+                break;
+                
+            case 'Cancelled' :
+                break;
+            }
+            break;
+            
+        case 'Pending from waitlist' :
+            switch ( $toStatus ) {
+            case 'Expired':
+                //need to send mails for expired registration.
+                break;
+                
+            case 'Cancelled' :
+                break;
+            }
+            break;
+            
+        case 'Pending from approval' :
+            switch ( $toStatus ) {
+            case 'Expired':
+                //need to send mails for expired registration.
+                break;
+                
+            case 'Cancelled' :
+                break;   
+            }
+            break;
+            
+        case 'Pending from pay later' :
+            switch ( $toStatus ) {
+            case 'Expired':
+                //need to send mails for expired registration.
+                break;
+                
+            case 'Cancelled' :
+                break;
+            }
+            
+            break;
+        }
+        
+        //as we process additional w/ primary, there might be case if user
+        //select primary as well as additionals, so avoid double processing.
+        $processedParticipantIds = array( );
+        
+        //send mails and update status.
+        foreach ( $participantDetails as $participantId => $participantValues ) {
+            if ( in_array( $participantId,  $processedParticipantIds ) ) {
+                continue;
+            }
+            $processedParticipantIds[] = $participantId;
+            
+            //check is it primary and has additional.
+            if ( array_key_exists( $participantId, $primaryANDAdditonalIds ) ) {
+                foreach ( $primaryANDAdditonalIds[$participantId] as $additonalId ) {
+                    if ( $emailType ) {
+                        self::sendTransitionParticipantMail( $additonalId, 
+                                                             $participantDetails[$additonalId],
+                                                             $eventDetails[$participantDetails[$additonalId]['event_id']],
+                                                             $contactDetails[$participantDetails[$additonalId]['contact_id']],
+                                                             $domainValues,
+                                                             $emailType );
+                    }
+                    $processedParticipantIds[] = $additonalId;
+                }
+            }
+            
+            //now send email appropriate mail to primary.
+            if ( $emailType ) {
+                self::sendTransitionParticipantMail( $participantId, 
+                                                     $participantValues, 
+                                                     $eventDetails[$participantValues['event_id']],
+                                                     $contactDetails[$participantValues['contact_id']],
+                                                     $domainValues,
+                                                     $emailType );
+            }
+            
+            //now update status of group/one at once.
+            self::updateParticipantStatus( $participantId, $toStatusId );
+        }
+    }
+    
+    /**
+     * Function to send mail and create activity 
+     * when participant status changed.
+     *      
+     * @param  int     $participantId      participant id.
+     * @param  array   $participantValues  participant detail values. status id for participants 
+     * @param  array   $eventDetails       required event details
+     * @param  array   $contactDetails     required contact details
+     * @param  array   $domainValues       required domain values.
+     * @param  string  $mailType           (eg 'approval', 'confirm', 'expired' ) 
+     *
+     * return  void
+     * @access public
+     * @static
+     */
+    function sendTransitionParticipantMail( $participantId, 
+                                            $participantValues, 
+                                            $eventDetails, 
+                                            $contactDetails, 
+                                            &$domainValues,
+                                            $mailType ) {
+        //send emails.
+        if ( $toEmail = CRM_Utils_Array::value( 'email', $contactDetails ) ) {
+            
+            $contactId       = $participantValues['contact_id'];
+            $participantName = $contactDetails['display_name'];
+            
+            //assign contact value to templates.
+            $template =& CRM_Core_Smarty::singleton( );
+            $template->assign( 'contact', $contactDetails );
+            
+            //assign values to template.
+            $template =& CRM_Core_Smarty::singleton( );
+            
+            // assign domain values to template
+            $template->assign( 'domain', $domainValues );
+            
+            //assign participant values to templates.
+            $template->assign( 'participant', $participantValues );
+            
+            //assign event values to templates.
+            $template->assign( 'event', $eventDetails );
+            
+            //is it paid event
+            $template->assign( 'paidEvent', CRM_Utils_Array::value( 'is_monetary', $eventDetails ) );
+            
+            //is show location
+            $template->assign( 'isShowLocation', CRM_Utils_Array::value( 'is_show_location', $eventDetails ) );
+            
+            //is it primary participant.
+            $template->assign( 'isAdditional', $participantValues['registered_by_id'] );
+            
+            //is expiraed registration mail
+            $isExpiredMail = false;
+            if ( $mailType == 'Expired' ) {
+                $isExpiredMail = true;
+            }
+            $template->assign( 'isExpired', $isExpiredMail );
+            
+            //is it confirm mail.
+            $isConfirmMail = false;
+            if ( $mailType == 'Confirm' ) {
+                $template->assign( 'isConfirm', $isConfirmMail );
+            }
+            
+            //calculate the checksum value.
+            $checksumValue = null;
+            if ( $mailType == 'Confirm' && !$participantValues['registered_by_id'] ) {
+                require_once 'CRM/Utils/Date.php';
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                $checksumLife = 'inf';
+                if ( $endDate = CRM_Utils_Array::value( 'end_date',  $eventDetails )  ) {
+                    $checksumLife = (CRM_Utils_Date::unixTime( $endDate )-time())/(60*60);
+                }
+                $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactId, null, $checksumLife );
+            }
+            $template->assign( 'checksumValue', $checksumValue );
+            
+            //support different templates for both mails.
+            $subject = $message = '';
+            if ( $mailType == 'Expired' ) {
+                $subject = $template->fetch( 'CRM/Event/Form/ParticipantExpiredSubject.tpl' );
+                $message = $template->fetch( 'CRM/Event/Form/ParticipantExpiredMessage.tpl' );
+            } else if ( $mailType == 'Confirm' )  {
+                $subject = $template->fetch( 'CRM/Event/Form/ParticipantConfirmSubject.tpl' );
+                $message = $template->fetch( 'CRM/Event/Form/ParticipantConfirmMessage.tpl' );
+            }
+            
+            //take a receipt from as event else domain.
+            if ( CRM_Utils_Array::value('confirm_from_name',  $eventDetails ) && 
+                 CRM_Utils_Array::value('confirm_from_email', $eventDetails ) ) {
+                $receiptFrom = '"' . $eventDetails['confirm_from_name'] . '" <' . $eventDetails['confirm_from_email'] . '>';
+            } else {
+                $receiptFrom = '"' . $domainValues['name'] . '" <' . $domainValues['email'] . '>';
+            }
+            
+            //send mail to participant.
+            require_once 'CRM/Utils/Mail.php';
+            $mailSent = CRM_Utils_Mail::send( $receiptFrom,
+                                              $participantName,
+                                              $toEmail,
+                                              $subject,
+                                              $message,
+                                              CRM_Utils_Array::value( 'cc_confirm',  $eventDetails ), 
+                                              CRM_Utils_Array::value( 'bcc_confirm', $eventDetails ) 
+                                              );
+            
+            // 3. create activity record.
+            if ( $mailSent ) {
+                $now = date( 'YmdHis' );
+                $activityType = 'Event Registration';
+                $activityParams = array( 'subject'            => $subject,
+                                         'source_contact_id'  => $contactId,
+                                         'source_record_id'   => $participantId,
+                                         'activity_type_id'   => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                                 $activityType,
+                                                                                                 'name' ),
+                                         'activity_date_time' => CRM_Utils_Date::isoToMysql( $now ),
+                                         'due_date_time'      => CRM_Utils_Date::isoToMysql( $participantValues['register_date'] ),
+                                         'is_test'            => $participantValues['is_test'],
+                                         'status_id'          => 2
+                                         );
+                
+                require_once 'api/v2/Activity.php';
+                if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
+                    CRM_Core_Error::fatal("Failed creating Activity for expiration mail");
+                }
+                
+                //set message related to mail sent.
+                if ( $isConfirmMail ) {
+                    echo "<br />Confirmation Mail sent to: {$participantName} - {$toEmail}";
+                } else if ( $isExpiredMail ) {
+                    echo "<br />Expiration Mail sent to: {$participantName} - {$toEmail}";
+                }
+            }
+        }
+        
+    }
+    
 }
 
