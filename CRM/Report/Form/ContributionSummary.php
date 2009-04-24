@@ -69,8 +69,8 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                         ),
                                  );
 
-        $this->_options = array( 'include_statistics' => array( 'title' => ts( 'Include Grand Totals' ),
-                                                                'type'  => 'checkbox' ),
+        $this->_options = array( 'include_grand_total' => array( 'title' => ts( 'Include Grand Totals' ),
+                                                                 'type'  => 'checkbox' ),
                                  );
         
         parent::__construct( );
@@ -102,14 +102,17 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                             case 'sum':
                                 $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
                                 $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             case 'count':
                                 $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
                                 $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             case 'avg':
-                                $select[] = "AVG({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
                                 $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"] = $label;
+                                $this->_statistics[] = "{$tableName}_{$fieldName}_{$stat}";
                                 break;
                             }
                         }   
@@ -225,28 +228,21 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
                     }
                 }
             }
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " ";
+            
+            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " WITH ROLLUP";
         }
     }
 
-    function statistics( ) {
-        $select = "
-SELECT COUNT( contribution.total_amount ) as count,
-       SUM(   contribution.total_amount ) as amount,
-       AVG(   contribution.total_amount ) as avg
-";
-
-        $sql = "{$select} {$this->_from} {$this->_where}";
-        $dao = CRM_Core_DAO::executeQuery( $sql );
-
-        $statistics = null;
-        if ( $dao->fetch( ) ) {
-            $statistics = array( 'count'  => $dao->count,
-                                 'amount' => $dao->amount,
-                                 'avg'    => $dao->avg );
-        }
+    function grandTotal( &$rows ) {
+        $grandStat = array();
+        $grandStat[] = array_pop($rows);
         
-        return $statistics;
+        foreach ($grandStat[0] as $fld => $val) {
+            if ( !in_array($fld, $this->_statistics) ) {
+                $grandStat[0][$fld] = "";
+            }
+        }
+        return $grandStat;
     }
 
     function postProcess( ) {
@@ -271,17 +267,15 @@ SELECT COUNT( contribution.total_amount ) as count,
             $rows[] = $row;
         }
 
+        //if ( CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
+        $this->assign( 'grandStat', $this->grandTotal( $rows ) );
+
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
         
 /*         CRM_Core_Error::debug( '$this->_columnHeaders', $this->_columnHeaders  ); */
-/*         CRM_Core_Error::debug( '$rows', $rows ); */
 /*         CRM_Core_Error::debug( 'statistics', $this->statistics( ) ); */
-
-        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params ) ) {
-            $this->assign( 'statistics',
-                           $this->statistics( ) );
-        }
+/*         CRM_Core_Error::debug( '$rows', $rows ); */
 
 /*         CRM_Core_Error::debug( '$sql', $sql ); */
 /*         exit( ); */

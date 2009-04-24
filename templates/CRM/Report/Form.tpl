@@ -99,6 +99,14 @@
          {/foreach}
       </tr>
       {/foreach}
+
+      {foreach from=$grandStat item=row}
+      <tr>
+         {foreach from=$columnHeaders item=header key=field}
+            <td><strong>{$row.$field}</strong></td>
+         {/foreach}
+      </tr>
+      {/foreach}
    </table>
 {/if}
 </div>
