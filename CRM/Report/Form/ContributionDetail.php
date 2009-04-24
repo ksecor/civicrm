@@ -221,6 +221,7 @@ SELECT COUNT( contribution.total_amount ) as count,
         } else {
             $this->_params = $this->controller->exportValues( $this->_name );
         }
+        $this->_formValues = $this->_params ;
 
         $this->select( );
         $this->from  ( );

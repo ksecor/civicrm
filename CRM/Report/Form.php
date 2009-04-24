@@ -104,12 +104,15 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     protected $_force = 1;
 
-    protected $_formValues = null;
+    protected $_params         = null;
+    protected $_formValues     = null;
+    protected $_instanceValues = null;
 
-    protected $_instanceForm = false;
+    protected $_instanceForm   = false;
+
     protected $_instanceButtonName = null;
-
-    protected $_printButtonName = null;
+    protected $_printButtonName    = null;
+    protected $_pdfButtonName      = null;
 
     /**
      * To what frequency group-by a date column
@@ -148,8 +151,10 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         // lets display the 
         $this->_instanceForm = $this->_force || ( ! empty( $_POST ) );
-        $this->_instanceButtonName = $this->getButtonName( 'submit', 'save' );
-        $this->_printButtonName = $this->getButtonName( 'submit', 'print' );
+
+        $this->_instanceButtonName = $this->getButtonName( 'submit', 'save'  );
+        $this->_printButtonName    = $this->getButtonName( 'submit', 'print' );
+        $this->_pdfButtonName      = $this->getButtonName( 'submit', 'pdf'   );
 
         foreach ( $this->_columns as $tableName => $table ) {
             // set alias
@@ -412,6 +417,9 @@ class CRM_Report_Form extends CRM_Core_Form {
                                      array ( 'type'      => 'submit',
                                              'name'      => ts('Print Report'),
                                              'subName'   => 'print' ),
+                                     array ( 'type'      => 'submit',
+                                             'name'      => ts('Print PDF'),
+                                             'subName'   => 'pdf' ),
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Cancel') ),
                                      )
@@ -560,12 +568,23 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( $this->_instanceButtonName == $buttonName ) {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::postProcess( $this );
-        } else if ( $this->_printButtonName == $buttonName ) {
+        } else if ( $this->_printButtonName == $buttonName ||
+                    $this->_pdfButtonName   == $buttonName ) {
             $this->assign( 'printOnly', true );
 
             $templateFile = parent::getTemplateFileName( );
-            $content = CRM_Core_Form::$_template->fetch( $templateFile );
-            echo $content;
+
+            $content =
+                $this->_formValues['report_header'] .
+                CRM_Core_Form::$_template->fetch( $templateFile ) .
+                $this->_formValues['report_footer'] ;
+
+            if ( $this->_printButtonName == $buttonName ) {
+                echo $content;
+            } else {
+                require_once 'CRM/Utils/PDF/Utils.php';
+                CRM_Utils_PDF_Utils::html2pdf( $content, "CiviReport.pdf" );
+            }
             exit( );
         }
     }

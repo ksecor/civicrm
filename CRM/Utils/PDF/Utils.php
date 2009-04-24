@@ -71,6 +71,34 @@ class CRM_Utils_PDF_Utils {
         $dompdf->stream( $fileName );
     }
 
+    static function html2pdf( $text,
+                              $fileName = 'civicrm.pdf' ) {
+        require_once 'packages/dompdf/dompdf_config.inc.php';
+        $dompdf = new DOMPDF( );
+        
+        $values = array( );
+        if ( ! is_array( $text ) ) {
+            $values =  array( $text );
+        } else {
+            $values =& $text;
+        }
+
+        $html = "
+<style>
+.page_break {
+  page-break-before: always;
+}
+</style>
+";
+
+        foreach ( $values as $value ) {
+            $html .= "{$value}\n";
+        }
+        $dompdf->load_html( $html );
+        $dompdf->render( );
+        $dompdf->stream( $fileName );
+    }
+
     static function &pdflib( $fileName,
                              $searchPath,
                              &$values,
