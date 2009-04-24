@@ -558,24 +558,24 @@ WHERE  contribution_id = {$this->_id}
                                       'open' => $open,
                                       'id'   => $type,
                                       );
-            
+
             // see if we need to include this paneName in the current form
             if ( $this->_formType == $type ||
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $defaults ) ) {
                 $showAdditionalInfo = true;
                 $allPanes[$name]['open'] = 'true';
-                if ( $type == 'CreditCard' ) {
-                    $this->add('hidden', 'hidden_CreditCard', 1 );
-                    CRM_Core_Payment_Form::buildCreditCard( $this, true );
-                } else {
-                    eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
-                }
+            }
+            
+            if ( $type == 'CreditCard' ) {
+                $this->add('hidden', 'hidden_CreditCard', 1 );
+                CRM_Core_Payment_Form::buildCreditCard( $this, true );
+            } else {
+                eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
             }
         }
         
         $this->assign( 'allPanes', $allPanes );
-        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
         $this->assign( 'showAdditionalInfo', $showAdditionalInfo );
         
         if ( $this->_formType ) {

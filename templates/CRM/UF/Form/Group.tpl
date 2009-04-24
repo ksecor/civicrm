@@ -1,5 +1,4 @@
 {* add/update/view CiviCRM Profile *}       
-
 <div class="form-item">  
  <fieldset>
   {if $action eq 8 or $action eq 64}
@@ -28,17 +27,9 @@
     <dl>	
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     </dl>
-    
-  
-    <div class="tundra">
-      {foreach from=$allPanes key=paneName item=paneValue}
-        {if $paneValue.open eq 'true'}
-           <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" width="200" executeScript="true"></div>
-        {else}
-           <div id="{$paneValue.id}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" href ="{$paneValue.url}" executeScript="true"></div>
-        {/if}
-      {/foreach}
-   </div>
+
+    {* adding advance setting tab *}
+    {include file='CRM/UF/Form/AdvanceSetting.tpl'}
 
     {/if}
     {if $action ne 4}

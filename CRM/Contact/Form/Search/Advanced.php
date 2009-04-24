@@ -108,7 +108,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
 
         require_once 'CRM/Utils/Sort.php';
         usort( $componentPanes, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
-
+       
         foreach( $componentPanes as $name => $pane ) {
                 // FIXME: we should change the use of $name here
                 // FIXME: to keyword
@@ -131,24 +131,22 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $this->_formValues ) ) {
                 $allPanes[$name]['open'] = 'true';
-
-                if ( CRM_Utils_Array::value( $type, $components ) ) {
-                    $c = $components[ $type ];
-                    $this->add( 'hidden', "hidden_$type" , 1 );
-                    $c->buildAdvancedSearchPaneForm( $this );
-                    $this->_paneTemplatePath[$type] = $c->getAdvancedSearchPaneTemplatePath();                
-                } else {
-                    eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
-                    $name = ucfirst( $type );
-                    $this->_paneTemplatePath[$type] = "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
-                }
             }
-        }                
-
+            
+            if ( CRM_Utils_Array::value( $type, $components ) ) {
+                $c = $components[ $type ];
+                $this->add( 'hidden', "hidden_$type" , 1 );
+                $c->buildAdvancedSearchPaneForm( $this );
+                $this->_paneTemplatePath[$type] = $c->getAdvancedSearchPaneTemplatePath();                
+            } else {
+                eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
+                $template = ucfirst( $type );
+                $this->_paneTemplatePath[$type] = "CRM/Contact/Form/Search/Criteria/{$template}.tpl";
+            }
+            $allPanes[$name]['template'] = $this->_paneTemplatePath[$type];
+        }               
         $this->assign( 'allPanes', $allPanes );
-
-        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
-
+        
         if ( ! $this->_searchPane ) {
             parent::buildQuickForm();
         } else {

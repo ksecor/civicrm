@@ -1,5 +1,5 @@
 {* this template is used for adding/editing Additional Detail *} 
- <div id="id-additional" class="section-shown">
+ <div id="id-additionalDetail" class="section-shown">
     <fieldset>
         <table class="form-layout-compressed">
         <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>

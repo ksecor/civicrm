@@ -1,3 +1,11 @@
+{literal}
+<script type="text/javascript">
+cj(function() {
+  cj("#accordion").accordion({ active: false, header: "h3", collapsible: true, clearStyle: true });
+});
+</script>
+{/literal}
+<div id="accordion"><h3><a href="#">Advanced Settings</a></h3>
 <div class ="form-item">
   <dl>
     <dt>{$form.group.label}</dt><dd>{$form.group.html} {help id='id-limit_group' file="CRM/UF/Form/Group.hlp"}</dd>
@@ -14,4 +22,5 @@
     <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label} {help id='id-is_edit_link' file="CRM/UF/Form/Group.hlp"}</dd>
     <dt></dt><dd>{$form.is_uf_link.html} {$form.is_uf_link.label} {help id='id-is_uf_link' file="CRM/UF/Form/Group.hlp"}</dd>
   </dl>
+</div>
 </div>

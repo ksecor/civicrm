@@ -175,9 +175,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form
             eval( 'CRM_UF_Form_AdvanceSetting::' . $type . '( $this );' );
         }
         
-        $this->_allPanes = $allPanes;
-        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
-        
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
