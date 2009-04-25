@@ -281,8 +281,7 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
     }
 
     function postProcess( ) {
-        if ( $this->_id &&
-             $this->_force ) {
+        if ( $this->_force ) {
             $this->_params = $this->_formValues;
         } else {
             $this->_params = $this->controller->exportValues( $this->_name );
