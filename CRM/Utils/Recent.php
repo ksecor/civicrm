@@ -112,10 +112,6 @@ class CRM_Utils_Recent {
             }
         }
 
-//        switch ( $tableName ) {
-//            case 'civicrm_phone':
-                                                                                               
-        
         array_unshift( self::$_recent,
                        array( 'title'       => $title,
                               'url'         => $url,
@@ -126,6 +122,9 @@ class CRM_Utils_Recent {
         if ( count( self::$_recent ) > self::MAX_ITEMS ) {
             array_pop( self::$_recent );
         }
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::recent( self::$_recent );
 
         $session->set( self::STORE_NAME, self::$_recent );
     }

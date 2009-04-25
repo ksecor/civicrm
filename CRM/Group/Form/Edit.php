@@ -325,6 +325,16 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             require_once 'CRM/Contact/BAO/GroupNestingCache.php';
             CRM_Contact_BAO_GroupNestingCache::update( );
         }
+
+        require_once 'CRM/Utils/Recent.php';
+
+        // add the recently added group
+        CRM_Utils_Recent::add( $group->title,
+                               CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' . $group->id ),
+                               $group->id,
+                               'Group',
+                               null,
+                               null );
     }
     
     /**

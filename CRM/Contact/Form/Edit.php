@@ -698,7 +698,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             require_once 'CRM/Utils/Recent.php';
 
             // add the recently viewed contact
-            list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $contact->id );
+            $displayName = CRM_Contact_BAO_Contact::displayName( $contact->id );
             CRM_Utils_Recent::add( $displayName,
                                    CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ),
                                    $contact->id,

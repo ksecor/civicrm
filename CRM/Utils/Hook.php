@@ -247,7 +247,7 @@ class CRM_Utils_Hook {
      * This hook is called when rendering the dashboard (q=civicrm/dashboard)
      * 
      * @param int $contactID - the contactID for whom the dashboard is being rendered
-	 * @param int $contentPlacement - (output parameter) where should the hook content be displayed relative to the activity list
+     * @param int $contentPlacement - (output parameter) where should the hook content be displayed relative to the activity list
      *  
      * @return string the html snippet to include in the dashboard
      * @access public 
@@ -271,6 +271,24 @@ class CRM_Utils_Hook {
         
         return $retval;
     }
+    
+    
+    /** 
+     * This hook is called before storing recently viewed items.
+     * 
+     * @param array $recentArray - an array of recently viewed or processed items, for in place modification
+     *  
+     * @return array 
+     * @access public 
+     */
+    static function recent( &$recentArray ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+        return eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 1, $null, $null, $null, $null, $null, \'civicrm_recent\' );' );
+    }    
 
     /** 
      * This hook is called when building the amount structure for a Contribution or Event Page

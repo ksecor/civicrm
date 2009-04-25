@@ -111,7 +111,6 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
             $this->assign_by_ref( 'hookContent', $html );
             $this->assign( 'hookContentPlacement', $contentPlacement );
         }
-
     }
     
     /**

@@ -442,7 +442,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             // add the recently created Activity
             $activityTypes = CRM_Core_Pseudoconstant::activityType( true );
             
-            $title = $activity->subject . ' - ' . $recentContactDisplay .' - (' . $activityTypes[$activity->activity_type_id] . ')';
+            $title = $activity->subject . ' - ' . $recentContactDisplay .' (' . $activityTypes[$activity->activity_type_id] . ')';
 
             CRM_Utils_Recent::add( $title,
                                    $url,

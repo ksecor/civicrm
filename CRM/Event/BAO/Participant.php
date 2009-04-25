@@ -274,7 +274,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                
         $participantRoles = CRM_Event_PseudoConstant::participantRole();
         $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $participant->event_id, 'title' );
-        $title = CRM_Contact_BAO_Contact::displayName( $participant->contact_id ) . '(' . $participantRoles[$participant->role_id] . ' - ' . $eventTitle . ')' ;
+        $title = CRM_Contact_BAO_Contact::displayName( $participant->contact_id ) . ' (' . $participantRoles[$participant->role_id] . ' - ' . $eventTitle . ')' ;
 
 //        CRM_Core_Error::debug( 't', $eventTitle);
         
