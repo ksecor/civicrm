@@ -106,6 +106,11 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
         parent::__construct( );
     }
 
+    function preProcess( ) {
+        $this->assign( 'reportTitle', ts('Contribution Detail Report' ) );
+        parent::preProcess( );
+    }
+
     function select( ) {
         $select = array( );
 

@@ -80,9 +80,11 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
     }
 
     function preProcess( ) {
+        $this->assign( 'reportTitle', ts('Contribution Summary Report' ) );
+        
         parent::preProcess( );
     }
-
+    
     function setDefaultValues( ) {
         return parent::setDefaultValues( );
     }

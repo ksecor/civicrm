@@ -101,13 +101,15 @@ class CRM_Report_Form_Instance {
             $defaults['report_header'] = $defaults['header'];
             $defaults['report_footer'] = $defaults['footer'];
         } else {
+            require_once 'CRM/Core/Config.php';
+            $config =& CRM_Core_Config::singleton();        
             $defaults['report_header'] = "<html>
   <head>
     <title>CiviCRM Report</title>
+    <style type=\"text/css\" >@import url(/drupal/sites/all/modules/civicrm/css/print.css);</style>
   </head>
-  <body>";
-
-            $defaults['report_footer'] = "  </body>
+  <body><div class=\"report\">";
+            $defaults['report_footer'] = "  <p><img src=\"{$config->resourceBase}i/powered_by.png\"></p></div></body>
 </html>
 ";
         }

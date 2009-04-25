@@ -1,4 +1,7 @@
 {if $rows}
+{if $printOnly}
+<h1>{$reportTitle}</h1>
+{/if}
 <br/>
    <table class="form-layout">
       <tr class="columnheader">
