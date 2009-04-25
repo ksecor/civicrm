@@ -372,9 +372,15 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 
     case 'login':
         require_once 'CRM/Core/BAO/UFMatch.php';
-        return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
+        CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
                                                   civicrm_get_ctype( 'Individual' ) );
-
+                                                  
+        // temporary hack to reset cached navigation during login
+        require_once 'CRM/Core/Menu.php';
+        CRM_Core_Menu::resetNavigation( );
+        
+        return;    
+        
     case 'register':
         $config =& CRM_Core_Config::singleton( );
         if ( $config->inCiviCRM ) {

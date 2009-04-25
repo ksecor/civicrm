@@ -724,7 +724,7 @@ UNION (
             $preference->contact_id = $contactID;
             $preference->find(true);
             $preference->navigation = self::$_navigationCache;
-            //$preference->save();
+            $preference->save();
         }
         return self::$_navigationCache;
     }
@@ -840,6 +840,19 @@ UNION (
          
          return $name;
      }
+     
+     /**
+      * Reset navigation
+      */
+      static function resetNavigation( ) {
+          $session=& CRM_Core_Session::singleton( );
+          require_once 'CRM/Core/DAO/Preferences.php';
+          $preference =& new CRM_Core_DAO_Preferences();
+          $preference->contact_id = $session->get('userID');
+          $preference->find(true);
+          $preference->navigation = 'NULL';
+          $preference->save();
+      }
 }
 
 
