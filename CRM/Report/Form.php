@@ -85,16 +85,23 @@ class CRM_Report_Form extends CRM_Core_Form {
     /**
      * Set of statistic fields
      *
-     * @var string
+     * @var array
      */
     protected $_statFields = array();
 
     /**
      * Set of statistics data
      *
-     * @var string
+     * @var array
      */
     protected $_statistics = array();
+
+    /**
+     * List of fields not to be repeated during display
+     *
+     * @var array
+     */
+    protected $_noRepeats  = array();
 
     /**
      * An attribute for checkbox/radio form field layout
@@ -174,71 +181,29 @@ class CRM_Report_Form extends CRM_Core_Form {
                 eval( "\$expFields = {$table['dao']}::export( );");
             }
 
-            $doNotCopy = array('required');
+            $doNotCopy   = array('required');
 
-            // prepare columns
-            foreach ( $table['fields'] as $fieldName => $field ) {
-                if ( array_key_exists($fieldName, $expFields) ) {
-                    foreach ( $doNotCopy as $dnc ) {
-                        // unset the values we don't want to be copied.
-                        unset($expFields[$fieldName][$dnc]);
-                    }
-                    if ( empty($field) ) {
-                        $this->_columns[$tableName]['fields'][$fieldName] = $expFields[$fieldName];
-                    } else {
-                        foreach ( $expFields[$fieldName] as $property => $val ) {
-                            if ( ! array_key_exists($property, $field) ) {
-                                $this->_columns[$tableName]['fields'][$fieldName][$property] = $val;
+            $fieldGroups = array('fields', 'filters', 'group_bys', 'order_bys');
+            foreach ( $fieldGroups as $fieldGrp ) {
+                if ( is_array( $table[$fieldGrp] ) ) {
+                    foreach ( $table[$fieldGrp] as $fieldName => $field ) {
+                        if ( array_key_exists($fieldName, $expFields) ) {
+                            foreach ( $doNotCopy as $dnc ) {
+                                // unset the values we don't want to be copied.
+                                unset($expFields[$fieldName][$dnc]);
                             }
-                        }
-                    }
-                    $this->_columns[$tableName]['fields'][$fieldName]['dbAlias'] = 
-                        $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
-                }
-            }
-
-            // prepare filters
-            if ( array_key_exists('filters', $table) ) {
-                foreach ( $table['filters'] as $fieldName => $field ) {
-                    if ( array_key_exists($fieldName, $expFields) ) {
-                        foreach ( $doNotCopy as $dnc ) {
-                            // unset the values we don't want to be copied.
-                            unset($expFields[$fieldName][$dnc]);
-                        }
-                        if ( empty($field) ) {
-                            $this->_columns[$tableName]['filters'][$fieldName] = $expFields[$fieldName];
-                        } else {
-                            foreach ( $expFields[$fieldName] as $property => $val ) {
-                                if ( ! array_key_exists($property, $field) ) {
-                                    $this->_columns[$tableName]['filters'][$fieldName][$property] = $val;
+                            if ( empty($field) ) {
+                                $this->_columns[$tableName][$fieldGrp][$fieldName] = $expFields[$fieldName];
+                            } else {
+                                foreach ( $expFields[$fieldName] as $property => $val ) {
+                                    if ( ! array_key_exists($property, $field) ) {
+                                        $this->_columns[$tableName][$fieldGrp][$fieldName][$property] = $val;
+                                    }
                                 }
                             }
+                            $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = 
+                                $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
                         }
-                        $this->_columns[$tableName]['filters'][$fieldName]['dbAlias'] = 
-                            $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
-                    }
-                }
-            }
-            
-            // prepare group_bys
-            if ( array_key_exists('group_bys', $table) ) {
-                foreach ( $table['group_bys'] as $fieldName => $field ) {
-                    if ( array_key_exists($fieldName, $expFields) ) {
-                        foreach ( $doNotCopy as $dnc ) {
-                            // unset the values we don't want to be copied.
-                            unset($expFields[$fieldName][$dnc]);
-                        }
-                        if ( empty($field) ) {
-                            $this->_columns[$tableName]['group_bys'][$fieldName] = $expFields[$fieldName];
-                        } else {
-                            foreach ( $expFields[$fieldName] as $property => $val ) {
-                                if ( ! array_key_exists($property, $field) ) {
-                                    $this->_columns[$tableName]['group_bys'][$fieldName][$property] = $val;
-                                }
-                            }
-                        }
-                        $this->_columns[$tableName]['group_bys'][$fieldName]['dbAlias'] = 
-                            $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
                     }
                 }
             }

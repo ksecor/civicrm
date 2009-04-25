@@ -65,8 +65,8 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                                'contribution_contact_id' => 
                                                array( 'title'      => ts( 'Contacts' ) ),
                                                'contribution_source'     => null,
-                                               'contribution_type'       => null,
-                                               'contribution_page_id'    => null,
+                                               //'contribution_type'       => null,
+                                               //'contribution_page_id'    => null,
                                                ),
                                         ),
                                  );
@@ -121,8 +121,8 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                         }   
 
                     } else {
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
                         $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                     }
                 }
@@ -130,7 +130,6 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
 
             foreach ( $table['group_bys'] as $fieldName => $field ) {
                 if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-
                     switch ( $this->_params['group_bys_freq'][$fieldName] ) {
                     case 'YEARWEEK' :
                         $select[] = "DATE_SUB({$field['dbAlias']}, 

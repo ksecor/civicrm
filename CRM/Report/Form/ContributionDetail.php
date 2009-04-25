@@ -48,12 +48,16 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                  array( 'dao'     => 'CRM_Contact_DAO_Contact',
                                         'fields'  =>
                                         array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
-                                                                        'required'  => true ) ),
+                                                                        'required'  => true,
+                                                                        'no_repeat' => true ), ),
                                         'filters' =>             
                                         array('sort_name'    => 
                                               array( 'title'      => ts( 'Contact Name' ),
                                                      'operator'   => 'like' ) ),
                                         'grouping'=> 'contact-fields',
+                                        'order_bys'=>             
+                                        array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
+                                                                        'required'  => true ) ),
                                         ),
                                  
                                  'civicrm_contribution' =>
@@ -62,7 +66,7 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
                                                                          'required' => true ),
                                                'trxn_id'       => array( 'default' => true ),
-                                               'receive_date'  => null,
+                                               'receive_date'  => array( 'default' => true ),
                                                'receipt_date'  => null,
                                                ),
                                         'filters' =>             
@@ -115,6 +119,10 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                         $this->_addressField = true;
                     } else if ( $tableName == 'civicrm_email' ) {
                         $this->_emailField = true;
+                    }
+
+                    if ( CRM_Utils_Array::value( 'no_repeat', $field ) ) {
+                        $this->_noRepeats[] = "{$tableName}_{$fieldName}";
                     }
 
                     $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
@@ -183,6 +191,18 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
     }
 
 
+    function orderBy( ) {
+        $this->_orderBy = "";
+        foreach ( $this->_columns as $tableName => $table ) {
+            if ( array_key_exists('order_bys', $table) ) {
+                foreach ( $table['order_bys'] as $fieldName => $field ) {
+                    $this->_orderBy[] = $field['dbAlias'];
+                }
+            }
+        }
+        $this->_orderBy = "ORDER BY " . implode( ', ', $this->_orderBy ) . " ";
+    }
+
     function statistics( ) {
         $select = "
 SELECT COUNT( contribution.total_amount ) as count,
@@ -207,6 +227,25 @@ SELECT COUNT( contribution.total_amount ) as count,
         return $statistics;
     }
 
+    function removeDuplicates( &$rows ) {
+        if ( empty($this->_noRepeats) ) {
+            return;
+        }
+        $checkList = array();
+
+        foreach ( $rows as $key => $list ) {
+            foreach ( $list as $colName => $colVal ) {
+                if ( is_array($checkList[$colName]) && 
+                     in_array($colVal, $checkList[$colName]) ) {
+                    $rows[$key][$colName] = "";
+                }
+                if ( in_array($colName, $this->_noRepeats) ) {
+                    $checkList[$colName][] = $colVal;
+                }
+            }
+        }
+    }
+
     function postProcess( ) {
         if ( $this->_force ) {
             $this->_params = $this->_formValues;
@@ -215,11 +254,12 @@ SELECT COUNT( contribution.total_amount ) as count,
         }
         $this->_formValues = $this->_params ;
 
-        $this->select( );
-        $this->from  ( );
-        $this->where ( );
+        $this->select ( );
+        $this->from   ( );
+        $this->where  ( );
+        $this->orderBy( );
 
-        $sql = "{$this->_select} {$this->_from} {$this->_where}";
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_orderBy}";
 
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
@@ -231,6 +271,8 @@ SELECT COUNT( contribution.total_amount ) as count,
             $rows[] = $row;
         }
 
+        $this->removeDuplicates( $rows );
+            
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
 
