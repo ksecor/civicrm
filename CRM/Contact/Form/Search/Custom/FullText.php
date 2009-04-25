@@ -293,7 +293,8 @@ AND     {$tableValues['id']} IS NOT NULL
     function fillContactIDs( ) {
         $tables = 
             array( 'civicrm_contact' => array( 'id' => 'id',
-                                               'fields' => array( 'display_name' => null) ),
+                                               'fields' => array( 'display_name' => null,
+                                                                  'nick_name'    => null ) ),
                    'civicrm_address' => array( 'id' => 'contact_id',
                                                'fields' => array( 'street_address' => null,
                                                                   'city' => null,
@@ -302,10 +303,10 @@ AND     {$tableValues['id']} IS NOT NULL
                                                'fields' => array( 'email' => null ) ),
                    'civicrm_phone'   => array( 'id' => 'contact_id',
                                                'fields' => array( 'phone' => null ) ),
-                   'civicrm_note'   => array( 'id'           => 'entity_id',
-                                              'entity_table' => 'civicrm_contact',
-                                              'fields'       => array( 'subject' => null,
-                                                                       'note' => null ) ),
+                   'civicrm_note'    => array( 'id'           => 'entity_id',
+                                               'entity_table' => 'civicrm_contact',
+                                               'fields'       => array( 'subject' => null,
+                                                                        'note' => null ) ),
                    );
         
         // get the custom data info
