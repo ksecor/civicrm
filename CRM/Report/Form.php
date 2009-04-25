@@ -451,39 +451,23 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( $this->_instanceForm ) {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::buildForm( $this );
-
-
-            $this->addButtons( array(
-                                     array ( 'type'      => 'submit',
-                                             'name'      => ts('Generate Report'),
-                                             'isDefault' => true   ),
-                                     array ( 'type'      => 'submit',
-                                             'name'      => ts('Save Report'),
-                                             'subName'   => 'save' ),
-                                     array ( 'type'      => 'submit',
-                                             'name'      => ts('Print Report'),
-                                             'subName'   => 'print' ),
-                                     array ( 'type'      => 'submit',
-                                             'name'      => ts('Print PDF'),
-                                             'subName'   => 'pdf' ),
-                                     array ( 'type'      => 'cancel',
-                                             'name'      => ts('Cancel') ),
-                                     )
-                               );
+            
+            $this->addElement('submit', $this->_instanceButtonName, ts( 'Save Report' ) );
+            $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
+            $this->addElement('submit', $this->_pdfButtonName, ts( 'Print PDF' ) );
 
             $this->assign( 'instanceForm', true );
-        } else {
-            $this->addButtons( array(
-                                     array ( 'type'      => 'submit',
-                                             'name'      => ts('Generate Report'),
-                                             'isDefault' => true   ),
-                                     array ( 'type'      => 'cancel',
-                                             'name'      => ts('Cancel') ),
-                                     )
-                               );
         }
+        $this->addButtons( array(
+                                 array ( 'type'      => 'submit',
+                                         'name'      => ts('Generate Report'),
+                                         'isDefault' => true   ),
+                                 // array ( 'type'      => 'cancel',
+                                 //         'name'      => ts('Cancel') ),
+                                 )
+                           );
     }
-
+    
     static function getOperationPair( $type = "string" ) {
         // FIXME: At some point we should move these key-val pairs 
         // to option_group and option_value table.

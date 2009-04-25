@@ -77,8 +77,8 @@
       }
    </script>
    {/literal}
+   <div>{$form.buttons.html}</div>
  </div> {* search div section ends *}
-
 
    {if $instanceForm} {* settings section starts *}
       <div id="id_{$instanceForm}_show" class="section-hidden section-hidden-border">
@@ -86,14 +86,21 @@
 
       <div id="id_{$instanceForm}">
          <fieldset><legend><a href="#" onclick="hide('id_{$instanceForm}'); show('id_{$instanceForm}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Report Settings{/ts}</legend>
-         {include file="CRM/Report/Form/Instance.tpl"}
+	 <div id="instanceForm">
+            {include file="CRM/Report/Form/Instance.tpl"}
+	     {assign var=save value="_qf_"|cat:$form.formName|cat:"_submit_save"}
+	    <div><br />{$form.$save.html}</div> 
+	 </div>
+ 
       </div>
 
    {/if} {* settings section ends *}
 
 
-   {* all the buttons *}
-   <div id="crm-submit-buttons">{$form.buttons.html}</div>
+   {* build the print pdf buttons *}
+   {assign var=print value="_qf_"|cat:$form.formName|cat:"_submit_print"}
+   {assign var=pdf   value="_qf_"|cat:$form.formName|cat:"_submit_pdf"}
+   <div id="crm-submit-buttons">{$form.$print.html}&nbsp;&nbsp;{$form.$pdf.html}</div>
 
    <script type="text/javascript">
       var showBlocks = [];
