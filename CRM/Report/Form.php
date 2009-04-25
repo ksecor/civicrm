@@ -593,13 +593,13 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function postProcess( ) {
         $buttonName = $this->controller->getButtonName( );
-        
+
+        $output = CRM_Utils_Request::retrieve( 'output',
+                                               'String', CRM_Core_DAO::$_nullObject );
+
         $this->assign( 'printOnly', false );
-        if ( $this->_instanceButtonName == $buttonName ) {
-            require_once 'CRM/Report/Form/Instance.php';
-            CRM_Report_Form_Instance::postProcess( $this );
-        } else if ( $this->_printButtonName == $buttonName ||
-                    $this->_pdfButtonName   == $buttonName ) {
+        if ( $this->_printButtonName == $buttonName || $this->_pdfButtonName   == $buttonName ||
+             $output == 'pdf' || $output == 'html' ) {
             $this->assign( 'printOnly', true );
 
             $templateFile = parent::getTemplateFileName( );
@@ -609,13 +609,16 @@ class CRM_Report_Form extends CRM_Core_Form {
                 CRM_Core_Form::$_template->fetch( $templateFile ) .
                 $this->_formValues['report_footer'] ;
 
-            if ( $this->_printButtonName == $buttonName ) {
+            if ( $this->_printButtonName == $buttonName || $output == 'html' ) {
                 echo $content;
             } else {
                 require_once 'CRM/Utils/PDF/Utils.php';
                 CRM_Utils_PDF_Utils::html2pdf( $content, "CiviReport.pdf" );
             }
             exit( );
+        } else if ( $this->_instanceButtonName == $buttonName ) {
+            require_once 'CRM/Report/Form/Instance.php';
+            CRM_Report_Form_Instance::postProcess( $this );
         }
     }
 

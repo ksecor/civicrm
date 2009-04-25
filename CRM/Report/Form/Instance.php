@@ -44,14 +44,19 @@ class CRM_Report_Form_Instance {
                     $attributes['title'] );
 
         $form->add( 'text',
-                    'to_emails',
+                    'email_subject',
+                    ts( 'Subject' ),
+                    $attributes['email_subject'] );
+
+        $form->add( 'text',
+                    'email_to',
                     ts( 'To' ),
-                    $attributes['to_emails'] );
+                    $attributes['email_to'] );
         
         $form->add( 'text',
-                    'cc_emails',
+                    'email_cc',
                     ts( 'CC' ),
-                    $attributes['cc_emails'] );
+                    $attributes['email_subject'] );
         
         $form->add( 'textarea',
                     'report_header',

@@ -45,14 +45,20 @@
        <comment>Is this entry active?</comment>
        <add>2.3</add>
   </field>
+  <field>
+       <name>email_subject</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Subject of email</comment>
+  </field>
   <field>        
-      <name>to_emails</name>     
+      <name>email_to</name>     
       <type>text</type> 
       <comment>comma-separated list of email addresses to send the report to</comment>
       <add>2.3</add>     
   </field>
   <field>        
-      <name>cc_emails</name>     
+      <name>email_cc</name>     
       <type>text</type> 
       <comment>comma-separated list of email addresses to send the report to</comment>
       <add>2.3</add>     
