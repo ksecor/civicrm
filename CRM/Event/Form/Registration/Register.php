@@ -237,12 +237,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     array( 'size' => 30, 'maxlength' => 60 ), true );
         
         if ( $this->_values['event']['is_multiple_registrations'] ) {
-            $element = $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'onKeyup' => "allowParticipant()", 'size' => 10, 'maxlength' => 10) );
-            if ( $this->_additionalParticipantIds ) {
-                $element->freeze( );
+            // don't allow to add additional during confirmation if not preregistered.
+            if ( !$this->_allowConfirmation || $this->_additionalParticipantIds ) {
+                $element = $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'onKeyup' => "allowParticipant()", 'size' => 10, 'maxlength' => 10) );
+                if ( $this->_additionalParticipantIds ) {
+                    $element->freeze( );
+                }
             }
         }
-
+        
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
