@@ -157,7 +157,7 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
                     }
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
                         $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = 
-                            $field['title'] . ' Begins';
+                            $field['title'] . ' Beginning';
                         $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type']  = 
                             $field['type'];
                         $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['group_by'] = 

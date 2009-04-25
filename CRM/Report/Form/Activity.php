@@ -64,11 +64,11 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                  'civicrm_activity'      =>
                                  array( 'dao'     => 'CRM_Activity_DAO_Activity',
                                         'fields'  =>
-                                        array(  
+                                        array(
                                               'activity_type_id' => null,
                                               'subject' => null,
                                               'activity_date_time' => null,
-                                                ),
+                                              ),
                                         
                                         'filters' =>   
                                         array( 'activity_date_time' => 
@@ -76,13 +76,19 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                                'subject' => 
                                                array( 'title'      => ts( 'Activity Subject' ),
                                                       'operator'   => 'like' ) ),
-                                       
+                                        'group_bys'=>             
+                                        array( 'activity_date_time' => null,
+                                               // array( 'default'    => true,
+                                               //        'frequency'  => true ),
+                                               'activity_type_id'  => null,
+                                               'source'  => null,
+                                               ),
                                         'grouping'=> 'contact-fields',
                                         'order_bys'=>             
                                         array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
                                                                         'required'  => true ) ),
                                         ),
- 
+                                 
                                  'civicrm_address' =>
                                  array( 'dao' => 'CRM_Core_DAO_Address',
                                         'fields' =>
@@ -123,7 +129,7 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
                     if ( $tableName == 'civicrm_address' ) {
                         $this->_addressField = true;
-
+                        
                     } else if ( $tableName == 'civicrm_email' ) {
                         $this->_emailField = true;
                     }
@@ -200,13 +206,10 @@ INNER JOIN civicrm_activity {$this->_aliases['civicrm_activity']} ON {$this->_al
 
     function orderBy( ) {
         $this->_orderBy = "";
-    
     }
 
     function statistics( ) {
-        
         $statistics = null;
-        
         return $statistics;
     }
 
@@ -229,6 +232,33 @@ INNER JOIN civicrm_activity {$this->_aliases['civicrm_activity']} ON {$this->_al
         }
     }
 
+    function groupBy( ) {
+        $this->_groupBy = "";
+        if ( ! empty($this->_params['group_bys']) ) {
+            foreach ( $this->_columns as $tableName => $table ) {
+                if ( ! empty($table['group_bys']) ) {
+                    foreach ( $table['group_bys'] as $fieldName => $field ) {
+                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                            if ( CRM_Utils_Array::value('frequency', $table['group_bys'][$fieldName]) && 
+                                 CRM_Utils_Array::value($fieldName, $this->_params['group_bys_freq']) ) {
+                                $this->_groupBy[] = 
+                                    $this->_params['group_bys_freq'][$fieldName] . "({$field['dbAlias']})";
+                            } else {
+                                $this->_groupBy[] = $field['dbAlias'];
+                            }
+                        }
+                    }
+                }
+            }
+            $rollUP = "";
+            if ( !empty($this->_statFields) && 
+                 CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
+                $rollUP = "WITH ROLLUP";
+            }
+            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " $rollUP ";
+        }
+    }
+
     function postProcess( ) {
         if ( $this->_force ) {
             $this->_params = $this->_formValues;
@@ -240,10 +270,10 @@ INNER JOIN civicrm_activity {$this->_aliases['civicrm_activity']} ON {$this->_al
         $this->select ( );
         $this->from   ( );
         $this->where  ( );
+        $this->groupBy( );
         $this->orderBy( );
-
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_orderBy}";
-        
+                
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy}";
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
         while ( $dao->fetch( ) ) {
