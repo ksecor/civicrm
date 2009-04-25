@@ -101,6 +101,11 @@ class CRM_Core_Smarty extends Smarty {
         global $tsLocale;
         $this->assign('langSwitch', CRM_Core_I18n::languages(true));
         $this->assign('tsLocale',   $tsLocale);
+        
+        //check if logged in use has access CiviCRM permission and build menu
+        require_once 'CRM/Core/Permission.php';
+        $buildNavigation = CRM_Core_Permission::check( 'administer CiviCRM' );
+        $this->assign('buildNavigation', $buildNavigation );
 
         $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
 

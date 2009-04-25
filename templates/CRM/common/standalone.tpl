@@ -21,6 +21,9 @@
 {$pageHTMLHead}
 {include file="CRM/common/dojo.tpl"}
 {include file="CRM/common/jquery.tpl"}
+{if $buildNavigation }
+    {include file="CRM/common/Navigation.tpl" }
+{/if}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
   <title>{$docTitle}</title>
