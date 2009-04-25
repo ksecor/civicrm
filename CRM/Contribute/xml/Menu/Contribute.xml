@@ -3,7 +3,7 @@
 <menu>
   <item>
      <path>civicrm/contribute</path>
-     <title>CiviContribute</title>
+     <title>CiviContribute Dashboard</title>
      <page_callback>CRM_Contribute_Page_DashBoard</page_callback>
      <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
@@ -17,7 +17,6 @@
      <path_arguments>action=add</path_arguments>
      <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
-     <weight>10</weight>
      <component>CiviContribute</component>
   </item>
  <item>
@@ -44,6 +43,12 @@
      <adminGroup>CiviContribute</adminGroup>
      <icon>admin/small/online_contribution_pages.png</icon>
      <weight>360</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/contribute/add</path>
+     <title>New Contribution Page</title>
+     <page_callback>CRM_Contribute_Page_ContributionPage</page_callback>
+     <path_arguments>action=add</path_arguments>
   </item>
   <item>
      <path>civicrm/admin/pcp</path>

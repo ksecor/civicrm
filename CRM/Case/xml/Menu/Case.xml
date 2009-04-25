@@ -3,7 +3,7 @@
 <menu>
   <item>
      <path>civicrm/case</path>
-     <title>CiviCase</title>
+     <title>CiviCase Dashboard</title>
      <page_callback>CRM_Case_Page_DashBoard</page_callback>
      <access_arguments>access CiviCase</access_arguments>
      <page_type>1</page_type>

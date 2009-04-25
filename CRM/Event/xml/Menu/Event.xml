@@ -3,11 +3,19 @@
 <menu>
   <item>
      <path>civicrm/event</path>
-     <title>CiviEvent</title>
+     <title>CiviEvent Dashboard</title>
      <page_callback>CRM_Event_Page_DashBoard</page_callback>
      <access_arguments>access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>800</weight>
+     <component>CiviEvent</component>
+  </item>
+  <item>
+     <path>civicrm/participant/add</path>
+     <title>Register New Participant</title>
+     <page_callback>CRM_Event_Page_Tab</page_callback>
+     <path_arguments>action=add</path_arguments>
+     <access_arguments>access CiviEvent</access_arguments>
      <component>CiviEvent</component>
   </item>
   <item>
@@ -100,6 +108,14 @@
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/price_sets.png</icon>
      <weight>386</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/price/add</path>
+     <title>New Price Set</title>
+     <page_callback>CRM_Price_Page_Set</page_callback>
+     <desc>Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.</desc>
+     <access_arguments>access CiviEvent</access_arguments>
+     <path_arguments>action=add</path_arguments>
   </item>
   <item>
      <path>civicrm/admin/price/field</path>

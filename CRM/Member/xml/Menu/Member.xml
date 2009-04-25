@@ -3,11 +3,19 @@
 <menu>
   <item>
      <path>civicrm/member</path>
-     <title>CiviMember</title>
+     <title>CiviMember Dashboard</title>
      <page_callback>CRM_Member_Page_DashBoard</page_callback>
      <access_arguments>access CiviMember</access_arguments>
      <page_type>1</page_type>
      <weight>700</weight>
+     <component>CiviMember</component>
+  </item>
+  <item>
+     <path>civicrm/member/add</path>
+     <title>New Member</title>
+     <page_callback>CRM_Member_Page_Tab</page_callback>
+     <path_arguments>action=add</path_arguments>
+     <access_arguments>access CiviMember</access_arguments>
      <component>CiviMember</component>
   </item>
   <item>
