@@ -1760,7 +1760,7 @@ SELECT $selectClause
             $rows[] = array(
                             'id'            => $dao->id,                            
                             'name'          => $dao->name, 
-                            'status'        => CRM_Mailing_BAO_Job::status($dao->status), 
+                            'status'        => $dao->status ? $dao->status : 'Not scheduled', 
                             'scheduled'     => CRM_Utils_Date::customFormat($dao->scheduled_date),
                             'scheduled_iso' => $dao->scheduled_date,
                             'start'         => CRM_Utils_Date::customFormat($dao->start_date), 

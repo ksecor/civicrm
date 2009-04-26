@@ -51,11 +51,7 @@ association rule in order to synchronize all Drupal Users initially. Otherwise,
 each users' roles will be updated on an individual basis each time they login or 
 logout. If you select the Drupal cron method, all users' roles will be updated 
 periodically each time the Drupal cron function is ran. Please refer to the Drupal 
-documentation on how to configure Drupal cron. A new option is available in version
-1.0 and above that allows you to synchronize membership type and roles on every page load.
-This will only be performed on the current user viewing the page and only if
-they are also an authenticated user.
-
+documentation on how to configure Drupal cron.
 
 User Import
 -------------------------------

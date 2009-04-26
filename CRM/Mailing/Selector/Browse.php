@@ -286,6 +286,9 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                 
                 $actionMask |= CRM_Core_Action::DELETE;
                
+                //get status strings as per locale settings CRM-4411.
+                $rows[$key]['status'] = CRM_Mailing_BAO_Job::status( $row['status'] );
+                               
                 $rows[$key]['action'] = 
                     CRM_Core_Action::formLink(  $actionLinks,
                                                 $actionMask,

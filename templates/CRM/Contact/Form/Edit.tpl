@@ -188,6 +188,7 @@
         </span>
         <span class="fields">
         {$form.gender_id.html}
+        &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('gender_id', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
         </span>
     </div>
 	<div class="form-item">

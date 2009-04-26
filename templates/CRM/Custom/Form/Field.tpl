@@ -30,45 +30,52 @@
             }
         } else {
 
-	    if ( data_type_id == 9 ) {
+	    if ( data_type_id == 9 ) { 
+	        /*file type*/
+		document.getElementById("default_value").value = '';
+		document.getElementById("hideDefaultValTxt").style.display="none";
+                document.getElementById("hideDefaultValDef").style.display="none";		
 	        document.getElementById("is_searchable").style.display = "none";
+		document.getElementById("hideDescTxt").style.display="none";
+	        document.getElementById("hideDescDef").style.display="none";
             } else {
+		document.getElementById("hideDefaultValTxt").style.display="block";
+		document.getElementById("hideDefaultValDef").style.display="block";
  	        document.getElementById("is_searchable").style.display = "block";
+		document.getElementById("hideDescTxt").style.display="block";
+	        document.getElementById("hideDescDef").style.display="block";
 	    }
 
-    	    document.getElementById("showoption").style.display="none";
-            document.getElementById("hideDefaultValTxt").style.display="block";
-            document.getElementById("hideDefaultValDef").style.display="block";
-            document.getElementById("hideDescTxt").style.display="block";
-            document.getElementById("hideDescDef").style.display="block";
+    	    document.getElementById("showoption").style.display="none";           
+          
         }
 	
-	    var radioOption, checkBoxOption;
+	var radioOption, checkBoxOption;
 
-	    for (var i=1; i<=11; i++) {
-    	  radioOption = 'radio'+i;
-    	  checkBoxOption = 'checkbox'+i	
-    	  if (data_type_id < 4) {
-               if (html_type_name != "Text") {
-    		      if (html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
-    	             document.getElementById(checkBoxOption).style.display="block";
-    		         document.getElementById(radioOption).style.display="none";
-    		      } else {
-                     document.getElementById(radioOption).style.display="block";	
-    		         document.getElementById(checkBoxOption).style.display="none";
-    		      }
-    	       }
-          }
-	   }
+	for ( var i=1; i<=11; i++) {
+	    radioOption = 'radio'+i;
+	    checkBoxOption = 'checkbox'+i	
+		if ( data_type_id < 4 ) {
+		    if ( html_type_name != "Text") {
+			if ( html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
+			    document.getElementById(checkBoxOption).style.display="block";
+			    document.getElementById(radioOption).style.display="none";
+			} else {
+			    document.getElementById(radioOption).style.display="block";	
+			    document.getElementById(checkBoxOption).style.display="none";
+			}
+		    }
+		}
+	}
 
     	if ( data_type_id < 4) {	
-    		if (html_type_name == "CheckBox" || html_type_name == "Radio") {
-    			document.getElementById("optionsPerLine").style.display="block";
-    			document.getElementById("optionsPerLineDef").style.display="block";
-    		} else {
-    			document.getElementById("optionsPerLine").style.display="none";
-    			document.getElementById("optionsPerLineDef").style.display="none";
-    		}
+	    if (html_type_name == "CheckBox" || html_type_name == "Radio") {
+		document.getElementById("optionsPerLine").style.display="block";
+		document.getElementById("optionsPerLineDef").style.display="block";
+	    } else {
+		document.getElementById("optionsPerLine").style.display="none";
+		document.getElementById("optionsPerLineDef").style.display="none";
+	    }
     	}
 	
     	if ( data_type_id == 5) {
@@ -112,11 +119,9 @@
              document.getElementById("optionsPerLineDef").style.display="none";
         }
 
-{/literal}
-{if $action eq 1}
+	{/literal}{if $action eq 1}{literal}
         clearSearchBoxes( );
-{/if}
-{literal}
+	{/literal}{/if}{literal}
     }
 </script>
 {/literal}
