@@ -74,7 +74,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @access public
      * @static
      */
-    static function add(&$params)
+    static function &add(&$params)
     {
         require_once 'CRM/Utils/Hook.php';
         
@@ -97,8 +97,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         $participantBAO->id = CRM_Utils_Array::value( 'id', $params );
         $participantBAO->find(true);
         $participantBAO->copyValues($params);
-        
-        $result = $participantBAO->save();
+        $participantBAO->save();
         
         $session = & CRM_Core_Session::singleton();
         
@@ -112,7 +111,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             CRM_Utils_Hook::post( 'create', 'Participant', $participantBAO->id, $participantBAO );
         }
         
-        return $result;
+        return $participantBAO;
     }
 
     /**
@@ -197,7 +196,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             $status = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $params['id'], 'status_id' );
         }
         
-        $participant = self::add($params);
+        $participant =& self::add($params);
         
         if ( is_a( $participant, 'CRM_Core_Error') ) {
             $transaction->rollback( );
