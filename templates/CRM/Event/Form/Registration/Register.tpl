@@ -65,6 +65,10 @@
 	<dt>&nbsp;</dt>
         <dd>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</dd>
     {/if}
+    {if $form.allow_waiting}
+	<dt>&nbsp;</dt>
+        <dd>{$form.allow_waiting.html}&nbsp;{$form.allow_waiting.label}</dd>
+    {/if}
     </dl>
 {else}
     {if $paidEvent}
@@ -79,6 +83,13 @@
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td>
+	    </tr>
+	    {/if}
+            {if $form.allow_waiting}
+	    <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>{$form.allow_waiting.html}&nbsp;{$form.allow_waiting.label}</td>
 	    </tr>
 	    {/if}
 	</table>
@@ -153,6 +164,7 @@
     </div>
 {/if}
 </div>
+
 {* Hide Credit Card Block and Billing information if registration is pay later. *}
 {if $hidePaymentInformation and $form.is_pay_later}
 {include file="CRM/common/showHideByFieldValue.tpl" 
@@ -196,5 +208,17 @@
 	show( 'noOfparticipants' );
 	hide( 'noOfparticipants_show' );
     {/literal} {/if}{literal}
+
+     function allowWaiting( )
+     {	
+	if ( document.getElementsByName("allow_waiting")[0].checked ) {
+		hide( 'payment_information' ); 
+		hide( "paypalExpress" );
+		show( "crm-submit-buttons" );
+	} else {
+		show( 'payment_information' );	
+		show( "paypalExpress" );
+	}
+     }
 </script>
 {/literal} 

@@ -244,6 +244,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $element->freeze( );
                 }
             }
+            
+            //hack to allow group to register w/ waiting
+            if ( is_numeric( $this->_availableRegistrations )              
+                 && CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) {
+                $this->addElement( 'checkbox', 'allow_waiting', ts( 'Be a part of waiting list.' ), 
+                                   null, array('onclick' => "allowWaiting( );" ) ); 
+                
+                CRM_Core_Session::setStatus( ts("This event has only %1 spaces left. if you register as a group and register more than %1, the whole group will be put on the waitlist.", array( 1 => $this->_availableRegistrations ) ) );
+            }
         }
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
@@ -252,7 +261,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
             $hidePaymentInformation = true;
-            if ( !( $this->_requireApproval || $this->_hasWaitlisting ) || $this->_allowConfirmation ) {
+            if ( !( $this->_requireApproval || $this->_allowWaitlist ) || $this->_allowConfirmation ) {
                 if ( $this->_values['event']['is_pay_later'] ) {
                     $attributes = null;
                     $hidePaymentInformation = false;
@@ -413,12 +422,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         self::checkRegistration($fields, $self);
        
         //check for availability of registrations.
-        if ( ( CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) 
-             && $self->_availableRegistrations ) {
+        if ( !CRM_Utils_Array::value( 'allow_waiting', $fields ) &&
+             is_numeric( $self->_availableRegistrations ) &&
+             CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) {
             $errors['additional_participants'] = ts( "You can register only %1 participant(s)", array( 1=>$self->_availableRegistrations ));
         }
         
-     
         $email = $fields["email-{$self->_bltID}"];
         require_once 'CRM/Core/BAO/UFMatch.php';
         if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
@@ -467,7 +476,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             } 
             $zeroAmount = $fields['amount'];
             // also return if paylater mode or zero fees for valid members
-            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
+            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ||
+                 CRM_Utils_Array::value( 'allow_waiting', $fields ) ) {
                 if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) { 
                     foreach( $fields as $key => $val  )  {
                         if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
@@ -518,7 +528,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //is pay later and priceset is used avoid credit card and
             //billing address validation  
             if ( ( CRM_Utils_Array::value( 'is_pay_later', $fields ) && $fields['priceSetId'] ) || 
-                 ( !$self->_allowConfirmation && ( $self->_requireApproval || $self->_hasWaitlisting ) ) ) {
+                 ( !$self->_allowConfirmation && ( $self->_requireApproval || $self->_allowWaitlist ) ) ) {
                 return empty( $errors ) ? true : $errors;
             }
             
@@ -557,12 +567,20 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
-
+        
         //set as Primary participant
         $params ['is_primary'] = 1;         
         
+        //hack to allow group to register w/ waiting
+        if ( CRM_Utils_Array::value( 'allow_waiting', $params ) &&
+             is_numeric( $this->_availableRegistrations ) &&
+             CRM_Utils_Array::value( 'additional_participants', $params ) >= $this->_availableRegistrations ) {
+            $this->_allowWaitlist = true;
+            $this->set( 'allowWaitlist', true );
+        }
+        
         //make as paylater since we are not taking payment at this time.
-        if ( ( $this->_requireApproval || $this->_hasWaitlisting ) && !$this->_allowConfirmation ) { 
+        if ( ( $this->_requireApproval || $this->_allowWaitlist ) && !$this->_allowConfirmation ) { 
             $params['is_pay_later'] = true;
         }
         
@@ -763,7 +781,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 // for things like tell a friend
                 if ( ! $session->get( 'userID' ) && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                     $session->set( 'transaction.userID', $contactID );
-                } 
+                }
+                
+                //lets get the status if require approval or waiting.
+                require_once 'CRM/Event/PseudoConstant.php';
+                $waitingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Waiting'" );
+                if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
+                    $value['participant_status_id'] = array_search( 'On waitlist', $waitingStatuses );
+                } else if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+                    $value['participant_status_id'] = array_search( 'Awaiting approval', $waitingStatuses );
+                }
+                
                 $this->set( 'value', $value );
                 $this->confirmPostProcess( $contactID, null, null );
             }

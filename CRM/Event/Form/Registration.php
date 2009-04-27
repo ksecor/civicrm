@@ -82,12 +82,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     public $_requireApproval;
     
     /**
-     * is event configured for waitlisting.
+     * is event configured for waitlist.
      *
      * @var Boolean
      * @public
      */
-    public $_hasWaitlisting;
+    public $_allowWaitlist;
 
     /**
      * store additional participant ids
@@ -203,7 +203,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_requireApproval = $this->get( 'requireApproval' );
         
         // check for waitlisting.
-        $this->_hasWaitlisting = $this->get( 'hasWaitlisting' );
+        $this->_allowWaitlist = $this->get( 'allowWaitlist' );
         
         //get the additional participant ids.
         $this->_additionalParticipantIds = $this->get( 'additionalParticipantIds' );
@@ -257,10 +257,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             }
             
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
-            $this->_hasWaitlisting = false;
+            $this->_allowWaitlist = false;
             if ( $eventFull && !$this->_allowConfirmation ) {
                 //lets redirecting to info only when to waiting list.
-                if ( $this->_hasWaitlisting = CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) {
+                if ( $this->_allowWaitlist = CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) {
                     $status = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
                                                       'Event is currently full, but you can register temporarily and be a part of waiting list.' );
                     require_once "CRM/Core/Session.php";
@@ -269,7 +269,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                     CRM_Utils_System::redirect( $infoUrl );      
                 }
             }
-            $this->set( 'hasWaitlisting', $this->_hasWaitlisting );
+            $this->set( 'allowWaitlist', $this->_allowWaitlist );
             
             //check for require requires approval.
             $this->_requireApproval = false;
