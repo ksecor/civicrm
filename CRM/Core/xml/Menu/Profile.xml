@@ -3,7 +3,6 @@
 <menu>
   <item>
      <path>civicrm/profile</path>
-     <title>CiviCRM Profile</title>
      <access_callback>1</access_callback>
      <page_callback>CRM_Core_Invoke::profile</page_callback>
      <is_public>true</is_public>
