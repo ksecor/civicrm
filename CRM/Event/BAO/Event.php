@@ -1073,18 +1073,22 @@ WHERE civicrm_event.is_active = 1
                     $pref = array();
                     $compref = array();
                     $pref = $params[$name];
-                    foreach($pref as $k => $v ) {
-                        if ( $v ) {
-                            $compref[] = $communicationFields[$k];
+                    if( is_array($pref) ) {
+                        foreach($pref as $k => $v ) {
+                            if ( $v ) {
+                                $compref[] = $communicationFields[$k];
+                            }
                         }
                     }
                     $values[$index] = implode( ",", $compref);
                 } else if ( $name == 'group' ) {
                     require_once 'CRM/Contact/BAO/GroupContact.php';
                     $groups = CRM_Contact_BAO_GroupContact::getGroupList( );
-                    $title = array( );
+                    $title = array( ); 
                     foreach ( $params[$name] as $gId => $dontCare ) {
-                        $title[] = $groups[$gId];
+                        if ( $dontCare ) {
+                            $title[] = $groups[$gId];
+                        }
                     }
                     $values[$index] = implode( ', ', $title );
                 } else if ( $name == 'tag' ) {
@@ -1092,8 +1096,10 @@ WHERE civicrm_event.is_active = 1
                     $entityTags = $params[$name];
                     $allTags    =& CRM_Core_PseudoConstant::tag();
                     $title = array( );
-                    foreach ( $entityTags as $tagId => $dontCare ) { 
-                        $title[] = $allTags[$tagId];
+                    if ( is_array($entityTags) ) {
+                        foreach ( $entityTags as $tagId => $dontCare ) { 
+                            $title[] = $allTags[$tagId];
+                        }
                     }
                     $values[$index] = implode( ', ', $title );
                 } else if ( 'participant_role_id' == $name ) {
