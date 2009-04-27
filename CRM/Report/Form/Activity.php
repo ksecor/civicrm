@@ -41,6 +41,8 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
 
     protected $_emailField = false;
 
+    protected $_assigneeField = false;
+
     protected $_summary = null;
 
     function __construct( ) {
@@ -49,7 +51,9 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                         'fields'  =>
                                         array( 'display_name' => array( 'title' => ts( 'Source Contact Name' ),
                                                                         'required'  => true,
-                                                                        'no_repeat' => true ), ),
+                                                                        'no_repeat' => true ),
+                                               ),
+                                        
                                         'filters' =>             
                                         array('sort_name'    => 
                                               array( 'title'      => ts( 'Contact Name' ),
@@ -91,6 +95,13 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                                                         'required'  => true ) ),
                                         ),
                                  
+                                 'civicrm_activity_assignment'      =>
+                                 array( 'dao'     => 'CRM_Activity_DAO_ActivityAssignment',
+                                        'fields'  =>
+                                        array(
+                                              'assignee_contact_id' => array(  'title' => ts( 'Assignee Contact Name' ) ), 
+                                              ),
+                                        ),
                                  'civicrm_address' =>
                                  array( 'dao' => 'CRM_Core_DAO_Address',
                                         'fields' =>
@@ -122,7 +133,6 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
 
     function select( ) {
         $select = array( );
-
         $this->_columnHeaders = array( );
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName => $field ) {
@@ -131,11 +141,14 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                      CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
                     if ( $tableName == 'civicrm_address' ) {
                         $this->_addressField = true;
-                        
+
                     } else if ( $tableName == 'civicrm_email' ) {
                         $this->_emailField = true;
-                    }
-
+                    } else if ( $tableName == 'civicrm_activity_assignment' ) {
+                        $select[] = "assignee.display_name AS assignee_display_name";
+                        $this->_assigneeField = true;
+                    } 
+                    
                     if ( CRM_Utils_Array::value( 'no_repeat', $field ) ) {
                         $this->_noRepeats[] = "{$tableName}_{$fieldName}";
                     }
@@ -147,7 +160,7 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
             }
         }
 
-        $this->_select = "SELECT " . implode( ', ', $select ) . " ";
+        $this->_select = "SELECT " . implode( ",\n", $select ) . " ";
     }
 
     function from( ) {
@@ -164,6 +177,11 @@ INNER JOIN civicrm_activity {$this->_aliases['civicrm_activity']} ON {$this->_al
            
         if ( $this->_emailField ) {
             $this->_from .= "LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND {$this->_aliases['civicrm_email']}.is_primary = 1\n";
+        }
+        
+        if ( $this->_assigneeField ) {
+            $this->_from .= "LEFT JOIN civicrm_activity_assignment {$this->_aliases['civicrm_activity_assignment']} ON {$this->_aliases['civicrm_activity_assignment']}.activity_id = {$this->_aliases['civicrm_activity']}.id\n";
+            $this->_from .= "LEFT JOIN civicrm_contact assignee ON {$this->_aliases['civicrm_activity_assignment']}.assignee_contact_id = assignee.id\n";
         }
     }
 
