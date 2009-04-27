@@ -47,7 +47,7 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
         $this->_columns = array( 'civicrm_contact'      =>
                                  array( 'dao'     => 'CRM_Contact_DAO_Contact',
                                         'fields'  =>
-                                        array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
+                                        array( 'display_name' => array( 'title' => ts( 'Source Contact Name' ),
                                                                         'required'  => true,
                                                                         'no_repeat' => true ), ),
                                         'filters' =>             
@@ -65,8 +65,8 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                  array( 'dao'     => 'CRM_Activity_DAO_Activity',
                                         'fields'  =>
                                         array(
-                                              'activity_type_id' => null,
-                                              'subject' => null,
+                                              'activity_type_id' => array( 'required'  => true ),
+                                              'subject' => array( 'required'  => true ),
                                               'activity_date_time' => null,
                                               ),
                                         
@@ -75,15 +75,17 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                                array( 'default'    => 'this month' ),
                                                'subject' => 
                                                array( 'title'      => ts( 'Activity Subject' ),
-                                                      'operator'   => 'like' ) ),
+                                                      'operator'   => 'like' ),
+                                               'activity_type_id' => null,
+                                               ),
                                         'group_bys'=>             
                                         array( 'activity_date_time' => null,
                                                // array( 'default'    => true,
                                                //        'frequency'  => true ),
                                                'activity_type_id'  => null,
-                                               'source'  => null,
+                                               'source_contact_id' => null,
                                                ),
-                                        'grouping'=> 'contact-fields',
+                                        'grouping'=> 'activity-fields',
                                         'order_bys'=>             
                                         array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
                                                                         'required'  => true ) ),
@@ -92,11 +94,11 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                  'civicrm_address' =>
                                  array( 'dao' => 'CRM_Core_DAO_Address',
                                         'fields' =>
-                                        array( 'street_address'    => null,
-                                               'city'              => null,
-                                               'postal_code'       => null,
-                                               //'state_province_id' => array( 'title' => ts( 'State/Province' ) ),
-                                               //'country_id'        => array( 'title' => ts( 'Country' ) ),
+                                        array( 'street_address'       => null,
+                                               //  'city'             => null,
+                                               // 'postal_code'       => null,
+                                               // 'state_province_id' => array( 'title' => ts( 'State/Province' ) ),
+                                               // 'country_id'        => array( 'title' => ts( 'Country' ) ),
                                                ),
                                         'grouping'=> 'contact-fields',
                                         ),
@@ -273,7 +275,7 @@ INNER JOIN civicrm_activity {$this->_aliases['civicrm_activity']} ON {$this->_al
         $this->groupBy( );
         $this->orderBy( );
                 
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy}";
+        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy}";
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
         while ( $dao->fetch( ) ) {
