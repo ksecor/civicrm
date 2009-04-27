@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 2.3                                               |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -40,7 +40,7 @@ require_once 'CRM/Event/Form/Registration.php';
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_Registration_ConfirmParticipation extends CRM_Event_Form_Registration
+class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Registration
 {
     /** 
      * Function to set variables up before form is built 
