@@ -62,22 +62,6 @@ class CRM_Event_Form_Task_Result extends CRM_Event_Form_Task {
         
         $url = CRM_Utils_System::url( 'civicrm/event/search', $path );
         $session->replaceUserContext( $url );
+        CRM_Utils_System::redirect($url);
     }
-
-    /**
-     * Function to actually build the form
-     *
-     * @return None
-     * @access public
-     */
-    public function buildQuickForm( ) {
-        $this->addButtons( array(
-                                 array ( 'type'      => 'done',
-                                         'name'      => ts('Done'),
-                                         'isDefault' => true   ),
-                                 )
-                           );
-    }
-
 }
-
