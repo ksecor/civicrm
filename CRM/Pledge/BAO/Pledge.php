@@ -277,6 +277,10 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         
         CRM_Utils_Hook::post( 'delete', 'Pledge', $dao->id, $dao );
         
+        // delete the recently created Activity
+        require_once 'CRM/Utils/Recent.php';
+        CRM_Utils_Recent::del( $id );
+
         return $results;
     }
  
