@@ -94,8 +94,9 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         }
 
         $participantBAO =& new CRM_Event_BAO_Participant();
-        $participantBAO->copyValues($params);
         $participantBAO->id = CRM_Utils_Array::value( 'id', $params );
+        $participantBAO->find(true);
+        $participantBAO->copyValues($params);
         
         $result = $participantBAO->save();
         
