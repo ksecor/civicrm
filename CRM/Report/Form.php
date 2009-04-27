@@ -556,6 +556,49 @@ class CRM_Report_Form extends CRM_Core_Form {
         return null;
     }
 
+    function removeDuplicates( &$rows ) {
+        if ( empty($this->_noRepeats) ) {
+            return;
+        }
+        $checkList = array();
+
+        foreach ( $rows as $key => $list ) {
+            foreach ( $list as $colName => $colVal ) {
+                if ( is_array($checkList[$colName]) && 
+                     in_array($colVal, $checkList[$colName]) ) {
+                    $rows[$key][$colName] = "";
+                }
+                if ( in_array($colName, $this->_noRepeats) ) {
+                    $checkList[$colName][] = $colVal;
+                }
+            }
+        }
+    }
+
+    function formatDisplay( &$rows ) {
+        // remove duplicates if needed
+        $this->removeDuplicates( $rows );
+            
+        // perform look-ups
+        foreach ( $this->_columns as $tableName => $table ) {
+            foreach ( $table['fields'] as $fieldName => $field ) {
+                if ( CRM_Utils_Array::value('lookup', $field) ) {
+                    foreach ( $rows as $rowNum => $row ) {
+                        if ( array_key_exists("{$tableName}_{$fieldName}", $row) ) {
+                            $value = $row["{$tableName}_{$fieldName}"];
+                            if ( $value ) {
+                                eval("\$rows[$rowNum]['{$tableName}_{$fieldName}'] = {$field['lookup']}");
+                            }
+                        } else {
+                            // skip looking further in rows, if first row itself doesn't have the column.  
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     function postProcess( ) {
         $buttonName = $this->controller->getButtonName( );
 

@@ -84,8 +84,12 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                         array( 'street_address'    => null,
                                                'city'              => null,
                                                'postal_code'       => null,
-                                               //'state_province_id' => array( 'title' => ts( 'State/Province' ) ),
-                                               //'country_id'        => array( 'title' => ts( 'Country' ) ),
+                                               'state_province_id' => 
+                                               array( 'title' => ts( 'State/Province' ),
+                                                      'lookup'=> 'CRM_Core_PseudoConstant::stateProvince( $value );' ),
+                                               'country_id'        => 
+                                               array( 'title' => ts( 'Country' ),
+                                                      'lookup'=> 'CRM_Core_PseudoConstant::country( $value );' ),
                                                ),
                                         'grouping'=> 'contact-fields',
                                         ),
@@ -232,25 +236,6 @@ SELECT COUNT( contribution.total_amount ) as count,
         return $statistics;
     }
 
-    function removeDuplicates( &$rows ) {
-        if ( empty($this->_noRepeats) ) {
-            return;
-        }
-        $checkList = array();
-
-        foreach ( $rows as $key => $list ) {
-            foreach ( $list as $colName => $colVal ) {
-                if ( is_array($checkList[$colName]) && 
-                     in_array($colVal, $checkList[$colName]) ) {
-                    $rows[$key][$colName] = "";
-                }
-                if ( in_array($colName, $this->_noRepeats) ) {
-                    $checkList[$colName][] = $colVal;
-                }
-            }
-        }
-    }
-
     function postProcess( ) {
         if ( $this->_force ) {
             $this->_params = $this->_formValues;
@@ -276,8 +261,8 @@ SELECT COUNT( contribution.total_amount ) as count,
             $rows[] = $row;
         }
 
-        $this->removeDuplicates( $rows );
-            
+        $this->formatDisplay( $rows );
+
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
 

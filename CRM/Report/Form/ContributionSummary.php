@@ -40,36 +40,47 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
     protected $_summary = null;
 
     function __construct( ) {
-        $this->_columns = array( 
-                                 'civicrm_contribution' =>
-                                 array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
-                                        'bao'     => 'CRM_Contribute_BAO_Contribution',
-                                        'fields'  =>
-                                        array( 'total_amount'  => 
-                                               array( 'title'     => ts( 'Amount Statistics' ),
-                                                      'default'   => true,
-                                                      'statistics'=> array('sum'  => ts( 'Total Amount' ), 
-                                                                           'count'=> ts( 'Count' ), 
-                                                                           'avg'  => ts( 'Average' )) ),
-                                               ),
-                                        'filters'  =>             
-                                        array( 'receive_date' => 
-                                               array( 'default'    => 'this.month' ),
-                                               'total_amount' => 
-                                               array( 'title'      => ts( 'Total  Amount Between' ) ),
-                                               ),
-                                        'group_bys'=>             
-                                        array( 'receive_date' => 
-                                               array( 'default'    => true,
-                                                      'frequency'  => true ),
-                                               'contribution_contact_id' => 
-                                               array( 'title'      => ts( 'Contacts' ) ),
-                                               'contribution_source'     => null,
-                                               //'contribution_type'       => null,
-                                               //'contribution_page_id'    => null,
-                                               ),
-                                        ),
-                                 );
+        $this->_columns = 
+            array( 'civicrm_contact'  =>
+                   array( 'dao'       => 'CRM_Contact_DAO_Contact',
+                          'fields'    =>
+                          array( 'display_name'      => 
+                                 array( 'title'      => ts( 'Contact Name' ),
+                                        'default'    => true,
+                                        'no_repeat'  => true ), ), ),
+                   'civicrm_contribution' =>
+                   array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
+                          //'bao'           => 'CRM_Contribute_BAO_Contribution',
+                          'fields'        =>
+                          array( 'total_amount'        => 
+                                 array( 'title'        => ts( 'Amount Statistics' ),
+                                        'default'      => true,
+                                        'statistics'   => 
+                                        array('sum'    => ts( 'Total Amount' ), 
+                                              'count'  => ts( 'Count' ), 
+                                              'avg'    => ts( 'Average' ), ), ),
+                                 'contribution_source' => null, ),
+                          'grouping'              => 'contri-fields',
+                          'filters'               =>             
+                          array( 'receive_date'   => 
+                                 array( 'default' => 'this.month' ),
+                                 'total_amount'   => 
+                                 array( 'title'   => ts( 'Total  Amount Between' ), ), ),
+                          'group_bys'           =>
+                          array( 'receive_date' => 
+                                 array( 'default'    => true,
+                                        'frequency'  => true ),
+                                 'contribution_contact_id' => 
+                                 array( 'title'      => ts( 'Contacts' ) ),
+                                 'contribution_source'     => null, ), ),
+                   'civicrm_contribution_type' =>
+                   array( 'dao'           => 'CRM_Contribute_DAO_ContributionType',
+                          'fields'        =>
+                          array( 'contribution_type'   => null, ), 
+                          'grouping'      => 'contri-fields',
+                          'group_bys'     =>
+                          array( 'contribution_type'   => null, ), ),
+                   );
 
         $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
                                                                  'type'   => 'checkbox',
@@ -123,47 +134,49 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                         }   
 
                     } else {
-                        $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                        $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                     }
                 }
             }
 
-            foreach ( $table['group_bys'] as $fieldName => $field ) {
-                if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                    switch ( $this->_params['group_bys_freq'][$fieldName] ) {
-                    case 'YEARWEEK' :
-                        $select[] = "DATE_SUB({$field['dbAlias']}, 
+            if ( array_key_exists('group_bys', $table) ) {
+                foreach ( $table['group_bys'] as $fieldName => $field ) {
+                    if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                        switch ( $this->_params['group_bys_freq'][$fieldName] ) {
+                        case 'YEARWEEK' :
+                            $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
-                        $field['title'] = 'Week';
-                        break;
-
-                    case 'YEAR' :
-                        $select[] = "MAKEDATE(YEAR({$field['dbAlias']}), 1)  
+                            $field['title'] = 'Week';
+                            break;
+                            
+                        case 'YEAR' :
+                            $select[] = "MAKEDATE(YEAR({$field['dbAlias']}), 1)  
 AS {$tableName}_{$fieldName}_start";
-                        $field['title'] = 'Year';
-                        break;
-
-                    case 'MONTH':
-                        $select[] = "DATE_SUB({$field['dbAlias']}, 
+                            $field['title'] = 'Year';
+                            break;
+                            
+                        case 'MONTH':
+                            $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_start";
-                        $field['title'] = 'Month';
-                        break;
-
-                    case 'QUARTER':
-                        $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) -2 , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
-                        $field['title'] = 'Quarter';
-                        break;
-
-                    }
-                    if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = 
-                            $field['title'] . ' Beginning';
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type']  = 
-                            $field['type'];
-                        $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['group_by'] = 
-                            $this->_params['group_bys_freq'][$fieldName];
+                            $field['title'] = 'Month';
+                            break;
+                            
+                        case 'QUARTER':
+                            $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) -2 , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
+                            $field['title'] = 'Quarter';
+                            break;
+                            
+                        }
+                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
+                            $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = 
+                                $field['title'] . ' Beginning';
+                            $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type']  = 
+                                $field['type'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['group_by'] = 
+                                $this->_params['group_bys_freq'][$fieldName];
+                        }
                     }
                 }
             }
@@ -174,7 +187,9 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
 
     function from( ) {
         $this->_from = "
-FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
+FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
+INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
+LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type']} ON {$this->_aliases['civicrm_contribution']}.contribution_type_id = {$this->_aliases['civicrm_contribution_type']}.id
 ";
     }
 
@@ -240,34 +255,39 @@ FROM       civicrm_contribution {$this->_aliases['civicrm_contribution']}
         $statistics[] = array( 'title' => ts('Row(s) Listed'),
                                'value' => count($rows) );
 
-        if ( ! empty($this->_params['group_bys']) ) {
+        if ( is_array($this->_params['group_bys']) && 
+             !empty($this->_params['group_bys']) ) {
             foreach ( $this->_columns as $tableName => $table ) {
-                foreach ( $table['group_bys'] as $fieldName => $field ) {
-                    if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                        $combinations[] = $field['title'];
+                if ( array_key_exists('group_bys', $table) ) {
+                    foreach ( $table['group_bys'] as $fieldName => $field ) {
+                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                            $combinations[] = $field['title'];
+                        }
                     }
                 }
             }
             $statistics[] = array( 'title' => ts('Grouping(s)'),
                                    'value' => implode( ' & ', $combinations ) );
         }
-        
 
         return $statistics;
     }
 
     function groupBy( ) {
         $this->_groupBy = "";
-        if ( ! empty($this->_params['group_bys']) ) {
+        if ( is_array($this->_params['group_bys']) && 
+             !empty($this->_params['group_bys']) ) {
             foreach ( $this->_columns as $tableName => $table ) {
-                foreach ( $table['group_bys'] as $fieldName => $field ) {
-                    if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                        if ( CRM_Utils_Array::value('frequency', $table['group_bys'][$fieldName]) && 
-                             CRM_Utils_Array::value($fieldName, $this->_params['group_bys_freq']) ) {
-                            $this->_groupBy[] = 
-                                $this->_params['group_bys_freq'][$fieldName] . "({$field['dbAlias']})";
-                        } else {
-                            $this->_groupBy[] = $field['dbAlias'];
+                if ( array_key_exists('group_bys', $table) ) {
+                    foreach ( $table['group_bys'] as $fieldName => $field ) {
+                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                            if ( CRM_Utils_Array::value('frequency', $table['group_bys'][$fieldName]) && 
+                                 CRM_Utils_Array::value($fieldName, $this->_params['group_bys_freq']) ) {
+                                $this->_groupBy[] = 
+                                    $this->_params['group_bys_freq'][$fieldName] . "({$field['dbAlias']})";
+                            } else {
+                                $this->_groupBy[] = $field['dbAlias'];
+                            }
                         }
                     }
                 }
