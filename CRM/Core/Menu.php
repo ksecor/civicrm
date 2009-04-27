@@ -842,16 +842,11 @@ UNION (
      }
      
      /**
-      * Reset navigation
+      * Reset navigation for all contacts
       */
       static function resetNavigation( ) {
-          $session=& CRM_Core_Session::singleton( );
-          require_once 'CRM/Core/DAO/Preferences.php';
-          $preference =& new CRM_Core_DAO_Preferences();
-          $preference->contact_id = $session->get('userID');
-          $preference->find(true);
-          $preference->navigation = 'NULL';
-          $preference->save();
+          $query = "UPDATE civicrm_preferences SET navigation = NULL WHERE contact_id IS NOT NULL";
+          CRM_Core_DAO::executeQuery( $query );
       }
 }
 

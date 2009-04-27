@@ -372,15 +372,8 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 
     case 'login':
         require_once 'CRM/Core/BAO/UFMatch.php';
-        CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
+        return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
                                                   civicrm_get_ctype( 'Individual' ) );
-                                                  
-        // temporary hack to reset cached navigation during login
-        require_once 'CRM/Core/Menu.php';
-        CRM_Core_Menu::resetNavigation( );
-        
-        return;    
-        
     case 'register':
         $config =& CRM_Core_Config::singleton( );
         if ( $config->inCiviCRM ) {
@@ -797,4 +790,12 @@ function civicrm_views_api() {
 function civicrm_add_jquery( &$html ) {
     $smarty = CRM_Core_Smarty::singleton( );
     return $smarty->fetch( 'CRM/common/jquery.tpl' ) . $html;
+}
+
+function  civicrm_form_alter( $form, $formValues, $formID ) {
+    if ( $formID == 'user_admin_perm' && !empty( $formValues['post'] ) ) {
+        // reset navigation only when permissions are changed
+        require_once 'CRM/Core/Menu.php';
+        CRM_Core_Menu::resetNavigation( );
+    }
 }
