@@ -1,6 +1,6 @@
 {literal}
 <script type="text/javascript">
-function copyValues(fieldName)
+function copyValues(fieldName, source)
 {
     var cId = new Array();
     var i = 0;
@@ -11,9 +11,11 @@ function copyValues(fieldName)
     {/foreach}
     {literal}
 
-    if ( document.getElementById("field_"+cId[0]+"_"+fieldName ) ) {
-        if ( document.getElementById( "field_"+cId[0]+"_"+fieldName ).type == 'select-multiple' ) {
-            var multiSelectList = document.getElementById( "field_"+cId[0]+"_"+fieldName ).options;
+    if (source === undefined) source = "field_"+cId[0]+"_"+fieldName;
+
+    if ( document.getElementById(source) ) {
+        if ( document.getElementById(source).type == 'select-multiple' ) {
+            var multiSelectList = document.getElementById(source).options;
             for ( k=0; k<cId.length; k++ ) {
                 for ( i=0; i<multiSelectList.length; i++ ){
                     if ( multiSelectList[i].selected == true ){
@@ -23,16 +25,16 @@ function copyValues(fieldName)
                     }
                 }
             }
-        } else if ( document.getElementById( "field_"+cId[0]+"_"+fieldName ).getAttribute("class") == "form-TinyMCE" ) {
+        } else if ( document.getElementById(source).getAttribute("class") == "form-TinyMCE" ) {
             if ( editor == "tinymce" ) {
-                tinyEditor = tinyMCE.get( "field_"+cId[0]+"_"+fieldName );
+                tinyEditor = tinyMCE.get(source);
                 for ( k=0; k<cId.length; k++ ) {
                     tinyMCE.get( "field_"+cId[k]+"_"+fieldName ).setContent( tinyEditor.getContent() );
                 }
             }
         } else {
             for ( k=0; k<cId.length; k++ ) {
-                document.getElementById("field_"+cId[k]+"_"+fieldName).value = document.getElementById("field_"+cId[0]+"_"+fieldName).value;
+                document.getElementById("field_"+cId[k]+"_"+fieldName).value = document.getElementById(source).value;
             }
         }
     } else if ( document.getElementsByName("field"+"["+cId[0]+"]"+"["+fieldName+"]") &&
