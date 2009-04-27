@@ -524,7 +524,11 @@ WHERE  $whereCond AND is_test=0
         $transaction->commit( );
 
         CRM_Utils_Hook::post( 'delete', 'Contribution', $dao->id, $dao );
-
+ 
+        // delete the recently created Activity
+        require_once 'CRM/Utils/Recent.php';
+        CRM_Utils_Recent::del( $id );
+        
         return $results;
     }
     

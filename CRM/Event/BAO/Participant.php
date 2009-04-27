@@ -667,6 +667,11 @@ WHERE  civicrm_participant.id = {$participantId}
         $participant->delete( );
 
         $transaction->commit( );
+
+        // delete the recently created Activity
+        require_once 'CRM/Utils/Recent.php';
+        CRM_Utils_Recent::del( $id );
+        
         return $participant;
     }
     

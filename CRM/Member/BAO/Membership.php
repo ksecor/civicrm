@@ -460,6 +460,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $membership->id = $membershipId;
         $results = $membership->delete( );
         $transaction->commit( );
+
+        // delete the recently created Activity
+        require_once 'CRM/Utils/Recent.php';
+        CRM_Utils_Recent::del( $membershipId );
+
         return $results;
         
     }

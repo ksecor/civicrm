@@ -190,6 +190,10 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $caseContact =& new CRM_Case_DAO_CaseContact();
         $caseContact->case_id = $caseID;
         $caseContact->delete();
+        
+        // delete the recently created Activity
+        require_once 'CRM/Utils/Recent.php';
+        CRM_Utils_Recent::del( $caseID );
     }
 
     /**
