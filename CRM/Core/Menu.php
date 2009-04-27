@@ -835,7 +835,27 @@ UNION (
                      return false;
                  }
              }
-            $name = '<a href=' . $url . '>'. $name .'</a>';
+            
+             return $name = '<a href=' . $url . '>'. $name .'</a>';
+         } else {
+             require_once 'CRM/Core/Permission.php';
+
+             if ( isset( $children['component'] ) ) {
+                 $config  =& CRM_Core_Config::singleton( );
+                 $components = explode( ',', $children['component'] );
+                 
+                 $showItem = false;
+                 foreach ( $components as $key ) {
+                     $permission = "access {$key}";
+                     if ( CRM_Core_Permission::check( $permission ) && in_array( $key, $config->enableComponents ) ) {
+                          $showItem = true;
+                     }
+                 }
+                 
+                 if ( !$showItem ) {
+                     return false;
+                 }   
+             } 
          }
          
          return $name;

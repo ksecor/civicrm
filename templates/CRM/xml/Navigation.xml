@@ -36,7 +36,7 @@
         <item key='New Tag' />
         <item key='Manage Tags (Categories)' />
     </item>
-    <item key='Contributions' group='1'>
+    <item key='Contributions' group='1' component='CiviContribute'>
         <item key='CiviContribute Dashboard' label='Dashboard'/>
         <item key='New Contribution'/>
         <item key='Find Contributions' />
@@ -47,7 +47,7 @@
         <item separator='1' />
         <item key='Personal Campaign Pages' label='Manage Personal Campaign Pages' />
     </item>
-    <item key='Events' group='1'>
+    <item key='Events' group='1' component='CiviEvent'>
         <item key='CiviEvent Dashboard' label='Dashboard'/>
         <item key='Register New Participant'/>
         <item key='Find Participants' />
@@ -58,24 +58,24 @@
         <item key='New Price Set' />
         <item key='Manage Price Sets' />
     </item>
-    <item key='Mailings' group='1'>
+    <item key='Mailings' group='1' component='CiviMail'>
         <item key='New Mailing' />
         <item key='Draft and Unscheduled Mailings' />
         <item key='Scheduled and Sent Mailings' />
         <item key='Archived Mailings' />
         <item key='Headers, Footers, and Automated Messages' />
     </item>
-    <item key='Memberships' group='1'>
+    <item key='Memberships' group='1' component='CiviMember'>
         <item key='CiviMember Dashboard' label='Dashboard'/>
         <item key='New Member'/>
         <item key='Find Members' />
         <item key='Import Members' />
     </item>
-    <item key='Other' group='1'>
-        <item key='Grants' group='1'>
+    <item key='Other' group='1' component='CiviGrant,CiviCase'>
+        <item key='Grants' group='1' component='CiviGrant'>
             <item key='New Grant' />
 		</item>
-        <item key='Cases' group='1'>
+        <item key='Cases' group='1' component='CiviCase'>
             <item key='CiviCase Dashboard' label='Dashboard'/>
             <item key='New Case for New Client'/>
             <item key='Find Cases' />
