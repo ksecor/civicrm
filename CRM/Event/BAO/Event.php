@@ -424,8 +424,27 @@ LIMIT      0, 10
                     $eventSummary['events'][$dao->id][$property] = $dao->$name;
                 }
             }
+
+            // prepare the area for per-status participant counts
+            $statusClasses = array('Positive', 'Pending', 'Waiting', 'Negative');
+            $eventSummary['events'][$dao->id]['statuses'] = array_fill_keys($statusClasses, array());
         }
+
+        // add participant counts on a per-event, per-status-type basis
         require_once 'CRM/Event/PseudoConstant.php';
+        $statusTypes =& CRM_Event_PseudoConstant::participantStatus();
+
+        $st = CRM_Core_DAO::executeQuery('SELECT event_id, status_id, COUNT(*) count, class
+                                          FROM civicrm_participant p JOIN civicrm_participant_status_type pst ON (p.status_id = pst.id)
+                                          GROUP BY event_id, status_id');
+
+        while ($st->fetch()) {
+            $eventSummary['events'][$st->event_id]['statuses'][$st->class][] = array(
+                'url'   => CRM_Utils_System::url('civicrm/event/search', "reset=1&force=1&event=$st->event_id&status=$st->status_id"),
+                'name'  => $statusTypes[$st->status_id],
+                'count' => $st->count,
+            );
+        }
 
         $statusTypes        = CRM_Event_PseudoConstant::participantStatus(null, 'is_counted = 1');
         $statusTypesPending = CRM_Event_PseudoConstant::participantStatus(null, 'is_counted = 0');
