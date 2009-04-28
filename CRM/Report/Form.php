@@ -251,26 +251,23 @@ class CRM_Report_Form extends CRM_Core_Form {
         // lots of lines below.
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName => $field ) {
-                if ( isset($table['grouping']) ) { 
-                    $group = $table['grouping'];
-                } else {
-                    $group = $tableName;
-                }
-                if ( isset($field['required']) ) {
-                    // set default
-                    $this->_defaults['select_columns'][$group][$fieldName] = 1;
-
-                    if ( $freeze ) {
-                        // find element object, so that we could use quickform's freeze method 
-                        // for required elements
-                        $obj = $this->getElementFromGroup("select_columns[$group]", 
-                                                          $fieldName);
-                        if ( $obj ) {
-                            $freezeGroup[] = $obj;
+                if ( !array_key_exists('no_display', $field) ) {
+                    if ( isset($field['required']) ) {
+                        // set default
+                        $this->_defaults['fields'][$fieldName] = 1;
+                        
+                        if ( $freeze ) {
+                            // find element object, so that we could use quickform's freeze method 
+                            // for required elements
+                            $obj = $this->getElementFromGroup("select_columns",
+                                                              $fieldName);
+                            if ( $obj ) {
+                                $freezeGroup[] = $obj;
+                            }
                         }
+                    } else if ( isset($field['default']) ) {
+                        $this->_defaults['fields'][$fieldName] = $field['default'];
                     }
-                } else if ( isset($field['default']) ) {
-                    $this->_defaults['select_columns'][$group][$fieldName] = $field['default'];
                 }
             }
 
@@ -327,22 +324,19 @@ class CRM_Report_Form extends CRM_Core_Form {
         
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName => $field ) {
-                if ( !array_key_exists('no_display', $field) ) {
+                 if ( !array_key_exists('no_display', $field) ) {
                     if ( isset($table['grouping']) ) { 
-                        $options[$table['grouping']][$field['title']] = $fieldName;
+                        $colGroups[$table['grouping']][$field['title']] = $fieldName;
                     } else {
-                        $options[$tableName][$field['title']] = $fieldName;
+                        $colGroups[$tableName][$field['title']] = $fieldName;
                     }
+                    $options[$field['title']] = $fieldName;
                 }
             } 
         }
         
-        $colGroups = array( );
-        foreach ( $options as $grp => $grpOptions ) {
-            $this->addCheckBox( "select_columns[$grp]", ts('Select Columns'), $grpOptions, null, 
-                                null, null, null, $this->_fourColumnAttribute );
-            $colGroups[] = $grp;
-        }
+        $this->addCheckBox( "fields", ts('Select Columns'), $options, null, 
+                            null, null, null, $this->_fourColumnAttribute );
         $this->assign( 'colGroups', $colGroups );
     }
 

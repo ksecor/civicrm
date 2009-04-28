@@ -8,9 +8,16 @@
    <fieldset><legend><a href="#" onclick="hide('id_{$formTpl}'); show('id_{$formTpl}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Report Criteria{/ts}</legend>
 
    <fieldset><legend>{ts}Display Columns{/ts}</legend>
-      {foreach from=$colGroups item=grp key=dnc}
-         {if $dnc neq 0}<br/>{/if}
-         <table class="form-layout"><tr><td width="25%">{$form.select_columns[$grp].html}</td></tr></table>
+      {foreach from=$colGroups item=grpFields key=dnc}
+      <br/> 
+      {assign  var="count" value="1"}
+         <table class="form-layout"><tr>
+         {foreach from=$grpFields item=field key=title}
+            <td width="25%">{$form.fields.$field.html}</td>
+            {if $count is div by 4}</tr><tr>{/if}
+            {assign var="count" value=`$count+1`}
+         {/foreach}</tr>
+         </table>
       {/foreach}
    </fieldset>
 

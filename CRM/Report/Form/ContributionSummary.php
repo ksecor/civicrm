@@ -112,8 +112,7 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName => $field ) {
                 if ( CRM_Utils_Array::value( 'required', $field ) ||
-                     CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$table['grouping']] ) ||
-                     CRM_Utils_Array::value( $fieldName, $this->_params['select_columns'][$tableName] ) ) {
+                     CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
                     
                     // only include statistics columns if set
                     if ( CRM_Utils_Array::value('statistics', $field) ) {
