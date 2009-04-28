@@ -341,40 +341,59 @@ class CRM_Utils_PChart
         return $filesValues;
     }
 
-    static function chart( $params, $type ) 
+    static function chart( $rows, $chart, $interval ) 
     {
-        switch ( $params['legend'] ) {
+        switch ( $interval ) {
         case 'Month' :
-            foreach ( $params['values'] as $key => $val ) {
-                list( $year, $month ) = explode( '-', $key );
-                $m = (int) $month;
-                $chart[$year][CRM_Utils_Date::getAbbrMonthNames($m)] = $val;
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph[$year][$rows['Month'][$key]] = $rows['value'][$key];
             }
             
-            foreach ( $chart as $k => $v ) {
+            foreach ( $graph as $k => $v ) {
                 $barChart[] = array('values' => $v,
                                     'legend' => 'Year - ' .$k );
             }
             break;
-        
+            
         case 'Quarter' :
-            foreach ( $params['values'] as $key => $val ) {
-                list( $year, $month ) = explode( '-', $key );
-                $m = (int) $month;
-                $quarter = ($m+2)/3;
-                $chart[$year]['Quarter ' .$quarter] = $val;
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph[$year]['Quarter '. $rows['Quarter'][$key]] = $rows['value'][$key];
             }
             
-            foreach ( $chart as $k => $v ) {
+            foreach ( $graph as $k => $v ) {
                 $barChart[] = array('values' => $v,
                                     'legend' => 'Year - ' .$k );
             }
             break;
-
+            
+        case 'Week' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph[$year]['Week '. $rows['Week'][$key]] = $rows['value'][$key];
+            }
+            
+            foreach ( $graph as $k => $v ) {
+                $barChart[] = array('values' => $v,
+                                    'legend' => 'Year - ' .$k );
+            }
+            break;
+            
+        case 'Year' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph[$year] = $rows['value'][$key];
+                
+            }
+            $barChart[] = array('values' => $graph,
+                                'legend' => 'Over All the Years' );
+            break;
+            
         }
-
-        self::$type($barChart);
+        self::$chart($barChart);
     }
+    
 }
 
 

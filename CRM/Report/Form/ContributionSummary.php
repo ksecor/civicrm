@@ -154,23 +154,27 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                         case 'YEARWEEK' :
                             $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
+                            $select[] = "WEEKOFYEAR({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Week';
                             break;
                             
                         case 'YEAR' :
                             $select[] = "MAKEDATE(YEAR({$field['dbAlias']}), 1)  
 AS {$tableName}_{$fieldName}_start";
+                            $select[] = "YEAR({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Year';
                             break;
                             
                         case 'MONTH':
                             $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_start";
+                            $select[] = "MONTHNAME({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Month';
                             break;
                             
                         case 'QUARTER':
                             $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) -2 , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
+                            $select[] = "QUARTER({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Quarter';
                             break;
                             
@@ -333,24 +337,26 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
             $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
-
             }
-            $graphRows[$row['civicrm_contribution_receive_date_start']] = $row['civicrm_contribution_total_amount_sum'];
+            
+            $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
+            $graphRows[$this->_interval][] = $dao->civicrm_contribution_receive_date_interval;
+            $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
+
             $rows[] = $row;
         }
-
         $this->formatDisplay( $rows );
+
         $this->assign( 'grandStat', $this->grandTotal( $rows ) );
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
         $this->assign( 'statistics', $this->statistics( $rows ) );
         
-        $barchatParams = array('values' => $graphRows, 
-                               'legend' => $this->_interval );
-
         require_once 'CRM/Utils/PChart.php';
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
-            CRM_Utils_PChart::chart($barchatParams, $this->_params['charts']);
+            $barchatParams = array('values' => $graphRows, 
+                                   'legend' => $this->_interval );
+            CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
         }
         parent::postProcess( );
     }
