@@ -83,9 +83,9 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                                'activity_type_id' => null,
                                                ),
                                         'group_bys'=>             
-                                        array( 'activity_date_time' => null,
-                                               // array( 'default'    => true,
-                                               //        'frequency'  => true ),
+                                        array( 'activity_date_time' => 
+                                               array( 'default'    => true,
+                                                      'frequency'  => true ),
                                                'activity_type_id'  => null,
                                                'source_contact_id' => null,
                                                ),
@@ -156,6 +156,48 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                     $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
                     $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                     $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = $field['type'];
+                }
+            }
+
+            if ( array_key_exists('group_bys', $table) ) {
+                foreach ( $table['group_bys'] as $fieldName => $field ) {
+                    if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                        switch ( $this->_params['group_bys_freq'][$fieldName] ) {
+                            
+                        case 'YEARWEEK' :
+                            $select[] = "DATE_SUB({$field['dbAlias']}, 
+INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
+
+                            $field['title'] = 'Week';
+                            break;
+                            
+                        case 'YEAR' :
+                            $select[] = "MAKEDATE(YEAR({$field['dbAlias']}), 1)  
+AS {$tableName}_{$fieldName}_start";
+                            $field['title'] = 'Year';
+                            break;
+                            
+                        case 'MONTH':
+                            $select[] = "DATE_SUB({$field['dbAlias']}, 
+INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_start";
+                            $field['title'] = 'Month';
+                            break;
+                            
+                        case 'QUARTER':
+                            $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) -2 , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
+                            $field['title'] = 'Quarter';
+                            break;
+                            
+                        }
+                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
+                            $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = 
+                                $field['title'] . ' Beginning';
+                            $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type']  = 
+                                $field['type'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['group_by'] = 
+                                $this->_params['group_bys_freq'][$fieldName];
+                        }
+                    }
                 }
             }
         }
