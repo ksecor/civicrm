@@ -368,7 +368,7 @@ GROUP BY  counted.event_id
         $counted =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         if ( $counted->fetch( ) ) {
-            if ( $counted->max_participants == NULL || $counted->max_participants <= 0  ) {
+            if ( $counted->max_participants == NULL ) {
                 return null;
             }
             
@@ -380,7 +380,7 @@ GROUP BY  counted.event_id
             
             if ( $counted->counted_participants >= $counted->max_participants ) {
                 return $eventFullmsg;
-            }         
+            }      
             
             //return the difference ( exclude waitings. )
             if ( $returnEmptySeats ) {
@@ -388,18 +388,27 @@ GROUP BY  counted.event_id
             }
         }
         
-        // return size/false as there is no participant register yet.
-        if ( $returnEmptySeats ) {
-            $maxParticipants = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'max_participants' );
-            if ( $maxParticipants == null || $maxParticipants < 0 ) {
-                return null;
-            }
-            
-            //return actual max participant number.
-            return $maxParticipants;
+        // return size/false/full message as there is no participant register yet.
+        $maxParticipants = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'max_participants' );
+        
+        // no limit for registration.
+        if ( $maxParticipants == null ) {
+            return null;
         }
         
-        return false;
+        if ( $maxParticipants ) {
+            if ( $returnEmptySeats ) {
+                return $maxParticipants;
+            }
+            return false;
+        }
+        
+        $evenFullText = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'event_full_text' );
+        if ( !$evenFullText ) {
+            $evenFullText = ts( "This event is full !!!" );
+        }
+        
+        return $evenFullText;
     }
     
     /**
