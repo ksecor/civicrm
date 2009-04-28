@@ -307,7 +307,7 @@ class CRM_Export_BAO_Export
                                 if ( CRM_Utils_Array::value( 1, $type ) ) {
                                     if ( CRM_Utils_Array::value( 0, $type ) == 'phone' ) {
                                         $hdr .= "-" . CRM_Utils_Array::value( $type[1], $phoneTypes );
-                                    } if ( CRM_Utils_Array::value( 0, $type ) == 'im' ) {
+                                    } else if ( CRM_Utils_Array::value( 0, $type ) == 'im' ) {
                                         $hdr .= "-" . CRM_Utils_Array::value( $type[1], $imProviders );
                                     }
                                 }

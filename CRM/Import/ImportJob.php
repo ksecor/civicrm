@@ -172,8 +172,10 @@ class CRM_Import_ImportJob {
                 //to store phoneType id and provider id separately for related contact
                 if ( CRM_Utils_Array::value( '1', $mapper[$key] ) == 'phone' ) {
                     $this->_mapperRelatedContactPhoneType[$key] = $mapper[$key][3];
+                    $this->_mapperRelatedContactImProvider[$key] = null;
                 } else if ( CRM_Utils_Array::value( '1', $mapper[$key] ) == 'im' ) {
                     $this->_mapperRelatedContactImProvider[$key] = $mapper[$key][3];
+                    $this->_mapperRelatedContactPhoneType[$key]  = null;
                 } else {
                      $this->_mapperRelatedContactPhoneType[$key]  = null;
                      $this->_mapperRelatedContactImProvider[$key] = null;
