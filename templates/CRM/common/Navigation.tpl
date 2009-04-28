@@ -3,7 +3,7 @@
 <script type="text/javascript">
 function getSearchURLValue( )
 {
-    var contactId =  cj( '#contact_id' ).val();
+    var contactId =  cj( '#sort_contact_id' ).val();
     if ( ! contactId || isNaN( contactId ) ) {
         var sortValue = cj( '#sort_name' ).val();
         if ( sortValue ) { 
@@ -30,7 +30,7 @@ cj.ajax({
     url         : {/literal}"{crmURL p='civicrm/ajax/adminmenu' h=0 }"{literal},
     success     : function( content ) {
                     var postURL = {/literal}"{crmURL p='civicrm/contact/search/basic' h=0 q='reset=1'}"{literal};
-                    var navigationHTML = '<ul id="civicrm_menu"><li id="crm-qsearch"><form action="'+ postURL +'" name="search_block" id="id_search_block" method="post" onsubmit="getSearchURLValue( );"><input type="text" class="form-text" id="sort_name" name="sort_name" style="width: 12em;"/><input type="hidden" id="contact_id" value=""><input type="submit" value="{ts}Go{/ts}" name="_qf_Basic_refresh" class="form-submit default" style="display: none;"/></form></li>' + content + '</ul>';
+                    var navigationHTML = '<ul id="civicrm_menu"><li id="crm-qsearch"><form action="'+ postURL +'" name="search_block" id="id_search_block" method="post" onsubmit="getSearchURLValue( );"><input type="text" class="form-text" id="sort_name" name="sort_name" style="width: 12em;"/><input type="hidden" id="sort_contact_id" value=""><input type="submit" value="{ts}Go{/ts}" name="_qf_Basic_refresh" class="form-submit default" style="display: none;"/></form></li>' + content + '</ul>';
 				    cj('body').prepend( navigationHTML );
 				    
 				    var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
@@ -42,7 +42,7 @@ cj.ajax({
                         width: 200,
                         selectFirst: false 
                     }).result(function(event, data, formatted) {
-                        cj("#contact_id").val(data[1]);
+                        cj("#sort_contact_id").val(data[1]);
                     });
 				    
                   }
