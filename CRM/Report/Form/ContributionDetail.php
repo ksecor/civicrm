@@ -307,6 +307,7 @@ SELECT COUNT( contribution.total_amount ) as count,
                                               'reset=1&cid=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
                     $row["civicrm_contact_display_name"] . '</a>';
+                $entryFound = true;
             }
 
             // skip looking further in rows, if first row itself doesn't 

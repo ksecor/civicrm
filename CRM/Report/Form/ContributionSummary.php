@@ -46,8 +46,10 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                           'fields'    =>
                           array( 'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ),
-                                        'default'    => true,
-                                        'no_repeat'  => true ), ), ),
+                                        'no_repeat'  => true ),
+                                 'id'           => 
+                                 array( 'no_display' => true,
+                                        'required'  => true, ), ), ),
                    'civicrm_contribution' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
                           //'bao'           => 'CRM_Contribute_BAO_Contribution',
@@ -329,6 +331,8 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
             }
             $rows[] = $row;
         }
+
+        $this->formatDisplay( $rows );
         $this->assign( 'grandStat', $this->grandTotal( $rows ) );
 
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
@@ -339,4 +343,26 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
         parent::postProcess( );
     }
 
+    function alterDisplay( &$rows ) {
+        // custom code to alter rows
+ 
+        $entryFound = false;
+        foreach ( $rows as $rowNum => $row ) {
+            // convert display name to links
+            if ( array_key_exists('civicrm_contact_display_name', $row) && 
+                 array_key_exists('civicrm_contact_id', $row) ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view', 
+                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
+                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
+                    $row["civicrm_contact_display_name"] . '</a>';
+                $entryFound = true;
+            }
+
+            // skip looking further in rows, if first row itself doesn't 
+            // have the column we need
+            if ( !$entryFound ) {
+                break;
+            }
+        }
+    }
 }
