@@ -345,7 +345,7 @@ class CRM_Core_Block {
             if ( CRM_Core_Permission::check('access CiviContribute') ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/contribution',
-                                                          'query' => "reset=1&action=add",
+                                                          'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Contribution') ) ));
             
             }

@@ -151,6 +151,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     
     public $_contributeMode = 'direct';
     
+    public $_context;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -175,12 +177,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         //get the pledge payment id
         $this->_ppID = CRM_Utils_Request::retrieve( 'ppid', 'Positive', $this );
         //get the contact id
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         //get the action.
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
         $this->assign( 'action', $this->_action );
         //get the contribution id if update
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        
+        $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
+        $this->assign('context', $this->_context );
         
         //set the contribution mode.
         $this->_mode = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
@@ -223,11 +228,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // this required to show billing block    
         $this->assign_by_ref( 'paymentProcessor', $paymentProcessor );
         $this->assign( 'hidePayPalExpress', true );           
-            
-        require_once 'CRM/Contact/BAO/Contact/Location.php';
-        list( $this->userDisplayName, 
-              $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
-        $this->assign( 'displayName', $this->userDisplayName );
+        
+        if ( $this->_contactID ) {    
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
+            list( $this->userDisplayName, 
+                $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+            $this->assign( 'displayName', $this->userDisplayName );
+        }
         
         // also check for billing information
         // get the billing location type
@@ -481,6 +488,12 @@ WHERE  contribution_id = {$this->_id}
     {   
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+        
+        if ( $this->_context == 'standalone' ) {
+            // call to build contact autocomplete
+            require_once 'CRM/Contact/Form/NewContact.php'; 
+            CRM_Contact_Form_NewContact::buildQuickform( $this );
         }
         
         $showAdditionalInfo = false;
@@ -765,6 +778,12 @@ WHERE  contribution_id = {$this->_id}
         
         // get the submitted form values.  
         $submittedValues = $this->controller->exportValues( $this->_name );
+            
+        
+        // set the contact, when contact is selected
+        if ( CRM_Utils_Array::value('contact_id', $submittedValues ) ) {
+            $this->_contactID = CRM_Utils_Array::value('contact_id', $submittedValues);
+        }
         
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );

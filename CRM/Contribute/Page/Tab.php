@@ -207,7 +207,16 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        $this->preProcess( );
+        $contactID  = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullArray );
+        $context    = CRM_Utils_Request::retrieve('context', 'String', $this );
+        
+        if ( $context == 'standalone' && !$contactID ) {
+            $this->_action = CRM_Core_Action::ADD;
+            $this->assign('action', $this->_action );     
+        } else {
+            // we should call contact view, preprocess only for contribution in contact summary
+            $this->preProcess( );           
+        }        
         
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit contributions' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit contrib rights

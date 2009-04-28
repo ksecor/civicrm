@@ -10,7 +10,8 @@
 {else if $contributionMode == 'live'}
     {assign var=contribMode value="LIVE"}
 {/if}
-{if !$email and $action neq 8}
+
+{if !$email and $action neq 8 and $context neq 'standalone'}
 <div class="messages status">
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
@@ -38,9 +39,13 @@
       </div> 
    {else}
       <table class="form-layout-compressed">
-        <tr>
-            <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
-        </tr>
+        {if $context neq 'standalone'}
+            <tr>
+                <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
+            </tr>
+        {else}
+            <tr><td colspan="2">{include file="CRM/Contact/Form/NewContact.tpl"}</td></tr>
+        {/if}
         {if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
         {/if}
