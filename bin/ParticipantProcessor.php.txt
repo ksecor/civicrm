@@ -69,12 +69,10 @@ class CRM_ParticipantProcessor
            participant.status_id,
            participant.register_date,
            participant.registered_by_id,
-           contact.display_name,
            participant.event_id,
            event.title as eventTitle,
            event.expiration_time
      FROM  civicrm_participant participant
-LEFT JOIN  civicrm_contact contact ON ( participant.contact_id = contact.id )
 LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
     WHERE  participant.status_id IN {$statusIds}
  ORDER BY  participant.register_date
@@ -87,7 +85,6 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                                                    'contact_id'       => $dao->contact_id,
                                                    'register_date'    => $dao->register_date,
                                                    'registered_by_id' => $dao->registered_by_id,
-                                                   'display_name'     => $dao->display_name,
                                                    'eventTitle'       => $dao->eventTitle,
                                                    'expiration_time'  => $dao->expiration_time
                                                    );
@@ -124,17 +121,16 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                         
                         if ( !empty( $results ) ) {
                             //diaplay updated participants
-                            if ( is_array( $results['noUpdatedParticipantIds'] ) && !empty( $results['noUpdatedParticipantIds'] ) ) {
-                                foreach ( $results['noUpdatedParticipantIds'] as $processedId ) {
+                            if ( is_array( $results['updatedParticipantIds'] ) && !empty( $results['updatedParticipantIds'] ) ) {
+                                foreach ( $results['updatedParticipantIds'] as $processedId ) {
                                     $expiredParticipantCount += 1;   
                                     echo "<br /><br />- status updated to: Expired";
-                                }
-                            }
-                            
-                            //display mailed participants.
-                            if ( is_array( $results['noMailedParticipantIds'] ) && !empty( $results['noMailedParticipantIds'] ) ) {
-                                foreach ( $results['noMailedParticipantIds'] as $mailedId ) {
-                                    echo "<br />Expiration Mail sent to: {$participantDetails[$mailedId]['display_name']}";   
+                                    
+                                    //mailed participants.
+                                    if ( is_array( $results['mailedParticipants'] ) && 
+                                         array_key_exists( $processedId, $results['mailedParticipants']) ) {
+                                        echo "<br />Expiration Mail sent to: {$results['mailedParticipants'][$processedId]}";
+                                    }
                                 }
                             }
                         }
@@ -179,19 +175,15 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                                 
                                 if ( !empty( $results ) ) {
                                     //diaplay updated participants
-                                    if ( is_array( $results['noUpdatedParticipantIds'] ) && 
-                                         !empty( $results['noUpdatedParticipantIds'] ) ) {
-                                        foreach ( $results['noUpdatedParticipantIds'] as $processedId ) {
+                                    if ( is_array( $results['updatedParticipantIds'] ) && 
+                                         !empty( $results['updatedParticipantIds'] ) ) {
+                                        foreach ( $results['updatedParticipantIds'] as $processedId ) {
                                             $waitingConfirmCount += 1;  
                                             echo "<br /><br />- status updated to: Pending from waitlist";
-                                        }
-                                    }
-                                    
-                                    //diaplay mailed participants
-                                    if ( is_array( $results['noMailedParticipantIds'] ) && 
-                                         !empty( $results['noMailedParticipantIds'] ) ) {
-                                        foreach ( $results['noMailedParticipantIds'] as $mailedId ) {
-                                            echo "<br />Confirmation Mail sent to: {$participantDetails[$mailedId]['display_name']}";
+                                            if ( is_array( $results['mailedParticipants'] ) && 
+                                                 array_key_exists( $processedId, $results['mailedParticipants']) ) {
+                                                echo "<br />Confirmation Mail sent to: {$results['mailedParticipants'][$processedId]}";
+                                            }
                                         }
                                     }
                                 }

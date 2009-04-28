@@ -138,28 +138,30 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
         $buttonName = $this->controller->getButtonName( );
         $eventId = $this->_eventId;
         $participantId = $this->_participantId;
-
-        if ( $buttonName == '_qf_ConfirmParticipation_next' ) {
+        
+        if ( $buttonName == '_qf_ParticipantConfirm_next' ) {
             //check user registration status is from pending class
             $url = CRM_Utils_System::url( 'civicrm/event/register', "reset=1&id={$eventId}&participantId={$participantId}" );
             CRM_Utils_System::redirect( $url );
-        } else if ( $buttonName == '_qf_ConfirmParticipation_submit' ) {
+        } else if ( $buttonName == '_qf_ParticipantConfirm_submit' ) {
             //need to registration status to 'cancelled'.
             require_once 'CRM/Event/PseudoConstant.php';
-            $canceledId = array_search( 'Cancelled', CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" ) );
+            require_once 'CRM/Event/BAO/Participant.php';
+            $cancelledId = array_search( 'Cancelled', CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" ) );
+            $additionalParticipantIds = CRM_Event_BAO_Participant::getAdditionalParticipantIds( $participantId );
             
-            //set status to cancelled 
-            CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participantId, 'status_id', $canceledId );
+            $participantIds = array_merge( array( $participantId ), $additionalParticipantIds );
+            $results = CRM_Event_BAO_Participant::transitionParticipants( $participantIds, null, $cancelledId, true );
             
-            // need to cancel addional participants registration.
-            $query = "
-UPDATE civicrm_participant 
-   SET civicrm_participant.status_id = {$canceledId} 
- WHERE civicrm_participant.registered_by_id = {$participantId}";
-            CRM_Core_DAO::executeQuery( $query );
+            $statusMessage = ts( "%1 Event registration(s) has been cancelled.", array( 1 => count( $participantIds ) ) );
+            if ( CRM_Utils_Array::value( 'mailedParticipants', $results ) ) {
+                foreach ( $results['mailedParticipants'] as $key => $displayName ) {
+                    $statusMessage .=  ts( "<br>Mail has been sent to : %1", array( 1 => $displayName ) );
+                }
+            }
             
             $config =& CRM_Core_Config::singleton( );
-            CRM_Core_Error::statusBounce( ts( 'Event registration have been canceled.' ), $config->userFrameworkBaseURL );
+            CRM_Core_Error::statusBounce( $statusMessage, $config->userFrameworkBaseURL );
         }
     }
 }

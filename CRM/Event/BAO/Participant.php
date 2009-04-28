@@ -823,8 +823,8 @@ WHERE  civicrm_participant.id = {$participantId}
      * @access public
      * @static
      */
-    static function transitionParticipants( $participantIds, $fromStatusId, $toStatusId, $returnResult = false )
-    {    
+    static function transitionParticipants( $participantIds, $fromStatusId = null, $toStatusId, $returnResult = false )
+    {   
         if ( !is_array( $participantIds ) || empty( $participantIds ) ) {
             return;
         }
@@ -849,7 +849,7 @@ WHERE  civicrm_participant.id = {$participantId}
         static $domainValues   = array( );
         static $contactDetails = array( );
         
-        $contactIds = $eventIds = $primaryANDAdditonalIds = $participantDetails = array( );
+        $contactIds = $eventIds = $participantDetails = array( );
         
         require_once 'CRM/Event/PseudoConstant.php';
         $statusTypes = CRM_Event_PseudoConstant::participantStatus( );
@@ -926,7 +926,7 @@ WHERE  civicrm_participant.id = {$participantId}
         
         $emailType  = null;
         $toStatus   = $statusTypes[$toStatusId];
-        $fromStatus = $statusTypes[$fromStatusId];
+        $fromStatus = CRM_Utils_Array::value( $fromStatusId, $statusTypes );
         
         switch ( $toStatus ) { 
         case 'Pending from waitlist' :
@@ -953,7 +953,7 @@ WHERE  civicrm_participant.id = {$participantId}
         //as we process additional w/ primary, there might be case if user
         //select primary as well as additionals, so avoid double processing.
         $processedParticipantIds = array( );
-        $mailedParticipantIds    = array( );
+        $mailedParticipants      = array( );
         
         //send mails and update status.
         foreach ( $participantDetails as $participantId => $participantValues ) {
@@ -974,10 +974,22 @@ WHERE  civicrm_participant.id = {$participantId}
                         
                         //get the mail participant ids
                         if ( $mail ) {
-                            $mailedParticipantIds[] = $additonalId;
+                            $mailedParticipants[$additonalId] = 
+                                $contactDetails[$participantDetails[$additonalId]['contact_id']]['display_name'];
                         }
                     }
                     $processedParticipantIds[] = $additonalId;
+                }
+                
+                //hack to get total amount(additonal + primary)
+                $query = "
+SELECT  civicrm_contribution.total_amount 
+  FROM  civicrm_contribution, civicrm_participant_payment
+ WHERE  civicrm_contribution.id = civicrm_participant_payment.contribution_id
+   AND  civicrm_participant_payment.participant_id = {$participantId}";
+                $totalAmount = CRM_Core_DAO::singleValueQuery( $query );
+                if ( $totalAmount ) {
+                    $participantValues['fee_amount'] = $totalAmount;
                 }
             }
             
@@ -992,7 +1004,7 @@ WHERE  civicrm_participant.id = {$participantId}
                 
                 //get the mail participant ids
                 if ( $mail ) {
-                    $mailedParticipantIds[] = $participantId;
+                    $mailedParticipants[$participantId] = $contactDetails[$participantValues['contact_id']]['display_name'];
                 }
             }
             
@@ -1003,8 +1015,9 @@ WHERE  civicrm_participant.id = {$participantId}
         
         //return result for cron.
         if ( $returnResult ) {
-            $results = array( 'noUpdatedParticipantIds' => $processedParticipantIds,
-                              'noMailedParticipantIds'  => $mailedParticipantIds );
+            $results = array( 'mailedParticipants'    => $mailedParticipants,
+                              'updatedParticipantIds' => $processedParticipantIds ); 
+            
             return $results;
         }
     }
@@ -1088,7 +1101,7 @@ WHERE  civicrm_participant.id = {$participantId}
             }
             $template->assign( 'checksumValue', $checksumValue );
             
-            //support different templates for both mails.
+            //support different templates for different mails.
             $subject = $message = '';
             if ( $mailType == 'Expired' ) {
                 $subject = $template->fetch( 'CRM/Event/Form/ParticipantExpiredSubject.tpl' );
@@ -1096,6 +1109,9 @@ WHERE  civicrm_participant.id = {$participantId}
             } else if ( $mailType == 'Confirm' )  {
                 $subject = $template->fetch( 'CRM/Event/Form/ParticipantConfirmSubject.tpl' );
                 $message = $template->fetch( 'CRM/Event/Form/ParticipantConfirmMessage.tpl' );
+            } else if ( 'Cancelled' ) {
+                $subject = $template->fetch( 'CRM/Event/Form/ParticipantCancelledSubject.tpl' );
+                $message = $template->fetch( 'CRM/Event/Form/ParticipantCancelledMessage.tpl' );
             }
             
             //take a receipt from as event else domain.
