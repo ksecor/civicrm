@@ -235,8 +235,44 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         if ( ! CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup','custom_data_type','id','name' ) ) {
             $template->assign( 'customDataType', true );
         }
+        
         $upgrade =& new CRM_Upgrade_Form( );
         $upgrade->processSQL( $rev );
     }
+    
+    function upgrade_2_3_alpha1( $rev ) {
+        
+        $template = & CRM_Core_Smarty::singleton( );
+
+        $upgrade =& new CRM_Upgrade_Form( );
+        $upgrade->processSQL( $rev );
+        
+        //delete unnecessary activities 
+        require_once 'CRM/Core/OptionGroup.php';
+        $bulkEmailID = CRM_Core_OptionGroup::getValue('activity_type', 'Bulk Email', 'name' );
+ 
+        if ( $bulkEmailID ) {
+            $mailingActivityIds = array( );
+            $query = " 
+SELECT max( ca.id ) as aid , ca.source_record_id sid
+FROM civicrm_activity ca
+WHERE ca.activity_type_id = %1 
+GROUP BY ca.source_record_id";
+                
+            $params = array( 1 => array(  $bulkEmailID, 'Integer' ) );
+            $dao = CRM_Core_DAO::executeQuery( $query, $params );
+            while ( $dao->fetch( ) ) { 
+                $deleteQuery = " 
+DELETE ca.* FROM civicrm_activity ca 
+WHERE ca.source_record_id IS NOT NULL 
+AND ca.activity_type_id = %1
+AND ca.id <> {$dao->aid} AND ca.source_record_id = {$dao->sid}";
+                
+                $deleteParams = array( 1 => array(  $bulkEmailID, 'Integer' ) );    
+                CRM_Core_DAO::executeQuery( $deleteQuery,  $deleteParams );
+            }
+        } 
+    }
+    
 }
 

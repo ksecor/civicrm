@@ -97,3 +97,32 @@ COMMIT;
 
 -- CRM-4407
 ALTER TABLE `civicrm_preferences` ADD `navigation` TEXT NULL AFTER `mailing_backend` ;
+
+
+-CRM-3553
+-- Activity Type for bulk email
+
+SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
+SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @option_group_id_activity_type;
+-- FIXME for multilingual
+
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,                {foreach from=$locales item=locale}label_{$locale}, description_{$locale},{/foreach}      value,                            name,           weight,                           filter,          component_id) VALUES
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Bulk Email',   'Bulk Email Sent.',    {/foreach}     (SELECT @max_val := @max_val+1),  'Bulk Email',    (SELECT @max_val := @max_val+1),  1,                NULL );
+
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,                label,            description,          value,                           name,           weight,                           filter,                   component_id) VALUES
+    (@option_group_id_activity_type, 'Bulk Email',     'Bulk Email Sent.',   (SELECT @max_val := @max_val+1), 'Bulk Email',   (SELECT @max_val := @max_val+1),  1,                         NULL );
+    
+{/if}
+
+-- delete unnecessary activities
+SELECT @bulkEmailID := op.value from civicrm_option_value op where op.name = 'Bulk Email' and op.option_group_id  = @option_group_id_activity_type;
+
+UPDATE civicrm_activity ca
+SET ca.activity_type_id = @bulkEmailID
+WHERE ca.activity_type_id = 3
+     AND ca.source_record_id IS NOT NULL
+     AND ca.id NOT IN ( SELECT cca.activity_id FROM civicrm_case_activity cca );
