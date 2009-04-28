@@ -330,19 +330,23 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
 
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
 
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
-        $rows = array( );
-        $graphRows = array();
+        $dao   = CRM_Core_DAO::executeQuery( $sql );
+        $rows  = $graphRows = array();
+        $count = 0;
         while ( $dao->fetch( ) ) {
             $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
             }
             
-            $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
-            $graphRows[$this->_interval][] = $dao->civicrm_contribution_receive_date_interval;
-            $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
-
+            require_once 'CRM/Utils/PChart.php';
+            if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
+                $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
+                $graphRows[$this->_interval][] = $dao->civicrm_contribution_receive_date_interval;
+                $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
+                $count++;
+            }
+            
             $rows[] = $row;
         }
         $this->formatDisplay( $rows );
@@ -354,6 +358,9 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
         
         require_once 'CRM/Utils/PChart.php';
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
+            foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
+                unset( $graphRows[$ignore][$count-1] );
+            }
             $barchatParams = array('values' => $graphRows, 
                                    'legend' => $this->_interval );
             CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );

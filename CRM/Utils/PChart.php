@@ -352,7 +352,7 @@ class CRM_Utils_PChart
             
             foreach ( $graph as $k => $v ) {
                 $barChart[] = array('values' => $v,
-                                    'legend' => 'Year - ' .$k );
+                                    'legend' => ts('Year - ') .$k );
             }
             break;
             
@@ -364,7 +364,7 @@ class CRM_Utils_PChart
             
             foreach ( $graph as $k => $v ) {
                 $barChart[] = array('values' => $v,
-                                    'legend' => 'Year - ' .$k );
+                                    'legend' => ts('Year - ') .$k );
             }
             break;
             
@@ -376,7 +376,7 @@ class CRM_Utils_PChart
             
             foreach ( $graph as $k => $v ) {
                 $barChart[] = array('values' => $v,
-                                    'legend' => 'Year - ' .$k );
+                                    'legend' => ts('Year - ') .$k );
             }
             break;
             
@@ -387,7 +387,7 @@ class CRM_Utils_PChart
                 
             }
             $barChart[] = array('values' => $graph,
-                                'legend' => 'Over All the Years' );
+                                'legend' => ts('Over All the Years') );
             break;
             
         }
