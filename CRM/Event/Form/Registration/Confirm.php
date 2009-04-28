@@ -383,7 +383,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
             $this->set( 'params', $this->_params );
         }
-
+        
+        // CRM-4320, lets build array of cancelled additional participant ids 
+        // those are drop or skip by primary at the time of confirmation.
+        // get all in and then unset those we want to process.
+        $cancelledIds = $this->_additionalParticipantIds;
+        
         $params = $this->_params;
         $this->set( 'finalAmount' ,$this->_amount );
         $participantCount = array( );
@@ -397,8 +402,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             } else if ( $participantNum ) {
                 $participantCount[$participantNum] = 'participant';
             }
+            
+            //lets get additional participant id to cancel.
+            if ( $this->_allowConfirmation && is_array( $cancelledIds ) ) {
+                $additonalId = CRM_Utils_Array::value( 'participant_id', $record );
+                if ( $additonalId && $key = array_search( $additonalId, $cancelledIds ) ) {
+                    unset( $cancelledIds[$key] ); 
+                }
+            }
         }
-
+        
         $payment = null;
         foreach ( $params as $key => $value ) {
             $this->_values['params'] = array( );
@@ -557,7 +570,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             
             $this->confirmPostProcess( $contactID, $contribution, $payment );
         }
-
+        
+        //update status and send mail to cancelled additonal participants, CRM-4320
+        if ( $this->_allowConfirmation && is_array( $cancelledIds ) && !empty( $cancelledIds ) ) {
+            require_once 'CRM/Event/BAO/Participant.php';
+            require_once 'CRM/Event/PseudoConstant.php';
+            $cancelledId = array_search( 'Cancelled', 
+                                         CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" ) );
+            CRM_Event_BAO_Participant::transitionParticipants( $cancelledIds, $cancelledId );
+        }
+        
         $isTest = false;
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {
             $isTest = true;

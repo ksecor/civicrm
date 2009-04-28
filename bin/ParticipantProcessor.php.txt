@@ -116,7 +116,7 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                         require_once 'CRM/Event/BAO/Participant.php';
                         $ids = array( $participantId );
                         $expiredId = array_search( 'Expired', $expiredStatuses );
-                        $results = CRM_Event_BAO_Participant::transitionParticipants( $ids, $values['status_id'], $expiredId, true );
+                        $results = CRM_Event_BAO_Participant::transitionParticipants( $ids, $expiredId, $values['status_id'], true );
                         $transaction->commit( ); 
                         
                         if ( !empty( $results ) ) {
@@ -168,8 +168,8 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                                 require_once 'CRM/Event/BAO/Participant.php';
                                 $ids = array( $participantId );
                                 $updateStatusId = array_search( 'Pending from waitlist', $pendingStatuses );
-                                $results = CRM_Event_BAO_Participant::transitionParticipants( $ids, $values['status_id'], 
-                                                                                              $updateStatusId, true  );
+                                $results = CRM_Event_BAO_Participant::transitionParticipants( $ids, $updateStatusId, 
+                                                                                              $values['status_id'], true );
                                 //commit the transaction.
                                 $transaction->commit( );
                                 

@@ -240,9 +240,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             // don't allow to add additional during confirmation if not preregistered.
             if ( !$this->_allowConfirmation || $this->_additionalParticipantIds ) {
                 $element = $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'onKeyup' => "allowParticipant()", 'size' => 10, 'maxlength' => 10) );
-                if ( $this->_additionalParticipantIds ) {
-                    $element->freeze( );
-                }
             }
             
             //hack to allow group to register w/ waiting
@@ -426,6 +423,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
              is_numeric( $self->_availableRegistrations ) &&
              CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) {
             $errors['additional_participants'] = ts( "You can register only %1 participant(s)", array( 1=>$self->_availableRegistrations ));
+        }
+        
+        // during confirmation don't allow to increase additional participants, CRM-4320
+        if ( $self->_allowConfirmation && 
+             CRM_Utils_Array::value( 'additional_participants', $fields ) && 
+             is_array( $self->_additionalParticipantIds ) &&
+             $fields['additional_participants'] > count( $self->_additionalParticipantIds ) ) {
+            $errors['additional_participants'] = ts( "Oops it looks like you are trying to increase additional participant(s), <br>You can confirm registration for maximum %1 additional participant(s).", array( 1=>count( $self->_additionalParticipantIds ) ) );
         }
         
         $email = $fields["email-{$self->_bltID}"];

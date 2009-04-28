@@ -151,7 +151,7 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
             $additionalParticipantIds = CRM_Event_BAO_Participant::getAdditionalParticipantIds( $participantId );
             
             $participantIds = array_merge( array( $participantId ), $additionalParticipantIds );
-            $results = CRM_Event_BAO_Participant::transitionParticipants( $participantIds, null, $cancelledId, true );
+            $results = CRM_Event_BAO_Participant::transitionParticipants( $participantIds, $cancelledId, null, true );
             
             $statusMessage = ts( "%1 Event registration(s) has been cancelled.", array( 1 => count( $participantIds ) ) );
             if ( CRM_Utils_Array::value( 'mailedParticipants', $results ) ) {

@@ -1234,7 +1234,7 @@ WHERE  id = $cfID
      *@return array $customProfile array of Additional participant's info OR array of Ids.   
      *@access public  
      */ 
-    function buildCustomProfile( $participantId, $values, $contactId = null, $isTest = false, $isIdsArray = false ) 
+    function buildCustomProfile( $participantId, $values, $contactId = null, $isTest = false, $isIdsArray = false, $skipCancel = true ) 
     {
         $additionalIDs = array();
         $customProfile = array();
@@ -1243,21 +1243,31 @@ WHERE  id = $cfID
         if ( $isIdsArray && $contactId ) {
             $additionalIDs[$participantId] = $contactId; 
         }
-        require_once 'CRM/Event/DAO/Participant.php';
-        $participant   =  & new CRM_Event_DAO_Participant( );
-        $participant->registered_by_id = $participantId;
-        $participant->find();
         
-        while ( $participant->fetch() ) {
-            $additionalIDs[$participant->id] = $participant->contact_id;
-        } 
-        $participant->free( );
+        //hack to skip cancelled participants, CRM-4320
+        $where = "participant.registered_by_id={$participantId}";
+        if ( $skipCancel ) {
+            $cancelStatusId = 0;
+            require_once 'CRM/Event/PseudoConstant.php';
+            $negativeStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'"  ); 
+            $cancelStatusId = array_search( 'Cancelled', $negativeStatuses );
+            $where .= " AND participant.status_id != {$cancelStatusId}";
+        }
+        $query = "
+  SELECT  participant.id, participant.contact_id
+    FROM  civicrm_participant participant
+   WHERE  {$where}";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            $additionalIDs[$dao->id] = $dao->contact_id;
+        }
         
         //return if only array is required.
         if ( $isIdsArray && $contactId ) {
             return $additionalIDs;
         }
-       
+        
         //else build array of Additional participant's information. 
         if ( count($additionalIDs) ) { 
             if ( $values['custom_pre_id'] || $values['custom_post_id'] ) {

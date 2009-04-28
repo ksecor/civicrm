@@ -768,6 +768,7 @@ WHERE  civicrm_participant.id = {$participantId}
         
         $where = "participant.registered_by_id={$primaryParticipantId}";
         if ( $excludeCancel ) {
+            $cancelStatusId = 0;
             $negativeStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'"  ); 
             $cancelStatusId = array_search( 'Cancelled', $negativeStatuses );
             $where .= " AND participant.status_id != {$cancelStatusId}";
@@ -816,14 +817,14 @@ WHERE  civicrm_participant.id = {$participantId}
      * and send mail + create activities.
      *      
      * @param  array $participantIds   participant ids.
-     * @param  int   $fromStatusId     from status id
      * @param  int   $toStatusId       update status id.
+     * @param  int   $fromStatusId     from status id
      *
      * return  void
      * @access public
      * @static
      */
-    static function transitionParticipants( $participantIds, $fromStatusId = null, $toStatusId, $returnResult = false )
+    static function transitionParticipants( $participantIds, $toStatusId, $fromStatusId = null, $returnResult = false )
     {   
         if ( !is_array( $participantIds ) || empty( $participantIds ) ) {
             return;
