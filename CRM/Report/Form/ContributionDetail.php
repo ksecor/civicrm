@@ -44,64 +44,67 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
     protected $_summary = null;
 
     function __construct( ) {
-        $this->_columns = array( 'civicrm_contact'      =>
-                                 array( 'dao'     => 'CRM_Contact_DAO_Contact',
-                                        'fields'  =>
-                                        array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
-                                                                        'required'  => true,
-                                                                        'no_repeat' => true ), ),
-                                        'filters' =>             
-                                        array('sort_name'    => 
-                                              array( 'title'      => ts( 'Contact Name' ),
-                                                     'operator'   => 'like' ) ),
-                                        'grouping'=> 'contact-fields',
-                                        'order_bys'=>             
-                                        array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
-                                                                        'required'  => true ) ),
-                                        ),
-                                 
-                                 'civicrm_contribution' =>
-                                 array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
-                                        'fields'  =>
-                                        array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
-                                                                         'required' => true ),
-                                               'trxn_id'       => array( 'default' => true ),
-                                               'receive_date'  => array( 'default' => true ),
-                                               'receipt_date'  => null,
-                                               ),
-                                        'filters' =>             
-                                        array( 'receive_date' => 
-                                               array( 'default'    => 'this month' ),
-                                               'total_amount' => 
-                                               array( 'title'      => ts( 'Amount Between' ) ),
-                                               ),
-                                        'grouping'=> 'contri-fields',
-                                        ),
+        $this->_columns = 
+            array( 'civicrm_contact'      =>
+                   array( 'dao'     => 'CRM_Contact_DAO_Contact',
+                          'fields'  =>
+                          array( 'display_name' => 
+                                 array( 'title' => ts( 'Contact Name' ),
+                                        'required'  => true,
+                                        'no_repeat' => true ),
+                                 'id'           => 
+                                 array( 'no_display' => true,
+                                        'required'  => true, ), ),
+                          'filters' =>             
+                          array('sort_name'    => 
+                                array( 'title'      => ts( 'Contact Name' ),
+                                       'operator'   => 'like' ) ),
+                          'grouping'=> 'contact-fields',
+                          'order_bys'=>             
+                          array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
+                                                          'required'  => true ) ),
+                          ),
+                   
+                   'civicrm_contribution' =>
+                   array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
+                          'fields'  =>
+                          array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
+                                                           'required' => true ),
+                                 'trxn_id'       => array( 'default' => true ),
+                                 'receive_date'  => array( 'default' => true ),
+                                 'receipt_date'  => null,
+                                 ),
+                          'filters' =>             
+                          array( 'receive_date' => 
+                                 array( 'default'    => 'this month' ),
+                                 'total_amount' => 
+                                 array( 'title'      => ts( 'Amount Between' ) ),
+                                 ),
+                          'grouping'=> 'contri-fields',
+                          ),
+                   
+                   'civicrm_address' =>
+                   array( 'dao' => 'CRM_Core_DAO_Address',
+                          'fields' =>
+                          array( 'street_address'    => null,
+                                 'city'              => null,
+                                 'postal_code'       => null,
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ), 
+                                        'default' => true ),
+                                 'country_id'        => 
+                                 array( 'title' => ts( 'Country' ), ), ),
+                          'grouping'=> 'contact-fields',
+                          ),
 
-                                 'civicrm_address' =>
-                                 array( 'dao' => 'CRM_Core_DAO_Address',
-                                        'fields' =>
-                                        array( 'street_address'    => null,
-                                               'city'              => null,
-                                               'postal_code'       => null,
-                                               'state_province_id' => 
-                                               array( 'title' => ts( 'State/Province' ),
-                                                      'lookup'=> 'CRM_Core_PseudoConstant::stateProvince( $value );' ),
-                                               'country_id'        => 
-                                               array( 'title' => ts( 'Country' ),
-                                                      'lookup'=> 'CRM_Core_PseudoConstant::country( $value );' ),
-                                               ),
-                                        'grouping'=> 'contact-fields',
-                                        ),
-
-                                 'civicrm_email' => 
-                                 array( 'dao' => 'CRM_Core_DAO_Email',
-                                        'fields' =>
-                                        array( 'email' => null),
-                                        'grouping'=> 'contact-fields',
-                                        ),
-                                 );
-
+                   'civicrm_email' => 
+                   array( 'dao' => 'CRM_Core_DAO_Email',
+                          'fields' =>
+                          array( 'email' => null),
+                          'grouping'=> 'contact-fields',
+                          ),
+                   );
+        
         $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Contribution Statistics' ),
                                                                 'type'   => 'checkbox',
                                                                 'default'=> true ),
@@ -128,10 +131,6 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                         $this->_addressField = true;
                     } else if ( $tableName == 'civicrm_email' ) {
                         $this->_emailField = true;
-                    }
-
-                    if ( CRM_Utils_Array::value( 'no_repeat', $field ) ) {
-                        $this->_noRepeats[] = "{$tableName}_{$fieldName}";
                     }
 
                     $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
@@ -278,4 +277,43 @@ SELECT COUNT( contribution.total_amount ) as count,
         parent::postProcess( );
     }
 
+    function alterDisplay( &$rows ) {
+        // custom code to alter rows
+ 
+        $entryFound = false;
+        foreach ( $rows as $rowNum => $row ) {
+            // handle state province
+            if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
+                if ( $value = $row['civicrm_address_state_province_id'] ) {
+                    $rows[$rowNum]['civicrm_address_state_province_id'] = 
+                        CRM_Core_PseudoConstant::stateProvince( $value );
+                }
+                $entryFound = true;
+            }
+
+            // handle country
+            if ( array_key_exists('civicrm_address_country_id', $row) ) {
+                if ( $value = $row['civicrm_address_country_id'] ) {
+                    $rows[$rowNum]['civicrm_address_country_id'] = 
+                        CRM_Core_PseudoConstant::country( $value );
+                }
+                $entryFound = true;
+            }
+
+            // convert display name to links
+            if ( array_key_exists('civicrm_contact_display_name', $row) && 
+                 array_key_exists('civicrm_contact_id', $row) ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view', 
+                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
+                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
+                    $row["civicrm_contact_display_name"] . '</a>';
+            }
+
+            // skip looking further in rows, if first row itself doesn't 
+            // have the column we need
+            if ( !$entryFound ) {
+                break;
+            }
+        }
+    }
 }

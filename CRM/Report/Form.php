@@ -104,6 +104,13 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_noRepeats  = array();
 
     /**
+     * List of fields not to be displayed
+     *
+     * @var array
+     */
+    protected $_noDisplay  = array();
+
+    /**
      * An attribute for checkbox/radio form field layout
      *
      * @var array
@@ -203,6 +210,14 @@ class CRM_Report_Form extends CRM_Core_Form {
                             }
                             $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = 
                                 $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
+
+                            // fill other vars
+                            if ( CRM_Utils_Array::value( 'no_repeat', $field ) ) {
+                                $this->_noRepeats[] = "{$tableName}_{$fieldName}";
+                            }
+                            if ( CRM_Utils_Array::value( 'no_display', $field ) ) {
+                                $this->_noDisplay[] = "{$tableName}_{$fieldName}";
+                            }
                         }
                     }
                 }
@@ -312,10 +327,12 @@ class CRM_Report_Form extends CRM_Core_Form {
         
         foreach ( $this->_columns as $tableName => $table ) {
             foreach ( $table['fields'] as $fieldName => $field ) {
-                if ( isset($table['grouping']) ) { 
-                    $options[$table['grouping']][$field['title']] = $fieldName;
-                } else {
-                    $options[$tableName][$field['title']] = $fieldName;
+                if ( !array_key_exists('no_display', $field) ) {
+                    if ( isset($table['grouping']) ) { 
+                        $options[$table['grouping']][$field['title']] = $fieldName;
+                    } else {
+                        $options[$tableName][$field['title']] = $fieldName;
+                    }
                 }
             } 
         }
@@ -575,25 +592,23 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
+    function alterDisplay( &$rows ) {
+        // custom code to alter rows
+    }
+
     function formatDisplay( &$rows ) {
         // remove duplicates if needed
         $this->removeDuplicates( $rows );
-            
-        // perform look-ups
-        foreach ( $this->_columns as $tableName => $table ) {
-            foreach ( $table['fields'] as $fieldName => $field ) {
-                if ( CRM_Utils_Array::value('lookup', $field) ) {
-                    foreach ( $rows as $rowNum => $row ) {
-                        if ( array_key_exists("{$tableName}_{$fieldName}", $row) ) {
-                            $value = $row["{$tableName}_{$fieldName}"];
-                            if ( $value ) {
-                                eval("\$rows[$rowNum]['{$tableName}_{$fieldName}'] = {$field['lookup']}");
-                            }
-                        } else {
-                            // skip looking further in rows, if first row itself doesn't have the column.  
-                            break;
-                        }
-                    }
+
+        $this->alterDisplay( $rows );
+
+
+        // unset columns not to be displayed.
+        if ( !empty($rows) ) {
+            foreach ( $this->_noDisplay as $noDisplayField ) {
+                foreach ( $rows as $rowNum => $row ) {
+                    unset($rows[$rowNum][$noDisplayField], 
+                          $this->_columnHeaders[$noDisplayField]);
                 }
             }
         }
