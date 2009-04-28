@@ -237,19 +237,23 @@ SELECT COUNT( contribution.total_amount ) as count,
     }
 
     function postProcess( ) {
-        if ( $this->_force ) {
+        $this->_params = $this->controller->exportValues( $this->_name );
+
+        if ( empty( $this->_params ) &&
+             $this->_force ) {
             $this->_params = $this->_formValues;
-        } else {
-            $this->_params = $this->controller->exportValues( $this->_name );
         }
         $this->_formValues = $this->_params ;
+
+        $this->processReportMode( );
 
         $this->select ( );
         $this->from   ( );
         $this->where  ( );
         $this->orderBy( );
+        $this->limit  ( );
 
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_orderBy}";
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_orderBy} {$this->_limit}";
 
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );

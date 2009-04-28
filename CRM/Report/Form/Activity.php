@@ -69,9 +69,9 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                  array( 'dao'     => 'CRM_Activity_DAO_Activity',
                                         'fields'  =>
                                         array(
-                                              'activity_type_id' => array( 'required'  => true ),
-                                              'subject' => array( 'required'  => true ),
-                                              'activity_date_time' => null,
+                                              'activity_type_id' => array( 'default' => true ),
+                                              'subject' => array( 'default' => true ),
+                                              'activity_date_time' => array( 'default' => true ),
                                               ),
                                         
                                         'filters' =>   
@@ -322,20 +322,24 @@ INNER JOIN civicrm_activity {$this->_aliases['civicrm_activity']} ON {$this->_al
     }
 
     function postProcess( ) {
-        if ( $this->_force ) {
+        $this->_params = $this->controller->exportValues( $this->_name );
+
+        if ( empty( $this->_params ) &&
+             $this->_force ) {
             $this->_params = $this->_formValues;
-        } else {
-            $this->_params = $this->controller->exportValues( $this->_name );
         }
         $this->_formValues = $this->_params ;
+
+        $this->processReportMode( );
 
         $this->select ( );
         $this->from   ( );
         $this->where  ( );
         $this->groupBy( );
         $this->orderBy( );
+        $this->limit  ( );
                 
-        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy}";
+        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
         while ( $dao->fetch( ) ) {

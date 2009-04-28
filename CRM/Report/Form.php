@@ -599,34 +599,64 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
-    function postProcess( ) {
+    function processReportMode( ) {
         $buttonName = $this->controller->getButtonName( );
 
         $output = CRM_Utils_Request::retrieve( 'output',
                                                'String', CRM_Core_DAO::$_nullObject );
 
         $this->assign( 'printOnly', false );
-        if ( $this->_printButtonName == $buttonName || $this->_pdfButtonName   == $buttonName ||
-             $output == 'pdf' || $output == 'html' ) {
+        if ( $this->_printButtonName == $buttonName || $output == 'print' ) {
             $this->assign( 'printOnly', true );
+            $this->_reportMode = 'print';
+        } else if ( $this->_pdfButtonName   == $buttonName || $output == 'pdf' ) {
+            $this->assign( 'printOnly', true );
+            $this->_reportMode = 'pdf';
+        } else {
+            $this->_reportMode = 'html';
+        }
 
+    }
+
+    function postProcess( ) {
+        if ( $this->_reportMode == 'print' || $this->_reportMode == 'pdf' ) {
             $templateFile = parent::getTemplateFileName( );
 
             $content =
                 $this->_formValues['report_header'] .
                 CRM_Core_Form::$_template->fetch( $templateFile ) .
                 $this->_formValues['report_footer'] ;
-
-            if ( $this->_printButtonName == $buttonName || $output == 'html' ) {
+            
+            if ( $this->_reportMode == 'print' ) {
                 echo $content;
             } else {
                 require_once 'CRM/Utils/PDF/Utils.php';
                 CRM_Utils_PDF_Utils::html2pdf( $content, "CiviReport.pdf" );
             }
             exit( );
-        } else if ( $this->_instanceButtonName == $buttonName ) {
+        } else {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::postProcess( $this );
+        }
+    }
+
+    function limit( ) {
+        // lets do the pager if in html mode
+        $this->_limit = null;
+        if ( $this->_reportMode == 'html' ) {
+            require_once 'CRM/Utils/Pager.php';
+            $sql    = "SELECT count(*) {$this->_from} {$this->_where}";
+            $count  = CRM_Core_DAO::singleValueQuery( $sql );
+            $params = array( 'total'    => CRM_Core_DAO::singleValueQuery( $sql ),
+                             'rowCount' => 50,
+                             'status'   => ts( 'Contributions %%StatusMessage%%' ) );
+            $pager = new CRM_Utils_Pager( $params );
+            $this->assign_by_ref( 'pager', $pager );
+            
+            list( $offset, $rowCount ) = $pager->getOffsetAndRowCount( );
+            if ( $offset >= 0 && $rowCount >= 0 ) {
+                $this->_limit = " LIMIT $offset, $rowCount ";
+            }
         }
     }
 

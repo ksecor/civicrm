@@ -3,6 +3,7 @@
 <h1>{$reportTitle}</h1>
 {/if}
 <br/>
+{include file="CRM/common/pager.tpl" noForm=1}
    <table class="form-layout">
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header key=field}
