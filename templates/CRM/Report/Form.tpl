@@ -28,11 +28,10 @@
    <fieldset><legend>{ts}Other Options{/ts}</legend>
       <table class="form-layout">
          <tr><td width="25%">{$form.options.html}</td>
-	     <td width="25%">{$form.charts.label}&nbsp;&nbsp;{$form.charts.html}</td></tr>
       </table>
    </fieldset>
    {/if}
-
+  
    <fieldset><legend>{ts}Set Filters{/ts}</legend>
       <table class="form-layout">
       {foreach from=$filters     item=table key=tableName}
@@ -54,6 +53,14 @@
       {/foreach}
       </table>
    </fieldset>
+ 
+   {if $form.charts.html}
+   <fieldset><legend>{ts}Chart Options{/ts}</legend>
+      <table class="form-layout">
+         <tr><td>{$form.charts.label}&nbsp;&nbsp;{$form.charts.html}</td></tr>
+      </table>
+   </fieldset>
+   {/if}
 
    {literal}
    <script type="text/javascript">

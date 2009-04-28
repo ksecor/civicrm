@@ -141,10 +141,6 @@ class CRM_Report_Form extends CRM_Core_Form {
                                          'QUARTER'  => 'Quarter',
                                          'YEAR'     => 'Year'  );
     
-    protected $_charts = array( ''         => 'Tabular',
-                                'barGraph' => 'Bar Graph',
-                                'pieGraph' => 'Pie Graph'
-                                );
     /**
      * 
      */
@@ -396,13 +392,17 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
             $this->addCheckBox( "options", $field['title'], $options, null, 
                                 null, null, null, $this->_fourColumnAttribute );
-            
-            $this->addElement( 'select', "charts", 
-                               ts( 'Chart' ), $this->_charts );
             $this->assign( 'options', $this->_options );
         }
     }
 
+    function addChartOptions( ) {
+        if ( !empty( $this->_charts ) ) {
+            $this->addElement( 'select', "charts", ts( 'Chart' ), $this->_charts );
+            $this->assign( 'charts', $this->_charts );
+        }
+    }
+    
     function addGroupBys( ) {
         $options = $freqElements = array( );
 
@@ -434,6 +434,8 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->addFilters( );
       
         $this->addOptions( );
+
+        $this->addChartOptions( );
 
         $this->addGroupBys( );
 

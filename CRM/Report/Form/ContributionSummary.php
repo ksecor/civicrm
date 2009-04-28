@@ -39,6 +39,11 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
 
     protected $_summary = null;
 
+    protected $_charts = array( ''         => 'Tabular',
+                                'barGraph' => 'Bar Graph',
+                                'pieGraph' => 'Pie Graph'
+                                );
+    
     function __construct( ) {
         $this->_columns = 
             array( 'civicrm_contact'  =>
