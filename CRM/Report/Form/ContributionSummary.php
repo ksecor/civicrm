@@ -88,7 +88,6 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                                                                  'type'   => 'checkbox',
                                                                  'default'=> true ),
                                  );
-        
         parent::__construct( );
     }
 
@@ -172,6 +171,7 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
                             
                         }
                         if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
+                            $this->_interval = $field['title'];
                             $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['title'] = 
                                 $field['title'] . ' Beginning';
                             $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['type']  = 
@@ -180,6 +180,7 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
                                 $this->_params['group_bys_freq'][$fieldName];
                         }
                     }
+                    
                 }
             }
         }
@@ -305,7 +306,6 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
 
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
-
         if ( empty( $this->_params ) &&
              $this->_force ) {
             $this->_params = $this->_formValues;
@@ -323,23 +323,30 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
 
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
+        $graphRows = array();
         while ( $dao->fetch( ) ) {
             $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
 
             }
+            $graphRows[$row['civicrm_contribution_receive_date_start']] = $row['civicrm_contribution_total_amount_sum'];
             $rows[] = $row;
         }
 
         $this->formatDisplay( $rows );
         $this->assign( 'grandStat', $this->grandTotal( $rows ) );
-
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
-
         $this->assign( 'statistics', $this->statistics( $rows ) );
+        
+        $barchatParams = array('values' => $graphRows, 
+                               'legend' => $this->_interval );
 
+        require_once 'CRM/Utils/PChart.php';
+        if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
+            CRM_Utils_PChart::chart($barchatParams, $this->_params['charts']);
+        }
         parent::postProcess( );
     }
 

@@ -62,6 +62,7 @@ class CRM_Utils_PChart
         if ( empty( $params ) ) {
             return;
         }
+
         //configure the directory for pChart.
         $config =& CRM_Core_Config::singleton( );
 
@@ -338,6 +339,41 @@ class CRM_Utils_PChart
         }
         
         return $filesValues;
+    }
+
+    static function chart( $params, $type ) 
+    {
+        switch ( $params['legend'] ) {
+        case 'Month' :
+            foreach ( $params['values'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $key );
+                $m = (int) $month;
+                $chart[$year][CRM_Utils_Date::getAbbrMonthNames($m)] = $val;
+            }
+            
+            foreach ( $chart as $k => $v ) {
+                $barChart[] = array('values' => $v,
+                                    'legend' => 'Year - ' .$k );
+            }
+            break;
+        
+        case 'Quarter' :
+            foreach ( $params['values'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $key );
+                $m = (int) $month;
+                $quarter = ($m+2)/3;
+                $chart[$year]['Quarter ' .$quarter] = $val;
+            }
+            
+            foreach ( $chart as $k => $v ) {
+                $barChart[] = array('values' => $v,
+                                    'legend' => 'Year - ' .$k );
+            }
+            break;
+
+        }
+
+        self::$type($barChart);
     }
 }
 

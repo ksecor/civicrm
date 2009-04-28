@@ -278,7 +278,7 @@ class CRM_Utils_Date
      *
      * @static
      */
-    static function &getAbbrMonthNames()
+    static function &getAbbrMonthNames($month=false)
     {
         static $abbrMonthNames;
         if (!isset($abbrMonthNames)) {
@@ -288,6 +288,9 @@ class CRM_Utils_Date
             for ($i = 1; $i <= 12; $i++) {
                 $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i, 10, 1970 ));
             }
+        }
+        if ( $month ) {
+            return $abbrMonthNames[$month];
         }
         return $abbrMonthNames;
     }

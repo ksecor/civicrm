@@ -140,7 +140,11 @@ class CRM_Report_Form extends CRM_Core_Form {
                                          'YEARWEEK' => 'Week',
                                          'QUARTER'  => 'Quarter',
                                          'YEAR'     => 'Year'  );
-
+    
+    protected $_charts = array( ''         => 'Tabular',
+                                'barGraph' => 'Bar Graph',
+                                'pieGraph' => 'Pie Graph'
+                                );
     /**
      * 
      */
@@ -392,6 +396,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
             $this->addCheckBox( "options", $field['title'], $options, null, 
                                 null, null, null, $this->_fourColumnAttribute );
+            
+            $this->addElement( 'select', "charts", 
+                               ts( 'Chart' ), $this->_charts );
             $this->assign( 'options', $this->_options );
         }
     }

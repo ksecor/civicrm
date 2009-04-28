@@ -27,7 +27,8 @@
    {if $form.options.html}
    <fieldset><legend>{ts}Other Options{/ts}</legend>
       <table class="form-layout">
-         <tr><td width="25%">{$form.options.html}</td></tr>
+         <tr><td width="25%">{$form.options.html}</td>
+	     <td width="25%">{$form.charts.label}&nbsp;&nbsp;{$form.charts.html}</td></tr>
       </table>
    </fieldset>
    {/if}
