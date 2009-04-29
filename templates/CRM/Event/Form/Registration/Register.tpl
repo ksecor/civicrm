@@ -101,6 +101,12 @@
     <tr>
 	<td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td>
     </tr>
+    {if $form.allow_waiting and !$paidEvent}
+    <tr>
+        <td>&nbsp;</td>
+        <td>{$form.allow_waiting.html}&nbsp;{$form.allow_waiting.label}</td>
+    </tr>
+    {/if}
 </table>
 {if $form.additional_participants.html}
     <div id="noOfparticipants_show">
@@ -209,6 +215,9 @@
 	hide( 'noOfparticipants_show' );
     {/literal} {/if}{literal}
 
+     {/literal}{if $form.allow_waiting}{literal}
+     allowWaiting( )
+     {/literal} {/if}{literal}
      function allowWaiting( )
      {	
 	if ( document.getElementsByName("allow_waiting")[0].checked ) {

@@ -161,6 +161,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         
         //fix for CRM-3088, default value for discount set.      
+        $discountId = null;
         if ( ! empty( $this->_values['discount'] ) ){
             require_once 'CRM/Core/BAO/Discount.php';
             $discountId  = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
@@ -201,7 +202,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $hasAdditionalParticipants = false;
         if ( $this->_allowConfirmation ) { 
             require_once 'CRM/Event/Form/EventFees.php';
-            $this->_contactID = $contactID;
+            $this->_contactID  = $contactID;
+            $this->_discountId = $discountId;
             $this->_defaults = array_merge( $this->_defaults, CRM_Event_Form_EventFees::setDefaultValues( $this ) );
             if ( $this->_additionalParticipantIds  ) {
                 $hasAdditionalParticipants = true;
@@ -243,10 +245,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             
             //hack to allow group to register w/ waiting
-            if ( is_numeric( $this->_availableRegistrations )              
+            if ( !$this->_allowConfirmation && 
+                 is_numeric( $this->_availableRegistrations )              
                  && CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) {
+                $attribute = null;
+                if ( $this->_values['event']['is_monetary'] ) {
+                    $attribute = array('onclick' => "allowWaiting( );" );
+                }
                 $this->addElement( 'checkbox', 'allow_waiting', ts( 'Be a part of waiting list.' ), 
-                                   null, array('onclick' => "allowWaiting( );" ) ); 
+                                   null, $attribute ); 
                 
                 CRM_Core_Session::setStatus( ts("This event has only %1 spaces left. if you register as a group and register more than %1, the whole group will be put on the waitlist.", array( 1 => $this->_availableRegistrations ) ) );
             }
@@ -419,7 +426,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         self::checkRegistration($fields, $self);
        
         //check for availability of registrations.
-        if ( !CRM_Utils_Array::value( 'allow_waiting', $fields ) &&
+        if ( !$self->_allowConfirmation &&
+             !CRM_Utils_Array::value( 'allow_waiting', $fields ) &&
              is_numeric( $self->_availableRegistrations ) &&
              CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) {
             $errors['additional_participants'] = ts( "You can register only %1 participant(s)", array( 1=>$self->_availableRegistrations ));
@@ -532,7 +540,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             
             //is pay later and priceset is used avoid credit card and
             //billing address validation  
-            if ( ( CRM_Utils_Array::value( 'is_pay_later', $fields ) && $fields['priceSetId'] ) || 
+            if ( ( ( CRM_Utils_Array::value( 'is_pay_later', $fields ) || 
+                     CRM_Utils_Array::value( 'allow_waiting', $fields ) ) && $fields['priceSetId'] ) || 
                  ( !$self->_allowConfirmation && ( $self->_requireApproval || $self->_allowWaitlist ) ) ) {
                 return empty( $errors ) ? true : $errors;
             }
