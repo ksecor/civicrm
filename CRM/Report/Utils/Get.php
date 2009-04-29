@@ -130,17 +130,19 @@ class CRM_Report_Utils_Get {
         // process only group_bys for now
         $flag = false;
 
-        foreach ( $fieldGrp as $tableName => $fields ) {
-            $groupBys = CRM_Utils_Array::value( "gby", $_GET, 'like' );
-            $groupBys = explode( ' ' , $groupBys );
-            if ( !empty($groupBys) ) { 
-                if ( !$flag ) {
-                    unset( $defaults['group_bys'] );
-                    $flag = true;
-                }
-                foreach( $groupBys as $gby ) {
-                    if ( array_key_exists($gby, $fields) ) {
-                        $defaults['group_bys'][$gby] = 1;
+        if ( is_array($fieldGrp) ) {
+            foreach ( $fieldGrp as $tableName => $fields ) {
+                $groupBys = CRM_Utils_Array::value( "gby", $_GET, 'like' );
+                $groupBys = explode( ' ' , $groupBys );
+                if ( !empty($groupBys) ) { 
+                    if ( !$flag ) {
+                        unset( $defaults['group_bys'] );
+                        $flag = true;
+                    }
+                    foreach( $groupBys as $gby ) {
+                        if ( array_key_exists($gby, $fields) ) {
+                            $defaults['group_bys'][$gby] = 1;
+                        }
                     }
                 }
             }
