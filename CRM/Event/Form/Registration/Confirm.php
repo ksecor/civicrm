@@ -625,14 +625,17 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $registerByID,
                                                                       null, $primaryContactId, $isTest,
                                                                       true );
-           
+            //lets send mails to all with meanigful text, CRM-4320.
+            $this->assign( 'isOnWaitlist', $this->_allowWaitlist );
+            $this->assign( 'isRequireApproval', $this->_requireApproval );
+            
             foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
                     //set as Primary Participant
                     $this->assign ( 'isPrimary' , 1 );
                     //build an array of custom profile and assigning it to template.
                     $customProfile = CRM_Event_BAO_Event::buildCustomProfile( $participantID, $this->_values, null, $isTest );
-                                                     
+                    
                     if ( count($customProfile) ) {
                         $this->assign( 'customProfile', $customProfile );
                         $this->set   ( 'customProfile', $customProfile );
@@ -662,12 +665,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $this->_values['params']['additionalParticipant'] = true;
                 }
                 
-                //send Confirmation mail to Primary & additional Participants if exists
-                //only send mail when registration has been confirmed
-                //or no approval require or no waiting list, CRM-4319, CRM-4326.
-                if ( $this->_allowConfirmation || !( $this->_requireApproval || $this->_allowWaitlist ) ) {
-                    CRM_Event_BAO_Event::sendMail( $contactId, $this->_values, $participantID, $isTest );
-                }
+                //send mail to primary as well as additional participants.
+                CRM_Event_BAO_Event::sendMail( $contactId, $this->_values, $participantID, $isTest );
             }
                 
         }

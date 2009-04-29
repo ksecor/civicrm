@@ -14,6 +14,21 @@
 {ts}Please print this confirmation for your records.{/ts}
 {/if}
 
+{if $isOnWaitlist}
+
+===========================================================
+Your registration is on waiting list. If event get enough free spaces, will send you a mail to confirm your registration. 
+You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.
+===========================================================
+{/if}
+{if $isRequireApproval}
+
+===========================================================
+Your registration require approval. If registration get approved, will send you a mail to confirm your registration. 
+You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.
+===========================================================
+{/if} 
+
 ===========================================================
 {ts}Event Information and Location{/ts}
 
