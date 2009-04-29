@@ -263,6 +263,7 @@
                                             return false;
                                         });
                                         cj("#contactDetail").show();
+										
                                     });
 
                                     </script>
@@ -276,6 +277,8 @@
                                         <input class="default" name="_qf_Edit_upload_view" value="Save" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_upload_new" value="Save and New" type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="_qf_Edit_cancel" value="Cancel" type="submit" style="font-weight: normal;" />
                                     </div>
                                     
+									<div align="right" class="action"><a href="#" onClick="cj('#addressBlock').show();cj('#commBlock').show();cj('#notesBlock').show(); ">Expand all tabs</a></div>
+									
                                     <div id="name">
                                         <div class="accordion ui-accordion ui-widget
                                     ui-helper-reset">
@@ -342,10 +345,11 @@
                                                             <input maxlength="64" size="20" name="job_title" type="text" id="job_title"
                                                         value="public relations"/>
                                                         </td>
-                                                        <td colspan="2"><label for="home_URL">Website</label><br />
-                                                            <input maxlength="128"
-                                                        value="http://somefoundation.org/"
-                                                        size="28" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" /></td>
+                                                        <td colspan="2"><label for="nick_name">Nick Name</label><br />
+                                                                <input maxlength="128" size="45" name="nick_name" type="text" id="nick_name" class="big" />
+														
+														
+														</td>
                                                     </tr>
                                                 </table>
                                                 <br/>
@@ -358,9 +362,9 @@
                                                     12px;">Email</span>
                                                       &nbsp;
                                                       
-						<a style="font-size: 10px;"
+						<div class="action"><a style="font-size: 10px;"
                                                     href="#"
-                                                    id="show-email-2">add</a>                                                      
+                                                    id="show-email-2">add</a></div>                                                      
                                                       
                                                       </td>
                                                       <td align="center"
@@ -581,6 +585,12 @@
 
                                                <td></td>         
                                                     </tr>
+													<tr><td>
+													<label for="home_URL">Website</label><br />
+                                                            <input maxlength="128"
+                                                        value="http://somefoundation.org/"
+                                                        size="28" onfocus="if (!this.value) this.value='http://'; else return false" onblur="if ( this.value == 'http://') this.value=''; else return false" name="home_URL" type="text" id="home_URL" />
+													</td></tr>
 
                                                 </table>
 
@@ -736,7 +746,7 @@
 
                                                 <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Communication Preferences</a></h3>
 
-                                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+                                            <div id="commBlock" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
                                             
                                                     <table class="form-layout-compressed" >
                                                         <tr>
@@ -749,8 +759,7 @@
                                                             <option value="4">Customized</option>
                                                             </select>
                                                             </td>
-                                                            <td><label for="nick_name">Nick Name</label><br />
-                                                                <input maxlength="128" size="45" name="nick_name" type="text" id="nick_name" class="big" /></td>
+                                                            <td></td>
                                                         </tr>
                                                         <tr>
                                                             <td><label>Privacy</label><br />
@@ -774,7 +783,7 @@
                                                     </div> 
                                             <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Contact Source, IDs, and Notes</a></h3>
 
-                                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+                                            <div id="notesBlock" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
                                                     <table class="form-layout-compressed">
                                                     <tr class="last-row">
                                                         <td><label for="contact_source">Source</label><br />
