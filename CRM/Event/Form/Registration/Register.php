@@ -753,6 +753,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         $this->_participantInfo   = array();
+        
+        // CRM-4320, lets build array of cancelled additional participant ids 
+        // those are drop or skip by primary at the time of confirmation.
+        // get all in and then unset those are confirmed.
+        $cancelledIds = $this->_additionalParticipantIds;
+        
         foreach ( $params as $key => $value ) {
             if ( $value != 'skip') {
                 $fields = null;
@@ -799,8 +805,26 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 $this->set( 'value', $value );
                 $this->confirmPostProcess( $contactID, null, null );
+                
+                //lets get additional participant id to cancel.
+                if ( $this->_allowConfirmation && is_array( $cancelledIds ) ) {
+                    $additonalId = CRM_Utils_Array::value( 'participant_id', $value );
+                    if ( $additonalId && $key = array_search( $additonalId, $cancelledIds ) ) {
+                        unset( $cancelledIds[$key] ); 
+                    }
+                }
             }
         }
+        
+        // update status and send mail to cancelled additonal participants, CRM-4320
+        if ( $this->_allowConfirmation && is_array( $cancelledIds ) && !empty( $cancelledIds ) ) {
+            require_once 'CRM/Event/BAO/Participant.php';
+            require_once 'CRM/Event/PseudoConstant.php';
+            $cancelledId = array_search( 'Cancelled', 
+                                         CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" ) );
+            CRM_Event_BAO_Participant::transitionParticipants( $cancelledIds, $cancelledId );
+        }
+        
         //set information about additional participants if exists
         if ( count($this->_participantInfo) ){
             $this->set( 'participantInfo', $this->_participantInfo );
