@@ -347,37 +347,31 @@ class CRM_Utils_PChart
         case 'Month' :
             foreach ( $rows['receive_date'] as $key => $val ) {
                 list( $year, $month ) = explode( '-', $val );
-                $graph[$year][$rows['Month'][$key]] = $rows['value'][$key];
+                $graph[substr($rows['Month'][$key],0,3) .' '. $year ] = $rows['value'][$key];
             }
             
-            foreach ( $graph as $k => $v ) {
-                $barChart[] = array('values' => $v,
-                                    'legend' => ts('Year - ') .$k );
-            }
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Contribution Summary') );
             break;
             
         case 'Quarter' :
             foreach ( $rows['receive_date'] as $key => $val ) {
                 list( $year, $month ) = explode( '-', $val );
-                $graph[$year]['Quarter '. $rows['Quarter'][$key]] = $rows['value'][$key];
+                $graph['Quarter '. $rows['Quarter'][$key] .' of '. $year ] = $rows['value'][$key];
             }
             
-            foreach ( $graph as $k => $v ) {
-                $barChart[] = array('values' => $v,
-                                    'legend' => ts('Year - ') .$k );
-            }
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Contribution Summary') );
             break;
             
         case 'Week' :
             foreach ( $rows['receive_date'] as $key => $val ) {
                 list( $year, $month ) = explode( '-', $val );
-                $graph[$year]['Week '. $rows['Week'][$key]] = $rows['value'][$key];
+                $graph['Week '. $rows['Week'][$key] .' of '. $year ] = $rows['value'][$key];
             }
             
-            foreach ( $graph as $k => $v ) {
-                $barChart[] = array('values' => $v,
-                                    'legend' => ts('Year - ') .$k );
-            }
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Contribution Summary') );
             break;
             
         case 'Year' :
@@ -387,7 +381,7 @@ class CRM_Utils_PChart
                 
             }
             $barChart[] = array('values' => $graph,
-                                'legend' => ts('Over All the Years') );
+                                'legend' => ts('Contribution Summary') );
             break;
             
         }
