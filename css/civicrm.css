@@ -817,8 +817,8 @@ div.crm-pager a {
   padding-left: 3px;
   border: 1px solid #92B6EC;
   background-color: #fff;
-  background-position: middle left;
   white-space: nowrap;
+  overflow: hidden;  
 }
 
 .block-civicrm div#recently-viewed ul li a {
