@@ -362,6 +362,8 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
             }
             
             $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
+            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+
         }
         parent::postProcess( );
     }
