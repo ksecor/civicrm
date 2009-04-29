@@ -102,21 +102,21 @@ class CRM_Report_Utils_Get {
         }
     }
 
-    function process( &$filters, &$defaults ) {
+    function processFilter( &$fieldGrp, &$defaults ) {
         // process only filters for now
-        foreach ( $filters as $tableName => $fields ) {
+        foreach ( $fieldGrp as $tableName => $fields ) {
             foreach ( $fields as $fieldName => $field ) {
                 switch ( $field['type'] ) {
-
+                    
                 case CRM_Utils_Type::T_INT:
                 case CRM_Utils_Type::T_MONEY:
                     self::intParam( $fieldName, $field, $defaults );
                     break;
-
+                    
                 case CRM_Utils_Type::T_STRING:
                     self::stringParam( $fieldName, $field, $defaults );
                     break;
-
+                    
                 case CRM_Utils_Type::T_DATE:
                 case CRM_Utils_Type::T_DATE | CRM_Utils_Type::T_TIME:
                     self::dateParam( $fieldName, $field, $defaults );
@@ -126,5 +126,24 @@ class CRM_Report_Utils_Get {
         }
     }
 
+    function processGroupBy( &$fieldGrp, &$defaults ) {
+        // process only group_bys for now
+        $flag = false;
 
+        foreach ( $fieldGrp as $tableName => $fields ) {
+            $groupBys = CRM_Utils_Array::value( "gby", $_GET, 'like' );
+            $groupBys = explode( ' ' , $groupBys );
+            if ( !empty($groupBys) ) { 
+                if ( !$flag ) {
+                    unset( $defaults['group_bys'] );
+                    $flag = true;
+                }
+                foreach( $groupBys as $gby ) {
+                    if ( array_key_exists($gby, $fields) ) {
+                        $defaults['group_bys'][$gby] = 1;
+                    }
+                }
+            }
+        }
+    }
 }

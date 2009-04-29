@@ -149,7 +149,6 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function preProcess( ) {
-
         $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
 
         if ( $this->_id ) {
@@ -227,6 +226,10 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( array_key_exists('filters', $table) ) {
                 $this->_filters[$tableName] = $this->_columns[$tableName]['filters'];
             }
+
+            if ( array_key_exists('group_bys', $table) ) {
+                $groupBys[$tableName] = $this->_columns[$tableName]['group_bys'];
+            }
         }
 
         if ( $this->_force ) {
@@ -234,8 +237,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         require_once 'CRM/Report/Utils/Get.php';
-        CRM_Report_Utils_Get::process( $this->_filters,
-                                       $this->_defaults );
+        CRM_Report_Utils_Get::processFilter( $this->_filters,
+                                             $this->_defaults );
+        CRM_Report_Utils_Get::processGroupBy( $groupBys,
+                                              $this->_defaults );
 
         if ( $this->_force ) {
             $this->_formValues = $this->_defaults;
@@ -259,7 +264,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                         if ( $freeze ) {
                             // find element object, so that we could use quickform's freeze method 
                             // for required elements
-                            $obj = $this->getElementFromGroup("select_columns",
+                            $obj = $this->getElementFromGroup("fields",
                                                               $fieldName);
                             if ( $obj ) {
                                 $freezeGroup[] = $obj;
