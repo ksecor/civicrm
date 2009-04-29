@@ -812,6 +812,30 @@ WHERE  civicrm_participant.id = {$participantId}
     }
     
     /**
+     * Function for update status for given participant ids
+     *      
+     * @param  int $participantIds  array of participant ids
+     * @param  int $statusId status id for participant
+     * return void
+     * @access public
+     * @static
+     */
+    static function updateStatus( $participantIds, $statusId ) 
+    {    
+        if ( !is_array( $participantIds ) || empty( $participantIds ) || !$statusId ) {
+            return;
+        }
+        $participantIdClause = "( " . implode( ',', $participantIds ) . " )";
+        
+        $query = "
+UPDATE  civicrm_participant 
+   SET  status_id = {$statusId}  
+ WHERE  id IN {$participantIdClause}";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
+    }
+    
+    /*
      * Function takes participant ids and statuses
      * update status from $fromStatusId to $toStatusId 
      * and send mail + create activities.
@@ -958,6 +982,7 @@ WHERE  civicrm_participant.id = {$participantId}
         
         //send mails and update status.
         foreach ( $participantDetails as $participantId => $participantValues ) {
+            $updateParticipantIds = array( );
             if ( in_array( $participantId,  $processedParticipantIds ) ) {
                 continue;
             }
@@ -979,6 +1004,7 @@ WHERE  civicrm_participant.id = {$participantId}
                                 $contactDetails[$participantDetails[$additonalId]['contact_id']]['display_name'];
                         }
                     }
+                    $updateParticipantIds[] = $additonalId;
                     $processedParticipantIds[] = $additonalId;
                 }
                 
@@ -1010,7 +1036,8 @@ SELECT  civicrm_contribution.total_amount
             }
             
             //now update status of group/one at once.
-            self::updateParticipantStatus( $participantId, $toStatusId );
+            $updateParticipantIds[] = $participantId;
+            self::updateStatus( $updateParticipantIds, $toStatusId );
             $processedParticipantIds[] = $participantId;
         }
         
