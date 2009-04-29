@@ -1385,12 +1385,12 @@ class CRM_Utils_Date
      */
     function intervalAdd($unit, $interval, $date, $dontCareTime = false ) 
     {  
-        $hours   = $date['H'];
-        $minutes = $date['i'];
-        $seconds = $date['s'];
-        $month   = $date['M'];
-        $day     = $date['d'];
-        $year    = $date['Y'];
+        $hours   = CRM_Utils_Array::value( 'H', $date );
+        $minutes = CRM_Utils_Array::value( 'i', $date );
+        $seconds = CRM_Utils_Array::value( 's', $date );
+        $month   = CRM_Utils_Array::value( 'M', $date );
+        $day     = CRM_Utils_Array::value( 'd', $date );
+        $year    = CRM_Utils_Array::value( 'Y', $date );
         
         $date = mktime ($hours, $minutes, $seconds, $month, $day, $year);
        

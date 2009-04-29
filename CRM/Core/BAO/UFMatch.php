@@ -201,9 +201,11 @@ WHERE     openid = %1";
                 } else {
                     $mail = 'email';
                 }
-
-                $params = array( 'email-Primary'  => $user->$mail );
-
+                
+                if ( is_Object($user) ) {
+                    $params = array( 'email-Primary'  => $user->$mail );
+                }
+                
                 if ( $ctype == 'Organization' ) {
                     $params['organization_name'] = $uniqId;
                 } else if ( $ctype == 'Household' ) {
