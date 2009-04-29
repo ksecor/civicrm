@@ -362,9 +362,9 @@
                                                     12px;">Email</span>
                                                       &nbsp;
                                                       
-						<div class="action"><a style="font-size: 10px;"
+						<a style="font-size: 10px; color:#A9290A;"
                                                     href="#"
-                                                    id="show-email-2">add</a></div>                                                      
+                                                    id="show-email-2">add</a>                                                   
                                                       
                                                       </td>
                                                       <td align="center"
@@ -372,13 +372,13 @@
                                                       bottom;
                                                       padding-right: 10px;
                                                       padding-left: 10px">On
-                                                      Hold?</td>
+                                                      Hold?  <img src="../../i/quiz.png" /></td>
                                                       <td align="center" style="vertical-align:
                                                       bottom;
                                                       padding-right: 10px;
                                                       padding-left: 10px">
                                                       Bulk
-                                                      Mailings?</td>                                                      
+                                                      Mailings?  <img src="../../i/quiz.png" /></td>                                                      
                                                       <td width="20%"                                                       style="vertical-align:
                                                       bottom;
                                                       padding-right: 10px;
@@ -452,7 +452,7 @@
                                                         value=""
                                                     type="radio"></td>
 
-                                               <td><a href="#" id="hide-email-2">remove</a></td>                                                               
+                                               <td><a style="font-size: 10px; color:#A9290A;" href="#" id="hide-email-2">remove</a></td>                                                               
                                                     </tr>
                                                     
                                                     
@@ -465,7 +465,7 @@
                                                     12px;">Phone</span>
                                                       &nbsp;
                                                       
-						<a style="font-size: 10px;"
+						<a style="font-size: 10px; color:#A9290A;"
                                                     href="#"
                                                     onclick="cj('#row3').show();cj('#show2').hide();return
                                                     false;">add</a>                                                      
@@ -531,7 +531,7 @@
                                                     12px;">Instant messenger</span>
                                                       &nbsp;
                                                       
-						<a style="font-size: 10px;"
+						<a style="font-size: 10px; color:#A9290A;"
                                                     href="#"
                                                     onclick="cj('#row3').show();cj('#show2').hide();return
                                                     false;">add</a>                                                      
@@ -807,7 +807,75 @@
                                             <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Demographics</a></h3>
                                             <div></div>
                                             <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">Tags and Groups</a></h3>
-                                            <div></div>
+                                            <div  class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" id="groupsTags">
+											
+
+											<table style="border: 0px">
+											<tr><td width="70%">											
+																						
+											<div class="label">Group(s)</div>
+											<table style="width: auto;">
+											<tbody>
+											<tr class="odd-row">
+											<td><input name="group[1]" value="" type="hidden"><input skiplabel="1" id="group[1]" name="group[1]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Administrators</strong><br/><div style="font-size: 10px">Contacts in this group are assigned Administrator role permissions. And this one has really long description.<div></td>
+											</tr>
+											<tr class="even-row">
+											<td><input name="group[2]" value="" type="hidden"><input skiplabel="1" id="group[2]" name="group[2]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Newsletter Subscribers</strong></td>
+											</tr>
+											<tr class="odd-row">
+											<td><input name="group[3]" value="" type="hidden"><input skiplabel="1" id="group[3]" name="group[3]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Summer Program Volunteers</strong></td>
+											</tr>
+											<tr class="even-row">
+											<td><input name="group[4]" value="" type="hidden"><input skiplabel="1" id="group[4]" name="group[4]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Advisory Board</strong></td>
+											</tr>
+											<tr class="odd-row">
+											<td><input name="group[5]" value="" type="hidden"><input skiplabel="1" id="group[5]" name="group[5]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Yet another group</strong><br/><div style="font-size: 10px">Just some description.</div></td>
+											</tr>
+											<tr class="even-row">
+											<td><input name="group[6]" value="" type="hidden"><input skiplabel="1" id="group[6]" name="group[6]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Some group</strong></td>
+											</tr>
+											</tbody>
+											</table>
+											
+											</td><td width="30%">
+											
+											<div class="label">Tag(s)</div>
+											<table style="width: auto;">
+											<tbody>
+											<tr class="odd-row">
+											<td><input name="group[1]" value="" type="hidden"><input skiplabel="1" id="group[1]" name="group[1]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Company</strong></td>
+											</tr>
+											<tr class="even-row">
+											<td><input name="group[2]" value="" type="hidden"><input skiplabel="1" id="group[2]" name="group[2]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Government Entity</strong></td>
+											</tr>
+											<tr class="odd-row">
+											<td><input name="group[3]" value="" type="hidden"><input skiplabel="1" id="group[3]" name="group[3]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Major Donor</strong></td>
+											</tr>
+											<tr class="even-row">
+											<td><input name="group[4]" value="" type="hidden"><input skiplabel="1" id="group[4]" name="group[4]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Non-Profit</strong></td>
+											</tr>
+											<tr class="odd-row">
+											<td><input name="group[5]" value="" type="hidden"><input skiplabel="1" id="group[5]" name="group[5]" value="1" class="form-checkbox" type="checkbox"></td>
+											<td><strong>Volunteer</strong></td>
+											</tr>
+											</tbody>
+											</table>
+											
+											
+											</td>
+											</table>
+											
+											</div>
                                         </div>
                                             <br />
                                         <div class="crm-submit-buttons" style="margin-bottom: 10px;">
