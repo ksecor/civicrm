@@ -360,9 +360,8 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
             foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
                 unset( $graphRows[$ignore][$count-1] );
             }
-            $barchatParams = array('values' => $graphRows, 
-                                   'legend' => $this->_interval );
-            CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
+            
+            $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
         }
         parent::postProcess( );
     }

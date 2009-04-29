@@ -140,9 +140,14 @@
 
 {/if} {* NO print section ends *}
 
-
-{* search result listing *}
-{include file="CRM/Report/Form/Layout/Table.tpl"}
+{if $form.charts.value[0] eq 'pieGraph'}
+    {*include file="CRM/Report/Form/Layout/PieGraph.tpl"*}
+{elseif $form.charts.value[0] eq 'barGraph'}
+    {*include file="CRM/Report/Form/Layout/BarGraph.tpl"*}
+{else}
+   {* search result listing *}
+   {include file="CRM/Report/Form/Layout/Table.tpl"}
+{/if}
 
 </div>
 {* special div ends *}

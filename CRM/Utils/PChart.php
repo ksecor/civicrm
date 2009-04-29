@@ -391,7 +391,7 @@ class CRM_Utils_PChart
             break;
             
         }
-        self::$chart($barChart);
+        return self::$chart($barChart);
     }
     
 }
