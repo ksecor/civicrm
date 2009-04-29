@@ -625,9 +625,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $registerByID,
                                                                       null, $primaryContactId, $isTest,
                                                                       true );
-            //lets send mails to all with meanigful text, CRM-4320.
-            $this->assign( 'isOnWaitlist', $this->_allowWaitlist );
-            $this->assign( 'isRequireApproval', $this->_requireApproval );
+            //lets send  mails to all with meanigful text, CRM-4320.
+            $isOnWaitlist = $isRequireApproval = false; 
+            if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
+                $isOnWaitlist = true;
+            }
+            if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+                $isRequireApproval = true;
+            }
+            $this->assign( 'isOnWaitlist', $isOnWaitlist );
+            $this->assign( 'isRequireApproval', $isRequireApproval );
             
             foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
