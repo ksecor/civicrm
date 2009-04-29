@@ -60,7 +60,12 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
      */
     protected $_userContext;
 
-
+    /**
+     * variable to store previous status id.
+     *
+     */
+    protected $_fromStatusIds;
+    
     /**
      * build all the data structures needed to build the form
      *
@@ -194,6 +199,12 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             require_once 'CRM/Event/BAO/Participant.php';
             $details[$participantId] = CRM_Event_BAO_Participant::participantDetails( $participantId );
             CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $participantId, 'Event');
+
+            //get the from status ids, CRM-4323
+            if ( array_key_exists( 'participant_status_id', $this->_fields ) ) {
+                $this->_fromStatusIds[$participantId] = 
+                    CRM_Utils_Array::value( "field[$participantId][participant_status_id]", $defaults );
+            }
         }
         
         $this->assign('details',   $details);
@@ -236,10 +247,20 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 if ( $value['participant_role_id'] ) {
                     $value['role_id'] = $value['participant_role_id'];
                 } 
-                
+
+                //need to send mail when status change
+                $statusChange = false;
                 if ( $value['participant_status_id'] ) {
                     $value['status_id'] = $value['participant_status_id'];
-                } 
+                    $fromStatusId = CRM_Utils_Array::value( $key, $this->_fromStatusIds );
+                    if ( !$fromStatusId ) {
+                        $fromStatusId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $key, 'status_id');
+                    }
+                    
+                    if ( $fromStatusId != $value['status_id'] ) {
+                        $statusChange = true;
+                    }
+                }
                 
                 if ( $value['participant_source'] ) {
                     $value['source'] = $value['participant_source'];
@@ -248,7 +269,12 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 unset($value['participant_status_id']);
                 unset($value['participant_source']);
                 
-                CRM_Event_BAO_Participant::create( $value );  
+                CRM_Event_BAO_Participant::create( $value );
+                
+                //need to trigger mails when we change status
+                if ( $statusChange ) {
+                    CRM_Event_BAO_Participant::transitionParticipants( array( $key ), $value['status_id'], $fromStatusId ); 
+                }
             }
             CRM_Core_Session::setStatus("Your updates have been saved.");  
         } else {
