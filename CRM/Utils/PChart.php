@@ -351,7 +351,7 @@ class CRM_Utils_PChart
             }
             
             $barChart[] = array('values' => $graph,
-                                'legend' => ts('Contribution Summary') );
+                                'legend' => ts('Monthly Contribution Summary') );
             break;
             
         case 'Quarter' :
@@ -361,7 +361,7 @@ class CRM_Utils_PChart
             }
             
             $barChart[] = array('values' => $graph,
-                                'legend' => ts('Contribution Summary') );
+                                'legend' => ts('Quarterly Contribution Summary') );
             break;
             
         case 'Week' :
@@ -371,7 +371,7 @@ class CRM_Utils_PChart
             }
             
             $barChart[] = array('values' => $graph,
-                                'legend' => ts('Contribution Summary') );
+                                'legend' => ts('Weekly Contribution Summary') );
             break;
             
         case 'Year' :
@@ -381,7 +381,7 @@ class CRM_Utils_PChart
                 
             }
             $barChart[] = array('values' => $graph,
-                                'legend' => ts('Contribution Summary') );
+                                'legend' => ts('Yearly Contribution Summary') );
             break;
             
         }
