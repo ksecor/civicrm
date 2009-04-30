@@ -396,9 +396,16 @@ WHERE sort_name LIKE '%$name%'";
         $object =& CRM_Core_Menu::createNavigation( $contactID );
         
         $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
-        $prepandString = "<li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a></li>";
+        $prepandString = "<li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a>";
+        
+        if ( module_exists('admin_menu') ) {
+           $prepandString .= "<ul><li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('CiviCRM Home')."</a></i><li><a href='#' onclick='cj(\".cmDiv\").toggle();' title=". ts('Administration Menu') .">".ts('Administration Menu')."</a></li></ul>";
+        }
+
+        $prepandString .= "</li>";
 
         echo $prepandString.$object.$appendSring;
         exit();
     }
+
 }
