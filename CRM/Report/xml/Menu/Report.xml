@@ -34,6 +34,13 @@
      <component>CiviReport</component>
   </item>
   <item>
+    <path>civicrm/report/walklist</path>
+     <title>Walklist Report</title>
+     <page_callback>CRM_Report_Form_Walklist</page_callback>
+     <access_callback>1</access_callback>
+     <component>CiviReport</component>
+  </item>
+  <item>
      <path>civicrm/report/contribution/summary</path>
      <title>Contribution Summary Report</title>
      <page_callback>CRM_Report_Form_ContributionSummary</page_callback>
