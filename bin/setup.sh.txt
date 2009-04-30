@@ -117,3 +117,16 @@ echo; echo "DONE!"
 # mysqldump -c -e -t -n -u $DBUSER $PASSWDSECTION $DBNAME  > civicrm_generated.mysql
 # add sample custom data 
 # cat civicrm_sample_custom_data.mysql >> civicrm_generated.mysql
+
+# to generate a data file for reports do the foll:
+# mysqladmin -f -u $DBUSER $PASSWDSECTION drop $DBNAME
+# mysqladmin -f -u $DBUSER $PASSWDSECTION create $DBNAME
+# mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm.mysql
+# mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_data.mysql
+# mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_sample.mysql
+# mysql -u $DBUSER $PASSWDSECTION $DBNAME < zipcodes.mysql
+# php GenerateDataForReport.php
+# echo "drop table zipcodes ; update civicrm_domain set config_backend = null" | mysql -u $DBUSER $PASSWDSECTION $DBNAME
+# mysqldump -c -e -t -n -u $DBUSER $PASSWDSECTION $DBNAME  > civicrm_report_generated.mysql
+# #add sample custom data 
+# cat civicrm_sample_custom_data.mysql >> civicrm_report_generated.mysql
