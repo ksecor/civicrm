@@ -497,6 +497,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $errors['additional_participants'] = ts( "Oops it looks like you are trying to increase additional participant(s), <br>You can confirm registration for maximum %1 additional participant(s).", array( 1=>count( $self->_additionalParticipantIds ) ) );
         }
         
+        //don't allow to register w/ waiting if enough spaces available.
+        if ( CRM_Utils_Array::value( 'bypass_payment', $fields ) ) {
+            if ( !is_numeric( $self->_availableRegistrations ) || 
+                 CRM_Utils_Array::value( 'additional_participants', $fields ) < $self->_availableRegistrations ) {
+                $errors['bypass_payment'] = ts( "Oops it looks like there are enough space in event and your are trying to become a part of waiting list.");
+            }
+        }
+        
         $email = $fields["email-{$self->_bltID}"];
         require_once 'CRM/Core/BAO/UFMatch.php';
         if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
