@@ -658,7 +658,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         
         //make as paylater since we are not taking payment at this time.
-        if ( ( $this->_requireApproval || $this->_allowWaitlist ) && !$this->_allowConfirmation ) { 
+        if ( CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] ) && 
+             ( $this->_requireApproval || $this->_allowWaitlist ) && !$this->_allowConfirmation ) { 
             $params['is_pay_later'] = true;
         }
         

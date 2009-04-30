@@ -81,6 +81,12 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             $this->assign('skipCount', $skipCount );
         }
         CRM_Utils_System::setTitle( ts('Register Participant %1 of %2', array( 1 => $participantCnt, 2 => $participantTot ) ) );
+        
+        //CRM-4320, hack to check last participant.
+        $this->_lastParticipant = false;
+        if ( $participantTot == $participantCnt ) {
+            $this->_lastParticipant = true; 
+        }
     }
    
     /**
@@ -182,29 +188,65 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         //add buttons
         $js = null;
         if ( $this->isLastParticipant( true ) && !CRM_Utils_Array::value('is_monetary', $this->_values['event']) ) {
-           $js = array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" );  
+            $js = array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" );  
         }
-       
-        $this->addButtons(array(
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Go Back'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp',
-                                       ),
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Continue >>'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true,
-                                        'js'        => $js 
-                                        ),
-                                array ( 'type'       => 'next',
-                                        'name'       => ts('Skip Participant >>|'),
-                                        'subName'    => 'skip' ),
-                                )
-                          );
         
-        $this->addFormRule( array( 'CRM_Event_Form_Registration_AdditionalParticipant', 'formRule' ),
-                            $this );
+        //handle case where user might sart with waiting by group
+        //registration and skip some people and now group fit to
+        //become registered so need to take payment from user.
+        //this case only occurs at dynamic waiting status, CRM-4320
+        $allowToProceed = true;
+        if ( $this->_lastParticipant && 
+             !$this->_allowConfirmation && 
+             CRM_Utils_Array::value( 'bypass_payment', $this->_params[0] ) ) {
+            $spaces = CRM_Event_BAO_Participant::eventFull( $this->_values['event']['id'], true );
+            $processedCnt = 0;
+            foreach ( $this->_params as $key => $value ) {
+                if ( $value == 'skip' ) {
+                    continue;
+                }
+                $processedCnt++;
+            }
+            
+            if ( is_numeric( $spaces ) && $spaces >= $processedCnt ) {
+                $this->_allowWaitlist = false;
+                if ( CRM_Utils_Array::value( 'amount', $this->_params[0], 0 ) == 0  ) { 
+                    $status = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, hence your group become as registered though you selected on wait list.", array( 1 => $processedCnt, 2 =>  $spaces ) );
+                } else {
+                    $status = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, hence your group can not become as a part of waiting list and you need to go back to main registration page where you can fill all payment information and become a registered participants.", array( 1 => $processedCnt, 2 =>  $spaces ) );
+                    $allowToProceed = false;
+                }
+                CRM_Core_Session::setstatus( $status );
+                $this->set( 'allowWaitlist', $this->_allowWaitlist );
+            }
+        }
+        
+        $buttons = array( array ( 'type'      => 'back',
+                                  'name'      => ts('<< Go Back'),
+                                  'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp',
+                                  ) 
+                          );
+        //CRM-4320
+        if ( $allowToProceed ) {
+            $buttons = array_merge( $buttons, array( array ( 'type'      => 'next',
+                                                             'name'      => ts('Continue >>'),
+                                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                                             'isDefault' => true,
+                                                             'js'        => $js 
+                                                             ),
+                                                     array ( 'type'       => 'next',
+                                                             'name'       => ts('Skip Participant >>|'),
+                                                             'subName'    => 'skip' 
+                                                             ),
+                                                     )
+                                    );
+        }
+        
+        $this->addButtons( $buttons );
+        $this->addFormRule( array( 'CRM_Event_Form_Registration_AdditionalParticipant', 'formRule' ), $this );
+        
     }
+    
     /** 
      * global form rule 
      * 
