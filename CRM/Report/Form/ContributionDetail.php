@@ -36,7 +36,6 @@
 require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
-
     protected $_addressField = false;
 
     protected $_emailField = false;
@@ -170,7 +169,7 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
                         
-                        $clause = $this->dateClause( $field, $relative, $from, $to );
+                        $clause = $this->dateClause( $field['name'], $relative, $from, $to );
                     } else {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         if ( $op ) {

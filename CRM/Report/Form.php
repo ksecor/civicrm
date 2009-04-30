@@ -148,7 +148,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         parent::__construct( );
     }
 
-    function preProcess( ) {
+    function preProcessCommon( ) {
         $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
 
         if ( $this->_id ) {
@@ -170,6 +170,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_instanceButtonName = $this->getButtonName( 'submit', 'save'  );
         $this->_printButtonName    = $this->getButtonName( 'submit', 'print' );
         $this->_pdfButtonName      = $this->getButtonName( 'submit', 'pdf'   );
+    }
+
+    function preProcess( ) {
+        self::preProcessCommon( );
 
         foreach ( $this->_columns as $tableName => $table ) {
             // set alias
@@ -427,17 +431,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
-    function buildQuickForm( ) {
-        $this->addColumns( );
-
-        $this->addFilters( );
-      
-        $this->addOptions( );
-
-        $this->addChartOptions( );
-
-        $this->addGroupBys( );
-
+    function buildInstanceAndButtons( ) {
         if ( $this->_instanceForm ) {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::buildForm( $this );
@@ -452,10 +446,22 @@ class CRM_Report_Form extends CRM_Core_Form {
                                  array ( 'type'      => 'submit',
                                          'name'      => ts('Generate Report'),
                                          'isDefault' => true   ),
-                                 // array ( 'type'      => 'cancel',
-                                 //         'name'      => ts('Cancel') ),
                                  )
                            );
+    }
+
+    function buildQuickForm( ) {
+        $this->addColumns( );
+
+        $this->addFilters( );
+      
+        $this->addOptions( );
+
+        $this->addChartOptions( );
+
+        $this->addGroupBys( );
+
+        $this->buildInstanceAndButtons( );
     }
     
     static function getOperationPair( $type = "string" ) {
@@ -491,55 +497,104 @@ class CRM_Report_Form extends CRM_Core_Form {
     static function getSQLOperator( $operator = "like" ) {
         switch ( $operator ) {
         case 'eq':
-            return "=";
+            return '=';
         case 'lt':
-            return "<"; 
+            return '<'; 
         case 'lte':
-            return "<="; 
+            return '<='; 
         case 'gt':
-            return ">"; 
+            return '>'; 
         case 'gte':
-            return ">="; 
-        case 'ne':
-            return "!=";
+            return '>='; 
+        case 'ne' :
+        case 'neq':
+            return '!=';
+        case 'nhas':
+            return 'NOT LIKE';
         default:
             // type is string
-            return "LIKE";
+            return 'LIKE';
         }
     }
 
     static function whereClause( &$field, $op,
                                  $value, $min, $max ) {
+
+        $type   = CRM_Utils_Type::typeToString( $field['type'] );
         $clause = null;
+
         switch ( $op ) {
         case 'bw':
-            if ( $min !== null &&
-                 strlen( $min ) > 0 &&
-                 $max !== null &&
-                 strlen( $max ) > 0 ) {
-                $min = CRM_Utils_Type::escape( $min,
-                                               CRM_Utils_Type::typeToString( $field['type'] ) );
-                $max = CRM_Utils_Type::escape( $max,
-                                               CRM_Utils_Type::typeToString( $field['type'] ) );
-                $clause = "( ( {$field['name']} >= $min ) AND ( {$field['name']} <= $max ) )";
-            }
-            break;
-
-        default:
-            if ( $value !== null &&
-                 strlen( $value ) > 0 ) {
-                $value  = CRM_Utils_Type::escape( $value,
-                                                  CRM_Utils_Type::typeToString( $field['type'] ) );
-                $sqlOP  = self::getSQLOperator( $op );
-                if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
-                    if ( $sqlOP == 'LIKE' &&
-                         strpos( $value, '%' ) === false ) {
-                        $value = "'%{$value}%'";
+        case 'nbw':
+            if ( ( $min !== null && strlen( $min ) > 0 ) ||
+                 ( $max !== null && strlen( $max ) > 0 ) ) {
+                $min = CRM_Utils_Type::escape( $min, $type );
+                $max = CRM_Utils_Type::escape( $max, $type );
+                $clauses = array( );
+                if ( $min ) {
+                    if ( $op == 'bw' ) {
+                        $clauses[] = "( {$field['name']} >= $min )";
                     } else {
-                        $value = "'{$value}'";
+                        $clauses[] = "( {$field['name']} < $min )";
+                    }
+                }
+                if ( $max ) {
+                    if ( $op == 'bw' ) {
+                        $clauses[] = "( {$field['name']} <= $max )";
+                    } else {
+                        $clauses[] = "( {$field['name']} > $max )";
                     }
                 }
 
+                if ( ! empty( $clauses ) ) {
+                    if ( $op == 'bw' ) {
+                        $clause = implode( ' AND ', $clauses );
+                    } else {
+                        $clause = implode( ' OR ', $clauses );
+                    }
+                }
+            }
+            break;
+
+        case 'has':
+        case 'nhas': 
+            if ( $value !== null && strlen( $value ) > 0 ) {
+                $value  = CRM_Utils_Type::escape( $value, $type );
+                if ( strpos( $value, '%' ) === false ) {
+                    $value = "'%{$value}%'";
+                } else {
+                    $value = "'{$value}'";
+                }
+                $sqlOP  = self::getSQLOperator( $op );
+                $clause = "( {$field['name']} $sqlOP $value )";
+            }
+            break;
+                
+        case 'sw':
+        case 'ew':
+            if ( $value !== null && strlen( $value ) > 0 ) {
+                $value  = CRM_Utils_Type::escape( $value, $type );
+                if ( strpos( $value, '%' ) === false ) {
+                    if ( $op == 'sw' ) {
+                        $value = "'{$value}%'";
+                    } else {
+                        $value = "'%{$value}'";
+                    }
+                } else {
+                    $value = "'{$value}'";
+                }
+                $sqlOP  = self::getSQLOperator( $op );
+                $clause = "( {$field['name']} $sqlOP $value )";
+            }
+            break;
+                
+        default:
+            if ( $value !== null && strlen( $value ) > 0 ) {
+                $value  = CRM_Utils_Type::escape( $value, $type );
+                $sqlOP  = self::getSQLOperator( $op );
+                if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
+                    $value = "'{$value}'";
+                }
                 $clause = "( {$field['name']} $sqlOP $value )";
             }
             break;
@@ -548,7 +603,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         return $clause;
     }
 
-    static function dateClause( &$field,
+    static function dateClause( $fieldName,
                                 $relative, $from, $to ) {
 
         require_once 'CRM/Utils/Date.php';
@@ -564,14 +619,14 @@ class CRM_Report_Form extends CRM_Core_Form {
             $revDate = array_reverse( $from );
             $date    = CRM_Utils_Date::format( $revDate );
             if ( $date ) {
-                $clauses[] = "( {$field['name']} >= $date )";
+                $clauses[] = "( {$fieldName} >= $date )";
             }
         }
 
         if ( CRM_Utils_Date::isDate( $to ) ) {
             $revDate = array_reverse( $to );
             $date    = CRM_Utils_Date::format( $revDate );
-            $clauses[] = "( {$field['name']} <= $date )";
+            $clauses[] = "( {$fieldName} <= $date )";
         }
 
         if ( ! empty( $clauses ) ) {

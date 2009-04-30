@@ -86,7 +86,7 @@ Class CRM_Core_Form_Date
      * @static
      * @access public
      */
-    static function buildDateRange( &$form, $fieldName ) {
+    static function buildDateRange( &$form, $fieldName, $required = false ) {
         $selector = array ('Choose Date Range',
                            'this.year'    => 'This Year',
                            'this.quarter' => 'This Quarter',
@@ -125,7 +125,11 @@ Class CRM_Core_Form_Date
                            'greater.day'     => 'Greater Day'
                            );
         
-        $form->add('select', "{$fieldName}_relative", ts('Relative Date Range'), $selector, false,
+        $form->add('select',
+                   "{$fieldName}_relative",
+                   ts('Relative Date Range'),
+                   $selector,
+                   $required,
                    array('onclick' => 'showAbsoluteRange(this.value);'));
         
         $form->addDateRange($fieldName);

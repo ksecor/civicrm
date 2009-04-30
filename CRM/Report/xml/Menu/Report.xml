@@ -41,6 +41,13 @@
      <component>CiviReport</component>
   </item>
   <item>
+     <path>civicrm/report/contribution/repeatDetail</path>
+     <title>Repeat Contribution Detail Report</title>
+     <page_callback>CRM_Report_Form_Contribute_RepeatDetail</page_callback>
+     <access_callback>1</access_callback>
+     <component>CiviReport</component>
+  </item>
+  <item>
     <path>civicrm/report/activity</path>
     <title>Activity Report</title>
     <page_callback>CRM_Report_Form_Activity</page_callback>
