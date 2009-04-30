@@ -89,31 +89,62 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
         } else {
             $whereOP = 'OR';
         }
+
         $sql = "
 SELECT    c.id, c.display_name,
-          sum(c1.total_amount) as c1_amount,
-          sum(c2.total_amount) as c2_amount          
-FROM      civicrm_contact c
-LEFT JOIN civicrm_contribution c1 on c1.contact_id = c.id AND $c1_clause
-LEFT JOIN civicrm_contribution c2 on c2.contact_id = c.id AND $c2_clause
-WHERE ( ( c1.id IS NOT NULL ) $whereOP ( c2.id IS NOT NULL ) )
+          sum(c1.total_amount) as c1_amount
+FROM      civicrm_contact c, civicrm_contribution c1
+WHERE     c1.contact_id = c.id
+AND       $c1_clause
 GROUP BY c.id
 ";
 
-        CRM_Core_Error::debug( $sql );
         $dao = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
 
         while ( $dao->fetch( ) ) {
-            $row = array( 'c.id'         => $dao->id,
-                          'display_name' => $dao->display_name,
-                          'c1_amount'    => $dao->c1_amount   ,
-                          'c2_amount'    => $dao->c2_amount   ,
-                          );
-            $rows[] = $row;
+            $rows[$dao->id] = array( 'c.id'         => $dao->id,
+                                    'display_name' => $dao->display_name,
+                                    'c1_amount'    => $dao->c1_amount   ,
+                                    'c2_amount'    => null
+                                    );
         }
-        CRM_Core_Error::debug( $rows );
-        exit( );
+
+
+        $sql = "
+SELECT    c.id, c.display_name,
+          sum(c2.total_amount) as c2_amount
+FROM      civicrm_contact c, civicrm_contribution c2
+WHERE     c2.contact_id = c.id
+AND       $c2_clause
+GROUP BY c.id
+";
+
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        while ( $dao->fetch( ) ){
+            if ( isset( $rows[$dao->id] ) ) {
+                $rows[$dao->id]['c2_amount'] = $dao->c2_amount;
+            } else {
+                $rows[$dao->id] = array( 'c.id'         => $dao->id,
+                                         'display_name' => $dao->display_name,
+                                         'c1_amount'    => null,
+                                         'c2_amount'    => $dao->c2_amount
+                                         );
+            }
+        }
+
+        foreach ( $rows as $id =>& $row ) {
+            if ( $row['c1_amount'] && $row['c2_amount'] ) {
+                $row['change'] = number_format( ( ( $row['c2_amount'] - $row['c1_amount'] ) * 100 ) / ( $row['c1_amount'] ),
+                                                2 );
+            } else if ( $row['c1_amount'] ) {
+                $row['change'] = ts( 'Skipped Donation' );
+            } else if ( $row['c2_amount'] ) {
+                $row['change'] = ts( 'New Donor' );
+            }
+        }
+
+        $this->assign_by_ref( 'rows', $rows );
     }
 
 }

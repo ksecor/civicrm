@@ -95,11 +95,35 @@
 
 {/if} {* NO print section ends *}
 
-{if $form.charts.value.0 eq 'pieGraph' OR $form.charts.value.0 eq 'barGraph'}
-    {include file="CRM/Report/Form/Layout/Graph.tpl"}
-{else}
-   {* search result listing *}
-   {include file="CRM/Report/Form/Layout/Table.tpl"}
+{if $rows}
+{if $printOnly}
+<h1>{$reportTitle}</h1>
 {/if}
+<br/>
+{include file="CRM/common/pager.tpl" noForm=1}
+   <table class="form-layout">
+      <tr class="columnheader">
+         <th>{ts}Display Name{/ts}</th>
+         <th>{ts}Range 1 Amount{/ts}</th>
+         <th>{ts}Range 2 Amount{/ts}</th>
+         <th>{ts}% Increase/Decrease{/ts}</th>
+      </tr>
 
+      {foreach from=$rows item=row}
+      <tr class="{cycle values="odd-row,even-row"}">
+         <td>{$row.display_name}</td>
+         <td>{$row.c1_amount}</td>
+         <td>{$row.c2_amount}</td>
+         <td>{$row.change}</td>
+      </tr>
+      {/foreach}
+
+   {if $statistics}
+   <br/><table class="form-layout">
+      {foreach from=$statistics item=row}
+          <tr><td>{$row.title}:&nbsp;{$row.value}</strong></td></tr>
+      {/foreach}
+   </table>
+   {/if}
+{/if}
 </div>
