@@ -252,16 +252,29 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $bulkEmailID = CRM_Core_OptionGroup::getValue('activity_type', 'Bulk Email', 'name' );
  
         if ( $bulkEmailID ) {
+
             $mailingActivityIds = array( );
             $query = " 
 SELECT max( ca.id ) as aid , ca.source_record_id sid
 FROM civicrm_activity ca
 WHERE ca.activity_type_id = %1 
 GROUP BY ca.source_record_id";
-                
+            
             $params = array( 1 => array(  $bulkEmailID, 'Integer' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
             while ( $dao->fetch( ) ) { 
+                
+                $updateQuery = "
+UPDATE civicrm_activity_target cat, civicrm_activity ca 
+SET cat.activity_id = {$dao->aid}  
+WHERE ca.source_record_id IS NOT NULL 
+AND ca.activity_type_id = %1 AND ca.id <> {$dao->aid} 
+AND ca.source_record_id = {$dao->sid} AND ca.id = cat.activity_id";
+                
+                $updateParams = array( 1 => array(  $bulkEmailID, 'Integer' ) );    
+                CRM_Core_DAO::executeQuery( $updateQuery,  $updateParams );
+                
                 $deleteQuery = " 
 DELETE ca.* FROM civicrm_activity ca 
 WHERE ca.source_record_id IS NOT NULL 
