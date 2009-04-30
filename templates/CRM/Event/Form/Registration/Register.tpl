@@ -65,9 +65,9 @@
 	<dt>&nbsp;</dt>
         <dd>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</dd>
     {/if}
-    {if $form.allow_waiting}
+    {if $bypassPayment}
 	<dt>&nbsp;</dt>
-        <dd>{$form.allow_waiting.html}&nbsp;{$form.allow_waiting.label}</dd>
+        <dd>{$form.bypass_payment.html}&nbsp;{$form.bypass_payment.label}</dd>
     {/if}
     </dl>
 {else}
@@ -85,11 +85,11 @@
 		<td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td>
 	    </tr>
 	    {/if}
-            {if $form.allow_waiting}
+            {if $bypassPayment}
 	    <tr>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-		<td>{$form.allow_waiting.html}&nbsp;{$form.allow_waiting.label}</td>
+		<td>{$form.bypass_payment.html}&nbsp;{$form.bypass_payment.label}</td>
 	    </tr>
 	    {/if}
 	</table>
@@ -101,10 +101,10 @@
     <tr>
 	<td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td>
     </tr>
-    {if $form.allow_waiting and !$paidEvent}
+    {if $bypassPayment and !$paidEvent}
     <tr>
         <td>&nbsp;</td>
-        <td>{$form.allow_waiting.html}&nbsp;{$form.allow_waiting.label}</td>
+        <td>{$form.bypass_payment.html}&nbsp;{$form.bypass_payment.label}</td>
     </tr>
     {/if}
 </table>
@@ -145,7 +145,7 @@
 
 <div id="paypalExpress">
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
-{if $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}
+{if $paymentProcessor.payment_processor_type EQ 'PayPal_Express' and $buildExpressPayBlock}
     {assign var=expressButtonName value='_qf_Register_upload_express'}
     <fieldset><legend>{ts}Checkout with PayPal{/ts}</legend>
     <table class="form-layout-compressed">
@@ -172,9 +172,20 @@
 </div>
 
 {* Hide Credit Card Block and Billing information if registration is pay later. *}
-{if $hidePaymentInformation and $form.is_pay_later}
+{if $showHidePaymentInformation and $form.is_pay_later}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_pay_later"
+    trigger_value       =""
+    target_element_id   ="payment_information" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 1
+}
+{/if}
+{* allow show/Hide Credit Card Block and Billing information. *}
+{if $showHidePaymentInformation and $bypassPayment}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="bypass_payment"
     trigger_value       =""
     target_element_id   ="payment_information" 
     target_element_type ="table-row"
@@ -196,38 +207,34 @@
 	    }
 	}
     }
-    {/literal}{if $form.is_pay_later and $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}{literal} 
-	showHidePayPalExpressOption();
+    {/literal}{if ($form.is_pay_later or $bypassPayment) and $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}{literal} 
+	showHidePayPalExpressOption( );
     {/literal} {/if}{literal}
-    function showHidePayPalExpressOption()
+    function showHidePayPalExpressOption( )
     {
-        if (document.getElementsByName("is_pay_later")[0].checked) {
-	    show("crm-submit-buttons");
-	    hide("paypalExpress");
+	var elementOne = {/literal}{if $bypassPayment}true{else}false{/if}{literal};
+	var elementTwo = {/literal}{if $form.is_pay_later}true{else}false{/if}{literal};
+	if ( (elementOne && document.getElementsByName('bypass_payment')[0].checked ) ||
+	     (elementTwo && document.getElementsByName('is_pay_later')[0].checked ) ) {
+		show("crm-submit-buttons");
+		hide("paypalExpress");
 	} else {
-            show("paypalExpress");
-            hide("crm-submit-buttons");
-        }
+		show("paypalExpress");
+		hide("crm-submit-buttons");
+	}
     }
 
-    {/literal}{if $hasAdditionalParticipants}{literal}
-	show( 'noOfparticipants' );
-	hide( 'noOfparticipants_show' );
-    {/literal} {/if}{literal}
-
-     {/literal}{if $form.allow_waiting}{literal}
-     allowWaiting( )
-     {/literal} {/if}{literal}
-     function allowWaiting( )
-     {	
-	if ( document.getElementsByName("allow_waiting")[0].checked ) {
-		hide( 'payment_information' ); 
-		hide( "paypalExpress" );
-		show( "crm-submit-buttons" );
+    {/literal}{if $form.additional_participants}{literal}
+    	showAdditionalParticipant();{/literal}{/if}{literal}
+    function showAdditionalParticipant( )
+    {	
+	if ( document.getElementById('additional_participants').value ) { 
+             show( 'noOfparticipants' );
+	     hide( 'noOfparticipants_show' );
 	} else {
-		show( 'payment_information' );	
-		show( "paypalExpress" );
+             hide( 'noOfparticipants' );
+	     show( 'noOfparticipants_show' );
 	}
-     }
+    }
 </script>
 {/literal} 

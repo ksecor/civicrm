@@ -65,24 +65,45 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     function preProcess( ) 
     {
         parent::preProcess( );
-
+        
+        //CRM-4320.
+        //here we can't use parent $this->_allowWaitlist as user might
+        //walk back and we maight set this value in this postProcess.
+        //(we set when spaces < group count and want to allow become part of waiting )
+        require_once 'CRM/Event/BAO/Participant.php';
+        $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
+        $this->_allowWaitlist = false;
+        if ( $eventFull && !$this->_allowConfirmation &&
+             CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) { 
+            $this->_allowWaitlist = true;
+            $status = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
+                                              'Event is currently full, but you can register temporarily and be a part of waiting list.' );
+            require_once "CRM/Core/Session.php";
+            CRM_Core_Session::setStatus( $status );
+        }
+        $this->set( 'allowWaitlist', $this->_allowWaitlist );
+        
+        if ( $this->_requireApproval ) {
+            require_once "CRM/Core/Session.php";
+            CRM_Core_Session::setStatus( ts( 'Registration for this Event require approval. So be a part of event we will send you mail once admin approved.' ) ); 
+        }
+        
         //To check if the user is already registered for the event(CRM-2426) 
         self::checkRegistration(null , $this);
-
-        require_once 'CRM/Event/BAO/Participant.php';
+        
         $this->_availableRegistrations = CRM_Event_BAO_Participant::eventFull( $this->_values['event']['id'], true );
         
         if ( $this->_availableRegistrations ) {
             $this->assign( 'availableRegistrations', $this->_availableRegistrations );
         }
-
+        
         // get the participant values from EventFees.php, CRM-4320
         if ( $this->_allowConfirmation ) {
             require_once 'CRM/Event/Form/EventFees.php';
             CRM_Event_Form_EventFees::preProcess( $this );
         }
     }
-
+    
     /**
      * This function sets the default values for the form. For edit/view mode
      * the default values are retrieved from the database
@@ -238,6 +259,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     ts( 'Email Address' ),
                     array( 'size' => 30, 'maxlength' => 60 ), true );
         
+        $bypassPayment = false;
         if ( $this->_values['event']['is_multiple_registrations'] ) {
             // don't allow to add additional during confirmation if not preregistered.
             if ( !$this->_allowConfirmation || $this->_additionalParticipantIds ) {
@@ -247,55 +269,83 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //hack to allow group to register w/ waiting
             if ( !$this->_allowConfirmation && 
                  is_numeric( $this->_availableRegistrations )              
-                 && CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) {
-                $attribute = null;
-                if ( $this->_values['event']['is_monetary'] ) {
-                    $attribute = array('onclick' => "allowWaiting( );" );
-                }
-                $this->addElement( 'checkbox', 'allow_waiting', ts( 'Be a part of waiting list.' ), 
-                                   null, $attribute ); 
-                
+                 && CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) &&
+                 !$this->_requireApproval ) {
+                $bypassPayment = true;
                 CRM_Core_Session::setStatus( ts("This event has only %1 spaces left. if you register as a group and register more than %1, the whole group will be put on the waitlist.", array( 1 => $this->_availableRegistrations ) ) );
             }
         }
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-
-        if ( $this->_values['event']['is_monetary'] ) {
+        
+        //lets get js on two different qf elements.
+        $buildExpressPayBlock = false;
+        $showHidePayfieldName = null;
+        $showHidePaymentInformation = false;
+        if ( $this->_values['event']['is_monetary'] ) { 
             self::buildAmount( $this );
-            $hidePaymentInformation = true;
-            if ( !( $this->_requireApproval || $this->_allowWaitlist ) || $this->_allowConfirmation ) {
+            
+            $attributes = null;
+            $freezePayLater = true;
+            if ( is_array( $this->_paymentProcessor ) ) {
+                $freezePayLater = false;
+                if ( !in_array( $this->_paymentProcessor['billing_mode'], array( 2, 4 ) ) ) { 
+                    $showHidePayfieldName = 'payment_information';
+                    $attributes = array('onclick' => "return showHideByValue( 'is_pay_later','','payment_information',
+                                                     'table-row','radio',true);"); 
+                }
+                
+                if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
+                    $showHidePayfieldName = 'PayPalExpress';
+                    $attributes = array('onclick' => "showHidePayPalExpressOption();" );
+                }
+            }
+            
+            //lets build only when there is no waiting and no required approval.
+            if ( $this->_allowConfirmation || ( !$this->_requireApproval && !$this->_allowWaitlist ) ) {
                 if ( $this->_values['event']['is_pay_later'] ) {
-                    $attributes = null;
-                    $hidePaymentInformation = false;
-                    if ( !in_array( $this->_paymentProcessor['billing_mode'], array( 2, 4 ) ) && 
-                         is_array( $this->_paymentProcessor ) ) {
-                        $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
-                                                     'table-row','radio',true);");
-                        
-                        $hidePaymentInformation = true;  
-                    }
-                    if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
-                        $attributes = array('onclick' => "showHidePayPalExpressOption();" );
-                    }
                     $element = $this->addElement( 'checkbox', 'is_pay_later', 
                                                   $this->_values['event']['pay_later_text'], null, $attributes );
+                    
                     //if payment processor is not available then freeze
                     //the paylater checkbox with default checked.
-                    if ( ! is_array( $this->_paymentProcessor ) ) {
+                    if ( $freezePayLater ) {
                         $element->freeze( );
                     }
-                }        
+                }
+                
                 require_once 'CRM/Core/Payment/Form.php';
                 CRM_Core_Payment_Form::buildCreditCard( $this );
+                if ( $showHidePayfieldName == 'payment_information' ) {
+                    $showHidePaymentInformation = true;
+                }
+                if ( $showHidePayfieldName == 'PayPalExpress' ) {
+                    $buildExpressPayBlock = true; 
+                }
             }
-            $this->assign( 'hidePaymentInformation', $hidePaymentInformation );
         }
+        
+        //lets add some qf element to bypass payment validations, CRM-4320
+        if ( $bypassPayment ) {
+            $attributes = null;
+            if ( $showHidePayfieldName == 'payment_information' && $showHidePaymentInformation ) {
+                $attributes = array('onclick' => "return showHideByValue( 'bypass_payment','','payment_information',
+                                                     'table-row','radio',true);");
+            }
+            if ( $showHidePayfieldName ==  'PayPalExpress' ) {
+                $attributes = array('onclick' => "showHidePayPalExpressOption();" );
+            }
+            $this->addElement( 'checkbox', 'bypass_payment', ts( 'Be a part of waiting list.' ), 
+                               null, $attributes );
+        }
+        $this->assign( 'bypassPayment', $bypassPayment );
+        $this->assign( 'buildExpressPayBlock', $buildExpressPayBlock );
+        $this->assign( 'showHidePaymentInformation', $showHidePaymentInformation );
         
         $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
-
+        
         if ( ! $userID ) {
             $createCMSUser = false;
             if ( $this->_values['custom_pre_id'] ) {
@@ -312,10 +362,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 CRM_Core_BAO_CMSUser::buildForm( $this, $profileID , true );
             }
         }
-        if ( !( $this->_paymentProcessor['billing_mode'] == CRM_Core_Payment::BILLING_MODE_BUTTON &&
-                ! $this->_values['event']['is_pay_later'] ) ) {
+        
+        if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
+             CRM_Utils_Array::value( 'is_pay_later', $this->_values['event'] ) ||
+             $bypassPayment ||
+             !$buildExpressPayBlock ) {
+            
             //freeze button to avoid multiple calls.
             $js = null;
+           
             if ( !CRM_Utils_Array::value('is_monetary', $this->_values['event']) ) {
                 $js = array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" );
             }
@@ -427,7 +482,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
        
         //check for availability of registrations.
         if ( !$self->_allowConfirmation &&
-             !CRM_Utils_Array::value( 'allow_waiting', $fields ) &&
+             !$self->_requireApproval &&
+             !CRM_Utils_Array::value( 'bypass_payment', $fields ) &&
              is_numeric( $self->_availableRegistrations ) &&
              CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) {
             $errors['additional_participants'] = ts( "You can register only %1 participant(s)", array( 1=>$self->_availableRegistrations ));
@@ -490,7 +546,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $zeroAmount = $fields['amount'];
             // also return if paylater mode or zero fees for valid members
             if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ||
-                 CRM_Utils_Array::value( 'allow_waiting', $fields ) ) {
+                 CRM_Utils_Array::value( 'bypass_payment', $fields ) ) {
                 if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) { 
                     foreach( $fields as $key => $val  )  {
                         if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
@@ -541,7 +597,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //is pay later and priceset is used avoid credit card and
             //billing address validation  
             if ( ( ( CRM_Utils_Array::value( 'is_pay_later', $fields ) || 
-                     CRM_Utils_Array::value( 'allow_waiting', $fields ) ) && $fields['priceSetId'] ) || 
+                     CRM_Utils_Array::value( 'bypass_payment', $fields ) ) && $fields['priceSetId'] ) || 
                  ( !$self->_allowConfirmation && ( $self->_requireApproval || $self->_allowWaitlist ) ) ) {
                 return empty( $errors ) ? true : $errors;
             }
@@ -586,7 +642,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $params ['is_primary'] = 1;         
         
         //hack to allow group to register w/ waiting
-        if ( CRM_Utils_Array::value( 'allow_waiting', $params ) &&
+        if ( CRM_Utils_Array::value( 'bypass_payment', $params ) &&
              is_numeric( $this->_availableRegistrations ) &&
              CRM_Utils_Array::value( 'additional_participants', $params ) >= $this->_availableRegistrations ) {
             $this->_allowWaitlist = true;

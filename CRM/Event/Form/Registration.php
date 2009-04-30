@@ -260,13 +260,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->_allowWaitlist = false;
             if ( $eventFull && !$this->_allowConfirmation ) {
                 //lets redirecting to info only when to waiting list.
-                if ( $this->_allowWaitlist = CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) {
-                    $status = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
-                                                      'Event is currently full, but you can register temporarily and be a part of waiting list.' );
-                    require_once "CRM/Core/Session.php";
-                    CRM_Core_Session::setStatus( $status );
-                } else {
-                    CRM_Utils_System::redirect( $infoUrl );      
+                $this->_allowWaitlist = CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] );
+                if ( !$this->_allowWaitlist ) {
+                    CRM_Utils_System::redirect( $infoUrl ); 
                 }
             }
             $this->set( 'allowWaitlist', $this->_allowWaitlist );
