@@ -636,6 +636,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         return null;
     }
 
+    function alterDisplay( &$rows ) {
+        // custom code to alter rows
+    }
+
     function removeDuplicates( &$rows ) {
         if ( empty($this->_noRepeats) ) {
             return;
@@ -655,16 +659,20 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
-    function alterDisplay( &$rows ) {
-        // custom code to alter rows
+    function fixSubTotalDisplay( &$row, $fields ) {
+        foreach ( $row as $colName => $colVal ) {
+            if ( in_array($colName, $fields) ) {
+                $row[$colName] = 
+                    "&nbsp;&nbsp;&nbsp;<strong>{$row[$colName]}</strong>";
+            }  else {
+                unset($row[$colName]);
+            }
+        }
     }
 
     function formatDisplay( &$rows ) {
-        // remove duplicates if needed
-        $this->removeDuplicates( $rows );
-
+        // this takes care of formatting rows for display purpose.
         $this->alterDisplay( $rows );
-
 
         // unset columns not to be displayed.
         if ( !empty($rows) ) {

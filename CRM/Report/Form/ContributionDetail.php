@@ -59,16 +59,15 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                                 array( 'title'      => ts( 'Contact Name' ),
                                        'operator'   => 'like' ) ),
                           'grouping'=> 'contact-fields',
-                          'order_bys'=>             
-                          array( 'display_name' => array( 'title' => ts( 'Contact Name' ),
-                                                          'required'  => true ) ),
                           ),
                    
                    'civicrm_contribution' =>
                    array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
                           'fields'  =>
                           array( 'total_amount'  => array( 'title'    => ts( 'Amount' ),
-                                                           'required' => true ),
+                                                           'required' => true,
+                                                           'statistics'   => 
+                                                           array('sum'    => ts( 'Amount' )), ),
                                  'trxn_id'       => array( 'default' => true ),
                                  'receive_date'  => array( 'default' => true ),
                                  'receipt_date'  => null,
@@ -131,9 +130,35 @@ class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
                         $this->_emailField = true;
                     }
 
-                    $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
-                    $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
-                    $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = $field['type'];
+                    // only include statistics columns if set
+                    if ( CRM_Utils_Array::value('statistics', $field) ) {
+                        foreach ( $field['statistics'] as $stat => $label ) {
+                            switch (strtolower($stat)) {
+                            case 'sum':
+                                $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = $field['type'];
+                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                break;
+                            case 'count':
+                                $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                break;
+                            case 'avg':
+                                $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] =  $field['type'];
+                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                break;
+                            }
+                        }   
+
+                    } else {
+                        $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = $field['type'];
+                    }
                 }
             }
         }
@@ -197,16 +222,8 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
     }
 
 
-    function orderBy( ) {
-        $this->_orderBy = "";
-        foreach ( $this->_columns as $tableName => $table ) {
-            if ( array_key_exists('order_bys', $table) ) {
-                foreach ( $table['order_bys'] as $fieldName => $field ) {
-                    $this->_orderBy[] = $field['dbAlias'];
-                }
-            }
-        }
-        $this->_orderBy = "ORDER BY " . implode( ', ', $this->_orderBy ) . " ";
+    function groupBy( ) {
+        $this->_groupBy = " GROUP BY contact.display_name, contribution.trxn_id ASC WITH ROLLUP ";
     }
 
     function statistics( ) {
@@ -247,10 +264,10 @@ SELECT COUNT( contribution.total_amount ) as count,
         $this->select ( );
         $this->from   ( );
         $this->where  ( );
-        $this->orderBy( );
+        $this->groupBy( );
         $this->limit  ( );
 
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_orderBy} {$this->_limit}";
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
 
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
@@ -277,9 +294,35 @@ SELECT COUNT( contribution.total_amount ) as count,
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
- 
+
+        $checkList = $subTotalKeys = array();
         $entryFound = false;
+
         foreach ( $rows as $rowNum => $row ) {
+
+            if ( !empty($this->_noRepeats) ) {
+                // not repeat contact display names if it matches with the one 
+                // in previous row
+
+                $repeatFound = false;
+                foreach ( $row as $colName => $colVal ) {
+                    if ( is_array($checkList[$colName]) && 
+                         in_array($colVal, $checkList[$colName]) ) {
+                        $rows[$rowNum][$colName] = "";
+                        $repeatFound = true;
+                    }
+                    if ( in_array($colName, $this->_noRepeats) ) {
+                        $checkList[$colName][] = $colVal;
+                    }
+                }
+
+                // make subtotals appear nice
+                if ( !$repeatFound && $lastKey ) {
+                    $this->fixSubTotalDisplay($rows[$lastKey], array('civicrm_contribution_total_amount_sum'));
+                    $entryFound = true;
+                }
+            }
+
             // handle state province
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
@@ -300,11 +343,12 @@ SELECT COUNT( contribution.total_amount ) as count,
 
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
+                 $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view', 
                                               'reset=1&cid=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $row["civicrm_contact_display_name"] . '</a>';
+                    $rows[$rowNum]["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;
             }
 
@@ -313,6 +357,8 @@ SELECT COUNT( contribution.total_amount ) as count,
             if ( !$entryFound ) {
                 break;
             }
+            $lastKey = $rowNum;
         }
     }
+
 }
