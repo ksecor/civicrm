@@ -27,23 +27,16 @@
      <component>CiviReport</component>
   </item>
   <item>
-     <path>civicrm/report/contribution/detail</path>
+     <path>civicrm/report/contribute/detail</path>
      <title>Contribution Detail Report</title>
-     <page_callback>CRM_Report_Form_ContributionDetail</page_callback>
+     <page_callback>CRM_Report_Form_Contribute_Detail</page_callback>
      <access_callback>1</access_callback>
      <component>CiviReport</component>
   </item>
   <item>
-    <path>civicrm/report/walklist</path>
-     <title>Walklist Report</title>
-     <page_callback>CRM_Report_Form_Walklist</page_callback>
-     <access_callback>1</access_callback>
-     <component>CiviReport</component>
-  </item>
-  <item>
-     <path>civicrm/report/contribution/summary</path>
+     <path>civicrm/report/contribute/summary</path>
      <title>Contribution Summary Report</title>
-     <page_callback>CRM_Report_Form_ContributionSummary</page_callback>
+     <page_callback>CRM_Report_Form_Contribute_Summary</page_callback>
      <access_callback>1</access_callback>
      <component>CiviReport</component>
   </item>
@@ -51,6 +44,20 @@
      <path>civicrm/report/contribute/repeatDetail</path>
      <title>Repeat Contribution Detail Report</title>
      <page_callback>CRM_Report_Form_Contribute_RepeatDetail</page_callback>
+     <access_callback>1</access_callback>
+     <component>CiviReport</component>
+  </item>
+  <item>
+     <path>civicrm/report/contribute/rangeSummary</path>
+     <title>Contribution Summary Report</title>
+     <page_callback>CRM_Report_Form_Contribute_RangeSummary</page_callback>
+     <access_callback>1</access_callback>
+     <component>CiviReport</component>
+  </item>
+  <item>
+    <path>civicrm/report/walklist</path>
+     <title>Walklist Report</title>
+     <page_callback>CRM_Report_Form_Walklist</page_callback>
      <access_callback>1</access_callback>
      <component>CiviReport</component>
   </item>

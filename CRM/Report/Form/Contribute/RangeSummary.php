@@ -35,7 +35,7 @@
 
 require_once 'CRM/Report/Form.php';
 
-class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
+class CRM_Report_Form_Contribute_RangeSummary extends CRM_Report_Form {
 
     protected $_summary = null;
 
@@ -46,47 +46,46 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
     
     function __construct( ) {
         $this->_columns = 
-            array( 'civicrm_contact'  =>
-                   array( 'dao'       => 'CRM_Contact_DAO_Contact',
-                          'fields'    =>
-                          array( 'display_name'      => 
-                                 array( 'title'      => ts( 'Contact Name' ),
-                                        'no_repeat'  => true ),
-                                 'id'           => 
-                                 array( 'no_display' => true,
-                                        'required'  => true, ), ), ),
-                   'civicrm_contribution' =>
+            array( 'civicrm_contribution' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
-                          //'bao'           => 'CRM_Contribute_BAO_Contribution',
                           'fields'        =>
-                          array( 'total_amount'        => 
-                                 array( 'title'        => ts( 'Amount Statistics' ),
+                          array( 'total_amount1'        => 
+                                 array( 'title'        => ts( 'Amount Statistics1' ),
                                         'default'      => true,
                                         'statistics'   => 
                                         array('sum'    => ts( 'Total Amount' ), 
                                               'count'  => ts( 'Count' ), 
-                                              'avg'    => ts( 'Average' ), ), ),
-                                 'contribution_source' => null, ),
-                          'grouping'              => 'contri-fields',
+                                              'avg'    => ts( 'Average' ), ), 
+                                        'dbAlias'      => 'contribution1.total_amount' ),
+                                 'total_amount2'        => 
+                                 array( 'title'        => ts( 'Amount Statistics2' ),
+                                        'default'      => true,
+                                        'statistics'   => 
+                                        array('sum'    => ts( 'Total Amount' ), 
+                                              'count'  => ts( 'Count' ), 
+                                              'avg'    => ts( 'Average' ), ), 
+                                        'dbAlias'      => 'contribution2.total_amount' ),
+                                 ),
                           'filters'               =>             
-                          array( 'receive_date'   => 
-                                 array( 'default' => 'this.month' ),
+                          array( 
+                                 'receive_date1'  => 
+                                 array( 'title'   => ts( 'Date Range1' ),
+                                        'default' => 'this.month',
+                                        'type'    => 12,
+                                        'dbAlias' => 'contribution1.receive_date' ),
+                                 'receive_date2'  => 
+                                 array( 'title'   => ts( 'Date Range2' ),
+                                        'default' => 'this.month',
+                                        'type'    => 12,
+                                        'dbAlias' => 'contribution2.receive_date' ),
                                  'total_amount'   => 
-                                 array( 'title'   => ts( 'Total  Amount Between' ), ), ),
+                                 array( 'title'   => ts( 'Total  Amount Between' ), ), ), ),
+                   'civicrm_address' =>
+                   array( 'dao' => 'CRM_Core_DAO_Address',
                           'group_bys'           =>
-                          array( 'receive_date' => 
+                          array( 'country_id'   => 
                                  array( 'default'    => true,
-                                        'frequency'  => true ),
-                                 'contribution_contact_id' => 
-                                 array( 'title'      => ts( 'Contacts' ) ),
-                                 'contribution_source'     => null, ), ),
-                   'civicrm_contribution_type' =>
-                   array( 'dao'           => 'CRM_Contribute_DAO_ContributionType',
-                          'fields'        =>
-                          array( 'contribution_type'   => null, ), 
-                          'grouping'      => 'contri-fields',
-                          'group_bys'     =>
-                          array( 'contribution_type'   => null, ), ),
+                                        'title'      => ts( 'Country' ) ), ), ),
                    );
 
         $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
@@ -97,7 +96,7 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
     }
 
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Contribution Summary Report' ) );
+        $this->assign( 'reportTitle', ts('Contribution Range Summary Report' ) );
         
         parent::preProcess( );
     }
@@ -117,25 +116,27 @@ class CRM_Report_Form_ContributionSummary extends CRM_Report_Form {
                     // only include statistics columns if set
                     if ( CRM_Utils_Array::value('statistics', $field) ) {
                         foreach ( $field['statistics'] as $stat => $label ) {
-                            switch (strtolower($stat)) {
-                            case 'sum':
-                                $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = $field['type'];
-                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
-                                break;
-                            case 'count':
-                                $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
-                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
-                                break;
-                            case 'avg':
-                                $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] =  $field['type'];
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
-                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
-                                break;
+                            //for ( $i = 1 ; $i <= 2 ; $i++ ) {
+                                switch (strtolower($stat)) {
+                                case 'sum':
+                                    $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = $field['type'];
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
+                                case 'count':
+                                    $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
+                                case 'avg':
+                                    $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] =  $field['type'];
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
                             }
+                                //}
                         }   
 
                     } else {
@@ -197,18 +198,23 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
     }
 
     function from( ) {
+        $join1 = $this->where(true, array('receive_date1'));
+        $join2 = $this->where(true, array('receive_date2'));
+
         $this->_from = "
-FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
-INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
-LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type']} ON {$this->_aliases['civicrm_contribution']}.contribution_type_id = {$this->_aliases['civicrm_contribution_type']}.id
+FROM       civicrm_contact contact
+LEFT JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']}1 ON (contact.id = {$this->_aliases['civicrm_contribution']}1.contact_id AND {$join1})
+LEFT JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']}2 ON (contact.id = {$this->_aliases['civicrm_contribution']}2.contact_id AND {$join2})
+LEFT JOIN  civicrm_address {$this->_aliases['civicrm_address']} ON contact.id={$this->_aliases['civicrm_address']}.contact_id
 ";
     }
 
-    function where( ) {
+    function where( $joinClause = false, $joinFields = array() ) {
         $clauses = array( );
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
+                    if ($joinClause && (!in_array($fieldName,$joinFields))) {continue;}
                     $clause = null;
                     if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
@@ -216,7 +222,7 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
                         
                         if ( $relative || $from || $to ) {
-                            $clause = $this->dateClause( $field['name'], $relative, $from, $to );
+                            $clause = $this->dateClause( $field, $relative, $from, $to );
                         }
                     } else {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
@@ -234,6 +240,14 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
                         $clauses[] = $clause;
                     }
                 }
+            }
+        }
+
+        if ($joinClause) {
+            if ( empty( $clauses ) ) {
+                return " ( 1 ) ";
+            } else {
+                return implode( ' AND ', $clauses );
             }
         }
 
@@ -314,6 +328,7 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
 
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
+
         if ( empty( $this->_params ) &&
              $this->_force ) {
             $this->_params = $this->_formValues;
@@ -322,49 +337,76 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
 
         $this->processReportMode( );
 
-        $this->select  ( );
-        $this->from    ( );
-        $this->where   ( );
-        $this->groupBy ( );
+        $r1_relative = CRM_Utils_Array::value( "receive_date1_relative", $this->_params );
+        $r1_from     = CRM_Utils_Array::value( "receive_date1_from"    , $this->_params );
+        $r1_to       = CRM_Utils_Array::value( "receive_date1_to"      , $this->_params );
 
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
+        $c1_clause = $this->dateClause( 'c1.receive_date', $r1_relative, $r1_from, $r1_to );
 
-        $dao   = CRM_Core_DAO::executeQuery( $sql );
-        $rows  = $graphRows = array();
-        $count = 0;
+        $r2_relative = CRM_Utils_Array::value( "receive_date2_relative", $this->_params );
+        $r2_from     = CRM_Utils_Array::value( "receive_date2_from"    , $this->_params );
+        $r2_to       = CRM_Utils_Array::value( "receive_date2_to"      , $this->_params );
+
+        $c2_clause = $this->dateClause( 'c2.receive_date', $r2_relative, $r2_from, $r2_to );
+
+        $sql = "
+SELECT    c.id, c.display_name,
+          sum(c1.total_amount) as c1_amount,
+          count(c1.total_amount) as c1_count
+FROM      civicrm_contact c
+INNER JOIN civicrm_contribution c1 on c.id = c1.contact_id
+LEFT JOIN civicrm_address ad ON ad.contact_id=c1.contact_id
+WHERE   $c1_clause
+GROUP BY ad.country_id
+";
+
+        //CRM_Core_Error::debug( '$sql', $sql );
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        $rows = array( );
+
         while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-            
-            require_once 'CRM/Utils/PChart.php';
-            if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
-                $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
-                $graphRows[$this->_interval][] = $dao->civicrm_contribution_receive_date_interval;
-                $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
-                $count++;
-            }
-            
-            $rows[] = $row;
+            $rows[$dao->id] = array( 'cid'         => $dao->id,
+                                     'display_name' => $dao->display_name,
+                                     'c1_amount'    => $dao->c1_amount   ,
+                                     'c2_amount'    => null
+                                     );
         }
-        $this->formatDisplay( $rows );
+        $this->_columnHeaders = array( 'cid' =>     array('title' => 'cid'),
+                                       'display_name'=> array('title' => 'display'),
+                                       'c1_amount'=> array('title' => 'c1 amount'),
+                                       'c2_amount'=> array('title' => 'c2 amount'),
+                                       );
 
-        $this->assign( 'grandStat', $this->grandTotal( $rows ) );
+
+        $sql = "
+SELECT    c.id, c.display_name,
+          sum(c2.total_amount) as c2_amount,
+          count(c2.total_amount) as c2_count
+FROM      civicrm_contact c
+INNER JOIN civicrm_contribution c2 on c.id = c2.contact_id
+LEFT JOIN civicrm_address ad ON c.id=ad.contact_id 
+WHERE     $c2_clause
+GROUP BY ad.country_id
+";
+
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        while ( $dao->fetch( ) ){
+            if ( isset( $rows[$dao->id] ) ) {
+                $rows[$dao->id]['c2_amount'] = $dao->c2_amount;
+            } else {
+                $rows[$dao->id] = array( 'cid'         => $dao->id,
+                                         'display_name' => $dao->display_name,
+                                         'c1_amount'    => null,
+                                         'c2_amount'    => $dao->c2_amount
+                                         );
+            }
+        }
+
+
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
         $this->assign( 'statistics', $this->statistics( $rows ) );
         
-        require_once 'CRM/Utils/PChart.php';
-        if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
-            foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
-                unset( $graphRows[$ignore][$count-1] );
-            }
-            
-            $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
-            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
-
-        }
         parent::postProcess( );
     }
 

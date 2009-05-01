@@ -35,7 +35,7 @@
 
 require_once 'CRM/Report/Form.php';
 
-class CRM_Report_Form_ContributionDetail extends CRM_Report_Form {
+class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     protected $_addressField = false;
 
     protected $_emailField = false;
