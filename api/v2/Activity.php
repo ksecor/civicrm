@@ -45,6 +45,10 @@ require_once 'api/v2/utils.php';
 require_once 'CRM/Activity/BAO/Activity.php';
 require_once 'CRM/Core/DAO/OptionGroup.php';
 
+// require these to call new function names from deprecated ones in here
+require_once 'api/v2/ActivityType.php';
+require_once 'api/v2/ActivityContact.php';
+
 /**
  * Create a new Activity.
  *
@@ -129,8 +133,10 @@ function civicrm_activity_get( $params, $returnCustom = false ) {
 /**
  * Wrapper to make this function compatible with the REST API
  *
+ * Obsolete now; if no one is using this, it should be removed. -- Wes Morgan
  */
 function civicrm_activity_get_contact( $params ) {
+    // TODO: Spit out deprecation warning here
     return civicrm_activities_get_contact( $params );
 }
 
@@ -144,24 +150,8 @@ function civicrm_activity_get_contact( $params ) {
  */
 function civicrm_activities_get_contact( $params )
 {
-    _civicrm_initialize( );
-    
-    $contactId = CRM_Utils_Array::value( 'contact_id', $params ); 
-    if ( empty( $contactId ) ) {
-        return civicrm_create_error( ts ( "Required parameter not found" ) );
-    }
-    
-    if ( !is_numeric( $contactId ) ) {
-        return civicrm_create_error( ts ( "Invalid contact Id" ) );
-    }
-    
-    $activities =  & _civicrm_activities_get( $contactId );
-       
-    if ( $activities ) {
-        return civicrm_create_success( $activities );
-    } else {
-        return civicrm_create_error( ts( 'Invalid Data' ) );
-    }
+    // TODO: Spit out deprecation warning here
+    return civicrm_activity_contact_get( $params );
 }
 
 /**
@@ -280,27 +270,6 @@ function _civicrm_activity_get( $activityId, $returnCustom = false ) {
 }
 
 /**
- * Retrieve a set of Activities specific to given contact Id.
- * @param int $contactID.
- *
- * @return array (reference)  array of activities.
- * @access public
- */
-function &_civicrm_activities_get( $contactID, $type = 'all' ) 
-{
-    $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
-    
-    // handle custom data.
-    foreach ( $activities as $activityId => $values ) {
-        $customData = civicrm_activity_custom_get( array( 'activity_id'      => $activityId, 
-                                                          'activity_type_id' => $values['activity_type_id'] ) );
-        $activities[$activityId] = array_merge( $activities[$activityId], $customData );
-    }
-    
-    return $activities;
-}
-
-/**
  * Function to check for required params
  *
  * @param array   $params  associated array of fields
@@ -395,6 +364,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
 /**
  * Convert an email file to an activity
  */
+<<<<<<< .working
 function civicrm_activity_process_email( $file, $activiyTypeID, $result = array( ) ) {
     // do not parse if result array already passed (towards EmailProcessor..)
     if ( empty($result) ) {
@@ -407,6 +377,14 @@ function civicrm_activity_process_email( $file, $activiyTypeID, $result = array(
 
         require_once 'CRM/Utils/Mail/Incoming.php';
         $result = CRM_Utils_Mail_Incoming::parse( $file );
+=======
+function civicrm_activity_processemail( $file, $activityTypeID ) {
+    // might want to check that email is ok here
+    if ( ! file_exists( $file ) ||
+         ! is_readable( $file ) ) {
+        return CRM_Core_Error::createAPIError( ts( 'File %1 does not exist or is not readable',
+                                                   array( 1 => $file ) ) );
+>>>>>>> .merge-right.r20415
     }
 
     if ( $result['is_error'] ) {
@@ -415,8 +393,12 @@ function civicrm_activity_process_email( $file, $activiyTypeID, $result = array(
 
     // get ready for collecting data about activity to be created
     $params = array();
+<<<<<<< .working
 
     $params['activity_type_id']   = $activiyTypeID;
+=======
+    $params['activity_type_id']   = $activityTypeID;
+>>>>>>> .merge-right.r20415
     $params['status_id']          = 1;
     $params['source_contact_id']  = $params['assignee_contact_id'] = $result['from']['id'];
     $params['target_contact_id']  = array( );
@@ -443,57 +425,14 @@ function civicrm_activity_process_email( $file, $activiyTypeID, $result = array(
     return civicrm_activity_create( $params );
 }
 
-/**
- * Function to retrieve activity types
- * 
- * @return array $activityTypes activity types keyed by id
- * @access public
- */
+function civicrm_activity_process_email( $file, $activityTypeID ) {
+    // TODO: Spit out deprecation warning here
+    return civicrm_activity_processemail( $file, $activityTypeID );
+}
+
 function civicrm_activity_get_types( ) {
-    require_once 'CRM/Core/OptionGroup.php';
-    $activityTypes = CRM_Core_OptionGroup::values( 'activity_type' );
-    return $activityTypes;
-}
-
-/**
- * Function to create activity type
- * @params array   $params  associated array of fields
- *                 $params['option_value_id'] is required for updation of activity type
- * @return array $activityType created / updated activity type
- *
- * @access public
- */
-function civicrm_activity_type_create( &$params ) {
-    require_once 'CRM/Core/OptionGroup.php';
-    
-    if ( ! isset( $params['label'] ) || ! isset( $params['weight'] ) ) {
-        return civicrm_create_error( ts( 'Required parameter "label / weight" not found' ) );
-    }
-        
-    $action = 1;
-    $groupParams = array ( 'name' => 'activity_type' );
-
-    if ( $optionValueID = CRM_Utils_Array::value ( 'option_value_id', $params ) ){
-        $action = 2;
-    }
-
-    require_once 'CRM/Core/OptionValue.php';  
-    $activityObject = CRM_Core_OptionValue::addOptionValue( $params, $groupParams, $action, $optionValueID );
-    $activityType = array();
-    _civicrm_object_to_array( $activityObject, $activityType );
-    return $activityType;
-}
-
-/**
- * Function to delete activity type
- * @activityTypeId int   activity type id to delete
- * @return boolen
- *
- * @access public
- */
-function civicrm_activity_type_delete( $activityTypeId ) {
-    require_once 'CRM/Core/BAO/OptionGroup.php';
-    return CRM_Core_BAO_OptionValue::del( $activityTypeId );
+    // TODO: Spit out deprecation warning here
+    return civicrm_activity_type_get( );
 }
 
 /**

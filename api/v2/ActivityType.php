@@ -26,8 +26,7 @@
 */
 
 /**
- *
- * Definition of CRM API for Membership.
+ * Definition of the ActivityType part of the CRM API. 
  * More detailed documentation can be found 
  * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
  * here}
@@ -37,59 +36,57 @@
  * $Id$
  *
  */
-
-/**
- * Files required for this package
- */
 require_once 'api/v2/utils.php';
-require_once 'CRM/Utils/Rule.php';
-require_once 'api/v2/MembershipContact.php';
-require_once 'api/v2/MembershipType.php';
-require_once 'api/v2/MembershipStatus.php';
 
 /**
- * Deletes an existing contact membership
+ * Function to retrieve activity types
  * 
- * This API is used for deleting a contact membership
- * 
- * @param  Int  $membershipID   Id of the contact membership to be deleted
- * 
- * @return null if successfull, object of CRM_Core_Error otherwise
+ * @return array $activityTypes activity types keyed by id
  * @access public
  */
-function civicrm_membership_delete(&$membershipID)
-{
-    _civicrm_initialize();
+function civicrm_activity_type_get( ) {
+    require_once 'CRM/Core/OptionGroup.php';
+    $activityTypes = CRM_Core_OptionGroup::values( 'activity_type' );
+    return $activityTypes;
+}
+
+/**
+ * Function to create activity type
+ * @params array   $params  associated array of fields
+ *                 $params['option_value_id'] is required for updation of activity type
+ * @return array $activityType created / updated activity type
+ *
+ * @access public
+ */
+function civicrm_activity_type_create( $params ) {
+    require_once 'CRM/Core/OptionGroup.php';
     
-    if (empty($membershipID)) {
-        return civicrm_create_error('Invalid value for membershipID');
+    if ( ! isset( $params['label'] ) || ! isset( $params['weight'] ) ) {
+        return civicrm_create_error( ts( 'Required parameter "label / weight" not found' ) );
     }
-    
-    require_once 'CRM/Member/BAO/Membership.php';
-    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipID );
-    
-    $membership = new CRM_Member_BAO_Membership();
-    $result = $membership->deleteMembership($membershipID);
-    
-    return $result ? civicrm_create_success( ) : civicrm_create_error('Error while deleting Membership');
+        
+    $action = 1;
+    $groupParams = array ( 'name' => 'activity_type' );
+
+    if ( $optionValueID = CRM_Utils_Array::value ( 'option_value_id', $params ) ){
+        $action = 2;
+    }
+
+    require_once 'CRM/Core/OptionValue.php';  
+    $activityObject = CRM_Core_OptionValue::addOptionValue( $params, $groupParams, $action, $optionValueID );
+    $activityType = array();
+    _civicrm_object_to_array( $activityObject, $activityType );
+    return $activityType;
 }
 
-# Deprecated compatilibility wrappers
-function civicrm_contact_memberships_get(&$contactID)
-{
-    return civicrm_membership_contact_get($contactID);
+/**
+ * Function to delete activity type
+ * @activityTypeId int   activity type id to delete
+ * @return boolen
+ *
+ * @access public
+ */
+function civicrm_activity_type_delete( $activityTypeId ) {
+    require_once 'CRM/Core/BAO/OptionGroup.php';
+    return CRM_Core_BAO_OptionValue::del( $activityTypeId );
 }
-
-function civicrm_contact_membership_create(&$params)
-{
-    return civicrm_membership_contact_create($params);
-}
-
-function civicrm_membership_types_get(&$params) {
-    return civicrm_membership_type_get($params);
-}
-
-function civicrm_membership_statuses_get(&$params) {
-    return civicrm_membership_status_get($params);
-}
-

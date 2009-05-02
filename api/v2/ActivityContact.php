@@ -26,8 +26,7 @@
 */
 
 /**
- *
- * Definition of CRM API for Membership.
+ * Definition of the ActivityContact part of the CRM API. 
  * More detailed documentation can be found 
  * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
  * here}
@@ -37,59 +36,68 @@
  * $Id$
  *
  */
-
+ 
 /**
  * Files required for this package
  */
 require_once 'api/v2/utils.php';
-require_once 'CRM/Utils/Rule.php';
-require_once 'api/v2/MembershipContact.php';
-require_once 'api/v2/MembershipType.php';
-require_once 'api/v2/MembershipStatus.php';
+
+require_once 'CRM/Activity/BAO/Activity.php';
 
 /**
- * Deletes an existing contact membership
- * 
- * This API is used for deleting a contact membership
- * 
- * @param  Int  $membershipID   Id of the contact membership to be deleted
- * 
- * @return null if successfull, object of CRM_Core_Error otherwise
+ * Retrieve a set of activities, specific to given input params.
+ *
+ * @param  array  $params (reference ) input parameters.
+ *
+ * @return array (reference)  array of activities / error message.
  * @access public
  */
-function civicrm_membership_delete(&$membershipID)
+function civicrm_activity_contact_get( $params ) {
+  _civicrm_initialize( );
+  
+  $contactId = CRM_Utils_Array::value( 'contact_id', $params ); 
+  if ( empty( $contactId ) ) {
+      return civicrm_create_error( ts ( "Required parameter not found" ) );
+  }
+  
+  if ( !is_numeric( $contactId ) ) {
+      return civicrm_create_error( ts ( "Invalid contact Id" ) );
+  }
+  
+  $activities =  & _civicrm_activities_get( $contactId );
+     
+  if ( $activities ) {
+      return civicrm_create_success( $activities );
+  } else {
+      return civicrm_create_error( ts( 'Invalid Data' ) );
+  }
+}
+
+/**
+ * Retrieve a set of Activities specific to given contact Id.
+ * @param int $contactID.
+ *
+ * @return array (reference)  array of activities.
+ * @access public
+ */
+function &_civicrm_activities_get( $contactID, $type = 'all' ) 
 {
-    _civicrm_initialize();
-    
-    if (empty($membershipID)) {
-        return civicrm_create_error('Invalid value for membershipID');
+    $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
+   
+    //handle custom data.
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    foreach ( $activities as $activityId => $values ) {
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Activity', $activityId, false,
+                                                         $values['activity_type_id'] );
+        $defaults = array( );
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
+        
+        if ( !empty( $defaults ) ) {
+            foreach ( $defaults as $key => $val ) {
+                $activities[$activityId][$key] = $val;
+            }
+        }
     }
     
-    require_once 'CRM/Member/BAO/Membership.php';
-    CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipID );
-    
-    $membership = new CRM_Member_BAO_Membership();
-    $result = $membership->deleteMembership($membershipID);
-    
-    return $result ? civicrm_create_success( ) : civicrm_create_error('Error while deleting Membership');
+    return $activities;
 }
-
-# Deprecated compatilibility wrappers
-function civicrm_contact_memberships_get(&$contactID)
-{
-    return civicrm_membership_contact_get($contactID);
-}
-
-function civicrm_contact_membership_create(&$params)
-{
-    return civicrm_membership_contact_create($params);
-}
-
-function civicrm_membership_types_get(&$params) {
-    return civicrm_membership_type_get($params);
-}
-
-function civicrm_membership_statuses_get(&$params) {
-    return civicrm_membership_status_get($params);
-}
-
