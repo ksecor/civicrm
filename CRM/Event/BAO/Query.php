@@ -164,6 +164,11 @@ class CRM_Event_BAO_Query
                 $query->_element['participant_is_test'] = 1;
             }
  
+            if ( CRM_Utils_Array::value( 'participant_registered_by_id', $query->_returnProperties ) ) {
+                $query->_select['participant_registered_by_id']  = "civicrm_participant.registered_by_id as participant_registered_by_id";
+                $query->_element['participant_registered_by_id'] = 1;
+            }
+ 
             // get discount name
             if ( CRM_Utils_Array::value( 'participant_discount_name', $query->_returnProperties ) ) {
                 $query->_select['participant_discount_name']      = "discount_name.label as participant_discount_name";
@@ -466,7 +471,8 @@ class CRM_Event_BAO_Query
                                 'participant_is_test'       => 1,
                                 'participant_is_pay_later'  => 1,
                                 'participant_fee_amount'    => 1,
-                                'participant_discount_name' => 1
+                                'participant_discount_name' => 1,
+                                'participant_registered_by_id' => 1
                                 );
        
             // also get all the custom participant properties
