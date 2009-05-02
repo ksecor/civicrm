@@ -25,6 +25,14 @@ function getSearchURLValue( )
     }
 }
 
+/* Need to fix this properly*/
+cj( function() {
+    cj("#admin-menu").find("li a:last").click(function() { 
+        cj(".cmDiv").toggle();
+        return false;
+    });
+});
+
 cj.ajax({
     type        : "POST",
     url         : {/literal}"{crmURL p='civicrm/ajax/adminmenu' h=0 }"{literal},
