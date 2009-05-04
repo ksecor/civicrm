@@ -457,14 +457,22 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         $whereCond = implode( ' AND ', $where );
 
         $query = "
-SELECT sum( total_amount ) as total_amount, count( id ) as total_count
+SELECT sum( total_amount ) as total_amount, count( id ) as total_count, currency
 FROM   civicrm_contribution
 WHERE  $whereCond AND is_test=0
+GROUP BY currency
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        if ( $dao->fetch( ) ) {
-            return array( 'amount' => $dao->total_amount,
+        $amount = array( );
+        $count  = 0;
+        require_once 'CRM/Utils/Money.php';
+        while ( $dao->fetch( ) ) {
+            $count    += $dao->total_count;
+            $amount[]  = CRM_Utils_Money::format( $dao->total_amount, $dao->currency );
+        }
+        if ( $count ) {
+            return array( 'amount' => implode( ', ', $amount ),
                           'count'  => $dao->total_count );
         }
         return null;
@@ -754,19 +762,32 @@ WHERE  civicrm_contribution.contact_id = civicrm_contact.id
 
         $query = "
 SELECT count(*) as count,
-       sum(total_amount) as amount
+       sum(total_amount) as amount,
+       avg(total_amount) as average,
+       currency
   FROM civicrm_contribution b
  WHERE b.contact_id IN ( $contactIDs )
    AND b.contribution_status_id = 1
    AND b.is_test = 0
    AND b.receive_date >= $startDate
    AND b.receive_date <  $endDate
+GROUP BY currency
 ";
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        if ( $dao->fetch( ) ) {
+        $count = 0;
+        $amount = $average = array( );
+        require_once 'CRM/Utils/Money.php';
+        while ( $dao->fetch( ) ) {
             if ( $dao->count > 0 && $dao->amount > 0) {
-                return array( $dao->count, $dao->amount, (float ) $dao->amount / $dao->count );
+                $count += $dao->count;
+                $amount[]  = CRM_Utils_Money::format( $dao->amount , $dao->currency );
+                $average[] = CRM_Utils_Money::format( $dao->average, $dao->currency );
             }
+        }
+        if ( $count > 0 ) {
+            return array( $count,
+                          implode( ',&nbsp;', $amount  ),
+                          implode( ',&nbsp;', $average ) );
         }
         return array( 0, 0, 0 );
     }
