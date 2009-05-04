@@ -326,7 +326,25 @@ class CRM_Core_Payment_BaseIPN {
             if ( $membership ) {
                 $format       = '%Y%m%d';
                 require_once 'CRM/Member/BAO/MembershipType.php';  
-                $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                require_once 'CRM/Member/BAO/Membership.php';
+                $currentMembership =  CRM_Member_BAO_Membership::getContactMembership( $membership->contact_id, 
+                                                                                       $membership->membership_type_id, 
+                                                                                       $membership->is_test, $membership->id );
+                if ( $currentMembership ) {
+                    /*
+                     * Fixed FOR CRM-4433
+                     * In BAO/Membership.php(renewMembership function), we skip the extend membership date and status 
+                     * when Contribution mode is notify and membership is for renewal ) 
+                     */
+                    CRM_Member_BAO_Membership::fixMembershipStatusBeforeRenew( $currentMembership, $changeToday = null  );
+                    
+                    $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id , $changeToday = null );
+                    
+                    $dates['join_date'] =  CRM_Utils_Date::customFormat($currentMembership['join_date'], $format );
+                    
+                } else {
+                    $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                }
                 
                 //get the status for membership.
                 require_once 'CRM/Member/BAO/MembershipStatus.php';
@@ -340,13 +358,26 @@ class CRM_Core_Payment_BaseIPN {
                                          'join_date'     => CRM_Utils_Date::customFormat( $dates['join_date'],     $format ),
                                          'start_date'    => CRM_Utils_Date::customFormat( $dates['start_date'],    $format ),
                                          'end_date'      => CRM_Utils_Date::customFormat( $dates['end_date'],      $format ),
-                                         'reminder_date' => CRM_Utils_Date::customFormat( $dates['reminder_date'], $format ) ); 
+                                         'reminder_date' => CRM_Utils_Date::customFormat( $dates['reminder_date'], $format ) );
                 
                 $membership->copyValues( $formatedParams );
                 $membership->save( );
+
+                //updating the membership log
+                $membershipLog = array();
+                $membershipLog = $formatedParams;
+                $logStartDate  = CRM_Utils_Date::customFormat( $dates['log_start_date'], $format );
+                $logStartDate  = ($logStartDate) ? CRM_Utils_Date::isoToMysql( $logStartDate ) : $formatedParams['start_date'];
                 
-                //update related Memberships.
-                require_once 'CRM/Member/BAO/Membership.php';
+                $membershipLog['start_date']    = $logStartDate;
+                $membershipLog['membership_id'] = $membership->id;
+                $membershipLog['modified_id']   = $membership->contact_id;
+                $membershipLog['modified_date'] = date('Ymd');
+                
+                require_once 'CRM/Member/BAO/MembershipLog.php';
+                CRM_Member_BAO_MembershipLog::add( $membershipLog, CRM_Core_DAO::$_nullArray);
+
+                //update related Memberships.              
                 CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $formatedParams );
             }
         } else {
