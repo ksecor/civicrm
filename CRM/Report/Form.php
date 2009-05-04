@@ -289,6 +289,17 @@ class CRM_Report_Form extends CRM_Core_Form {
                     }
                 }
             }
+            if ( array_key_exists('filters', $table) ) {
+                foreach ( $table['filters'] as $fieldName => $field ) {
+                    if ( isset($field['default']) ) {
+                        if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                            $this->_defaults["{$fieldName}_relative"] = $field['default'];
+                        } else {
+                            $this->_defaults[$fieldName] = $field['default'];
+                        }
+                    }
+                }
+            }
 
             foreach ( $this->_options as $fieldName => $field ) {
                 if ( isset($field['default']) ) {

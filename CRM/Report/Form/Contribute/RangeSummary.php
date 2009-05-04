@@ -50,32 +50,30 @@ class CRM_Report_Form_Contribute_RangeSummary extends CRM_Report_Form {
                    array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
                           'fields'        =>
                           array( 'total_amount1'        => 
-                                 array( 'title'        => ts( 'Amount Statistics1' ),
+                                 array( 'title'        => ts( 'Range1' ),
                                         'default'      => true,
                                         'statistics'   => 
                                         array('sum'    => ts( 'Total Amount' ), 
-                                              'count'  => ts( 'Count' ), 
-                                              'avg'    => ts( 'Average' ), ), 
+                                              'count'  => ts( 'Count' ), ), 
                                         'dbAlias'      => 'contribution1.total_amount' ),
                                  'total_amount2'        => 
-                                 array( 'title'        => ts( 'Amount Statistics2' ),
+                                 array( 'title'        => ts( 'Range2' ),
                                         'default'      => true,
                                         'statistics'   => 
                                         array('sum'    => ts( 'Total Amount' ), 
-                                              'count'  => ts( 'Count' ), 
-                                              'avg'    => ts( 'Average' ), ), 
+                                              'count'  => ts( 'Count' ), ), 
                                         'dbAlias'      => 'contribution2.total_amount' ),
                                  ),
                           'filters'               =>             
                           array( 
                                  'receive_date1'  => 
                                  array( 'title'   => ts( 'Date Range1' ),
-                                        'default' => 'this.month',
+                                        'default' => 'previous.year',
                                         'type'    => 12,
                                         'dbAlias' => 'contribution1.receive_date' ),
                                  'receive_date2'  => 
                                  array( 'title'   => ts( 'Date Range2' ),
-                                        'default' => 'this.month',
+                                        'default' => 'this.year',
                                         'type'    => 12,
                                         'dbAlias' => 'contribution2.receive_date' ),
                                  'total_amount'   => 
@@ -130,8 +128,10 @@ class CRM_Report_Form_Contribute_RangeSummary extends CRM_Report_Form {
 
         $sql = "
 SELECT 
-ifnull( c1_count, 0 ) AS c1_count, ifnull( c1_amount, 0 ) AS c1_amount,
-ifnull( c2_count, 0 ) AS c2_count, ifnull( c2_amount, 0 ) AS c2_amount
+ifnull(country.name, 'N/A') as country_name,
+ifnull( SUM(c1_count), 0 ) AS c1_count, ifnull( SUM(c1_amount), 0 ) AS c1_amount,
+ifnull( SUM(c2_count), 0 ) AS c2_count, ifnull( SUM(c2_amount), 0 ) AS c2_amount
+
 FROM civicrm_contact c
 LEFT JOIN (
  SELECT c1.contact_id, count( * ) AS c1_count, sum( c1.total_amount ) AS c1_amount
@@ -149,29 +149,49 @@ LEFT JOIN (
  GROUP BY ad.country_id
 ) c2 ON c.id = c2.contact_id
 
+LEFT JOIN civicrm_address ad ON c.id=ad.contact_id
+LEFT JOIN civicrm_country country ON ad.country_id=country.id
+
 WHERE !(c1_count IS NULL AND c2_count IS NULL)
+GROUP BY ad.country_id WITH ROLLUP
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
 
         while ( $dao->fetch( ) ) {
-            $rows[] = array( 'c1_count'     => $dao->c1_count ,
+            $rows[] = array( 'country_name' => $dao->country_name,
+                             'c1_count'     => $dao->c1_count ,
                              'c1_amount'    => $dao->c1_amount,
                              'c2_count'     => $dao->c2_count,
                              'c2_amount'    => $dao->c2_amount,
                              );
         }
         $this->_columnHeaders = 
-            array( 'c1_count'    => array('title' => 'Range1 Count'),
+            array( 'country_name'=> array('title' => 'Country'),
+                   'c1_count'    => array('title' => 'Range1 Count'),
                    'c1_amount'   => array('title' => 'Range1 Amount'),
                    'c2_count'    => array('title' => 'Range2 Count'),
                    'c2_amount'   => array('title' => 'Range2 Amount'),
                    );
 
+        $this->formatDisplay( $rows );
+
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
         
         parent::postProcess( );
+    }
+
+    function alterDisplay( &$rows ) {
+        // custom code to alter rows
+        
+        foreach ( $rows[count($rows)-1] as $fld => $val ) {
+            if ( $fld == 'country_name' ) {
+                unset($rows[count($rows)-1]['country_name']);
+            } else {
+                $rows[count($rows)-1][$fld] = "<strong>$val</strong>";
+            }
+        }
     }
 }
