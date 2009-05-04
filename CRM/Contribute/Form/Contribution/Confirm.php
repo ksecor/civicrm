@@ -82,7 +82,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['token']          = $this->get( 'token' );
 
                 $this->_params['amount'        ] = $this->get( 'amount' );
+
+                // we use this here to incorporate any changes made by folks in hooks
                 $this->_params['currencyID'    ] = $config->defaultCurrency;
+
                 $this->_params['payment_action'] = 'Sale';
 
                 // also merge all the other values from the profile fields
@@ -355,6 +358,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // also add accounting code
         $this->_params['accountingCode'] = CRM_Utils_Array::value( 'accountingCode',
                                                                    $this->_values );
+
+        // fix currency ID
+        $this->_params['currencyID'] = $config->defaultCurrency;
 
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );

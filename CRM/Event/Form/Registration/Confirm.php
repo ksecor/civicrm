@@ -120,7 +120,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $params['discountMessage'] = $this->_params[0]['discountMessage'];
                 }
                 $params['amount_level'  ]  = $this->_params[0]['amount_level'];
-                $params['currencyID'    ]  = $config->defaultCurrency;
+                $params['currencyID'    ]  = $this->_params[0]['currencyID'];
                 $params['payment_action']  = 'Sale';
                 
                 // also merge all the other values from the profile fields
@@ -163,9 +163,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
             if ( $this->_values['event']['is_monetary'] ) {
                 $registerParams['ip_address']     = CRM_Utils_System::ipAddress( );
-                // $registerParams['amount'        ] = $this->get( 'amount' );
-                // $registerParams['amount_level'  ] = $this->get( 'amount_level' );
-                $registerParams['currencyID'    ] = $config->defaultCurrency;
+                $registerParams['currencyID'    ] = $this->_params[0]['currencyID'];
                 $registerParams['payment_action'] = 'Sale';
             }
             //assign back primary participant params.
