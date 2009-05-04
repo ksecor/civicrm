@@ -1072,7 +1072,8 @@ AND civicrm_membership.is_test = %2";
             
             // Do NOT do anything to membership with status : PENDING/CANCELLED (CRM-2395)
             if ( in_array($currentMembership['status_id'],  array( array_search( 'Pending', $allStatus ),
-                                                                   array_search( 'Cancelled', $allStatus ) ) ) ) {
+                                                                   array_search( 'Cancelled', $allStatus ) ) ) ||
+                 $form->_contributeMode == 'notify' ) {
                 $membership =& new CRM_Member_DAO_Membership();
                 $membership->id = $currentMembership['id'];
                 $membership->find(true);
@@ -1276,7 +1277,6 @@ AND civicrm_membership.is_test = %2";
             $memberDAO->start_date = CRM_Utils_Date::isoToMysql( $memberDAO->start_date );
             $memberDAO->end_date   = CRM_Utils_Date::isoToMysql( $memberDAO->end_date );
             $memberDAO->save( );
-            
             CRM_Core_DAO::storeValues( $memberDAO , $currentMembership );
             
             $memberDAO->free( );

@@ -229,10 +229,16 @@
    {literal}
     <script type="text/javascript">
      function verify( ) {
-          var element = document.getElementsByName("status_id");
-	  var status = cj('#status_id :selected').text();
+     	  var month = cj("select#activity_date_time\\[M\\]").val( );
+          if ( month.length == 1 ) month = "0" + month;
 
-          if ( status == "Scheduled" ) {
+          var day  = cj("select#activity_date_time\\[d\\]").val( );
+          if ( day.length == 1 ) day = "0" + day;
+
+       	  var activity_date_time  = cj("select#activity_date_time\\[Y\\]").val() + month + day;
+	  var status = cj('#status_id').val();
+
+          if ( status == 1 && activity_date_time ) {
 	     var ok = confirm( 'This activity has an Actual Date set, but the status is still "Scheduled". If you meant to set the status to "Completed", click Cancel and update the status field. Otherwise click OK to save the activity with "Scheduled" status.' );    
              if (!ok ) {
                 return false;
