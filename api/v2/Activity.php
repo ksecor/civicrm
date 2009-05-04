@@ -364,27 +364,12 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
 /**
  * Convert an email file to an activity
  */
-<<<<<<< .working
-function civicrm_activity_process_email( $file, $activiyTypeID, $result = array( ) ) {
-    // do not parse if result array already passed (towards EmailProcessor..)
-    if ( empty($result) ) {
-        // might want to check that email is ok here
-        if ( ! file_exists( $file ) ||
-             ! is_readable( $file ) ) {
-            return CRM_Core_Error::createAPIError( ts( 'File %1 does not exist or is not readable',
-                                                       array( 1 => $file ) ) );
-        }
-
-        require_once 'CRM/Utils/Mail/Incoming.php';
-        $result = CRM_Utils_Mail_Incoming::parse( $file );
-=======
 function civicrm_activity_processemail( $file, $activityTypeID ) {
     // might want to check that email is ok here
     if ( ! file_exists( $file ) ||
          ! is_readable( $file ) ) {
         return CRM_Core_Error::createAPIError( ts( 'File %1 does not exist or is not readable',
                                                    array( 1 => $file ) ) );
->>>>>>> .merge-right.r20415
     }
 
     if ( $result['is_error'] ) {
@@ -393,12 +378,7 @@ function civicrm_activity_processemail( $file, $activityTypeID ) {
 
     // get ready for collecting data about activity to be created
     $params = array();
-<<<<<<< .working
-
-    $params['activity_type_id']   = $activiyTypeID;
-=======
     $params['activity_type_id']   = $activityTypeID;
->>>>>>> .merge-right.r20415
     $params['status_id']          = 1;
     $params['source_contact_id']  = $params['assignee_contact_id'] = $result['from']['id'];
     $params['target_contact_id']  = array( );
