@@ -44,7 +44,7 @@
 </fieldset>
 
 <fieldset>
-<legend>Processor Details for Test Payments</legend>
+<legend>{ts}Processor Details for Test Payments{/ts}</legend>
     <dt>{$form.test_user_name.label}</dt><dd>{$form.test_user_name.html} {help id=$ppType|cat:'-test-user-name'}</dd>
 {if $form.test_password}
     <dt>{$form.test_password.label}</dt><dd>{$form.test_password.html} {help id=$ppType|cat:'-test-password'}</dd>

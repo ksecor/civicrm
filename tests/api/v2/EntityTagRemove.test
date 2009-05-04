@@ -125,6 +125,7 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
     {
         $this->contactDelete( $this->individualID );
         $this->contactDelete( $this->householdID  );
+	$this->contactDelete( $this->organizationID );
         $this->tagDelete(     $this->tagID        );
     }
 }

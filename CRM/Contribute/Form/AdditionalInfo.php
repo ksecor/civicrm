@@ -390,10 +390,10 @@ class CRM_Contribute_Form_AdditionalInfo
             $params['receipt_from_name'] = $form->userDisplayName;
             $params['receipt_from_email']= $form->userEmail;
             // assigned various dates to the templates
-            $form->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receive_date'])));
-            $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receipt_date'])));
-            $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['thankyou_date'])));
-            $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['cancel_date'])));
+            $form->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['receive_date'])));
+            $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['receipt_date'])));
+            $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['thankyou_date'])));
+            $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['cancel_date'])));
         }
         
         //handle custom data

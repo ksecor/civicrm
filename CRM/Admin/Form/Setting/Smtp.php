@@ -42,6 +42,8 @@ require_once 'CRM/Utils/Mail.php';
  */
 class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
 {
+    protected $_testButtonName;
+
     /**
      * Function to build the form
      *
@@ -63,7 +65,10 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
         $this->addYesNo( 'smtpAuth', ts( 'Authentication?' ));
         $this->addElement('text','smtpUsername', ts('SMTP Username')); 
         $this->addElement('password','smtpPassword', ts('SMTP Password')); 
-        $this->add('submit','sendTestEmail', ts('Save & Send Test Email') ); 
+
+        $this->_testButtonName = $this->getButtonName( 'refresh', 'test' );
+        $this->add('submit',$this->_testButtonName, ts('Save & Send Test Email') ); 
+
         $this->addFormRule( array( 'CRM_Admin_Form_Setting_Smtp', 'formRule' ));
         parent::buildQuickForm();
     }
@@ -77,12 +82,13 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
     public function postProcess() {
         $formValues   = $this->controller->exportValues($this->_name);
 
-        if ( $formValues['sendTestEmail'] ) {
+        $buttonName = $this->controller->getButtonName( );
+        // check if test button
+        if ( $buttonName == $this->_testButtonName ) {
             if ( $formValues['outBound_option'] == 2 ) {
                 CRM_Core_Session::setStatus( ts('You have selected "Disable Outbound Email". A test email can not be sent.') );
             } else {
                 $session =& CRM_Core_Session::singleton( );
-                $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting/smtp', 'reset=1') );
                 $userID  =  $session->get( 'userID' );
                 require_once 'CRM/Contact/BAO/Contact.php';
                 list( $fromDisplayName, $fromEmail, $fromDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );

@@ -77,9 +77,11 @@ class CiviMailProcessor {
                     $text = $mail->body->text;
                 } elseif ($mail->body instanceof ezcMailMultipart) {
                     foreach ($mail->body->getParts() as $part) {
-                        switch ($part->subType) {
-                        case 'plain': $text = $part->text; break;
-                        case 'html':  $html = $part->text; break;
+                        if ($part instanceof ezcMailText) {
+                            switch ($part->subType) {
+                            case 'plain': $text = $part->text; break;
+                            case 'html': $html = $part->text; break;
+                            }
                         }
                     }
                 }

@@ -404,6 +404,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         if ( ! isset( $contactID ) ) {
+            //Dedupe couldn't recognize "email-Primary".So modify params temporary.
+            if ( CRM_Utils_Array::value('email-Primary', $params) ) {
+                $params ['email'] = $params['email-Primary'];
+            }
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');

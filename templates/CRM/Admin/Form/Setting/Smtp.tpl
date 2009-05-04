@@ -36,7 +36,7 @@
 </fieldset>
 </div>
     <dl>
-        <dt></dt><dd>{$form.buttons.html}<span id="idSendTestMail">&nbsp;&nbsp;&nbsp;&nbsp;{$form.sendTestEmail.html}</span></dd>
+        <dt></dt><dd>{$form.buttons.html}<span id="idSendTestMail">&nbsp;&nbsp;&nbsp;&nbsp;{$form._qf_Smtp_refresh_test.html}</span></dd>
     </dl>
 </div>
 </fieldset>

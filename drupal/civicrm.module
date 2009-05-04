@@ -413,6 +413,10 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
              trim( $edit['mail'] ) != trim( $user->mail ) ) {
             require_once 'CRM/Core/BAO/UFMatch.php';
             $contactID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
+            // cant find the contactID, so lets skip
+            if ( ! $contactID ) {
+                return;
+            }
             CRM_Core_BAO_UFMatch::updateContactEmail( $contactID,
                                                       trim( $edit['mail'] ) );
         }

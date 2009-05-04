@@ -42,7 +42,7 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
 {
 
     /**
-     * takes an associative array and adds phone 
+     * takes an associative array and adds OpenID 
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      *
@@ -53,6 +53,10 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
     static function add( &$params ) 
     {
         $openId =& new CRM_Core_DAO_OpenID();
+        
+        // normalize the OpenID URL
+        require_once 'Auth/OpenID.php';
+        $params['openid'] = Auth_OpenID::normalizeURL($params['openid']);
         
         $openId->copyValues($params);
 
