@@ -120,7 +120,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $this->_params   = array( );
 
         $resetArray = array( 'group', 'tag', 'preferred_communication_method', 'do_not_phone',
-                             'do_not_email', 'do_not_mail', 'do_not_trade' );
+                             'do_not_email', 'do_not_mail', 'do_not_trade', 'gender' );
 
         if (  CRM_Core_Permission::access( 'Kabissa', false ) ) {
             $resetArray[] = 'kabissa_focus_id';
@@ -172,12 +172,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             }
 
             $customField = CRM_Utils_Array::value( $name, $this->_customFields );
-
+          
             if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
                 if ( $customField ) {
-                    // reset checkbox because a form does not send null checkbox values
+                    // reset checkbox/radio because a form does not send null checkbox values
                     if ( in_array( $customField['html_type'], 
-                                   array( 'Multi-Select', 'CheckBox', 'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {
+                                   array( 'Multi-Select', 'CheckBox', 'Multi-Select State/Province', 'Multi-Select Country', 'Radio' ) ) ) {
                         // only reset on a POST submission if we dont see any value
                         $value = null;
                         $this->set( $name, $value );
