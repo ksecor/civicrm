@@ -12,16 +12,21 @@ function viewActivity( activityID, contactID ) {
         modal: true, 
         width : 700,
         height : 650,
-        resizable: true, 
+        resizable: true,
         overlay: { 
             opacity: 0.5, 
             background: "black" 
         },
+
+        beforeclose: function(event, ui) {
+            cj(this).dialog("destroy");
+        },
+
         open:function() {
-            cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
             cj("#activity-content").html("");
             var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
             cj("#activity-content").load( viewUrl + "&cid="+contactID + "&aid=" + activityID);
+            
         },
 
         buttons: { 

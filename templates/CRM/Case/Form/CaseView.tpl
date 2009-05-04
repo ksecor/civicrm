@@ -99,9 +99,11 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 			background: "black" 
 		},
 
-		open:function() {
-			cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+        beforeclose: function(event, ui) {
+            cj(this).dialog("destroy");
+        },
 
+		open:function() {
 			/* set defaults if editing */
 			cj("#rel_contact").val( "" );
 			cj("#rel_contact_id").val( null );
@@ -296,9 +298,11 @@ function addRole() {
 			background: "black" 
 		},
 
-		open:function() {
-			cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+        beforeclose: function(event, ui) {
+            cj(this).dialog("destroy");
+        },
 
+		open:function() {
 			/* set defaults if editing */
 			cj("#role_contact").val( "" );
 			cj("#role_contact_id").val( null );
