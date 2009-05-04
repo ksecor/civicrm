@@ -77,7 +77,7 @@
    <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}
+        {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}{/capture}
         <dd>{ts 1=$crmURL}There are no Notes for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}</dd>
     </dl>
    </div>
