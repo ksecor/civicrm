@@ -42,8 +42,10 @@
     	<tr class="columnheader">
     		<th>{ts}Case Role{/ts}</th>
     		<th>{ts}Name{/ts}</th>
-    		<th>{ts}Phone{/ts}</th>
-    		<th>{ts}Email{/ts}</th>
+    		<th>{ts}Start Date{/ts}</th>
+	        <th>{ts}End Date{/ts}</th>
+        	<th>{ts}Phone{/ts}</th>
+            <th>{ts}Email{/ts}</th>
     		<th>{ts}Actions{/ts}</th>
     	</tr>
 		{assign var=rowNumber value = 1}
@@ -51,7 +53,9 @@
         <tr>
             <td class="label">{$row.relation}</td>
             <td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a></td>
+            <td id="start_{$rowNumber}">{$row.start_date|crmDate}</td><td id="end_{$rowNumber}">{$row.end_date|crmDate}</td>
             <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&action=add&atype=3&cid=`$row.cid`&caseid=`$caseID`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
+           
             <td id ="edit_{$rowNumber}"><img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );">&nbsp;&nbsp;<a href="{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&id=`$relId`&caseID=`$caseID`"}" onclick = "if (confirm('Are you sure you want to remove this person from their case role?') ) this.href+='&confirmed=1'; else return false;"><img title="remove contact from case role" src="{$config->resourceBase}i/delete.png"/></a></td>
         </tr>
 		{assign var=rowNumber value = `$rowNumber+1`}
@@ -61,6 +65,8 @@
         <tr>
             <td class="label">{$relName}</td>
             <td id="relName_{$rowNumber}">(not assigned)</td>
+            <td id="start_{$rowNumber}"></td>
+            <td id="end_{$rowNumber}"></td>
             <td id="phone_{$rowNumber}"></td>
             <td id="email_{$rowNumber}"></td>
             <td id ="edit_{$rowNumber}"><img title="assign contact to case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td>
