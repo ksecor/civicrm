@@ -21,7 +21,8 @@
    </td>
    <td>
       <fieldset><legend>{ts}Quick Search{/ts}</legend>
-      <form action="{$postURL}" method="post">
+      {capture assign="quickSearchURL"}{crmURL p='civicrm/contact/search' q='reset=1'}{/capture}
+      <form action="{$quickSearchURL}" method="post">
       <div class="form-item">
         {if isset($drupalFormToken) and $drupalFormToken}
             <input type="hidden" name="edit[token]" value="{$drupalFormToken}" />
