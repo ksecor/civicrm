@@ -381,7 +381,7 @@ class CRM_Utils_Token
         // so that we remove anything we do not recognize
         // I hope to move this step out of here soon and
         // then we will just iterate on a list of tokens that are passed to us
-        if ( ! $knownTokens || ! $knownTokens[$key] ) {
+        if ( ! $knownTokens || ! CRM_Utils_Array::value( $key,$knownTokens ) ) {
             return $str;
         }
         
