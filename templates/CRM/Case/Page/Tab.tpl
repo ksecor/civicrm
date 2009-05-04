@@ -2,7 +2,7 @@
     {include file="CRM/Case/Page/ConfigureError.tpl"}
 {else}
 
-    {capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&atype=`$openCaseId`&context=case"}{/capture}
+    {capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&context=case"}{/capture}
 
     {if $action eq 1 or $action eq 2 or $action eq 8 or $action eq 32768 } {* add, update, delete, restore*}            
         {include file="CRM/Case/Form/Case.tpl"}

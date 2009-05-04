@@ -39,11 +39,6 @@ require_once 'CRM/Core/Page.php';
  */
 class CRM_Case_Page_DashBoard extends CRM_Core_Page 
 {
-    /**
-     * Open Case activity type id
-     */
-    protected $_openCaseId = null;
-
     /** 
      * Heart of the viewing process. The runner gets all the meta data for 
      * the contact and calls the appropriate type of page to view. 
@@ -94,10 +89,6 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
         if( !empty( $recent ) ) {
             $this->assign('recentCases',   $recent);
         }
-        
-        // Retrieve the activity type id for "Open Case" so we can use it for New Case for New Client link
-        $this->_openCaseId         = CRM_Core_OptionGroup::getValue( 'activity_type', 'Open Case', 'name' );
-        $this->assign( 'openCaseId', $this->_openCaseId);
     }
     
     /** 
