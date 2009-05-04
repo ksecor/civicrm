@@ -48,48 +48,20 @@ class CRM_Report_Form_Contribute_RangeSummary extends CRM_Report_Form {
         $this->_columns = 
             array( 'civicrm_contribution' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
-                          'fields'        =>
-                          array( 'total_amount1'        => 
-                                 array( 'title'        => ts( 'Range1' ),
-                                        'default'      => true,
-                                        'statistics'   => 
-                                        array('sum'    => ts( 'Total Amount' ), 
-                                              'count'  => ts( 'Count' ), ), 
-                                        'dbAlias'      => 'contribution1.total_amount' ),
-                                 'total_amount2'        => 
-                                 array( 'title'        => ts( 'Range2' ),
-                                        'default'      => true,
-                                        'statistics'   => 
-                                        array('sum'    => ts( 'Total Amount' ), 
-                                              'count'  => ts( 'Count' ), ), 
-                                        'dbAlias'      => 'contribution2.total_amount' ),
-                                 ),
-                          'filters'               =>             
+                          'filters'       =>             
                           array( 
-                                 'receive_date1'  => 
-                                 array( 'title'   => ts( 'Date Range1' ),
-                                        'default' => 'previous.year',
-                                        'type'    => 12,
-                                        'dbAlias' => 'contribution1.receive_date' ),
-                                 'receive_date2'  => 
-                                 array( 'title'   => ts( 'Date Range2' ),
-                                        'default' => 'this.year',
-                                        'type'    => 12,
-                                        'dbAlias' => 'contribution2.receive_date' ),
-                                 'total_amount'   => 
-                                 array( 'title'   => ts( 'Total  Amount Between' ), ), ), ),
-                   'civicrm_address' =>
-                   array( 'dao' => 'CRM_Core_DAO_Address',
-                          'group_bys'           =>
-                          array( 'country_id'   => 
-                                 array( 'default'    => true,
-                                        'title'      => ts( 'Country' ) ), ), ),
+                                'receive_date1'  => 
+                                array( 'title'   => ts( 'Date Range One' ),
+                                       'default' => 'previous.year',
+                                       'type'    => 12,
+                                       'dbAlias' => 'contribution1.receive_date' ),
+                                'receive_date2'  => 
+                                array( 'title'   => ts( 'Date Range Two' ),
+                                       'default' => 'this.year',
+                                       'type'    => 12,
+                                       'dbAlias' => 'contribution2.receive_date' ), ), ),
                    );
 
-        $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
-                                                                 'type'   => 'checkbox',
-                                                                 'default'=> true ),
-                                 );
         parent::__construct( );
     }
 

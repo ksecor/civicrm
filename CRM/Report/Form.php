@@ -404,13 +404,14 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( !empty( $this->_options ) ) {
             // FIXME: For now lets build all elements as checkboxes. 
             // Once we clear with the format we can build elements based on type
-
+            
+            $options = array();
             foreach ( $this->_options as $fieldName => $field ) {
-                $options = array( $field['title'] => $fieldName );
+                $options[$field['title']] = $fieldName;
             }
-            $this->addCheckBox( "options", $field['title'], $options, null, 
+            $this->addCheckBox( "options", $field['title'], 
+                                $options, null, 
                                 null, null, null, $this->_fourColumnAttribute );
-            $this->assign( 'options', $this->_options );
         }
     }
 

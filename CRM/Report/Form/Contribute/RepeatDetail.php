@@ -37,28 +37,41 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
 
+    function __construct( ) {
+        $this->_columns = 
+            array( 'civicrm_contribution' =>
+                   array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
+                          'filters'       =>             
+                          array( 
+                                'receive_date_r1'  => 
+                                array( 'title'   => ts( 'Date Range One' ),
+                                       'default' => 'previous.year',
+                                       'type'    => 12,
+                                       'dbAlias' => 'contribution1.receive_date' ),
+                                'receive_date_r2'  => 
+                                array( 'title'   => ts( 'Date Range Two' ),
+                                       'default' => 'this.year',
+                                       'type'    => 12,
+                                       'dbAlias' => 'contribution2.receive_date' ), ), ),
+                   );
+        
+/*         $this->_options =  */
+/*             array(  */
+/*                   'group_bys_country' => array( 'title'   => ts( 'Group Contacts by Country' ), */
+/*                                                 'type'    => 'checkbox', */
+/*                                                 'default' => true ),  */
+/*                   'is_repeat'         => array( 'title'   => ts( 'Show contacts who have donated in both ranges only' ), */
+/*                                                 'type'    => 'checkbox', */
+/*                                                 'default' => true ),  */
+/*                    ); */
+
+        parent::__construct( );
+    }
+
     function preProcess( ) {
-        parent::preProcessCommon( );
-    }
-
-    function setDefaultValues( ) {
-    }
-
-    function buildQuickForm( ) {
-        require_once 'CRM/Core/Form/Date.php';
-
-        CRM_Core_Form_Date::buildDateRange( $this, 'receive_date_r1', true );
-        CRM_Core_Form_Date::buildDateRange( $this, 'receive_date_r2', true );
-
-        $this->add( 'checkbox',
-                    'group_bys_country',
-                    ts( 'Group Contacts by Country' ) );
-
-        $this->add( 'checkbox',
-                    'is_repeat',
-                    ts( 'Show contacts who have donated in both ranges only' ) );
-
-        parent::buildInstanceAndButtons( );
+        $this->assign( 'reportTitle', ts('Contribution Repeat Detail Report' ) );
+        
+        parent::preProcess( );
     }
 
     function postProcess( ) {
@@ -96,14 +109,14 @@ SELECT    c.id, c.display_name,
 FROM      civicrm_contact c, civicrm_contribution c1
 WHERE     c1.contact_id = c.id
 AND       $c1_clause
-GROUP BY c.id
+GROUP BY c.display_name ASC WITH ROLLUP
 ";
 
-        $dao = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
 
+        $dao = CRM_Core_DAO::executeQuery( $sql );
         while ( $dao->fetch( ) ) {
-            $rows[$dao->id] = array( 'c.id'         => $dao->id,
+            $rows[$dao->id] = array( 'cid'         => $dao->id,
                                     'display_name' => $dao->display_name,
                                     'c1_amount'    => $dao->c1_amount   ,
                                     'c2_amount'    => null
@@ -117,7 +130,7 @@ SELECT    c.id, c.display_name,
 FROM      civicrm_contact c, civicrm_contribution c2
 WHERE     c2.contact_id = c.id
 AND       $c2_clause
-GROUP BY c.id
+GROUP BY c.display_name ASC WITH ROLLUP
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $sql );
@@ -125,15 +138,21 @@ GROUP BY c.id
             if ( isset( $rows[$dao->id] ) ) {
                 $rows[$dao->id]['c2_amount'] = $dao->c2_amount;
             } else {
-                $rows[$dao->id] = array( 'c.id'         => $dao->id,
+                $rows[$dao->id] = array( 'cid'          => $dao->id,
                                          'display_name' => $dao->display_name,
                                          'c1_amount'    => null,
                                          'c2_amount'    => $dao->c2_amount
                                          );
             }
         }
+        $this->_columnHeaders = 
+            array( 'display_name'=> array('title' => 'Contact'),
+                   'c1_amount'   => array('title' => 'Range1 Amount'),
+                   'c2_amount'   => array('title' => 'Range2 Amount'),
+                   'change'      => array('title' => 'Change'),
+                   );
 
-        foreach ( $rows as $id =>& $row ) {
+        foreach ( $rows as $id => &$row ) {
             if ( $row['c1_amount'] && $row['c2_amount'] ) {
                 $row['change'] = number_format( ( ( $row['c2_amount'] - $row['c1_amount'] ) * 100 ) / ( $row['c1_amount'] ),
                                                 2 );
@@ -144,9 +163,31 @@ GROUP BY c.id
             }
         }
 
+        $this->formatDisplay( $rows );
+
+        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
+        
+        parent::postProcess( );
     }
 
+    function alterDisplay( &$rows ) {
+        // custom code to alter rows
+        foreach ( $rows as $cid => $field ) {
+            if ( array_key_exists('change', $field) ) {
+                $rows[$cid]['change'] = "{$field['change']}&nbsp;%";
+            }
+        }
+
+        // do operation on the last row
+        foreach ( $rows[$cid] as $fld => $val ) {
+            if ( $fld == 'display_name' ) {
+                unset($rows[$cid]['display_name']);
+            } else {
+                $rows[$cid][$fld] = "<strong>$val</strong>";
+            }
+        }
+    }
 }
 
 

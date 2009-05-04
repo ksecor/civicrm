@@ -13,6 +13,7 @@
                 <a href="#" onclick="hide('id_{$formTpl}'); show('id_{$formTpl}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Report Criteria{/ts}
             </legend>
 
+            {if $colGroups}
             <fieldset>
                 <legend>{ts}Display Columns{/ts}</legend>
                 {foreach from=$colGroups item=grpFields key=dnc}
@@ -32,6 +33,7 @@
                     </table>
                 {/foreach}
             </fieldset>
+            {/if}
     
             {if $groupByElements}
             <fieldset>
@@ -54,9 +56,7 @@
             <fieldset>
                 <legend>{ts}Other Options{/ts}</legend>
                 <table class="form-layout">
-                    <tr>
-                        <td width="25%">{$form.options.html}</td>
-                    </tr>
+                    <tr><td width="25%">{$form.options.html}</td></tr>
                 </table>
             </fieldset>
             {/if}
