@@ -181,7 +181,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->_fields['activity_date_time']['label']    = ts('Actual Date'); 
         $this->_fields['activity_date_time']['required'] = false;
         $this->_fields['source_contact_id']['label']     = ts('Reported By'); 
-            
+        $this->_fields['status_id']['attributes']        =  array( '' => ts('- select -')) + CRM_Core_PseudoConstant::activityStatus( ); 
+    
         if ( $this->_caseType ) {
             $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
             $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes', true );
