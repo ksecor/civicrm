@@ -355,6 +355,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             //hack for free/zero amount event.
             if ( $this->_resetAllowWaitlist ) {
                 $this->_allowWaitlist = false;
+                $this->set( 'allowWaitlist', false );
                 $status = ts( "You have skipped last participant and which result into event having enough spaces, hence your group become as registered participants though you selected on wait list." );
                 CRM_Core_Session::setStatus( $status );
             }
