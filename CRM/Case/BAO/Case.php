@@ -657,7 +657,7 @@ WHERE is_deleted =0
     static function getCaseRoles( $contactID, $caseID, $relationshipID = null )
     {
         $query = '
-SELECT civicrm_relationship.id as civicrm_relationship_id, civicrm_relationship.start_date as relation_start_date, civicrm_relationship.end_date as relatio_end_date, civicrm_contact.sort_name as sort_name, civicrm_email.email as email, civicrm_phone.phone as phone, civicrm_relationship.contact_id_b as civicrm_contact_id, civicrm_relationship_type.name_b_a as relation, civicrm_relationship_type.id as relation_type 
+SELECT civicrm_relationship.id as civicrm_relationship_id, civicrm_contact.sort_name as sort_name, civicrm_email.email as email, civicrm_phone.phone as phone, civicrm_relationship.contact_id_b as civicrm_contact_id, civicrm_relationship_type.name_b_a as relation, civicrm_relationship_type.id as relation_type 
 FROM civicrm_relationship, civicrm_relationship_type, civicrm_contact 
 LEFT OUTER JOIN civicrm_phone ON (civicrm_phone.contact_id = civicrm_contact.id AND civicrm_phone.is_primary = 1) 
 LEFT JOIN civicrm_email ON (civicrm_email.contact_id = civicrm_contact.id ) 
@@ -684,8 +684,6 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$rid]['email']         = $dao->email;
             $values[$rid]['phone']         = $dao->phone;
             $values[$rid]['relation_type'] = $dao->relation_type;
-            $values[$rid]['start_date']    = $dao->relation_start_date;
-            $values[$rid]['end_date']      = $dao->relation_end_date;
         }
         
         $dao->free( );

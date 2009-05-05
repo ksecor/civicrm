@@ -173,8 +173,9 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
                                      'contact_id_a'         => $params['clientID'],
                                      'contact_id_b'         => $params['creatorID'],
                                      'is_active'            => 1,
-                                     'case_id'              => $params['caseID'] );
-
+                                     'case_id'              => $params['caseID'],
+                                     'start_date'           => date("Ymd") );
+        
         if ( ! $this->createRelationship( $relationshipParams ) ) {
             CRM_Core_Error::fatal( );
             return false;
