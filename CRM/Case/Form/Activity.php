@@ -172,6 +172,17 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             $this->_defaults['due_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
         }
+        
+        //avoid default current date to actual date.CRM-4438
+        $activityDate = null;
+        if ( $this->_activityId ) { 
+            $activityDate = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $this->_activityId, 'activity_date_time' );
+        } 
+        
+        if ( !$activityDate ) {
+            $this->_defaults['activity_date_time'] = array( );
+        }
+        
         return $this->_defaults;
     }
     
@@ -287,12 +298,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( $parentId = CRM_Utils_Array::value( 'parent_id', $this->_defaults ) ) {
             $params['parent_id'] = $parentId;
         }
-
-        $params['now'] = date("YmdhisA");
-
-        if( !CRM_Utils_Array::value( 'activity_date_time', $params ) ) {
-            $params['activity_date_time'] = $params['now'];
-        } 
+        
         // required for status msg
         $recordStatus = 'created';
 
