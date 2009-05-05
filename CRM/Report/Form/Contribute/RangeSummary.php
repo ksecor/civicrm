@@ -53,12 +53,12 @@ class CRM_Report_Form_Contribute_RangeSummary extends CRM_Report_Form {
                                 'receive_date1'  => 
                                 array( 'title'   => ts( 'Date Range One' ),
                                        'default' => 'previous.year',
-                                       'type'    => 12,
+                                       'type'    => CRM_Utils_Type::T_DATE,
                                        'dbAlias' => 'contribution1.receive_date' ),
                                 'receive_date2'  => 
                                 array( 'title'   => ts( 'Date Range Two' ),
                                        'default' => 'this.year',
-                                       'type'    => 12,
+                                       'type'    => CRM_Utils_Type::T_DATE,
                                        'dbAlias' => 'contribution2.receive_date' ), ), ),
                    );
 
@@ -133,18 +133,22 @@ GROUP BY ad.country_id ASC WITH ROLLUP
 
         while ( $dao->fetch( ) ) {
             $rows[] = array( 'country_name' => $dao->country_name,
-                             'c1_count'     => $dao->c1_count ,
-                             'c1_amount'    => $dao->c1_amount,
-                             'c2_count'     => $dao->c2_count,
-                             'c2_amount'    => $dao->c2_amount,
+                             //'c1_count'     => $dao->c1_count ,
+                             'c1_amount'    => $dao->c1_amount . " ({$dao->c1_count})",
+                             //'c2_count'     => $dao->c2_count,
+                             'c2_amount'    => $dao->c2_amount . " ({$dao->c2_count})",
                              );
         }
+
+        $c1_clause = $this->dateDisplay( $r1_relative, $r1_from, $r1_to );
+        $c2_clause = $this->dateDisplay( $r2_relative, $r2_from, $r2_to );
+
         $this->_columnHeaders = 
             array( 'country_name'=> array('title' => 'Country'),
-                   'c1_count'    => array('title' => 'Range1 Count'),
-                   'c1_amount'   => array('title' => 'Range1 Amount'),
-                   'c2_count'    => array('title' => 'Range2 Count'),
-                   'c2_amount'   => array('title' => 'Range2 Amount'),
+                   'c1_amount'   => array('title' => "Amount ($c1_clause)",
+                                          'type'  => CRM_Utils_Type::T_MONEY),
+                   'c2_amount'   => array('title' => "Amount ($c2_clause)",
+                                          'type'  => CRM_Utils_Type::T_MONEY),
                    );
 
         $this->formatDisplay( $rows );

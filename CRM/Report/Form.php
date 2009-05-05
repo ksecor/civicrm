@@ -378,8 +378,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $operations = self::getOperationPair( $field['type'] );
                 
                 switch ( $field['type'] ) {
-                case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
                 case CRM_Utils_Type::T_DATE :
+                case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
                     // build datetime fields
                     CRM_Core_Form_Date::buildDateRange( $this, $fieldName );
                     break;
@@ -650,6 +650,37 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         if ( ! empty( $clauses ) ) {
             return implode( ' AND ', $clauses );
+        }
+
+        return null;
+    }
+
+    static function dateDisplay( $relative, $from, $to ) {
+        require_once 'CRM/Utils/Date.php';
+        if ( $relative ) {
+            list( $term, $unit ) = explode( '.', $relative );
+            $dateRange = CRM_Utils_Date::relativeToAbsolute( $term, $unit );
+            $from = $dateRange['from'];
+            $to   = $dateRange['to'];
+        }
+
+        $clauses = array( );
+        if ( CRM_Utils_Date::isDate( $from ) ) {
+            $revDate = array_reverse( $from );
+            $date    = CRM_Utils_Date::format( $revDate );
+            if ( $date ) {
+                $clauses[] = CRM_Utils_Date::customFormat($date, null, array('m', 'M'));
+            }
+        }
+
+        if ( CRM_Utils_Date::isDate( $to ) ) {
+            $revDate = array_reverse( $to );
+            $date    = CRM_Utils_Date::format( $revDate );
+            $clauses[] = CRM_Utils_Date::customFormat($date, null, array('m', 'M'));
+        }
+
+        if ( ! empty( $clauses ) ) {
+            return implode( ' To ', $clauses );
         }
 
         return null;

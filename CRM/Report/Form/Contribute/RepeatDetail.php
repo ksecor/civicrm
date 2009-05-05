@@ -46,12 +46,12 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
                                 'receive_date_r1'  => 
                                 array( 'title'   => ts( 'Date Range One' ),
                                        'default' => 'previous.year',
-                                       'type'    => 12,
+                                       'type'    => CRM_Utils_Type::T_DATE,
                                        'dbAlias' => 'contribution1.receive_date' ),
                                 'receive_date_r2'  => 
                                 array( 'title'   => ts( 'Date Range Two' ),
                                        'default' => 'this.year',
-                                       'type'    => 12,
+                                       'type'    => CRM_Utils_Type::T_DATE,
                                        'dbAlias' => 'contribution2.receive_date' ), ), ),
                    );
         
@@ -145,10 +145,13 @@ GROUP BY c.display_name ASC WITH ROLLUP
                                          );
             }
         }
+
+        $c1_clause = $this->dateDisplay( $r1_relative, $r1_from, $r1_to );
+        $c2_clause = $this->dateDisplay( $r2_relative, $r2_from, $r2_to );
         $this->_columnHeaders = 
             array( 'display_name'=> array('title' => 'Contact'),
-                   'c1_amount'   => array('title' => 'Range1 Amount'),
-                   'c2_amount'   => array('title' => 'Range2 Amount'),
+                   'c1_amount'   => array('title' => "Amount ($c1_clause)"),
+                   'c2_amount'   => array('title' => "Amount ($c2_clause)"),
                    'change'      => array('title' => 'Change'),
                    );
 

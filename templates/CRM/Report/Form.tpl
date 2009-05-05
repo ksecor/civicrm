@@ -70,7 +70,7 @@
                             {assign var=filterVal   value=$fieldName|cat:"_value"}
                             {assign var=filterMin   value=$fieldName|cat:"_min"}
                             {assign var=filterMax   value=$fieldName|cat:"_max"}
-                            {if $field.type eq 12}
+                            {if $field.type & 4}
                                 <tr>
                                     <td style="vertical-align: top;">{$field.title}</td>
                                     <td colspan=2>{include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}</td>
