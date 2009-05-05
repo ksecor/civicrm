@@ -171,28 +171,6 @@
 {/if}
 </div>
 
-{* Hide Credit Card Block and Billing information if registration is pay later. *}
-{if $showHidePaymentInformation and $form.is_pay_later}
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="is_pay_later"
-    trigger_value       =""
-    target_element_id   ="payment_information" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 1
-}
-{/if}
-{* allow show/Hide Credit Card Block and Billing information. *}
-{if $showHidePaymentInformation and $bypassPayment}
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="bypass_payment"
-    trigger_value       =""
-    target_element_id   ="payment_information" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 1
-}
-{/if}
 {literal} 
 <script type="text/javascript">
 
@@ -224,6 +202,21 @@
 	}
     }
 
+    {/literal}{if ($form.is_pay_later or $bypassPayment) and $showHidePaymentInformation}{literal} 
+	showHidePaymentInfo( );
+    {/literal} {/if}{literal}
+    function showHidePaymentInfo( )
+    {	
+	var byPass   = {/literal}{if $bypassPayment}true{else}false{/if}{literal};
+	var payLater = {/literal}{if $form.is_pay_later}true{else}false{/if}{literal};
+	if ( (byPass && document.getElementsByName('bypass_payment')[0].checked ) ||
+	     (payLater && document.getElementsByName('is_pay_later')[0].checked ) ) {	
+	     hide( 'payment_information' );		
+	} else {
+             show( 'payment_information' );
+	}
+    }
+    
     {/literal}{if $form.additional_participants}{literal}
     	showAdditionalParticipant();{/literal}{/if}{literal}
     function showAdditionalParticipant( )

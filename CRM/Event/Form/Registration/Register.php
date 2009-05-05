@@ -292,8 +292,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $freezePayLater = false;
                 if ( !in_array( $this->_paymentProcessor['billing_mode'], array( 2, 4 ) ) ) { 
                     $showHidePayfieldName = 'payment_information';
-                    $attributes = array('onclick' => "return showHideByValue( 'is_pay_later','','payment_information',
-                                                     'table-row','radio',true);"); 
+                    $attributes = array('onclick' => "showHidePaymentInfo( );" );
                 }
                 
                 if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
@@ -330,8 +329,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $bypassPayment ) {
             $attributes = null;
             if ( $showHidePayfieldName == 'payment_information' && $showHidePaymentInformation ) {
-                $attributes = array('onclick' => "return showHideByValue( 'bypass_payment','','payment_information',
-                                                     'table-row','radio',true);");
+                $attributes = array('onclick' => "showHidePaymentInfo();" );
             }
             if ( $showHidePayfieldName ==  'PayPalExpress' ) {
                 $attributes = array('onclick' => "showHidePayPalExpressOption();" );
