@@ -68,7 +68,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                                            'required' => true,
                                                            'statistics'   => 
                                                            array('sum'    => ts( 'Amount' )), ),
-                                 'trxn_id'       => array( 'default' => true ),
+                                 'trxn_id'       => null,
                                  'receive_date'  => array( 'default' => true ),
                                  'receipt_date'  => null,
                                  ),
@@ -88,10 +88,10 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                  'city'              => null,
                                  'postal_code'       => null,
                                  'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ), 
-                                        'default' => true ),
+                                 array( 'title'   => ts( 'State/Province' ), ),
                                  'country_id'        => 
-                                 array( 'title' => ts( 'Country' ), ), ),
+                                 array( 'title'   => ts( 'Country' ),  
+                                        'default' => true ), ),
                           'grouping'=> 'contact-fields',
                           ),
 
@@ -223,7 +223,7 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
 
 
     function groupBy( ) {
-        $this->_groupBy = " GROUP BY contact.display_name, contribution.trxn_id ASC WITH ROLLUP ";
+        $this->_groupBy = " GROUP BY contact.display_name, contribution.id ASC WITH ROLLUP ";
     }
 
     function statistics( ) {
@@ -327,7 +327,7 @@ SELECT COUNT( contribution.total_amount ) as count,
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = 
-                        CRM_Core_PseudoConstant::stateProvince( $value );
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
                 }
                 $entryFound = true;
             }
@@ -336,7 +336,7 @@ SELECT COUNT( contribution.total_amount ) as count,
             if ( array_key_exists('civicrm_address_country_id', $row) ) {
                 if ( $value = $row['civicrm_address_country_id'] ) {
                     $rows[$rowNum]['civicrm_address_country_id'] = 
-                        CRM_Core_PseudoConstant::country( $value );
+                        CRM_Core_PseudoConstant::country( $value, false );
                 }
                 $entryFound = true;
             }

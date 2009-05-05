@@ -125,7 +125,7 @@ LEFT JOIN civicrm_address ad ON c.id=ad.contact_id
 LEFT JOIN civicrm_country country ON ad.country_id=country.id
 
 WHERE !(c1_count IS NULL AND c2_count IS NULL)
-GROUP BY ad.country_id WITH ROLLUP
+GROUP BY ad.country_id ASC WITH ROLLUP
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $sql );

@@ -167,7 +167,7 @@
             showBlocks[0] = "id_{$formTpl}";
         {/if}
 
-        {if $instanceForm and $rows}
+        {if $instanceForm}
             hideBlocks[1] = "id_{$instanceForm}";
             showBlocks[1] = "id_{$instanceForm}_show";
         {/if}
