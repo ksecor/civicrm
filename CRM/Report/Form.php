@@ -285,6 +285,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
                     if ( isset($field['default']) ) {
+                        if ( CRM_Utils_Array::value('frequency', $field) ) {
+                            $this->_defaults['group_bys_freq'][$fieldName] = 'MONTH';
+                        }
                         $this->_defaults['group_bys'][$fieldName] = $field['default'];
                     }
                 }

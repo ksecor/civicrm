@@ -70,7 +70,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'grouping'              => 'contri-fields',
                           'filters'               =>             
                           array( 'receive_date'   => 
-                                 array( 'default' => 'this.month' ),
+                                 array( 'default' => 'previous.year' ),
                                  'total_amount'   => 
                                  array( 'title'   => ts( 'Total  Amount Between' ), ), ),
                           'group_bys'           =>
