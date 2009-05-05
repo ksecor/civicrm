@@ -596,8 +596,12 @@ AND civicrm_case.is_deleted     = 0";
         $caseTypes    = array_flip( $caseTypes );  
      
         // get statuses as headers for the table
-        $caseSummary['headers'] = $caseStatuses;
-        
+         $url =  CRM_Utils_System::url( 'civicrm/case/search',"reset=1&force=1&all=1&status=" ) ;
+         foreach( $caseStatuses as $key => $name ) {
+             $caseSummary['headers'][$key]['status'] = $name; 
+             $caseSummary['headers'][$key]['url']    = $url.$key; 
+         }
+               
         // build rows with actual data
         $rows = array();
         $myGroupByClause = $mySelectClause = $myCaseFromClause = $myCaseWhereClause = '';
