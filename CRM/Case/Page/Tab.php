@@ -234,10 +234,13 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             break;
             
         case 'dashboard': 
-        case 'search':
             $url = CRM_Utils_System::url( 'civicrm/case', "reset=1&all={$this->_all}" );
             break;
-                
+
+        case 'search':        
+            $url = CRM_Utils_System::url( 'civicrm/case/search', "force=1&all={$this->_all}" );
+            break;
+            
         case 'home':
             $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
             break;

@@ -354,7 +354,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public
      * 
      */
-     static function getcontactNames( $caseId, $isRelatedContact = true ) 
+     static function getcontactNames( $caseId ) 
     {
         $queryParam = array();
         $query = "
@@ -362,25 +362,18 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   FROM civicrm_contact contact_a 
                   LEFT JOIN civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id
                   LEFT JOIN civicrm_email ce ON ( ce.contact_id = contact_a.id AND ce.is_primary = 1)
-                  LEFT JOIN civicrm_phone cp ON ( cp.contact_id = contact_a.id AND cp.is_primary = 1)";
+                  LEFT JOIN civicrm_phone cp ON ( cp.contact_id = contact_a.id AND cp.is_primary = 1)
+                  WHERE civicrm_case_contact.case_id = {$caseId}";
 
             $dao = CRM_Core_DAO::executeQuery($query,$queryParam);
             $contactNames = array();
             while ( $dao->fetch() ) {
-                if ( $isRelatedContact ) {
-                    $contactNames['contact_id']   =  $dao->cid;
-                    $contactNames['sort_name']    =  $dao->name;
-                    $contactNames['display_name'] =  $dao->display_name;
-                    $contactNames['email']        =  $dao->email;
-                    $contactNames['role']         =  ts('Client');
-                } else {
-                    $contactNames['cid']          =  $dao->cid;
-                    $contactNames['name']         =  $dao->name;
-                    $contactNames['display_name'] =  $dao->display_name;
-                    $contactNames['email']        =  $dao->email;
-                    $contactNames['phone']        =  $dao->phone;
-                    $contactNames['relation']     =  ts('Client');
-                }
+                $contactNames['contact_id']   =  $dao->cid;
+                $contactNames['sort_name']    =  $dao->name;
+                $contactNames['display_name'] =  $dao->display_name;
+                $contactNames['email']        =  $dao->email;
+                $contactNames['phone']        =  $dao->phone;
+                $contactNames['role']         =  ts('Client');
             }
             return $contactNames;
     }

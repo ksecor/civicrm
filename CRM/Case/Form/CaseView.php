@@ -165,9 +165,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                                                                      
 		//get case related relationships (Case Role)
         $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $this->_contactID, $this->_caseID );
-        //also add client as role. CRM-4438
-        $caseClient = CRM_Case_BAO_Case::getcontactNames( $this->_caseId, false );
-        $caseRelationships['client'] = $caseClient;
         $this->assign('caseRelationships', $caseRelationships);
 
         //build reporter select
@@ -180,6 +177,9 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                 unset( $caseRoles[$key] ) ;
             }
         }
+        
+        //also add client as role. CRM-4438
+        $caseRoles['client'] = CRM_Case_BAO_Case::getcontactNames( $this->_caseID );
 
         $this->assign( 'caseRoles', $caseRoles );
         
