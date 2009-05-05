@@ -67,13 +67,8 @@ function smarty_function_help( $params, &$smarty ) {
     $smarty->assign( 'id', $params['id'] );
     $help = $smarty->fetch( $file );
     return <<< EOT
-
-<div class="helpicon" style="display: inline;"><span dojoType="dijit.form.DropDownButton" class="tundra">
-    <div><img src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/quiz.png" /></div>
-    <div dojoType="dijit.TooltipDialog" id="{$id}_help" class="tundra" >$help</div>
-</span></div>
+<div class="helpicon">&nbsp;<span id="{$id}_help" style="display:none">$help</span></div>
 EOT;
-
 }
 
 
