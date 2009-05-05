@@ -225,6 +225,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
         
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedAndGlobalContacts( $this->_caseId );
+        //add case client in send a copy selector.CRM-4438.
+        $this->_relatedContacts[] = CRM_Case_BAO_Case::getcontactNames( $this->_caseId );
+        
         if ( ! empty($this->_relatedContacts) ) {
             $checkBoxes = array( );
             foreach ( $this->_relatedContacts as $id => $row ) {
