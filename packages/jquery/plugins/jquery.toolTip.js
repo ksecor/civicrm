@@ -28,5 +28,5 @@
 }})(jQuery);
 
 $(document).ready( function() {
-  $(".helpicon").toolTip();
+if( $(".helpicon").text() ) $(".helpicon").toolTip();
 });
