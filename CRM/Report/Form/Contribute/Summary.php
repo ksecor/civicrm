@@ -374,20 +374,47 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
     function alterDisplay( &$rows ) {
         // custom code to alter rows
  
+        $rowCount   = count($rows);
         $entryFound = false;
+
         foreach ( $rows as $rowNum => $row ) {
-/*             if ( array_key_exists('civicrm_contribution_total_amount_count', $row) &&  */
-/*                  array_key_exists('civicrm_contribution_receive_date_start', $row) &&  */
-/*                  $row['civicrm_contribution_receive_date_start'] ) { */
-/*                 $url = */
-/*                     CRM_Utils_System::url( 'civicrm/report/contribute/detail', */
-/*                                            'reset=1&force=1&receive_date_from=' . */
-/*                                            CRM_Utils_Date::customFormat($row['civicrm_contribution_receive_date_start'], '%Y%m%d' ) */
-/*                                            ); */
-/*                 $rows[$rowNum]['civicrm_contribution_total_amount_count'] = "<a href='$url'>" . */
-/*                     $row["civicrm_contribution_total_amount_count"] . '</a>'; */
-/*                 $entryFound = true; */
-/*             } */
+            // make count columns point to detail report
+            if ( array_key_exists('receive_date', $this->_params['group_bys']) && 
+                 ($rowNum < ($rowCount-1)) &&
+                 array_key_exists('civicrm_contribution_total_amount_count', $row) &&
+                 array_key_exists('civicrm_contribution_receive_date_start', $row) &&
+                 $row['civicrm_contribution_receive_date_start'] ) {
+
+                $dateStart = CRM_Utils_Date::customFormat($row['civicrm_contribution_receive_date_start'], 
+                                                          '%Y%m%d');
+                $dateEnd   = CRM_Utils_Date::unformat($dateStart, '');
+
+                switch(strtolower($this->_params['group_bys_freq']['receive_date'])) {
+                case 'month': 
+                    $dateEnd   = date("Ymd", mktime(0, 0, 0, $dateEnd['M']+1, 
+                                                    $dateEnd['d']-1, $dateEnd['Y']));
+                    break;
+                case 'year': 
+                    $dateEnd   = date("Ymd", mktime(0, 0, 0, $dateEnd['M'], 
+                                                    $dateEnd['d']-1, $dateEnd['Y']+1));
+                    break;
+                case 'yearweek': 
+                    $dateEnd   = date("Ymd", mktime(0, 0, 0, $dateEnd['M'], 
+                                                    $dateEnd['d']+6, $dateEnd['Y']));
+                    break;
+                case 'quarter': 
+                    $dateEnd   = date("Ymd", mktime(0, 0, 0, $dateEnd['M']+3, 
+                                                    $dateEnd['d']-1, $dateEnd['Y']));
+                    break;
+                }
+                $url =
+                    CRM_Utils_System::url( 'civicrm/report/contribute/detail',
+                                           "reset=1&force=1&receive_date_from={$dateStart}&receive_date_to={$dateEnd}"
+                                           );
+                $rows[$rowNum]['civicrm_contribution_total_amount_count'] = "<a href='$url'>" .
+                    $row["civicrm_contribution_total_amount_count"] . '</a>';
+                $entryFound = true;
+            }
 
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 

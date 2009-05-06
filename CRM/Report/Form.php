@@ -645,6 +645,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( CRM_Utils_Date::isDate( $to ) ) {
             $revDate = array_reverse( $to );
             $date    = CRM_Utils_Date::format( $revDate );
+            $date    = !$relative ? $date . '235959' : $date;
             $clauses[] = "( {$fieldName} <= $date )";
         }
 
