@@ -83,9 +83,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         $this->set( 'allowWaitlist', $this->_allowWaitlist );
         
-        if ( $this->_requireApproval ) {
+        if ( $this->_requireApproval && !$this->_allowConfirmation ) {
             require_once "CRM/Core/Session.php";
-            CRM_Core_Session::setStatus( ts( 'Registration for this Event require approval. So be a part of event we will send you mail once admin approved.' ) ); 
+            CRM_Core_Session::setStatus( ts( 'Registration for this Event require approval. So If you register and if registration get approved, will send you a mail to confirm your registration. You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.' ) ); 
         }
         
         //To check if the user is already registered for the event(CRM-2426) 
@@ -480,7 +480,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
        
         //check for availability of registrations.
         if ( !$self->_allowConfirmation &&
-             !$self->_requireApproval &&
              !CRM_Utils_Array::value( 'bypass_payment', $fields ) &&
              is_numeric( $self->_availableRegistrations ) &&
              CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) {
