@@ -35,7 +35,7 @@
 
 require_once 'CRM/Report/Form.php';
 
-class CRM_Report_Form_Contribute_RangeSummary extends CRM_Report_Form {
+class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
 
     protected $_summary = null;
 

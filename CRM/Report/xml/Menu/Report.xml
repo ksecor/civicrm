@@ -48,9 +48,9 @@
      <component>CiviReport</component>
   </item>
   <item>
-     <path>civicrm/report/contribute/rangeSummary</path>
+     <path>civicrm/report/contribute/repeatSummary</path>
      <title>Contribution Summary Report</title>
-     <page_callback>CRM_Report_Form_Contribute_RangeSummary</page_callback>
+     <page_callback>CRM_Report_Form_Contribute_RepeatSummary</page_callback>
      <access_callback>1</access_callback>
      <component>CiviReport</component>
   </item>
