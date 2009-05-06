@@ -149,6 +149,17 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         }
                              
         $this->freeze();
+
+        //lets give meaningful status message, CRM-4320.
+        $isOnWaitlist = $isRequireApproval = false; 
+        if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
+            $isOnWaitlist = true;
+        }
+        if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+            $isRequireApproval = true;
+        }
+        $this->assign( 'isOnWaitlist', $isOnWaitlist );
+        $this->assign( 'isRequireApproval', $isRequireApproval );
         
         // can we blow away the session now to prevent hackery
         $this->controller->reset( );

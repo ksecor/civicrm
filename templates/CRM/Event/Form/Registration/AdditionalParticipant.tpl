@@ -6,6 +6,13 @@
 {/if}
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
 
+{*CRM-4320*}
+{if $statusMessage}
+    <div class="messages status">
+        <p>{$statusMessage}</p>
+    </div>
+{/if}
+
 <div class="form-item">
 {if $priceSet}
     <fieldset id="priceset"><legend>{$event.fee_label}</legend>

@@ -349,6 +349,17 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $this->setDefaults( $defaults );
         $this->freeze();
+        
+        //lets give meaningful status message, CRM-4320.
+        $isOnWaitlist = $isRequireApproval = false; 
+        if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
+            $isOnWaitlist = true;
+        }
+        if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+            $isRequireApproval = true;
+        }
+        $this->assign( 'isOnWaitlist', $isOnWaitlist );
+        $this->assign( 'isRequireApproval', $isRequireApproval );
     }
     
     /**
@@ -625,7 +636,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $registerByID,
                                                                       null, $primaryContactId, $isTest,
                                                                       true );
-            //lets send  mails to all with meanigful text, CRM-4320.
+            //lets send  mails to all with meaningful text, CRM-4320.
             $isOnWaitlist = $isRequireApproval = false; 
             if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
                 $isOnWaitlist = true;

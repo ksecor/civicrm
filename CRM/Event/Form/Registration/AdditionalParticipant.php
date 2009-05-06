@@ -195,6 +195,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         //registration and skip some people and now group fit to
         //become registered so need to take payment from user.
         //this case only occurs at dynamic waiting status, CRM-4320
+        $statusMessage = null;
         $allowToProceed = true;
         $includeSkipButton = true;
         $this->_resetAllowWaitlist = false;
@@ -226,24 +227,25 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 if ( CRM_Utils_Array::value( 'amount', $this->_params[0], 0 ) == 0  ) {
                     $this->_allowWaitlist = false;
                     $this->set( 'allowWaitlist', $this->_allowWaitlist );
-                    $status = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, hence your group become as registered though you selected on wait list.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
+                    $statusMessage = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, hence your group become as registered though you selected on wait list.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
                 } else {
-                    $status = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, hence your group can not become as a part of waiting list and you need to go back to main registration page, there you can fill all payment information and become as registered participants.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
+                    $statusMessage = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, hence your group can not become as a part of waiting list and you need to go back to main registration page, there you can fill all payment information and become as registered participants.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
                     $allowToProceed = false;
                 }
                 CRM_Core_Session::setstatus( $status );
             } else if ( ( $processedCnt == $spaces ) ) { 
-                if ( CRM_Utils_Array::value( 'amount', $this->_params[0], 0 ) == 0 ) {
+                if ( CRM_Utils_Array::value( 'amount', $this->_params[0], 0 ) == 0 ||
+                     CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) ) {
                     $this->_resetAllowWaitlist = true;
-                    $status = ts( "If you skip this participant then there would be enough space in event so your group will become as registered participants though you selected on wait list." );
+                    $statusMessage = ts( "If you skip this participant then there would be enough space in event so your group will become as registered participants though you selected on wait list." );
                 } else {
                     //hey there is enough space and we require payment.
-                    $status = ts( "You can't skip this participant, If you want to skip then there will be enough space, hence your group can't become a part of waiting list and you need to go back to main registration page, there you can fill all payment information and become as registered participants." );
+                    $statusMessage = ts( "You can't skip this participant, If you want to skip then there will be enough space, hence your group can't become as a part of waiting list and you need to go back to main registration page, there you can fill all payment information and become as registered participants." );
                     $includeSkipButton = false;
                 }
-                CRM_Core_Session::setstatus( $status );
             }
         }
+        $this->assign( 'statusMessage', $statusMessage );
         
         $buttons = array( array ( 'type'      => 'back',
                                   'name'      => ts('<< Go Back'),
@@ -356,7 +358,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             if ( $this->_resetAllowWaitlist ) {
                 $this->_allowWaitlist = false;
                 $this->set( 'allowWaitlist', false );
-                $status = ts( "You have skipped last participant and which result into event having enough spaces, hence your group become as registered participants though you selected on wait list." );
+                $status = ts( "You have skipped last participant and which result into event having enough spaces, hence your group become as register participants though you selected on wait list." );
                 CRM_Core_Session::setStatus( $status );
             }
             
