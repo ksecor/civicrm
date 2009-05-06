@@ -1,7 +1,8 @@
 {* Custom Data view mode*}
 {assign var="showEdit" value=1}
 {foreach from=$viewCustomData item=customValues key=customGroupId}
-{foreach from=$customValues item=cd_edit key=index}
+{foreach from=$customValues item=cd_edit key=ind}
+    {assign var='index' value=$groupId|cat:"$ind"}
     {if $showEdit and $editCustomData and $groupId}	
       <div class="action-link">
         <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&cid=`$contactId`&groupId=`$groupId`&action=update&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts 1=$cd_edit.title}Edit %1{/ts}</span></a><br/><br/>
