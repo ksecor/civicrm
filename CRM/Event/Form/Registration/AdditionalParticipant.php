@@ -222,6 +222,13 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 $this->set( 'allowWaitlist', true );
             }
             
+            //lets allow to become a part of runtime waiting list, if primary selected pay later.
+            $realPayLater = false;
+            if ( CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] ) &&
+                 CRM_Utils_Array::value( 'is_pay_later', $this->_values['event'] ) ) {
+                $realPayLater = CRM_Utils_Array::value( 'is_pay_later', $this->controller->exportValues( 'Register' ) );
+            }
+            
             //truly spaces are greater than required.
             if ( is_numeric( $spaces ) && $spaces >= ($processedCnt+1) ) {
                 if ( CRM_Utils_Array::value( 'amount', $this->_params[0], 0 ) == 0  ) {
@@ -234,8 +241,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 }
                 CRM_Core_Session::setstatus( $status );
             } else if ( ( $processedCnt == $spaces ) ) { 
-                if ( CRM_Utils_Array::value( 'amount', $this->_params[0], 0 ) == 0 ||
-                     CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) ) {
+                if ( CRM_Utils_Array::value( 'amount', $this->_params[0], 0 ) == 0 || $realPayLater ) {
                     $this->_resetAllowWaitlist = true;
                     $statusMessage = ts( "If you skip this participant then there would be enough space in event so your group will become as registered participants though you selected on wait list." );
                 } else {

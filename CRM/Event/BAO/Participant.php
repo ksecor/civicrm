@@ -814,22 +814,33 @@ WHERE  civicrm_participant.id = {$participantId}
     /**
      * Function for update status for given participant ids
      *      
-     * @param  int $participantIds  array of participant ids
-     * @param  int $statusId status id for participant
+     * @param  int     $participantIds      array of participant ids
+     * @param  int     $statusId status     id for participant
+     * @params boolean $updateRegisterDate  way to track when status changed.
+     *
      * return void
      * @access public
      * @static
      */
-    static function updateStatus( $participantIds, $statusId ) 
+    static function updateStatus( $participantIds, $statusId, $updateRegisterDate = true ) 
     {    
         if ( !is_array( $participantIds ) || empty( $participantIds ) || !$statusId ) {
             return;
         }
+        
+        //lets update register date as we update status to keep track
+        //when we did update status, useful for moving participant
+        //from pending to expired.
+        $setClause = "status_id = {$statusId}";
+        if ( $updateRegisterDate ) {
+            $setClause .= ", register_date = NOW()";
+        }
+        
         $participantIdClause = "( " . implode( ',', $participantIds ) . " )";
         
         $query = "
 UPDATE  civicrm_participant 
-   SET  status_id = {$statusId}  
+   SET  {$setClause} 
  WHERE  id IN {$participantIdClause}";
         
         $dao = CRM_Core_DAO::executeQuery( $query );
@@ -922,7 +933,7 @@ UPDATE  civicrm_participant
         }
         
         //get all required contacts detail.
-        if ( !empty( $contactIds ) ) { 
+        if ( !empty( $contactIds ) ) {
             // get the contact details.
             require_once 'CRM/Mailing/BAO/Mailing.php';
             list( $currentContactDetails ) = CRM_Mailing_BAO_Mailing::getDetails( $contactIds, null, false, false );
