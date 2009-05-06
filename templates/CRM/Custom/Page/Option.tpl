@@ -13,10 +13,10 @@
      <p></p>
         <div class="form-item">
         {strip}
-        <table cellpadding="0" cellspacing="0" border="0">
+        <table class="selector">
         <tr class="columnheader">
-        <th>{ts}Option Label{/ts}</th>
-        <th>{ts}Option Value{/ts}</th>
+        <th>{ts}Label{/ts}</th>
+        <th>{ts}Value{/ts}</th>
 	    <th>{ts}Default{/ts}</th>
         <th>{ts}Weight{/ts}</th>
 	    <th>{ts}Status?{/ts}</th>
