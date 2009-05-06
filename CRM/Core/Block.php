@@ -85,8 +85,8 @@ class CRM_Core_Block {
         if (!(self::$_properties)) {
             self::$_properties = array(
                                        self::SHORTCUTS   => array( 'template'   => 'Shortcuts.tpl',
-                                                                   'info'       => ts('CiviCRM Shortcuts'),
-                                                                   'subject'    => ts('CiviCRM Shortcuts'),
+                                                                   'info'       => ts('CiviCRM Create New'),
+                                                                   'subject'    => ts('Create New'),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
