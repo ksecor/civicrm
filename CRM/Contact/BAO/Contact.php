@@ -580,6 +580,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact->delete( );
 
         //delete the contact id from recently view
+        require_once 'CRM/Utils/Recent.php';
         CRM_Utils_Recent::delContact($id);
 
         // reset the group contact cache for this group

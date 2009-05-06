@@ -407,5 +407,28 @@ WHERE sort_name LIKE '%$name%'";
         echo $prepandString.$object.$appendSring;
         exit();
     }
-
+    
+    static function contactProfile() 
+    {
+        $paramString = $_POST['formValues'];
+        $params = explode( '&', $paramString );
+        
+        $submittedValues = array( );
+        foreach( $params as $fld ) {
+            list($field, $value) = explode( '=', $fld );
+            $submittedValues[$field] = $value;
+        }
+        
+        $submittedValues['contact_type'] = 'Individual';
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $fields = array( );
+        $contactID = CRM_Contact_BAO_Contact::createProfileContact( $submittedValues, $fields );
+        
+        $sortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'sort_name' );
+        $returnArray = array( 'contactID' => $contactID,
+                              'sortName'  => $sortName );
+        
+        echo json_encode( $returnArray );
+        exit();
+    }
 }
