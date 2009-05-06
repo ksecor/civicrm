@@ -274,7 +274,7 @@ body .ui-resizable-autohide .ui-resizable-handle { display: none; } /* use 'body
 	background: url(images/454545_11x11_icon_close.gif) 0 0 no-repeat;
 }
 .ui-dialog-titlebar-close:active {
-	background: url(images/222222_11x11_icon_close.gif) 0 0 no-repeat;
+	background: url(images/454545_11x11_icon_close.gif) 0 0 no-repeat;
 }
 .ui-dialog-titlebar-close span {
 	display: none;
