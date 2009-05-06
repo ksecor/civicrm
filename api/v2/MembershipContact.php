@@ -149,9 +149,14 @@ function civicrm_membership_contact_get(&$params)
     $membership       = array('contact_id' => $contactID);
     $membershipValues = array();
     CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $activeOnly);
-    
+
+    $recordCount = 0;
+
     if ( empty( $membershipValues ) ) {
-        return civicrm_create_error('No memberships for this contact.');
+        # No results is NOT an error!
+        # return civicrm_create_error('No memberships for this contact.');
+        $membershipValues['record_count'] = $recordCount;
+        return $membershipValues;
     }
     
     $members[$contactID] = array( );
@@ -187,6 +192,8 @@ function civicrm_membership_contact_get(&$params)
                 $membershipValues[$membershipId][$key] = $val;
             }
         }
+
+        $recordCount++;
     }
     
     $members[$contactID] = $membershipValues;
@@ -208,8 +215,10 @@ function civicrm_membership_contact_get(&$params)
                     $members[$contactID][$relationship->contact_id_a] = $membershipValues[$membershipId];
                 }
             }
+            $recordCount++;
         }
     }
+    $members['record_count'] = $recordCount;
     return $members;
 }
 

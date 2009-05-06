@@ -31,7 +31,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
     function testCreateEmptyContact() 
     {
         $params = array();
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
@@ -41,7 +41,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'email'        => 'man1@yahoo.com',
                         'contact_type' => 'Does not Exist' 
                         );
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
@@ -52,7 +52,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type' => 'Individual' 
                         );
 
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
@@ -63,7 +63,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type' => 'Household' 
                         );
         
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
@@ -74,7 +74,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type' => 'Organization' 
                         );
         
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertEqual( $contact['is_error'], 1 );
     }
     
@@ -86,7 +86,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'location_type_id' => 1,
                         );
 
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
@@ -99,7 +99,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'last_name'    => 'xyz1'
                         );
 
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
@@ -111,7 +111,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type'   => 'Household',
                         );
 
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
@@ -122,7 +122,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'organization_name' => 'The abc Organization',
                         'contact_type' => 'Organization',
                         );
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
@@ -136,7 +136,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'email'        => 'man3@yahoo.com'
                         );
         
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
@@ -150,7 +150,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type'     => 'Individual',
                         'location_type_id' => 1
                         );
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
@@ -164,7 +164,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type'  => 'Individual'
                         );
         
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         
         $paramsPhone = array(
                              'contact_id'    => $contact['contact_id'],
@@ -194,7 +194,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                                                                   )
                         );
 
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         
         $paramsAll = array(
                            'contact_id'    => $contact['contact_id'],
@@ -219,7 +219,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type'   => 'Household',
                         );
 
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
@@ -245,7 +245,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'is_opt_out'            => '1'
                         );
         
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $retrievedId = array( 'contact_id' => $contact['contact_id'] );
         $retrieved = &civicrm_contact_get( $retrievedId );
@@ -268,7 +268,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                          'is_opt_out'            => '0'
                          );
         
-        $contact1 =& civicrm_contact_add($params1);
+        $contact1 =& civicrm_contact_update($params1);
         $this->assertNotNull( $contact1['contact_id'] );
         $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
         $target = &civicrm_contact_get( $retrievedId1 );
@@ -286,7 +286,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type'      => 'Organization'
                         );
         
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $retrievedId = array( 'contact_id' => $contact['contact_id'] );
         $retrieved = &civicrm_contact_get( $retrievedId );
@@ -299,7 +299,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                          'contact_type'      => 'Organization'
                          );
         
-        $contact1 =& civicrm_contact_add($params1);
+        $contact1 =& civicrm_contact_update($params1);
         $this->assertNotNull( $contact1['contact_id'] );
         $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
         $target = &civicrm_contact_get( $retrievedId1 );
@@ -316,7 +316,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                         'contact_type'   => 'Household',
                         );
         
-        $contact =& civicrm_contact_add($params);
+        $contact =& civicrm_contact_create($params);
         $this->assertNotNull( $contact['contact_id'] );
         $retrievedId = array( 'contact_id' => $contact['contact_id'] );
         $retrieved = &civicrm_contact_get( $retrievedId );
@@ -328,7 +328,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
                          'contact_type'   => 'Household',
                          );
 
-        $contact1 =& civicrm_contact_add($params1);
+        $contact1 =& civicrm_contact_update($params1);
         $this->assertNotNull( $contact1['contact_id'] );
         $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
         $target = &civicrm_contact_get( $retrievedId1 );

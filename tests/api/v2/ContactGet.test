@@ -8,6 +8,7 @@ class testPublicCivicrmContactGet extends CiviUnitTestCase
 
     // class properties here
     // e.g protected $_participant;
+    protected $_fakeContact = 'fakeyfakerson@notreal.bogus';
 
     
     // end class properties
@@ -16,6 +17,9 @@ class testPublicCivicrmContactGet extends CiviUnitTestCase
      * Prepares environment for given testcase.
      */
     function setUp() {
+        # make sure the fake contact doesn't exist initially
+        $params = array( 'email' => $_fakeContact );
+        civicrm_contact_delete( $_fakeContact );
     }
 
     /**
@@ -27,6 +31,15 @@ class testPublicCivicrmContactGet extends CiviUnitTestCase
 
     // Put test functions below. Each function's name
     // needs to start with "test", e.g. testCreateEmptyContact
+    
+    function testGetMissingContact() {
+        $contact = array( 'email' => $_fakeContact );
+        $result = civicrm_contact_get($contact);
+        # we shouldn't get an error
+        $this->assertEqual( $result['is_error'], 0 );
+        # nor should we get any results
+        $this->assertNull( $result['contact_id'] );
+    }
 
 }
 
