@@ -17,8 +17,6 @@
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.contextMenu.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tableHeader.js"></script>
 
-{*<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.toolTip.js"></script>*}
-
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tablednd.js"></script>
 {if $context eq 'search' || $context eq 'smog'}
     {*allow select/unselect checkboxes functionality only for search*}

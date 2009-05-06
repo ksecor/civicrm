@@ -63,10 +63,13 @@ function smarty_function_help( $params, &$smarty ) {
     if ( $id =='accesskeys') {
         $file ='CRM/common/accesskeys.hlp';
     }
-        
+    require_once 'CRM/Core/Config.php';
+    $config = CRM_Core_Config::Singleton();
     $smarty->assign( 'id', $params['id'] );
     $help = $smarty->fetch( $file );
     return <<< EOT
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.toolTip.js"></script>
+<script type="text/javascript"> cj(document).ready( function() { cj(".helpicon").toolTip(); });</script>
 <div class="helpicon">&nbsp;<span id="{$id}_help" style="display:none">$help</span></div>
 EOT;
 }
