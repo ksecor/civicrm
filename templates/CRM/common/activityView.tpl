@@ -13,6 +13,7 @@ function viewActivity( activityID, contactID ) {
         width : 700,
         height : 650,
         resizable: true,
+        bgiframe: true,
         overlay: { 
             opacity: 0.5, 
             background: "black" 

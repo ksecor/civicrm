@@ -103,12 +103,12 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 	cj("#dialog").dialog({
 		title: "Assign Case Role",
 		modal: true, 
+		bgiframe: true,
 		overlay: { 
 			opacity: 0.5, 
 			background: "black" 
 		},
-
-        beforeclose: function(event, ui) {
+		beforeclose: function(event, ui) {
             cj(this).dialog("destroy");
         },
 
@@ -301,7 +301,8 @@ function addRole() {
 
 	cj("#addRoleDialog").dialog({
 		title: "Add Role",
-		modal: true, 
+		modal: true,
+		bgiframe: true, 
 		overlay: { 
 			opacity: 0.5, 
 			background: "black" 
