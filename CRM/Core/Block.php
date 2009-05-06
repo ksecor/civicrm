@@ -48,7 +48,7 @@ class CRM_Core_Block {
      * @var int
      */
     const
-        SHORTCUTS       = 1,
+        CREATE_NEW       = 1,
         RECENTLY_VIEWED = 2,
         DASHBOARD       = 3,
         ADD             = 4,
@@ -84,7 +84,7 @@ class CRM_Core_Block {
 
         if (!(self::$_properties)) {
             self::$_properties = array(
-                                       self::SHORTCUTS   => array( 'template'   => 'Shortcuts.tpl',
+                                       self::CREATE_NEW   => array( 'template'   => 'CreateNew.tpl',
                                                                    'info'       => ts('CiviCRM Create New'),
                                                                    'subject'    => ts('Create New'),
                                                                    'active'     => true,
@@ -136,7 +136,7 @@ class CRM_Core_Block {
                                                                         'region'     => 'left' ),
                                        self::DASHBOARD   => array( 'template'   => 'Dashboard.tpl',
                                                                    'info'       => ts('CiviCRM Dashboard'),
-                                                                   //'subject'    => ts('CiviCRM Shortcuts'),
+                                                                   //'subject'    => ts('CiviCRM Dashboard'),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
@@ -204,7 +204,7 @@ class CRM_Core_Block {
         $block = array( );
         foreach ( self::properties() as $id => $value ) {
              if ( $value['active'] ) {
-                 if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
+                 if ( ( $id == self::ADD || $id == self::CREATE_NEW ) &&
                       ( ! CRM_Core_Permission::check('add contacts') ) &&
                       ( ! CRM_Core_Permission::check('edit groups') ) ) {
                      continue;
@@ -241,7 +241,7 @@ class CRM_Core_Block {
     private function setTemplateValues( $id ) {
         switch ( $id ) {
 
-        case self::SHORTCUTS:
+        case self::CREATE_NEW:
             self::setTemplateShortcutValues( );
             break;
 
@@ -281,7 +281,7 @@ class CRM_Core_Block {
     }
 
     /**
-     * create the list of shortcuts for the application and format is as a block
+     * create the list of options to create New objects for the application and format is as a block
      *
      * @return void
      * @access private
@@ -367,7 +367,7 @@ class CRM_Core_Block {
             $value['key'] = CRM_Utils_Array::value( 'key', $short );
             $values[] = $value;
         }
-        self::setProperty( self::SHORTCUTS, 'templateValues', array( 'shortCuts' => $values ) );
+        self::setProperty( self::CREATE_NEW, 'templateValues', array( 'shortCuts' => $values ) );
     }
 
     /**
