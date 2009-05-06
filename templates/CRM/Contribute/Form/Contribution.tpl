@@ -44,7 +44,8 @@
                 <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
             </tr>
         {else}
-            <tr><td colspan="2">{include file="CRM/Contact/Form/NewContact.tpl"}</td></tr>
+            <tr>
+                <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;<a href="javascript:newContact( );">{ts}Create New Contact{/ts}</a></td></tr>
         {/if}
         {if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
@@ -134,9 +135,28 @@
 				{/if}
 				{literal}
 			});
-		</script>
-	{/literal}	
 
+            var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
+
+            cj("#contact").autocomplete( contactUrl, {
+            	selectFirst: false 
+            }).focus();
+
+            cj("#contact").result(function(event, data, formatted) {
+            	cj("input[name=contact_id]").val(data[1]);
+            });
+
+            cj("#contact").bind("keypress keyup", function(e) {
+                if ( e.keyCode == 13 ) {
+                    return false;
+                }
+            });
+    </script>
+    {/literal}
+
+    {*include new contact dialog file*}
+    {include file="CRM/common/newContact.tpl"}
+    
 {literal}
 <script type="text/javascript">
 var showPane = "";

@@ -49,6 +49,7 @@ class CRM_Contact_Form_ContactProfile extends CRM_Core_Form
             CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null );
         }
         
+        $this->assign( 'profileID', $this->_ufGroupID );
         $this->assign( 'fields', $this->_fields );
         
         $this->addButtons( array(

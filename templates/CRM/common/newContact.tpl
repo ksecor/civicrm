@@ -1,3 +1,4 @@
+<div id="contact-dialog" style="display:none;"></div>
 <script type="text/javascript">
 {literal}
 function newContact( ) {

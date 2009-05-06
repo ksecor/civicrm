@@ -492,8 +492,9 @@ WHERE  contribution_id = {$this->_id}
         
         if ( $this->_context == 'standalone' ) {
             // call to build contact autocomplete
-            require_once 'CRM/Contact/Form/NewContact.php'; 
-            CRM_Contact_Form_NewContact::buildQuickform( $this );
+            $attributes = array( 'width' => '200px' );    
+            $this->addElement('text', "contact", ts('Select Contact'), $attributes );
+            $this->addElement('hidden', "contact_id" );
         }
         
         $showAdditionalInfo = false;

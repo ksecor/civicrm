@@ -1,5 +1,5 @@
 {* added onload javascript for contact profile*}
-<form id="profileContact" action="http://civicrm/civicrm/contact/profilecreate?reset=1&gid=1" method="POST">
+<form id="profileContact" action="http://civicrm/civicrm/contact/profilecreate?reset=1&gid={$profileID}" method="POST">
     {include file="CRM/UF/Form/Block.tpl"}
     {$form.buttons.html}
 </form>
