@@ -26,7 +26,3 @@
     }
   });
 }})(jQuery);
-
-$(document).ready( function() {
-if( $(".helpicon").text() ) $(".helpicon").toolTip();
-});
