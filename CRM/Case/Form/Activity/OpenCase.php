@@ -123,6 +123,17 @@ class CRM_Case_Form_Activity_OpenCase
                               $attributes['first_name'] );
             $form->addElement('text',   'last_name',   ts('Last Name'),   
                               $attributes['last_name'] );
+            // radio button for gender
+            $genderOptions = array( );
+            $gender =CRM_Core_PseudoConstant::gender();
+            foreach ($gender as $key => $var) {
+                $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
+            }
+            $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
+
+            $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
+            $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');  
+            
             //Primary Phone 
             $locType = CRM_Core_PseudoConstant::locationType( );
             $form->addElement('select',
@@ -163,7 +174,7 @@ class CRM_Case_Form_Activity_OpenCase
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                          'email'));
         }
-
+        
         $form->add( 'date', 'start_date', ts('Case Start Date'),
                     CRM_Core_SelectValues::date('activityDate' ),
                     true);   
