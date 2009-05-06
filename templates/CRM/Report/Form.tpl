@@ -38,14 +38,19 @@
             {if $groupByElements}
             <fieldset>
                 <legend>{ts}Group by Columns{/ts}</legend>
+                {assign  var="count" value="1"}
                 <table class="form-layout">
                     <tr>
                         {foreach from=$groupByElements item=gbElem key=dnc}
                             <td width="25%">{$form.group_bys[$gbElem].html}
                                 {if $form.group_bys_freq[$gbElem].html}
                                     ,&nbsp;&nbsp;{$form.group_bys_freq[$gbElem].label}&nbsp;{$form.group_bys_freq[$gbElem].html}
+                                {/if}</td>
+                                {if $count is div by 4}
+                                    </tr>
+                                    <tr>
                                 {/if}
-                            </td>
+                                {assign var="count" value=`$count+1`}
                         {/foreach}
                     </tr>
                 </table>      

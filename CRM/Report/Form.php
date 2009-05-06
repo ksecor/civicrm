@@ -552,16 +552,16 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $clauses = array( );
                 if ( $min ) {
                     if ( $op == 'bw' ) {
-                        $clauses[] = "( {$field['name']} >= $min )";
+                        $clauses[] = "( {$field['dbAlias']} >= $min )";
                     } else {
-                        $clauses[] = "( {$field['name']} < $min )";
+                        $clauses[] = "( {$field['dbAlias']} < $min )";
                     }
                 }
                 if ( $max ) {
                     if ( $op == 'bw' ) {
-                        $clauses[] = "( {$field['name']} <= $max )";
+                        $clauses[] = "( {$field['dbAlias']} <= $max )";
                     } else {
-                        $clauses[] = "( {$field['name']} > $max )";
+                        $clauses[] = "( {$field['dbAlias']} > $max )";
                     }
                 }
 
@@ -585,7 +585,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                     $value = "'{$value}'";
                 }
                 $sqlOP  = self::getSQLOperator( $op );
-                $clause = "( {$field['name']} $sqlOP $value )";
+                $clause = "( {$field['dbAlias']} $sqlOP $value )";
             }
             break;
                 
@@ -603,7 +603,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                     $value = "'{$value}'";
                 }
                 $sqlOP  = self::getSQLOperator( $op );
-                $clause = "( {$field['name']} $sqlOP $value )";
+                $clause = "( {$field['dbAlias']} $sqlOP $value )";
             }
             break;
                 
@@ -614,7 +614,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                 if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
                     $value = "'{$value}'";
                 }
-                $clause = "( {$field['name']} $sqlOP $value )";
+                $clause = "( {$field['dbAlias']} $sqlOP $value )";
             }
             break;
         }

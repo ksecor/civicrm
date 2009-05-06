@@ -48,6 +48,19 @@ class CRM_Report_Utils_Get {
     }
 
     static function dateParam( $fieldName, &$field, &$defaults ) {
+        $from     = self::getTypedValue( "{$fieldName}_from", $field['type'] );
+        $to       = self::getTypedValue( "{$fieldName}_to", $field['type'] );
+        
+        if ( !($from || $to) ) {
+            return false;
+        } else if ( $from || $to || $relative ) {
+            // unset other criteria
+            unset( $defaults["{$fieldName}_relative"],
+                   $defaults["{$fieldName}_from"],
+                   $defaults["{$fieldName}_to"] );
+        }
+        $defaults["{$fieldName}_from"] = CRM_Utils_Date::unformat($from, '');
+        $defaults["{$fieldName}_to"]   = CRM_Utils_Date::unformat($to, '');
     }
 
     static function stringParam( $fieldName, &$field, &$defaults ) {

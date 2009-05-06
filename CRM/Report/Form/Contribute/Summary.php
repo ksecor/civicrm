@@ -54,7 +54,13 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                         'no_repeat'  => true ),
                                  'id'           => 
                                  array( 'no_display' => true,
-                                        'required'  => true, ), ), ),
+                                        'required'  => true, ), ), 
+                          'group_bys' => 
+                          array( 'id'                =>
+                                 array( 'title'      => ts( 'Contact ID' ) ),
+                                 'display_name'      => 
+                                 array( 'title'      => ts( 'Contact Name' ), ), ),
+                          ),
                    'civicrm_contribution' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
                           //'bao'           => 'CRM_Contribute_BAO_Contribution',
@@ -69,16 +75,13 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  'contribution_source' => null, ),
                           'grouping'              => 'contri-fields',
                           'filters'               =>             
-                          array( 'receive_date'   => 
-                                 array( 'default' => 'previous.year' ),
+                          array( 'receive_date'   => null,
                                  'total_amount'   => 
                                  array( 'title'   => ts( 'Total  Amount Between' ), ), ),
                           'group_bys'           =>
                           array( 'receive_date' => 
                                  array( 'default'    => true,
                                         'frequency'  => true ),
-                                 'contribution_contact_id' => 
-                                 array( 'title'      => ts( 'Contacts' ) ),
                                  'contribution_source'     => null, ), ),
                    'civicrm_contribution_type' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_ContributionType',
@@ -308,7 +311,7 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
                  CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
                 $rollUP = "WITH ROLLUP";
             }
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " $rollUP ";
+            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " ASC $rollUP ";
         }
     }
 
@@ -373,11 +376,24 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
  
         $entryFound = false;
         foreach ( $rows as $rowNum => $row ) {
+/*             if ( array_key_exists('civicrm_contribution_total_amount_count', $row) &&  */
+/*                  array_key_exists('civicrm_contribution_receive_date_start', $row) &&  */
+/*                  $row['civicrm_contribution_receive_date_start'] ) { */
+/*                 $url = */
+/*                     CRM_Utils_System::url( 'civicrm/report/contribute/detail', */
+/*                                            'reset=1&force=1&receive_date_from=' . */
+/*                                            CRM_Utils_Date::customFormat($row['civicrm_contribution_receive_date_start'], '%Y%m%d' ) */
+/*                                            ); */
+/*                 $rows[$rowNum]['civicrm_contribution_total_amount_count'] = "<a href='$url'>" . */
+/*                     $row["civicrm_contribution_total_amount_count"] . '</a>'; */
+/*                 $entryFound = true; */
+/*             } */
+
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view', 
-                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
+                $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
+                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
                     $row["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;

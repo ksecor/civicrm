@@ -57,7 +57,9 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'filters' =>             
                           array('sort_name'    => 
                                 array( 'title'      => ts( 'Contact Name' ),
-                                       'operator'   => 'like' ) ),
+                                       'operator'   => 'like' ),
+                                'id'    => 
+                                array( 'title'      => ts( 'Contact ID' ) ), ),
                           'grouping'=> 'contact-fields',
                           ),
                    
@@ -74,7 +76,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                  ),
                           'filters' =>             
                           array( 'receive_date' => 
-                                 array( 'default'    => 'this month' ),
+                                 array( 'type'       => CRM_Utils_Type::T_DATE ),
                                  'total_amount' => 
                                  array( 'title'      => ts( 'Amount Between' ) ),
                                  ),
@@ -193,7 +195,7 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
-                        
+
                         $clause = $this->dateClause( $field['name'], $relative, $from, $to );
                     } else {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
@@ -297,6 +299,7 @@ SELECT COUNT( contribution.total_amount ) as count,
 
         $checkList = $subTotalKeys = array();
         $entryFound = false;
+        $noOfKeysFixed = 0;
 
         foreach ( $rows as $rowNum => $row ) {
 
@@ -318,6 +321,7 @@ SELECT COUNT( contribution.total_amount ) as count,
 
                 // make subtotals appear nice
                 if ( !$repeatFound && $lastKey ) {
+                    $noOfKeysFixed++;
                     $this->fixSubTotalDisplay($rows[$lastKey], array('civicrm_contribution_total_amount_sum'));
                     $entryFound = true;
                 }
@@ -358,6 +362,13 @@ SELECT COUNT( contribution.total_amount ) as count,
                 break;
             }
             $lastKey = $rowNum;
+        }
+
+        // show grand total only when more than one grouping
+        if ( $noOfKeysFixed > 1 ) {
+            $this->fixSubTotalDisplay($rows[$rowNum], array('civicrm_contribution_total_amount_sum'));
+        } else if ( $noOfKeysFixed == 1 ) {
+            unset($rows[$rowNum]);
         }
     }
 
