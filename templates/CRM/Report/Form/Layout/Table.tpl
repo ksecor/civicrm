@@ -14,7 +14,9 @@
       {foreach from=$rows item=row}
       <tr class="{cycle values="odd-row,even-row"}">
          {foreach from=$columnHeaders item=header key=field}
-            <td>{if $header.type eq 12}
+            {assign var=fieldLink value=$field|cat:"_link"}
+            <td>{if $row.$fieldLink}<a href="{$row.$fieldLink}">{/if}
+                {if $header.type eq 12}
 	            {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}
 		    	{$row.$field|crmDate:$config->dateformatPartial}
 		    {elseif $header.group_by eq 'YEAR'}	
@@ -27,6 +29,7 @@
 	        {else}
 	    	    {$row.$field}
 		{/if}
+                {if $row.$fieldLink}{/if}
 	    </td>
          {/foreach}
       </tr>

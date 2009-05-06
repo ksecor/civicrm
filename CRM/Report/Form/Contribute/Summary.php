@@ -156,6 +156,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                         case 'YEARWEEK' :
                             $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
+                            $select[] = "YEARWEEK({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
                             $select[] = "WEEKOFYEAR({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Week';
                             break;
@@ -163,6 +164,7 @@ INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
                         case 'YEAR' :
                             $select[] = "MAKEDATE(YEAR({$field['dbAlias']}), 1)  
 AS {$tableName}_{$fieldName}_start";
+                            $select[] = "YEAR({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
                             $select[] = "YEAR({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Year';
                             break;
@@ -170,12 +172,14 @@ AS {$tableName}_{$fieldName}_start";
                         case 'MONTH':
                             $select[] = "DATE_SUB({$field['dbAlias']}, 
 INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_start";
+                            $select[] = "MONTH({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
                             $select[] = "MONTHNAME({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Month';
                             break;
                             
                         case 'QUARTER':
                             $select[] = "STR_TO_DATE(CONCAT( 3 * QUARTER( {$field['dbAlias']} ) -2 , '/', '1', '/', YEAR( {$field['dbAlias']} ) ), '%m/%d/%Y') AS {$tableName}_{$fieldName}_start";
+                            $select[] = "QUARTER({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
                             $select[] = "QUARTER({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Quarter';
                             break;
@@ -189,9 +193,14 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
                                 $field['type'];
                             $this->_columnHeaders["{$tableName}_{$fieldName}_start"]['group_by'] = 
                                 $this->_params['group_bys_freq'][$fieldName];
+
+                            // just to make sure these values are transfered to rows.
+                            // since we need that for calculation purpose, 
+                            // e.g making subtotals look nicer or graphs
+                            $this->_columnHeaders["{$tableName}_{$fieldName}_interval"] = array('no_display' => true);
+                            $this->_columnHeaders["{$tableName}_{$fieldName}_subtotal"] = array('no_display' => true);
                         }
                     }
-                    
                 }
             }
         }
@@ -297,8 +306,14 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
                         if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
                             if ( CRM_Utils_Array::value('frequency', $table['group_bys'][$fieldName]) && 
                                  CRM_Utils_Array::value($fieldName, $this->_params['group_bys_freq']) ) {
-                                $this->_groupBy[] = 
-                                    $this->_params['group_bys_freq'][$fieldName] . "({$field['dbAlias']})";
+                                
+                                $append = "YEAR({$field['dbAlias']}),";
+                                if ( in_array(strtolower($this->_params['group_bys_freq'][$fieldName]), 
+                                              array('year')) ) {
+                                    $append = '';
+                                }
+                                $this->_groupBy[] = "$append {$this->_params['group_bys_freq'][$fieldName]}({$field['dbAlias']})";
+                                $append = true;
                             } else {
                                 $this->_groupBy[] = $field['dbAlias'];
                             }
@@ -306,12 +321,14 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
                     }
                 }
             }
+            
             $rollUP = "";
             if ( !empty($this->_statFields) && 
-                 CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
-                $rollUP = "WITH ROLLUP";
+                 CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) && 
+                 ( $append && count($this->_groupBy) <= 1 ) ) {
+                $rollUP = " WITH ROLLUP";
             }
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " ASC $rollUP ";
+            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " $rollUP ";
         }
     }
 
@@ -340,11 +357,12 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
             }
-            
+
             require_once 'CRM/Utils/PChart.php';
-            if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
+            if ( CRM_Utils_Array::value('charts', $this->_params ) && 
+                 $row['civicrm_contribution_receive_date_subtotal'] ) {
                 $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
-                $graphRows[$this->_interval][] = $dao->civicrm_contribution_receive_date_interval;
+                $graphRows[$this->_interval][] = $row['civicrm_contribution_receive_date_interval'];
                 $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
                 $count++;
             }
@@ -381,9 +399,9 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
             // make count columns point to detail report
             if ( array_key_exists('receive_date', $this->_params['group_bys']) && 
                  ($rowNum < ($rowCount-1)) &&
-                 array_key_exists('civicrm_contribution_total_amount_count', $row) &&
                  array_key_exists('civicrm_contribution_receive_date_start', $row) &&
-                 $row['civicrm_contribution_receive_date_start'] ) {
+                 $row['civicrm_contribution_receive_date_start'] && 
+                 $row['civicrm_contribution_receive_date_subtotal'] ) {
 
                 $dateStart = CRM_Utils_Date::customFormat($row['civicrm_contribution_receive_date_start'], 
                                                           '%Y%m%d');
@@ -411,8 +429,17 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
                     CRM_Utils_System::url( 'civicrm/report/contribute/detail',
                                            "reset=1&force=1&receive_date_from={$dateStart}&receive_date_to={$dateEnd}"
                                            );
-                $rows[$rowNum]['civicrm_contribution_total_amount_count'] = "<a href='$url'>" .
-                    $row["civicrm_contribution_total_amount_count"] . '</a>';
+                $rows[$rowNum]['civicrm_contribution_receive_date_start_link'] = $url;
+                $entryFound = true;
+            }
+
+            // make subtotals look nicer
+            if ( array_key_exists('civicrm_contribution_receive_date_subtotal', $row) && 
+                 !$row['civicrm_contribution_receive_date_subtotal'] ) {
+                $this->fixSubTotalDisplay($rows[$rowNum], 
+                                          array('civicrm_contribution_total_amount_sum',
+                                                'civicrm_contribution_total_amount_avg',
+                                                'civicrm_contribution_total_amount_count'));
                 $entryFound = true;
             }
 

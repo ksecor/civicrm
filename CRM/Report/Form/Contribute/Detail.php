@@ -349,8 +349,8 @@ SELECT COUNT( contribution.total_amount ) as count,
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view', 
-                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
+                $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
+                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
                     $rows[$rowNum]["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;

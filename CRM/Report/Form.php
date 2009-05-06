@@ -725,6 +725,12 @@ class CRM_Report_Form extends CRM_Core_Form {
         // this takes care of formatting rows for display purpose.
         $this->alterDisplay( $rows );
 
+        foreach ( $this->_columnHeaders as $key => $value ) {
+            if ( is_array($value) && isset($value['no_display']) ) {
+                unset($this->_columnHeaders[$key]);
+            }
+        }
+
         // unset columns not to be displayed.
         if ( !empty($rows) ) {
             foreach ( $this->_noDisplay as $noDisplayField ) {
