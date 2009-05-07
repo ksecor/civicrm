@@ -265,37 +265,49 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function buildQuickForm()
     {   
-        $sBlocks = array( );
-        $hBlocks = array( );
+        //lets have single status message, CRM-4363
+        $return = false;
+        $statusMessage = null;
         
-        $config  =& CRM_Core_Config::singleton( );
-        
-        // we should not allow component and mix profiles in search mode
+        //we should not allow component and mix profiles in search mode
         if ( $this->_mode != self::MODE_REGISTER ) {
             //check for mix profile fields (eg:  individual + other contact type)
-            if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
-                CRM_Core_Session::setStatus( ts( "This Profile includes fields for more than one record type.") );
+            if ( CRM_Core_BAO_UFField::checkProfileType( $this->_gid ) ) {
+                $statusMessage = ts( 'Profile search, view and edit are not supported for Profiles which include fields for more than one record type.' );
             }
             
-            $profileType = CRM_Core_BAO_UFField::getProfileType($this->_gid);  
+            $profileType = CRM_Core_BAO_UFField::getProfileType( $this->_gid );
             
             if ( $this->_id ) {
                 $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                             $this->_id, 'contact_type' );
-                
                 if ( ( $profileType != 'Contact' ) && ( $contactType != $profileType ) ) {
-                    CRM_Core_Session::setStatus(ts('This profile is not configured for "%1" contact type.', array( 1 => $contactType ) ) );
-                    return 0;
+                    $return = true;
+                    if ( !$statusMessage ) {
+                        $statusMessage =  ts('This profile is not configured for "%1" contact type.', array( 1 => $contactType ) );
+                    }
                 }
             }
             
             if ( in_array( $profileType, array( "Membership", "Participant", "Contribution" ) ) ) {
-                CRM_Core_Session::setStatus(ts('Profile is not configured for the selected action.'));
-                return 0;
+                $return = true;
+                if ( !$statusMessage ) {
+                    $statusMessage = ts('Profile is not configured for the selected action.');
+                }
             }
         }
-
-        $this->assign( 'id'      , $this->_id   );
+        
+        //lets have sigle status message, 
+        $this->assign( 'statusMessage', $statusMessage );
+        if ( $return ) {
+            return false;
+        }
+        
+        $sBlocks = array( );
+        $hBlocks = array( );
+        $config  =& CRM_Core_Config::singleton( );
+        
+        $this->assign( 'id'          , $this->_id       );
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
         $this->assign( 'fields'      , $this->_fields   );
