@@ -208,6 +208,35 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
         $this->_select = "SELECT " . implode( ', ', $select ) . " ";
     }
 
+    static function formRule( &$fields, &$files, $self ) {  
+        $errors = $grouping = array( );
+        //check for searching combination of dispaly columns and
+        //grouping criteria
+        if ( $fields['group_bys']['receive_date'] ) {
+            foreach ( $self->_columns as $tableName => $table ) {
+                if ( array_key_exists('fields', $table) ) {
+                    foreach ( $table['fields'] as $fieldName => $field ) {
+                        if ( $fields['fields'][$field['name']] && 
+                             in_array( $field['name'], array( 'display_name', 'contribution_source', 'contribution_type' ) ) ) {
+                            $grouping[] = $field['title'];
+                        }
+                    }
+                }
+            }
+            if ( !empty( $grouping ) ) {
+                $temp = 'and '. implode(', ', $grouping );
+                $errors['fields'] = ts("Please Do not use combination of received date %1", array( 1 => $temp ));    
+            }
+        }
+         
+        if ( !$fields['group_bys']['receive_date'] ) {
+            if ( CRM_Utils_Date::isDate( $fields['receive_date_from'] ) || CRM_Utils_Date::isDate( $fields['receive_date_to'] ) ) {
+                $errors['receive_date_relative'] = ts("Do not use filter on Date if group by received date not used ");      
+            }
+        }
+        return $errors;
+    }
+
     function from( ) {
         $this->_from = "
 FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
@@ -261,10 +290,11 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
              CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {
             $grandStat = array();
             $grandStat[] = array_pop($rows);
-            
-            foreach ($grandStat[0] as $fld => $val) {
-                if ( !in_array($fld, $this->_statFields) ) {
-                    $grandStat[0][$fld] = "";
+            if ( !empty($grandStat[0] ) ) {
+                foreach ($grandStat[0] as $fld => $val) {
+                    if ( !in_array($fld, $this->_statFields) ) {
+                        $grandStat[0][$fld] = "";
+                    }
                 }
             }
             return $grandStat;
@@ -277,14 +307,27 @@ LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type
 
         $statistics[] = array( 'title' => ts('Row(s) Listed'),
                                'value' => count($rows) );
-
+        
         if ( is_array($this->_params['group_bys']) && 
              !empty($this->_params['group_bys']) ) {
             foreach ( $this->_columns as $tableName => $table ) {
                 if ( array_key_exists('group_bys', $table) ) {
                     foreach ( $table['group_bys'] as $fieldName => $field ) {
                         if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            $combinations[] = $field['title'];
+                            if ( $fieldName == 'receive_date' && ( $this->_params['receive_date_relative'] == 0 ) ) {
+                                $fromdate = $todate = null;
+                                if ( CRM_Utils_Date::isDate( CRM_Utils_Array::value( "receive_date_from", $this->_params ) ) ) {
+                                    $revDate  = array_reverse( $this->_params['receive_date_from'] );
+                                    $fromdate = ts('From') . " ".CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
+                                }
+                                if ( CRM_Utils_Date::isDate( CRM_Utils_Array::value( "receive_date_to", $this->_params  ) ) ) {
+                                    $revDate  = array_reverse( $this->_params['receive_date_to'] );
+                                    $todate = ts('To') ." ". CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
+                                }
+                                $combinations[] = $field['title']. $fromdate . $todate ;
+                            } else {
+                                $combinations[] = $field['title'];
+                            }
                         }
                     }
                 }

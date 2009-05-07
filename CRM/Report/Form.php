@@ -489,6 +489,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->addGroupBys( );
 
         $this->buildInstanceAndButtons( );
+
+        //add form rule for report
+        if ( is_callable( array( $this, 'formRule' ) ) ) {
+            $this->addFormRule( array( get_class($this), 'formRule' ), $this );
+        }
     }
     
     static function getOperationPair( $type = "string" ) {
@@ -644,7 +649,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $clauses = array( );
         if ( CRM_Utils_Date::isDate( $from ) ) {
             $revDate = array_reverse( $from );
-            $date    = CRM_Utils_Date::format( $revDate );
+            $date    = CRM_Utils_Date::format( $revDate );           
             if ( $date ) {
                 $clauses[] = "( {$fieldName} >= $date )";
             }
