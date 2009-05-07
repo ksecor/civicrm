@@ -246,7 +246,7 @@ AND    cf.html_type IN ( 'Text', 'TextArea', 'RichTextEditor' )
     function runQueries( &$tables ) {
         $sql = "TRUNCATE {$this->_entityIDTableName}";
         CRM_Core_DAO::executeQuery( $sql );
-        
+
         foreach ( $tables as $tableName => $tableValues ) {
             if ( $tableName == 'sql' ) {
                 foreach ( $tableValues as $sqlStatement ) {
@@ -281,7 +281,7 @@ $sqlStatement
                      $entityTable = CRM_Utils_Array::value( 'entity_table', $tableValues ) ) {
                     $whereClause .= " AND entity_table = '{$entityTable}'";
                 }
-                
+
                 $sql = "
 REPLACE INTO {$this->_entityIDTableName} ( entity_id )
 SELECT  {$tableValues['id']}
@@ -294,7 +294,6 @@ AND     {$tableValues['id']} IS NOT NULL
             }
         }
     }
-
 
     function fillContactIDs( ) {
         $tables = 
@@ -356,15 +355,12 @@ AND    caa.assignee_contact_id = c.id
 AND    c.display_name LIKE {$this->_text}
 ";
         
-
-                   
         $tables = array( 'civicrm_activity' => array( 'id' => 'id',
                                                       'fields' => array( 'subject' => null,
                                                                          'details' => null ) ),
                          'sql'              => $contactSQL );
-        $this->fillCustomInfo( $tables,
-                               "( 'Activity' )" );
-
+        
+        $this->fillCustomInfo( $tables, "( 'Activity' )" );
         $this->runQueries( $tables );
     }
 
@@ -404,141 +400,93 @@ WHERE     cc.id = {$this->_textID}
             CRM_Core_DAO::executeQuery( $sql );
         }
     }
-
+    
     function fillContribution( ) {
         
-        $sql = "
-INSERT INTO {$this->_tableName}
-( table_name, contact_id, display_name, contribution_id, contribution_type, contribution_page, contribution_receive_date, 
-contribution_total_amount, contribution_trxn_Id, contribution_source, contribution_status, contribution_check_number )
-SELECT    'Contribution', c.id, c.display_name, cc.id, cct.name, ccp.title, cc.receive_date, 
-cc.total_amount, cc.trxn_id, cc.source, contribution_status.label, cc.check_number 
-FROM  civicrm_contribution cc 
-LEFT JOIN civicrm_contact c ON cc.contact_id = c.id
-LEFT JOIN civicrm_contribution_type cct ON cct.id = cc.contribution_type_id
-LEFT JOIN civicrm_contribution_page ccp ON ccp.id = cc.contribution_page_id 
-LEFT JOIN civicrm_option_group option_group_contributionStatus ON option_group_contributionStatus.name = 'contribution_status'
-LEFT JOIN civicrm_option_value contribution_status 
-ON ( contribution_status.option_group_id = option_group_contributionStatus.id AND contribution_status.value = cc.contribution_status_id )
-LEFT JOIN civicrm_note cn ON ( cn.entity_id = cc.id AND cn.entity_table = 'civicrm_contribution' )
-WHERE   ( cc.source LIKE {$this->_text} OR cc.amount_level LIKE {$this->_text} OR cc.trxn_id LIKE {$this->_text} 
-          OR cc.invoice_id LIKE {$this->_text} OR cc.check_number  LIKE {$this->_text} OR cn.subject LIKE  {$this->_text} OR cn.note LIKE  {$this->_text} )
-{$this->_limitClause}
-"; 
-        CRM_Core_DAO::executeQuery( $sql ); 
-
-        if ( $this->_textID ) { 
-            $sql = "
-INSERT INTO {$this->_tableName}
-( table_name, contact_id, display_name, contribution_id, contribution_type, contribution_page, contribution_receive_date, 
-contribution_total_amount, contribution_trxn_Id, contribution_source, contribution_status, contribution_check_number )
-SELECT    'Contribution', c.id, c.display_name, cc.id, cct.name, ccp.title, cc.receive_date, 
-cc.total_amount, cc.trxn_id, cc.source, contribution_status.label, cc.check_number 
-FROM  civicrm_contribution cc 
-LEFT JOIN civicrm_contact c ON cc.contact_id = c.id
-LEFT JOIN civicrm_contribution_type cct ON cct.id = cc.contribution_type_id
-LEFT JOIN civicrm_contribution_page ccp ON ccp.id = cc.contribution_page_id 
-LEFT JOIN civicrm_option_group option_group_contributionStatus ON option_group_contributionStatus.name = 'contribution_status'
-LEFT JOIN civicrm_option_value contribution_status 
-ON ( contribution_status.option_group_id = option_group_contributionStatus.id AND contribution_status.value = cc.contribution_status_id )
-LEFT JOIN civicrm_note cn ON ( cn.entity_id = cc.id AND cn.entity_table = 'civicrm_contribution' )
-WHERE   ( cc.total_amount = {$this->_textID} OR cc.check_number = {$this->_textID} )
-{$this->_limitClause}
-";
-            CRM_Core_DAO::executeQuery( $sql );
-        }
+        //get contribution ids in entity table.
+        $this->fillContributionIDs( ); 
         
-        $tables = array( );
-        // get the custom data info
-        $this->fillCustomInfo( $tables, "( 'Contribution' )" );
-        $this->runQueries( $tables );
-
         //move data from entity table to detail table        
         $this->moveEntityToDetail( 'Contribution' ); 
     }
     
-    function fillParticipant( ) {
-    
-        $sql = "
-INSERT INTO {$this->_tableName}
-( table_name, contact_id, display_name, participant_id, event_title, participant_fee_level, participant_fee_amount, participant_register_date, 
-participant_source, participant_status, participant_role )
-SELECT    'Participant', c.id, c.display_name, cp.id, ce.title, cp.fee_level, cp.fee_amount, 
-cp.register_date, cp.source, participant_status.label, participant_role.label 
-FROM  civicrm_participant cp 
-LEFT JOIN civicrm_contact c ON cp.contact_id = c.id
-LEFT JOIN civicrm_event ce ON ce.id = cp.event_id
-LEFT JOIN civicrm_option_group option_group_participantStatus ON option_group_participantStatus.name = 'participant_status'
-LEFT JOIN civicrm_option_value participant_status 
-ON ( participant_status.option_group_id = option_group_participantStatus.id AND participant_status.value = cp.status_id )
-LEFT JOIN civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
-LEFT JOIN civicrm_option_value participant_role 
-ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
-LEFT JOIN civicrm_note cn ON ( cn.entity_id = cp.id AND cn.entity_table = 'civicrm_participant' )
-WHERE   ( cp.fee_level LIKE {$this->_text} OR cn.subject LIKE  {$this->_text} OR cn.note LIKE  {$this->_text} ) OR cp.source LIKE {$this->_text} 
-{$this->_limitClause}
-"; 
+    /**
+     * get contribution ids in entity tables.
+     */
+    function fillContributionIDs() {
+        $tables = 
+            array( 'civicrm_contribution' => array( 'id'     => 'id',
+                                                    'fields' => array( 'source'       => null,
+                                                                       'amount_level' => null,
+                                                                       'trxn_Id'      => null,
+                                                                       'invoice_id'   => null,
+                                                                       'check_number' => ($this->_textID) ? 'Int' : null,
+                                                                       'total_amount' => ($this->_textID) ? 'Int' : null,
+                                                                       ) 
+                                                    ),
+                   'civicrm_note'         => array( 'id'           => 'entity_id',
+                                                    'entity_table' => 'civicrm_contribution',
+                                                    'fields'       => array( 'subject' => null,
+                                                                             'note'    => null ) )
+                   );
         
-        CRM_Core_DAO::executeQuery( $sql );
-        
-        if ( $this->_textID ) { 
-            $sql = "
-INSERT INTO {$this->_tableName}
-( table_name, contact_id, display_name, participant_id, event_title, participant_fee_level, participant_fee_amount, participant_register_date, 
-participant_source, participant_status, participant_role )
-SELECT    'Participant', c.id, c.display_name, cp.id, ce.title, cp.fee_level, cp.fee_amount, 
-cp.register_date, cp.source, participant_status.label, participant_role.label 
-FROM  civicrm_participant cp 
-LEFT JOIN civicrm_contact c ON cp.contact_id = c.id
-LEFT JOIN civicrm_event ce ON ce.id = cp.event_id
-LEFT JOIN civicrm_option_group option_group_participantStatus ON option_group_participantStatus.name = 'participant_status'
-LEFT JOIN civicrm_option_value participant_status 
-ON ( participant_status.option_group_id = option_group_participantStatus.id AND participant_status.value = cp.status_id )
-LEFT JOIN civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
-LEFT JOIN civicrm_option_value participant_role 
-ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
-LEFT JOIN civicrm_note cn ON ( cn.entity_id = cp.id AND cn.entity_table = 'civicrm_participant' )
-WHERE   ( cp.fee_amount = {$this->_textID} )
-{$this->_limitClause}
-";
-            CRM_Core_DAO::executeQuery( $sql );
-        }
-        
-        $tables = array( );
         // get the custom data info
-        $this->fillCustomInfo( $tables, "( 'Participant' )" );
+        $this->fillCustomInfo( $tables, "( 'Contribution' )" );
         $this->runQueries( $tables );
-
+    }
+    
+    function fillParticipant( ) {
+        //get participant ids in entity table.
+        $this->fillParticipantIDs( ); 
+        
         //move data from entity table to detail table        
         $this->moveEntityToDetail( 'Participant' ); 
     }
     
+    /**
+     * get participant ids in entity tables.
+     */
+    function fillParticipantIDs() {
+        $tables = 
+            array( 'civicrm_participant' => array( 'id'     => 'id',
+                                                   'fields' => array( 'source'     => null,
+                                                                      'fee_level'  => null,
+                                                                      'fee_amount' => ($this->_textID) ? 'Int' : null,
+                                                                      ) 
+                                                   ),
+                   'civicrm_note'         => array( 'id'           => 'entity_id',
+                                                    'entity_table' => 'civicrm_participant',
+                                                    'fields'       => array( 'subject' => null,
+                                                                             'note'    => null ) )
+                   );
+        
+        // get the custom data info
+        $this->fillCustomInfo( $tables, "( 'Participant' )" );
+        $this->runQueries( $tables );
+    }
+    
     function fillMembership( ) {
         
-        $sql = "
-INSERT INTO {$this->_tableName}
-( table_name, contact_id, display_name, membership_id, membership_type, membership_fee, membership_start_date, 
-membership_end_date, membership_source, membership_status )
-SELECT    'Membership', c.id, c.display_name, cm.id, cmt.name, cc.total_amount, cm.start_date, 
-cm.end_date, cm.source, cms.name 
-FROM  civicrm_membership cm 
-LEFT JOIN civicrm_contact c ON cm.contact_id = c.id
-LEFT JOIN civicrm_membership_type cmt ON cmt.id = cm.membership_type_id
-LEFT JOIN civicrm_membership_payment cmp ON cmp.membership_id = cm.id
-LEFT JOIN civicrm_contribution cc ON cc.id = cmp.contribution_id
-LEFT JOIN civicrm_membership_status cms ON cms.id = cm.status_id
-WHERE   ( cm.source LIKE {$this->_text} )
-{$this->_limitClause}
-"; 
-        CRM_Core_DAO::executeQuery( $sql );
-
-        $tables = array( );
+        //get membership ids in entity table.
+        $this->fillMembershipIDs( ); 
+        
+        //move data from entity table to detail table        
+        $this->moveEntityToDetail( 'Membership' ); 
+    }
+    
+    /**
+     * get membership ids in entity tables.
+     */
+    function fillMembershipIDs() {
+        $tables = 
+            array( 'civicrm_membership' => array( 'id'     => 'id',
+                                                  'fields' => array( 'source' => null )
+                                                  )
+                   );
+        
         // get the custom data info
         $this->fillCustomInfo( $tables, "( 'Membership' )" );
         $this->runQueries( $tables );
-
-        //move data from entity table to detail table        
-        $this->moveEntityToDetail( 'Membership' ); 
     }
     
     function buildForm( &$form ) {
@@ -653,9 +601,9 @@ FROM
             CRM_Utils_System::setTitle( $title );
         }
     }
-
+    
     /**
-     * move data from entity table to detail table.
+     * get entity id retrieve related data from db and move all data to detail table.
      *
      */
     function moveEntityToDetail( $tableName ) {
