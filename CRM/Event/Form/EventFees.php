@@ -89,10 +89,12 @@ class CRM_Event_Form_EventFees
         } else {
             $defaults[$form->_pId]['send_receipt'] = 1;
             if ( $form->_eventId ) {
-                $defaults[$form->_pId]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                                      $form->_eventId, 
-                                                                                      'confirm_email_text'
-                                                                                      );
+                //get receipt text and contribution type
+                $returnProperities = array( 'confirm_email_text', 'contribution_type_id' );
+                $details = array( );
+                CRM_Core_DAO::commonRetrieveAll( 'CRM_Event_DAO_Event', 'id', $form->_eventId, $details, $returnProperities );
+                $defaults[$form->_pId]['receipt_text'        ] = $details[$form->_eventId]['confirm_email_text'];
+                $defaults[$form->_pId]['contribution_type_id'] = $details[$form->_eventId]['contribution_type_id'];
             }
             $today_date = getDate();
             $defaults[$form->_pId]['receive_date']['M'] = $today_date['mon'];
