@@ -56,7 +56,7 @@ function civicrm_contact_update( &$params, $create_new = false ) {
         }
 
         $dupeCheck = CRM_Utils_Array::value( 'dupe_check', $params, false );
-        $values    = _civicrm_contact_check_params( $params, $dupeCheck );
+        $values    = civicrm_contact_check_params( $params, $dupeCheck );
         if ( $values ) {
             return $values;
         }
@@ -156,7 +156,7 @@ function &civicrm_contact_add( &$params ) {
     if ( !empty($contactID) ) {
         return civicrm_contact_update($params);
     } else {
-        return civircm_contact_create($params);
+        return civicrm_contact_create($params);
     }
 }
 
@@ -340,7 +340,7 @@ function &civicrm_contact_search( &$params ) {
  * @return null on success, error message otherwise
  * @access public
  */
-function _civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorArray = false, $requiredCheck = true ) {
+function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorArray = false, $requiredCheck = true ) {
     if ( $requiredCheck ) {
         $required = array(
                           'Individual'   => array(
