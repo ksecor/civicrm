@@ -211,8 +211,6 @@ class CRM_Report_Form extends CRM_Core_Form {
                                     }
                                 }
                             }
-                            $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = 
-                                $this->_columns[$tableName]['alias'] . '.' . $expFields[$fieldName]['name'];
 
                             // fill other vars
                             if ( CRM_Utils_Array::value( 'no_repeat', $field ) ) {
@@ -222,6 +220,16 @@ class CRM_Report_Form extends CRM_Core_Form {
                                 $this->_noDisplay[] = "{$tableName}_{$fieldName}";
                             }
                         }
+
+                        $alias = isset($field['alias']) ? $field['alias'] : 
+                            ( isset($this->_columns[$tableName]['alias']) ? 
+                              $this->_columns[$tableName]['alias'] : $tableName );
+                        $this->_columns[$tableName][$fieldGrp][$fieldName]['alias'] = $alias;
+
+                        $name  = isset($field['name']) ? $field['name'] : $fieldName;
+                        $this->_columns[$tableName][$fieldGrp][$fieldName]['name'] = $name;
+                            
+                        $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = $alias . '.' . $name;
                     }
                 }
             }
@@ -672,16 +680,20 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( $date ) {
                 $clauses[] = CRM_Utils_Date::customFormat($date, null, array('m', 'M'));
             }
+        } else {
+            $clauses[] = 'Past';
         }
 
         if ( CRM_Utils_Date::isDate( $to ) ) {
             $revDate = array_reverse( $to );
             $date    = CRM_Utils_Date::format( $revDate );
             $clauses[] = CRM_Utils_Date::customFormat($date, null, array('m', 'M'));
+        } else {
+            $clauses[] = 'Today';
         }
 
         if ( ! empty( $clauses ) ) {
-            return implode( ' To ', $clauses );
+            return implode( ' - ', $clauses );
         }
 
         return null;
