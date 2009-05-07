@@ -627,6 +627,28 @@ function civicrm_views_data() {
                                                                        ),
                                                        );
   
+    //FULL STREET ADDRESS SUPPLEMENTAL 1
+    $data['civicrm_address']['supplemental_address_1'] = array(
+                                                       'title' => t('Supplemental Street Address'),
+                                                       'help' => t('Supplemental Street Address such as Apartment or Suite Number or Department'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                       'argument' => array(
+                                                                           'handler' => 'views_handler_argument',
+                                                                           ),
+
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_string',
+                                                                         ),
+
+                                                       'sort' => array(
+                                                                       'handler' => 'views_handler_sort',
+                                                                       ),
+                                                       );
+  
     //CITY OR SUBURB THE ADDRESS IS AT
     $data['civicrm_address']['city'] = array(
                                              'title' => t('City / Suburb'),
@@ -672,6 +694,72 @@ function civicrm_views_data() {
                                                                        ),
                                                        );
   
+    //ZIP / POSTAL CODE
+    $data['civicrm_address']['postal_code'] = array(
+                                                       'title' => t('ZIP / Postal Code'),
+                                                       'help' => t('ZIP / Postal Code of the Address'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                       'argument' => array(
+                                                                           'handler' => 'views_handler_argument',
+                                                                           ),
+
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_string',
+                                                                         ),
+
+                                                       'sort' => array(
+                                                                       'handler' => 'views_handler_sort',
+                                                                       ),
+                                                       );
+
+    //Latitude or Geo Code 1
+    $data['civicrm_address']['geo_code_1'] = array(
+                                                       'title' => t('Latitude'),
+                                                       'help' => t('Latitude of the Address for mapping'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                       'argument' => array(
+                                                                           'handler' => 'views_handler_argument',
+                                                                           ),
+
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_string',
+                                                                         ),
+
+                                                       'sort' => array(
+                                                                       'handler' => 'views_handler_sort',
+                                                                       ),
+                                                       );
+													  
+    //Longitude or Geo Code 2
+    $data['civicrm_address']['geo_code_2'] = array(
+                                                       'title' => t('Longitude'),
+                                                       'help' => t('Longitude of the Address for mapping'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                       'argument' => array(
+                                                                           'handler' => 'views_handler_argument',
+                                                                           ),
+
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_string',
+                                                                         ),
+
+                                                       'sort' => array(
+                                                                       'handler' => 'views_handler_sort',
+                                                                       ),
+                                                       );
+
     //COUNTRY
     $data['civicrm_address']['country'] = array(
                                                 'title' => t('Country'),
