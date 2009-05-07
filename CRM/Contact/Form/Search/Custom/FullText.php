@@ -276,6 +276,12 @@ $sqlStatement
                 
                 $whereClause = implode( ' OR ', $clauses );
 
+                //resolve conflict between entity tables.
+                if ( $tableName == 'civicrm_note' && 
+                     $entityTable = CRM_Utils_Array::value( 'entity_table', $tableValues ) ) {
+                    $whereClause .= " AND entity_table = '{$entityTable}'";
+                }
+                
                 $sql = "
 REPLACE INTO {$this->_entityIDTableName} ( entity_id )
 SELECT  {$tableValues['id']}
@@ -319,17 +325,9 @@ AND     {$tableValues['id']} IS NOT NULL
     function fillContact( ) {
 
         $this->fillContactIDs( );
-
-        $sql = "
-INSERT INTO {$this->_tableName}
-( contact_id, display_name, table_name )
-SELECT c.id, c.display_name, 'Contact'
-FROM   civicrm_contact c, {$this->_entityIDTableName} ct
-WHERE  c.id = ct.entity_id
-{$this->_limitClause}
-";
-
-        CRM_Core_DAO::executeQuery( $sql );
+        
+        //move data from entity table to detail table.
+        $this->moveEntityToDetail( 'Contact' );
     }
 
     function fillActivityIDs( ) {
@@ -374,28 +372,9 @@ AND    c.display_name LIKE {$this->_text}
         
         $this->fillActivityIDs( ) ;
 
-        $sql = "
-INSERT INTO {$this->_tableName}
-( table_name, activity_id, subject, details, contact_id, display_name, assignee_contact_id, assignee_display_name, target_contact_id, target_display_name, activity_type_id, case_id )
-SELECT    'Activity', ca.id, substr(ca.subject, 1, 50), substr(ca.details, 1, 250),
-           c1.id, c1.display_name,
-           c2.id, c2.display_name,
-           c3.id, c3.display_name,
-           ca.activity_type_id,
-           cca.case_id
-FROM       {$this->_entityIDTableName} eid, civicrm_activity ca
-LEFT JOIN  civicrm_contact c1 ON ca.source_contact_id = c1.id
-LEFT JOIN  civicrm_activity_assignment caa ON caa.activity_id = ca.id
-LEFT JOIN  civicrm_contact c2 ON caa.assignee_contact_id = c2.id
-LEFT JOIN  civicrm_activity_target cat ON cat.activity_id = ca.id
-LEFT JOIN  civicrm_contact c3 ON cat.target_contact_id = c3.id
-LEFT JOIN  civicrm_case_activity cca ON cca.activity_id = ca.id
-WHERE ca.id = eid.entity_id
-{$this->_limitClause}
-";         
-
-        CRM_Core_DAO::executeQuery( $sql );
-    }
+        //move data from entity table to detail table        
+        $this->moveEntityToDetail( 'Activity' ); 
+     }
 
     function fillCase( ) {
         $sql = "
@@ -446,9 +425,8 @@ WHERE   ( cc.source LIKE {$this->_text} OR cc.amount_level LIKE {$this->_text} O
           OR cc.invoice_id LIKE {$this->_text} OR cc.check_number  LIKE {$this->_text} OR cn.subject LIKE  {$this->_text} OR cn.note LIKE  {$this->_text} )
 {$this->_limitClause}
 "; 
-        
-        CRM_Core_DAO::executeQuery( $sql );
-        
+        CRM_Core_DAO::executeQuery( $sql ); 
+
         if ( $this->_textID ) { 
             $sql = "
 INSERT INTO {$this->_tableName}
@@ -474,6 +452,9 @@ WHERE   ( cc.total_amount = {$this->_textID} OR cc.check_number = {$this->_textI
         // get the custom data info
         $this->fillCustomInfo( $tables, "( 'Contribution' )" );
         $this->runQueries( $tables );
+
+        //move data from entity table to detail table        
+        $this->moveEntityToDetail( 'Contribution' ); 
     }
     
     function fillParticipant( ) {
@@ -527,6 +508,9 @@ WHERE   ( cp.fee_amount = {$this->_textID} )
         // get the custom data info
         $this->fillCustomInfo( $tables, "( 'Participant' )" );
         $this->runQueries( $tables );
+
+        //move data from entity table to detail table        
+        $this->moveEntityToDetail( 'Participant' ); 
     }
     
     function fillMembership( ) {
@@ -552,9 +536,13 @@ WHERE   ( cm.source LIKE {$this->_text} )
         // get the custom data info
         $this->fillCustomInfo( $tables, "( 'Membership' )" );
         $this->runQueries( $tables );
+
+        //move data from entity table to detail table        
+        $this->moveEntityToDetail( 'Membership' ); 
     }
     
     function buildForm( &$form ) {
+        $form->applyFilter('__ALL__', 'trim');
         $form->add( 'text',
                     'text',
                     ts( 'Find' ),
@@ -665,6 +653,111 @@ FROM
             CRM_Utils_System::setTitle( $title );
         }
     }
+
+    /**
+     * move data from entity table to detail table.
+     *
+     */
+    function moveEntityToDetail( $tableName ) {
+        $sql = null;
+        switch ( $tableName ) {
+        case 'Contact':
+            $sql = "
+INSERT INTO {$this->_tableName}
+( contact_id, display_name, table_name )
+SELECT  c.id, c.display_name, 'Contact'
+  FROM  civicrm_contact c, {$this->_entityIDTableName} ct
+ WHERE  c.id = ct.entity_id
+{$this->_limitClause}
+";
+            break;
+            
+        case 'Activity':
+            $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, activity_id, subject, details, contact_id, display_name, assignee_contact_id, assignee_display_name, target_contact_id, 
+target_display_name, activity_type_id, case_id )
+SELECT    'Activity', ca.id, substr(ca.subject, 1, 50), substr(ca.details, 1, 250),
+           c1.id, c1.display_name,
+           c2.id, c2.display_name,
+           c3.id, c3.display_name,
+           ca.activity_type_id,
+           cca.case_id
+FROM       {$this->_entityIDTableName} eid, civicrm_activity ca
+LEFT JOIN  civicrm_contact c1 ON ca.source_contact_id = c1.id
+LEFT JOIN  civicrm_activity_assignment caa ON caa.activity_id = ca.id
+LEFT JOIN  civicrm_contact c2 ON caa.assignee_contact_id = c2.id
+LEFT JOIN  civicrm_activity_target cat ON cat.activity_id = ca.id
+LEFT JOIN  civicrm_contact c3 ON cat.target_contact_id = c3.id
+LEFT JOIN  civicrm_case_activity cca ON cca.activity_id = ca.id
+WHERE ca.id = eid.entity_id
+{$this->_limitClause}
+";   
+            break;
+
+        case 'Contribution':
+            $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, contribution_id, contribution_type, contribution_page, contribution_receive_date, 
+  contribution_total_amount, contribution_trxn_Id, contribution_source, contribution_status, contribution_check_number )
+   SELECT  'Contribution', c.id, c.display_name, cc.id, cct.name, ccp.title, cc.receive_date, 
+           cc.total_amount, cc.trxn_id, cc.source, contribution_status.label, cc.check_number 
+     FROM  {$this->_entityIDTableName} ct, civicrm_contribution cc
+LEFT JOIN  civicrm_contact c ON cc.contact_id = c.id
+LEFT JOIN  civicrm_contribution_type cct ON cct.id = cc.contribution_type_id
+LEFT JOIN  civicrm_contribution_page ccp ON ccp.id = cc.contribution_page_id 
+LEFT JOIN  civicrm_option_group option_group_contributionStatus ON option_group_contributionStatus.name = 'contribution_status'
+LEFT JOIN  civicrm_option_value contribution_status ON 
+( contribution_status.option_group_id = option_group_contributionStatus.id AND contribution_status.value = cc.contribution_status_id )
+    WHERE  (cc.id = ct.entity_id )
+{$this->_limitClause}
+";
+            break;
+                        
+        case 'Participant':
+            $sql = "
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, participant_id, event_title, participant_fee_level, participant_fee_amount, 
+participant_register_date, participant_source, participant_status, participant_role )
+   SELECT  'Participant', c.id, c.display_name, cp.id, ce.title, cp.fee_level, cp.fee_amount, cp.register_date, cp.source, 
+           participant_status.label, participant_role.label 
+     FROM  {$this->_entityIDTableName} ct, civicrm_participant cp 
+LEFT JOIN  civicrm_contact c ON cp.contact_id = c.id
+LEFT JOIN  civicrm_event ce ON ce.id = cp.event_id
+LEFT JOIN  civicrm_option_group option_group_participantStatus ON option_group_participantStatus.name = 'participant_status'
+LEFT JOIN  civicrm_option_value participant_status 
+           ON ( participant_status.option_group_id = option_group_participantStatus.id AND participant_status.value = cp.status_id )
+LEFT JOIN  civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
+LEFT JOIN  civicrm_option_value participant_role 
+           ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
+    WHERE  ( cp.id = ct.entity_id )
+{$this->_limitClause}
+";
+            break;
+
+        case 'Membership':
+            $sql = " 
+INSERT INTO {$this->_tableName}
+( table_name, contact_id, display_name, membership_id, membership_type, membership_fee, membership_start_date, 
+membership_end_date, membership_source, membership_status )
+   SELECT  'Membership', c.id, c.display_name, cm.id, cmt.name, cc.total_amount, cm.start_date, cm.end_date, cm.source, cms.name 
+     FROM  {$this->_entityIDTableName} ct, civicrm_membership cm 
+LEFT JOIN  civicrm_contact c ON cm.contact_id = c.id
+LEFT JOIN  civicrm_membership_type cmt ON cmt.id = cm.membership_type_id
+LEFT JOIN  civicrm_membership_payment cmp ON cmp.membership_id = cm.id
+LEFT JOIN  civicrm_contribution cc ON cc.id = cmp.contribution_id
+LEFT JOIN  civicrm_membership_status cms ON cms.id = cm.status_id
+    WHERE  ( cm.id = ct.entity_id )
+{$this->_limitClause}
+"; 
+            break;
+        }
+
+        if ( $sql ) {
+            CRM_Core_DAO::executeQuery( $sql );
+        }
+    }
+
 }
 
 
