@@ -1042,8 +1042,18 @@ function civicrm_views_data() {
                                                     );
 
     //CiviCRM Events - FIELDS
-
-
+   //Date API Integration
+   if(module_exists('date_api')){
+       $data[civicrm_event]['date_argument'] = array(
+                                                 'group' => t('Date'),
+                                                 'title' => t('Date'),
+                                                 'help' => t('Filter any Views date field by a date argument, using any common ISO date/period format (i.e. YYYY, YYYY-MM, YYYY-MM-DD, YYYY-W99, YYYY-MM-DD--P3M, P90D, etc).'),
+                                                 'argument' => array(
+                                                                     'handler' => 'date_api_argument_handler',
+                                                                     'empty name field' => t('Undated'),
+                                                                    ),
+                                                 );
+    }
     //Numeric Event ID
     $data['civicrm_event']['id'] = array(
                                          'title' => t('Event ID'),
@@ -1197,7 +1207,7 @@ function civicrm_views_data() {
                                                                  'handler' => 'views_handler_sort_date',
                                                                  ),
                                                  );
-  
+
     //EVENT END DATE
     $data['civicrm_event']['end_date'] = array(
                                                'title' => t('End Date'),
@@ -3151,6 +3161,32 @@ function civicrm_get_sort_handler($type) {
     }
 }
 
+//Implementation of hook_date_api_fields
+function civicrm_date_api_fields($field) {
+  $values = array(
+    // The type of date: DATE_UNIX, DATE_ISO, DATE_DATETIME.
+    'sql_type' => DATE_DATETIME,
+    // Timezone handling options: 'none', 'site', 'date', 'utc'.
+    'tz_handling' => 'site',
+    // Needed only for dates that use 'date' tz_handling.
+    'timezone_field' => '',
+    // Needed only for dates that use 'date' tz_handling.
+    'offset_field' => '',
+    // Array of "table.field" values for related fields that should be
+    // loaded automatically in the Views SQL.
+    'related_fields' => array(),
+    // Granularity of this date field's db data.
+    'granularity' => array('year', 'month', 'day', 'hour', 'minute', 'second'),
+  );
+
+  switch ($field) {
+    case 'civicrm_event.start_date':
+    case 'civicrm_event.end_date':
+    case 'civicrm_event.registration_start_date':
+    case 'civicrm_event.registration_end_date':
+      return $values;
+  }
+}
 // Telling Views where to get the Handlers
 function civicrm_views_handlers() {
     return array(
