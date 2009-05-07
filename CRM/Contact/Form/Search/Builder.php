@@ -194,12 +194,46 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                         
                         $fldType = CRM_Utils_Array::value('type',$fields[$fldName]);
                         $type  = CRM_Utils_Type::typeToString( $fldType );
+                        // Check Empty values for Integer Or Boolean Or Date type For operators other than IS NULL and IS NOT NULL. 
+                        if ( !in_array( $v[1], array( 'IS NULL', 'IS NOT NULL' ) ) ) {
+                            if ( ( ( $type == 'Int' || $type == 'Boolean' ) && !trim( $v[2] ) ) && $v[2] != '0' ) {
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");
+                            } else if ( $type == 'Date'  && !trim( $v[2] ) ) {
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");
+                            }
+                        }
                     }
                     
-                    if ( trim($v[2]) && $type ) {
-                        $error = CRM_Utils_Type::validate( $v[2], $type, false );
-                        if ( $error != $v[2]  ) {
-                            $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");
+                    if ( $type && empty( $errorMsg ) ) {
+                        // check for valid format while using IN Operator
+                        if ( $v[1] == 'IN' ) {
+                            $inVal = trim( $v[2] );
+                            //checking for format to avoid db errors
+                            if(!preg_match( '/^[(]([A-Za-z0-9\'\,]+)[)]$/', $inVal) ) {
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter correct Data ( in valid format ).");
+                            }
+                            // Validate each value in parenthesis to avoid db errors
+                            if( empty( $errorMsg ) ) {
+                                $parenValues = array();
+                                $parenValues = explode ( ',', trim( $inVal, "(..)" ) );
+                                foreach ( $parenValues as $val ) {
+                                    if ( !$val && $val !='0' ) {
+                                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the values correctly.");
+                                    }
+                                    if ( empty( $errorMsg ) ) {
+                                        $error = CRM_Utils_Type::validate( $val, $type, false );
+                                        if ( $error != $val ) {
+                                            $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");
+                                        } 
+                                    }
+                                }
+                            }
+                        } else if ( trim($v[2]) ) {
+                            //else check value for rest of the Operators
+                            $error = CRM_Utils_Type::validate( $v[2], $type, false );
+                            if ( $error != $v[2]  ) {
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");
+                            }
                         }
                     }
                 }
