@@ -21,6 +21,10 @@
 
 {literal}
 <script type="text/javascript">
+    var val   = document.getElementById("{/literal}{$relativeName}{literal}");
+    var count = "{/literal}{$countdate}{literal}";
+    showAbsoluteRange( val, count );
+
     function showAbsoluteRange( val, count ) {
         if ( val.value == "0" ) {
             cj('#absolute_'+ count).show();
