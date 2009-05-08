@@ -79,14 +79,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                 'email', 'on_hold', 'phone', 'status' );
 
     /**
-     * This caches the content for the display system.
-     *
-     * @var string
-     * @access protected
-     */
-    protected $_contact;
-
-    /**
      * formValues is the array returned by exportValues called on
      * the HTML_QuickForm_Controller for that page.
      *
@@ -118,6 +110,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access protected
      */
     protected $_action;
+
+    protected $_searchContext;
 
     protected $_query;
 
@@ -152,7 +146,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                           $returnProperties = null,
                           $action = CRM_Core_Action::NONE,
                           $includeContactIds = false,
-                          $searchDescendentGroups = true )
+                          $searchDescendentGroups = true,
+                          $searchContext = 'search' )
     {
         //don't build query constructor, if form is not submitted
         $force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
@@ -160,9 +155,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         if ( empty( $formValues) && !$force ) {
             return;
         }
-
-        //object of BAO_Contact_Individual for fetching the records from db
-        $this->_contact =& new CRM_Contact_BAO_Contact();
 
         // submitted form values
         $this->_formValues       =& $formValues;
@@ -173,6 +165,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // type of selector
         $this->_action = $action;
         
+        $this->_searchContext = $searchContext;
+
         $this->_ufGroupID = CRM_Utils_Array::value( 'uf_group_id', $this->_formValues );
 
         if ( $this->_ufGroupID ) {
@@ -456,10 +450,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         
         $gc = CRM_Core_SelectValues::groupContactStatus();
 
-        // Dirty session hack to get at the context 
-        $session =& CRM_Core_Session::singleton();
-        $context = $session->get('context', 'CRM_Contact_Controller_Search');
-
         if ( $this->_ufGroupID ) {
             require_once 'CRM/Core/PseudoConstant.php';
             $locationTypes = CRM_Core_PseudoConstant::locationType( );
@@ -520,6 +510,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         require_once 'CRM/Core/OptionGroup.php';
         $links =& self::links( $searchType );
 
+        //check explicitly added contact to a Smart Group.
+        $groupID   = CRM_Utils_Array::key( '1', $this->_formValues['group'] );  
+
         while ($result->fetch()) {
             $row = array( );
 
@@ -579,21 +572,26 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['postal_code'] .= "-" . $result->postal_code_suffix;
             }
             
-            if ( $output != CRM_Core_Selector_Controller::EXPORT ||
-                 $context == 'smog' ) {
-                if ( empty( $result->status ) ) {
-                    //check explicitly added contact to a Smart Group.
-                    $groupID  = CRM_Utils_Array::key( '1', $this->_formValues['group'] );  
-                    $gcParams = array('contact_id' => CRM_Utils_Array::value( 'contact_id', $row ),
-                                      'group_id'   => $groupID,
-                                      );
-                    $gcDefaults = array( );
-                    CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_GroupContact', $gcParams, $gcDefaults );
+            if ( $output != CRM_Core_Selector_Controller::EXPORT &&
+                 $this->_searchContext == 'smog' ) {
+                if ( empty( $result->status ) &&
+                     $groupID ) {
+                    $contactID = $result->contact_id;
+                    if ( $contactID ) {
+                        $gcParams = array('contact_id' => $contactID,
+                                          'group_id'   => $groupID,
+                                          );
+
+                        $gcDefaults = array( );
+                        CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_GroupContact', $gcParams, $gcDefaults );
                     
-                    if ( empty( $gcDefaults ) ) {
-                        $row['status'] = ts('Smart');
+                        if ( empty( $gcDefaults ) ) {
+                            $row['status'] = ts('Smart');
+                        } else {
+                            $row['status'] = $gc[$gcDefaults['status']];
+                        }
                     } else {
-                        $row['status'] = $gc[$gcDefaults['status']];
+                        $row['status'] = null;
                     }
                 } else {
                     $row['status'] = $gc[$result->status];
