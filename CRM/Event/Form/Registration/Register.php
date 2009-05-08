@@ -190,6 +190,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
             }
         }
+
+        // to process Custom data that are appended to URL
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $getDefaults = CRM_Core_BAO_CustomGroup::extractGetParams( $this, "'Contact', 'Individual', 'Contribution'" );
+        if ( ! empty( $getDefaults ) ) {
+            $this->_defaults = array_merge( $this->_defaults, $getDefaults );
+        }
+
         return $this->_defaults;
     }
 
