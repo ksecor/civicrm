@@ -276,12 +276,12 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
 
         switch($field->html_type) {
         case 'Text':
+            $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
+            
+            // text fields only have one option
+            $optionKey = key($customOption);
+            
             if ($field->is_display_amounts) {
-                $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
-
-                
-                // text fields only have one option
-                $optionKey = key($customOption);
                 $label .= '&nbsp;-&nbsp;';
                 $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('name', $customOption[$optionKey]) );
             }
@@ -322,17 +322,20 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         case 'Select':
             $customOption = CRM_Core_BAO_PriceField::getOptions($field->id, $inactiveNeeded);
             $selectOption = array();
+            $amount = '[{';
             foreach ($customOption as $opt) {
+                $amount .= $opt['id'].':"'. $opt['name'] .'",';
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
                     $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
                 $selectOption[$opt['id']] = $opt['label'];
             }
+            $amount .= '}]';
             $element =& $qf->add('select', $elementName, $label,
                                  array( '' => ts('- select -')) + $selectOption,
                                  $useRequired && $field->is_required, 
-                                 array( 'price' => true ) );
+                                 array( 'price' => $amount ) );
             break;
             
         case 'CheckBox':
