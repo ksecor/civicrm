@@ -735,10 +735,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         foreach ( $row as $colName => $colVal ) {
             if ( in_array($colName, $fields) ) {
                 $row[$colName] = 
-                    "&nbsp;&nbsp;&nbsp;<strong>{$row[$colName]}</strong>";
+                    "<strong>{$row[$colName]}</strong>";
             } else if ( isset($this->_columnHeaders[$colName]) ) {
                 if ( $subtotal ) {
-                    $row[$colName] = "&nbsp;&nbsp;&nbsp;Sub Total";
+                    $row[$colName] = "Sub Total";
                     $subtotal = false;
                 } else {
                     unset($row[$colName]);
@@ -757,7 +757,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         foreach ($this->_columnHeaders as $fld => $val) {
             if ( !in_array($fld, $this->_statFields) ) {
                 if ( !$grandFlag ) {
-                    $lastRow[$fld] = "&nbsp;&nbsp;&nbsp;Grand Total";
+                    $lastRow[$fld] = "Grand Total";
                     $grandFlag = true;
                 } else{
                     $lastRow[$fld] = "";
