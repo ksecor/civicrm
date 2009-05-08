@@ -805,9 +805,10 @@ class CRM_Utils_Date
             $config =& CRM_Core_Config::singleton();
             $from['d'] = $config->fiscalYearStart['d'];
             $from['M'] = $config->fiscalYearStart['M'];
+            $fYear     = self::calculateFiscalYear( $from['d'],$from['M'] );
             switch( $relativeTerm ) {
             case 'this':
-                $from['Y'] = $now['year'];
+                $from['Y'] = $fYear;
                 $fiscalYear= mktime(0,0,0,$from['M'],$form['d'],$from['Y']+1);
                 $fiscalEnd = explode('-',date("Y-m-d", $fiscalYear));
                 
@@ -817,7 +818,7 @@ class CRM_Utils_Date
                 break;
                 
             case 'previous':
-                $from['Y'] = $now['year']-1;
+                $from['Y'] = $fYear - 1;
                 $fiscalYear= mktime(0,0,0,$from['M'],$form['d'],$from['Y']+1);
                 $fiscalEnd = explode('-',date("Y-m-d", $fiscalYear));
                 
@@ -1452,7 +1453,34 @@ class CRM_Utils_Date
         }
         return $date;
     }
-    
+
+    /**
+     * Function to calculate current fiscal year based on the fiscal month and day
+     * 
+     * @param  int $fyDate    Fiscal start date
+     *
+     * @param  int $fyMonth   Fiscal Start Month
+     *
+     * @return int $fy       Current Fiscl Year
+     * @access public
+     */
+    function calculateFiscalYear( $fyDate, $fyMonth ) {
+        $date        = date("Y-m-d");
+        $currentYear = date("Y");
+        
+        //recalculate the date because month 4::04 make the difference
+        $fiscalYear  = explode('-', date( "Y-m-d", mktime( 0,0,0, $fyMonth, $fyDate, $currentYear ) ) );
+        $fyDate      = $fiscalYear[2];
+        $fyMonth     = $fiscalYear[1];
+        $fyStartDate = date("Y-m-d",  mktime( 0,0,0, $fyMonth, $fyDate, $currentYear ));
+        
+        if ( $fyStartDate > $date ) {
+            $fy = intval(intval($currentYear) - 1 );
+        } else {
+            $fy = intval($currentYear);           
+        }       
+        return $fy;
+    }
 }
 
 
