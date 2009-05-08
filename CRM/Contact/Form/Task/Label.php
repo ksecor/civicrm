@@ -424,24 +424,42 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
     
     function mergeSameAddress( &$rows ) {
         $uniqueAddress = array( );
-
         foreach ( array_keys( $rows ) as $rowID ) {
-            $address =
+            $address =					// load complete address as array key
                 trim( $rows[$rowID]['street_address'] ) .
                 trim( $rows[$rowID]['city']           ) .
                 trim( $rows[$rowID]['state_province'] ) .
                 trim( $rows[$rowID]['postal_code']    ) .
                 trim( $rows[$rowID]['country']        );
-            if ( isset( $uniqueAddress[$address] ) ) {
-                $mergeID = $uniqueAddress[$address];
-                $rows[$mergeID]['display_name'] .= "\n{$rows[$rowID]['display_name']}";
-                unset( $rows[$rowID] );
+            if (isset($rows[$rowID]['last_name'])) {
+                $name = $rows[$rowID]['last_name'];	
             } else {
-                $uniqueAddress[$address] = $rowID;
+                $name = $rows[$rowID]['display_name'];
+            }
+            if ( isset( $uniqueAddress[$address] ) ) {  	// fill uniqueAddress array with last/first name tree
+                $uniqueAddress[$address]['names'][$name][] = $rows[$rowID]['first_name'];  
+                unset( $rows[$rowID] );						// drop unnecessary rows
+            } else {										// this is the first listing at this address
+                $uniqueAddress[$address]['ID'] = $rowID;	
+                $uniqueAddress[$address]['names'][$name][] = $rows[$rowID]['first_name'];
+            }
+        }
+        foreach ( $uniqueAddress as $address => $data) {	// copy data back to $rows
+            $count = 0;
+            foreach ( $data['names'] as $last_name => $first_names ) {	// one last name list per row
+                if ($count > 2) {			// too many to list 
+                    break;
+                }
+                $family = implode(" & ", $first_names) . " " . $last_name;		// collapse the tree to summarize
+                if ($count) {
+                    $rows[$data['ID']]['display_name'] .=  "\n" . $family;
+                } else {
+                    $rows[$data['ID']]['display_name']  = $family;		// build display_name string
+                }
+                $count++;
             }
         }
     }
-
 }
 
 
