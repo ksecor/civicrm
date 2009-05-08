@@ -67,7 +67,7 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                           array( 'total_amount'        => 
                                  array( 'title'        => ts( 'Amount Statistics' ),
                                         'default'      => true,
-                                        'required'     => true,
+                                        //'required'     => true,
                                         'statistics'   => 
                                         array('sum'    => ts( 'Total Amount' ), 
                                               'count'  => ts( 'Count' ), 
@@ -337,10 +337,10 @@ LEFT JOIN civicrm_address addr ON addr.contact_id = {$alias}.contact_id";
         }
 
         // FIXME: doesn't go with structure
-        $this->_columnHeaders['c1_total_amount_sum'] = array('title' => 'Range1 Amount');
-        $this->_columnHeaders['c1_total_amount_count'] = array('title' => 'Range1 Amount');
-        $this->_columnHeaders['c2_total_amount_sum'] = array('title' => 'Range2 Amount');
-        $this->_columnHeaders['c2_total_amount_count'] = array('title' => 'Range2 Count');
+        $this->_columnHeaders['c1_total_amount_sum'] = array('title' => 'Range One Amount');
+        $this->_columnHeaders['c1_total_amount_count'] = array('title' => 'Range One Count');
+        $this->_columnHeaders['c2_total_amount_sum'] = array('title' => 'Range Two Amount');
+        $this->_columnHeaders['c2_total_amount_count'] = array('title' => 'Range Two Count');
 
         $this->formatDisplay( $rows );
         

@@ -331,8 +331,8 @@ LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id";
 
         // FIXME: doesn't go with structure
         $this->_noDisplay[] = "contact_id";
-        $this->_columnHeaders['c1_total_amount'] = array('title' => 'Range1 Amount');
-        $this->_columnHeaders['c2_total_amount'] = array('title' => 'Range2 Amount');
+        $this->_columnHeaders['c1_total_amount'] = array('title' => 'Range One Amount');
+        $this->_columnHeaders['c2_total_amount'] = array('title' => 'Range Two Amount');
 
         $this->formatDisplay( $rows );
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
@@ -343,9 +343,21 @@ LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id";
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
-        foreach ( $rows as $cid => $field ) {
-            if ( array_key_exists('change', $field) ) {
-                $rows[$cid]['change'] = "{$field['change']}&nbsp;%";
+
+        foreach ( $rows as $rowNum => $row ) {
+            if ( array_key_exists('change', $row) && 
+                 $row['change'] != 'Skipped Donation' && 
+                 $row['change'] != 'New Donor' ) {
+                $rows[$rowNum]['change'] = "{$row['change']}&nbsp;%";
+            }
+
+            // handle country
+            if ( array_key_exists('address_country_id', $row) ) {
+                if ( $value = $row['address_country_id'] ) {
+                $rows[$rowNum]['address_country_id'] = 
+                    CRM_Core_PseudoConstant::country( $value, false );
+                }
+                $entryFound = true;
             }
         }
     }
