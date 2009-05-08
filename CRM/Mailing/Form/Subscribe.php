@@ -166,16 +166,16 @@ ORDER BY title";
     }
     
     static function formRule( &$fields ) {
-     
         $groups = CRM_Mailing_Event_BAO_Subscribe::getContactGroups($fields['email']);
-        
         foreach ( $fields as $name => $dontCare ) {
-            $gid = substr( $name, -1 );
-            if ( in_array($gid,array_keys($groups) ) ) {
-                $errors[$name] = ts('You are already subscribed in %1, your subscription is %2.', array(1 => $groups[$gid]['title'], 2 => $groups[$gid]['status']));
+            if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                $gid = substr( $name, 7 );
+                if ( array_key_exists( $gid, $groups ) ) {
+                    $errors[$name] = ts('You are already subscribed in %1, your subscription is %2.', array(1 => $groups[$gid]['title'], 2 => $groups[$gid]['status']));
+                }
             }
         }
-        
+            
         if ( $errors ) {
             return $errors;
         } else {
