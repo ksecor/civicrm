@@ -367,7 +367,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
             $sel1['Kabissa'] = 'Kabissa Details';
         }
-
+        
         if ( ! empty( $contribFields ) ) {
             $sel1['Contribution'] = 'Contributions';
         }
@@ -455,9 +455,12 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), true,array("onChange"=>"showHideSeletorSearch(this.value);") );
         
+        //CRM-4363
+        $js = array( 'onclick' => "mixProfile();" );
         // should the field appear in selectors (as a column)?
-        $this->add('checkbox', 'in_selector', ts('Results Column?'));
-       
+        $this->add( 'checkbox', 'in_selector', ts('Results Column?'), null, null, $js );
+        $this->add( 'checkbox', 'is_searchable', ts( 'Searchable?'), null, null, $js );
+         
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
@@ -471,7 +474,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         $this->add( 'checkbox', 'is_required'    , ts( 'Required?'                     ) );
         $this->add( 'checkbox', 'is_active'      , ts( 'Active?'                       ) );
-        $this->add( 'checkbox', 'is_searchable'  , ts( 'Searchable?'                   ) );
         $this->add( 'checkbox', 'is_view'        , ts( 'View Only?'                    ) );
         // $this->add( 'checkbox', 'is_registration', ts( 'Display in Registration Form?' ) );
         //$this->add( 'checkbox', 'is_match'       , ts( 'Key to Match Contacts?'        ) );

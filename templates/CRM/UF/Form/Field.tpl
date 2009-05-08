@@ -164,5 +164,23 @@ function showHideSeletorSearch()
     }	
 }
 
+//CRM-4363	
+function mixProfile( ) {
+    var allMixTypes = ["Participant", "Membership", "Contribution"];
+    var type = document.forms.Field['field_name[0]'].value;
+    if ( allMixTypes.indexOf( type ) != -1 ) {
+        if ( document.getElementById("is_searchable").checked ) {
+            document.getElementById("is_searchable").checked = false; 
+            alert('Oops its look like your trying to make this field Searchable. But we do not allow ' 
+                  + type + ' field Searchable in profile.');      
+        }
+        if ( document.getElementById("in_selector").checked ) {
+            document.getElementById("in_selector").checked = false;
+            alert('Oops its look like your trying to make this field as Results Column. But we do not allow ' 
+                  + type + ' field as Result column for profile search.');     
+        }
+    }
+}
+
 </script> 
 {/literal}
