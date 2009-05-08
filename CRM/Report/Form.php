@@ -383,7 +383,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         require_once 'CRM/Utils/Date.php';
         require_once 'CRM/Core/Form/Date.php';
         $options = array();
-
+        $count = 1;
         foreach ( $this->_filters as $table => $attributes ) {
             foreach ( $attributes as $fieldName => $field ) {
                 // get ready with option value pair
@@ -393,7 +393,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                 case CRM_Utils_Type::T_DATE :
                 case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
                     // build datetime fields
-                    CRM_Core_Form_Date::buildDateRange( $this, $fieldName );
+                    CRM_Core_Form_Date::buildDateRange( $this, $fieldName, $count );
+                    $count++;
                     break;
 
                 case CRM_Utils_Type::T_INT:
