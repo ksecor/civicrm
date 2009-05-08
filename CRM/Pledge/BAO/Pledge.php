@@ -658,7 +658,8 @@ WHERE  $whereCond
         //get pending and in progress status
         $status[] = array_search( 'Pending', $pledgeStatuses );
         $status[] = array_search( 'In Progress', $pledgeStatuses );
-
+        $status[] = array_search( 'Overdue', $pledgeStatuses );
+        
         $statusClause = " IN (" . implode( ',', $status ) .")";    
 
         $query = "

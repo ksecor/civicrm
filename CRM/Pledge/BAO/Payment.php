@@ -402,14 +402,20 @@ WHERE  civicrm_pledge_payment.id = {$paymentId}
      */
     static function getOldestPledgePayment( $pledgeID )
     {
-        //get pending status
-        $pendingStatusID = CRM_Core_OptionGroup::getValue( 'contribution_status', 'Pending', 'name' );  
+        //get pending / overdue statuses
+        $pledgeStatuses = CRM_Core_OptionGroup::values( 'contribution_status');
+
+        //get pending and overdue payments
+        $status[] = array_search( 'Pending', $pledgeStatuses );
+        $status[] = array_search( 'Overdue', $pledgeStatuses );
+
+        $statusClause = " IN (" . implode( ',', $status ) . ")";
         
         $query = "
 SELECT civicrm_pledge_payment.id id, civicrm_pledge_payment.scheduled_amount amount
 FROM civicrm_pledge, civicrm_pledge_payment
 WHERE civicrm_pledge.id = civicrm_pledge_payment.pledge_id
-  AND civicrm_pledge_payment.status_id = {$pendingStatusID}        
+  AND civicrm_pledge_payment.status_id {$statusClause}        
   AND civicrm_pledge.id = %1
 ORDER BY civicrm_pledge_payment.scheduled_date ASC
 LIMIT 0, 1  
