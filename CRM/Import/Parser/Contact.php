@@ -670,8 +670,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     if ( in_array( $name, array( 'prefix', 'suffix' ) ) ) {
                         $formattedName = "individual_{$name}";
                         $formatted[$formattedName] = CRM_Core_OptionGroup::getValue( $formattedName, (string)$formatted[$name] );
+                    } else {
+                        $formatted[$name] = CRM_Core_OptionGroup::getValue( $name, (string)$formatted[$name] );
                     }
-                    $formatted[$name] = CRM_Core_OptionGroup::getValue( $name, (string)$formatted[$name] ); 
                 }
             }
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
