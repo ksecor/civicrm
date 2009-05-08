@@ -98,7 +98,12 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                         $useDBName = true;
                     }
                 }
-                    
+
+                // CRM-4430
+                //1. preserve db name if want
+                //2. lets get value from param if exists.
+                //3. if not in params, lets get from db.
+                
                 foreach ( array( 'last', 'middle', 'first' ) as $name ) {
                     $phpName = "{$name}Name";
                     $dbName  = "{$name}_name";
@@ -107,10 +112,10 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                         $params[$dbName]  = $value;
                         $contact->$dbName = $value;
                         $$phpName         = $value;
-                    } else if ( empty( $$phpName ) &&
-                                CRM_Utils_Array::value( $phpName, $params ) !== null &&
-                                ! empty( $value ) ) {
-                        $$phpName = $value;
+                    } else if ( array_key_exists( $dbName, $params )  ) {
+                        $$phpName = $params[$dbName];
+                    } else if ( $value ) {
+                        $$phpName = $value;  
                     }
                 }
 
@@ -129,16 +134,17 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                         } else {
                             $$phpName = null;
                         }
-                    } else if ( empty( $$phpName ) &&
-                         ! isset( $params[$dbName] ) &&
-                         ! empty( $value ) ) {
+                    } else if ( array_key_exists( $dbName, $params ) ) {
+                        $temp = $$vals;
+                        $$phpName = $temp[$params[$dbName]];
+                    } else if ( $value ) {
                         $temp = $$vals;
                         $$phpName = $temp[$value];
                     }
                 }
             }
         }
-
+        
         if ( $lastName || $firstName || $middleName ) {
             if ( $lastName && $firstName ) {
                 $contact->sort_name    = trim( "$lastName, $firstName" );
