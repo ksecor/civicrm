@@ -801,6 +801,33 @@ class CRM_Utils_Date
             }
             break;
             
+        case 'fiscal_year':
+            $config =& CRM_Core_Config::singleton();
+            $from['d'] = $config->fiscalYearStart['d'];
+            $from['M'] = $config->fiscalYearStart['M'];
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['Y'] = $now['year'];
+                $fiscalYear= mktime(0,0,0,$from['M'],$form['d'],$from['Y']+1);
+                $fiscalEnd = explode('-',date("Y-m-d", $fiscalYear));
+                
+                $to['d']   = $fiscalEnd['2'];
+                $to['M']   = $fiscalEnd['1'];
+                $to['Y']   = $fiscalEnd['0'];
+                break;
+                
+            case 'previous':
+                $from['Y'] = $now['year']-1;
+                $fiscalYear= mktime(0,0,0,$from['M'],$form['d'],$from['Y']+1);
+                $fiscalEnd = explode('-',date("Y-m-d", $fiscalYear));
+                
+                $to['d']   = $fiscalEnd['2'];
+                $to['M']   = $fiscalEnd['1'];
+                $to['Y']   = $fiscalEnd['0'];
+                break;
+            }
+            break;
+    
         case 'quarter':
             switch( $relativeTerm ) {
                 

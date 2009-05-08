@@ -88,17 +88,19 @@ Class CRM_Core_Form_Date
      */
     static function buildDateRange( &$form, $fieldName, $required = false ) {
         $selector = array ('Choose Date Range',
-                           'this.year'    => 'This Year',
-                           'this.quarter' => 'This Quarter',
-                           'this.month'   => 'This Month',
-                           'this.week'    => 'This Week',
-                           'this.day'     => 'This Day',
+                           'this.year'        => 'This Year',
+                           'this.fiscal_year' => 'This Fiscal Year',
+                           'this.quarter'     => 'This Quarter',
+                           'this.month'       => 'This Month',
+                           'this.week'        => 'This Week',
+                           'this.day'         => 'This Day',
                            
-                           'previous.year'    => 'Previous Year',
-                           'previous.quarter' => 'Previous Quarter',
-                           'previous.month'   => 'Previous Month',
-                           'previous.week'    => 'Previous Week',
-                           'previous.day'     => 'Previous Day',
+                           'previous.year'        => 'Previous Year',
+                           'previous.fiscal_year' => 'Previous Fiscal Year',
+                           'previous.quarter'     => 'Previous Quarter',
+                           'previous.month'       => 'Previous Month',
+                           'previous.week'        => 'Previous Week',
+                           'previous.day'         => 'Previous Day',
 
                            'previous_before.year'    => 'Previous Before Year',
                            'previous_before.quarter' => 'Previous Before Quarter',
@@ -124,7 +126,15 @@ Class CRM_Core_Form_Date
                            'greater.week'    => 'Greater Week',
                            'greater.day'     => 'Greater Day'
                            );
-        
+
+        $config =& CRM_Core_Config::singleton();
+        //if fiscal year start on 1 jan then remove fiscal year task
+        //form list
+        if ( $config->fiscalYearStart['d'] == 1 & $config->fiscalYearStart['M'] == 1 ) {
+            unset($selector['this.fiscal_year']);
+            unset($selector['previous.fiscal_year']);
+        }
+
         $form->add('select',
                    "{$fieldName}_relative",
                    ts('Relative Date Range'),
