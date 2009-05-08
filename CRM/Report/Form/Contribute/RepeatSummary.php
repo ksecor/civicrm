@@ -46,7 +46,22 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
     
     function __construct( ) {
         $this->_columns = 
-            array( 'civicrm_contribution' =>
+            array( 'civicrm_address' =>
+                   array( 'dao' => 'CRM_Core_DAO_Address',
+                          'alias'  => 'addr',
+                          'fields' =>
+                          array( 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ) ),
+                                 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ) ), ),
+                          'group_bys' =>
+                          array( 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ), ),
+                                 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ) ), ),
+                          ),
+
+                   'civicrm_contribution' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
                           'fields'        =>
                           array( 'total_amount'        => 
@@ -74,21 +89,6 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                           array( 'receive_date' => 
                                  array( 'default'    => true,
                                         'frequency'  => true ), ), ),
-
-                   'civicrm_address' =>
-                   array( 'dao' => 'CRM_Core_DAO_Address',
-                          'alias'  => 'addr',
-                          'fields' =>
-                          array( 'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ) ),
-                                 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ) ), ),
-                          'group_bys' =>
-                          array( 'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ), ),
-                                 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ) ), ),
-                          ),
                    );
 
         parent::__construct( );
@@ -122,54 +122,9 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
 
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('group_bys', $table) ) {
-                foreach ( $table['fields'] as $fieldName => $field ) {
-                    if ( CRM_Utils_Array::value( 'required', $field ) ||
-                         CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
-                        
-                        // do alias over-riding.
-                        if ( $field['alias'] == 'contribution' ) {
-                            $field['alias'] = $alias;
-                        }
-
-                        // only include statistics columns if set
-                        if ( CRM_Utils_Array::value('statistics', $field) ) {
-                            foreach ( $field['statistics'] as $stat => $label ) {
-                                switch (strtolower($stat)) {
-                                case 'sum':
-                                    $select[] = "SUM({$field['alias']}.{$field['name']}) as {$field['alias']}_{$field['name']}_{$stat}";
-                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['title']= 
-                                        $label;
-                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['type'] = 
-                                        $field['type'];
-                                    $this->_statFields[] = "{$field['alias']}_{$field['name']}_{$stat}";
-                                    break;
-                                case 'count':
-                                    $select[] = "COUNT({$field['alias']}.{$field['name']}) as {$field['alias']}_{$field['name']}_{$stat}";
-                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['title']= 
-                                        $label;
-                                    $this->_statFields[] = "{$field['alias']}_{$field['name']}_{$stat}";
-                                    break;
-                                case 'avg':
-                                    $select[] = "ROUND(AVG({$field['alias']}.{$field['name']}),2) as {$field['alias']}_{$field['name']}_{$stat}";
-                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['type'] =  
-                                        $field['type'];
-                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['title']= 
-                                        $label;
-                                    $this->_statFields[] = "{$field['alias']}_{$field['name']}_{$stat}";
-                                    break;
-                                }
-                            }   
-                        } else {
-                            $select[] = "{$field['alias']}.{$field['name']} as {$field['alias']}_{$field['name']}";
-                            $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['type'] = $field['type'];
-                            $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['title'] = $field['title'];
-                        }
-                    }
-                }
-
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-
+                        
                         // do alias over-riding.
                         if ( $field['alias'] == 'contribution' ) {
                             $field['alias'] = $alias;
@@ -212,6 +167,53 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
 
                         } else {
                             $uni[]  = "{$field['alias']}.{$field['name']}";
+                        }
+                    }
+                }
+            }
+
+            if ( array_key_exists('fields', $table) ) {
+                foreach ( $table['fields'] as $fieldName => $field ) {
+                    if ( CRM_Utils_Array::value( 'required', $field ) ||
+                         CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
+                        
+                        // do alias over-riding.
+                        if ( $field['alias'] == 'contribution' ) {
+                            $field['alias'] = $alias;
+                        }
+
+                        // only include statistics columns if set
+                        if ( CRM_Utils_Array::value('statistics', $field) ) {
+                            foreach ( $field['statistics'] as $stat => $label ) {
+                                switch (strtolower($stat)) {
+                                case 'sum':
+                                    $select[] = "SUM({$field['alias']}.{$field['name']}) as {$field['alias']}_{$field['name']}_{$stat}";
+                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['title']= 
+                                        $label;
+                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['type'] = 
+                                        $field['type'];
+                                    $this->_statFields[] = "{$field['alias']}_{$field['name']}_{$stat}";
+                                    break;
+                                case 'count':
+                                    $select[] = "COUNT({$field['alias']}.{$field['name']}) as {$field['alias']}_{$field['name']}_{$stat}";
+                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['title']= 
+                                        $label;
+                                    $this->_statFields[] = "{$field['alias']}_{$field['name']}_{$stat}";
+                                    break;
+                                case 'avg':
+                                    $select[] = "ROUND(AVG({$field['alias']}.{$field['name']}),2) as {$field['alias']}_{$field['name']}_{$stat}";
+                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['type'] =  
+                                        $field['type'];
+                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['title']= 
+                                        $label;
+                                    $this->_statFields[] = "{$field['alias']}_{$field['name']}_{$stat}";
+                                    break;
+                                }
+                            }   
+                        } else {
+                            $select[] = "{$field['alias']}.{$field['name']} as {$field['alias']}_{$field['name']}";
+                            $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['type'] = $field['type'];
+                            $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['title'] = $field['title'];
                         }
                     }
                 }
@@ -334,14 +336,11 @@ LEFT JOIN civicrm_address addr ON addr.contact_id = {$alias}.contact_id";
             }
         }
 
-        //re-ordering so that 'start' is at the end
-        foreach ( array('start', 'addr_country_id') as $orderFld ) {
-            if ( array_key_exists($orderFld, $this->_columnHeaders) ) {
-                $temp = $this->_columnHeaders[$orderFld];
-                unset($this->_columnHeaders[$orderFld]);
-                $this->_columnHeaders[$orderFld] = $temp;
-            }
-        }
+        // FIXME: doesn't go with structure
+        $this->_columnHeaders['c1_total_amount_sum'] = array('title' => 'Range1 Amount');
+        $this->_columnHeaders['c1_total_amount_count'] = array('title' => 'Range1 Amount');
+        $this->_columnHeaders['c2_total_amount_sum'] = array('title' => 'Range2 Amount');
+        $this->_columnHeaders['c2_total_amount_count'] = array('title' => 'Range2 Count');
 
         $this->formatDisplay( $rows );
         
