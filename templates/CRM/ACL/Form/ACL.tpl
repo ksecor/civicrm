@@ -69,6 +69,7 @@
 {include file="CRM/common/showHide.tpl"}
 {literal}
 <script type="text/javascript">
+ showObjectSelect( );
  function showObjectSelect( ) {
     var ot = document.getElementsByName('object_type');
     for (var i = 0; i < ot.length; i++) {
