@@ -225,7 +225,8 @@ INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$t
 
 
     function groupBy( ) {
-        $this->_groupBy = " GROUP BY contact.display_name, contribution.id ASC WITH ROLLUP ";
+        $this->_rollup  = true; 
+        $this->_groupBy = " GROUP BY contact.id, contribution.id WITH ROLLUP ";
     }
 
     function statistics( ) {

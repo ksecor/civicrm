@@ -16,7 +16,9 @@
          {foreach from=$columnHeaders item=header key=field}
             {assign var=fieldLink value=$field|cat:"_link"}
             <td>{if $row.$fieldLink}<a href="{$row.$fieldLink}">{/if}
-                {if $header.type eq 12}
+                {if $row.$field eq '&nbsp;&nbsp;&nbsp;Sub Total'}
+	    	    {$row.$field}
+                {elseif $header.type eq 12}
 	            {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}
 		    	{$row.$field|crmDate:$config->dateformatPartial}
 		    {elseif $header.group_by eq 'YEAR'}	
@@ -35,21 +37,21 @@
       </tr>
       {/foreach}
 
-      {foreach from=$grandStat item=row}
+      {if $grandStat}
+      {* foreach from=$grandStat item=row*}
       <tr>
          {foreach from=$columnHeaders item=header key=field}
             <td><strong>
-		{if $header.type eq 12}
-	    	    {$row.$field|truncate:10:''|crmDate}
-		{elseif $header.type eq 1024}
-	    	    {$row.$field|crmMoney}
+		{if $header.type eq 1024}
+	    	    {$grandStat.$field|crmMoney}
 	        {else}
-	    	    {$row.$field}
+	    	    {$grandStat.$field}
 		{/if}
 		</strong></td>
          {/foreach}
       </tr>
-      {/foreach}
+      {* /foreach*}
+      {/if}
    </table>
 
    {if $statistics}

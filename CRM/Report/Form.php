@@ -130,6 +130,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_printButtonName    = null;
     protected $_pdfButtonName      = null;
 
+    protected $_rollup         = null;
+
     /**
      * To what frequency group-by a date column
      *
@@ -226,10 +228,12 @@ class CRM_Report_Form extends CRM_Core_Form {
                               $this->_columns[$tableName]['alias'] : $tableName );
                         $this->_columns[$tableName][$fieldGrp][$fieldName]['alias'] = $alias;
 
-                        $name  = isset($field['name']) ? $field['name'] : $fieldName;
-                        $this->_columns[$tableName][$fieldGrp][$fieldName]['name'] = $name;
-                            
-                        $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = $alias . '.' . $name;
+                        if ( !isset($this->_columns[$tableName][$fieldGrp][$fieldName]['name']) ) {
+                            $this->_columns[$tableName][$fieldGrp][$fieldName]['name'] = $fieldName;
+                        }
+
+                        $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = 
+                            $alias . '.' . $this->_columns[$tableName][$fieldGrp][$fieldName]['name'];
                     }
                 }
             }
@@ -727,21 +731,46 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
-    function fixSubTotalDisplay( &$row, $fields ) {
+    function fixSubTotalDisplay( &$row, $fields, $subtotal = true ) {
         foreach ( $row as $colName => $colVal ) {
             if ( in_array($colName, $fields) ) {
                 $row[$colName] = 
                     "&nbsp;&nbsp;&nbsp;<strong>{$row[$colName]}</strong>";
-            }  else {
-                unset($row[$colName]);
+            } else if ( isset($this->_columnHeaders[$colName]) ) {
+                if ( $subtotal ) {
+                    $row[$colName] = "&nbsp;&nbsp;&nbsp;Sub Total";
+                    $subtotal = false;
+                } else {
+                    unset($row[$colName]);
+                }
             }
         }
     }
 
-    function formatDisplay( &$rows ) {
-        // this takes care of formatting rows for display purpose.
-        $this->alterDisplay( $rows );
+    function grandTotal( &$rows ) {
+        if ( !$this->_rollup ) {
+            return false;
+        }
+        $lastRow = array_pop($rows);
 
+        $grandFlag = false;
+        foreach ($this->_columnHeaders as $fld => $val) {
+            if ( !in_array($fld, $this->_statFields) ) {
+                if ( !$grandFlag ) {
+                    $lastRow[$fld] = "&nbsp;&nbsp;&nbsp;Grand Total";
+                    $grandFlag = true;
+                } else{
+                    $lastRow[$fld] = "";
+                }
+            }
+        }
+
+        $this->assign( 'grandStat', $lastRow );
+        return true;
+    }
+
+    function formatDisplay( &$rows ) {
+        // unset columns not to be displayed.
         foreach ( $this->_columnHeaders as $key => $value ) {
             if ( is_array($value) && isset($value['no_display']) ) {
                 unset($this->_columnHeaders[$key]);
@@ -752,11 +781,16 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( !empty($rows) ) {
             foreach ( $this->_noDisplay as $noDisplayField ) {
                 foreach ( $rows as $rowNum => $row ) {
-                    unset($rows[$rowNum][$noDisplayField], 
-                          $this->_columnHeaders[$noDisplayField]);
+                    unset($this->_columnHeaders[$noDisplayField]);
                 }
             }
         }
+
+        // process grand-total row
+        $this->grandTotal( $rows );
+
+        // this takes care of formatting rows for display purpose.
+        $this->alterDisplay( $rows );
     }
 
     function processReportMode( ) {
