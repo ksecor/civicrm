@@ -642,29 +642,15 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     static function dateClause( $fieldName,
                                 $relative, $from, $to ) {
+        $clauses         = array( );
+        list($from, $to) = self::getFromTo($relative, $from, $to);
 
-        require_once 'CRM/Utils/Date.php';
-        if ( $relative ) {
-            list( $term, $unit ) = explode( '.', $relative );
-            $dateRange = CRM_Utils_Date::relativeToAbsolute( $term, $unit );
-            $from = $dateRange['from'];
-            $to   = $dateRange['to'];
+        if ( $from ) {
+            $clauses[] = "( {$fieldName} >= $from )";
         }
 
-        $clauses = array( );
-        if ( CRM_Utils_Date::isDate( $from ) ) {
-            $revDate = array_reverse( $from );
-            $date    = CRM_Utils_Date::format( $revDate );           
-            if ( $date ) {
-                $clauses[] = "( {$fieldName} >= $date )";
-            }
-        }
-
-        if ( CRM_Utils_Date::isDate( $to ) ) {
-            $revDate = array_reverse( $to );
-            $date    = CRM_Utils_Date::format( $revDate );
-            $date    = !$relative ? $date . '235959' : $date;
-            $clauses[] = "( {$fieldName} <= $date )";
+        if ( $to ) {
+            $clauses[] = "( {$fieldName} <= $to )";
         }
 
         if ( ! empty( $clauses ) ) {
@@ -675,29 +661,16 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     static function dateDisplay( $relative, $from, $to ) {
-        require_once 'CRM/Utils/Date.php';
-        if ( $relative ) {
-            list( $term, $unit ) = explode( '.', $relative );
-            $dateRange = CRM_Utils_Date::relativeToAbsolute( $term, $unit );
-            $from = $dateRange['from'];
-            $to   = $dateRange['to'];
-        }
+        list($from, $to) = self::getFromTo($relative, $from, $to);
 
-        $clauses = array( );
-        if ( CRM_Utils_Date::isDate( $from ) ) {
-            $revDate = array_reverse( $from );
-            $date    = CRM_Utils_Date::format( $revDate );
-            if ( $date ) {
-                $clauses[] = CRM_Utils_Date::customFormat($date, null, array('m', 'M'));
-            }
+        if ( $from ) {
+            $clauses[] = CRM_Utils_Date::customFormat($from, null, array('m', 'M'));
         } else {
             $clauses[] = 'Past';
         }
 
-        if ( CRM_Utils_Date::isDate( $to ) ) {
-            $revDate = array_reverse( $to );
-            $date    = CRM_Utils_Date::format( $revDate );
-            $clauses[] = CRM_Utils_Date::customFormat($date, null, array('m', 'M'));
+        if ( $to ) {
+            $clauses[] = CRM_Utils_Date::customFormat($to, null, array('m', 'M'));
         } else {
             $clauses[] = 'Today';
         }
@@ -707,6 +680,32 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         return null;
+    }
+
+    static function getFromTo( $relative, $from, $to ) {
+        require_once 'CRM/Utils/Date.php';
+        if ( $relative ) {
+            list( $term, $unit ) = explode( '.', $relative );
+            $dateRange = CRM_Utils_Date::relativeToAbsolute( $term, $unit );
+            $from = $dateRange['from'];
+            $to   = $dateRange['to'];
+        }
+
+        if ( CRM_Utils_Date::isDate( $from ) ) {
+            $revDate = array_reverse( $from );
+            $from    = CRM_Utils_Date::format( $revDate );
+        } else {
+            $from    = null;
+        }
+
+        if ( CRM_Utils_Date::isDate( $to ) ) {
+            $revDate = array_reverse( $to );
+            $to      = CRM_Utils_Date::format( $revDate );
+        } else {
+            $to      = null;
+        }
+
+        return array($from, $to);
     }
 
     function alterDisplay( &$rows ) {

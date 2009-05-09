@@ -59,8 +59,9 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
 
                    
                    'civicrm_address' =>
-                   array( 'dao' => 'CRM_Core_DAO_Address',
-                          'fields' =>
+                   array( 'dao'     => 'CRM_Core_DAO_Address',
+                          'grouping'=> 'contact-fields',
+                          'fields'  =>
                           array( 'street_address'    => null,
                                  'city'              => null,
                                  'postal_code'       => null,
@@ -69,8 +70,10 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
                                  'country_id'        => 
                                  array( 'title'   => ts( 'Country' ),  
                                         'default' => true ), ),
-                          'grouping'=> 'contact-fields',
-                          ),
+                          'filters' =>             
+                          array( 'country_id' => 
+                                 array( 'title'   => ts( 'Country ID' ), 
+                                        'type'    => CRM_Utils_Type::T_INT ), ), ),
 
                    'civicrm_contribution' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
@@ -213,7 +216,7 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
         }
 
         if ( count($uni) >=1 ) {
-            $select[] = "CONCAT({$append}" . implode( ', ', $uni ) . ") AS uni";
+            $select[] = "CONCAT_WS('_', {$append}" . implode( ', ', $uni ) . ") AS uni";
             $this->_columnHeaders["uni"] = array('no_display' => true);
         }
         $this->_select = "SELECT " . implode( ', ', $select ) . " ";
@@ -267,7 +270,7 @@ LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id";
     }
 
     function orderBy( $alias = 'c1' ) {
-        $this->_orderBy = "ORDER BY contact.id";
+        $this->_orderBy = "ORDER BY contact.display_name";
     }
 
     function postProcess( ) {

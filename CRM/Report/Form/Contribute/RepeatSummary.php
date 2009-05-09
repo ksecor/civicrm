@@ -48,17 +48,19 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
         $this->_columns = 
             array( 'civicrm_address' =>
                    array( 'dao' => 'CRM_Core_DAO_Address',
-                          'alias'  => 'addr',
                           'fields' =>
-                          array( 'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ) ),
-                                 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ) ), ),
+                          array( 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ),
+                                        'default' => true  ), 
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ) ), ),
                           'group_bys' =>
-                          array( 'state_province_id' => 
+                          array( 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ),
+                                        'default' => true ), 
+                                 'state_province_id' => 
                                  array( 'title'   => ts( 'State/Province' ), ),
-                                 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ) ), ),
+                                 ),
                           ),
 
                    'civicrm_contribution' =>
@@ -72,7 +74,9 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                                         array('sum'    => ts( 'Total Amount' ), 
                                               'count'  => ts( 'Count' ), 
                                               //'avg'    => ts( 'Average' ), 
-                                              ), ), ),
+                                              ), ), 
+                                 'contribution_source' => null ),
+                          'grouping'      => 'contri-fields',
                           'filters'       =>             
                           array( 
                                 'receive_date1'  => 
@@ -86,9 +90,17 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                                        'type'    => CRM_Utils_Type::T_DATE,
                                        'name'    => 'receive_date' ), ),
                           'group_bys'           =>
-                          array( 'receive_date' => 
-                                 array( 'default'    => true,
-                                        'frequency'  => true ), ), ),
+                          array( 'contribution_source' => null, 
+                                 'receive_date' => 
+                                 array( 'frequency'  => true ), ), ),
+
+                   'civicrm_contribution_type' =>
+                   array( 'dao'           => 'CRM_Contribute_DAO_ContributionType',
+                          'fields'        =>
+                          array( 'contribution_type'   => null, ), 
+                          'grouping'      => 'contri-fields',
+                          'group_bys'     =>
+                          array( 'contribution_type'   => null, ), ),
                    );
 
         parent::__construct( );
@@ -221,7 +233,7 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
         }
 
         if ( count($uni) >=1 ) {
-            $select[] = "CONCAT({$append}" . implode( ', ', $uni ) . ") AS uni";
+            $select[] = "CONCAT_WS('_', {$append}" . implode( ', ', $uni ) . ") AS uni";
             $this->_columnHeaders["uni"] = array('no_display' => true);
         }
         $this->_select = "SELECT " . implode( ', ', $select ) . " ";
@@ -272,7 +284,7 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
     function from( $alias = 'c1' ) {
         $this->_from = "
 FROM civicrm_contribution $alias 
-LEFT JOIN civicrm_address addr ON addr.contact_id = {$alias}.contact_id";
+LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id";
     }
 
     function where( $alias = 'c1' ) {
@@ -352,13 +364,40 @@ LEFT JOIN civicrm_address addr ON addr.contact_id = {$alias}.contact_id";
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
-        
+
+        list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ), 
+                                               CRM_Utils_Array::value( "receive_date1_from"    , $this->_params ),
+                                               CRM_Utils_Array::value( "receive_date1_to"      , $this->_params ) );
+        list($from2, $to2) = $this->getFromTo( CRM_Utils_Array::value( "receive_date2_relative", $this->_params ), 
+                                               CRM_Utils_Array::value( "receive_date2_from"    , $this->_params ),
+                                               CRM_Utils_Array::value( "receive_date2_to"      , $this->_params ) );
+
         foreach ( $rows as $rowNum => $row ) {
             // handle country
-            if ( array_key_exists('addr_country_id', $row) ) {
-                if ( $value = $row['addr_country_id'] ) {
-                    $rows[$rowNum]['addr_country_id'] = 
+            if ( array_key_exists('address_country_id', $row) ) {
+                if ( $value = $row['address_country_id'] ) {
+                    $rows[$rowNum]['address_country_id'] = 
                         CRM_Core_PseudoConstant::country( $value, false );
+
+                    $dateUrl = ""; 
+                    if ( $from1 ) {
+                        $dateUrl .= "receive_date1_from={$from1}&";
+                    }
+                    if ( $to1 ) {
+                        $dateUrl .= "receive_date1_to={$to1}&";
+                    }
+                    if ( $from2 ) {
+                        $dateUrl .= "receive_date2_from={$from2}&";
+                    }
+                    if ( $to2 ) {
+                        $dateUrl .= "receive_date2_to={$to2}&";
+                    }
+                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
+                                                  "reset=1&force=1&" . 
+                                                  "country_id_op=eq&country_id_value={$value}&" .
+                                                  "$dateUrl"
+                                                  );
+                    $rows[$rowNum]['address_country_id_link'] = $url;
                 }
                 $entryFound = true;
             }
