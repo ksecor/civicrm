@@ -107,7 +107,7 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
     }
 
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Contribution Repeat Summary Report' ) );
+        $this->assign( 'reportTitle', ts('Repeat Contribution Summary Report' ) );
         
         parent::preProcess( );
     }
@@ -118,19 +118,6 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
 
     function select( $alias = 'c1' ) {
         $select = $uni = array( );
-
-/*         if ( $alias == 'c1' ) { */
-/*             $ele = "receive_date1"; */
-/*         } else if ( $alias == 'c2' ) { */
-/*             $ele = "receive_date2"; */
-/*         } */
-/*         $relative = CRM_Utils_Array::value( "{$ele}_relative", $this->_params ); */
-/*         $from     = CRM_Utils_Array::value( "{$ele}_from"    , $this->_params ); */
-/*         $to       = CRM_Utils_Array::value( "{$ele}_to"      , $this->_params ); */
-/*         $clause   = $this->dateDisplay( $relative, $from, $to ); */
-/*         $this->_columnHeaders["{$alias}_amount"] =  */
-/*             array('title' => "Amount ($clause)", */
-/*                   'type'  => CRM_Utils_Type::T_MONEY); */
 
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('group_bys', $table) ) {
@@ -284,7 +271,8 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
     function from( $alias = 'c1' ) {
         $this->_from = "
 FROM civicrm_contribution $alias 
-LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id";
+LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id
+LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = {$alias}.contribution_type_id";
     }
 
     function where( $alias = 'c1' ) {
@@ -340,6 +328,17 @@ LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id";
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
         $dao = CRM_Core_DAO::executeQuery( $sql );
 
+        // hack to not allow create two copies/columns
+        foreach ( $this->_columnHeaders as $key => $value ) {
+            if ( (substr( $key, 0, 3 ) == 'c2_') && 
+                 (! in_array(substr( $key, 3 ), 
+                             array('total_amount_sum',
+                                   'total_amount_count',
+                                   'total_amount_sum')) ) ) {
+                unset($this->_columnHeaders[$key]);
+            }
+        }
+
         while ( $dao->fetch( ) ) {
             foreach ( $this->_columnHeaders as $key => $value ) {
                 if ( substr( $key, 0, 3 ) != 'c1_' ) {
@@ -372,26 +371,27 @@ LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id";
                                                CRM_Utils_Array::value( "receive_date2_from"    , $this->_params ),
                                                CRM_Utils_Array::value( "receive_date2_to"      , $this->_params ) );
 
+        $dateUrl = ""; 
+        if ( $from1 ) {
+            $dateUrl .= "receive_date1_from={$from1}&";
+        }
+        if ( $to1 ) {
+            $dateUrl .= "receive_date1_to={$to1}&";
+        }
+        if ( $from2 ) {
+            $dateUrl .= "receive_date2_from={$from2}&";
+        }
+        if ( $to2 ) {
+            $dateUrl .= "receive_date2_to={$to2}&";
+        }
+
         foreach ( $rows as $rowNum => $row ) {
             // handle country
             if ( array_key_exists('address_country_id', $row) ) {
                 if ( $value = $row['address_country_id'] ) {
                     $rows[$rowNum]['address_country_id'] = 
                         CRM_Core_PseudoConstant::country( $value, false );
-
-                    $dateUrl = ""; 
-                    if ( $from1 ) {
-                        $dateUrl .= "receive_date1_from={$from1}&";
-                    }
-                    if ( $to1 ) {
-                        $dateUrl .= "receive_date1_to={$to1}&";
-                    }
-                    if ( $from2 ) {
-                        $dateUrl .= "receive_date2_from={$from2}&";
-                    }
-                    if ( $to2 ) {
-                        $dateUrl .= "receive_date2_to={$to2}&";
-                    }
+                    
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
                                                   "country_id_op=eq&country_id_value={$value}&" .
@@ -401,6 +401,35 @@ LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id";
                 }
                 $entryFound = true;
             }
-        }
+
+            // handle state province
+            if ( array_key_exists('address_state_province_id', $row) ) {
+                if ( $value = $row['address_state_province_id'] ) {
+                    $rows[$rowNum]['address_state_province_id'] = 
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+
+                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
+                                                  "reset=1&force=1&" . 
+                                                  "state_province_id_op=eq&state_province_id_value={$value}&" .
+                                                  "$dateUrl"
+                                                  );
+                    $rows[$rowNum]['address_state_province_id_link'] = $url;
+                }
+                $entryFound = true;
+            }
+            
+            // link contribution type
+            if ( array_key_exists('contribution_type_name', $row) ) {
+                if ( $value = $row['contribution_type_name'] ) {
+                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
+                                                  "reset=1&force=1&" . 
+                                                  "contribution_type_op=has&contribution_type_value={$value}&" .
+                                                  "$dateUrl"
+                                                  );
+                    $rows[$rowNum]['contribution_type_name_link'] = $url;
+                }
+                $entryFound = true;
+            }
+        } // foreach ends
     }
 }
