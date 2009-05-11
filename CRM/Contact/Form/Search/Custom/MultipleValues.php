@@ -197,7 +197,7 @@ contact_a.sort_name    as sort_name,
                     $row["custom_{$fieldID}"] = $values[$row["custom_{$fieldID}"]];
                 }
             } else if ( in_array( $values['attributes']['html_type'],  
-                                  array( 'CheckBox', 'Multi-Select' ) ) ) {
+                                  array( 'CheckBox', 'Multi-Select', 'AdvMulti-Select' ) ) ) {
                 $valueSeparatedArray = array_filter( explode( CRM_Core_DAO::VALUE_SEPARATOR, $row["custom_{$fieldID}"] ) );
                 foreach( $valueSeparatedArray as $val ) {
                     $customVal[] = $values[$val];

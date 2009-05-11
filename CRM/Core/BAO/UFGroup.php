@@ -845,7 +845,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 		    $htmlType = $field['html_type'];
 		    if ( $htmlType == 'Link' ) {
                         $url =  $params[$index] ;
-                    } else if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select', 
+                    } else if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select', 'AdvMulti-Select', 
 							    'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {   
 			$valSeperator    = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ;
 			$selectedOptions = explode( $valSeperator, $params[$index] );
@@ -1572,6 +1572,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                         switch( $customFields[substr($name,7,9)]['html_type'] ) {
                         case 'Multi-Select State/Province':
                         case 'Multi-Select Country':
+                        case 'AdvMulti-Select':
                         case 'Multi-Select':
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {

@@ -340,6 +340,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     break;
                     
                 case 'CheckBox':
+                case 'AdvMulti-Select':
                 case 'Multi-Select':
                 case 'Multi-Select Country':
                 case 'Multi-Select State/Province':
@@ -365,7 +366,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                             
                             //keep state and country as array format. 
                             //for checkbox and m-select format w/ VALUE_SEPERATOR
-                            if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select' ) ) ) {
+                            if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select', 'AdvMulti-Select' ) ) ) {
                                 $submitted[$key] = 
                                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
                                     implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,

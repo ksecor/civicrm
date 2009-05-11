@@ -122,6 +122,7 @@ class CRM_Core_BAO_CustomOption {
         case null:
         case 'CheckBox':
         case 'Multi-Select':
+        case 'AdvMulti-Select':
         case 'Radio':
         case 'Select':
             $options =& self::valuesByID( $fieldId );
@@ -236,6 +237,7 @@ WHERE  {$dao->columnName} = %2";
                                                   $dao->dataType ) );
                 break;
 
+            case 'AdvMulti-Select':
             case 'Multi-Select':
             case 'CheckBox':
                 $oldString =

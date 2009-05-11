@@ -117,6 +117,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
         
         if ( ( $params['html_type'] == 'CheckBox' ||
+               $params['html_type'] == 'AdvMulti-Select' ||
                $params['html_type'] == 'Multi-Select' ) &&
              isset($params['default_checkbox_option'] ) ) {
             $tempArray = array_keys($params['default_checkbox_option']);
@@ -635,6 +636,24 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
             //added for select multiple
+        case 'AdvMulti-Select': 
+            $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
+                                                                    $field->option_group_id );
+            $include =& $qf->addElement('advmultiselect', $elementName, 
+                                        $label, $selectOption,
+                                        array('size' => 5, 
+                                              'style' => 'width:150px',
+                                              'class' => 'advmultiselect')
+                                        );
+            
+            $include->setButtonAttributes('add', array('value' => ts('Add >>')));
+            $include->setButtonAttributes('remove', array('value' => ts('<< Remove')));     
+           
+            if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
+            }  
+            break;
+            
         case 'Multi-Select':
             $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
                                                                     $field->option_group_id );
@@ -836,6 +855,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
         
         case "CheckBox":
+        case "AdvMulti-Select":
         case "Multi-Select":
             if ( is_array( $value ) ) {
                 $checkedData = $value;
@@ -1050,6 +1070,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         switch ($customField->html_type) {
             
         case 'CheckBox':
+        case 'AdvMulti-Select':
         case 'Multi-Select':
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldId, false);
             $defaults[$elementName] = array();
@@ -1058,7 +1079,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 if ( in_array($val['value'], $checkedValue) ) {
                     if ( $customField->html_type == 'CheckBox' ) {
                         $defaults[$elementName][$val['value']] = 1;
-                    } elseif ( $customField->html_type == 'Multi-Select' ) {
+                    } elseif ( $customField->html_type == 'Multi-Select' ||
+                               $customField->html_type == 'AdvMulti-Select' ) {
                         $defaults[$elementName][$val['value']] = $val['value'];
                     }
                 } else {
@@ -1191,7 +1213,8 @@ SELECT id
             }
         } 
         
-        if ( $customFields[$customFieldId]['html_type'] == 'Multi-Select' ) {
+        if ( $customFields[$customFieldId]['html_type'] == 'Multi-Select' ||
+             $customFields[$customFieldId]['html_type'] == 'AdvMulti-Select' ) {
             if ( $value ) {
                 // Note that only during merge this is not an array,
                 // and you can directly use value, CRM-4385
@@ -1567,6 +1590,7 @@ ORDER BY html_type";
         if ( ( $field['html_type'] == 'CheckBox' ||
                $field['html_type'] == 'Radio'    ||
                $field['html_type'] == 'Select'   ||
+               $field['html_type'] == 'AdvMulti-Select'   ||
                $field['html_type'] == 'Multi-Select' ) ) {
             if ( $field['option_group_id'] ) {
                 $optionGroupID = $field['option_group_id'];

@@ -195,7 +195,9 @@ ORDER BY weight, label
                 $action -= CRM_Core_Action::DISABLE;
             }
 
-            if ( $fieldHtmlType == 'CheckBox' || $fieldHtmlType == 'Multi-Select' ) {
+            if ( $fieldHtmlType == 'CheckBox' || 
+                 $fieldHtmlType == 'AdvMulti-Select' || 
+                 $fieldHtmlType == 'Multi-Select' ) {
                 if ( in_array($dao->value, $defVal) ) {
                     $customOption[$dao->id]['default_value'] = '<img src="' . $config->resourceBase . 'i/check.gif" />';
                 } else {

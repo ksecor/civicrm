@@ -88,8 +88,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
     
     private static $_dataToHTML = 
         array(
-              array(  'Text' => 'Text', 'Select' => 'Select', 
-                      'Radio' => 'Radio', 'CheckBox' => 'CheckBox', 'Multi-Select' => 'Multi-Select'),
+              array( 'Text' => 'Text', 'Select' => 'Select', 
+                     'Radio' => 'Radio', 'CheckBox' => 'CheckBox', 
+                     'Multi-Select' => 'Multi-Select', 
+                     'AdvMulti-Select' => 'AdvMulti-Select' ),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
@@ -138,7 +140,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             self::$_dataToLabels 
                 = array(
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                              'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select')),
+                              'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select'),
+                              'AdvMulti-Select' => ts('AdvMulti-Select')),
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
                               'Radio' => ts('Radio')),
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
@@ -606,7 +609,7 @@ SELECT count(*)
         if ( isset( $fields['data_type'][1] ) ) {
             $dataField = $fields['data_type'][1];
         }
-        $optionFields = array('Select', 'Multi-Select', 'CheckBox', 'Radio');
+        $optionFields = array('Select', 'Multi-Select', 'CheckBox', 'Radio', 'AdvMulti-Select');
         
         if ( $fields['option_type'] == 1 ) {
             //capture duplicate Custom option values

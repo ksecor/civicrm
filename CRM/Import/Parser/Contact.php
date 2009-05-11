@@ -876,7 +876,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         }
                     }
                     // need not check for label filed import
-                    $htmlType = array('CheckBox','Multi-Select','Select','Radio','Multi-Select State/Province' ,'Multi-Select Country' );
+                    $htmlType = array('CheckBox','Multi-Select','AdvMulti-Select','Select','Radio','Multi-Select State/Province' ,'Multi-Select Country' );
                     if ( ! in_array( $customFields[$customFieldID]['html_type'], $htmlType ) ||
                          $customFields[$customFieldID]['data_type'] =='Boolean' ) {
                         $valid = 
@@ -888,7 +888,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     
                     // check for values for custom fields for checkboxes and multiselect
                     if ( $customFields[$customFieldID]['html_type'] == 'CheckBox' ||
-                         $customFields[$customFieldID]['html_type'] =='Multi-Select' ) {
+                         $customFields[$customFieldID]['html_type'] == 'AdvMulti-Select' ||
+                         $customFields[$customFieldID]['html_type'] == 'Multi-Select' ) {
                         $value = trim( $value );
                         $value = str_replace('|', ',', $value);
                         $mulValues = explode( ',' , $value );
@@ -1441,6 +1442,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 
                 switch ( $type ) {
                 case 'CheckBox':
+                case 'AdvMulti-Select':
                 case 'Multi-Select':
                     
                     $mulValues       = explode( ',' , $field );

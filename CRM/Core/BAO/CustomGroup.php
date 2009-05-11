@@ -869,6 +869,7 @@ SELECT $select
                 switch( $field['html_type'] ) {
 
                 case 'Multi-Select':
+                case 'AdvMulti-Select':
                 case 'CheckBox':
                     $defaults[$elementName] = array( );
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $field['id'], $inactiveNeeded );
@@ -972,7 +973,8 @@ SELECT $select
                 $fieldId = $field['id'];
 
                 //added Multi-Select option in the below if-statement
-                if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Radio' || $field['html_type'] == 'Multi-Select' ) {
+                if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Radio' || 
+                     $field['html_type'] == 'AdvMulti-Select' || $field['html_type'] == 'Multi-Select' ) {
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 'NULL';
                 }
 
@@ -997,7 +999,9 @@ SELECT $select
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
                     break;
-
+                    
+                //added for Advanced Multi-Select
+                case 'AdvMulti-Select':  
                 //added for Multi-Select
                 case 'Multi-Select':  
                     if ( ! empty( $v ) ) {
@@ -1153,11 +1157,9 @@ SELECT $select
             return;
         }
         
-        $groupTree    =& CRM_Core_BAO_CustomGroup::getTree( $type, $form );
-
-
-        $customValue  = array();
-        $htmlType     = array('CheckBox','Multi-Select','Select','Radio');
+        $groupTree   =& CRM_Core_BAO_CustomGroup::getTree( $type, $form );
+        $customValue = array( );
+        $htmlType    = array( 'CheckBox', 'Multi-Select', 'AdvMulti-Select', 'Select', 'Radio' );
         
         foreach ($groupTree as $group) {
             if ( ! isset( $group['fields'] ) ) {
@@ -1174,7 +1176,8 @@ SELECT $select
                         $valid = CRM_Core_BAO_CustomValue::typecheck( $field['data_type'], $value);
                     }
                     if ( $field['html_type'] == 'CheckBox' ||
-                         $field['html_type'] =='Multi-Select' ) {
+                         $field['html_type'] == 'AdvMulti-Select' ||
+                         $field['html_type'] == 'Multi-Select' ) {
                         $value = str_replace("|",",",$value);
                         $mulValues = explode( ',' , $value );
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $key, true );
@@ -1534,6 +1537,7 @@ SELECT $select
                 break;
 
             case 'CheckBox': 
+            case 'AdvMulti-Select':
             case 'Multi-Select':
                 $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
 
