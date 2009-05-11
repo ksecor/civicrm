@@ -283,6 +283,14 @@ LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = 
         }
     }
 
+    function statistics( &$rows ) {
+        $statistics = array();
+        
+        $statistics[] = array( 'title' => ts('Row(s) Listed'),
+                               'value' => count($rows) );
+        return $statistics;
+    }
+
     function groupBy( $alias = 'c1' ) {
     }
 
@@ -357,7 +365,8 @@ LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = 
         $this->formatDisplay( $rows );
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
-        
+        $this->assign( 'statistics', $this->statistics( $rows ) );
+
         parent::postProcess( );
     }
 

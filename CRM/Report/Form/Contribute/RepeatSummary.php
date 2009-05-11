@@ -293,6 +293,30 @@ LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = 
         $this->_where = "WHERE {$clause}";
     }
 
+    function statistics( &$rows ) {
+        $statistics = array();
+
+        $statistics[] = array( 'title' => ts('Row(s) Listed'),
+                               'value' => count($rows) );
+        
+        if ( is_array($this->_params['group_bys']) && 
+             !empty($this->_params['group_bys']) ) {
+            foreach ( $this->_columns as $tableName => $table ) {
+                if ( array_key_exists('group_bys', $table) ) {
+                    foreach ( $table['group_bys'] as $fieldName => $field ) {
+                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                            $combinations[] = $field['title'];
+                        }
+                    }
+                }
+            }
+            $statistics[] = array( 'title' => ts('Grouping(s)'),
+                                   'value' => implode( ' & ', $combinations ) );
+        }
+        
+        return $statistics;
+    }
+
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
 
@@ -357,7 +381,7 @@ LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = 
         
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
-        
+        $this->assign( 'statistics', $this->statistics( $rows ) );
         parent::postProcess( );
     }
 
