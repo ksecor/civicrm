@@ -36,9 +36,114 @@
 
 require_once 'api/v2/utils.php';
 
+function civicrm_contact_create( &$params ) {
+    // call update and tell it to create a new contact
+    $create_new = true;
+    return civicrm_contact_update( $params, $create_new );
+}
+
+function civicrm_contact_update( &$params, $create_new = false ) {
+    _civicrm_initialize( );
+
+    $contactID = CRM_Utils_Array::value( 'contact_id', $params );
+    if ( $create_new ) {
+        // Make sure nothing is screwed up before we create a new contact
+        if ( !empty( $contactID ) ) {
+            return civicrm_create_error( 'Cannot create new contact when contact_id is present' );
+        }
+        if ( empty( $params[ 'contact_type' ] ) ) {
+            return civicrm_create_error( 'Contact Type not specified' );
+        }
+
+        $dupeCheck = CRM_Utils_Array::value( 'dupe_check', $params, false );
+        $values    = _civicrm_contact_check_params( $params, $dupeCheck );
+        if ( $values ) {
+            return $values;
+        }
+
+        // If we get here, we're ready to create a new contact
+
+        /* FIXME: This code doesn't work right now, but it should probably be
+         * fixed since creating locations when you create contacts is pretty
+         * handy.
+         * I think the problem currently is that it doesn't put the email
+         * address in the same location block as other location data that's
+         * added separately. So we should either support all or nothing.
+         */
+        if ( isset( $params['email'] ) ) {
+            if ( ! isset( $params['location'] ) ) {
+                $params['location'] =  array( );
+            }
+            if ( ! isset( $params['location'][1] ) ) {
+                $params['location']['1'] = array( );
+            }
+
+            if ( ! isset( $params['location']['1']['location_type_id'] ) ) {
+                $params['location']['1']['location_type_id'] = 1;
+            }
+            $params['location']['1']['is_primary'] = 1;
+            $params['location']['1']['email']['1']['email'] = $params['email'];
+            $params['location']['1']['email']['1']['is_primary'] = 1;
+
+            unset($params['email']);
+        }
+        // End FIXME
+    }
+
+    // FIXME: Some legacy support cruft, should get rid of this in 3.0
+    $change = array( 'individual_prefix' => 'prefix',
+                     'prefix'            => 'prefix_id',
+                     'individual_suffix' => 'suffix',
+                     'suffix'            => 'suffix_id',
+                     'gender'            => 'gender_id' );
+
+    foreach ( $change as $field => $changeAs ) {
+        if ( array_key_exists( $field, $params ) ) {
+            $params[$changeAs] = $params[$field];
+            unset( $params[$field] );
+        }
+    }
+    // End legacy support cruft
+
+    if ( isset( $params['suffix_id'] ) &&
+         ! ( is_numeric( $params['suffix_id'] ) ) ) {
+        $params['suffix_id'] = array_search( $params['suffix_id'] , CRM_Core_PseudoConstant::individualSuffix() );
+    }
+
+    if ( isset( $params['prefix_id'] ) &&
+         ! ( is_numeric( $params['prefix_id'] ) ) ) {
+        $params['prefix_id'] = array_search( $params['prefix_id'] , CRM_Core_PseudoConstant::individualPrefix() );
+    }
+
+         if ( isset( $params['gender_id'] )
+              && ! ( is_numeric( $params['gender_id'] ) ) ) {
+        $params['gender_id'] = array_search( $params['gender_id'] , CRM_Core_PseudoConstant::gender() );
+    }
+
+    $values   = array( );
+    $entityId = CRM_Utils_Array::value( 'contact_id', $params, null );
+    _civicrm_custom_format_params( $params, $values, $params['contact_type'], $entityId );
+
+    $params = array_merge( $params, $values );
+
+    $contact =& _civicrm_contact_update( $params, $contactID );
+
+    if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+        return civicrm_create_error( $contact->_errors[0]['message'] );
+    } else {
+        $values = array( );
+        $values['contact_id'] = $contact->id;
+        $values['is_error']   = 0;
+    }
+
+    return $values;
+}
+
 /**
  * Add or update a contact. If a dupe is found, check for
  * ignoreDupe flag to ignore or return error
+ *
+ * @deprecated deprecated since version 2.2.3; use civicrm_contact_create or civicrm_contact_update instead
  *
  * @param  array   $params           (reference ) input parameters
  *
@@ -47,92 +152,69 @@ require_once 'api/v2/utils.php';
  * @access public
  */
 function &civicrm_contact_add( &$params ) {
-    _civicrm_initialize( );
-    
-    if ( empty( $params[ 'contact_type' ] ) ) {
-        return civicrm_create_error( 'Contact Type not specified' );
-    }
-
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
-    
-    if ( ! $contactID ) {
-        $dupeCheck = CRM_Utils_Array::value( 'dupe_check', $params, false );
-        $values    = civicrm_contact_check_params( $params, $dupeCheck );
-        if ( $values ) {
-            return $values;
-        }
-        
-    }
-    
-    if( isset( $params['email'] ) ) {
-        if ( ! isset( $params['location'] ) ) {
-            $params['location'] =  array( );
-        }
-        if ( ! isset( $params['location'][1] ) ) {
-            $params['location']['1'] = array( );
-        }
-
-        if ( ! isset( $params['location']['1']['location_type_id'] ) ) {
-            $params['location']['1']['location_type_id'] = 1;
-        }
-        $params['location']['1']['is_primary'] = 1;
-        $params['location']['1']['email']['1']['email'] = $params['email'];
-        $params['location']['1']['email']['1']['is_primary'] = 1;
-
-        unset($params['email']);
-    }
-    
-    $change = array( 'individual_prefix' => 'prefix',
-                     'prefix'            => 'prefix_id',
-                     'individual_suffix' => 'suffix',
-                     'suffix'            => 'suffix_id',
-                     'gender'            => 'gender_id' );
-    
-    foreach ( $change as $field => $changeAs ) {
-        if ( array_key_exists( $field, $params ) ) {
-            $params[$changeAs] = $params[$field];
-            unset( $params[$field] );
-        }
-    }
-    
-    if ( isset( $params['suffix_id'] ) &&
-         ! ( is_numeric( $params['suffix_id'] ) ) ) {
-        $params['suffix_id'] = array_search( $params['suffix_id'] , CRM_Core_PseudoConstant::individualSuffix() );
-    }
-    
-    if ( isset( $params['prefix_id'] ) &&
-         ! ( is_numeric( $params['prefix_id'] ) ) ) {
-        $params['prefix_id'] = array_search( $params['prefix_id'] , CRM_Core_PseudoConstant::individualPrefix() );
-    } 
-    
-         if ( isset( $params['gender_id'] )
-              && ! ( is_numeric( $params['gender_id'] ) ) ) {
-        $params['gender_id'] = array_search( $params['gender_id'] , CRM_Core_PseudoConstant::gender() );
-    }
-    
-    $values   = array( );
-    $entityId = CRM_Utils_Array::value( 'contact_id', $params, null );
-    _civicrm_custom_format_params( $params, $values, $params['contact_type'], $entityId );
-    
-    $params = array_merge( $params, $values );
-
-    $contact =& _civicrm_contact_add( $params, $contactID );
-        
-    if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-        return civicrm_create_error( $contact->_errors[0]['message'] );
+    if ( !empty($contactID) ) {
+        return civicrm_contact_update($params);
     } else {
-        $values = array( );
-        $values['contact_id'] = $contact->id;
-        $values['is_error']   = 0;
+        return civircm_contact_create($params);
     }
-    
-    return $values;
 }
 
 /**
- * Retrieve a specific contact, given a set of input params
- * If more than one contact exists, return an error, unless
- * the client has requested to return the first found contact
+ * Retrieve one or more contacts, given a set of search params
+ *
+ * @param  array   $params           (reference ) input parameters
+ * @param  bool    $deprecated_behavior  follow the pre-2.2.3 behavior of this function
+ *
+ * @return array (reference )        array of properties, if error an array with an error id and error message
+ * @static void
+ * @access public
+ */
+function civicrm_contact_get( &$params, $deprecated_behavior = false ) {
+    _civicrm_initialize( );
+    
+    if ($deprecated_behavior) {
+        return _civicrm_contact_get_deprecated($params);
+    }
+
+    $inputParams      = array( );
+    $returnProperties = array( );
+    $otherVars = array( 'sort', 'offset', 'rowCount', 'smartGroupCache' );
+
+    $sort            = null;
+    $offset          = 0;
+    $rowCount        = 25;
+    $smartGroupCache = false;
+    foreach ( $params as $n => $v ) {
+        if ( substr( $n, 0, 6 ) == 'return' ) {
+            $returnProperties[ substr( $n, 7 ) ] = $v;
+        } elseif ( in_array( $n, $otherVars ) ) {
+            $$n = $v;
+        } else {
+            $inputParams[$n] = $v;
+        }
+    }
+
+    if ( empty( $returnProperties ) ) {
+        $returnProperties = null;
+    }
+
+    require_once 'CRM/Contact/BAO/Query.php';
+    $newParams =& CRM_Contact_BAO_Query::convertFormValues( $inputParams );
+    list( $contacts, $options ) = CRM_Contact_BAO_Query::apiQuery( $newParams,
+                                                                   $returnProperties,
+                                                                   null,
+                                                                   $sort,
+                                                                   $offset,
+                                                                   $rowCount,
+                                                                   $smartGroupCache );
+    return $contacts;
+}
+
+/**
+ * Retrieve a specific contact, given a set of search params
+ *
+ * @deprecated deprecated since version 2.2.3
  *
  * @param  array   $params           (reference ) input parameters
  *
@@ -140,9 +222,7 @@ function &civicrm_contact_add( &$params ) {
  * @static void
  * @access public
  */
-function &civicrm_contact_get( &$params ) {
-    _civicrm_initialize( );
-
+function _civicrm_contact_get_deprecated( &$params ) {
     $values = array( );
     if ( empty( $params ) ) {
         return civicrm_create_error( ts( 'No input parameters present' ) );
@@ -194,6 +274,8 @@ function civicrm_contact_delete( &$params ) {
 
 /**
  * Retrieve a set of contacts, given a set of input params
+ *
+ * @deprecated deprecated since version 2.2.3
  *
  * @param  array   $params           (reference ) input parameters
  * @param array    $returnProperties Which properties should be included in the
@@ -258,7 +340,7 @@ function &civicrm_contact_search( &$params ) {
  * @return null on success, error message otherwise
  * @access public
  */
-function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorArray = false, $requiredCheck = true ) {
+function _civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorArray = false, $requiredCheck = true ) {
     if ( $requiredCheck ) {
         $required = array(
                           'Individual'   => array(
@@ -336,7 +418,13 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
     return null;
 }
 
-function &civicrm_replace_contact_formatted($contactId, &$params, &$fields) {
+/**
+ * What does this do? If it's still useful, figure out where it should live
+ * and what it should be named.
+ *
+ * @deprecated deprecated since version 2.2.3
+ */
+function civicrm_replace_contact_formatted($contactId, &$params, &$fields) {
     //$contact = civcrm_get_contact(array('contact_id' => $contactId));
     
     $delContact = array( 'contact_id' => $contactId );
@@ -361,7 +449,7 @@ function &civicrm_replace_contact_formatted($contactId, &$params, &$fields) {
  * @access public 
  * @static 
  */ 
-function &_civicrm_contact_add( &$params, $contactID = null ) 
+function _civicrm_contact_update( &$params, $contactID = null )
 {
     require_once 'CRM/Core/Transaction.php';
     $transaction = new CRM_Core_Transaction( );
@@ -377,7 +465,8 @@ function &_civicrm_contact_add( &$params, $contactID = null )
     return $contact;
 }
 
-function &civicrm_contact_format_create( &$params ) {
+/* TODO: Move this to ContactFormat.php */
+function civicrm_contact_format_create( &$params ) {
     _civicrm_initialize( );
 
     CRM_Core_DAO::freeResult( );
@@ -419,6 +508,8 @@ function &civicrm_contact_format_create( &$params ) {
 
 /** 
  * Returns the number of Contact objects which match the search criteria specified in $params.
+ *
+ * @deprecated deprecated since version 2.2.3; civicrm_contact_get now returns a record_count value
  *
  * @param array  $params
  *

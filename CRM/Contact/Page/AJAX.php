@@ -73,7 +73,8 @@ ORDER BY sort_name ";
         $relationParams = array('relationship_type_id' => $relType .'_a_b', 
                                 'contact_check'        => array( $relContactID => 1),
                                 'is_active'            => 1,
-                                'case_id'              => $caseID
+                                'case_id'              => $caseID,
+                                'start_date'           => date("Ymd")
                                 );
         
         if ( $relationshipID == 'null' ) {

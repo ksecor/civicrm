@@ -494,7 +494,7 @@ LEFT JOIN civicrm_option_group option_group_participantRole ON option_group_part
 LEFT JOIN civicrm_option_value participant_role 
 ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
 LEFT JOIN civicrm_note cn ON ( cn.entity_id = cp.id AND cn.entity_table = 'civicrm_participant' )
-WHERE   ( cp.fee_level LIKE {$this->_text} OR cn.subject LIKE  {$this->_text} OR cn.note LIKE  {$this->_text} )
+WHERE   ( cp.fee_level LIKE {$this->_text} OR cn.subject LIKE  {$this->_text} OR cn.note LIKE  {$this->_text} ) OR cp.source LIKE {$this->_text} 
 {$this->_limitClause}
 "; 
         

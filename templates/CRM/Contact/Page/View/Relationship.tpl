@@ -21,6 +21,8 @@
         <tr class="columnheader">
             <th>{ts}Relationship{/ts}</th>
             <th></th>
+            <th>{ts}Start{/ts}</th>
+            <th>{ts}End{/ts}</th>
             <th>{ts}City{/ts}</th>
             <th>{ts}State/Prov{/ts}</th>
             <th>{ts}Email{/ts}</th>
@@ -43,6 +45,8 @@
                 <td class="bold">{$rel.relation}</strong></td>
                 <td>{$rel.name}</td>
             {/if}
+                <td>{$rel.start_date|crmDate}</td>
+                <td>{$rel.end_date|crmDate}</td>
                 <td>{$rel.city}</td>
                 <td>{$rel.state}</td>
                 <td>{$rel.email}</td>

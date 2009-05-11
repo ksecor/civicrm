@@ -103,8 +103,13 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::DELETE || $this->_action & CRM_Core_Action::RENEW ) {
             return true;
         }
-        $this->_activityTypeId  = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
-
+        
+        if (  $this->_action & CRM_Core_Action::ADD ) {
+            $this->_activityTypeId = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                     'Open Case',
+                                                                     'name' );  
+        }
+      
         if ( $this->_activityTypeFile = CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId, 'Case') ) {
             require_once "CRM/Case/Form/Activity/{$this->_activityTypeFile}.php";
             $this->assign( 'activityTypeFile', $this->_activityTypeFile );

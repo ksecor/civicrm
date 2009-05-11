@@ -65,6 +65,22 @@ function civicrm_entity_tag_display( &$params ) {
     return implode( ',', $result );
 }
 
+/**
+ * Returns all entities assigned to a specific Tag.
+ * @param  $params      Array   an array valid Tag id                               
+ * @return $entities    Array   An array of entity ids.
+ * @access public
+ */
+function civicrm_tag_entities_get( &$params )
+{
+    require_once 'CRM/Core/BAO/Tag.php';
+    require_once 'CRM/Core/BAO/EntityTag.php';
+    $tag      = new CRM_Core_BAO_Tag();
+    $tag->id  = $params['tag_id'] ? $params['tag_id'] : null;
+    $entities =& CRM_Core_BAO_EntityTag::getEntitiesByTag($tag);    
+    return $entities;   
+}
+
 function civicrm_entity_tag_add( &$params ) {
     return civicrm_entity_tag_common( $params, 'add' );
 }

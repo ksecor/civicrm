@@ -3,7 +3,7 @@
     {include file="CRM/Case/Page/ConfigureError.tpl"}
 {else}
 
-{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="action=add&context=case&reset=1&atype=`$openCaseId`"}{/capture}
+{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="action=add&context=case&reset=1"}{/capture}
 
 <div class="float-right">
   <table class="form-layout-compressed">
@@ -35,16 +35,17 @@
   <tr class="columnheader-dark">
     <th>&nbsp;</th>
     {foreach from=$casesSummary.headers item=header}
-    <th scope="col" class="right" style="padding-right: 10px;">{$header}</th>
+    <th scope="col" class="right" style="padding-right: 10px;"><a href="{$header.url}">{$header.status}</a></th>
     {/foreach}
   </tr>
   {foreach from=$casesSummary.rows item=row key=caseType}
    <tr>
    <th><strong>{$caseType}</strong></th>
    {foreach from=$casesSummary.headers item=header}
+    {assign var="caseStatus" value=$header.status}
     <td class="label">
-    {if $row.$header}
-    <a href="{$row.$header.url}">{$row.$header.count}</a>
+    {if $row.$caseStatus}
+    <a href="{$row.$caseStatus.url}">{$row.$caseStatus.count}</a>
     {else}
      0
     {/if}

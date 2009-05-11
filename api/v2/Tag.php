@@ -66,6 +66,9 @@ function civicrm_tag_create( &$params )
     
     require_once 'CRM/Core/BAO/Tag.php';
     $ids = array( 'tag' => CRM_Utils_Array::value( 'tag', $params ) );
+    if ( CRM_Utils_Array::value( 'tag', $params ) ) {
+        $ids['tag'] = $params['tag'];
+    }
     $tagBAO = CRM_Core_BAO_Tag::add($params, $ids);
     
     if ( is_a( $tagBAO, 'CRM_Core_Error' ) ) {

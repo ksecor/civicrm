@@ -12,6 +12,12 @@
 		<td>{$form.last_name.label}<br />{$form.last_name.html}</td>
 		<td>{$form.suffix_id.label}<br />{$form.suffix_id.html}</td>
 	</tr>
+    <tr>
+        <td colspan=2>{$form.gender_id.label}<br />{$form.gender_id.html} &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('gender_id', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)</td>
+		<td colspan=2>{$form.birth_date.label}<br />{$form.birth_date.html}&nbsp;            
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_opencase_1}
+        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear trigger=trigger_opencase_1 }</td>
+    </tr>
 	<tr>
         <td colspan="2">{$form.location.1.phone.1.phone.label}<br />
             {$form.location.1.location_type_id.html}&nbsp;{$form.location.1.phone.1.phone_type_id.html}<br />{$form.location.1.phone.1.phone.html}

@@ -2,7 +2,8 @@
     {include file="CRM/Case/Page/ConfigureError.tpl"}
 {else}
 
-    {capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&atype=`$openCaseId`&context=case"}{/capture}
+    {capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&context=case"}{/capture}
+    {capture assign=myCaseURL}{crmURL p="civicrm/case" q="reset=1&cid=`$contactId`&all=0"}{/capture}
 
     {if $action eq 1 or $action eq 2 or $action eq 8 or $action eq 32768 } {* add, update, delete, restore*}            
         {include file="CRM/Case/Form/Case.tpl"}
@@ -16,9 +17,14 @@
          {if $permission EQ 'edit'}{ts 1=$newCaseURL}Click <a href='%1'>New Case</a> to add a case record for this contact.{/ts}{/if}
     </div>
 
-    {if $action eq 16 and $permission EQ 'edit'}
+    {if $action eq 16} 
+      {if $permission EQ 'edit'}
         <div class="action-link">
         <a accesskey="N" href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case{/ts}</span></a>
+        </div>
+      {/if}
+        <div class="action-link">
+        <a accesskey="M" href="{$myCaseURL}" class="button"><span>&raquo; {ts}My Cases{/ts}</span></a>
         </div>
         <br /><br />
     {/if}

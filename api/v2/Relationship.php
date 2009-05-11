@@ -301,3 +301,31 @@ function civicrm_contact_relationship_get( $contact_a, $contact_b = null, $relat
     }
 }
 
+/**
+ * Function to get all relationship type
+ * retruns  An array of Relationship_type
+ * * @access  public
+ */
+function civicrm_relationship_types_get( $params = null ) 
+{
+    _civicrm_initialize();
+    require_once 'CRM/Contact/DAO/RelationshipType.php';
+    $relationshipTypes = array();
+    $relationshipType  = array();
+    $relationType      = & new CRM_Contact_DAO_RelationshipType();
+    if ( ! empty( $params ) ) {
+        $properties = array_keys( $relationType->fields() );
+        foreach ($properties as $name) {
+            if ( array_key_exists( $name, $params ) ) {
+                $relationType->$name = $params[$name];
+            }
+        }
+    }
+    $relationType->find();
+    while( $relationType->fetch() ) {
+        _civicrm_object_to_array( clone($relationType), $relationshipType );
+        $relationshipTypes[] = $relationshipType; 
+    }
+    return $relationshipTypes;
+}
+

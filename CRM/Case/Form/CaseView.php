@@ -45,6 +45,13 @@ require_once 'CRM/Case/BAO/Case.php';
  */
 class CRM_Case_Form_CaseView extends CRM_Core_Form
 {
+    /**
+     * mycase or all 
+     *
+     * @var boolean
+     */
+    public $_all = 0;
+    
     /**  
      * Function to set variables up before form is built  
      *                                                            
@@ -55,7 +62,8 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
     {
         $this->_contactID = $this->get('cid');
         $this->_caseID    = $this->get('id');
-
+        $this->_all       = CRM_Utils_Request::retrieve( 'all' , 'Boolean', $this );
+        
         $this->assign( 'caseID', $this->_caseID );
         $this->assign( 'contactID', $this->_contactID );
 
@@ -169,6 +177,9 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                 unset( $caseRoles[$key] ) ;
             }
         }
+        
+        //also add client as role. CRM-4438
+        $caseRoles['client'] = CRM_Case_BAO_Case::getcontactNames( $this->_caseID );
 
         $this->assign( 'caseRoles', $caseRoles );
         
@@ -228,7 +239,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                       
         // user context
         $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                      "reset=1&action=view&cid={$this->_contactID}&id={$this->_caseID}&show=1" );
+                                      "reset=1&action=view&cid={$this->_contactID}&id={$this->_caseID}&show=1&all={$this->_all}" );
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $url );
 

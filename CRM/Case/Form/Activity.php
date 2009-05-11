@@ -172,6 +172,17 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             $this->_defaults['due_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
         }
+        
+        //avoid default current date to actual date.CRM-4438
+        $activityDate = null;
+        if ( $this->_activityId ) { 
+            $activityDate = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $this->_activityId, 'activity_date_time' );
+        } 
+        
+        if ( !$activityDate ) {
+            $this->_defaults['activity_date_time'] = array( );
+        }
+        
         return $this->_defaults;
     }
     
@@ -181,7 +192,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->_fields['activity_date_time']['label']    = ts('Actual Date'); 
         $this->_fields['activity_date_time']['required'] = false;
         $this->_fields['source_contact_id']['label']     = ts('Reported By'); 
-            
+        $this->_fields['status_id']['attributes']        =  array( '' => ts('- select -')) + CRM_Core_PseudoConstant::activityStatus( ); 
+    
         if ( $this->_caseType ) {
             $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
             $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes', true );
@@ -213,6 +225,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
         
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedAndGlobalContacts( $this->_caseId );
+        //add case client in send a copy selector.CRM-4438.
+        $this->_relatedContacts[] = CRM_Case_BAO_Case::getcontactNames( $this->_caseId );
+        
         if ( ! empty($this->_relatedContacts) ) {
             $checkBoxes = array( );
             foreach ( $this->_relatedContacts as $id => $row ) {
@@ -286,12 +301,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( $parentId = CRM_Utils_Array::value( 'parent_id', $this->_defaults ) ) {
             $params['parent_id'] = $parentId;
         }
-
-        $params['now'] = date("YmdhisA");
-
-        if( !CRM_Utils_Array::value( 'activity_date_time', $params ) ) {
-            $params['activity_date_time'] = $params['now'];
-        } 
+        
         // required for status msg
         $recordStatus = 'created';
 

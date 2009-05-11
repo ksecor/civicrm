@@ -199,7 +199,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('Manage Case'),
                                                                    'url'      => 'civicrm/contact/view/case',
-                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=case',
+                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=case&all=%%all%%',
                                                                    'title'    => ts('Manage Case'),
                                                                    ),
                                   CRM_Core_Action::DELETE => array(
@@ -273,7 +273,8 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                $this->_additionalClause );
          // process the result of the query
          $rows = array( );
-         
+         $all = CRM_Utils_Request::retrieve( 'all' , 'Boolean', CRM_Core_DAO::$_nullObject );
+
          // check is the user has view/edit signer permission
          $permission = CRM_Core_Permission::VIEW;
          if ( CRM_Core_Permission::check( 'edit cases' ) ) {
@@ -305,7 +306,8 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
              $row['action']   = CRM_Core_Action::formLink( self::links( $isDeleted ), $mask ,
                                                            array( 'id'  => $result->case_id,
                                                                   'cid' => $result->contact_id,
-                                                                  'cxt' => $this->_context ) );
+                                                                  'cxt' => $this->_context,
+                                                                  'all' => $all ) );
              
              require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
              $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );

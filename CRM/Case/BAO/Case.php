@@ -379,20 +379,28 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public
      * 
      */
-    static function getcontactNames( $caseId ) 
+     static function getcontactNames( $caseId ) 
     {
         $queryParam = array();
-        $query = "SELECT contact_a.sort_name 
+        $query = "
+                  SELECT contact_a.sort_name name, contact_a.display_name as display_name, contact_a.id cid, ce.email as email, cp.phone as phone
                   FROM civicrm_contact contact_a 
-                  LEFT JOIN civicrm_case_contact 
-                         ON civicrm_case_contact.contact_id = contact_a.id
+                  LEFT JOIN civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id
+                  LEFT JOIN civicrm_email ce ON ( ce.contact_id = contact_a.id AND ce.is_primary = 1)
+                  LEFT JOIN civicrm_phone cp ON ( cp.contact_id = contact_a.id AND cp.is_primary = 1)
                   WHERE civicrm_case_contact.case_id = {$caseId}";
-        $dao = CRM_Core_DAO::executeQuery($query,$queryParam);
-        $contactNames = array();
-        while ( $dao->fetch() ) {
-            $contactNames[] =  $dao->sort_name;
-        }
-        return $contactNames;
+
+            $dao = CRM_Core_DAO::executeQuery($query,$queryParam);
+            $contactNames = array();
+            while ( $dao->fetch() ) {
+                $contactNames['contact_id']   =  $dao->cid;
+                $contactNames['sort_name']    =  $dao->name;
+                $contactNames['display_name'] =  $dao->display_name;
+                $contactNames['email']        =  $dao->email;
+                $contactNames['phone']        =  $dao->phone;
+                $contactNames['role']         =  ts('Client');
+            }
+            return $contactNames;
     }
 
     /* * Retrieve case_id by contact_id
@@ -543,8 +551,10 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     function getCases( $allCases = true, $userID = null, $type = 'upcoming' )
     {
         $condition = null;
+        $all = 1;
         if ( !$allCases ) {
             $condition = " AND case_relationship.contact_id_b = {$userID}";
+            $all = 0;
         }
 
         $condition .= " 
@@ -601,7 +611,8 @@ AND civicrm_case.is_deleted     = 0";
                         = CRM_Core_Action::formLink( $actions, $mask,
                                                      array( 'id'  => $result->case_id,
                                                             'cid' => $result->contact_id,
-                                                            'cxt' => 'dashboard' ) );
+                                                            'cxt' => 'dashboard',
+                                                            'all' => $all ) );
                 }
             }
         }
@@ -621,8 +632,12 @@ AND civicrm_case.is_deleted     = 0";
         $caseTypes    = array_flip( $caseTypes );  
      
         // get statuses as headers for the table
-        $caseSummary['headers'] = $caseStatuses;
-        
+         $url =  CRM_Utils_System::url( 'civicrm/case/search',"reset=1&force=1&all=1&status=" ) ;
+         foreach( $caseStatuses as $key => $name ) {
+             $caseSummary['headers'][$key]['status'] = $name; 
+             $caseSummary['headers'][$key]['url']    = $url.$key; 
+         }
+               
         // build rows with actual data
         $rows = array();
         $myGroupByClause = $mySelectClause = $myCaseFromClause = $myCaseWhereClause = '';
@@ -703,12 +718,12 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $values = array( );
         while ( $dao->fetch( ) ) {
             $rid = $dao->civicrm_relationship_id;
-            $values[$rid]['cid']        = $dao->civicrm_contact_id;
-            $values[$rid]['relation']   = $dao->relation;
-            $values[$rid]['name']       = $dao->sort_name;
-            $values[$rid]['email']      = $dao->email;
-            $values[$rid]['phone']      = $dao->phone;
-            $values[$rid]['relation_type']   = $dao->relation_type;
+            $values[$rid]['cid']           = $dao->civicrm_contact_id;
+            $values[$rid]['relation']      = $dao->relation;
+            $values[$rid]['name']          = $dao->sort_name;
+            $values[$rid]['email']         = $dao->email;
+            $values[$rid]['phone']         = $dao->phone;
+            $values[$rid]['relation_type'] = $dao->relation_type;
         }
         
         $dao->free( );
@@ -900,7 +915,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 FROM civicrm_relationship cr 
 LEFT JOIN civicrm_relationship_type crt ON crt.id = cr.relationship_type_id 
 LEFT JOIN civicrm_contact cc ON cc.id = cr.contact_id_b 
-LEFT JOIN civicrm_email   ce ON ce.contact_id = cc.id 
+LEFT JOIN civicrm_email   ce ON ce.contact_id = cc.id
 WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         
         $params = array( 1 => array( $caseID, 'Integer' ) );

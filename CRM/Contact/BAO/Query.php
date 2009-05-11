@@ -3124,7 +3124,8 @@ WHERE  id IN ( $groupIDs )
         $select = "
 SELECT COUNT( civicrm_contribution.total_amount ) as total_count,
        SUM(   civicrm_contribution.total_amount ) as total_amount,
-       AVG(   civicrm_contribution.total_amount ) as total_avg";
+       AVG(   civicrm_contribution.total_amount ) as total_avg,
+       currency                                   as currency";
 
         $additionalWhere = "civicrm_contribution.cancel_date IS NULL";
         if ( ! empty( $where ) ) {
@@ -3137,21 +3138,32 @@ SELECT COUNT( civicrm_contribution.total_amount ) as total_count,
         $summary['total'] = array( );
         $summary['total']['count'] = $summary['total']['amount'] = $summary['total']['avg'] = "n/a";
 
-        $query  = "$select $from $newWhere";
+        $query  = "$select $from $newWhere GROUP BY currency";
         $params = array( );
 
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-        if ( $dao->fetch( ) ) {
-            $summary['total']['count']  = $dao->total_count;
-            $summary['total']['amount'] = $dao->total_amount;
-            $summary['total']['avg']    = $dao->total_avg;
+
+        require_once 'CRM/Utils/Money.php';
+        $summary['total']['count'] = 0;
+        $summary['total']['amount'] = $summary['total']['avg'] = array( );
+        while ( $dao->fetch( ) ) {
+            $summary['total']['count']    += $dao->total_count;
+            $summary['total']['amount'][]  = CRM_Utils_Money::format( $dao->total_amount, $dao->currency );
+            $summary['total']['avg'][]     = CRM_Utils_Money::format( $dao->total_avg   , $dao->currency );
+        }
+        if ( ! empty( $summary['total']['amount'] ) ) {
+            $summary['total']['amount'] = implode( ',&nbsp;', $summary['total']['amount'] );
+            $summary['total']['avg']    = implode( ',&nbsp;', $summary['total']['avg']    );
+        } else {
+            $summary['total']['amount'] = $summary['total']['avg'] = 0;
         }
         
         // hack $select
         $select = "
 SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
        SUM(   civicrm_contribution.total_amount ) as cancel_amount,
-       AVG(   civicrm_contribution.total_amount ) as cancel_avg";
+       AVG(   civicrm_contribution.total_amount ) as cancel_avg,
+       currency                                   as currency";
 
         $additionalWhere = "civicrm_contribution.cancel_date IS NOT NULL";
         if ( ! empty( $where ) ) {
@@ -3160,15 +3172,26 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             $newWhere = " AND $additionalWhere";
         }
 
-        $summary['cancel'] = array( );
-        $summary['cancel']['count'] = $summary['cancel']['amount'] = $summary['cancel']['avg'] = "n/a";
-
-        $query = "$select $from $newWhere";
+        $query = "$select $from $newWhere GROUP BY currency";
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-        if ( $dao->fetch( ) ) {
-            $summary['cancel']['count']  = $dao->cancel_count;
-            $summary['cancel']['amount'] = $dao->cancel_amount;
-            $summary['cancel']['avg']    = $dao->cancel_avg;
+
+        if ($dao->N <= 1 ) {
+            if ( $dao->fetch( ) ) {
+                $summary['cancel']['count']  = $dao->cancel_count;
+                $summary['cancel']['amount'] = $dao->cancel_amount;
+                $summary['cancel']['avg']    = $dao->cancel_avg;
+            }
+        } else {
+            require_once 'CRM/Utils/Money.php';
+            $summary['cancel']['count']  = 0;
+            $summary['cancel']['amount'] = $summary['cancel']['avg'] = array( );
+            while ( $dao->fetch( ) ) {
+                $summary['cancel']['count']    += $dao->cancel_count;
+                $summary['cancel']['amount'][]  = CRM_Utils_Money::format( $dao->cancel_amount, $dao->currency );
+                $summary['cancel']['avg'][]     = CRM_Utils_Money::format( $dao->cancel_avg   , $dao->currency );
+            }
+            $summary['cancel']['amount'] = implode( ',&nbsp;', $summary['cancel']['amount'] );
+            $summary['cancel']['avg']    = implode( ',&nbsp;', $summary['cancel']['avg']    );
         }
 
         return $summary;

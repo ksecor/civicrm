@@ -13,6 +13,7 @@
 
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.chainedSelects.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.treeview.min.js"></script>
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.bgiframe.pack.js"></script>
 
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.contextMenu.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tableHeader.js"></script>

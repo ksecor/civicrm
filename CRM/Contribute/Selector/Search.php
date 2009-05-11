@@ -86,7 +86,8 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'is_test',
                                  'contribution_recur_id',
                                  'receipt_date',
-                                 'membership_id'
+                                 'membership_id',
+                                 'currency',
                                  );
 
     /** 
@@ -329,6 +330,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             
             $rows[] = $row;
         }
+
         return $rows;
     }
     

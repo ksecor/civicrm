@@ -1457,7 +1457,9 @@ SELECT $select
             break;
 
         case 'Link': 
-            $retValue = CRM_Utils_System::formatWikiURL( $value );
+            if ( $value ) { 
+                $retValue = CRM_Utils_System::formatWikiURL( $value );
+            }
             break;	  
 
         case 'File':
@@ -1496,8 +1498,11 @@ SELECT $select
             //form custom data for multiple-valued custom data
             switch ( $htmlType ) {
             case 'Multi-Select Country':	 
-            case 'Select Country':	 
-                $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+            case 'Select Country':
+                $customData = $value;
+            	if ( !is_array( $value ) ) {
+            	    $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+            	}                    
                 $query = "
                     SELECT id as value, name as label  
                     FROM civicrm_country";
@@ -1506,7 +1511,10 @@ SELECT $select
 
             case 'Select State/Province':  
             case 'Multi-Select State/Province':
-                $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+                $customData = $value;
+            	if ( !is_array( $value ) ) {
+            	    $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+            	}
                 $query = "
                     SELECT id as value, name as label  
                     FROM civicrm_state_province";
