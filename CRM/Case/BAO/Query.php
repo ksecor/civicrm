@@ -405,6 +405,14 @@ class CRM_Case_BAO_Query
             $query->_tables['civicrm_case']  = $query->_whereTables['civicrm_case']  = 1;
             $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
             return;
+            // adding where clause for case_role   
+        case 'case_role':
+            $query->_where[$grouping][]             = CRM_Contact_BAO_Query::buildClause( "case_relation_type.label_b_a", $op, $value, 'String' );
+            $query->_qill[$grouping][]              = ts ( "Role in Case  %1 '%2'", array( 1 => $op, 2 => $value ) );
+            $query->_tables['case_relation_type']   = $query->_whereTables['case_relationship_type'] = 1;
+            $query->_tables['civicrm_case']         = $query->_whereTables['civicrm_case']           = 1;
+            $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact']   = 1;
+            return; 
         }
     }
 
