@@ -75,14 +75,6 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     static $_properties = array( 'contact_id', 'contact_type', 'display_name' );
 
     /**
-     * This caches the content for the display system.
-     *
-     * @var string
-     * @access protected
-     */
-    protected $_contact;
-
-    /**
      * formValues is the array returned by exportValues called on
      * the HTML_QuickForm_Controller for that page.
      *
@@ -140,7 +132,8 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                           $returnProperties = null,
                           $action = CRM_Core_Action::NONE,
                           $includeContactIds = false,
-                          $searchChildGroups = true ) {
+                          $searchChildGroups = true,
+                          $searchContext = 'search' ) {
         $this->_customSearchClass = $customSearchClass;
         $this->_formValues        = $formValues;
         $this->_includeContactIds = $includeContactIds;

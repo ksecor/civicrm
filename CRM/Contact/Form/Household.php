@@ -94,14 +94,19 @@ class CRM_Contact_Form_Household
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Household');
             $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy', array($options));
+            $viewUrls = array( );
+            $urls     = array( );
             foreach ( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
+                '" target="_blank">' . $displayName . '</a>';
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                     '">' . $displayName . '</a>';
             }
             if (!empty($dupeIDs)) {
+                $viewUrl = implode( ', ',  $viewUrls );
                 $url = implode( ', ',  $urls );
-                $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1, or click Save Matching Contact button below.', array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can edit them here: %1, or click Save Matching Contact button below.' ) );
+                $errors['_qf_default'] = ts( 'One matching contact was found.%3If you need to verify if this is the same household, click here - %1 - to VIEW the existing contact in a new tab.%3If you know the record you are creating is a duplicate, click here - %2 - to EDIT the original record instead.%3If you are sure this is not a duplicate, click the Save Matching Contact button below.', array( 1 => $viewUrl, 2 => $url, 3 => '<br />', 'count' => count( $urls ), 'plural' => '%count matching contacts were found.%3If you need to verify whether one of these is the same household, click here - %1 - to VIEW the existing contact in a new tab.%3If you know the record you are creating is a duplicate, click here - %2 - to EDIT the original record instead.%3If you are sure this is not a duplicate, click the Save Matching Contact button below.' ) );
                 $template =& CRM_Core_Smarty::singleton( );
                 $template->assign( 'isDuplicate', 1 );
             } else if ( CRM_Utils_Array::value( '_qf_Edit_refresh_dedupe', $fields ) ) {

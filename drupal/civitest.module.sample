@@ -515,3 +515,34 @@ function civitest_civicrm_buildForm( $formName, &$form ) {
         $form->setDefaults( $defaults );
     }
 }
+
+/**
+ * buildForm hook that would allow contacts to renew only existing memberships.
+ */
+function civitest_civicrm_buildForm( $formName, &$form ) {
+    if ( $formName == 'CRM_Contribute_Form_Contribution_Main' ) {
+        if ( is_array( $form->_membershipBlock ) ) {
+            //get logged in contact
+            $session   = & CRM_Core_Session::singleton();
+            $contactID = $session->get('userID');
+            
+            //check for existing membership
+            $query = "SELECT membership_type_id 
+                      FROM civicrm_membership 
+                      WHERE membership_type_id IN ( {$form->_membershipBlock['membership_types']} )
+                         AND civicrm_membership.contact_id = {$contactID}";
+            $dao = CRM_Core_DAO::executeQuery( $query );
+
+            $membershipTypeID = null;
+            while ( $dao->fetch( ) ) {
+                $membershipTypeID = $dao->membership_type_id;
+            }
+
+            if ( $membershipTypeID ) {
+                $form->freeze(array('selectMembership'));    
+                $defaults['selectMembership'] = $membershipTypeID;
+                $form->setDefaults( $defaults );
+            }    
+        }
+    }
+}

@@ -404,7 +404,7 @@ SELECT count(*)
             die( "Cannot connect to UF db via $dsn, " . $db_uf->getMessage( ) ); 
         } 
         
-        if ( !$isDrupal OR !$isJoomla ) { 
+        if ( !$isDrupal && !$isJoomla ) { 
             die( "Unknown user framework" ); 
         }
         

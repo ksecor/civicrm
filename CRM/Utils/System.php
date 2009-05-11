@@ -704,7 +704,7 @@ class CRM_Utils_System {
     static function checkURL( $url, $addCookie = false ) {
         CRM_Core_Error::ignoreException( );
         require_once 'HTTP/Request.php';
-        $params = array( 'method' => 'HEAD' );
+        $params = array( 'method' => 'GET' );
         $request =& new HTTP_Request( $url, $params );
         if ( $addCookie ) {
             foreach ( $_COOKIE as $name => $value ) {
@@ -818,7 +818,7 @@ class CRM_Utils_System {
         return $headers;
     }
 
-    static function redirectToSSL( $abort = true ) {
+    static function redirectToSSL( $abort = false ) {
         $config = CRM_Core_Config::singleton( );
         if ( $config->enableSSL             &&
              ( ! isset( $_SERVER['HTTPS'] ) ||

@@ -235,14 +235,18 @@ class CRM_Contact_Form_Individual {
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array($options));
             if ( $ids ) {
-                $urls = array( );
+                $viewUrls = array( );
+                $urls     = array( );
                 foreach ($ids as $id) {
                     $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                    $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
+                    '" target="_blank">' . $displayName . '</a>';
                     $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
-                        '">' . $displayName . '</a>';
+                    '">' . $displayName . '</a>';
                 }
-                $url = implode( ', ',  $urls );
-                $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1, or click Save Matching Contact button below.', array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can edit them here: %1, or click Save Matching Contact button below.' ) );
+                $viewUrl = implode( ', ',  $viewUrls );
+                $url     = implode( ', ',  $urls );
+                $errors['_qf_default'] = ts( 'One matching contact was found.%3If you need to verify if this is the same person, click here - %1 - to VIEW the existing contact in a new tab.%3If you know the record you are creating is a duplicate, click here - %2 - to EDIT the original record instead.%3If you are sure this is not a duplicate, click the Save Matching Contact button below.', array( 1 => $viewUrl, 2 => $url, 3 => '<br />', 'count' => count( $urls ), 'plural' => '%count matching contacts were found.%3If you need to verify whether one of these is the same person, click here - %1 - to VIEW the existing contact in a new tab.%3If you know the record you are creating is a duplicate, click here - %2 - to EDIT the original record instead.%3If you are sure this is not a duplicate, click the Save Matching Contact button below.' ) );
 
                 // let smarty know that there are duplicates
                 $template =& CRM_Core_Smarty::singleton( );

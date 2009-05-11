@@ -52,6 +52,10 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
      */
     function setDefaultValues( ) {
         $defaults = parent::setDefaultValues( );
+
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $defaults['object_type'] = 1;
+        }
         
         require_once 'CRM/Core/ShowHideBlocks.php';
         $showHide =& new CRM_Core_ShowHideBlocks( );

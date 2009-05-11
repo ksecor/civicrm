@@ -100,8 +100,8 @@ cj("input,#priceset select,#priceset").each(function () {
       if ( ! price[ele] ) {
 	price[ele] = 0;
       }
-    var selectedText = cj("#" + ele + " :selected").text().split(symbol);
-    var addprice     = parseFloat( selectedText['1'] );
+      eval( 'var selectedText = ' + cj(this).attr('price') );
+      var addprice = parseFloat( cj(selectedText).attr( cj(this).val( ) ) );
     if ( addprice ) {
 	totalfee   = parseFloat(totalfee) + addprice - parseFloat(price[ele]);
 	price[ele] = addprice;
@@ -113,8 +113,8 @@ cj("input,#priceset select,#priceset").each(function () {
       if ( ! price[ele] ) {
 	price[ele] = 0;
       }
-      var selectedText = cj("#" + ele + " :selected").text().split(symbol);
-      var addprice     = parseFloat( selectedText['1'] );
+      eval( 'var selectedText = ' + cj(this).attr('price') );
+      var addprice = parseFloat( cj(selectedText).attr( cj(this).val( ) ) );
       
       if ( addprice ) {
 	totalfee   = parseFloat(totalfee) + addprice - parseFloat(price[ele]);

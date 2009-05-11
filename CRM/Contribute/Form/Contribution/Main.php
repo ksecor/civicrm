@@ -84,9 +84,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->assign( 'footer_text', $this->_values['footer_text'] );
         }
 
-        // to process Custom data that are appended to URL
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        CRM_Core_BAO_CustomGroup::extractGetParams( $this, 'Contribution' );
     }
 
     function setDefaultValues( ) 
@@ -213,6 +210,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         } else if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
             //set default to one time contribution.
             $this->_defaults['is_pledge'] = 0;  
+        }
+
+        // to process Custom data that are appended to URL
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $getDefaults = CRM_Core_BAO_CustomGroup::extractGetParams( $this, "'Contact', 'Individual', 'Contribution'" );
+        if ( ! empty( $getDefaults ) ) {
+            $this->_defaults = array_merge( $this->_defaults, $getDefaults );
         }
 
         // now fix all state country selectors

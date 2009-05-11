@@ -1154,11 +1154,11 @@ SELECT $select
         }
         
         $groupTree    =& CRM_Core_BAO_CustomGroup::getTree( $type, $form );
-        $customFields =& CRM_Core_BAO_CustomField::getFields( $type );
+
 
         $customValue  = array();
         $htmlType     = array('CheckBox','Multi-Select','Select','Radio');
-
+        
         foreach ($groupTree as $group) {
             if ( ! isset( $group['fields'] ) ) {
                 continue;
@@ -1169,20 +1169,20 @@ SELECT $select
                                                       $form );
 
                 if ( $value ) {
-                    if ( ! in_array( $customFields[$key]['html_type'], $htmlType ) ||
-                         $customFields[$key]['data_type'] =='Boolean' ) {
-                        $valid = CRM_Core_BAO_CustomValue::typecheck( $customFields[$key]['data_type'], $value);
+                    if ( ! in_array( $field['html_type'], $htmlType ) ||
+                         $field['data_type'] =='Boolean' ) {
+                        $valid = CRM_Core_BAO_CustomValue::typecheck( $field['data_type'], $value);
                     }
-                    if ( $customFields[$key]['html_type'] == 'CheckBox' ||
-                         $customFields[$key]['html_type'] =='Multi-Select' ) {
+                    if ( $field['html_type'] == 'CheckBox' ||
+                         $field['html_type'] =='Multi-Select' ) {
                         $value = str_replace("|",",",$value);
                         $mulValues = explode( ',' , $value );
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $key, true );
                         $val = array (); 
                         foreach( $mulValues as $v1 ) {
-                            foreach($customOption as $customValue => $customLabel) {
-                                if ( strtolower(trim($customLabel)) == strtolower(trim($v1)) ) {
-                                    $val[$customValue] = 1;
+                            foreach($customOption as $coID => $coValue) {
+                                if ( strtolower(trim($coValue['label'])) == strtolower(trim($v1)) ) {
+                                    $val[$coValue['value']] = 1;
                                 }
                             }
                         }
@@ -1192,17 +1192,17 @@ SELECT $select
                         } else {
                             $value = null;
                         }
-                    } else if ($customFields[$key]['html_type'] == 'Select' || 
-                               ( $customFields[$key]['html_type'] =='Radio' &&
-                                 $customFields[$key]['data_type'] !='Boolean' ) ) {
+                    } else if ($field['html_type'] == 'Select' || 
+                               ( $field['html_type'] =='Radio' &&
+                                 $field['data_type'] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($key, true );
-                        foreach($customOption as $customValue => $customLabel) {
-                            if ( strtolower(trim($customLabel)) == strtolower(trim($value)) ) {
-                                $value = $customValue;
+                        foreach($customOption as $customID => $coValue) {
+                            if ( strtolower(trim($coValue['label'])) == strtolower(trim($value)) ) {
+                                $value = $coValue['value'];
                                 $valid = true; 
                             }
                         }
-                    } else if ( $customFields[$key]['data_type'] == 'Date' ) {
+                    } else if ( $field['data_type'] == 'Date' ) {
                         require_once 'CRM/Utils/Date.php';
                         if( is_numeric( $value ) ){
                             $value = CRM_Utils_Date::unformat( $value , null );
@@ -1217,9 +1217,8 @@ SELECT $select
                 }
             }
         }
-
-        $form->set( 'customGetValues', $customValue );
-        $form->set( 'groupTree', $groupTree );
+        
+        return $customValue;
     }
 
     /**

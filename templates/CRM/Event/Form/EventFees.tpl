@@ -102,7 +102,7 @@
            <td class ='html-adjust' colspan=2>
            <fieldset><legend>{ts}Payment Information{/ts}</legend>
              <dl id="recordContribution" class="html-adjust">	        
-                <dt class="label">{$form.contribution_type_id.label}</dt>
+                <dt class="label">{$form.contribution_type_id.label}<span class="marker"> *</span></dt>
                 <dd>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
                 <dt class="label" >{$form.receive_date.label}</dt><dd>{$form.receive_date.html}
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership}

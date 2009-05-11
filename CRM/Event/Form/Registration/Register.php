@@ -239,6 +239,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 //         $this->_defaults['cvv2']                 = '000';
 //         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2010', 'M' => '05' );
         
+        // to process Custom data that are appended to URL
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $getDefaults = CRM_Core_BAO_CustomGroup::extractGetParams( $this, "'Contact', 'Individual', 'Contribution'" );
+        if ( ! empty( $getDefaults ) ) {
+            $this->_defaults = array_merge( $this->_defaults, $getDefaults );
+        }
+
         return $this->_defaults;
     }
 

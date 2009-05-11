@@ -431,7 +431,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
             }
         }
-        
+
         $relationship = false;
         $createNewContact = true;
         // Support Match and Update Via Contact ID
@@ -543,11 +543,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //fixed CRM-4148
         //now we create new contact in update/fill mode also.
         if ( $createNewContact ) {
-            $formatted['individual_prefix'] = CRM_Core_OptionGroup::getValue( 'individual_prefix', (string)$formatted['prefix'] );
-            $formatted['individual_suffix'] = CRM_Core_OptionGroup::getValue( 'individual_suffix', (string)$formatted['suffix'] );
-            $formatted['gender']            = CRM_Core_OptionGroup::getValue( 'gender', (string)$formatted['gender'] );
-            $formatted['greeting_type']     = CRM_Core_OptionGroup::getValue( 'greeting_type', (string)$formatted['greeting_type'] );
             
+            //CRM-4430, don't carry if not submitted.
+            foreach ( array( 'prefix', 'suffix',  'gender', 'greeting_type' ) as $name ) {
+                if ( array_key_exists( $name,  $formatted ) ) {
+                    if ( in_array( $name, array( 'prefix', 'suffix' ) ) ) {
+                        $formattedName = "individual_{$name}";
+                        $formatted[$formattedName] = CRM_Core_OptionGroup::getValue( $formattedName, (string)$formatted[$name] );
+                    } else {
+                        $formatted[$name] = CRM_Core_OptionGroup::getValue( $name, (string)$formatted[$name] );
+                    }
+                }
+            }
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
         }
         

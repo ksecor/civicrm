@@ -819,7 +819,12 @@ WHERE  v.option_group_id = g.id
     function getTemplateFileName() 
     {
         if ( $this->_eventId ) {
-            $templateFile = "CRM/Event/Form/Registration/{$this->_eventId}/{$this->_name}.tpl";
+            $templateName = $this->_name;
+            if ( substr( $templateName, 0, 12 ) == 'Participant_' ) {
+                $templateName = 'AdditionalParticipant';
+            }
+                
+            $templateFile = "CRM/Event/Form/Registration/{$this->_eventId}/{$templateName}.tpl";
             $template =& CRM_Core_Form::getTemplate( );
             if ( $template->template_exists( $templateFile ) ) {
                 return $templateFile;

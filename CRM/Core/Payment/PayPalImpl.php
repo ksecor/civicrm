@@ -404,7 +404,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
 
         $uri = substr( $uri, 1 );
         $url = $this->_paymentProcessor['url_site'];
-        $sub = empty( $params['is_recur'] ) ? 'xclick' : 'subscriptions';
+        $sub = empty( $params['is_recur'] ) ? 'cgi-bin/webscr' : 'subscriptions';
         $paypalURL = "{$url}{$sub}?$uri";
 
         CRM_Utils_System::redirect( $paypalURL );

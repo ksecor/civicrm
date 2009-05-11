@@ -67,6 +67,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             //$defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
             $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_'.$defaults['relationship_direction'];
         }
+        
+        $config =& CRM_Core_Config::singleton( );
         //setting default fixed_period_start_day & fixed_period_rollover_day
         $periods = array('fixed_period_start_day',  'fixed_period_rollover_day');
         foreach ( $periods as $per ) {
@@ -74,7 +76,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $dat = $defaults[$per];
                 $dat = ( $dat < 999) ? '0'.$dat : $dat; 
                 $defaults[$per] = array();
-                $defaults[$per]['M'] = substr($dat, 0, 2);
+                $defaults[$per][$config->dateformatMonthVar] = substr($dat, 0, 2);
                 $defaults[$per]['d'] = substr($dat, 2, 3);
             }
         }
@@ -265,11 +267,12 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $errors['period_type'] = ts('Period type should be Rolling when duration unit is Day');
             }
             
-            if( ( $params['period_type']   == 'fixed' ) && 
+            $config =& CRM_Core_Config::singleton( );
+            if ( ( $params['period_type']   == 'fixed' ) && 
                 ( $params['duration_unit'] == 'year'  ) ) {
                 $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
                 foreach ( $periods as $period ) {
-                    $month = $params[$period]['M'];
+                    $month = $params[$period][$config->dateformatMonthVar];
                     $date  = $params[$period]['d'];
                     if ( !$month || !$date ) {
                         switch ($period) {
@@ -350,11 +353,12 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ($params['duration_unit'] == 'lifetime' and empty($params['duration_interval'])) {
                 $params['duration_interval'] = 1;
             }
-
+            
+            $config =& CRM_Core_Config::singleton( );
             $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
             foreach ( $periods as $per ) {
-                if ($params[$per]['M'] && $params[$per]['d']) {
-                    $mon = $params[$per]['M'];
+                if ($params[$per][$config->dateformatMonthVar] && $params[$per]['d']) {
+                    $mon = $params[$per][$config->dateformatMonthVar];
                     $dat = $params[$per]['d'];
                     $mon = ( $mon < 9) ? '0'.$mon : $mon; 
                     $dat = ( $dat < 9) ? '0'.$dat : $dat; 
