@@ -106,6 +106,10 @@ class CRM_Report_Form_Walklist extends CRM_Report_Form {
                           'grouping'=> 'location-fields',
                           ),
                    );
+        $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Statistics' ),
+                                                                'type'   => 'checkbox',
+                                                                'default'=> true )
+                                 );
         parent::__construct( );
     }
 
@@ -212,8 +216,12 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
         $this->_orderBy = "ORDER BY " . implode( ', ', $this->_orderBy ) . " ";
     }
 
-    function statistics( ) {
-        $statistics = null;
+    function statistics( &$rows ) {
+        $statistics   = array();
+
+        $statistics[] = array( 'title' => ts('Row(s) Listed'),
+                               'value' => count($rows) );
+
         
         return $statistics;
     }
@@ -253,7 +261,7 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
 
         if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
             $this->assign( 'statistics',
-                           $this->statistics( ) );
+                           $this->statistics( $rows ) );
         }
 
         parent::postProcess( );

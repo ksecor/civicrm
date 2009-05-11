@@ -292,8 +292,11 @@ INNER JOIN civicrm_contact source ON {$this->_aliases['civicrm_activity']}.sourc
         $this->_orderBy = "";
     }
 
-    function statistics( ) {
-        $statistics = null;
+    function statistics( &$rows ) {
+        $statistics = array();
+        
+        $statistics[] = array( 'title' => ts('Row(s) Listed'),
+                               'value' => count($rows) );
         return $statistics;
     }
 
@@ -379,7 +382,7 @@ INNER JOIN civicrm_contact source ON {$this->_aliases['civicrm_activity']}.sourc
 
         if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
             $this->assign( 'statistics',
-                           $this->statistics( ) );
+                           $this->statistics( $rows ) );
         }
 
         parent::postProcess( );
