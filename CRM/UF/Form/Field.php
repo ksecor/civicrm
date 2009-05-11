@@ -93,6 +93,15 @@ class CRM_UF_Form_Field extends CRM_Core_Form
     protected $_hasLocationTypes;
     
     /**
+     * is this profile has searchable field
+     * or is any field having in selector true.
+     *
+     * @var boolean.
+     * @access protected
+     */
+    protected $_hasSearchableORInSelector;
+    
+    /**
      * Function to set variables up before form is built
      *
      * @return void
@@ -154,9 +163,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         // lets add group and tag to this list
         $this->_selectFields['group'] = ts('Group(s)');
         $this->_selectFields['tag'  ] = ts('Tag(s)');
-
+        
+        //CRM-4363 check for in selector or searchable fields.
+        $this->_hasSearchableORInSelector = CRM_Core_BAO_UFField::checkSearchableORInSelector( $this->_gid );
     }
-
+    
     /**
      * Function to actually build the form
      *
@@ -410,8 +421,16 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
         $formName = "document.{$this->_name}";
-      
-        $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), 'onclick="showLabel();"');  
+        
+        $alreadyMixProfile = false;
+        if ( CRM_Core_BAO_UFField::checkProfileType( $this->_gid ) ) {
+            $alreadyMixProfile = true;
+        }
+        $this->assign( 'alreadyMixProfile', $alreadyMixProfile );
+        
+        $attributes = array( 'onclick' => "showLabel();mixProfile();", 'onblur' => 'mixProfile();' );
+        
+        $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), $attributes );  
         $formValues = array();
          
         $formValues = $this->exportValues( );
@@ -480,14 +499,21 @@ class CRM_UF_Form_Field extends CRM_Core_Form
 
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'label'));
         
+        $js = null;
+        if ( $this->_hasSearchableORInSelector ) {
+            $js = array( 'onclick' => "return verify( );" );    
+        }
+        
         // add buttons
         $this->addButtons(array(
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
-                                       'isDefault' => true),
+                                       'isDefault' => true,
+                                       'js'        => $js ),
                                 array ('type'      => 'next',
                                        'name'      => ts('Save and New'),
-                                       'subName'   => 'new' ),
+                                       'subName'   => 'new', 
+                                       'js'        => $js ),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),
                                 )
@@ -554,6 +580,12 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         } else {
             $ufField = CRM_Core_BAO_UFField::add($params,$ids);
             $name = $this->_selectFields[$ufField->field_name];
+            
+            //reset other field is searchable and in selector settings, CRM-4363
+            if ( $this->_hasSearchableORInSelector && 
+                 in_array( $ufField->field_type, array( 'Participant', 'Contribution', 'Membership' ) ) ) {
+                CRM_Core_BAO_UFField::resetInSelectorANDSearchable( $this->_gid );
+            }
             
             $config =& CRM_Core_Config::singleton( );
             $showBestResult = false;

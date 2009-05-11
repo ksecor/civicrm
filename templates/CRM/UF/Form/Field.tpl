@@ -168,18 +168,38 @@ function showHideSeletorSearch()
 function mixProfile( ) {
     var allMixTypes = ["Participant", "Membership", "Contribution"];
     var type = document.forms.Field['field_name[0]'].value;
-    if ( allMixTypes.indexOf( type ) != -1 ) {
+    var alreadyMixProfile = {/literal}{if $alreadyMixProfile}true{else}false{/if}{literal};
+    if ( allMixTypes.indexOf( type ) != -1 || alreadyMixProfile ) {
         if ( document.getElementById("is_searchable").checked ) {
-            document.getElementById("is_searchable").checked = false; 
-            alert('Oops its look like your trying to make this field Searchable. But we do not allow ' 
-                  + type + ' field Searchable in profile.');      
+            document.getElementById("is_searchable").checked = false;
+	    if ( alreadyMixProfile ) {
+                alert('Oops its look like your profile is already a mix profile and you are trying to make this field Searchable. But we do not allow any field Searchable in mix profile.'); 
+           } else {
+                 alert('Oops its look like you are trying to make this field Searchable. But we do not allow ' 
+                       + type + ' field Searchable in profile.'); 
+	   }
         }
         if ( document.getElementById("in_selector").checked ) {
             document.getElementById("in_selector").checked = false;
-            alert('Oops its look like your trying to make this field as Results Column. But we do not allow ' 
-                  + type + ' field as Result column for profile search.');     
+	    if ( alreadyMixProfile ) {
+                alert('Oops its look like your profile is already a mix profile and you are trying to make this field as Results Column. But we do not allow any field as Result column in mix profile.');     
+            } else {
+                 alert('Oops its look like you are trying to make this field as Results Column. But we do not allow ' 
+                       + type + ' field as Result column for profile search.');     
+	    }
         }
     }
+}
+
+function verify( ) {
+    var allMixTypes = ["Participant", "Membership", "Contribution"];
+    var type = document.forms.Field['field_name[0]'].value;
+     if ( allMixTypes.indexOf( type ) != -1 ) {
+         var ok = confirm( "Oops its look like there are some fields from this profile already has been configured for 'Searchable' or 'Results Column' and you are trying to make this profile as mix by adding "+type+" field, But we do not allow mix profile fields as 'Searchable' or 'Results Column'. If you save this field we will going to reset all other fields settings correspond to 'Seachable' and 'Results Column'. Do you want to continue ?" );    
+         if ( !ok ) {
+             return false;
+          }
+     }
 }
 
 </script> 

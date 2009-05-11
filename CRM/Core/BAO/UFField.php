@@ -509,6 +509,48 @@ SELECT ufg.id as id
 
         return true;
     }
-
+    
+    /**
+     * check for searchable or in selector field for given profile.
+     * 
+     *@params int     $profileID profile id.
+     *
+     *@return boolean $result    true/false.
+     */
+    function checkSearchableORInSelector( $profileID ) {
+        $result = false;
+        if ( !$profileID ) {
+            return $result;
+        }
+        
+        $query = "
+SELECT  id 
+  From  civicrm_uf_field 
+ WHERE  (in_selector = 1 OR is_searchable = 1)
+   AND  uf_group_id = {$profileID}";
+        
+        $ufFields = CRM_Core_DAO::executeQuery( $query );
+        while ( $ufFields->fetch( ) ) {
+            $result = true;
+            break;
+        }
+        
+        return $result;
+    }
+    
+    /**
+     *Reset In selector and is seachable values for given $profileID.
+     * 
+     *@params int $profileID profile id.
+     *
+     *@return void.
+     */
+    function resetInSelectorANDSearchable( $profileID ) {
+        if ( !$profileID ) {
+            return;
+        }
+        $query = "UPDATE civicrm_uf_field SET in_selector = 0, is_searchable = 0 WHERE  uf_group_id = {$profileID}";
+        CRM_Core_DAO::executeQuery( $query );
+    }
 }
 
