@@ -194,8 +194,9 @@ function civicrm_event_search( &$params )
         if ( !empty( $defaults ) ) {
             foreach ( $defaults as $key => $val ) {
                 if (! empty($returnCustomProperties ) ) {
+                    $customKey  = explode('_', $key );
                     //show only return properties
-                    if ( in_array( substr( $key, 0, 8 ), $returnCustomProperties ) ) {
+                    if ( in_array( 'custom_'.$customKey['1'], $returnCustomProperties ) ) {
                         $event[$eventDAO->id][$key] = $val;
                     }
                 } else {
