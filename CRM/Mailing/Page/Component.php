@@ -126,6 +126,11 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
         return CRM_Utils_System::currentPath( ) ;
     }
 
+    function run( $args = null, $pageArgs = null, $sort = null )
+    {
+        return parent::run( $args, $pageArgs, "component_type, is_default desc, name" );
+    }
+
 }
 
 
