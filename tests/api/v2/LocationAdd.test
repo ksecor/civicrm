@@ -59,22 +59,23 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $location['error_message'], 'Required fields not found for location location_type' );
     }
 
-    function testAddLocationOrganizationOnlyLocaitonInfo()
-    {
-        $params = array('contact_id'    => $this->_contactID,
-                        'location_type' => 'Work',
-                        'is_primary'    => 1,
-                        'name'          => 'Saint Helier St'
-                        );
-        
-        $location = & civicrm_location_add($params);
-        
-        $match    = array( );
-        $match['address'][0] = array( 'contact_id'             => $this->_contactID,
-                                      'location_type_id'       => 2,
-                                      'is_primary'             => 1 );
-        $this->checkResult( $location['result'], $match );
-    }
+// from v2.0 onward we don't support location add without location blocks.
+//     function testAddLocationOrganizationOnlyLocaitonInfo()
+//     {
+//         $params = array('contact_id'    => $this->_contactID,
+//                         'location_type' => 'Work',
+//                         'is_primary'    => 1,
+//                         'name'          => 'Saint Helier St'
+//                         );
+//        
+//         $location = & civicrm_location_add($params);
+//        
+//         $match    = array( );
+//         $match['address'][0] = array( 'contact_id'             => $this->_contactID,
+//                                       'location_type_id'       => 2,
+//                                       'is_primary'             => 1 );
+//         $this->checkResult( $location['result'], $match );
+//     }
     
 
     function testAddLocationOrganizationWithoutStreetAddress()
