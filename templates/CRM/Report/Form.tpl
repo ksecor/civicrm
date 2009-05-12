@@ -184,13 +184,11 @@
     </script>
 
 {/if} {* NO print section ends *}
-
+</div>
 {if $form.charts.value.0 eq 'pieGraph' OR $form.charts.value.0 eq 'barGraph'}
     {include file="CRM/Report/Form/Layout/Graph.tpl"}
 {else}
    {* search result listing *}
    {include file="CRM/Report/Form/Layout/Table.tpl"}
 {/if}
-
-</div>
 {* special div ends *}
