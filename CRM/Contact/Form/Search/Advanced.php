@@ -143,7 +143,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                 $template = ucfirst( $type );
                 $this->_paneTemplatePath[$type] = "CRM/Contact/Form/Search/Criteria/{$template}.tpl";
             }
-            $allPanes[$name]['template'] = $this->_paneTemplatePath[$type];
         }               
         $this->assign( 'allPanes', $allPanes );
         

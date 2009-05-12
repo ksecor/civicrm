@@ -25,6 +25,21 @@ cj(function() {
     });
   }
 });
+
+cj(document).ready( function() {
+cj('.head').one( 'click', function() {
+    var id  = cj(this).children().attr('id');
+    var url = 'advanced?snippet=1&searchPane=' + id;
+    var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
+    cj('div.'+id).html(loading);
+    cj.ajax({
+        url    : url,
+        success: function(data) { 
+                    cj('div.'+id).html(data);
+                 }
+         });
+   });
+});
 </script>
 {/literal}
 <fieldset>
@@ -43,7 +58,7 @@ cj(function() {
     <div class="accordion ui-accordion ui-widget ui-helper-reset">
       {foreach from=$allPanes key=paneName item=paneValue}
        <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id="{$paneValue.id}"></span><a href="#">{$paneName}</a></h3>
-    {include file=$paneValue.template}
+       <div class="{$paneValue.id}"></div>
     {if $paneValue.open eq 'true'}
         {literal}<script type="text/javascript"> showPane += "{/literal}{$paneValue.id}{literal}"+"','";</script>{/literal}
     {/if}
