@@ -186,12 +186,6 @@ class CRM_Utils_Mail_Incoming {
                                                        array( 1 => $file ) ) );
         }
 
-        require_once 'CRM/Core/Config.php';
-        require_once 'api/v2/Activity.php';
-        require_once 'api/v2/Contact.php';
-        
-        $config =& CRM_Core_Config::singleton();
-
         require_once 'ezc/Base/src/ezc_bootstrap.php';
         require_once 'ezc/autoload/mail_autoload.php';
 
@@ -207,7 +201,17 @@ class CRM_Utils_Mail_Incoming {
 
         // since we only have one fileset
         $mail = $mail[0];
- 
+        
+        return self::parseMailingObject( $mail );
+    } 
+
+    function parseMailingObject( &$mail ) {
+        require_once 'CRM/Core/Config.php';
+        require_once 'api/v2/Activity.php';
+        require_once 'api/v2/Contact.php';
+        
+        $config =& CRM_Core_Config::singleton();
+
         // get ready for collecting data about this email
         // and put it in a standardized format
         $params = array( 'is_error' => 0 );
