@@ -321,7 +321,7 @@ AND        ca.case_id = %3
         } else {
             $dueDateTime = null;
             //get due date of reference activity if set.
-            if ( (string) $activityTypeXML->reference_activity ) {
+            if ( (string) $activityTypeXML->reference_activity && !CRM_Utils_Array::value('is_StartdateChanged', $params) ) {
                 $referenceActivityInfo = CRM_Utils_Array::value( (string)$activityTypeXML->reference_activity, 
                                                                  $activityTypes );
                 if ( $referenceActivityInfo['id'] ) {

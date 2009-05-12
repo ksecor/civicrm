@@ -3,7 +3,7 @@
 <fieldset><legend>{ts}Case Summary{/ts}</legend>
     <table class="report">
         <tr>
-            <td class="font-size12pt">
+            <td class="font-size11pt">
                 <label>{ts}Client{/ts}:</label>&nbsp;{$displayName}
             </td>
             <td>
@@ -11,6 +11,9 @@
             </td>
             <td>
                 <label>{ts}Status{/ts}:</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
+            </td>
+            <td>
+                <label>{ts}Start Date{/ts}:</label>&nbsp;{$caseDetails.case_start_date|crmDate}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStartDateId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
             </td>
             <td>
                 <label>{ts}Case ID{/ts}:</label>&nbsp;{$caseID}
