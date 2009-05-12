@@ -184,7 +184,7 @@
     </script>
 
 {/if} {* NO print section ends *}
-</div>
+
 {if $form.charts.value.0 eq 'pieGraph' OR $form.charts.value.0 eq 'barGraph'}
     {include file="CRM/Report/Form/Layout/Graph.tpl"}
 {else}
@@ -192,3 +192,4 @@
    {include file="CRM/Report/Form/Layout/Table.tpl"}
 {/if}
 {* special div ends *}
+</div>

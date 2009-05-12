@@ -103,6 +103,15 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           array( 'email' => null),
                           'grouping'=> 'contact-fields',
                           ),
+
+                   'civicrm_group' => 
+                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                          'alias'  => 'cgroup',
+                          'filters' =>             
+                          array( 'gid' => 
+                                 array( 'name'    => 'id',
+                                        'title'   => ts( 'Group ID' ),
+                                        'type'    => CRM_Utils_Type::T_INT ), ), ),
                    );
         
         $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Contribution Statistics' ),
@@ -123,43 +132,47 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
         $this->_columnHeaders = array( );
         foreach ( $this->_columns as $tableName => $table ) {
-            foreach ( $table['fields'] as $fieldName => $field ) {
-                if ( CRM_Utils_Array::value( 'required', $field ) ||
-                     CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
-                    if ( $tableName == 'civicrm_address' ) {
-                        $this->_addressField = true;
-                    } else if ( $tableName == 'civicrm_email' ) {
-                        $this->_emailField = true;
-                    }
-
-                    // only include statistics columns if set
-                    if ( CRM_Utils_Array::value('statistics', $field) ) {
-                        foreach ( $field['statistics'] as $stat => $label ) {
-                            switch (strtolower($stat)) {
-                            case 'sum':
-                                $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = $field['type'];
-                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
-                                break;
-                            case 'count':
-                                $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
-                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
-                                break;
-                            case 'avg':
-                                $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] =  $field['type'];
-                                $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
-                                $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
-                                break;
-                            }
-                        }   
-
-                    } else {
-                        $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = $field['type'];
+            if ( array_key_exists('fields', $table) ) {
+                foreach ( $table['fields'] as $fieldName => $field ) {
+                    if ( CRM_Utils_Array::value( 'required', $field ) ||
+                         CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
+                        if ( $tableName == 'civicrm_address' ) {
+                            $this->_addressField = true;
+                        } else if ( $tableName == 'civicrm_email' ) {
+                            $this->_emailField = true;
+                        }
+                        
+                        // only include statistics columns if set
+                        if ( CRM_Utils_Array::value('statistics', $field) ) {
+                            foreach ( $field['statistics'] as $stat => $label ) {
+                                switch (strtolower($stat)) {
+                                case 'sum':
+                                    $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type']  = 
+                                        $field['type'];
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
+                                case 'count':
+                                    $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
+                                case 'avg':
+                                    $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type']  =  
+                                        $field['type'];
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
+                                }
+                            }   
+                            
+                        } else {
+                            $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = $field['type'];
+                        }
                     }
                 }
             }
@@ -172,8 +185,13 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
         $this->_from = null;
 
         $this->_from = "
-FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
-INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
+FROM       civicrm_contact      {$this->_aliases['civicrm_contact']}
+INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} 
+       ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
+LEFT  JOIN civicrm_group_contact group_contact 
+       ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
+LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
+       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
 ";
 
         if ( $this->_addressField ) {

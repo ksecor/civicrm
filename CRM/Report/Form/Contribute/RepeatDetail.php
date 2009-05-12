@@ -113,6 +113,15 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
                           array( 'contribution_type'   => null, ), 
                           'filters'       =>
                           array( 'contribution_type'   => null, ), ),
+
+                   'civicrm_group' => 
+                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                          'alias'  => 'cgroup',
+                          'filters' =>             
+                          array( 'gid' => 
+                                 array( 'name'    => 'id',
+                                        'title'   => ts( 'Group ID' ),
+                                        'type'    => CRM_Utils_Type::T_INT ), ), ),
                    );
         
         parent::__construct( );
@@ -236,10 +245,18 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
 
     function from( $alias = 'c1' ) {
         $this->_from = "
-FROM  civicrm_contact contact 
-INNER JOIN civicrm_contribution $alias ON contact.id = {$alias}.contact_id
-LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id
-LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = {$alias}.contribution_type_id";
+FROM  civicrm_contact {$this->_aliases['civicrm_contact']}
+INNER JOIN civicrm_contribution $alias 
+       ON contact.id = {$alias}.contact_id
+LEFT  JOIN civicrm_address address 
+       ON address.contact_id = {$alias}.contact_id
+LEFT  JOIN civicrm_contribution_type contribution_type 
+       ON contribution_type.id = {$alias}.contribution_type_id
+LEFT  JOIN civicrm_group_contact group_contact 
+       ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
+LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
+       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
+";
     }
 
     function where( $alias = 'c1' ) {
@@ -295,7 +312,7 @@ LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = 
     }
 
     function orderBy( $alias = 'c1' ) {
-        $this->_orderBy = "ORDER BY contact.display_name";
+        $this->_orderBy = "ORDER BY contact.display_name, {$alias}.total_amount";
     }
 
     function postProcess( ) {
@@ -330,7 +347,7 @@ LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = 
         $this->from    ( 'c2' );
         $this->where   ( 'c2' );
         $this->groupBy ( 'c2' );
-        $this->orderBy ( );
+        $this->orderBy ( 'c2' );
 
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy}";
 
