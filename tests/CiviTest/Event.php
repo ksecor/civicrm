@@ -22,7 +22,8 @@ class Event extends DrupalTestCase
                         'is_active'                => 1
                         );
         
-        $event = CRM_Event_BAO_Event::create( $params, $ids );
+        
+        $event = CRM_Event_BAO_Event::create( $params );
         return $event->id;
     }
  
