@@ -356,25 +356,26 @@ class BAO_Contact_Contact extends CiviTestCase
         //Now check DB for openid
         $compareParams = array ( 'openid'                => CRM_Utils_Array::value( 'openid', $params['location'][1]['openid'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_OpenID', $searchParams, $compareParams );
+        
         //Now check DB for IM
         $compareParams = array( 'name'                   => CRM_Utils_Array::value( 'name', $params['location'][1]['im'][1] ),
                                 'provider_id'            => CRM_Utils_Array::value( 'provider_id', $params['location'][1]['im'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_IM', $searchParams, $compareParams );
         
-	//Now check DB for Phone
+        //Now check DB for Phone
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
                                'is_primary'              => 1,
                                'phone_type_id'           => CRM_Utils_Array::value( 'phone_type_id', $params['location'][1]['phone'][1] ) );
-	$compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][1] ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
-	//Now check DB for Mobile
+        //Now check DB for Mobile
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
                                'phone_type_id'           => CRM_Utils_Array::value( 'phone_type_id', $params['location'][1]['phone'][2] ) );
-	$compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][2] ) );
-	$this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][2] ) );
+        $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
 
         //Now check DB for Note
         $searchParams  = array( 'entity_id'    => $contactId,
@@ -456,7 +457,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $compareParams = array( 'email'                  => 'john.doe@example.org' );
         $this->assertDBCompareValues('CRM_Core_DAO_Email', $searchParams, $compareParams );
         //Now check DB for updated openid
-        $compareParams = array ( 'openid'                => 'http://openid.civicrm.org' );
+        $compareParams = array ( 'openid'                => 'http://openid.civicrm.org/' );
         $this->assertDBCompareValues('CRM_Core_DAO_OpenID', $searchParams, $compareParams );
         //Now check DB for updated IM
         $compareParams = array( 'name'                   => 'john.doe',
@@ -469,6 +470,7 @@ class BAO_Contact_Contact extends CiviTestCase
                                'phone_type_id'           => 1 );
         $compareParams = array( 'phone'                  => '02115245336' );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
+        
         //Now check DB for updated Mobile
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
@@ -681,9 +683,9 @@ class BAO_Contact_Contact extends CiviTestCase
         $params = array( 'entityID'           => $contactId,
                          'custom_' . $fieldID => 1);
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
-
-        $this->assertEqual( $values['custom_' . $fieldID], '', 'Verify that the data value is empty for contact ' . $contactId);
-        $this->assertEqual( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
+        $this->assertEqual( CRM_Utils_Array::value( "custom_{$fieldID}", $values ), '', 
+                            'Verify that the data value is empty for contact ' . $contactId);
+        $this->assertEqual( $values['is_error'], 1, 'Verify that is_error = 0 (success).');
         
         //Now check DB for contact.
         $this->assertDBNull( 'CRM_Contact_DAO_Contact', $contactParams['last_name'] . ', ' . $contactParams['first_name'], 
@@ -730,8 +732,8 @@ class BAO_Contact_Contact extends CiviTestCase
                                 'im-Primary'                     => 'john.smith',
                                 'on_hold'                        => '1',
                                 'openid'                         => 'john.smith@example.org',
-                                'phone-Primary'                  => '303443689',
-                                'phone-Primary-Mobile'           => '9833910234',
+                                'phone-Primary-1'                => '303443689',
+                                'phone-Primary-2'                => '9833910234',
                                 'postal_code-Primary'            => '01903',
                                 'postal_code_suffix-Primary'     => '12345',
                                 'state_province-Primary'         => '1029',
@@ -830,7 +832,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
                                'is_primary'              => 1 );
-        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone-Primary', $profileParams ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone-Primary-1', $profileParams ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
         //Now check DB for Mobile
@@ -838,7 +840,8 @@ class BAO_Contact_Contact extends CiviTestCase
                                'location_type_id'        => 1, 
                                'phone_type_id'           => CRM_Utils_Array::value( 'phone_type_id', $params['location'][1]['phone'][2])
 			       );
-        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone-Primary-Mobile', $profileParams ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone-Primary-2', $profileParams ) );
+                
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
         //get the value of relationship
@@ -937,8 +940,8 @@ class BAO_Contact_Contact extends CiviTestCase
                                   'im-Primary'                     => 'john.doe',
                                   'on_hold'                        => '1',
                                   'openid'                         => 'john.doe@example.org',
-                                  'phone-Primary'                  => '02115245336',
-                                  'phone-Primary-Mobile'           => '9766323895',
+                                  'phone-Primary-1'                => '02115245336',
+                                  'phone-Primary-2'                => '9766323895',
                                   'postal_code-Primary'            => '12345',
                                   'postal_code_suffix-Primary'     => '123',
                                   'state_province-Primary'         => '1004',
@@ -1036,7 +1039,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
                                'is_primary'              => 1 );
-        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone-Primary', $updatePfParams ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone-Primary-1', $updatePfParams ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
         //Now check DB for Mobile
@@ -1044,7 +1047,7 @@ class BAO_Contact_Contact extends CiviTestCase
                                'location_type_id'        => 1, 
                                'phone_type_id'           => CRM_Utils_Array::value( 'phone_type_id', $params['location'][1]['phone'][2])
 			       );
-        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone-Primary-Mobile', $updatePfParams ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone-Primary-2', $updatePfParams ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
         //get the value of relationship
@@ -1218,7 +1221,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $params = $this->contactParams( );
         $params['location'][2] = $params['location'][1];
         $params['location'][2]['location_type_id'] = 2;
-        $params['location'][2]['openid'][1]['openid'] = 'http://primaryOpenID.org';
+        $params['location'][2]['openid'][1]['openid'] = 'http://primaryOpenID.org/';
         unset( $params['location'][1]['is_primary'] );
         
         //create contact
@@ -1227,8 +1230,9 @@ class BAO_Contact_Contact extends CiviTestCase
         $contactId = $contact->id;
         //get the primary openid
         $openID = CRM_Contact_BAO_Contact::getPrimaryOpenId( $contactId );
+        
         //Now check the primary openid
-        $this->assertEqual( $openID, CRM_Utils_Array::value( 'openid', $params['location'][2]['openid'][1] ), 'Check Primary OpenID' );
+        $this->assertEqual( $openID, strtolower( $params['location'][2]['openid'][1]['openid'] ), 'Check Primary OpenID' );
         
         //cleanup DB by deleting the contact
         Contact::delete( $contactId );
@@ -1464,7 +1468,7 @@ class BAO_Contact_Contact extends CiviTestCase
                                                                            ),
                                                              ),
                                          'openid'  => array (
-                                                             '1' => array ( 'openid'      => 'http://civicrm.org' ),
+                                                             '1' => array ( 'openid'      => 'http://civicrm.org/' ),
                                                              ),
                                          'im'      => array (
                                                              '1' => array ( 'name'        => 'john.smith',

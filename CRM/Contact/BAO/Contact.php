@@ -227,8 +227,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     static function &create(&$params, $fixAddress = true, $invokeHooks = true ) 
     {
-        if ( ! $params['contact_type'] && ! CRM_Utils_Array::value( 'contact_id', $params ) ) {
-            return;
+        $contact = null;
+        if ( !CRM_Utils_Array::value( 'contact_type', $params ) && 
+             !CRM_Utils_Array::value( 'contact_id', $params ) ) {
+            return $contact;
         }
 
         $isEdit = true;
@@ -1082,8 +1084,8 @@ AND    civicrm_contact.id = %1";
             CRM_Utils_Hook::pre( 'create', 'Profile', null, $params ); 
         }
 
-        $data = array( );
-
+        $data = $contactDetails = array( );
+        
         // get the contact details (hier)
         if ( $contactID ) {
             list($details, $options) = self::getHierContactDetails( $contactID, $fields );
@@ -1332,11 +1334,11 @@ AND    civicrm_contact.id = %1";
         
         // manage is_opt_out
         if (array_key_exists('is_opt_out', $fields)) {
-            $wasOptOut = $contactDetails['is_opt_out'] ? true : false;
-            $isOptOut  = $params['is_opt_out']         ? true : false;
+            $wasOptOut = CRM_Utils_Array::value( 'is_opt_out', $contactDetails, false );
+            $isOptOut  = CRM_Utils_Array::value( 'is_opt_out', $params, false );
             $data['is_opt_out'] = $isOptOut;
             // on change, create new civicrm_subscription_history entry
-            if (($wasOptOut != $isOptOut) && $contactDetails['contact_id'] ) {
+            if (($wasOptOut != $isOptOut) && CRM_Utils_Array::value('contact_id', $contactDetails ) ) {
                 $shParams = array(
                                   'contact_id' => $contactDetails['contact_id'],
                                   'status'     => $isOptOut ? 'Removed' : 'Added',
