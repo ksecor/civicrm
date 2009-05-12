@@ -33,8 +33,8 @@
  *
  */
 
-define( 'EMAIL_ACTIVITY_TYPE_ID', 1  );
-define( 'MAIL_BATCH_SIZE'       , 50 );
+define( 'EMAIL_ACTIVITY_TYPE_ID', null  );
+define( 'MAIL_BATCH_SIZE'       , 50    );
 
 class EmailProcessor {
 
@@ -87,61 +87,19 @@ class EmailProcessor {
                         }
                     } else {
                         // if its the activities that needs to be processed ..
-                        
-                        // FIXME: following code is a copy from CRM_Utils_Mail_Incoming::parse() method. 
-                        // We should modify that method itself and reuse here -
- 
+
+                        $emailActivityTypeId = 
+                            ( defined('EMAIL_ACTIVITY_TYPE_ID') && EMAIL_ACTIVITY_TYPE_ID )  ? 
+                            EMAIL_ACTIVITY_TYPE_ID : CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                                                     'Inbound Email', 
+                                                                                     'name' );
                         require_once 'CRM/Utils/Mail/Incoming.php';
-                            
-                        // get ready for collecting data about this email
-                        // and put it in a standardized format
-                        $params = array( 'is_error' => 0 );
-                        
-                        $params['from'] = array( );
-                        CRM_Utils_Mail_Incoming::parseAddress( $mail->from, $field, $params['from'] );
-                        
-                        $emailFields = array( 'to', 'cc', 'bcc' );
-                        foreach ( $emailFields as $field ) {
-                            $value = $mail->$field;
-                            CRM_Utils_Mail_Incoming::parseAddresses( $value, $field, $params );
-                            if ( $params['is_error'] ) {
-                                return;
-                            }
-                        }
-                        
-                        // define other parameters
-                        $params['subject'] = $mail->subject;
-                        $params['date']    = date( "YmdHi00",
-                                                   strtotime( $mail->getHeader( "Date" ) ) );
-                        $attachments       = array( );
-                        $params['body']    = CRM_Utils_Mail_Incoming::formatMailPart( $mail->body, $attachments );
-                        
-                        // format and move attachments to the civicrm area
-                        if ( ! empty( $attachments ) ) {
-                            require_once 'CRM/Utils/File.php';
-                            $date   =  date( 'Ymdhis' );
-                            $config =& CRM_Core_Config::singleton( );
-                            for ( $i = 0; $i < count( $attachments ); $i++ ) {
-                                $attachNum = $i + 1;
-                                $fileName = basename( $attachments[$i]['fullName'] );
-                                $newName = CRM_Utils_File::makeFileName( $fileName );
-                                $location = $config->uploadDir . $newName;
-                                
-                                // move file to the civicrm upload directory
-                                rename( $attachments[$i]['fullName'], $location );
-                                
-                                $mimeType = "{$attachments[$i]['contentType']}/{$attachments[$i]['mimeType']}";
-                                
-                                $params["attachFile_$attachNum"] = array( 'uri'         => $fileName,
-                                                                          'type'        => $mimeType,
-                                                                          'upload_date' => $date,
-                                                                          'location'    => $location );
-                            }
-                        }
-                        
+                        $mailParams = CRM_Utils_Mail_Incoming::parseMailingObject( $mail );
+
                         require_once 'api/v2/Activity.php';
-                        $result = civicrm_activity_process_email( 'dnc', EMAIL_ACTIVITY_TYPE_ID, $params );
-                        
+                        $params = _civicrm_activity_buildmailparams( $mailParams, $emailActivityTypeId );
+                        $result = civicrm_activity_create( $params );
+
                         if ( $result['is_error'] ) {
                             $matches = false;
                             echo "Failed Processing: {$mail->subject}. Reason: {$result['error_message']}\n";
@@ -229,11 +187,10 @@ if ($lock->isAcquired()) {
     // try to unset any time limits
     if (!ini_get('safe_mode')) set_time_limit(0);
 
-    // if there are named sets of settings, use them - otherwise use the default (null)
-    $names = is_array($_REQUEST['names']) ? $_REQUEST['names'] : array(null);
-    foreach ($names as $name) {
-        EmailProcessor::process($name);
-    }
+    // check if the script is being used for civimail processing or email to 
+    // activity processing.
+    $isCiviMail = $_REQUEST['emailtoactivity'] ? false : true;
+    EmailProcessor::process($isCiviMail);
 } else {
     throw new Exception('Could not acquire lock, another EmailProcessor process is running');
 }

@@ -70,18 +70,19 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         //retrieve details about case
         $params = array( 'id' => $this->_caseID );
 
-        $returnProperties = array( 'case_type_id', 'subject', 'status_id' );
+        $returnProperties = array( 'case_type_id', 'subject', 'status_id', 'start_date' );
         CRM_Core_DAO::commonRetrieve('CRM_Case_BAO_Case', $params, $values, $returnProperties );
-        
+                
         $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, 
                                            CRM_Utils_Array::value( 'case_type_id' , $values ) );
 
         $statuses  = CRM_Case_PseudoConstant::caseStatus( );
         $caseType  = CRM_Case_PseudoConstant::caseTypeName( $this->_caseID );
 
-        $this->_caseDetails = array( 'case_type'    => $caseType['name'],
-                                     'case_status'  => $statuses[$values['case_status_id']],
-                                     'case_subject' => CRM_Utils_Array::value( 'subject', $values )
+        $this->_caseDetails = array( 'case_type'       => $caseType['name'],
+                                     'case_status'     => $statuses[$values['case_status_id']],
+                                     'case_subject'    => CRM_Utils_Array::value( 'subject', $values ),
+                                     'case_start_date' => $values['case_start_date']
                                    );
         $this->_caseType = $caseType['name'];
         $this->assign ( 'caseDetails', $this->_caseDetails );

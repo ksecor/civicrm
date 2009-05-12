@@ -546,3 +546,8 @@ function civitest_civicrm_buildForm( $formName, &$form ) {
         }
     }
 }
+
+function civitest_civicrm_mailingGroups( &$form, &$groups, &$mailings ) {
+    unset( $groups[4] );
+    $mailings[1] = 'This Mailing does not exist';
+}

@@ -42,6 +42,7 @@ DM_TARGETDIR=$workdir/$version/tarballs
 DM_PHP=$php
 DM_RSYNC=$rsync
 DM_VERSION=$version
+DM_REVISION=$rev
 DM_ZIP=$zip
 " > $workdir/$version/export/distmaker/distmaker.conf
 

@@ -83,12 +83,20 @@ function civicrm_activity_contact_get( $params ) {
 function &_civicrm_activities_get( $contactID, $type = 'all' ) 
 {
     $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
-
-    // handle custom data.
-    foreach ( $activities as $activityId => $values ) {
-        $customData = civicrm_activity_custom_get( array( 'activity_id'      => $activityId,
-                                                          'activity_type_id' => $values['activity_type_id'] ) );
-        $activities[$activityId] = array_merge( $activities[$activityId], $customData );
+    
+    //get the custom data.
+    if ( is_array( $activities ) && !empty( $activities ) ) {
+        require_once 'api/v2/Activity.php';
+        foreach ( $activities as $activityId => $values ) {
+            $customParams =  array( 'activity_id'      => $activityId,
+                                    'activity_type_id' => CRM_Utils_Array::value( 'activity_type_id', $values ) );
+            
+            $customData = civicrm_activity_custom_get( $customParams );
+            
+            if ( is_array( $customData ) && !empty( $customData ) ) {
+                $activities[$activityId] = array_merge( $activities[$activityId], $customData );
+            }
+        }
     }
     
     return $activities;

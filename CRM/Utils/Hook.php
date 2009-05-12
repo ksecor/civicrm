@@ -463,4 +463,15 @@ class CRM_Utils_Hook {
                   '::invoke( 2, $form, $params, $null, $null, $null, \'civicrm_eventDiscount\' );' );
     }
 
+    static function mailingGroups( &$form, &$groups, &$mailings ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 3, $form, $groups, $mailings, $null, $null, \'civicrm_mailingGroups\' );' );
+    }
+
 }

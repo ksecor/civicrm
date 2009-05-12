@@ -402,19 +402,24 @@ class CRM_Contact_Form_Search_Custom_Group
 
         $from = " FROM civicrm_contact contact_a";
 
+        $join = ' INNER ';
+
+        if ( $iGroups || $xGroups ) {
+            $join = ' LEFT ';
+        } 
         //condition for group and tag
         if ( $this->_groups && ! $this->_tags ) {
             //use only when tag is not seleted and group is selected
             $from .= " INNER JOIN Ig_{$this->_tableName} temptable1 ON (contact_a.id = temptable1.contact_id)";
-
+            
         } else if ( ! $this->_groups && $this->_tags ) {
             //use only when group is not seleted nad tag is selected 
-            $from .= " LEFT JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
+            $from .= " {$join} JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
 
         } else {
             // use only when both are selected or it is blank search
             $from .= " INNER JOIN Ig_{$this->_tableName} temptable1 ON (contact_a.id = temptable1.contact_id)";
-            $from .= " LEFT JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
+            $from .= " {$join} JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
         }
 
         $from .= " LEFT JOIN civicrm_email ON ( contact_a.id = civicrm_email.contact_id AND ( civicrm_email.is_primary = 1 OR civicrm_email.is_bulkmail = 1 ) )";

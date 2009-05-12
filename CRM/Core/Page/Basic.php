@@ -223,13 +223,12 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $key = 'name';
         }
         
-        if ( $key ) {
+        if (trim($sort)) {
+            $object->orderBy ( $sort );
+        } else if ( $key ) {
             $object->orderBy ( $key . ' asc' );
         }
         
-        if (trim($sort)) {
-            $object->orderBy ( $sort );
-        }
         
         // find all objects
         $object->find();

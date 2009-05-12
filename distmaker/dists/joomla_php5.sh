@@ -68,7 +68,7 @@ cp $SRC/README.txt $TRG
 cp $SRC/civicrm.config.php $TRG
 
 # final touch
-echo "$DM_VERSION Joomla PHP5" > $TRG/civicrm-version.txt
+echo "$DM_VERSION Joomla PHP5 $DM_REVISION" > $TRG/civicrm-version.txt
 
 # gen zip file
 cd $DM_TMPDIR;

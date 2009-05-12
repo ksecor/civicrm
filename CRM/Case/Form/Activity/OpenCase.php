@@ -225,18 +225,17 @@ class CRM_Case_Form_Activity_OpenCase
                 
                 // if we find more than one contact, use the first one
                 if ( is_array($ids) ) {
-                    $form->_currentlyViewedContactId = $ids[0];
+                    $form->_currentlyViewedContactId = $contactParams['contact_id'] = $ids[0];
+
                 }
                 if ( !$form->_currentlyViewedContactId ) {
                     CRM_Core_Error::fatal('Could not find existing client to link the case with.');
                 }
             }
-
-            if ( !$form->_currentlyViewedContactId ) {
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
-                $form->_currentlyViewedContactId = $contact->id;
-            }
+            
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
+            $form->_currentlyViewedContactId = $contact->id;
             
             // unset contact params
             unset($params['location'], $params['first_name'], $params['last_name'], 

@@ -186,25 +186,31 @@ WHERE e.id = %1";
     
     public static function deleteLocBlock( $locBlockId )
     {
+        if ( !$locBlockId ) {
+            return;
+        }
+        
         require_once 'CRM/Core/DAO/LocBlock.php';
         $locBlock     = new CRM_Core_DAO_LocBlock( );
         $locBlock->id = $locBlockId;
         
         $locBlock->find( true );
-         
-        $store = array( $locBlock->address_id   => 'Address',
-                        $locBlock->address_2_id => 'Address', 
-                        $locBlock->phone_id     => 'Phone',
-                        $locBlock->phone_2_id   => 'Phone',
-                        $locBlock->im_id        => 'IM',
-                        $locBlock->im_2_id      => 'IM',
-                        $locBlock->email_id     => 'Email',
-                        $locBlock->email_2_id   => 'Email' );
         
+        //resolve conflict of having same ids for multiple blocks
+        $store = array(
+                       'IM_1'      => $locBlock->im_id,
+                       'IM_2'      => $locBlock->im_2_id,
+                       'Email_1'   => $locBlock->email_id,
+                       'Email_2'   => $locBlock->email_2_id,
+                       'Phone_1'   => $locBlock->phone_id,
+                       'Phone_2'   => $locBlock->phone_2_id,
+                       'Address_1' => $locBlock->address_id,
+                       'Address_2' => $locBlock->address_2_id
+                       );
         $locBlock->delete( );
-        
-        foreach ( $store as $id => $daoName ) {
+        foreach ( $store as $daoName => $id ) {
             if ( $id ) {
+                $daoName = substr( $daoName, 0, -2 );
                 eval( '$dao = new CRM_Core_DAO_' . $daoName . '( );' );
                 $dao->id = $id;
                 $dao->find( true );

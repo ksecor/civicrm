@@ -89,6 +89,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         $this->assign( 'openCaseId'        ,$activityTypes['Open Case']['id']);
         $this->assign( 'changeCaseTypeId'  ,$activityTypes['Change Case Type']['id']);
         $this->assign( 'changeCaseStatusId',$activityTypes['Change Case Status']['id']);
+        $this->assign( 'changeCaseStartDateId',$activityTypes['Change Case Start Date']['id']);
     }
 
     /**
