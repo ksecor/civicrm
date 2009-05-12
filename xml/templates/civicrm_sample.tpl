@@ -66,7 +66,7 @@ INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 -- Add sample activity type
 
 SELECT @option_group_id_act  := max(id) from civicrm_option_group where name = 'activity_type';
-SELECT @option_value_max_val := max(value) from civicrm_option_value where option_group_id = @option_group_id_act;
+SELECT @option_value_max_val := max(ROUND(civicrm_option_value.value)) from civicrm_option_value where option_group_id = @option_group_id_act;
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
