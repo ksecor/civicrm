@@ -70,7 +70,7 @@ cp $SRC/README.txt $TRG
 cp $SRC/civicrm.config.php $TRG
 
 # final touch
-echo "$DM_VERSION Drupal PHP5" > $TRG/civicrm-version.txt
+echo "$DM_VERSION Drupal PHP5 $DM_REVISION" > $TRG/civicrm-version.txt
 
 
 # gen tarball
