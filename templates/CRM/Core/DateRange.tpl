@@ -3,7 +3,7 @@
         {assign var=relativeName   value=$fieldName|cat:"_relative"}
         <td colspan=2>{$form.$relativeName.html}</td>
     </tr>
-    <tr id="absolute_{$countdate}">
+    <tr id="absolute_{$relativeName}">
         {assign var=fromName   value=$fieldName|cat:"_from"}
         <td>
             {$form.$fromName.label}&nbsp;{$form.$fromName.html} &nbsp; 
@@ -21,15 +21,15 @@
 
 {literal}
 <script type="text/javascript">
-    var val   = document.getElementById("{/literal}{$relativeName}{literal}");
-    var count = "{/literal}{$countdate}{literal}";
-    showAbsoluteRange( val, count );
+    var val       = document.getElementById("{/literal}{$relativeName}{literal}").value;
+    var fieldName = "{/literal}{$relativeName}{literal}";
+    showAbsoluteRange( val, fieldName );
 
-    function showAbsoluteRange( val, count ) {
-        if ( val.value == "0" ) {
-            cj('#absolute_'+ count).show();
+    function showAbsoluteRange( val, fieldName ) {
+        if ( val == "0" ) {
+            cj('#absolute_'+ fieldName).show();
         } else {
-            cj('#absolute_'+ count).hide();
+            cj('#absolute_'+ fieldName).hide();
         }
     }
 </script>

@@ -140,7 +140,7 @@ Class CRM_Core_Form_Date
                    ts('Relative Date Range'),
                    $selector,
                    $required,
-                   array('onclick' => "showAbsoluteRange(this, {$count});"));
+                   array('onclick' => "showAbsoluteRange(this.value, '{$fieldName}_relative');"));
         
         $form->addDateRange($fieldName);
     }

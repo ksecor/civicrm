@@ -69,7 +69,6 @@
             <fieldset>
                 <legend>{ts}Set Filters{/ts}</legend>
                 <table class="form-layout">
-                    {assign  var="countdate" value="1"}
                     {foreach from=$filters     item=table key=tableName}
                         {foreach from=$table       item=field key=fieldName}
                             {assign var=fieldOp     value=$fieldName|cat:"_op"}
@@ -79,9 +78,8 @@
                             {if $field.type & 4}
                                 <tr>
                                     <td style="vertical-align: top;">{$field.title}</td>
-                                    <td colspan=2>{include file="CRM/Core/DateRange.tpl" fieldName=$fieldName countdate=$countdate}</td>
+                                    <td colspan=2>{include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}</td>
                                 </tr>
-                                {assign var="countdate" value=`$countdate+1`}
                             {else}
                                 <tr>
                                     <td width="20%">{$field.title}</td>
