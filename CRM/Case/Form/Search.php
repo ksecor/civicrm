@@ -329,11 +329,13 @@ class CRM_Case_Form_Search extends CRM_Core_Form
         }
 
         //search for civicase
-        if ( array_key_exists('case_owner', $this->_formValues ) && ! $this->_formValues['case_owner'] && ! $this->_force ) {
-            $this->_formValues['case_owner']  = 0;
-        } else if ( array_key_exists('case_owner', $this->_formValues ) ) {
-            $this->_formValues['case_owner'] = 1;
-        } 
+        if ( ! $this->_force ) {
+            if ( array_key_exists('case_owner', $this->_formValues ) && ! $this->_formValues['case_owner'] ) {
+                $this->_formValues['case_owner']  = 0;
+            } else if ( array_key_exists('case_owner', $this->_formValues ) ) {
+                $this->_formValues['case_owner'] = 1;
+            } 
+        }
  
         if ( ! CRM_Utils_Array::value( 'case_deleted', $this->_formValues ) ) {
             $this->_formValues['case_deleted'] = 0;
@@ -484,6 +486,13 @@ class CRM_Case_Form_Search extends CRM_Core_Form
             $this->_formValues['case_mycases'] = 0;
         }
 
+        $caseOwner = CRM_Utils_Request::retrieve( 'case_owner', 'Boolean',
+                                                   CRM_Core_DAO::$_nullObject );
+        if ( $caseOwner ) {
+            $this->_formValues['case_owner'] = 0;
+            $this->_defaults['case_owner'] = 0;
+        }
+                                                   
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );

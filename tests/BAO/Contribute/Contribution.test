@@ -156,8 +156,11 @@ class BAO_Contribute_Contribution extends CiviTestCase
                                      'Database check for created honor contact record.' );
         //get annual contribution information
         $annual = CRM_Contribute_BAO_Contribution::annual( $contactId );
+	require_once 'CRM/Core/DAO.php';
+	$config =& CRM_Core_Config::singleton();
+	$currencySymbol = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Currency',$config->defaultCurrency,'symbol','name') ;
         $this->assertDBCompareValue('CRM_Contribute_DAO_Contribution',  $id, 'total_amount', 
-                                    'id', $annual[2], 'Check DB for total amount of the contribution'); 
+                                    'id', ltrim( $annual[2], $currencySymbol ), 'Check DB for total amount of the contribution'); 
         
         //Delete honor contact
         Contact::delete( $contact );

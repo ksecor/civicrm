@@ -38,12 +38,13 @@ require_once 'CiviTestCase.php';
 class Browser_Import_ImportContact extends CiviTestCase
 {
 
-    function get_info()
-    {
-        return array('name'        => 'Import Contact',
-                     'description' => 'Test Import Contacts',
-                     'group'       => 'CiviCRM Browser Tests');
-    }
+//when we fix this test case then we will enable for Simpletest.
+//     function get_info()
+//     {
+//         return array('name'        => 'Import Contact',
+//                      'description' => 'Test Import Contacts',
+//                      'group'       => 'CiviCRM Browser Tests');
+//     }
 
     function setUp()
     {

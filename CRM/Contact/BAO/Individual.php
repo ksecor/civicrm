@@ -88,29 +88,46 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
             $individual =& new CRM_Contact_BAO_Contact();
             $individual->id = $contact->id;
             if ( $individual->find( true ) ) {
-                $useDBName = false;
+                
+                //lets allow to update single name field though preserveDBName
+                //but if db having null value and params contain value, CRM-4330.
+                $useDBNames = array( );
+                
                 foreach ( array( 'last', 'middle', 'first' ) as $name ) {
                     $dbName  = "{$name}_name";
                     $value   = $individual->$dbName;
-                    if ( ! empty( $value ) &&
-                         CRM_Utils_Array::value( 'preserveDBName', $params ) ) {
-                        // the db has name values
-                        $useDBName = true;
+                    
+                    // the db has name values
+                    if ( $value && CRM_Utils_Array::value( 'preserveDBName', $params ) ) {
+                        $useDBNames[] = $name; 
                     }
                 }
-                    
+                
+                foreach ( array( 'prefix', 'suffix' ) as $name ) {
+                    $dbName  = "{$name}_id";
+                    $value   = $individual->$dbName;
+                    if ( $value && CRM_Utils_Array::value( 'preserveDBName', $params ) ) {
+                        $useDBNames[] = $name; 
+                    }
+                }
+                
+                // CRM-4430
+                //1. preserve db name if want
+                //2. lets get value from param if exists.
+                //3. if not in params, lets get from db.
+                
                 foreach ( array( 'last', 'middle', 'first' ) as $name ) {
                     $phpName = "{$name}Name";
                     $dbName  = "{$name}_name";
                     $value   = $individual->$dbName;
-                    if ( $useDBName ) {
+                    if ( in_array( $name, $useDBNames ) ) {
                         $params[$dbName]  = $value;
                         $contact->$dbName = $value;
                         $$phpName         = $value;
-                    } else if ( empty( $$phpName ) &&
-                                CRM_Utils_Array::value( $phpName, $params ) !== null &&
-                                ! empty( $value ) ) {
-                        $$phpName = $value;
+                    } else if ( array_key_exists( $dbName, $params )  ) {
+                        $$phpName = $params[$dbName];
+                    } else if ( $value ) {
+                        $$phpName = $value;  
                     }
                 }
 
@@ -120,7 +137,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                     $vals    = "{$name}es";
 
                     $value   = $individual->$dbName;
-                    if ( $useDBName ) {
+                    if ( in_array( $name, $useDBNames ) ) {
                         $params[$dbName]  = $value;
                         $contact->$dbName = $value;
                         if ( $value ) {
@@ -129,16 +146,17 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                         } else {
                             $$phpName = null;
                         }
-                    } else if ( empty( $$phpName ) &&
-                         ! isset( $params[$dbName] ) &&
-                         ! empty( $value ) ) {
+                    } else if ( array_key_exists( $dbName, $params ) ) {
+                        $temp = $$vals;
+                        $$phpName = $temp[$params[$dbName]];
+                    } else if ( $value ) {
                         $temp = $$vals;
                         $$phpName = $temp[$value];
                     }
                 }
             }
         }
-
+        
         if ( $lastName || $firstName || $middleName ) {
             if ( $lastName && $firstName ) {
                 $contact->sort_name    = trim( "$lastName, $firstName" );

@@ -50,6 +50,9 @@
       <name>Change Case Status</name>
     </ActivityType>
     <ActivityType>
+      <name>Change Case Start Date</name>
+    </ActivityType>
+    <ActivityType>
       <name>Follow up</name>
     </ActivityType>
     <ActivityType>
@@ -68,36 +71,6 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Completed</status>
-        </ActivityType>
-        <ActivityType>
-          <name>Sign case coordination agreement</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>7</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Receive comprehensive plan for assessment and treatment</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>14</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-	<ActivityType>
-          <name>Follow up</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>14</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-	<ActivityType>
-          <name>Engage workplace supervisor</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>30</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Engage community mentor</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>30</reference_offset>
-          <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>
     </ActivitySet>

@@ -272,9 +272,13 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
         $this->assertNotNull( $contact1['contact_id'] );
         $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
         $target = &civicrm_contact_get( $retrievedId1 );
-        $this->assertEqual( $contact1['contact_id'], $target['contact_id'] );
-        $this->_assertAttributesEqual( $params1, $target );
-        $this->_contacts[] = $target['contact_id'];
+        
+        //get the target contact values.
+        $targetContactValues = array_pop( $target );
+        
+        $this->assertEqual( $contact1['contact_id'], $targetContactValues['contact_id'] );
+        $this->_assertAttributesEqual( $params1, $targetContactValues );
+        $this->_contacts[] = $targetContactValues['contact_id'];
     }        
     
     function testUpdateOrganizationwithAll()
@@ -303,9 +307,13 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
         $this->assertNotNull( $contact1['contact_id'] );
         $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
         $target = &civicrm_contact_get( $retrievedId1 );
-        $this->assertEqual( $contact1['contact_id'], $target['contact_id'] );
-        $this->_assertAttributesEqual( $params1, $target );
-        $this->_contacts[] = $target['contact_id'];
+        
+        //get the target contact values.
+        $targetContactValues = array_pop( $target );
+        
+        $this->assertEqual( $contact1['contact_id'], $targetContactValues['contact_id'] );
+        $this->_assertAttributesEqual( $params1, $targetContactValues );
+        $this->_contacts[] = $targetContactValues['contact_id'];
     }
     
     function testUpdateHouseholdwithAll()
@@ -332,9 +340,13 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
         $this->assertNotNull( $contact1['contact_id'] );
         $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
         $target = &civicrm_contact_get( $retrievedId1 );
-        $this->assertEqual( $contact1['contact_id'], $target['contact_id'] );
-        $this->_assertAttributesEqual( $params1, $target );
-        $this->_contacts[] = $target['contact_id'];
+        
+        //get the target contact values.
+        $targetContactValues = array_pop( $target );
+        
+        $this->assertEqual( $contact1['contact_id'], $targetContactValues['contact_id'] );
+        $this->_assertAttributesEqual( $params1, $targetContactValues );
+        $this->_contacts[] = $targetContactValues['contact_id'];
     }
     
     private function _assertAttributesEqual( $params, $target ) {

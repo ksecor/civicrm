@@ -372,14 +372,21 @@ function civicrm_activity_processemail( $file, $activityTypeID ) {
                                                    array( 1 => $file ) ) );
     }
 
+    require_once 'CRM/Utils/Mail/Incoming.php';
+    $result = CRM_Utils_Mail_Incoming::parse( $file );
     if ( $result['is_error'] ) {
         return $result;
     }
 
+    $params = _civicrm_activity_buildmailparams( $result, $activityTypeID );
+    return civicrm_activity_create( $params );
+}
+
+function _civicrm_activity_buildmailparams( $result, $activityTypeID ) {
     // get ready for collecting data about activity to be created
     $params = array();
     $params['activity_type_id']   = $activityTypeID;
-    $params['status_id']          = 1;
+    $params['status_id']          = 2;
     $params['source_contact_id']  = $params['assignee_contact_id'] = $result['from']['id'];
     $params['target_contact_id']  = array( );
     $keys = array( 'to', 'cc', 'bcc' );
@@ -400,9 +407,7 @@ function civicrm_activity_processemail( $file, $activityTypeID ) {
         }
     }
 
-    // create activity
-    require_once 'api/v2/Activity.php';
-    return civicrm_activity_create( $params );
+    return $params;
 }
 
 function civicrm_activity_process_email( $file, $activityTypeID ) {

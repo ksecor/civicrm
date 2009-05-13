@@ -48,47 +48,46 @@ class Browser_Contribute_PCP extends CiviTestCase
     
     //the email should not be in the database.
     protected $_userEmail = 'monica@yahoo.net.in';
-
+    
     function get_info()
     {
         return array(
                      'name' => 'Personal Campaign Page',
                      'description' => 'Make online Contribution for Campaign',
                      'group' => 'CiviCRM Browser Tests',
-        );
+                     );
     }
-
+    
     function setUp()
     {
         parent::setUp();
         $this->drupalModuleEnable('civicrm');
-
-        $this->webUser = $this->drupalCreateUserRolePerm(
-							 array (
-								0 => 'access CiviCRM',
-								1 => 'administer CiviCRM',
-								2 => 'access CiviContribute',
-								3 => 'make online contributions',
-								4 => 'profile listings and forms',
-								5 => 'access Contact Dashboard' 
-								) );
+        
+        $this->webUser = $this->drupalCreateUserRolePerm( array (
+                                                                 0 => 'access CiviCRM',
+                                                                 1 => 'administer CiviCRM',
+                                                                 2 => 'access CiviContribute',
+                                                                 3 => 'make online contributions',
+                                                                 4 => 'profile listings and forms',
+                                                                 5 => 'access Contact Dashboard' 
+                                                                 ) );
         $this->drupalLoginUser($this->webUser);
         $this->_paymentProcessorId = PaypalPro::create();
         $this->_contributionPageId = ContributionPage::create($this->_paymentProcessorId);
-	
+        
         $this->_pcp = PCPBlock::create( $this->_contributionPageId );
         $this->civiGet('civicrm/contribute/manage', 'reset=1' );
         $this->assertWantedRaw( 'Manage Contribution Pages', 'Manage Contribution Pages.' );
-	
+        
         // get all the urls associated with this item
         $urls = $this->getUrlsByToken( "id={$this->_contributionPageId}", 'civicrm/contribute/transact' );
-	
+        
         $test = ts( 'Test-drive' );
         $this->assertArrayValueNotNull( $test, $urls );
         $this->civiGetURL( $urls[$test] );
         $this->assertWantedRaw( 'Test-drive Your Contribution Page', 'Test Drive of Contribution Page.' );
     }
-
+    
     function tearDown( )
     {
         // Deleting pcpblock and related contribution.
@@ -96,7 +95,7 @@ class Browser_Contribute_PCP extends CiviTestCase
         ContributionPage::delete($this->_contributionPageId);
         PaypalPro::delete($this->_paymentProcessorId);
     }
-
+    
     /**
      * Test to PCP without Profile Data
      *
@@ -113,7 +112,7 @@ class Browser_Contribute_PCP extends CiviTestCase
         $this->assertText( 'First Name is a required field.' );
         $this->assertText( 'Last Name is a required field.' );
     }
-
+    
     /**
      * Test to PCP with Profile Data
      *
@@ -121,9 +120,9 @@ class Browser_Contribute_PCP extends CiviTestCase
     function testPCPWithRequiredDataforProfile( )
     {
         $params = array(
-			'first_name' => 'John',
-			'last_name'  => 'Dane'
-			);
+                        'first_name' => 'John',
+                        'last_name'  => 'Dane'
+                        );
         $this->civiGet('civicrm/user', 'reset=1' );
         $this->assertText('Help Test CiviCRM!');
         $this->assertText('Create a Personal Campaign Page');
@@ -132,7 +131,7 @@ class Browser_Contribute_PCP extends CiviTestCase
         $this->drupalPost( NULL, $params, '_qf_PCPAccount_next' );
         $this->assertText('Setup a Personal Campaign Page - Step 2');
     }
-
+    
     /**
      * Test to PCP without PCP Data
      *
@@ -140,9 +139,9 @@ class Browser_Contribute_PCP extends CiviTestCase
     function testPCPWithoutRequiredDataforPCP( )
     {
         $params = array(
-			'first_name' => 'John',
-			'last_name'  => 'Dane'
-			);
+                        'first_name' => 'John',
+                        'last_name'  => 'Dane'
+                        );
         $this->civiGet('civicrm/user', 'reset=1' );
         $this->assertText('Help Test CiviCRM!');
         $this->assertText('Create a Personal Campaign Page');
@@ -150,14 +149,14 @@ class Browser_Contribute_PCP extends CiviTestCase
         $this->assertText('Setup a Personal Campaign Page - Account Information');
         $this->drupalPost( NULL, $params, '_qf_PCPAccount_next' );
         $this->assertText('Setup a Personal Campaign Page - Step 2');
-	
+        
         $params = array( );
         $this->drupalPost( NULL, $params, '_qf_Campaign_upload' );
         $this->assertText('Title is a required field.');
         $this->assertText('Welcome is a required field.');
         $this->assertText('Your Goal is a required field.');
     }
-
+    
     /**
      * Test to PCP with PCP Data
      *
@@ -166,9 +165,9 @@ class Browser_Contribute_PCP extends CiviTestCase
     {
         self::DomainAndSMTP();
         $params = array(
-			'first_name' => 'John',
-			'last_name'  => 'Dane'
-			);
+                        'first_name' => 'John',
+                        'last_name'  => 'Dane'
+                        );
         $this->civiGet('civicrm/user', 'reset=1' );
         $this->assertText('Help Test CiviCRM!');
         $this->assertText('Create a Personal Campaign Page');
@@ -176,66 +175,68 @@ class Browser_Contribute_PCP extends CiviTestCase
         $this->assertText('Setup a Personal Campaign Page - Account Information');
         $this->drupalPost( NULL, $params, '_qf_PCPAccount_next' );
         $this->assertText('Setup a Personal Campaign Page - Step 2');
-	$params = array(
-			'title'            => 'Testing Personal Campaign Page',
-			'intro_text'       => 'Contribute for Panda Helper Organization',
-			'goal_amount'      => 2104,
-			'is_thermometer'   => 1,
-			'donate_link_text' => 'Help Panda !!!',
-			'page_text'        => '',
-			'is_honor_roll'    => 1,
-			'is_active'        => 1
-			);
+        $params = array(
+                        'title'            => 'Testing Personal Campaign Page',
+                        'intro_text'       => 'Contribute for Panda Helper Organization',
+                        'goal_amount'      => 2104,
+                        'is_thermometer'   => 1,
+                        'donate_link_text' => 'Help Panda !!!',
+                        'page_text'        => '',
+                        'is_honor_roll'    => 1,
+                        'is_active'        => 1
+                        );
         $this->drupalPost( NULL, $params, '_qf_Campaign_upload' );
-        $this->assertText('Your Personal Campaign Page has been created and is ready to use. Click the Tell Friends link below to being promoting your fundraising campaign.');
-	$this->assertText('Testing Personal Campaign Page');
-	
-	//PCP id fetched for deleting.
-	require_once 'CRM/Contribute/DAO/PCP.php';
-	$this->_pcp['pcpId'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->webUser->contact_id, 'id', 'contact_id' );
+        
+        $this->assertText('Your Personal Campaign Page has been created and is ready to use.');
+        $this->assertText('Testing Personal Campaign Page');
+        
+        //PCP id fetched for deleting.
+        require_once 'CRM/Contribute/DAO/PCP.php';
+        $this->_pcp['pcpId'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->webUser->contact_id, 'id', 'contact_id' );
         self::DomainAndSMTP( true );
     }
-
+    
     /**
      * Test to Online Contribution Confirmation for PCP
      * 
      */
     function testOnlineContributionforPCP( ) 
     {
-	self::DomainAndSMTP();
+        self::DomainAndSMTP();
         $params = array(
-			'first_name' => 'John',
-			'last_name'  => 'Dane'
-			);
+                        'first_name' => 'John',
+                        'last_name'  => 'Dane'
+                        );
         $this->civiGet('civicrm/contribute/campaign', 'action=add&reset=1&pageId='.$this->_contributionPageId);
         $this->assertText('Setup a Personal Campaign Page - Account Information');
         $this->drupalPost( NULL, $params, '_qf_PCPAccount_next' );
         $this->assertText('Setup a Personal Campaign Page - Step 2');
+        $this->assertText( 'Honor Roll' );
         $params = array(
-			'title'            => 'Testing Personal Campaign Page',
-			'intro_text'       => 'Contribute for Panda Helper Organization',
-			'goal_amount'      => 2104,
-			'is_thermometer'   => 1,
-			'donate_link_text' => 'Help Panda !!!',
-			'page_text'        => '',
-			'is_honor_roll'    => 1,
-			'is_active'        => 1
-			);
+                        'title'            => 'Testing Personal Campaign Page',
+                        'intro_text'       => 'Contribute for Panda Helper Organization',
+                        'goal_amount'      => 2104,
+                        'is_thermometer'   => 1,
+                        'donate_link_text' => 'Help Panda !!!',
+                        'page_text'        => 'Tell people why this campaign is important to you. ',
+                        'is_honor_roll'    => 1,
+                        'is_active'        => 1
+                        );
         $this->drupalPost( NULL, $params, '_qf_Campaign_upload' );
-        $this->assertText('Your Personal Campaign Page has been created and is ready to use. Click the Tell Friends link below to being promoting your fundraising campaign.');
-	//PCP id fetched for deleting / redirecting for contribution.
-	require_once 'CRM/Contribute/DAO/PCP.php';
-	$this->_pcp['pcpId'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->webUser->contact_id, 'id', 'contact_id' );
-	$this->assertText('Testing Personal Campaign Page');
-	
-	$q = 'id='. $this->_contributionPageId .'&pcpId='. $this->_pcp['pcpId'] .'&reset=1&action=preview';
-	$this->civiGet('civicrm/contribute/transact', $q );   
-	$this->assertText( $params['title'] );
-	$this->assertText( 'Personal Campaign Page' );
-	$this->assertText( 'Dispaly In Roll' );
-	$this->assertText( 'Nick Name' );
-	$this->assertText( 'Personal Note' );
-	$params = array ( 'amount_other'             => '2000',
+        $this->assertText('Your Personal Campaign Page has been created and is ready to use.');
+        //PCP id fetched for deleting / redirecting for contribution.
+        require_once 'CRM/Contribute/DAO/PCP.php';
+        $this->_pcp['pcpId'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->webUser->contact_id, 'id', 'contact_id' );
+        $this->assertText('Testing Personal Campaign Page');
+        $this->assertText( $params['intro_text'] );
+        $this->assertText( $params['page_text'] );
+        
+        $q = 'id='. $this->_contributionPageId .'&pcpId='. $this->_pcp['pcpId'] .'&reset=1&action=preview';
+        $this->civiGet('civicrm/contribute/transact', $q );   
+        $this->assertText( $params['title'] );
+        $this->assertText( 'Personal Campaign Page' );
+        
+        $params = array ( 'amount_other'             => '2000',
                           'email-5'                  => $this->_userEmail,
                           'credit_card_type'         => 'Visa',
                           'credit_card_number'       => '4731463054139660',
@@ -250,13 +251,13 @@ class Browser_Contribute_PCP extends CiviTestCase
                           'credit_card_exp_date[M]'  => 1,
                           'credit_card_exp_date[Y]'  => 2010
                           );
-
+        
         
         $this->drupalPost(NULL, $params, '_qf_Main_upload');
         $this->assertText( 'Please verify the information below carefully. Click Go Back if you need to make changes. To complete your contribution, click the Make Contribution button below.' );
         $this->assertText( 'Your contribution will not be completed until you click the Make Contribution button. Please click the button one time only.' );
         $this->assertText( '************9660' );
-
+        
         //Thank You page
         $this->drupalPost(NULL, array(), '_qf_Confirm_next');
         $this->assertText( 'Thank you for your support.' );
@@ -264,15 +265,15 @@ class Browser_Contribute_PCP extends CiviTestCase
         $this->assertText( 'An email receipt has also been sent to '. $this->_userEmail );
         $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', $this->_contributionPageId , 'id', 'contribution_page_id', 'Database check for Contribution Page ID.' );
         $ContributionId = $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution',
-						  'Online Contribution: Testing Personal Campaign Page',  
-						  'id',
-						  'source',
-						  'Database check Contribution source.' );
-	$this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', 1, 'id', 'is_test', 'Database check for Contribution ID.');
-	$ContactId = $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution',$ContributionId,'contact_id', 'id', 'Database check for contact id.' );
-	self::DomainAndSMTP( true );
+                                                  'Online Contribution: Testing Personal Campaign Page',  
+                                                  'id',
+                                                  'source',
+                                                  'Database check Contribution source.' );
+        $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', 1, 'id', 'is_test', 'Database check for Contribution ID.');
+        $ContactId = $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution',$ContributionId,'contact_id', 'id', 'Database check for contact id.' );
+        self::DomainAndSMTP( true );
     }
-
+    
     /**
      * Function to set the smtp and domain email
      */
@@ -284,25 +285,25 @@ class Browser_Contribute_PCP extends CiviTestCase
         } else {
             require_once 'api/v2/Domain.php';
             $domain_name = civicrm_domain_get( );
-	    
+            
             require_once 'CRM/Core/BAO/Domain.php';
             $domain_email = CRM_Core_BAO_Domain::getNameAndEmail( );
             
             $this->_domain = array(
-				   'name'          => $domain_name['domain_name'],
-				   'description'   => $domain_name['description'],
-				   'email_name'    => $domain_email['0'],
-				   'email_address' => $domain_email['1']
-				   );
+                                   'name'          => $domain_name['domain_name'],
+                                   'description'   => $domain_name['description'],
+                                   'email_name'    => $domain_email['0'],
+                                   'email_address' => $domain_email['1']
+                                   );
             //Domain email name and address set for simple test.          
             $params = array(
-			    'name'          => 'Simple Test Domain Name',
-			    'description'   => 'Edited for Simple Test',
-			    'email_name'    => 'Simple Test',
-			    'email_address' => 'info@civicrm.org'
-			    );
-	}
-	
+                            'name'          => 'Simple Test Domain Name',
+                            'description'   => 'Edited for Simple Test',
+                            'email_name'    => 'Simple Test',
+                            'email_address' => 'info@civicrm.org'
+                            );
+        }
+        
         $this->civiGet('civicrm/contact/domain', 'action=update&reset=1' );
         $this->drupalPost( NULL, $params, '_qf_Domain_next_view' );
         $this->assertText('Domain information for \''.$params['name'].'\' has been saved.');

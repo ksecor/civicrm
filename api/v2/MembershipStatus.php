@@ -222,7 +222,11 @@ SELECT start_date, end_date, join_date
             CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dao->start_date,
                                                                         $dao->end_date,
                                                                         $dao->join_date );
-        $result['is_error'] = 0;
+        
+        //make is error zero only when valid status found.
+        if ( CRM_Utils_Array::value( 'id', $result ) ) {
+            $result['is_error'] = 0;
+        }
     } else {
         $result = civicrm_create_error( 'did not find a membership record' );
     }

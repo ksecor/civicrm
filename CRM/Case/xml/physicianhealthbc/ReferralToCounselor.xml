@@ -22,6 +22,9 @@
     <ActivityType>
       <name>Change Case Status</name>
     </ActivityType>
+    <ActivityType>
+      <name>Change Case Start Date</name>
+    </ActivityType>
 	<ActivityType>
       <name>Follow up</name>
     </ActivityType>

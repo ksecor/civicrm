@@ -336,6 +336,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         // lets md5 permission clause and take first 8 characters
         $cacheKey .= substr( md5( $permissionClause ), 0, 8 );
 
+        if ( strlen( $cacheKey ) > 40 ) {
+            $cacheKey = md5( $cacheKey );
+        }
+
         if ( ! self::$_importFields ||
              CRM_Utils_Array::value( $cacheKey, self::$_importFields ) === null ) { 
             if ( ! self::$_importFields ) {

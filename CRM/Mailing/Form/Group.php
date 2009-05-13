@@ -157,10 +157,18 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         
         //get the mailing groups.
         $groups =& CRM_Core_PseudoConstant::group('Mailing');
+
+        $mailings =& CRM_Mailing_PseudoConstant::completed();
+        if (! $mailings) {
+            $mailings = array();
+        }
+
+        // run the groups through a hook so users can trim it if needed
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::mailingGroups( $this, $groups, $mailings );
         
         //when the context is search add base group's.
         if ( $context == 'search' ) {
-            
             //get the static groups
             $staticGroups = CRM_Core_PseudoConstant::staticGroup( false, 'Mailing' );
             $this->add( 'select', 'baseGroup',
@@ -183,7 +191,8 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         }
         
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
-                                   ts('Exclude Group(s)') . ' ', $groups,
+                                   ts('Exclude Group(s)') . ' ',
+                                   $groups,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
@@ -194,10 +203,6 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         $inG->setButtonAttributes ('remove', array('value' => ts('<< Remove')));
         $outG->setButtonAttributes('remove', array('value' => ts('<< Remove')));
         
-        $mailings =& CRM_Mailing_PseudoConstant::completed();
-        if (! $mailings) {
-            $mailings = array();
-        }
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
                                   ts('INCLUDE Recipients of These Mailing(s)') . ' ',
                                   $mailings,

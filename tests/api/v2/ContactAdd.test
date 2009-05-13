@@ -153,8 +153,11 @@ class testContactAdd extends CiviUnitTestCase
         // And of course, since we are paranoic, we're using copy again.
 
         $retrievedId = array( 'contact_id' => $contact['contact_id'] );
-        $retrieved = &civicrm_contact_get( $retrievedId );
-
+        $retrievedContacts = &civicrm_contact_get( $retrievedId );
+        
+        //get the target contact details.
+        $retrieved = array_pop( $retrievedContacts ); 
+        
         // Now it's time to start comparing return from civicrm_contact_add with 
         // civicrm_contact_get result. Let's check if ids match first.
         // FIXME: Wanted to use assertIdentical, but $retrieved['contact_id']
@@ -414,7 +417,10 @@ class testContactAdd extends CiviUnitTestCase
             $retrievedParams = array_merge( $retrievedId, $returnProperties );
         }
         
-        $retrieved = &civicrm_contact_get( $retrievedParams );
+        $retrievedContacts = &civicrm_contact_get( $retrievedParams );
+        
+        //get the target contact details.
+        $retrieved = array_pop( $retrievedContacts );
         
         if ( isset( $params['prefix'] ) && isset( $retrieved['individual_prefix'] ) ) {
             if ( is_numeric( $params['prefix'] ) ) {

@@ -161,6 +161,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $defaults['html_message'] = $defaults['body_html'];
         }
         
+
+        $componentFields = array(
+                                 'header_id' => 'Header',
+                                 'footer_id' => 'Footer');
+        foreach ($componentFields as $componentVar => $componentType) {
+            $defaults[$componentVar] = CRM_Mailing_PseudoConstant::defaultComponent($componentType, '');
+        }
+        
         return $defaults;
     }
 

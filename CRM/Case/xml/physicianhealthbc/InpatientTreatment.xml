@@ -31,6 +31,9 @@
     <ActivityType>
       <name>Change Case Status</name>
     </ActivityType>
+    <ActivityType>
+      <name>Change Case Start Date</name>
+    </ActivityType>
 	<ActivityType>
       <name>Follow up</name>
     </ActivityType>
@@ -50,42 +53,6 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Completed</status>
-        </ActivityType>
-        <ActivityType>
-          <name>Plan inpatient admission</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>0</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Confirm expected admission date</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>7</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Confirm actual admission</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>14</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Follow up</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>14</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-		<ActivityType>
-          <name>Confirm expected discharge date</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>28</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Confirm actual discharge date</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>56</reference_offset>
-          <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>
     </ActivitySet>

@@ -61,6 +61,11 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
     private static $component;
 
     /**
+     * default component id's, indexed by component type
+     */
+    private static $defaultComponent;
+
+    /**
      * Get all the mailing components of a particular type
      *
      * @param $type the type of component needed
@@ -88,7 +93,7 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
                 $object->component_type = $type;
                 $object->selectAdd( );
                 $object->selectAdd( "id, name" );
-                $object->orderBy( 'is_default, name' );
+                $object->orderBy( 'component_type, is_default, name' );
                 $object->is_active = 1;
                 $object->find( );
                 while ( $object->fetch( ) ) {
@@ -97,6 +102,34 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
             }
         }
         return self::$component[$name];
+    }
+
+    /**
+     * Determine the default mailing component of a given type
+     *
+     * @param $type the type of component needed
+     * @param $undefined the value to use if no default is defined
+     * @access public
+     * @return integer -The ID of the default mailing component.
+     * @static
+     */
+    public static function &defaultComponent( $type, $undefined = NULL ) {
+        if ( ! self::$defaultComponent ) {
+            $queryDefaultComponents =
+                "SELECT id, component_type
+                FROM    civicrm_mailing_component
+                WHERE   is_active = 1
+                AND     is_default = 1
+                GROUP BY component_type";
+
+            $dao = CRM_Core_DAO::executeQuery($queryDefaultComponents);
+            
+            self::$defaultComponent = array( );
+            while ( $dao->fetch( ) ) {
+                self::$defaultComponent[$dao->component_type] = $dao->id;
+            }
+        }
+        return CRM_Utils_Array::value($type, self::$defaultComponent, $undefined);
     }
 
     /**

@@ -478,7 +478,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                  $this->_formValues,
                  $this->_params,
                  $this->_returnProperties,
-                 $this->_action );' );
+                 $this->_action,
+                 false, true,
+                 $this->_context );' );
         $controller =& new CRM_Contact_Selector_Controller($selector ,
                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -566,7 +568,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                      $this->_returnProperties,
                      $this->_action,
                      false,
-                     $searchChildGroups );' );
+                     $searchChildGroups,
+                     $this->_context );' );
             
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter
