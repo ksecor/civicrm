@@ -118,7 +118,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                         'label'       => 'Subject',
                                                         'attributes'  => CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
                                                                                                     'subject' ),
-                                                        'required'    => ($this->_activityTypeFile == 'ChangeCaseStartDate' )? false : true,
+                                                        'required'    => ( $this->_caseId )? false : true,
                                                         ),
                   'activity_date_time'      =>  array( 'type'        => 'date',
                                                        'label'       => 'Date and Time',
