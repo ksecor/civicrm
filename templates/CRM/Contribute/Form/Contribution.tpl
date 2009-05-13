@@ -184,7 +184,7 @@ cj(document).ready( function() {
     cj('.head').one( 'click', function() { loadPanes( cj(this).children().attr('id') );  });
 });
 
-function loadPanes( id ) {console.log(id);
+function loadPanes( id ) {
     var url = "{/literal}{crmURL p='civicrm/contact/view/contribution' q='snippet=4&formType=' h=0}{literal}" + id;
     if ( ! cj('div.'+id).html() ) {
   var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';

@@ -97,19 +97,38 @@ cj(function() {
   if( showPane.length > 1 ) {
     eval("showPane =[ '" + showPane.substring( 0,showPane.length - 2 ) +"]");
     cj.each( showPane, function( index, value ) {
-      var id = "#id-"+value.charAt(0).toLowerCase()+value.substr(1);
-      cj('span#'+value).removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-      cj(id).show();
+       cj('span#'+value).removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+       loadPanes( value )  ;
+       cj("div."+value).show();
     });
   }
 });
+
+
+cj(document).ready( function() {
+    cj('.head').one( 'click', function() { loadPanes( cj(this).children().attr('id') );  });
+});
+
+function loadPanes( id ) {
+    var url = "{/literal}{crmURL p='civicrm/contact/view/pledge' q='snippet=4&formType=' h=0}{literal}" + id;
+    if ( ! cj('div.'+id).html() ) {
+  var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
+    cj('div.'+id).html(loading);
+    }
+    cj.ajax({
+        url    : url,
+        success: function(data) { 
+                    cj('div.'+id).html(data);
+                 }
+         });
+}
 </script>
 {/literal}
 {* jQuery pane *}
 <div class="accordion ui-accordion ui-widget ui-helper-reset">
 {foreach from=$allPanes key=paneName item=paneValue}
 <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id="{$paneValue.id}"></span><a href="#">{$paneName}</a></h3>
-{include file="CRM/Contribute/Form/AdditionalInfo/`$paneValue.id`.tpl"}
+<div class={$paneValue.id}></div>
 {if $paneValue.open eq 'true'}
 {literal}<script type="text/javascript"> showPane += "{/literal}{$paneValue.id}{literal}"+"','";</script>{/literal}
 {/if}
