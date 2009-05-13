@@ -68,4 +68,11 @@
     <access_callback>1</access_callback>
     <component>CiviReport</component>
   </item>
+  <item>
+    <path>civicrm/report/contact/summary</path>
+    <title>Contact Summary Report</title>
+    <page_callback>CRM_Report_Form_Contact_Summary</page_callback>
+    <access_callback>1</access_callback>
+    <component>CiviReport</component>
+  </item>
 </menu>
