@@ -1,11 +1,11 @@
 -- CRM-4374
 
 SELECT @og_id_at   := max(id) from civicrm_option_group where name = 'activity_type';
-SELECT @max_val_at := max(value) from civicrm_option_value where option_group_id=@og_id_at;
+SELECT @max_val_at := max(round(value)) from civicrm_option_value where option_group_id=@og_id_at;
 SELECT @max_wt_at  := max(weight) from civicrm_option_value where option_group_id=@og_id_at;
 
 SELECT @og_id_mp   := max(id) from civicrm_option_group where name = 'mail_protocol';
-SELECT @max_val_mp := max(value) from civicrm_option_value where option_group_id=@og_id_mp;
+SELECT @max_val_mp := max(round(value)) from civicrm_option_value where option_group_id=@og_id_mp;
 SELECT @max_wt_mp  := max(weight) from civicrm_option_value where option_group_id=@og_id_mp;
 
 SELECT @civicase_component_id := id from civicrm_component where name = 'CiviCase';
