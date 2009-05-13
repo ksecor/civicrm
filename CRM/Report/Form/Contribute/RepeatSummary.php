@@ -83,12 +83,14 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                                 array( 'title'   => ts( 'Date Range One' ),
                                        'default' => 'previous.year',
                                        'type'    => CRM_Utils_Type::T_DATE,
-                                       'name'    => 'receive_date' ),
+                                       'name'    => 'receive_date',
+                                       'alias'   => 'c1' ),
                                 'receive_date2'  => 
                                 array( 'title'   => ts( 'Date Range Two' ),
                                        'default' => 'this.year',
                                        'type'    => CRM_Utils_Type::T_DATE,
-                                       'name'    => 'receive_date' ), ),
+                                       'name'    => 'receive_date',
+                                       'alias'   => 'c2' ), ),
                           'group_bys'           =>
                           array( 'contribution_source' => null, 
                                  'receive_date' => 
@@ -101,6 +103,16 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                           'grouping'      => 'contri-fields',
                           'group_bys'     =>
                           array( 'contribution_type'   => null, ), ),
+
+                   'civicrm_group' => 
+                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                          'alias'  => 'cgroup',
+                          'filters' =>             
+                          array( 'gid' => 
+                                 array( 'name'    => 'id',
+                                        'title'   => ts( 'Group' ),
+                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
 
         parent::__construct( );
@@ -271,26 +283,56 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
     function from( $alias = 'c1' ) {
         $this->_from = "
 FROM civicrm_contribution $alias 
-LEFT JOIN civicrm_address address ON address.contact_id = {$alias}.contact_id
-LEFT JOIN civicrm_contribution_type contribution_type ON contribution_type.id = {$alias}.contribution_type_id";
+LEFT JOIN civicrm_address            address 
+      ON address.contact_id = {$alias}.contact_id
+LEFT JOIN civicrm_contribution_type  contribution_type 
+      ON contribution_type.id = {$alias}.contribution_type_id
+LEFT  JOIN civicrm_group_contact     group_contact 
+       ON {$alias}.contact_id = group_contact.contact_id  AND group_contact.status='Added'
+LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']} 
+       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
+";
     }
 
     function where( $alias = 'c1' ) {
-        if ( $alias == 'c1' ) {
-            $r1_relative = CRM_Utils_Array::value( "receive_date1_relative", $this->_params );
-            $r1_from     = CRM_Utils_Array::value( "receive_date1_from"    , $this->_params );
-            $r1_to       = CRM_Utils_Array::value( "receive_date1_to"      , $this->_params );
-            
-            $clause = $this->dateClause( "{$alias}.receive_date", $r1_relative, $r1_from, $r1_to );
-        } else if ( $alias == 'c2' ) {
-            $r2_relative = CRM_Utils_Array::value( "receive_date2_relative", $this->_params );
-            $r2_from     = CRM_Utils_Array::value( "receive_date2_from"    , $this->_params );
-            $r2_to       = CRM_Utils_Array::value( "receive_date2_to"      , $this->_params );
-            
-            $clause = $this->dateClause( "{$alias}.receive_date", $r2_relative, $r2_from, $r2_to );
+        foreach ( $this->_columns as $tableName => $table ) {
+            if ( array_key_exists('filters', $table) ) {
+                foreach ( $table['filters'] as $fieldName => $field ) {
+                    // over-ride alias
+                    if ( $tableName == 'civicrm_contribution' ) {
+                        $field['dbAlias'] = "{$alias}.{$field['name']}";
+                    }
+                    $clause = null;
+                    if ( ($field['type'] & CRM_Utils_Type::T_DATE) && ($field['alias'] == $alias) ) {
+                        $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
+                        $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
+                        $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
+
+                        $clause = $this->dateClause( "{$field['alias']}.{$field['name']}", $relative, $from, $to );
+                    } else {
+                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                        if ( $op ) {
+                            $clause = 
+                                $this->whereClause( $field,
+                                                    $op,
+                                                    CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                        }
+                    }
+                    
+                    if ( ! empty( $clause ) ) {
+                        $clauses[] = $clause;
+                    }
+                }
+            }
         }
 
-        $this->_where = "WHERE {$clause}";
+        if ( empty( $clauses ) ) {
+            $this->_where = "WHERE ( 1 ) ";
+        } else {
+            $this->_where = "WHERE " . implode( ' AND ', $clauses );
+        }
     }
 
     function statistics( &$rows ) {
