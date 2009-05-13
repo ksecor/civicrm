@@ -12,15 +12,18 @@
 #crm-container .twenty {width: 20em;}
 #crm-container .medium {width: 12em;}
 #crm-container .big {width: 15em;}
+#crm-container .huge {width: 25em;}
 #crm-container textarea.big {width: 35em; height: 4em;}
-#crm-container textarea.huge {width: 35em; height: 16em;}
-#crm-container .huge {width: 30em;}
+#crm-container textarea.huge {width: 45em; height: 16em;}
+#crm-container textarea.huge40 {width: 40em; height: 16em;}
+#crm-container textarea.nowrap {width: 45em; height: 4.5em; white-space: nowrap; overflow: auto;}
 
 /*
 ** Override line-height from style.css
 */
 div#crm-container {
     line-height: 135%;
+    overflow: auto;
 }
 
 /*
@@ -96,8 +99,7 @@ div.spacer, .spacer {
 }
   
 #crm-container fieldset {
-  padding: .5em;
-  margin: .5em 0em .5em 0em;
+  margin: .25em 0em .5em 0em;
 }
 
 #crm-container fieldset.form-layout {
@@ -134,6 +136,7 @@ div.spacer, .spacer {
   font-weight: bold;
   padding: 5px 15px 5px 0px;
   font-size: .95em;
+  white-space: normal;
 }
 
 #crm-container .section-hidden dt {
@@ -210,7 +213,7 @@ div.spacer, .spacer {
   margin: 0em;
   width: auto;
   border-collapse: collapse;
-  border: 0px none;
+  border: 1px none;
 }
 
 #crm-container table.advmultiselect {
@@ -240,7 +243,7 @@ div.spacer, .spacer {
 
 #crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
   vertical-align: text-top;
-  padding: 2px;
+  padding: 5px;
 }
 
 /*
@@ -267,6 +270,19 @@ div.spacer, .spacer {
   padding: 0.5em 0.50em 0em 0.75em;
   border: 0px none;
   vertical-align: top;
+}
+
+#crm-container td.op-checkbox label {
+  font-weight: normal;
+  font-style: italic;
+}
+
+#crm-container .form-layout td.label-left, #crm-container .form-layout-compressed td.label-left {
+  text-align: left;
+  padding: 0.5em 0.50em 0em 0.75em;
+  border: 0px none;
+  vertical-align: top;
+  width: 20%;
 }
 
 #crm-container table.selector td {
@@ -353,14 +369,6 @@ div.spacer, .spacer {
   color: #BADAFF;
 }
 
-#crm-container .form-pane {
-  margin: 0em;
-  padding: 0.25em;
-  background-color: #e7e7e7;
-  border: solid 1px gray;
-}
-
-
 #crm-container div.display-block {
   font-weight: normal;
   margin: 1.0em 2.0em 1.0em 2.0em;
@@ -429,6 +437,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   padding: 0px 0px 5px;
   font-size: 0.9em;
   white-space: normal;
+  width: auto;
 }
 
 #crm-container .form-layout-compressed td.description {
@@ -442,8 +451,13 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
 #crm-container label {
-  font-weight: normal;
+  font-weight: bold;
   display: inline;
+}
+
+/* Normal weight labels for advanced search - too busy otherwise */
+#crm-container #Advanced label {
+  font-weight: normal;
 }
 
 #crm-container .notorg {
@@ -478,8 +492,13 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   font-weight: normal;
   line-height: 1.1em;
 }
+
 .status-pending {
   color: green;
+}
+
+.status-completed {
+  color: #000080;
 }
 
 .upper {
@@ -509,6 +528,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   vertical-align: top;
 }
 
+#crm-container td.enclosingNested {
+  padding: 0px;
+}
+
 #crm-container .nowrap {
   white-space: nowrap;
 }
@@ -521,15 +544,14 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
  
 #crm-container tr.columnheader {
-  /*background-color: #CCCCCC;*/
   background-color: #B3D1FF;
   color: #000000;
-  /*border: 1px solid #000000;*/
   border: 1px solid #5A8FDB;
 }
 #crm-container tr.columnheader a {
   color: #000;
-  text-decoration: underline;
+  text-decoration: none;
+  vertical-align: top;
 }
 #crm-container tr.columnheader-dark {
   /*background-color: #B0B0B0;*/
@@ -544,6 +566,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   border-top: 1px solid #5A8FDB;	
   border-bottom: 1px solid #5A8FDB;
   text-align: left;
+  vertical-align: top;
 }
 
 #crm-container tr.columnheader-dark td, #crm-container tr.columnheader-dark th, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
@@ -606,6 +629,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   padding: 3px 0px 3px 0px;
   clear: none;
   background-color: #ffff99;
+}
+
+#crm-container td.yes-no {
+  text-align: center;
 }
 
 #crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue, #crm-container .status-hold {
@@ -676,6 +703,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
  background-color: #B3D1FF;
  font-size: .95em;
  font-weight: bold;
+ border: 1px solid #4E82CF;
 }
 
 #crm-container #search-status ul, #crm-container ul.left-alignment, #crm-container td ul {
@@ -771,15 +799,29 @@ div.crm-pager a {
 }
 
 /* Recently Viewed bar */
-#crm-container div#recently-viewed {
-  float: none;
-  width: 95%;
-  margin: 5px 0px 10px;
-  font-weight: bold;
-  font-size: .95em;
-  background-color: #EDF2FF;
-  border: 1px solid #4A88DF;
-  overflow: hidden;
+.block-civicrm div#recently-viewed ul {
+  font-size: .9em;
+  // overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+.block-civicrm div#recently-viewed ul li {
+  margin: 1px;
+  padding: 1px;
+  padding-left: 3px;
+  border: 1px solid #92B6EC;
+  background-color: #fff;
+  white-space: nowrap;
+  overflow: hidden;  
+}
+
+.block-civicrm div#recently-viewed ul li a {
+  margin-left: 4px;
+}
+
+.block-civicrm div#recently-viewed ul li img {
+  vertical-align: middle;
 }
 
 #crm-container div#alpha-filter {
@@ -791,17 +833,10 @@ div.crm-pager a {
 #crm-container #recently-viewed ul, #crm-container #alpha-filter ul {
   border-collapse: collapse;
   padding: 0em;
-  white-space: nowrap;
   list-style-type: none;
   margin: 3px;
   height: auto;
   width: auto;
-}
-#crm-container #recently-viewed li {
-  display: inline;
-  height: auto;
-  margin: 0em;
-  padding: 5px;
 }
 
 #crm-container #alpha-filter li {
@@ -876,9 +911,8 @@ div.crm-pager a {
 /* Image Styles */
 #crm-container .action-icon {
   vertical-align: middle;
-  height: 20px;
-  width: 20px;
-  margin: 2px 2px 0px 2px;
+  padding: 2px 2px 2px 3px;
+  margin: 2px 2px 3px 2px;
   cursor: pointer;
   cursor: hand;
 }
@@ -926,9 +960,6 @@ div.crm-pager a {
 #crm-container div#searchForm {
 	height: auto;
 	width: 100%;
-    /*  Why this was here? Commenting out so we get horizontal scroll when needed. dgg
-    	overflow: hidden;
-    */
 }
 
 #crm-container div#searchForm table.form-layout td {
@@ -1003,12 +1034,6 @@ commented since it is overwiting simple td
    width: 58em;
 }
 
-/*#crm-container table.dojoEditor {
-  margin: 0em;
-  border-collapse: collapse;
-  border: 0px none;
-}*/
-
 #crm-container.clear { /* generic container (i.e. div) for floating buttons */
     overflow: hidden;
     width: 100%;
@@ -1022,7 +1047,7 @@ commented since it is overwiting simple td
     font: normal 12px arial, sans-serif;
     height: 24px;
     margin-right: 6px;
-    padding-right: 14px; /* sliding doors padding */
+    padding: 0 14px 0 0; /* sliding doors padding */
     text-decoration: none;
 }
 
@@ -1045,13 +1070,18 @@ commented since it is overwiting simple td
 } 
 
 /* class for tinymce buttons display */
-#crm-container table.mceLayout td{ 
+#crm-container table.mceLayout td,#crm-container table.mceLayout table{ 
     padding: 0px;
     background: #EDEDED;
     border: 2px solid #EDEDED;
     font-size: 0em;
+    vertical-align: top;
+    width: auto;
 }
 
+#crm-container tr.mceLast { 
+    border: 1px solid #EDEDED;                            
+ }
 /* overwrite tree icon classes, since we don't want icons*/
 .tundra .dijitFolderOpened  { 
    display: none;
@@ -1065,6 +1095,306 @@ commented since it is overwiting simple td
    display: none;
 }
 
-div.contact_title {
-   font-size: 1.5em;
+#location .form-layout table, #location .form-layout td,#crm-container div#location table.form-layout table.inner-table td{
+   border: 0px;
+   vertical-align: top;
+   margin-bottom: -5px;
+   width: auto;
+}
+/* class for personal campaign info page */
+
+#crm-container table.campaign th, table.campaign td, #crm-container table.campaign,#crm-container table.campaign table.form-layout td{ 
+  font-size: 9pt;
+  border: 0px;
+  width: auto;
+  vertical-align: top;
+ }
+
+#crm-container table.campaign table{ 
+  background: #F7F7F7;
+}
+
+#crm-container div.remaining {
+    background : url("../i/contribute/pcp_remain.gif");
+}
+
+#crm-container div.achieved {
+    background : url("../i/contribute/pcp_achieve.gif");
+}
+
+#crm-container .honor_roll {
+   margin           : 5px 20px 0 0;
+   padding          : 10px;	
+   width            : 120px;
+   background-color : #fafafa;
+   border           : 1px solid #9d9fca;
+}
+
+#crm-container .flexigrid th {
+  border-bottom : 0px;
+  border-top : 0px;
+  padding    : 0px 4px;
+}
+
+#crm-container .flexigrid tr {
+  font-size    : 1.1em;
+}
+
+#crm-container .flexigrid div {
+  line-height  : 100%;
+}
+
+#crm-container .flexigrid table {
+  border : 0;
+  width  : 100%; 
+  margin : 0pt;
+}
+
+#crm-container table.nestedSelector
+{
+    margin: 0px;
+    width: 100%;
+    border: 2px solid #5A8FDB;
+}
+
+#crm-container table.nestedSelector tr.columnheader
+{
+    background-color: #4D94E3;
+}
+
+#crm-container table.nestedSelector tr.columnheader th
+{
+    border: 0px;
+}
+  
+/* fix combobox display in Opera*/
+.tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
+      height: 17px;
+}
+
+#crm-container span.success-status {
+    margin-left: 6px;
+    background-color: #ffff99;
+    padding: .25em .5em .25em .5em;
+    border: 1px solid #5A8FDB;
+}
+
+.ac_results ul li {background-image:url('');}
+.Individual {background:url('../i/contact_ind.gif') no-repeat;padding-left:20px;}
+.Household {background:url('../i/contact_house.png') no-repeat;padding-left:20px;}
+.Organization {background:url('../i/contact_org.gif') no-repeat;padding-left:20px;}
+
+/* Styles for Config Task List */
+#crm-container td.tasklist a {
+  font-weight: bold;
+}
+
+#crm-container td.tasklist a:link  {
+  color: #FF0105;
+}
+
+#crm-container td.tasklist a:visited  {
+  color: green;
+}
+
+/* Styles for  Action Link */
+
+#panel, .panel {
+  display  : none;
+  z-index  : 1;
+  position : absolute;
+  border   : 1px solid #CCCCCC;
+  background-color: #EEEEEE;
+}
+
+#crm-container td ul.panel {
+  margin  :-20px 0px 0px 55px;
+  padding : 0;
+}
+
+#crm-container td ul.panel li {
+  padding : 5px 15px 0px 5px;
+  margin  : 0px;
+  list-style : none;
+}
+
+.btn-slide {
+  text-align      : left;
+  text-decoration : none;
+  border          : none;
+  cursor          : pointer;  
+}
+
+#crm-container .panel li a {
+  text-decoration : none;
+  color           : #333333;
+  display         : block;
+}
+
+/*Styles for Context menu */
+
+#crm-container .contextMenu {
+  position   : absolute;
+  z-index    : 9999;
+  border     : solid 1px #CCC;
+  background : #EEE;
+  padding    : 0px;
+  margin     : 0px;
+  display    : none;
+  width      : 132px;
+}
+
+#squeeze .contextMenu {
+  margin     : -95px 0px 0px -275px;
+}
+
+#crm-container .contextMenu li {
+  list-style : none;
+  padding    : 0px;
+  margin     : 0px;
+}
+
+#crm-container .contextMenu a {
+  color               : #333;
+  text-decoration     : none;
+  display             : block;
+  line-height         : 20px;
+  height              : 20px;
+  background-position : 6px center;
+  background-repeat   : no-repeat;
+  outline             : none;
+  padding             : 0px 0px 1px 5px;
+}
+
+#crm-container .contextMenu li.hover a {
+  color            : #FFF;
+  background-color : #3399FF;
+}
+
+/* Styles for Sticky Header */
+
+#crm-container thead div.sticky-header {
+  background-color : #B3D1FF;
+  font-size        : 1em;
+  height           : 15px;
+  border-bottom    : 1px solid #5A8FDB;
+}
+
+#crm-container thead.sticky {
+  background-color : #B3D1FF;
+  color            : #000000;
+  border           : 1px solid #5A8FDB;
+}
+
+#crm-container thead.sticky a {
+  color            : #000;
+  text-decoration  : none;
+  vertical-align   : top;
+}
+
+/* Table drag and drop. */
+
+#drag-handle .handle {
+  cursor     : move;
+  float      : left; /* LTR */
+  background : url('../i/draggable.png') no-repeat 0 0;
+  padding    : 15px 15px 0px 5px;
+}
+
+#drag-handle td.dragable {
+ padding        : 5px 4px 0px 5px;
+ vertical-align : middle;
+}
+
+/* loader autocomplete */
+
+body .ac_loading {background:url('../i/loading.gif') no-repeat right center;}
+.ac_input {background:url('../i/magnify.gif') no-repeat right center;}
+
+#crm-container #overlay {  
+    display: none;  
+    position: fixed;  
+    top: 0px;  
+    left: 0px;  
+    width: 100%;  
+    height: 100%;  
+    z-index: 1000;  
+    background-color: #333;  
+    -moz-opacity: 0.5;  
+    opacity: .50;  
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);  
+}
+
+/*class for CMS user name check used in profile*/
+.cmsmessagebox {
+   position    : absolute;
+   width       : auto;
+   margin-left : 10px;
+   padding     : 3px;
+}
+
+/* Pop-up help icon - eliminate forced line break */
+div.helpicon {
+	background  : transparent url(../i/quiz.png) no-repeat;
+	padding-left: 12px;
+	display     : inline;
+	cursor      : pointer;
+}
+
+div#toolTip {
+	padding   : 10px;
+	background: #FFFFFF url(../i/popupMenuBg.gif) repeat-x scroll left bottom;
+	border    : 1px solid #7EABCD;
+	font-size : small;
+	color     : black;
+	text-align: left;
+	margin    : 1em;
+}
+
+div.buttons {
+   padding-bottom: 6px;
+   margin-bottom: 25px;
+   margin-top: -4px;
+}
+
+#actions {
+   float: left;
+}
+
+#icons {
+   float: right;
+}
+
+div.buttons input, div.buttons select {
+   border: 1px solid black;
+   font-size: .9em;
+   background: #EEEEFF;
+   vertical-align: middle;
+}
+
+div.contactHead * {
+   font-size: 1.1em;
+   line-height: 1.4em;
+   margin-right: 10px; 
+}
+
+#crm-container table.contactCard {
+   margin-left: 20px;
+   padding: 1px;
+   border: 0px;
+}
+
+table.contactCard td {
+   border: 0px;//1px solid black;
+}
+
+.contactLabel {
+   font-size: 0.8em;
+   white-space: nowrap;
+   color: #888888;
+   text-align: right;
+}
+
+.onHold a, .onHold a.visited {
+   color: #FF6655 !important;
 }
