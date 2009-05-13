@@ -92,6 +92,16 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  array( 'default'    => true,
                                         'frequency'  => true ),
                                  'contribution_source'     => null, ), ),
+
+                   'civicrm_group' => 
+                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                          'alias'  => 'cgroup',
+                          'filters' =>             
+                          array( 'gid' => 
+                                 array( 'name'    => 'id',
+                                        'title'   => ts( 'Group' ),
+                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
 
         $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
@@ -243,9 +253,15 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
 
     function from( ) {
         $this->_from = "
-FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
-INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
-LEFT JOIN  civicrm_contribution_type {$this->_aliases['civicrm_contribution_type']} ON {$this->_aliases['civicrm_contribution']}.contribution_type_id = {$this->_aliases['civicrm_contribution_type']}.id
+FROM       civicrm_contact            {$this->_aliases['civicrm_contact']}
+INNER JOIN civicrm_contribution       {$this->_aliases['civicrm_contribution']} 
+       ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
+LEFT  JOIN civicrm_contribution_type  {$this->_aliases['civicrm_contribution_type']} 
+       ON {$this->_aliases['civicrm_contribution']}.contribution_type_id = {$this->_aliases['civicrm_contribution_type']}.id
+LEFT  JOIN civicrm_group_contact      group_contact 
+       ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
+LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']} 
+       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
 ";
     }
 
