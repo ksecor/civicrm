@@ -549,21 +549,20 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-
+    cj("#activities-selector tbody tr").parent().attr( 'class','status-completed');
     var currentDate = new Date();
     var ct = currentDate.getTime() / 1000;
 
-    cj("#activities-selector tbody tr td:last-child").each( function( ) {
+    cj("#activities-selector tbody tr:contains('Scheduled') td:last-child").each( function( ) {
         var dt = cj(this).text();
  
         if ( ct > dt ) {
             cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
-        } else{
+        } else {
             cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
         }	
     });
-
-    cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
+    
     cj("#activities-selector tbody tr:odd").addClass('erow');
 }
 </script>
