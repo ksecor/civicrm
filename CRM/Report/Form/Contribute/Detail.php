@@ -110,8 +110,9 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'filters' =>             
                           array( 'gid' => 
                                  array( 'name'    => 'id',
-                                        'title'   => ts( 'Group ID' ),
-                                        'type'    => CRM_Utils_Type::T_INT ), ), ),
+                                        'title'   => ts( 'Group' ),
+                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         
         $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Contribution Statistics' ),

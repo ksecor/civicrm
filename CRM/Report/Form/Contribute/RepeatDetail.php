@@ -121,7 +121,8 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
                           array( 'gid' => 
                                  array( 'name'    => 'id',
                                         'title'   => ts( 'Group ID' ),
-                                        'type'    => CRM_Utils_Type::T_INT ), ), ),
+                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         
         parent::__construct( );

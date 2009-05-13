@@ -390,6 +390,13 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $operations = self::getOperationPair( $field['type'] );
                 
                 switch ( $field['type'] ) {
+                case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
+                    // assume a multi-select field
+                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
+                    $select = $this->addElement('select', "{$fieldName}_value", null, $field['options']);
+                    $select->setMultiple( true );
+                    break;
+
                 case CRM_Utils_Type::T_DATE :
                 case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
                     // build datetime fields
@@ -518,7 +525,9 @@ class CRM_Report_Form extends CRM_Core_Form {
                           'nbw' => 'Is not between',
                           );
             break;
-
+        case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
+            return array( 'in'  => 'Is one of' );
+            break;
         default:
             // type is string
             return array('has'  => 'Contains', 
@@ -548,6 +557,8 @@ class CRM_Report_Form extends CRM_Core_Form {
             return '!=';
         case 'nhas':
             return 'NOT LIKE';
+        case 'in':
+            return 'IN';
         default:
             // type is string
             return 'LIKE';
@@ -607,6 +618,13 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
             break;
                 
+        case 'in':
+            if ( $value !== null && count( $value ) > 0 ) {
+                $sqlOP  = self::getSQLOperator( $op );
+                $clause = "( {$field['dbAlias']} $sqlOP (" . implode( ', ', $value ) . ") )";
+            }
+            break;
+
         case 'sw':
         case 'ew':
             if ( $value !== null && strlen( $value ) > 0 ) {
