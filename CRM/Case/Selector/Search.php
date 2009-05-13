@@ -275,6 +275,10 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          $rows = array( );
          $all = CRM_Utils_Request::retrieve( 'all' , 'Boolean', CRM_Core_DAO::$_nullObject );
 
+         if ( !isset($all) ) {
+             $all = 0; 
+         }  
+         
          // check is the user has view/edit signer permission
          $permission = CRM_Core_Permission::VIEW;
          if ( CRM_Core_Permission::check( 'edit cases' ) ) {
