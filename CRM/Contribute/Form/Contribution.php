@@ -328,11 +328,16 @@ WHERE  contribution_id = {$this->_id}
             
             $csParams = array( 'contribution_id' => $this->_id );
             $softCredit = CRM_Contribute_BAO_Contribution::getSoftContribution( $csParams );
+           
             if ( $softCredit ) {
-                $this->_values['soft_credit_to'] = $softCredit['soft_credit_to'];
-                $this->_values['softID'        ] = $softCredit['soft_credit_id'];
+                require_once 'CRM/Core/DAO.php';
+                $softCredit['sort_name']           = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                                                  $softCredit['soft_credit_to'], 'sort_name' );
+                $this->_values['soft_credit_to'  ] = $softCredit['sort_name'     ];
+                $this->_values['softID'          ] = $softCredit['soft_credit_id'];
+                $this->_values['soft_contact_id' ] = $softCredit['soft_credit_to'];
             }
-            
+
             //display check number field only if its having value or its offline mode.
             if ( CRM_Utils_Array::value( 'payment_instrument_id', $this->_values ) == CRM_Core_OptionGroup::getValue( 'payment_instrument', 'Check', 'name' ) 
                  || CRM_Utils_Array::value( 'check_number', $this->_values ) ) {
@@ -694,16 +699,12 @@ WHERE  contribution_id = {$this->_id}
             $element->freeze( );
         }
 
-        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                             'mode'           => 'remote',
-                             'store'          => 'contactStore',
-                             'pageSize'       => 10  );
-        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
+        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
                                           "reset=1",
                                           false, null, false );
         $this->assign('dataUrl',$dataUrl );                                          
-        $this->addElement('text', 'soft_credit_to'      , ts('Soft Credit To'), $attributes  );
-
+        $this->addElement( 'text', 'soft_credit_to', ts('Soft Credit To') );
+        $this->addElement( 'hidden', 'soft_contact_id', '', array( 'id' => 'soft_contact_id' ) );
         $js = null;
         if ( !$this->_mode && $this->userEmail ) {
             $js = array( 'onclick' => "return verify( );" );    
@@ -779,8 +780,11 @@ WHERE  contribution_id = {$this->_id}
         
         // get the submitted form values.  
         $submittedValues = $this->controller->exportValues( $this->_name );
-            
-        
+
+        if ( CRM_Utils_Array::value('soft_credit_to', $submittedValues) ) {
+            $submittedValues['soft_credit_to'] =  $submittedValues['soft_contact_id'];
+        }      
+
         // set the contact, when contact is selected
         if ( CRM_Utils_Array::value('contact_id', $submittedValues ) ) {
             $this->_contactID = CRM_Utils_Array::value('contact_id', $submittedValues);
@@ -861,7 +865,7 @@ WHERE  contribution_id = {$this->_id}
             $this->_params['amount_level'  ] = 0;
             $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
-            
+                       
             if ( CRM_Utils_Array::value('soft_credit_to', $params) ) {
                 $this->_params['soft_credit_to'] =  $params['soft_credit_to'];
             } 

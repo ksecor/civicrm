@@ -113,11 +113,7 @@
         {/if}
 
         <tr><td class="label">{$form.soft_credit_to.label}</td>
-            <td>
-                <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                {$form.soft_credit_to.html} {help id="id-soft_credit"}
-                </div>
-            </td>
+            <td>{$form.soft_credit_to.html} {help id="id-soft_credit"}</td>
         </tr>
 
       </table>
@@ -177,27 +173,35 @@ cj(function() {
   if( showPane.length > 1 ) {
     eval("showPane =[ '" + showPane.substring( 0,showPane.length - 2 ) +"]");
     cj.each( showPane, function( index, value ) {
-      var id = "#id-"+value.charAt(0).toLowerCase()+value.substr(1);
       cj('span#'+value).removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-      cj(id).show();
+      loadPanes( value )  ;
+      cj("div."+value).show();
     });
   }
 });
 
 cj(document).ready( function() {
-cj('.head').one( 'click', function() {
-    var id  = cj(this).children().attr('id');
+    cj('.head').one( 'click', function() { loadPanes( cj(this).children().attr('id') );  });
+});
+
+function loadPanes( id ) {console.log(id);
     var url = "{/literal}{crmURL p='civicrm/contact/view/contribution' q='snippet=4&formType=' h=0}{literal}" + id;
-    var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
+    if ( ! cj('div.'+id).html() ) {
+  var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
     cj('div.'+id).html(loading);
+    }
     cj.ajax({
         url    : url,
         success: function(data) { 
                     cj('div.'+id).html(data);
                  }
          });
-   });
-});
+}
+var url = "{/literal}{$dataUrl}{literal}";
+
+cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
+                            }).result( function(event, data, formatted) { cj( "#soft_contact_id" ).val( data[1] );
+                            });  
 </script>
 {/literal}
 <div class="accordion ui-accordion ui-widget ui-helper-reset">
