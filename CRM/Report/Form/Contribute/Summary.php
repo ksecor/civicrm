@@ -374,6 +374,8 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
                 $this->_rollup = " WITH ROLLUP";
             }
             $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " {$this->_rollup} ";
+        } else {
+            $this->_groupBy = "GROUP BY contact.id";
         }
     }
 
@@ -440,8 +442,8 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
 
         foreach ( $rows as $rowNum => $row ) {
             // make count columns point to detail report
-            if ( array_key_exists('receive_date', $this->_params['group_bys']) && 
-                 array_key_exists('civicrm_contribution_receive_date_start', $row) &&
+            if ( CRM_Utils_Array::value('receive_date', $this->_params['group_bys']) && 
+                 CRM_Utils_Array::value('civicrm_contribution_receive_date_start', $row) &&
                  $row['civicrm_contribution_receive_date_start'] && 
                  $row['civicrm_contribution_receive_date_subtotal'] ) {
 

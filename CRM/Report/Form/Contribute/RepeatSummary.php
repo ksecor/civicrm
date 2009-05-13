@@ -277,6 +277,8 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
                 $rollUP = " WITH ROLLUP";
             }
             $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " $rollUP ";
+        } else {
+            $this->_groupBy = "GROUP BY $alias.contact_id";
         }
     }
 
