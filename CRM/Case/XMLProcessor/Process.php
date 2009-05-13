@@ -327,25 +327,30 @@ AND        ca.case_id = %3
         } else {
             $dueDateTime = null;
             //get due date of reference activity if set.
-            if ( (string) $activityTypeXML->reference_activity && !CRM_Utils_Array::value('is_StartdateChanged', $params) ) {
-                $referenceActivityInfo = CRM_Utils_Array::value( (string)$activityTypeXML->reference_activity, 
-                                                                 $activityTypes );
-                if ( $referenceActivityInfo['id'] ) {
-                    $caseActivityParams = array( 'activity_type_id' => $referenceActivityInfo['id'] );
-                    
-                    //if reference_select is set take according activity.
-                    if ( $referenceSelect = (string) $activityTypeXML->reference_select ) {
-                        $caseActivityParams[$referenceSelect] = 1;
-                    }
-                    
-                    require_once 'CRM/Case/BAO/Case.php';
-                    $referenceActivity = 
-                        CRM_Case_BAO_Case::getCaseActivityDueDates( $params['caseID'], $caseActivityParams, true );
-                                      
-                    if ( is_array($referenceActivity) ) {
-                        foreach( $referenceActivity as $aId => $details ) {
-                            $dueDateTime = CRM_Utils_Array::value('due_date', $details );
-                            break;
+            if ( $referenceActivityName = (string) $activityTypeXML->reference_activity  ) {
+
+                //we skip open case as reference activity.CRM-4374.
+                if ( CRM_Utils_Array::value('is_StartdateChanged', $params) && $referenceActivityName == 'Open Case' ) {
+                    $dueDateTime = $params['dueDateTime']; 
+                } else {
+                    $referenceActivityInfo = CRM_Utils_Array::value( $referenceActivityName, $activityTypes );
+                    if ( $referenceActivityInfo['id'] ) {
+                        $caseActivityParams = array( 'activity_type_id' => $referenceActivityInfo['id'] );
+                        
+                        //if reference_select is set take according activity.
+                        if ( $referenceSelect = (string) $activityTypeXML->reference_select ) {
+                            $caseActivityParams[$referenceSelect] = 1;
+                        }
+                        
+                        require_once 'CRM/Case/BAO/Case.php';
+                        $referenceActivity = 
+                            CRM_Case_BAO_Case::getCaseActivityDueDates( $params['caseID'], $caseActivityParams, true );
+                        
+                        if ( is_array($referenceActivity) ) {
+                            foreach( $referenceActivity as $aId => $details ) {
+                                $dueDateTime = CRM_Utils_Array::value('due_date', $details );
+                                break;
+                            }
                         }
                     }
                 }
