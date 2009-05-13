@@ -1,4 +1,3 @@
-
 <?php
 
 /*
@@ -45,47 +44,22 @@ class CRM_Event_Page_AJAX
     function event( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        
-        $getRecords = false;
-        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
-            $name     = str_replace( '*', '%', $name );
-            $whereClause = " title LIKE '$name%' ";
-            $getRecords = true;
+        $name = trim( CRM_Utils_Type::escape( $_GET['s'], 'String' ) );
+        if ( ! $name ){
+            $name = '%';
         }
+        $whereClause = " title LIKE '$name%' ";
         
-        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
-            $eventId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
-            $whereClause = " id = {$eventId} ";
-            $getRecords = true;
-        }
-
-        if ( $getRecords ) {
-            $query = "
+        $query = "
 SELECT title, id
 FROM civicrm_event
 WHERE {$whereClause}
 ORDER BY title
 ";
-            $dao = CRM_Core_DAO::executeQuery( $query );
-            $elements = array( );
-            while ( $dao->fetch( ) ) {
-                $elements[] = array( 'name' => $dao->title,
-                                     'value'=> $dao->id );
-            }
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            echo $elements = "$dao->title|$dao->id\n";
         }
-        
-        if ( empty( $elements) ) { 
-            $name = $_GET['name'];
-            if ( !$name && isset( $_GET['id'] ) ) {
-                $name = $_GET['id'];
-            } 
-            $elements[] = array( 'name' => trim( $name, '*'),
-                                 'value'=> trim( $name, '*') );
-        }
-        
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
         exit();
     }
 
@@ -95,24 +69,13 @@ ORDER BY title
     function eventType( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-
-        $getRecords = false;
-        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name = CRM_Utils_Type::escape( $_GET['name'], 'String' );
-            $name = str_replace( '*', '%', $name );
-            $whereClause = " v.label LIKE '$name%'  ";
-            $getRecords = true;
+        $name = trim( CRM_Utils_Type::escape( $_GET['s'], 'String' ) );
+        if( !$name ) {
+            $name = '%';
         }
+        $whereClause = " v.label LIKE '$name%' ";
         
-        if ( isset( $_GET['id'] ) && is_numeric( $_GET['id'] ) ) {
-            $eventTypeId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
-            $whereClause = " v.value = {$eventTypeId} ";
-            $getRecords = true;
-        }
-
-        if ( $getRecords ) {
-            
-            $query ="
+        $query ="
 SELECT v.label ,v.value
 FROM   civicrm_option_value v,
        civicrm_option_group g
@@ -122,27 +85,11 @@ AND v.is_active = 1
 AND {$whereClause}
 ORDER by v.weight";
 
-            $dao = CRM_Core_DAO::executeQuery( $query );
-            
-            $elements = array( );
+        $dao = CRM_Core_DAO::executeQuery( $query );
             while ( $dao->fetch( ) ) {
-                $elements[] = array( 'name'  => $dao->label, 
-                                     'value' => $dao->value );
+                echo $elements = "$dao->label|$dao->value\n";
             }
-        }
-        
-        if ( empty( $elements) ) { 
-            $name = $_GET['name'];
-            if ( !$name && isset( $_GET['id'] ) ) {
-                $name = $_GET['id'];
-            } 
-            $elements[] = array( 'name' => trim( $name, '*'),
-                                 'value'=> trim( $name, '*') );
-        }
-        
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements,'value' );
-        exit();
+            exit();
     }
 
     /**
@@ -151,49 +98,24 @@ ORDER by v.weight";
     function eventFee( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        
-        $getRecords = false;
-        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
-            $name     = str_replace( '*', '%', $name );
-            $whereClause = "cv.label LIKE '$name%' ";
-            $getRecords = true;
+        $name = trim( CRM_Utils_Type::escape( $_GET['s'], 'String' ) );
+        if( !$name ) {
+            $name = '%';
         }
         
-        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
-            $levelId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
-            $whereClause = "cv.id = {$levelId} ";
-            $getRecords = true;
-        }
+        $whereClause = "cv.label LIKE '$name%' ";
         
-        if ( $getRecords ) {
-            $query = "
+        $query = "
 SELECT distinct(cv.label), cv.id
 FROM civicrm_option_value cv, civicrm_option_group cg
 WHERE cg.name LIKE 'civicrm_event.amount%'
    AND cg.id = cv.option_group_id AND {$whereClause}
    GROUP BY cv.label
 ";
-            $dao = CRM_Core_DAO::executeQuery( $query );
-            $elements = array( );
-            while ( $dao->fetch( ) ) {
-                $elements[] = array( 'name' => $dao->label,
-                                     'value'=> $dao->id );
-            }
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            echo $elements = "$dao->label|$dao->id\n";
         }
-        
-        if ( empty( $elements) ) { 
-            $name = $_GET['name'];
-            if ( !$name && isset( $_GET['id'] ) ) {
-                $name = $_GET['id'];
-            } 
-            $elements[] = array( 'name' => trim( $name, '*'),
-                                 'value'=> trim( $name, '*') );
-        }
-        
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
         exit();
     } 
-
 }

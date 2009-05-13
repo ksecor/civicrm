@@ -496,39 +496,23 @@ class CRM_Event_BAO_Query
         $dataURLEventType = CRM_Utils_System::url( 'civicrm/ajax/eventType',
                                                    "reset=1",
                                                    false, null, false);
-              
-        $form->assign( 'dataURLEvent',     $dataURLEvent );
-        $form->assign( 'dataURLEventType', $dataURLEventType );
-       
-        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.FilteringSelect');dojo.require('dojo.parser');" );
+        $dataURLEventFee  = CRM_Utils_System::url( 'civicrm/ajax/eventFee',
+                                                   "reset=1",
+                                                   false, null, false);
         
-        $dojoAttributesEvent = array( 'dojoType'       => 'dijit.form.FilteringSelect',
-                                      'mode'           => 'remote',
-                                      'store'          => 'eventStore',
-                                      'class'          => 'tundra',
-                                      );
-                                      
-        $dojoAttributesEventType = array( 'dojoType'       => 'dijit.form.FilteringSelect',
-                                          'mode'           => 'remote',
-                                          'store'          => 'eventTypeStore',
-                                          'class'          => 'tundra',
-                                          );
-
-        $dojoAttributesEventFee = array( 'dojoType'       => 'dijit.form.FilteringSelect',
-                                         'mode'           => 'remote',
-                                         'store'          => 'eventFeeStore',
-                                         'class'          => 'tundra',
-                                         );
-
-        $eventId         =& $form->add('text', 'event_id', ts('Event Name'), $dojoAttributesEvent );
-        $eventType       =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
+        $form->assign( 'dataURLEvent'     , $dataURLEvent    );
+        $form->assign( 'dataURLEventType' , $dataURLEventType);
+        $form->assign( 'dataURLEventFee'  , $dataURLEventFee );
         
-        $dataURLEventFee = CRM_Utils_System::url( 'civicrm/ajax/eventFee',
-                                                  "reset=1",
-                                                  false, null, false);
-        $form->assign( 'dataURLEventFee', $dataURLEventFee );
-        $participantFee  =& $form->add('text', 'participant_fee_level', ts('Fee Level'), $dojoAttributesEventFee );
+        $eventId         =& $form->add('text', 'event_id'             , ts('Event Name') );
+        $eventType       =& $form->add('text', 'event_type'           , ts('Event Type') );
+        $participantFee  =& $form->add('text', 'participant_fee_level', ts('Fee Level')  );
 
+        //elements for assigning value operation
+        $eventNameId      =& $form->add( 'hidden', 'event_name_id'     , '', array( 'id' => 'event_name_id'      ) );
+        $eventTypeId      =& $form->add( 'hidden', 'event_type_id'     , '', array( 'id' => 'event_type_id'      ) );
+        $participantFeeId =& $form->add( 'hidden', 'participant_fee_id', '', array( 'id' => 'participant_fee_id' ) );
+        
         if ( $eventId->getValue( ) ) {
             $form->assign( 'event_id_value', $eventId->getValue( ) );
         } else {

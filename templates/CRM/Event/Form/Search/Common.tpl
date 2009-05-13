@@ -1,30 +1,6 @@
 <tr>
-    <td>{$form.event_id.label}
-    {if $event_id_value}
-    <script type="text/javascript">
-        dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'event_id' ).setValue( "{$event_id_value}")
-        {rdelim} );
-    </script>
-    {/if}
-    <br />
-    <div dojoType="dojox.data.QueryReadStore" jsId="eventStore" url="{$dataURLEvent}" class="tundra">
-    {$form.event_id.html}
-    </div>
-    </td>
-    <td>{$form.event_type.label}
-    {if $event_type_value}
-    <script type="text/javascript">
-        dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'event_type' ).setValue( "{$event_type_value}")
-        {rdelim} );
-    </script>
-    {/if}
-    <br>
-    <div dojoType="dojox.data.QueryReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" align="left" class="tundra">
-    {$form.event_type.html}
-    </div>
-    </td>
+    <td> {$form.event_id.label}  <br />{$form.event_id.html} </td>
+    <td> {$form.event_type.label}<br />{$form.event_type.html} </td>
 </tr>     
  
 <tr> 
@@ -70,19 +46,7 @@
     <td>{$form.participant_pay_later.html}&nbsp;{$form.participant_pay_later.label}</td> 
 </tr>
 <tr>
-    <td>{$form.participant_fee_level.label}<br /> 
-   {if $participant_fee_level_value}
-    <script type="text/javascript">
-	dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'participant_fee_level' ).setValue( "{$participant_fee_level_value}")
-        {rdelim} );
-    </script>
-    {/if}
-
-    <div dojoType="dojox.data.QueryReadStore" jsId="eventFeeStore" url="{$dataURLEventFee}" class="tundra">
-    {$form.participant_fee_level.html}
-    </div> 
-    </td>
+    <td>{$form.participant_fee_level.label}<br />{$form.participant_fee_level.html}</td>
      <td><label>{ts}Fee Amount{/ts}</label><br />
      	{$form.participant_fee_amount_low.label} &nbsp; {$form.participant_fee_amount_low.html} &nbsp;&nbsp; 
 	{$form.participant_fee_amount_high.label} &nbsp; {$form.participant_fee_amount_high.html}
@@ -95,3 +59,23 @@
     </td>
 </tr>
 {/if}
+
+{literal}
+<script type="text/javascript"> 
+var eventUrl = "{/literal}{$dataURLEvent}{literal}";
+var typeUrl  = "{/literal}{$dataURLEventType}{literal}";
+var feeUrl   = "{/literal}{$dataURLEventFee}{literal}";
+
+cj('#event_id').autocomplete( eventUrl, { width : 280, selectFirst : false
+                            }).result( function(event, data, formatted) { cj( "#event_name_id" ).val( data[1] );
+                            }).search( function( ) { cj( "#event_name_id" ).val(''); });                                        
+
+cj('#event_type').autocomplete( typeUrl, { width : 180, selectFirst : false
+                               }).result(function(event, data, formatted) { cj( "#event_type_id" ).val( data[1] );
+                               }).search( function( ) { cj( "#event_type_id" ).val(''); });
+
+cj('#participant_fee_level').autocomplete( feeUrl, { width : 180, selectFirst : false
+                                         }).result(function(event, data, formatted) { cj( "#participant_fee_id" ).val( data[1] );
+                                         }).search( function( ) { cj( "#participant_fee_id" ).val(''); });
+</script>
+{/literal}

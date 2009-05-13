@@ -326,9 +326,19 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_done = true;
         
         $this->_formValues = $this->controller->exportValues($this->_name);
+
+        $eventSearchIds = array( 
+                                'event_id'              => 'event_name_id',
+                                'event_type'            => 'event_type_id',
+                                'participant_fee_level' => 'participant_fee_id'
+                                );
+        foreach( $eventSearchIds as $key => $value ) {
+            $this->_formValues[$key]   = ( empty($this->_formValues[$key]) ) ? '' : $this->_formValues[$value];
+            $this->_formValues[$value] = '';
+        }
+
         $this->fixFormValues( );
         
-       
         if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
@@ -427,15 +437,14 @@ class CRM_Event_Form_Search extends CRM_Core_Form
     static function formRule( &$fields )
     {
         $errors = array( );
-
-        if ( $fields['event_id'] && !is_numeric( $fields['event_id'] ) ) {
+       
+        if ( $fields['event_id'] && !is_numeric( $fields['event_name_id'] ) ) {
             $errors['event_id'] = ts('Please select valid event.');
         }
         
-        if ( $fields['event_type'] && !is_numeric( $fields['event_type'] ) ) {
+        if ( $fields['event_type'] && !is_numeric( $fields['event_type_id'] ) ) {
             $errors['event_type'] = ts('Please select valid event type.');
         }
-
         if ( !empty($errors) ) {
             return $errors;
         } 
