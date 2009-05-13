@@ -187,7 +187,7 @@ cj(function() {
 cj(document).ready( function() {
 cj('.head').one( 'click', function() {
     var id  = cj(this).children().attr('id');
-    var url = 'contribution?snippet=4&formType=' + id;
+    var url = "{/literal}{crmURL p='civicrm/contact/view/contribution' q='snippet=4&formType=' h=0}{literal}" + id;
     var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
     cj('div.'+id).html(loading);
     cj.ajax({

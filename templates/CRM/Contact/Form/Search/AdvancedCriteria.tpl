@@ -29,7 +29,7 @@ cj(function() {
 cj(document).ready( function() {
 cj('.head').one( 'click', function() {
     var id  = cj(this).children().attr('id');
-    var url = 'advanced?snippet=1&searchPane=' + id;
+    var url = "{/literal}{crmURL p='civicrm/contact/search/advanced' q='snippet=1&searchPane=' h=0}{literal}" + id;
     var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
     cj('div.'+id).html(loading);
     cj.ajax({
