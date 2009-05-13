@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Report</base>
+  <class>Instance</class>
+  <name>civicrm_report_instance</name>
+  <comment>Users can save their report instance and put in a cron tab etc.</comment>
+  <add>2.2</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Report Instance ID</comment>
+       <add>2.2</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>false</autoincrement>
+  </primaryKey>
+  <field>
+       <name>title</name>
+       <title>Report Instance Title</title>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Report Instance Title.</comment>
+       <add>2.2</add>
+  </field>
+  <field>
+      <name>report_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value for the report template</comment>
+      <add>1.7</add>
+  </field>
+  <field>
+       <name>form_values</name>
+       <title>Submitted Form Values</title>
+       <type>text</type>
+       <import>true</import>
+       <comment>Submitted form values for this report</comment>
+       <add>2.2</add>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this entry active?</comment>
+       <add>2.2</add>
+  </field>
+  <field>
+       <name>email_subject</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Subject of email</comment>
+  </field>
+  <field>        
+      <name>email_to</name>     
+      <type>text</type> 
+      <comment>comma-separated list of email addresses to send the report to</comment>
+      <add>2.2</add>     
+  </field>
+  <field>        
+      <name>email_cc</name>     
+      <type>text</type> 
+      <comment>comma-separated list of email addresses to send the report to</comment>
+      <add>2.2</add>     
+  </field>
+  <field>        
+      <name>header</name>     
+      <type>text</type> 
+      <comment>comma-separated list of email addresses to send the report to</comment>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>60</cols>
+      <add>2.2</add>     
+  </field>
+  <field>        
+      <name>footer</name>     
+      <type>text</type> 
+      <comment>comma-separated list of email addresses to send the report to</comment>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>60</cols>
+      <add>2.2</add>     
+  </field>
+</table>

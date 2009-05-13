@@ -728,6 +728,17 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addButtons( $buttons );
     }
 
+    function addDateRange( $name, $label = 'From:', $dateFormat = 'relative', $required = null ) {
+        $this->add('date', $name . '_from', $label, CRM_Core_SelectValues::date($dateFormat)); 
+        $this->add('date', $name . '_to', ts('To:'), CRM_Core_SelectValues::date($dateFormat)); 
+        
+        if ( $required ) {
+            foreach ( array ( 'from', 'to' ) as $key ) { 
+                $form->addRule( $name .'_' . $key , ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+            }
+        }
+    }
+    
     function addSelect( $name, $label, $prefix = null, $required = null, $extra = null, $select = '- select -' ) {
         require_once "CRM/Core/OptionGroup.php";
         if ($prefix) {
