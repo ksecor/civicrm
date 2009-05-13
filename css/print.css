@@ -4,7 +4,9 @@
 .form-item {
   display: none;
 }
-
+.form-item .element-right{
+  display: none;
+}
 #crm-container {   
   overflow: visible !important;
 }
