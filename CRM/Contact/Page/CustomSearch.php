@@ -57,6 +57,7 @@ FROM   civicrm_option_group g,
 WHERE  v.option_group_id = g.id
 AND    g.name = 'custom_search'
 AND    v.is_active = 1
+ORDER By  v.weight
 ";
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );
