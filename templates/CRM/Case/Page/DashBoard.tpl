@@ -37,7 +37,7 @@
 
 <h3>{ts}Summary of Case Involvement{/ts}</h3>
 <table class="report">
-  <tr class="columnheader-dark">
+  <tr class="columnheader">
     <th>&nbsp;</th>
     {foreach from=$casesSummary.headers item=header}
     <th scope="col" class="right" style="padding-right: 10px;"><a href="{$header.url}">{$header.status}</a></th>
