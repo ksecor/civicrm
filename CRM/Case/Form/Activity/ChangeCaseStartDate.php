@@ -68,10 +68,7 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate
 
     static function buildQuickForm( &$form ) 
     { 
-        $currentStartDate = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
-                                                         $form->_caseId,
-                                                         'start_date' );
-
+        $currentStartDate = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $form->_caseId, 'start_date' );
         $form->assign('current_start_date',  $currentStartDate );
         $form->add( 'date', 'start_date', ts('New Start Date'), CRM_Core_SelectValues::date( ), false );   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');

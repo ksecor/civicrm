@@ -96,6 +96,12 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
                 }
             }
         }
+        
+        if ( 'Change Case Start Date' ==
+             CRM_Utils_Array::value( 'activityTypeName', $params ) ) {
+            // delete all existing activities which are non-empty
+            $this->deleteEmptyActivity( $params );
+        }
 
         foreach ( $xml->ActivitySets as $activitySetsXML ) {
             foreach ( $activitySetsXML->ActivitySet as $activitySetXML ) {
