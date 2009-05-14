@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,7 +29,7 @@
  *
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -54,8 +54,6 @@ class CRM_Core_BAO_Setting
 
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
-        $domain->id = CRM_Core_Config::domainID( );
-
         $domain->find(true);
         if ($domain->config_backend) {
             $values = unserialize($domain->config_backend);
@@ -65,8 +63,11 @@ class CRM_Core_BAO_Setting
         // unset any of the variables we read from file that should not be stored in the database
         // the username and certpath are stored flat with _test and _live
         // check CRM-1470
-        $skipVars = array( 'dsn', 'templateCompileDir', 'userFrameworkBaseURL',
-                           'qfKey', 'gettextResourceDir' );
+        $skipVars = array( 'dsn', 'templateCompileDir',
+                           'userFrameworkDSN', 
+                           'userFrameworkBaseURL', 'userFrameworkClass', 'userHookClass',
+                           'userPermissionClass', 'userFrameworkURLVar',
+                           'qfKey', 'gettextResourceDir', 'cleanURL' );
         foreach ( $skipVars as $var ) {
             unset( $params[$var] );
         }
@@ -137,20 +138,114 @@ class CRM_Core_BAO_Setting
      * @return array $defaults  
      * @static
      */
-    static function retrieve(&$defaults) {
-
+    static function retrieve(&$defaults) 
+    {
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
-        $domain->id = CRM_Core_Config::domainID( );
         $domain->selectAdd( );
-        $domain->selectAdd( 'config_backend' );
 
+        if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' ) {
+            $domain->selectAdd( 'config_backend' );
+        } else {
+            $domain->selectAdd( 'config_backend, locales' );
+        }
+        
         $domain->find(true);
         if ($domain->config_backend) {
-            $defaults = unserialize($domain->config_backend);
+            $defaults   = unserialize($domain->config_backend);
+
+            // calculate month var
+            $defaults['dateformatMonthVar'] = 
+                strstr($defaults['dateformatQfDate'], '%m') ? 'm' : (strstr($defaults['dateformatQfDate'], '%b') ? 'M' : (strstr($defaults['dateformatQfDate'], '%B') ? 'F' : null)); 
+            
+            //calculate month var for Date Time
+            $defaults['datetimeformatMonthVar'] = 
+                strstr($defaults['dateformatQfDatetime'], '%m') ? 'm' : (strstr($defaults['dateformatQfDatetime'], '%b') ? 'M' : (strstr($defaults['dateformatQfDatetime'], '%B') ? 'F' : null));
+            //calculate hour var for Date Time 
+            $defaults['datetimeformatHourVar'] =  strstr($defaults['dateformatQfDatetime'], '%I') ?'h' : (strstr($defaults['dateformatQfDatetime'], '%l') ? 'g' : null);
+
+            // set proper monetary formatting, falling back to en_US and C (CRM-2782)
+            setlocale(LC_MONETARY, $defaults['lcMonetary'].'.utf8', $defaults['lcMonetary'], 'en_US.utf8', 'en_US', 'C');
+
+            $skipVars = array( 'dsn', 'templateCompileDir',
+                               'userFrameworkDSN', 
+                               'userFrameworkBaseURL', 'userFrameworkClass', 'userHookClass',
+                               'userPermissionClass', 'userFrameworkURLVar',
+                               'qfKey', 'gettextResourceDir', 'cleanURL' );
+            foreach ( $skipVars as $skip ) {
+                if ( array_key_exists( $skip, $defaults ) ) {
+                    unset( $defaults[$skip] );
+                }
+            }
+            
+            // since language field won't be present before upgrade.
+            if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' ) {
+                return;
+            }
+
+            // are we in a multi-language setup?
+            $multiLang = $domain->locales ? true : false;
+
+            // set the current language
+            $lcMessages = null;
+
+            $session =& CRM_Core_Session::singleton();
+
+            // on multi-lang sites based on request and civicrm_uf_match
+            if ($multiLang) {
+                require_once 'CRM/Utils/Request.php';
+                $lcMessagesRequest = CRM_Utils_Request::retrieve('lcMessages', 'String', $this);
+                if (in_array($lcMessagesRequest, array_keys($defaults['languageLimit']))) {
+                    $lcMessages = $lcMessagesRequest;
+                } else {
+                    $lcMessagesRequest = null;
+                }
+
+                if (!$lcMessagesRequest) {
+                    $lcMessagesSession = $session->get('lcMessages');
+                    if (in_array($lcMessagesSession, array_keys($defaults['languageLimit']))) {
+                        $lcMessages = $lcMessagesSession;
+                    } else {
+                        $lcMessagesSession = null;
+                    }
+                }
+
+                if ($lcMessagesRequest) {
+                    require_once 'CRM/Core/DAO/UFMatch.php';
+                    $ufm =& new CRM_Core_DAO_UFMatch();
+                    $ufm->contact_id = $session->get('userID');
+                    if ($ufm->find(true)) {
+                        $ufm->language = $lcMessages;
+                        $ufm->save();
+                    }
+                    $session->set('lcMessages', $lcMessages);
+                }
+                
+                if (!$lcMessages and $session->get('userID')) {
+                    require_once 'CRM/Core/DAO/UFMatch.php';
+                    $ufm =& new CRM_Core_DAO_UFMatch();
+                    $ufm->contact_id = $session->get('userID');
+                    if ($ufm->find(true) and in_array($ufm->language, array_keys($defaults['languageLimit']))) {
+                        $lcMessages = $ufm->language;
+                    }
+                    $session->set('lcMessages', $lcMessages);
+                }
+            }
+
+            // if a single-lang site or the above didn't yield a result, use default
+            if ($lcMessages === null) {
+                $lcMessages = $defaults['lcMessages'];
+            }
+
+            // set suffix for table names - use views if more than one language
+            global $dbLocale;
+            $dbLocale = $multiLang ? "_{$lcMessages}" : '';
+
+            // FIXME: an ugly hack to fix CRM-4041
+            global $tsLocale;
+            $tsLocale = $lcMessages;
         }
     }
-
 }
 
-?>
+

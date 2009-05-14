@@ -1,0 +1,297 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Contact_Profile extends CiviTestCase 
+{
+    var $webUser;
+    
+    function get_info() 
+    {
+        return array(
+                     'name' => 'Profile',
+                     'description' => 'Test Profile Functionality like Profile Create, Edit, View, Search (gid=1).',
+                     'group' => 'CiviCRM Browser Tests',
+                     );
+    }
+    
+    function setUp() 
+    {
+        parent::setUp();
+        $this->drupalModuleEnable('civicrm');
+        
+        $this->webUser = $this->drupalCreateUserRolePerm(
+                                                         array ( 0 => 'access CiviCRM',
+                                                                 1 => 'edit all contacts',
+                                                                 2 => 'add contacts',
+                                                                 3 => 'profile listings and forms') );
+        $this->drupalLoginUser($this->webUser);
+    }
+    
+    /**
+     * Test to create profile without required fields (first + last are required)
+     */
+    function testCreateProfileContactWithMissingParams( ) 
+    {
+        $first_name  = '';
+        $last_name   = '';
+        $params = array( 'first_name' => $first_name,     
+                         'last_name'  => $last_name );
+        
+        //goto profile form
+        $this->civiGet('civicrm/profile/create', 'gid=1&reset=1' );
+        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        
+        $this->assertWantedRaw( 'First Name', 'Name and Address' );
+        $this->assertWantedRaw( 'Last Name', 'Name and Address' );
+        $this->assertDBNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name', 
+                             'Database check, Individual created successfully.' );
+    }
+    
+    /**
+     * Test to create profile with 
+     * valid parameters
+     */
+    function testCreateProfileContactwithNames( ) 
+    {
+        $first_name  = 'Jane';
+        $last_name   = 'Doe';
+        $params = array( 'first_name' => $first_name,     
+                         'last_name'  => $last_name );
+        
+        //goto profile form
+        $this->civiGet('civicrm/profile/create', 'gid=1&reset=1' );
+        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        
+        $this->assertText( 'First Name' );
+        $this->assertText( 'Last Name' );
+        $this->assertText( $first_name );
+        $this->assertText( $last_name );
+        
+        // Now check DB for contact and cleanup by deleting the contact
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',
+                                             'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }  
+    
+    /**
+     * Test to create profile with address data (primary location)
+     * 
+     */
+    function testCreateProfileContactwithAddress( ) 
+    {
+        $first_name  = 'John';
+        $last_name   = 'Smith';
+        $params = array ( 'first_name'       => $first_name,     
+                          'last_name'        => $last_name,
+                          'street_address-1' => 'Saint Helier St',
+                          'city-1'           => 'Newark',
+                          'postal_code-1'    => 12345,
+                          'state_province-1' => 1029, 
+                          'country-1'        => 1228
+                          );
+        
+        //goto profile form
+        $this->civiGet('civicrm/profile/create', 'gid=1&reset=1' );
+        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        
+        $this->assertText( 'First Name' );
+        $this->assertText( 'Last Name' );
+        $this->assertText( $first_name );
+        $this->assertText( $last_name );
+        
+        // Now check DB for contact and cleanup by deleting the contact
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',
+                                             'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * Test to search contact with first name and last name
+     * 
+     */
+    function testSearchContactWithNames( ) 
+    {
+        $first_name  = 'John';
+        $last_name   = 'Smith';
+        $params = array ( 'first_name' => $first_name,     
+                          'last_name'  => $last_name );
+        
+        $contactId = Contact::create( $params );
+        
+        //goto profile search form
+        $this->civiGet( 'civicrm/profile/search', 'gid=1&reset=1' );
+        
+        //Search Contact with first name and last name
+        $this->drupalPost( NULL, $params, '_qf_Search_refresh' );
+        
+        $this->assertText( 'New Search' );
+        $this->assertText( 'Displaying contacts where' );
+        $this->assertText( 'Name' );
+        $this->assertText( 'State (Home)' );
+        $this->assertText( "{$last_name}, {$first_name}" );
+        
+        //Now check DB for contact and cleanup by deleting the contact
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',
+                                             'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * Test to search contact with name and address
+     * 
+     */
+    function testSearchContactWithAll( ) 
+    {
+        $first_name  = 'John';
+        $last_name   = 'Smith';
+        $params = array ( 'first_name'       => $first_name,     
+                          'last_name'        => $last_name,
+                          'state_province-1' => 1004, 
+                          'country-1'        => 1228 );
+        
+        $contactId = Contact::create( $params );
+        
+        //goto profile search form
+        $this->civiGet( 'civicrm/profile/search', 'gid=1&reset=1' );
+        
+        //Search Contact with name and address
+        $this->drupalPost( NULL, $params, '_qf_Search_refresh' );
+        
+        $this->assertText( 'Displaying contacts where' );
+        $this->assertText( 'New Search' );
+        $this->assertText( 'Name' );
+        $this->assertText( 'State (Home)' );
+        $this->assertText( "{$last_name}, {$first_name}" );
+        $this->assertText( 'CA' );
+        
+        //Now check DB for contact and cleanup by deleting the contact
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }
+
+    /**
+     * Test profile edit mode
+     * 
+     */
+    function testProfileEditMode( ) 
+    {
+        $first_name  = 'John';
+        $last_name   = 'Smith';
+        $params = array ( 'first_name'       => $first_name,     
+                          'last_name'        => $last_name,
+                          'street_address-1' => 'Saint Helier St',
+                          'city-1'           => 'Newark',
+                          'postal_code-1'    => 12345,
+                          'state_province-1' => 1029, 
+                          'country-1'        => 1228
+                          );
+        
+        //goto profile form
+        $this->civiGet('civicrm/profile/create', 'gid=1&reset=1' );
+        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+
+        $this->assertText( 'First Name' );
+        $this->assertText( 'Last Name' );
+        $this->assertText( $first_name );
+        $this->assertText( $last_name );
+       
+        // Now check DB for contact and cleanup by deleting the contact
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',
+                                             'Checking database for the record.' );
+
+        // updated params
+        $first_name  = 'Sam';
+        $last_name   = 'Adams';
+        $params = array ( 'first_name'       => $first_name,     
+                          'last_name'        => $last_name,
+                          'street_address-1' => 'Casper St',
+                          'city-1'           => 'San Francisco',
+                          );
+
+        $this->civiGet('civicrm/profile/edit', "gid=1&reset=1&id={$contactId}" );
+        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        
+        $this->assertText( 'First Name' );
+        $this->assertText( 'Last Name' );
+        $this->assertText( $first_name );
+        $this->assertText( $last_name );
+        
+        Contact::delete( $contactId );
+    }
+
+    /**
+     * Test profile view mode
+     * 
+     */
+    function testProfileViewMode( ) 
+    {
+        $first_name  = 'John';
+        $last_name   = 'Smith';
+        $params = array ( 'first_name'       => $first_name,     
+                          'last_name'        => $last_name,
+                          'street_address-1' => 'Saint Helier St',
+                          'city-1'           => 'Newark',
+                          'postal_code-1'    => 12345,
+                          'state_province-1' => 1029, 
+                          'country-1'        => 1228
+                          );
+        
+        //goto profile form
+        $this->civiGet( 'civicrm/profile/create', 'gid=1&reset=1' );
+        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        
+        $this->assertText( 'First Name' );
+        $this->assertText( 'Last Name' );
+        $this->assertText( $first_name );
+        $this->assertText( $last_name );
+        
+        //Now check DB for contact 
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',
+                                             'Checking database for the record.' );
+        
+        $this->civiGet( 'civicrm/profile/view', "gid=1&reset=1&id={$contactId}" );
+        $this->assertText( 'First Name' );
+        $this->assertText( 'Last Name' );
+        $this->assertText( $first_name );
+        $this->assertText( $last_name );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+}
+
+?>

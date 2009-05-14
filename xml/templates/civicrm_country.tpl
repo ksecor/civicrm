@@ -156,7 +156,7 @@ INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1138", "Maurit
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1139", "Mayotte", "YT", "5");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1140", "Mexico", "MX", "2");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1141", "Micronesia, Federated States of", "FM", "4");
-INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1142", "Moldova, Republic of", "MD", "1");
+INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1142", "Moldova", "MD", "1");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1143", "Monaco", "MC", "1");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1144", "Mongolia", "MN", "4");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1145", "Montserrat", "MS", "2");

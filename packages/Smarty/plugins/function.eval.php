@@ -44,7 +44,6 @@ function smarty_function_eval($params, &$smarty)
     $_contents = ob_get_contents();
     ob_end_clean();
 
-
     if (!empty($params['assign'])) {
         $smarty->assign($params['assign'], $_contents);
     } else {

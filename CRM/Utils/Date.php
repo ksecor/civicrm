@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -52,7 +52,8 @@ class CRM_Utils_Date
      */
     static function format( $date, $separator = '', $invalidDate = 0 )
     {
-        if ( is_numeric($date) && ( strlen($date) == 8 ) ) {
+        if ( is_numeric($date) && 
+             ( ( strlen($date) == 8 ) || ( strlen($date) == 14 ) ) ) {
             return $date;
         }
 
@@ -67,6 +68,11 @@ class CRM_Utils_Date
             return $invalidDate;
         }
 
+        if ( array_key_exists( 'm', $date ) ) {
+            $date['M'] = $date['m'] ;
+        } else if ( array_key_exists('F',$date) ) {
+            $date['M'] = $date['F'] ;
+        }
             
         if ( CRM_Utils_Array::value( 'M', $date ) ) {
             $date['M'] = (int ) $date['M'];
@@ -97,12 +103,12 @@ class CRM_Utils_Date
             CRM_Utils_Array::value( 's', $date ) != null) {
             // we have time too.. 
             if (CRM_Utils_Array::value( 'h', $date )) {
-                if ($date['A'] == 'PM') {
+                if ( CRM_Utils_Array::value( 'A', $date ) == 'PM' or CRM_Utils_Array::value( 'a', $date ) == 'pm') {
                     if ($date['h'] != 12 ) {
                         $date['h'] = $date['h'] + 12;
                     }
                 }
-                if ( CRM_Utils_Array::value( 'A', $date ) == 'AM' &&
+                if ( (CRM_Utils_Array::value( 'A', $date ) == 'AM' or CRM_Utils_Array::value( 'a', $date ) == 'am') &&
                      CRM_Utils_Array::value( 'h', $date ) == 12 ) {
                     $date['h'] = '00';
                 }
@@ -201,11 +207,17 @@ class CRM_Utils_Date
                 $value['h'] -= 12;
                 $value['H'] = $hr;
                 $value['A'] = 'PM';
+                $value['a'] = 'pm';
             } else if( $hr == 0 ) {
                 $value['h'] = 12;
                 $value['A'] = 'AM';
+                $value['a'] = 'am';
+            } else if( $hr == 12 ) {
+                $value['A'] = 'PM';
+                $value['a'] = 'pm';
             } else {
                 $value['A'] = 'AM';
+                $value['a'] = 'am';
             }
         }
         
@@ -266,7 +278,7 @@ class CRM_Utils_Date
      *
      * @static
      */
-    static function &getAbbrMonthNames()
+    static function &getAbbrMonthNames($month=false)
     {
         static $abbrMonthNames;
         if (!isset($abbrMonthNames)) {
@@ -276,6 +288,9 @@ class CRM_Utils_Date
             for ($i = 1; $i <= 12; $i++) {
                 $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i, 10, 1970 ));
             }
+        }
+        if ( $month ) {
+            return $abbrMonthNames[$month];
         }
         return $abbrMonthNames;
     }
@@ -307,16 +322,18 @@ class CRM_Utils_Date
             return 0;
         }
         $v = self::unformat( $string );
-
+        
         if ( empty( $v ) ) {
             return 0;
         }
-
-        if ( $v['A'] == 'PM' ) {
+        
+        if ( CRM_Utils_Array::value( 'A', $v ) == 'PM' or CRM_Utils_Array::value( 'a', $v ) == 'pm') {
             $v['h'] += 12;
         }
-
-        return mktime( $v['h'], $v['i'], 59, $v['M'], $v['d'], $v['Y'] );
+        
+        return mktime( CRM_Utils_Array::value( 'h', $v ),
+                       CRM_Utils_Array::value( 'i', $v ), 
+                       59, $v['M'], $v['d'], $v['Y'] );
     }
 
     /**
@@ -340,36 +357,51 @@ class CRM_Utils_Date
      * 
      * @param string $date    date and time in 'YYYY-MM-DD hh:mm:ss' format
      * @param string $format  the output format
+     * @param array  $dateParts  an array with the desired date parts
      *
      * @return string  the $format-formatted $date
      *
      * @static
      */
-    static function customFormat($dateString, $format = null)
+    static function customFormat($dateString, $format = null, $dateParts = null)
     {
         // 1-based (January) month names arrays
         $abbrMonths = self::getAbbrMonthNames();
         $fullMonths = self::getFullMonthNames();
 
-        if (!$format) {
+        if ( ! $format ) {
             $config =& CRM_Core_Config::singleton();
-            if ( strpos($dateString, '-') ) {
-                $month  = (int) substr($dateString,  5, 2);
-                $day    = (int) substr($dateString,  8, 2);
+
+            if ($dateParts) {
+                if (array_intersect(array('h', 'H'), $dateParts)) {
+                    $format = $config->dateformatDatetime;
+                } elseif (array_intersect(array('d', 'j'), $dateParts)) {
+                    $format = $config->dateformatFull;
+                } elseif (array_intersect(array('m', 'M'), $dateParts)) {
+                    $format = $config->dateformatPartial;
+                } else {
+                    $format = $config->dateformatYear;
+                }
             } else {
-                $month  = (int) substr($dateString,  4, 2);
-                $day    = (int) substr($dateString,  6, 2);
+                if ( strpos($dateString, '-') ) {
+                    $month  = (int) substr($dateString,  5, 2);
+                    $day    = (int) substr($dateString,  8, 2);
+                } else {
+                    $month  = (int) substr($dateString,  4, 2);
+                    $day    = (int) substr($dateString,  6, 2);
+                }
+
+                if (strlen($dateString) > 10) {
+                    $format = $config->dateformatDatetime;
+                } elseif ($day > 0) {
+                    $format = $config->dateformatFull;
+                } elseif ($month > 0) {
+                    $format = $config->dateformatPartial;
+                } else {
+                    $format = $config->dateformatYear;
+                }
             }
 
-            if (strlen($dateString) > 10) {
-                $format = $config->dateformatDatetime;
-            } elseif ($day > 0) {
-                $format = $config->dateformatFull;
-            } elseif ($month > 0) {
-                $format = $config->dateformatPartial;
-            } else {
-                $format = $config->dateformatYear;
-            }
         }
 
         if ($dateString) {
@@ -385,10 +417,10 @@ class CRM_Utils_Date
                 $month  = (int) substr($dateString,  4, 2);
                 $day    = (int) substr($dateString,  6, 2);
                 
-                $hour24 = (int) substr($dateString, 9, 2);
-                $minute = (int) substr($dateString, 12, 2);
+                $hour24 = (int) substr($dateString, 8, 2);
+                $minute = (int) substr($dateString, 10, 2);
             }
-            
+
             if     ($day % 10 == 1 and $day != 11) $suffix = 'st';
             elseif ($day % 10 == 2 and $day != 12) $suffix = 'nd';
             elseif ($day % 10 == 3 and $day != 13) $suffix = 'rd';
@@ -405,8 +437,8 @@ class CRM_Utils_Date
             }
             
             $date = array(
-                          '%b' => $abbrMonths[$month],
-                          '%B' => $fullMonths[$month],
+                          '%b' => CRM_Utils_Array::value( $month, $abbrMonths ),
+                          '%B' => CRM_Utils_Array::value( $month, $fullMonths ),
                           '%d' => $day > 9 ? $day : '0' . $day,
                           '%e' => $day > 9 ? $day : ' ' . $day,
                           '%E' => $day,
@@ -424,8 +456,7 @@ class CRM_Utils_Date
                           '%A' => $type,
                           '%Y' => $year
                           );
-            //CRM_Core_Error::debug('f',$format);
-            //CRM_Core_Error::debug('d',$date);
+
             return strtr($format, $date);
 
         } else {
@@ -543,50 +574,74 @@ class CRM_Utils_Date
     {
         $now = getDate();
         $cen = substr($now['year'],  0, 2);
-        
+        $prevCen = $cen - 1;
+
         if ($params[$dateParam]) {
-            $value = $params[$dateParam];
+            //suppress hh:mm if it exists
+            $value = preg_replace("/(?: [01]\d|2[0-3]|\d):(?:[0-4]\d|5[1-9])/", "", $params[$dateParam] );
         }
         
         switch( $dateType ) {
             
         case 1 :
-            if ( ! preg_match('/^\d\d\d\d-?\d\d-?\d\d$/', $value) ) {
+            if ( ! preg_match('/^\d\d\d\d-?(\d|\d\d)-?(\d|\d\d)$/', $value) ) {
                 return false;
-            } else {
-                return true;
-            }
+            } 
+            break;
         case 2 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d$/', $value) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d$/', $value) ) {
                 return false;
             }
             break;
         case 4 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d$/', $value ) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d\d\d$/', $value ) ) {
                 return false;
             }
             break;
         case 8 :
-            if ( ! preg_match('/^[A-Za-z]*[ \t]?\d\d\,[ \t]?\d\d\d\d$/', $value ) ) {
+            if ( ! preg_match('/^[A-Za-z]*.[ \t]?\d\d\,[ \t]?\d\d\d\d$/', $value ) ) {
                 return false;
             }
             break;
         case 16 :
-            if ( ! preg_match('/^\d\d-[A-Za-z]{3}-\d\d$/', $value )) {
+            if ( ! preg_match('/^\d\d-[A-Za-z]{3}.*-\d\d$/', $value ) && ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d$/', $value ) ) {
                 return false; 
             }
             break;
         case 32 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d/', $value) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d\d\d/', $value) ) {
                 return false;
             }
             break;
         }
-        
+
+        if ( $dateType == 1 ) {
+            $formattedDate = explode( "-", $value );
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[0];
+                $month  = (int) $formattedDate[1];
+                $day    = (int) $formattedDate[2];
+                
+            } else if ( count($formattedDate) == 1 && ( strlen($value) == 8 ) ){
+                return true;
+            } else { 
+                return false;
+            }
+        }
+
+
         if ( $dateType == 2 || $dateType == 4) {
-            $year   = (int) substr($value,  6, $dateType);
-            $month  = (int) substr($value,  0, 2);
-            $day    = (int) substr($value,  3, 2);
+            $formattedDate = explode( "/", $value );
+            if ( count($formattedDate) != 3 ) {
+                $formattedDate = explode( "-" , $value ); 
+            } 
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[2];
+                $month  = (int) $formattedDate[0];
+                $day    = (int) $formattedDate[1];
+            } else {
+                return false;
+            }    
         }
         if ( $dateType == 8 ) {
             $dateArray = explode(' ',$value);
@@ -595,7 +650,7 @@ class CRM_Utils_Date
             $monthInt = 0;
             $fullMonths = self::getFullMonthNames();
             foreach ($fullMonths as $key => $val) {
-                if ($dateArray[0] == $val) {
+                if (strtolower($dateArray[0]) == strtolower($val)) {
                     $monthInt = $key; 
                     break;
                 }
@@ -603,7 +658,7 @@ class CRM_Utils_Date
             if (!$monthInt) {
                 $abbrMonths = self::getAbbrMonthNames();
                 foreach ($abbrMonths as $key => $val) {
-                    if ($dateArray[0] == $val) {
+                    if (strtolower(trim($dateArray[0], "." )) == strtolower($val)) {
                         $monthInt = $key; 
                         break;
                     }
@@ -615,43 +670,533 @@ class CRM_Utils_Date
         }
         if ( $dateType == 16 ) {
             $dateArray = explode('-',$value);
-            
-            $monthInt = 0;
-            $fullMonths = self::getFullMonthNames();
-            foreach ($fullMonths as $key => $val) {
-                if ($dateArray[1] == $val) {
-                    $monthInt = $key; 
-                    break;
-                }
+            if ( count ( $dateArray ) != 3 ) {
+                $dateArray = explode('/', $value);
             }
-            if (!$monthInt) {
-                $abbrMonths = self::getAbbrMonthNames();
-                foreach ($abbrMonths as $key => $val) {
-                    if ($dateArray[1] == $val) {
+
+            if ( count ( $dateArray ) == 3 ) {
+                $monthInt = 0;
+                $fullMonths = self::getFullMonthNames();
+                foreach ( $fullMonths as $key => $val ) {
+                    if ( strtolower( $dateArray[1] ) == strtolower( $val )) {
                         $monthInt = $key; 
                         break;
                     }
                 }
+                if ( !$monthInt ) {
+                    $abbrMonths = self::getAbbrMonthNames();
+                    foreach ( $abbrMonths as $key => $val ) {
+                        if ( strtolower(trim($dateArray[1], "." )) == strtolower( $val )) {
+                            $monthInt = $key; 
+                            break;
+                        }
+                    }
+                }
+                if ( !$monthInt ) {
+                    $monthInt = $dateArray[1];
+                }
+                
+                $year   = (int) $dateArray[2];
+                $day    = (int) $dateArray[0];
+                $month  = (int) $monthInt;
+            } else {
+                return false; 
             }
-            $year   = (int) $dateArray[2];
-            $day    = (int) $dateArray[0];
-            $month  = (int) $monthInt;
         }
         if ( $dateType == 32 ) {
-            $year   = (int) substr($value,  6, 4);
-            $month  = (int) substr($value,  3, 2);
-            $day    = (int) substr($value,  0, 2);
+            $formattedDate = explode( "/", $value );
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[2];
+                $month  = (int) $formattedDate[1];
+                $day    = (int) $formattedDate[0];
+            } else {
+                return false;
+            }
         }
         
-        $year  = ($year < 10) ? "0" . "$year"  : $year;
         $month = ($month < 10)? "0" . "$month" : $month;
         $day   = ($day < 10)  ? "0" . "$day"   : $day;
-        $year  = ($year < 100)? $cen . "$year" : $year;
+
+        $year = (int ) $year;
+        // simple heuristic to determine what century to use
+        // 01 - 09 is always 2000 - 2009
+        // 10 - 99 is always 1910 - 1999
+        if ( $year < 10 ) {
+            $year = $cen . '0' . $year;
+        } else if ( $year < 100 ) {
+            $year = $prevCen . $year;
+        }
         
         if ($params[$dateParam]) {
             $params[$dateParam] = "$year$month$day";
         }
-        return true;
+        //if month is invalid return as error
+        if ( $month !== '00' && $month <= 12 ) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * resolves the given relative time interval into finite time limits
+     *
+     * @param  array $relativeTerm relative time frame like this, previous, etc
+     * @param  int   $unit         frequency unit like year, month, week etc..
+     * @return array $dateRange    start date and end date for the relative time frame
+     * @static
+     */
+    function relativeToAbsolute( $relativeTerm, $unit) 
+    {
+        $now  = getDate();
+        $from = $to = $dateRange = array();
+        $from['H']  = $from['i'] = $from['s'] = 0;
+        $to['H'] = 23;
+        $to['i'] = $to['s'] = 59;
+        
+        switch( $unit ) {
+
+        case 'year':
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['d'] = $from['M'] = 1;
+                $to['d'] = 31;
+                $to['M'] = 12;
+                $to['Y'] = $from['Y'] = $now['year'];
+                break;
+
+            case 'previous':
+                $from['M'] = $from['d'] = 1;
+                $to['d'] = 31;
+                $to['M'] = 12;
+                $to['Y'] = $from['Y'] = $now['year'] - 1;
+                break;
+
+            case 'previous_before':
+                $from['M'] = $from['d'] = 1;
+                $to['d'] = 31;
+                $to['M'] = 12;
+                $to['Y'] = $from['Y'] = $now['year'] - 2;
+                break;
+
+            case 'previous_2':
+                $from['M'] = $from['d'] = 1;
+                $to['d'] = 31;
+                $to['M'] = 12;
+                $from['Y'] = $now['year'] - 2;
+                $to['Y'] = $now['year'] - 1;
+                break;
+
+            case 'earlier':
+                $to['d'] = 31;
+                $to['M'] = 12;
+                $to['Y'] = $now['year'] - 1;
+                unset($from);
+                break;
+                
+            case 'greater':
+                $from['M'] = $from['d'] = 1;
+                $from['Y'] = $now['year'];
+                unset($to);
+                break;
+            }
+            break;
+            
+        case 'fiscal_year':
+            $config =& CRM_Core_Config::singleton();
+            $from['d'] = $config->fiscalYearStart['d'];
+            $from['M'] = $config->fiscalYearStart['M'];
+            $fYear     = self::calculateFiscalYear( $from['d'],$from['M'] );
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['Y'] = $fYear;
+                $fiscalYear= mktime(0,0,0,$from['M'],$form['d'],$from['Y']+1);
+                $fiscalEnd = explode('-',date("Y-m-d", $fiscalYear));
+                
+                $to['d']   = $fiscalEnd['2'];
+                $to['M']   = $fiscalEnd['1'];
+                $to['Y']   = $fiscalEnd['0'];
+                break;
+                
+            case 'previous':
+                $from['Y'] = $fYear - 1;
+                $fiscalYear= mktime(0,0,0,$from['M'],$form['d'],$from['Y']+1);
+                $fiscalEnd = explode('-',date("Y-m-d", $fiscalYear));
+                
+                $to['d']   = $fiscalEnd['2'];
+                $to['M']   = $fiscalEnd['1'];
+                $to['Y']   = $fiscalEnd['0'];
+                break;
+            }
+            break;
+    
+        case 'quarter':
+            switch( $relativeTerm ) {
+                
+            case 'this':
+                $quarter   = (int)$now['mon']/4;
+                $from['d'] = 1;
+                $from['M'] = (3 * $quarter ) - 2;
+                $to['M']   = 3 * $quarter;
+                $to['Y']   = $from['Y'] = $now['year'];
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $to['M'], $now['year']);
+                break;
+
+            case 'previous':
+                $difference = 1;
+                $quarter   = (int)$now['mon']/4;
+                $quarter = $quarter - $difference;
+                $subtractYear = 0;
+                if ( $quarter <= 0 ) { 
+                    $subtractYear = 1;
+                    $quarter += 4;
+                }
+                $from['d'] = 1;
+                $from['M'] = (3 * $quarter ) - 2;
+                $to['M']   = 3 * $quarter;
+                $to['Y']   = $from['Y'] = $now['year'] - $subtractYear;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $to['M'],  $to['Y']);
+                break;
+
+            case 'previous_before':
+                $difference = 2;
+                $quarter   = (int)$now['mon']/4;
+                $quarter = $quarter - $difference;
+                if ( $quarter <= 0 ) { 
+                    $subtractYear = 1;
+                    $quarter += 4;
+                }
+                $from['d'] = 1;
+                $from['M'] = (3 * $quarter ) - 2;
+                $to['M']   = 3 * $quarter;
+                $to['Y']   = $from['Y'] = $now['year'] - $subtractYear;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $to['M'], $to['Y'] );
+                break;
+
+            case 'previous_2':
+                $difference = 2;
+                $quarter   = (int)$now['mon']/4;
+                $quarter = $quarter - $difference;
+                if ( $quarter <= 0 ) { 
+                    $subtractYear = 1;
+                    $quarter += 4;
+                }
+                $from['d'] = 1;
+                $from['M'] = (3 * $quarter ) - 2;
+                $to['M']   = 4 * $quarter;
+                $to['Y']   = $from['Y'] = $now['year'] - $subtractYear;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $to['M'], $to['Y'] );
+                break;
+
+            case 'earlier':
+                $quarter   = (int)$now['mon']/4 - 1;
+                if ( $quarter <= 0 ) { 
+                    $subtractYear = 1;
+                    $quarter += 4;
+                }
+                $to['M']   = 3 * $quarter;
+                $to['Y']   = $from['Y'] = $now['year'] - $subtractYear;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $to['M'],  $to['Y']);
+                unset($from);
+                break;
+                
+            case 'greater':
+                $quarter   = (int)$now['mon']/4;
+                $from['d'] = 1;
+                $from['M'] = (3 * $quarter ) - 2;
+                $from['Y'] = $now['year'];
+                unset($to);
+                break;
+            }
+            break;
+            
+        case 'month':
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['d'] = 1;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $now['mon'], $now['year']);
+                $from['M'] = $to['M'] = $now['mon'];
+                $to['Y'] = $from['Y'] = $now['year'];
+                break;
+                
+            case 'previous':
+                $from['d'] = 1;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $now['mon'] - 1, $now['year']);
+                $from['M'] = $to['M'] = $now['mon'] - 1;
+                $to['Y'] = $from['Y'] = $now['year'];
+                break;
+
+            case 'previous_before':
+                $from['d'] = 1;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $now['mon'] - 2, $now['year']);
+                $from['M'] = $to['M'] = $now['mon'] - 2;
+                $to['Y'] = $from['Y'] = $now['year'];
+                break;
+
+            case 'previous_2':
+                $from['d'] = 1;
+                $to['d']   = cal_days_in_month(CAL_GREGORIAN, $now['mon'] - 1, $now['year']);
+                $from['M'] = $now['mon'] - 2;
+                $to['M'] = $now['mon'] - 1;
+                $to['Y'] = $from['Y'] = $now['year'];
+                break;
+
+            case 'earlier':
+                //before end of past month
+                $to['d'] = cal_days_in_month(CAL_GREGORIAN, $now['mon'] - 1, $now['year']);
+                $to['M'] = $now['mon'] - 1;
+                $to['Y'] = $now['year'];
+                unset($from);
+                break;
+                
+            case 'greater':
+                $from['d'] = 1;
+                $from['M'] = $now['mon'];;
+                $from['Y'] = $now['year'];
+                unset($to);
+                break;
+            }
+            break;
+            
+        case 'week':
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday']), $from );
+                $to   = self::intervalAdd( 'day', 6, $from );
+                $to['H'] = 23;
+                $to['i'] = $to['s'] = 59;
+                break;
+                
+            case 'previous':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday'])-7, $from );
+                $to   = self::intervalAdd( 'day', 6, $from );
+                $to['H'] = 23;
+                $to['i'] = $to['s'] = 59;
+                break;
+
+            case 'previous_before':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday'])-14, $from );
+                $to   = self::intervalAdd( 'day', 6, $from );
+                $to['H'] = 23;
+                $to['i'] = $to['s'] = 59;
+                break;
+                
+            case 'previous_2':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday'])-14, $from );
+                $to   = self::intervalAdd( 'day', 13, $from );
+                $to['H'] = 23;
+                $to['i'] = $to['s'] = 59;
+                break;
+
+            case 'earlier':
+                $to['d'] = $now['mday'];
+                $to['M'] = $now['mon'];
+                $to['Y'] = $now['year'];
+                $to['H'] = 23;
+                $to['i'] = $to['s'] = 59;
+                $to   = self::intervalAdd( 'day', -1*($now['wday'])-1, $to );
+                unset($from);
+                break;
+                
+            case 'greater':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1*($now['wday']), $from );
+                unset($to);
+                break;
+            }
+            break;
+
+        case 'day':
+            switch( $relativeTerm ) {
+            case 'this':
+                $from['d'] = $to['d'] = $now['mday'];
+                $from['M'] = $to['M'] = $now['mon'];
+                $from['Y'] = $to['Y'] = $now['year'];
+                break;
+                
+            case 'previous':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -1, $from );
+                $to['d'] = $from['d'];
+                $to['M'] = $from['M'];
+                $to['Y'] = $from['Y'];
+                break;
+
+            case 'previous_before':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];
+                $from['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -2, $from );
+                $to['d'] = $from['d'];
+                $to['M'] = $from['M'];
+                $to['Y'] = $from['Y'];
+                break;
+                
+            case 'previous_2':
+                $from['d'] = $to['d'] = $now['mday'];
+                $from['M'] = $to['M'] = $now['mon'];
+                $from['Y'] = $to['Y'] = $now['year'];
+                $from = self::intervalAdd( 'day', -2, $from );
+                $to   = self::intervalAdd( 'day', -1, $to );
+                break;
+                
+            case 'earlier':
+                $to['d'] = $now['mday'];
+                $to['M'] = $now['mon'];
+                $to['Y'] = $now['year']; 
+                unset($from);
+                break;
+                
+            case 'greater':
+                $from['d'] = $now['mday'];
+                $from['M'] = $now['mon'];;
+                $from['Y'] = $now['year'];
+                unset($to);
+                break;
+            }
+            break;
+        }
+        
+        foreach ( array( 'from', 'to' ) as $item ) {
+            if ( !empty ( $$item ) ) {
+                $dateRange[$item] = $$item;
+            } else {
+                $dateRange[$item] = null;
+            }
+        }
+        //CRM_Core_Error::debug( '$date', $dateRange );
+        return $dateRange;
+    }
+
+    /**
+     * splits the given date range into given units
+     *
+     * @param  array $from          start date for the time frame to be splitted
+     * @param  array $to            end date for the time frame to be splitted
+     * @param  int   $unit          frequency unit like year, month, week etc..
+     * @return array $dateSplitted  array of dates having splitted time period between 
+     *                              from date and to date on the basis of unit
+     * @static
+     */
+    function splitIntoInterval( $from, $to, $unit ) 
+    {
+        $fromFormat = self::format($from);
+        $toFormat   = self::format($to);
+        
+        //compare to ensure from date > to date 
+        if ( self::overdue( $toFormat, $fromFormat ) == true ) {
+            return false;
+        }
+        
+        $i = 1;
+        switch( $unit ) {
+        case 'month':
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => array( 'd' => cal_days_in_month(CAL_GREGORIAN, $from['M'], $from['Y']),
+                                                        'M' => $from['M'],
+                                                        'Y' => $from['Y']
+                                                        ) );
+            
+            // check whether the month  end date  < to date         
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i] = array ('from' => self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true ));
+                $dateSplitted[$i]['to'] = array(
+                                                'd' => cal_days_in_month(CAL_GREGORIAN, $dateSplitted[$i]['from']['M'], $dateSplitted[$i]['from']['Y']),
+                                                'M' => $dateSplitted[$i]['from']['M'],
+                                                'Y' => $dateSplitted[$i]['from']['Y']
+                                                );
+            }
+            break;
+
+        case 'day'  :
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => $from );
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i]['from'] = self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true );
+                $dateSplitted[$i]['to'] = $dateSplitted[$i]['from'];
+            }
+            break;
+            
+        case 'year' :
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => array( 'd' => 31,
+                                                        'M' => 12,
+                                                        'Y' => $from['Y']
+                                                        ) );
+            
+            // check whether the year end   < to date         
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i] = array ('from' => self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true ));
+                $dateSplitted[$i]['to'] = array( 'd' => 31,
+                                                 'M' => 12,
+                                                 'Y' => $dateSplitted[$i]['from']['Y']
+                                                 );
+            }
+            break;
+
+        case 'quarter':
+            $quarter = 3 * ((int) ($from['M'] / 4) + 1);
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => array( 'd' => cal_days_in_month(CAL_GREGORIAN, $quarter, $from['Y']),
+                                                        'M' => $quarter,
+                                                        'Y' => $from['Y']
+                                                        ) );
+            
+            // check whether the quarter  end date  < to date         
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i] = array ('from' => self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true ));
+                $start = self::intervalAdd( 'month', 3, $dateSplitted[$i]['from'], true );
+                $dateSplitted[$i]['to'] = self::intervalAdd( 'day', -1, $start, true );
+            }
+            break;
+
+        case 'week':
+            $day = $from['Y'] .'/'. $from['M'] . '/' . $from['d'];
+            $weekday   = date( 'l', strtotime( $day ) );
+            $week      = self::getFullWeekdayNames();
+            $dayOfWeek = CRM_Utils_Array::key($weekday,$week);
+            
+            $dateSplitted[$i] = array ('from' => $from,
+                                       'to'   => self::intervalAdd( 'day', 6 - $dayOfWeek, $from, true ) );
+            
+            // check whether the week  end date  < to date
+            while( self::overdue( self::format($dateSplitted[$i]['to']), $toFormat ) == true ) {
+                $i++;
+                $dateSplitted[$i]['from'] = self::intervalAdd( 'day', 1, $dateSplitted[$i-1]['to'], true );
+                $dateSplitted[$i]['to'] = self::intervalAdd( 'day', 7, $dateSplitted[$i-1]['to'], true );
+            }
+            break;
+        } 
+        
+        $dateSplitted[$i]['to'] = $to;
+        foreach ( $dateSplitted as $key => &$value) {
+            $value['from']['H'] = $value['from']['i'] = $value['from']['s'] = 0;
+            $value['to']['H'] = 11;
+            $value['to']['i'] = $value['to']['s'] = 59;
+        }
+        //CRM_Core_Error::debug( '$dateSplitted', $dateSplitted );
+
+
+        return $dateSplitted;
     }
 
     static function isDate( &$date ) 
@@ -674,7 +1219,7 @@ class CRM_Utils_Date
         } else {
             $now = self::isoToMysql( $now );
         }
-
+        
         return ( $mysqlDate >= $now ) ? false : true;
     }
     
@@ -709,6 +1254,34 @@ class CRM_Utils_Date
         return $today;
     }
 
+    /**
+     * Function to find whether today's date lies in 
+     * the given range
+     * 
+     * @param  date  $startDate  start date for the range 
+     * @param  date  $endDate    end date for the range 
+     
+     * @return true              todays date is in the given date range
+     * @static
+     */
+    static function getRange( $startDate, $endDate  )
+    {
+        $today = date( "Y-m-d" );
+        $mysqlStartDate = self::isoToMysql( $startDate );
+        $mysqlEndDate   = self::isoToMysql( $endDate );
+        $mysqlToday     = self::isoToMysql( $today );
+        
+        if ( ( isset( $mysqlStartDate ) && isset( $mysqlEndDate ) ) && ( ( $mysqlToday >= $mysqlStartDate ) && ( $mysqlToday <= $mysqlEndDate ) ) ){
+            return true;
+        } elseif ( ( isset( $mysqlStartDate ) && ! isset( $mysqlEndDate ) ) && ( ( $mysqlToday >= $mysqlStartDate ) ) ) {
+            return true;
+        } elseif ( ( ! isset( $mysqlStartDate ) && isset( $mysqlEndDate ) ) && ( ( $mysqlToday <= $mysqlEndDate ) ) ) {
+            return true;
+        }
+        return false;
+    }
+    
+
     static function getAllDefaultValues( &$defaults, $format = null, $time = null ) 
     {
         if ( ! $format ) {
@@ -716,7 +1289,7 @@ class CRM_Utils_Date
             $format = 'a-A-d-h-H-i-g-G-j-M-S-Y';
         }
         // always include 'm' (see hack for QF below)
-        $format .= '-m';
+        $format .= '-m-F';
 
         if ( ! $time ) {
             $time = time( );
@@ -733,6 +1306,7 @@ class CRM_Utils_Date
         }
         // for some strange reason QF wants it as M, so we oblige for now
         $defaults['M'] = $defaults['m'];
+        $defaults['F'] = $defaults['m'];
     }
 
     /**
@@ -777,6 +1351,136 @@ class CRM_Utils_Date
 
         return array( $hour, $minute );
     }
+
+    /**
+     * Function to calculate Age in Years if greater than one year else in months
+     * 
+     * @param date $birthDate Birth Date
+     *
+     * @return int array $results contains years or months
+     * @access public
+     */
+    public function calculateAge($birthDate) 
+    {     
+        $results = array( );
+        $formatedBirthDate  = CRM_Utils_Date::customFormat($birthDate,'%Y-%m-%d'); 
+        
+        $bDate      = explode('-',$formatedBirthDate);
+        $birthYear  = $bDate[0]; 
+        $birthMonth = $bDate[1]; 
+        $birthDay   = $bDate[2]; 
+        $year_diff  = date("Y") - $birthYear; 
+        
+        switch ($year_diff) {
+        case 1: 
+            $month = (12 - $birthMonth) + date("m");
+            if ( $month < 12 ) {
+                if (date("d") < $birthDay) {
+                    $month--;
+                }
+                $results['months'] =  $month;
+            } elseif ( $month == 12 && (date("d") < $birthDay) ) {
+                $results['months'] = $month-1;
+            } else { 
+                $results['years'] =  $year_diff;
+            }
+            break;
+        case 0:
+            $month = date("m") - $birthMonth;
+            $results['months'] = $month;
+            break;
+        default:
+            $results['years'] = $year_diff;
+            if ( ( date("m") < $birthMonth ) || ( date("m") == $birthMonth ) && ( date("d") < $birthDay ) ) {
+                $results['years']--;
+            } 
+        }
+
+        return $results;
+    }
+    
+    /**
+     * Function to calculate next payment date according to provided  unit & interval
+     * 
+     * @param string $unit     frequency unit like year,month, week etc..
+     *
+     * @param int    $interval frequency interval.
+     *
+     * @param array  $date     start date of pledge.
+     *
+     * @return array $result contains new date with added interval
+     * @access public
+     */
+    function intervalAdd($unit, $interval, $date, $dontCareTime = false ) 
+    {  
+        $hours   = CRM_Utils_Array::value( 'H', $date );
+        $minutes = CRM_Utils_Array::value( 'i', $date );
+        $seconds = CRM_Utils_Array::value( 's', $date );
+        $month   = CRM_Utils_Array::value( 'M', $date );
+        $day     = CRM_Utils_Array::value( 'd', $date );
+        $year    = CRM_Utils_Array::value( 'Y', $date );
+        
+        $date = mktime ($hours, $minutes, $seconds, $month, $day, $year);
+       
+        switch ( $unit ) {
+
+        case 'year':
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day, $year+$interval);
+            break;
+        case 'month':
+            $date   =   mktime ($hours, $minutes, $seconds, $month+$interval, $day, $year);
+            break;
+        case 'week':
+            $interval = $interval * 7;
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+$interval, $year);
+            break;
+        case 'day':
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+$interval, $year);
+            break;
+        }
+        
+       
+        $scheduleDate = explode ( "-", date("n-j-Y-H-i-s", $date ) );
+                              
+        $date = array( );
+        $date['M'] = $scheduleDate[0];
+        $date['d'] = $scheduleDate[1];
+        $date['Y'] = $scheduleDate[2];
+        if ( $dontCareTime == false) {
+            $date['H'] = $scheduleDate[3];
+            $date['i'] = $scheduleDate[4];
+            $date['s'] = $scheduleDate[5];
+        }
+        return $date;
+    }
+
+    /**
+     * Function to calculate current fiscal year based on the fiscal month and day
+     * 
+     * @param  int $fyDate    Fiscal start date
+     *
+     * @param  int $fyMonth   Fiscal Start Month
+     *
+     * @return int $fy       Current Fiscl Year
+     * @access public
+     */
+    function calculateFiscalYear( $fyDate, $fyMonth ) {
+        $date        = date("Y-m-d");
+        $currentYear = date("Y");
+        
+        //recalculate the date because month 4::04 make the difference
+        $fiscalYear  = explode('-', date( "Y-m-d", mktime( 0,0,0, $fyMonth, $fyDate, $currentYear ) ) );
+        $fyDate      = $fiscalYear[2];
+        $fyMonth     = $fiscalYear[1];
+        $fyStartDate = date("Y-m-d",  mktime( 0,0,0, $fyMonth, $fyDate, $currentYear ));
+        
+        if ( $fyStartDate > $date ) {
+            $fy = intval(intval($currentYear) - 1 );
+        } else {
+            $fy = intval($currentYear);           
+        }       
+        return $fy;
+    }
 }
 
-?>
+

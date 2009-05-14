@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,28 +48,58 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-
+      
         $config =& CRM_Core_Config::singleton();
+       
+        $i18n   =& CRM_Core_I18n::singleton();
         CRM_Utils_System::setTitle(ts('Settings - Localization'));
 
-        $locales = array();
-        if (is_dir($config->gettextResourceDir)) {
-            $dir = opendir($config->gettextResourceDir);
-            while ($filename = readdir($dir)) {
-                if (preg_match('/^[a-z][a-z]_[A-Z][A-Z]$/', $filename)) {
-                    $locales[$filename] = $filename;
-                }
+        $locales =& CRM_Core_I18n::languages();
+
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->find(true);
+        if ($domain->locales) {
+            // for multi-lingual sites, populate default language drop-down with available languages
+            $lcMessages = array();
+            foreach ($locales as $loc => $lang) {
+                if (substr_count($domain->locales, $loc)) $lcMessages[$loc] = $lang;
             }
-            closedir($dir);
+            $this->addElement('select', 'lcMessages', ts('Default Language'), $lcMessages);
+
+            // add language limiter and language adder
+            $this->addCheckBox('languageLimit', ts('Available Languages'), array_flip($lcMessages), null, null, null, null, ' &nbsp; ');
+            $this->addElement('select', 'addLanguage', ts('Add Language'), array_merge(array('' => ts('- select -')), array_diff($locales, $lcMessages)));
+
+        } else {
+            // for single-lingual sites, populate default language drop-down with all languages
+            $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
+
+            $warning = ts('WARNING: As of CiviCRM 2.2, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function; making a database backup is strongly recommended.');
+            $this->assign('warning', $warning);
+
+            // test for create view and trigger permissions and if allowed, add the option to go multilingual
+            CRM_Core_Error::ignoreException();
+            $dao = new CRM_Core_DAO;
+            $dao->query('CREATE OR REPLACE VIEW civicrm_domain_view AS SELECT * FROM civicrm_domain');
+            $dao->query('CREATE TRIGGER civicrm_domain_trigger BEFORE INSERT ON civicrm_domain FOR EACH ROW BEGIN END');
+            $dao->query('DROP TRIGGER IF EXISTS civicrm_domain_trigger');
+            $dao->query('DROP VIEW IF EXISTS civicrm_domain_view');
+            CRM_Core_Error::setCallback();
+
+            if (!$dao->_lastError) {
+                $this->addElement('checkbox', 'makeMultilingual', ts('Enable Multiple Languages'),
+                                  null, array('onChange' => "if (this.checked) alert('$warning')"));
+            }
         }
-        asort($locales);
-        
-        $this->addElement('select','lcMessages', ts('User Language'), array('en_US' => 'en_US') + $locales);
-        $this->addElement('select','lcMonetary', ts('Monetary Locale'), array('en_US' => 'en_US') + $locales);
-        $this->addElement('text','moneyformat', ts('Monetary Display')); 
+
+        $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
+        $this->addElement('text', 'moneyformat',      ts('Monetary Amount Display'));
+        $this->addElement('text', 'moneyvalueformat', ts('Monetary Value Display'));
 
         $country = array( ) ;
         CRM_Core_PseudoConstant::populate( $country, 'CRM_Core_DAO_Country', true, 'name', 'is_active' );
+        $i18n->localizeArray($country);
+        asort($country);
         
         $includeCountry =& $this->addElement('advmultiselect', 'countryLimit', 
                                              ts('Available Countries') . ' ', $country,
@@ -95,15 +125,77 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
 
         // we do this only to initialize currencySymbols, kinda hackish but works!
         $config->defaultCurrencySymbol( );
+        
         $symbol = $config->currencySymbols;
         foreach($symbol as $key=>$value) {
-            $currencySymbols[$key] = "$key ($value)";
+            $currencySymbols[$key] = "$key";
+            if ($value) $currencySymbols[$key] .= " ($value)";
         } 
         $this->addElement('select','defaultCurrency', ts('Default Currency'), $currencySymbols);
         $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  
-       
+        $this->addElement('text','customTranslateFunction', ts('Custom Translate Function'));  
+        $this->addElement('text','fieldSeparator', ts('Import / Export Field Separator'), array('size' => 2)); 
+
+        $this->addFormRule( array( 'CRM_Admin_Form_Setting_Localization', 'formRule' ) );
+
         parent::buildQuickForm();
     }
+
+    static function formRule( &$fields ) {
+        $errors = array( );
+        if ( trim( $fields['customTranslateFunction'] ) &&
+             ! function_exists( trim( $fields['customTranslateFunction'] ) ) ) {
+            $errors['customTranslateFunction'] = ts( 'Please define the custom translation function first' );
+        }
+        return empty( $errors ) ? true : $errors;
+    }
+
+    public function postProcess() 
+    {
+        $values = $this->exportValues();
+
+        // make the site multi-lang if requested
+        if ( CRM_Utils_Array::value( 'makeMultilingual', $values ) ) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            CRM_Core_I18n_Schema::makeMultilingual($values['lcMessages']);
+            $values['languageLimit'][$values['lcMessages']] = 1;
+        }
+
+        // add a new db locale if the requested language is not yet supported by the db
+        if ( CRM_Utils_Array::value( 'addLanguage', $values ) ) {
+            require_once 'CRM/Core/DAO/Domain.php';
+            $domain =& new CRM_Core_DAO_Domain();
+            $domain->find(true);
+            if (!substr_count($domain->locales, $values['addLanguage'])) {
+                require_once 'CRM/Core/I18n/Schema.php';
+                CRM_Core_I18n_Schema::addLocale($values['addLanguage'], $values['lcMessages']);
+            }
+            $values['languageLimit'][$values['addLanguage']] = 1;
+        }
+
+        // if we manipulated the language list, return to the localization admin screen
+        $return = (bool) ( CRM_Utils_Array::value( 'makeMultilingual', $values ) or CRM_Utils_Array::value( 'addLanguage', $values ) );
+        
+        //cache contact fields retaining localized titles
+        //though we changed localization, so reseting cache.
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );  
+        
+        // we do this only to initialize monetary decimal point and thousand separator
+        $config =& CRM_Core_Config::singleton();
+        if ( $monetaryPointSeparator = $config->defaultMonetaryPointSeparator( $values['lcMonetary'] ) ) {
+            $values['monetaryDecimalPoint'     ] = CRM_Utils_Array::value('decimal_point', $monetaryPointSeparator);
+            $values['monetaryThousandSeparator'] = CRM_Utils_Array::value('thousands_sep', $monetaryPointSeparator);
+        }
+
+        // save all the settings
+        parent::commonProcess($values);
+
+        if ($return) {
+            CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/setting/localization', 'reset=1'));
+        }
+    }
+
 }
 
-?>
+

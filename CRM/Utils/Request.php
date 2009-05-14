@@ -1,25 +1,25 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -76,7 +76,7 @@ class CRM_Utils_Request {
         // hack to detect stuff not yet converted to new style
         if ( ! is_string( $type ) ) {
             CRM_Core_Error::backtrace( );
-            CRM_Utils_Error::fatal( "Please convert retrieve call to use new function signature" );
+            CRM_Core_Error::fatal( "Please convert retrieve call to use new function signature" );
         }
 
         $value = null;
@@ -96,7 +96,7 @@ class CRM_Utils_Request {
 
         require_once 'CRM/Utils/Type.php';
         if ( isset( $value ) &&
-             ( CRM_Utils_Type::validate( $value, $type, $abort ) === null ) ) {
+             ( CRM_Utils_Type::validate( $value, $type, $abort, $name ) === null ) ) {
             $value = null;
         }
         
@@ -126,4 +126,4 @@ class CRM_Utils_Request {
 
 }
 
-?>
+

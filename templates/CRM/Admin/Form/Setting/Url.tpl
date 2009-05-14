@@ -1,37 +1,49 @@
-<div id="help">
-    {ts}These settings define the URLs used to access CiviCRM resources (CSS files, Javascript files, images, etc.). Default values will be inserted the first time you access CiviCRM - based on the CIVICRM_UF_BASEURL specified in your installation's settings file (civicrm.settings.php).{/ts}
-</div>
-<div class="form-item">
-<fieldset><legend>{ts}Site URLs{/ts}</legend>
+<div class="ui-widget">
 
-        <dl>
-            <dt>{$form.userFrameworkResourceURL.label}</dt><dd>{$form.userFrameworkResourceURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Absolute or relative URL of the location where the civicrm module or component has been installed.{/ts}</dd>
-            <dt>&nbsp;</dt><dd class="description">
-            <table class="form-layout">
-            <tr><td>
-            <strong>{ts}Drupal Example{/ts}</strong><br />
-            {ts 1=http://www.example.com/}If your site's home url is %1 ... then your CiviCRM Resource URL would be:{/ts} 
-            <div class="font-italic description">
-             &nbsp;&nbsp; http://www.example.com/sites/all/modules/civicrm/
-            </div>
-            
-            <strong>{ts}Joomla Example{/ts}</strong><br />
-            {ts 1=http://www.example.com/}If your site's home url is %1 ... then your CiviCRM Resource URL would be:{/ts} 
-            <div class="font-italic description">
-             &nbsp;&nbsp; http://www.example.com/administrator/components/com_civicrm/civicrm/
-            </div>
-            </td></tr>
-            </table>
-            </dd>
-            <dt>{$form.imageUploadURL.label}</dt><dd>{$form.imageUploadURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}URL of the location for uploaded image files.{/ts}</dd>
-            <dt>{$form.enableSSL.label}</dt><dd>{$form.enableSSL.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Redirect online contribution / member / event page requests to a secure (https) URL?{/ts} {help id='enable-ssl'}</dd>
-        </dl>
-        <dl>
-            <dt></dt><dd>{$form.buttons.html}</dd>
-        </dl>
-<div class="spacer"></div>
-</fieldset>
+
+    <div class="ui-widget-header" style="padding: 8px;"><h1 style="font-size: 1.3em;">{ts}Settings - Resource URLs{/ts}</h1></div>
+
+    <div class="ui-widget-content">
+
+    <div class="ui-state-highlight" style="padding: 0 .7em; font-size: .9em;">
+        <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> {ts}These settings define the URLs used to access CiviCRM resources (CSS files, Javascript files, images, etc.). Default values will be inserted the first time you access CiviCRM - based on the CIVICRM_UF_BASEURL specified in your installation's settings file (civicrm.settings.php).{/ts}</p>
+    </div>
+    <table style="margin: 0">
+        <tr class="border-bottom">
+            <th scope="row" class="label">
+                {$form.userFrameworkResourceURL.label}
+            </th>
+            <td>
+                {$form.userFrameworkResourceURL.html|crmReplace:class:'huge'} {help id='id-resource_url'}
+            </td>
+        </tr>
+        <tr class="border-bottom">
+            <th scope="row" class="label">
+                {$form.imageUploadURL.label}
+            </th>
+            <td>
+                {$form.imageUploadURL.html|crmReplace:class:'huge'} {help id='id-image_url'}
+            </td>
+        </tr>
+        <tr class="border-bottom">
+            <th scope="row" class="label">
+                {$form.customCSSURL.label}
+            </th>
+            <td>
+                {$form.customCSSURL.html|crmReplace:class:'huge'} {help id='id-css_url'}
+            </td>
+        </tr>
+        <tr class="border-bottom">
+            <th scope="row" class="label">
+                {$form.enableSSL.label}
+            </th>
+            <td>
+                <div class="checkboxgroup">{$form.enableSSL.html} {help id='id-enable_ssl'}</div>
+            </td>
+        </tr>
+    </table>
+
+    </div> <!-- end widget content -->
+    <div class="submit">{$form.buttons.html}</div>
+
 </div>

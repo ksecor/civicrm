@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing   
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -161,11 +161,10 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean', CRM_Core_DAO::$_nullObject ); 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',  $this, false ); 
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-        $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID', 'Positive',  $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this, false, 'search' );
         
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
-          
+        $this->assign( "context", $this->_context );
+        
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
         if ( ! empty( $_POST ) ) { 
@@ -200,9 +199,12 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
                                                     $this->_limit,
                                                     $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' || $this->_context == 'user' ) {
+        if ( $this->_context == 'user' ) {
             $prefix = $this->_prefix;
         }
+
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
   
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
@@ -234,38 +236,27 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
          * of all elements being declared in builQuickForm 
          */ 
-        $rows = $this->get( 'rows' ); 
-            
-        if ( is_array( $rows ) ) {
-            $lineItems = array( );
-            //require_once 'CRM/Grant/BAO/Grant.php';
-            if ($this->_context == 'search') {
-                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
-                foreach ($rows as $row) { 
-                    $this->addElement( 'checkbox', $row['checkbox'], 
-                                       null, null, 
-                                       array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
-                                       ); 
 
-                    // add line item details if applicable
+        $rows = $this->get( 'rows' ); 
+        if ( is_array( $rows ) ) {
+            if ( !$this->_single ) {
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+                foreach ($rows as $row) { 
+                    $this->addElement( 'checkbox', CRM_Utils_Array::value( 'checkbox', $row ), 
+                                       null, null, 
+                                       array( 'onclick' => " toggleTaskAction( true ); return checkSelectedBox('" . CRM_Utils_Array::value( 'checkbox', $row ) . "', '" . $this->getName() . "');" )
+                                       ); 
                     $grant_id = $row['grant_id'];
-                    
                 }
             }
 
             $total = $cancel = 0;
-            $this->assign( "{$this->_prefix}single", $this->_single );
-            
-            // also add the action and radio boxes
+
+            require_once "CRM/Core/Permission.php";
+            $permission = CRM_Core_Permission::getPermission( );
+
             require_once 'CRM/Grant/Task.php';
-            $tasks = array( '' => ts('- more actions -') ) + CRM_Grant_Task::tasks( );
-            if ( isset( $this->_ssID ) ) {
-                                    
-                $savedSearchValues = array( 'id' => $this->_ssID,
-                                            'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID, 'title' ) );
-                $this->assign_by_ref( 'savedSearch', $savedSearchValues );
-                $this->assign( 'ssID', $this->_ssID );
-            }
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Grant_Task::permissionedTaskTitles( $permission );
 
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
@@ -276,10 +267,9 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
             
-            
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') ); 
-            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); toggleTaskAction( true );" ) );
         }
         
         // add buttons 
@@ -424,4 +414,4 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
     }
 
 }
-?>
+

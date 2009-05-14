@@ -1,8 +1,8 @@
 {if $preview_type eq 'group'}
     {capture assign=infoMessage}{ts}Preview of the custom data group (fieldset) as it will be displayed within an edit form.{/ts}{/capture}
     {capture name=legend}
-        {foreach from=$groupTree item=name}
-        {$name.title}
+        {foreach from=$groupTree item=fieldName}
+          {$fieldName.title}
         {/foreach}
     {/capture}
 {else}
@@ -18,9 +18,13 @@
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
+      {if $element.is_view eq 0}{* fix for CRM-2699 *}
+        {if $element.help_pre}
+            <dt>&nbsp;</dt><dd class="description">{$element.help_pre}</dd>
+        {/if}
 	{if $element.options_per_line }
         {*assign var="element_name" value=$element.custom_group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
-        {assign var="element_name" value=custom_$field_id}
+        {assign var="element_name" value=$element.element_name}
         <dt>{$form.$element_name.label} </dt>
         <dd>
             {assign var="count" value="1"}
@@ -42,6 +46,9 @@
                             {/if}
                          {/if}
                     {/foreach}  
+		    {if $element.html_type eq 'Radio'}
+	    	    <td>&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;)</td> 
+	            {/if}
                 </tr>                  
             </table>
         </dd>
@@ -51,23 +58,25 @@
 	{else}
         {assign var="name" value=`$element.name`} 
         {*assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
-        {assign var="element_name" value="custom_"|cat:$field_id}  
-        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
-	       {if $element.data_type eq 'Date'}
+        {assign var="element_name" value=$element.element_name}  
+        <dt>{$form.$element_name.label}</dt>
+	<dd>{$form.$element_name.html}&nbsp;
+	    {if $element.html_type eq 'Radio'}
+	    	&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;)</dd>
+	    {/if}
+	    {if $element.data_type eq 'Date'}
 	        {if $element.skip_calendar NEQ true } 
-              <dt></dt><dd>  <span>
-                   
-		    {include file="CRM/common/calendar/desc.tpl" trigger="$element_name"}
+                <span>
+                    {include file="CRM/common/calendar/desc.tpl" trigger="$element_name"}
 		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 doTime=1  trigger="$element_name"}
-		</span></dd>
-	
-	        {/if}
-              {/if}
-        		
-        {if $element.help_post}
+		</span>
+		{/if} </dd>
+            {/if}
+         {if $element.help_post}
             <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
         {/if}
 	{/if}
+     {/if}
     {/foreach}
     </dl>
     {if $cd_edit.help_post}<br /><div class="messages help">{$cd_edit.help_post}</div>{/if}

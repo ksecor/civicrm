@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@ require_once 'CRM/Core/Page/Basic.php';
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -114,8 +114,9 @@ class CRM_ACL_Page_ACLBasic extends CRM_Core_Page_Basic
                                           $this, false, 0);
         
         // set breadcrumb to append to admin/access
-        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/access', 'reset=1' );
-        CRM_Utils_System::appendBreadCrumb( ts('Access Control'), $breadCrumbPath );
+        $breadCrumb = array( array('title' => ts('Access Control'),
+                                   'url'   => CRM_Utils_System::url( 'civicrm/admin/access', 'reset=1' )) );
+        CRM_Utils_System::appendBreadCrumb( $breadCrumb );
 
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
@@ -144,23 +145,24 @@ class CRM_ACL_Page_ACLBasic extends CRM_Core_Page_Basic
         $query = "
   SELECT *
     FROM civicrm_acl
-   WHERE domain_id = %1
-     AND ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
+   WHERE ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
 ORDER BY entity_id
 ";
-        $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
-        $dao    = CRM_Core_DAO::executeQuery( $query, $params );
+        $dao    = CRM_Core_DAO::executeQuery( $query,
+                                              CRM_Core_DAO::$_nullArray );
 
         require_once 'CRM/Core/OptionGroup.php';
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );
 
+        require_once 'CRM/Core/Permission.php';
+        $permissions  = CRM_Core_Permission::basicPermissions( );
         while ( $dao->fetch( ) ) {
             if ( ! array_key_exists( $dao->entity_id, $acl ) ) {
                 $acl[$dao->entity_id] = array();
                 $acl[$dao->entity_id]['name']         = $dao->name;
                 $acl[$dao->entity_id]['entity_id']    = $dao->entity_id;
                 $acl[$dao->entity_id]['entity_table'] = $dao->entity_table;
-                $acl[$dao->entity_id]['object_table'] = $dao->object_table;
+                $acl[$dao->entity_id]['object_table'] = CRM_Utils_Array::value( $dao->object_table, $permissions );
                 $acl[$dao->entity_id]['is_active']    = 1;
 
                 if ( $acl[$dao->entity_id]['entity_id'] ) {
@@ -174,8 +176,8 @@ ORDER BY entity_id
     
                 $acl[$dao->entity_id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                      array('id' => $dao->entity_id));
-            } else {
-                $acl[$dao->entity_id]['object_table'] .= ", {$dao->object_table}";
+            } else if ( CRM_Utils_Array::value( $dao->object_table, $permissions ) ) {
+                $acl[$dao->entity_id]['object_table'] .= ", {$permissions[$dao->object_table]}";
             }
         }
         $this->assign('rows', $acl);
@@ -212,4 +214,4 @@ ORDER BY entity_id
     }
 }
 
-?>
+

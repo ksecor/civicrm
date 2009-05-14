@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,12 +55,25 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
     {
         require_once 'CRM/Core/DAO.php';
         $viewRelationship = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactId, null, null, null, $this->_id );
+       
+        //To check whether selected contact is a contact_id_a in
+        //relationship type 'a_b' in relationship table, if yes then
+        //revert the permissionship text in template
+        $relationship =& new CRM_Contact_DAO_Relationship( );
+        $relationship->id = $viewRelationship[$this->_id]['id'];
+        
+        if ($relationship->find(true)) {
+            if ( ( $viewRelationship[$this->_id]['rtype'] == 'a_b' ) && ( $this->_contactId == $relationship->contact_id_a ) ) {
+                $this->assign( "is_contact_id_a", true );
+            }
+        }
+        $relType = $viewRelationship[$this->_id]['civicrm_relationship_type_id'];
         $this->assign( 'viewRelationship', $viewRelationship );
         $viewNote = CRM_Core_BAO_Note::getNote($this->_id);
         $this->assign( 'viewNote', $viewNote );
-        $relType = $viewRelationship[$this->_id]['civicrm_relationship_type_id']."_".$viewRelationship[$this->_id]['rtype'];
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship',$this->_id,0,$relType);
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+		
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship', $this, $this->_id,0,$relType);
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
     }
 
    /**
@@ -84,6 +97,9 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                                                                 $links, $mask );
         
         $this->assign( 'currentRelationships',  $currentRelationships  );
+        // to show the 'Current Relationships' title and links only when viewed
+        // from relationship tab, not from dashboard
+        $this->assign( 'relationshipTabContext', true  );
         $this->assign( 'inactiveRelationships', $inactiveRelationships );
     }    
     
@@ -105,10 +121,22 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
 
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject ) ) {
+            // delete relationship
             CRM_Contact_BAO_Relationship::del( $this->_id);
+
+            // if this is called from case view, we need to redirect back to same page
+            $caseId = CRM_Utils_Request::retrieve( 'caseID', 'Integer', $this );
+
+            if ( $caseId ) {
+                CRM_Core_Session::setStatus( ts('Case Role has been deleted successfuly.'), false );
+                $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer', $this, false );
+                $url = CRM_Utils_System::url('civicrm/contact/view/case', "action=view&reset=1&cid={$cid}&id={$caseId}" );
+                $session->pushUserContext( $url );
+            } 									
+
             CRM_Utils_System::redirect($url);
         }
-        
+
         $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'id'       , $this->_id );
         $controller->process( );
@@ -124,27 +152,46 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
      */
     function run( ) {
         $this->preProcess( );
-
+        
+        $this->setContext( );
+      
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
             $this->edit( );
         } else if ( $this->_action & CRM_Core_Action::DISABLE ) {
-            CRM_Contact_BAO_Relationship::disnableEnableRelationship( $this->_id, CRM_Core_Action::DISABLE );
+            CRM_Contact_BAO_Relationship::disableEnableRelationship( $this->_id, CRM_Core_Action::DISABLE );
             CRM_Contact_BAO_Relationship::setIsActive( $this->_id, 0 ) ;
             $session =& CRM_Core_Session::singleton();
             CRM_Utils_System::redirect( $session->popUserContext() );
          
         } else if ( $this->_action & CRM_Core_Action::ENABLE ) {
-            CRM_Contact_BAO_Relationship::disnableEnableRelationship( $this->_id, CRM_Core_Action::ENABLE );
+            CRM_Contact_BAO_Relationship::disableEnableRelationship( $this->_id, CRM_Core_Action::ENABLE );
             CRM_Contact_BAO_Relationship::setIsActive( $this->_id, 1 ) ;
-             $session =& CRM_Core_Session::singleton();
+            $session =& CRM_Core_Session::singleton();
             CRM_Utils_System::redirect( $session->popUserContext() );
         } 
 
         $this->browse( );
 
         return parent::run( );
+    }
+    
+    function setContext( ) 
+    {
+        $context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                $this, false, 'search' );
+               
+        if ( $context == 'dashboard' ) {
+            $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer',
+                                                $this, false );
+            $url = CRM_Utils_System::url( 'civicrm/user',
+                                          "reset=1&id={$cid}" );
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=rel' );
+        }
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
     }
     
    /**
@@ -212,4 +259,4 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                   
 }
 
-?>
+

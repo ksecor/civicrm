@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,14 +28,12 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Page.php';
-
-require_once 'CRM/Contribute/Page/DashBoard.php';
 
 /**
  * Page for displaying list of Payment-Instrument
@@ -52,6 +50,8 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
+        CRM_Utils_System::setTitle( ts('CiviContribute') );
+
         $startToDate = array( );
         $yearToDate  = array( );
         $monthToDate = array( );
@@ -60,9 +60,18 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
         
         $startDate = null;
         $config =& CRM_Core_Config::singleton( );
+        $currentMonth = date('m');
+        $currentDay   = date('d');
+        if ( (int ) $config->fiscalYearStart['M']  > $currentMonth ||
+             ( (int ) $config->fiscalYearStart['M'] == $currentMonth &&
+               (int ) $config->fiscalYearStart['d'] > $currentDay ) ) {
+            $year     = date( 'Y' ) - 1;
+        } else {
+            $year     = date( 'Y' );
+        }
+        $year  = array('Y' => $year );
         $yearDate = $config->fiscalYearStart;
-        $year  = array('Y' => date('Y'));
-        $yearDate = array_merge($year,$yearDate);
+        $yearDate = array_merge( $year, $yearDate);
         $yearDate = CRM_Utils_Date::format( $yearDate );
   
         $monthDate = date('Ym') . '01000000';
@@ -85,14 +94,22 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
             if ( $prefix == 'year') {
                 $now  = $yearNow;
             }
-            foreach ( $status as $s ) {
 
+            foreach ( $status as $s ) {
                 ${$aName}[$s]        = CRM_Contribute_BAO_Contribution::getTotalAmountAndCount( $s, $$dName, $now );
                 ${$aName}[$s]['url'] = CRM_Utils_System::url( 'civicrm/contribute/search',
                                                               "reset=1&force=1&status=1&start={$$dName}&end=$now&test=0");
             }
             $this->assign( $aName, $$aName );
         }
+        
+        // Check for admin permission to see if we should include the Manage Contribution Pages action link
+        $isAdmin = 0;
+        require_once 'CRM/Core/Permission.php';
+        if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+            $isAdmin = 1;
+        }
+        $this->assign( 'isAdmin', $isAdmin );
     }
 
     /** 
@@ -119,4 +136,4 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
 
 }
 
-?>
+

@@ -8,8 +8,8 @@ Contact Summary: {$contactLink}
 {ts}{$grouptitle} {/ts}
 
 ===========================================================
-{foreach from=$values item=value key=name}
- {$name} : {$value}
+{foreach from=$values item=value key=valueName}
+ {$valueName} : {$value}
 {/foreach}
 
 {/if}

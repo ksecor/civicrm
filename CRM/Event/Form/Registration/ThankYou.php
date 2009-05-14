@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,7 +29,7 @@
  *
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -50,10 +50,18 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
      */ 
     function preProcess( ) {
         parent::preProcess( );
-        $this->_params = $this->get( 'params' );
-        $this->_lineItem = $this->get( 'lineItem' );
-        
-        CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event_page']));
+        $this->_params      = $this->get( 'params' );
+        $this->_lineItem    = $this->get( 'lineItem' );
+        $this->_totalAmount = $this->get( 'totalAmount' );
+        $this->_receiveDate = $this->get( 'receiveDate' );
+        $this->_trxnId      = $this->get( 'trxnId' );
+        $finalAmount = $this->get( 'finalAmount' );
+        $this->assign('finalAmount',  $finalAmount); 
+        $participantInfo = $this->get( 'participantInfo' );
+        $this->assign( 'participantInfo', $participantInfo ); 
+        $customGroup = $this->get('customProfile');
+        $this->assign( 'customProfile',$customGroup );
+        CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event']));
     }
 
     /**
@@ -81,11 +89,26 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
     { 
         $this->assignToTemplate( );
 
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre' , true );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost', true );
 
         $this->assign( 'lineItem', $this->_lineItem );
+        $this->assign( 'totalAmount', $this->_totalAmount );
+        $hookDiscount = $this->get( 'hookDiscount' );
+        if ( $hookDiscount ) {
+            $this->assign( 'hookDiscount', $hookDiscount );
+        }
+
+        $this->assign( 'receive_date', $this->_receiveDate );
+        $this->assign( 'trxn_id', $this->_trxnId );
         
+        if( CRM_Utils_Array::value( 'amount', $this->_params[0] ) == 0 ) {
+            $this->assign( 'isAmountzero', 1 );
+        }
+        $this->assign( 'defaultRole', false );
+        if( CRM_Utils_Array::value( 'defaultRole', $this->_params[0] ) == 1 ) {
+            $this->assign( 'defaultRole', true );
+        }
         $defaults = array( );
         $fields   = array( );
         if( ! empty($this->_fields) ) {
@@ -95,33 +118,51 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         }
         $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
         foreach ($fields as $name => $dontCare ) {
-            if ( isset($this->_params[$name]) ) {
-                $defaults[$name] = $this->_params[$name];
+            if ( isset($this->_params[0][$name]) ) {
+                $defaults[$name] = $this->_params[0][$name];
+                if ( $name == 'greeting_type' ) { 
+                    if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
+                        $defaults['custom_greeting'] = $this->_params[0]['custom_greeting'];
+                    }
+                }
             }
         }
         $this->setDefaults( $defaults );
-        
+
         require_once 'CRM/Friend/BAO/Friend.php';
         
-        $params['entity_id']    = $this->_id;
-        $params['entity_table'] = 'civicrm_event_page';
+        $params['entity_id']    = $this->_eventId;
+        $params['entity_table'] = 'civicrm_event';
         
         CRM_Friend_BAO_Friend::retrieve( $params, $data ) ;
-        if ( $data['is_active'] ) {               
-            $friendText = ts( $data['title'] ) ;
+        if ( CRM_Utils_Array::value( 'is_active', $data ) ) {               
+            $friendText = $data['title'];
             $this->assign( 'friendText', $friendText );
             if( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                             "eid={$this->_id}&reset=1&action=preview&page=event" );
+                                             "eid={$this->_eventId}&reset=1&action=preview&page=event" );
             } else {
-                $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
-                                             "eid={$this->_id}&reset=1&page=event" );   
+                $url = CRM_Utils_System::url("civicrm/friend", 
+                                             "eid={$this->_eventId}&reset=1&page=event" );   
             }                    
             $this->assign( 'friendURL', $url );
         }
                              
         $this->freeze();
+
+        //lets give meaningful status message, CRM-4320.
+        $isOnWaitlist = $isRequireApproval = false; 
+        if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
+            $isOnWaitlist = true;
+        }
+        if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+            $isRequireApproval = true;
+        }
+        $this->assign( 'isOnWaitlist', $isOnWaitlist );
+        $this->assign( 'isRequireApproval', $isRequireApproval );
         
+        // can we blow away the session now to prevent hackery
+        $this->controller->reset( );
     }
     
     /**
@@ -146,4 +187,4 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
     }
     
 }
-?>
+

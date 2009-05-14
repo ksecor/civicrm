@@ -44,12 +44,11 @@ function conf_init() {
     }
 
     /**
-     * Just do a quick test to see if the config file is right under our nose
-     * (helps support standalone UF better)
+     * Quick test to see if the config file is in the standalone directory
      */
-    $currentDir = dirname( __FILE__ ) . '/';
-    if ( file_exists( $currentDir . 'civicrm.settings.php' ) ) {
-      	return $currentDir;
+    $saDir = dirname( __FILE__ ) . '/standalone/';
+    if ( file_exists( $saDir . 'civicrm.settings.php' ) ) {
+      	return $saDir;
     }
 
     /**
@@ -60,8 +59,8 @@ function conf_init() {
     if ( file_exists( $currentDir . 'settings_location.php' ) ) {
         include $currentDir . 'settings_location.php';
     }
-  
-    if ( defined( 'CIVICRM_CONFDIR' ) && ! defined( $confdir ) ) {
+
+    if ( defined( 'CIVICRM_CONFDIR' ) && ! isset( $confdir ) ) {
       	$confdir = CIVICRM_CONFDIR;
     } else {
         // make it relative to civicrm.config.php, else php makes it relative
@@ -75,11 +74,15 @@ function conf_init() {
         }
     }
 
+    if ( file_exists( $confdir . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {
+        return $confdir;
+    }
+
     if ( ! file_exists( $confdir ) && ! $skipConfigError ) {
         echo "Could not find valid configuration dir, best guess: $confdir<br/><br/>\n";
         echo "If this is a standalone installation (i.e. not a Drupal or ";
         echo "Joomla module) and you'd like to re-initialize it, ";
-        echo "<a href=\"new_install.php\">click here</a>.\n";
+        echo "<a href=\"../install/index.php?mode=standalone\">click here</a>.\n";
         exit( );
     }
             
@@ -104,5 +107,3 @@ function conf_init() {
 }
 
 include_once conf_init( ) . '/civicrm.settings.php';
-
-?>

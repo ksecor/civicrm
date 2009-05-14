@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,11 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
+require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Mail.php';
 
 class CRM_Mailing_Event_BAO_Resubscribe {
 
@@ -175,13 +177,16 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         // param is_domain is not supported as of now.
 
         $config =& CRM_Core_Config::singleton();
-        $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
+        $domain =& CRM_Core_BAO_Domain::getDomain( );
 
         $jobTable = CRM_Mailing_BAO_Job::getTableName();
         $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
         $contacts = CRM_Contact_DAO_Contact::getTableName();
         $email    = CRM_Core_DAO_Email::getTableName();
         $queue    = CRM_Mailing_Event_BAO_Queue::getTableName();
+      
+        //get the default domain email address.
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
         
         $dao =& new CRM_Mailing_BAO_Mailing();
         $dao->query("   SELECT * FROM $mailingTable 
@@ -243,27 +248,31 @@ class CRM_Mailing_Event_BAO_Resubscribe {
             $text = CRM_Utils_Token::replaceMailingTokens($text, $dao, null, $tokens['text']);
             $message->setTxtBody($text);
         }
+
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         $headers = array(
-            'Subject'       => $component->subject,
-            'From'          => ts('"%1" <do-not-reply@%2>',
-                                  array(  1 => $domain->email_name,
-                                          2 => $domain->email_domain) ),
-            'To'            => $eq->email,
-            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
-            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
-        );
+                         'Subject'       => $component->subject,
+                         'From'          => "\"$domainEmailName\" <do-not-reply@$emailDomain>",
+                         'To'            => $eq->email,
+                         'Reply-To'      => "do-not-reply@$emailDomain",
+                         'Return-Path'   => "do-not-reply@$emailDomain",
+                         );
+        
+        $b =& CRM_Utils_Mail::setMimeParams( $message );
+        $h =& $message->headers($headers);
 
-        $b = $message->get();
-
-        $h = $message->headers($headers);
         $mailer =& $config->getMailer();
-
+        
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
-        $mailer->send($eq->email, $h, $b);
-        CRM_Core_Error::setCallback();
+                                array('CRM_Core_Error', 'nullHandler' ) );
+        if ( is_object( $mailer ) ) {
+            $mailer->send($eq->email, $h, $b);
+            CRM_Core_Error::setCallback();
+        }
     }
 
 }
 
-?>
+

@@ -1,17 +1,58 @@
-<div class="form-item">
 <fieldset>
-        <dl>
-          <dt>{$form.versionCheck.label}</dt><dd>{$form.versionCheck.html}</dd>
-          <dt>&nbsp</dt><dd class="description">{ts}Do you want CiviCRM to automatically check availablity of a newer version of the software? If enabled, new version alerts will be displayed on the main CiviCRM Administration page..{/ts}</dd>
-          <dt>{$form.mysqlPath.label}</dt><dd>{$form.mysqlPath.html}</dd>
-          <dt>&nbsp</dt><dd class="description">{ts}Absolute file-system path to the directory where the mysqldump program is located.{/ts}</dd>
-          <dt>{$form.captchaFont.label}</dt><dd>{$form.captchaFont.html}</dd>
-          <dt>&nbsp</dt><dd class="description">{ts}Filename for a suitable true-type font (*.ttf) to render the CAPTCHA image. <strong>IMPORTANT: A valid CAPTCHA font and path are required if you have enabled the CAPTCHA feature for any of your CiviCRM Profile input forms.</strong>{/ts}</dd>
-          <dt>{$form.captchaFontPath.label}</dt><dd>{$form.captchaFontPath.html}</dd>
-          <dt>&nbsp</dt><dd class="description">{ts}Absolute file-system path to the directory where the CAPTCHA font file is located.{/ts}</dd>
-          <dt></dt><dd>{$form.buttons.html}</dd>
-        </dl>
-   
- <div class="spacer"></div>
+    <table class="form-layout">
+        <tr>
+            <td style="white-space: normal;">{$form.versionCheck.label}</td>
+            <td>{$form.versionCheck.html}<br />
+                <p class="description">{ts}If enabled, CiviCRM automatically checks availablity of a newer version of the software. New version alerts will be displayed on the main CiviCRM Administration page.{/ts}</p>
+                <p class="description">{ts}When enabled, statistics about your CiviCRM installation are reported anonymously to the CiviCRM team to assist in prioritizing ongoing development efforts. The following information is gathered: CiviCRM version, versions of PHP, MySQL and framework (Drupal/Joomla/standalone), and default language. Counts (but no actual data) of the following record types are reported: contacts, activities, cases, relationships, contributions, contribution pages, contribution products, contribution widgets, discounts, price sets, profiles, events, participants, tell-a-friend pages, grants, mailings, memberships, membership blocks, pledges, pledge blocks and active payment processor types.{/ts}</p></td>
+        </tr>
+        <tr>
+            <td>{$form.maxAttachments.label}</td>
+            <td>{$form.maxAttachments.html}<br />
+                <span class="description">{ts}Maximum number of files (documents, images, etc.) which can attached to emails or activities.{/ts}</span></td>
+        </tr>
+    </table>
 </fieldset>
-</div>
+<fieldset><legend>{ts}Contact Search{/ts}</legend>
+    <table class="form-layout">
+        <tr>
+            <td>{$form.includeWildCardInName.label}</td>
+            <td>{$form.includeWildCardInName.html}<br />
+                <span class="description">{ts}If enabled, wildcards are automatically added when users search for contacts by Name. EXAMPLE: Searching for 'ada' will return any contact whose name includes those letters - e.g. 'Adams, Janet', 'Nadal, Jorge', etc. Disabling this feature will speed up search significantly for larger databases, but users must use MySQL wildcard characters for partial name searches (e.g. '%' or '_').{/ts}</span></td>
+        </tr>
+        <tr>
+            <td>{$form.includeEmailInName.label}</td>
+            <td>{$form.includeEmailInName.html}<br />
+                <span class="description">{ts}If enabled, email addresses are automatically included when users search by Name. Disabling this feature will speed up search significantly for larger databases, but users will need to use the Email search fields (from Advanced Search, Search Builder, or Profiles) to find contacts by email address.{/ts}</span></td>
+        </tr>
+        <tr>
+            <td>{$form.includeNickNameInName.label}</td>
+            <td>{$form.includeNickNameInName.html}<br />
+                <span class="description">{ts}If enabled, nicknames are automatically included when users search by Name.{/ts}</span></td>
+        </tr>
+        <tr>
+            <td>{$form.smartGroupCacheTimeout.label}</td>
+            <td>{$form.smartGroupCacheTimeout.html}<br />
+                <span class="description">{ts}The number of minutes to cache smart group contacts. A value of '0' means the cache is emptied immediately when any contact is edited or a new one is added. If your contact data changes frequently, you may want to try setting this to a value of 5 minutes or so.{/ts}</span></td>
+        </tr>
+    </table>
+</fieldset>
+<fieldset><legend>{ts}reCAPTCHA Keys{/ts}</legend>
+    <div class="description">
+        {ts}reCAPTCHA is a free service that helps prevent automated abuse of your site. To use reCAPTCHA on public-facing CiviCRM forms: sign up at <a href="http://recaptcha.net">recaptcha.net</a>; enter the provided public and private reCAPTCHA keys here; then enable reCAPTCHA under Advanced Settings in any Profile.{/ts}
+    </div>
+    <table class="form-layout">
+        <tr>
+            <td>{$form.recaptchaPublicKey.label}</td>
+            <td>{$form.recaptchaPublicKey.html}</td>
+        </tr>
+        <tr>
+            <td>{$form.recaptchaPrivateKey.label}</td>
+            <td>{$form.recaptchaPrivateKey.html}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{$form.buttons.html}</td>
+        </tr>
+    </table>
+</fieldset>

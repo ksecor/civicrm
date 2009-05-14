@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,8 +38,6 @@
  *
  */
 class CRM_Utils_System {
-
-    const VERSION = '2.0';
 
     static $_callbacks = null;
 
@@ -132,13 +130,18 @@ class CRM_Utils_System {
      * @param string  $content the content that will be themed
      * @param array   $args    the args for the themeing function if any
      * @param boolean $print   are we displaying to the screen or bypassing theming?
-     * @param boolean $ret  should we echo or return output
+     * @param boolean $ret     should we echo or return output
+     * @param boolean $maintenance  for maintenance mode
      * 
      * @return void           prints content on stdout
      * @access public
      */
-    function theme( $type, &$content, $args = null, $print = false, $ret = false ) {
+    function theme( $type, &$content, $args = null, $print = false, $ret = false, $maintenance = false ) {
         if ( function_exists( 'theme' ) && ! $print ) {
+            if ( $maintenance ) {
+                drupal_set_breadcrumb( '' );
+                drupal_maintenance_theme();
+            }
             $out = theme( $type, $content, $args );
         } else {
             $out = $content;
@@ -165,7 +168,7 @@ class CRM_Utils_System {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true,
+    function url($path = null, $query = null, $absolute = false,
                  $fragment = null, $htmlize = true, $frontend = false ) {
         // we have a valid query and it has not yet been transformed
         if ( $htmlize && ! empty( $query ) && strpos( $query, '&amp;' ) === false ) {
@@ -180,6 +183,33 @@ class CRM_Utils_System {
 
     }
 
+    function href( $text, $path = null, $query = null, $absolute = true,
+                      $fragment = null, $htmlize = true, $frontend = false ) {
+        $url = self::url( $path, $query, $absolute, $fragment, $htmlize, $frontend );
+        return "<a href=\"$url\">$text</a>";
+    }
+
+    function permissionDenied( ) {
+        $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
+        return eval( "return {$config->userFrameworkClass}::permissionDenied( );" );
+    }
+
+    static function logout( ) {
+        $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
+        return eval( "return {$config->userFrameworkClass}::logout( );" );
+    }
+
+    // this is a very drupal specific function for now
+    static function updateCategories( ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Drupal' ) {
+            require_once 'CRM/Utils/System/Drupal.php';
+            CRM_Utils_System_Drupal::updateCategories( );
+        }
+    }
+
     /**
      * What menu path are we currently on. Called for the primary tpl
      *
@@ -188,7 +218,7 @@ class CRM_Utils_System {
      */
     static function currentPath( ) {
         $config =& CRM_Core_Config::singleton( );
-        return trim( $_GET[$config->userFrameworkURLVar], '/' );
+        return trim( CRM_Utils_Array::value($config->userFrameworkURLVar,$_GET), '/' );
     }
 
     /**
@@ -207,7 +237,7 @@ class CRM_Utils_System {
 
         return self::url( $p,
                           CRM_Utils_Array::value( 'q' , $params        ),
-                          CRM_Utils_Array::value( 'a' , $params, true  ),
+                          CRM_Utils_Array::value( 'a' , $params, false  ),
                           CRM_Utils_Array::value( 'f' , $params        ),
                           CRM_Utils_Array::value( 'h' , $params, true  ),
                           CRM_Utils_Array::value( 'fe', $params, false ) );
@@ -304,10 +334,10 @@ class CRM_Utils_System {
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $title, $url ) {
+    static function appendBreadCrumb( $breadCrumbs ) {
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
-        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( $title, $url );' );
+        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( $breadCrumbs );' );
     }
 
     /**
@@ -383,7 +413,48 @@ class CRM_Utils_System {
         return $config->userFrameworkBaseURL;
     }
 
-    static function authenticateScript( $abort = true, $name = null, $pass = null ) {
+    static function authenticateAbort( $message, $abort ) {
+        if ( $abort ) {
+            echo $message;
+            exit( 0 );
+        } else {
+            return false;
+        }
+    }
+
+    static function authenticateKey( $abort = true ) {
+        // also make sure the key is sent and is valid
+        $key = trim( CRM_Utils_Array::value( 'key', $_REQUEST ) );
+
+        $docAdd = "More info at:" . CRM_Utils_System::docURL2( "Command-line Script Configuration", true ); 
+
+        if ( ! $key ) {
+            return self::authenticateAbort( "ERROR: You need to send a valid key to execute this file. " . $docAdd . "\n",
+                                            $abort );
+        }
+
+        $siteKey = defined( 'CIVICRM_SITE_KEY' ) ? CIVICRM_SITE_KEY : null;
+        
+        if ( ! $siteKey ||
+             empty( $siteKey ) ) {
+            return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php. " . $docAdd . "\n",
+                                            $abort );
+        }
+
+        if ( strlen( $siteKey ) < 8 ) {
+            return self::authenticateAbort( "ERROR: Site key needs to be greater than 7 characters in civicrm.settings.php. " . $docAdd . "\n",
+                                            $abort );
+        }
+
+        if ( $key !== $siteKey ) {
+            return self::authenticateAbort( "ERROR: Invalid key value sent. " . $docAdd . "\n",
+                                            $abort );
+        }
+
+        return true;
+    }
+
+    static function authenticateScript( $abort = true, $name = null, $pass = null, $storeInSession = true ) {
         // auth to make sure the user has a login/password to do a shell
         // operation
         // later on we'll link this to acl's
@@ -393,21 +464,28 @@ class CRM_Utils_System {
         }
 
         if ( ! $name ) { // its ok to have an empty password
-            if ( $abort ) {
-                echo "ERROR: You need to send a valid user name and password to execute this file\n";
-                exit( 0 );
-            } else {
-                return false;
-            }
+            return self::authenticateAbort( "ERROR: You need to send a valid user name and password to execute this file\n",
+                                            $abort );
+        }
+
+        if ( ! self::authenticateKey( $abort ) ) {
+            return false;
         }
 
         $result = CRM_Utils_System::authenticate( $name, $pass );
         if ( ! $result ) {
-            if ( $abort ) {
-                echo "ERROR: Invalid username and/or password\n";
-                exit( 0 );
+            return self::authenticateAbort( "ERROR: Invalid username and/or password\n",
+                                            $abort );
+        } else if ( $storeInSession ) {
+            // lets store contact id and user id in session
+            list( $userID, $ufID, $randomNumber ) = $result;
+            if ( $userID && $ufID ) {
+                $session =& CRM_Core_Session::singleton( );
+                $session->set( 'ufID'  , $ufID );
+                $session->set( 'userID', $userID );
             } else {
-                return false;
+                return self::authenticateAbort( "ERROR: Unexpected error, could not match userID and contactID",
+                                                $abort );
             }
         }
 
@@ -525,7 +603,9 @@ class CRM_Utils_System {
         return $memory;
     }
 
-    static function download( $name, $mimeType, &$buffer ) {
+    static function download( $name, $mimeType, &$buffer,
+                              $ext = null,
+                              $output = true ) {
         $now       = gmdate('D, d M Y H:i:s') . ' GMT';
 
         header('Content-Type: ' . $mimeType); 
@@ -533,17 +613,24 @@ class CRM_Utils_System {
         
         // lem9 & loic1: IE need specific headers
         $isIE = strstr( $_SERVER['HTTP_USER_AGENT'], 'MSIE' );
+        if ( $ext ) {
+            $fileString = "filename=\"{$name}.{$ext}\"";
+        } else {
+            $fileString = "filename=\"{$name}\"";
+        }
         if ( $isIE ) {
-            header('Content-Disposition: inline; filename="' . $name . '"');
+            header("Content-Disposition: inline; $fileString");
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
         } else {
-            header('Content-Disposition: attachment; filename="' . $name . '"');
+            header("Content-Disposition: attachment; $fileString");
             header('Pragma: no-cache');
         }
-    
-        print $buffer;
-        exit( );
+
+        if ( $output ) {
+            print $buffer;
+            exit( );
+        }
     }
 
     static function xMemory( $title = null ) {
@@ -614,11 +701,16 @@ class CRM_Utils_System {
         return $result;
     }
 
-    static function checkURL( $url ) {
+    static function checkURL( $url, $addCookie = false ) {
         CRM_Core_Error::ignoreException( );
         require_once 'HTTP/Request.php';
-        $params = array( 'method' => 'HEAD' );
+        $params = array( 'method' => 'GET' );
         $request =& new HTTP_Request( $url, $params );
+        if ( $addCookie ) {
+            foreach ( $_COOKIE as $name => $value ) {
+                $request->addCookie( $name, $value );
+            }
+        }
         $request->sendRequest( );
         $result = $request->getResponseCode( ) == 200 ? true : false;
         CRM_Core_Error::setCallback( );
@@ -638,7 +730,7 @@ class CRM_Utils_System {
         return false;
     }
 
-    static function formatWikiURL( $string ) {
+    static function formatWikiURL( $string, $encode = false ) {
         $items = explode( ' ', trim( $string ), 2 );
         if ( count( $items ) == 2 ) {
             $title = $items[1];
@@ -646,7 +738,8 @@ class CRM_Utils_System {
             $title = $items[0];
         }
 
-        $url = self::urlEncode( $items[0] );
+        // fix for CRM-4044
+        $url = $encode ? self::urlEncode( $items[0] ) : $items[0];
         return "<a href=\"$url\">$title</a>";
     }
 
@@ -680,8 +773,27 @@ class CRM_Utils_System {
         return $url;
     }
 
+    /**
+     * Function to return the latest civicrm version.
+     *
+     * @return string civicrm version
+     * @access public
+     */
     static function version( ) {
-        return self::VERSION;
+        static $version;
+        
+        if ( ! $version ) {
+            $config  =& CRM_Core_Config::singleton( );
+            $verFile = implode( DIRECTORY_SEPARATOR, 
+                                array(dirname(__FILE__), '..', '..', 'civicrm-version.txt') );
+            if ( $str = file_get_contents( $verFile ) ) {
+                $parts   = explode( ' ', $str );
+                $version = trim( $parts[0] );
+            } else {
+                CRM_Core_Error::fatal('Unable to locate civicrm-version.txt file. Make sure it exists.');
+            }
+        }
+        return $version;
     }
 
     static function getAllHeaders( ) {
@@ -706,16 +818,16 @@ class CRM_Utils_System {
         return $headers;
     }
 
-    static function redirectToSSL( $abort = true ) {
+    static function redirectToSSL( $abort = false ) {
         $config = CRM_Core_Config::singleton( );
         if ( $config->enableSSL             &&
              ( ! isset( $_SERVER['HTTPS'] ) ||
                strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
-            $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            // ensure that SSL is enabled on the base url (for cookie reasons etc)
+            // ensure that SSL is enabled on a civicrm url (for cookie reasons etc)
             $baseURL = str_replace( 'http://', 'https://',
-                                    $config->userFrameworkBaseURL );
-            if ( ! self::checkURL( $baseURL ) ) {
+                                    self::url( 'civicrm/dashboard', 'reset=1', true,
+                                               null, false, false ) );
+            if ( ! self::checkURL( $baseURL, true ) ) {
                 if ( $abort ) {
                     CRM_Core_Error::fatal( 'HTTPS is not set up on this machine' );
                 } else {
@@ -725,6 +837,7 @@ class CRM_Utils_System {
                     return;
                 }
             }
+            $url = "https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
             CRM_Utils_System::redirect( $url );
         }
     }
@@ -738,6 +851,101 @@ class CRM_Utils_System {
         return $address;
     }
 
+    /**
+     * Returns you the referring / previous page url
+     *
+     * @return string the previous page url
+     * @access public
+     */
+    static function refererPath( ) {
+        return CRM_Utils_Array::value( 'HTTP_REFERER', $_SERVER );
+    }
+    
+    /**
+     * Returns documentation URL base
+     *
+     * @return string documentation url
+     * @access public
+     */
+    static function getDocBaseURL( ) {
+        // FIXME: move this to configuration at some stage
+        return 'http://wiki.civicrm.org/confluence/display/CRMDOC/';
+    }
+
+    /**
+     * Returns URL or link to documentation page, based on provided parameters.
+     * For use in PHP code.
+     * WARNING: Always returns URL, if ts function is not defined ($URLonly has no effect).
+     *
+     * @param string  $page    Title of documentation wiki page
+     * @param boolean $URLonly Whether function should return URL only or whole link (default)
+     * @param string  $text    Text of HTML link (no effect if $URLonly = false)
+     * @param string  $title   Tooltip text for HTML link (no effect if $URLonly = false)
+     * @param string  $style   Style attribute value for HTML link (no effect if $URLonly = false)
+     *
+     * @return string URL or link to documentation page, based on provided parameters
+     * @access public
+     */
+    static function docURL2( $page, $URLonly = false, $text = null, $title = null, $style = null ) {
+        // if ts function doesn't exist, it means that CiviCRM hasn't been fully initialised yet -
+        // return just the URL, no matter what other parameters are defined
+        if (!function_exists('ts')) {
+            $docBaseURL = self::getDocBaseURL( );
+            return $docBaseURL . str_replace( ' ', '+', $page );
+        } else {
+            $params = array(
+                'page'    => $page,
+                'URLonly' => $URLonly,
+                'text'    => $text,
+                'title'   => $title,
+                'style'   => $style,
+            );
+            return self::docURL( $params );
+        }
+    }
+
+
+    /**
+     * Returns URL or link to documentation page, based on provided parameters.
+     * For use in templates code.
+     *
+     * @param array $params An array of parameters (see CRM_Utils_System::docURL2 method for names)
+     *
+     * @return string URL or link to documentation page, based on provided parameters
+     * @access public
+     */
+    static function docURL( $params ) {
+
+        if ( ! isset( $params['page'] ) ) {
+            return;
+        }
+
+        $docBaseURL = self::getDocBaseURL( );
+
+        if (!isset($params['title']) or $params['title'] === null) {
+            $params['title'] = ts( 'Opens documentation in a new window.' );
+        }
+
+        if (!isset($params['text']) or $params['text'] === null) {
+            $params['text'] = ts( '(learn more...)' );
+        }
+    
+        if ( ! isset( $params['style'] ) || $params['style'] === null ) {
+            $style = '';
+        } else {
+            $style = "style=\"{$params['style']}\"";
+        }
+
+        $link = $docBaseURL . str_replace( ' ', '+', $params['page'] );
+
+        if ( isset( $params['URLonly'] ) && $params['URLonly'] == true ) {
+            return $link;
+        } else {
+            return "<a href=\"{$link}\" $style target=\"_blank\" title=\"{$params['title']}\">{$params['text']}</a>";
+        }
+
+    }
+
 }
 
-?>
+

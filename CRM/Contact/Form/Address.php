@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -49,15 +49,19 @@ class CRM_Contact_Form_Address
      * @access public
      * @static
      */
-    static function buildAddressBlock(&$form, &$location, $locationId)
+    static function buildAddressBlock(&$form, &$location, $locationId, $countryDefault = null)
     {
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
         $config =& CRM_Core_Config::singleton( );
+        if ( $countryDefault == null ) {
+            $countryDefault = $config->defaultContactCountry;
+        }
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
-        
+              
         $elements = array( 
+                          'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null ),
                           'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
                           'supplemental_address_1' => array( ts('Addt\'l Address 1') ,  $attributes['supplemental_address_1'], null ),
                           'supplemental_address_2' => array( ts('Addt\'l Address 2') ,  $attributes['supplemental_address_2'], null ),
@@ -67,14 +71,16 @@ class CRM_Contact_Form_Address
                           'county_id'              => array( ts('County')            ,  $attributes['county_id'], 'county' ),
                           'state_province_id'      => array( ts('State / Province')  ,  $attributes['state_province_id'],null ),
                           'country_id'             => array( ts('Country')           ,  $attributes['country_id'], null ), 
-                          'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 4, 'maxlength' => 8 ), null ),
-                          'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 4, 'maxlength' => 8 ), null )
-                          ); 
-        
+                          'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 9, 'maxlength' => 10 ), null ),
+                          'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 9, 'maxlength' => 10 ), null )
+                          );
+
+        $stateCountryMap = array( );
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
-            
-            if ( ! $addressOptions[$title] ) {
+
+            $nameWithoutID = strpos( $name, '_id' ) !== false ? substr( $name, 0, -3 ) : $name;
+            if ( ! CRM_Utils_Array::value( $nameWithoutID, $addressOptions ) ) {
                 continue;
             }
             
@@ -83,42 +89,41 @@ class CRM_Contact_Form_Address
             }
             
             //build normal select if country is not present in address block
-            if ( $name == 'state_province_id' && ! $addressOptions[ $elements['country_id'][0] ] ) {
+            if ( $name == 'state_province_id' && ! $addressOptions['country'] ) {
                 $select = 'stateProvince';
             }
             
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
-                    $onValueChanged = null;
-                    $dataUrl        = null;
-
-                    if ( $name == 'country_id') {
-                        $dataUrl =  CRM_Utils_System::url( "civicrm/ajax/country", "s=%{searchString}", true, null, false );
-
-                        //when only country is enable, don't call function to build state province
-                        if ( $addressOptions[ $elements['state_province_id'][0] ] ) {
-                            $onValueChanged = "getStateProvince{$locationId}( this, {$locationId} )";
-                        }
+                    if ( $name == 'country_id' ) {
+                        $stateCountryMap[$locationId]['country'] = "location_{$locationId}_address_{$name}";
+                        $selectOptions = array('' => ts('- select -')) + 
+                            CRM_Core_PseudoConstant::country( );
                     } else {
-                        $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state","s=%{searchString}", true, null, false );
-                        $form->assign( 'stateURL', $stateUrl );
+                        $stateCountryMap[$locationId]['state_province'] = "location_{$locationId}_address_{$name}";
+                        if ( $countryDefault ) {
+                            $selectOptions = array('' => ts('- select -')) +
+                                CRM_Core_PseudoConstant::stateProvinceForCountry( $countryDefault );
+                        } else {
+                            $selectOptions = array( '' => ts( '- select a country -' ) );
+                        }
+                    }
+                    $location[$locationId]['address'][$name] =
+                        $form->addElement( 'select',
+                                           "location[$locationId][address][$name]",
+                                           $title,
+                                           $selectOptions );
+                } else {
+                    if ( $name == 'address_name' ) {
+                        $name = "name";
                     }
                     
-                    $attributes = array( 'dojoType'       => 'ComboBox',
-                                         'mode'           => 'remote',
-                                         'style'          => 'width: 230px;',
-                                         'value'          => '',
-                                         'dataUrl'        => $dataUrl,
-                                         '_onBlurInput'   => $onValueChanged,
-                                         'onValueChanged' => $onValueChanged,
-                                         'id'             => 'location_'.$locationId.'_address_'.$name );
+                    $location[$locationId]['address'][$name] =
+                        $form->addElement( 'text',
+                                           "location[$locationId][address][$name]",
+                                           $title,
+                                           $attributes );
                 }
-
-                $location[$locationId]['address'][$name] =
-                    $form->addElement( 'text',
-                                       "location[$locationId][address][$name]",
-                                       $title,
-                                       $attributes );
             } else {
                 $location[$locationId]['address'][$name] =
                     $form->addElement( 'select',
@@ -127,6 +132,10 @@ class CRM_Contact_Form_Address
                                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
             }
         }
+
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
+
     }
     
     /**
@@ -160,20 +169,27 @@ class CRM_Contact_Form_Address
                 if ( $countryExists ) {
                     $countryId =  CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] );
                 } else {
-                    $errors["location[$i][address][country_id]"] = "Enter the valid Country name.";
+                    $errors["location[$i][address][country_id]"] = ts('Enter a valid country name.');
                 }
             }
 
             if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] ) ) {
-                $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
-
-                $stateProvinceExists = null;
-                $stateProvinceExists = array_key_exists( CRM_Utils_Array::value( 'state_province_id',
-                                                                             $fields['location'][$i]['address'] ) , $stateProvinces );
-                if ( $stateProvinceExists ) {
-                    $stateProvinceId = CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] );
-                } else {
-                    $errors["location[$i][address][state_province_id]"] = "Please select a valid State/Province name.";
+                $stateProvinceValue = CRM_Utils_Array::value( 'state_province_id',
+                                                              $fields['location'][$i]['address'] );
+                    
+                // hack to skip  - type first letter(s) - for state_province
+                // CRM-2649
+                $selectOption = ts('- type first letter(s) -');
+                if ( $stateProvinceValue != $selectOption ) {
+                    $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
+                    
+                    $stateProvinceExists = null;
+                    $stateProvinceExists = array_key_exists( $stateProvinceValue, $stateProvinces );
+                    if ( $stateProvinceExists ) {
+                        $stateProvinceId = CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] );
+                    } else {
+                        $errors["location[$i][address][state_province_id]"] = "Please select a valid State/Province name.";
+                    }
                 }
             }
 
@@ -204,6 +220,36 @@ class CRM_Contact_Form_Address
             }
         }             
     }
+
+    static function fixStateSelect( &$form,
+                                    $countryElementName,
+                                    $stateElementName,
+                                    $countryDefaultValue ) {
+        $countryID = null;
+        if ( isset( $form->_elementIndex[$countryElementName] ) ) {
+            $countryValue = $form->getElementValue( $countryElementName );
+            if ( $countryValue ) {
+                $countryID = $countryValue[0];
+            } else {
+                $countryID = $countryDefaultValue;
+            }
+        }
+        
+        $stateTitle = ts( 'State/Province' );
+        if ( isset( $form->_fields[$stateElementName]['title'] ) ) {
+            $stateTitle = $form->_fields[$stateElementName]['title'];
+        }
+            
+        if ( $countryID &&
+             isset( $form->_elementIndex[$stateElementName] ) ) {
+            $form->addElement( 'select',
+                               $stateElementName,
+                               $stateTitle,
+                               array( '' => ts( '- select -' ) ) +
+                               CRM_Core_PseudoConstant::stateProvinceForCountry( $countryID ) );
+        }
+    }
+
 }
 
-?>
+

@@ -1,51 +1,23 @@
 {* Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
-
  <div id="map-field">
-    {if $savedMapping}
-    <div>
-	<p><a href="#" onclick="mappingOption(); return false;" >&raquo; {if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</a></p>
-    </div>
-    <div id="savedMappingOption">
-	<span>{$form.savedMapping.label}</span> <span>{$form.savedMapping.html}</span>
-	<span>{$form.loadMapping.html}</span>
-    </div>
-    
-    <script type="text/javascript">
-	hide('savedMappingOption');
-	document.getElementById("savedMapping").disabled = true;	
-	{literal}
-	function mappingOption() {
-		if (document.getElementById("savedMappingOption").style.display == "block") {
-		    hide('savedMappingOption');
-		    document.getElementById("savedMapping").disabled = true;
-		    return false;
-		} else {
-		    show('savedMappingOption');
-            document.getElementById("loadMapping").disabled = true; 
-		    document.getElementById("savedMapping").disabled = false;
-		    return false;
-		}
-	}
-		
-	{/literal}
-    </script>  
-    {/if}
-
     {strip}
-    <table>
+    <table class="selector">
     {if $loadedMapping}
         <tr class="columnheader-dark"><th colspan="4">{ts 1=$savedName}Saved Field Mapping: %1{/ts}</td></tr>
     {/if}
         <tr class="columnheader">
-            {section name=rows loop=$rowDisplayCount}
-		   {if $skipColumnHeader }
-                   { if $smarty.section.rows.iteration == 1 }
-                     <th>{ts}Column Headers{/ts}</th>
-                   {else}
-                     <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
-                   {/if}
-	        {else}
-                  <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
+	    {if $showColNames}	
+	        {assign var="totalRowsDisplay" value=$rowDisplayCount+1}
+	    {else}	
+	        {assign var="totalRowsDisplay" value=$rowDisplayCount}
+	    {/if}	
+            {section name=rows loop=$totalRowsDisplay}
+                { if $smarty.section.rows.iteration == 1 and $showColNames}
+                  <th>{ts}Column Names{/ts}</th>
+                {elseif $showColNames}
+                  <th>{ts 1=$smarty.section.rows.iteration-1}Import Data (row %1){/ts}</th>
+		{else}
+		  <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
                 {/if}
             {/section}
             
@@ -55,11 +27,15 @@
         {*Loop on columns parsed from the import data rows*}
         {section name=cols loop=$columnCount}
             {assign var="i" value=$smarty.section.cols.index}
-            <tr>
-                         
+            <tr style="border-bottom: 1px solid #92B6EC;">
+
+                {if $showColNames}        
+                    <td class="even-row labels">{$columnNames[$i]}</td>
+                {/if}
+
                 {section name=rows loop=$rowDisplayCount}
                     {assign var="j" value=$smarty.section.rows.index}
-                    <td class="{if $skipColumnHeader AND $smarty.section.rows.iteration == 1}even-row labels{else}odd-row{/if}">{$dataValues[$j][$i]}</td>
+                    <td class="odd-row">{$dataValues[$j][$i]}</td>
                 {/section}
 
                 {* Display mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}
@@ -75,7 +51,12 @@
                             {if $relatedContactPhoneType && $relatedContactPhoneType[$i] != ''}
 	                            - {$relatedContactPhoneType[$i]}
                 			{/if}
-
+                            
+                            {* append IM Service Provider type for related contact *}
+                            {if  $relatedContactImProvider && $relatedContactImProvider[$i] != ''}
+                                - {$relatedContactImProvider[$i]}
+                            {/if}
+                                       
 			            {else}                        
 			                {if $locations[$i]}
                                 {$locations[$i]} - 
@@ -83,6 +64,11 @@
 
                             {if $phones[$i]}
                                 {$phones[$i]} - 
+                            {/if}
+                            
+                            {* append IM Service provider type for contact *}
+                            {if $ims[$i]}
+                                {$ims[$i]} - 
                             {/if}
                             {*else*}
                                 {$mapper[$i]}

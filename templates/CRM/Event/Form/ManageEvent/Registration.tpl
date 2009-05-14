@@ -1,35 +1,37 @@
 {include file="CRM/common/WizardHeader.tpl"}
 <fieldset><legend>{ts}Online Registration{/ts}</legend>
 <div id="help">
-{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href="%1" target="_blank" title="Opens documentation in a new window">Payment Processor</a> for your site.{/ts}
+{capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
+{ts 1=$ppUrl}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href="%1">payment processor</a> for your site.{/ts}
 </div>
 <div class="form-item">
-   <div id="register">
+    <div id="register">
      <dl>
-       <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}</dd>
-       <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable online registration for this event.{/ts}</dd>
+       <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}<br />
+            <span class="description">{ts}Enable or disable online registration for this event.{/ts}</span></dd>
      </dl>
-   </div>
-   <div id="register_show">
-    <div id="registrationLink">
-        <dl>
-            <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. "Register Now!").{/ts}</dd>
-        </dl>
     </div>
-    <dl>
-        <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html}<br/>
-          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
-          {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1}
-        </dd>
-    </dl>
-    <dl>
-        <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}<br/>
-          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2}
-          {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2}
-        </dd>
-    </dl>
-    <div id="registration" class="form-item">
+    <div id="registration_blocks">
+     <div id="register_show">
+        <dl>
+            <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html} {help id="id-link_text"}</dd>
+            <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html} 
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
+            {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
+            </dd>
+            <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
+            {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
+            </dd>
+            <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html} {help id="id-allow_multiple"}</dd>
+            <dt>{$form.allow_same_participant_emails.label}</dt><dd>{$form.allow_same_participant_emails.html} {help id="id-allow_same_email"}</dd> 
+            <dt>{$form.has_waitlist.label}</dt><dd>{$form.has_waitlist.html} {help id="id-has_waitlist"}</dd> 
+            <dt>{$form.requires_approval.label}</dt><dd>{$form.requires_approval.html} {help id="id-requires_approval"}</dd> 
+            <dt>{$form.expiration_time.label}</dt><dd>{$form.expiration_time.html} {help id="id-expiration_time"}</dd>
+        </dl>
+     </div>
+    <div class="spacer"></div>
+    <div id="registration">
         {*Registration Block*}
         <div id="registration_screen_show" class="section-hidden section-hidden-border">
             <a href="#" onclick="hide('registration_screen_show'); show('registration_screen'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Registration Screen{/ts}</label><br />
@@ -43,9 +45,9 @@
             <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Optional footer text for registration screen.{/ts}</dd>
             <dt>{$form.custom_pre_id.label}</dt><dd>{$form.custom_pre_id.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message). NOTE: If you are using PayPal Standard or Google Checkout - custom fields are not supported.{/ts}{help id="event-profile"}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message).{/ts}{help id="event-profile"}</dd>
             <dt>{$form.custom_post_id.label}</dt><dd>{$form.custom_post_id.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page. NOTE: If you are using PayPal Standard or Google Checkout - custom fields are not supported.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page.{/ts}</dd>
         </dl>
         </fieldset>
         </div>
@@ -107,18 +109,16 @@
             <dt>{$form.confirm_from_email.label} <span class="marker">*</span></dt><dd>{$form.confirm_from_email.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}FROM email address (this must be a valid email account wiht your SMTP email service provider).{/ts}</dd>
             <dt>{$form.cc_confirm.label}</dt><dd>{$form.cc_confirm.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}You can notify event organizers of each online registration by specifying an email address to receive a cc (carbon copy).{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}You can notify event organizers of each online registration by specifying one or more email addresses to receive a carbon copy (cc). Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
             <dt>{$form.bcc_confirm.label}</dt><dd>{$form.bcc_confirm.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}You may specify an email address to receive a blind carbon copy (bcc) of the confirmation email.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}You may specify one or more email addresses to receive a blind carbon copy (bcc) of the confirmation email. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
         </dl>
         </div>
         {/strip}
         </fieldset>
         </div>
     </div>
-   </div>
-</div> {* End of form-item div *}
-</fieldset>
+    </div> {*end of div registration_blocks*}
     <dl>
     <dt>&nbsp;</dt><dd>
         <div id="crm-submit-buttons">
@@ -126,12 +126,14 @@
         </div>
         </dd>
     </dl>  
+</div> {* End of form-item div *}
+</fieldset>
 
 {include file="CRM/common/showHide.tpl"}
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_online_registration"
 trigger_value       ="" 
-target_element_id   ="register_show" 
+target_element_id   ="registration_blocks" 
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -150,8 +150,10 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                           $this, false, 0);
 
         // set breadcrumb to append to 2nd layer pages
-        $breadCrumbPath = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' );
-
+        $breadCrumb = array( array('title' => ts('Manage Contribution Pages'),
+                                   'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
+                                                                     'reset=1' )) );
+       
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
             $session =& CRM_Core_Session::singleton( ); 
@@ -159,39 +161,36 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                              'action=browse&reset=1' ) );
             require_once 'CRM/Contribute/Controller/ContributionPage.php';
             $controller =& new CRM_Contribute_Controller_ContributionPage( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Page'),
-                                                $breadCrumbPath );
             CRM_Utils_System::setTitle( ts('Manage Contribution Page') );
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
             $session =& CRM_Core_Session::singleton( ); 
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
                                                              "action=update&reset=1&id={$id}") );
             require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Page'),
-                                                $breadCrumbPath );
             return $page->run( );
         } else if ($action & CRM_Core_Action::PREVIEW) {
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
             require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Page'),
-                                                $breadCrumbPath );
             return $page->run( );
         } else if ($action & CRM_Core_Action::COPY) {
             $session =& CRM_Core_Session::singleton();
             CRM_Core_Session::setStatus("A copy of the contribution page has been created" );
             $this->copy( );
         } else if ($action & CRM_Core_Action::DELETE) {
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
             $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String',
                                                     $this );
             if ( $subPage == 'AddProductToPage' ) {
                 require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
                 $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-                CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Page'),
-                                                    $breadCrumbPath );
                 return $page->run( );
             } else {
+                CRM_Utils_System::appendBreadCrumb( $breadCrumb );
                 $session =& CRM_Core_Session::singleton();
                 $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionPage_Delete',
@@ -199,6 +198,14 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                                CRM_Core_Action::DELETE );
                 $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                                   $this, false, 0);
+                $query = "SELECT ccp.title
+FROM civicrm_contribution_page ccp JOIN civicrm_pcp cp ON ccp.id = cp.contribution_page_id
+WHERE cp.contribution_page_id = {$id}";
+                if ( $pageTitle = CRM_Core_DAO::singleValueQuery( $query ) ) {
+                    CRM_Core_Session::setStatus(" The '{$pageTitle}' cannot be deleted! You must Delete all Personal Campaign Page(s) related with this contribution page prior to deleting the page." );
+                    CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin/contribute','reset=1') );   
+                }
+
                 $controller->set('id', $id);
                 $controller->process( );
                 return $controller->run( );
@@ -239,7 +246,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
     }
 
     /**
-     * Browse all custom data groups.
+     * Browse all contribution pages
      *
      * @return void
      * @access public
@@ -247,7 +254,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
      */
     function browse($action=null)
     {
-
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
@@ -259,8 +265,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
 
         $this->search( );
 
-        $config =& CRM_Core_Config::singleton( );
-        
         $params = array( );
                       
         $whereClause = $this->whereClause( $params, false );
@@ -272,13 +276,10 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
        
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
-        // get all custom groups sorted by weight
-        $manageEvent = array();
-             
         $query = "
-  SELECT *
-    FROM civicrm_contribution_page
-   WHERE $whereClause
+SELECT *
+FROM civicrm_contribution_page
+WHERE $whereClause
 ORDER BY title asc
    LIMIT $offset, $rowCount";
 
@@ -300,11 +301,13 @@ ORDER BY title asc
             $contribution[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                           array('id' => $dao->id));
         }
-        $this->assign('rows', $contribution);
+        if (isset($contribution)) {
+            $this->assign('rows', $contribution);
+        }        
     }
 
      function search( ) {
-        if ( $this->_action &
+        if ( isset($this->_action) &
              ( CRM_Core_Action::ADD    |
                CRM_Core_Action::UPDATE |
                CRM_Core_Action::DELETE ) ) {
@@ -351,22 +354,17 @@ ORDER BY title asc
             $clauses[] = 'title LIKE %3';
             $params[3] = array( $this->_sortByCharacter . '%', 'String' );
         }
-       
-        $clauses[] = 'domain_id = %4';
-        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
-
-        // dont do a the below assignement when doing a 
-        // AtoZ pager clause
-        if ( $sortBy ) {
-            if ( count( $clauses ) > 1 ) {
-                $this->assign( 'isSearch', 1 );
-            } else {
-                $this->assign( 'isSearch', 0 );
-            }
+        
+        if ( empty( $clauses ) ) {
+            // Let template know if user has run a search or not
+            $this->assign('isSearch', 0);
+            return 1;
+        } else {
+            $this->assign('isSearch', 1);
         }
+            
         return implode( ' AND ', $clauses );
     }
-
 
      function pager( $whereClause, $whereParams ) {
         require_once 'CRM/Utils/Pager.php';
@@ -406,4 +404,4 @@ SELECT count(id)
         $this->assign( 'aToZ', $aToZBar );
     }
 }
-?>
+

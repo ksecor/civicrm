@@ -35,8 +35,8 @@
       </tr>
     
       {counter start=0 skip=1 print=false}
-      {foreach from=$rows item=row}
-      <tr id='rowid_{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
+      {foreach from=$rows item=row name=listings}
+      <tr id="row-{$smarty.foreach.listings.iteration}" class="{cycle values="odd-row,even-row"}">
       {foreach from=$row item=value}
         <td>{$value}</td>
       {/foreach}

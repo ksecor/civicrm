@@ -3,7 +3,7 @@
 * 
 * DB_Table_QuickForm creates HTML_QuickForm objects from DB_Table properties.
 * 
-* @category DB
+* @category Database
 * 
 * @package DB_Table
 *
@@ -12,7 +12,7 @@
 * 
 * @license http://www.gnu.org/copyleft/lesser.html LGPL
 * 
-* @version $Id: QuickForm.php,v 1.36 2006/07/25 10:22:54 wiesemann Exp $
+* @version $Id: QuickForm.php,v 1.43 2007/04/03 00:06:54 morse Exp $
 *
 */
 
@@ -50,7 +50,7 @@ if (!isset($GLOBALS['_DB_TABLE']['qf_class_name'])) {
 * DB_Table_QuickForm provides HTML form creation facilities based on
 * DB_Table column definitions transformed into HTML_QuickForm elements.
 * 
-* @category DB
+* @category Database
 * 
 * @package DB_Table
 *
@@ -292,7 +292,7 @@ class DB_Table_QuickForm {
     * $arrayName, the column names will become keys in an array named
     * for this parameter.
     * 
-    * @return void
+    * @return array Form elements
     * 
     */
     
@@ -448,6 +448,7 @@ class DB_Table_QuickForm {
             $element =& HTML_QuickForm::createElement(
                 $col['qf_type'],
                 $elemname,
+                null,
                 $col['qf_attrs']
             );
             
@@ -524,6 +525,81 @@ class DB_Table_QuickForm {
             );
             break;
 
+        case 'hierselect':
+
+            $element =& HTML_QuickForm::createElement(
+                $col['qf_type'],
+                $elemname,
+                $col['qf_label'],
+                $col['qf_attrs'],
+                $col['qf_groupsep']
+            );
+
+            if (isset($setval)) {
+                $element->setValue($setval);
+            }
+
+            break;
+
+        case 'jscalendar':
+
+            $element =& HTML_QuickForm::createElement(
+                $col['qf_type'],
+                $elemname,
+                $col['qf_label'],
+                $col['qf_opts'],
+                $col['qf_attrs']
+            );
+
+            if (isset($setval)) {
+                $element->setValue($setval);
+            }
+
+            break;
+
+        case 'header':
+
+            $element =& HTML_QuickForm::createElement(
+                $col['qf_type'],
+                $elemname
+            );
+
+            if (isset($setval)) {
+                $element->setValue($setval);
+            }
+
+            break;
+
+        case 'static':
+
+            $element =& HTML_QuickForm::createElement(
+                $col['qf_type'],
+                $elemname,
+                $col['qf_label']
+            );
+
+            if (isset($setval)) {
+                $element->setValue($setval);
+            }
+
+            break;
+
+        case 'reset':
+        case 'submit':
+
+            $element =& HTML_QuickForm::createElement(
+                $col['qf_type'],
+                $elemname,
+                null,
+                $col['qf_attrs']
+            );
+
+            if (isset($setval)) {
+                $element->setValue($setval);
+            }
+
+            break;
+
         case 'callback':  // custom QF elements that need more than
                           // the standard parameters
                           // code from Arne Bippes <arne.bippes@brandao.de>
@@ -548,7 +624,7 @@ class DB_Table_QuickForm {
             // - if $col['qf_callback'] is ...
             //   - not a valid object
             //   - a valid object, but a method 'createElement' doesn't exist
-            //   - not valid a method name
+            //   - not a valid method name
             // - if an error occured in 'createElement' or in the method
             
         default:
@@ -625,6 +701,44 @@ class DB_Table_QuickForm {
         }
         
         return $group;
+    }
+    
+    
+    /**
+    * 
+    * Adds static form elements like 'header', 'static', 'submit' or 'reset' to
+    * a pre-existing HTML_QuickForm object.
+    * 
+    * @static
+    * 
+    * @access public
+    * 
+    * @param object &$form An HTML_QuickForm object.
+    * 
+    * @param array $elements A sequential array of form element definitions.
+    * 
+    * @return void
+    * 
+    */
+    
+    function addStaticElements(&$form, $elements)
+    {
+        foreach ($elements as $name => $elemDef) {
+
+            DB_Table_QuickForm::fixColDef($elemDef, $name);
+
+            $element =& DB_Table_QuickForm::getElement($elemDef, $name);
+
+            if (!is_object($element)) {
+                continue;
+            }
+
+            if (isset($elemDef['before']) && !empty($elemDef['before'])) {
+                $form->insertElementBefore($element, $elemDef['before']);
+            } else {
+                $form->addElement($element);
+            }
+        }
     }
     
     
@@ -965,41 +1079,48 @@ class DB_Table_QuickForm {
         }        
 
         // the element is required
-        if (! isset($col['qf_rules']['required']) && $col['require']) {
-            
-            $col['qf_rules']['required'] = sprintf(
+        // ==> set 'uploadedfile' (for file elements) or 'required' (for all
+        // other elements) rule if it is was not already set
+        $req_rule_name = ($col['qf_type'] == 'file') ? 'uploadedfile' : 'required';
+        if (!isset($col['qf_rules'][$req_rule_name]) && $col['require']) {
+
+            $col['qf_rules'][$req_rule_name] = sprintf(
                 $GLOBALS['_DB_TABLE']['qf_rules']['required'],
                 $col['qf_label']
             );
-            
+
         }
-        
+
+        // for file elements the 'numeric' and 'maxlength' rules must not be set
+        if ($col['qf_type'] == 'file') {
+            return;
+        }
+
         $numeric = array('smallint', 'integer', 'bigint', 'decimal', 
             'single', 'double');
-        
+
         // the element is numeric
-        if (! isset($col['qf_rules']['numeric']) && isset($col['type']) &&
+        if (!isset($col['qf_rules']['numeric']) && isset($col['type']) &&
             in_array($col['type'], $numeric)) {
-            
+
             $col['qf_rules']['numeric'] = sprintf(
                 $GLOBALS['_DB_TABLE']['qf_rules']['numeric'],
                 $col['qf_label']
             );
-            
+
         }
-        
+
         // the element has a maximum length
-        if (! isset($col['qf_rules']['maxlength']) &&
-            isset($col['size'])) {
-        
+        if (!isset($col['qf_rules']['maxlength']) && isset($col['size'])) {
+
             $max = $col['size'];
-            
+
             $msg = sprintf(
                 $GLOBALS['_DB_TABLE']['qf_rules']['maxlength'],
                 $col['qf_label'],
                 $max
             );
-            
+
             $col['qf_rules']['maxlength'] = array($msg, $max);
         }
     }

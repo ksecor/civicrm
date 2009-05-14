@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,14 +28,12 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Event/Import/Parser.php';
-
-require_once 'api/crm.php';
 
 /**
  * class to parse membership csv files
@@ -160,30 +158,46 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
     function summary( &$values )
     {
         $erroneousField = null;
+      
         $response = $this->setActiveFieldValues( $values, $erroneousField );
         $errorRequired = false;
-        
-        if ($this->_eventIndex > 0 && $this->_eventTitleIndex > 0 ){
+        $index = -1;
+
+        if ( $this->_eventIndex > -1 && $this->_eventTitleIndex > -1 ) {
             array_unshift($values, ts('Select either EventID OR Event Title'));
             return CRM_Event_Import_Parser::ERROR;
-        } elseif($this->_eventTitleIndex > 0) {
-            $this->_eventIndex = $this->_eventTitleIndex;
+        } elseif ( $this->_eventTitleIndex > -1 ) {
+            $index = $this->_eventTitleIndex;
+        } elseif ( $this->_eventIndex > -1 ) {
+            $index = $this->_eventIndex;
         }
-                
-        if (($this->_eventIndex < 0) || ($this->_participantStatusIndex < 0) || ($this->_participantRoleIndex < 0)) {
-            $errorRequired = true;
-        } else {
-            $errorRequired = ! CRM_Utils_Array::value($this->_eventIndex, $values) ||
-                ! CRM_Utils_Array::value($this->_participantStatusIndex, $values) ||
-                ! CRM_Utils_Array::value($this->_participantRoleIndex, $values);
+        $params =& $this->getActiveFieldParams( );
+
+        require_once 'CRM/Import/Parser/Contact.php';
+        if (!(($index < 0) || ($this->_participantStatusIndex < 0) )) {
+            $errorRequired = ! CRM_Utils_Array::value($this->_participantStatusIndex, $values); 
+            if ((!$params['event_id'] && !$params['event_title'])) {
+                CRM_Import_Parser_Contact::addToErrorMsg('Event', $missingField);
+            } 
+            if (!$params['participant_status_id']) {
+                CRM_Import_Parser_Contact::addToErrorMsg('Participant Status', $missingField);
+            } 
+        } else { 
+            $errorRequired = true;  
+            $missingField  = null;
+            if ($index < 0) {
+                CRM_Import_Parser_Contact::addToErrorMsg('Event', $missingField);
+            } 
+            if ($this->_participantStatusIndex < 0) {
+                CRM_Import_Parser_Contact::addToErrorMsg('Participant Status', $missingField);
+            } 
         }
+     
         if ($errorRequired) {
-            array_unshift($values, ts('Missing required fields'));
+            array_unshift($values, ts('Missing required field(s) :') . $missingField );
             return CRM_Event_Import_Parser::ERROR;
         }
         
-        $params =& $this->getActiveFieldParams( );
-        require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
         
         //for date-Formats
@@ -211,7 +225,6 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         }
         //date-Format part ends
         
-        //$params['contact_type'] =  $this->_contactType;
         $params['contact_type'] = 'Participant';
         //checking error in custom data
         CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
@@ -244,6 +257,9 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $params =& $this->getActiveFieldParams( );
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get( 'dateTypes' );
+        $formatted = array();
+        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',$params ) );
+        
         foreach ($params as $key => $val) {
             if( $val ) {
                 if ( $key == 'participant_register_date' ) {
@@ -255,91 +271,120 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                         CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
                     }
                 }
-            }
+                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                    if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
+                        CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
+                        unset( $params[$key] );
+                    } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean' ) {
+                        $params[$key] = CRM_Utils_String::strtoboolstr( $val );
+                    }
+                }
+            } 
         }
+
+        if ( ! $params['participant_role_id'] ) {
+            if ( $params['event_id'] ) {
+                $roleId= 
+                    CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $params['event_id'] , 'default_role_id' );
+            } else {
+                $eventTitle = $params['event_title'];
+                $qParams = array();
+                $dao =& new CRM_Core_DAO();
+                $roleId =
+                    $dao->singleValueQuery("SELECT default_role_id FROM civicrm_event WHERE title = '$eventTitle' ",
+                                           $qParams);
+            }
+            require_once 'CRM/Event/PseudoConstant.php';
+            $params['participant_role_id'] = CRM_Event_PseudoConstant::participantRole( $roleId );
+        } 
         //date-Format part ends
         static $indieFields = null;
         if ($indieFields == null) {
             require_once('CRM/Event/BAO/Participant.php');
-            $tempIndieFields =& CRM_Event_BAO_Participant::import();
-            $indieFields = $tempIndieFields;
+            $indieFields =& CRM_Event_BAO_Participant::import();
         }
         
-        $values    = array();
-        $formatted = array();
-        
+        $formatValues = array();
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
             }
             
-            $values[$key] = $field;
+            $formatValues[$key] = $field;
         }
-        $formatError = _crm_format_participant_params( $values, $formatted, true);
+        
+        $formatError = _civicrm_participant_formatted_param( $formatValues, $formatted, true );
+        
         if ( $formatError ) {
-            array_unshift($values, $formatError->_errors[0]['message']);
+            array_unshift($values, $formatError['error_message']);
             return CRM_Event_Import_Parser::ERROR;
         }
+        
+        if ( !CRM_Utils_Rule::integer($formatted['event_id']) ) {
+            array_unshift($values, ts('Invalid value for Event ID') );
+            return CRM_Event_Import_Parser::ERROR;
+        }
+        
+        if ( $onDuplicate != CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          null,
+                                                                          'Participant' );
+        } else {
+            if ( $formatValues['participant_id'] ) {
+                require_once 'CRM/Event/BAO/Participant.php';
+                $dao =  new CRM_Event_BAO_Participant();
+                $dao->id = $formatValues['participant_id'];
+                
+                $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                              CRM_Core_DAO::$_nullObject,
+                                                                              $formatValues['participant_id'],
+                                                                              'Participant' );
+                
+                if ( $dao->find( true ) ) { 
+                    $ids = array(
+                                 'participant' => $formatValues['participant_id'],
+                                 'userId'      => $session->get('userID')
+                                 );
+                    
+                    $newParticipant =& CRM_Event_BAO_Participant::create( $formatted , $ids );
+                    
+                    $this->_newParticipant[] = $newParticipant->id;
+                    return CRM_Event_Import_Parser::VALID;
+                } else {
+                    array_unshift($values,"Matching Participant record not found for Participant ID ". $formatValues['participant_id'].". Row was skipped.");
+                    return CRM_Event_Import_Parser::ERROR;
+                }
+            }
+        }
+        
+        require_once "api/v2/Participant.php";
+        
         if ( $this->_contactIdIndex < 0 ) {
-            static $cIndieFields = null;
-            if ($cIndieFields == null) {
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType);
-                $cIndieFields = $cTempIndieFields;
-            }
-            foreach ($params as $key => $field) {
-                if ($field == null || $field === '') {
-                    continue;
-                }
-                if (is_array($field)) {
-                    foreach ($field as $value) {
-                        $break = false;
-                        if ( is_array($value) ) {
-                            foreach ($value as $name => $testForEmpty) {
-                                if ($name !== 'phone_type' &&
-                                    ($testForEmpty === '' || $testForEmpty == null)) {
-                                    $break = true;
-                                    break;
-                                }
-                            }
-                        } else {
-                            $break = true;
-                        }
-                        if (! $break) {    
-                            _crm_add_formatted_param($value, $contactFormatted);
-                        }
-                    }
-                    continue;
-                }
-                $value = array($key => $field);
-                if (array_key_exists($key, $cIndieFields)) {
-                    $value['contact_type'] = $this->_contactType;
-                }
-                _crm_add_formatted_param($value, $contactFormatted);
-            }
-            $contactFormatted['contact_type'] = $this->_contactType;
-            $error = _crm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
-            if ( self::isDuplicate($error) ) {
+            
+            //retrieve contact id using contact dedupe rule
+            $formatValues['contact_type'] = $this->_contactType;
+            $error = civicrm_check_contact_dedupe( $formatValues );
+            
+            if ( civicrm_duplicate( $error ) ) {
+                $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if ( count( $matchedIDs) >= 1 ) {
                     foreach($matchedIDs as $contactId) {
                         $formatted['contact_id'] = $contactId;
-                        $newParticipant = crm_create_participant_formatted($formatted, $onDuplicate);
+                        $newParticipant = civicrm_create_participant_formatted( $formatted, $onDuplicate );
                     }
                 }  
                 
             } else {
-                if ($this->_contactType == 'Individual') {
-                    require_once 'CRM/Core/DAO/DupeMatch.php';
-                    $dao = & new CRM_Core_DAO_DupeMatch();;
-                    $dao->find(true);
-                    $fieldsArray = explode('AND',$dao->rule);
-                } elseif ($this->_contactType == 'Household') {
-                    $fieldsArray = array('household_name', 'email');
-                } elseif ($this->_contactType == 'Organization') {
-                    $fieldsArray = array('organization_name', 'email');
-                }
-                foreach ( $fieldsArray as $value) {
+                // Using new Dedupe rule.
+                $ruleParams = array(
+                                    'contact_type' => $this->_contactType,
+                                    'level' => 'Strict'
+                                    );
+                require_once 'CRM/Dedupe/BAO/Rule.php';
+                $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
+                
+                foreach ( $fieldsArray as $value ) {
                     if(array_key_exists(trim($value),$params)) {
                         $paramValue = $params[trim($value)];
                         if (is_array($paramValue)) {
@@ -350,34 +395,51 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                     }
                 }
                 
+                if ( CRM_Utils_Array::value('external_identifier',$params ) ) {
+                    if ( $disp ) {
+                        $disp .= "AND {$params['external_identifier']}";
+                    } else {
+                        $disp = $params['external_identifier']; 
+                    }
+                }
+                
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Event_Import_Parser::ERROR;
             }
             
         } else {
-            if ( $values['external_identifier'] ) {
+            if ( $formatValues['external_identifier'] ) {
                 $checkCid = new CRM_Contact_DAO_Contact();
-                $checkCid->external_identifier = $values['external_identifier'];
+                $checkCid->external_identifier = $formatValues['external_identifier'];
                 $checkCid->find(true);
                 if ($checkCid->id != $formatted['contact_id']) {
-                    array_unshift($values, "Mismatch of External identifier :" . $values['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
+                    array_unshift($values, "Mismatch of External identifier :" . $formatValues['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
                     return CRM_Event_Import_Parser::ERROR;
                 }
             }
-            $newParticipant = crm_create_participant_formatted($formatted, $onDuplicate);
+            
+            $newParticipant = civicrm_create_participant_formatted($formatted, $onDuplicate);
         }
-        if ( is_a( $newParticipant, CRM_Core_Error ) ) {
-            $code = $newParticipant->_errors[0]['code'];
-            if ($onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP){
-                array_unshift($values, $newParticipant->_errors[0]['message']);
+        
+        if ( is_array( $newParticipant ) && civicrm_error( $newParticipant ) ) {
+            if ( $onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP ) {
+                
+                $contactID     = CRM_Utils_Array::value( 'contactID', $newParticipant['error_data'] );
+                $participantID = CRM_Utils_Array::value( 'participantID', $newParticipant['error_data'] );
+                $url           = CRM_Utils_System::url( 'civicrm/contact/view/participant',
+                                                        "reset=1&id={$participantID}&cid={$contactID}&action=view", true );
+                if ( $participantID = $newParticipant['error_message']['params'][0] ) {
+                    array_unshift( $values, $url ); 
+                    return CRM_Event_Import_Parser::DUPLICATE;
+                }
                 return CRM_Event_Import_Parser::ERROR;
-            } else if ($onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE) {
-                $newParticipant = crm_update_participant_formatted( $formatted );
             }
         }
-        if ( $newParticipant && ! is_a( $newParticipant, 'CRM_Core_Error' ) ) {
+        
+        if ( ! ( is_array( $newParticipant ) && civicrm_error( $newParticipant ) ) ) {
             $this->_newParticipants[] = $newParticipant['id'];
-        }  
+        }
+        
         return CRM_Event_Import_Parser::VALID;
     }
     
@@ -402,24 +464,5 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
     {
     }
     
-    /**
-     *  function to check if an error is actually a duplicate contact error
-     *  
-     *  @param Object $error Avalid Error object
-     *  
-     *  @return ture if error is duplicate contact error 
-     *  
-     *  @access public 
-     */
-    function isDuplicate($error)
-    {
-        if( is_a( $error, CRM_Core_Error ) ) {
-            $code = $error->_errors[0]['code'];
-            if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
-                return true ;
-            }
-        }
-        return false;
-    }
 }
-?>
+

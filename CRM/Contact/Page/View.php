@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -107,6 +107,12 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         }
         $this->assign( 'contactId', $this->_contactId );
         
+        $path = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId );
+        CRM_Utils_System::appendBreadCrumb( array( array( 'title' => ts('View Contact'),
+                                                          'url'   => $path ) ) );
+        CRM_Utils_System::appendBreadCrumb( array( array( 'title' => ts('Search Results'),
+                                                          'url'   => self::getSearchURL( ) ) ) );
+
         // also store in session for future use
         $session =& CRM_Core_Session::singleton( );
         $session->set( 'view.id', $this->_contactId );
@@ -120,13 +126,14 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         // automatically grant permissin for users on their own record. makes 
         // things easier in dashboard
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
         if ( $session->get( 'userID' ) == $this->_contactId ) {
             $this->assign( 'permission', 'edit' );
-            $this->_permission = CRM_Core_Permission::EDIT;            
-        } else if ( CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
+            $this->_permission = CRM_Core_Permission::EDIT;
+        } else if ( CRM_Contact_BAO_Contact_Permission::allow( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
             $this->assign( 'permission', 'edit' );
             $this->_permission = CRM_Core_Permission::EDIT;            
-        } else if ( CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
+        } else if ( CRM_Contact_BAO_Contact_Permission::allow( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
             $this->assign( 'permission', 'view' );
             $this->_permission = CRM_Core_Permission::VIEW;
         } else {
@@ -138,34 +145,24 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         $contactImage = $this->get( 'contactImage' );
         $displayName  = $this->get( 'displayName'  );
+        $contactType  = $this->get( 'contactType' );
         $this->assign( 'displayName', $displayName );
 
         // see if other modules want to add a link activtity bar
         require_once 'CRM/Utils/Hook.php';
         $hookLinks = CRM_Utils_Hook::links( 'view.contact.activity', 'Contact', $this->_contactId );
-        if ( $hookLinks ) {
+        if ( is_array( $hookLinks ) ) {
             $this->assign( 'hookLinks', $hookLinks );
         }
 
         CRM_Utils_System::setTitle( $displayName, $contactImage . ' ' . $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId ),
-                               $contactImage,
-                               $this->_contactId );
+                               $this->_contactId,
+                               $contactType,
+                               $this->_contactId,
+                               $displayName );
         
-        // also add the cid params to the Menu array
-        CRM_Core_Menu::addParam( 'cid', $this->_contactId );
-
-        
-        //------------
-        // create menus ..
-        // hack for now, disable if we are in tabbed mode
-        $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
-        $startWeight++;
-        CRM_Core_BAO_CustomGroup::addMenuTabs( CRM_Contact_BAO_Contact::getContactType($this->_contactId), 
-                                               'civicrm/contact/view/cd',
-                                               $startWeight );
-
         //display OtherActivity link 
         $otherAct = CRM_Core_PseudoConstant::activityType(false);
         $activityNum = count($otherAct);
@@ -203,17 +200,27 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     {
         $displayName = $this->get( 'displayName' );
              
-        // if the display name is cached, we can skip the other processing
-        if ( isset( $displayName ) ) {
-            // return;
-        }
-
-        list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
+        list( $displayName, $contactImage, $contactType ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId, true );
 
         $this->set( 'displayName' , $displayName );
         $this->set( 'contactImage', $contactImage );
+        $this->set( 'contactType', $contactType );
+    }
+
+    function getSearchURL( ) {
+        $session =& CRM_Core_Session::singleton();
+
+        $isAdvanced = $session->get('isAdvanced');
+        if ( $isAdvanced == '1' ) {
+            return CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
+        } else if ( $isAdvanced == '2' ) {
+            return CRM_Utils_System::url( 'civicrm/contact/search/builder', 'force=1' );
+        } else if ( $isAdvanced == '3' ) {
+            return CRM_Utils_System::url( 'civicrm/contact/search/custom', 'force=1' );
+        }
+        return CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
     }
 
 }
 
-?>
+

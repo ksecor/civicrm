@@ -1,908 +1,631 @@
-if(!dojo._hasResource["dijit.Tree"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit.Tree"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit.Tree"]){
+dojo._hasResource["dijit.Tree"]=true;
 dojo.provide("dijit.Tree");
-
 dojo.require("dojo.fx");
-
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit._Container");
 dojo.require("dojo.cookie");
-
-dojo.declare(
-	"dijit._TreeNode",
-	[dijit._Widget, dijit._Templated, dijit._Container, dijit._Contained],
-{
-	// summary
-	//		Single node within a tree
-
-	// item: dojo.data.Item
-	//		the dojo.data entry this tree represents
-	item: null,	
-
-	isTreeNode: true,
-
-	// label: String
-	//		Text of this tree node
-	label: "",
-	
-	isExpandable: null, // show expando node
-	
-	isExpanded: false,
-
-	// state: String
-	//		dynamic loading-related stuff.
-	//		When an empty folder node appears, it is "UNCHECKED" first,
-	//		then after dojo.data query it becomes "LOADING" and, finally "LOADED"	
-	state: "UNCHECKED",
-	
-	templateString:"<div class=\"dijitTreeNode dijitTreeExpandLeaf dijitTreeChildrenNo\" waiRole=\"presentation\"\n\t><span dojoAttachPoint=\"expandoNode\" class=\"dijitTreeExpando\" waiRole=\"presentation\"\n\t></span\n\t><span dojoAttachPoint=\"expandoNodeText\" class=\"dijitExpandoText\" waiRole=\"presentation\"\n\t></span\n\t>\n\t<div dojoAttachPoint=\"contentNode\" class=\"dijitTreeContent\" waiRole=\"presentation\">\n\t\t<div dojoAttachPoint=\"iconNode\" class=\"dijitInline dijitTreeIcon\" waiRole=\"presentation\"></div>\n\t\t<span dojoAttachPoint=\"labelNode\" class=\"dijitTreeLabel\" wairole=\"treeitem\" tabindex=\"-1\"></span>\n\t</div>\n</div>\n",		
-
-	postCreate: function(){
-		// set label, escaping special characters
-		this.setLabelNode(this.label);
-
-		// set expand icon for leaf 	
-		this._setExpando();
-
-		// set icon and label class based on item
-		this._updateItemClasses(this.item);
-
-		if(this.isExpandable){
-			dijit.setWaiState(this.labelNode, "expanded", this.isExpanded);
-		}
-	},
-
-	markProcessing: function(){
-		// summary: visually denote that tree is loading data, etc.
-		this.state = "LOADING";
-		this._setExpando(true);	
-	},
-
-	unmarkProcessing: function(){
-		// summary: clear markup from markProcessing() call
-		this._setExpando(false);	
-	},
-
-	_updateItemClasses: function(item){
-		// summary: set appropriate CSS classes for item (used to allow for item updates to change respective CSS)
-		this.iconNode.className = "dijitInline dijitTreeIcon " + this.tree.getIconClass(item);
-		this.labelNode.className = "dijitTreeLabel " + this.tree.getLabelClass(item);
-	},
-	
-	_updateLayout: function(){
-		// summary: set appropriate CSS classes for this.domNode
-		var parent = this.getParent();
-		if(parent && parent.isTree && parent._hideRoot){
-			/* if we are hiding the root node then make every first level child look like a root node */
-			dojo.addClass(this.domNode, "dijitTreeIsRoot");
-		}else{
-			dojo.toggleClass(this.domNode, "dijitTreeIsLast", !this.getNextSibling());
-		}
-	},
-
-	_setExpando: function(/*Boolean*/ processing){
-		// summary: set the right image for the expando node
-
-		// apply the appropriate class to the expando node
-		var styles = ["dijitTreeExpandoLoading", "dijitTreeExpandoOpened",
-			"dijitTreeExpandoClosed", "dijitTreeExpandoLeaf"];
-		var idx = processing ? 0 : (this.isExpandable ?	(this.isExpanded ? 1 : 2) : 3);
-		dojo.forEach(styles,
-			function(s){
-				dojo.removeClass(this.expandoNode, s);
-			}, this
-		);
-		dojo.addClass(this.expandoNode, styles[idx]);
-
-		// provide a non-image based indicator for images-off mode
-		this.expandoNodeText.innerHTML =
-			processing ? "*" :
-				(this.isExpandable ?
-					(this.isExpanded ? "-" : "+") : "*");
-	},	
-
-	expand: function(){
-		// summary: show my children
-		if(this.isExpanded){ return; }
-		// cancel in progress collapse operation
-		if(this._wipeOut.status() == "playing"){
-			this._wipeOut.stop();
-		}
-
-		this.isExpanded = true;
-		dijit.setWaiState(this.labelNode, "expanded", "true");
-		dijit.setWaiRole(this.containerNode, "group");
-
-		this._setExpando();
-
-		this._wipeIn.play();
-	},
-
-	collapse: function(){					
-		if(!this.isExpanded){ return; }
-
-		// cancel in progress expand operation
-		if(this._wipeIn.status() == "playing"){
-			this._wipeIn.stop();
-		}
-
-		this.isExpanded = false;
-		dijit.setWaiState(this.labelNode, "expanded", "false");
-		this._setExpando();
-
-		this._wipeOut.play();
-	},
-
-	setLabelNode: function(label){
-		this.labelNode.innerHTML="";
-		this.labelNode.appendChild(document.createTextNode(label));
-	},
-
-	_setChildren: function(/* Object[] */ childrenArray){
-		// summary:
-		//		Sets the children of this node.
-		//		Sets this.isExpandable based on whether or not there are children
-		// 		Takes array of objects like: {label: ...} (_TreeNode options basically)
-		//		See parameters of _TreeNode for details.
-
-		this.destroyDescendants();
-
-		this.state = "LOADED";
-		var nodeMap= {};
-		if(childrenArray && childrenArray.length > 0){
-			this.isExpandable = true;
-			if(!this.containerNode){ // maybe this node was unfolderized and still has container
-				this.containerNode = this.tree.containerNodeTemplate.cloneNode(true);
-				this.domNode.appendChild(this.containerNode);
-			}
-
-			// Create _TreeNode widget for each specified tree node
-			dojo.forEach(childrenArray, function(childParams){
-				var child = new dijit._TreeNode(dojo.mixin({
-					tree: this.tree,
-					label: this.tree.getLabel(childParams.item)
-				}, childParams));
-				this.addChild(child);
-				var identity = this.tree.store.getIdentity(childParams.item);
-				nodeMap[identity] = child;
-				if(this.tree.persist){
-					if(this.tree._openedItemIds[identity]){
-						this.tree._expandNode(child);
-					}
-				}
-			}, this);
-
-			// note that updateLayout() needs to be called on each child after
-			// _all_ the children exist
-			dojo.forEach(this.getChildren(), function(child, idx){
-				child._updateLayout();
-			});
-		}else{
-			this.isExpandable=false;
-		}
-
-		if(this._setExpando){
-			// change expando to/form dot or + icon, as appropriate
-			this._setExpando(false);
-		}
-
-		if(this.isTree && this._hideRoot){
-			// put first child in tab index if one exists.
-			var fc = this.getChildren()[0];
-			var tabnode = fc ? fc.labelNode : this.domNode;
-			tabnode.setAttribute("tabIndex", "0");
-		}
-
-		// create animations for showing/hiding the children (if children exist)
-		if(this.containerNode && !this._wipeIn){
-			this._wipeIn = dojo.fx.wipeIn({node: this.containerNode, duration: 150});
-			this._wipeOut = dojo.fx.wipeOut({node: this.containerNode, duration: 150});
-		}
-
-		return nodeMap;
-	},
-
-	_addChildren: function(/* object[] */ childrenArray){
-		// summary:
-		//		adds the children to this node.
-		// 		Takes array of objects like: {label: ...}  (_TreeNode options basically)
-
-		//		See parameters of _TreeNode for details.
-		var nodeMap = {};
-		if(childrenArray && childrenArray.length > 0){
-			dojo.forEach(childrenArray, function(childParams){
-				var child = new dijit._TreeNode(
-					dojo.mixin({
-						tree: this.tree,
-						label: this.tree.getLabel(childParams.item)
-					}, childParams)
-				);
-				this.addChild(child);
-				nodeMap[this.tree.store.getIdentity(childParams.item)] = child;
-			}, this);
-
-			dojo.forEach(this.getChildren(), function(child, idx){
-				child._updateLayout();
-			});
-		}
-
-		return nodeMap;
-	},
-
-	deleteNode: function(/* treeNode */ node){
-		node.destroy();
-
-		dojo.forEach(this.getChildren(), function(child, idx){
-			child._updateLayout();
-		});
-	},
-
-	makeExpandable: function(){
-		//summary
-		//		if this node wasn't already showing the expando node,
-		//		turn it into one and call _setExpando()
-		this.isExpandable = true;
-		this._setExpando(false);
-	}
+dojo.declare("dijit._TreeNode",[dijit._Widget,dijit._Templated,dijit._Container,dijit._Contained],{item:null,isTreeNode:true,label:"",isExpandable:null,isExpanded:false,state:"UNCHECKED",templateString:"<div class=\"dijitTreeNode\" waiRole=\"presentation\"\n\t><div dojoAttachPoint=\"rowNode\" waiRole=\"presentation\"\n\t\t><span dojoAttachPoint=\"expandoNode\" class=\"dijitTreeExpando\" waiRole=\"presentation\"\n\t\t></span\n\t\t><span dojoAttachPoint=\"expandoNodeText\" class=\"dijitExpandoText\" waiRole=\"presentation\"\n\t\t></span\n\t\t><div dojoAttachPoint=\"contentNode\" class=\"dijitTreeContent\" waiRole=\"presentation\">\n\t\t\t<div dojoAttachPoint=\"iconNode\" class=\"dijitInline dijitTreeIcon\" waiRole=\"presentation\"></div>\n\t\t\t<span dojoAttachPoint=\"labelNode\" class=\"dijitTreeLabel\" wairole=\"treeitem\" tabindex=\"-1\" waiState=\"selected-false\" dojoAttachEvent=\"onfocus:_onNodeFocus\"></span>\n\t\t</div\n\t></div>\n</div>\n",postCreate:function(){
+this.setLabelNode(this.label);
+this._setExpando();
+this._updateItemClasses(this.item);
+if(this.isExpandable){
+dijit.setWaiState(this.labelNode,"expanded",this.isExpanded);
+}
+},markProcessing:function(){
+this.state="LOADING";
+this._setExpando(true);
+},unmarkProcessing:function(){
+this._setExpando(false);
+},_updateItemClasses:function(_1){
+var _2=this.tree,_3=_2.model;
+if(_2._v10Compat&&_1===_3.root){
+_1=null;
+}
+this.iconNode.className="dijitInline dijitTreeIcon "+_2.getIconClass(_1,this.isExpanded);
+this.labelNode.className="dijitTreeLabel "+_2.getLabelClass(_1,this.isExpanded);
+},_updateLayout:function(){
+var _4=this.getParent();
+if(!_4||_4.rowNode.style.display=="none"){
+dojo.addClass(this.domNode,"dijitTreeIsRoot");
+}else{
+dojo.toggleClass(this.domNode,"dijitTreeIsLast",!this.getNextSibling());
+}
+},_setExpando:function(_5){
+var _6=["dijitTreeExpandoLoading","dijitTreeExpandoOpened","dijitTreeExpandoClosed","dijitTreeExpandoLeaf"];
+var _7=_5?0:(this.isExpandable?(this.isExpanded?1:2):3);
+dojo.forEach(_6,function(s){
+dojo.removeClass(this.expandoNode,s);
+},this);
+dojo.addClass(this.expandoNode,_6[_7]);
+this.expandoNodeText.innerHTML=_5?"*":(this.isExpandable?(this.isExpanded?"-":"+"):"*");
+},expand:function(){
+if(this.isExpanded){
+return;
+}
+if(this._wipeOut.status()=="playing"){
+this._wipeOut.stop();
+}
+this.isExpanded=true;
+dijit.setWaiState(this.labelNode,"expanded","true");
+dijit.setWaiRole(this.containerNode,"group");
+this.contentNode.className="dijitTreeContent dijitTreeContentExpanded";
+this._setExpando();
+this._updateItemClasses(this.item);
+this._wipeIn.play();
+},collapse:function(){
+if(!this.isExpanded){
+return;
+}
+if(this._wipeIn.status()=="playing"){
+this._wipeIn.stop();
+}
+this.isExpanded=false;
+dijit.setWaiState(this.labelNode,"expanded","false");
+this.contentNode.className="dijitTreeContent";
+this._setExpando();
+this._updateItemClasses(this.item);
+this._wipeOut.play();
+},setLabelNode:function(_9){
+this.labelNode.innerHTML="";
+this.labelNode.appendChild(dojo.doc.createTextNode(_9));
+},setChildItems:function(_a){
+var _b=this.tree,_c=_b.model;
+this.getChildren().forEach(function(_d){
+dijit._Container.prototype.removeChild.call(this,_d);
+},this);
+this.state="LOADED";
+if(_a&&_a.length>0){
+this.isExpandable=true;
+if(!this.containerNode){
+this.containerNode=this.tree.containerNodeTemplate.cloneNode(true);
+this.domNode.appendChild(this.containerNode);
+}
+dojo.forEach(_a,function(_e){
+var id=_c.getIdentity(_e),_10=_b._itemNodeMap[id],_11=(_10&&!_10.getParent())?_10:new dijit._TreeNode({item:_e,tree:_b,isExpandable:_c.mayHaveChildren(_e),label:_b.getLabel(_e)});
+this.addChild(_11);
+_b._itemNodeMap[id]=_11;
+if(this.tree.persist){
+if(_b._openedItemIds[id]){
+_b._expandNode(_11);
+}
+}
+},this);
+dojo.forEach(this.getChildren(),function(_12,idx){
+_12._updateLayout();
 });
-
-dojo.declare(
-	"dijit.Tree",
-	dijit._TreeNode,
-{
-	// summary
-	//	This widget displays hierarchical data from a store.  A query is specified
-	//	to get the "top level children" from a data store, and then those items are
-	//	queried for their children and so on (but lazily, as the user clicks the expand node).
-	//
-	//	Thus in the default mode of operation this widget is technically a forest, not a tree,
-	//	in that there can be multiple "top level children".  However, if you specify label,
-	//	then a special top level node (not corresponding to any item in the datastore) is
-	//	created, to father all the top level children.
-
-	// store: String||dojo.data.Store
-	//	The store to get data to display in the tree
-	store: null,
-
-	// query: String
-	//	query to get top level node(s) of tree (ex: {type:'continent'})
-	query: null,
-
-	// childrenAttr: String
-	//		one ore more attributes that holds children of a tree node
-	childrenAttr: ["children"],
-
-	templateString:"<div class=\"dijitTreeContainer\" style=\"\" waiRole=\"tree\"\n\tdojoAttachEvent=\"onclick:_onClick,onkeypress:_onKeyPress\">\n\t<div class=\"dijitTreeNode  dijitTreeIsRoot dijitTreeExpandLeaf dijitTreeChildrenNo\" waiRole=\"presentation\"\n\t\tdojoAttachPoint=\"rowNode\"\n\t\t><span dojoAttachPoint=\"expandoNode\" class=\"dijitTreeExpando\" waiRole=\"presentation\"\n\t\t></span\n\t\t><span dojoAttachPoint=\"expandoNodeText\" class=\"dijitExpandoText\" waiRole=\"presentation\"\n\t\t></span\n\t\t>\n\t\t<div dojoAttachPoint=\"contentNode\" class=\"dijitTreeContent\" waiRole=\"presentation\">\n\t\t\t<div dojoAttachPoint=\"iconNode\" class=\"dijitInline dijitTreeIcon\" waiRole=\"presentation\"></div>\n\t\t\t<span dojoAttachPoint=\"labelNode\" class=\"dijitTreeLabel\" wairole=\"treeitem\" tabindex=\"0\"></span>\n\t\t</div>\n\t</div>\n</div>\n",		
-
-	isExpandable: true,
-
-	isTree: true,
-
-	// persist: Boolean
-	//	enables/disables use of cookies for state saving.
-	persist: true,
-	
-	// dndController: String
-	//	class name to use as as the dnd controller
-	dndController: null,
-
-	//parameters to pull off of the tree and pass on to the dndController as its params
-	dndParams: ["onDndDrop","itemCreator","onDndCancel","checkAcceptance", "checkItemAcceptance"],
-
-	//declare the above items so they can be pulled from the tree's markup
-	onDndDrop:null,
-	itemCreator:null,
-	onDndCancel:null,
-	checkAcceptance:null,	
-	checkItemAcceptance:null,
-
-	_publish: function(/*String*/ topicName, /*Object*/ message){
-		// summary:
-		//		Publish a message for this widget/topic
-		dojo.publish(this.id, [dojo.mixin({tree: this, event: topicName}, message||{})]);
-	},
-
-	postMixInProperties: function(){
-		this.tree = this;
-		this.lastFocused = this.labelNode;
-
-		this._itemNodeMap={};
-
-		this._hideRoot = !this.label;
-
-		if(!this.store.getFeatures()['dojo.data.api.Identity']){
-			throw new Error("dijit.tree requires access to a store supporting the dojo.data Identity api");			
-		}
-
-		if(!this.cookieName){
-			this.cookieName = this.id + "SaveStateCookie";
-		}
-
-		// if the store supports Notification, subscribe to the notification events
-		if(this.store.getFeatures()['dojo.data.api.Notification']){
-			this.connect(this.store, "onNew", "_onNewItem");
-			this.connect(this.store, "onDelete", "_onDeleteItem");
-			this.connect(this.store, "onSet", "_onSetItem");
-		}
-	},
-
-	postCreate: function(){
-		// load in which nodes should be opened automatically
-		if(this.persist){
-			var cookie = dojo.cookie(this.cookieName);
-			this._openedItemIds = {};
-			if(cookie){
-				dojo.forEach(cookie.split(','), function(item){
-					this._openedItemIds[item] = true;
-				}, this);
-			}
-		}
-		
-		// make template for container node (we will clone this and insert it into
-		// any nodes that have children)
-		var div = document.createElement('div');
-		div.style.display = 'none';
-		div.className = "dijitTreeContainer";	
-		dijit.setWaiRole(div, "presentation");
-		this.containerNodeTemplate = div;
-
-		if(this._hideRoot){
-			this.rowNode.style.display="none";
-		}
-
-		this.inherited("postCreate", arguments);
-
-		// load top level children
-		this._expandNode(this);
-
-		if(this.dndController){
-			if(dojo.isString(this.dndController)){
-				this.dndController= dojo.getObject(this.dndController);
-			}	
-			var params={};
-			for (var i=0; i<this.dndParams.length;i++){
-				if(this[this.dndParams[i]]){
-					params[this.dndParams[i]]=this[this.dndParams[i]];
-				}
-			}
-			this.dndController= new this.dndController(this, params);
-		}
-
-		this.connect(this.domNode,
-			dojo.isIE ? "onactivate" : "onfocus",
-			"_onTreeFocus");
-	},
-
-	////////////// Data store related functions //////////////////////
-
-	mayHaveChildren: function(/*dojo.data.Item*/ item){
-		// summary
-		//		User overridable function to tell if an item has or may have children.
-		//		Controls whether or not +/- expando icon is shown.
-		//		(For efficiency reasons we may not want to check if an element has
-		//		children until user clicks the expando node)
-
-		return dojo.some(this.childrenAttr, function(attr){
-			return this.store.hasAttribute(item, attr);
-		}, this);
-	},
-
-	getItemChildren: function(/*dojo.data.Item*/ parentItem, /*function(items)*/ onComplete){
-		// summary
-		// 		User overridable function that return array of child items of given parent item,
-		//		or if parentItem==null then return top items in tree
-		var store = this.store;
-		if(parentItem == null){
-			// get top level nodes
-			store.fetch({ query: this.query, onComplete: onComplete});
-		}else{
-			// get children of specified node
-			var childItems = [];
-			for (var i=0; i<this.childrenAttr.length; i++){	
-				childItems= childItems.concat(store.getValues(parentItem, this.childrenAttr[i]));
-			}
-			// count how many items need to be loaded
-			var _waitCount = 0;
-			dojo.forEach(childItems, function(item){ if(!store.isItemLoaded(item)){ _waitCount++; } });
-
-			if(_waitCount == 0){
-				// all items are already loaded.  proceed..
-				onComplete(childItems);
-			}else{
-				// still waiting for some or all of the items to load
-				function onItem(item){
-					if(--_waitCount == 0){
-						// all nodes have been loaded, send them to the tree
-						onComplete(childItems);
-					}
-				}
-				dojo.forEach(childItems, function(item){
-					if(!store.isItemLoaded(item)){
-						store.loadItem({item: item, onItem: onItem});
-					}
-				});
-			}
-		}
-	},
-
-	getItemParentIdentity: function(/*dojo.data.Item*/ item, /*Object*/ parentInfo){
-		// summary
-		//		User overridable function, to return id of parent (or null if top level).
-		//		It's called with args from dojo.store.onNew
-		return this.store.getIdentity(parentInfo.item);		// String
-	},
-
-	getLabel: function(/*dojo.data.Item*/ item){
-		// summary: user overridable function to get the label for a tree node (given the item)
-		return this.store.getLabel(item);	// String
-	},
-
-	getIconClass: function(/*dojo.data.Item*/ item){
-		// summary: user overridable function to return CSS class name to display icon
-	},
-
-	getLabelClass: function(/*dojo.data.Item*/ item){
-		// summary: user overridable function to return CSS class name to display label
-	},
-
-	_onLoadAllItems: function(/*_TreeNode*/ node, /*dojo.data.Item[]*/ items){
-		// sumary: callback when all the children of a given node have been loaded
-		var childParams=dojo.map(items, function(item){
-			return {
-				item: item,
-				isExpandable: this.mayHaveChildren(item)
-			};
-		}, this);
-
-		dojo.mixin(this._itemNodeMap,node._setChildren(childParams));
-
-		this._expandNode(node);
-	},
-
-	/////////// Keyboard and Mouse handlers ////////////////////
-
-	_onKeyPress: function(/*Event*/ e){
-		// summary: translates keypress events into commands for the controller
-		if(e.altKey){ return; }
-		var treeNode = dijit.getEnclosingWidget(e.target);
-		if(!treeNode){ return; }
-
-		// Note: On IE e.keyCode is not 0 for printables so check e.charCode.
-		// In dojo charCode is universally 0 for non-printables.
-		if(e.charCode){  // handle printables (letter navigation)
-			// Check for key navigation.
-			var navKey = e.charCode;
-			if(!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey){
-				navKey = (String.fromCharCode(navKey)).toLowerCase();
-				this._onLetterKeyNav( { node: treeNode, key: navKey } );
-				dojo.stopEvent(e);
-			}
-		}else{  // handle non-printables (arrow keys)
-			var map = this._keyHandlerMap;
-			if(!map){
-				// setup table mapping keys to events
-				map = {};
-				map[dojo.keys.ENTER]="_onEnterKey";
-				map[dojo.keys.LEFT_ARROW]="_onLeftArrow";
-				map[dojo.keys.RIGHT_ARROW]="_onRightArrow";
-				map[dojo.keys.UP_ARROW]="_onUpArrow";
-				map[dojo.keys.DOWN_ARROW]="_onDownArrow";
-				map[dojo.keys.HOME]="_onHomeKey";
-				map[dojo.keys.END]="_onEndKey";
-				this._keyHandlerMap = map;
-			}
-			if(this._keyHandlerMap[e.keyCode]){
-				this[this._keyHandlerMap[e.keyCode]]( { node: treeNode, item: treeNode.item } );	
-				dojo.stopEvent(e);
-			}
-		}
-	},
-
-	_onEnterKey: function(/*Object*/ message){
-		this._publish("execute", { item: message.item, node: message.node} );
-		this.onClick(message.item, message.node);
-	},
-
-	_onDownArrow: function(/*Object*/ message){
-		// summary: down arrow pressed; get next visible node, set focus there
-		var returnNode = this._navToNextNode(message.node);
-		if(returnNode && returnNode.isTreeNode){
-			returnNode.tree.focusNode(returnNode);
-			return returnNode;
-		}	
-	},
-
-	_onUpArrow: function(/*Object*/ message){
-		// summary: up arrow pressed; move to previous visible node
-
-		var nodeWidget = message.node;
-		var returnWidget = nodeWidget;
-
-		// if younger siblings		
-		var previousSibling = nodeWidget.getPreviousSibling();
-		if(previousSibling){
-			nodeWidget = previousSibling;
-			// if the previous nodeWidget is expanded, dive in deep
-			while(nodeWidget.isExpandable && nodeWidget.isExpanded && nodeWidget.hasChildren()){
-				returnWidget = nodeWidget;
-				// move to the last child
-				var children = nodeWidget.getChildren();
-				nodeWidget = children[children.length-1];
-			}
-		}else{
-			// if this is the first child, return the parent
-			// unless the parent is the root of a tree with a hidden root
-			var parent = nodeWidget.getParent();
-			if(!(this._hideRoot && parent === this)){
-				nodeWidget = parent;
-			}
-		}
-
-		if(nodeWidget && nodeWidget.isTreeNode){
-			returnWidget = nodeWidget;
-		}
-
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
-		}
-	},
-
-	_onRightArrow: function(/*Object*/ message){
-		// summary: right arrow pressed; go to child node
-		var nodeWidget = message.node;
-		var returnWidget = nodeWidget;
-
-		// if not expanded, expand, else move to 1st child
-		if(nodeWidget.isExpandable && !nodeWidget.isExpanded){
-			this._expandNode(nodeWidget);
-		}else if(nodeWidget.hasChildren()){
-			nodeWidget = nodeWidget.getChildren()[0];
-		}
-
-		if(nodeWidget && nodeWidget.isTreeNode){
-			returnWidget = nodeWidget;
-		}
-
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
-		}
-	},
-
-	_onLeftArrow: function(/*Object*/ message){
-		// summary: left arrow pressed; go to parent
-
-		var node = message.node;
-		var returnWidget = node;
-
-		// if not collapsed, collapse, else move to parent
-		if(node.isExpandable && node.isExpanded){
-			this._collapseNode(node);
-		}else{
-			node = node.getParent();
-		}
-		if(node && node.isTreeNode){
-			returnWidget = node;
-		}
-
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
-		}
-	},
-
-	_onHomeKey: function(){
-		// summary: home pressed; get first visible node, set focus there
-		var returnNode = this._navToRootOrFirstNode();
-		if(returnNode){
-			returnNode.tree.focusNode(returnNode);
-			return returnNode;
-		}
-	},
-
-	_onEndKey: function(/*Object*/ message){
-		// summary: end pressed; go to last visible node
-
-		var returnWidget = message.node.tree;
-
-		var lastChild = returnWidget;
-		while(lastChild.isExpanded){
-			var c = lastChild.getChildren();
-			lastChild = c[c.length - 1];
-			if(lastChild.isTreeNode){
-				returnWidget = lastChild;
-			}
-		}
-
-		if(returnWidget && returnWidget.isTreeNode){
-			returnWidget.tree.focusNode(returnWidget);
-			return returnWidget;
-		}
-	},
-
-	_onLetterKeyNav: function(message){
-		// summary: letter key pressed; search for node starting with first char = key
-		var node = startNode = message.node;
-		var key = message.key;
-		do{
-			node = this._navToNextNode(node);
-			//check for last node, jump to first node if necessary
-			if(!node){
-				node = this._navToRootOrFirstNode();
-			}
-		}while(node !== startNode && (node.label.charAt(0).toLowerCase() != key));
-		if(node && node.isTreeNode){
-			// no need to set focus if back where we started
-			if(node !== startNode){
-				node.tree.focusNode(node);
-			}
-			return node;
-		}
-	},
-
-	_onClick: function(/*Event*/ e){
-		// summary: translates click events into commands for the controller to process
-		var domElement = e.target;
-
-		// find node
-		var nodeWidget = dijit.getEnclosingWidget(domElement);	
-		if(!nodeWidget || !nodeWidget.isTreeNode){
-			return;
-		}
-
-		if(domElement == nodeWidget.expandoNode ||
-			 domElement == nodeWidget.expandoNodeText){
-			// expando node was clicked
-			if(nodeWidget.isExpandable){
-				this._onExpandoClick({node:nodeWidget});
-			}
-		}else{
-			this._publish("execute", { item: nodeWidget.item, node: nodeWidget} );
-			this.onClick(nodeWidget.item, nodeWidget);
-			this.focusNode(nodeWidget);
-		}
-		dojo.stopEvent(e);
-	},
-
-	_onExpandoClick: function(/*Object*/ message){
-		// summary: user clicked the +/- icon; expand or collapse my children.
-		var node = message.node;
-		if(node.isExpanded){
-			this._collapseNode(node);
-		}else{
-			this._expandNode(node);
-		}
-	},
-
-	onClick: function(/* dojo.data */ item, /*TreeNode*/ node){
-		// summary: user overridable function for executing a tree item
-	},
-
-	_navToNextNode: function(node){
-		// summary: get next visible node
-		var returnNode;
-		// if this is an expanded node, get the first child
-		if(node.isExpandable && node.isExpanded && node.hasChildren()){
-			returnNode = node.getChildren()[0];			
-		}else{
-			// find a parent node with a sibling
-			while(node && node.isTreeNode){
-				returnNode = node.getNextSibling();
-				if(returnNode){
-					break;
-				}
-				node = node.getParent();
-			}	
-		}
-		return returnNode;
-	},
-
-	_navToRootOrFirstNode: function(){
-		// summary: get first visible node
-		if(!this._hideRoot){
-			return this;
-		}else{
-			var returnNode = this.getChildren()[0];
-			if(returnNode && returnNode.isTreeNode){
-				return returnNode;
-			}
-		}
-	},
-
-	_collapseNode: function(/*_TreeNode*/ node){
-		// summary: called when the user has requested to collapse the node
-
-		if(node.isExpandable){
-			if(node.state == "LOADING"){
-				// ignore clicks while we are in the process of loading data
-				return;
-			}
-			if(this.lastFocused){
-				// are we collapsing a descendant with focus?
-				if(dojo.isDescendant(this.lastFocused.domNode, node.domNode)){
-					this.focusNode(node);
-				}else{
-					// clicking the expando node might have erased focus from
-					// the current item; restore it
-					this.focusNode(this.lastFocused);
-				}
-			}
-			node.collapse();
-			if(this.persist && node.item){
-				delete this._openedItemIds[this.store.getIdentity(node.item)];
-				this._saveState();
-			}
-		}
-	},
-
-	_expandNode: function(/*_TreeNode*/ node){
-		// summary: called when the user has requested to expand the node
-
-		// clicking the expando node might have erased focus from the current item; restore it
-		var t = node.tree;
-		if(t.lastFocused){ t.focusNode(t.lastFocused); }
-
-		if(!node.isExpandable){
-			return;
-		}
-
-		var store = this.store;
-		var getValue = this.store.getValue;
-
-		switch(node.state){
-			case "LOADING":
-				// ignore clicks while we are in the process of loading data
-				return;
-
-			case "UNCHECKED":
-				// need to load all the children, and then expand
-				node.markProcessing();
-				var _this = this;
-				function onComplete(childItems){
-					node.unmarkProcessing();
-					_this._onLoadAllItems(node, childItems);
-				}
-				this.getItemChildren(node.item, onComplete);
-				break;
-
-			default:
-				// data is already loaded; just proceed
-				if(node.expand){	// top level Tree doesn't have expand() method
-					node.expand();
-					if(this.persist && node.item){
-						this._openedItemIds[this.store.getIdentity(node.item)] = true;
-						this._saveState();
-					}
-				}
-				break;
-		}
-	},
-
-	////////////////// Miscellaneous functions ////////////////
-
-	blurNode: function(){
-		// summary
-		//	Removes focus from the currently focused node (which must be visible).
-		//	Usually not called directly (just call focusNode() on another node instead)
-		var node = this.lastFocused;
-		if(!node){ return; }
-		var labelNode = node.labelNode;
-		dojo.removeClass(labelNode, "dijitTreeLabelFocused");
-		labelNode.setAttribute("tabIndex", "-1");
-		this.lastFocused = null;
-	},
-
-	focusNode: function(/* _tree.Node */ node){
-		// summary
-		//	Focus on the specified node (which must be visible)
-
-		// set focus so that the label will be voiced using screen readers
-		node.labelNode.focus();
-	},
-
-	_onBlur: function(){
-		// summary:
-		// 		We've moved away from the whole tree.  The currently "focused" node
-		//		(see focusNode above) should remain as the lastFocused node so we can
-		//		tab back into the tree.  Just change CSS to get rid of the dotted border
-		//		until that time
-		if(this.lastFocused){
-			var labelNode = this.lastFocused.labelNode;
-			dojo.removeClass(labelNode, "dijitTreeLabelFocused");	
-		}
-	},
-
-	_onTreeFocus: function(evt){
-		var node = dijit.getEnclosingWidget(evt.target);
-		if(node != this.lastFocused){
-			this.blurNode();
-		}
-		var labelNode = node.labelNode;
-		// set tabIndex so that the tab key can find this node
-		labelNode.setAttribute("tabIndex", "0");
-		dojo.addClass(labelNode, "dijitTreeLabelFocused");
-		this.lastFocused = node;
-	},
-
-	//////////////// Events from data store //////////////////////////
-
-
-	_onNewItem: function(/*Object*/ item, parentInfo){
-		//summary: callback when new item has been added to the store.
-
-		var loadNewItem;	// should new item be displayed in tree?
-
-		if(parentInfo){
-			var parent = this._itemNodeMap[this.getItemParentIdentity(item, parentInfo)];
-			
-			// If new item's parent item not in tree view yet, can safely ignore.
-			// Also, if a query of specified parent wouldn't return this item, then ignore.
-			if(!parent ||
-				dojo.indexOf(this.childrenAttr, parentInfo.attribute) == -1){
-				return;
-			}
-		}
-
-		var childParams = {
-			item: item,
-			isExpandable: this.mayHaveChildren(item)
-		};
-		if(parent){
-			if(!parent.isExpandable){
-				parent.makeExpandable();
-			}
-			if(parent.state=="LOADED" || parent.isExpanded){
-				var childrenMap=parent._addChildren([childParams]);
-			}
-		}else{
-			// top level node
-			var childrenMap=this._addChildren([childParams]);		
-		}
-
-		if(childrenMap){
-			dojo.mixin(this._itemNodeMap, childrenMap);
-			//this._itemNodeMap[this.store.getIdentity(item)]=child;
-		}
-	},
-	
-	_onDeleteItem: function(/*Object*/ item){
-		//summary: delete event from the store
-		//since the object has just been deleted, we need to
-		//use the name directly
-		var identity = this.store.getIdentity(item);
-		var node = this._itemNodeMap[identity];
-
-		if(node){
-			var parent = node.getParent();
-			parent.deleteNode(node);
-			this._itemNodeMap[identity]=null;
-		}
-	},
-
-	_onSetItem: function(/*Object*/ item){
-		//summary: set data event  on an item in the store
-		var identity = this.store.getIdentity(item);
-		node = this._itemNodeMap[identity];
-
-		if(node){
-			node.setLabelNode(this.getLabel(item));
-			node._updateItemClasses(item);
-		}
-	},
-	
-	_saveState: function(){
-		//summary: create and save a cookie with the currently expanded nodes identifiers
-		if(!this.persist){
-			return;
-		}
-		var ary = [];
-		for(var id in this._openedItemIds){
-			ary.push(id);
-		}
-		dojo.cookie(this.cookieName, ary.join(","));
-	}
+}else{
+this.isExpandable=false;
+}
+if(this._setExpando){
+this._setExpando(false);
+}
+if(!this.parent){
+var fc=this.tree.showRoot?this:this.getChildren()[0],_15=fc?fc.labelNode:this.domNode;
+_15.setAttribute("tabIndex","0");
+}
+if(this.containerNode&&!this._wipeIn){
+this._wipeIn=dojo.fx.wipeIn({node:this.containerNode,duration:150});
+this._wipeOut=dojo.fx.wipeOut({node:this.containerNode,duration:150});
+}
+},removeChild:function(_16){
+this.inherited(arguments);
+var _17=this.getChildren();
+if(_17.length==0){
+this.isExpandable=false;
+this.collapse();
+}
+dojo.forEach(_17,function(_18){
+_18._updateLayout();
 });
-
+},makeExpandable:function(){
+this.isExpandable=true;
+this._setExpando(false);
+},_onNodeFocus:function(evt){
+var _1a=dijit.getEnclosingWidget(evt.target);
+this.tree._onTreeFocus(_1a);
+}});
+dojo.declare("dijit.Tree",[dijit._Widget,dijit._Templated],{store:null,model:null,query:null,label:"",showRoot:true,childrenAttr:["children"],openOnClick:false,templateString:"<div class=\"dijitTreeContainer\" waiRole=\"tree\"\n\tdojoAttachEvent=\"onclick:_onClick,onkeypress:_onKeyPress\">\n</div>\n",isExpandable:true,isTree:true,persist:true,dndController:null,dndParams:["onDndDrop","itemCreator","onDndCancel","checkAcceptance","checkItemAcceptance"],onDndDrop:null,itemCreator:null,onDndCancel:null,checkAcceptance:null,checkItemAcceptance:null,_publish:function(_1b,_1c){
+dojo.publish(this.id,[dojo.mixin({tree:this,event:_1b},_1c||{})]);
+},postMixInProperties:function(){
+this.tree=this;
+this._itemNodeMap={};
+if(!this.cookieName){
+this.cookieName=this.id+"SaveStateCookie";
+}
+},postCreate:function(){
+if(this.persist){
+var _1d=dojo.cookie(this.cookieName);
+this._openedItemIds={};
+if(_1d){
+dojo.forEach(_1d.split(","),function(_1e){
+this._openedItemIds[_1e]=true;
+},this);
+}
+}
+var div=dojo.doc.createElement("div");
+div.style.display="none";
+div.className="dijitTreeContainer";
+dijit.setWaiRole(div,"presentation");
+this.containerNodeTemplate=div;
+if(!this.model){
+this._store2model();
+}
+this.connect(this.model,"onChange","_onItemChange");
+this.connect(this.model,"onChildrenChange","_onItemChildrenChange");
+this._load();
+this.inherited("postCreate",arguments);
+if(this.dndController){
+if(dojo.isString(this.dndController)){
+this.dndController=dojo.getObject(this.dndController);
+}
+var _20={};
+for(var i=0;i<this.dndParams.length;i++){
+if(this[this.dndParams[i]]){
+_20[this.dndParams[i]]=this[this.dndParams[i]];
+}
+}
+this.dndController=new this.dndController(this,_20);
+}
+},_store2model:function(){
+this._v10Compat=true;
+dojo.deprecated("Tree: from version 2.0, should specify a model object rather than a store/query");
+var _22={id:this.id+"_ForestStoreModel",store:this.store,query:this.query,childrenAttrs:this.childrenAttr};
+if(this.params.mayHaveChildren){
+_22.mayHaveChildren=dojo.hitch(this,"mayHaveChildren");
+}
+if(this.params.getItemChildren){
+_22.getChildren=dojo.hitch(this,function(_23,_24,_25){
+this.getItemChildren((this._v10Compat&&_23===this.model.root)?null:_23,_24,_25);
+});
+}
+this.model=new dijit.tree.ForestStoreModel(_22);
+this.showRoot=Boolean(this.label);
+},_load:function(){
+this.model.getRoot(dojo.hitch(this,function(_26){
+var rn=this.rootNode=new dijit._TreeNode({item:_26,tree:this,isExpandable:true,label:this.label||this.getLabel(_26)});
+if(!this.showRoot){
+rn.rowNode.style.display="none";
+}
+this.domNode.appendChild(rn.domNode);
+this._itemNodeMap[this.model.getIdentity(_26)]=rn;
+rn._updateLayout();
+this._expandNode(rn);
+}),function(err){
+console.error(this,": error loading root: ",err);
+});
+},mayHaveChildren:function(_29){
+},getItemChildren:function(_2a,_2b){
+},getLabel:function(_2c){
+return this.model.getLabel(_2c);
+},getIconClass:function(_2d,_2e){
+return (!_2d||this.model.mayHaveChildren(_2d))?(_2e?"dijitFolderOpened":"dijitFolderClosed"):"dijitLeaf";
+},getLabelClass:function(_2f,_30){
+},_onKeyPress:function(e){
+if(e.altKey){
+return;
+}
+var _32=dijit.getEnclosingWidget(e.target);
+if(!_32){
+return;
+}
+if(e.charCode){
+var _33=e.charCode;
+if(!e.altKey&&!e.ctrlKey&&!e.shiftKey&&!e.metaKey){
+_33=(String.fromCharCode(_33)).toLowerCase();
+this._onLetterKeyNav({node:_32,key:_33});
+dojo.stopEvent(e);
+}
+}else{
+var map=this._keyHandlerMap;
+if(!map){
+map={};
+map[dojo.keys.ENTER]="_onEnterKey";
+map[dojo.keys.LEFT_ARROW]="_onLeftArrow";
+map[dojo.keys.RIGHT_ARROW]="_onRightArrow";
+map[dojo.keys.UP_ARROW]="_onUpArrow";
+map[dojo.keys.DOWN_ARROW]="_onDownArrow";
+map[dojo.keys.HOME]="_onHomeKey";
+map[dojo.keys.END]="_onEndKey";
+this._keyHandlerMap=map;
+}
+if(this._keyHandlerMap[e.keyCode]){
+this[this._keyHandlerMap[e.keyCode]]({node:_32,item:_32.item});
+dojo.stopEvent(e);
+}
+}
+},_onEnterKey:function(_35){
+this._publish("execute",{item:_35.item,node:_35.node});
+this.onClick(_35.item,_35.node);
+},_onDownArrow:function(_36){
+var _37=this._getNextNode(_36.node);
+if(_37&&_37.isTreeNode){
+this.focusNode(_37);
+}
+},_onUpArrow:function(_38){
+var _39=_38.node;
+var _3a=_39.getPreviousSibling();
+if(_3a){
+_39=_3a;
+while(_39.isExpandable&&_39.isExpanded&&_39.hasChildren()){
+var _3b=_39.getChildren();
+_39=_3b[_3b.length-1];
+}
+}else{
+var _3c=_39.getParent();
+if(!(!this.showRoot&&_3c===this.rootNode)){
+_39=_3c;
+}
+}
+if(_39&&_39.isTreeNode){
+this.focusNode(_39);
+}
+},_onRightArrow:function(_3d){
+var _3e=_3d.node;
+if(_3e.isExpandable&&!_3e.isExpanded){
+this._expandNode(_3e);
+}else{
+if(_3e.hasChildren()){
+_3e=_3e.getChildren()[0];
+if(_3e&&_3e.isTreeNode){
+this.focusNode(_3e);
+}
+}
+}
+},_onLeftArrow:function(_3f){
+var _40=_3f.node;
+if(_40.isExpandable&&_40.isExpanded){
+this._collapseNode(_40);
+}else{
+_40=_40.getParent();
+if(_40&&_40.isTreeNode){
+this.focusNode(_40);
+}
+}
+},_onHomeKey:function(){
+var _41=this._getRootOrFirstNode();
+if(_41){
+this.focusNode(_41);
+}
+},_onEndKey:function(_42){
+var _43=this;
+while(_43.isExpanded){
+var c=_43.getChildren();
+_43=c[c.length-1];
+}
+if(_43&&_43.isTreeNode){
+this.focusNode(_43);
+}
+},_onLetterKeyNav:function(_45){
+var _46=startNode=_45.node,key=_45.key;
+do{
+_46=this._getNextNode(_46);
+if(!_46){
+_46=this._getRootOrFirstNode();
+}
+}while(_46!==startNode&&(_46.label.charAt(0).toLowerCase()!=key));
+if(_46&&_46.isTreeNode){
+if(_46!==startNode){
+this.focusNode(_46);
+}
+}
+},_onClick:function(e){
+var _49=e.target;
+var _4a=dijit.getEnclosingWidget(_49);
+if(!_4a||!_4a.isTreeNode){
+return;
+}
+if((this.openOnClick&&_4a.isExpandable)||(_49==_4a.expandoNode||_49==_4a.expandoNodeText)){
+if(_4a.isExpandable){
+this._onExpandoClick({node:_4a});
+}
+}else{
+this._publish("execute",{item:_4a.item,node:_4a});
+this.onClick(_4a.item,_4a);
+this.focusNode(_4a);
+}
+dojo.stopEvent(e);
+},_onExpandoClick:function(_4b){
+var _4c=_4b.node;
+this.focusNode(_4c);
+if(_4c.isExpanded){
+this._collapseNode(_4c);
+}else{
+this._expandNode(_4c);
+}
+},onClick:function(_4d,_4e){
+},_getNextNode:function(_4f){
+if(_4f.isExpandable&&_4f.isExpanded&&_4f.hasChildren()){
+return _4f.getChildren()[0];
+}else{
+while(_4f&&_4f.isTreeNode){
+var _50=_4f.getNextSibling();
+if(_50){
+return _50;
+}
+_4f=_4f.getParent();
+}
+return null;
+}
+},_getRootOrFirstNode:function(){
+return this.showRoot?this.rootNode:this.rootNode.getChildren()[0];
+},_collapseNode:function(_51){
+if(_51.isExpandable){
+if(_51.state=="LOADING"){
+return;
+}
+_51.collapse();
+if(this.persist&&_51.item){
+delete this._openedItemIds[this.model.getIdentity(_51.item)];
+this._saveState();
+}
+}
+},_expandNode:function(_52){
+if(!_52.isExpandable){
+return;
+}
+var _53=this.model,_54=_52.item;
+switch(_52.state){
+case "LOADING":
+return;
+case "UNCHECKED":
+_52.markProcessing();
+var _55=this;
+_53.getChildren(_54,function(_56){
+_52.unmarkProcessing();
+_52.setChildItems(_56);
+_55._expandNode(_52);
+},function(err){
+console.error(_55,": error loading root children: ",err);
+});
+break;
+default:
+_52.expand();
+if(this.persist&&_54){
+this._openedItemIds[_53.getIdentity(_54)]=true;
+this._saveState();
+}
+}
+},blurNode:function(){
+var _58=this.lastFocused;
+if(!_58){
+return;
+}
+var _59=_58.labelNode;
+dojo.removeClass(_59,"dijitTreeLabelFocused");
+_59.setAttribute("tabIndex","-1");
+dijit.setWaiState(_59,"selected",false);
+this.lastFocused=null;
+},focusNode:function(_5a){
+_5a.labelNode.focus();
+},_onBlur:function(){
+this.inherited(arguments);
+if(this.lastFocused){
+var _5b=this.lastFocused.labelNode;
+dojo.removeClass(_5b,"dijitTreeLabelFocused");
+}
+},_onTreeFocus:function(_5c){
+if(_5c){
+if(_5c!=this.lastFocused){
+this.blurNode();
+}
+var _5d=_5c.labelNode;
+_5d.setAttribute("tabIndex","0");
+dijit.setWaiState(_5d,"selected",true);
+dojo.addClass(_5d,"dijitTreeLabelFocused");
+this.lastFocused=_5c;
+}
+},_onItemDelete:function(_5e){
+var _5f=this.model.getIdentity(_5e);
+var _60=this._itemNodeMap[_5f];
+if(_60){
+var _61=_60.getParent();
+if(_61){
+_61.removeChild(_60);
+}
+delete this._itemNodeMap[_5f];
+_60.destroyRecursive();
+}
+},_onItemChange:function(_62){
+var _63=this.model,_64=_63.getIdentity(_62),_65=this._itemNodeMap[_64];
+if(_65){
+_65.setLabelNode(this.getLabel(_62));
+_65._updateItemClasses(_62);
+}
+},_onItemChildrenChange:function(_66,_67){
+var _68=this.model,_69=_68.getIdentity(_66),_6a=this._itemNodeMap[_69];
+if(_6a){
+_6a.setChildItems(_67);
+}
+},_saveState:function(){
+if(!this.persist){
+return;
+}
+var ary=[];
+for(var id in this._openedItemIds){
+ary.push(id);
+}
+dojo.cookie(this.cookieName,ary.join(","));
+},destroy:function(){
+if(this.rootNode){
+this.rootNode.destroyRecursive();
+}
+this.rootNode=null;
+this.inherited(arguments);
+},destroyRecursive:function(){
+this.destroy();
+}});
+dojo.declare("dijit.tree.TreeStoreModel",null,{store:null,childrenAttrs:["children"],root:null,query:null,constructor:function(_6d){
+dojo.mixin(this,_6d);
+this.connects=[];
+var _6e=this.store;
+if(!_6e.getFeatures()["dojo.data.api.Identity"]){
+throw new Error("dijit.Tree: store must support dojo.data.Identity");
+}
+if(_6e.getFeatures()["dojo.data.api.Notification"]){
+this.connects=this.connects.concat([dojo.connect(_6e,"onNew",this,"_onNewItem"),dojo.connect(_6e,"onDelete",this,"_onDeleteItem"),dojo.connect(_6e,"onSet",this,"_onSetItem")]);
+}
+},destroy:function(){
+dojo.forEach(this.connects,dojo.disconnect);
+},getRoot:function(_6f,_70){
+if(this.root){
+_6f(this.root);
+}else{
+this.store.fetch({query:this.query,onComplete:dojo.hitch(this,function(_71){
+if(_71.length!=1){
+throw new Error(this.declaredClass+": query "+query+" returned "+_71.length+" items, but must return exactly one item");
+}
+this.root=_71[0];
+_6f(this.root);
+}),onError:_70});
+}
+},mayHaveChildren:function(_72){
+return dojo.some(this.childrenAttrs,function(_73){
+return this.store.hasAttribute(_72,_73);
+},this);
+},getChildren:function(_74,_75,_76){
+var _77=this.store;
+var _78=[];
+for(var i=0;i<this.childrenAttrs.length;i++){
+var _7a=_77.getValues(_74,this.childrenAttrs[i]);
+_78=_78.concat(_7a);
+}
+var _7b=0;
+dojo.forEach(_78,function(_7c){
+if(!_77.isItemLoaded(_7c)){
+_7b++;
+}
+});
+if(_7b==0){
+_75(_78);
+}else{
+var _7d=function _7d(_7e){
+if(--_7b==0){
+_75(_78);
+}
+};
+dojo.forEach(_78,function(_7f){
+if(!_77.isItemLoaded(_7f)){
+_77.loadItem({item:_7f,onItem:_7d,onError:_76});
+}
+});
+}
+},getIdentity:function(_80){
+return this.store.getIdentity(_80);
+},getLabel:function(_81){
+return this.store.getLabel(_81);
+},newItem:function(_82,_83){
+var _84={parent:_83,attribute:this.childrenAttrs[0]};
+return this.store.newItem(_82,_84);
+},pasteItem:function(_85,_86,_87,_88){
+var _89=this.store,_8a=this.childrenAttrs[0];
+if(_86){
+dojo.forEach(this.childrenAttrs,function(_8b){
+if(_89.containsValue(_86,_8b,_85)){
+if(!_88){
+var _8c=dojo.filter(_89.getValues(_86,_8b),function(x){
+return x!=_85;
+});
+_89.setValues(_86,_8b,_8c);
+}
+_8a=_8b;
+}
+});
+}
+if(_87){
+_89.setValues(_87,_8a,_89.getValues(_87,_8a).concat(_85));
+}
+},onChange:function(_8e){
+},onChildrenChange:function(_8f,_90){
+},_onNewItem:function(_91,_92){
+if(!_92){
+return;
+}
+this.getChildren(_92.item,dojo.hitch(this,function(_93){
+this.onChildrenChange(_92.item,_93);
+}));
+},_onDeleteItem:function(_94){
+},_onSetItem:function(_95,_96,_97,_98){
+if(dojo.indexOf(this.childrenAttrs,_96)!=-1){
+this.getChildren(_95,dojo.hitch(this,function(_99){
+this.onChildrenChange(_95,_99);
+}));
+}else{
+this.onChange(_95);
+}
+}});
+dojo.declare("dijit.tree.ForestStoreModel",dijit.tree.TreeStoreModel,{rootId:"$root$",rootLabel:"ROOT",query:null,constructor:function(_9a){
+this.root={store:this,root:true,id:_9a.rootId,label:_9a.rootLabel,children:_9a.rootChildren};
+},mayHaveChildren:function(_9b){
+return _9b===this.root||this.inherited(arguments);
+},getChildren:function(_9c,_9d,_9e){
+if(_9c===this.root){
+if(this.root.children){
+_9d(this.root.children);
+}else{
+this.store.fetch({query:this.query,onComplete:dojo.hitch(this,function(_9f){
+this.root.children=_9f;
+_9d(_9f);
+}),onError:_9e});
+}
+}else{
+this.inherited(arguments);
+}
+},getIdentity:function(_a0){
+return (_a0===this.root)?this.root.id:this.inherited(arguments);
+},getLabel:function(_a1){
+return (_a1===this.root)?this.root.label:this.inherited(arguments);
+},newItem:function(_a2,_a3){
+if(_a3===this.root){
+this.onNewRootItem(_a2);
+return this.store.newItem(_a2);
+}else{
+return this.inherited(arguments);
+}
+},onNewRootItem:function(_a4){
+},pasteItem:function(_a5,_a6,_a7,_a8){
+if(_a6===this.root){
+if(!_a8){
+this.onLeaveRoot(_a5);
+}
+}
+dijit.tree.TreeStoreModel.prototype.pasteItem.call(this,_a5,_a6===this.root?null:_a6,_a7===this.root?null:_a7);
+if(_a7===this.root){
+this.onAddToRoot(_a5);
+}
+},onAddToRoot:function(_a9){
+console.log(this,": item ",_a9," added to root");
+},onLeaveRoot:function(_aa){
+console.log(this,": item ",_aa," removed from root");
+},_requeryTop:function(){
+var _ab=this,_ac=this.root.children;
+this.store.fetch({query:this.query,onComplete:function(_ad){
+_ab.root.children=_ad;
+if(_ac.length!=_ad.length||dojo.some(_ac,function(_ae,idx){
+return _ad[idx]!=_ae;
+})){
+_ab.onChildrenChange(_ab.root,_ad);
+}
+}});
+},_onNewItem:function(_b0,_b1){
+this._requeryTop();
+this.inherited(arguments);
+},_onDeleteItem:function(_b2){
+if(dojo.indexOf(this.root.children,_b2)!=-1){
+this._requeryTop();
+}
+this.inherited(arguments);
+}});
 }

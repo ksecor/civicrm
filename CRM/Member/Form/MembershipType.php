@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -53,7 +53,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      * @access public
      * @return None
      */
-    public function setDefaultValues( ) {
+    public function setDefaultValues( ) 
+    {
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
         
@@ -66,6 +67,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             //$defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
             $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_'.$defaults['relationship_direction'];
         }
+        
+        $config =& CRM_Core_Config::singleton( );
         //setting default fixed_period_start_day & fixed_period_rollover_day
         $periods = array('fixed_period_start_day',  'fixed_period_rollover_day');
         foreach ( $periods as $per ) {
@@ -73,7 +76,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $dat = $defaults[$per];
                 $dat = ( $dat < 999) ? '0'.$dat : $dat; 
                 $defaults[$per] = array();
-                $defaults[$per]['M'] = substr($dat, 0, 2);
+                $defaults[$per][$config->dateformatMonthVar] = substr($dat, 0, 2);
                 $defaults[$per]['d'] = substr($dat, 2, 3);
             }
         }
@@ -128,7 +131,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', ts( 'Contribution Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
 
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, null, true );
@@ -138,22 +141,24 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $this->add('text', 'weight', ts('Order'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'weight' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-
+                                            
         require_once "CRM/Core/BAO/MessageTemplates.php";
         $msgTemplates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-
-        if ( ! empty( $msgTemplates ) ) {
+        if ( ! empty( $msgTemplates ) ) { 
             $reminderMsg = $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
         } else {
             $this->assign('noMsgTemplates', true );            
         }
-        $reminderDay = $this->add('text', 'renewal_reminder_day', ts('Renewal Reminder Day'),
-                                  CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'renewal_reminder_day' ) );
-
+        $reminderDay =& $this->add('text',
+                                   'renewal_reminder_day',
+                                   ts('Renewal Reminder Day'),
+                                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType',
+                                                               'renewal_reminder_day' ) );
+        
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
         $searchDone            = $this->get( 'searchDone' );
-
+        
         if ( $searchRows ) {
             $checkBoxes = array( );
             $chekFlag = 0;
@@ -181,25 +186,35 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         } else {
             $searchBtn = ts('Search');
         }
-        
+        $membershipRecords = false;
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $memberRel->freeze( );
+            require_once 'CRM/Member/BAO/Membership.php';
+            $membershipType = new CRM_Member_BAO_Membership();
+            $membershipType->membership_type_id = $this->_id;
+            if ( $membershipType->find( true ) ) {
+                $membershipRecords = true;
+                $memberRel->freeze( );    
+            } 
             $memberOrg->freeze( );
             if ( $searchDone ) {
                 $memberOrg->unfreeze( );
             }
         }
         
-        if  ( ($this->_action & CRM_Core_Action::UPDATE) && $reminderDay && $reminderMsg)  {
-            require_once 'CRM/Member/DAO/Membership.php';
-            $dao = & new CRM_Member_DAO_Membership();
-            $dao->membership_type_id = $this->_id;
-            if ( $dao->find( true ) ) {  
+        if  ( ($this->_action & CRM_Core_Action::UPDATE) && $reminderDay ) {
+            $renewMessage     = array();
+            $returnProperties = array( 'renewal_msg_id', 'renewal_reminder_day' );
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Member_DAO_MembershipType', 'id', $this->_id, $renewMessage, $returnProperties );
+            if ( CRM_Utils_Array::value( 'renewal_msg_id', $renewMessage[$this->_id]) && 
+                 CRM_Utils_Array::value( 'renewal_reminder_day', $renewMessage[$this->_id]) &&
+                 $membershipRecords ) {
+                $reminderMsg  = $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), 
+                                            array('' => ts('- select -')) + $msgTemplates );
                 $reminderDay->freeze( );
                 $reminderMsg->freeze( );
             }
         }
-        
+               
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         
         $this->addFormRule(array('CRM_Member_Form_MembershipType', 'formRule'));
@@ -214,48 +229,50 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      * @access public
      * @static
      */
-    public function formRule( &$params ) {
+    public function formRule( &$params ) 
+    {
         require_once 'CRM/Utils/Rule.php';        
         $errors = array( );
         if ( !isset($params['_qf_MembershipType_refresh']) || !$params['_qf_MembershipType_refresh'] ) {
             if ( !$params['name'] ) {
-                $errors['name'] = "Please enter a membership type name.";
+                $errors['name'] = ts('Please enter a membership type name.');
             }
             
             if ( !CRM_Utils_Array::value('contact_check',$params) && $params['action']!= CRM_Core_Action::UPDATE ) {
-                $errors['member_org'] = "Please select the membership organization";
+                $errors['member_org'] = ts('Please select the membership organization');
             }
             
             if ( empty( $params['contribution_type_id'] ) ) {
-                $errors['contribution_type_id'] = "Please enter a contribution type.";
+                $errors['contribution_type_id'] = ts('Please enter a contribution type.');
             }
             
             if ( ($params['minimum_fee'] > 0 ) && !$params['contribution_type_id'] ) {
-                $errors['contribution_type_id'] = "Please enter the contribution type.";
+                $errors['contribution_type_id'] = ts('Please enter the contribution type.');
             }
             
             if ( empty( $params['duration_unit'] ) ) {
-                $errors['duration_unit'] = "Please enter a duration unit.";
+                $errors['duration_unit'] = ts('Please enter a duration unit.');
             }            
             
-            if ( empty( $params['duration_interval'] ) ) {
-                $errors['duration_interval'] = "Please enter a duration interval.";
+            if ( empty( $params['duration_interval'] ) and $params['duration_unit'] != 'lifetime' ) {
+                $errors['duration_interval'] = ts('Please enter a duration interval.');
             }
             
             if ( empty( $params['period_type'] ) ) {
-                $errors['period_type'] = "Please select a period type.";
+                $errors['period_type'] = ts('Please select a period type.');
             }
             
             if ( $params['period_type']   == 'fixed'  && 
                  $params['duration_unit'] == 'day' ) {
-                $errors['period_type'] = "Period type should be Rolling when duration unit is Day";
+                $errors['period_type'] = ts('Period type should be Rolling when duration unit is Day');
             }
             
-            if( ( $params['period_type']   == 'fixed' ) && 
+            $config =& CRM_Core_Config::singleton( );
+            if ( ( $params['period_type']   == 'fixed' ) && 
                 ( $params['duration_unit'] == 'year'  ) ) {
                 $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
                 foreach ( $periods as $period ) {
-                    $month = $params[$period]['M'];
+                    $month = $params[$period][$config->dateformatMonthVar];
                     $date  = $params[$period]['d'];
                     if ( !$month || !$date ) {
                         switch ($period) {
@@ -274,7 +291,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         if ( $params['fixed_period_start_day'] && ! empty( $params['fixed_period_start_day']) ) {
             $params['fixed_period_start_day']['Y'] = date('Y');
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_start_day'] ) ){
-                $errors['fixed_period_start_day'] = "Please enter valid 'Fixed Period Start Day' ";
+                $errors['fixed_period_start_day'] = ts('Please enter valid Fixed Period Start Day');
             }
             
         }
@@ -282,10 +299,20 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         if ( $params['fixed_period_rollover_day'] && ! empty( $params['fixed_period_rollover_day']) ) {
             $params['fixed_period_rollover_day']['Y'] = date('Y');
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_rollover_day'] ) ){
-                $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
+                $errors['fixed_period_rollover_day'] = ts('Please enter valid Fixed Period Rollover Day');
             }
         }
-        
+
+        $renewalReminderDay = CRM_Utils_Array::value( 'renewal_reminder_day', $params );
+        $renewalMsgId       = CRM_Utils_Array::value( 'renewal_msg_id', $params ); 
+        if ( !( ( ($renewalReminderDay && $renewalMsgId ) ) || ( ! $renewalReminderDay &&  ! $renewalMsgId ) ) ) {
+
+            if ( ! $renewalReminderDay ) {
+                $errors['renewal_reminder_day'] = ts('Please enter renewal reminder days.');
+            } elseif ( ! $renewalMsgId ) {
+                $errors['renewal_msg_id']       = ts('Please select renewal message.');
+            }
+        }
         return empty($errors) ? true : $errors;
     }
     
@@ -314,7 +341,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             }
            
             $params['minimum_fee'] = CRM_Utils_Rule::cleanMoney( $params['minimum_fee'] );
-            if ( $params['relationship_type_id'] ) {
+            if ( CRM_Utils_Array::value( 'relationship_type_id', $params ) ) {
                 $relationId = explode( '_', $params['relationship_type_id'] );
                 $params['relationship_type_id'  ] = $relationId[0];
                 $params['relationship_direction'] = $relationId[1].'_'.$relationId[2];
@@ -323,10 +350,15 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $ids['membershipType'] = $this->_id;
             }
             
+            if ($params['duration_unit'] == 'lifetime' and empty($params['duration_interval'])) {
+                $params['duration_interval'] = 1;
+            }
+            
+            $config =& CRM_Core_Config::singleton( );
             $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
             foreach ( $periods as $per ) {
-                if ($params[$per]['M'] && $params[$per]['d']) {
-                    $mon = $params[$per]['M'];
+                if ($params[$per][$config->dateformatMonthVar] && $params[$per]['d']) {
+                    $mon = $params[$per][$config->dateformatMonthVar];
                     $dat = $params[$per]['d'];
                     $mon = ( $mon < 9) ? '0'.$mon : $mon; 
                     $dat = ( $dat < 9) ? '0'.$dat : $dat; 
@@ -335,7 +367,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                     $params[$per] = 'null';
                 }
             }
-            $ids['memberOfContact'] = $params['contact_check'];
+            $oldWeight = null;
+            $ids['memberOfContact'] = CRM_Utils_Array::value( 'contact_check', $params );
             if ($this->_id) {
                 $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'weight', 'id' );
             }
@@ -343,7 +376,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 CRM_Utils_Weight::updateOtherWeights('CRM_Member_DAO_MembershipType', $oldWeight, $params['weight']);
             
             $membershipType = CRM_Member_BAO_MembershipType::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The membership type "%1" has been saved.', array( 1 => $membershipType->name )) );
+            CRM_Core_Session::setStatus( ts('The membership type \'%1\' has been saved.', array( 1 => $membershipType->name )) );
         } 
     }
 
@@ -356,7 +389,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      * @return None
      *
      */
-    function search(&$params) {
+    function search(&$params) 
+    {
         //max records that will be listed
         $searchValues = array();
         $searchValues[] = array( 'sort_name', 'LIKE', $params['member_org'], 0, 1 );
@@ -401,4 +435,4 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
 }
 
-?>
+

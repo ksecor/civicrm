@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -156,16 +156,12 @@ class CRM_Member_Form_Search extends CRM_Core_Form
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
          */ 
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
-                                                       CRM_Core_DAO::$_nullObject ); 
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       $this, false ); 
-        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
-                                                       $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
-                                                       $this );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',  CRM_Core_DAO::$_nullObject ); 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',  $this, false ); 
+        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this, false, 'search' );
 
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
+        $this->assign( "context", $this->_context );
             
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -199,6 +195,9 @@ class CRM_Member_Form_Search extends CRM_Core_Form
             $prefix = $this->_prefix;
         }
 
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
+
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
                                                         $sortID,  
@@ -221,7 +220,7 @@ class CRM_Member_Form_Search extends CRM_Core_Form
      */
     function buildQuickForm( ) 
     {
-        $this->addElement('text', 'sort_name', ts('Member'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'sort_name', ts('Member Name or Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
         require_once 'CRM/Member/BAO/Query.php';
         CRM_Member_BAO_Query::buildSearchForm( $this );
@@ -232,25 +231,27 @@ class CRM_Member_Form_Search extends CRM_Core_Form
          */ 
         $rows = $this->get( 'rows' ); 
         if ( is_array( $rows ) ) {
-            if ($this->_context == 'search') {
-                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            if ( !$this->_single ) {
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this.form);" ) ); 
                 foreach ($rows as $row) { 
                     $this->addElement( 'checkbox', $row['checkbox'], 
                                        null, null, 
-                                       array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                       array( 'onclick' => "toggleTaskAction( true ); return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                        ); 
                 }
             }
 
             $total = $cancel = 0;
-            $this->assign( "{$this->_prefix}single", $this->_single );
+
+            require_once "CRM/Core/Permission.php";
+            $permission = CRM_Core_Permission::getPermission( );
             
-            // also add the action and radio boxes
             require_once 'CRM/Member/Task.php';
-            $tasks = array( '' => ts('- more actions -') ) + CRM_Member_Task::tasks( );
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Member_Task::permissionedTaskTitles( $permission );
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
-                       array( 'class' => 'form-submit', 
+                       array( 'class'   => 'form-submit',
+                              'id'      => 'Go',
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
 
             $this->add('submit', $this->_printButtonName, ts('Print'), 
@@ -259,8 +260,8 @@ class CRM_Member_Form_Search extends CRM_Core_Form
 
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
-            $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => null) ); 
-            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') ); 
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); toggleTaskAction( true );" ) );
         }
         
 
@@ -308,6 +309,9 @@ class CRM_Member_Form_Search extends CRM_Core_Form
             $this->_formValues["member_test"] = 0;
         }
         
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
+
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
 
@@ -427,12 +431,29 @@ class CRM_Member_Form_Search extends CRM_Core_Form
             $this->_defaults['member_start_date_high'] = $date;
             
         }
+        $joinDate= CRM_Utils_Request::retrieve( 'join', 'Date',
+                                                CRM_Core_DAO::$_nullObject );
+        if ( $joinDate ) {
+            $date = CRM_Utils_Date::unformat( $joinDate, '' );
+            $this->_formValues['member_join_date_low'] = $date;
+            $this->_defaults  ['member_join_date_low'] = $date;
+        }
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',
                                                      $this );
     }
 
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle( ) 
+    {
+        return ts('Find Members');
+    }
    
 }
 
-?>
+

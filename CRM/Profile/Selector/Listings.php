@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -282,7 +282,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
             foreach ( $this->_fields as $name => $field ) { 
-                if ( $field['in_selector'] &&
+                if (  CRM_Utils_Array::value( 'in_selector', $field ) &&
                      ! in_array( $name, $skipFields ) ) {
 
                     if ( strpos( $name, '-' ) !== false ) {
@@ -301,7 +301,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                             if ( $type ) {
                                 $name = "`$locationTypeName-$fieldName-$type`";
                             } else {
-                                $name = "`$locationTypeName-$fieldName-1`";
+                                $name = "`$locationTypeName-$fieldName`";
                             }
                         } else {
                             $name = "`$locationTypeName-$fieldName`";
@@ -391,17 +391,19 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $rows = array( );
 
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
-
+        if ( $mask & CRM_Core_Permission::EDIT ) {
+            $this->_editLink = true;
+        }
+        $links =& self::links( $this->_map, $this->_editLink, $this->_linkToUF );
+        
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
-        $links =& self::links( $this->_map, $this->_editLink, $this->_linkToUF );
-        
         $names = array( );
         static $skipFields = array( 'group', 'tag' );
 
         foreach ( $this->_fields as $key => $field ) {
-            if ( $field['in_selector'] && 
+            if (  CRM_Utils_Array::value( 'in_selector', $field ) && 
                  ! in_array( $key, $skipFields ) ) { 
                 if ( strpos( $key, '-' ) !== false ) {
                     $value = explode( '-', $key );
@@ -425,7 +427,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                         if ( $type ) {
                             $names[] = "{$locationTypeName}-{$fieldName}-{$type}";
                         } else {
-                            $names[] = "{$locationTypeName}-{$fieldName}-1";
+                            $names[] = "{$locationTypeName}-{$fieldName}";
                         }
                     } else {
                         $names[] = "{$locationTypeName}-{$fieldName}";
@@ -450,17 +452,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $accessKabissa = true;
         }
 
-        //add tmf fields
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            require_once 'CRM/Quest/BAO/Query.php';
-            $tmfFields = array( );
-            $tmfFields = CRM_TMF_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_TMF );
-        }
-
         if ( $this->_linkToUF ) {
             require_once 'api/UFGroup.php';
         }
 
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
         while ($result->fetch()) {
             if (isset($result->country)) {
                 // the query returns the untranslated country name
@@ -469,7 +465,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             }
             $row = array( );
             $empty = true;
-            $row[] = CRM_Contact_BAO_Contact::getImage( $result->contact_type );
+            $row[] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
             if ( $result->sort_name ) {
                 $row['sort_name'] = $result->sort_name;
                 $empty            = false;
@@ -479,12 +475,10 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
            
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                    $idName = "custom_value_{$cfID}_id";
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name,
                                                                         $cfID,
                                                                         $this->_options,
-                                                                        $result->contact_id,
-                                                                        $result->$idName );
+                                                                        $result->contact_id );
                 } else if ( $name == 'home_URL' &&
                             ! empty( $result->$name ) ) {
                     $url = CRM_Utils_System::fixURL( $result->$name );
@@ -504,17 +498,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[] = $paramsNew[$key]; 
-                } else if ( isset($tmfFields) && array_key_exists($name, $tmfFields )
-                            || substr( $name, 0, 12 ) == 'participant_' ) { 
-                    if ( substr($name, -3) == '_id') {
-                        $key = substr($name, 0, -3);
-                        $paramsNew = array($key => $result->$name );
-                        $name = array( $key => array('newName' => $key ,'groupName' => $key ));
-                        CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
-                        $row[] = $paramsNew[$key]; 
-                    } else {
-                        $row[] = $result->$name;
-                    }
                 } else if ( strpos($name, '-im-')) {
                     if ( !empty($result->$name) ) {
                         $imProviders  = CRM_Core_PseudoConstant::IMProvider( );
@@ -526,10 +509,17 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     }
                 } elseif ( (substr( $name, 0, 8 ) == 'kabissa_') && $accessKabissa ) {
                     $row[] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing($name, $result, false);
-                } else {
+                } elseif ( isset($result->$name ) ){
                     $row[] = $result->$name;
+                } else {
+                    $row[] = '';
                 }
-
+                if ( 
+                    $name == 'greeting_type' && 
+                    $result->custom_greeting && 
+                    ( $result->greeting_type_id == 4 ) ) {
+                        $row[] = $result->custom_greeting.' ('.array_pop($row).')';
+                } 
                 if ( ! empty( $result->$name ) ) {
                     $empty = false;
                 }
@@ -571,4 +561,4 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     
 }//end of class
 
-?>
+

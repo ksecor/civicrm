@@ -1,25 +1,25 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -79,6 +79,8 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'grant_amount_requested',
                                  'grant_amount_granted',
                                  'grant_application_received_date',
+                                 'grant_report_received',
+                                 'grant_money_transfer_date',
                                  );
 
     /** 
@@ -157,7 +159,6 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
     {
         // submitted form values
         $this->_queryParams =& $queryParams;
-        
 
         $this->_single  = $single;
         $this->_limit   = $limit;
@@ -170,9 +171,6 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_GRANT );
-        //CRM_Core_Error::debug( 'q', $this->_query );
-        
-
     }//end of constructor
 
 
@@ -294,7 +292,6 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          $grantType    = array( );
          $grantType    = CRM_Grant_PseudoConstant::grantType( );
 
-
          $mask = CRM_Core_Action::mask( $permission );
          while ($result->fetch()) {
              $row = array();
@@ -317,20 +314,9 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                            array( 'id'  => $result->grant_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
-             $config =& CRM_Core_Config::singleton( );
-             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-             switch ($result->contact_type) {
-             case 'Individual' :
-                 $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                 break;
-             case 'Household' :
-                 $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                 break;
-             case 'Organization' :
-                 $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                 break;
-             }
-             $row['contact_type' ] = $contact_type;
+
+             require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+             $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
 
              $rows[] = $row;
          }
@@ -375,27 +361,30 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Requested (orig. currency) '),
-                                                'sort'      => 'grant_amount_requested',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Amount Requested(EUR) '),
+                                                'name'      => ts('Amount Requested'),
                                                 'sort'      => 'grant_amount_total',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Granted '),
+                                                'name'      => ts('Amount Granted'),
                                                 'sort'      => 'grant_amount_granted',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                         
                                           array(
-                                                'name'      => ts('Application received date'),
+                                                'name'      => ts('Application Received'),
                                                 'sort'      => 'grant_application_received_date',                                                
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          
+                                          array(
+                                                'name'      => ts('Report Received'),
+                                                'sort'      => 'grant_report_received',                                                
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Money Transferred'),
+                                                'sort'      => 'money_transfer_date',                                                
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
                                           array('desc' => ts('Actions') ),
                                           );
             
@@ -430,4 +419,4 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
 }//end of class
 
-?>
+

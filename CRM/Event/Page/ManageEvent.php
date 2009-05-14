@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -140,7 +140,9 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                           $this, false, 0);
         
         // set breadcrumb to append to 2nd layer pages
-        $breadCrumbPath = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' );
+        $breadCrumb = array ( array('title' => ts('Manage Events'),
+                                    'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
+                                                                      'reset=1' )) );
 
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
@@ -148,16 +150,14 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             
             $title = "New Event Wizard";
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Events'),
-                                                $breadCrumbPath );
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
             CRM_Utils_System::setTitle( $title );
             
             require_once 'CRM/Event/Controller/ManageEvent.php';
             $controller =& new CRM_Event_Controller_ManageEvent( );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Events'),
-                                                $breadCrumbPath );
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
 
             require_once 'CRM/Event/Page/ManageEventEdit.php';
             $page =& new CRM_Event_Page_ManageEventEdit( );
@@ -227,6 +227,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
         $params      = array( );
         $whereClause = $this->whereClause( $params, true, $this->_force );
+
         $this->pager( $whereClause, $params );
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
@@ -237,9 +238,9 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
   SELECT *
     FROM civicrm_event
    WHERE $whereClause
-ORDER BY title asc
+ORDER BY start_date desc
    LIMIT $offset, $rowCount";
-
+        
         $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Event_DAO_Event' );
      
         while ($dao->fetch()) {
@@ -260,16 +261,12 @@ ORDER BY title asc
 
             $params = array( 'entity_id' => $dao->id, 'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults, $id, 1);
-            if (isset ( $defaults['location'][1]['entity_id'] ) ) {
-                if( $manageEvent[$dao->id]['id'] == $defaults['location'][1]['entity_id'] ) {
-                    if ( isset ( $defaults['location'][1]['address']['city'] ) ) {
-                        $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
-                    }
-                    if ( isset( $defaults['location'][1]['address']['state_province_id'] )) {
-                        $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
-                    }
-                }
+            $location = CRM_Core_BAO_Location::getValues($params, $defaults );
+            if ( isset ( $defaults['location'][1]['address']['city'] ) ) {
+                $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
+            }
+            if ( isset( $defaults['location'][1]['address']['state_province_id'] )) {
+                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
             }
         }
         $this->assign('rows', $manageEvent);
@@ -288,11 +285,13 @@ ORDER BY title asc
         
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::copy( $id );
+
+        return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage', 'reset=1' ) );
     }
 
 
     function search( ) {
-        if ( $this->_action &
+        if ( isset($this->_action) &
              ( CRM_Core_Action::ADD    |
                CRM_Core_Action::UPDATE |
                CRM_Core_Action::DELETE ) ) {
@@ -330,33 +329,45 @@ ORDER BY title asc
                 } 
                 $type = implode (',' ,$val);
             }
+
+
+
+
+
+
             
             $clauses[] = "event_type_id IN ({$type})";
         }
         
         $eventsByDates = $this->get( 'eventsByDates' );
-        if ($eventsByDates) {
-             require_once 'CRM/Utils/Date.php';
+        if ($this->_searchResult) {
+            if ( $eventsByDates) {
+                require_once 'CRM/Utils/Date.php';
+                
+                $from = $this->get( 'start_date' );
+                if ( ! CRM_Utils_System::isNull( $from ) ) {
+                    $from = CRM_Utils_date::format( $from );
+                    $from .= '000000';
+                    $clauses[] = '( start_date >= %3 OR start_date IS NULL )';
+                    $params[3] = array( $from, 'String' );
+                }
+                
+                $to = $this->get( 'end_date' );
+                if ( ! CRM_Utils_System::isNull( $to ) ) {
+                    $to = CRM_Utils_date::format( $to );
+                    $to .= '235959';
+                    $clauses[] = '( end_date <= %4 OR end_date IS NULL )';
+                    $params[4] = array( $to, 'String' );
+                }
+                
+            } else {
+                $curDate = date( 'YmdHis' );
+                $clauses[5] =  "(end_date >= {$curDate} OR end_date IS NULL)";
+            }
         
-            $from = $this->get( 'start_date' );
-            if ( ! CRM_Utils_System::isNull( $from ) ) {
-                $from = CRM_Utils_date::format( $from );
-                $from .= '000000';
-                $clauses[] = 'start_date >= %3';
-                $params[3] = array( $from, 'String' );
-            }
-            
-            $to = $this->get( 'end_date' );
-            if ( ! CRM_Utils_System::isNull( $to ) ) {
-                $to = CRM_Utils_date::format( $to );
-                $to .= '235959';
-                $clauses[] = 'start_date <= %4';
-                $params[4] = array( $to, 'String' );
-            }
-           
         } else {
             $curDate = date( 'YmdHis' );
-            $clauses[5] =  "end_date >= {$curDate} OR end_date IS NULL";
+            $clauses[] =  "(end_date >= {$curDate} OR end_date IS NULL)";
         }
 
         if ( $sortBy &&
@@ -364,23 +375,20 @@ ORDER BY title asc
             $clauses[] = 'title LIKE %6';
             $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
-        
-        if ( !$this->_searchResult ) {
-            $curDate = date( 'YmdHis' );
-            $clauses[] =  "end_date >= {$curDate} OR end_date IS NULL";
-        }
-        $clauses[] = 'domain_id = %7';
-        $params[7] = array( CRM_Core_Config::domainID( ), 'Integer' );
 
-        // dont do a the below assignement when doing a 
+        // dont do a the below assignment when doing a 
         // AtoZ pager clause
         if ( $sortBy ) {
-            if ( count( $clauses ) > 1 ) {
+            if ( count( $clauses ) > 1 || $eventsByDates  ) {
                 $this->assign( 'isSearch', 1 );
             } else {
                 $this->assign( 'isSearch', 0 );
             }
         }
+
+        require_once 'CRM/Core/Permission.php';
+        $clauses[] = CRM_Core_Permission::eventClause( );
+
         return implode( ' AND ', $clauses );
     }
 
@@ -424,4 +432,4 @@ SELECT count(id)
     }
     
 }
-?>
+

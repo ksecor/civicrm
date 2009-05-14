@@ -68,7 +68,7 @@
       <type>int unsigned</type>
       <export>true</export>
       <required>true</required>
-      <comment>Id of first case category.</comment>
+      <comment>Type of grant. Implicit FK to civicrm_option_value in grant_type option_group.</comment>
       <add>1.8</add>
   </field>
   <index>
@@ -81,21 +81,19 @@
       <type>decimal</type>
       <required>true</required>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
-      <comment>Total amount, in default currency.</comment>
+      <comment>Requested grant amount, in default currency.</comment>
       <add>1.8</add>
   </field>
   <field>
       <name>amount_requested</name>
       <type>decimal</type>
-      <required>true</required>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
-      <comment>Requested amount, in default currency.</comment>
+      <comment>Requested grant amount, in original currency (optional).</comment>
       <add>1.8</add>
   </field>
   <field>
       <name>amount_granted</name>
       <type>decimal</type>
-      <required>true</required>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
       <comment>Granted amount, in default currency.</comment>
       <add>1.8</add>

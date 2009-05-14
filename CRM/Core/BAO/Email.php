@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -54,19 +54,24 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
     {
         $email =& new CRM_Core_DAO_Email( );
         $email->copyValues($params);
-        
-        if ( $email->is_bulkmail && $params['contact_id']) {
+
+        // lower case email field to optimize queries
+        $email->email = strtolower( $email->email );
+
+        // since we're setting bulkmail for 1 of this contact's emails, first reset all their emails to is_bulkmail false
+        // (only 1 email address can have is_bulkmail = true)
+        if ( $email->is_bulkmail != 'null' && $params['contact_id']) {
             $sql = "
 UPDATE civicrm_email 
 SET is_bulkmail = 0
 WHERE 
 contact_id = {$params['contact_id']}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+            CRM_Core_DAO::executeQuery( $sql );
         }
 
         // handle if email is on hold
         self::holdEmail( $email );
-        
+
         return $email->save( );
     }
 
@@ -170,25 +175,6 @@ ORDER BY e.is_primary DESC, email_id ASC ";
         
         return $emails;
     }
-    
-
-
-    /**
-     * Delete email address records from a location
-     *
-     * @param array $params associated array of values
-     * 
-     * @return void
-     * 
-     * @access public
-     * @static
-     */
-    public static function deleteLocation( $params ) 
-    {
-        $dao =& new CRM_Core_DAO_Email();
-        $dao->copyValues( $params );
-        $dao->delete();
-    }
 
     /**
      * Function to set / reset hold status for an email
@@ -208,8 +194,8 @@ ORDER BY e.is_primary DESC, email_id ASC ";
             //get reset date
             $resetDate = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $email->id, 'reset_date' );
 
-            //set hold date only if it is not set
-            if ( ($email->on_hold != 'null') && !$holdDate ) {
+            //set hold date only if it is not set and e
+            if ( ($email->on_hold != 'null') && !$holdDate && $email->on_hold) {
                 $email->hold_date  = date( 'YmdHis' );
                 $email->reset_date = '';
             } else if ( $holdDate && ( $email->on_hold == 'null' ) && !$resetDate ) {
@@ -225,4 +211,4 @@ ORDER BY e.is_primary DESC, email_id ASC ";
         }
     }
 }
-?>
+

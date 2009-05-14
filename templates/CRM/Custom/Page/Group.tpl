@@ -5,29 +5,24 @@
 {elseif $action eq 8}
     {include file="CRM/Custom/Form/DeleteGroup.tpl"}
 {else}
-    {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
     <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/WyQ" 2=$docURLTitle}Custom data is stored in custom fields. Custom fields are organized into logically related custom data groups (e.g. Volunteer Info). Use custom fields to collect and store custom data which is not included in the standard CiviCRM forms. You can create one or many groups of custom fields (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
+    {ts}Custom data is stored in custom fields. Custom fields are organized into logically related custom data groups (e.g. Volunteer Info). Use custom fields to collect and store custom data which is not included in the standard CiviCRM forms. You can create one or many groups of custom fields.{/ts} {docURL page="Custom Data Fields & Custom Data Groups Admin"}
     </div>
 
     {if $rows}
     <div id="custom_group">
     <p></p>
-        <div class="form-item">
         {strip}
-        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead>
+        <table class="selector">
         <tr class="columnheader">
-            <th field="Group Title"  dataType="String">{ts}Group Title{/ts}</th>
-            <th field="Status"       dataType="String">{ts}Status?{/ts}</th>
-            <th field="Used For"     dataType="String">{ts}Used For{/ts}</th>
-            <th field="Type"         dataType="String">{ts}Type{/ts}</th>
-            <th field="Order"        dataType="Number" sort="asc">{ts}Order{/ts}</th>
-            <th field="Style"        dataType="String">{ts}Style{/ts}</th>
-            <th datatype="html"></th>
+            <th>{ts}Group Title{/ts}</th>
+            <th>{ts}Status?{/ts}</th>
+            <th>{ts}Used For{/ts}</th>
+            <th>{ts}Type{/ts}</th>
+            <th>{ts}Order{/ts}</th>
+            <th>{ts}Style{/ts}</th>
+            <th></th>
         </tr>
-        </thead>
-        <tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
@@ -36,28 +31,26 @@
             <td>{$row.extends_entity_column_value}</td>
             <td class="nowrap">{$row.weight}</td>
             <td>{$row.style_display}</td>
-            <td>{$row.action}</td>
+            <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
-        </tbody>
         </table>
         
         {if NOT ($action eq 1 or $action eq 2) }
         <p></p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}" id="newCustomDataGroup">&raquo;  {ts}New Group of Custom Fields{/ts}</a>
+        <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}" id="newCustomDataGroup" class="button"><span>&raquo;  {ts}New Group of Custom Fields{/ts}</span></a>
         </div>
         {/if}
 
         {/strip}
-        </div>
     </div>
     {else}
        {if $action ne 1} {* When we are adding an item, we should not display this message *}
        <div class="messages status">
        <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/> &nbsp;
          {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q='action=add&reset=1'}{/capture}
-         {ts 1=$crmURL}No custom data groups have been created yet. You can <a href="%1">add one</a>.{/ts}
+         {ts 1=$crmURL}No custom data groups have been created yet. You can <a href='%1'>add one</a>.{/ts}
        </div>
        {/if}
     {/if}

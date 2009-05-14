@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -46,7 +46,7 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
      * @int
      * @access protected
      */
-    protected $_groupId;
+    public $_groupId;
 
     /**
      * class constructor
@@ -91,28 +91,36 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
     {
         $this->preProcess( );
 
+        //set the userContext stack
+        $doneURL = 'civicrm/contact/view';
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&selectedChild=custom_' . $this->_groupId ), false );
+        
         // get permission detail view or edit
         $permUser = CRM_Core_Permission::getPermission();
         
         $editCustomData = ( CRM_Core_Permission::VIEW == $permUser ) ? 0 : 1;
-
         $this->assign('editCustomData', $editCustomData);
 
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', ts('Custom Data'), $this->_action);
-        $controller->setEmbedded(true);
-
-        // set the userContext stack
-        $doneURL = 'civicrm/contact/view';
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&selectedChild=custom_' . $this->_groupId ), false );
-
-        $controller->set('tableId'   , $this->_contactId );
-        $controller->set('groupId'   , $this->_groupId);
-        $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType( $this->_contactId ) );
-        $controller->set('entitySubType', CRM_Contact_BAO_Contact::getContactSubType( $this->_contactId ) );
-        $controller->process();
-        $controller->run();
-
+        if ( $this->_action == CRM_Core_Action::BROWSE ) {
+            //Custom Groups Inline
+            $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId, $this->_groupId);
+            CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
+        } else {
+            
+            $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData',
+                                                          ts('Custom Data'),
+                                                          $this->_action );
+            $controller->setEmbedded(true);
+           
+            $controller->set('tableId'   , $this->_contactId );
+            $controller->set('groupId'   , $this->_groupId);
+            $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType( $this->_contactId ) );
+            $controller->set('entitySubType', CRM_Contact_BAO_Contact::getContactSubType( $this->_contactId ) );
+            $controller->process();
+            $controller->run();
+        }
         return parent::run();
     }
 }

@@ -16,18 +16,17 @@ CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
 $numGroups = 100;
 
-$visibility = array( 'User and User Admin Only', 'Public User Pages', 'Public User Pages and Listings' );
+$visibility = array( 'User and User Admin Only', 'Public Pages' );
 $groupType  = array( null, '1', '2', '12' );
 
 for ( $i = 1; $i <= $numGroups; $i++ ) {
 	$group = new CRM_Contact_BAO_Group();
-    $group->domain_id  = 1;
     $cnt      = sprintf( '%05d', $i );
     $alphabet = mt_rand( 97, 122 );
     $group->name = $group->title = chr($alphabet) . ": $prefix $cnt";
     $group->is_active  = 1;
 
-    $v = mt_rand( 0, 2 );
+    $v = mt_rand( 0, 1 );
     $group->visibility = $visibility[$v];
 
     $t = mt_rand( 0, 3 );
@@ -36,4 +35,4 @@ for ( $i = 1; $i <= $numGroups; $i++ ) {
     $group->save( );
 }
 
-?>
+

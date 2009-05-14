@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -58,13 +58,13 @@ class CRM_Contact_Form_Phone
             CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", ts('another phone'), ts('hide this phone'));
             
             if ( ! $phoneType ) {
-                $phoneType = CRM_Core_SelectValues::phoneType( );
+                $phoneType = CRM_Core_PseudoConstant::phoneType( );
             }
             
-            $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
-                                                                                  "location[$locationId][phone][$i][phone_type]",
-                                                                                  ts('Phone'),
-                                                                                  $phoneType,
+            $location[$locationId]['phone'][$i]['phone_type_id'] = $form->addElement('select',
+                                                                                  "location[$locationId][phone][$i][phone_type_id]",
+                                                                                  $label,
+                                                                                  array('' =>  ts('- select -'))+$phoneType,
                                                                                   null
                                                                                   );
 
@@ -82,4 +82,4 @@ class CRM_Contact_Form_Phone
 }
 
 
-?>
+

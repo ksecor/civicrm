@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the stuff
-for CODE in css i js l10n packages PEAR templates bin joomla CRM api drupal extern Reports; do
+for CODE in css i js l10n packages PEAR templates bin joomla CRM api drupal extern Reports standalone install; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
@@ -50,21 +50,33 @@ done
 # remove Quest
 find $TRG -depth -name 'Quest' -exec rm -r {} \;
 
+# delete SimpleTest
+if [ -d $TRG/packages/SimpleTest ] ; then
+  rm -rf $TRG/packages/SimpleTest
+fi
+if [ -d $TRG/packages/drupal ] ; then
+  rm -rf $TRG/packages/drupal
+fi
+
+# delete UFPDF's stuff not required on installations
+if [ -d $TRG/packages/ufpdf/ttf2ufm-src ] ; then
+  rm -rf $TRG/packages/ufpdf/ttf2ufm-src
+fi
+
 # copy docs
-cp $SRC/affero_gpl.txt $TRG
+cp $SRC/agpl-3.0.txt $TRG
 cp $SRC/gpl.txt $TRG 
 cp $SRC/README.txt $TRG
 cp $SRC/civicrm.config.php $TRG
-cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
-echo "$DM_VERSION Drupal PHP5" > $TRG/civicrm-version.txt
+echo "$DM_VERSION Drupal PHP5 $DM_REVISION" > $TRG/civicrm-version.txt
 
 
 # gen tarball
 cd $TRG/..
-tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-drupal-php5.tar.gz --exclude l10n civicrm
-tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-l10n.tar.gz --exclude '*.po' --exclude pot civicrm/l10n
+tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-drupal.tar.gz --exclude l10n --exclude 'civicrm_*.??_??.mysql' civicrm
+tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-l10n.tar.gz --exclude '*.po' --exclude pot civicrm/l10n civicrm/sql/civicrm_*.??_??.mysql
 
 # clean up
 rm -rf $TRG

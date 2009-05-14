@@ -67,7 +67,7 @@
             <td>{ts 1=$row.pending_method}Pending (by %1){/ts}</td> 
             <td>{$row.pending_date|crmDate}</td>
 {if $edit}
-            <td><a href="{crmURL p='civicrm/user/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to remove from %1?{/ts}');">[ {ts}Confirm{/ts} ]</a></td> 
+            <td><a href="{crmURL p='civicrm/user/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('{ts 1=$row.title}Are you sure you want to confirm subscription for %1?{/ts}');">[ {ts}Confirm{/ts} ]</a></td> 
 {/if}
     	</tr>
      	{/foreach}

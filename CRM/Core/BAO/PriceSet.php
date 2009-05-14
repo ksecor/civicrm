@@ -126,18 +126,18 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
             $entity_list = implode( ',', $entities );
             // a single match is sufficient.  limit 1 for performance
             $queryString = "SELECT COUNT(*) AS is_used FROM $table";
-            if ( $table == 'civicrm_event_page' ) {
+            if ( $table == 'civicrm_event' ) {
                 $queryString .= ", civicrm_event";
             }
             $queryString .= " WHERE $table.id IN ( $entity_list )";
-            if ( $table == 'civicrm_event_page' ) {
+            if ( $table == 'civicrm_event' ) {
                 $now = date( 'Y-m-d H:i:s' );
                 $queryString .= " AND civicrm_event.start_date < '$now' AND civicrm_event.end_date > '$now'";
             }
             $queryString .= " LIMIT 1";
             $params = array();
             $is_used = (bool)CRM_Core_DAO::singleValueQuery( $queryString, $params );
-            if ( ! $is_used && $table == 'civicrm_event_page' ) {
+            if ( ! $is_used && $table == 'civicrm_event' ) {
                 // check participant table
                 $queryString = "SELECT COUNT(*) AS is_used FROM civicrm_participant ";
                 $queryString .= "WHERE event_id IN ( $entity_list ) LIMIT 1";
@@ -183,15 +183,14 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
 
         foreach ( $forms as $table => $entities ) {
-            // currently, the only supported table is 'civicrm_event_page'.
+            // currently, the only supported table is 'civicrm_event'.
             // contribution will be significantly different
             switch ($table) {
-            case 'civicrm_event_page':
+            case 'civicrm_event':
                 $eventIdList = implode( ',', $entities );
-                $queryString = "SELECT event_id FROM civicrm_event_page WHERE";
+                $queryString = "SELECT id event_id FROM civicrm_event WHERE";
                 $queryString .= " id IN ($eventIdList)";
-                $params = array( );
-                $crmDAO = CRM_Core_DAO::executeQuery( $queryString, $params );
+                $crmDAO = CRM_Core_DAO::executeQuery( $queryString );
 
                 while ( $crmDAO->fetch() ) {
                     $is_past = false;
@@ -274,21 +273,20 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
     {
         // remove from all inactive forms
         $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id, true, true );
-        if ( isset( $usedBy['civicrm_event_page'] ) ) {
-            require_once 'CRM/Event/DAO/EventPage.php';
-            foreach ( $usedBy['civicrm_event_page'] as $eventId => $unused ) {
-                $eventPageDAO =& new CRM_Event_DAO_EventPage( );
-                $eventPageDAO->event_id = $eventId;
-                $eventPageDAO->find( );
-                while ( $eventPageDAO->fetch( ) ) {
-                    CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageDAO->id );
+        if ( isset( $usedBy['civicrm_event'] ) ) {
+            require_once 'CRM/Event/DAO/Event.php';
+            foreach ( $usedBy['civicrm_event'] as $eventId => $unused ) {
+                $eventDAO =& new CRM_Event_DAO_Event( );
+                $eventDAO->id = $eventId;
+                $eventDAO->find( );
+                while ( $eventDAO->fetch( ) ) {
+                    CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event', $eventDAO->id );
                 }
             }
         }
         
         // delete price fields
         require_once 'CRM/Core/DAO/PriceField.php';
-        require_once 'CRM/Core/DAO/CustomOption.php';
         $priceField =& new CRM_Core_DAO_PriceField( );
         $priceField->price_set_id = $id;
         $priceField->find( );
@@ -356,8 +354,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         $dao =& new CRM_Core_DAO_PriceSetEntity( );
         $dao->entity_table = $entityTable;
         $dao->entity_id = $entityId;
-        if ( $dao->find() ) {
-            $dao->fetch();
+        if ( $dao->find( true ) ) {
             return $dao->price_set_id;
         } else {
             return false;
@@ -409,16 +406,24 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @return array associative array of id => name
      */
     public static function getAssoc( $withInactive = false ) {
-        $dao =& new CRM_Core_DAO_PriceSet( );
-        if ( !$withInactive ) {
-            $dao->is_active = 1;
-        }
-        $dao->find();
+        $query = "
+    SELECT 
+       DISTINCT ( price_set_id ) as id, title 
+    FROM 
+       civicrm_price_field, 
+       civicrm_price_set 
+    WHERE 
+       civicrm_price_set.id = civicrm_price_field.price_set_id ";
 
+        if ( !$withInactive ) {
+           $query .= " AND civicrm_price_set.is_active = 1 ";
+        }
+
+        $dao =& CRM_Core_DAO::executeQuery( $query );
         $priceSets = array();
         while ( $dao->fetch() ) {
             $priceSets[$dao->id] = $dao->title;
-        }
+        }       
         return $priceSets;
     }
 
@@ -430,7 +435,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @param int $setId - price set id whose details are needed
      * @return array $setTree - array consisting of field details
      */
-    public static function getSetDetail($setId) {
+    public static function getSetDetail($setID, $required = true) {
         // create a new tree
         $setTree = array();
         $select = $from = $where = $orderBy = '';
@@ -444,43 +449,55 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
             'help_post',
             'is_display_amounts',
             'options_per_line',
-            'is_active',
-            'is_required'
+            'is_active'
         );
-
+        if ( $required == true ) {
+            $priceFields[] = 'is_required';   
+        }
         // create select
         $select = 'SELECT ' . implode( ',', $priceFields );
         $from = ' FROM civicrm_price_field';
         
         $params = array( );
-        $params[1] = array( $setId, 'Integer' );
+        $params[1] = array( $setID, 'Integer' );
         $where = ' WHERE price_set_id = %1';
         $where .= ' AND is_active = 1';
 
         $orderBy = ' ORDER BY weight';
 
-        $queryString = $select . $from . $where . $orderBy;
+        $sql = $select . $from . $where . $orderBy;
 
-        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
 
-        while ( $crmDAO->fetch() ) {
-            //$setId = $crmDAO->civicrm_price_set_id;
-            $fieldId = $crmDAO->id;
+        require_once 'CRM/Core/BAO/PriceField.php';
+        while ( $dao->fetch() ) {
+            $fieldID = $dao->id;
 
-            $setTree[$setId]['fields'][$fieldId] = array();
-            $setTree[$setId]['fields'][$fieldId]['id'] = $fieldId;
+            $setTree[$setID]['fields'][$fieldID] = array();
+            $setTree[$setID]['fields'][$fieldID]['id'] = $fieldID;
 
             foreach ( $priceFields as $field ) {
-                if ( $field == 'id' || is_null( $crmDAO->$field) ) {
+                if ( $field == 'id' || is_null( $dao->$field) ) {
                     continue;
                 }
-                $setTree[$setId]['fields'][$fieldId][$field] = $crmDAO->$field;
+                $setTree[$setID]['fields'][$fieldID][$field] = $dao->$field;
+                $setTree[$setID]['fields'][$fieldID]['options'] = CRM_Core_BAO_PriceField::getOptions( $fieldID, false );
             }
+        }
+
+        // also get the pre and post help from this price set
+        $sql = "
+SELECT help_pre, help_post
+FROM   civicrm_price_set
+WHERE  id = %1";
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        if ( $dao->fetch( ) ) {
+            $setTree[$setID]['help_pre'] = $dao->help_pre;
+            $setTree[$setID]['help_post'] = $dao->help_post;
         }
 
         return $setTree;
     }
-
 }
 
-?>
+

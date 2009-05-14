@@ -16,13 +16,13 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the "%1" price set - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' price set - it is currently in use by one or more active events.{/ts}
         {elseif $action eq 64}
-            {ts 1=$usedPriceSetTitle}Unable to disable the "%1" price set - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to disable the '%1' price set - it is currently in use by one or more active events.{/ts}
         {/if}
         {ts}If you no longer want to use this price set, click the event title below, and modify the fees for that event.{/ts}<br />
         
-        {if $usedBy.civicrm_event_page} {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
+        {if $usedBy.civicrm_event} {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
             <table class="report">
             <tr class="columnheader-dark">
                 <th scope="col">{ts}Event{/ts}</th>
@@ -31,7 +31,7 @@
                 <th scope="col">{ts}Date(s){/ts}</th>
             </tr>
 
-            {foreach from=$usedBy.civicrm_event_page item=event key=id}
+            {foreach from=$usedBy.civicrm_event item=event key=id}
                 <tr>
                     <td><a href="{crmURL p="civicrm/admin/event" q="action=update&reset=1&subPage=Fee&id=`$id`"}">{$event.title}</a></td>
                     <td>{$event.eventType}</td>
@@ -49,17 +49,13 @@
     {if $rows}
     <div id="price_set">
     <p></p>
-        <div class="form-item">
         {strip}
-        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead>
+        <table class="selector">
         <tr class="columnheader">
-            <th field="Set Title"  dataType="String">{ts}Set Title{/ts}</th>
-            <th field="Status"       dataType="String">{ts}Status?{/ts}</th>
-            <th datatype="html"></th>
+            <th>{ts}Set Title{/ts}</th>
+            <th>{ts}Status?{/ts}</th>
+            <th></th>
         </tr>
-        </thead>
-        <tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
@@ -67,25 +63,23 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
-        </tbody>
         </table>
         
         {if NOT ($action eq 1 or $action eq 2) }
         <p></p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/price' q="action=add&reset=1"}" id="newPriceSet">&raquo;  {ts}New Set of Price Fields{/ts}</a>
+        <a href="{crmURL p='civicrm/admin/price' q="action=add&reset=1"}" id="newPriceSet" class="button"><span>&raquo;  {ts}New Set of Price Fields{/ts}</span></a>
         </div>
         {/if}
 
         {/strip}
-        </div>
     </div>
     {else}
        {if $action ne 1} {* When we are adding an item, we should not display this message *}
        <div class="messages status">
        <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/> &nbsp;
          {capture assign=crmURL}{crmURL p='civicrm/admin/price' q='action=add&reset=1'}{/capture}
-         {ts 1=$crmURL}No price sets have been created yet. You can <a href="%1">add one</a>.{/ts}
+         {ts 1=$crmURL}No price sets have been created yet. You can <a href='%1'>add one</a>.{/ts}
        </div>
        {/if}
     {/if}

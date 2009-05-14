@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -47,12 +47,14 @@ require_once 'api/v2/utils.php';
 function civicrm_location_add( &$params ) {
     _civicrm_initialize( );
     $error = _civicrm_location_check_params( $params );
+    
     if ( civicrm_error( $error ) ) {
         return $error;
     }  
+    
+    require_once 'CRM/Core/DAO/LocationType.php';
     $locationTypeDAO = & new CRM_Core_DAO_LocationType();
     $locationTypeDAO->name      = $params['location_type'];
-    $locationTypeDAO->domain_id = CRM_Core_Config::domainID( );
     $locationTypeDAO->find(true);
     $locationTypeId = $locationTypeDAO->id;
 
@@ -83,17 +85,17 @@ function civicrm_location_update( $params ) {
         return civicrm_create_error( ts ('$contact is not valid contact datatype') );
     } 
     
-    $locationId = (int) $params['location_id'];
-    if (! $locationId ) {
-        return civicrm_create_error( ts('missing or invalid $location_id') );
+    if ( ! ( $locationTypeId = CRM_Utils_Array::value( 'location_type_id', $params ) ) && 
+         ! ( CRM_Utils_Rule::integer( $locationTypeId ) ) ) {
+        return civicrm_create_error( ts('missing or invalid location_type_id') );
     }
     
     // $locationObj is the original location object that we are updating
     $locationArray = array();
-    $locations =& civicrm_location_get( $params );
+    $locations     =& civicrm_location_get( $params );
     
     foreach ( $locations as $locNumber => $locValue ) {
-        if ( $locValue['id'] == $locationId) {
+        if ( $locValue['location_type_id'] == $locationTypeId) {
             $locationArray = $locValue;
             break;
         }
@@ -102,7 +104,9 @@ function civicrm_location_update( $params ) {
     if ( ! $locationArray ) {
         return civicrm_create_error( ts( 'invalid $location_id') );
     }
-    $location =& _civicrm_location_update( $params,$locationArray );
+    
+    $location =& _civicrm_location_update( $params, $locationArray );
+    
     return $location ;
 }
 
@@ -124,13 +128,15 @@ function civicrm_location_delete( &$contact ) {
     if( ! isset( $contact['contact_id'] ) ) {
         return civicrm_create_error( ts('$contact is not valid contact datatype') );
     } 
-    $locationId = $contact['location_type'];
-
-
-    if (! $locationId ) {
-        return civicrm_create_error('missing or invalid $location_id');
+    
+    require_once 'CRM/Utils/Rule.php';
+    $locationTypeID = CRM_Utils_Array::value( 'location_type', $contact );
+    if ( ! $locationTypeID ||
+         ! CRM_Utils_Rule::integer( $locationTypeID ) ) {
+        return civicrm_create_error( ts('missing or invalid location') );
     }
-    $result =& _civicrm_location_delete( $contact, $locationId );
+    
+    $result =& _civicrm_location_delete( $contact );
 
     return $result;
 }
@@ -151,7 +157,7 @@ function civicrm_location_get( $contact ) {
         return civicrm_create_error('$contact is not valid contact datatype');
     }
     
-    $location_types = $contact['location_type' ];
+    $location_types = CRM_Utils_Array::value( 'location_type', $contact );
     if ( is_array($location_types) && ! count($location_types) ) {
         return civicrm_create_error('Location type array can not be empty');
     }
@@ -160,23 +166,53 @@ function civicrm_location_get( $contact ) {
     return $location;
 }
 
-function &_civicrm_location_add( &$params ,$locationTypeId) {
-    $values = array(
-                    'contact_id'    => $params['contact_id'],
-                    'location'      => array(1 => array()),
-                    );
+function _civicrm_location_add( &$params ,$locationTypeId) {
     
-    $loc =& $values['location'][1];
-    $loc['location_type_id'] = $locationTypeId;
-    $loc['is_primary']       = CRM_Utils_Array::value( 'is_primary', $params);
-    $loc['name']             = CRM_Utils_Array::value( 'name', $params);
+    // Get all existing locations.
+    $p = array(
+               'contact_id' => $params['contact_id'],
+               'entity_id' => $params['contact_id'],
+               );
+    require_once 'CRM/Core/BAO/Location.php';    
+    $v = array();
+    $locations = CRM_Core_BAO_Location::getValues($p, $v);
+    $contact = array(
+                     'contact_id' => $params['contact_id'],
+                     'location' => $locations
+                     );
+    
+    // If the location already exists, merge in the new data
+    $found = false;
+    foreach ($contact['location'] as &$location) {
+        if ( CRM_Utils_Array::value('location_type_id',
+                                    $location ) == $locationTypeId) {
+            $loc =& $location;
+            $found = true;
+            break;
+        }
+    }
+    
+    // Else create a new location
+    if (!$found) {
+        $loc =& $contact['location'][];
+        $loc['location_type_id'] = $locationTypeId;
+    }
+    
+    $loc['is_primary']       = CRM_Utils_Array::value('is_primary', $params,
+                                                      CRM_Utils_Array::value( 'is_primary',
+                                                                              $loc ) );
+    $loc['name']             = CRM_Utils_Array::value('name', $params,
+                                                      CRM_Utils_Array::value( 'name',
+                                                                              $loc ) );
     
     require_once 'CRM/Core/DAO/Address.php';
     $fields =& CRM_Core_DAO_Address::fields( );
-    $loc['address'] = array( );    
     
-    _civicrm_store_values($fields, $params, $loc['address']);
-    
+    if ( ! isset( $loc['address'] ) ||
+         ! is_array( $loc['address'] ) ) {
+        $loc['address'] = array();
+    }    
+      
     $ids = array( 'county', 'country_id', 'country', 
                   'state_province_id', 'state_province',
                   'supplemental_address_1', 'supplemental_address_2',
@@ -184,15 +220,19 @@ function &_civicrm_location_add( &$params ,$locationTypeId) {
     
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
+            _civicrm_store_values($fields, $params, $loc['address']);
             $loc['address'][$id] = $params[$id];
         }
     }
     
-    if (is_numeric($loc['address']['state_province'])) {
+    if (isset($loc['address']['state_province']) &&
+        is_numeric($loc['address']['state_province'])) {
         $loc['address']['state_province'] =
             CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc['address']['state_province']);
     }
-    if (is_numeric($loc['address']['country'])) {
+
+    if (isset($loc['address']['country']) &&
+        is_numeric($loc['address']['country'])) {
         $loc['address']['country'] =
             CRM_Core_PseudoConstant::countryIsoCode($loc['address']['country']);
     }
@@ -203,34 +243,55 @@ function &_civicrm_location_add( &$params ,$locationTypeId) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
         eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );
         $name = strtolower($block);
-        $loc[$name]    = array( );
-        if ( $params[$name] ){
-            $count = 1;
-            foreach ( $params[$name] as $val) {
-                _civicrm_store_values($fields, $val,$loc[$name][$count++]);
-                
+        
+        if (! isset($loc[$name]) ||
+            !is_array($loc[$name])) {
+            $loc[$name]    = array( );
+        }
+        
+        if ( isset($params[$name]) &&
+             $params[$name] ){
+            if ( is_array( $params[$name] ) ) {
+                $count = 1;
+                foreach ( $params[$name] as $val) {
+                    _civicrm_store_values($fields, $val,$loc[$name][$count++]);
+                }
+            } else {
+                $p = array( $name => $params[$name] );
+                _civicrm_store_values($fields,
+                                      $p,
+                                      $loc[$name][1]);
             }
         }
     }
-    
-    $ids = array();
+        
     require_once 'CRM/Core/BAO/Location.php';
     require_once 'CRM/Contact/BAO/Contact.php';
-    CRM_Contact_BAO_Contact::resolveDefaults($values, true);
-    $location = CRM_Core_BAO_Location::add($values, $ids,1);
-    $locArray=array();
-    if ( ! $location ) {
-        return civicrm_create_error( ts ("Location object not created" ) );
-    } elseif ( is_a($location, 'CRM_Core_BAO_Location') ) {
-        // building location array
-        $locArray = array();
-        $locArray = &_civicrm_location_object_to_array( $location );
+    
+    CRM_Contact_BAO_Contact::resolveDefaults($contact, true);
+    
+    $result = CRM_Core_BAO_Location::create( $contact );
+    
+    if ( empty( $result ) ) {
+        return civicrm_create_error( ts ("Location not created" ) );
     }
-    return $locArray ;
+            
+    $locArray                     = array( );
+    
+    $locArray['location_type_id'] = $locationTypeId;
+    
+    $blocks = array( 'address', 'phone', 'email', 'im' );
+    
+    foreach( $blocks as $block ) {
+        for ( $i = 0; $i < count( $result[$block] ); $i++ ) {
+            $locArray[$block][$i] = $result[$block][$i]->id;
+        }
+    }
+    
+    return civicrm_create_success( $locArray );
 }
 
-function &_civicrm_location_update( $params,$locationArray ) {
-    
+function _civicrm_location_update( $params,$locationArray ) {
     $values = array(
                     'contact_id'    => $params['contact_id'],
                     'location'      => array(1 => array()),
@@ -239,15 +300,14 @@ function &_civicrm_location_update( $params,$locationArray ) {
     $loc =& $values['location'][1];
     
     // setup required location values using the current ones. they may or may not be overridden by $params later.
-    $loc['address']          = $locationArray['address'];
-    $loc['is_primary']       = $locationArray['is_primary'];
-    $loc['location_type_id'] = $locationArray['location_type_id'];
-    $loc['location_type']    = $locationArray['location_type'];
-    $loc['name']             = $locationArray['name'];
+    $loc['address']          = CRM_Utils_Array::value( 'address', $locationArray );
+    $loc['is_primary']       = CRM_Utils_Array::value( 'is_primary', $locationArray );
+    $loc['location_type_id'] = CRM_Utils_Array::value( 'location_type_id', $locationArray );
+    $loc['location_type']    = CRM_Utils_Array::value( 'location_type', $locationArray );
+    $loc['name']             = CRM_Utils_Array::value( 'name', $locationArray );
     
     require_once 'CRM/Core/DAO/Address.php';
     $fields =& CRM_Core_DAO_Address::fields( );
-    _civicrm_store_values($fields, $params, $loc['address']);
     
     $names = array( 'county', 'country_id', 'country', 'state_province_id',
                     'state_province', 'supplemental_address_1', 'supplemental_address_2',
@@ -255,15 +315,18 @@ function &_civicrm_location_update( $params,$locationArray ) {
     
     foreach ( $names as $n ) {
         if ( array_key_exists( $n, $params ) ) {
+            _civicrm_store_values($fields, $params, $loc['address']);
             $loc['address'][$n] = $params[$n];
         }
     }
     
-    if (is_numeric($loc['address']['state_province'])) {
+    if (isset($loc['address']['state_province']) &&
+        is_numeric($loc['address']['state_province'])) {
         $loc['address']['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc['address']['state_province']);
     }
     
-    if (is_numeric($loc['address']['country'])) {
+    if (isset($loc['address']['country']) &&
+        is_numeric($loc['address']['country'])) {
         $loc['address']['country']        = CRM_Core_PseudoConstant::countryIsoCode($loc['address']['country']);
     }
     
@@ -291,14 +354,15 @@ function &_civicrm_location_update( $params,$locationArray ) {
         eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );
         $name = strtolower($block);
         $loc[$name]    = array( );
-        if ( $params[$name] ){
+        if ( isset( $params[$name] ) ){
             $count = 1;
             foreach ( $params[$name] as $val) {
                 _civicrm_store_values($fields, $val, $loc[$name][$count++]);
             }
         } else {
             // setup current values so we dont lose them
-            if(is_array($locationArray[$name])){
+            if (isset($locationArray[$name]) &&
+                is_array($locationArray[$name])){
                 foreach($locationArray[$name] as $key => $obj) {
                     $loc[$name][$key] = $obj;
                 }
@@ -306,81 +370,53 @@ function &_civicrm_location_update( $params,$locationArray ) {
         }
     }
     
-    $par = array('id' => $params['contact_id'], 'contact_id' => $params['contact_id']);
-    $ids = $defaults = array( );
-    $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
+    $location = CRM_Core_BAO_Location::create( $values );
     
-    CRM_Contact_BAO_Contact::resolveDefaults($values, true);
+    if ( empty( $location ) ) {
+        return civicrm_create_error( ts ("Location not created" ) );
+    }
     
-    $ids['newLocation'] = array( );
-    foreach ( array_keys( $ids['location'] ) as $lid ) {
-        if ( $ids['location'][$lid]['id'] == $params['location_id'] ) {
-            $ids['newLocation'][1] = $ids['location'][$lid];
+    $locArray                     = array( );
+    
+    $locArray['location_type_id'] = CRM_Utils_Array::value( 'location_type_id', $loc );
+    
+    $blocks = array( 'address', 'phone', 'email', 'im' );
+    
+    foreach( $blocks as $block ) {
+        for ( $i = 0; $i < count( $location[$block] ); $i++ ) {
+            $locArray[$block][$i] = $location[$block][$i]->id;
         }
     }
-    unset( $ids['location'] );
-    $ids['location'] = $ids['newLocation'];
     
-    if ( count( $ids['location'] ) != 1 ) {
-        civicrm_create_error( ts ("Could not retrieve ids for that location" ) );
-    }
-    
-    $location = CRM_Core_BAO_Location::add($values, $ids, 1);
-    $locArray= array();
-    //need to convert $location into array
-    if ( ! $location ) {
-        return civicrm_create_error( ts ("Location object not created" ) );
-    } elseif ( is_a($location, 'CRM_Core_BAO_Location') ) {
-        $locArray = &_civicrm_location_object_to_array( $location );
-    }
-
-    return $locArray ;
+    return civicrm_create_success( $locArray );
 }
 
-function &_civicrm_location_delete( $contact,$locationId ) {
-    require_once "CRM/Core/DAO/Location.php";
-    $locationDAO =& new CRM_Core_DAO_Location();
-    $locationDAO->entity_table = 'civicrm_contact';
-    $locationDAO->entity_id    = $contact['contact_id'];
-    $locationDAO->location_type_id = $locationId;
-    if (!$locationDAO->find()) {
-        return civicrm_create_error( ts('invalid $location_id') );
+function _civicrm_location_delete( &$contact ) {
+    require_once 'CRM/Core/DAO/LocationType.php';
+    $locationTypeDAO     =& new CRM_Core_DAO_LocationType( );
+    $locationTypeDAO->id = $contact['location_type'];
+    
+    if ( ! $locationTypeDAO->find( ) ) {
+        return civicrm_create_error( ts('invalid location type') );
     }
-    $locationDAO->fetch();
 
-    CRM_Core_BAO_Location::deleteLocationBlocks($locationDAO->id);
-    // if we're deleting primary, lets change another one to primary
-    if ($locationDAO->is_primary) {
-        $otherLocationDAO =& new CRM_Core_DAO_Location();
-        $otherLocationDAO->entity_table = 'civicrm_contact';
-        $otherLocationDAO->entity_id    =  $contact['contact_id'];
-        $otherLocationDAO->whereAdd("id != $locationId");
-        $otherLocationDAO->orderBy('id');
-        if ($otherLocationDAO->find()) {
-            $otherLocationDAO->fetch();
-            $otherLocationDAO->is_primary = 1;
-            $otherLocationDAO->save();
-        }
-    }
-    $locationDAO->delete();
+    require_once 'CRM/Core/BAO/Location.php';
+    CRM_Core_BAO_Location::deleteLocationBlocks( $contact['contact_id'], $contact['location_type'] );
     
     return null;
 }
 
 function &_civicrm_location_get( $contact, $location_types ) {
-    $params = array();
-    $params['contact_id']   = $contact['contact_id'];
-    $params['entity_id']    = $contact['contact_id'];
-    $locationDAO =& new CRM_Core_DAO_Location();
-    $locationDAO->entity_table = 'civicrm_contact';
-    $locationDAO->entity_id = $contact['contact_id'];
-    $locationCount = $locationDAO->count();
-    $values = array();
-    $locations = CRM_Core_BAO_Location::getValues($params,$values,$ids,$locationCount);
+    $params                    = array();
+    $params['contact_id']      = $contact['contact_id'];
+    $params['entity_id']       = $contact['contact_id'];
+    require_once 'CRM/Core/BAO/Location.php';    
+    $locationBAO               =& new CRM_Core_BAO_Location();
     
+    $values                    = array();
+    $locations                 = CRM_Core_BAO_Location::getValues( $params, $values );
     
     if( is_array($location_types) && count($location_types)>0 ) {
-        
         foreach($location_types as $locationName) {
             $newLocations = array();
             $LocationTypeDAO = & new CRM_Core_DAO_LocationType();
@@ -476,6 +512,3 @@ function _civicrm_location_check_params( &$params ) {
     
     return array();
 }
-
-
-?>

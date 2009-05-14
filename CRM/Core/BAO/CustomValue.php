@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -53,6 +53,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
      */
     public static function typecheck($type, $value) 
     {
+        require_once 'CRM/Utils/Rule.php';
         switch($type) {
         case 'Memo':
             return true;
@@ -74,129 +75,45 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
             return CRM_Utils_Rule::boolean($value);
             
         case 'StateProvince':
-            return
-                array_key_exists(strtolower($value),
-                                 array_change_key_case( array_flip( CRM_Core_PseudoConstant::stateProvinceAbbreviation() ), CASE_LOWER ) )
-                || array_key_exists(strtolower($value),
-                                    array_change_key_case( array_flip( CRM_Core_PseudoConstant::stateProvince() ), CASE_LOWER ) );
+            
+            //fix for multi select state, CRM-3437
+            $valid = false;
+            $mulValues = explode( ',', $value );
+            foreach ( $mulValues as $key => $state ) {
+                $valid =
+                    array_key_exists(strtolower(trim($state)),
+                                     array_change_key_case( array_flip( CRM_Core_PseudoConstant::stateProvinceAbbreviation() ), CASE_LOWER ) )
+                    || array_key_exists(strtolower(trim($state)),
+                                        array_change_key_case( array_flip( CRM_Core_PseudoConstant::stateProvince() ), CASE_LOWER ) ); 
+                if ( !$valid ) {
+                    break;
+                }
+            }
+            return $valid;
+            
         case 'Country':
-            return
-                array_key_exists(strtolower($value),
-                         array_change_key_case( array_flip( CRM_Core_PseudoConstant::countryIsoCode() ), CASE_LOWER ) )
-                || array_key_exists(strtolower($value),
-                            array_change_key_case( array_flip( CRM_Core_PseudoConstant::country() ), CASE_LOWER ) );
+            
+            //fix multi select country, CRM-3437
+            $valid = false;
+            $mulValues = explode( ',', $value );
+            foreach ( $mulValues as $key => $country ) {
+                $valid = array_key_exists(strtolower(trim($country)),
+                                          array_change_key_case( array_flip( CRM_Core_PseudoConstant::countryIsoCode() ), CASE_LOWER ) )
+                    || array_key_exists(strtolower(trim($country)),
+                                        array_change_key_case( array_flip( CRM_Core_PseudoConstant::country() ), CASE_LOWER ) );
+                if ( !$valid ) {
+                    break;
+                }
+            }
+            return $valid;
+            
         case 'Link':
-            return CRM_Utils_Rule::string($value);
+            return CRM_Utils_Rule::url($value);
         }
         return false;
     }
     
-    /**
-     * Create a new CustomValue record
-     *
-     * @param array $params  The values for the new record
-     *
-     * @return object  The new BAO
-     * @access public
-     * @static
-     */
-    public static function create(&$params) 
-    {
-        $customValue =& new CRM_Core_BAO_CustomValue();
-        
-        $customValue->copyValues($params);
-        
-        // lets find the object if one exists
-        // this allow us to use only one custom value / field for a given contact
-        $customValue->find( true );
-
-        switch($params['type']) {
-        case 'StateProvince':
-            if ( !is_numeric($params['value'])) {
-                $states = array( );
-                $states['state_province'] = $params['value'];
-                
-                CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province', 
-                                                      CRM_Core_PseudoConstant::stateProvince(), true );
-                if ( !$states['state_province_id'] ) {
-                    CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province',
-                                                          CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
-                }
-                $customValue->int_data = $states['state_province_id'];
-            } else {                
-                $customValue->int_data = $params['value'];
-            }
-            
-            break;
-            
-        case 'Country':
-            if ( !is_numeric($params['value'])) {
-                $countries = array( );
-                $countries['country'] = $params['value'];
-                
-                CRM_Contact_BAO_Contact::lookupValue( $countries, 'country', 
-                                                      CRM_Core_PseudoConstant::country(), true );
-                if ( !$countries['country_id'] ) {
-                    CRM_Contact_BAO_Contact::lookupValue( $countries, 'country',
-                                                          CRM_Core_PseudoConstant::countryIsoCode(), true );
-                }
-                $customValue->int_data = $countries['country_id'];
-            } else {                
-                $customValue->int_data = $params['value'];
-            }
-            
-            break;
-      
-        case 'File':
-            // need to add/update civicrm_entity_file
-            require_once 'CRM/Core/DAO/EntityFile.php'; 
-            $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-            if ( $params['file_id'] ) {
-                $entityFileDAO->file_id = $params['file_id'];
-                $entityFileDAO->find(true);
-            }
-            $entityFileDAO->entity_table = $params['entity_table'];
-            $entityFileDAO->entity_id    = $params['entity_id'];
-            $entityFileDAO->file_id      = $params['file_id'];
-            $entityFileDAO->save();
-            
-        case 'String':
-            $customValue->char_data = $params['value'];
-            break;
-            
-        case 'Boolean':
-            $customValue->int_data = 
-                CRM_Utils_String::strtobool($params['value']);
-            break;
-            
-        case 'Int':
-            $customValue->int_data = $params['value'];
-            break;
-            
-        case 'Float':
-            $customValue->float_data = $params['value'];
-            break;
-            
-        case 'Money':
-            $customValue->decimal_data = number_format( $params['value'], 2, '.', '' );
-            break;
-            
-        case 'Memo':
-            $customValue->memo_data = $params['value'];
-            break;
-            
-        case 'Date':
-            $customValue->date_data = $params['value'];
-            break;
-        
-        case 'Link':
-            $customValue->char_data = $params['value'];
-            break;
-        }
-        $customValue->save();       
-        return $customValue;
-    }
-    
+  
     /**
      * given a 'civicrm' type string, return the mysql data store area
      *
@@ -232,210 +149,47 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
         }
     }
 
-    /**
-     * given a field return the type associated with it
-     *
-     * @param string $type the civicrm type string
-     *
-     * @return the mysql data store placeholder
-     * @access public
-     * @static
-     */
-    public static function fieldToType($type)
-    {
-        switch ($type) {
-        case 'char_data':
-        case 'memo_data':
-            return 'String';
-        case 'int_data':
-            return 'Int';
-        case 'float_data':
-        case 'decimal_data':
-            return 'Float';
-        case 'date_data':
-            return 'Date';
-        default:
-            return null;
-        }
-    }
-
-    /**
-     * return the mysql type of the current value.
-     * If boolean type, set the isBool flag too (since int and bool share
-     * the same mysql type, we need another differentiator
-     *
-     * @param boolean  $isBool (reference )  set to true if boolean
-     * 
-     * @return string the mysql type
-     * @access public
-     */
-    public function getField( &$isBool, $cf = null) 
-    {
-        if ($cf == null) {
-            $cf =& new CRM_Core_BAO_CustomField();
-            $cf->id = $this->custom_field_id;
-            
-            if (! $cf->find(true)) {
-                return null;
-            }
-        }
-        
-        $isBool = $cf->data_type == 'Boolean' ? true : false;
-        
-        return $this->typeToField($cf->data_type);
-    }
-    
-    /**
-     * returns the string value of the curren object
-     *
-     * @param boolean $translateBoolean should a boolean value be translated to yes/no
-     *
-     * @return string the value
-     * @access public
-     */
-    public function getValue($translateBoolean = false) 
-    {
-        $field = $this->getField($var1);
-        
-        if ($translateBoolean && $cf->data_type == 'Boolean') {
-            return $this->$field ? 'yes' : 'no';
-        }
-        
-        if ( $cf->data_type == 'Money' ) {
-            return number_format( $this->$field, 3, '.', '' );
-        }
-        
-        return $this->$field;
-    }
-    
-    /**
-     * Find the custom values for the given paramater.
-     *
-     * @param Array $params Associative array of property name/value pairs to get custom values.
-     *
-     * @return Array of values
-     * @access public
-     */
-    public static function getCustomValue( $params ) 
+      
+    public static function fixFieldValueOfTypeMemo( &$formValues )
     { 
-        $customValues = array();
-        $fields       = array('id', 'custom_field_id', 'entity_table', 'entity_id');
-        $fieldData    = array('int_data', 'float_data', 'decimal_data', 'char_data', 'date_data', 'memo_data');
-        
-        $dao = new CRM_Core_DAO_CustomValue();
-        $dao->copyValues( $params );
-        
-        if ($dao->find(true)) {
-            $customValues[$dao->id] = array();
-            foreach ( $fields as $fld ) {
-                $customValues[$fld] = $dao->$fld;
-            }
-            foreach ( $fieldData as $data ) {
-                if (! is_null($dao->$data)) {
-                    $customValues['value'] = $dao->$data;
-                }
-            }
-        }
-        return $customValues;
-    }
-
-    /**
-     * Find all the custom values for a given contact.
-     *
-     * @param int $contactId  the id of the contact
-     * @return array $values  Array of CustomValue objects
-     * @access public
-     * @static
-     */
-    public static function getContactValues($contactId) 
-    {
-        if ( ! $contactId ) {
-            // adding this year since an empty contact id could have serious repurcussions
-            // like looping forever
-            CRM_Core_Error::backtrace( );
-            CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
+        if ( empty( $formValues ) ) {
             return null;
         }
-
-        $customValue =& new CRM_Core_BAO_CustomValue();
-        
-        $customValue->entity_id = $contactId;
-        $customValue->entity_table = 'civicrm_contact';
-        
-        $customValue->find();
-        $values = array();
-
-        require_once 'api/utils.php';
-        while ($customValue->fetch()) {
-            $value = array( );
-            _crm_object_to_array( $customValue, $value );
-            // this is the last time we have access to the BAO object,
-            // so add the value to the result array (CRM-1840)
-            $value['value'] = $customValue->getValue();
-            $values[] = $value;
+        foreach( array_keys( $formValues ) as $key ){
+            if ( substr($key,0,7) != 'custom_' ){
+                continue;
+            }else if( empty($formValues[$key]) ){
+                continue;
+            }
+            
+            $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_CustomField', 
+                                                     substr($key,7), 'html_type');
+            if ( ( $htmlType == 'TextArea' ) && 
+                 ! ( ( substr( $formValues[$key],0,1) == '%' ) ||
+                     ( substr( $formValues[$key],-1,1) == '%' ) ) ){
+                $formValues[$key] = '%' .  $formValues[$key] . '%';
+                
+            }
         }
-        $customValue->free( );
-        return $values;
     }
     
     /**
-     * update the custom calue for a given contact id and field id
-     *
-     * @param int    $contactId contact id
-     * @param int    $cfId      custom field id
-     * @param string $value     the value to set the field
+     * Function to delet option value give an option value and custom group id
+     * 
+     * @param int $customValueID custom value ID
+     * @param int $customGroupID custom group ID
      *
      * @return void
-     * @access public
      * @static
      */
-    public static function updateValue($contactId, $cfId, $value) 
-    {
-        $customValue =& new CRM_Core_BAO_CustomValue();
-        
-        $customValue->custom_field_id = $cfId;
-        $customValue->entity_table = 'civicrm_contact';
-        $customValue->entity_id = $contactId;
-        
-        $customValue->find(true);
-        
-        $cf =& new CRM_Core_BAO_CustomField();
-        $cf->id = $cfId;
-        $cf->find(true);
-        if ($cf->data_type == 'StateProvince') {
-            $states =& CRM_Core_PseudoConstant::stateProvince();
-            if (CRM_Utils_Rule::integer($value)) {
-                $customValue->int_data = $value;
-                $customValue->char_data = 
-                    CRM_Utils_Array::value($value, $states);
-            } else {
-                $customValue->int_data = 
-                    CRM_Utils_Array::key($value, $states);
-                $customValue->char_data = $value;
-            }
-        } elseif ($cf->data_type == 'Country') {
-            $countries =& CRM_Core_PseudoConstant::country();
-            if (CRM_Utils_Rule::integer($value)) {
-                $customValue->int_data = $value;
-                $customValue->char_data = 
-                    CRM_Utils_Array::value($value, $countries);
-            } else {
-                $customValue->int_data = 
-                    CRM_Utils_Array::key($value, $countries);
-                $customValue->char_data = $value;
-            }
-        } else {
-            $isBool = false;
-            $field = $customValue->getField($isBool, $cf);
-            if ($isBool) {
-                $value = CRM_Utils_String::strtobool($value);
-            }
-            $customValue->$field = $value;
-        }
-        
-        $customValue->save();
-    }
-
+     static function deleteCustomValue( $customValueID, $customGroupID ) {
+         // first we need to find custom value table, from custom group ID
+         $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupID, 'table_name' );
+         
+         // delete custom value from corresponding custom value table
+         $sql = "DELETE FROM {$tableName} WHERE id = {$customValueID}";
+         CRM_Core_DAO::executeQuery( $sql );
+     }
 }
 
-?>
+

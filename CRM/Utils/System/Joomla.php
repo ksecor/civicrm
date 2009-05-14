@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,11 +55,9 @@ class CRM_Utils_System_Joomla {
 
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'pageTitle', $pageTitle );
-        
-        global $mainframe;
-        if ( $mainframe ) {
-            $mainframe->setPageTitle( $title );
-        }
+
+		$document=& JFactory::getDocument();
+		$document->setTitle($title);
 
         return;
     }
@@ -74,14 +72,24 @@ class CRM_Utils_System_Joomla {
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $title, $url ) {
+    static function appendBreadCrumb( $breadCrumbs ) {
         $template =& CRM_Core_Smarty::singleton( );
         $bc = $template->get_template_vars( 'breadcrumb' );
-        if ( $bc[count($bc) - 1]['title'] != $title ) {
-            // only add this if we are not replicating the last element
-            // side affect of the difference between drupal bread crumbs and civicrm bread crumbs
-            $bc[] = array( 'title' => $title,
-                           'url'   => $url );
+
+        if ( is_array( $breadCrumbs ) ) {
+            foreach ( $breadCrumbs as $crumbs ) {
+                if ( stripos($crumbs['url'], 'id%%') ) {
+                    $args = array( 'cid', 'mid' );
+                    foreach ( $args as $a ) {
+                        $val  = CRM_Utils_Request::retrieve( $a, 'Positive', CRM_Core_DAO::$_nullObject,
+                                                             false, null, $_GET );
+                        if ( $val ) {
+                            $crumbs['url'] = str_ireplace( "%%{$a}%%", $val, $crumbs['url'] );
+                        }
+                    }
+                }
+                $bc[] = $crumbs;
+            }
         }
         $template->assign_by_ref( 'breadcrumb', $bc );
         return;
@@ -187,7 +195,8 @@ class CRM_Utils_System_Joomla {
             return $action;
         }
 
-        return self::url( $_GET['task'], null, true, null, false );
+        return self::url( CRM_Utils_Array::value( 'task', $_GET ),
+                          null, true, null, false );
     }
 
     /**
@@ -228,7 +237,7 @@ class CRM_Utils_System_Joomla {
 
         $name      = $dbJoomla->escapeSimple( strtolower( $name ) );
         $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
-            " u WHERE LOWER(u.username) = '$name'";
+            " u WHERE LOWER(u.username) = '$name' AND u.block = 0";
         $query = $dbJoomla->query( $sql );
 
         $user = null;
@@ -269,6 +278,14 @@ class CRM_Utils_System_Joomla {
         return;
     }
 
+    static function permissionDenied( ) {
+        CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+    }
+
+    static function logout( ) {
+        session_destroy();
+        header("Location:index.php");
+    }
 }
 
-?>
+

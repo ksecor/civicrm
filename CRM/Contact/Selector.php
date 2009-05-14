@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -79,14 +79,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                 'email', 'on_hold', 'phone', 'status' );
 
     /**
-     * This caches the content for the display system.
-     *
-     * @var string
-     * @access protected
-     */
-    protected $_contact;
-
-    /**
      * formValues is the array returned by exportValues called on
      * the HTML_QuickForm_Controller for that page.
      *
@@ -118,6 +110,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access protected
      */
     protected $_action;
+
+    protected $_searchContext;
 
     protected $_query;
 
@@ -152,10 +146,15 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                           $returnProperties = null,
                           $action = CRM_Core_Action::NONE,
                           $includeContactIds = false,
-                          $searchChildGroups = true )
+                          $searchDescendentGroups = true,
+                          $searchContext = 'search' )
     {
-        //object of BAO_Contact_Individual for fetching the records from db
-        $this->_contact =& new CRM_Contact_BAO_Contact();
+        //don't build query constructor, if form is not submitted
+        $force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                CRM_Core_DAO::$_nullObject );
+        if ( empty( $formValues) && !$force ) {
+            return;
+        }
 
         // submitted form values
         $this->_formValues       =& $formValues;
@@ -166,6 +165,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // type of selector
         $this->_action = $action;
         
+        $this->_searchContext = $searchContext;
+
         $this->_ufGroupID = CRM_Utils_Array::value( 'uf_group_id', $this->_formValues );
 
         if ( $this->_ufGroupID ) {
@@ -188,8 +189,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
         
         $this->_query   =& new CRM_Contact_BAO_Query( $this->_params,
-            $this->_returnProperties, null, $includeContactIds,
-            false, 1, false, $searchChildGroups );
+                                                      $this->_returnProperties, null, $includeContactIds,
+                                                      false, 1, false, $searchDescendentGroups );
         $this->_options =& $this->_query->_options;
     }//end of constructor
 
@@ -205,9 +206,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access public
      *
      */
-    static function &links()
+    static function &links( $searchType = null )
     {
-
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
@@ -226,12 +226,46 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             $config = CRM_Core_Config::singleton( );
             if ( $config->mapAPIKey && $config->mapProvider) {
+                $mapSearch = null;
+                if ( $searchType ) {
+                    $mapSearch = "&searchType={$searchType}";
+                }
                 self::$_links[CRM_Core_Action::MAP] = array(
                                                             'name'     => ts('Map'),
                                                             'url'      => 'civicrm/contact/map',
-                                                            'qs'       => 'reset=1&cid=%%id%%',
+                                                            'qs'       => "reset=1&cid=%%id%%{$mapSearch}",
                                                             'title'    => ts('Map Contact'),
                                                             );
+            }
+
+            // Adding Context Menu Links in more action
+            $contextMenu = array( 
+                                 'contribution' => ts('Record Contribution'),
+                                 'event'        => ts('Register for Event'),
+                                 'activity'     => ts('Record Activity'),
+                                 'pledge'       => ts('Add Pledge'),
+                                 'membership'   => ts('Enter Membership'),
+                                 'email'        => ts('Send an Email')
+                                 );
+            $counter = 7000;
+
+            foreach( $contextMenu as $key => $value ) {
+                if( $key == 'activity' || $key == 'email' ) {
+                    $qs = ( $key == 'activity') ? '&snippet=1' : '&atype=3&action=add';
+                    self::$_links[$counter++]  = array(
+                                                       'name'     => $value,
+                                                       'url'      => "civicrm/contact/view/activity",
+                                                       'qs'       => "reset=1&cid=%%id%%{$qs}",
+                                                       'title'    => $value,
+                                                       );
+                } else {
+                    self::$_links[$counter++]  = array(
+                                                       'name'     => $value,
+                                                       'url'      => "civicrm/contact/view/{$key}",
+                                                       'qs'       => "reset=1&action=add&cid=%%id%%&context={$key}",
+                                                       'title'    => $value,
+                                                       );
+                }
             }
         }
         return self::$_links;
@@ -259,17 +293,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         require_once 'CRM/Contact/BAO/Group.php';
       
         $colHeads = self::_getColumnHeaders();
-        $gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this->_controller);
-
-        if ( $gid ) {
-            $query = "SELECT title FROM civicrm_group WHERE id = $gid";
-            $dao =& new CRM_Contact_DAO_Group( );
-            $dao->query( $query );
-            if ( $dao->fetch( ) ) {
-                $gtitle = $dao->title;
-            }
-            $colHeads[] = array ('name' => ts($gtitle . " Groups"));
-        }
+       
         $colHeads[] = array('desc' => ts('Actions'), 'name' => ts('Action') );
         return $colHeads;
     }
@@ -325,26 +349,30 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $locationTypes = CRM_Core_PseudoConstant::locationType( );
                 
                 foreach ( $this->_fields as $name => $field ) { 
-                    if ( $field['in_selector'] &&
+                    if ( CRM_Utils_Array::value( 'in_selector', $field ) &&
                          ! in_array( $name, $skipFields ) ) {
                         if ( strpos( $name, '-' ) !== false ) {
                             list( $fieldName, $lType, $type ) = explode( '-', $name );
-
+                            
                             if ( $lType == 'Primary' ) {
                                 $locationTypeName = 1;
                             } else {
                                 $locationTypeName = $locationTypes[$lType];
                             }
-                            
+
                             if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
                                 if ( $type ) {
                                     $name = "`$locationTypeName-$fieldName-$type`";
                                 } else {
-                                    $name = "`$locationTypeName-$fieldName-1`";
-                                     }
+                                    $name = "`$locationTypeName-$fieldName`";
+                                }
                             } else {
                                 $name = "`$locationTypeName-$fieldName`";
                             }
+                        }
+                        //to handle sort key for Internal contactId.CRM-2289
+                        if ( $name == 'id' ) {
+                            $name = 'contact_id';
                         }
 
                         self::$_columnHeaders[] = array( 'name'      => $field['title'],
@@ -452,20 +480,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         
         $gc = CRM_Core_SelectValues::groupContactStatus();
 
-        // Dirty session hack to get at the context 
-        $session =& CRM_Core_Session::singleton();
-        $context = $session->get('context', 'CRM_Contact_Controller_Search');
-
-        if ($this->_ufGroupID ) {
-            
-            // CRM_Core_Error::debug( 'p', self::$_properties );
+        if ( $this->_ufGroupID ) {
             require_once 'CRM/Core/PseudoConstant.php';
             $locationTypes = CRM_Core_PseudoConstant::locationType( );
-            
+
             $names = array( );
             static $skipFields = array( 'group', 'tag' ); 
             foreach ( $this->_fields as $key => $field ) {
-                if ( $field['in_selector'] && 
+                if ( CRM_Utils_Array::value( 'in_selector', $field ) && 
                      ! in_array( $key, $skipFields ) ) { 
                     if ( strpos( $key, '-' ) !== false ) {
                         list( $fieldName, $id, $type ) = explode( '-', $key );
@@ -478,13 +500,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                 continue;
                             }
                         }                    
-    
+
                         $locationTypeName = str_replace( ' ', '_', $locationTypeName );
                         if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
                             if ( $type ) {
                                 $names[] = "{$locationTypeName}-{$fieldName}-{$type}";
                             } else {
-                                $names[] = "{$locationTypeName}-{$fieldName}-1";
+                                $names[] = "{$locationTypeName}-{$fieldName}";
                             }
                         } else {
                             $names[] = "{$locationTypeName}-{$fieldName}";
@@ -509,19 +531,20 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             require_once 'CRM/Quest/BAO/Student.php';
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
-
-        //add tmf fields
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            require_once 'CRM/Quest/BAO/Query.php';
-            $tmfFields = array( );
-            $tmfFields = CRM_TMF_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_TMF );
+        $searchType = null;
+        if ( $this->_action == CRM_Core_Action::BASIC ) {
+            $searchType = 'basic';
+        } elseif ( $this->_action == CRM_Core_Action::ADVANCED ) {
+            $searchType = 'advance';
         }
-
         require_once 'CRM/Core/OptionGroup.php';
-        $links =& self::links( );
+        $links =& self::links( $searchType );
+
+        //check explicitly added contact to a Smart Group.
+        $groupID   = CRM_Utils_Array::key( '1', $this->_formValues['group'] );  
 
         while ($result->fetch()) {
-            $row = array();
+            $row = array( );
 
             // the columns we are interested in
             foreach ($names as $property) {
@@ -529,7 +552,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     continue;
                 }
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($property)) {
-                    $row[$property] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$property, $cfID, $this->_options );
+                    $row[$property] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$property, $cfID, $this->_options, $result->contact_id );
                 }  else if ( $multipleSelectFields &&
                              array_key_exists($property, $multipleSelectFields ) ) {
                     //fix to display student checkboxes
@@ -564,6 +587,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                         $providerName   = $imProviders[$result->$providerId];
                         $row[$property] = $result->$property . " ({$providerName})";
                     }
+                } else if ( $property == 'greeting_type' && $result->custom_greeting && $result->greeting_type_id == 4 ) {
+                    $row[$property] = $result->custom_greeting.' ('.$result->$property.')';
                 } else {
                     $row[$property] = $result->$property;
                 }
@@ -573,16 +598,31 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 }
             }
 
-            if (!empty ($result->postal_code_suffix)) {
+            if ( ! empty ( $result->postal_code_suffix ) ) {
                 $row['postal_code'] .= "-" . $result->postal_code_suffix;
             }
             
-        
+            if ( $output != CRM_Core_Selector_Controller::EXPORT &&
+                 $this->_searchContext == 'smog' ) {
+                if ( empty( $result->status ) &&
+                     $groupID ) {
+                    $contactID = $result->contact_id;
+                    if ( $contactID ) {
+                        $gcParams = array('contact_id' => $contactID,
+                                          'group_id'   => $groupID,
+                                          );
 
-            if ($output != CRM_Core_Selector_Controller::EXPORT ||
-                $context == 'smog') {
-                if (empty($result->status)) {
-                    $row['status'] = ts('Smart');
+                        $gcDefaults = array( );
+                        CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_GroupContact', $gcParams, $gcDefaults );
+                    
+                        if ( empty( $gcDefaults ) ) {
+                            $row['status'] = ts('Smart');
+                        } else {
+                            $row['status'] = $gc[$gcDefaults['status']];
+                        }
+                    } else {
+                        $row['status'] = null;
+                    }
                 } else {
                     $row['status'] = $gc[$result->status];
                 }
@@ -601,34 +641,15 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
                 // allow components to add more actions
                 CRM_Core_Component::searchAction( $row, $result->contact_id );
+                
 
-                $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-                switch ($result->contact_type) {
-                case 'Individual' :
-                    $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                    break;
-                case 'Household' :
-                    $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                    break;
-                case 'Organization' :
-                    $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                    break;
-                }
-                $row['contact_type'] = $contact_type;
+                require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+                $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+
                 $row['contact_id'  ] = $result->contact_id;
                 $row['sort_name'   ] = $result->sort_name;
-                require_once 'CRM/Contact/BAO/GroupNesting.php';
-                $parentGroupId = CRM_Utils_Request::retrieve('gid',
-                'Positive', $this->_controller);
-                if ( $parentGroupId ) {
-                    $containingGroups = CRM_Contact_BAO_GroupNesting::getContainingGroups( $result->contact_id, $parentGroupId );
-                    $row['subgroups'   ] = "";
-                    foreach ( $containingGroups as $subGroup ) {
-                        if ( $row['subgroups'] != "" ) {
-                            $row['subgroups'] .= ", ";
-                        }
-                        $row['subgroups'] .= $subGroup;
-                    }
+                if ( array_key_exists('id', $row) ) {
+                    $row['id'  ] = $result->contact_id;
                 }
             }
             // Dedupe contacts        
@@ -728,15 +749,15 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         return $this->_query;
     }
 
-    function &alphabetQuery( ) {
+    function alphabetQuery( ) {
         return $this->_query->searchQuery( null, null, null, false, false, true );
     }
 
-    function &contactIDQuery( $params, $action, $sortID, &$ignore ) {
+    function &contactIDQuery( $params, $action, $sortID ) {
         $sortOrder =& $this->getSortOrder( $this->_action );
         $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );
 
-        $query   =& new CRM_Contact_BAO_Query( $params );
+        $query   =& new CRM_Contact_BAO_Query( $params, $this->_returnProperties );
         return $query->searchQuery( 0, 0, $sort,
                                     false, false, false,
                                     false, false );
@@ -763,4 +784,4 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
 }//end of class
 
-?>
+

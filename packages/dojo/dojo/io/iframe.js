@@ -1,354 +1,245 @@
-if(!dojo._hasResource["dojo.io.iframe"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojo.io.iframe"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojo.io.iframe"]){
+dojo._hasResource["dojo.io.iframe"]=true;
 dojo.provide("dojo.io.iframe");
-
-dojo.io.iframe = {
-	create: function(/*String*/fname, /*String*/onloadstr, /*String?*/uri){
-		//	summary:
-		//		Creates a hidden iframe in the page. Used mostly for IO
-		//		transports.  You do not need to call this to start a
-		//		dojo.io.iframe request. Just call send().
-		//	fname: String
-		//		The name of the iframe. Used for the name attribute on the
-		//		iframe.
-		//	onloadstr: String
-		//		A string of JavaScript that will be executed when the content
-		//		in the iframe loads.
-		//	uri: String
-		//		The value of the src attribute on the iframe element. If a
-		//		value is not given, then dojo/resources/blank.html will be
-		//		used.
-		if(window[fname]){ return window[fname]; }
-		if(window.frames[fname]){ return window.frames[fname]; }
-		var cframe = null;
-		var turi = uri;
-		if(!turi){
-			if(djConfig["useXDomain"] && !djConfig["dojoBlankHtmlUrl"]){
-				console.debug("dojo.io.iframe.create: When using cross-domain Dojo builds,"
-					+ " please save dojo/resources/blank.html to your domain and set djConfig.dojoBlankHtmlUrl"
-					+ " to the path on your domain to blank.html");
-			}
-			turi = (djConfig["dojoBlankHtmlUrl"]||dojo.moduleUrl("dojo", "resources/blank.html"));
-		}
-		var ifrstr = dojo.isIE ? '<iframe name="'+fname+'" src="'+turi+'" onload="'+onloadstr+'">' : 'iframe';
-		cframe = dojo.doc.createElement(ifrstr);
-		with(cframe){
-			name = fname;
-			setAttribute("name", fname);
-			id = fname;
-		}
-		dojo.body().appendChild(cframe);
-		window[fname] = cframe;
-	
-		with(cframe.style){
-			// if(!dojo.isSafari){
-				//We can't change the src in Safari 2.0.3 if absolute position. Bizarro.
-				position = "absolute";
-			// }
-			left = top = "300px";
-			height = width = "300px";
-			// visibility = "hidden";
-		}
-
-		if(!dojo.isIE){
-			this.setSrc(cframe, turi, true);
-			cframe.onload = new Function(onloadstr);
-		}
-
-		return cframe;
-	},
-
-	setSrc: function(/*DOMNode*/iframe, /*String*/src, /*Boolean*/replace){
-		//summary:
-		//		Sets the URL that is loaded in an IFrame. The replace parameter
-		//		indicates whether location.replace() should be used when
-		//		changing the location of the iframe.
-		try{
-			if(!replace){
-				if(dojo.isSafari){
-					iframe.location = src;
-				}else{
-					frames[iframe.name].location = src;
-				}
-			}else{
-				// Fun with DOM 0 incompatibilities!
-				var idoc;
-				if(dojo.isIE || dojo.isSafari > 2){
-					idoc = iframe.contentWindow.document;
-				}else if(dojo.isSafari){
-					idoc = iframe.document;
-				}else{ //  if(d.isMozilla){
-					idoc = iframe.contentWindow;
-				}
-	
-				//For Safari (at least 2.0.3) and Opera, if the iframe
-				//has just been created but it doesn't have content
-				//yet, then iframe.document may be null. In that case,
-				//use iframe.location and return.
-				if(!idoc){
-					iframe.location = src;
-					return;
-				}else{
-					idoc.location.replace(src);
-				}
-			}
-		}catch(e){ 
-			console.debug("dojo.io.iframe.setSrc: ", e); 
-		}
-	},
-
-	doc: function(/*DOMNode*/iframeNode){
-		//summary: Returns the document object associated with the iframe DOM Node argument.
-		var doc = iframeNode.contentDocument || // W3
-			(
-				(iframeNode.contentWindow)&&(iframeNode.contentWindow.document)
-			) ||  // IE
-			(
-				(iframeNode.name)&&(document.frames[iframeNode.name])&&
-				(document.frames[iframeNode.name].document)
-			) || null;
-		return doc;
-	},
-
-	/*=====
-	dojo.io.iframe.__ioArgs = function(kwArgs){
-		//	summary:
-		//		All the properties described in the dojo.__ioArgs type, apply
-		//		to this type. The following additional properties are allowed
-		//		for dojo.io.iframe.send():
-		//	method: String?
-		//		The HTTP method to use. "GET" or "POST" are the only supported
-		//		values.  It will try to read the value from the form node's
-		//		method, then try this argument. If neither one exists, then it
-		//		defaults to POST.
-		//	handleAs: String?
-		//		Specifies what format the result data should be given to the
-		//		load/handle callback. Valid values are: text, html, javascript,
-		//		json. IMPORTANT: For all values EXCEPT html, The server
-		//		response should be an HTML file with a textarea element. The
-		//		response data should be inside the textarea element. Using an
-		//		HTML document the only reliable, cross-browser way this
-		//		transport can know when the response has loaded. For the html
-		//		handleAs value, just return a normal HTML document.  NOTE: xml
-		//		or any other XML type is NOT supported by this transport.
-		//	content: Object?
-		//		If "form" is one of the other args properties, then the content
-		//		object properties become hidden form form elements. For
-		//		instance, a content object of {name1 : "value1"} is converted
-		//		to a hidden form element with a name of "name1" and a value of
-		//		"value1". If there is not a "form" property, then the content
-		//		object is converted into a name=value&name=value string, by
-		//		using dojo.objectToQuery().
-	}
-	=====*/
-
-	send: function(/*dojo.io.iframe.__ioArgs*/args){
-		//summary: function that sends the request to the server.
-		//This transport can only process one send() request at a time, so if send() is called
-		//multiple times, it will queue up the calls and only process one at a time.
-		if(!this["_frame"]){
-			this._frame = this.create(this._iframeName, "dojo.io.iframe._iframeOnload();");
-		}
-
-		//Set up the deferred.
-		var dfd = dojo._ioSetArgs(
-			args,
-			function(/*Deferred*/dfd){
-				//summary: canceller function for dojo._ioSetArgs call.
-				dfd.canceled = true;
-				dfd.ioArgs._callNext();
-			},
-			function(/*Deferred*/dfd){
-				//summary: okHandler function for dojo._ioSetArgs call.
-				var value = null;
-				try{
-					var ioArgs = dfd.ioArgs;
-					var dii = dojo.io.iframe;
-					var ifd = dii.doc(dii._frame);
-					var handleAs = ioArgs.handleAs;
-
-					//Assign correct value based on handleAs value.
-					value = ifd; //html
-					if(handleAs != "html"){
-						value = ifd.getElementsByTagName("textarea")[0].value; //text
-						if(handleAs == "json"){
-							value = dojo.fromJson(value); //json
-						}else if(handleAs == "javascript"){
-							value = dojo.eval(value); //javascript
-						}
-					}
-				}catch(e){
-					value = e;
-				}finally{
-					ioArgs._callNext();				
-				}
-				return value;
-			},
-			function(/*Error*/error, /*Deferred*/dfd){
-				//summary: errHandler function for dojo._ioSetArgs call.
-				dfd.ioArgs._hasError = true;
-				dfd.ioArgs._callNext();
-				return error;
-			}
-		);
-
-		//Set up a function that will fire the next iframe request. Make sure it only
-		//happens once per deferred.
-		dfd.ioArgs._callNext = function(){
-			if(!this["_calledNext"]){
-				this._calledNext = true;
-				dojo.io.iframe._currentDfd = null;
-				dojo.io.iframe._fireNextRequest();
-			}
-		}
-
-		this._dfdQueue.push(dfd);
-		this._fireNextRequest();
-		
-		//Add it the IO watch queue, to get things like timeout support.
-		dojo._ioWatch(
-			dfd,
-			function(/*Deferred*/dfd){
-				//validCheck
-				return !dfd.ioArgs["_hasError"];
-			},
-			function(dfd){
-				//ioCheck
-				return (!!dfd.ioArgs["_finished"]);
-			},
-			function(dfd){
-				//resHandle
-				if(dfd.ioArgs._finished){
-					dfd.callback(dfd);
-				}else{
-					dfd.errback(new Error("Invalid dojo.io.iframe request state"));
-				}
-			}
-		);
-
-		return dfd;
-	},
-
-	_currentDfd: null,
-	_dfdQueue: [],
-	_iframeName: "dojoIoIframe",
-
-	_fireNextRequest: function(){
-		//summary: Internal method used to fire the next request in the bind queue.
-		try{
-			if((this._currentDfd)||(this._dfdQueue.length == 0)){ return; }
-			var dfd = this._currentDfd = this._dfdQueue.shift();
-			var ioArgs = dfd.ioArgs;
-			var args = ioArgs.args;
-
-			ioArgs._contentToClean = [];
-			var fn = args["form"];
-			var content = args["content"] || {};
-			if(fn){
-				if(content){
-					// if we have things in content, we need to add them to the form
-					// before submission
-					for(var x in content){
-						if(!fn[x]){
-							var tn;
-							if(dojo.isIE){
-								tn = dojo.doc.createElement("<input type='hidden' name='"+x+"'>");
-							}else{
-								tn = dojo.doc.createElement("input");
-								tn.type = "hidden";
-								tn.name = x;
-							}
-							tn.value = content[x];
-							fn.appendChild(tn);
-							ioArgs._contentToClean.push(x);
-						}else{
-							fn[x].value = content[x];
-						}
-					}
-				}
-				//IE requires going through getAttributeNode instead of just getAttribute in some form cases, 
-				//so use it for all.  See #2844
-				var actnNode = fn.getAttributeNode("action");
-				var mthdNode = fn.getAttributeNode("method");
-				var trgtNode = fn.getAttributeNode("target");
-				if(args["url"]){
-					ioArgs._originalAction = actnNode ? actnNode.value : null;
-					if(actnNode){
-						actnNode.value = args.url;
-					}else{
-						fn.setAttribute("action",args.url);
-					}
-				}
-				if(!mthdNode || !mthdNode.value){
-					if(mthdNode){
-						mthdNode.value= (args["method"]) ? args["method"] : "post";
-					}else{
-						fn.setAttribute("method", (args["method"]) ? args["method"] : "post");
-					}
-				}
-				ioArgs._originalTarget = trgtNode ? trgtNode.value: null;
-				if(trgtNode){
-					trgtNode.value = this._iframeName;
-				}else{
-					fn.setAttribute("target", this._iframeName);
-				}
-				fn.target = this._iframeName;
-				fn.submit();
-			}else{
-				// otherwise we post a GET string by changing URL location for the
-				// iframe
-				var tmpUrl = args.url + (args.url.indexOf("?") > -1 ? "&" : "?") + ioArgs.query;
-				this.setSrc(this._frame, tmpUrl, true);
-			}
-		}catch(e){
-			dfd.errback(e);
-		}
-	},
-
-	_iframeOnload: function(){
-		var dfd = this._currentDfd;
-		if(!dfd){
-			this._fireNextRequest();
-			return;
-		}
-
-		var ioArgs = dfd.ioArgs;
-		var args = ioArgs.args;
-		var fNode = args.form;
-	
-		if(fNode){
-			// remove all the hidden content inputs
-			var toClean = ioArgs._contentToClean;
-			for(var i = 0; i < toClean.length; i++) {
-				var key = toClean[i];
-				if(dojo.isSafari < 3){
-					//In Safari (at least 2.0.3), can't use form[key] syntax to find the node,
-					//for nodes that were dynamically added.
-					for(var j = 0; j < fNode.childNodes.length; j++){
-						var chNode = fNode.childNodes[j];
-						if(chNode.name == key){
-							dojo._destroyElement(chNode);
-							break;
-						}
-					}
-				}else{
-					dojo._destroyElement(fNode[key]);
-					fNode[key] = null;
-				}
-			}
-	
-			// restore original action + target
-			if(ioArgs["_originalAction"]){
-				fNode.setAttribute("action", ioArgs._originalAction);
-			}
-			if(ioArgs["_originalTarget"]){
-				fNode.setAttribute("target", ioArgs._originalTarget);
-				fNode.target = ioArgs._originalTarget;
-			}
-		}
-
-		ioArgs._finished = true;
-	}
+dojo.io.iframe={create:function(_1,_2,_3){
+if(window[_1]){
+return window[_1];
 }
-
+if(window.frames[_1]){
+return window.frames[_1];
+}
+var _4=null;
+var _5=_3;
+if(!_5){
+if(dojo.config["useXDomain"]&&!dojo.config["dojoBlankHtmlUrl"]){
+console.debug("dojo.io.iframe.create: When using cross-domain Dojo builds,"+" please save dojo/resources/blank.html to your domain and set djConfig.dojoBlankHtmlUrl"+" to the path on your domain to blank.html");
+}
+_5=(dojo.config["dojoBlankHtmlUrl"]||dojo.moduleUrl("dojo","resources/blank.html"));
+}
+var _6=dojo.isIE?"<iframe name=\""+_1+"\" src=\""+_5+"\" onload=\""+_2+"\">":"iframe";
+_4=dojo.doc.createElement(_6);
+with(_4){
+name=_1;
+setAttribute("name",_1);
+id=_1;
+}
+dojo.body().appendChild(_4);
+window[_1]=_4;
+with(_4.style){
+if(dojo.isSafari<3){
+position="absolute";
+}
+left=top="1px";
+height=width="1px";
+visibility="hidden";
+}
+if(!dojo.isIE){
+this.setSrc(_4,_5,true);
+_4.onload=new Function(_2);
+}
+return _4;
+},setSrc:function(_7,_8,_9){
+try{
+if(!_9){
+if(dojo.isSafari){
+_7.location=_8;
+}else{
+frames[_7.name].location=_8;
+}
+}else{
+var _a;
+if(dojo.isIE||dojo.isSafari>2){
+_a=_7.contentWindow.document;
+}else{
+if(dojo.isSafari){
+_a=_7.document;
+}else{
+_a=_7.contentWindow;
+}
+}
+if(!_a){
+_7.location=_8;
+return;
+}else{
+_a.location.replace(_8);
+}
+}
+}
+catch(e){
+console.debug("dojo.io.iframe.setSrc: ",e);
+}
+},doc:function(_b){
+var _c=_b.contentDocument||(((_b.name)&&(_b.document)&&(document.getElementsByTagName("iframe")[_b.name].contentWindow)&&(document.getElementsByTagName("iframe")[_b.name].contentWindow.document)))||((_b.name)&&(document.frames[_b.name])&&(document.frames[_b.name].document))||null;
+return _c;
+},send:function(_d){
+if(!this["_frame"]){
+this._frame=this.create(this._iframeName,dojo._scopeName+".io.iframe._iframeOnload();");
+}
+var _e=dojo._ioSetArgs(_d,function(_f){
+_f.canceled=true;
+_f.ioArgs._callNext();
+},function(dfd){
+var _11=null;
+try{
+var _12=dfd.ioArgs;
+var dii=dojo.io.iframe;
+var ifd=dii.doc(dii._frame);
+var _15=_12.handleAs;
+_11=ifd;
+if(_15!="html"){
+_11=ifd.getElementsByTagName("textarea")[0].value;
+if(_15=="json"){
+_11=dojo.fromJson(_11);
+}else{
+if(_15=="javascript"){
+_11=dojo.eval(_11);
+}
+}
+}
+}
+catch(e){
+_11=e;
+}
+finally{
+_12._callNext();
+}
+return _11;
+},function(_16,dfd){
+dfd.ioArgs._hasError=true;
+dfd.ioArgs._callNext();
+return _16;
+});
+_e.ioArgs._callNext=function(){
+if(!this["_calledNext"]){
+this._calledNext=true;
+dojo.io.iframe._currentDfd=null;
+dojo.io.iframe._fireNextRequest();
+}
+};
+this._dfdQueue.push(_e);
+this._fireNextRequest();
+dojo._ioWatch(_e,function(dfd){
+return !dfd.ioArgs["_hasError"];
+},function(dfd){
+return (!!dfd.ioArgs["_finished"]);
+},function(dfd){
+if(dfd.ioArgs._finished){
+dfd.callback(dfd);
+}else{
+dfd.errback(new Error("Invalid dojo.io.iframe request state"));
+}
+});
+return _e;
+},_currentDfd:null,_dfdQueue:[],_iframeName:dojo._scopeName+"IoIframe",_fireNextRequest:function(){
+try{
+if((this._currentDfd)||(this._dfdQueue.length==0)){
+return;
+}
+var dfd=this._currentDfd=this._dfdQueue.shift();
+var _1c=dfd.ioArgs;
+var _1d=_1c.args;
+_1c._contentToClean=[];
+var fn=dojo.byId(_1d["form"]);
+var _1f=_1d["content"]||{};
+if(fn){
+if(_1f){
+for(var x in _1f){
+if(!fn[x]){
+var tn;
+if(dojo.isIE){
+tn=dojo.doc.createElement("<input type='hidden' name='"+x+"'>");
+}else{
+tn=dojo.doc.createElement("input");
+tn.type="hidden";
+tn.name=x;
+}
+tn.value=_1f[x];
+fn.appendChild(tn);
+_1c._contentToClean.push(x);
+}else{
+fn[x].value=_1f[x];
+}
+}
+}
+var _22=fn.getAttributeNode("action");
+var _23=fn.getAttributeNode("method");
+var _24=fn.getAttributeNode("target");
+if(_1d["url"]){
+_1c._originalAction=_22?_22.value:null;
+if(_22){
+_22.value=_1d.url;
+}else{
+fn.setAttribute("action",_1d.url);
+}
+}
+if(!_23||!_23.value){
+if(_23){
+_23.value=(_1d["method"])?_1d["method"]:"post";
+}else{
+fn.setAttribute("method",(_1d["method"])?_1d["method"]:"post");
+}
+}
+_1c._originalTarget=_24?_24.value:null;
+if(_24){
+_24.value=this._iframeName;
+}else{
+fn.setAttribute("target",this._iframeName);
+}
+fn.target=this._iframeName;
+fn.submit();
+}else{
+var _25=_1d.url+(_1d.url.indexOf("?")>-1?"&":"?")+_1c.query;
+this.setSrc(this._frame,_25,true);
+}
+}
+catch(e){
+dfd.errback(e);
+}
+},_iframeOnload:function(){
+var dfd=this._currentDfd;
+if(!dfd){
+this._fireNextRequest();
+return;
+}
+var _27=dfd.ioArgs;
+var _28=_27.args;
+var _29=dojo.byId(_28.form);
+if(_29){
+var _2a=_27._contentToClean;
+for(var i=0;i<_2a.length;i++){
+var key=_2a[i];
+if(dojo.isSafari<3){
+for(var j=0;j<_29.childNodes.length;j++){
+var _2e=_29.childNodes[j];
+if(_2e.name==key){
+dojo._destroyElement(_2e);
+break;
+}
+}
+}else{
+dojo._destroyElement(_29[key]);
+_29[key]=null;
+}
+}
+if(_27["_originalAction"]){
+_29.setAttribute("action",_27._originalAction);
+}
+if(_27["_originalTarget"]){
+_29.setAttribute("target",_27._originalTarget);
+_29.target=_27._originalTarget;
+}
+}
+_27._finished=true;
+}};
 }

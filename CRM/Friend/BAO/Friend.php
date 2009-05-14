@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -110,8 +110,8 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             if ( $details["first_name"] ) {
                 $contactParams[$key] = array( 'first_name'     => $details["first_name"],
                                               'last_name'      => $details["last_name"], 
-                                              'contact_source' => ts( 'Tell a Friend:' ) . $params['title'],
-                                              'email-Primary'  => $details["email"] );  
+                                              'contact_source' => ts( 'Tell a Friend' ) . ": {$params['title']}",
+                                              'email-Primary'  => $details["email"] );
                 
                 $displayName = $details["first_name"] ." ". $details["last_name"];
                 $mailParams['email'][$displayName] = $details["email"];
@@ -133,8 +133,9 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                   'activity_type_id'   => $activityTypeId,
                                   'title'              => $params['title'],
                                   'activity_date_time' => date("YmdHis"), 
-                                  'subject'            => ts( 'Tell a Friend:' ) .$params['title'],
+                                  'subject'            => ts( 'Tell a Friend' ) . ": {$params['title']}",
                                   'details'            => $params['suggested_message'],
+                                  'status_id'          => 2,
                                   'is_test'            => $params['is_test'] );
         
         //activity creation
@@ -147,7 +148,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             
             //create contact only if it does not exits in db
             $value['email'] = $value['email-Primary'];
-            $contact = CRM_Core_BAO_UFGroup::findContact( $value, null, true );
+            $contact = CRM_Core_BAO_UFGroup::findContact( $value, null, 'Individual' );
 
             if ( !$contact ) {
                 $contact = self::add( $value );
@@ -163,9 +164,14 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $transaction->commit( );
 
         //process sending of mails
-        $mailParams['title']        = $params['title'];       
-        $mailParams['general_link'] = $frndParams['general_link'];
-        $mailParams['message']      = $params['suggested_message'];
+        $mailParams['title']        = CRM_Utils_Array::value( 'title', $params );       
+        $mailParams['general_link'] = CRM_Utils_Array::value( 'general_link', $frndParams  );
+        $mailParams['message']      = CRM_Utils_Array::value( 'suggested_message', $params );
+
+        // get domain
+        require_once 'CRM/Core/BAO/Domain.php';
+        $domainDetails = CRM_Core_BAO_Domain::getNameAndEmail( );
+        list( $username, $mailParams['domain'] ) = split( '@', $domainDetails[1] );
         
         if ( $params['entity_table'] == 'civicrm_contribution_page' ) {
             $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
@@ -174,17 +180,22 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                                                      'id' );
             $urlPath = 'civicrm/contribute/transact';
             $mailParams['module'] = 'contribute';
-        } elseif ( $params['entity_table'] == 'civicrm_event_page' ) {
-            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+        } elseif ( $params['entity_table'] == 'civicrm_event' ) {
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                      $params['entity_id'],
                                                                      'confirm_from_email' );
-            $urlPath = 'civicrm/event/info';
-            $mailParams['module'] = 'event';
+            $mailParams['email_from'] = ( $mailParams['email_from'] ) ? $mailParams['email_from'] : $domainDetails['1'];
+            $urlPath                  = 'civicrm/event/info';
+            $mailParams['module']     = 'event';
+        } elseif ( $params['entity_table'] == 'civicrm_pcp' ) {
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $params['source_contact_id'],
+                                                                     'email', 'contact_id' );
+            $urlPath = 'civicrm/contribute/pcp/info';
+            $mailParams['module'] = 'contribute';
         } 
 
         $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
-        list( $username, $mailParams['domain'] ) = split( '@', $mailParams['email_from'] );
-       
+
         //send mail
         self::sendMail( $params['source_contact_id'], $mailParams ); 
         
@@ -200,20 +211,21 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      */
     function buildFriendForm( $form )
     {
-        $form->addElement('checkbox', 'is_active', ts( 'Tell A Friend enabled?' ),null,array('onclick' =>"friendBlock(this)") );
+        $form->addElement('checkbox', 'is_active', ts( 'Tell a Friend enabled?' ),null,array('onclick' =>"friendBlock(this)") );
         // name
         $form->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'title'), true);
         
         // intro-text and thank-you text
-        $form->add('textarea', 'intro', ts('Introduction'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'intro'), true);
+        $form->addWysiwyg('intro', ts('Introduction'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'intro'), true);
+        
+        $form->add('textarea', 'suggested_message', ts('Suggested Message'), 
+                   CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);
 
-        $form->add('textarea', 'suggested_message', ts('Suggested Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);
-
-        $form->add('text','general_link',ts('Info Page Link'));
+        $form->add('text','general_link',ts('Info Page Link'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'general_link'));
         
         $form->add('text', 'thankyou_title', ts('Thank-you Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_title'), true );
 
-        $form->add('textarea', 'thankyou_text', ts('Thank-you Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_text') , true);
+        $form->addWysiwyg('thankyou_text', ts('Thank-you Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_text') , true);
     }
     
     /**
@@ -247,9 +259,13 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         
         require_once 'CRM/Contact/BAO/Contact.php';
         list( $fromName, $email ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
+        // if no $fromName (only email collected from originating contact) - list returns single space
+        if ( trim($fromName) == '') {
+            $fromName = $email;
+        }
 
         // set details in the template here
-        $template->assign( $values['module']  , $values['module'] );        
+        $template->assign( $values['module']  , $values['module'] );
         $template->assign( 'senderContactName', $fromName ); 
         $template->assign( 'title',             $values['title'] );
         $template->assign( 'generalLink',       $values['general_link'] );
@@ -303,4 +319,4 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
     }
 }
 
-?>
+

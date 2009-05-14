@@ -3,7 +3,7 @@
 
 <div id="commPrefs">
 <fieldset><legend>{ts}Communication Preferences{/ts}</legend>
-	<table class="form-layout">
+	<table class="form-layout-compressed">
     <tr>
         <td>{$form.privacy.label}</td>
         <td>{$form.privacy.html}</td>
@@ -13,7 +13,7 @@
         <td>
            {assign var="count" value="1"}
            {strip}
-             <table class="form-layout-compressed">
+             <table class="form-layout">
               <tr>
                {assign var="index" value="1"}
                {foreach name=outer key=key item=item from=$form.preferred_communication_method}
@@ -41,19 +41,13 @@
     <tr>
         <td>{$form.preferred_mail_format.label}</td>
         <td>
-            {$form.preferred_mail_format.html}
-            <div class="description font-italic">
-                {ts}Select the email format preferred by this contact. Select 'Both' to send HTML and Text formats.{/ts}
-            </div>
+            {$form.preferred_mail_format.html} {help id="id-emailFormat"}
         </td>
     </tr>
     <tr>
         <td>{$form.is_opt_out.label}</td>
         <td>
-            {$form.is_opt_out.html}
-            <div class="description font-italic">
-                {ts}This option indicates if the user has INTENTIONALLY opted out of email. Please set or reset with care.{/ts}
-            </div>
+            {$form.is_opt_out.html} {help id="id-optOut"}
         </td>
     </tr>
     </table>

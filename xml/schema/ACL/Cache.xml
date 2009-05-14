@@ -28,6 +28,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.6</add>
+       <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>acl_id</name>
@@ -41,6 +42,7 @@
        <table>civicrm_acl</table>
        <key>id</key>
        <add>1.6</add>
+       <onDelete>CASCADE</onDelete>
     </foreignKey>
     <index>
        <name>index_acl_id</name>

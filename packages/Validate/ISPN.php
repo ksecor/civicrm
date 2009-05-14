@@ -27,7 +27,7 @@
  * @copyright   1997-2005 Piotr Klaban, Damien Seguy, Helgi Þormar Þorbjörnsson,
  *                        Pierre-Alain Joye
  * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
- * @version    CVS: $Id: ISPN.php,v 1.12 2005/11/12 16:03:02 dufuz Exp $
+ * @version    CVS: $Id: ISPN.php,v 1.13 2006/08/17 19:20:51 makler Exp $
  * @link       http://pear.php.net/package/Validate_ISPN
  */
 
@@ -66,9 +66,6 @@ class Validate_ISPN
 
         $isbn = strtoupper($isbn);
         $isbn = str_replace(array('ISBN', '-', ' ', "\t", "\n"), '', $isbn);
-        if (strlen($isbn) != 10) {
-            return false;
-        }
 
         if (strlen($isbn) == 13) {
             return Validate_ISPN::isbn13($isbn);

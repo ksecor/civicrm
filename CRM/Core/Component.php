@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -30,7 +30,7 @@
  * CiviCRM components
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -51,46 +51,75 @@ class CRM_Core_Component
     private function &_info( ) {
         if( self::$_info == null ) {
             self::$_info = array( );
+            $c = array();
+            
             $config =& CRM_Core_Config::singleton( );
-            $c = self::getComponents();
+            $c      =& self::getComponents();
+
             foreach( $c as $name => $comp ) {
-//                if( in_array( $name, $config->enableComponents ) ) {
+                if ( in_array( $name, $config->enableComponents ) ) {
                     self::$_info[$name] = $comp;
-//                }
+                }
             }
         }
+        
         return self::$_info;
     }
 
     static function get( $name, $attribute = null) 
     {
         $comp = CRM_Utils_Array::value( $name, self::_info() );
-        if( $attribute ) {
+        if ( $attribute ) {
             return CRM_Utils_Array::value( $attribute, $comp->info );
         }
         return $comp;
     }
 
-    public function getComponents( )
+    public function &getComponents( $force = false )
     {
-        $ret = array( );
+        static $_cache = null;
 
-        require_once 'CRM/Core/DAO/Component.php';
-        $cr =& new CRM_Core_DAO_Component();
-        $cr->find( false );
-        while ( $cr->fetch( ) ) {
-            $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
-            require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
-            $infoObject = new $infoClass( $cr->name, $cr->namespace );
-            if( $infoObject->info['name'] !== $cr->name ) {
-                CRM_Core_Error::fatal( "There is a discrepancy between name in component registry and in info file ({$cr->name})." );
+        if ( ! $_cache || $force ) {
+            $_cache = array( );
+
+            require_once 'CRM/Core/DAO/Component.php';
+            $cr =& new CRM_Core_DAO_Component();
+            $cr->find( false );
+            while ( $cr->fetch( ) ) {
+                $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
+                require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
+                $infoObject = new $infoClass( $cr->name, $cr->namespace, $cr->id );
+                if ( $infoObject->info['name'] !== $cr->name ) {
+                    CRM_Core_Error::fatal( "There is a discrepancy between name in component registry and in info file ({$cr->name})." );
+                }
+                $_cache[$cr->name] = $infoObject;
+                unset( $infoObject );
             }
-            $ret[$cr->name] = $infoObject;
-            unset( $infoObject );
         }
-        return $ret;
+
+        return $_cache;
     }
 
+    public function &getEnabledComponents( )
+    {
+        return self::_info();
+    }
+
+    public function &getNames( $translated = false )
+    {
+        $allComponents = self::getComponents();
+        
+        $names = array();
+        foreach ( $allComponents as $name => $comp ) {
+            if( $translated ) {
+                $names[$comp->componentID] = $comp->info['translatedName'];
+            } else {
+                $names[$comp->componentID] = $name;
+            }
+        }
+        return $names;
+    }
+    
     static function invoke( &$args, $type ) 
     {
         $info =& self::_info( );
@@ -102,14 +131,10 @@ class CRM_Core_Component
             if ( in_array( $name, $config->enableComponents ) &&
                  ( ( $comp->info['url'] === $firstArg  && $type == 'main' )  ||
                    ( $comp->info['url'] === $secondArg && $type == 'admin' ) ) ) {
-                
-                if( $type == 'main' ) {
+                if ( $type == 'main' ) {
                     // also set the smarty variables to the current component
                     $template =& CRM_Core_Smarty::singleton( );
                     $template->assign( 'activeComponent', $name );
-                    if( CRM_Utils_Array::value( 'metaTpl', $comp->info[$name] ) ) {
-                        $template->assign( 'metaTpl', $comp->info[$name]['metaTpl'] );
-                    }
                     if( CRM_Utils_Array::value( 'formTpl', $comp->info[$name] ) ) {
                         $template->assign( 'formTpl', $comp->info[$name]['formTpl'] );
                     }
@@ -127,17 +152,31 @@ class CRM_Core_Component
         return false;
     }
 
-    static function &menu( $permissioned = false, $task = null ) 
+    static function xmlMenu( ) {
+
+        // lets build the menu for all components
+        $info =& self::getComponents( true );
+
+        $files = array( );
+        foreach( $info as $name => $comp ) {
+            $files = array_merge( $files,
+                                  $comp->menuFiles( ) );
+        }
+        
+        return $files;
+    }
+
+    static function &menu( ) 
     {
         $info =& self::_info( );
         $items = array( );
         foreach( $info as $name => $comp ) {
-            $mnu =& $comp->getMenuObject( );
-            if( $permissioned ) {
-                $ret = $mnu->permissioned( );
-            } else {
-                $ret = $mnu->main( $task );
-            }
+            $mnu   =& $comp->getMenuObject( );
+
+            $ret   = $mnu->permissioned( );
+            $items = array_merge( $items, $ret );
+
+            $ret   = $mnu->main( $task );
             $items = array_merge( $items, $ret );
         }
         return $items;
@@ -152,6 +191,12 @@ class CRM_Core_Component
             $cfg->add( $config, $oldMode );
         }
         return;
+    }
+
+    static function getComponentID( $componentName ) {
+        $info =& self::_info( );
+
+        return $info[$componentName]->componentID;
     }
 
     static function &getQueryFields( ) 
@@ -318,4 +363,4 @@ class CRM_Core_Component
 
 }
 
-?>
+

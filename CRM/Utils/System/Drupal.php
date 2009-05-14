@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,6 +48,9 @@ class CRM_Utils_System_Drupal {
      * @access public
      */
     function setTitle( $title, $pageTitle = null ) {
+        if ( $pageTitle ) {
+            $title = $pageTitle;
+        }
         drupal_set_title( $title );
     }
 
@@ -61,10 +64,24 @@ class CRM_Utils_System_Drupal {
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $title, $url ) {
-        $breadCrumb   = drupal_get_breadcrumb( );
-        $bc = "<a href=\"$url\">$title</a>";
-        $breadCrumb[] = $bc;
+    static function appendBreadCrumb( $breadCrumbs ) {
+        $breadCrumb = drupal_get_breadcrumb( );
+
+        if ( is_array( $breadCrumbs ) ) {
+            foreach ( $breadCrumbs as $crumbs ) {
+                if ( stripos($crumbs['url'], 'id%%') ) {
+                    $args = array( 'cid', 'mid' );
+                    foreach ( $args as $a ) {
+                        $val  = CRM_Utils_Request::retrieve( $a, 'Positive', CRM_Core_DAO::$_nullObject,
+                                                             false, null, $_GET );
+                        if ( $val ) {
+                            $crumbs['url'] = str_ireplace( "%%{$a}%%", $val, $crumbs['url'] );
+                        }
+                    }
+                }
+                $breadCrumb[]  = "<a href=\"{$crumbs['url']}\">{$crumbs['title']}</a>";
+            }
+        }
         drupal_set_breadcrumb( $breadCrumb );
     }
 
@@ -140,7 +157,7 @@ class CRM_Utils_System_Drupal {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true,
+    function url($path = null, $query = null, $absolute = false,
                  $fragment = null, $htmlize = true,
                  $frontend = false ) {
         $config        =& CRM_Core_Config::singleton( );
@@ -150,7 +167,8 @@ class CRM_Utils_System_Drupal {
             $fragment = '#'. $fragment;
         }
 
-        $base = $absolute ? $config->userFrameworkBaseURL: '';
+        $relBase = parse_url( $config->userFrameworkBaseURL );
+        $base = $absolute ? $config->userFrameworkBaseURL : $relBase['path'] ;
         $separator = $htmlize ? '&amp;' : '&';
 
         if (! $config->cleanURL ) {
@@ -208,7 +226,7 @@ class CRM_Utils_System_Drupal {
         $password  = md5( $password );
         $name      = $dbDrupal->escapeSimple( strtolower( $name ) );
         $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
-            " u WHERE LOWER(u.name) = '$name' AND u.pass = '$password'";
+            " u WHERE LOWER(u.name) = '$name' AND u.pass = '$password' AND u.status = 1";
         $query = $dbDrupal->query( $sql );
 
         $user = null;
@@ -237,6 +255,22 @@ class CRM_Utils_System_Drupal {
         drupal_set_message( $message );
     }
 
+    static function permissionDenied( ) {
+        drupal_access_denied( );
+    }
+
+    static function logout( ) {
+        module_load_include( 'inc', 'user', 'user.pages' );
+        return user_logout( );
+    }
+
+    static function updateCategories( ) {
+        // copied this from profile.module. Seems a bit inefficient, but i dont know a better way
+        // CRM-3600
+        cache_clear_all();
+        menu_rebuild();
+    }
+
 }
 
-?>
+

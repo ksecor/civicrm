@@ -7,7 +7,7 @@
             <legend>{$membershipBlock.renewal_title}</legend>
         {/if}
         {if $membershipBlock.renewal_text}
-            <div id=membership-intro>
+            <div id="membership-intro">
                 <p>{$membershipBlock.renewal_text}</p>
             </div> 
         {/if}
@@ -17,7 +17,7 @@
             <legend>{$membershipBlock.new_title}</legend>
         {/if}
         {if $membershipBlock.new_text}
-            <div id=membership-intro>
+            <div id="membership-intro">
                 <p>{$membershipBlock.new_text}</p>
             </div> 
         {/if}
@@ -48,22 +48,22 @@
         <tr {if $context EQ "makeContribution" OR $context EQ "thankContribution" }class="odd-row" {/if}valign="top">
             {if $showRadio }
                 {assign var="pid" value=$row.id}
-                <td>{$form.selectMembership.$pid.html}</td>
+                <td style="width: 1em;">{$form.selectMembership.$pid.html}</td>
             {/if}
-           <td>
-                <strong>{$row.name}</strong><br />
-                {$row.description} &nbsp;
+           <td style="width: auto;">
+                <span class="bold">{$row.name} &nbsp;
                 {if ($membershipBlock.display_min_fee AND $context EQ "makeContribution") AND $row.minimum_fee GT 0 }
                     {if $is_separate_payment OR ! $form.amount.label}
-                        {ts 1=$row.minimum_fee|crmMoney}(membership fee - %1){/ts}
+                        - {$row.minimum_fee|crmMoney}
                     {else}
                         {ts 1=$row.minimum_fee|crmMoney}(contribute at least %1 to be eligible for this membership){/ts}
                     {/if}
                 {/if}
-                        
+                </span><br />
+                {$row.description} &nbsp;                      
            </td>
             
-            <td>
+            <td style="width: auto;">
               {* Check if there is an existing membership of this type (current_membership NOT empty) and if the end-date is prior to today. *}
               {if $row.current_membership AND $context EQ "makeContribution" }
                     {if $row.current_membership|date_format:"%Y%m%d" LT $smarty.now|date_format:"%Y%m%d"}
@@ -79,10 +79,10 @@
         
         {/foreach}
         {if $showRadio}
-            {if $showRadioNoThanks }
+            {if $showRadioNoThanks } {* Provide no-thanks option when Membership signup is not required - per membership block configuration. *}
             <tr class="odd-row">
               <td>{$form.selectMembership.no_thanks.html}</td>
-              <td colspan="2"><strong>No thank you</strong></td>      
+              <td colspan="2"><strong>{ts}No thank you{/ts}</strong></td>      
             </tr> 
             {/if}
         {/if}          

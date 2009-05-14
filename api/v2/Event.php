@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -33,7 +33,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -60,14 +60,8 @@ function civicrm_event_create( &$params )
         return civicrm_create_error('Params is not an array');
     }
     
-    if (!$params["title"] || ! $params['event_type_id'] || ! $params['start_date']) {
+    if (! isset( $params['title'] ) || ! isset( $params['event_type_id'] ) || ! isset( $params['start_date'] ) ) {
         return civicrm_create_error('Missing require fields ( title, event type id,start date)');
-    }
-    
-    if ( !$params['domain_id'] ) {
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $params['domain_id'] = $config->domainID();
     }
     
     $error = _civicrm_check_required_fields( $params, 'CRM_Event_DAO_Event' );
@@ -82,7 +76,7 @@ function civicrm_event_create( &$params )
     
     $ids['eventTypeId'] = $params['event_type_id'];
     $ids['startDate'  ] = $params['start_date'];
-    $ids['event_id']    = $params['event_id'];
+    $ids['event_id']    = CRM_Utils_Array::value( 'event_id', $params );
     
     require_once 'CRM/Event/BAO/Event.php';
     $eventBAO = CRM_Event_BAO_Event::create($params, $ids);
@@ -114,22 +108,25 @@ function civicrm_event_create( &$params )
 function civicrm_event_get( &$params ) 
 {
     _civicrm_initialize();
+    
     if ( ! is_array( $params ) || empty( $params ) ) {
+
         return civicrm_create_error('Params is not an array');
     }
     
     $event  =& civicrm_event_search( $params );
     
     if ( count( $event ) != 1 &&
-         ! $event['returnFirst'] ) {
-        return civicrm_create_error( ts( '%1 event matching input params', array( 1 => count( $event ) ) ) );
+         ! CRM_Utils_Array::value( 'returnFirst', $params ) ) {
+        return civicrm_create_error( ts( '%1 events matching input params', array( 1 => count( $event ) ) ) );
     }
-
+    
     if ( civicrm_error( $event ) ) {
         return $event;
     }
-
+    
     $event = array_values( $event );
+    $event[0]['is_error'] = 0;
     return $event[0];
 }
 /**
@@ -144,39 +141,74 @@ function civicrm_event_get( &$params )
 
 function civicrm_event_search( &$params ) 
 {
+    $inputParams            = array( );
+    $returnProperties       = array( );
+    $returnCustomProperties = array( );
+    $otherVars              = array( 'sort', 'offset', 'rowCount' );
+
+    $sort     = false;
+    $offset   = 0;
+    $rowCount = 25;
     
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
-            $returnProperties[ substr( $n, 7 ) ] = 1;
+            if ( substr( $n, 0, 14 ) == 'return.custom_') {
+                //take custom return properties separate
+                $returnCustomProperties[] = substr( $n, 7 );
+            } else {
+                $returnProperties[] = substr( $n, 7 );
+            }
+        } elseif ( in_array( $n, $otherVars ) ) {
+            $$n = $v;
+        } else {
+            $inputParams[$n] = $v;
         }
     }
-    
+   
+    if ( !empty($returnProperties ) ) {
+        $returnProperties[]='id';
+        $returnProperties[]='event_type_id';
+    }
+   
+    require_once 'CRM/Core/BAO/CustomGroup.php';
     require_once 'CRM/Event/BAO/Event.php';
     $eventDAO = new CRM_Event_BAO_Event( );
-    $eventDAO->copyValues( $params );
+    $eventDAO->copyValues( $inputParams );
+    $event = array();
+    if ( !empty( $returnProperties ) ) {
+        $eventDAO->selectAdd( );
+        $eventDAO->selectAdd( implode( ',' , $returnProperties ) );
+    }
     
+    $eventDAO->orderBy( $sort );
+    $eventDAO->limit( (int)$offset, (int)$rowCount );
     $eventDAO->find( );
-    
-    $event = array( );
     while ( $eventDAO->fetch( ) ) {
         $event[$eventDAO->id] = array( );
         CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
-    }
-    
-    require_once 'CRM/Core/BAO/CustomGroup.php';
-    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eventDAO->id, false, 1 );
-    CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false ); 
-    if ( is_array( $defaults ) ) {
-        foreach ( $defaults as $key => $val ) {
-            $event[$eventDAO->id][$key] = $val;
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', CRM_Core_DAO::$_nullObject, $eventDAO->id, false, $eventDAO->event_type_id );
+        $groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject );
+        $defaults  = array( );
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
+            
+        if ( !empty( $defaults ) ) {
+            foreach ( $defaults as $key => $val ) {
+                if (! empty($returnCustomProperties ) ) {
+                    $customKey  = explode('_', $key );
+                    //show only return properties
+                    if ( in_array( 'custom_'.$customKey['1'], $returnCustomProperties ) ) {
+                        $event[$eventDAO->id][$key] = $val;
+                    }
+                } else {
+                    $event[$eventDAO->id][$key] = $val;
+                }
+            }
         }
-    }
-    
+    }//end of the loop
     $eventDAO->free( );
-    return $event;
+    return $event; 
 }
-
-
+    
 /**
  * Deletes an existing event
  * 
@@ -187,15 +219,22 @@ function civicrm_event_search( &$params )
  * @return boolean        true if success, error otherwise
  * @access public
  */
-function &civicrm_event_delete( &$params ) 
+function civicrm_event_delete( &$params ) 
 {
+    if ( empty( $params ) ) {
+        return civicrm_create_error( ts( 'No input parameters present' ) );
+    }
+    
+    $eventID = null;
+    
     $eventID = CRM_Utils_Array::value( 'event_id', $params );
     
-    if ( ! $eventID ) {
+    if ( ! isset( $eventID ) ) {
         return civicrm_create_error( ts( 'Invalid value for eventID' ) );
     }
+    
     require_once 'CRM/Event/BAO/Event.php';
     
     return CRM_Event_BAO_Event::del( $eventID ) ?  civicrm_create_success( ) : civicrm_create_error( ts( 'Error while deleting event' ) );
 }
-?>
+

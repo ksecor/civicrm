@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -57,32 +57,33 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         }
         
         $this->applyFilter('__ALL__', 'trim');
-  
-        $this->add('text', 'name_a_b'       , ts('Relationship Label-A to B')       ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_a_b' ),true );
-        $this->addRule( 'name_a_b', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_RelationshipType', $this->_id, 'name_a_b' ) );
-
-        $this->add('text', 'name_b_a'       , ts('Relationship Label-B to A')       ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_b_a' ) );
-
-        $this->addRule( 'name_b_a', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_RelationshipType', $this->_id, 'name_b_a' ) );
-
-      
+        
+        $this->add('text', 'label_a_b', ts('Relationship Label-A to B') ,
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'label_a_b' ), true );
+        $this->addRule( 'label_a_b', ts('Label already exists in Database.'), 
+                        'objectExists', array( 'CRM_Contact_DAO_RelationshipType', $this->_id, 'label_a_b' ) );
+        
+        $this->add('text', 'label_b_a', ts('Relationship Label-B to A'),
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'label_b_a' ) );
+        
+        $this->addRule( 'label_b_a', ts('Label already exists in Database.'), 
+                        'objectExists', array( 'CRM_Contact_DAO_RelationshipType', $this->_id, 'label_b_a' ) );
+        
         // add select for contact type
         $this->add('select', 'contact_type_a', ts('Contact Type A') . ' ', CRM_Core_SelectValues::contactType());
         $this->add('select', 'contact_type_b', ts('Contact Type B') . ' ', CRM_Core_SelectValues::contactType());
-
+        
         $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'description' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-
+        
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
             $url = CRM_Utils_System::url('civicrm/admin/reltype&reset=1'); 
             $location  = "window.location='$url'";
             $this->addElement('button', 'done', ts('Done'), array('onclick' => $location));
         }
-  
+        
     }
        
     /**
@@ -115,4 +116,4 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
     }//end of function
 }
 
-?>
+

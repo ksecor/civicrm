@@ -1,16 +1,11 @@
--- When invoked by itself, includes logic to insert data for next available domain_id.
-
-    set @domain_id = 1;
-
-
 INSERT INTO 
-   civicrm_option_group (domain_id, name, description, is_reserved, is_active) 
+   civicrm_option_group (name, description, is_reserved, is_active) 
 VALUES 
- (@domain_id, 'f1_case_type'           , 'Case Type'            , 1, 1),
- (@domain_id, 'f1_case_sub_type'       , 'Case Sub Type'        , 1, 1),
- (@domain_id, 'f1_case_violation'      , 'Violation Type'       , 1, 1),
- (@domain_id, 'case_activity_type'     , 'Type'                 , 1, 1),
- (@domain_id, 'communication_medium'   , 'Communication Medium' , 1, 1);
+ ('f1_case_type'           , 'Case Type'            , 1, 1),
+ ('f1_case_sub_type'       , 'Case Sub Type'        , 1, 1),
+ ('f1_case_violation'      , 'Violation Type'       , 1, 1),
+ ('case_activity_type'     , 'Type'                 , 1, 1),
+ ('communication_medium'   , 'Communication Medium' , 1, 1);
 	
 
 

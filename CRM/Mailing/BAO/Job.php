@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -47,7 +47,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
     function __construct( ) {
         parent::__construct( );
     }
-
+    
     /**
      * Initiate all pending/ready jobs
      *
@@ -63,7 +63,6 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $config =& CRM_Core_Config::singleton();
         $jobTable     = CRM_Mailing_DAO_Job::getTableName();
         $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
-        $domainID     = CRM_Core_Config::domainID( );
 
         if (!empty($testParams)) {
             $query = "
@@ -81,7 +80,6 @@ SELECT   j.*
          $mailingTable m
  WHERE   m.id = j.mailing_id
    AND   j.is_test = 0
-   AND   m.domain_id = $domainID
    AND   ( ( j.start_date IS null
    AND       j.scheduled_date <= $currentTime
    AND       j.status = 'Scheduled' )
@@ -97,7 +95,12 @@ ORDER BY j.scheduled_date,
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
-            $lockName = "civimail.job.{$domainID}.{$job->id}";
+            // fix for cancel job at run time which is in queue, CRM-4246
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Mailing_DAO_Job', $job->id, 'status' ) == 'Canceled' ) {
+                continue;
+            }
+            
+            $lockName = "civimail.job.{$job->id}";
 
             // get a lock on this job id
             $lock = new CRM_Core_Lock( $lockName );
@@ -107,17 +110,21 @@ ORDER BY j.scheduled_date,
 
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
-               
                 require_once 'CRM/Core/Transaction.php';
                 $transaction = new CRM_Core_Transaction( );
+
                 $job->queue($testParams);
 
                 /* Start the job */
-                $job->start_date = date('YmdHis');
-                $job->status = 'Running';
-                // CRM-992 - MySQL can't eat its own dates
-                $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
-                $job->save();
+                // use a seperate DAO object to protect the loop
+                // integrity. I think transactions messes it up
+                // check CRM-2469
+                $saveJob = new CRM_Mailing_DAO_Job( );
+                $saveJob->id         = $job->id;
+                $saveJob->start_date = date('YmdHis');
+                $saveJob->status     = 'Running';
+                $saveJob->save();
+
                 $transaction->commit( );
             }
             
@@ -134,12 +141,15 @@ ORDER BY j.scheduled_date,
                 require_once 'CRM/Core/Transaction.php';
                 $transaction = new CRM_Core_Transaction( );
 
-                $job->end_date = date('YmdHis');
-                $job->status = 'Complete';
-                // CRM-992 - MySQL can't eat its own dates
-                $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
-                $job->start_date = CRM_Utils_Date::isoToMysql($job->start_date);
-                $job->save();
+                // use a seperate DAO object to protect the loop
+                // integrity. I think transactions messes it up
+                // check CRM-2469
+                $saveJob = new CRM_Mailing_DAO_Job( );
+                $saveJob->id   = $job->id;
+                $saveJob->end_date = date('YmdHis');
+                $saveJob->status   = 'Complete';
+                $saveJob->save();
+
                 $mailing->reset();
                 $mailing->id = $job->mailing_id;
                 $mailing->is_completed = true;
@@ -170,7 +180,11 @@ ORDER BY j.scheduled_date,
             $mailing->getTestRecipients($testParams);
         } else {
             $recipients =& $mailing->getRecipientsObject($this->id);
-            
+
+            // since this is such a simple db operation, we could potentially optimize it a lot
+            // by doing a batch of inserts at one time
+            // INSERT INTO civicrm_..._queue ( job_id, email_id, contact_id, hash ) VALUES ( ... ),( ... ),...
+            // this will cut down the number of trips to the db quite nicely rather than doing one insert at a time
             while ($recipients->fetch()) {
                 $params = array(
                                 'job_id'        => $this->id,
@@ -255,6 +269,17 @@ ORDER BY j.scheduled_date,
         
         CRM_Mailing_BAO_Mailing::tokenReplace($mailing);
 
+        // get and format attachments
+        require_once 'CRM/Core/BAO/File.php';
+        $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
+                                                          $mailing->id );
+
+
+        if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+            require_once 'CRM/Core/Smarty/resources/String.php';
+            civicrm_smarty_register_string_resource( );
+        }
+
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {
@@ -263,50 +288,73 @@ ORDER BY j.scheduled_date,
 
             if ( $config->mailerBatchLimit > 0 &&
                  $mailsProcessed >= $config->mailerBatchLimit ) {
-                $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
+                $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
                 return false;
             }
             $mailsProcessed++;
             
-            $field = array( 'id'         => $eq->id,
-                            'hash'       => $eq->hash,
-                            'contact_id' => $eq->contact_id,
-                            'email'      => $eq->email );
-            $fields[$eq->contact_id] = $field;
+            $fields[] = array( 'id'         => $eq->id,
+                               'hash'       => $eq->hash,
+                               'contact_id' => $eq->contact_id,
+                               'email'      => $eq->email );
             if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
-                $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
+                $isDelivered = $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
+                if ( !$isDelivered ) {
+                    return $isDelivered;
+                }
                 $fields = array( );
             }
         }
-
-        $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
-        return true;
+        
+        $isDelivered = $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
+        return $isDelivered;
     }
 
-    public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date ) {
+    public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date, &$attachments ) {
         // get the return properties
         $returnProperties = $mailing->getReturnProperties( );
-        
-        foreach ( $fields as $contactID => $field ) {
-            
-            $details = $mailing->getDetails($contactID, $returnProperties );
-            
+        $params       = array( );
+        $targetParams = array( );
+        foreach ( $fields as $key => $field ) {
+            $params[] = $field['contact_id'];
+        }
+
+        $details = $mailing->getDetails($params, $returnProperties);
+
+        foreach ( $fields as $key => $field ) {
+            $contactID = $field['contact_id'];
             /* Compose the mailing */
             $recipient = null;
             $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],
                                            $field['contact_id'], $field['email'],
-                                           $recipient, false, $details[0][$contactID] );
+                                           $recipient, false, $details[0][$contactID], $attachments );
             
             /* Send the mailing */
             $body    =& $message->get();
             $headers =& $message->headers();
-
+            $result = null;
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
             CRM_Core_Error::ignoreException( );
-            $result = $mailer->send($recipient, $headers, $body, $this->id);
-            CRM_Core_Error::setCallback();
-            
+            if ( is_object( $mailer ) ) {
+                
+                // hack to stop mailing job at run time, CRM-4246.
+                $mailingJob = new CRM_Mailing_DAO_Job( ); 
+                $mailingJob->mailing_id = $mailing->id;
+                if ( $mailingJob->find( true ) ) {
+                    // mailing have been canceled at run time.
+                    if ( $mailingJob->status == 'Canceled' ) {
+                        return false;
+                    }
+                } else {
+                    // mailing have been deleted at run time. 
+                    return false;
+                }
+                $mailingJob->free( );
+                
+                $result = $mailer->send($recipient, $headers, $body, $this->id);
+                CRM_Core_Error::setCallback();
+            }
             $params = array( 'event_queue_id' => $field['id'],
                              'job_id'         => $this->id,
                              'hash'           => $field['hash'] );
@@ -323,25 +371,49 @@ ORDER BY j.scheduled_date,
                 CRM_Mailing_Event_BAO_Delivered::create($params);
             }
             
-            // add activity histroy record for every mail that is send
+            // add activity record for every mail that is send
             $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                               'Email',
                                                               'name' );
             $session = & CRM_Core_Session::singleton();
-            $activity = array('source_contact_id'    => $session->get('userID'),
-                              'target_contact_id'    => $field['contact_id'],
-                              'activity_type_id'     => $activityTypeID,
-                              'source_record_id'     => $this->mailing_id,
-                              'activity_date_time'   => $job_date,
-                              'subject'              => $mailing->subject
-                              );
-            
-            require_once 'api/v2/Activity.php';
-            if ( is_a( civicrm_activity_create($activity, 'Email'), 'CRM_Core_Error' ) ) {
-                return false;
-            }
+            $targetParams[] = $field['contact_id'];
             unset( $result );
         }
+
+        // add activity record for every mail that is send
+        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                          'Bulk Email',
+                                                          'name' );
+        
+        $activity = array('source_contact_id'    => $mailing->scheduled_id,
+                          'target_contact_id'    => $targetParams,
+                          'activity_type_id'     => $activityTypeID,
+                          'source_record_id'     => $this->mailing_id,
+                          'activity_date_time'   => $job_date,
+                          'subject'              => $mailing->subject,
+                          'status_id'            => 2
+                          );
+
+        //check whether activity is already created for this mailing.
+        //if yes then create only target contact record.   
+        $query  = "
+SELECT id FROM civicrm_activity
+WHERE civicrm_activity.activity_type_id = %1
+      AND civicrm_activity.source_record_id = %2";
+        
+        $queryParams = array( 1 => array( $activityTypeID, 'Integer' ), 2 => array( $this->mailing_id, 'Integer' ) );
+        $activityID  = CRM_Core_DAO::singleValueQuery( $query, $queryParams );    
+        
+        if ( $activityID ) {
+            $activity['id'] = $activityID;  
+        }
+        
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create($activity, 'Email'), 'CRM_Core_Error' ) ) {
+            return false;
+        }
+        
+        return true;
     }
     
     /**
@@ -385,8 +457,8 @@ ORDER BY j.scheduled_date,
                 'Canceled'  =>  ts('Canceled'),
             );
         }
-        return CRM_Utils_Array::value($status, $translation, ts('Unknown'));
+        return CRM_Utils_Array::value($status, $translation, ts('Not scheduled'));
     }
 }
 
-?>
+

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -77,11 +77,34 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         
         $this->add('select', 'label_id', ts('Select Label'), array( '' => ts('- select label -')) + $label, true);
 
+        
         // add select for Location Type
         $this->addElement('select', 'location_type_id', ts('Select Location'),
                           array( '' => ts('Primary')) + CRM_Core_PseudoConstant::locationType(), true);
+        
+        // checkbox for SKIP contacts with Do Not Mail privacy option
+        $this->addElement('checkbox', 'do_not_mail', ts('Do not print labels for contacts with "Do Not Mail" privacy option checked') );
+        
+        $this->add( 'checkbox', 'merge_same_address', ts( 'Merge labels for contacts with the same address' ), null );
+
         $this->addDefaultButtons( ts('Make Mailing Labels'));
        
+    }
+    
+    /**
+     * This function sets the default values for the form.
+     * 
+     * @param null
+     * 
+     * @return array   array of default values
+     * @access public
+     */
+    function setDefaultValues()
+    {
+        $defaults = array();
+        $defaults['do_not_mail'] = 1;
+        
+        return $defaults;
     }
     
     /**
@@ -92,9 +115,9 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
      */
     public function postProcess ( )
     {
-        $fv = $this->controller->exportValues($this->_name); 
+        $fv = $this->controller->exportValues($this->_name);
         $config =& CRM_Core_Config::singleton();
-
+        $locName = null;
         //get the address format sequence from the config file
         require_once 'CRM/Core/BAO/Preferences.php';
        
@@ -108,33 +131,98 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         }
         
         //build the returnproperties
-        $returnProperties = array (
-                                   'display_name'      => 1, 
-                                   'individual_prefix' => 1, 
-                                   'first_name'        => 1, 
-                                   'middle_name'       => 1, 
-                                   'last_name'         => 1, 
-                                   'individual_suffix' => 1
-                                   ) ;
-
-        if ($fv['location_type_id']) {
+        $returnProperties = array ('display_name' => 1 );
+        
+        $nameFormat = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
+        $nameFormatProperties = array();
+        if ( $nameFormat ) {
+            $nameFormatProperties = self::getReturnProperties( $nameFormat );
+        }
+        
+        $mailingFormat = CRM_Core_BAO_Preferences::value( 'mailing_format' );
+        $mailingFormatProperties = array();
+        if ( $mailingFormat ) {
+            $mailingFormatProperties = self::getReturnProperties( $mailingFormat );
+            $returnProperties = array_merge( $returnProperties , $mailingFormatProperties );
+        }
+        
+        if ( stristr( $mailingFormat ,'custom_' ) ) {
+            foreach ( $mailingFormatProperties as $token => $true ) {
+                if ( substr( $token,0,7 ) == 'custom_' ) {
+                    if ( !CRM_Utils_Array::value( $token, $nameFormatProperties ) ) { 
+                        $nameFormatProperties[$token] = $mailingFormatProperties[$token];
+                    }
+                }
+            }
+        }
+        
+        if ( is_array( $nameFormatProperties ) ) {
+            $returnProperties = array_merge( $returnProperties , $nameFormatProperties );
+        }
+        
+        //get the contacts information
+        $params = array( );       
+        if ( CRM_Utils_Array::value( 'location_type_id', $fv ) ) {
             $locType = CRM_Core_PseudoConstant::locationType();
             $locName = $locType[$fv['location_type_id']];
             $location = array ('location' => array("{$locName}"  => $address ) ) ;
             $returnProperties = array_merge( $returnProperties , $location );
+            $params[] = array( 'location_type', '=', array( $fv['location_type_id'] => 1 ), 0, 1 );
+            
         } else {
             $returnProperties = array_merge( $returnProperties , $address );
         }
-
+        
         $rows = array( );
+ 
+        foreach ( $this->_contactIds  as $key => $contactID ) {
+            $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
+                               '=', 1, 0, 1);
+        }
+        
+        // fix for CRM-2651
+        if ( CRM_Utils_Array::value( 'do_not_mail', $fv ) ) {
+            $params[] = array( 'do_not_mail', '=', 0, 0, 1 );
+        }
+        // fix for CRM-2613
+        $params[] = array( 'is_deceased', '=', 0, 0, 1 );
 
-        //get the contact information
+        $custom = array( );
+        foreach ( $returnProperties as $name => $dontCare ) {
+            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+            if ( $cfID ) {
+                $custom[] = $cfID;
+            }
+        }
+        
+        //get the total number of contacts to fetch from database.
+        $numberofContacts = count( $this->_contactIds );
+        require_once 'CRM/Contact/BAO/Query.php';      
+        $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
+        $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
+
+        // also get all token values
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::tokenValues( $details[0], $this->_contactIds );
+
+        $tokens = array( );
+        CRM_Utils_Hook::tokens( $tokens );
+        $tokenFields = array( );
+        foreach ( $tokens as $category => $catTokens ) {
+            foreach ( $catTokens as $token ) {
+                $tokenFields[] = $token;
+            }
+        }
+
         foreach ( $this->_contactIds as $value ) {
-            // fetch the contacts
-            $params = array( 'contact_id'=> $value );
-            require_once 'api/Contact.php';
-            $contact =& crm_fetch_contact( $params, $returnProperties );
-
+            foreach ( $custom as $cfID ) {
+                if ( isset ( $details[0][$value]["custom_{$cfID}"] ) ) {
+                    $details[0][$value]["custom_{$cfID}"] = 
+                        CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$value]["custom_{$cfID}"],$cfID, $details[1] );
+                }
+            }
+            $contact = CRM_Utils_Array::value( $value, $details['0'] );
+            
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
@@ -143,15 +231,13 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             unset( $contact['contact_id'] );
             
             if ( $locName && CRM_Utils_Array::value( $locName, $contact ) ) {
-                // If location type is not priamry, $contact contains
+                // If location type is not primary, $contact contains
                 // one more array as "$contact[$locName] = array( values... )"
                 $found = false;
-                
+
                 foreach ( $sequence as $sequenceName ) {
-                    // we are interested in only those
-                    // $contact[$locName] which contains any
-                    // of the address sequences
-                    if ( CRM_Utils_Array::value( $sequenceName, $contact[$locName] ) ) {
+                    // we are interested in only those of the address sequences
+                    if ( CRM_Utils_Array::value( $sequenceName, $contact ) ) {
                         $found = true;
                         break;
                     }
@@ -160,34 +246,46 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 if ( ! $found ) {
                     continue;
                 }
+                unset( $contact[$locName] );
                 
-                // again unset all "_id" from $contact[$locName]
-                // except country_id, state_province_id
-                
-                if ( CRM_Utils_Array::value( 'location_type_id', $contact[$locName] ) ) {
-                    unset( $contact[$locName]['location_type_id'] );
-                }
-                
-                if ( CRM_Utils_Array::value( 'address_id', $contact[$locName] ) ) {
-                    unset( $contact[$locName]['address_id'] );
-                }
-                
-                if (  CRM_Utils_Array::value( 'county_id', $contact )  ) {
+                if ( CRM_Utils_Array::value( 'county_id', $contact )  ) {
                     unset( $contact['county_id'] );
                 }
                 
+                foreach ( $contact as $field => $fieldValue ) {
+                    $rows[$value][$field] = $fieldValue;
+                }
                 //Add contact Details
                 if( CRM_Contact_BAO_Contact::getContactType( $value ) == 'Individual' ) {
-                    $rows[$value]['first_name']   = $contact['first_name'];
-                    $rows[$value]['middle_name']  = $contact['middle_name'];
-                    $rows[$value]['last_name']    = $contact['last_name'];
+                    $rows[$value]['first_name']           = $contact['first_name'];
+                    $rows[$value]['middle_name']          = $contact['middle_name'];
+                    $rows[$value]['last_name']            = $contact['last_name'];
+                    $rows[$value]['display_name']         = $contact['display_name'];
+                    $rows[$value]['individual_prefix']    = $contact['individual_prefix'];
+                    $rows[$value]['individual_suffix']    = $contact['individual_suffix'];
                 } else {
                     $rows[$value]['display_name'] = $contact['display_name'];
                 }
 
-                // now create the rows for generating mailing labels
-                foreach( CRM_Utils_Array::value( $locName, $contact ) as $field => $fieldValue ) {
-                    $rows[$value][$field] = $fieldValue;
+                $valuesothers = array();
+                $paramsothers = array ( 'contact_id' => $value ) ;
+                require_once 'CRM/Core/BAO/Location.php';    
+                $valuesothers = CRM_Core_BAO_Location::getValues( $paramsothers, $valuesothers );
+                if ( CRM_Utils_Array::value('location_type_id', $fv ) ) {
+                    foreach ( $valuesothers as $vals ) {
+                        if ( $vals['location_type_id'] == CRM_Utils_Array::value('location_type_id', $fv ) ) {
+                            foreach ( $vals as $k => $v ){
+                                if ( in_array( $k, array( 'email', 'phone', 'im','openid' ) ) ) {
+                                    if ( $k == 'im' ) {
+                                        $rows[$value][$k] = $v['1']['name'];
+                                    } else {
+                                        $rows[$value][$k] = $v['1'][$k];
+                                    }
+                                    $rows[$value][$k.'_id'] = $v['1']['id'];
+                                }
+                            }                            
+                        }
+                    }
                 }
             } else {
                 $found = false;
@@ -223,12 +321,27 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 }
             }
         }
-        
+        $individualFormat = false;
+        if ( isset( $fv['merge_same_address'] ) ) {
+            $this->mergeSameAddress( $rows );
+            $individualFormat = true;
+        }
         // format the addresses according to CIVICRM_ADDRESS_FORMAT (CRM-1327)
         require_once 'CRM/Utils/Address.php';
         foreach ($rows as $id => $row) {
+            if ( $commMethods = CRM_Utils_Array::value( 'preferred_communication_method', $row ) ) {
+                require_once 'CRM/Core/PseudoConstant.php';
+                $val  = array_filter( explode( CRM_Core_DAO::VALUE_SEPARATOR, $commMethods ) );
+                $comm = CRM_Core_PseudoConstant::pcm();
+                $temp = array();
+                foreach ( $val as $vals ) {
+                    $temp[] = $comm[$vals];
+                }
+                $row['preferred_communication_method'] = implode(', ', $temp);
+            }
             $row['id'] = $id;
-            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true );
+            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat, $tokenFields );
+
             // CRM-2211: UFPDF doesn't have bidi support; use the PECL fribidi package to fix it.
             // On Ubuntu (possibly Debian?) be aware of http://pecl.php.net/bugs/bug.php?id=12366
             // Due to FriBidi peculiarities, this can't be called on
@@ -278,9 +391,76 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             $pdf->AddPdfLabel($val);
             $val = '';
         }
-        $pdf->Output();
+        $pdf->Output( 'MailingLabels_CiviCRM.pdf', 'D' );
+    }
+    
+    /**
+     * function to create the array of returnProperties
+     *
+     * @param   string   $format   format for which return properties build
+     *
+     * @return array of returnProperties       
+     * @access  public
+     */
+    function getReturnProperties( &$format )
+    {
+        $returnProperties = array();
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $format,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list( $type, $name ) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    $returnProperties["{$name}"] = 1;
+                }
+            }
+        }
+
+        return $returnProperties;  
+    }
+    
+    function mergeSameAddress( &$rows ) {
+        $uniqueAddress = array( );
+        foreach ( array_keys( $rows ) as $rowID ) {
+            $address =					// load complete address as array key
+                trim( $rows[$rowID]['street_address'] ) .
+                trim( $rows[$rowID]['city']           ) .
+                trim( $rows[$rowID]['state_province'] ) .
+                trim( $rows[$rowID]['postal_code']    ) .
+                trim( $rows[$rowID]['country']        );
+            if (isset($rows[$rowID]['last_name'])) {
+                $name = $rows[$rowID]['last_name'];	
+            } else {
+                $name = $rows[$rowID]['display_name'];
+            }
+            if ( isset( $uniqueAddress[$address] ) ) {  	// fill uniqueAddress array with last/first name tree
+                $uniqueAddress[$address]['names'][$name][] = $rows[$rowID]['first_name'];  
+                unset( $rows[$rowID] );						// drop unnecessary rows
+            } else {										// this is the first listing at this address
+                $uniqueAddress[$address]['ID'] = $rowID;	
+                $uniqueAddress[$address]['names'][$name][] = $rows[$rowID]['first_name'];
+            }
+        }
+        foreach ( $uniqueAddress as $address => $data) {	// copy data back to $rows
+            $count = 0;
+            foreach ( $data['names'] as $last_name => $first_names ) {	// one last name list per row
+                if ($count > 2) {			// too many to list 
+                    break;
+                }
+                $family = implode(" & ", $first_names) . " " . $last_name;		// collapse the tree to summarize
+                if ($count) {
+                    $rows[$data['ID']]['display_name'] .=  "\n" . $family;
+                } else {
+                    $rows[$data['ID']]['display_name']  = $family;		// build display_name string
+                }
+                $count++;
+            }
+        }
     }
 }
 
- 
-?>
+
+

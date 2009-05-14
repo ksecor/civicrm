@@ -1,39 +1,30 @@
 <?php
 
 /**
-* 
-* Index, constraint and alter methods for DB_Table usage with
-* PEAR::DB as backend. (Code adopted from PEAR::MDB2)
-* 
-* @category DB
-* 
-* @package DB_Table
-*
-* @author Mark Wiesemann <wiesemann@php.net>
-* 
-* @license http://www.gnu.org/copyleft/lesser.html LGPL
-* 
-* @version $Id: oci8.php,v 1.1 2006/02/27 13:53:39 wiesemann Exp $
-*
-*/
+ * Index, constraint and alter methods for DB_Table usage with
+ * PEAR::DB as backend. (Code adopted from PEAR::MDB2)
+ * 
+ * @category Database
+ * @package DB_Table
+ * @author Mark Wiesemann <wiesemann@php.net>
+ * @license http://www.gnu.org/copyleft/lesser.html LGPL
+ * @version $Id: oci8.php,v 1.4 2007/04/03 03:39:42 morse Exp $
+ */
 
+/**
+ * require DB_Table class
+ */
 require_once 'DB/Table.php';
 
 
 /**
-* 
-* Index, constraint and alter methods for DB_Table usage with
-* PEAR::DB as backend. (Code adopted from PEAR::MDB2)
-* 
-* @category DB
-* 
-* @package DB_Table
-*
-* @author Mark Wiesemann <wiesemann@php.net>
-*
-*/
-
-
+ * Index, constraint and alter methods for DB_Table usage with
+ * PEAR::DB as backend. (Code adopted from PEAR::MDB2)
+ * 
+ * @category Database
+ * @package DB_Table
+ * @author Mark Wiesemann <wiesemann@php.net>
+ */
 class DB_Table_Manager_oci8 {
 
     /**
@@ -129,7 +120,7 @@ class DB_Table_Manager_oci8 {
             if (PEAR::isError($result)) {
                 return $result;
             }
-            while ($colrow = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+            while ($colrow = $result->fetchRow(DB_FETCHMODE_ASSOC)) {
                 $column_name = $colrow['column_name'];
                 $column_name = strtolower($column_name);
                 $definition['fields'][$column_name] = array();

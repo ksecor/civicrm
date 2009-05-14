@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,18 +48,19 @@ class CRM_Utils_System_Standalone {
      * @access public
      */
     function setTitle( $title, $pageTitle = null ) {
-      $template =& CRM_Core_Smarty::singleton( );
-      $template->assign( 'pageTitle', $title );
-
-      return;
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'pageTitle', $pageTitle );
+        $template->assign( 'docTitle',  $title );
+        return;
     }
     
     /**
-     * Authenticate the user; dummy for now, not sure how this will
-     * work with OpenID
-     * 
-     * *** BIG FAT WARNING: THIS CURRENTLY LETS EVERYONE AND THEIR DOG IN!!
-     * IT DOES ZERO AUTHENTICATION! ***
+     * Eventually we should use OAuth here, since this is mainly
+     * for API authentication.
+     *
+     * For now let's just verify that they passed in a valid
+     * OpenID. The API layer verifies a valid API key later anyway,
+     * so we don't duplicate that effort here.
      *
      * @param string $name     the user name
      * @param string $password the password for the above user name
@@ -70,7 +71,31 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function authenticate( $name, $password ) {
-        return true;
+        // check that we got a valid URL
+        $options = array( 'domain_check'    => false,
+                          'allowed_schemes' => array( 'http', 'https' ) );
+        require_once 'Validate.php';
+        $validUrl = Validate::uri( $name, $options );
+        if ( !$validUrl ) {
+            return false;
+        }
+        
+        // we got a valid URL, see if it's allowed to login
+        require_once 'CRM/Core/BAO/OpenID.php';
+        $allowLogin = CRM_Core_BAO_OpenID::isAllowedToLogin( $name );
+        if ( !$allowLogin ) {
+            return false;
+        }
+        
+        // ask something about the speed of unladen swallows
+        require_once 'CRM/Standalone/User.php';
+        $user = new CRM_Standalone_User( $name );
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Standalone', 'Individual' );
+        require_once 'CRM/Core/Session.php';
+        $session = CRM_Core_Session::singleton();
+        $returnArray = array( $session->get('userID'), $session->get('ufID'), mt_rand() );
+        return $returnArray;
     }
 
     /**
@@ -83,7 +108,26 @@ class CRM_Utils_System_Standalone {
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $title, $url ) {
+    static function appendBreadCrumb( $breadCrumbs ) {
+        $template =& CRM_Core_Smarty::singleton( );
+        $bc = $template->get_template_vars( 'breadcrumb' );
+
+        if ( is_array( $breadCrumbs ) ) {
+            foreach ( $breadCrumbs as $crumbs ) {
+                if ( stripos($crumbs['url'], 'id%%') ) {
+                    $args = array( 'cid', 'mid' );
+                    foreach ( $args as $a ) {
+                        $val  = CRM_Utils_Request::retrieve( $a, 'Positive', CRM_Core_DAO::$_nullObject,
+                                                             false, null, $_GET );
+                        if ( $val ) {
+                            $crumbs['url'] = str_ireplace( "%%{$a}%%", $val, $crumbs['url'] );
+                        }
+                    }
+                }
+                $bc[] = $crumbs;
+            }
+        }
+        $template->assign_by_ref( 'breadcrumb', $bc );
         return;
     }
 
@@ -108,8 +152,9 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function addHTMLHead( $head ) {
-      // nop -- we'll do this in the template like the Joomla UF does
-			return;
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->append( 'pageHTMLHead', $head );
+        return;
     }
 
     /** 
@@ -139,8 +184,11 @@ class CRM_Utils_System_Standalone {
         if ( ! empty( $action ) ) {
             return $action;
         }
-
-        return self::url( $_GET['q'] );
+        if ( isset( $_GET['q'] ) ) {
+            return self::url( $_GET['q'] );
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -210,11 +258,11 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function getUserID( $user ) {
-      require_once 'CRM/Core/BAO/UFMatch.php';
+        require_once 'CRM/Core/BAO/UFMatch.php';
       
-      // this puts the appropriate values in the session, so
-      // no need to return anything
-      CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Standalone', 'Individual' );
+        // this puts the appropriate values in the session, so
+        // no need to return anything
+        CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Standalone', 'Individual' );
     }
 
     /**
@@ -227,11 +275,11 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function getAllowedToLogin( $user ) {
-      require_once 'CRM/Core/BAO/UFMatch.php';
-      
-      // this returns true if the user is allowed to log in, false o/w
-      $allow_login = CRM_Core_BAO_UFMatch::getAllowedToLogin( $user->identity_url );
-	  return $allow_login;
+        require_once 'CRM/Core/BAO/OpenID.php';
+
+        // this returns true if the user is allowed to log in, false o/w
+        $allow_login = CRM_Core_BAO_OpenID::isAllowedToLogin( $user->identity_url );
+        return $allow_login;
     }
 
     /**   
@@ -246,6 +294,14 @@ class CRM_Utils_System_Standalone {
     	return;
     }
 
+    static function permissionDenied( ) {
+        CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+    }
+
+    static function logout( ) {
+        session_destroy();
+        header("Location:index.php");
+    }
 }
 
-?>
+

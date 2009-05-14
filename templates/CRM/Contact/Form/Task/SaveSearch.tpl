@@ -15,6 +15,9 @@
  <dl>
    <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
    <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+{if $form.group_type}
+     <dt>{$form.group_type.label}</dt><dd>{$form.group_type.html}</dd>
+{/if}
    <dt></dt><dd>{$form.buttons.html}</dd>
  </dl>
  </div>

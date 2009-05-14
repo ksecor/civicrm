@@ -1,221 +1,74 @@
-if(!dojo._hasResource["dojox.fx.style"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojox.fx.style"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojox.fx.style"]){
+dojo._hasResource["dojox.fx.style"]=true;
 dojo.provide("dojox.fx.style");
-dojo.experimental("dojox.fx.style"); 
-//
-// summary: dojox.fx CSS Class _Animations: 
-//
-// description: a set of functions to animate properties based on
-// 	normalized CSS class definitions.
-//
-//	provides: addClass, removeClass, and toggleClass
-//	
-dojo.require("dojox.fx._base"); 
-
-// FIXME: should the call signatures match dojo.addClass/removeClass/toggleClass and extend
-// 	by having a third (or fourth) param to mix in additional _Animation args for advanced
-//	usage (delay: curve: repeat: easing: etc ... )
-
-dojox.fx.addClass = function(/*dojox.fx._arg.StyleArgs*/ args){
-	// summary: Animate the effects of adding a class to a node
-	// description:
-	//	Creates an animation that will animate
-	//	the properties of a node to the properties
-	//	defined in a standard CSS .class definition.
-	//	(calculating the differences itself)
-	//
-	// example:
-	// 
-	// 	.bar { line-height: 12px; }
-	// 	.foo { line-height: 40px; }
-	// 	<div class="bar" id="test">
-	//	Multi<br>line<br>text
-	//	</div> 
-	// 
-	// 	// animate to line-height:40px
-	// 	dojo.fx.addClass({ node:"test", cssClass:"foo" }).play();
-	// 
-	var node = (args.node = dojo.byId(args.node)); 
-
-	var pushClass = (function(){
-		// summary: onEnd we want to add the class to the node 
-		//	(as dojo.addClass naturally would) in case our 
-		//	class parsing misses anything the browser would 
-		// 	otherwise interpret. this may cause some flicker,
-		//	and will only apply the class so children can inherit 
-		//	after the animation is done (potentially more flicker)
-		var innerNode = node; // FIXME: why do we do this like this?
-		return function(){
-			dojo.addClass(innerNode, args.cssClass); 
-			innerNode.style.cssText = _beforeStyle; 
-		}
-	})();
-
-	// _getCalculatedStleChanges is the core of our style/class animations
-	var mixedProperties = dojox.fx._getCalculatedStyleChanges(args,true);
-	var _beforeStyle = node.style.cssText; 
-	var _anim = dojo.animateProperty(dojo.mixin({
-		properties: mixedProperties
-	},args));
-	dojo.connect(_anim,"onEnd",_anim,pushClass); 
-	return _anim; // dojo._Animation
+dojo.experimental("dojox.fx.style");
+dojo.require("dojox.fx._base");
+dojox.fx.addClass=function(_1){
+var _2=(_1.node=dojo.byId(_1.node));
+var _3=(function(n){
+return function(){
+dojo.addClass(n,_1.cssClass);
+n.style.cssText=_5;
 };
-
-dojox.fx.removeClass = function(/*dojox.fx._arg.StyleArgs*/ args){
-	// summary: Animate the effects of removing a class from a node
-	// description:
-	//	Creates an animation that will animate the properties of a 
-	// 	node (args.node) to the properties calculated after removing 
-	//	a standard CSS className from a that node.
-	//	
-	//	calls dojo.removeClass(args.cssClass) onEnd of animation		
-	//
-	//	standard dojo._Animation object rules apply. 
-	//
-	// example:
-	// |	// animate the removal of "foo" from a node with id="bar"
-	// |	dojox.fx.removeClass({
-	// |		node: "bar",
-	// |		cssClass: "foo"
-	// |	}).play();
-
-	var node = (args.node = dojo.byId(args.node)); 
-
-	var pullClass = (function(){
-		// summary: onEnd we want to remove the class from the node 
-		//	(as dojo.removeClass naturally would) in case our class
-		//	parsing misses anything the browser would otherwise 
-		//	interpret. this may cause some flicker, and will only 
-		//	apply the class so children can inherit after the
-		//	animation is done (potentially more flicker)
-		//
-		var innerNode = node;
-		return function(){
-			dojo.removeClass(innerNode, args.cssClass); 
-			innerNode.style.cssText = _beforeStyle; 
-		}
-	})();
-
-	var mixedProperties = dojox.fx._getCalculatedStyleChanges(args,false);
-	var _beforeStyle = node.style.cssText; 
-	var _anim = dojo.animateProperty(dojo.mixin({
-		properties: mixedProperties
-	},args));
-	dojo.connect(_anim,"onEnd",_anim,pullClass); 
-	return _anim; // dojo._Animation
+})(_2);
+var _6=dojox.fx._getCalculatedStyleChanges(_1,true);
+var _5=_2.style.cssText;
+var _7=dojo.animateProperty(dojo.mixin({properties:_6},_1));
+dojo.connect(_7,"onEnd",_7,_3);
+return _7;
 };
-
-dojox.fx.toggleClass = function(/*DomNode|String*/node, /*String*/cssClass, /*Boolean?*/condition){
-        // summary:
-	//	Animate the effects of Toggling a class on a Node
-	//
-	// description:
-	//	creates an animation that will animate the effect of 
-	//	toggling a class on or off of a node.
-        //	Adds a class to node if not present, or removes if present.
-        //	Pass a boolean condition if you want to explicitly add or remove.
-	// node:
-	//	The domNode (or string of the id) to toggle
-	// cssClass:
-	//	String of the classname to add to the node
-        // condition:
-        //	If passed, true means to add the class, false means to remove.
-	//
-	// example:
-	// |	// add the class "sampleClass" to a node id="theNode"
-	// |	dojox.fx.toggleClass("theNode","sampleClass",true).play();
-	// example:
-	// |	// toggle the class "sampleClass" on the node id="theNode"
-	// |	dojox.fx.toggleClass("theNode","sampleClass").play();
-	
-        if(typeof condition == "undefined"){
-                condition = !dojo.hasClass(node, cssClass);
-        }
-        return dojox.fx[(condition ? "addClass" : "removeClass")]({ node: node, cssClass:cssClass }); // dojo._Animation
-	// TODO: support 4th param animMixin to allow passing of easing and duration and other _Animtion options
+dojox.fx.removeClass=function(_8){
+var _9=(_8.node=dojo.byId(_8.node));
+var _a=(function(n){
+return function(){
+dojo.removeClass(n,_8.cssClass);
+n.style.cssText=_c;
 };
-
-dojox.fx._allowedProperties = [
-	// summary:
-	//	this is our pseudo map of properties we will check for.
-	//	it should be much more intuitive. a way to normalize and
-	//	"predict" intent, or even something more clever ... 
-	//	open to suggestions.
-
-	// no-brainers:
-	"width",
-	"height",
-	// only if position = absolute || relative?
-	"left", "top", "right", "bottom", 
-	// these need to be filtered through dojo.colors?
-	// "background", // normalize to:
-	/* "backgroundImage", */
-	// "backgroundPosition", // FIXME: to be effective, this needs "#px #px"?
-	"backgroundColor",
-
-	"color",
-
-	// "border", 
-	"borderBottomColor", "borderBottomWidth",
-	"borderTopColor","borderTopWidth",
-	"borderLeftColor","borderLeftWidth",
-	"borderRightColor","borderRightWidth",
-
-	// "padding", // normalize to: 
-	"paddingLeft", "paddingRight", "paddingTop", "paddingBottom",
-	// "margin", // normalize to:
-	"marginLeft", "marginTop", "marginRight", "marginBottom",
-
-	// unit import/delicate?:
-	"lineHeight",
-	"letterSpacing",
-	"fontSize"
-];
-
-dojox.fx._getStyleSnapshot = function(/* Object */cache){
-	// summary: 
-	//	uses a dojo.getComputedStyle(node) cache reference and
-	// 	iterates through the 'documented/supported animate-able'
-	// 	properties. 
-	//
-	// returns:  Array
-	//	an array of raw, calculcated values (no keys), to be normalized/compared
-	//	elsewhere	
-	return dojo.map(dojox.fx._allowedProperties,function(style){
-		return cache[style]; // String
-	}); // Array
+})(_9);
+var _d=dojox.fx._getCalculatedStyleChanges(_8,false);
+var _c=_9.style.cssText;
+var _e=dojo.animateProperty(dojo.mixin({properties:_d},_8));
+dojo.connect(_e,"onEnd",_e,_a);
+return _e;
 };
-
-dojox.fx._getCalculatedStyleChanges = function(/*dojox.fx._arg.StyleArgs*/ args, /*Boolean*/addClass){
-	// summary: calclate the difference in style properties between two states
-	// description:
-	//	calculate and normalize(?) the differences between two states
-	//	of a node (args.node) by quickly adding or removing a class, and
-	//	iterateing over the results of dojox.fx._getStyleSnapshot()
-	//
-	// addClass: 
-	// 	true to calculate what adding a class would do, 
-	// 	false to calculate what removing the class would do
-
-	var node = (args.node = dojo.byId(args.node)); 
-	var compute = dojo.getComputedStyle(node);
-
-	// take our snapShots
-	var _before = dojox.fx._getStyleSnapshot(compute);
-	dojo[(addClass ? "addClass" : "removeClass")](node,args.cssClass); 
-	var _after = dojox.fx._getStyleSnapshot(compute);
-	dojo[(addClass ? "removeClass" : "addClass")](node,args.cssClass); 
-
-	var calculated = {};
-	var i = 0;
-	dojo.forEach(dojox.fx._allowedProperties,function(prop){
-		if(_before[i] != _after[i]){
-			// FIXME: the static unit: px is not good, either. need to parse unit from computed style?
-			calculated[prop] = { end: parseInt(_after[i]) /* start: parseInt(_before[i]), unit: 'px' */ }; 
-		} 
-		i++;
-	});
-	return calculated; 
+dojox.fx.toggleClass=function(_f,_10,_11){
+if(typeof _11=="undefined"){
+_11=!dojo.hasClass(_f,_10);
+}
+return dojox.fx[(_11?"addClass":"removeClass")]({node:_f,cssClass:_10});
 };
-
+dojox.fx._allowedProperties=["width","height","left","top","backgroundColor","color","borderBottomColor","borderBottomWidth","borderTopColor","borderTopWidth","borderLeftColor","borderLeftWidth","borderRightColor","borderRightWidth","paddingLeft","paddingRight","paddingTop","paddingBottom","marginLeft","marginTop","marginRight","marginBottom","lineHeight","letterSpacing","fontSize"];
+dojox.fx._getStyleSnapshot=function(_12){
+return dojo.map(dojox.fx._allowedProperties,function(_13){
+return _12[_13];
+});
+};
+dojox.fx._getCalculatedStyleChanges=function(_14,_15){
+var _16=(_14.node=dojo.byId(_14.node));
+var cs=dojo.getComputedStyle(_16);
+var _18=dojox.fx._getStyleSnapshot(cs);
+dojo[(_15?"addClass":"removeClass")](_16,_14.cssClass);
+var _19=dojox.fx._getStyleSnapshot(cs);
+dojo[(_15?"removeClass":"addClass")](_16,_14.cssClass);
+var _1a={};
+var i=0;
+dojo.forEach(dojox.fx._allowedProperties,function(_1c){
+if(_18[i]!=_19[i]){
+_1a[_1c]={end:parseInt(_19[i])};
+}
+i++;
+});
+return _1a;
+};
 }

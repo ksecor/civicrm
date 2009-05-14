@@ -9,7 +9,7 @@
   {include file="CRM/common/pager.tpl" location="top"}
 
   {strip}
-    <table>
+    <table class="selector">
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header}
         <th scope="col">
@@ -28,47 +28,48 @@
       <tr class="{cycle values="odd-row,even-row"} {$row.class}">
 
         <td>{$row.activity_type}</td>
-        {if $enableCase}
-           <td><a href="{crmURL p='civicrm/contact/view/case' 
-                             q="action=view&selectedChild=case&id=`$row.case_id`&cid=`$row.sourceID`"}">
-                             {$row.case}</a>
-           </td>
-        {/if}
-       	<td>{$row.subject}</td>
+       
+    	<td>{$row.subject}</td>
 	
         <td>
         {if !$row.source_contact_id}
-	  <em>n/a</em>
-	{elseif $contactId NEQ $row.source_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}">{$row.source_contact_name}</a>
+          <em>n/a</em>
+        {elseif $contactId NEQ $row.source_contact_id}
+          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}" title="{ts}View contact{/ts}">{$row.source_contact_name}</a>
         {else}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}">{$row.source_contact_name}</a> 	
+          {$row.source_contact_name}	
         {/if}			
         </td>
 
         <td>
-        {if !$row.target_contact_id}
+        {if $row.mailingId}
+          <a href="{$row.mailingId}" title="{ts}View Mailing Report{/ts}">{$row.recipients}</a>
+        {elseif $row.recipients}
+          {$row.recipients}
+        {elseif !$row.target_contact_name}
           <em>n/a</em>
         {elseif $contactId NEQ $row.target_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_contact_name}</a>
+          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}" title="{ts}View contact{/ts}">{$row.target_contact_name}</a>
         {else}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_contact_name}
-        {/if}			
+          {$row.target_contact_name}
+        {/if}
         </td>
 
         <td>
-        {if !$row.assignee_contact_id}
-	  <em>n/a</em>
+        {if !$row.assignee_contact_name}
+            <em>n/a</em>
         {elseif $contactId NEQ $row.assignee_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}">{$row.assignee_contact_name}</a>
+          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}" title="{ts}View contact{/ts}">{$row.assignee_contact_name}</a>
         {else}
-          {$row.assignee_contact_name}
-        {/if}			
+            {$row.assignee_contact_name}
+        {/if}	
         </td>
 
         <td>{$row.activity_date_time|crmDate}</td>
 
-        <td>{$row.action}</td>    
+        <td>{$row.status}</td>
+
+        <td>{$row.action|replace:'xx':$row.id}</td>
       </tr>
       {/foreach}
 
@@ -78,13 +79,20 @@
   {include file="CRM/common/pager.tpl" location="bottom"}
   </form>
 
-</fieldset>
-</div>
-
 {else}
 
   <div class="messages status">
-     {ts}No Activites for this contact.{/ts}
+    {if isset($caseview) and $caseview}
+      {ts}There are no Activities attached to this case record.{/ts}{if $permission EQ 'edit'} {ts}You can go to the Activities tab to create or attach activity records.{/ts}{/if}
+    {elseif $context eq 'home'}
+      {ts}There are no Activities to display.{/ts}
+    {else}
+      {ts}There are no Activites to display.{/ts}{if $permission EQ 'edit'} {ts}You can use the links above to schedule or record an activity.{/ts}{/if}
+    {/if}
   </div>
 
 {/if}
+
+</fieldset>
+</div>
+

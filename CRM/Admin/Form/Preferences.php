@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -61,6 +61,9 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
         if ( isset($action) ) {
             $this->assign( 'action', $action );
         }
+
+        $session =& CRM_Core_Session::singleton( );
+
         require_once 'CRM/Core/DAO/Preferences.php';
         $this->_config =& new CRM_Core_DAO_Preferences( );
 
@@ -74,7 +77,6 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
             $this->_config->contact_id = null;
         } else {
             if ( ! $this->_contactID ) {
-                $session =& CRM_Core_Session::singleton( );
                 $this->_contactID = $session->get( 'userID' );
                 if ( ! $this->_contactID ) {
                     CRM_Utils_System::fatal( 'Could not retrieve contact id' );
@@ -86,6 +88,7 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
         }
 
         $this->_config->find( true );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting', 'reset=1') );
     }
 
     function cbsDefaultValues( &$defaults ) {
@@ -111,16 +114,10 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( $check = false ) 
+    public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
 
-        // set breadcrumb to append to 2nd layer pages
-        if ( !$check ) {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
-            CRM_Utils_System::appendBreadCrumb( ts('Global Settings'), $breadCrumbPath );
-        }
-        
         require_once 'CRM/Core/OptionGroup.php';
         foreach ( $this->_cbs as $name => $title ) {
             $options = array_flip( CRM_Core_OptionGroup::values( $name, false, false, true ) );
@@ -157,7 +154,6 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        $this->_config->domain_id = CRM_Core_Config::domainID( );
         foreach ( $this->_cbs as $name => $title ) {
             if ( CRM_Utils_Array::value( $name, $this->_params ) &&
                  is_array( $this->_params[$name] ) ) {
@@ -176,4 +172,4 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
 
 }
 
-?>
+

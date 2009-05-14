@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -93,6 +93,15 @@ class CRM_UF_Form_Field extends CRM_Core_Form
     protected $_hasLocationTypes;
     
     /**
+     * is this profile has searchable field
+     * or is any field having in selector true.
+     *
+     * @var boolean.
+     * @access protected
+     */
+    protected $_hasSearchableORInSelector;
+    
+    /**
      * Function to set variables up before form is built
      *
      * @return void
@@ -105,6 +114,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
                                                   $this);
 
+        $showBestResult  = CRM_Utils_Request::retrieve( 'sbr', 'Positive', CRM_Core_DAO::$_nullArray );
+        if (  $showBestResult ) {
+            $this->assign( 'showBestResult', $showBestResult );
+        }
+        
         if($this->_action & CRM_Core_Action::UPDATE) {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true);
         } else {
@@ -131,11 +145,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);
         }
 
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            require_once 'CRM/TMF/BAO/Student.php';
-            $this->_fields = array_merge (CRM_TMF_BAO_Student::exportableFields(), $this->_fields);
-        }
-        
         if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
             require_once 'CRM/Kabissa/BAO/Details.php';
             $this->_fields = array_merge (CRM_Kabissa_BAO_Details::exportableFields(), $this->_fields);
@@ -154,9 +163,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         // lets add group and tag to this list
         $this->_selectFields['group'] = ts('Group(s)');
         $this->_selectFields['tag'  ] = ts('Tag(s)');
-
+        
+        //CRM-4363 check for in selector or searchable fields.
+        $this->_hasSearchableORInSelector = CRM_Core_BAO_UFField::checkSearchableORInSelector( $this->_gid );
     }
-
+    
     /**
      * Function to actually build the form
      *
@@ -191,8 +202,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                     'supplemental_address_2',
                                     'city', 'postal_code', 'postal_code_suffix',
                                     'geo_code_1', 'geo_code_2',
-                                    'state_province', 'country',
-                                    'phone', 'email', 'im', 'location_name' );
+                                    'state_province', 'country','county',
+                                    'phone', 'email', 'im', 'address_name' );
             
             if ( ! $defaults['location_type_id'] &&
                  in_array($defaults['field_name'], $specialFields)  ) {
@@ -202,7 +213,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $defaults[ 'field_name' ] = array ( $defaults['field_type'],
                                                 $defaults['field_name'],
                                                 $defaults['location_type_id'],
-                                                CRM_Utils_Array::value( 'phone_type'      , $defaults ) );
+                                                CRM_Utils_Array::value( 'phone_type_id', $defaults ) );
             $this->_gid = $defaults['uf_group_id'];
             
         } else {
@@ -224,16 +235,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $this->add('hidden', 'field_id', $this->_id);
          
         $fields = array();
-        $fields['Individual'] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
-
-        // current employer field for individual
-        $currEmp['organization_name'] =   array ('name' => 'organization_name',
-                                                 'where' => 'civicrm_organization.organization_name',
-                                                 'title' => 'Current Employer');
-        
-        $fields['Individual'] = array_merge( $fields['Individual'], $currEmp);  
-
-
+        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 
@@ -242,13 +244,28 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         unset( $fields['Household'   ]['note']);
         unset( $fields['Organization']['note']);
 
-        $config =& CRM_Core_Config::singleton( );
-        if ( !isset($config->includeCounty) || !$config->includeCounty ) {
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
+        
+        if ( !$addressOptions['county'] ) {
             unset( $fields['Individual'  ]['county']);
             unset( $fields['Household'   ]['county']);
             unset( $fields['Organization']['county']);
         }
-
+        
+        //build the common contact fields array CRM-3037.
+        foreach ( $fields['Individual'] as $key => $value ) {
+            if ( CRM_Utils_Array::value( $key, $fields['Household'] ) && 
+                 CRM_Utils_Array::value( $key, $fields['Organization'] ) ) {
+                $fields['Contact'][$key] = $value;
+                //as we move common fields to contacts. There fore these fields
+                //are unset from resoective array's.
+                unset( $fields['Individual'][$key] );
+                unset( $fields['Household'][$key] );
+                unset( $fields['Organization'][$key] );
+            }
+        }
+        unset( $fields['Contact']['contact_type'] );
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
@@ -258,6 +275,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $contribFields =& CRM_Contribute_BAO_Contribution::getContributionFields();
             if ( ! empty( $contribFields ) ) {
                 unset( $contribFields['is_test']);
+                unset( $contribFields['is_pay_later']);
+                unset( $contribFields['contribution_id']);
                 $fields['Contribution'] =& $contribFields;
             }
         }
@@ -271,24 +290,21 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset($participantFields['participant_contact_id']);
                 unset($participantFields['participant_is_test']);
                 unset($participantFields['event_level']);
+                unset($participantFields['participant_id']);
+                unset($participantFields['participant_is_pay_later']);
                 $fields['Participant'] =& $participantFields;
             }
         }
-
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            require_once 'CRM/TMF/BAO/Student.php';
-            $fields['TMF']      =& CRM_TMF_BAO_Student::exportableFields();
-        }
-
+        
         if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
             require_once 'CRM/Kabissa/BAO/Details.php';
             $fields['Kabissa']  =& CRM_Kabissa_BAO_Details::exportableFields();
         }
-
+        
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             require_once 'CRM/Member/BAO/Membership.php';
             $membershipFields =& CRM_Member_BAO_Membership::getMembershipFields(); 
-            unset( $membershipFields['id'] );
+            unset( $membershipFields['membership_id'] );
             unset( $membershipFields['join_date'] );
             unset( $membershipFields['membership_start_date'] );
             unset( $membershipFields['membership_type_id'] );
@@ -296,13 +312,25 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             unset( $membershipFields['member_is_test'] );
             unset( $membershipFields['is_override'] );
             unset( $membershipFields['status_id'] );
+            unset( $membershipFields['member_is_pay_later'] );
             $fields['Membership'] =& $membershipFields;
         }
 
         $noSearchable = array();
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
-                $this->_mapperFields[$key][$key1] = $value1['title'];
+                //CRM-2676, replacing the conflict for same custom field name from different custom group.
+                require_once 'CRM/Core/BAO/CustomField.php';
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key1 ) ) {
+                    $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
+                    $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
+                    if ( strlen( $customGroupName ) > 13 ) {
+                        $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                    }
+                    $this->_mapperFields[$key][$key1] = $customGroupName . ': ' . $value1['title']; 
+                }else {
+                    $this->_mapperFields[$key][$key1] = $value1['title'];
+                }
                 $hasLocationTypes[$key][$key1]    = CRM_Utils_Array::value( 'hasLocationType', $value1 );
 
                 // hide the 'is searchable' field for 'File' custom data
@@ -335,7 +363,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         $this->_location_types = array ('Primary') + $this->_location_types;
 
-        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
+        $sel1 = array( '' => '- select -' ) 
+            + array( 'Contact' => 'Contacts' ) 
+            + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $sel1['Student'] = 'Students';
@@ -345,14 +375,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $sel1['Participant'] = 'Participants';
         }
         
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            $sel1['TMF'] = 'TMF';
-        }
-        
         if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
             $sel1['Kabissa'] = 'Kabissa Details';
         }
-
+        
         if ( ! empty( $contribFields ) ) {
             $sel1['Contribution'] = 'Contributions';
         }
@@ -367,8 +393,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             }
         } 
         $sel3[''] = null;
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
-        asort($phoneTypes);
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
+        ksort($phoneTypes);
              
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {
@@ -395,8 +421,16 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
         $formName = "document.{$this->_name}";
-      
-        $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), 'onclick="showLabel();"');  
+        
+        $alreadyMixProfile = false;
+        if ( CRM_Core_BAO_UFField::checkProfileType( $this->_gid ) ) {
+            $alreadyMixProfile = true;
+        }
+        $this->assign( 'alreadyMixProfile', $alreadyMixProfile );
+        
+        $attributes = array( 'onclick' => "showLabel();mixProfile();", 'onblur' => 'mixProfile();' );
+        
+        $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), $attributes );  
         $formValues = array();
          
         $formValues = $this->exportValues( );
@@ -438,14 +472,17 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
         
-        $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), true );
+        $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), true,array("onChange"=>"showHideSeletorSearch(this.value);") );
         
-        // should the field appear in selector?
-        $this->add('checkbox', 'in_selector', ts('In Selector?'));
-       
+        //CRM-4363
+        $js = array( 'onclick' => "mixProfile();" );
+        // should the field appear in selectors (as a column)?
+        $this->add( 'checkbox', 'in_selector', ts('Results Column?'), null, null, $js );
+        $this->add( 'checkbox', 'is_searchable', ts( 'Searchable?'), null, null, $js );
+         
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
-        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
         $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'help_post'));
         
@@ -456,24 +493,33 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         $this->add( 'checkbox', 'is_required'    , ts( 'Required?'                     ) );
         $this->add( 'checkbox', 'is_active'      , ts( 'Active?'                       ) );
-        $this->add( 'checkbox', 'is_searchable'  , ts( 'Searchable?'                   ) );
         $this->add( 'checkbox', 'is_view'        , ts( 'View Only?'                    ) );
         // $this->add( 'checkbox', 'is_registration', ts( 'Display in Registration Form?' ) );
         //$this->add( 'checkbox', 'is_match'       , ts( 'Key to Match Contacts?'        ) );
 
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'label'));
         
+        $js = null;
+        if ( $this->_hasSearchableORInSelector ) {
+            $js = array( 'onclick' => "return verify( );" );    
+        }
+        
         // add buttons
         $this->addButtons(array(
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
-                                       'isDefault' => true),
+                                       'isDefault' => true,
+                                       'js'        => $js ),
+                                array ('type'      => 'next',
+                                       'name'      => ts('Save and New'),
+                                       'subName'   => 'new', 
+                                       'js'        => $js ),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),
                                 )
                           );
 
-        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ));
+        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ), $this );
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
@@ -493,24 +539,39 @@ class CRM_UF_Form_Field extends CRM_Core_Form
      */
     public function postProcess()
     {
+        $ids = array( 'uf_group' => $this->_gid );
         if ($this->_action & CRM_Core_Action::DELETE) {
             $fieldValues = array('uf_group_id' => $this->_gid);
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_UFField', $this->_id, $fieldValues);
+            $deleted = CRM_Core_BAO_UFField::del( $this->_id );
             
-            CRM_Core_BAO_UFField::del($this->_id);
+            //update group_type every time. CRM-3608 
+            if ( $this->_gid && $deleted ) { 
+                //get the profile type.
+                $groupType = 'null';
+                $fieldsType = CRM_Core_BAO_UFGroup::calculateGroupType( $this->_gid );
+                if ( !empty( $fieldsType ) ) {
+                    $groupType = implode( ',', $fieldsType );
+                }
+                //set group type
+                CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'group_type', $groupType );
+            }
+            
             CRM_Core_Session::setStatus(ts('Selected Profile Field has been deleted.'));
             return;
         }
-     
+        
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-        $ids = array( );
-       
+        if ( $params['visibility'] == 'User and User Admin Only' ){
+            $params['is_searchable'] = 0;
+            $params['in_selector']   = 0; 
+        }
+        
+        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['uf_field'] = $this->_id;
         }
-
-        $ids['uf_group'] = $this->_gid;
         
         //check for duplicate fields
         if (CRM_Core_BAO_UFField::duplicateField($params, $ids) ) {
@@ -519,10 +580,59 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         } else {
             $ufField = CRM_Core_BAO_UFField::add($params,$ids);
             $name = $this->_selectFields[$ufField->field_name];
-            CRM_Core_Session::setStatus(ts('Your civicrm profile field "%1" has been saved.', array(1 => $name)));
+            
+            //reset other field is searchable and in selector settings, CRM-4363
+            if ( $this->_hasSearchableORInSelector && 
+                 in_array( $ufField->field_type, array( 'Participant', 'Contribution', 'Membership' ) ) ) {
+                CRM_Core_BAO_UFField::resetInSelectorANDSearchable( $this->_gid );
+            }
+            
+            $config =& CRM_Core_Config::singleton( );
+            $showBestResult = false;
+            if ( in_array( $ufField->field_name, array( 'country', 'state_province' ) ) && count( $config->countryLimit ) > 1 ) {
+                // get state or country field weight if exists
+                $field = 'state_province';
+                if ( $ufField->field_name == 'state_province' ) {
+                    $field = 'country';
+                }
+                $ufFieldDAO =& new CRM_Core_DAO_UFField();
+                $ufFieldDAO->field_name = $field;
+                $ufFieldDAO->location_type_id = $ufField->location_type_id;
+                $ufFieldDAO->uf_group_id = $ufField->uf_group_id;
+                    
+                if ( $ufFieldDAO->find( true ) ) {
+                    if ( $field == 'country' && $ufFieldDAO->weight > $ufField->weight ) {
+                        $showBestResult = true;
+                    } elseif ( $field == 'state_province' && $ufFieldDAO->weight < $ufField->weight ) {
+                        $showBestResult = true;
+                    }
+                } 
+            }
+            
+            //update group_type every time. CRM-3608 
+            if ( $this->_gid && is_a( $ufField, 'CRM_Core_DAO_UFField' ) ) {
+                //get the profile type.
+                $groupType = 'null';
+                $fieldsType = CRM_Core_BAO_UFGroup::calculateGroupType( $this->_gid );
+                if ( !empty( $fieldsType ) ) {
+                    $groupType = implode( ',', $fieldsType );
+                }
+                //set group type
+                CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'group_type', $groupType );
+            }
+            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Field \'%1\' has been saved.', array(1 => $name)));
+        }
+        $buttonName = $this->controller->getButtonName( );
+
+        $session =& CRM_Core_Session::singleton( );
+        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+            CRM_Core_Session::setStatus(ts(' You can add another profile field.'));
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/field', "reset=1&action=add&gid={$this->_gid}&sbr={$showBestResult}"));
+        } else {
+            $session->set( 'showBestResult', $showBestResult );
         }
     }
-
+    
     /**
      * global validation rules for the form
      *
@@ -532,7 +642,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
      * @static
      * @access public
      */
-    static function formRule( &$fields ) 
+    static function formRule( &$fields, &$files, $self ) 
     {
         $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
         $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
@@ -544,24 +654,19 @@ class CRM_UF_Form_Field extends CRM_Core_Form
        
         $errors = array( );
         if ( $is_view && $is_registration ) {
-            $errors['is_registration'] = 'View Only cannot be selected if this field is to be included on the registration form';
+            $errors['is_registration'] = ts( 'View Only cannot be selected if this field is to be included on the registration form' );
         }
         if ( $is_view && $is_required ) {
-            $errors['is_view'] = 'A View Only field cannot be required';
+            $errors['is_view'] = ts( 'A View Only field cannot be required' );
         }
-        if ( $in_selector && ($visibility != 'Public User Pages and Listings' )) {
-            $errors['visibility'] = 'Visibility should be "Public User Pages and Listings" if "In Selector ?" is checked.';
-        }
-        if ( $is_searchable && ($visibility != 'Public User Pages and Listings' )) {
-            $errors['visibility'] = 'Visibility must be set to Public User Pages and Listings if you want this field to be Searchable.';
-        }
+  
         $fieldName = $fields['field_name'][0];
         if (!$fieldName) {
-            $errors['field_name'] = 'Please select a field name';
+            $errors['field_name'] = ts( 'Please select a field name' );
         }
         
-        if ( $in_selector && $fieldName == 'Contribution' ) {
-            $errors['in_selector'] = "'In Selector' can NOT be checked for Contribution fields.";
+        if ( $in_selector && in_array( $fieldName, array('Contribution', 'Participant', 'Membership' ) ) ) {
+            $errors['in_selector'] = ts( "'In Selector' cannot be checked for %1 fields.", array( 1 => $fieldName ) );
         }
         
         if (! empty($fields['field_id'])) {
@@ -573,13 +678,86 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 $customField->find(true);
                 
                 if ( !$customField->is_active && $is_active) {
-                    $errors['field_name'] = 'Cannot set this field "Active" since the selected custom field is disabled.';
+                    $errors['field_name'] = ts( 'Cannot set this field "Active" since the selected custom field is disabled.');
                 }
             }
          }
+
+        //check profile is configured for double option process
+        //adding group field, email field should be present in the group 
+        //fixed for  issue CRM-2861 & CRM-4153
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->profileDoubleOptIn ) { 
+            if ( $fields['field_name'][1] == 'group' ) {
+                require_once 'CRM/Core/BAO/UFField.php';
+                $dao =& new CRM_Core_BAO_UFField();
+                $dao->uf_group_id = $fields['group_id'];
+                $dao->find( );
+                $emailField = false ;
+                while ( $dao->fetch( ) ) {
+                    //check email field is present in the group
+                    if ( $dao->field_name == 'email' ) {
+                        $emailField = true;
+                    }
+                } 
+                if ( ! $emailField ) {
+                    $errors['field_name'] = ts( 'You need to include an Email field in this Profile before you add the Group(s) field when profile is configured for double-opt in. This ensures that an opt-in confirmation email can be sent to contacts when they join a group.' );
+                }
+            }
+        }
+        
+        //fix for CRM-3037
+        $fieldType = $fields['field_name'][0];
+        
+        //get the group type. 
+        $groupType = CRM_Core_BAO_UFGroup::calculateGroupType( $self->_gid, CRM_Utils_Array::value( 'field_id', $fields ) );
+        
+        switch ( $fieldType ) {
+            
+        case 'Individual' :
+            if ( in_array( 'Household', $groupType ) || in_array( 'Organization', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Individual with combination of Household or Organization'); 
+            }
+            break;
+        case 'Household' :
+            if ( in_array( 'Individual', $groupType ) || in_array( 'Organization', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Household with combination of Individual or Organization'); 
+            }
+            break;
+        case 'Organization' :
+            if ( in_array( 'Household', $groupType ) || in_array( 'Individual', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Organization with combination of Household or Individual'); 
+            } 
+            break;
+        case 'Participant' :
+            if ( in_array( 'Membership', $groupType ) || in_array( 'Contribution', $groupType )
+                || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Participant with combination of Membership or Contribution or Household or Organization'); 
+            } 
+            break;
+        case 'Contribution' :
+            if ( in_array( 'Participant', $groupType ) || in_array( 'Membership', $groupType ) 
+                 || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Contribution with combination of Membership or Participant or Household or Organization'); 
+            }  
+            break;
+        case 'Membership' :
+            if ( in_array( 'Participant', $groupType ) || in_array( 'Contribution', $groupType )
+                || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Membership with combination of Participant or Contribution or Household or Organization'); 
+            }  
+            break;
+        }
+        
         return empty($errors) ? true : $errors;
     }
-
+    
 }
 
-?>
+

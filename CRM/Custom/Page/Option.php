@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -150,6 +150,25 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
                                                       'option_group_id' );
         
         $query = "
+SELECT id, label
+FROM   civicrm_custom_field
+WHERE  option_group_id = %1";
+        $params = array( 1 => array( $optionGroupID, 'Integer' ),
+                         2 => array( $this->_fid, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        $reusedNames = array( );
+        if ( $dao->N > 1 ) {
+            while ( $dao->fetch( ) ) {
+                $reusedNames[] = $dao->label;
+            }
+            $reusedNames = implode( ', ', $reusedNames );
+            $newTitle = ts( '%1 - Multiple Choice Options',
+                            array( 1 => $reusedNames ) );
+            CRM_Utils_System::setTitle( $newTitle );
+            $this->assign( 'reusedNames', $reusedNames );
+        }
+        
+        $query = "
 SELECT   *
   FROM   civicrm_option_value
  WHERE   option_group_id = %1
@@ -160,6 +179,7 @@ ORDER BY weight, label
 
         $customOption = array( );
         $fields = array( 'label', 'value', 'is_active', 'weight' );
+        $config =& CRM_Core_Config::singleton( );
         while ($dao->fetch()) {
             $customOption[$dao->id] = array( ); 
             foreach ( $fields as $field ) {
@@ -175,15 +195,17 @@ ORDER BY weight, label
                 $action -= CRM_Core_Action::DISABLE;
             }
 
-            if ( $fieldHtmlType == 'CheckBox' || $fieldHtmlType == 'Multi-Select' ) {                
+            if ( $fieldHtmlType == 'CheckBox' || 
+                 $fieldHtmlType == 'AdvMulti-Select' || 
+                 $fieldHtmlType == 'Multi-Select' ) {
                 if ( in_array($dao->value, $defVal) ) {
-                    $customOption[$dao->id]['default_value'] = '[x]';
+                    $customOption[$dao->id]['default_value'] = '<img src="' . $config->resourceBase . 'i/check.gif" />';
                 } else {
                     $customOption[$dao->id]['default_value'] = '';
                 }
             } else {
                 if ( $defaultValue == $dao->value ) {
-                    $customOption[$dao->id]['default_value'] = '[x]';
+                    $customOption[$dao->id]['default_value'] = '<img src="' . $config->resourceBase . 'i/check.gif" />';
                 } else {
                     $customOption[$dao->id]['default_value'] = '';
                 }
@@ -223,7 +245,7 @@ ORDER BY weight, label
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', 'reset=1&action=browse&fid=' . $this->_fid));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', "reset=1&action=browse&fid={$this->_fid}&gid={$this->_gid}"));
        
         $controller->set('gid', $this->_gid);
         $controller->set('fid', $this->_fid);
@@ -248,21 +270,26 @@ ORDER BY weight, label
     function run()
     {
         require_once 'CRM/Core/BAO/CustomField.php';
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
 
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                                   $this, false, 0);
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this, false, 0);
-
+        
+        //as url contain $gid so append breadcrumb dynamically.
+        $breadcrumb = array( array( 'title' => ts( 'Custom Data Fields' ),
+                                    'url'   => CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&gid=' .$this->_gid)));
+        CRM_Utils_System::appendBreadCrumb( $breadcrumb );
+        
         if ($this->_fid) {
             $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
             $this->assign('fid', $this->_fid);
+            $this->assign('gid', $this->_gid);
             $this->assign('fieldTitle', $fieldTitle);
             CRM_Utils_System::setTitle(ts('%1 - Multiple Choice Options', array(1 => $fieldTitle)));
         }
-
+        
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
@@ -277,10 +304,11 @@ ORDER BY weight, label
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {
             $this->edit($action);   // no browse for edit/update/view
         } else {
+            require_once 'CRM/Core/BAO/OptionValue.php';
             if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_CustomOption::setIsActive($id, 0);
+                CRM_Core_BAO_OptionValue::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_CustomOption::setIsActive($id, 1);
+                CRM_Core_BAO_OptionValue::setIsActive($id, 1);
             }
            $this->browse();
         }
@@ -288,4 +316,4 @@ ORDER BY weight, label
         parent::run();
     }
 }
-?>
+

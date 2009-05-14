@@ -1,315 +1,198 @@
-if(!dojo._hasResource["dijit._Container"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit._Container"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit._Container"]){
+dojo._hasResource["dijit._Container"]=true;
 dojo.provide("dijit._Container");
-
-dojo.declare("dijit._Contained",
-	null,
-	{
-		// summary
-		//		Mixin for widgets that are children of a container widget
-
-		getParent: function(){
-			// summary:
-			//		returns the parent widget of this widget, assuming the parent
-			//		implements dijit._Container
-			for(var p=this.domNode.parentNode; p; p=p.parentNode){
-				var id = p.getAttribute && p.getAttribute("widgetId");
-				if(id){
-					var parent = dijit.byId(id);
-					return parent.isContainer ? parent : null;
-				}
-			}
-			return null;
-		},
-
-		_getSibling: function(which){
-			var node = this.domNode;
-			do{
-				node = node[which+"Sibling"];
-			}while(node && node.nodeType != 1);
-			if(!node){ return null; } // null
-			var id = node.getAttribute("widgetId");
-			return dijit.byId(id);
-		},
-
-		getPreviousSibling: function(){
-			// summary:
-			//		returns null if this is the first child of the parent,
-			//		otherwise returns the next element sibling to the "left".
-
-			return this._getSibling("previous");
-		},
-
-		getNextSibling: function(){
-			// summary:
-			//		returns null if this is the last child of the parent,
-			//		otherwise returns the next element sibling to the "right".
-
-			return this._getSibling("next");
-		}
-	}
-);
-
-dojo.declare("dijit._Container",
-	null,
-	{
-		// summary
-		//		Mixin for widgets that contain a list of children like SplitContainer
-
-		isContainer: true,
-
-		addChild: function(/*Widget*/ widget, /*int?*/ insertIndex){
-			// summary:
-			//		Process the given child widget, inserting it's dom node as
-			//		a child of our dom node
-
-			if(insertIndex === undefined){
-				insertIndex = "last";
-			}
-			var refNode = this.containerNode || this.domNode;
-			if(insertIndex && typeof insertIndex == "number"){
-				var children = dojo.query("> [widgetid]", refNode);
-				if(children && children.length >= insertIndex){
-					refNode = children[insertIndex-1]; insertIndex = "after";
-				}
-			}
-			dojo.place(widget.domNode, refNode, insertIndex);
-
-			// If I've been started but the child widget hasn't been started,
-			// start it now.  Make sure to do this after widget has been
-			// inserted into the DOM tree, so it can see that it's being controlled by me,
-			// so it doesn't try to size itself.
-			if(this._started && !widget._started){
-				widget.startup();
-			}
-		},
-
-		removeChild: function(/*Widget*/ widget){
-			// summary:
-			//		removes the passed widget instance from this widget but does
-			//		not destroy it
-			var node = widget.domNode;
-			node.parentNode.removeChild(node);	// detach but don't destroy
-		},
-
-		_nextElement: function(node){
-			do{
-				node = node.nextSibling;
-			}while(node && node.nodeType != 1);
-			return node;
-		},
-
-		_firstElement: function(node){
-			node = node.firstChild;
-			if(node && node.nodeType != 1){
-				node = this._nextElement(node);
-			}
-			return node;
-		},
-
-		getChildren: function(){
-			// summary:
-			//		Returns array of children widgets
-			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.byNode); // Array
-		},
-
-		hasChildren: function(){
-			// summary:
-			//		Returns true if widget has children
-			var cn = this.containerNode || this.domNode;
-			return !!this._firstElement(cn); // Boolean
-		},
-
-		_getSiblingOfChild: function(/*Widget*/ child, /*int*/ dir){
-			// summary:
-			//		get the next or previous widget sibling of child
-			// dir:
-			//		if 1, get the next sibling
-			//		if -1, get the previous sibling
-			var node = child.domNode;
-			var which = (dir>0 ? "nextSibling" : "previousSibling");
-			do{
-				node = node[which];
-			}while(node && (node.nodeType != 1 || !dijit.byNode(node)));
-			return node ? dijit.byNode(node) : null;
-		}
-	}
-);
-
-dojo.declare("dijit._KeyNavContainer",
-	[dijit._Container],
-	{
-
-		// summary:
-		//		A _Container with keyboard navigation of its children.
-		//		To use this mixin, call connectKeyNavHandlers() in
-		//		postCreate() and call startupKeyNavChildren() in startup().
-
-/*=====
-		// focusedChild: Widget
-		//		The currently focused child widget, or null if there isn't one
-		focusedChild: null,
-=====*/
-
-		_keyNavCodes: {},
-
-		connectKeyNavHandlers: function(/*Array*/ prevKeyCodes, /*Array*/ nextKeyCodes){
-			// summary:
-			//		Call in postCreate() to attach the keyboard handlers
-			//		to the container.
-			// preKeyCodes: Array
-			//		Key codes for navigating to the previous child.
-			// nextKeyCodes: Array
-			//		Key codes for navigating to the next child.
-
-			var keyCodes = this._keyNavCodes = {};
-			var prev = dojo.hitch(this, this.focusPrev);
-			var next = dojo.hitch(this, this.focusNext);
-			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev });
-			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next });
-			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
-			if(dojo.isIE){
-				this.connect(this.domNode, "onactivate", "_onContainerFocus");
-				this.connect(this.domNode, "ondeactivate", "_onContainerBlur");
-			}else{
-				this.connect(this.domNode, "onfocus", "_onContainerFocus");
-				this.connect(this.domNode, "onblur", "_onContainerBlur");
-			}
-		},
-
-		startupKeyNavChildren: function(){
-			// summary:
-			//		Call in startup() to set child tabindexes to -1
-			dojo.forEach(this.getChildren(), dojo.hitch(this, "_setTabIndexMinusOne"));
-		},
-
-		addChild: function(/*Widget*/ widget, /*int?*/ insertIndex){
-			// summary: Add a child to our _Container
-			dijit._KeyNavContainer.superclass.addChild.apply(this, arguments);
-			this._setTabIndexMinusOne(widget);
-		},
-
-		focus: function(){
-			// summary: Default focus() implementation: focus the first child.
-			this.focusFirstChild();
-		},
-
-		focusFirstChild: function(){
-			// summary: Focus the first focusable child in the container.
-			this.focusChild(this._getFirstFocusableChild());
-		},
-
-		focusNext: function(){
-			// summary: Focus the next widget or focal node (for widgets
-			//		with multiple focal nodes) within this container.
-			if(this.focusedChild && this.focusedChild.hasNextFocalNode
-					&& this.focusedChild.hasNextFocalNode()){
-				this.focusedChild.focusNext();
-				return;
-			}
-			var child = this._getNextFocusableChild(this.focusedChild, 1);
-			if(child.getFocalNodes){
-				this.focusChild(child, child.getFocalNodes()[0]);
-			}else{
-				this.focusChild(child);
-			}
-		},
-
-		focusPrev: function(){
-			// summary: Focus the previous widget or focal node (for widgets
-			//		with multiple focal nodes) within this container.
-			if(this.focusedChild && this.focusedChild.hasPrevFocalNode
-					&& this.focusedChild.hasPrevFocalNode()){
-				this.focusedChild.focusPrev();
-				return;
-			}
-			var child = this._getNextFocusableChild(this.focusedChild, -1);
-			if(child.getFocalNodes){
-				var nodes = child.getFocalNodes();
-				this.focusChild(child, nodes[nodes.length-1]);
-			}else{
-				this.focusChild(child);
-			}
-		},
-
-		focusChild: function(/*Widget*/ widget, /*Node?*/ node){
-			// summary: Focus widget. Optionally focus 'node' within widget.
-			if(widget){
-				if(this.focusedChild && widget !== this.focusedChild){
-					this._onChildBlur(this.focusedChild);
-				}
-				this.focusedChild = widget;
-				if(node && widget.focusFocalNode){
-					widget.focusFocalNode(node);
-				}else{
-					widget.focus();
-				}
-			}
-		},
-
-		_setTabIndexMinusOne: function(/*Widget*/ widget){
-			if(widget.getFocalNodes){
-				dojo.forEach(widget.getFocalNodes(), function(node){
-					node.setAttribute("tabIndex", -1);
-				});
-			}else{
-				(widget.focusNode || widget.domNode).setAttribute("tabIndex", -1);
-			}
-		},
-
-		_onContainerFocus: function(evt){
-			this.domNode.setAttribute("tabIndex", -1);
-			if(evt.target === this.domNode){
-				this.focusFirstChild();
-			}else{
-				var widget = dijit.getEnclosingWidget(evt.target);
-				if(widget && widget.isFocusable()){
-					this.focusedChild = widget;
-				}
-			}
-		},
-
-		_onContainerBlur: function(evt){
-			if(this.tabIndex){
-				this.domNode.setAttribute("tabIndex", this.tabIndex);
-			}
-		},
-
-		_onContainerKeypress: function(evt){
-			if(evt.ctrlKey || evt.altKey){ return; }
-			var func = this._keyNavCodes[evt.keyCode];
-			if(func){
-				func();
-				dojo.stopEvent(evt);
-			}
-		},
-
-		_onChildBlur: function(/*Widget*/ widget){
-			// summary:
-			//		Called when focus leaves a child widget to go
-			//		to a sibling widget.
-		},
-
-		_getFirstFocusableChild: function(){
-			return this._getNextFocusableChild(null, 1);
-		},
-
-		_getNextFocusableChild: function(child, dir){
-			if(child){
-				child = this._getSiblingOfChild(child, dir);
-			}
-			var children = this.getChildren();
-			for(var i=0; i < children.length; i++){
-				if(!child){
-					child = children[(dir>0) ? 0 : (children.length-1)];
-				}
-				if(child.isFocusable()){
-					return child;
-				}
-				child = this._getSiblingOfChild(child, dir);
-			}
-		}
-	}
-);
-
+dojo.declare("dijit._Contained",null,{getParent:function(){
+for(var p=this.domNode.parentNode;p;p=p.parentNode){
+var id=p.getAttribute&&p.getAttribute("widgetId");
+if(id){
+var _3=dijit.byId(id);
+return _3.isContainer?_3:null;
+}
+}
+return null;
+},_getSibling:function(_4){
+var _5=this.domNode;
+do{
+_5=_5[_4+"Sibling"];
+}while(_5&&_5.nodeType!=1);
+if(!_5){
+return null;
+}
+var id=_5.getAttribute("widgetId");
+return dijit.byId(id);
+},getPreviousSibling:function(){
+return this._getSibling("previous");
+},getNextSibling:function(){
+return this._getSibling("next");
+}});
+dojo.declare("dijit._Container",null,{isContainer:true,addChild:function(_7,_8){
+if(_8===undefined){
+_8="last";
+}
+var _9=this.containerNode||this.domNode;
+if(_8&&typeof _8=="number"){
+var _a=dojo.query("> [widgetid]",_9);
+if(_a&&_a.length>=_8){
+_9=_a[_8-1];
+_8="after";
+}
+}
+dojo.place(_7.domNode,_9,_8);
+if(this._started&&!_7._started){
+_7.startup();
+}
+},removeChild:function(_b){
+var _c=_b.domNode;
+_c.parentNode.removeChild(_c);
+},_nextElement:function(_d){
+do{
+_d=_d.nextSibling;
+}while(_d&&_d.nodeType!=1);
+return _d;
+},_firstElement:function(_e){
+_e=_e.firstChild;
+if(_e&&_e.nodeType!=1){
+_e=this._nextElement(_e);
+}
+return _e;
+},getChildren:function(){
+return dojo.query("> [widgetId]",this.containerNode||this.domNode).map(dijit.byNode);
+},hasChildren:function(){
+var cn=this.containerNode||this.domNode;
+return !!this._firstElement(cn);
+},_getSiblingOfChild:function(_10,dir){
+var _12=_10.domNode;
+var _13=(dir>0?"nextSibling":"previousSibling");
+do{
+_12=_12[_13];
+}while(_12&&(_12.nodeType!=1||!dijit.byNode(_12)));
+return _12?dijit.byNode(_12):null;
+}});
+dojo.declare("dijit._KeyNavContainer",[dijit._Container],{_keyNavCodes:{},connectKeyNavHandlers:function(_14,_15){
+var _16=this._keyNavCodes={};
+var _17=dojo.hitch(this,this.focusPrev);
+var _18=dojo.hitch(this,this.focusNext);
+dojo.forEach(_14,function(_19){
+_16[_19]=_17;
+});
+dojo.forEach(_15,function(_1a){
+_16[_1a]=_18;
+});
+this.connect(this.domNode,"onkeypress","_onContainerKeypress");
+this.connect(this.domNode,"onfocus","_onContainerFocus");
+},startupKeyNavChildren:function(){
+dojo.forEach(this.getChildren(),dojo.hitch(this,"_startupChild"));
+},addChild:function(_1b,_1c){
+dijit._KeyNavContainer.superclass.addChild.apply(this,arguments);
+this._startupChild(_1b);
+},focus:function(){
+this.focusFirstChild();
+},focusFirstChild:function(){
+this.focusChild(this._getFirstFocusableChild());
+},focusNext:function(){
+if(this.focusedChild&&this.focusedChild.hasNextFocalNode&&this.focusedChild.hasNextFocalNode()){
+this.focusedChild.focusNext();
+return;
+}
+var _1d=this._getNextFocusableChild(this.focusedChild,1);
+if(_1d.getFocalNodes){
+this.focusChild(_1d,_1d.getFocalNodes()[0]);
+}else{
+this.focusChild(_1d);
+}
+},focusPrev:function(){
+if(this.focusedChild&&this.focusedChild.hasPrevFocalNode&&this.focusedChild.hasPrevFocalNode()){
+this.focusedChild.focusPrev();
+return;
+}
+var _1e=this._getNextFocusableChild(this.focusedChild,-1);
+if(_1e.getFocalNodes){
+var _1f=_1e.getFocalNodes();
+this.focusChild(_1e,_1f[_1f.length-1]);
+}else{
+this.focusChild(_1e);
+}
+},focusChild:function(_20,_21){
+if(_20){
+if(this.focusedChild&&_20!==this.focusedChild){
+this._onChildBlur(this.focusedChild);
+}
+this.focusedChild=_20;
+if(_21&&_20.focusFocalNode){
+_20.focusFocalNode(_21);
+}else{
+_20.focus();
+}
+}
+},_startupChild:function(_22){
+if(_22.getFocalNodes){
+dojo.forEach(_22.getFocalNodes(),function(_23){
+dojo.attr(_23,"tabindex",-1);
+this._connectNode(_23);
+},this);
+}else{
+var _24=_22.focusNode||_22.domNode;
+if(_22.isFocusable()){
+dojo.attr(_24,"tabindex",-1);
+}
+this._connectNode(_24);
+}
+},_connectNode:function(_25){
+this.connect(_25,"onfocus","_onNodeFocus");
+this.connect(_25,"onblur","_onNodeBlur");
+},_onContainerFocus:function(evt){
+if(evt.target===this.domNode){
+this.focusFirstChild();
+}
+},_onContainerKeypress:function(evt){
+if(evt.ctrlKey||evt.altKey){
+return;
+}
+var _28=this._keyNavCodes[evt.keyCode];
+if(_28){
+_28();
+dojo.stopEvent(evt);
+}
+},_onNodeFocus:function(evt){
+dojo.attr(this.domNode,"tabindex",-1);
+var _2a=dijit.getEnclosingWidget(evt.target);
+if(_2a&&_2a.isFocusable()){
+this.focusedChild=_2a;
+}
+dojo.stopEvent(evt);
+},_onNodeBlur:function(evt){
+if(this.tabIndex){
+dojo.attr(this.domNode,"tabindex",this.tabIndex);
+}
+dojo.stopEvent(evt);
+},_onChildBlur:function(_2c){
+},_getFirstFocusableChild:function(){
+return this._getNextFocusableChild(null,1);
+},_getNextFocusableChild:function(_2d,dir){
+if(_2d){
+_2d=this._getSiblingOfChild(_2d,dir);
+}
+var _2f=this.getChildren();
+for(var i=0;i<_2f.length;i++){
+if(!_2d){
+_2d=_2f[(dir>0)?0:(_2f.length-1)];
+}
+if(_2d.isFocusable()){
+return _2d;
+}
+_2d=this._getSiblingOfChild(_2d,dir);
+}
+return null;
+}});
 }

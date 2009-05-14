@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -95,6 +95,13 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
      */
     protected $_fieldUsed;
     
+    /**
+     * to store contactType
+     *
+     * @var int
+     * @static
+     */
+    static $_contactType = null;
 
     
     /**
@@ -109,12 +116,12 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
             if (empty($re)) continue;
-            
             /* if we've already used this field, move on */
-//             if ($this->_fieldUsed[$key])
-//                 continue;
+            //             if ($this->_fieldUsed[$key])
+            //                 continue;
             /* Scan through the headerPatterns defined in the schema for a
              * match */
+           
             if (preg_match($re, $header)) {
                 $this->_fieldUsed[$key] = true;
                 return $key;
@@ -179,7 +186,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         $this->assign( 'dataValues'  , $this->_dataValues );
         
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-        $this->_onDuplicate = $this->get('onDuplicate',$onDuplicate);
+        $this->_onDuplicate = $this->get('onDuplicate',isset($onDuplicate) ? $onDuplicate : "");
 
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
@@ -193,15 +200,17 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         //CRM-2219 removing other required fields since for updation only
         //membership id is required.
         if ( $this->_onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
-            $remove = array('membership_contact_id','email','first_name','last_name');
+            $remove = array('membership_contact_id','email','first_name','last_name','external_identifier');
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
-        }
-
+        } else if( $this->_onDuplicate == CRM_Member_Import_Parser::DUPLICATE_SKIP ) {
+            unset( $this->_mapperFields['membership_id'] );
+        }    
+        self::$_contactType = $this->get('contactType');
         
     }
-
+    
     /**
      * Function to actually build the form
      *
@@ -210,23 +219,17 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        //get the saved mapping details
-
         require_once "CRM/Core/BAO/Mapping.php";
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Memberships');
-
-        $this->assign('savedMapping',$mappingArray);
-        $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
-        $this->addElement('submit','loadMapping',ts('Load Mapping'), null, array('onclick'=>'checkSelect()'));
-
+        require_once "CRM/Core/OptionGroup.php";  
         //to save the current mappings
         if ( !$this->get('savedMapping') ) {
             $saveDetailsName = ts('Save this field mapping');
+           $this->applyFilter('saveMappingName', 'trim');
             $this->add('text','saveMappingName',ts('Name'));
             $this->add('text','saveMappingDesc',ts('Description'));
         } else {
             $savedMapping = $this->get('savedMapping');
-
+            
             list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($savedMapping);
             
             $mappingName        = $mappingName[1];
@@ -242,7 +245,8 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             $mappingDetails = CRM_Core_BAO_Mapping::retrieve($params, $temp);
 
             $this->assign('loadedMapping', $mappingDetails->name);
-
+            $this->set('loadedMapping', $savedMapping);
+            
             $getMappingName =&  new CRM_Core_DAO_Mapping();
             $getMappingName->id = $savedMapping;
             $getMappingName->mapping_type = 'Import Memberships';
@@ -263,7 +267,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         
         $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
         
-        $this->addFormRule( array( 'CRM_Member_Import_Form_MapField', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Member_Import_Form_MapField', 'formRule' ), $this );
 
         //-------- end of saved mapping stuff ---------
 
@@ -281,28 +285,18 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         }
         $this->_location_types = & CRM_Core_PseudoConstant::locationType();
         $sel1 = $this->_mapperFields;
+        if ( !$this->get('onDuplicate') ) {
+            unset($sel1['id']);
+            unset($sel1['membership_id']);
+        }
 
         $sel2[''] = null;
-        /*$phoneTypes = CRM_Core_SelectValues::phoneType();
-        foreach ($this->_location_types as $key => $value) {
-            $sel3['phone'][$key] =& $phoneTypes;
-        }
-        foreach ($mapperKeys as $key) {
-            list($id, $first, $second) = explode('_', $key);
-      
-                if ($hasLocationTypes[$key]) {
-                    $sel2[$key] = $this->_location_types;
-                } else {
-                    $sel2[$key] = null;
-                }
-        }*/
 
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
         
         //used to warn for mismatch column count or mismatch mapping      
         $warning = 0;
-
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
@@ -311,19 +305,17 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                 if ( isset($mappingName[$i]) ) {
                     if ( $mappingName[$i] != ts('- do not import -')) {                                
                         
-                        $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);
+                        $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);                        
                         
-                        if ( ! isset($locationId) || ! $locationId ) {
-                            $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
-                        }
+                        //When locationType is not set
+                        $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
 
-                        if ( ! isset($phoneType) || ! $phoneType ) {
-                            $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-                        }
-                        
+                        //When phoneType is not set                           
+                        $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
+                                                
                         $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
                         
-                        $defaults["mapper[$i]"] = array( $mappingHeader[0], $locationId, $phoneType );
+                        $defaults["mapper[$i]"] = array( $mappingHeader[0] );
                         $jsSet = true;
                     } else {
                         $defaults["mapper[$i]"] = array();
@@ -352,22 +344,21 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                                                                                     $headerPatterns),
                                                            //                     $defaultLocationType->id
                                                            0
-                                                           );
-                    
+                                                    );
                 } else {
                     // Otherwise guess the default from the form of the data
                     $defaults["mapper[$i]"] = array(
                                                            $this->defaultFromData($dataPatterns, $i),
                                                            //                     $defaultLocationType->id
                                                            0
-                                                           );
+                                                    );
                 }
             }
             $sel->setOptions(array($sel1, $sel2, (isset($sel3)) ? $sel3 : "", (isset($sel4)) ? $sel4 : ""));
         }
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
-
+        
         //set warning if mismatch in more than 
         if (isset($mappingName) ) {
             if ( ($this->_columnCount != count($mappingName)) ) {
@@ -406,63 +397,52 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields, &$files, &$self ) {
         $errors  = array( );
-
+        
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
                 $importKeys[] = $mapperPart[0];
-            }
+            } 
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
                                     'membership_contact_id'  => ts('Contact ID'),
                                     'membership_type_id'     => ts('Membership Type'),
+                                    'membership_start_date'  => ts('Membership Start Date')
                                     );
             
-            // validation for defalut dupe matching rule
-            $defaultFlag = true;
-            $defaultDupeMatch = array("first_name","last_name","email");
-            require_once 'CRM/Core/DAO/DupeMatch.php';
-            $dao = & new CRM_Core_DAO_DupeMatch();
-            $dao->find(true);
-            $fieldsArray = explode('AND',$dao->rule);
-            if (count($fieldsArray) == count( $defaultDupeMatch) ){
-                foreach ( $fieldsArray  as $value ) {
-                    if (!in_array(trim($value) ,$defaultDupeMatch)) {
-                        $defaultFlag = false;
-                    }
+            $contactTypeId = $self->get('contactType');
+            $contactTypes  = array(
+                                   CRM_Member_Import_Parser::CONTACT_INDIVIDUAL   => 'Individual',
+                                   CRM_Member_Import_Parser::CONTACT_HOUSEHOLD    => 'Household',
+                                   CRM_Member_Import_Parser::CONTACT_ORGANIZATION => 'Organization'
+                                   );
+            $params = array(
+                            'level'        => 'Strict',
+                            'contact_type' => $contactTypes[$contactTypeId]
+                            );
+            require_once 'CRM/Dedupe/BAO/RuleGroup.php';
+            list($ruleFields, $threshold) = CRM_Dedupe_BAO_RuleGroup::dedupeRuleFieldsWeight( $params );
+            $weightSum = 0;
+            foreach ($importKeys as $key => $val) {
+                if (array_key_exists($val,$ruleFields)) {
+                    $weightSum += $ruleFields[$val];
                 }
-            } else {
-                $defaultFlag = false;
             }
-            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            foreach ($ruleFields as $field => $weight) {
+                $fieldMessage .= ' '.$field.'(weight '.$weight.')';
+            }
             
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
-                    if( $field == 'membership_contact_id' &&  $defaultFlag ) {
-                        if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
-                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
-                             in_array('household_name', $importKeys) ||in_array('id', $importKeys) ||
-                             in_array('organization_name', $importKeys)) {
+                    if( $field == 'membership_contact_id' ) {
+                        if ( ( ( $weightSum >= $threshold || in_array('external_identifier', $importKeys ) ) &&
+                               $self->_onDuplicate != CRM_Member_Import_Parser::DUPLICATE_UPDATE ) ||
+                             in_array('membership_id', $importKeys) ) {
                             continue;    
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID if update mode.)') . '<br />';
-                        }
-                        
-                    } else if ( $field == 'membership_contact_id' &&  ! $defaultFlag ) {
-                        $flag = true;
-                        foreach ( $fieldsArray as $v ) {
-                            if ( in_array( trim($v), $importKeys )) {
-                                $flag = false;
-                                //$errors['_qf_default'] .= ts('Missing required contact matching field: '.$contactFields[trim($v)]['title'].' <br />');
-                            }
-                        }
-                        if (in_array('household_name', $importKeys) || in_array('organization_name', $importKeys)) {
-                            $flag = false;
-                        }
-                        if ( $flag ) {
-                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID.') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields.') . " $fieldMessage " . ts('(Sum of all weights should be greater than or equal to threshold: %1).',array(1 => $threshold)) . ' ' . ts('(OR Membership ID if update mode.)') . '<br />';
                         }
                         
                     } else {
@@ -478,8 +458,10 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-                if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Memberships')){
-                     $errors['saveMappingName'] = ts('Duplicate Import Membership Mapping Name');
+                $mappingTypeId = CRM_Core_OptionGroup::getValue( 'mapping_type', 'Import Membership', 'name' );
+               
+                if ( CRM_Core_BAO_Mapping::checkMapping( $nameField, $mappingTypeId ) ) {
+                    $errors['saveMappingName'] = ts('Duplicate Import Membership Mapping Name');
                 }
             }
         }
@@ -514,11 +496,11 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             return;
         }
         
-        
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
 
-        $seperator = ',';
+        $config =& CRM_Core_Config::singleton( );
+        $seperator = $config->fieldSeparator;
 
         $mapperKeys = array( );
         $mapper     = array( );
@@ -551,7 +533,6 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         
         //Updating Mapping Records
         if ( CRM_Utils_Array::value('updateMapping', $params)) {
-            
             $mappingFields =& new CRM_Core_DAO_MappingField();
             $mappingFields->mapping_id = $params['mappingId'];
             $mappingFields->find( );
@@ -564,7 +545,6 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             }
                 
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-
                 $updateMappingFields =& new CRM_Core_DAO_MappingField();
                 $updateMappingFields->id = $mappingFieldsId[$i];
                 $updateMappingFields->mapping_id = $params['mappingId'];
@@ -578,12 +558,12 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         
         //Saving Mapping Details and Records
         if ( CRM_Utils_Array::value('saveMapping', $params)) {
-            $mappingParams = array('name'         => $params['saveMappingName'],
-                                   'description'  => $params['saveMappingDesc'],
-                                   'mapping_type' => 'Import Memberships');
-            
-            $temp = array();
-            $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+            $mappingParams = array('name'            => $params['saveMappingName'],
+                                   'description'     => $params['saveMappingDesc'],
+                                   'mapping_type_id' => CRM_Core_OptionGroup::getValue( 'mapping_type',
+                                                                                        'Import Membership',
+                                                                                        'name' ) );
+            $saveMapping = CRM_Core_BAO_Mapping::add( $mappingParams ) ;
 
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {                  
                 
@@ -595,6 +575,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                 $saveMappingFields->name = $mapper[$i];
                 $saveMappingFields->save();
             }
+            $this->set( 'savedMapping', $saveMappingFields->mapping_id );
         }
 
         $parser =& new CRM_Member_Import_Parser_Membership( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
@@ -618,4 +599,4 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
     
 }
 
-?>
+

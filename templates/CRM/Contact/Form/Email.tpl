@@ -13,7 +13,9 @@
             <span>{$form.location.$index.email.1.email.html}</span>
              {if $hold neq 1}
 	            <span>{$form.location.$index.email.1.on_hold.html}</span>
-             {/if}
+             
+	            <span>&nbsp;{$form.location.$index.email.1.is_bulkmail.html}</span> &nbsp;&nbsp;{if $index EQ 1}{help id="id-bulkmail"}{/if}
+            {/if}
             {* Link to add a field. *}
             <span id="id_location_{$index}_email_2_show" class="add-remove-link">
                 {$form.location.$index.email.2.show.html}
@@ -36,7 +38,7 @@
               {if $hold neq 1}
         	      <span>{$form.location.$index.email.$innerIndex.on_hold.html}</span>
               {/if}
-              <span>&nbsp;{$form.location.$index.email.$innerIndex.is_bulkmail.html}&nbsp;&nbsp;{*help id="id-bulkmail"*}</span> 
+              <span>&nbsp;{$form.location.$index.email.$innerIndex.is_bulkmail.html}</span> 
               {* Link to hide this field *}
               <span id="id_location_{$index}_email_{$innerIndex}_hide" class="add-remove-link element-right">
               {$form.location.$index.email.$innerIndex.hide.html}
@@ -66,14 +68,12 @@ function email_is_bulkmail_onclick(formname, emailID, maxLocs, locID) {
 
     if (document.forms[formname].elements[changedKey][1].checked) {
         if ( confirm('Do you want to use this email address for bulk mailing?') == true ) {
-            for (var t = 1; t <= maxLocs; t++) {
-               for (var i = 2; i <= 3; i++) {
-                  Key = 'location[' +  t +'][email][' + i + '][is_bulkmail]';
-                    if (t != locID || i != emailID) {
-                      document.forms[formname].elements[Key][1].checked = false;
-                    } 
-               }
-            }
+	    for (var i = 1; i <= 5; i++) {
+		Key = 'location[' +  locID +'][email][' + i + '][is_bulkmail]';
+		if ( i != emailID ) {
+		    document.forms[formname].elements[Key][1].checked = false;
+		} 
+	    }
         } else {
             document.forms[formname].elements[changedKey][1].checked = false;
         }

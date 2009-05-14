@@ -4,6 +4,9 @@
 
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
  {* Including the javascript source code from the Contact.js *}
  <script type="text/javascript" src="{$config->resourceBase}js/Contact.js"></script>
  
@@ -16,45 +19,65 @@
  <fieldset><legend>{ts}Name and Greeting{/ts}</legend>
 	<table class="form-layout">
     <tr>
-		<td>{$form.prefix_id.label}</td>
-		<td>{$form.first_name.label}</td>
-		<td>{$form.middle_name.label}</td>
-		<td>{$form.last_name.label}</td>
-		<td>{$form.suffix_id.label}</td>
+		{* need to have td to keep alignment CRM-4079 *}
+		<td>{if $form.prefix_id}{$form.prefix_id.label}{/if}</td>
+		<td>{$form.first_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$contactId}{/if}</td>
+		<td>{$form.middle_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}{/if}</td>
+		<td>{$form.last_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}{/if}</td>
+		{if $form.suffix_id}<td>{$form.suffix_id.label}</td>{/if}
 	</tr>
 	<tr>
-		<td>{$form.prefix_id.html}</td>
+		<td>{if $form.prefix_id}{$form.prefix_id.html}{/if}</td>
 		<td>{$form.first_name.html}</td>
 		<td>{$form.middle_name.html|crmReplace:class:eight}</td>
 		<td>{$form.last_name.html}</td>
-		<td>{$form.suffix_id.html}</td>
+		{if $form.suffix_id}<td>{$form.suffix_id.html}</td>{/if}
 	</tr>
    	 <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.label}</td>
         <td>{$form.nick_name.label}</td>
-        <td>{$form.greeting_type.label} &nbsp; </td>
+	{if $form.greeting_type_id}
+        <td>{$form.greeting_type_id.label} &nbsp; </td>
+        <td><span id="greetingLabel">{$form.custom_greeting.label}</span></td>
+	{/if}	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
-        <td>{$form.greeting_type.html}</td>
+	{if $form.greeting_type_id}
+        <td>{$form.greeting_type_id.html}</td>
+        <td><span id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</span></td>
+	{/if}	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.job_title.label}</td>
-        <td>{$form.current_employer.label}</td>
         <td>{$form.home_URL.label}</td>
-        <td>{$form.external_identifier.label}</td>        
+        <td>{$form.external_identifier.label}</td>
+        <td>&nbsp;</td>        
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td> {$form.job_title.html}</td>
-        <td>{$form.current_employer.html}</td>
+        <td>{$form.job_title.html}</td>
         <td>{$form.home_URL.html|crmReplace:class:big}</td>
-        <td>{$form.external_identifier.html}</td>        
+        <td>{$form.external_identifier.html}</td>
+        <td>&nbsp;</td>        
     </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td colspan=4>{$form.current_employer.label}</td>
+    </tr>
+    <tr>
+        <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" ></div></td>
+        <td colspan=3 class="tundra">{$form.current_employer.html}</td>
+        <td><span id="current_employer_address" class="description"></span></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td colspan=5><span class="description">{ts}Enter the first letters of the name of the employer to see available organizations. If the employer organization doesn't exist yet, type in the new organization name.{/ts}</span></td>
+    </tr>  
     </table>
 
     {$form._qf_Edit_refresh_dedupe.html}
@@ -68,7 +91,7 @@
  <fieldset><legend>{ts}Household{/ts}</legend>
    	<table class="form-layout">
     <tr>
-		<td>{$form.household_name.label}</td>
+	<td>{$form.household_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='household_name' id=$contactId}{/if}</td>
         <td>{$form.contact_source.label}</td>
     </tr>
     <tr>
@@ -78,10 +101,14 @@
     <tr>
        	<td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
+        <td>{$form.greeting_type_id.label}</td>
+        <td id="greetingLabel">{$form.custom_greeting.label}</td>	
 	</tr>
     <tr>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
+        <td>{$form.greeting_type_id.html}</td>
+        <td id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</td>	
     </tr>
     </table>
     {$form._qf_Edit_refresh_dedupe.html}    
@@ -97,11 +124,10 @@
  <fieldset><legend>{ts}Organization{/ts}</legend>
 	<table class="form-layout">
     <tr>
-		<td>{$form.organization_name.label}</td>
+		<td>{$form.organization_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='organization_name' id=$contactId}{/if}</td>
 		<td>{$form.legal_name.label}</td>
 		<td>{$form.sic_code.label}</td>
         <td>{$form.contact_source.label}</td>
-        
     </tr>
     <tr>
         <td>{$form.organization_name.html|crmReplace:class:big}</td>
@@ -111,7 +137,7 @@
     </tr>
     <tr>
         <td>{$form.home_URL.label}</td>
-		<td>{$form.nick_name.label}</td>
+	    <td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
 	</tr>
     <tr>
@@ -134,13 +160,22 @@
 {/if}
  
 {* Conditionally insert any inline custom data groups *} 
-{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+    <div id="customData"></div>
+    {*include custom data js file*}
+    {include file="CRM/common/customData.tpl"}
+	{literal}
+		<script type="text/javascript">
+			cj(document).ready(function() {
+				var contact_type = {/literal}"{$contact_type}"{literal};
+				buildCustomData( contact_type );
+			});
+		</script>
+	{/literal}
 
 {* Plugging the Location block *}
 {include file="CRM/Contact/Form/Location.tpl"}
 
-{if $showDemographics}
-{if $contact_type eq 'Individual'}
+{if $contact_type eq 'Individual' and $showDemographics }
  <div id = "id_demographics_show" class="section-hidden section-hidden-border label">
     {$demographics.show}{ts}Demographics{/ts}
  </div>
@@ -153,6 +188,7 @@
         </span>
         <span class="fields">
         {$form.gender_id.html}
+        &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('gender_id', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
         </span>
     </div>
 	<div class="form-item">
@@ -160,13 +196,10 @@
         {$form.birth_date.label}
         </span>
         <span class="fields">
-		{$form.birth_date.html}
-                
-        </span>
-        <div class="description"> 
-                   {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_1}
-        </div>
+		{$form.birth_date.html} &nbsp;            
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_1}
         {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear trigger=trigger_demographics_1 }
+        </span>
     </div>
 	<div class="form-item">
         {$form.is_deceased.html}
@@ -177,38 +210,58 @@
         {$form.deceased_date.label}
         </span>
         <span class="fields">
-		{$form.deceased_date.html}
-        </span>
-                <div class="description"> 
-                   {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_2}
-                </div>
-        
+		{$form.deceased_date.html} &nbsp;
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_2}
         {include file="CRM/common/calendar/body.tpl" dateVar=deceased_date startDate=1905 endDate=currentYear trigger=trigger_demographics_2 }
+        </span>
     </div>
-
   </fieldset>
  </div>
 
 {literal}
 <script type="text/javascript">
-    if (document.getElementsByName("is_deceased")[0].checked) {
-      	    show('showDeceasedDate');
-    } else {
-           	hide('showDeceasedDate');
-    }
-        
-    function showDeceasedDate()
+    showDeceasedDate( );    
+    function showDeceasedDate( )
     {
         if (document.getElementsByName("is_deceased")[0].checked) {
       	    show('showDeceasedDate');
         } else {
-           	hide('showDeceasedDate');
+	    hide('showDeceasedDate');
         }
-    }
+    }     
 </script>
 {/literal}
 
-{/if}  
+{/if} 
+
+{if $contact_type eq 'Individual' and $currentEmployer }
+{literal}
+<script type="text/javascript">
+dojo.addOnLoad( function( ) 
+{
+	var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
+	dijit.byId( 'current_employer' ).setValue(currentEmployer);
+}); 
+</script>
+{/literal} 
+{/if}
+
+{if $contact_type eq 'Individual' or $contact_type eq 'Household'}
+{literal}
+<script type="text/javascript">
+showGreeting( );
+function showGreeting( )
+{
+    if (document.getElementById("greeting_type_id").value == 4) {
+        show('greetingLabel');
+        show('greetingHtml');	
+    } else {
+        hide('greetingLabel');
+        hide('greetingHtml');
+    }
+}
+</script>
+{/literal}
 {/if}
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
@@ -222,7 +275,16 @@
      <div id = "id_notes">
          <fieldset><legend>{$notes.hide}{ts}Contact Notes{/ts}</legend>
             <div class="form-item">
-                {$form.note.html}
+<table class="form-layout">
+<tr>
+<td>{$form.subject.label}</td>
+<td>{$form.subject.html}</td>
+</tr>
+<tr>
+<td>{$form.note.label}</td>
+<td>{$form.note.html}</td>
+</tr>
+</table>
             </div>
          </fieldset>
      </div>
@@ -242,16 +304,31 @@
 	<table class="form-layout">
     <tr>
         <td>
-        <div class="label">{ts}Group(s){/ts}</div>
-        <div class="listing-box">
-	{$form.group.html}
-        </div>
+            <div class="label">{ts}Group(s){/ts}</div>
+            {* Put Groups table in a scrollable listing box if more than 8 groups. *}
+            {if $groupCount GT 8}
+                <div class="listing-box-tall">
+                <table id="selector" class="selector" style="width: auto; margin: -5px 0px -5px 0px;">
+                    <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
+                </table> 
+                </div>
+            {else}
+                <table id="selector" class="selector" style="width: auto;">
+                    <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
+                </table> 
+            {/if}
         </td>
         <td>
-        <div class="label">{ts}Tag(s){/ts}</div>
-        <div class="listing-box">
-	{$form.tag.html}
-        </div>
+            <div class="label">{ts}Tag(s){/ts}</div>
+            {* Choose regular or 'tall' listing-box class for Tag select box based on # of tags. *}
+            {if $tagCount GT 8}
+                {assign var="boxClass" value="listing-box-tall"}
+            {else}
+                {assign var="boxClass" value="listing-box"}
+            {/if}
+            <div class="{$boxClass}">
+                {$form.tag.html}
+            </div>
         </td>
     </tr>
     </table>
@@ -260,6 +337,14 @@
     <div class="spacer"> </div>
     </fieldset>
 </div>
+{literal}
+<script type="text/javascript">
+    cj(document).ready(function(){
+        cj('#selector tr:even').addClass('odd-row ');
+        cj('#selector tr:odd ').addClass('even-row');
+    });
+</script>
+{/literal}
 {/if}
 
 <div class="crm-submit-buttons">
@@ -268,17 +353,4 @@
 
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
 {include file="CRM/common/showHide.tpl"}
-
-{* Set Default for Shared Household-Name *}
-{if $contact_type eq 'Individual' and $defaultSharedHousehold}
-{literal}
-<script type="text/javascript">
-    dojo.addOnLoad( setSharedHouseholdDefault );
-    function setSharedHouseholdDefault( )
-    {
-        var sharedHousehold = dojo.widget.byId('shared_household');
-        sharedHousehold.textInputNode.value = "{/literal}{$defaultSharedHousehold}{literal}";
-    }
-</script>
-{/literal}
 {/if}

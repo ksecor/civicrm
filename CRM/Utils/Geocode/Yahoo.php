@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -66,9 +66,8 @@ class CRM_Utils_Geocode_Yahoo {
     static function format( &$values, $stateName = false ) {
         CRM_Utils_System::checkPHPVersion( 5, true );
 
-        // we need a valid state and country, else we ignore
-        if ( ! CRM_Utils_Array::value( 'state_province' , $values  ) &&
-             ! CRM_Utils_Array::value( 'country'        , $values  ) ) {
+        // we need a valid country, else we ignore
+        if ( ! CRM_Utils_Array::value( 'country'        , $values  ) ) {
             return false;
         }
 
@@ -81,8 +80,9 @@ class CRM_Utils_Geocode_Yahoo {
             $arg[] = "street=" . urlencode( $values['street_address'] );
         }
 
-        if (  CRM_Utils_Array::value( 'city', $values ) ) { 
-            $arg[] = "city=" . urlencode( $values['city'] );
+        $city = CRM_Utils_Array::value( 'city', $values );
+        if ( $city ) {
+            $arg[] = "city=" . urlencode( $city );
         }
 
         if (  CRM_Utils_Array::value( 'state_province', $values ) ) { 
@@ -95,7 +95,10 @@ class CRM_Utils_Geocode_Yahoo {
                     $stateProvince = $values['state_province'];
                 }
             }
-            $arg[] = "state=" . urlencode( $stateProvince );
+            // dont add state twice if replicated in city (happens in NZ and other countries, CRM-2632)
+            if ( $stateProvince != $city ) {
+                $arg[] = "state=" . urlencode( $stateProvince );
+            }
         }
 
         if (  CRM_Utils_Array::value( 'country', $values ) ) { 
@@ -129,11 +132,13 @@ class CRM_Utils_Geocode_Yahoo {
 
             $values['geo_code_1'] = $ret['Latitude' ];
             $values['geo_code_2'] = $ret['Longitude'];
+            return true;
         }
-
-        return true;
+        // reset the geo code values if we did not get any good values
+        $values['geo_code_1'] = $values['geo_code_2'] = 'null';
+        return false;
     }
 
 }
 
-?>
+

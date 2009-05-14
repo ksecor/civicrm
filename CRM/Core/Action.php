@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -31,7 +31,7 @@
  * and similar across all objects (thus providing both reuse and standards)
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -66,6 +66,7 @@ class CRM_Core_Action {
         PROFILE       =   8192,
         COPY          =  16384,
         RENEW         =  32768,
+        DETACH        =  32768,
         MAX_ACTION    =  65535;
    
   
@@ -94,6 +95,7 @@ class CRM_Core_Action {
                            'copy'          => self::COPY,
                            'profile'       => self::PROFILE,
                            'renew'         => self::RENEW,
+                           'detach'        => self::DETACH
                            );
 
     /**
@@ -195,22 +197,40 @@ class CRM_Core_Action {
      * @static
      */
     static function formLink( &$links, $mask, $values ) {
+        $config =& CRM_Core_Config::singleton();
         if ( empty( $links ) ) {
             return null;
         }
-
+        
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
-                $extra = CRM_Utils_Array::value( 'extra', $link, '' );
-                $url[] = sprintf('<a href="%s" ' . $extra . '>%s</a>',
+                if ( count($url) > 1 ) {
+                    $extra = str_replace( 'onclick', 'js', CRM_Utils_Array::value( 'extra', $link, '' ) );
+                } else {
+                    $extra = CRM_Utils_Array::value( 'extra', $link, '' );
+                }
+                $url[] = sprintf('<a href="%s" title="%s"' . $extra . '>%s</a>',
                                  CRM_Utils_System::url( self::replace( $link['url'], $values ),
-                                                        self::replace( $link['qs'] , $values ) ),
-                                 $link['name'] );
+                                                        self::replace( $link['qs'] , $values ), true ),
+                                 $link['title'], $link['name'] );
             }
         }
-        $result = '';
-        CRM_Utils_String::append( $result, '&nbsp;|&nbsp;', $url );
+        
+        $result     = $resultDiv = '';
+        $actionLink = $url;
+        $actionDiv  = array_splice( $url, 2 );
+        $showDiv    = false;
+        if ( count( $actionDiv ) > 1 ) {
+            $actionLink = array_slice ( $url, 0, 2 );
+            $showDiv = true;
+        }
+        CRM_Utils_String::append( $resultLink, '&nbsp;|&nbsp;', $actionLink );
+        if ( $showDiv ) {
+            CRM_Utils_String::append( $resultDiv, '</li><li>', $actionDiv );
+            $resultDiv = "| <img src='{$config->resourceBase}i/menu-collapsed.png' title='".ts('more')."'/> ".ts('more')."<ul id='panel_xx' class='panel'><li>{$resultDiv}</li></ul>";
+        }
+        $result = "<span>{$resultLink} &nbsp;</span><span class='btn-slide' id=xx>{$resultDiv}</span>";
         return $result;
     }
 
@@ -253,4 +273,4 @@ class CRM_Core_Action {
 
 }
 
-?>
+

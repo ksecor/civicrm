@@ -1,39 +1,30 @@
 <?php
 
 /**
-* 
-* Index, constraint and alter methods for DB_Table usage with
-* PEAR::DB as backend. (Code adopted from PEAR::MDB2)
-* 
-* @category DB
-* 
-* @package DB_Table
-*
-* @author Mark Wiesemann <wiesemann@php.net>
-* 
-* @license http://www.gnu.org/copyleft/lesser.html LGPL
-* 
-* @version $Id: sqlite.php,v 1.2 2006/02/26 15:54:56 wiesemann Exp $
-*
-*/
+  * Index, constraint and alter methods for DB_Table usage with
+  * PEAR::DB as backend. (Code adopted from PEAR::MDB2)
+  * 
+  * @category Database
+  * @package DB_Table
+  * @author Mark Wiesemann <wiesemann@php.net>
+  * @license http://www.gnu.org/copyleft/lesser.html LGPL
+  * @version $Id: sqlite.php,v 1.4 2007/04/03 03:39:42 morse Exp $
+  */
 
+/**
+ * Require DB_Table class
+ */
 require_once 'DB/Table.php';
 
 
 /**
-* 
-* Index, constraint and alter methods for DB_Table usage with
-* PEAR::DB as backend. (Code adopted from PEAR::MDB2)
-* 
-* @category DB
-* 
-* @package DB_Table
-*
-* @author Mark Wiesemann <wiesemann@php.net>
-*
-*/
-
-
+ * Index, constraint and alter methods for DB_Table usage with
+ * PEAR::DB as backend. (Code adopted from PEAR::MDB2)
+ * 
+ * @category Database
+ * @package DB_Table
+ * @author Mark Wiesemann <wiesemann@php.net>
+ */
 class DB_Table_Manager_sqlite {
 
     /**

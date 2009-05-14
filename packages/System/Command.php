@@ -18,7 +18,7 @@
 // | Author: Dan Allen <dan@mojavelinux.com>
 // +----------------------------------------------------------------------+
 
-// $Id: Command.php,v 1.8 2006/03/14 21:24:22 cconstantine Exp $
+// $Id: Command.php,v 1.9 2007/04/20 21:08:48 cconstantine Exp $
 
 // }}}
 // {{{ includes
@@ -55,7 +55,7 @@ define('SYSTEM_COMMAND_NONZERO_EXIT',     -12);
  *
  * @author  Anders Johannsen <anders@johannsen.com>
  * @author  Dan Allen <dan@mojavelinux.com>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 
 // }}}
@@ -190,8 +190,8 @@ class System_Command {
         }
 
         // Caputre a temporary directory for capturing stderr from commands
-        $this->tmpdir = System::tmpdir();
-        if (!System::mkDir("-p {$this->tmpdir}")) {
+        $this->tmpDir = System::tmpdir();
+        if (!System::mkDir("-p {$this->tmpDir}")) {
             $this->_initError =& PEAR::raiseError(null, SYSTEM_COMMAND_TMPDIR_ERROR, null, E_USER_WARNING, null, 'System_Command_Error', true);
             return;
         }

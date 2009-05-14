@@ -37,7 +37,7 @@ include_once 'Archive/Tar.php';
 * @link     http://pear.php.net/package/PHP_Beautifier
 * @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 0.1.11
+* @version    Release: 0.1.13
 */
 abstract class PHP_Beautifier_Batch_Output_DirectoryTar extends PHP_Beautifier_Batch_Output {
     public function save() 

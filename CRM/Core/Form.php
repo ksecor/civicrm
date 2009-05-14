@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -31,7 +31,7 @@
  * machine. Each form can also operate in various modes
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -41,10 +41,11 @@ require_once 'HTML/QuickForm/Page.php';
 require_once 'CRM/Utils/Rule.php';
 require_once 'CRM/Utils/Request.php';
 require_once 'CRM/Utils/Weight.php';
+require_once 'CRM/Core/Permission.php';
 require_once 'CRM/Core/Smarty.php';
 require_once 'CRM/Core/Form/Renderer.php';
 require_once 'CRM/Core/SelectValues.php';
-
+require_once 'CRM/Utils/String.php';
 class CRM_Core_Form extends HTML_QuickForm_Page {
 
     /**
@@ -130,7 +131,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */
 
-    function __construct($state = null, $action = CRM_Core_Action::NONE, $method = 'post', $name = null ) {
+    function __construct( $state = null,
+                          $action = CRM_Core_Action::NONE,
+                          $method = 'post',
+                          $name = null ) {
         if ( $name ) {
             $this->_name  = $name;
         } else {
@@ -140,7 +144,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->HTML_QuickForm_Page( $this->_name, $method );
     
         $this->_state   = $state;
-        $this->_action  = $action;
+        $this->_action  = (int) $action;
 
         $this->registerRules( );
 
@@ -162,14 +166,14 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *
      */
     function registerRules( ) {
-        static $rules = array( 'title', 'variable', 'qfVariable', 
+        static $rules = array( 'title', 'longTitle', 'variable', 'qfVariable', 
                                'phone', 'integer', 'query',
                                'url', 'wikiURL',
                                'domain','numberOfDigit',
                                'date', 'qfDate', 'currentDate',
                                'asciiFile', 'htmlFile', 'utf8File',
                                'objectExists', 'optionExists', 'postalCode', 'money','positiveInteger',
-                               'xssString' );
+                               'xssString', 'fileExists' );
 
         foreach ( $rules as $rule ) {
             $this->registerRule( $rule, 'callback', $rule, 'CRM_Utils_Rule' );
@@ -237,6 +241,17 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     /**
+     * This function is just a wrapper, so that we can call all the hook functions
+     */
+    function mainProcess() {
+        $this->postProcess( );
+
+        CRM_Utils_Hook::postProcess( get_class( $this ),
+                                     $this );
+
+    }
+
+    /**
      * This virtual function is used to build the form. It replaces the
      * buildForm associated with QuickForm_Page. This allows us to put 
      * preProcess in front of the actual form building routine
@@ -271,6 +286,20 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     function addRules() {
     }
 
+    function validate( ) {
+        $error = parent::validate( );
+
+        require_once 'CRM/Utils/Hook.php';
+        $hookErrors = CRM_Utils_Hook::validate( get_class( $this ),
+                                                $this->_submitValues, $this->_submitFiles, $this );
+        if ( $hookErrors !== true && is_array($hookErrors) && !empty($hookErrors) ) {
+            $this->_errors += $hookErrors;
+            $error = false;
+        }
+
+        return $error;
+    }
+
     /**
      * Core function that builds the form. We redefine this function
      * here and expect all CRM forms to build their form in the function
@@ -282,26 +311,30 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
         $this->preProcess();
 
-        // add the drupal form token hidden value to allow things to work
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Drupal' &&
-             $config->userFrameworkVersion <= 4.6      &&
-             function_exists( 'drupal_get_token' ) ) {
-            $this->addElement( 'hidden', 'edit[token]', drupal_get_token( ) );
-        }
+        $this->assign('translatePermission', CRM_Core_Permission::check('translate CiviCRM'));
 
-        if ( $this->controller->_key ) {
+        if ( $this->controller->_key &&
+             $this->controller->_print != CRM_Core_Smarty::PRINT_NOFORM ) {
             $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
+            $this->assign( 'qfKey', $this->controller->_key );
         }
 
+        require_once 'CRM/Utils/Hook.php';
+        
         $this->buildQuickForm();
 
         $defaults =& $this->setDefaultValues( );
-
         unset( $defaults['qfKey'] );
+        
         if ( ! empty( $defaults ) ) {
             $this->setDefaults( $defaults );
         }
+
+        // call the form hook
+        // also call the hook function so any modules can set thier own custom defaults
+        // the user can do both the form and set default values with this hook
+        CRM_Utils_Hook::buildForm( get_class( $this ),
+                                   $this );
 
         $this->addRules();
 
@@ -320,7 +353,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      *
      */
-    function addButtons( $params ) {
+    function addButtons( $params ) 
+    {
         $prevnext = array( );
         $spacing = array( );
         foreach ( $params as $button ) {
@@ -344,12 +378,21 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                 } else {
                     $buttonName = $this->getButtonName( $button['type'] );
                 }
+                if ( $button['type'] === 'next' && $button['name'] === 'Save' ) {
+                    $attrs = array_merge( $attrs , ( array ( 'accesskey' => 'S' ) ) );
+                }                
                 $prevnext[] =& $this->createElement( 'submit', $buttonName, $button['name'], $attrs );
             }
             if ( CRM_Utils_Array::value( 'isDefault', $button ) ) {
                 $this->setDefaultAction( $button['type'] );
             }
             
+            // if button type is upload, set the enctype
+            if ( $button['type'] == 'upload' ) {
+                $this->updateAttributes(array('enctype' => 'multipart/form-data'));
+                $this->setMaxFileSize();
+            }
+
             // hack - addGroup uses an array to express variable spacing, read from the last element
             $spacing[] = CRM_Utils_Array::value('spacing', $button, self::ATTR_SPACING);
         }
@@ -497,7 +540,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */
     function getTemplateFileName() {
-        return (str_replace('_', DIRECTORY_SEPARATOR, CRM_Utils_System::getClassName($this)) . ".tpl");
+        return str_replace( '_',
+                            DIRECTORY_SEPARATOR,
+                            CRM_Utils_System::getClassName( $this ) ) .'.tpl';
     }
 
     /**
@@ -594,15 +639,16 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         self::$_template->assign_by_ref($var, $value);
     }
 
-    function addRadio( $name, $title, &$values, $attributes = null, $separator = null, $required = false ) {
+    function &addRadio( $name, $title, &$values, $attributes = null, $separator = null, $required = false ) {
         $options = array( );
         foreach ( $values as $key => $var ) {
             $options[] =& HTML_QuickForm::createElement('radio', null, null, $var, $key, $attributes);
         }
-        $this->addGroup($options, $name, $title, $separator);
+        $group =& $this->addGroup($options, $name, $title, $separator);
         if ($required) {
             $this->addRule($name, ts('%1 is a required field.', array(1 => $title)), 'required');
         }           
+        return $group;
     }
 
     function addYesNo( $id, $title, $dontKnow = null ,$required = null, $attribute = null) {
@@ -682,6 +728,17 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addButtons( $buttons );
     }
 
+    function addDateRange( $name, $label = 'From:', $dateFormat = 'relative', $required = null ) {
+        $this->add('date', $name . '_from', $label, CRM_Core_SelectValues::date($dateFormat)); 
+        $this->add('date', $name . '_to', ts('To:'), CRM_Core_SelectValues::date($dateFormat)); 
+        
+        if ( $required ) {
+            foreach ( array ( 'from', 'to' ) as $key ) { 
+                $form->addRule( $name .'_' . $key , ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+            }
+        }
+    }
+    
     function addSelect( $name, $label, $prefix = null, $required = null, $extra = null, $select = '- select -' ) {
         require_once "CRM/Core/OptionGroup.php";
         if ($prefix) {
@@ -701,6 +758,21 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
         
     }
+        
+    function addWysiwyg( $name, $label, $attributes, $forceTextarea = false ) 
+    {
+        // 1. Get configuration option for editor (tinymce, fckeditor, dojoeditor, pure textarea)
+        // 2. Based on the option, initialise proper editor
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $editor = strtolower( CRM_Utils_Array::value( CRM_Core_BAO_Preferences::value( 'editor_id' ),
+                                                      CRM_Core_PseudoConstant::wysiwygEditor( )) );
+        if ( !$editor || $forceTextarea ) {
+            $editor = 'textarea';
+        }
+      
+        $this->addElement( $editor, $name, $label, $attributes );
+        $this->assign('editor', $editor);
+    }    
 
     function addCountry( $id, $title ,$required = null, $extra = null ) {
         $this->addElement('select', $id, $title,
@@ -719,7 +791,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $this->addRule($name . '_id', ts('Please select %1', array(1 => $label)), 'required');
         }
 
-        $this->addElement( 'text', $name . '_other', $label, $attributes[$name . '_other'] );
+        
     }
 
     function buildAddressBlock( $locationId, $title, $phone,
@@ -821,7 +893,46 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     static function &getTemplate( ) {
         return self::$_template;
     }
-    
+
+    function addUploadElement( $elementName ) {
+        $uploadNames = $this->get('uploadNames');
+        if ( ! $uploadNames ) {
+            $uploadNames = array( );
+        }
+        if ( is_array( $elementName ) ) {
+            foreach ( $elementName as $name ) {
+                if ( ! in_array( $name, $uploadNames ) ) {
+                    $uploadNames[] = $name;
+                }
+            }
+        } else {
+            if ( ! in_array( $elementName, $uploadNames ) ) {
+                $uploadNames[] = $elementName;
+            }
+        }
+        $this->set( 'uploadNames', $uploadNames );
+
+        $config =& CRM_Core_Config::singleton( );
+        if ( ! empty( $uploadNames ) ) {
+            $this->controller->addUploadAction( $config->customFileUploadDir, $uploadNames );
+        }
+    }
+
+    function buttonType( ) {
+        $uploadNames = $this->get( 'uploadNames' );
+        $buttonType = ( is_array( $uploadNames ) && ! empty( $uploadNames ) ) ? 'upload' : 'next';
+        $this->assign( 'buttonType', $buttonType );
+        return $buttonType;
+    }
+
+    function getVar( $name ) {
+        return isset( $this->$name ) ? $this->$name : null;
+    }
+
+    function setVar( $name, $value ) {
+        $this->$name = $value;
+    }
+
 }
 
-?>
+

@@ -1,0 +1,224 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+require_once 'ContributionPage.php';
+require_once 'PaypalPro.php';
+
+class Browser_Contribute_OnlineContribution extends CiviTestCase 
+{
+    var $webUser;
+    protected $_contributionPageId;
+    protected $_paymentProcessorId;
+
+    //the email should not be in the database.
+    protected $_userEmail = 'monica@yahoo.net.in';
+	
+    function get_info() 
+    {
+        return array(
+                     'name' => 'Online Contribution',
+                     'description' => 'Make online Contribution',
+                     'group' => 'CiviCRM Browser Tests',
+                         );
+    }
+    
+    function setUp() 
+    {
+        parent::setUp();
+        $this->drupalModuleEnable('civicrm');
+        
+        $this->webUser = $this->drupalCreateUserRolePerm(
+                                                         array ( 0 => 'access CiviCRM',
+                                                                 1 => 'administer CiviCRM',
+                                                                 2 => 'access CiviContribute',
+                                                                 3 => 'make online contributions',
+                                                                 4 => 'profile listings and forms' ) );
+        $this->drupalLoginUser($this->webUser);
+        $this->_paymentProcessorId = PaypalPro::create();
+        $this->_contributionPageId = ContributionPage::create($this->_paymentProcessorId);
+
+        $this->civiGet('civicrm/contribute/manage', 'reset=1' );
+        $this->assertWantedRaw( 'Manage Contribution Pages', 'Manage Contribution Pages.' );
+
+        // get all the urls associated with this item
+        $urls = $this->getUrlsByToken( "id={$this->_contributionPageId}", 'civicrm/contribute/transact' );
+              
+        $test = ts( 'Test-drive' );
+        $this->assertArrayValueNotNull( $test, $urls );
+        $this->civiGetURL( $urls[$test] );
+        $this->assertWantedRaw( 'Test-drive Your Contribution Page', 'Test Drive of Contribution Page.' );
+    }
+    
+    /**
+     * Test to Online Contribution without Other Amount  
+     * 
+     */
+    function testOnlineContributionwithoutOtherAmount( ) 
+    {
+        $params = array ( 'email-5' => 'sunil.pawar@webaccess.co.in' ); 
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
+        $this->assertText('Please correct the following errors in the form fields below:');
+        $this->assertText( 'Contribution Amount is a required field.');
+        ContributionPage::delete($this->_contributionPageId);
+        PaypalPro::delete($this->_paymentProcessorId);
+    }
+    
+    /**
+     * Test to Online Contribution without Email Address  
+     * 
+     */
+    function testOnlineContributionwithoutEmail( ) 
+    {
+        $params = array ( 'amount_other' => '1000','email-5' => ''); 
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
+        $this->assertText( 'Email Address is a required field.' );
+        ContributionPage::delete($this->_contributionPageId);
+        PaypalPro::delete($this->_paymentProcessorId);
+    }
+
+    /**
+     * Test to Online Contribution without Card Information  
+     * 
+     */
+    function testOnlineContributionwithoutCardInformation( ) 
+    {
+        $params = array ( 
+                         'amount_other' => '1000',
+                         'email-5'      => $this->_userEmail
+                         ); 
+        $this->drupalPost(NULL, $params, '_qf_Main_upload' );
+        $this->assertText( 'Card Number is a required field.' );
+        $this->assertText( 'Security Code is a required field.' );
+        $this->assertText( 'Expiration Date is a required field.' );
+        ContributionPage::delete($this->_contributionPageId);
+        PaypalPro::delete($this->_paymentProcessorId);
+    }
+
+    /**
+     * Test to Online Contribution without Billing Address  
+     * 
+     */
+    function testOnlineContributionwithoutBillingAddress( ) 
+    {
+        $params = array ( 'amount_other'             => '1000',
+                          'email-5'                  => $this->_userEmail,
+                          'credit_card_type'         => 'Visa',
+                          'credit_card_number'       => '4731463054139660',
+                          'cvv2'                     => '111',
+                          'credit_card_exp_date[M]'  => 'Jan', 
+                          'credit_card_exp_date[Y]'  => '2010', 
+                          );
+        
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
+        $this->assertWantedRaw( 'Billing First Name is a required field.', 'Billing Address, validations.' );
+        $this->assertWantedRaw( 'Street Address is a required field.', 'Billing Address, validations.' );
+        $this->assertWantedRaw( 'State / Province is a required field.', 'Billing Address, validations.' );
+        ContributionPage::delete($this->_contributionPageId);
+        PaypalPro::delete($this->_paymentProcessorId);
+    }
+    /**
+     * Test to Online Contribution with Invalid Card Number  
+     * 
+     */
+    function testOnlineContributionwithBadCardNumber( ) 
+    {
+        $params = array ( 'amount_other'             => '1000',
+                          'email-5'                  => $this->_userEmail,
+                          'credit_card_type'         => 'Visa',
+                          'credit_card_number'       => '123455554321',
+                          'cvv2'                     => '111',
+                          'credit_card_exp_date[M]'  => 'Jan', 
+                          'credit_card_exp_date[Y]'  => '2010',
+                          'billing_first_name'       => 'John',
+                          'billing_last_name'        => 'Smith',
+                          'street_address-5'         => 'Street Address 1',
+                          'city-5'                   => 'City 1',
+                          'state_province_id-5'      => 'Alaska',
+                          'postal_code-5'            => '12345',
+                          'country_id-5'             => 'United States'
+                          );
+        
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
+        $this->assertWantedRaw( 'Please enter a valid Credit Card Number', 'Credit Card Information, validations.' );
+        ContributionPage::delete($this->_contributionPageId);
+        PaypalPro::delete($this->_paymentProcessorId);
+    }
+
+    /**
+     * Test to Online Contribution Confirmation PAGE   
+     * 
+     */
+    function testOnlineContribution( ) 
+    {
+        $params = array ( 'amount_other'             => '1000',
+                          'email-5'                  => $this->_userEmail,
+                          'credit_card_type'         => 'Visa',
+                          'credit_card_number'       => '4731463054139660',
+                          'billing_first_name'       => 'John',
+                          'billing_last_name'        => 'Smith',
+                          'street_address-5'         => 'Street Address 1',
+                          'city-5'                   => 'City 1',
+                          'state_province_id-5'      => 1001,
+                          'postal_code-5'            => 12345,
+                          'country_id-5'             => 1228,
+                          'cvv2'                     => 111,
+                          'credit_card_exp_date[M]'  => 1,
+                          'credit_card_exp_date[Y]'  => 2010
+                          );
+
+        
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
+        $this->assertText( 'Please verify the information below carefully. Click Go Back if you need to make changes. To complete your contribution, click the Make Contribution button below.' );
+        $this->assertText( 'Your contribution will not be completed until you click the Make Contribution button. Please click the button one time only.' );
+        $this->assertText( '************9660' );
+
+        //Thank You page
+        $this->drupalPost(NULL, array(), '_qf_Confirm_next');
+        $this->assertText( 'Thank you for your support.' );
+        $this->assertText( 'Your transaction has been processed successfully. Please print this page for your records.' );
+        $this->assertText( 'An email receipt has also been sent to '. $this->_userEmail);
+        $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', $this->_contributionPageId , 'id', 'contribution_page_id', 'Database check for Contribution Page ID.' );
+        $ContributionId = $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution','Online Contribution: Help Test CiviCRM!' , 'id', 'source',  'Database check Contribution source.' );
+	$this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', 1, 'id', 'is_test', 'Database check for Contribution ID.');
+        $ContactId = $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution',$ContributionId,'contact_id', 'id', 'Database check for contact id.' );
+               
+        ContributionPage::delete($this->_contributionPageId);
+        PaypalPro::delete($this->_paymentProcessorId);
+    }
+ 
+}
+
+?>

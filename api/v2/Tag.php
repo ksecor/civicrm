@@ -1,25 +1,25 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,7 +29,7 @@
  * http://civicrm.org/node/131
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id: Contribute.php 9526 2007-05-12 19:36:28Z deepak $
  *
  */
@@ -65,7 +65,10 @@ function civicrm_tag_create( &$params )
     }
     
     require_once 'CRM/Core/BAO/Tag.php';
-    $ids    = array();
+    $ids = array( 'tag' => CRM_Utils_Array::value( 'tag', $params ) );
+    if ( CRM_Utils_Array::value( 'tag', $params ) ) {
+        $ids['tag'] = $params['tag'];
+    }
     $tagBAO = CRM_Core_BAO_Tag::add($params, $ids);
     
     if ( is_a( $tagBAO, 'CRM_Core_Error' ) ) {
@@ -99,4 +102,42 @@ function civicrm_tag_delete( &$params )
     return CRM_Core_BAO_Tag::del( $tagID ) ? civicrm_create_success( ) : civicrm_create_error(  ts( 'Could not delete tag' )  );
 }
 
-?>
+/**
+ * Get a Tag.
+ * 
+ * This api is used for finding an existing tag.
+ * Either id or name of tag are required parameters for this api.
+ * 
+ * @params  array $params  an associative array of name/value pairs.
+ *
+ * @return  array details of found tag else error
+ * @access public
+ */
+
+function civicrm_tag_get($params) 
+{
+    _civicrm_initialize( );
+    require_once 'CRM/Core/BAO/Tag.php';
+    $tagBAO =& new CRM_Core_BAO_Tag();
+    
+    if ( ! is_array($params) ) {
+        return civicrm_create_error('Params is not an array.');
+    }
+    if ( ! isset($params['id']) && ! isset($params['name']) ) {
+        return civicrm_create_error('Required parameters missing.');
+    }
+    
+    $properties = array('id', 'name', 'description', 'parent_id');
+    foreach ( $properties as $name) {
+        if (array_key_exists($name, $params)) {
+            $tagBAO->$name = $params[$name];
+        }
+    }
+    
+    if ( ! $tagBAO->find(true) ) {
+        return civicrm_create_error('Exact match not found.');
+    }
+
+    _civicrm_object_to_array($tagBAO, $tag);
+    return $tag;
+}

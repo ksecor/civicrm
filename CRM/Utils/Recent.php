@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -46,7 +46,7 @@ class CRM_Utils_Recent {
      * @int
      */
     const
-        MAX_ITEMS  = 5,
+        MAX_ITEMS  = 10,
         STORE_NAME = 'CRM_Utils_Recent';
 
     /**
@@ -92,13 +92,13 @@ class CRM_Utils_Recent {
      * @param string $title  the title to display
      * @param string $url    the link for the above title
      * @param string $icon   a link to a graphical image
-     * @param string $id     contact id
+     * @param string $id     object id
      *
      * @return void
      * @access public
      * @static
      */
-    static function add( $title, $url, $icon, $id ) {
+    static function add( $title, $url, $id, $type, $contactId, $contactName ) {
         self::initialize( );
 
         $session =& CRM_Core_Session::singleton( );
@@ -111,15 +111,20 @@ class CRM_Utils_Recent {
                 break;
             }
         }
-        
+
         array_unshift( self::$_recent,
-                       array( 'title' => $title, 
-                              'url'   => $url,
-                              'icon'  => $icon,
-                              'id'  => $id ) );
+                       array( 'title'       => $title,
+                              'url'         => $url,
+                              'id'          => $id,
+                              'type'        => $type,
+                              'contact_id'  => $contactId,
+                              'contactName' => $contactName) );
         if ( count( self::$_recent ) > self::MAX_ITEMS ) {
             array_pop( self::$_recent );
         }
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::recent( self::$_recent );
 
         $session->set( self::STORE_NAME, self::$_recent );
     }
@@ -151,6 +156,34 @@ class CRM_Utils_Recent {
         $session->set( self::STORE_NAME, self::$_recent );
     }
 
+
+    /**
+     * delete an item from the recent stack
+     *
+     * @param string $id  contact id that had to be removed
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function delContact( $id ) {
+        self::initialize( );
+
+        $tempRecent = self::$_recent;
+        
+        self::$_recent = '';
+        
+        // make sure item is not already present in list
+        for ( $i = 0; $i < count( $tempRecent ); $i++ ) {
+            if ( $tempRecent[$i]['id' ] != $id ) {
+                self::$_recent[] = $tempRecent[$i];
+            }
+        }
+        
+        $session =& CRM_Core_Session::singleton( );
+        $session->set( self::STORE_NAME, self::$_recent );
+    }
+
 }
 
-?>
+

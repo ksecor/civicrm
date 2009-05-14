@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -142,7 +142,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      *
      * @return void
      */
-    function run( $sort = '' )
+    function run( $args = null, $pageArgs = null, $sort = null )
     {
         // what action do we want to perform ? (store it for smarty too.. :) 
      
@@ -223,23 +223,18 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $key = 'name';
         }
         
-        if ( $key ) {
+        if (trim($sort)) {
+            $object->orderBy ( $sort );
+        } else if ( $key ) {
             $object->orderBy ( $key . ' asc' );
         }
         
-        if (trim($sort)) {
-            $object->orderBy ( $sort );
-        }
-        
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $object->domain_id = $config->domainID( );
         
         // find all objects
         $object->find();
         while ($object->fetch()) {
-            if ( ! isset( $object->mapping_type ) ||
-                 $object->mapping_type != "Search Builder" ) {
+            if ( ! isset( $object->mapping_type_id ) ||
+                 $object->mapping_type_id != 1  ) {  // "1 for Search Builder"
                 $permission = CRM_Core_Permission::EDIT;
                 if ( $key ) {
                     $permission = $this->checkPermission( $object->id, $object->$key );
@@ -250,11 +245,15 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
                     require_once 'CRM/Contact/DAO/RelationshipType.php';
                     CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
-                    require_once 'CRM/Core/DAO/Mapping.php';
-                    CRM_Core_DAO_Mapping::addDisplayEnums($values[$object->id]);
                     
                     // populate action links
                     self::action( $object, $action, $values[$object->id], $links, $permission );
+                    
+                    if ( isset( $object->mapping_type_id ) ) {
+                        require_once 'CRM/Core/PseudoConstant.php';
+                        $mappintTypes = CRM_Core_PseudoConstant::mappingTypes( );
+                        $values[$object->id]['mapping_type'] = $mappintTypes[$object->mapping_type_id];
+                    }
                 }
                 $this->assign( 'rows', $values );
             }
@@ -277,19 +276,24 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      */
     function action( &$object, $action, &$values, &$links, $permission ) {
         $values['class'] = '';
-        if ( array_key_exists( 'is_reserved', $object ) && $object->is_reserved ) {
-            $newAction = 0;
-            $values['action'] = '';
-            $values['class'] = 'reserved';
-            return;
-        }
-
         $newAction = $action;
-        if ( array_key_exists( 'is_active', $object ) ) {
-            if ( $object->is_active ) {
-                $newAction += CRM_Core_Action::DISABLE;
+        if ( array_key_exists( 'is_reserved', $object ) && $object->is_reserved ) {
+            $values['class'] = 'reserved';
+            // check if object is relationship type
+            if ( get_class( $object ) != 'CRM_Contact_BAO_RelationshipType' ) {
+                $newAction = 0;
+                $values['action'] = '';
+                return;
             } else {
-                $newAction += CRM_Core_Action::ENABLE;
+                $newAction = CRM_Core_Action::UPDATE;
+            }
+        } else {
+            if ( array_key_exists( 'is_active', $object ) ) {
+                if ( $object->is_active ) {
+                    $newAction += CRM_Core_Action::DISABLE;
+                } else {
+                    $newAction += CRM_Core_Action::ENABLE;
+                }
             }
         }
 
@@ -315,7 +319,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
         }
-        if ($id) {
+        if ($id !== null) {
             $controller->set( 'id'   , $id );
         }
         $controller->set('BAOName', $this->getBAOName());
@@ -327,4 +331,4 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
 }
 
-?>
+

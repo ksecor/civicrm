@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -105,8 +105,7 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
     static function &getDefault( ) 
     {
         if (self::$_defaultPaymentProcessor == null) {
-            $params = array( 'is_default' => 1,
-                             'domain_id'  => CRM_Core_Config::domainID( ));
+            $params = array( 'is_default' => 1 );
             $defaults = array();
             self::$_defaultPaymentProcessor = self::retrieve($params, $defaults);
         }
@@ -114,15 +113,30 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
     }
     
     /**
-     * Function to delete payment processor
+     * Function  to delete payment processor
      * 
      * @param  int  $paymentProcessorId     ID of the processor to be deleted.
      * 
      * @access public
      * @static
      */
-    static function del($paymentProcessorId) 
-    {
+    static function del( $paymentProcessorID ) {
+        if ( ! $paymentProcessorID ) {
+            CRM_Core_Error::fatal( ts( 'Invalid value passed to delete function' ) );
+        }
+
+        $dao            =& new CRM_Core_DAO_PaymentProcessor( );
+        $dao->id        =  $paymentProcessorID;
+        if ( ! $dao->find( true ) ) {
+            return null;
+        }
+
+        $testDAO            =& new CRM_Core_DAO_PaymentProcessor( );
+        $testDAO->name      =  $dao->name;
+        $testDAO->is_test   =  1;
+        $testDAO->delete( );
+
+        $dao->delete( );
     }
 
     /**
@@ -137,15 +151,13 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
      */
     static function getPayment( $paymentProcessorID, $mode ) 
     {
-        $dao =& new CRM_Core_DAO_PaymentProcessor( );
-
         if ( ! $paymentProcessorID ) {
             CRM_Core_Error::fatal( ts( 'Invalid value passed to getPayment function' ) );
         }
 
-        $dao->id        = $paymentProcessorID;
-        $dao->is_active = 1;
-        $dao->domain_id = CRM_Core_Config::domainID( );
+        $dao            =& new CRM_Core_DAO_PaymentProcessor( );
+        $dao->id        =  $paymentProcessorID;
+        $dao->is_active =  1;
         if ( ! $dao->find( true ) ) {
             return null;
         }
@@ -155,7 +167,6 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
             $testDAO->name      = $dao->name;
             $testDAO->is_active = 1;
             $testDAO->is_test   = 1;
-            $testDAO->domain_id = $dao->domain_id;
             if ( ! $testDAO->find( true ) ) {
                 CRM_Core_Error::fatal( ts( 'Could not retrieve payment processor details' ) );
             }
@@ -187,4 +198,4 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
     }
 
 }
-?>
+

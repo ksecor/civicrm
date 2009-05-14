@@ -32,7 +32,7 @@
 * @link     http://pear.php.net/package/PHP_Beautifier
 * @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 0.1.11
+* @version    Release: 0.1.13
 */
 class PHP_Beautifier_Batch_Output_Directory extends PHP_Beautifier_Batch_Output {
     public function save() 

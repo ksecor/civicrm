@@ -1,0 +1,79 @@
+<?php
+/**
+ * Implementation of hook_help().
+ */
+function simpletest_xmlrpc_help($section) {
+  $output = '';
+
+  switch ($section) {
+    case 'admin/modules#description':
+      $output = t("test module for the simpletest suite");
+      break;
+    case 'admin/settings/simpletest':
+      $output = '';
+      break;
+  }
+
+  return $output;
+}
+
+function simpletest_xmlrpc_arrayOfStructsTest($array) {
+  $sum = 0;
+  foreach ($array as $struct) {
+    if (isset($struct['curly'])) {
+      $sum += $struct['curly'];
+    }
+  }
+  return $sum;
+}
+
+function simpletest_xmlrpc_countTheEntities($string) {
+  return array(
+    'ctLeftAngleBrackets' => substr_count($string, '<'),
+    'ctRightAngleBrackets' => substr_count($string, '>'),
+    'ctAmpersands' => substr_count($string, '&'),
+    'ctApostrophes' => substr_count($string, "'"),
+    'ctQuotes' => substr_count($string, '"'),
+    );
+}
+
+function simpletest_xmlrpc_easyStructTest($array) {
+  return $array["curly"] + $array["moe"] + $array["larry"];
+}
+
+function simpletest_xmlrpc_echoStructTest($array) {
+  return $array;
+}
+
+function simpletest_xmlrpc_manyTypesTest($number, $boolean, $string, $double, $dateTime, $base64) {
+  $timestamp = mktime($dateTime->hour, $dateTime->minute, $dateTime->second, $dateTime->month, $dateTime->day, $dateTime->year);
+  return array($number, $boolean, $string, $double, xmlrpc_date($timestamp), xmlrpc_Base64($base64));
+}
+
+function simpletest_xmlrpc_moderateSizeArrayCheck($array) {
+  return array_shift($array) . array_pop($array);
+}
+
+function simpletest_xmlrpc_nestedStructTest($array) {
+  return $array["2000"]["04"]["01"]["larry"] + $array["2000"]["04"]["01"]["moe"] + $array["2000"]["04"]["01"]["curly"];
+}
+
+function simpletest_xmlrpc_simpleStructReturnTest($number) {
+  return array("times10" => ($number*10), "times100" => ($number*100), "times1000" => ($number*1000));
+}
+
+/**
+ * Implementation of hook_xmlrpc()
+ */
+function simpletest_xmlrpc_xmlrpc() {
+  return array(
+    'validator1.arrayOfStructsTest' => 'simpletest_xmlrpc_arrayOfStructsTest',
+    'validator1.countTheEntities' => 'simpletest_xmlrpc_countTheEntities',
+    'validator1.easyStructTest' => 'simpletest_xmlrpc_easyStructTest',
+    'validator1.echoStructTest' => 'simpletest_xmlrpc_echoStructTest',
+    'validator1.manyTypesTest' => 'simpletest_xmlrpc_manyTypesTest',
+    'validator1.moderateSizeArrayCheck' => 'simpletest_xmlrpc_moderateSizeArrayCheck',
+    'validator1.nestedStructTest' => 'simpletest_xmlrpc_nestedStructTest',
+    'validator1.simpleStructReturnTest' => 'simpletest_xmlrpc_simpleStructReturnTest');
+}
+?>

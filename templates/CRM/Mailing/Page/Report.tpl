@@ -24,7 +24,7 @@
   {/strip}
 {else}
     <div class="messages status">
-        {ts 1="http://wiki.civicrm.org/confluence//x/vyM" 2=$docURLTitle}<strong>Delivery has not yet begun for this mailing.</strong> If the scheduled delivery date and time is past, ask the system administrator or technical support contact for your site to verify that the automated mailer task ('cron job') is running - and how frequently. (<a href='%1' title='%2' target='_blank'>more info...</a>){/ts}
+        {ts}<strong>Delivery has not yet begun for this mailing.</strong> If the scheduled delivery date and time is past, ask the system administrator or technical support contact for your site to verify that the automated mailer task ('cron job') is running - and how frequently.{/ts} {docURL page="CiviMail Installation"}
     </div>
 {/if}
 </fieldset>
@@ -119,6 +119,15 @@
 </tr>
 {/if}
 
+{if $report.mailing.attachment}
+<tr>
+  <td class="label nowrap">{ts}Attachments{/ts}</td>
+  <td>
+    {$report.mailing.attachment}
+  </td>
+</tr>
+{/if}
+
 {foreach from=$report.component item=component}
     <tr><td class="label">{$component.type}</td><td><a href="{$component.link}">{$component.name}</a></td></tr>
 {/foreach}
@@ -145,6 +154,9 @@
 </table>
 {/strip}
 </fieldset>
+<div class="action-link">
+    <a href="{$backUrl}" >&raquo; {$backUrlTitle}</a>
+</div>
 
 
 

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -123,7 +123,15 @@ class CRM_Utils_Weight {
         }
         
         if ( $newWeight > $maxWeight ) {
+            //calculate new weight, CRM-4133
+            $calNewWeight = CRM_Utils_Weight::getNewWeight( $daoName, $fieldValues, $weightField );
+            
+            //no need to update weight for other fields.
+            if ( $calNewWeight > $maxWeight ) {
+                return $calNewWeight;
+            }
             $newWeight = $maxWeight;
+                        
             if (!$oldWeight) {
                 return $newWeight+1; 
             }
@@ -156,6 +164,44 @@ class CRM_Utils_Weight {
     }
     
     /**
+     * returns the new calculated weight.
+     *
+     * @param string  $daoName     full name of the DAO
+     * @param array   $fieldValues field => value to be used in the WHERE
+     * @param string  $weightField field which used to get the wt, default to 'weight'.
+     *
+     * @return integer
+     */
+    static function getNewWeight( $daoName, $fieldValues = null, $weightField = 'weight' )
+    {
+        $selectField = "id AS fieldID, $weightField AS weight";
+        $field =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
+        $sameWeightCount = 0;
+        $weights = array( );
+        while ( $field->fetch( ) ) {
+            if ( in_array( $field->weight, $weights ) ) {
+                $sameWeightCount++;
+            }
+            $weights[$field->fieldID] = $field->weight;
+        }
+        
+        $newWeight = 1;
+        if ( $sameWeightCount ) {
+            $newWeight = max( $weights ) + 1;
+            
+            //check for max wt should not greater than cal max wt.
+            $calMaxWt  = min( $weights ) + count( $weights ) - 1;
+            if ( $newWeight > $calMaxWt ) {
+                $newWeight = $calMaxWt;
+            }
+        } elseif( !empty($weights) ) {
+            $newWeight = max( $weights );
+        }
+        
+        return $newWeight;
+    }
+    
+    /**
      * returns the highest weight.
      *
      * @param string $daoName full name of the DAO
@@ -166,7 +212,7 @@ class CRM_Utils_Weight {
      */
     static function getMax($daoName, $fieldValues = null, $weightField = 'weight')
     {
-        $selectField = "MAX($weightField) AS max_weight";
+        $selectField = "MAX(ROUND($weightField)) AS max_weight";
         $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
         $weightDAO->fetch();
         if ( $weightDAO->max_weight ) {
@@ -265,7 +311,7 @@ class CRM_Utils_Weight {
                 return false;
 
         }
-
+        
         $resultDAO = CRM_Core_DAO::executeQuery( $query, $params );
         return $resultDAO;
     }

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -80,13 +80,14 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'contribution_source',
                                  'receive_date',
                                  'thankyou_date',
-                                 'contrib_status',
+                                 'contribution_status_id',
                                  'cancel_date',
                                  'product_name',
                                  'is_test',
                                  'contribution_recur_id',
-                                 'receipt_date'
-                                 
+                                 'receipt_date',
+                                 'membership_id',
+                                 'currency',
                                  );
 
     /** 
@@ -177,9 +178,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
-
     }//end of constructor
-
 
     /**
      * This method returns the links that are given for each search row.
@@ -192,27 +191,31 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @access public
      *
      */
-    static function &links()
+    static function &links( $componentId = null, $componentAction = null )
     {
-
+        $compId = null;
+        if ( $componentId ) {
+            $compId = "&compId={$componentId}&compAction={$componentAction}";
+        }
+        
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=contribute',
+                                                                   'qs'       => "reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=contribute{$compId}",
                                                                    'title'    => ts('View Contribution'),
                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType=%%contributionType%%',
+                                                                   'qs'       => "reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%{$compId}",
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                   'qs'       => "reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%{$compId}",
                                                                    'title'    => ts('Delete Contribution'),
                                                                   ),
                                   );
@@ -284,41 +287,50 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             $permission = CRM_Core_Permission::EDIT;
         }
         
+        $componentId = null;
+        
         $mask = CRM_Core_Action::mask( $permission );
         While ($result->fetch()) {
             $row = array();
             // the columns we are interested in
             foreach (self::$_properties as $property) {
-                $row[$property] = $result->$property;            
+                if ( property_exists( $result, $property ) ) {
+                    $row[$property] = $result->$property;   
+                }         
             }
 
-            if ( $row["is_test"] ) {
-                $row["contribution_type"] = $row["contribution_type"] . " (test)";
+            if ( $result->is_pay_later && $row['contribution_status_id'] == 'Pending' ) {
+                $row['contribution_status_id'] .= ' (Pay Later)';
+                
+            } else if ( $row['contribution_status_id'] == 'Pending' ) {
+                $row['contribution_status_id'] .= ' (Incomplete Transaction)';
             }
+
+            if ( $row['is_test'] ) {
+                $row['contribution_type'] = $row['contribution_type'] . ' (test)';
+            }
+            
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
-            $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                          array( 'id'               => $result->contribution_id,
-                                                                 'cid'              => $result->contact_id,
-                                                                 'cxt'              => $this->_context,
-                                                                 'contributionType' => $result->contribution_type_id 
-                                                                 ) );
-            $config =& CRM_Core_Config::singleton( );
-            $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-            switch ($result->contact_type) {
-            case 'Individual' :
-                $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                break;
-            case 'Household' :
-                $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                break;
-            case 'Organization' :
-                $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                break;
+            
+            if ( $this->_context != 'contribute' ) {
+                $componentId     =  CRM_Utils_Request::retrieve( 'id', 'Positive', CRM_Core_DAO::$_nullArray );
+                $componentAction =  CRM_Utils_Request::retrieve( 'action', 'String', CRM_Core_DAO::$_nullArray );
             }
-            $row['contact_type'] = $contact_type;
 
+            $actions =  array( 'id'               => $result->contribution_id,
+                               'cid'              => $result->contact_id,
+                               'cxt'              => $this->_context
+                               );
+            
+            $row['action']   = CRM_Core_Action::formLink( self::links( $componentId, $componentAction ), $mask, $actions );
+
+
+            require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+            $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+            
             $rows[] = $row;
         }
+
         return $rows;
     }
     
@@ -347,8 +359,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      */ 
     public function &getColumnHeaders( $action = null, $output = null ) 
     {
-        if ( ! isset( self::$_columnHeaders ) )
-        {
+        if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array(
                                           array(
                                                 'name'      => ts('Amount'),
@@ -376,7 +387,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 ),
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'contrib_status',
+                                                'sort'      => 'contribution_status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
@@ -387,10 +398,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                           array('desc' => ts('Actions') ),
                                           );
 
-            //if ( ! $this->_single && ! $this->_limit ) {
-            
-            if ( ( $this->_context == 'dashboard') || 
-                 ( $this->_context == 'search' ) ) {
+            if ( ! $this->_single ) {
                 $pre = array( 
                              array('desc' => ts('Contact Type') ), 
                              array( 
@@ -420,6 +428,10 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
         return ts('CiviCRM Contribution Search'); 
     }
 
+    function getSummary( ) {
+        return $this->_query->summaryContribution( );
+    }
+
 }//end of class
 
-?>
+

@@ -9,7 +9,7 @@
     xmlns:gd='http://schemas.google.com/g/2005'>
   <category scheme='http://schemas.google.com/g/2005#kind'
     term='http://schemas.google.com/g/2005#event'></category>
-  <title type='text'>{$event.summary}</title>
+  <title type='text'>{$event.title}</title>
 {if $event.description}
   <content type='text'>{$event.description}</content>
 {/if}

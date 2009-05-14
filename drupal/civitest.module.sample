@@ -14,7 +14,8 @@ function civitest_help( $section ) {
 function civitest_civicrm_post( $op, $objectName, $objectId, &$objectRef ) {
     // only interested in the profile object and create operation for now
     if ( $objectName != 'Profile' || ( $op != 'create' && $op != 'edit' ) ) {
-        return;
+        // send it to custom hook
+        return civitest_hook_custom( $op, $objectName, $objectId, &$objectRef );
     }
 
     // send an email to the user and cc administrator
@@ -54,4 +55,499 @@ My Org Team
     
 }
 
-?>
+function civitest_civicrm_custom( $op, $groupID, $entityID, &$params ) {
+    if ( $op != 'create' && $op != 'edit' ) {
+        return;
+    }
+    
+    // this is the custom group i am interested in updating when the row is updated
+    if ( $groupID != 1 ) {
+        return;
+    }
+
+    $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                              $groupID,
+                                              'table_name' );
+    $sql = "
+UPDATE $tableName
+SET    random_code_data_3 = 23
+WHERE  entity_id = $entityID
+";
+    CRM_Core_DAO::executeQuery( $sql,
+                                CRM_Core_DAO::$_nullArray );
+}
+
+/**
+ * Get the permissioned where clause for the user
+ *
+ * @param int $type the type of permission needed
+ * @param  array $tables (reference ) add the tables that are needed for the select clause
+ * @param  array $whereTables (reference ) add the tables that are needed for the where clause
+ * @param int    $contactID the contactID for whom the check is made
+ *
+ * @return string the group where clause for this user
+ * @access public
+ */
+function civitest_civicrm_aclWhereClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
+    if ( ! $contactID ) {
+        return;
+    }
+
+    $permissionTable = 'civicrm_value_permission';
+    $regionTable     = 'civicrm_value_region';
+    $fields          = array( 'electorate' => 'Integer',
+                              'province'   => 'Integer',
+                              'branch'     => 'Integer' );
+
+    // get all the values from the permission table for this contact
+    $keys = implode( ', ', array_keys( $fields ) );
+    $sql = "
+SELECT $keys
+FROM   {$permissionTable}
+WHERE  entity_id = $contactID
+";
+    $dao = CRM_Core_DAO::executeQuery( $sql,
+                                       CRM_Core_DAO::$_nullArray );
+    if ( ! $dao->fetch( ) ) {
+        return;
+    }
+
+    $tables[$regionTable] = $whereTables[$regionTable] =
+        "LEFT JOIN {$regionTable} regionTable ON contact_a.id = regionTable.entity_id";
+
+    $clauses = array( );
+    foreach( $fields as $field => $fieldType ) {
+        if ( ! empty( $dao->$field ) ) {
+            if ( strpos( CRM_Core_DAO::VALUE_SEPARATOR, $dao->$field ) !== false ) {
+                $value = substr( $dao->$field, 1, -1 );
+                $values = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+                foreach ( $values as $v ) {
+                    $clauses[] = "regionTable.{$field} = $v";
+                }
+            } else {
+                if ( $fieldType == 'String' ) {
+                    $clauses[] = "regionTable.{$field} = '{$dao->$field}'";
+                } else {
+                    $clauses[] = "regionTable.{$field} = {$dao->$field}";
+                }
+            }
+        }
+    }
+
+    if ( ! empty( $clauses ) ) {
+        $where .= ' AND (' . implode( ' OR ', $clauses ) . ')';
+    }
+}
+
+function civitest_civicrm_dashboard( $contactID, &$contentPlacement ) {
+    // REPLACE Activity Listing with custom content
+    $contentPlacement = 3;
+    return array( 'Custom Content' => "Here is some custom content: $contactID",
+                  'Custom Table' => "
+<table>
+<tr><th>Contact Name</th><th>Date</th></tr>
+<tr><td>Foo</td><td>Bar</td></tr>
+<tr><td>Goo</td><td>Tar</td></tr>
+</table>
+",
+                  );
+}
+
+function civitest_civicrm_buildAmount( $pageType,
+                                      &$form,
+                                      &$amount ) {
+
+    // only modify the contributon page with id = 1
+    if ( $pageType != 'contribution' ||
+         $form->_id != 1 ) {
+       return;
+    }
+
+    // lets add an arbitrary amount here, just to show folks
+    // the power of a hook :)
+    $amount[1000] = array( 'value'    => 400,
+                           'label'     => 'Hook',
+                           'amount_id' => 1000 );
+    
+
+    // now lets get a bit more ambitious
+    // *GOAL*: lets plan to give 20% discount to students
+    $membershipType  = 'Student';
+    $discountPercent = 20; 
+
+    // get the membership-type-id for the membership-type
+    $membershipTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                     $membershipType,
+                                                     'id',
+                                                     'name' );
+
+    // get the logged in user id 
+    $session =& CRM_Core_Session::singleton();
+    $userID  = $session->get( 'userID' );
+
+    if ( $userID ) {
+        // check if logged in user has 'Student' membership
+        require_once 'CRM/Member/BAO/Membership.php';
+        $membership = CRM_Member_BAO_Membership::getContactMembership( $userID, $membershipTypeId, null );
+        
+        // If logged in contact is a member as on today, modify the amount
+        // to reflect the discount.
+        if ( CRM_Utils_Array::value( 'is_current_member', $membership ) ) {
+            foreach ( $amount as $amountId => $amountInfo ) {
+                $amount[$amountId]['value'] = $amount[$amountId]['value'] - 
+                    ceil($amount[$amountId]['value'] * $discountPercent / 100);
+                $amount[$amountId]['label'] = $amount[$amountId]['label'] . 
+                    "\t - with {$discountPercent}% discount (for $membershipType)";
+            }
+        }
+    }
+}
+
+function civitest_civicrm_aclGroup( $type, $contactID, $tableName, &$allGroups, &$currentGroups ) {
+    // only process saved search
+    if ( $tableName != 'civicrm_saved_search' ) {
+        return;
+    }
+
+    hrd_initialize( );
+
+    $currentGroups = $allGroups;
+
+    if ( ! CRM_Core_Permission::check( 'access secure contacts' ) ) {
+        unset( $currentGroups[HRD_SECURE_GROUP_ID] );
+    }
+
+    $currentGroups = array_keys( $currentGroups );
+}
+
+function civitest_civicrm_tabs( &$tabs, $contactID ) {
+
+    // unset the contribition tab
+    unset( $tabs[1] );
+    
+    // lets rename the contribution tab with a differnt name and put it last
+    // this is just a demo, in the real world, you would create a url which would
+    // return an html snippet etc
+    $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                  "reset=1&snippet=1&force=1&cid=$contactID" );
+    $tabs[] = array( 'id'    => 'mySupercoolTab',
+                     'url'   => $url,
+                     'title' => 'Contribution Tab Renamed',
+                     'weight' => 300 );
+}
+
+
+function civitest_civicrm_tokens( &$tokens ) { 
+    $tokens['contribution'] = array( 'contribution.amount', 'contribution.date' );
+}
+
+function civitest_civicrm_tokenValues( &$values, &$contactIDs ) {
+    if ( is_array( $contactIDs ) ) {
+        $contactIDString = implode( ',', array_values( $contactIDs ) );
+        $single = false;
+    } else {
+        $contactIDString = "( $contactIDs )";
+        $single = true;
+    }
+
+    $query = "
+SELECT sum( total_amount ) as total_amount,
+       contact_id,
+       max( receive_date ) as receive_date
+FROM   civicrm_contribution 
+WHERE  contact_id IN ( $contactIDString )
+AND    is_test = 0
+GROUP BY contact_id
+";
+
+    $dao = CRM_Core_DAO::executeQuery( $query );
+    while ( $dao->fetch( ) ) {
+        if ( $single ) {
+            $value =& $values;
+        } else {
+            if ( ! array_key_exists( $dao->contact_id, $values ) ) {
+                $values[$dao->contact_id] = array( );
+            }
+            $value =& $values[$dao->contact_id];
+        }
+
+        $value['contribution.amount'] = $dao->total_amount;
+        $value['contribution.date'  ] = $dao->receive_date;
+    }
+}
+
+function civitest_civicrm_pageRun( &$page ) {
+    // You can assign variables to the template using:
+    // $page->assign( 'varName', $varValue );
+    // in your template, {$varName} will output the contents of $varValue
+    // you should customize your template if doing so
+
+    $page->assign( 'varName', 'This is a variable assigned by the hook' );
+}
+
+/*
+ * The hook_nodeapi implementation to set the node title to that of event title.
+ * Could also be used set the title to anything we want. 
+ *
+ */
+function civicrm_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+    if ($op == 'load' && $node->type == 'event') {
+        $node->title = civicrm_cck_event_field_values('title', $node->field_title[0]['value']);
+    }
+}
+
+/*
+ * The function to pull out event data from civicrm for cck fields related to event. 
+ *
+ */
+function civicrm_cck_event_field_values($field, $index = null) {
+    static $eventInfo;
+    if ( ! $eventInfo ) {
+        if ( ! civicrm_initialize( ) ) {
+            return;
+        }
+        require_once 'api/v2/Event.php';
+        $params    = array( );
+        $eventInfo = civicrm_event_search( $params );
+    }
+
+    if ( strpos($_GET['q'], 'edit') || 
+         strpos($_GET['q'], 'add')  ) {
+        $isAppend = true;
+    }
+    if ( isset( $index ) ) {
+        $isAppend = false;
+    }
+
+    $retArray = array( );
+    switch( $field ) {
+    case 'when': 
+        foreach ( $eventInfo as $info ) {
+            $str = "{$info['start_date']} >  through > {$info['end_date']}";
+            $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+        }
+        break;
+
+    case 'location': 
+        foreach ( $eventInfo as $info ) {
+            $params = array( 'entity_id' => $info['id'],'entity_table' => 'civicrm_event');
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::getValues( $params, $values, true );
+            $str = $values['location'][1]['address']['display'];
+            $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+        }
+        break;
+
+    case 'register_link': 
+        foreach ( $eventInfo as $info ) {
+            $str = '<a href="' . 
+                CRM_Utils_System::url( 'civicrm/event/register', 
+                                       "id={$info['id']}&reset=1", true ) . 
+                '">&raquo; Register Now</a>';
+            $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+        }
+        break;
+
+    case 'feeblock' : 
+        require_once 'CRM/Core/BAO/Discount.php';
+        require_once 'CRM/Core/OptionGroup.php';
+        foreach ( $eventInfo as $info ) {
+            $discountId = CRM_Core_BAO_Discount::findSet( $info['id'], 'civicrm_event' );
+            if ( $discountId ) {
+                CRM_Core_OptionGroup::getAssoc( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount',
+                                                                             $discountId, 'option_group_id' ),
+                                                $feeBlock, true, 'id' );
+            } else {
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$info['id']}", $feeBlock, true );
+            }
+            
+            $feeLabels = array();
+            foreach ( $feeBlock as $block ) {
+                $feeLabels[] = $block['label'] . "  $" . $block['value'];
+            }
+            $str  = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . implode($feeLabels, '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+            $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+        }
+        break;
+
+    default:
+        foreach ( $eventInfo as $info ) {
+            if ( isset($info[$field]) ) {
+                $str = $info[$field];
+                $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
+            }
+        }
+    }
+    return empty($retArray) ? array() : isset($index) ? $retArray[$index] : $retArray;
+}
+
+function civitest_civicrm_customFieldOptions( $fieldID, &$options ) {
+    if ( $fieldID == 1 ) {
+        $options['Rocks'] = t( 'Hooks Rock' );
+        unset( $options['Edu'] );
+    } else if ( $fieldID == 2 ) {
+        $options['H'] = t(' Hook me' );
+        unset( $options['S'] );
+    }
+}
+
+function civitest_civicrm_searchTasks( $objectType, &$tasks ) {
+    $tasks[100] = array( 'title'  => t( 'Hook Action Task' ),
+                         'class'  => 'CRM_Contact_Form_Task_HookSample',
+                         'result' => false );
+}
+
+function civitest_civicrm_validate( $formName, &$fields, &$files, &$form ) {
+    // sample implementation
+    $errors = array( );
+    if ( $formName == 'CRM_Contact_Form_Edit' ) {
+       // ensure that external identifier is present and valid
+       $externalID = CRM_Utils_Array::value( 'external_identifier', $fields );
+       if ( ! $externalID ) {
+          $errors['external_identifier'] = ts( 'External Identifier is a required field' );
+       } else {
+	 require_once "CRM/Utils/Rule.php';
+	 if ( ! CRM_Utils_Rule::integer( $externalID ) ) {
+	   $errors['external_identifier'] = ts( 'External Identifier is not an integer' );
+	 }
+       }
+    }
+    return empty( $errors ) ? true : $errors;
+
+}
+
+function civitest_civicrm_pageRun( &$page ) {
+    // we are only interested in profile pages with gid = 1 and have a valid contact id
+    if ( $page->getVar( '_name' ) != 'CRM_Profile_Page_View' ||
+         $page->getVar( '_gid' ) != 1 ||
+         ! CRM_Utils_Rule::positiveInteger( $page->getVar( '_id' ) ) ) {
+        return;
+    }
+
+    // get all relationships of
+    require_once 'CRM/Contact/BAO/Relationship.php';
+    $relationships = CRM_Contact_BAO_Relationship::getRelationship( $page->getVar( '_id' ) );
+
+    // if you want to filter and display only certain relationship, you can do so before assigninng to
+    // smarty. Do a CRM_Core_Error::debug( $relationships ) to see all the fields
+    $page->assign( 'relationships', $relationships );
+
+    // in addition to this, you also need to customize: templates/CRM/Profile/Page/View.tpl
+    // check: http://wiki.civicrm.org/confluence/display/CRMDOC/Customize+Built-in,+Profile,+Contribution+and+Event+Registration+Screens
+    // some sample tpl code is included here, modify as needed
+    /**
+{if $relationships}
+<table>
+<tr>
+  <th>Name</th>
+  <th>Relation</th>
+  <th>Country</th>
+</tr>
+{foreach from=$relationships item=relation}
+<tr>
+  <td>{$relation.name}</td>
+  <td>{$relation.relation}</td>
+  <td>{$relation.country}</td>
+</tr>
+{/foreach}
+</table>
+{/if}
+    **/
+
+}
+
+function civitest_civicrm_eventDiscount( &$form, &$params ) {
+	 require_once 'CRM/Utils/Money.php';
+
+    // we only are interested in event id 1
+    if ( $form->getVar( '_eventId' ) != 1 ) {
+        return;
+    }
+
+    $numParticipants = 0;
+    foreach ( $params as $key => $value ) {
+        if ( isset( $params[$key]['amount'] ) &&
+             $params[$key]['amount'] > 0 ) {
+            $numParticipants++;
+        }
+    }
+
+    // Set discount rule (Example: if more than 1 participant, 5% additional discount per paying participant, upto a max of 50%)
+    if ( $numParticipants > 1 ) {
+        $discountPercentage = $numParticipants * 5;
+        
+        if ( $discountPercentage > 50 ) {
+            $discountPercentage = 50;
+        }
+
+        $totalDiscount = 0;
+        foreach ( $params as $key => $value ) {
+            if ( CRM_Utils_Array::value( 'amount', $params[$key] ) > 0 ) {
+                $discount = round( ( $params[$key]['amount'] * $discountPercentage ) / 100.0 );
+                $totalDiscount += $discount;
+                $params[$key]['discountAmount']  = $discount;
+                $discountDisplay = CRM_Utils_Money::format( $discount, null, null );
+                // Set discount info added to participant.fee_level and contribution.amount_level
+                $params[$key]['discountMessage'] = " (discount: $discountDisplay)";
+            }
+        }
+
+        $totalDiscountDisplay = CRM_Utils_Money::format( $totalDiscount, null, null );
+        // Set the message to show on confirmation page, thank-you page and receipt
+        $params[0]['discount'] =
+            array( 'message' => "a discount of $totalDiscountDisplay has been applied to the total amount",
+                   'applied' => true );
+    }
+}
+
+
+/**
+ * buildForm hook sample
+ *
+ * we want the custom date to be today's date. custom_3 is marriage date
+ * in the sample data
+ */
+function civitest_civicrm_buildForm( $formName, &$form ) {
+    if ( $formName == 'CRM_Contact_Form_Edit' ) {
+        $defaultDate = array( );
+        CRM_Utils_Date::getAllDefaultValues( $defaultDate );
+        $defaults['custom_3_-1'] = $defaultDate;
+        $form->setDefaults( $defaults );
+    }
+}
+
+/**
+ * buildForm hook that would allow contacts to renew only existing memberships.
+ */
+function civitest_civicrm_buildForm( $formName, &$form ) {
+    if ( $formName == 'CRM_Contribute_Form_Contribution_Main' ) {
+        if ( is_array( $form->_membershipBlock ) ) {
+            //get logged in contact
+            $session   = & CRM_Core_Session::singleton();
+            $contactID = $session->get('userID');
+            
+            //check for existing membership
+            $query = "SELECT membership_type_id 
+                      FROM civicrm_membership 
+                      WHERE membership_type_id IN ( {$form->_membershipBlock['membership_types']} )
+                         AND civicrm_membership.contact_id = {$contactID}";
+            $dao = CRM_Core_DAO::executeQuery( $query );
+
+            $membershipTypeID = null;
+            while ( $dao->fetch( ) ) {
+                $membershipTypeID = $dao->membership_type_id;
+            }
+
+            if ( $membershipTypeID ) {
+                $form->freeze(array('selectMembership'));    
+                $defaults['selectMembership'] = $membershipTypeID;
+                $form->setDefaults( $defaults );
+            }    
+        }
+    }
+}
+
+function civitest_civicrm_mailingGroups( &$form, &$groups, &$mailings ) {
+    unset( $groups[4] );
+    $mailings[1] = 'This Mailing does not exist';
+}

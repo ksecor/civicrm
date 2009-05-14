@@ -1,1085 +1,716 @@
-if(!dojo._hasResource["dojo._base.query"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojo._base.query"] = true;
-dojo.provide("dojo._base.query");
-dojo.require("dojo._base.NodeList");
-
 /*
-	dojo.query() architectural overview:
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
-		dojo.query is a relatively full-featured CSS3 query library. It is
-		designed to take any valid CSS3 selector and return the nodes matching
-		the selector. To do this quickly, it processes queries in several
-		steps, applying caching where profitable.
-		
-		The steps (roughly in reverse order of the way they appear in the code):
-			1.) check to see if we already have a "query dispatcher"
-				- if so, use that with the given parameterization. Skip to step 4.
-			2.) attempt to determine which branch to dispatch the query to:
-				- JS (optimized DOM iteration)
-				- xpath (for browsers that support it and where it's fast)
-				- native (not available in any browser yet)
-			3.) tokenize and convert to executable "query dispatcher"
-				- this is where the lion's share of the complexity in the
-				  system lies. In the DOM version, the query dispatcher is
-				  assembled as a chain of "yes/no" test functions pertaining to
-				  a section of a simple query statement (".blah:nth-child(odd)"
-				  but not "div div", which is 2 simple statements). Individual
-				  statement dispatchers are cached (to prevent re-definition)
-				  as are entire dispatch chains (to make re-execution of the
-				  same query fast)
-				- in the xpath path, tokenization yeilds a concatenation of
-				  parameterized xpath selectors. As with the DOM version, both
-				  simple selector blocks and overall evaluators are cached to
-				  prevent re-defintion
-			4.) the resulting query dispatcher is called in the passed scope (by default the top-level document)
-				- for DOM queries, this results in a recursive, top-down
-				  evaluation of nodes based on each simple query section
-				- xpath queries can, thankfully, be executed in one shot
-			5.) matched nodes are pruned to ensure they are unique
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
 */
 
-;(function(){
-	// define everything in a closure for compressability reasons. "d" is an
-	// alias to "dojo" since it's so frequently used. This seems a
-	// transformation that the build system could perform on a per-file basis.
 
-	////////////////////////////////////////////////////////////////////////
-	// Utility code
-	////////////////////////////////////////////////////////////////////////
-
-	var d = dojo;
-	var childNodesName = dojo.isIE ? "children" : "childNodes";
-
-	var getQueryParts = function(query){
-		// summary: state machine for query tokenization
-		if(query.charAt(query.length-1) == ">"){
-			query += " *"
-		}
-		query += " "; // ensure that we terminate the state machine
-
-		var ts = function(s, e){
-			return d.trim(query.slice(s, e));
-		}
-
-		// the overall data graph of the full query, as represented by queryPart objects
-		var qparts = []; 
-		// state keeping vars
-		var inBrackets = -1;
-		var inParens = -1;
-		var inMatchFor = -1;
-		var inPseudo = -1;
-		var inClass = -1;
-		var inId = -1;
-		var inTag = -1;
-		var lc = ""; // the last character
-		var cc = ""; // the current character
-		var pStart;
-		// iteration vars
-		var x = 0; // index in the query
-		var ql = query.length;
-		var currentPart = null; // data structure representing the entire clause
-		var _cp = null; // the current pseudo or attr matcher
-
-		var endTag = function(){
-			if(inTag >= 0){
-				var tv = (inTag == x) ? null : ts(inTag, x).toLowerCase();
-				currentPart[ (">~+".indexOf(tv) < 0)? "tag" : "oper" ] = tv;
-				inTag = -1;
-			}
-		}
-
-		var endId = function(){
-			if(inId >= 0){
-				currentPart.id = ts(inId, x).replace(/\\/g, "");
-				inId = -1;
-			}
-		}
-
-		var endClass = function(){
-			if(inClass >= 0){
-				currentPart.classes.push(ts(inClass+1, x).replace(/\\/g, ""));
-				inClass = -1;
-			}
-		}
-
-		var endAll = function(){
-			endId(); endTag(); endClass();
-		}
-
-		for(; x<ql, lc=cc, cc=query.charAt(x); x++){
-			if(lc == "\\"){ continue; }
-			if(!currentPart){
-				// NOTE: I hate all this alloc, but it's shorter than writing tons of if's
-				pStart = x;
-				currentPart = {
-					query: null,
-					pseudos: [],
-					attrs: [],
-					classes: [],
-					tag: null,
-					oper: null,
-					id: null
-				};
-				inTag = x;
-			}
-
-			if(inBrackets >= 0){
-				// look for a the close first
-				if(cc == "]"){
-					if(!_cp.attr){
-						_cp.attr = ts(inBrackets+1, x);
-					}else{
-						_cp.matchFor = ts((inMatchFor||inBrackets+1), x);
-					}
-					var cmf = _cp.matchFor;
-					if(cmf){
-						if(	(cmf.charAt(0) == '"') || (cmf.charAt(0)  == "'") ){
-							_cp.matchFor = cmf.substring(1, cmf.length-1);
-						}
-					}
-					currentPart.attrs.push(_cp);
-					_cp = null; // necessaray?
-					inBrackets = inMatchFor = -1;
-				}else if(cc == "="){
-					var addToCc = ("|~^$*".indexOf(lc) >=0 ) ? lc : "";
-					_cp.type = addToCc+cc;
-					_cp.attr = ts(inBrackets+1, x-addToCc.length);
-					inMatchFor = x+1;
-				}
-				// now look for other clause parts
-			}else if(inParens >= 0){
-				if(cc == ")"){
-					if(inPseudo >= 0){
-						_cp.value = ts(inParens+1, x);
-					}
-					inPseudo = inParens = -1;
-				}
-			}else if(cc == "#"){
-				endAll();
-				inId = x+1;
-			}else if(cc == "."){
-				endAll();
-				inClass = x;
-			}else if(cc == ":"){
-				endAll();
-				inPseudo = x;
-			}else if(cc == "["){
-				endAll();
-				inBrackets = x;
-				_cp = {
-					/*=====
-					attr: null, type: null, matchFor: null
-					=====*/
-				};
-			}else if(cc == "("){
-				if(inPseudo >= 0){
-					_cp = { 
-						name: ts(inPseudo+1, x), 
-						value: null
-					}
-					currentPart.pseudos.push(_cp);
-				}
-				inParens = x;
-			}else if(cc == " " && lc != cc){
-				// note that we expect the string to be " " terminated
-				endAll();
-				if(inPseudo >= 0){
-					currentPart.pseudos.push({ name: ts(inPseudo+1, x) });
-				}
-				currentPart.hasLoops = (	
-						currentPart.pseudos.length || 
-						currentPart.attrs.length || 
-						currentPart.classes.length	);
-				currentPart.query = ts(pStart, x);
-				currentPart.tag = (currentPart["oper"]) ? null : (currentPart.tag || "*");
-				qparts.push(currentPart);
-				currentPart = null;
-			}
-		}
-		return qparts;
-	};
-	
-
-	////////////////////////////////////////////////////////////////////////
-	// XPath query code
-	////////////////////////////////////////////////////////////////////////
-
-	// this array is a lookup used to generate an attribute matching function.
-	// There is a similar lookup/generator list for the DOM branch with similar
-	// calling semantics.
-	var xPathAttrs = {
-		"*=": function(attr, value){
-			return "[contains(@"+attr+", '"+ value +"')]";
-		},
-		"^=": function(attr, value){
-			return "[starts-with(@"+attr+", '"+ value +"')]";
-		},
-		"$=": function(attr, value){
-			return "[substring(@"+attr+", string-length(@"+attr+")-"+(value.length-1)+")='"+value+"']";
-		},
-		"~=": function(attr, value){
-			return "[contains(concat(' ',@"+attr+",' '), ' "+ value +" ')]";
-		},
-		"|=": function(attr, value){
-			return "[contains(concat(' ',@"+attr+",' '), ' "+ value +"-')]";
-		},
-		"=": function(attr, value){
-			return "[@"+attr+"='"+ value +"']";
-		}
-	};
-
-	// takes a list of attribute searches, the overall query, a function to
-	// generate a default matcher, and a closure-bound method for providing a
-	// matching function that generates whatever type of yes/no distinguisher
-	// the query method needs. The method is a bit tortured and hard to read
-	// because it needs to be used in both the XPath and DOM branches.
-	var handleAttrs = function(	attrList, 
-								query, 
-								getDefault, 
-								handleMatch){
-		d.forEach(query.attrs, function(attr){
-			var matcher;
-			// type, attr, matchFor
-			if(attr.type && attrList[attr.type]){
-				matcher = attrList[attr.type](attr.attr, attr.matchFor);
-			}else if(attr.attr.length){
-				matcher = getDefault(attr.attr);
-			}
-			if(matcher){ handleMatch(matcher); }
-		});
-	}
-
-	var buildPath = function(query){
-		var xpath = ".";
-		var qparts = getQueryParts(d.trim(query));
-		while(qparts.length){
-			var tqp = qparts.shift();
-			var prefix;
-			// FIXME: need to add support for ~ and +
-			if(tqp.oper == ">"){
-				prefix = "/";
-				// prefix = "/child::node()";
-				tqp = qparts.shift();
-			}else{
-				prefix = "//";
-				// prefix = "/descendant::node()"
-			}
-
-			// get the tag name (if any)
-
-			xpath += prefix + tqp.tag;
-			
-			// check to see if it's got an id. Needs to come first in xpath.
-			if(tqp.id){
-				xpath += "[@id='"+tqp.id+"'][1]";
-			}
-
-			d.forEach(tqp.classes, function(cn){
-				var cnl = cn.length;
-				var padding = " ";
-				if(cn.charAt(cnl-1) == "*"){
-					padding = ""; cn = cn.substr(0, cnl-1);
-				}
-				xpath += 
-					"[contains(concat(' ',@class,' '), ' "+
-					cn + padding + "')]";
-			});
-
-			handleAttrs(xPathAttrs, tqp, 
-				function(condition){
-						return "[@"+condition+"]";
-				},
-				function(matcher){
-					xpath += matcher;
-				}
-			);
-
-			// FIXME: need to implement pseudo-class checks!!
-		};
-		return xpath;
-	};
-
-	var _xpathFuncCache = {};
-	var getXPathFunc = function(path){
-		if(_xpathFuncCache[path]){
-			return _xpathFuncCache[path];
-		}
-
-		var doc = d.doc;
-		// var parent = d.body(); // FIXME
-		// FIXME: don't need to memoize. The closure scope handles it for us.
-		var xpath = buildPath(path);
-
-		var tf = function(parent){
-			// XPath query strings are memoized.
-			var ret = [];
-			var xpathResult;
-			try{
-				xpathResult = doc.evaluate(xpath, parent, null, 
-												// XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null);
-												XPathResult.ANY_TYPE, null);
-			}catch(e){
-				console.debug("failure in exprssion:", xpath, "under:", parent);
-				console.debug(e);
-			}
-			var result = xpathResult.iterateNext();
-			while(result){
-				ret.push(result);
-				result = xpathResult.iterateNext();
-			}
-			return ret;
-		}
-		return _xpathFuncCache[path] = tf;
-	};
-
-	/*
-	d.xPathMatch = function(query){
-		// XPath based DOM query system. Handles a small subset of CSS
-		// selectors, subset is identical to the non-XPath version of this
-		// function. 
-
-		// FIXME: need to add support for alternate roots
-		return getXPathFunc(query)();
-	}
-	*/
-
-	////////////////////////////////////////////////////////////////////////
-	// DOM query code
-	////////////////////////////////////////////////////////////////////////
-
-	var _filtersCache = {};
-	var _simpleFiltersCache = {};
-
-	// the basic building block of the yes/no chaining system. agree(f1, f2)
-	// generates a new function which returns the boolean results of both of
-	// the passed functions to a single logical-anded result.
-	var agree = function(first, second){
-		if(!first){ return second; }
-		if(!second){ return first; }
-
-		return function(){
-			return first.apply(window, arguments) && second.apply(window, arguments);
-		}
-	}
-
-	var _filterDown = function(element, queryParts, matchArr, idx){
-		var nidx = idx+1;
-		var isFinal = (queryParts.length == nidx);
-		var tqp = queryParts[idx];
-
-		// see if we can constrain our next level to direct children
-		if(tqp.oper == ">"){
-			var ecn = element[childNodesName];
-			if(!ecn || !ecn.length){
-				return;
-			}
-			nidx++;
-			isFinal = (queryParts.length == nidx);
-			// kinda janky, too much array alloc
-			var tf = getFilterFunc(queryParts[idx+1]);
-			// for(var x=ecn.length-1, te; x>=0, te=ecn[x]; x--){
-			for(var x=0, ecnl=ecn.length, te; x<ecnl, te=ecn[x]; x++){
-				if(tf(te)){
-					if(isFinal){
-						matchArr.push(te);
-					}else{
-						_filterDown(te, queryParts, matchArr, nidx);
-					}
-				}
-				/*
-				if(x==0){
-					break;
-				}
-				*/
-			}
-		}
-
-		// otherwise, keep going down, unless we'er at the end
-		var candidates = getElementsFunc(tqp)(element);
-		if(isFinal){
-			while(candidates.length){
-				matchArr.push(candidates.shift());
-			}
-			/*
-			candidates.unshift(0, matchArr.length-1);
-			matchArr.splice.apply(matchArr, candidates);
-			*/
-		}else{
-			// if we're not yet at the bottom, keep going!
-			while(candidates.length){
-				_filterDown(candidates.shift(), queryParts, matchArr, nidx);
-			}
-		}
-	}
-
-	var filterDown = function(elements, queryParts){
-		var ret = [];
-
-		// for every root, get the elements that match the descendant selector
-		// for(var x=elements.length-1, te; x>=0, te=elements[x]; x--){
-		var x = elements.length - 1, te;
-		while(te = elements[x--]){
-			_filterDown(te, queryParts, ret, 0);
-		}
-		return ret;
-	}
-
-	var getFilterFunc = function(q){
-		// note: query can't have spaces!
-		if(_filtersCache[q.query]){
-			return _filtersCache[q.query];
-		}
-		var ff = null;
-
-		// does it have a tagName component?
-		if(q.tag){
-			if(q.tag == "*"){
-				ff = agree(ff, 
-					function(elem){
-						return (elem.nodeType == 1);
-					}
-				);
-			}else{
-				// tag name match
-				ff = agree(ff, 
-					function(elem){
-						return (
-							(elem.nodeType == 1) &&
-							(q.tag == elem.tagName.toLowerCase())
-						);
-						// return isTn;
-					}
-				);
-			}
-		}
-
-		// does the node have an ID?
-		if(q.id){
-			ff = agree(ff, 
-				function(elem){
-					return (
-						(elem.nodeType == 1) &&
-						(elem.id == q.id)
-					);
-				}
-			);
-		}
-
-		if(q.hasLoops){
-			// if we have other query param parts, make sure we add them to the
-			// filter chain
-			ff = agree(ff, getSimpleFilterFunc(q));
-		}
-
-		return _filtersCache[q.query] = ff;
-	}
-
-	var getNodeIndex = function(node){
-		// NOTE: 
-		//		we could have a more accurate caching mechanism by invalidating
-		//		caches after the query has finished, but I think that'd lead to
-		//		significantly more cache churn than the cache would provide
-		//		value for in the common case. Generally, we're more
-		//		conservative (and therefore, more accurate) than jQuery and
-		//		DomQuery WRT node node indexes, but there may be corner cases
-		//		in which we fall down.  How much we care about them is TBD.
-
-		var pn = node.parentNode;
-		var pnc = pn.childNodes;
-
-		// check to see if we can trust the cache. If not, re-key the whole
-		// thing and return our node match from that.
-
-		var nidx = -1;
-		var child = pn.firstChild;
-		if(!child){
-			return nidx;
-		}
-
-		var ci = node["__cachedIndex"];
-		var cl = pn["__cachedLength"];
-
-		// only handle cache building if we've gone out of sync
-		if(((typeof cl == "number")&&(cl != pnc.length))||(typeof ci != "number")){
-			// rip though the whole set, building cache indexes as we go
-			pn["__cachedLength"] = pnc.length;
-			var idx = 1;
-			do{
-				// we only assign indexes for nodes with nodeType == 1, as per:
-				//		http://www.w3.org/TR/css3-selectors/#nth-child-pseudo
-				// only elements are counted in the search order, and they
-				// begin at 1 for the first child's index
-
-				if(child === node){
-					nidx = idx;
-				}
-				if(child.nodeType == 1){
-					child["__cachedIndex"] = idx;
-					idx++;
-				}
-				child = child.nextSibling;
-			}while(child);
-		}else{
-			// NOTE: 
-			//		could be incorrect in some cases (node swaps involving the
-			//		passed node, etc.), but we ignore those due to the relative
-			//		unlikelihood of that occuring
-			nidx = ci;
-		}
-		return nidx;
-	}
-
-	var firedCount = 0;
-
-	var blank = "";
-	var _getAttr = function(elem, attr){
-		if(attr == "class"){
-			return elem.className || blank;
-		}
-		if(attr == "for"){
-			return elem.htmlFor || blank;
-		}
-		return elem.getAttribute(attr, 2) || blank;
-	}
-
-	var attrs = {
-		"*=": function(attr, value){
-			return function(elem){
-				// E[foo*="bar"]
-				//		an E element whose "foo" attribute value contains
-				//		the substring "bar"
-				return (_getAttr(elem, attr).indexOf(value)>=0);
-			}
-		},
-		"^=": function(attr, value){
-			// E[foo^="bar"]
-			//		an E element whose "foo" attribute value begins exactly
-			//		with the string "bar"
-			return function(elem){
-				return (_getAttr(elem, attr).indexOf(value)==0);
-			}
-		},
-		"$=": function(attr, value){
-			// E[foo$="bar"]	
-			//		an E element whose "foo" attribute value ends exactly
-			//		with the string "bar"
-			var tval = " "+value;
-			return function(elem){
-				var ea = " "+_getAttr(elem, attr);
-				return (ea.lastIndexOf(value)==(ea.length-value.length));
-			}
-		},
-		"~=": function(attr, value){
-			// E[foo~="bar"]	
-			//		an E element whose "foo" attribute value is a list of
-			//		space-separated values, one of which is exactly equal
-			//		to "bar"
-
-			// return "[contains(concat(' ',@"+attr+",' '), ' "+ value +" ')]";
-			var tval = " "+value+" ";
-			return function(elem){
-				var ea = " "+_getAttr(elem, attr)+" ";
-				return (ea.indexOf(tval)>=0);
-			}
-		},
-		"|=": function(attr, value){
-			// E[hreflang|="en"]
-			//		an E element whose "hreflang" attribute has a
-			//		hyphen-separated list of values beginning (from the
-			//		left) with "en"
-			var valueDash = " "+value+"-";
-			return function(elem){
-				var ea = " "+(elem.getAttribute(attr, 2) || "");
-				return (
-					(ea == value) ||
-					(ea.indexOf(valueDash)==0)
-				);
-			}
-		},
-		"=": function(attr, value){
-			return function(elem){
-				return (_getAttr(elem, attr) == value);
-			}
-		}
-	};
-
-	var pseudos = {
-		"first-child": function(name, condition){
-			return function(elem){
-				if(elem.nodeType != 1){ return false; }
-				// check to see if any of the previous siblings are elements
-				var fc = elem.previousSibling;
-				while(fc && (fc.nodeType != 1)){
-					fc = fc.previousSibling;
-				}
-				return (!fc);
-			}
-		},
-		"last-child": function(name, condition){
-			return function(elem){
-				if(elem.nodeType != 1){ return false; }
-				// check to see if any of the next siblings are elements
-				var nc = elem.nextSibling;
-				while(nc && (nc.nodeType != 1)){
-					nc = nc.nextSibling;
-				}
-				return (!nc);
-			}
-		},
-		"empty": function(name, condition){
-			return function(elem){
-				// DomQuery and jQuery get this wrong, oddly enough.
-				// The CSS 3 selectors spec is pretty explicit about
-				// it, too.
-				var cn = elem.childNodes;
-				var cnl = elem.childNodes.length;
-				// if(!cnl){ return true; }
-				for(var x=cnl-1; x >= 0; x--){
-					var nt = cn[x].nodeType;
-					if((nt == 1)||(nt == 3)){ return false; }
-				}
-				return true;
-			}
-		},
-		/* non standard!
-		"contains": function(name, condition){
-			return function(elem){
-				// FIXME: I dislike this version of "contains", as
-				// whimsical attribute could set it off. An inner-text
-				// based version might be more accurate, but since
-				// jQuery and DomQuery also potentially get this wrong,
-				// I'm leaving it for now.
-				return (elem.innerHTML.indexOf(condition) >= 0);
-			}
-		},
-		*/
-		"not": function(name, condition){
-			var ntf = getFilterFunc(getQueryParts(condition)[0]);
-			return function(elem){
-				return (!ntf(elem));
-			}
-		},
-		"nth-child": function(name, condition){
-			var pi = parseInt;
-			if(condition == "odd"){
-				return function(elem){
-					return (
-						((getNodeIndex(elem)) % 2) == 1
-					);
-				}
-			}else if((condition == "2n")||
-				(condition == "even")){
-				return function(elem){
-					return ((getNodeIndex(elem) % 2) == 0);
-				}
-			}else if(condition.indexOf("0n+") == 0){
-				var ncount = pi(condition.substr(3));
-				return function(elem){
-					return (elem.parentNode[childNodesName][ncount-1] === elem);
-				}
-			}else if(	(condition.indexOf("n+") > 0) &&
-						(condition.length > 3) ){
-				var tparts = condition.split("n+", 2);
-				var pred = pi(tparts[0]);
-				var idx = pi(tparts[1]);
-				return function(elem){
-					return ((getNodeIndex(elem) % pred) == idx);
-				}
-			}else if(condition.indexOf("n") == -1){
-				var ncount = pi(condition);
-				return function(elem){
-					return (getNodeIndex(elem) == ncount);
-				}
-			}
-		}
-	};
-
-	var defaultGetter = (d.isIE) ? function(cond){
-		var clc = cond.toLowerCase();
-		return function(elem){
-			return elem[cond]||elem[clc];
-		}
-	} : function(cond){
-		return function(elem){
-			return (elem && elem.getAttribute && elem.hasAttribute(cond));
-		}
-	};
-
-	var getSimpleFilterFunc = function(query){
-
-		var fcHit = (_simpleFiltersCache[query.query]||_filtersCache[query.query]);
-		if(fcHit){ return fcHit; }
-
-		var ff = null;
-
-		// the only case where we'll need the tag name is if we came from an ID query
-		if(query.id){ // do we have an ID component?
-			if(query.tag != "*"){
-				ff = agree(ff, function(elem){
-					return (elem.tagName.toLowerCase() == query.tag);
-				});
-			}
-		}
-
-		// if there's a class in our query, generate a match function for it
-		d.forEach(query.classes, function(cname, idx, arr){
-			// get the class name
-			var isWildcard = cname.charAt(cname.length-1) == "*";
-			if(isWildcard){
-				cname = cname.substr(0, cname.length-1);
-			}
-			// I dislike the regex thing, even if memozied in a cache, but it's VERY short
-			var re = new RegExp("(?:^|\\s)" + cname + (isWildcard ? ".*" : "") + "(?:\\s|$)");
-			ff = agree(ff, function(elem){
-				return re.test(elem.className);
-			});
-			ff.count = idx;
-		});
-
-		d.forEach(query.pseudos, function(pseudo){
-			if(pseudos[pseudo.name]){
-				ff = agree(ff, pseudos[pseudo.name](pseudo.name, pseudo.value));
-			}
-		});
-
-		handleAttrs(attrs, query, defaultGetter,
-			function(tmatcher){ ff = agree(ff, tmatcher); }
-		);
-		if(!ff){
-			ff = function(){ return true; };
-		}
-		return _simpleFiltersCache[query.query] = ff;
-	}
-
-	var _getElementsFuncCache = { };
-
-	var getElementsFunc = function(query, root){
-		var fHit = _getElementsFuncCache[query.query];
-		if(fHit){ return fHit; }
-
-		// NOTE: this function is in the fast path! not memoized!!!
-
-		// the query doesn't contain any spaces, so there's only so many
-		// things it could be
-
-		if(query.id && !query.hasLoops && !query.tag){
-			// ID-only query. Easy.
-			return _getElementsFuncCache[query.query] = function(root){
-				// FIXME: if root != document, check for parenting!
-				return [ d.byId(query.id) ];
-			}
-		}
-
-		var filterFunc = getSimpleFilterFunc(query);
-
-		var retFunc;
-		if(query.tag && query.id && !query.hasLoops){
-			// we got a filtered ID search (e.g., "h4#thinger")
-			retFunc = function(root){
-				var te = d.byId(query.id);
-				if(filterFunc(te)){
-					return [ te ];
-				}
-			}
-		}else{
-			var tret;
-
-			if(!query.hasLoops){
-				// it's just a plain-ol elements-by-tag-name query from the root
-				retFunc = function(root){
-					var ret = [];
-					var te, x=0, tret = root.getElementsByTagName(query.tag);
-					while(te=tret[x++]){
-						ret.push(te);
-					}
-					return ret;
-				}
-			}else{
-				retFunc = function(root){
-					var ret = [];
-					var te, x=0, tret = root.getElementsByTagName(query.tag);
-					while(te=tret[x++]){
-						if(filterFunc(te)){
-							ret.push(te);
-						}
-					}
-					return ret;
-				}
-			}
-		}
-		return _getElementsFuncCache[query.query] = retFunc;
-	}
-
-	var _partsCache = {};
-
-	////////////////////////////////////////////////////////////////////////
-	// the query runner
-	////////////////////////////////////////////////////////////////////////
-
-	// this is the second level of spliting, from full-length queries (e.g.,
-	// "div.foo .bar") into simple query expressions (e.g., ["div.foo",
-	// ".bar"])
-	var _queryFuncCache = {
-		"*": d.isIE ? 
-			function(root){ 
-					return root.all;
-			} : 
-			function(root){
-				 return root.getElementsByTagName("*");
-			},
-		">": function(root){
-			var ret = [];
-			var te, x=0, tret = root[childNodesName];
-			while(te=tret[x++]){
-				if(te.nodeType == 1){ ret.push(te); }
-			}
-			return ret;
-		}
-	};
-
-	var getStepQueryFunc = function(query){
-		// if it's trivial, get a fast-path dispatcher
-		var qparts = getQueryParts(d.trim(query));
-		// if(query[query.length-1] == ">"){ query += " *"; }
-		if(qparts.length == 1){
-			var tt = getElementsFunc(qparts[0]);
-			tt.nozip = true;
-			return tt;
-		}
-
-		// otherwise, break it up and return a runner that iterates over the parts recursively
-		var sqf = function(root){
-			var localQueryParts = qparts.slice(0); // clone the src arr
-			var candidates;
-			if(localQueryParts[0].oper == ">"){
-				candidates = [ root ];
-				// root = document;
-			}else{
-				candidates = getElementsFunc(localQueryParts.shift())(root);
-			}
-			return filterDown(candidates, localQueryParts);
-		}
-		return sqf;
-	}
-
-	// a specialized method that implements our primoridal "query optimizer".
-	// This allows us to dispatch queries to the fastest subsystem we can get.
-	var _getQueryFunc = (
-		// NOTE: 
-		//		XPath on the Webkit nighlies is slower than it's DOM iteration
-		//		for most test cases
-		// FIXME: 
-		//		we should try to capture some runtime speed data for each query
-		//		function to determine on the fly if we should stick w/ the
-		//		potentially optimized variant or if we should try something
-		//		new.
-		(document["evaluate"] && !d.isSafari) ? 
-		function(query){
-			// has xpath support that's faster than DOM
-			var qparts = query.split(" ");
-			// can we handle it?
-			if(	(document["evaluate"])&&
-				(query.indexOf(":") == -1)&&
-				(
-					(true) // ||
-					// (query.indexOf("[") == -1) ||
-					// (query.indexOf("=") == -1)
-				)
-			){
-				// dojo.debug(query);
-				// should we handle it?
-
-				// kind of a lame heuristic, but it works
-				if(	
-					// a "div div div" style query
-					((qparts.length > 2)&&(query.indexOf(">") == -1))||
-					// or something else with moderate complexity. kinda janky
-					(qparts.length > 3)||
-					(query.indexOf("[")>=0)||
-					// or if it's a ".thinger" query
-					((1 == qparts.length)&&(0 <= query.indexOf(".")))
-
-				){
-					// use get and cache a xpath runner for this selector
-					return getXPathFunc(query);
-				}
-			}
-
-			// fallthrough
-			return getStepQueryFunc(query);
-		} : getStepQueryFunc
-	);
-	// uncomment to disable XPath for testing and tuning the DOM path
-	// _getQueryFunc = getStepQueryFunc;
-
-	// FIXME: we've got problems w/ the NodeList query()/filter() functions if we go XPath for everything
-
-	// uncomment to disable DOM queries for testing and tuning XPath
-	// _getQueryFunc = getXPathFunc;
-
-	// this is the primary caching for full-query results. The query dispatcher
-	// functions are generated here and then pickled for hash lookup in the
-	// future
-	var getQueryFunc = function(query){
-		// return a cached version if one is available
-		if(_queryFuncCache[query]){ return _queryFuncCache[query]; }
-		if(0 > query.indexOf(",")){
-			// if it's not a compound query (e.g., ".foo, .bar"), cache and return a dispatcher
-			return _queryFuncCache[query] = _getQueryFunc(query);
-		}else{
-			// if it's a complex query, break it up into it's constituent parts
-			// and return a dispatcher that will merge the parts when run
-
-			// var parts = query.split(", ");
-			var parts = query.split(/\s*,\s*/);
-			var tf = function(root){
-				var pindex = 0; // avoid array alloc for every invocation
-				var ret = [];
-				var tp;
-				while(tp = parts[pindex++]){
-					ret = ret.concat(_getQueryFunc(tp, tp.indexOf(" "))(root));
-				}
-				return ret;
-			}
-			// ...cache and return
-			return _queryFuncCache[query] = tf;
-		}
-	}
-
-	// FIXME: 
-	//		Dean's new Base2 uses a system whereby queries themselves note if
-	//		they'll need duplicate filtering. We need to get on that plan!!
-
-	// attempt to efficiently determine if an item in a list is a dupe,
-	// returning a list of "uniques", hopefully in doucment order
-	var _zipIdx = 0;
-	var _zip = function(arr){
-		if(arr && arr.nozip){ return d.NodeList._wrap(arr); }
-		var ret = new d.NodeList();
-		if(!arr){ return ret; }
-		if(arr[0]){
-			ret.push(arr[0]);
-		}
-		if(arr.length < 2){ return ret; }
-		_zipIdx++;
-		arr[0]["_zipIdx"] = _zipIdx;
-		for(var x=1, te; te = arr[x]; x++){
-			if(arr[x]["_zipIdx"] != _zipIdx){ 
-				ret.push(te);
-			}
-			te["_zipIdx"] = _zipIdx;
-		}
-		// FIXME: should we consider stripping these properties?
-		return ret;
-	}
-
-	// the main exectuor
-	d.query = function(query, root){
-		//	summary:
-		//		returns nodes which match the given CSS3 selector, searching the
-		//		entire document by default but optionally taking a node to scope
-		//		the search by. Returns an instance of dojo.NodeList.
-		//	description:
-		//		dojo.query() is the swiss army knife of DOM node manipulation in
-		//		Dojo. Much like Prototype's "$$" (bling-bling) function or JQuery's
-		//		"$" function, dojo.query provides robust, high-performance
-		//		CSS-based node selector support with the option of scoping searches
-		//		to a particular sub-tree of a document.
-		//
-		//		Supported Selectors:
-		//		--------------------
-		//
-		//		dojo.query() supports a rich set of CSS3 selectors, including:
-		//
-		//			* class selectors (e.g., ".foo")
-		//			* node type selectors like "span"
-		//			* " " descendant selectors
-		//			* ">" child element selectors 
-		//			* "#foo" style ID selectors
-		//			* "*" universal selector
-		//			* attribute queries:
-		//				* "[foo]" attribute presence selector
-		//				* "[foo='bar']" attribute value exact match
-		//				* "[foo~='bar']" attribute value list item match
-		//				* "[foo^='bar']" attribute start match
-		//				* "[foo$='bar']" attribute end match
-		//				* "[foo*='bar']" attribute substring match
-		//			* ":first-child", ":last-child" positional selectors
-		//			* ":nth-child(n)", ":nth-child(2n+1)" style positional calculations
-		//			* ":nth-child(even)", ":nth-child(odd)" positional selectors
-		//			* ":not(...)" negation pseudo selectors
-		//
-		//		Any legal combination of those selector types as per the CSS 3 sepc
-		//		will work with dojo.query(), including compound selectors (","
-		//		delimited). Very complex and useful searches can be constructed
-		//		with this palette of selectors and when combined with functions for
-		//		maniplation presented by dojo.NodeList, many types of DOM
-		//		manipulation operations become very straightforward.
-		//		
-		//		Unsupported Selectors:
-		//		--------------------
-		//
-		//		While dojo.query handles many CSS3 selectors, some fall outside of
-		//		what's resaonable for a programmatic node querying engine to
-		//		handle. Currently unsupported selectors include:
-		//		
-		//			* namespace-differentiated selectors of any form
-		//			* "~", the immediately preceeded-by sibling selector
-		//			* "+", the preceeded-by sibling selector
-		//			* all "::" pseduo-element selectors
-		//			* certain pseduo-selectors which don't get a lot of day-to-day use:
-		//				* :root, :lang(), :target, :focus
-		//			* all visual and state selectors:
-		//				* :root, :active, :hover, :visisted, :link, :enabled, :disabled, :checked
-		//			* :*-of-type pseudo selectors
-		//		
-		//		dojo.query and XML Documents:
-		//		-----------------------------
-		//		FIXME
-		//		
-		//	query: String
-		//		The CSS3 expression to match against. For details on the syntax of
-		//		CSS3 selectors, see:
-		//			http://www.w3.org/TR/css3-selectors/#selectors
-		//	root: String|DOMNode?
-		//		A node (or string ID of a node) to scope the search from. Optional.
-		//	returns:
-		//		An instance of dojo.NodeList. Many methods are available on
-		//		NodeLists for searching, iterating, manipulating, and handling
-		//		events on the matched nodes in the returned list.
-
-		// return is always an array
-		// NOTE: elementsById is not currently supported
-		// NOTE: ignores xpath-ish queries for now
-		if(query.constructor == d.NodeList){
-			return query;
-		}
-		if(!d.isString(query)){
-			return new d.NodeList(query); // dojo.NodeList
-		}
-		if(d.isString(root)){
-			root = d.byId(root);
-		}
-
-		// FIXME: should support more methods on the return than the stock array.
-		return _zip(getQueryFunc(query)(root||d.doc));
-	}
-
-	/*
-	// exposing these was a mistake
-	d.query.attrs = attrs;
-	d.query.pseudos = pseudos;
-	*/
-
-	// one-off function for filtering a NodeList based on a simple selector
-	d._filterQueryResult = function(nodeList, simpleFilter){
-		var tnl = new d.NodeList();
-		var ff = (simpleFilter) ? getFilterFunc(getQueryParts(simpleFilter)[0]) : function(){ return true; };
-		for(var x=0, te; te = nodeList[x]; x++){
-			if(ff(te)){ tnl.push(te); }
-		}
-		return tnl;
-	}
+if(!dojo._hasResource["dojo._base.query"]){
+dojo._hasResource["dojo._base.query"]=true;
+dojo.provide("dojo._base.query");
+dojo.require("dojo._base.NodeList");
+(function(){
+var d=dojo;
+var _2=dojo.isIE?"children":"childNodes";
+var _3=false;
+var _4=function(_5){
+if(">~+".indexOf(_5.charAt(_5.length-1))>=0){
+_5+=" *";
+}
+_5+=" ";
+var ts=function(s,e){
+return d.trim(_5.slice(s,e));
+};
+var _9=[];
+var _a=-1;
+var _b=-1;
+var _c=-1;
+var _d=-1;
+var _e=-1;
+var _f=-1;
+var _10=-1;
+var lc="";
+var cc="";
+var _13;
+var x=0;
+var ql=_5.length;
+var _16=null;
+var _cp=null;
+var _18=function(){
+if(_10>=0){
+var tv=(_10==x)?null:ts(_10,x).toLowerCase();
+_16[(">~+".indexOf(tv)<0)?"tag":"oper"]=tv;
+_10=-1;
+}
+};
+var _1a=function(){
+if(_f>=0){
+_16.id=ts(_f,x).replace(/\\/g,"");
+_f=-1;
+}
+};
+var _1b=function(){
+if(_e>=0){
+_16.classes.push(ts(_e+1,x).replace(/\\/g,""));
+_e=-1;
+}
+};
+var _1c=function(){
+_1a();
+_18();
+_1b();
+};
+for(;lc=cc,cc=_5.charAt(x),x<ql;x++){
+if(lc=="\\"){
+continue;
+}
+if(!_16){
+_13=x;
+_16={query:null,pseudos:[],attrs:[],classes:[],tag:null,oper:null,id:null};
+_10=x;
+}
+if(_a>=0){
+if(cc=="]"){
+if(!_cp.attr){
+_cp.attr=ts(_a+1,x);
+}else{
+_cp.matchFor=ts((_c||_a+1),x);
+}
+var cmf=_cp.matchFor;
+if(cmf){
+if((cmf.charAt(0)=="\"")||(cmf.charAt(0)=="'")){
+_cp.matchFor=cmf.substring(1,cmf.length-1);
+}
+}
+_16.attrs.push(_cp);
+_cp=null;
+_a=_c=-1;
+}else{
+if(cc=="="){
+var _1e=("|~^$*".indexOf(lc)>=0)?lc:"";
+_cp.type=_1e+cc;
+_cp.attr=ts(_a+1,x-_1e.length);
+_c=x+1;
+}
+}
+}else{
+if(_b>=0){
+if(cc==")"){
+if(_d>=0){
+_cp.value=ts(_b+1,x);
+}
+_d=_b=-1;
+}
+}else{
+if(cc=="#"){
+_1c();
+_f=x+1;
+}else{
+if(cc=="."){
+_1c();
+_e=x;
+}else{
+if(cc==":"){
+_1c();
+_d=x;
+}else{
+if(cc=="["){
+_1c();
+_a=x;
+_cp={};
+}else{
+if(cc=="("){
+if(_d>=0){
+_cp={name:ts(_d+1,x),value:null};
+_16.pseudos.push(_cp);
+}
+_b=x;
+}else{
+if(cc==" "&&lc!=cc){
+_1c();
+if(_d>=0){
+_16.pseudos.push({name:ts(_d+1,x)});
+}
+_16.hasLoops=(_16.pseudos.length||_16.attrs.length||_16.classes.length);
+_16.query=ts(_13,x);
+_16.tag=(_16["oper"])?null:(_16.tag||"*");
+_9.push(_16);
+_16=null;
+}
+}
+}
+}
+}
+}
+}
+}
+}
+return _9;
+};
+var _1f={"*=":function(_20,_21){
+return "[contains(@"+_20+", '"+_21+"')]";
+},"^=":function(_22,_23){
+return "[starts-with(@"+_22+", '"+_23+"')]";
+},"$=":function(_24,_25){
+return "[substring(@"+_24+", string-length(@"+_24+")-"+(_25.length-1)+")='"+_25+"']";
+},"~=":function(_26,_27){
+return "[contains(concat(' ',@"+_26+",' '), ' "+_27+" ')]";
+},"|=":function(_28,_29){
+return "[contains(concat(' ',@"+_28+",' '), ' "+_29+"-')]";
+},"=":function(_2a,_2b){
+return "[@"+_2a+"='"+_2b+"']";
+}};
+var _2c=function(_2d,_2e,_2f,_30){
+d.forEach(_2e.attrs,function(_31){
+var _32;
+if(_31.type&&_2d[_31.type]){
+_32=_2d[_31.type](_31.attr,_31.matchFor);
+}else{
+if(_31.attr.length){
+_32=_2f(_31.attr);
+}
+}
+if(_32){
+_30(_32);
+}
+});
+};
+var _33=function(_34){
+var _35=".";
+var _36=_4(d.trim(_34));
+while(_36.length){
+var tqp=_36.shift();
+var _38;
+var _39="";
+if(tqp.oper==">"){
+_38="/";
+tqp=_36.shift();
+}else{
+if(tqp.oper=="~"){
+_38="/following-sibling::";
+tqp=_36.shift();
+}else{
+if(tqp.oper=="+"){
+_38="/following-sibling::";
+_39="[position()=1]";
+tqp=_36.shift();
+}else{
+_38="//";
+}
+}
+}
+_35+=_38+tqp.tag+_39;
+if(tqp.id){
+_35+="[@id='"+tqp.id+"'][1]";
+}
+d.forEach(tqp.classes,function(cn){
+var cnl=cn.length;
+var _3c=" ";
+if(cn.charAt(cnl-1)=="*"){
+_3c="";
+cn=cn.substr(0,cnl-1);
+}
+_35+="[contains(concat(' ',@class,' '), ' "+cn+_3c+"')]";
+});
+_2c(_1f,tqp,function(_3d){
+return "[@"+_3d+"]";
+},function(_3e){
+_35+=_3e;
+});
+}
+return _35;
+};
+var _3f={};
+var _40=function(_41){
+if(_3f[_41]){
+return _3f[_41];
+}
+var doc=d.doc;
+var _43=_33(_41);
+var tf=function(_45){
+var ret=[];
+var _47;
+try{
+_47=doc.evaluate(_43,_45,null,XPathResult.ANY_TYPE,null);
+}
+catch(e){
+console.debug("failure in exprssion:",_43,"under:",_45);
+console.debug(e);
+}
+var _48=_47.iterateNext();
+while(_48){
+ret.push(_48);
+_48=_47.iterateNext();
+}
+return ret;
+};
+return _3f[_41]=tf;
+};
+var _49={};
+var _4a={};
+var _4b=function(_4c,_4d){
+if(!_4c){
+return _4d;
+}
+if(!_4d){
+return _4c;
+}
+return function(){
+return _4c.apply(window,arguments)&&_4d.apply(window,arguments);
+};
+};
+var _4e=function(_4f){
+var ret=[];
+var te,x=0,_53=_4f[_2];
+while(te=_53[x++]){
+if(te.nodeType==1){
+ret.push(te);
+}
+}
+return ret;
+};
+var _54=function(_55,_56){
+var ret=[];
+var te=_55;
+while(te=te.nextSibling){
+if(te.nodeType==1){
+ret.push(te);
+if(_56){
+break;
+}
+}
+}
+return ret;
+};
+var _59=function(_5a,_5b,_5c,idx){
+var _5e=idx+1;
+var _5f=(_5b.length==_5e);
+var tqp=_5b[idx];
+if(tqp.oper){
+var ecn=(tqp.oper==">")?_4e(_5a):_54(_5a,(tqp.oper=="+"));
+if(!ecn||!ecn.length){
+return;
+}
+_5e++;
+_5f=(_5b.length==_5e);
+var tf=_63(_5b[idx+1]);
+for(var x=0,_65=ecn.length,te;x<_65,te=ecn[x];x++){
+if(tf(te)){
+if(_5f){
+_5c.push(te);
+}else{
+_59(te,_5b,_5c,_5e);
+}
+}
+}
+}
+var _67=_68(tqp)(_5a);
+if(_5f){
+while(_67.length){
+_5c.push(_67.shift());
+}
+}else{
+while(_67.length){
+_59(_67.shift(),_5b,_5c,_5e);
+}
+}
+};
+var _69=function(_6a,_6b){
+var ret=[];
+var x=_6a.length-1,te;
+while(te=_6a[x--]){
+_59(te,_6b,ret,0);
+}
+return ret;
+};
+var _63=function(q){
+if(_49[q.query]){
+return _49[q.query];
+}
+var ff=null;
+if(q.tag){
+if(q.tag=="*"){
+ff=_4b(ff,function(_71){
+return (_71.nodeType==1);
+});
+}else{
+ff=_4b(ff,function(_72){
+return ((_72.nodeType==1)&&(q.tag==_72.tagName.toLowerCase()));
+});
+}
+}
+if(q.id){
+ff=_4b(ff,function(_73){
+return ((_73.nodeType==1)&&(_73.id==q.id));
+});
+}
+if(q.hasLoops){
+ff=_4b(ff,_74(q));
+}
+return _49[q.query]=ff;
+};
+var _75=function(_76){
+var pn=_76.parentNode;
+var pnc=pn.childNodes;
+var _79=-1;
+var _7a=pn.firstChild;
+if(!_7a){
+return _79;
+}
+var ci=_76["__cachedIndex"];
+var cl=pn["__cachedLength"];
+if(((typeof cl=="number")&&(cl!=pnc.length))||(typeof ci!="number")){
+pn["__cachedLength"]=pnc.length;
+var idx=1;
+do{
+if(_7a===_76){
+_79=idx;
+}
+if(_7a.nodeType==1){
+_7a["__cachedIndex"]=idx;
+idx++;
+}
+_7a=_7a.nextSibling;
+}while(_7a);
+}else{
+_79=ci;
+}
+return _79;
+};
+var _7e=0;
+var _7f="";
+var _80=function(_81,_82){
+if(_82=="class"){
+return _81.className||_7f;
+}
+if(_82=="for"){
+return _81.htmlFor||_7f;
+}
+return _81.getAttribute(_82,2)||_7f;
+};
+var _83={"*=":function(_84,_85){
+return function(_86){
+return (_80(_86,_84).indexOf(_85)>=0);
+};
+},"^=":function(_87,_88){
+return function(_89){
+return (_80(_89,_87).indexOf(_88)==0);
+};
+},"$=":function(_8a,_8b){
+var _8c=" "+_8b;
+return function(_8d){
+var ea=" "+_80(_8d,_8a);
+return (ea.lastIndexOf(_8b)==(ea.length-_8b.length));
+};
+},"~=":function(_8f,_90){
+var _91=" "+_90+" ";
+return function(_92){
+var ea=" "+_80(_92,_8f)+" ";
+return (ea.indexOf(_91)>=0);
+};
+},"|=":function(_94,_95){
+var _96=" "+_95+"-";
+return function(_97){
+var ea=" "+(_97.getAttribute(_94,2)||"");
+return ((ea==_95)||(ea.indexOf(_96)==0));
+};
+},"=":function(_99,_9a){
+return function(_9b){
+return (_80(_9b,_99)==_9a);
+};
+}};
+var _9c={"first-child":function(_9d,_9e){
+return function(_9f){
+if(_9f.nodeType!=1){
+return false;
+}
+var fc=_9f.previousSibling;
+while(fc&&(fc.nodeType!=1)){
+fc=fc.previousSibling;
+}
+return (!fc);
+};
+},"last-child":function(_a1,_a2){
+return function(_a3){
+if(_a3.nodeType!=1){
+return false;
+}
+var nc=_a3.nextSibling;
+while(nc&&(nc.nodeType!=1)){
+nc=nc.nextSibling;
+}
+return (!nc);
+};
+},"empty":function(_a5,_a6){
+return function(_a7){
+var cn=_a7.childNodes;
+var cnl=_a7.childNodes.length;
+for(var x=cnl-1;x>=0;x--){
+var nt=cn[x].nodeType;
+if((nt==1)||(nt==3)){
+return false;
+}
+}
+return true;
+};
+},"contains":function(_ac,_ad){
+return function(_ae){
+return (_ae.innerHTML.indexOf(_ad)>=0);
+};
+},"not":function(_af,_b0){
+var ntf=_63(_4(_b0)[0]);
+return function(_b2){
+return (!ntf(_b2));
+};
+},"nth-child":function(_b3,_b4){
+var pi=parseInt;
+if(_b4=="odd"){
+return function(_b6){
+return (((_75(_b6))%2)==1);
+};
+}else{
+if((_b4=="2n")||(_b4=="even")){
+return function(_b7){
+return ((_75(_b7)%2)==0);
+};
+}else{
+if(_b4.indexOf("0n+")==0){
+var _b8=pi(_b4.substr(3));
+return function(_b9){
+return (_b9.parentNode[_2][_b8-1]===_b9);
+};
+}else{
+if((_b4.indexOf("n+")>0)&&(_b4.length>3)){
+var _ba=_b4.split("n+",2);
+var _bb=pi(_ba[0]);
+var idx=pi(_ba[1]);
+return function(_bd){
+return ((_75(_bd)%_bb)==idx);
+};
+}else{
+if(_b4.indexOf("n")==-1){
+var _b8=pi(_b4);
+return function(_be){
+return (_75(_be)==_b8);
+};
+}
+}
+}
+}
+}
+}};
+var _bf=(d.isIE)?function(_c0){
+var clc=_c0.toLowerCase();
+return function(_c2){
+return _c2[_c0]||_c2[clc];
+};
+}:function(_c3){
+return function(_c4){
+return (_c4&&_c4.getAttribute&&_c4.hasAttribute(_c3));
+};
+};
+var _74=function(_c5){
+var _c6=(_4a[_c5.query]||_49[_c5.query]);
+if(_c6){
+return _c6;
+}
+var ff=null;
+if(_c5.id){
+if(_c5.tag!="*"){
+ff=_4b(ff,function(_c8){
+return (_c8.tagName.toLowerCase()==_c5.tag);
+});
+}
+}
+d.forEach(_c5.classes,function(_c9,idx,arr){
+var _cc=_c9.charAt(_c9.length-1)=="*";
+if(_cc){
+_c9=_c9.substr(0,_c9.length-1);
+}
+var re=new RegExp("(?:^|\\s)"+_c9+(_cc?".*":"")+"(?:\\s|$)");
+ff=_4b(ff,function(_ce){
+return re.test(_ce.className);
+});
+ff.count=idx;
+});
+d.forEach(_c5.pseudos,function(_cf){
+if(_9c[_cf.name]){
+ff=_4b(ff,_9c[_cf.name](_cf.name,_cf.value));
+}
+});
+_2c(_83,_c5,_bf,function(_d0){
+ff=_4b(ff,_d0);
+});
+if(!ff){
+ff=function(){
+return true;
+};
+}
+return _4a[_c5.query]=ff;
+};
+var _d1={};
+var _68=function(_d2,_d3){
+var _d4=_d1[_d2.query];
+if(_d4){
+return _d4;
+}
+if(_d2.id&&!_d2.hasLoops&&!_d2.tag){
+return _d1[_d2.query]=function(_d5){
+return [d.byId(_d2.id)];
+};
+}
+var _d6=_74(_d2);
+var _d7;
+if(_d2.tag&&_d2.id&&!_d2.hasLoops){
+_d7=function(_d8){
+var te=d.byId(_d2.id);
+if(_d6(te)){
+return [te];
+}
+};
+}else{
+var _da;
+if(!_d2.hasLoops){
+_d7=function(_db){
+var ret=[];
+var te,x=0,_da=_db.getElementsByTagName(_d2.tag);
+while(te=_da[x++]){
+ret.push(te);
+}
+return ret;
+};
+}else{
+_d7=function(_df){
+var ret=[];
+var te,x=0,_da=_df.getElementsByTagName(_d2.tag);
+while(te=_da[x++]){
+if(_d6(te)){
+ret.push(te);
+}
+}
+return ret;
+};
+}
+}
+return _d1[_d2.query]=_d7;
+};
+var _e3={};
+var _e4={"*":d.isIE?function(_e5){
+return _e5.all;
+}:function(_e6){
+return _e6.getElementsByTagName("*");
+},"~":_54,"+":function(_e7){
+return _54(_e7,true);
+},">":_4e};
+var _e8=function(_e9){
+var _ea=_4(d.trim(_e9));
+if(_ea.length==1){
+var tt=_68(_ea[0]);
+tt.nozip=true;
+return tt;
+}
+var sqf=function(_ed){
+var _ee=_ea.slice(0);
+var _ef;
+if(_ee[0].oper==">"){
+_ef=[_ed];
+}else{
+_ef=_68(_ee.shift())(_ed);
+}
+return _69(_ef,_ee);
+};
+return sqf;
+};
+var _f0=((document["evaluate"]&&!d.isSafari)?function(_f1){
+var _f2=_f1.split(" ");
+if((document["evaluate"])&&(_f1.indexOf(":")==-1)&&(_f1.indexOf("+")==-1)){
+if(((_f2.length>2)&&(_f1.indexOf(">")==-1))||(_f2.length>3)||(_f1.indexOf("[")>=0)||((1==_f2.length)&&(0<=_f1.indexOf(".")))){
+return _40(_f1);
+}
+}
+return _e8(_f1);
+}:_e8);
+var _f3=function(_f4){
+var qcz=_f4.charAt(0);
+if(d.doc["querySelectorAll"]&&((!d.isSafari)||(d.isSafari>3.1))&&(">+~".indexOf(qcz)==-1)){
+return function(_f6){
+var r=_f6.querySelectorAll(_f4);
+r.nozip=true;
+return r;
+};
+}
+if(_e4[_f4]){
+return _e4[_f4];
+}
+if(0>_f4.indexOf(",")){
+return _e4[_f4]=_f0(_f4);
+}else{
+var _f8=_f4.split(/\s*,\s*/);
+var tf=function(_fa){
+var _fb=0;
+var ret=[];
+var tp;
+while(tp=_f8[_fb++]){
+ret=ret.concat(_f0(tp,tp.indexOf(" "))(_fa));
+}
+return ret;
+};
+return _e4[_f4]=tf;
+}
+};
+var _fe=0;
+var _ff=function(arr){
+if(arr&&arr.nozip){
+return d.NodeList._wrap(arr);
+}
+var ret=new d.NodeList();
+if(!arr){
+return ret;
+}
+if(arr[0]){
+ret.push(arr[0]);
+}
+if(arr.length<2){
+return ret;
+}
+_fe++;
+arr[0]["_zipIdx"]=_fe;
+for(var x=1,te;te=arr[x];x++){
+if(arr[x]["_zipIdx"]!=_fe){
+ret.push(te);
+}
+te["_zipIdx"]=_fe;
+}
+return ret;
+};
+d.query=function(_104,root){
+if(_104.constructor==d.NodeList){
+return _104;
+}
+if(!d.isString(_104)){
+return new d.NodeList(_104);
+}
+if(d.isString(root)){
+root=d.byId(root);
+}
+return _ff(_f3(_104)(root||d.doc));
+};
+d.query.pseudos=_9c;
+d._filterQueryResult=function(_106,_107){
+var tnl=new d.NodeList();
+var ff=(_107)?_63(_4(_107)[0]):function(){
+return true;
+};
+for(var x=0,te;te=_106[x];x++){
+if(ff(te)){
+tnl.push(te);
+}
+}
+return tnl;
+};
 })();
-
 }

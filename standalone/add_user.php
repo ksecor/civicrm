@@ -1,4 +1,11 @@
 <?php
+
+/********************************************
+ * This is currently not used; ignore.
+ *
+ * WSM - 12/27/07
+ ********************************************/
+
 require_once 'auth_common.php';
 require_once 'CRM/Core/BAO/UFMatch.php';
 $ar = CRM_Core_BAO_UFMatch::getContactIDs();
@@ -21,4 +28,4 @@ $session->set('new_install', true);
 
 header("Location:try_auth.php?openid_url=$openid");
 exit(0);
-?>
+

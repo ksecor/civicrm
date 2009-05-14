@@ -1,55 +1,91 @@
 <?php
-
 require_once "auth_common.php";
 
-$response = $consumer->complete( $_GET );
-$session =& CRM_Core_Session::singleton( );
-$new_install = $session->get('new_install');
-$session->set('goahead', "yes");
-if ( $response->status == Auth_OpenID_CANCEL ) {
-    // This means authentication was cancelled.
-    $session->set('msg', 'Login cancelled.');
-    $session->set('goahead', "no");
-} else if ( $response->status == Auth_OpenID_FAILURE ) {
-    $session->set('msg', "Login failed: " . $response->message);
-    $session->set('goahead', "no");
-} else if ( $response->status == Auth_OpenID_SUCCESS ) {
-    $openid = $response->identity_url;
-    $sreg = $response->extensionResponse( 'sreg' );
-    $email = @$sreg['email'];
-    require_once 'user.php';
-    require_once 'CRM/Utils/System/Standalone.php';
+function run() {
+    $session  =& CRM_Core_Session::singleton( );
+    $config   =& CRM_Core_Config::singleton( );
 
-    if ($new_install) {
-   
-        $user_array = $session->get( 'user' );
-        $user = new Standalone_User( $openid,
-                                     $user_array['email'],
-                                     $user_array['firstname'],
-                                     $user_array['lastname'] );
-        CRM_Utils_System_Standalone::getUserID( $user );
-        $contactId = $session->get( 'userID' );
-        CRM_Core_BAO_UFMatch::setAllowedToLogin( $contactId, 1 );
-    } else {
-        $user = new Standalone_User( $openid, $email );
-    }    
-    $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
-    if ( !$allow_login && !CIVICRM_ALLOW_ALL ) {
-        $session->set( 'msg' , 'Login failed.' );	
-        $session->set( 'goahead', "no" );
-        header("Location: index.php");
-        exit(0);
+    $consumer = getConsumer();
+
+    // Complete the authentication process using the server's
+    // response.
+    $return_to = getReturnTo();
+    $response  = $consumer->complete($return_to);
+
+    // Check the response status.
+    if ($response->status == Auth_OpenID_CANCEL) {
+        // This means the authentication was cancelled.
+        $msg = 'Verification cancelled.';
+        $session->set('msg', $msg);
+        $session->set('goahead', "no");
+    } else if ($response->status == Auth_OpenID_FAILURE) {
+        // Authentication failed; display the error message.
+        $msg = "OpenID authentication failed: " . $response->message;
+        $session->set('msg', $msg);
+        $session->set('goahead', "no");
+    } else if ($response->status == Auth_OpenID_SUCCESS) {
+        // This means the authentication succeeded; extract the
+        // identity URL and Simple Registration data (if it was
+        // returned).
+
+        $openid = $response->getDisplayIdentifier();
+        //$esc_identity = escape($openid);
+        $session->set('openid' , $openid);
+        $session->set('goahead', "yes");
+
+        $sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
+        $sreg      = $sreg_resp->contents();
+        $sreg['email'] = empty( $sreg['email'] ) ? '' : $sreg['email'];
+        if ( $session->get('new_install') == true ) {
+            // update group clause
+            require_once 'CRM/Core/Transaction.php';
+            require_once 'CRM/Contact/BAO/Group.php';
+            $groupDAO =& new CRM_Contact_DAO_Group();
+            $groupDAO->find( );
+            while ( $groupDAO->fetch() ) {
+                if ( !isset($transaction) ) {
+                    $transaction = new CRM_Core_Transaction( );
+                }
+                $group =& new CRM_Contact_BAO_Group();
+                $group->id = $groupDAO->id;
+                $group->find( true );
+                $group->buildClause( );
+                $group->save( );
+            }
+            if ( isset($transaction) ) {
+                $transaction->commit( );
+            }
+
+            // Redirect to new user registration form
+            $urlVar = $config->userFrameworkURLVar;
+            $config->reset();
+            header("Location: index.php?$urlVar=civicrm/standalone/register&reset=1&configReset=1");
+            exit;
+        } else {
+            require_once 'CRM/Standalone/User.php';
+            $user = new CRM_Standalone_User( $openid, $sreg['email'] );
+
+            require_once 'CRM/Utils/System/Standalone.php';
+            $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
+            if ( !$allow_login && (!defined('CIVICRM_ALLOW_ALL') || !CIVICRM_ALLOW_ALL ) ) {
+                $session->set( 'msg' , 'You are not allowed to login. Login failed. Contact your Administrator.' );	
+                $session->set( 'goahead', "no" );
+            } else {
+                CRM_Utils_System_Standalone::getUserID( $user );
+                
+                if ( ! $session->get('userID') ) {
+                    $session->set( 'msg' , 'You are not authorized to login.' );
+                    $session->set( 'goahead', "no" );
+                }
+            }
+
+            header("Location: index.php");
+            exit(0);
+        }
     }
-    if ( empty( $contactId ) ) {
-        CRM_Utils_System_Standalone::getUserID( $user );
-        $contactId = $session->get( 'userID' );
-    }    
-    if ( empty( $contactId ) ) {
-        $session->set( 'msg' , 'You are not authorized to login.' );
-        $session->set( 'goahead', "no" );
-    }
-    header("Location: index.php");
-    exit(0);
+    
+    displayError("Unknown status returned.");
 }
 
+run();
 ?>

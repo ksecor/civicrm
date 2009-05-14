@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -75,7 +75,22 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @var array
      * @static
      */
-    private static $contributionStatus; 
+    private static $contributionStatus;
+
+    /**
+     * pcp status 
+     *
+     * @var array
+     * @static
+     */
+    private static $pcpStatus;
+
+    /**
+     * Personal campaign pages
+     * @var array
+     * @static
+     */
+    private static $pcPage;
 
     /**
      * Get all the contribution types
@@ -104,15 +119,16 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array reference of all contribution pages if any
      * @static
      */
-    public static function &contributionPage($id = null)
+    public static function &contributionPage($id = null, $isActive = false)
     {
         if ( ! self::$contributionPage ) {
             CRM_Core_PseudoConstant::populate( self::$contributionPage,
                                                'CRM_Contribute_DAO_ContributionPage',
-                                               false, 'title' );
+                                               $isActive, 'title' );
         }
         if ( $id ) {
-            return CRM_Utils_Array::value( $id, self::$contributionPage );
+            $pageTitle = CRM_Utils_Array::value( $id, self::$contributionPage );
+            return $pageTitle;
         }
         return self::$contributionPage;
     }
@@ -144,8 +160,9 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array reference of all payment instruments if any 
      * @static 
      */                  
-    public static function &creditCard( ) {
-        
+    public static function &creditCard( ) 
+    {
+        $acceptCreditCard = array( );    
         require_once 'CRM/Core/OptionGroup.php';
         $creditCard = CRM_Core_OptionGroup::values('accept_creditcard');
         
@@ -170,7 +187,6 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
         $products = array();
         require_once 'CRM/Contribute/DAO/Product.php';
         $dao = & new CRM_Contribute_DAO_Product();
-        $dao->domain_id  = CRM_Core_Config::domainID( );
         $dao->is_active = 1;
         $dao->orderBy( 'id' );
         $dao->find( );
@@ -210,21 +226,58 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
     }
     
     /**
-     * Get all the contribution types
+     * Get all the contribution statuses
      *
      * @access public
-     * @return array - array reference of all contribution types if any
+     * @return array - array reference of all contribution statuses
      * @static
      */
     public static function &contributionStatus( )
     {
-        self::$contributionStatus = array();
-        if ( ! self::$contributionStatus ) {
+        if ( ! isset( self::$contributionStatus ) ) {
             require_once "CRM/Core/OptionGroup.php";
             self::$contributionStatus = CRM_Core_OptionGroup::values("contribution_status");
         }
         return self::$contributionStatus;
     }
+
+    /**
+     * Get all the pcp status
+     *
+     * @access public
+     * @return array - array reference of all pcp status
+     * @static
+     */
+    public static function &pcpStatus( )
+    {
+        self::$pcpStatus = array();
+        if ( ! self::$pcpStatus ) {
+            require_once "CRM/Core/OptionGroup.php";
+            self::$pcpStatus = CRM_Core_OptionGroup::values("pcp_status");
+        }
+        return self::$pcpStatus;
+    }
+    
+    /**
+     * Get all the Personal campaign pages
+     *
+     * @access public
+     * @return array - array reference of all pcp if any
+     * @static
+     */
+    public static function &pcPage($id = null)
+    {
+        if ( ! self::$pcPage ) {
+            CRM_Core_PseudoConstant::populate( self::$pcPage,
+                                               'CRM_Contribute_DAO_PCP',
+                                               false, 'title' );
+        }
+        if ( $id ) {
+            return CRM_Utils_Array::value( $id, self::$pcPage );
+        }
+        return self::$pcPage;
+    }
+
 }
 
-?>
+

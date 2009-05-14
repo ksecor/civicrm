@@ -8,6 +8,7 @@
           {$pager->_response.next}&nbsp;
           {$pager->_response.last}&nbsp;
           </span>
+{if ! isset($noForm) || ! $noForm}
           <span class="element-right">
           {if $location eq 'top'}
             {$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="{ts}Go{/ts}" type="submit"/>
@@ -15,6 +16,7 @@
             {$pager->_response.titleBottom}&nbsp;<input name="{$pager->_response.buttonBottom}" value="{ts}Go{/ts}" type="submit"/>
           {/if}
           </span>
+{/if}
         </div>
     {/if}
     

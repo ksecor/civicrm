@@ -1,25 +1,25 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,12 +29,13 @@
  * http://civicrm.org/node/131
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'api/v2/utils.php';
+require_once 'CRM/Utils/Rule.php';
 
 /**
  * Add or update a contribution
@@ -73,6 +74,9 @@ function &civicrm_contribution_add( &$params ) {
     $values["source"]     = $params["source"];
     
     $ids     = array( );
+    if ( CRM_Utils_Array::value( 'id', $params ) ) {
+        $ids['contribution'] = $params['id'];
+    }
     $contribution = CRM_Contribute_BAO_Contribution::create( $values, $ids );
     if ( is_a( $contribution, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( ts( $contribution->_errors[0]['message'] ) );
@@ -113,7 +117,8 @@ function &civicrm_contribution_get( &$params ) {
 
     if ( count( $contributions ) != 1 &&
          ! $params['returnFirst'] ) {
-        return civicrm_create_error( ts( '%1 contributions matching input params', array( 1 => count( $contributions ) ) ) );
+        return civicrm_create_error( ts( '%1 contributions matching input params', array( 1 => count( $contributions ) ) ),
+                                     $contributions );
     }
 
     $contributions = array_values( $contributions );
@@ -136,6 +141,7 @@ function civicrm_contribution_delete( &$params ) {
         return civicrm_create_error( ts( 'Could not find contribution_id in input parameters' ) );
     }
 
+    require_once 'CRM/Contribute/BAO/Contribution.php';
     if ( CRM_Contribute_BAO_Contribution::deleteContribution( $contributionID ) ) {
         return civicrm_create_success( );
     } else {
@@ -168,29 +174,76 @@ function &civicrm_contribution_search( &$params ) {
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
-        } elseif ( array_key_exists( $n, $otherVars ) ) {
+        } elseif ( in_array( $n, $otherVars ) ) {
             $$n = $v;
         } else {
             $inputParams[$n] = $v;
         }
     }
     
+    // add is_test to the clause if not present
+    if ( ! array_key_exists( 'contribution_test', $inputParams ) ) {
+        $inputParams['contribution_test'] = 0;
+    }
+
     require_once 'CRM/Contribute/BAO/Query.php';
+    require_once 'CRM/Contact/BAO/Query.php';
     if ( empty( $returnProperties ) ) {
         $returnProperties = CRM_Contribute_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
     }
     
-    require_once 'CRM/Contact/BAO/Query.php';
     $newParams =& CRM_Contact_BAO_Query::convertFormValues( $inputParams );
+
+    $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
+    list( $select, $from, $where ) = $query->query( );
     
-    list( $contacts, $options ) = CRM_Contact_BAO_Query::apiQuery( $newParams,
-                                                                   $returnProperties,
-                                                                   null,
- 	                                                               $sort,
-                                                                   $offset,
-                                                                   $rowCount );
+    $sql = "$select $from $where";  
+
+    if ( ! empty( $sort ) ) {
+        $sql .= " ORDER BY $sort ";
+    }
+    $sql .= " LIMIT $offset, $rowCount ";
+    $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
     
-    return $contacts;
+    $contribution = array( );
+    while ( $dao->fetch( ) ) {
+        $contribution[$dao->contribution_id] = $query->store( $dao );
+    }
+    $dao->free( );
+    
+    return $contribution;
+}
+
+function &civicrm_contribution_format_create( &$params ) {
+    _civicrm_initialize( );
+   
+    // return error if we have no params
+    if ( empty( $params ) ) {
+        return _civicrm_create_error( 'Input Parameters empty' );
+    }
+    
+    $error = _civicrm_contribute_check_params($params);
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }
+    $values  = array( );
+    $error = _civicrm_contribute_format_params($params, $values);
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }
+    
+    $error = _civicrm_contribute_duplicate_check($params);
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }
+    $ids = array();
+    
+    CRM_Contribute_BAO_Contribution::resolveDefaults($params, true);
+
+    $contribution = CRM_Contribute_BAO_Contribution::create( $params, $ids );
+    _civicrm_object_to_array($contribution, $contributeArray);
+    return $contributeArray;
+
 }
 
 /**
@@ -231,6 +284,31 @@ function _civicrm_contribute_check_params( &$params ) {
 }
 
 /**
+ * Check if there is a contribution with the same trxn_id or invoice_id
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contribution.
+ *
+ * @return array|CRM_Error
+ * @access public
+ */
+function _civicrm_contribute_duplicate_check( &$params ) {
+    require_once 'CRM/Contribute/BAO/Contribution.php';
+    $duplicates = array( );
+    $result = CRM_Contribute_BAO_Contribution::checkDuplicate( $params,$duplicates ); 
+    if ( $result ) {
+        $d = implode( ', ', $duplicates );
+        $error = CRM_Core_Error::createError( "Duplicate error - existing contribution record(s) have a matching Transaction ID or Invoice ID. Contribution record ID(s) are: $d", CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', $d);
+        return civicrm_create_error( $error->pop( ),
+                                     $d );
+    } else {
+        return array();
+    }
+}
+
+
+
+/**
  * take the input parameter list as specified in the data model and 
  * convert it into the same format that we use in QF and BAO object
  *
@@ -246,12 +324,6 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
 
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-    
     _civicrm_store_values( $fields, $params, $values );
 
     foreach ($params as $key => $value) {
@@ -268,7 +340,8 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",
+                                          $qParams);
             if (!$svq) {
                 return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
@@ -335,4 +408,3 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
     return array();
 }
 
-?>

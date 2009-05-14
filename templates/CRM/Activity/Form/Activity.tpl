@@ -1,139 +1,236 @@
 {* this template is used for adding/editing other (custom) activities. *}
-<div class="form-item">
-<div id="help">{$activityTypeDescription}</div>
-<fieldset>
-   <legend>
-    {if $action eq 1}
-    {$activityTypeName}
-    {elseif $action eq 2}{ts}Edit{/ts} {$activityTypeName}
-    {elseif $action eq 8}{ts}Delete{/ts} {$activityTypeName}
-    {else}
-        {ts}View{/ts}{$activityTypeName}
-    {/if}
-  </legend>
-   
-  <div class="tundra">
-  <dl class="html-adjust">
-    {if $action eq 1 or $action eq 2  or $action eq 4 }
+{if $cdType }
+   {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $atypefile }
+   {if $activityTypeFile}{include file="CRM/{$crmDir}/Form/Activity/$activityTypeFile.tpl"}{/if}
+{elseif $addAssigneeContact or $addTargetContact }
+   {include file="CRM/Contact/Form/AddContact.tpl"}
+{else}
 
-    <dl class="html-adjust">     
-    <dt>{$form.source_contact.label}</dt>
-    
-    {if $source_contact_value}
-        <script type="text/javascript">
-        dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'source_contact' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
-        {rdelim} );
-        </script>
-    {/if}
+{* added onload javascript for source contact*}
+{if $source_contact and $admin and $action neq 4}
+   <script type="text/javascript">
+       dojo.addOnLoad( function( ) {ldelim}
+       dijit.byId( 'source_contact_id' ).setValue( "{$source_contact}")
+       {rdelim} );
+   </script>
+{/if}
 
-     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
-        <dd>{if $action eq 4} {$source_contact_value} {/if}{$form.source_contact.html}</dd>
-     </div>
-    
-    <dt>{$form.target_contact.label}</dt>
-    {if $target_contact_value}
-        <script type="text/javascript">
-        dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'target_contact' ).setValue( "{$target_contact_value}", "{$target_contact_value}" )
-    {rdelim} );
-    </script>
-    {/if}
-    <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
-        <dd>{if $action eq 4} {$target_contact_value}{/if}{$form.target_contact.html}</dd>
-    </div>
+    <fieldset>
+    <legend>
+       {if $single eq false}
+          {ts}New Activity{/ts}
+       {elseif $action eq 1}
+          {ts}New{/ts} 
+       {elseif $action eq 2}
+          {ts}Edit{/ts} 
+       {elseif $action eq 8}
+          {ts}Delete{/ts}
+       {elseif $action eq 4}
+          {ts}View{/ts}
+       {elseif $action eq 32768}
+          {ts}Detach{/ts}
+       {/if}
+       {$activityTypeName}
+    </legend>
+      
+        {if $action eq 8} {* Delete action. *}
+            <table class="form-layout">
+             <tr>
+                <td colspan="2">
+                    <div class="status">{ts 1=$delName}Are you sure you want to delete '%1'?{/ts}</div>
+                </td>
+             </tr>
+               
+        {elseif $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' or $context eq 'smog'}
+            { if $activityTypeDescription }  
+                <div id="help">{$activityTypeDescription}</div>
+            {/if}
 
-    <dt>{$form.assignee_contact.label}</dt>
-    {if $regard_contact_value}
-        <script type="text/javascript">
-        dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'assignee_contact' ).setValue( "{$regard_contact_value}", "{$regard_contact_value}" )
-    {rdelim} );
+            <table class="form-layout">
+             {if $context eq 'standalone' or $context eq 'search' or $context eq 'smog'}
+                <tr>
+                   <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
+                </tr>
+             {/if}
+             <tr>
+                <td class="label">{$form.source_contact_id.label}</td>
+                <td class="view-value">
+                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
+                       {if $admin and $action neq 4}{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
+                   </div>
+                </td>
+             </tr>
+             
+             {if $single eq false}
+             <tr>
+                <td class="label">{ts}With Contact(s){/ts}</td>
+                <td class="view-value" style="white-space: normal">{$with|escape}</td>
+             </tr>
+             {elseif $action neq 4}
+             <tr>
+                <td class="label">{ts}With Contact{/ts}</td>
+                <td class="tundra">
+                    <div id="target_contact_1"></div>
+                </td>
+             </tr>
+		     {else}
+             <tr>
+                <td class="label">{ts}With Contact{/ts}</td>
+                <td class="view-value" style="white-space: normal">{$target_contact_value}</td>
+             </tr>
+             {/if}
+             
+             <tr>
+             {if $action eq 4}
+                <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">{$assignee_contact_value}</td>
+             {else}
+                <td class="label">{ts}Assigned To {/ts}</td>
+                <td class="tundra">                  
+                   <div id="assignee_contact_1"></div>
+                   {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Activities listing at CiviCRM Home.{/ts}</span>{/edit}
+                </td>
+             {/if}
+             </tr>
+             <tr>
+                <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
+             </tr>
+             <tr>
+                <td class="label">{$form.location.label}</td><td class="view-value">{$form.location.html}</td>
+             </tr> 
+             <tr>
+                <td class="label">{$form.activity_date_time.label}</td>
+                <td class="view-value">{$form.activity_date_time.html | crmDate }</br>
+                    {if $action neq 4}
+                      <span class="description">
+                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity doTime=1}
+                      {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear 
+                                      endDate=endYear offset=10 doTime=1 trigger=trigger_activity ampm=1}
+                      </span>
+                   {/if}  
+                </td>
+             </tr>
+             <tr>
+                <td class="label">{$form.duration.label}</td>
+                <td class="view-value">
+                    {$form.duration.html}
+                    <span class="description">{ts}Total time spent on this activity (in minutes).{/ts}
+                </td>
+             </tr> 
+             <tr>
+                <td class="label">{$form.status_id.label}</td><td class="view-value">{$form.status_id.html}</td>
+             </tr> 
+             <tr>
+                <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
+             </tr> 
+	     <tr>
+                <td class="label">{$form.priority_id.label}</td><td class="view-value">{$form.priority_id.html}</td>
+             </tr>
+             <tr>
+                <td colspan="2">
+	            {if $action eq 4} 
+                    {include file="CRM/Custom/Page/CustomDataView.tpl"}
+                {else}
+                    <div id="customData"></div>
+                {/if} 
+                </td>
+             </tr> 
+
+             <tr>
+                <td colspan="2">
+                    {include file="CRM/Form/attachment.tpl"}
+                </td>
+             </tr>
+
+             {if $action neq 4} {* Don't include "Schedule Follow-up" section in View mode. *}
+                 <tr>
+                    <td colspan="2">
+                     <div id="follow-up_show" class="section-hidden section-hidden-border">
+                      <a href="#" onclick="hide('follow-up_show'); show('follow-up'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Schedule Follow-up{/ts}</label><br />
+                     </div>
+                          
+                     <div id="follow-up" class="section-shown">
+                       <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
+                        <table class="form-layout-compressed">
+                           <tr><td class="label">{ts}Schedule Follow-up Activity{/ts}</td>
+                               <td>{$form.followup_activity_type_id.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}                          </td>
+                           </tr>
+                        </table>
+                       </fieldset>
+                     </div>
+                    </td>
+                 </tr>
+             {/if}
+        {/if} {* End Delete vs. Add / Edit action *}
+        <tr>
+            <td>&nbsp;</td><td>{$form.buttons.html}</td>
+        </tr> 
+        </table>   
+      </fieldset> 
+
+{if $action eq 1 or $action eq 2 or $context eq 'search' or $context eq 'smog'}
+   {*include custom data js file*}
+   {include file="CRM/common/customData.tpl"}
+    {literal}
+    <script type="text/javascript">
+   	cj(document).ready(function() {
+		{/literal}
+		buildCustomData( '{$customDataType}' );
+		{if $customDataSubType}
+			buildCustomData( '{$customDataType}', {$customDataSubType} );
+		{/if}
+		{literal}
+	});
+
+  hide('follow-up');
+  show('follow-up_show');
     </script>
-    {/if}  
-    <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
-        <dd>{if $action eq 4} {$assignee_contact_value}{/if}{$form.assignee_contact.html}</dd>
-    </div>
-    {*
-    <dt>{$form.case_subject.label}</dt>
-    {if $subject_value}
-        <script type="text/javascript">
-        dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'case_subject' ).setValue( '{$subject_value}', '{$subject_value}' )
-    {rdelim} );
-    </script>
-    {/if} 
-    <div dojoType="dojo.data.ItemFileReadStore" jsId="caseStore" url="{$caseUrl}" >
-        <dd>{if $action eq 4} {$subject_value} {else}{$form.case_subject.html}{/if}</dd>
-    </div> 
-    
-    <dt>{$form.activity_tag1_id.label}</dt><dd>{$form.activity_tag1_id.html}</dd>
-	<dt>{$form.activity_tag2_id.label}</dt><dd>{$form.activity_tag2_id.html}</dd>
-	<dt>{$form.activity_tag3_id.label}</dt><dd>{$form.activity_tag3_id.html}</dd>
-   </dl>
-    *}
-         <div class="spacer"></div>
-        <dl class="html-adjust">
-	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
-	    <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
-	<dt>{$form.activity_date_time.label}</dt><dd>{$form.activity_date_time.html | crmDate } </dd>
-        {if $action neq 4}
-            <dt>&nbsp;</dt>
-            <dd class="description">
-               {include file="CRM/common/calendar/desc.tpl" trigger=trigger_otheractivity_1}
-            </dd>
-            <dt>&nbsp;</dt>
-            <dd class="description">
-	{include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear endDate=endYear offset=3 doTime=1 trigger=trigger_otheractivity_1}
-            </dd>
+    {/literal}
+{/if}
+
+{* Build add contact *}
+<script type="text/javascript">
+    {literal}
+
+    cj(document).ready(function(){
+        {/literal}
+        {if $action eq 1 or $context eq 'search'}
+            {literal}
+                buildContact( 1, 'assignee_contact' );
+            {/literal}   
         {/if}
-    	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
-	    <dt>{$form.status_id.label}</dt><dd>{$form.status_id.html}</dd>
-	
-        {edit}      {*if $action neq 4*}{*Commented for crm-914*}
-            <dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd>
-        {/edit}     {*/if*}
-
-        <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
-        
-        <dt></dt><dd class="description">
-	    {if $action eq 4} 
-         {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
-        {else}
-          {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
-        {/if} 
-        </dd>
-	
-      {else}
-         <div class="messages status">
-          <dl>
-           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-           <dd>    
-             {ts}Cannot display Activity History details since activity type for this activity has been deleted.{/ts}
-           </dd>
-          </dl>
-        </div>
-     {/if}
-    
-     {if $action eq 8 }
-        <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
-     {/if}
-	
-        <dt></dt><dd>{$form.buttons.html}</dd>
-     {if $action eq 4 && ! $history }
-     <dl> <dt></dt><dd>&nbsp;&nbsp;</dd>&nbsp;<dd><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$activityID`&action=update&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&edit=1&caseid=`$caseid`"}" ">{ts}Edit Activity{/ts}</a>{ts} | {/ts}
-   <a href="{crmURL p='civicrm/contact/view/activity'
-     q="activity_id=`$activityID`&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&caseid=`$caseid`"}" ">{ts}  Delete Activity {/ts}</a>{ts} | {/ts}
-        
-        {if $subject_value}  
-           <a href="{crmURL p='civicrm/contact/view/case'
-     q="activity_id=`$activityID`&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&caseid=`$caseid`"}" ">{ts}  Detach Activity from Case {/ts}</a>
+        {if $action eq 1 }
+            {literal}
+                buildContact( 1, 'target_contact' );
+            {/literal}   
         {/if}
-        </dd>
-    </dl>
-    {/if} 
-      </dl>
-    </div>
 
-    </fieldset>
-    </div>
+        {if $action eq 1 or $action eq 2}
+            {literal}
+
+                var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
+                if ( assigneeContactCount ) {
+                    for ( var i = 1; i <= assigneeContactCount; i++ ) {
+                        buildContact( i, 'assignee_contact' );
+                    }
+                }
+
+                var targetContactCount = {/literal}"{$targetContactCount}"{literal}
+                if ( targetContactCount ) {
+                    for ( var i = 1; i <= targetContactCount; i++ ) {
+                        buildContact( i, 'target_contact' );
+                    }
+                }
+
+            {/literal}
+        {/if}
+  {literal}        
+  });
+    
+  {/literal}
+</script>
+
+{*include add contact js file*}
+{include file="CRM/common/addContact.tpl"}
+
+{/if} {* end of snippet if*}	

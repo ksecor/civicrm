@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -71,7 +71,8 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         // home_URL
         $form->addElement('text', 'home_URL', ts('Website'),
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
-                                       array('onfocus' => "if (!this.value) this.value='http://'; else return false")
+                                       array('onfocus' => "if (!this.value) this.value='http://'; else return false",
+                                             'onblur' => "if ( this.value == 'http://') this.value=''; else return false")
                                        ));
         $form->addRule('home_URL', ts('Enter a valid Website.'), 'url');
         
@@ -96,24 +97,22 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         
         //code for dupe match
         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
-            $dupeIDs = array();
-            require_once "CRM/Contact/DAO/Contact.php";
-            $contact = & new CRM_Contact_DAO_Contact();
-            $contact->organization_name = $fields['organization_name'];
-            $contact->find();
-            while ($contact->fetch(true)) {
-                if ( $contact->id != $options) {
-                    $dupeIDs[] = $contact->id;
-                }
-            }
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Organization');
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy', array($options));
+            $viewUrls = array( );
+            $urls     = array( );
             foreach( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
+                '" target="_blank">' . $displayName . '</a>';
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                     '">' . $displayName . '</a>';
             }
             if (!empty($dupeIDs)) {
                 $url = implode( ', ',  $urls );
-                $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1, or click Save Matching Contact button below.', array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can edit them here: %1, or click Save Matching Contact button below.' ) );
+                $viewUrl = implode( ', ',  $viewUrls );
+                $errors['_qf_default'] = ts( 'One matching contact was found.%3If you need to verify if this is the same organization, click here - %1 - to VIEW the existing contact in a new tab.%3If you know the record you are creating is a duplicate, click here - %2 - to EDIT the original record instead.%3If you are sure this is not a duplicate, click the Save Matching Contact button below.', array( 1 => $viewUrl, 2 => $url, 3 => '<br />', 'count' => count( $urls ), 'plural' => '%count matching contacts were found.%3If you need to verify whether one of these is the same organization, click here - %1 - to VIEW the existing contact in a new tab.%3If you know the record you are creating is a duplicate, click here - %2 - to EDIT the original record instead.%3If you are sure this is not a duplicate, click the Save Matching Contact button below.' ) );
                 $template =& CRM_Core_Smarty::singleton( );
                 $template->assign( 'isDuplicate', 1 );
             } else if ( CRM_Utils_Array::value( '_qf_Edit_refresh_dedupe', $fields ) ) {
@@ -128,4 +127,4 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
 
 
     
-?>
+

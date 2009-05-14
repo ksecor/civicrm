@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -73,9 +73,29 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title'));
 
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title');
-
         CRM_Utils_System::setTitle(ts('Configure Event - %1', array(1 => $title)));
+
+        require_once 'CRM/Event/PseudoConstant.php';
+        $statusTypes        = CRM_Event_PseudoConstant::participantStatus(null, 'is_counted = 1');
+        $statusTypesPending = CRM_Event_PseudoConstant::participantStatus(null, 'is_counted = 0');
         
+        $findParticipants['statusCounted'] = implode( '/', array_values( $statusTypes ) );
+        $findParticipants['statusNotCounted'] = implode( '/', array_values( $statusTypesPending ) );
+        $findParticipants['urlCounted'] = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$this->_id&status=true" );
+        $findParticipants['urlNotCounted'] = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$this->_id&status=false" );
+        
+        $this->assign('findParticipants', $findParticipants);
+        
+        $participantListingID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                           $this->_id,
+                                                           'participant_listing_id' );
+        if ( $participantListingID ) {
+            $participantListingURL = CRM_Utils_System::url( 'civicrm/event/participant',
+                                                            "reset=1&id={$this->_id}",
+                                                            true, null, true, true );
+            $this->assign( 'participantListingURL', $participantListingURL );
+        }
+
         $form = null;
         switch ( $subPage ) {
       
@@ -99,6 +119,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
             $form = 'CRM_Friend_Form_Event';
             break;
         }
+
         if ( $form ) {
             $session =& CRM_Core_Session::singleton( );
 
@@ -130,10 +151,6 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         $event =  array();
         $dao      =& new CRM_Event_DAO_Event();
 
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
         $dao->orderBy('title');
         $dao->find();
 
@@ -155,4 +172,4 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         $this->assign('rows', $event);
     }
 }
-?>
+

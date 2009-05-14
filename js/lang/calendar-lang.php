@@ -76,4 +76,4 @@ foreach ($TT as $key => $value) {
     print "Calendar._TT[\"$key\"] = \"$value\";\n";
 }
 
-?>
+

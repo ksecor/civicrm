@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -244,18 +244,23 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
             $this->set( 'sortByCharacter', '' );
         }
         
+        $query = "
+SELECT COUNT(*)
+  FROM civicrm_group";
+        $groupExists = CRM_Core_DAO::singleValueQuery( $query );
+        $this->assign( 'groupExists',$groupExists );
+
         $this->search( );
         
         $config =& CRM_Core_Config::singleton( );
-        
+
         $params = array( );
         $whereClause = $this->whereClause( $params, false );
         $this->pagerAToZ( $whereClause, $params );
         
         $params      = array( );
         $whereClause = $this->whereClause( $params, true );
-        $this->pager    ( $whereClause, $params );
-        
+        $this->pager( $whereClause, $params );
         
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
         
@@ -267,14 +272,17 @@ ORDER BY title asc
    LIMIT $offset, $rowCount";
         
         $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
-        
-        $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
+       
+        $groupPermission =
+            CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
         
         require_once 'CRM/Core/OptionGroup.php';
         $links =& $this->links( );
         $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
-        while ($object->fetch()) {
+        $values   = array( );
+
+        while ( $object->fetch( ) ) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
                 $newLinks = $links;
@@ -318,24 +326,10 @@ ORDER BY title asc
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
             }
-            $values[$object->id]['children'] = "";
-            if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
-                $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
-                foreach ($pgroups as $id){
-                    if ($values[$object->id]['children'] != ""){
-                        $values[$object->id]['children'] .= ", ";
-                    }
-                    $params = array('id' => $id);
-                    //                print $id;
-                    CRM_Contact_BAO_Group::retrieve($params, $default);
-                    //print_r($default);
-                    $values[$object->id]['children'] .= $default['title'];
-                }
-            }
-            
-            if ( isset( $values ) ) {
-                $this->assign( 'rows', $values );
-            }
+        }
+
+        if ( isset( $values ) ) {
+            $this->assign( 'rows', $values );
         }
     }
     
@@ -354,7 +348,7 @@ ORDER BY title asc
         $form->run( );
     }
 
-    function whereClause( &$params, $sortBy = true ) {
+    function whereClause( &$params, $sortBy = true, $excludeHidden = true ) {
         $values =  array( );
 
         $clauses = array( );
@@ -369,6 +363,7 @@ ORDER BY title asc
         }
 
         $groupType = $this->get( 'group_type' );
+        
         if ( $groupType ) {
             $types = array_keys( $groupType );
             if ( ! empty( $types ) ) {
@@ -387,14 +382,28 @@ ORDER BY title asc
             $params[3] = array( $visibility, 'String' );
         }
 
+        $active_status   = $this->get( 'active_status' );
+        $inactive_status = $this->get( 'inactive_status' );
+        if ( $active_status && !$inactive_status ) {
+            $clauses[] = 'is_active = 1';
+            $params[4] = array( $active_status, 'Boolean' );
+        }
+       
+      
+        if ( $inactive_status && !$active_status ) {
+            $clauses[] = 'is_active = 0';
+            $params[5] = array( $inactive_status, 'Boolean' );
+        }
+        
+        if ( $inactive_status && $active_status ) {
+            $clauses[] = '(is_active = 0 OR is_active = 1 )';
+        }
+        
         if ( $sortBy &&
              $this->_sortByCharacter ) {
-            $clauses[] = 'title LIKE %4';
-            $params[4] = array( $this->_sortByCharacter . '%', 'String' );
+            $clauses[] = 'title LIKE %6';
+            $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
-
-        $clauses[] = 'domain_id = %5';
-        $params[5] = array( CRM_Core_Config::domainID( ), 'Integer' );
 
         // dont do a the below assignement when doing a 
         // AtoZ pager clause
@@ -406,6 +415,14 @@ ORDER BY title asc
             }
         }
 
+        if ( empty( $clauses ) ) {
+             $clauses[] = 'is_active = 1';
+        }
+        
+        if ( $excludeHidden ) {
+            $clauses[] = 'is_hidden = 0';
+        }
+        
         return implode( ' AND ', $clauses );
     }
 
@@ -422,12 +439,23 @@ ORDER BY title asc
         }
 
         $query = "
-SELECT count(id)
+SELECT id, title
   FROM civicrm_group
  WHERE $whereClause";
+      
+        $object = CRM_Core_DAO::executeQuery( $query, $whereParams );
+        $total  = 0;
+        while ( $object->fetch( ) ) {
+            if ( $this->checkPermission( $object->id, $object->title ) ) {
+                $total++;
+            }
+        }
 
-        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
+        $params['total'] = $total;
+        
         $this->_pager = new CRM_Utils_Pager( $params );
+        
+        
         $this->assign_by_ref( 'pager', $this->_pager );
     }
 
@@ -448,4 +476,4 @@ SELECT count(id)
 
 }
 
-?>
+

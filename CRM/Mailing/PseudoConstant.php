@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -61,6 +61,11 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
     private static $component;
 
     /**
+     * default component id's, indexed by component type
+     */
+    private static $defaultComponent;
+
+    /**
      * Get all the mailing components of a particular type
      *
      * @param $type the type of component needed
@@ -85,11 +90,10 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
                 require_once 'CRM/Mailing/DAO/Component.php';
 
                 $object =& new CRM_Mailing_DAO_Component( );
-                $object->domain_id = CRM_Core_Config::domainID( );
                 $object->component_type = $type;
                 $object->selectAdd( );
                 $object->selectAdd( "id, name" );
-                $object->orderBy( 'is_default, name' );
+                $object->orderBy( 'component_type, is_default, name' );
                 $object->is_active = 1;
                 $object->find( );
                 while ( $object->fetch( ) ) {
@@ -98,6 +102,34 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
             }
         }
         return self::$component[$name];
+    }
+
+    /**
+     * Determine the default mailing component of a given type
+     *
+     * @param $type the type of component needed
+     * @param $undefined the value to use if no default is defined
+     * @access public
+     * @return integer -The ID of the default mailing component.
+     * @static
+     */
+    public static function &defaultComponent( $type, $undefined = NULL ) {
+        if ( ! self::$defaultComponent ) {
+            $queryDefaultComponents =
+                "SELECT id, component_type
+                FROM    civicrm_mailing_component
+                WHERE   is_active = 1
+                AND     is_default = 1
+                GROUP BY component_type";
+
+            $dao = CRM_Core_DAO::executeQuery($queryDefaultComponents);
+            
+            self::$defaultComponent = array( );
+            while ( $dao->fetch( ) ) {
+                self::$defaultComponent[$dao->component_type] = $dao->id;
+            }
+        }
+        return CRM_Utils_Array::value($type, self::$defaultComponent, $undefined);
     }
 
     /**
@@ -138,4 +170,4 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
 
 }
 
-?>
+

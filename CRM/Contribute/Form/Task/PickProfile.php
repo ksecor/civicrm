@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -76,6 +76,8 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
         parent::preProcess( );
         $session =& CRM_Core_Session::singleton();
         $this->_userContext = $session->readUserContext( );
+
+        CRM_Utils_System::setTitle( ts('Batch Profile Update for Contribution') );
     
         $validate = false;
         //validations
@@ -98,22 +100,17 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
     function buildQuickForm( ) 
     {
 
-        $types = array( 'Contribution' );
-        
         require_once "CRM/Core/BAO/UFGroup.php";
+        $types = array( 'Contribution' );
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types, true ); 
 
-        if ( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {
+        if ( empty( $profiles ) ) {
             CRM_Core_Session::setStatus("You will need to create a Profile containing the {$types[0]} fields you want to edit before you can use Batch Update via Profile. Navigate to Administer Civicrm >> CiviCRM Profile to configure a Profile. Consult the online Administrator documentation for more information." );
             CRM_Utils_System::redirect( $this->_userContext );
         }
 
-
-        CRM_Utils_System::setTitle( ts('Batch Profile Update for Contribution') );
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        // add select for groups
-        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles( $types );
-
-        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
+        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), 
+                                     array( '' => ts('- select profile -')) + $profiles, true);
         $this->addDefaultButtons( ts( 'Continue >>' ) );
     }
 
@@ -151,7 +148,11 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
     public function postProcess() 
     {
         $params = $this->exportValues( );
+
         $this->set( 'ufGroupId', $params['uf_group_id'] );
+
+	// also reset the batch page so it gets new values from the db
+	$this->controller->resetPage( 'Batch' );
     }//end of function
 }
-?>
+

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -97,22 +97,18 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
      * function to add the Message Templates
      *
      * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id
      * 
      * @access public
      * @static 
      * @return object
      */
-    static function add(&$params, &$ids) 
+    static function add( &$params ) 
     {
         $params['is_active']            =  CRM_Utils_Array::value( 'is_active', $params, false );
-        // action is taken depending upon the mode
+
         $messageTemplates               =& new CRM_Core_DAO_MessageTemplates( );
-        $messageTemplates->domain_id    = CRM_Core_Config::domainID( );
         $messageTemplates->copyValues( $params );
         
-        $messageTemplates->id = CRM_Utils_Array::value( 'messageTemplate', $ids );
-
         $messageTemplates->save( );
         return $messageTemplates;
     }
@@ -168,7 +164,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         return $msgTpls;
     }
 
-    static function sendReminder( $contactId, $email, $domainID, $messageTemplateID ,$from) {
+    static function sendReminder( $contactId, $email, $messageTemplateID ,$from) {
         require_once "CRM/Core/BAO/Domain.php";
         require_once "CRM/Utils/String.php";
         require_once "CRM/Utils/Token.php";
@@ -176,67 +172,89 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         $messageTemplates =& new CRM_Core_DAO_MessageTemplates( );
         $messageTemplates->id = $messageTemplateID;
 
-        $domain = CRM_Core_BAO_Domain::getDomainByID( $domainID );
-        
+        $domain = CRM_Core_BAO_Domain::getDomain( );
+        $result = null;
+
         if ( $messageTemplates->find(true) ) {
             $body_text = $messageTemplates->msg_text;
             $body_html = $messageTemplates->msg_html;
-            if ( $body_html ) {
-                $html = CRM_Utils_Token::replaceDomainTokens($html,
-                                                             $domain, true);
-               
-            }
+            $body_subject = $messageTemplates->msg_subject;
             if (!$body_text) {
                 $body_text = CRM_Utils_String::htmlToText($body_html);
             }
-            $body_text = CRM_Utils_Token::replaceDomainTokens($body_text,
-                                                               $domain, false);
-            $html = $body_html;
-            $text = $body_text;
-
+            
             $params  = array( 'contact_id' => $contactId );
-            $contact =& crm_fetch_contact( $params );
+            require_once 'api/v2/Contact.php';
+            $contact =& civicrm_contact_get( $params );
+            
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
+            
+            $type = array('html', 'text');
+            
+            foreach( $type as $key => $value ) {
+                require_once 'CRM/Mailing/BAO/Mailing.php';
+                $dummy_mail = new CRM_Mailing_BAO_Mailing();
+                $bodyType = "body_{$value}";
+                $dummy_mail->$bodyType = $$bodyType;
+                $tokens = $dummy_mail->getTokens();
+                
+                if ( $$bodyType ) {
+                    $$bodyType = CRM_Utils_Token::replaceDomainTokens($$bodyType, $domain, true, $tokens[$value] );
+                    $$bodyType = CRM_Utils_Token::replaceContactTokens($$bodyType, $contact, false, $tokens[$value] );
+                }
+            }
+            $html = $body_html;
+            $text = $body_text;
+            
             $message =& new Mail_Mime("\n");
-
+            
             /* Do contact-specific token replacement in text mode, and add to the
              * message if necessary */
             if ( !$html || $contact['preferred_mail_format'] == 'Text' ||
-                $contact['preferred_mail_format'] == 'Both') 
+                 $contact['preferred_mail_format'] == 'Both') 
                 {
-                    $text = CRM_Utils_Token::replaceContactTokens(
-                                                                  $text, $contact, false);
                     // render the &amp; entities in text mode, so that the links work
                     $text = str_replace('&amp;', '&', $text);
-                }
-            
-            if ( !$html || $contact['preferred_mail_format'] == 'Text' ||
-                $contact['preferred_mail_format'] == 'Both') 
-                {
                     $message->setTxtBody($text);
                     
                     unset( $text );
                 }
             
             if ($html && ( $contact['preferred_mail_format'] == 'HTML' ||
-                          $contact['preferred_mail_format'] == 'Both'))
+                           $contact['preferred_mail_format'] == 'Both'))
                 {
-                    $html = CRM_Utils_Token::replaceContactTokens(
-                                                                  $html, $contact, false);
                     $message->setHTMLBody($html);
                     
                     unset( $html );
                 }
             $recipient = "\"{$contact['display_name']}\" <$email>";
             
-            $messageSubject = CRM_Utils_Token::replaceContactTokens(
-                                                                  $messageTemplates->msg_subject, $contact, false);
+            $matches = array();
+            preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                            $body_subject,
+                            $matches,
+                            PREG_PATTERN_ORDER);
+            
+            $subjectToken = null;
+            if ( $matches[1] ) {
+                foreach ( $matches[1] as $token ) {
+                    list($type,$name) = split( '\.', $token, 2 );
+                    if ( $name ) {
+                        if ( ! isset( $subjectToken['contact'] ) ) {
+                            $subjectToken['contact'] = array( );
+                        }
+                        $subjectToken['contact'][] = $name;
+                    }
+                }
+            }
+            
+            $messageSubject = CRM_Utils_Token::replaceContactTokens($body_subject, $contact, false, $subjectToken);
             $headers = array(
                              'From'      => $from,
                              'Subject'   => $messageSubject,
-                         );
+                             );
             $headers['To'] = $recipient;
             
             $mailMimeParams = array(
@@ -255,9 +273,12 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $body = $message->get();
             $headers = $message->headers();
             
+            CRM_Core_Error::ignoreException( );
             $result = $mailer->send($recipient, $headers, $body);
+            CRM_Core_Error::setCallback();
         }
         
+        return $result;
     }
 }
-?>
+

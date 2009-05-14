@@ -1,71 +1,147 @@
+{if $action & 1024}
+    {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
+{/if}
 <div class="form-item">
     <div id="help">
-        <p>{ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes. Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}</p>
-{if $is_pay_later}
-        <p>{$pay_later_receipt}</p>
-{/if}
+    {ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes.{/ts}
+    {if $contributeMode EQ 'notify' and !$is_pay_later and ! $isAmountzero }
+	{if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}
+	    {ts 1=$paymentProcessor.processorName}Click the <strong>%1</strong> button to checkout to Google, where you will select your payment method and complete the registration.{/ts}
+	{else} 	
+	    {ts 1=$paymentProcessor.processorName}Click the <strong>Continue</strong> button to checkout to %1, where you will select your payment method and complete the registration.{/ts}
+	{/if }
+    {else}
+	{ts}Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}
+    {/if}
     </div>
 
-    {if $eventPage.confirm_text}
+    {if $event.confirm_text}
         <div id="intro_text">
-        <p>{$eventPage.confirm_text}</p>
+	    <p>{$event.confirm_text}</p>
         </div>
+    {/if}
+    {if $isRequireApproval}
+        <div class="bold">{ts}Your Event registration require approval. Once registration get approved, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
+        </div>
+    {elseif $isOnWaitlist}
+        <div class="bold">{ts}Your Event registration will be on waiting list. Once event get enough free spaces, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
+        </div>
+    {elseif $is_pay_later}
+        <div class="bold">{$pay_later_receipt}</div>
     {/if}
     
     <div class="header-dark">
         {ts}Event Information{/ts}
     </div>
     <div class="display-block">
-         {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl"}
+        {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl"}
     </div>
-    {if $paidEvent}
+    {if $paidEvent} 
     <div class="header-dark">
         {$event.fee_label}
     </div>
     <div class="display-block">
         {if $lineItem}
-            {include file="CRM/Event/Form/Registration/LineItem.tpl}
-        {elseif $amount}
-            <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
+            {include file="CRM/Event/Form/Registration/LineItem.tpl"}
+        {elseif $amount || $amount == 0}
+            {foreach from= $amount item=amount key=level}  
+		<strong>{$amount.amount|crmMoney} &nbsp;&nbsp; {$amount.label}</strong><br />	
+            {/foreach}
+            {if $totalAmount}
+		<br /><strong>{ts}Total Amount{/ts}:&nbsp;&nbsp;{$totalAmount|crmMoney}</strong>
+            {/if}	 		
+            {if $hookDiscount.message}
+                <em>({$hookDiscount.message})</em>
+            {/if}
         {/if}
     </div>
     {/if}
-
+	
     <div class="header-dark">
-        {ts}Registered Email{/ts}
+    	{ts}Registered Email{/ts}
     </div>
     <div class="display-block">
         {$email}
     </div>
-
-    {if $customPre}
-         {foreach from=$customPre item=field key=cname}
-              {if $field.groupTitle}
-                {assign var=groupTitlePre  value=$field.groupTitle} 
-              {/if}
-         {/foreach}
+    {if $event.participant_role neq 'Attendee' and $defaultRole}
         <div class="header-dark">
-          {ts}{$groupTitlePre}{/ts}
-         </div>  
-         {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+            {ts}Participant Role{/ts}
+        </div>
+        <div class="display-block">
+            {$event.participant_role}
+        </div>
     {/if}
 
-    {if $contributeMode ne 'notify' and
-        ! $is_pay_later             and
-        $paidEvent}
+
+    {if $customPre}
+        {foreach from=$customPre item=field key=cname}
+	    {if $field.groupTitle}
+		{assign var=groupTitlePre  value=$field.groupTitle} 
+            {/if}
+	{/foreach}
+        <div class="header-dark">
+	    {$groupTitlePre}
+        </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+    {/if}
+    {if $customPost}
+        {foreach from=$customPost item=field key=cname}
+            {if $field.groupTitle}
+		{assign var=groupTitlePost  value=$field.groupTitle} 
+            {/if}
+        {/foreach}
+        <div class="header-dark">
+	    {$groupTitlePost}
+        </div>  
+        {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+    {/if}
+
+    {*display Additional Participant Profile Information*}
+    {if $addParticipantProfile}
+        {foreach from=$addParticipantProfile item=participant key=participantNo}
+            <div class="header-dark">
+                {ts 1=$participantNo+1}Participant Information - Participant %1{/ts}	
+            </div>
+            {if $participant.customPre}
+                <fieldset><legend>{$participant.customPreGroupTitle}</legend>
+                    <table class="form-layout-compressed">
+                        {foreach from=$participant.customPre item=value key=field}
+                        <tr>
+			    <td class="label">{$field}</td><td class="view-value">{$value}</td>
+                        </tr>
+                        {/foreach}
+                    </table>
+                </fieldset>
+            {/if}
+
+            {if $participant.customPost}
+                <fieldset><legend>{$participant.customPostGroupTitle}</legend>
+                    <table class="form-layout-compressed">
+                        {foreach from=$participant.customPost item=value key=field}
+                        <tr>
+			    <td class="label">{$field}</td><td class="view-value">{$value}</td>
+                        </tr>
+                        {/foreach}
+                    </table>
+                </fieldset>
+            {/if}
+        <div class="spacer"></div>
+        {/foreach}
+    {/if}
+
+    {if $contributeMode ne 'notify' and ! $is_pay_later and $paidEvent and ! $isAmountzero }
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
     <div class="display-block">
-        <strong>{$name}</strong><br />
+        <strong>{$billingName}</strong><br />
         {$address|nl2br}
     </div>
     {/if}
     
-    {if $contributeMode eq 'direct' and
-        ! $is_pay_later}
+    {if $contributeMode eq 'direct' and ! $is_pay_later and !$isAmountzero}
     <div class="header-dark">
-        {ts}Credit or Debit Card Information{/ts}
+        {ts}Credit Card Information{/ts}
     </div>
     <div class="display-block">
         {$credit_card_type}<br />
@@ -73,18 +149,7 @@
         {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}<br />
     </div>
     {/if}
-
-    {if $customPost}
-         {foreach from=$customPost item=field key=cname}
-              {if $field.groupTitle}
-                {assign var=groupTitlePost  value=$field.groupTitle} 
-              {/if}
-         {/foreach}
-        <div class="header-dark">
-          {ts}{$groupTitlePost}{/ts}
-         </div>  
-         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
-    {/if}
+    
     {if $contributeMode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
@@ -93,23 +158,27 @@
     </div>
     {/if}    
    
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later and ! $isAmountzero}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
-         <table class="form-layout-compressed">
-          <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>
-          <tr><td>{$form._qf_Confirm_next_checkout.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
-         </table>
+        <table class="form-layout-compressed">
+	    <tr>
+		<td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td>
+	    </tr>
+	    <tr>
+		<td>{$form._qf_Confirm_next_checkout.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td>
+	    </tr>
+        </table>
         </fieldset>    
     {/if}
 
     <div id="crm-submit-buttons">
-     {$form.buttons.html}
+	{$form.buttons.html}
     </div>
 
-    {if $eventPage.confirm_footer_text}
+    {if $event.confirm_footer_text}
         <div id="footer_text">
-            <p>{$eventPage.confirm_footer_text}</p>
+            <p>{$event.confirm_footer_text}</p>
         </div>
     {/if}
 </div>
-
+{include file="CRM/common/showHide.tpl"}

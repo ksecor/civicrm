@@ -23,6 +23,10 @@ PHP5PATH=
 # passed file will be loaded instead of civicrm_generated.mysql.
 # The DBLOAD file must be in the sql directory.
 DBLOAD=
+# Set a special SQL filename here which you want to load
+# IN ADDITION TO either civicrm_generated or civicrm_data.
+# The DBADD file must be in the sql directory.
+# DBADD=
 
 # ==========================================================
 # No changes below, please.
@@ -42,7 +46,6 @@ if [ ! -z $2 ] ; then DBLOAD=$2; fi
 if [ ! -z $3 ] ; then DBNAME=$3; fi
 if [ ! -z $4 ] ; then DBUSER=$4; fi
 if [ ! -z $5 ] ; then DBPASS=$5; fi
-if [ ! -z $6 ] ; then DBARGS=$6; fi
 
 # verify if we have at least DBNAME given
 if [ -z $DBNAME ] ; then
@@ -92,6 +95,13 @@ else
     echo; echo Populating database with $DBLOAD data
     mysql -u $DBUSER $PASSWDSECTION $DBNAME < $DBLOAD
 fi
+
+# load additional script if DBADD defined
+if [ ! -z $DBADD ]; then
+    echo; echo Loading $DBADD
+    mysql -u $DBUSER $PASSWDSECTION $DBNAME < $DBADD
+fi
+    
 
 echo; echo "DONE!"
 

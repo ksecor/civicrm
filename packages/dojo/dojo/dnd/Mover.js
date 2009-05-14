@@ -1,72 +1,61 @@
-if(!dojo._hasResource["dojo.dnd.Mover"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojo.dnd.Mover"] = true;
-dojo.provide("dojo.dnd.Mover");
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojo.dnd.Mover"]){
+dojo._hasResource["dojo.dnd.Mover"]=true;
+dojo.provide("dojo.dnd.Mover");
 dojo.require("dojo.dnd.common");
 dojo.require("dojo.dnd.autoscroll");
-
-dojo.declare("dojo.dnd.Mover", null, {
-	constructor: function(node, e, host){
-		// summary: an object, which makes a node follow the mouse, 
-		//	used as a default mover, and as a base class for custom movers
-		// node: Node: a node (or node's id) to be moved
-		// e: Event: a mouse event, which started the move;
-		//	only pageX and pageY properties are used
-		// host: Object?: object which implements the functionality of the move,
-		//	 and defines proper events (onMoveStart and onMoveStop)
-		this.node = dojo.byId(node);
-		this.marginBox = {l: e.pageX, t: e.pageY};
-		this.mouseButton = e.button;
-		var h = this.host = host, d = node.ownerDocument, 
-			firstEvent = dojo.connect(d, "onmousemove", this, "onFirstMove");
-		this.events = [
-			dojo.connect(d, "onmousemove", this, "onMouseMove"),
-			dojo.connect(d, "onmouseup",   this, "onMouseUp"),
-			// cancel text selection and text dragging
-			dojo.connect(d, "ondragstart",   dojo, "stopEvent"),
-			dojo.connect(d, "onselectstart", dojo, "stopEvent"),
-			firstEvent
-		];
-		// notify that the move has started
-		if(h && h.onMoveStart){
-			h.onMoveStart(this);
-		}
-	},
-	// mouse event processors
-	onMouseMove: function(e){
-		// summary: event processor for onmousemove
-		// e: Event: mouse event
-		dojo.dnd.autoScroll(e);
-		var m = this.marginBox;
-		this.host.onMove(this, {l: m.l + e.pageX, t: m.t + e.pageY});
-	},
-	onMouseUp: function(e){
-		if(this.mouseButton == e.button){
-			this.destroy();
-		}
-	},
-	// utilities
-	onFirstMove: function(){
-		// summary: makes the node absolute; it is meant to be called only once
-		this.node.style.position = "absolute";	// enforcing the absolute mode
-		var m = dojo.marginBox(this.node);
-		m.l -= this.marginBox.l;
-		m.t -= this.marginBox.t;
-		this.marginBox = m;
-		this.host.onFirstMove(this);
-		dojo.disconnect(this.events.pop());
-	},
-	destroy: function(){
-		// summary: stops the move, deletes all references, so the object can be garbage-collected
-		dojo.forEach(this.events, dojo.disconnect);
-		// undo global settings
-		var h = this.host;
-		if(h && h.onMoveStop){
-			h.onMoveStop(this);
-		}
-		// destroy objects
-		this.events = this.node = null;
-	}
-});
-
+dojo.declare("dojo.dnd.Mover",null,{constructor:function(_1,e,_3){
+this.node=dojo.byId(_1);
+this.marginBox={l:e.pageX,t:e.pageY};
+this.mouseButton=e.button;
+var h=this.host=_3,d=_1.ownerDocument,_6=dojo.connect(d,"onmousemove",this,"onFirstMove");
+this.events=[dojo.connect(d,"onmousemove",this,"onMouseMove"),dojo.connect(d,"onmouseup",this,"onMouseUp"),dojo.connect(d,"ondragstart",dojo,"stopEvent"),dojo.connect(d,"onselectstart",dojo,"stopEvent"),_6];
+if(h&&h.onMoveStart){
+h.onMoveStart(this);
+}
+},onMouseMove:function(e){
+dojo.dnd.autoScroll(e);
+var m=this.marginBox;
+this.host.onMove(this,{l:m.l+e.pageX,t:m.t+e.pageY});
+},onMouseUp:function(e){
+if(this.mouseButton==e.button){
+this.destroy();
+}
+},onFirstMove:function(){
+var s=this.node.style,l,t;
+switch(s.position){
+case "relative":
+case "absolute":
+l=Math.round(parseFloat(s.left));
+t=Math.round(parseFloat(s.top));
+break;
+default:
+s.position="absolute";
+var m=dojo.marginBox(this.node);
+l=m.l;
+t=m.t;
+break;
+}
+this.marginBox.l=l-this.marginBox.l;
+this.marginBox.t=t-this.marginBox.t;
+this.host.onFirstMove(this);
+dojo.disconnect(this.events.pop());
+},destroy:function(){
+dojo.forEach(this.events,dojo.disconnect);
+var h=this.host;
+if(h&&h.onMoveStop){
+h.onMoveStop(this);
+}
+this.events=this.node=null;
+}});
 }

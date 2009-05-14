@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -58,10 +58,10 @@ interface CRM_Contact_Form_Search_Interface {
     function count     ( );
 
     /**
-     * List of alphabets of records that match the current input parameters
-     * Used by alpha pager
+     * Summary information for the query that can be displayed in the template
+     * This is useful to pass total / sub total information if needed
      */
-    function alphabet ( );
+    function summary   ( );
 
     /**
      * List of contact ids that match the current input parameters
@@ -81,6 +81,7 @@ interface CRM_Contact_Form_Search_Interface {
      * The below two functions (from and where) are ONLY used if you want to
      * expose a custom group as a smart group and be able to send a mailing
      * to them via CiviMail. civicrm_email should be part of the from clause
+     * The from clause should be a valid sql from clause including the word FROM
      * CiviMail will pick up the contacts where the email is primary and
      * is not on hold / opt out / do not email
      *
@@ -108,4 +109,4 @@ interface CRM_Contact_Form_Search_Interface {
 
 }
 
-?>
+

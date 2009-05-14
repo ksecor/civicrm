@@ -43,12 +43,14 @@
       <type>varchar</type>
       <title>Title for Premiums section</title>
       <length>255</length>
+      <localizable>true</localizable>
       <comment>Title for Premiums section.</comment>  
       <add>1.4</add>  
   </field>    
   <field>   
       <name>premiums_intro_text</name>   
       <type>text</type>   
+      <localizable>true</localizable>
       <comment>Displayed in &lt;div&gt; at top of Premiums section of page. Text and HTML allowed.</comment>   
       <add>1.4</add>   
   </field>     

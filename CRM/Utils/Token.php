@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,7 +48,8 @@ class CRM_Utils_Token
                                                       'unsubscribe',
                                                       'unsubscribeUrl',
                                                       'resubscribe',
-                                                      'resubscribeUrl'
+                                                      'resubscribeUrl',
+                                                      'subscribeUrl'
                                                       ),
                              'mailing'       => array(
                                                       'name',
@@ -93,11 +94,6 @@ class CRM_Utils_Token
                                             array(
                                                   'action.optOut'    => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
                                                   'action.optOutUrl' => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
-                                                  ),
-                                            'action.unsubscribe' =>
-                                            array(
-                                                  'action.unsubscribe' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
-                                                  'action.unsubscribeUrl' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
                                                   ),
                                             );
         }
@@ -194,7 +190,11 @@ class CRM_Utils_Token
     public static function &replaceDomainTokens($str, &$domain, $html = false, $knownTokens = null) 
     {
         $key = 'domain';
-        if (!$knownTokens || !$knownTokens[$key]) return $str;
+        if ( ! $knownTokens ||
+             ! CRM_Utils_Array::value( $key, $knownTokens ) ) {
+            return $str;
+        }
+
         $str = preg_replace(self::tokenRegex($key),'self::getDomainTokenReplacement(\'\\1\',$domain,$html)',$str);
         return $str;
     }
@@ -220,7 +220,7 @@ class CRM_Utils_Token
             $value = null;
             /* Construct the address token */
             if ( CRM_Utils_Array::value( $token, $loc ) ) {
-                $value = CRM_Utils_Address::format($loc[$token]);
+                $value = $loc[$token]['display'];
                 if ($html) $value = str_replace("\n", '<br />', $value);
                 $addressCache[$cache_key] = $value;
             }
@@ -279,23 +279,24 @@ class CRM_Utils_Token
                 if ( $cv === null ) {
                     $cv =& CRM_Core_BAO_CustomValue::getContactValues($org['contact_id']);
                 }
-                foreach ($cv as $customValue) {
-                    if ($customValue['custom_field_id'] == $cfID) {
-                        $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $customValue['value']);
+                foreach ($cv as $cvFieldID => $value ) {
+                    if ($cvFieldID == $cfID) {
+                        $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $value );
                         break;
                     }
                 }
             } else if ( $token == 'checksum' ) {
-                $cs = CRM_Contact_BAO_Contact::generateChecksum( $org['contact_id'] );
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                $cs = CRM_Contact_BAO_Contact_Utils::generateChecksum( $org['contact_id'] );
                 $value = "cs={$cs}";
             } else if ( $token == 'address' ) {
                 /* Build the location values array */
                 $loc = array( );
-                $loc['display_name'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'display_name' );
-                $loc['street_address'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'street_address' );
-                $loc['city'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'city' );
-                $loc['state_province'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'state_province' );
-                $loc['postal_code'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'postal_code' );
+                $loc['display_name'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'display_name' );
+                $loc['street_address'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'street_address' );
+                $loc['city'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'city' );
+                $loc['state_province'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'state_province' );
+                $loc['postal_code'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'postal_code' );
                 
                 /* Construct the address token */
                 $value = CRM_Utils_Address::format( $loc );
@@ -306,7 +307,7 @@ class CRM_Utils_Token
                 print_r( $org );
                 print "</pre>";
                 */
-                $value = CRM_Contact_BAO_Contact::retrieveValue( $org, $token );
+                $value = CRM_Utils_Array::retrieveValueRecursive( $org, $token );
                 /*
                 print "\$value: <pre>";
                 print_r( $value );
@@ -380,7 +381,7 @@ class CRM_Utils_Token
         // so that we remove anything we do not recognize
         // I hope to move this step out of here soon and
         // then we will just iterate on a list of tokens that are passed to us
-        if ( ! $knownTokens || ! $knownTokens[$key] ) {
+        if ( ! $knownTokens || ! CRM_Utils_Array::value( $key,$knownTokens ) ) {
             return $str;
         }
         
@@ -424,29 +425,30 @@ class CRM_Utils_Token
      * @param string $str         The string with tokens to be replaced
      * @param array $contact      Associative array of contact properties
      * @param boolean $html       Replace tokens with HTML or plain text
-     * @param boolean $html       Replace tokens with HTML or plain text
      * @param array $knownTokens  A list of tokens that are known to exist in the email body
      * @return string             The processed string
      * @access public
      * @static
      */
-    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null) 
-    {
+    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null) {
         $key = 'contact';
         if (self::$_tokens[$key] == null) {
             /* This should come from UF */
             self::$_tokens[$key] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                             array( 'display_name', 'checksum', 'contact_id' ) );
+                             array( 'display_name', 'checksum', 'contact_id',
+                                    'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
         }
 
         // here we intersect with the list of pre-configured valid tokens
         // so that we remove anything we do not recognize
         // I hope to move this step out of here soon and
         // then we will just iterate on a list of tokens that are passed to us
-        if(!$knownTokens || !$knownTokens[$key]) return $str;
+        if ( !$knownTokens || ! CRM_Utils_Array::value( $key, $knownTokens ) ) return $str;
 
-        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact, $html)',$str);
+        $str = preg_replace(self::tokenRegex($key),
+                            'self::getContactTokenReplacement(\'\\1\', $contact, $html)',
+                            $str);
         return $str;
     }
     
@@ -456,7 +458,7 @@ class CRM_Utils_Token
             /* This should come from UF */
             self::$_tokens['contact'] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                             array( 'display_name', 'checksum', 'contact_id' ) );
+                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
         }
         
         /* Construct value from $token and $contact */
@@ -469,16 +471,50 @@ class CRM_Utils_Token
         if (!in_array($token,self::$_tokens['contact'])) {
             $value = "{contact.$token}";
         } else if ( $token == 'checksum' ) {
-            $cs = CRM_Contact_BAO_Contact::generateChecksum( $contact['contact_id'] );
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
+            $cs = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contact['contact_id'] );
             $value = "cs={$cs}";
         } else {
-            $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
+            $value = CRM_Utils_Array::retrieveValueRecursive($contact, $token);
         }
 
         if (!$html) {
             $value = str_replace('&amp;', '&', $value);
         }
 
+        return $value;
+    }
+
+    /**
+     * Replace all the hook tokens in $str with information from
+     * $contact.
+     *
+     * @param string $str         The string with tokens to be replaced
+     * @param array $contact      Associative array of contact properties (including hook token values)
+     * @param boolean $html       Replace tokens with HTML or plain text
+     * @return string             The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceHookTokens($str, &$contact, &$categories, $html = false ) {
+
+        foreach ( $categories as $key ) {
+            $str = preg_replace(self::tokenRegex($key),
+                                'self::getHookTokenReplacement(\'\\1\', $contact, $key, $html)',
+                                $str);
+        }
+        return $str;
+    }
+    
+    public function getHookTokenReplacement($token, &$contact, $category, $html = false)
+    {
+        $value = CRM_Utils_Array::value( "{$category}.{$token}", $contact );
+
+        if ( $value &&
+             ! $html ) {
+            $value = str_replace('&amp;', '&', $value);
+        }
+        
         return $value;
     }
 
@@ -522,7 +558,6 @@ class CRM_Utils_Token
                 // FIXME: an ugly hack for CRM-2035, to be dropped once CRM-1799 is implemented
                 require_once 'CRM/Contact/DAO/Group.php';
                 $dao =& new CRM_Contact_DAO_Group();
-                $dao->domain_id = $config->domainID();
                 $dao->find();
                 while ($dao->fetch()) {
                     if (substr($dao->visibility, 0, 6) == 'Public') {
@@ -593,14 +628,18 @@ class CRM_Utils_Token
     public static function &replaceSubscribeInviteTokens($str) 
     {
         if (preg_match('/\{action\.subscribeUrl\}/', $str )) {
-            $url   = CRM_Utils_System::url( 'civicrm/mailing/subscribe', 'reset=1' );
+            $url   = CRM_Utils_System::url( 'civicrm/mailing/subscribe',
+                                            'reset=1',
+                                            true, null, true, true );
             $str = preg_replace('/\{action\.subscribeUrl\}/', $url, $str );
         }
 
         if ( preg_match('/\{action\.subscribeUrl.\d+\}/', $str, $matches) ) {
             foreach ( $matches as $key => $value ) {
                 $gid = substr($value, 21, -1);
-                $url = CRM_Utils_System::url( 'civicrm/mailing/subscribe', 'reset=1&gid='.$gid );
+                $url = CRM_Utils_System::url( 'civicrm/mailing/subscribe',
+                                              "reset=1&gid={$gid}",
+                                              true, null, true, true );
                 $url = str_replace('&amp;', '&', $url);
                 $str = preg_replace('/'.preg_quote($value).'/', $url, $str );
             }
@@ -610,9 +649,11 @@ class CRM_Utils_Token
             foreach ( $matches as $key => $value ) {
                 $gid = substr($value, 18, -1);
                 $config =& CRM_Core_Config::singleton();
-                require_once 'CRM/Core/BAO/Domain.php';
-                $domain = CRM_Core_BAO_Domain::getDomainByID($config->domainID());
-                $str = preg_replace('/'.preg_quote($value).'/','mailto:subscribe.'.$domain->id.'.'.$gid.'@'.$domain->email_domain, $str);
+                require_once 'CRM/Core/BAO/MailSettings.php';
+                $domain    = CRM_Core_BAO_MailSettings::defaultDomain();
+                $localpart = CRM_Core_BAO_MailSettings::defaultLocalpart();
+                // we add the 0.0000000000000000 part to make this match the other email patterns (with action, two ids and a hash)
+                $str = preg_replace('/'.preg_quote($value).'/',"mailto:{$localpart}s.{$gid}.0.0000000000000000@$domain", $str);
             }
         }
         return $str;
@@ -652,4 +693,4 @@ class CRM_Utils_Token
     }
 }
 
-?>
+

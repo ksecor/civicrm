@@ -4,7 +4,7 @@
 * 
 * DB_Table_Valid validates values against DB_Table column types.
 * 
-* @category DB
+* @category Database
 * 
 * @package DB_Table
 *
@@ -13,7 +13,7 @@
 * 
 * @license http://www.gnu.org/copyleft/lesser.html LGPL
 * 
-* @version $Id: Valid.php,v 1.7 2005/08/18 08:09:43 wiesemann Exp $
+* @version $Id: Valid.php,v 1.9 2007/04/03 00:07:32 morse Exp $
 *
 */
 
@@ -39,7 +39,7 @@ if (! isset($GLOBALS['_DB_TABLE']['valid'])) {
 * 
 * DB_Table_Valid validates values against DB_Table column types.
 * 
-* @category DB
+* @category Database
 * 
 * @package DB_Table
 * 

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /** 
  * 
  * @package CRM 
- * @copyright CiviCRM LLC (c) 2004-2007 
+ * @copyright CiviCRM LLC (c) 2004-2009 
  * $Id$ 
  * 
  */ 
@@ -49,14 +49,17 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
-        $this->_mode = $mode;
-
+        $this->_mode             = $mode;
         $this->_paymentProcessor = $paymentProcessor;
+        $this->_processorName    = "PayPal Pro";
 
         if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
+            $this->_processorName = "PayPal Standard";
             return;
+        } else if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
+            $this->_processorName = "PayPal Express";
         }
-
+        
         if ( ! $this->_paymentProcessor['user_name'] ) {
             CRM_Core_Error::fatal( ts( 'Could not find user name for payment processor' ) );
         }
@@ -158,15 +161,15 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         }
 
         /* Success */
-        $params['trxn_id']        = $params['transactionid'];
-        $params['gross_amount'  ] = $params['amt'];
-        $params['fee_amount'    ] = $params['feeamt'];
-        $params['net_amount'    ] = $params['settleamt'];
+        $params['trxn_id']        = $result['transactionid'];
+        $params['gross_amount'  ] = $result['amt'];
+        $params['fee_amount'    ] = $result['feeamt'];
+        $params['net_amount'    ] = $result['settleamt'];
         if ( $params['net_amount'] == 0 && $params['fee_amount'] != 0 ) {
             $params['net_amount'] = $params['gross_amount'] - $params['fee_amount'];
         }
-        $params['payment_status'] = $params['paymentstatus'];
-        $params['pending_reason'] = $params['pendingreason'];
+        $params['payment_status'] = $result['paymentstatus'];
+        $params['pending_reason'] = $result['pendingreason'];
         
         return $params;
     }
@@ -211,6 +214,8 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $args['state']          = $params['state_province'];
         $args['countryCode']    = $params['country'];
         $args['zip']            = $params['postal_code'];
+        $args['custom']         = CRM_Utils_Array::value( 'accountingCode',
+                                                          $params );
 
         $result = $this->invokeAPI( $args );
 
@@ -256,6 +261,15 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         }
     }
 
+    function cancelSubscriptionURL( ) {
+        if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
+            return "{$this->_paymentProcessor['url_site']}cgi-bin/webscr?cmd=_subscr-find&alias=" .
+                urlencode( $this->_paymentProcessor['user_name'] );
+        } else {
+            return null;
+        }
+    }
+
     function doTransferCheckout( &$params, $component = 'contribute' ) {
         $config =& CRM_Core_Config::singleton( );
 
@@ -276,6 +290,15 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             if ( $membershipID ) {
                 $notifyURL .= "&membershipID=$membershipID";
             }
+            $relatedContactID = CRM_Utils_Array::value( 'related_contact', $params );
+            if ( $relatedContactID ) {
+                $notifyURL .= "&relatedContactID=$relatedContactID";
+
+                $onBehalfDupeAlert = CRM_Utils_Array::value( 'onbehalf_dupe_alert', $params );
+                if ( $onBehalfDupeAlert ) {
+                    $notifyURL .= "&onBehalfDupeAlert=$onBehalfDupeAlert";
+                }
+            }
         }
 
         $url    = ( $component == 'event' ) ? 'civicrm/event/register' : 'civicrm/contribute/transact';
@@ -286,6 +309,11 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $cancelURL = CRM_Utils_System::url( $url,
                                             "$cancel=1&cancel=1&qfKey={$params['qfKey']}",
                                             true, null, false );
+
+        // ensure that the returnURL is absolute.
+        if ( substr( $returnURL, 0, 4 ) != 'http' ) {
+            CRM_Core_Error::fatal( ts( 'Sending a relative URL to PayPalIPN is erroneous. Please make your resource URL (in Administer CiviCRM >> Global Settings) absolute' ) );
+        }
         
         $paypalParams =
             array( 'business'           => $this->_paymentProcessor['user_name'],
@@ -297,9 +325,40 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                    'no_note'            => 1,
                    'no_shipping'        => 1,
                    'return'             => $returnURL,
-                   'rm'                 => 1,
+                   'rm'                 => 2,
                    'currency_code'      => $params['currencyID'],
-                   'invoice'            => $params['invoiceID'] );
+                   'invoice'            => $params['invoiceID'] ,
+                   'custom'             => CRM_Utils_Array::value( 'accountingCode',
+                                                                   $params ) );
+
+        // add name and address if available, CRM-3130
+        $otherVars = array( 'first_name'     => 'first_name',
+                            'last_name'      => 'last_name',
+                            'street_address' => 'address1',
+                            'city'           => 'city',
+                            'state_province' => 'state',
+                            'postal_code'    => 'zip',
+                            'email'          => 'email' );
+
+        foreach ( array_keys( $params ) as $p ) {
+            // get the base name without the location type suffixed to it
+            $parts = split( '-', $p );
+            $name  = count( $parts ) > 1 ? $parts[0] : $p;
+            if ( isset( $otherVars[$name] ) ) {
+                $value = $params[$p];
+                if ( $value ) {
+                    if ( $name == 'state_province' ) {
+                        $stateName = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value );
+                        $value     = $stateName;
+                    }
+                    // ensure value is not an array
+                    // CRM-4174
+                    if ( ! is_array( $value ) ) {
+                        $paypalParams[$otherVars[$name]] = $value;
+                    }
+                }
+            }
+        }
 
         // if recurring donations, add a few more items
         if ( ! empty( $params['is_recur'] ) ) {
@@ -345,8 +404,8 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
 
         $uri = substr( $uri, 1 );
         $url = $this->_paymentProcessor['url_site'];
-        $sub = empty( $params['is_recur'] ) ? 'xclick' : 'subscriptions';
-        $paypalURL = "{$url}{$sub}/$uri";
+        $sub = empty( $params['is_recur'] ) ? 'cgi-bin/webscr' : 'subscriptions';
+        $paypalURL = "{$url}{$sub}?$uri";
 
         CRM_Utils_System::redirect( $paypalURL );
     }
@@ -357,11 +416,23 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @nvpStr is nvp string.
      * returns an associtive array containing the response from the server.
      */
-    function invokeAPI( $args ) {
+    function invokeAPI( $args, $url = null ) {
+
+        if ( $url === null ) {
+            if ( empty( $this->_paymentProcessor['url_api'] ) ) {
+                CRM_Core_Error::fatal( ts( 'Please set the API URL. Please refer to the documentation for more details' ) );
+            }
+
+            $url = $this->_paymentProcessor['url_api'] . 'nvp';
+        }
+
+        if ( !function_exists('curl_init') ) {
+            CRM_Core_Error::fatal("curl functions NOT available.");
+        }
 
         //setting the curl parameters.
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->_paymentProcessor['url_api'] . 'nvp' );
+        curl_setopt($ch, CURLOPT_URL, $url );
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
 
         //turning off the server and peer verification(TrustManager Concept).
@@ -386,7 +457,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $response = curl_exec( $ch );
 
         //converting NVPResponse to an Associative Array
-        $result = $this->deformat( $response );
+        $result = self::deformat( $response );
 
         if ( curl_errno( $ch ) ) {
             $e =& CRM_Core_Error::singleton( );
@@ -402,7 +473,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             $e =& CRM_Core_Error::singleton( );
             $e->push( $result['l_errorcode0'],
                       0, null,
-                      "{$result['l_shortmessage0']} {$result['L_LONGMESSAGE0']}" );
+                      "{$result['l_shortmessage0']} {$result['l_longmessage0']}" );
             return $e;
         }
 
@@ -415,7 +486,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @nvpArray is Associative Array.
      */
 
-    function deformat( $str )
+    static function deformat( $str )
     {
         $result = array();
 
@@ -440,4 +511,4 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
 
 }
 
-?>
+

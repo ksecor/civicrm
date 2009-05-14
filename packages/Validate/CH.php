@@ -138,7 +138,7 @@ class Validate_CH
             static $postcodes;
 
             if (!isset($postcodes)) {
-                $file = './data/Validate_CH/CH_postcodes.txt';
+                $file = '/home/shot/work/CiviCRM/svn/trunk/packages/data/Validate_CH/CH_postcodes.txt';
                 $postcodes = array_map('trim', file($file));
             }
 

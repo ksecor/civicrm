@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -41,8 +41,6 @@
 class CRM_Utils_Address_USPS {
     
     static function checkAddress( &$values ) {
-        CRM_Utils_System::checkPHPVersion( 5, true );
-        
         if ( ! isset($values['street_address'])     || 
                ( ! isset($values['city']           )   &&
                  ! isset($values['state_province'] )   &&
@@ -53,7 +51,12 @@ class CRM_Utils_Address_USPS {
         require_once 'CRM/Core/BAO/Preferences.php';
         $userID = CRM_Core_BAO_Preferences::value( 'address_standardization_userid' );
         $url    = CRM_Core_BAO_Preferences::value( 'address_standardization_url'    );
-        
+
+        if ( empty( $userID ) ||
+             empty( $url ) ) {
+            return false;
+        }
+
         $address2 = str_replace( ',', '', $values['street_address'] );
         
         $XMLQuery = '<AddressValidateRequest USERID="'.$userID.'"><Address ID="0"><Address1>'.$values['supplemental_address_1'].'</Address1><Address2>'.$address2.'</Address2><City>'.$values['city'].'</City><State>'.$values['state_province'].'</State><Zip5>'.$values['postal_code'].'</Zip5><Zip4>'.$values['postal_code_suffix'].'</Zip4></Address></AddressValidateRequest>';
@@ -71,9 +74,15 @@ class CRM_Utils_Address_USPS {
         $responseBody = $request->getResponseBody( );
         
         $xml = simplexml_load_string( $responseBody );
+
+        $session =& CRM_Core_Session::singleton( );
+
+        if ( $xml->Number == '80040b1a' ) {
+            $session->setStatus( ts( 'Your USPS API Authorization has Failed.' ) );
+            return false;
+        }
         
         if (array_key_exists('Error', $xml->Address)) {
-            $session =& CRM_Core_Session::singleton( );
             $session->setStatus( ts( 'Address not found in USPS database.' ) );
             return false;
         }
@@ -91,4 +100,4 @@ class CRM_Utils_Address_USPS {
         return true;
     }
 }
-?>
+

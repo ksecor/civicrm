@@ -1,422 +1,359 @@
-if(!dojo._hasResource["dijit._editor.plugins.EnterKeyHandling"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit._editor.plugins.EnterKeyHandling"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit._editor.plugins.EnterKeyHandling"]){
+dojo._hasResource["dijit._editor.plugins.EnterKeyHandling"]=true;
 dojo.provide("dijit._editor.plugins.EnterKeyHandling");
-
-
-dojo.declare("dijit._editor.plugins.EnterKeyHandling",null,{
-	// blockNodeForEnter: String
-	//		this property decides the behavior of Enter key. It can be either P,
-	//		DIV, BR, or empty (which means disable this feature). Anything else
-	//		will trigger errors.
-	blockNodeForEnter: 'P',
-	constructor: function(args){
-		if(args){
-			dojo.mixin(this,args);
-		}
-	},
-	setEditor: function(editor){
-		this.editor=editor;
-		if(this.blockNodeForEnter=='BR'){
-			if(dojo.isIE){
-				editor.contentDomPreFilters.push(dojo.hitch(this, "regularPsToSingleLinePs"));
-				editor.contentDomPostFilters.push(dojo.hitch(this, "singleLinePsToRegularPs"));
-				editor.onLoadDeferred.addCallback(dojo.hitch(this, "_fixNewLineBehaviorForIE"));
-			}else{
-				editor.onLoadDeferred.addCallback(dojo.hitch(this,function(d){
-					try{
-						this.editor.document.execCommand("insertBrOnReturn", false, true);
-					}catch(e){};
-					return d;
-				}));
-			}
-		}else if(this.blockNodeForEnter){
-			//add enter key handler
-			// FIXME: need to port to the new event code!!
-			dojo['require']('dijit._editor.range');
-			var h=dojo.hitch(this,this.handleEnterKey);
-			editor.addKeyHandler(13, 0, h); //enter
-			editor.addKeyHandler(13, 2, h); //shift+enter
-			this.connect(this.editor,'onKeyPressed','onKeyPressed');
-		}
-	},
-	connect: function(o,f,tf){
-		if(!this._connects){
-			this._connects=[];
-		}
-		this._connects.push(dojo.connect(o,f,this,tf));
-	},
-	destroy: function(){
-		dojo.forEach(this._connects,dojo.disconnect);
-		this._connects=[];
-	},
-	onKeyPressed: function(e){
-		if(this._checkListLater){
-			if(dojo.withGlobal(this.editor.window, 'isCollapsed', dijit._editor.selection)){
-				if(!dojo.withGlobal(this.editor.window, 'hasAncestorElement', dijit._editor.selection, ['LI'])){
-					//circulate the undo detection code by calling RichText::execCommand directly
-					dijit._editor.RichText.prototype.execCommand.apply(this.editor, ['formatblock',this.blockNodeForEnter]);
-					//set the innerHTML of the new block node
-					var block = dojo.withGlobal(this.editor.window, 'getAncestorElement', dijit._editor.selection, [this.blockNodeForEnter])
-					if(block){
-						block.innerHTML=this.bogusHtmlContent;
-						if(dojo.isIE){
-							//the following won't work, it will move the caret to the last list item in the previous list
-//							var newrange = dijit.range.create();
-//							newrange.setStart(block.firstChild,0);
-//							var selection = dijit.range.getSelection(this.editor.window)
-//							selection.removeAllRanges();
-//							selection.addRange(newrange);
-							//move to the start by move backward one char
-							var r = this.editor.document.selection.createRange();
-							r.move('character',-1);
-							r.select();
-						}
-					}else{
-						alert('onKeyPressed: Can not find the new block node');
-					}
-				}
-			}
-			this._checkListLater = false;
-		}else if(this._pressedEnterInBlock){
-			//the new created is the original current P, so we have previousSibling below
-			this.removeTrailingBr(this._pressedEnterInBlock.previousSibling);
-			delete this._pressedEnterInBlock;
-		}
-	},
-	bogusHtmlContent: '&nbsp;',
-	blockNodes: /^(?:H1|H2|H3|H4|H5|H6|LI)$/,
-	handleEnterKey: function(e){
-		// summary: manually handle enter key event to make the behavior consistant across
-		//	all supported browsers. See property blockNodeForEnter for available options
-		if(!this.blockNodeForEnter){ return true; } //let browser handle this
-		if(e.shiftKey  //shift+enter always generates <br>
-			|| this.blockNodeForEnter=='BR'){
-			var parent = dojo.withGlobal(this.editor.window, "getParentElement", dijit._editor.selection);
-			var header = dijit.range.getAncestor(parent,this.editor.blockNodes);
-			if(header){
-				if(header.tagName=='LI'){
-					return true; //let brower handle
-				}
-				var selection = dijit.range.getSelection(this.editor.window);
-				var range = selection.getRangeAt(0);
-				if(!range.collapsed){
-					range.deleteContents();
-				}
-				if(dijit.range.atBeginningOfContainer(header, range.startContainer, range.startOffset)){
-					dojo.place(this.editor.document.createElement('br'), header, "before");
-				}else if(dijit.range.atEndOfContainer(header, range.startContainer, range.startOffset)){
-					dojo.place(this.editor.document.createElement('br'), header, "after");
-					var newrange = dijit.range.create();
-					newrange.setStartAfter(header);
-
-					selection.removeAllRanges();
-					selection.addRange(newrange);
-				}else{
-					return true; //let brower handle
-				}
-			}else{
-				//don't change this: do not call this.execCommand, as that may have other logic in subclass
-				// FIXME
-				dijit._editor.RichText.prototype.execCommand.call(this.editor, 'inserthtml', '<br>');
-			}
-			return false;
-		}
-		var _letBrowserHandle = true;
-		//blockNodeForEnter is either P or DIV
-		//first remove selection
-		var selection = dijit.range.getSelection(this.editor.window);
-		var range = selection.getRangeAt(0);
-		if(!range.collapsed){
-			range.deleteContents();
-		}
-
-		var block = dijit.range.getBlockAncestor(range.endContainer, null, this.editor.editNode);
-
-		if(block.blockNode && block.blockNode.tagName == 'LI'){
-			this._checkListLater = true;
-			return true;
-		}else{
-			this._checkListLater = false;
-		}
-
-		//text node directly under body, let's wrap them in a node
-		if(!block.blockNode){
-			this.editor.document.execCommand('formatblock',false, this.blockNodeForEnter);
-			//get the newly created block node
-			// FIXME
-			block = {blockNode:dojo.withGlobal(this.editor.window, "getAncestorElement", dijit._editor.selection, [this.blockNodeForEnter]),
-					blockContainer: this.editor.editNode};
-			if(block.blockNode){
-				if((block.blockNode.textContent||block.blockNode.innerHTML).replace(/^\s+|\s+$/g, "").length==0){
-					this.removeTrailingBr(block.blockNode);
-					return false;
-				}
-			}else{
-				block.blockNode = this.editor.editNode;
-			}
-			selection = dijit.range.getSelection(this.editor.window);
-			range = selection.getRangeAt(0);
-		}
-		var newblock = this.editor.document.createElement(this.blockNodeForEnter);
-		newblock.innerHTML=this.bogusHtmlContent;
-		this.removeTrailingBr(block.blockNode);
-		if(dijit.range.atEndOfContainer(block.blockNode, range.endContainer, range.endOffset)){
-			if(block.blockNode === block.blockContainer){
-				block.blockNode.appendChild(newblock);
-			}else{
-				dojo.place(newblock, block.blockNode, "after");
-			}
-			_letBrowserHandle = false;
-			//lets move caret to the newly created block
-			var newrange = dijit.range.create();
-			newrange.setStart(newblock,0);
-			selection.removeAllRanges();
-			selection.addRange(newrange);
-			if(this.editor.height){
-				newblock.scrollIntoView(false);
-			}
-		}else if(dijit.range.atBeginningOfContainer(block.blockNode,
-				range.startContainer, range.startOffset)){
-			if(block.blockNode === block.blockContainer){
-				dojo.place(newblock, block.blockNode, "first");
-			}else{
-				dojo.place(newblock, block.blockNode, "before");
-			}
-			if(this.editor.height){
-				//browser does not scroll the caret position into view, do it manually
-				newblock.scrollIntoView(false);
-			}
-			_letBrowserHandle = false;
-		}else{ //press enter in the middle of P
-			if(dojo.isMoz){
-				//press enter in middle of P may leave a trailing <br/>, let's remove it later
-				this._pressedEnterInBlock = block.blockNode;
-			}
-		}
-		return _letBrowserHandle;
-	},
-	removeTrailingBr: function(container){
-		if(/P|DIV|LI/i .test(container.tagName)){
-			var para = container;
-		}else{
-			var para = dijit._editor.selection.getParentOfType(container,['P','DIV','LI']);
-		}
-
-		if(!para){ return; }
-		if(para.lastChild){
-			if(para.childNodes.length>1 && para.lastChild.nodeType==3 && /^[\s\xAD]*$/ .test(para.lastChild.nodeValue)){
-				dojo._destroyElement(para.lastChild);
-			}
-			if(para.lastChild && para.lastChild.tagName=='BR'){
-				dojo._destroyElement(para.lastChild);
-			}
-		}
-		if(para.childNodes.length==0){
-			para.innerHTML=this.bogusHtmlContent;
-		}
-	},
-	_fixNewLineBehaviorForIE: function(d){
-		if(typeof this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS == "undefined"){
-			var lineFixingStyles = "p{margin:0 !important;}";
-			var insertCssText = function(
-				/*String*/ cssStr,
-				/*Document*/ doc,
-				/*String*/ URI)
-			{
-				//	summary:
-				//		Attempt to insert CSS rules into the document through inserting a
-				//		style element
-
-				// DomNode Style  = insertCssText(String ".dojoMenu {color: green;}"[, DomDoc document, dojo.uri.Uri Url ])
-				if(!cssStr){
-					return; //	HTMLStyleElement
-				}
-				if(!doc){ doc = document; }
-//					if(URI){// fix paths in cssStr
-//						cssStr = dojo.html.fixPathsInCssText(cssStr, URI);
-//					}
-				var style = doc.createElement("style");
-				style.setAttribute("type", "text/css");
-				// IE is b0rken enough to require that we add the element to the doc
-				// before changing it's properties
-				var head = doc.getElementsByTagName("head")[0];
-				if(!head){ // must have a head tag
-					console.debug("No head tag in document, aborting styles");
-					return;	//	HTMLStyleElement
-				}else{
-					head.appendChild(style);
-				}
-				if(style.styleSheet){// IE
-					var setFunc = function(){
-						try{
-							style.styleSheet.cssText = cssStr;
-						}catch(e){ dojo.debug(e); }
-					};
-					if(style.styleSheet.disabled){
-						setTimeout(setFunc, 10);
-					}else{
-						setFunc();
-					}
-				}else{ // w3c
-					var cssText = doc.createTextNode(cssStr);
-					style.appendChild(cssText);
-				}
-				return style;	//	HTMLStyleElement
-			}
-			insertCssText(lineFixingStyles, this.editor.document);
-			this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS = true;
-			// this.regularPsToSingleLinePs(this.editNode);
-			return d;
-		}
-	},
-	regularPsToSingleLinePs: function(element, noWhiteSpaceInEmptyP){
-		function wrapLinesInPs(el){
-		  // move "lines" of top-level text nodes into ps
-			function wrapNodes(nodes){
-				// nodes are assumed to all be siblings
-				var newP = nodes[0].ownerDocument.createElement('p'); // FIXME: not very idiomatic
-				nodes[0].parentNode.insertBefore(newP, nodes[0]);
-				for(var i=0; i<nodes.length; i++){
-					newP.appendChild(nodes[i]);
-				}
-			}
-
-			var currentNodeIndex = 0;
-			var nodesInLine = [];
-			var currentNode;
-			while(currentNodeIndex < el.childNodes.length){
-				currentNode = el.childNodes[currentNodeIndex];
-				if( (currentNode.nodeName!='BR') &&
-					(currentNode.nodeType==1) &&
-					(dojo.style(currentNode, "display")!="block")
-				){
-					nodesInLine.push(currentNode);
-				}else{
-					// hit line delimiter; process nodesInLine if there are any
-					var nextCurrentNode = currentNode.nextSibling;
-					if(nodesInLine.length){
-						wrapNodes(nodesInLine);
-						currentNodeIndex = (currentNodeIndex+1)-nodesInLine.length;
-						if(currentNode.nodeName=="BR"){
-							dojo._destroyElement(currentNode);
-						}
-					}
-					nodesInLine = [];
-				}
-				currentNodeIndex++;
-			}
-			if(nodesInLine.length){ wrapNodes(nodesInLine); }
-		}
-
-		function splitP(el){
-			// split a paragraph into seperate paragraphs at BRs
-			var currentNode = null;
-			var trailingNodes = [];
-			var lastNodeIndex = el.childNodes.length-1;
-			for(var i=lastNodeIndex; i>=0; i--){
-				currentNode = el.childNodes[i];
-				if(currentNode.nodeName=="BR"){
-					var newP = currentNode.ownerDocument.createElement('p');
-					dojo.place(newP, el, "after");
-					if (trailingNodes.length==0 && i != lastNodeIndex) {
-						newP.innerHTML = "&nbsp;"
-					}
-					dojo.forEach(trailingNodes, function(node){
-						newP.appendChild(node);
-					});
-					dojo._destroyElement(currentNode);
-					trailingNodes = [];
-				}else{
-					trailingNodes.unshift(currentNode);
-				}
-			}
-		}
-
-		var pList = [];
-		var ps = element.getElementsByTagName('p');
-		dojo.forEach(ps, function(p){ pList.push(p); });
-		dojo.forEach(pList, function(p){
-			if(	(p.previousSibling) &&
-				(p.previousSibling.nodeName == 'P' || dojo.style(p.previousSibling, 'display') != 'block')
-			){
-				var newP = p.parentNode.insertBefore(this.document.createElement('p'), p);
-				// this is essential to prevent IE from losing the P.
-				// if it's going to be innerHTML'd later we need
-				// to add the &nbsp; to _really_ force the issue
-				newP.innerHTML = noWhiteSpaceInEmptyP ? "" : "&nbsp;";
-			}
-			splitP(p);
-	  },this.editor);
-		wrapLinesInPs(element);
-		return element;
-	},
-
-	singleLinePsToRegularPs: function(element){
-		function getParagraphParents(node){
-			var ps = node.getElementsByTagName('p');
-			var parents = [];
-			for(var i=0; i<ps.length; i++){
-				var p = ps[i];
-				var knownParent = false;
-				for(var k=0; k < parents.length; k++){
-					if(parents[k] === p.parentNode){
-						knownParent = true;
-						break;
-					}
-				}
-				if(!knownParent){
-					parents.push(p.parentNode);
-				}
-			}
-			return parents;
-		}
-
-		function isParagraphDelimiter(node){
-			if(node.nodeType != 1 || node.tagName != 'P'){
-				return (dojo.style(node, 'display') == 'block');
-			}else{
-				if(!node.childNodes.length || node.innerHTML=="&nbsp;"){ return true }
-				//return node.innerHTML.match(/^(<br\ ?\/?>| |\&nbsp\;)$/i);
-			}
-		}
-
-		var paragraphContainers = getParagraphParents(element);
-		for(var i=0; i<paragraphContainers.length; i++){
-			var container = paragraphContainers[i];
-			var firstPInBlock = null;
-			var node = container.firstChild;
-			var deleteNode = null;
-			while(node){
-				if(node.nodeType != "1" || node.tagName != 'P'){
-					firstPInBlock = null;
-				}else if (isParagraphDelimiter(node)){
-					deleteNode = node;
-					firstPInBlock = null;
-				}else{
-					if(firstPInBlock == null){
-						firstPInBlock = node;
-					}else{
-						if( (!firstPInBlock.lastChild || firstPInBlock.lastChild.nodeName != 'BR') &&
-							(node.firstChild) &&
-							(node.firstChild.nodeName != 'BR')
-						){
-							firstPInBlock.appendChild(this.editor.document.createElement('br'));
-						}
-						while(node.firstChild){
-							firstPInBlock.appendChild(node.firstChild);
-						}
-						deleteNode = node;
-					}
-				}
-				node = node.nextSibling;
-				if(deleteNode){
-					dojo._destroyElement(deleteNode);
-					deleteNode = null;
-				}
-			}
-		}
-		return element;
-	}
+dojo.declare("dijit._editor.plugins.EnterKeyHandling",dijit._editor._Plugin,{blockNodeForEnter:"P",constructor:function(_1){
+if(_1){
+dojo.mixin(this,_1);
+}
+},setEditor:function(_2){
+this.editor=_2;
+if(this.blockNodeForEnter=="BR"){
+if(dojo.isIE){
+_2.contentDomPreFilters.push(dojo.hitch(this,"regularPsToSingleLinePs"));
+_2.contentDomPostFilters.push(dojo.hitch(this,"singleLinePsToRegularPs"));
+_2.onLoadDeferred.addCallback(dojo.hitch(this,"_fixNewLineBehaviorForIE"));
+}else{
+_2.onLoadDeferred.addCallback(dojo.hitch(this,function(d){
+try{
+this.editor.document.execCommand("insertBrOnReturn",false,true);
+}
+catch(e){
+}
+return d;
+}));
+}
+}else{
+if(this.blockNodeForEnter){
+dojo["require"]("dijit._editor.range");
+var h=dojo.hitch(this,this.handleEnterKey);
+_2.addKeyHandler(13,0,h);
+_2.addKeyHandler(13,2,h);
+this.connect(this.editor,"onKeyPressed","onKeyPressed");
+}
+}
+},connect:function(o,f,tf){
+if(!this._connects){
+this._connects=[];
+}
+this._connects.push(dojo.connect(o,f,this,tf));
+},destroy:function(){
+dojo.forEach(this._connects,dojo.disconnect);
+this._connects=[];
+},onKeyPressed:function(e){
+if(this._checkListLater){
+if(dojo.withGlobal(this.editor.window,"isCollapsed",dijit)){
+if(!dojo.withGlobal(this.editor.window,"hasAncestorElement",dijit._editor.selection,["LI"])){
+dijit._editor.RichText.prototype.execCommand.apply(this.editor,["formatblock",this.blockNodeForEnter]);
+var _9=dojo.withGlobal(this.editor.window,"getAncestorElement",dijit._editor.selection,[this.blockNodeForEnter]);
+if(_9){
+_9.innerHTML=this.bogusHtmlContent;
+if(dojo.isIE){
+var r=this.editor.document.selection.createRange();
+r.move("character",-1);
+r.select();
+}
+}else{
+alert("onKeyPressed: Can not find the new block node");
+}
+}
+}
+this._checkListLater=false;
+}else{
+if(this._pressedEnterInBlock){
+this.removeTrailingBr(this._pressedEnterInBlock.previousSibling);
+delete this._pressedEnterInBlock;
+}
+}
+},bogusHtmlContent:"&nbsp;",blockNodes:/^(?:H1|H2|H3|H4|H5|H6|LI)$/,handleEnterKey:function(e){
+if(!this.blockNodeForEnter){
+return true;
+}
+var _c,_d,_e;
+if(e.shiftKey||this.blockNodeForEnter=="BR"){
+var _f=dojo.withGlobal(this.editor.window,"getParentElement",dijit._editor.selection);
+var _10=dijit.range.getAncestor(_f,this.editor.blockNodes);
+if(_10){
+if(_10.tagName=="LI"){
+return true;
+}
+_c=dijit.range.getSelection(this.editor.window);
+_d=_c.getRangeAt(0);
+if(!_d.collapsed){
+_d.deleteContents();
+}
+if(dijit.range.atBeginningOfContainer(_10,_d.startContainer,_d.startOffset)){
+dojo.place(this.editor.document.createElement("br"),_10,"before");
+}else{
+if(dijit.range.atEndOfContainer(_10,_d.startContainer,_d.startOffset)){
+dojo.place(this.editor.document.createElement("br"),_10,"after");
+_e=dijit.range.create();
+_e.setStartAfter(_10);
+_c.removeAllRanges();
+_c.addRange(_e);
+}else{
+return true;
+}
+}
+}else{
+dijit._editor.RichText.prototype.execCommand.call(this.editor,"inserthtml","<br>");
+}
+return false;
+}
+var _11=true;
+_c=dijit.range.getSelection(this.editor.window);
+_d=_c.getRangeAt(0);
+if(!_d.collapsed){
+_d.deleteContents();
+}
+var _12=dijit.range.getBlockAncestor(_d.endContainer,null,this.editor.editNode);
+if((this._checkListLater=(_12.blockNode&&_12.blockNode.tagName=="LI"))){
+return true;
+}
+if(!_12.blockNode){
+this.editor.document.execCommand("formatblock",false,this.blockNodeForEnter);
+_12={blockNode:dojo.withGlobal(this.editor.window,"getAncestorElement",dijit._editor.selection,[this.blockNodeForEnter]),blockContainer:this.editor.editNode};
+if(_12.blockNode){
+if(!(_12.blockNode.textContent||_12.blockNode.innerHTML).replace(/^\s+|\s+$/g,"").length){
+this.removeTrailingBr(_12.blockNode);
+return false;
+}
+}else{
+_12.blockNode=this.editor.editNode;
+}
+_c=dijit.range.getSelection(this.editor.window);
+_d=_c.getRangeAt(0);
+}
+var _13=this.editor.document.createElement(this.blockNodeForEnter);
+_13.innerHTML=this.bogusHtmlContent;
+this.removeTrailingBr(_12.blockNode);
+if(dijit.range.atEndOfContainer(_12.blockNode,_d.endContainer,_d.endOffset)){
+if(_12.blockNode===_12.blockContainer){
+_12.blockNode.appendChild(_13);
+}else{
+dojo.place(_13,_12.blockNode,"after");
+}
+_11=false;
+_e=dijit.range.create();
+_e.setStart(_13,0);
+_c.removeAllRanges();
+_c.addRange(_e);
+if(this.editor.height){
+_13.scrollIntoView(false);
+}
+}else{
+if(dijit.range.atBeginningOfContainer(_12.blockNode,_d.startContainer,_d.startOffset)){
+dojo.place(_13,_12.blockNode,_12.blockNode===_12.blockContainer?"first":"before");
+if(this.editor.height){
+_13.scrollIntoView(false);
+}
+_11=false;
+}else{
+if(dojo.isMoz){
+this._pressedEnterInBlock=_12.blockNode;
+}
+}
+}
+return _11;
+},removeTrailingBr:function(_14){
+var _15=/P|DIV|LI/i.test(_14.tagName)?_14:dijit._editor.selection.getParentOfType(_14,["P","DIV","LI"]);
+if(!_15){
+return;
+}
+if(_15.lastChild){
+if((_15.childNodes.length>1&&_15.lastChild.nodeType==3&&/^[\s\xAD]*$/.test(_15.lastChild.nodeValue))||(_15.lastChild&&_15.lastChild.tagName=="BR")){
+dojo._destroyElement(_15.lastChild);
+}
+}
+if(!_15.childNodes.length){
+_15.innerHTML=this.bogusHtmlContent;
+}
+},_fixNewLineBehaviorForIE:function(d){
+if(this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS===undefined){
+var _17="p{margin:0 !important;}";
+var _18=function(_19,doc,URI){
+if(!_19){
+return null;
+}
+if(!doc){
+doc=document;
+}
+var _1c=doc.createElement("style");
+_1c.setAttribute("type","text/css");
+var _1d=doc.getElementsByTagName("head")[0];
+if(!_1d){
+console.debug("No head tag in document, aborting styles");
+return null;
+}else{
+_1d.appendChild(_1c);
+}
+if(_1c.styleSheet){
+var _1e=function(){
+try{
+_1c.styleSheet.cssText=_19;
+}
+catch(e){
+console.debug(e);
+}
+};
+if(_1c.styleSheet.disabled){
+setTimeout(_1e,10);
+}else{
+_1e();
+}
+}else{
+var _1f=doc.createTextNode(_19);
+_1c.appendChild(_1f);
+}
+return _1c;
+};
+_18(_17,this.editor.document);
+this.editor.document.__INSERTED_EDITIOR_NEWLINE_CSS=true;
+return d;
+}
+return null;
+},regularPsToSingleLinePs:function(_20,_21){
+function wrapLinesInPs(el){
+function wrapNodes(_23){
+var _24=_23[0].ownerDocument.createElement("p");
+_23[0].parentNode.insertBefore(_24,_23[0]);
+dojo.forEach(_23,function(_25){
+_24.appendChild(_25);
 });
-
+};
+var _26=0;
+var _27=[];
+var _28;
+while(_26<el.childNodes.length){
+_28=el.childNodes[_26];
+if((_28.nodeName!="BR")&&(_28.nodeType==1)&&(dojo.style(_28,"display")!="block")){
+_27.push(_28);
+}else{
+var _29=_28.nextSibling;
+if(_27.length){
+wrapNodes(_27);
+_26=(_26+1)-_27.length;
+if(_28.nodeName=="BR"){
+dojo._destroyElement(_28);
+}
+}
+_27=[];
+}
+_26++;
+}
+if(_27.length){
+wrapNodes(_27);
+}
+};
+function splitP(el){
+var _2b=null;
+var _2c=[];
+var _2d=el.childNodes.length-1;
+for(var i=_2d;i>=0;i--){
+_2b=el.childNodes[i];
+if(_2b.nodeName=="BR"){
+var _2f=_2b.ownerDocument.createElement("p");
+dojo.place(_2f,el,"after");
+if(_2c.length==0&&i!=_2d){
+_2f.innerHTML="&nbsp;";
+}
+dojo.forEach(_2c,function(_30){
+_2f.appendChild(_30);
+});
+dojo._destroyElement(_2b);
+_2c=[];
+}else{
+_2c.unshift(_2b);
+}
+}
+};
+var _31=[];
+var ps=_20.getElementsByTagName("p");
+dojo.forEach(ps,function(p){
+_31.push(p);
+});
+dojo.forEach(_31,function(p){
+if((p.previousSibling)&&(p.previousSibling.nodeName=="P"||dojo.style(p.previousSibling,"display")!="block")){
+var _35=p.parentNode.insertBefore(this.document.createElement("p"),p);
+_35.innerHTML=_21?"":"&nbsp;";
+}
+splitP(p);
+},this.editor);
+wrapLinesInPs(_20);
+return _20;
+},singleLinePsToRegularPs:function(_36){
+function getParagraphParents(_37){
+var ps=_37.getElementsByTagName("p");
+var _39=[];
+for(var i=0;i<ps.length;i++){
+var p=ps[i];
+var _3c=false;
+for(var k=0;k<_39.length;k++){
+if(_39[k]===p.parentNode){
+_3c=true;
+break;
+}
+}
+if(!_3c){
+_39.push(p.parentNode);
+}
+}
+return _39;
+};
+function isParagraphDelimiter(_3e){
+if(_3e.nodeType!=1||_3e.tagName!="P"){
+return dojo.style(_3e,"display")=="block";
+}else{
+if(!_3e.childNodes.length||_3e.innerHTML=="&nbsp;"){
+return true;
+}
+}
+return false;
+};
+var _3f=getParagraphParents(_36);
+for(var i=0;i<_3f.length;i++){
+var _41=_3f[i];
+var _42=null;
+var _43=_41.firstChild;
+var _44=null;
+while(_43){
+if(_43.nodeType!="1"||_43.tagName!="P"){
+_42=null;
+}else{
+if(isParagraphDelimiter(_43)){
+_44=_43;
+_42=null;
+}else{
+if(_42==null){
+_42=_43;
+}else{
+if((!_42.lastChild||_42.lastChild.nodeName!="BR")&&(_43.firstChild)&&(_43.firstChild.nodeName!="BR")){
+_42.appendChild(this.editor.document.createElement("br"));
+}
+while(_43.firstChild){
+_42.appendChild(_43.firstChild);
+}
+_44=_43;
+}
+}
+}
+_43=_43.nextSibling;
+if(_44){
+dojo._destroyElement(_44);
+_44=null;
+}
+}
+}
+return _36;
+}});
 }

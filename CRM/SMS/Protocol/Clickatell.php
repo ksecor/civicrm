@@ -154,7 +154,7 @@ class CRM_SMS_Protocol_Clickatell extends CRM_SMS_Protocol {
         curl_setopt($this->_ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($this->_ch, CURLOPT_COOKIEJAR, "/dev/null");
         curl_setopt($this->_ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($this->_ch, CURLOPT_USERAGENT, 'CiviCRM 1.9 - http://civicrm.org/');
+        curl_setopt($this->_ch, CURLOPT_USERAGENT, 'CiviCRM 2.0 - http://civicrm.org/');
         
         $this->authenticate( );
     }

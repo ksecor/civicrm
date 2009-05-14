@@ -1,34 +1,5 @@
 {* Event Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
  <div id="map-field">
-    {if $savedMapping}
-    <div>
-	<p><a href="#" onclick="mappingOption(); return false;" >&raquo; {if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</a></p>
-    </div>
-    <div id="savedMappingOption">
-	<span>{$form.savedMapping.label}</span> <span>{$form.savedMapping.html}</span>
-	<span>{$form.loadMapping.html}</span>
-    </div>
-    
-    <script type="text/javascript">
-	hide('savedMappingOption');
-	document.getElementById("savedMapping").disabled = true;	
-	{literal}
-	function mappingOption() {
-		if (document.getElementById("savedMappingOption").style.display == "block") {
-		    hide('savedMappingOption');
-		    document.getElementById("savedMapping").disabled = true;
-		    return false;
-		} else {
-		    show('savedMappingOption');
-		    document.getElementById("savedMapping").disabled = false;
-		    return false;
-		}
-	}
-		
-	{/literal}
-    </script>  
-    {/if}
-
     {strip}
     <table>
     {if $loadedMapping}
@@ -53,7 +24,7 @@
         {*Loop on columns parsed from the import data rows*}
         {section name=cols loop=$columnCount}
             {assign var="i" value=$smarty.section.cols.index}
-            <tr>
+            <tr style="border-bottom: 1px solid #92B6EC;">
                          
                 {section name=rows loop=$rowDisplayCount}
                     {assign var="j" value=$smarty.section.rows.index}

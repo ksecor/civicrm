@@ -1,7 +1,38 @@
 #!/usr/bin/php
 <?php
 
-/* $Id$ */
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
 
 /**
  * ts() and {ts} calls extractor
@@ -9,13 +40,10 @@
  * Extracts translatable strings from CiviCRM PHP source (ts() calls) and
  * Smarty templates ({ts} calls). Outputs a POT file on STDOUT, errors on
  * STDERR.
- *
- * @author Piotr Szotkowski <shot@caltha.pl>
- * @copyright CiviCRM LLC (c) 2004-2007
- * @license http://affero.org/oagpl.html  Affero General Public License
  */
 
-$modules = array('Contribute', 'Event', 'Mailing', 'Member');
+$modules  = array('Case', 'Contribute', 'Event', 'Grant', 'Mailing', 'Member', 'Pledge');
+$excluded = array('Bridge', 'Project', 'Touchstone');
 
 $phpModifier    = "-iname '*.php' ";
 $smartyModifier = "-iname '*.tpl' ";
@@ -29,6 +57,10 @@ case 'core':
         $phpModifier    .= " -not -wholename           'CRM/$module/*'";
         $smartyModifier .= " -not -wholename 'templates/CRM/$module/*'";
     }
+    foreach ($excluded as $module) {
+        $phpModifier    .= " -not -wholename           'CRM/$module/*'";
+        $smartyModifier .= " -not -wholename 'templates/CRM/$module/*'";
+    }
     break;
 case 'modules':
     $firstModule     = array_shift($modules);
@@ -37,6 +69,10 @@ case 'modules':
     foreach ($modules as $module) {
         $phpModifier    .= " -or -wholename           'CRM/$module/*'";
         $smartyModifier .= " -or -wholename 'templates/CRM/$module/*'";
+    }
+    foreach ($excluded as $module) {
+        $phpModifier    .= " -not -wholename           'CRM/$module/*'";
+        $smartyModifier .= " -not -wholename 'templates/CRM/$module/*'";
     }
     $phpModifier    .= ' \)';
     $smartyModifier .= ' \)';
@@ -50,7 +86,7 @@ default:
     break;
 }
 
-if ($phpModifier) $phpPot = `find CRM packages/HTML/QuickForm $phpModifier -not -wholename 'CRM/Core/I18n.php' -not -wholename 'CRM/Core/Smarty/plugins/block.ts.php' | grep -v '/\.svn/' | sort | xargs ./bin/php-extractor.php`;
+if ($phpModifier) $phpPot = `find CRM standalone packages/HTML/QuickForm $phpModifier -not -wholename 'CRM/Core/I18n.php' -not -wholename 'CRM/Core/Smarty/plugins/block.ts.php' -not -wholename 'CRM/Core/Page/AJAX.php' | grep -v '/\.svn/' | sort | xargs ./bin/php-extractor.php`;
 $smartyPot = `find templates xml $smartyModifier | grep -v '/\.svn/' | sort | xargs ./bin/smarty-extractor.php`;
 
 $originalArray = explode("\n", $phpPot . $smartyPot);
@@ -135,4 +171,4 @@ foreach ($msgidArray as $msgid => $commentsArray) {
 // output the $resultArray to STDOUT
 fwrite(STDOUT, implode("\n", $resultArray));
 
-?>
+

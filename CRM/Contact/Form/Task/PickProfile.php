@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -90,7 +90,8 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
             $validate = true;
         }
         
-        if (CRM_Contact_BAO_Contact::checkContactType($this->_contactIds)) {
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        if (CRM_Contact_BAO_Contact_Utils::checkContactType($this->_contactIds)) {
             CRM_Core_Session::setStatus("Batch update requires that all selected contacts be the same type (e.g. all Individuals OR all Organizations...). Please modify your selected contacts and try again.");
             $validate = true;
         }
@@ -114,22 +115,21 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
             $types[]    = CRM_Contact_BAO_Contact::getContactType($id);
             break;
         }
-        require_once "CRM/Core/BAO/UFGroup.php";
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            $types['TMF'] = 'TMF';            
-        }
-
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $types['Student'] = 'Student';            
         }
-
-        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
         
-        if( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {
+        //add Contact type profiles
+        $types[] = 'Contact';
+
+        require_once "CRM/Core/BAO/UFGroup.php";
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles($types);
+
+        if ( empty( $profiles ) ) {
             CRM_Core_Session::setStatus("The contact type selected for Batch Update do not have corresponding profiles. Please make sure that {$types[0]} has a profile and try again." );
             CRM_Utils_System::redirect( $this->_userContext );
         }
-        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
+        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), array( '' => ts('- select profile -')) + $profiles, true);
         
         $this->addDefaultButtons( ts( 'Continue >>' ) );
     }
@@ -157,7 +157,7 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
     static function formRule( &$fields ) 
     {
         require_once "CRM/Core/BAO/UFField.php";
-        if ( CRM_Core_BAO_UFField::checkProfileType($fields['uf_group_id'], true) ) {
+        if ( CRM_Core_BAO_UFField::checkProfileType( $fields['uf_group_id'] ) ) {
             $errorMsg['uf_group_id'] = "You cannot select mix profile for batch update.";
         }
 
@@ -179,6 +179,9 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
         $params = $this->exportValues( );
 
         $this->set( 'ufGroupId', $params['uf_group_id'] );
+
+	// also reset the batch page so it gets new values from the db
+	$this->controller->resetPage( 'Batch' );
     }//end of function
 }
-?>
+

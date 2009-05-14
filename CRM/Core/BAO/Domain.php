@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -69,43 +69,26 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     }
     
     /**
-     * Return the domain BAO for the current domain.
+     * Get the domain BAO 
      *
-     * @param NULL
-     * 
-     * @return  object  CRM_Core_BAO_Domain object
-     * 
-     * @access public
-     * @static
-     */
-    static function &getCurrentDomain() {
-        if (self::$_domain == null) {
-            self::$_domain =& self::getDomainByID(CRM_Core_Config::domainID());
-        }
-        return self::$_domain;
-    }
-
-    /**
-     * Get the domain BAO with the given ID
-     * 
-     * @param int $id       the domain id to find
-     * 
      * @return null|object CRM_Core_BAO_Domain
      * @access public
      * @static
      */
-    static function &getDomainByID($id) {
-        $domain =& new CRM_Core_BAO_Domain();
-        $domain->id = $id;
-        if ($domain->find(true)) {
-            return $domain;
+    static function &getDomain( ) {
+        static $domain = null;
+        if ( ! $domain ) {
+            $domain =& new CRM_Core_BAO_Domain();
+            if ( ! $domain->find(true) ) {
+                CRM_Core_Error::fatal( );
+            }
         }
-        return null;
+        return $domain;
     }
 
     static function version( ) {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
-                                            CRM_Core_Config::domainID( ),
+                                            1,
                                             'version' );
     }
 
@@ -120,14 +103,12 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     function &getLocationValues() {
         if ($this->_location == null) {
             $params = array(
-                            'domain_id' => $this->id,
                             'entity_id' => $this->id, 
                             'entity_table' => self::getTableName()
                             );
             $values = array();
             $ids = array();
-            
-            CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
+            CRM_Core_BAO_Location::getValues($params, $values, true);
             if ( ! CRM_Utils_Array::value( 'location', $values ) ||
                  ! CRM_Utils_Array::value( '1', $values['location'] ) ) {
                 $this->_location = null;
@@ -161,12 +142,33 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         $numberDomains = $session->get( 'numberDomains' );
         if ( ! $numberDomains ) {
             $query = "SELECT count(*) from civicrm_domain";
-            $numberDomains = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+            $numberDomains = CRM_Core_DAO::singleValueQuery( $query );
             $session->set( 'numberDomains', $numberDomains );
         }
         return $numberDomains > 1 ? true : false;
     }
 
+    static function getNameAndEmail( ) 
+    {
+        require_once 'CRM/Core/OptionGroup.php';
+        $formEmailAddress = CRM_Core_OptionGroup::values( 'from_email_address', null, null, null, ' AND is_default = 1' );
+        if ( !empty( $formEmailAddress ) ) {
+            require_once 'CRM/Utils/Mail.php';
+            foreach ( $formEmailAddress as $key => $value ) {
+                $email    = CRM_Utils_Mail::pluckEmailFromHeader( $value );
+                $fromName = CRM_Utils_Array::value( 1, explode('"', $value ) );
+                break;
+            }
+            return array( $fromName, $email );
+        }
+        
+        $url = CRM_Utils_System::url( 'civicrm/contact/domain', 
+                                      'action=update&reset=1' );
+        $status = ts( "There is no valid default from email address configured for the domain. You can configure here <a href='%1'>Configure From Email Address.</a>", array( 1 => $url ) );
+        
+        CRM_Core_Error::fatal( $status );
+    }
+    
 }
 
-?>
+

@@ -186,6 +186,15 @@ class Validate_Finance_CreditCard
             case 'ENROUTE':
                 $regex = '2(014|149)[0-9]{11}';
                 break;
+            case 'LASER':
+                $regex = '(6304|6706|6771|6709)([0-9]{12,15})';
+                break;
+            case 'SOLO':
+                $regex = '(6334[5-9]{1}[0-9]{1}|6767[0-9]{2}|3528[0-9]{2})([0-9]{10}|[0-9]{12}|[0-9]{13})';
+                break;
+            case 'SWITCH':  
+                $regex = '(49030[2-9]{1}|49033[5-9]{1}|49110[1-2]{1}|49117[4-9]{1}|49118[0-2]{1}|4936[0-9]{2}|564182|6333[1-4]{1}[0-9]{1}|6331[1-4]{1}[0-9]{1}|6759[0-9]{2})([0-9]{10}|[0-9]{12}|[0-9]{13})';
+                break;
             default:
                 return false;
         }
@@ -234,6 +243,9 @@ class Validate_Finance_CreditCard
             case 'EUROCARD/MASTERCARD':
             case 'VISA':
             case 'DISCOVER':
+            case 'LASER':
+            case 'SWITCH':
+            case 'SOLO':
                 $digits = 3;
                 break;
             case 'AMEX':
@@ -253,5 +265,3 @@ class Validate_Finance_CreditCard
         return false;
     }
 }
-
-?>

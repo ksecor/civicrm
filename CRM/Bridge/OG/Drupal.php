@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,12 +38,13 @@ class CRM_Bridge_OG_Drupal {
     static function nodeapi( &$params, $op ) {
         require_once 'CRM/Bridge/OG/Utils.php';
 
-        CRM_Core_DAO::transaction( 'BEGIN' );
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
         // first create or update the CiviCRM group
         $groupParams               = $params;
         $groupParams['source']     = CRM_Bridge_OG_Utils::ogSyncName( $params['og_id'] );
-        $groupParams['group_type'] = CRM_Core_DAO::VALUE_SEPARATOR . '2' . CRM_Core_DAO::VALUE_SEPARATOR;
+        $groupParams['group_type'] = array( '2' => 1 );
         self::updateCiviGroup( $groupParams, $op, $groupType );
 
         if ( CRM_Bridge_OG_Utils::aclEnabled( ) ) {
@@ -51,7 +52,7 @@ class CRM_Bridge_OG_Drupal {
             $aclParams               = $params;
             $aclParams['name']       = $aclParams['title'] = "{$aclParams['name']}: Administrator";
             $aclParams['source']     = CRM_Bridge_OG_Utils::ogSyncACLName( $params['og_id'] );
-            $aclParams['group_type'] = CRM_Core_DAO::VALUE_SEPARATOR . '1' . CRM_Core_DAO::VALUE_SEPARATOR;
+            $aclParams['group_type'] = array('1');
             self::updateCiviGroup    ( $aclParams, $op );
             
             $aclParams['acl_group_id']     = $aclParams['group_id'];
@@ -60,20 +61,23 @@ class CRM_Bridge_OG_Drupal {
             self::updateCiviACLTables    ( $aclParams, $op );
         }
 
-        CRM_Core_DAO::transaction( 'COMMIT' );
+        $transaction->commit( );
     }
 
-    static function updateCiviGroup( &$params, $op ) {
+    static function updateCiviGroup( &$params, $op, $groupType = null ) {
         $abort        = ( $op == 'delete' ) ? true : false;
         $params['id'] = CRM_Bridge_OG_Utils::groupID( $params['source'], $params['title'], $abort );
 
         if ( $op == 'add' ) {
-            require_once 'api/Group.php';
+            require_once 'api/v2/Group.php';
             if ( $groupType ) {
                 $params['group_type'] = $groupType;
             }
-            $group = crm_create_group( $params );
-            $params['group_id'] = $group->id;
+            
+            $group = civicrm_group_add( $params );
+            if ( ! civicrm_error( $group ) ) {
+                $params['group_id'] = $group['result'];
+            }
         } else {
             // do this only if we have a valid id
             if ( $params['id'] ) {
@@ -143,7 +147,6 @@ SELECT v.id
 
         $dao->entity_table = 'civicrm_group';
         $dao->entity_id    = $params['acl_group_id'];
-        $dao->domain_id    = CRM_Core_Config::domainID( );
         if ( $op == 'delete' ) {
             $dao->delete( );
             return;
@@ -161,7 +164,6 @@ SELECT v.id
         require_once 'CRM/ACL/DAO/ACL.php';
         $dao = new CRM_ACL_DAO_ACL( );
 
-        $dao->domain_id    = CRM_Core_Config::domainID( );
         $dao->object_table = 'civicrm_saved_search';
         $dao->object_id    = $params['civicrm_group_id'];
 
@@ -224,4 +226,4 @@ SELECT v.id
     }
 
 }
-?>
+

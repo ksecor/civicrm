@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
      *  Class to print labels in Avery or custom formats
      * functionality and smarts to the base PDF_Label.
      *
-     * @copyright CiviCRM LLC (c) 2004-2007
+     * @copyright CiviCRM LLC (c) 2004-2009
      * 
      *
      */
@@ -59,8 +59,8 @@ class CRM_Utils_PDF_Label extends UFPDF {
     protected  $averyLabels =
         array (
                '5160' => array('name' => '5160', 'paper-size' => 'letter', 'metric' => 'mm',
-                               'lMargin' => 1.762, 'tMargin' => 10.7, 'NX' => 3, 'NY' => 10,
-                               'SpaceX' => 3.175, 'SpaceY' => 0, 'width' => 66.675, 'height' => 25.4,
+                               'lMargin' => 4.7625, 'tMargin' => 12.7, 'NX' => 3, 'NY' => 10,
+                               'SpaceX' => 3.96875, 'SpaceY' => 0, 'width' => 65.875, 'height' => 25.4,
                                'font-size' => 8),
                '5161' => array('name' => '5161', 'paper-size' => 'letter', 'metric' => 'mm',  
                                'lMargin' => 0.967, 'tMargin' => 10.7, 'NX' => 2, 'NY' => 10, 
@@ -86,7 +86,7 @@ class CRM_Utils_PDF_Label extends UFPDF {
                                 'tMargin' => 15.1, 'NX' => 3, 'NY' => 7, 'SpaceX' => 2.5, 'SpaceY' => 0,
                                 'width' => 63.5, 'height' => 38.1, 'font-size' => 9),
                'L7161' => array('name' => 'L7161', 'paper-size' => 'A4', 'metric' => 'mm', 'lMargin' => 6,
-                                'tmargin' => 9, 'NX' => 3, 'NY' => 6, 'SpaceX'=> 5, 'SpaceY' => 2,
+                                'tMargin' => 9, 'NX' => 3, 'NY' => 6, 'SpaceX'=> 5, 'SpaceY' => 2,
                                 'width' => 63.5, 'height' => 46.6, 'font-size' => 9),
                'L7163' => array('name' => 'L7163', 'paper-size' => 'A4', 'metric' => 'mm', 'lMargin' => 5,
                                 'tMargin' => 15, 'NX' => 2, 'NY' => 7, 'SpaceX' => 25, 'SpaceY' => 0,
@@ -208,6 +208,9 @@ class CRM_Utils_PDF_Label extends UFPDF {
         $posX = $this->marginLeft+($this->countX*($this->width+$this->xSpace));
         $posY = $this->marginTop+($this->countY*($this->height+$this->ySpace));
         $this->SetXY($posX+3, $posY+3);
+        $maxwidth = $this->width;
+        //wrap the text if it's width is greater than maxwidth 
+        $this->wordWrap( $texte, $maxwidth);
         $this->MultiCell($this->width, $this->lineHeight, $texte);
         $this->countY++;
         
@@ -231,4 +234,4 @@ class CRM_Utils_PDF_Label extends UFPDF {
     
 }
 
-?>
+

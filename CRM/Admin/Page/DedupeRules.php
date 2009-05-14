@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,12 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Page/Basic.php';
+require_once 'CRM/Dedupe/DAO/Rule.php';
 require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 
 class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
@@ -53,7 +54,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function getBAOName()
     {
-        return 'CRM_Dedupe_DAO_RuleGroup';
+        return 'CRM_Dedupe_BAO_RuleGroup';
     }
 
     /**
@@ -64,13 +65,36 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
     function &links()
     {
           if (!(self::$_links)) {
-            // helper variable for nicer formatting
+              $deleteExtra  = ts('Are you sure you want to delete this Rule?');
+              $defaultExtra = ts('Are you sure you want to make this Rule default?');
+
+              // helper variable for nicer formatting
               self::$_links = array(
+                  CRM_Core_Action::VIEW  => array(
+                      'name'  => ts('Use Rule'),
+                      'url'   => 'civicrm/admin/dedupefind',
+                      'qs'    => 'reset=1&rgid=%%id%%&action=preview',
+                      'title' => ts('Use DedupeRule'),
+                      ),
                   CRM_Core_Action::UPDATE  => array(
                       'name'  => ts('Edit Rule'),
                       'url'   => 'civicrm/admin/deduperules',
                       'qs'    => 'action=update&id=%%id%%',
                       'title' => ts('Edit DedupeRule'),
+                  ),
+                  CRM_Core_Action::MAP  => array(
+                      'name'  => ts('Make Default'),
+                      'url'   => 'civicrm/admin/deduperules',
+                      'qs'    => 'action=map&id=%%id%%',
+                      'extra' => 'onclick = "return confirm(\'' . $defaultExtra . '\');"',
+                      'title' => ts('Default DedupeRule'),
+                  ),
+                  CRM_Core_Action::DELETE  => array(
+                      'name'  => ts('Delete'),
+                      'url'   => 'civicrm/admin/deduperules',
+                      'qs'    => 'action=delete&id=%%id%%',
+                      'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                      'title' => ts('Delete DedupeRule'),
                   ),
               );
         }
@@ -101,6 +125,18 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($action, $id);
         }
+        if ($action & CRM_Core_Action::DELETE ) {
+            $this->delete($id);
+        }
+        if ($action & CRM_Core_Action::MAP ) {
+            $rgDao             =& new CRM_Dedupe_DAO_RuleGroup();
+            $rgDao->id         = $id;
+            $rgDao->find(true);
+            $rgDao->is_default = 1;
+            $query = "UPDATE civicrm_dedupe_rule_group SET is_default = 0 WHERE contact_type = '{$rgDao->contact_type}' AND LEVEL = '{$rgDao->level}'";
+            CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
+            $rgDao->save();
+        }
 
         // browse the rules
         $this->browse();
@@ -120,20 +156,20 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
         // get all rule groups
         $ruleGroups = array();
         $dao =& new CRM_Dedupe_DAO_RuleGroup();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
         $dao->find();
-
+        
         while ($dao->fetch()) {
             $ruleGroups[$dao->id] = array();
             CRM_Core_DAO::storeValues($dao, $ruleGroups[$dao->id]);
+     
             // form all action links
             $action = array_sum(array_keys($this->links()));
-
-            $ruleGroups[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, array('id' => $dao->id));
+            $links = self::links();
+            if ($dao->is_default) {
+                unset($links[CRM_Core_Action::MAP]);
+                unset($links[CRM_Core_Action::DELETE]);
+            } 
+            $ruleGroups[$dao->id]['action'] = CRM_Core_Action::formLink($links, $action, array('id' => $dao->id));
             CRM_Dedupe_DAO_RuleGroup::addDisplayEnums($ruleGroups[$dao->id]);
         }
         $this->assign('rows', $ruleGroups);
@@ -148,7 +184,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
     {
         return 'CRM_Admin_Form_DedupeRules';
     }
-
+    
     /**
      * Get edit form name
      *
@@ -158,7 +194,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
     {
         return 'DedupeRules';
     }
-
+    
     /**
      * Get user context
      *
@@ -168,6 +204,17 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
     {
         return 'civicrm/admin/deduperules';
     }
+
+    function delete($id)
+    {
+        $ruleDao =& new CRM_Dedupe_DAO_Rule();
+        $ruleDao->dedupe_rule_group_id = $id;
+        $ruleDao->delete();
+
+        $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
+        $rgDao->id        = $id;
+        $rgDao->delete();
+    }
 }
 
-?>
+

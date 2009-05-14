@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -51,13 +51,13 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         parent::preProcess( );
 
         $this->_params = $this->get( 'params' );
-        
         $is_deductible = $this->get('is_deductible');
-        $this->assign('is_deductible',$is_deductible);
-        $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
-        $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
-        $this->assign( 'thankyou_footer' , CRM_Utils_Array::value('thankyou_footer',$this->_values));
-
+        $this->assign('is_deductible'        , $is_deductible);
+        $this->assign( 'thankyou_title'      , $this->_values['thankyou_title'] );
+        $this->assign( 'thankyou_text'       , CRM_Utils_Array::value( 'thankyou_text'        , $this->_values ));
+        $this->assign( 'thankyou_footer'     , CRM_Utils_Array::value( 'thankyou_footer'      , $this->_values ));
+        $this->assign( 'max_reminders'       , CRM_Utils_Array::value( 'max_reminders'        , $this->_values ));
+        $this->assign( 'initial_reminder_day', CRM_Utils_Array::value( 'initial_reminder_day' , $this->_values )); 
         CRM_Utils_System::setTitle($this->_values['thankyou_title']);
     }
     
@@ -88,7 +88,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $productID    = $this->get ('productID');
         $option       = $this->get ('option');
         $membershipTypeID = $this->get ('membershipTypeID');
-
+        $this->assign('receiptFromEmail', CRM_Utils_Array::value( 'receipt_from_email', $this->_values ) );
+        
         if ( $productID ) {
             require_once 'CRM/Contribute/BAO/Premium.php';  
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
@@ -101,19 +102,32 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
              ( ( ! empty( $params["honor_first_name"] ) && ! empty( $params["honor_last_name"] ) ) ||
                ( ! empty( $params["honor_email"] ) ) ) ) {
             $this->assign( 'honor_block_is_active', $honor_block_is_active );
-            $this->assign( 'honor_block_title',     $this->_values['honor_block_title'] );
+            $this->assign( 'honor_block_title', CRM_Utils_Array::value( 'honor_block_title', $this->_values ) );
           
             require_once "CRM/Core/PseudoConstant.php";
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
             $honor  = CRM_Core_PseudoConstant::honor( );             
-            $this->assign( 'honor_type', $honor[$params["honor_type_id"]] );
-            $this->assign( 'honor_prefix', $prefix[$params["honor_prefix_id"]] );
+            $this->assign( 'honor_type',       $honor[$params["honor_type_id"]] );
+            $this->assign( 'honor_prefix',     ($params["honor_prefix_id"]) ? $prefix[$params["honor_prefix_id"]] : ' ');
             $this->assign( 'honor_first_name', $params["honor_first_name"] );
-            $this->assign( 'honor_last_name', $params["honor_last_name"] );
-            $this->assign( 'honor_email', $params["honor_email"] );
+            $this->assign( 'honor_last_name',  $params["honor_last_name"] );
+            $this->assign( 'honor_email',      $params["honor_email"] );
         
         }
-
+        //pcp elements
+        if ( $this->_pcpId ) { 
+            $this->assign( 'pcpBlock', true);
+            foreach ( array ( 'pcp_display_in_roll', 'pcp_is_anonymous', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+                if ( CRM_Utils_Array::value( $val, $this->_params ) ) {
+                    $this->assign( $val, $this->_params[$val]);
+                }
+            }
+        }
+        // Link (button) for users to create their own Personal Campaign page
+        if ( isset( $this->_linkText) ) {
+            $this->assign( 'linkTextUrl', $linkTextUrl );
+            $this->assign( 'linkText', $linkText );
+        } 
         if ( $membershipTypeID ) {
             $transactionID     = $this->get( 'membership_trx_id' );
             $membershipAmount  = $this->get( 'membership_amount' );
@@ -126,17 +140,21 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                                                              $this->_id,
                                                              false,
                                                              $membershipTypeID,
-                                                             true );
+                                                             true, null,
+                                                             $this->_membershipContactID );
         }
         
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        $this->_separateMembershipPayment = $this->get( 'separateMembershipPayment' );
+        $this->assign( "is_separate_payment", $this->_separateMembershipPayment );
+
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre' , true );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost', true );
 
         $this->assign( 'trxn_id', 
                        CRM_Utils_Array::value( 'trxn_id',
                                                $this->_params ) );
         $this->assign( 'receive_date', 
-                       CRM_Utils_Date::mysqlToIso( $this->_params['receive_date'] ) );
+                       CRM_Utils_Date::mysqlToIso( CRM_Utils_Array::value( 'receive_date', $this->_params ) ) );
 
         $defaults = array();
         $options = array( );
@@ -158,6 +176,11 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                                                                                   $options );
                 } else {
                     $defaults[$name] = $contact[$name];
+                    if ( $name == 'greeting_type' ) {   
+                        if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
+                            $defaults['custom_greeting'] = $contact['custom_greeting'];
+                        }
+                    }
                 } 
             }
         }
@@ -168,24 +191,35 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $values['entity_table'] = 'civicrm_contribution_page';
         
         CRM_Friend_BAO_Friend::retrieve( $values, $data ) ;
-
-        if ( $data['is_active'] ) {               
-            $friendText = ts( $data['title'] ) ;
+        $tellAFriend = false;
+        if ( $this->_pcpId ) {
+            if ( $this->_pcpBlock['is_tellfriend_enabled'] ) {
+                $this->assign( 'friendText', 'Tell a Friend' );
+                $subUrl = "eid={$this->_pcpId}&blockId={$this->_pcpBlock['id']}&page=pcp";
+                $tellAFriend = true;
+            }
+        } else if ( CRM_Utils_Array::value( 'is_active', $data ) ) {               
+            $friendText = $data['title'];
             $this->assign( 'friendText', $friendText );
+            $subUrl = "eid={$this->_id}&page=contribution";
+            $tellAFriend = true;
+        }
+
+        if ( $tellAFriend ) {
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                             "eid={$this->_id}&reset=1&action=preview&page=contribution" );
+                                             "reset=1&action=preview&{$subUrl}" );
             } else {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                         "eid={$this->_id}&reset=1&page=contribution" );
+                                         "reset=1&{$subUrl}");
             }
             $this->assign( 'friendURL', $url );
         }
         
         $this->freeze();
         // can we blow away the session now to prevent hackery
-        $this->controller->reset( );
+        
     }
 }
 
-?>
+

@@ -4,3 +4,9 @@
 .form-item {
   display: none;
 }
+
+table.form-layout td, table.form-layout th {
+  border: 1px solid grey;
+  padding: 4px;
+  margin: 0px;
+}

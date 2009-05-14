@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -39,7 +39,20 @@ require_once 'CRM/Contribute/Import/Parser/Contribution.php';
 /**
  * This class gets the name of the file to upload
  */
-class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
+class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form 
+{
+
+   /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    { 
+        $session =& CRM_Core_Session::singleton( );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute/import', 'reset=1') );
+    }
    
     /**
      * Function to actually build the form
@@ -69,12 +82,30 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
-        $duplicateOptions = array();         
+        $duplicateOptions = array();
+
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Update'), CRM_Contribute_Import_Parser::DUPLICATE_UPDATE);        
-        
+                                                            null, null, ts('Insert new contributions'), CRM_Contribute_Import_Parser::DUPLICATE_SKIP);
+        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
+                                                            null, null, ts('Update existing contributions'), CRM_Contribute_Import_Parser::DUPLICATE_UPDATE);
         $this->addGroup($duplicateOptions, 'onDuplicate', 
-                        ts('On duplicate entries'));
+                        ts('Import mode'));
+
+        //get the saved mapping details 
+        require_once "CRM/Core/BAO/Mapping.php";
+        require_once "CRM/Core/OptionGroup.php";
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings( CRM_Core_OptionGroup::getValue( 'mapping_type',
+                                                                                           'Import Contribution',
+                                                                                           'name' ) );
+        $this->assign('savedMapping',$mappingArray);
+        $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
+        $this->addElement('submit','loadMapping',ts('Load Mapping'), null, array('onclick'=>'checkSelect()'));
+
+        if ( $loadeMapping = $this->get('loadedMapping') ) {
+            $this->assign('loadedMapping', $loadeMapping );
+            $this->setDefaults(array('savedMapping' => $loadeMapping));
+        }
+        
         $this->setDefaults(array('onDuplicate' =>
                         CRM_Contribute_Import_Parser::DUPLICATE_SKIP));
 
@@ -115,20 +146,26 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
+        $this->controller->resetPage( 'MapField' );
+        
         $fileName         = $this->controller->exportValue( $this->_name, 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
         $onDuplicate      = $this->controller->exportValue( $this->_name, 'onDuplicate' );
         $contactType      = $this->controller->exportValue( $this->_name, 'contactType' ); 
         $dateFormats      = $this->controller->exportValue( $this->_name, 'dateFormats' ); 
+        $savedMapping     = $this->controller->exportValue( $this->_name, 'savedMapping' );
 
         $this->set('onDuplicate', $onDuplicate);
         $this->set('contactType', $contactType);
         $this->set('dateFormats', $dateFormats);
+        $this->set('savedMapping', $savedMapping);
 
         $session =& CRM_Core_Session::singleton();
         $session->set("dateTypes",$dateFormats);
 
-        $seperator = ',';
+        $config =& CRM_Core_Config::singleton( );
+        $seperator = $config->fieldSeparator;
+       
         $mapper = array( );
 
         $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapper );
@@ -154,4 +191,4 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
 
 }
 
-?>
+

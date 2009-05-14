@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -109,13 +109,12 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $params['is_default']         =  CRM_Utils_Array::value( 'is_default', $params, false );
         
         if ( $params['is_default'] ) {// set all other defaults to false. 
-            $query = "UPDATE civicrm_membership_status SET `is_default`= FALSE where `domain_id`=".CRM_Core_Config::domainID( );
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
+            $query = "UPDATE civicrm_membership_status SET is_default = 0";
+            CRM_Core_DAO::executeQuery( $query, 
+                                        CRM_Core_DAO::$_nullArray );
         }
         // action is taken depending upon the mode
         $membershipStatus               =& new CRM_Member_DAO_MembershipStatus( );
-        $membershipStatus->domain_id    = CRM_Core_Config::domainID( );
         $membershipStatus->copyValues( $params );
         
         $membershipStatus->id = CRM_Utils_Array::value( 'membershipStatus', $ids );
@@ -135,7 +134,6 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
     {
         $statusDetails = array();
         $membershipStatus             =& new CRM_Member_DAO_MembershipStatus( );
-        $membershipStatus->domain_id    = CRM_Core_Config::domainID( );
         $membershipStatus->id = $membershipStatusId;
         if ( $membershipStatus->find(true) ) {
             CRM_Core_DAO::storeValues( $membershipStatus, $statusDetails );
@@ -167,7 +165,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
 
         if ($check) {
             $session =& CRM_Core_Session::singleton();
-            CRM_Core_Session::setStatus( ts('This membership status can not be deleted') );
+            CRM_Core_Session::setStatus( ts('This membership status cannot be deleted') );
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/member/membershipStatus', "reset=1" ));
         }
         
@@ -183,46 +181,65 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
     /**
      * Function to find the membership status based on start date, end date, join date & status date. 
      * 
-     * @param  date  $startDate   start date of the member whose membership status is to be calculated. 
-     * @param  date  $endDate     end date of the member whose membership status is to be calculated. 
-     * @param  date  $joinDate    join date of the member whose membership status is to be calculated. 
-     * @param  date  $statusDate  status date of the member whose membership status is to be calculated. 
+     * @param  date    $startDate      start date of the member whose membership status is to be calculated. 
+     * @param  date    $endDate        end date of the member whose membership status is to be calculated. 
+     * @param  date    $joinDate       join date of the member whose membership status is to be calculated. 
+     * @param  date    $statusDate     status date of the member whose membership status is to be calculated. 
+     * @param  boolean $excludeIsAdmin exclude the statuses those having is_admin = 1
      *
      * @return 
      * @static
      */
-    static function getMembershipStatusByDate( $startDate, $endDate, $joinDate, $statusDate = 'today' ) 
+    static function getMembershipStatusByDate( $startDate, $endDate, $joinDate, $statusDate = 'today', $excludeIsAdmin = false ) 
     {
         $membershipDetails = array();
         if ( $statusDate == 'today' ) {
             $statusDate = getDate();
-            $statusDate = date( 'Y-m-d',
+            $statusDate = date( 'Ymd',
                                 mktime( $statusDate['hours'],
                                         $statusDate['minutes'],
                                         $statusDate['seconds'], 
                                         $statusDate['mon'],
                                         $statusDate['mday'],
                                         $statusDate['year'] ) );
+        } else {
+            $statusDate = CRM_Utils_Date::customFormat( $statusDate, '%Y%m%d');
         }
-
+        
+        $startDate = CRM_Utils_Date::customFormat( $startDate, '%Y%m%d');
+        $endDate   = CRM_Utils_Date::customFormat( $endDate,   '%Y%m%d');
+        $joinDate  = CRM_Utils_Date::customFormat( $joinDate,  '%Y%m%d');
+        
         $dates  = array('start', 'end', 'join');
         $events = array('start', 'end');
-
+        
         foreach ( $dates as $dat ) {
             if (${$dat.'Date'}) {
-                $date  = explode('-', ${$dat.'Date'} );
-                ${$dat.'Year'}  = $date[0];
-                ${$dat.'Month'} = $date[1];
-                ${$dat.'Day'}   = $date[2];
+                ${$dat.'Year'}  = substr( ${$dat.'Date'}, 0, 4);
+                
+                ${$dat.'Month'} = substr( ${$dat.'Date'}, 4, 2);
+                
+                ${$dat.'Day'}   = substr( ${$dat.'Date'}, 6, 2);
+                
             }
         }
         
-        /* FIXME: query below (commented) does not work for cases where admin=NULL */
-        //$query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 AND `is_admin`!=1 ORDER BY weight ASC";
-        $query = "SELECT * FROM civicrm_membership_status WHERE is_active=1 ORDER BY weight ASC";
-
+        //fix for CRM-3570, if we have statuses with is_admin=1,
+        //exclude these statuses from calculatation during import.
+        $where = "is_active = 1";
+        if ( $excludeIsAdmin ) {
+            $where .= " AND is_admin != 1";
+        }
+        
+        $query = "
+ SELECT   * 
+ FROM     civicrm_membership_status 
+ WHERE    {$where} 
+ ORDER BY weight ASC"; 
+        
         $membershipStatus =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $hour = $minute = $second = 0;
+        
         while ( $membershipStatus->fetch( ) ) {
             $startEvent = null;
             $endEvent   = null;
@@ -234,22 +251,22 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                         if ( $membershipStatus->{$eve.'_event_adjust_unit'} &&
                              $membershipStatus->{$eve.'_event_adjust_interval'} ) {
                             if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'month' ) {//add in months
-                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
-                                                                      ${$dat.'Month'}+$membershipStatus->{$eve.'_event_adjust_interval'},
-                                                                      ${$dat.'Day'}, 
-                                                                      ${$dat.'Year'}));
+                                ${$eve.'Event'} = date('Ymd',mktime($hour, $minute, $second, 
+                                                                    ${$dat.'Month'}+$membershipStatus->{$eve.'_event_adjust_interval'},
+                                                                    ${$dat.'Day'}, 
+                                                                    ${$dat.'Year'}));
                             }
                             if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'day' ) {//add in days 
-                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
-                                                                      ${$dat.'Month'},
-                                                                      ${$dat.'Day'}+$membershipStatus->{$eve.'_event_adjust_interval'}, 
-                                                                      ${$dat.'Year'}));
+                                ${$eve.'Event'} = date('Ymd',mktime($hour, $minute, $second, 
+                                                                    ${$dat.'Month'},
+                                                                    ${$dat.'Day'}+$membershipStatus->{$eve.'_event_adjust_interval'}, 
+                                                                    ${$dat.'Year'}));
                             }
                             if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'year' ) {//add in years
-                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
-                                                                      ${$dat.'Month'},
-                                                                      ${$dat.'Day'}, 
-                                                                      ${$dat.'Year'}+$membershipStatus->{$eve.'_event_adjust_interval'}));
+                                ${$eve.'Event'} = date('Ymd',mktime($hour, $minute, $second, 
+                                                                    ${$dat.'Month'},
+                                                                    ${$dat.'Day'}, 
+                                                                    ${$dat.'Year'}+$membershipStatus->{$eve.'_event_adjust_interval'}));
                             }
                         } else { // if no interval and unit, present
                             ${$eve.'Event'} = ${$dat.'Date'};
@@ -257,7 +274,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                     }
                 }
             }
-
+            
             // check if statusDate is in the range of start & end events.
             if ( $startEvent && $endEvent ) {
                 if ( ($statusDate >= $startEvent) && ($statusDate <= $endEvent) ) {
@@ -266,7 +283,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                 }
             } elseif ( $startEvent ) {
                 if ( $statusDate >= $startEvent ) {
-                    $membershipDetails['id'] = $membershipStatus->id;
+                    $membershipDetails['id']   = $membershipStatus->id;
                     $membershipDetails['name'] = $membershipStatus->name;
                 }
             } elseif ( $endEvent ) {
@@ -275,18 +292,18 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                     $membershipDetails['name'] = $membershipStatus->name;
                 }
             }
-
+            
             // returns FIRST status record for which status_date is in range.
             if ( $membershipDetails ) { 
                 $membershipStatus->free( );
                 return $membershipDetails;
             }
-       } //end fetch
+        } //end fetch
         
         $membershipStatus->free( );
         return $membershipDetails;
     }
-
+    
     /**
      * Function that return the status ids whose is_current_member is set
      *
@@ -310,4 +327,4 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
     }
     
 }
-?>
+

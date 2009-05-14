@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -87,8 +87,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     static function setIsActive($id, $is_active) 
     {
         //check if custom data profile field is disabled
-        if ($is_active) {
-            if (CRM_Core_BAO_UFField::checkUFStatus($id)) {
+        if ( $is_active ) {
+            if ( CRM_Core_BAO_UFField::checkUFStatus( $id ) ) {
                 CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
             } else {
                 CRM_Core_Session::setStatus(ts('Cannot enable this UF field since the used custom field is disabled.'));
@@ -130,14 +130,16 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     public static function duplicateField($params, $ids)
     {
         $ufField                   =& new CRM_Core_DAO_UFField();
-        $ufField->field_name       = $params['field_name'][0];
-        $ufField->location_type_id = CRM_Utils_Array::value( 1, $params['field_name'] );
-        $ufField->phone_type       = CRM_Utils_Array::value( 2, $params['field_name'] );
         $ufField->uf_group_id      = CRM_Utils_Array::value( 'uf_group', $ids );
+        $ufField->field_type       = $params['field_name'][0];
+        $ufField->field_name       = $params['field_name'][1]; 
+        $ufField->location_type_id = (CRM_Utils_Array::value( 2, $params['field_name'] )) ? $params['field_name'][2] : 'NULL';
+        $ufField->phone_type_id    = CRM_Utils_Array::value( 3, $params['field_name'] );
+        
         if (CRM_Utils_Array::value( 'uf_field', $ids )) {
             $ufField->whereAdd("id <> ".CRM_Utils_Array::value( 'uf_field', $ids ));
         }
-
+        
         return $ufField->find(true);
     }
 
@@ -160,7 +162,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_type       = $params['field_name'][0];
         $ufField->field_name       = $params['field_name'][1];
-
+        
         //should not set location type id for Primary
         $locationTypeId = CRM_Utils_Array::value( 2, $params['field_name'] );
         if ( $locationTypeId ) {
@@ -168,12 +170,12 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         } else {
             $ufField->location_type_id = 'null';
         }
-
-        $ufField->phone_type      = CRM_Utils_Array::value( 3, $params['field_name'], 'NULL' );
-        $ufField->listings_title  = CRM_Utils_Array::value( 'listings_title', $params );
-        $ufField->visibility      = $params['visibility'];
-        $ufField->help_post       = $params['help_post'];
-        $ufField->label           = $params['label'];
+        
+        $ufField->phone_type_id   = CRM_Utils_Array::value( 3, $params['field_name'], 'NULL' );
+        $ufField->listings_title  = CRM_Utils_Array::value( 'listings_title' , $params );
+        $ufField->visibility      = CRM_Utils_Array::value( 'visibility'     , $params );
+        $ufField->help_post       = CRM_Utils_Array::value( 'help_post'      , $params );
+        $ufField->label           = CRM_Utils_Array::value( 'label'          , $params );
         $ufField->is_required     = CRM_Utils_Array::value( 'is_required'    , $params, false );
         $ufField->is_active       = CRM_Utils_Array::value( 'is_active'      , $params, false );
         $ufField->in_selector     = CRM_Utils_Array::value( 'in_selector'    , $params, false );
@@ -181,22 +183,25 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->is_registration = CRM_Utils_Array::value( 'is_registration', $params, false );
         $ufField->is_match        = CRM_Utils_Array::value( 'is_match'       , $params, false );
         $ufField->is_searchable   = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
-
+        
         // fix for CRM-316
-        if ($params['field_id']) {
+        $oldWeight = null;
+        
+        if ( CRM_Utils_Array::value( 'field_id', $params ) ) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $params['field_id'], 'weight', 'id' );
         }
         $fieldValues = array('uf_group_id' => $params['group_id']);
+        require_once 'CRM/Utils/Weight.php';
         $ufField->weight = 
             CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFField', $oldWeight, $params['weight'], $fieldValues);
         
         // need the FKEY - uf group id
         $ufField->uf_group_id = CRM_Utils_Array::value('uf_group', $ids , false );
         $ufField->id          = CRM_Utils_Array::value('uf_field', $ids , false ); 
-
+        
         return $ufField->save();
     }
-
+    
     /**
      * Function to enable/disable profile field given a custom field id
      *
@@ -302,25 +307,27 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @static
      * @access public
      */
-    static function checkUFStatus($UFFieldId) 
+    static function checkUFStatus( $UFFieldId ) 
     {
         $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $UFFieldId, 'field_name' );
         
-        $customFieldId = explode('_', $fieldName);
-        
+        // return if field is not a custom field
+        require_once 'CRM/Core/BAO/CustomField.php';
+        if ( !$customFieldId = CRM_Core_BAO_CustomField::getKeyID( $fieldName ) ) {                
+            return true;
+        } 
+
         require_once "CRM/Core/DAO/CustomField.php";
         $customField =& new CRM_Core_DAO_CustomField();
-        $customField->id = $customFieldId[1];
+        $customField->id = $customFieldId;
 
-        if ($customField->find(true) ) { // if uf field is custom field
-            if ( !$customField->is_active) {
+        if ( $customField->find(true) ) { // if uf field is custom field
+            if ( !$customField->is_active ) {
                 return false;
             } else {
                 return true;
             }
-        } else { // this is if field is not a custom field
-            return true;
-        }
+        } 
     }
 
 
@@ -335,84 +342,138 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @acess public
      * @static
      */
-    static function checkProfileType($ufGroupId, $check = false) 
+    static function checkProfileType( $ufGroupId ) 
     {
-        $ufField =& new CRM_Core_DAO_UFField();
-        $ufField->uf_group_id = $ufGroupId;
-        $ufField->is_active = 1;
-        $ufField->find();
-        $fields = array( );
+        $ufGroup =& new CRM_Core_DAO_UFGroup();
+        $ufGroup->id = $ufGroupId;
+        $ufGroup->find( true );
         
-        while ( $ufField->fetch() ) {
-            if ($ufField->field_type == 'Individual') {
-                if( ! isset($fields['Individual'])) {
-                    $fields['Individual'] = 0;
+        $profileTypes = array( );
+        if ( $ufGroup->group_type ) {
+            $profileTypes = explode( ',',  $ufGroup->group_type );
+        }
+        
+        //we need to unset Contact
+        if ( count( $profileTypes ) > 1 ) {
+            $index = array_search( 'Contact', $profileTypes );
+            if ( $index !== false ) {
+                unset( $profileTypes[$index] );
+            }
+        }
+
+        $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization' );
+        $components   = array( 'Contribution', 'Participant', 'Membership' );
+        $fields = array( );
+
+        // check for mix profile condition
+        if ( count( $profileTypes ) > 1 ) {
+            //check the there are any components include in profile
+            foreach ( $components as $value ) {
+                if ( in_array( $value, $profileTypes ) ) {
+                    return true;
                 }
-                $fields['Individual'] += 1;
-            } else if ($ufField->field_type == 'Contribution') {
-                if( ! isset($fields['Contribution'])) {
-                    $fields['Contribution'] = 0;
-                }
-                $fields['Contribution'] += 1;
-            } else {
-                if( ! isset($fields['Other'])) {
-                    $fields['Other'] = 0;
-                }
-                $fields['Other'] +=1;
+            }
+            //check if there are more than one contact types included in profile
+            if ( count( $profileTypes ) > 1 ) {
+                return true;
+            }
+        } else {
+            $profileTypes = array_values( $profileTypes );
+            if ( !in_array( $profileTypes[0], $contactTypes ) ) {
+                return true;
             }
         }
         
-        if ( $check &&
-             count($fields) > 1 ) {
-            return true;
-        }
-        
-        if ( (isset($fields['Individual']) && isset($fields['Other'])) || isset($fields['Contribution']) && isset($fields['Other']) ) {
-            return true;
-        }
         return false;
     }
 
     /**
      * function to get the profile type (eg: individual/organization/household)
      *
-     * @param int      $ufGroupId  uf group id 
-     * @param boolean  $mixType    this is true, then field type of  mix profile field is returned
+     * @param int      $ufGroupId     uf group id 
+     * @param boolean  $returnMixType this is true, then field type of  mix profile field is returned
+     * @param boolean  $onlyPure      true if only pure profiles are required
      *
-     * @return  contact_type
+     * @return  profile group_type
      * @acess public
      * @static
      */
-    static function getProfileType($ufGroupId, $mixType = true ) 
+    static function getProfileType( $ufGroupId, $returnMixType = true, $onlyPure = false ) 
     {
-        require_once "CRM/Core/SelectValues.php";
-        $profileTypes = CRM_Core_SelectValues::contactType();
-        $otherTypes   = array ("Student" => "Students", "Contribution" => "Contributions", "Participant" => "Participants", "Membership" => "Memberships", "TMF" => "TMF");
-        $profileTypes = array_merge($profileTypes, $otherTypes);
+        // profile types
+        $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization', 'Student' );
+        $components   = array( 'Contribution', 'Participant', 'Membership' );
+
+        require_once 'CRM/Core/DAO/UFGroup.php';
+        $ufGroup =& new CRM_Core_DAO_UFGroup( );
+        $ufGroup->id          = $ufGroupId;
+        $ufGroup->is_active   = 1;        
+
+        $ufGroup->find( true );
         
-        $ufField =& new CRM_Core_DAO_UFField();
-        $ufField->uf_group_id = $ufGroupId;
-        $ufField->is_active   = 1;        
-
-        $ufField->find();
-
-        $fieldType = null;
-        while ( $ufField->fetch() ) {
-            if ( array_key_exists( $ufField->field_type, $profileTypes ) ) {
-                if ( $fieldType &&
-                     $fieldType != $ufField->field_type) {
-                    //for a mix profile, depending on mixType we
-                    //return field type of mix field or we return 'Mixed' (kurund)
-                    if ( $mixType ) {
-                        return $ufField->field_type;
-                    } else{
-                        return 'Mixed';
-                    }
-                }
-                $fieldType = $ufField->field_type;
+        $profileTypes = array( );
+        if ( $ufGroup->group_type ) {
+            $profileTypes = explode( ',',  $ufGroup->group_type );
+        }
+        
+        if ( $onlyPure ) {
+            if ( count( $profileTypes ) == 1 ) {
+                return $profileTypes[0]; 
+            } else {
+                return null;
             }
         }
-        return $fieldType;
+
+        //we need to unset Contact
+        if ( count( $profileTypes ) > 1 ) {
+            $index = array_search( 'Contact', $profileTypes );
+            if ( $index !== false ) {
+                unset( $profileTypes[$index] );
+            }
+        }
+
+        $profileType = $mixProfileType = null;
+
+        if ( count( $profileTypes ) == 1 ) { // this case handles pure profile
+            $profileType = array_pop( $profileTypes ); 
+        } else {
+            //check the there are any components include in profile
+            $componentCount = array( );
+            foreach ( $components as $value ) {
+                if ( in_array( $value, $profileTypes ) ) {
+                    $componentCount[] = $value;
+                }
+            }          
+
+            //check contact type included in profile
+            $contactTypeCount = array( );
+            foreach ( $contactTypes as $value ) {
+                if ( in_array( $value, $profileTypes ) ) {
+                    $contactTypeCount[] = $value;
+                }
+            }
+
+            if ( count( $componentCount ) == 1 && count( $contactTypeCount ) == 1 ) { 
+                // this case if valid profile contact + component
+                 $profileType = $componentCount[0];
+            } elseif( count( $componentCount ) > 1 ) { 
+                // this is mix component profiles
+                $mixProfileType = $componentCount[1];
+            } else if( count( $contactTypeCount ) > 1 ) {
+                // this is mix contact profiles
+                $mixProfileType = $contactTypeCount[1];
+            }
+        }
+
+        if ( $mixProfileType ) {
+            if ( $returnMixType ) {
+                return $mixProfileType;
+            } else {
+                return 'Mixed';
+                }
+        } else {
+            return $profileType;
+        }
     }
 
     /**
@@ -431,10 +492,9 @@ SELECT ufg.id as id
   FROM civicrm_uf_group as ufg, civicrm_uf_join as ufj
  WHERE ufg.id = ufj.uf_group_id
    AND ufj.module = 'User Registration'
-   AND ufg.is_active = 1 
-   AND ufg.domain_id = " . CRM_Core_Config::domainID( );
+   AND ufg.is_active = 1 ";
 
-        $ufGroup =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $ufGroup =& CRM_Core_DAO::executeQuery( $query );
         
         $fields = array( );
         $validProfiles = array( 'Individual', 'Organization', 'Household', 'Contribution' );
@@ -449,6 +509,48 @@ SELECT ufg.id as id
 
         return true;
     }
-
+    
+    /**
+     * check for searchable or in selector field for given profile.
+     * 
+     *@params int     $profileID profile id.
+     *
+     *@return boolean $result    true/false.
+     */
+    function checkSearchableORInSelector( $profileID ) {
+        $result = false;
+        if ( !$profileID ) {
+            return $result;
+        }
+        
+        $query = "
+SELECT  id 
+  From  civicrm_uf_field 
+ WHERE  (in_selector = 1 OR is_searchable = 1)
+   AND  uf_group_id = {$profileID}";
+        
+        $ufFields = CRM_Core_DAO::executeQuery( $query );
+        while ( $ufFields->fetch( ) ) {
+            $result = true;
+            break;
+        }
+        
+        return $result;
+    }
+    
+    /**
+     *Reset In selector and is seachable values for given $profileID.
+     * 
+     *@params int $profileID profile id.
+     *
+     *@return void.
+     */
+    function resetInSelectorANDSearchable( $profileID ) {
+        if ( !$profileID ) {
+            return;
+        }
+        $query = "UPDATE civicrm_uf_field SET in_selector = 0, is_searchable = 0 WHERE  uf_group_id = {$profileID}";
+        CRM_Core_DAO::executeQuery( $query );
+    }
 }
-?>
+

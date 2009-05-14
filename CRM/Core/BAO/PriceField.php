@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -96,33 +96,49 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         }
         
         $options  = array( );
+        require_once 'CRM/Price/Form/Field.php';
         $maxIndex = CRM_Price_Form_Field::NUM_OPTION;
         
         if ( $priceField->html_type == 'Text' ) {
             $maxIndex = 1;
         }
-                
+        $defaultArray = array();
+        if ( $params['html_type'] == 'CheckBox' && isset($params['default_checkbox_option'] ) ) {
+            $tempArray = array_keys( $params['default_checkbox_option'] );
+            foreach ( $tempArray as $v ) {
+                if ( $params['option_value'][$v] ) {
+                    $defaultArray[$v] = 1;
+                }
+            }
+        } else {
+            if ( CRM_Utils_Array::value( 'default_option', $params ) 
+                 && isset( $params['option_value'][$params['default_option']] ) ) {
+                $defaultArray[$params['default_option']] = 1;
+            }
+        }  
         for ( $index = 1; $index <= $maxIndex; $index++ ) {
             if ( $maxIndex == 1 ) {
-                $name = $params['label'];
+                $description = $params['label'];
             } else {
-                $name = $params['label'] . " - " . trim($params['option_label'][$index]);
+                $description = $params['label'] . " - " . trim($params['option_label'][$index]);
             }
             
             if ( ( ! empty( $params['option_label'][$index] ) ) &&
                  ( ! empty( $params['option_value'][$index] ) ) ) {
-                $options[] = array( 'label'      => trim( $params['option_label'][$index] ),
-                                    'value'      => CRM_Utils_Rule::cleanMoney( trim( $params['option_value'][$index] ) ),
-                                    'name'       => $name,
-                                    'weight'     => $params['option_weight'][$index],
-                                    'is_active'  => 1 );
+                $options[] = array( 'label'       => trim( $params['option_label'][$index] ),
+                                    'name'        => CRM_Utils_Rule::cleanMoney( trim( $params['option_name'][$index] ) ),
+                                    'value'       => trim( $params['option_value'][$index] ),
+                                    'description' => $description,
+                                    'weight'      => $params['option_weight'][$index],
+                                    'is_active'   => 1,
+                                    'is_default'  => CRM_Utils_Array::value( $index, $defaultArray)
+                                    );
             }
         }
         
         if ( ! empty( $options ) ) {
             $params['default_amount_id'] = null;
             $groupName                   = "civicrm_price_field.amount.{$priceField->id}";
-            
             require_once 'CRM/Core/OptionGroup.php';
             CRM_Core_OptionGroup::createAssoc( $groupName,
                                                $options,
@@ -169,31 +185,6 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
     }
     
     /**
-     * Get number of elements for a particular field.
-     *
-     * This method returns the number of entries in the crm_custom_value table for this particular field.
-     *
-     * @param int $fieldId - id of field.
-     * @return int $numValue - number of custom data values for this field.
-     *
-     * @access public
-     * @static
-     *
-     */
-    /*
-    public static function getNumValue($fieldId)
-    {
-        $cvTable = CRM_Core_DAO_CustomValue::getTableName();
-        $query = "SELECT count(*) 
-                  FROM   $cvTable 
-                  WHERE  $cvTable.custom_field_id = %1";
-        $p = array( 1 => array( $fieldId, 'Integer' ) );
-
-        return CRM_Core_DAO::singleValueQuery( $query, $p );
-    }
-     */
-
-    /**
      * Get the field title.
      *
      * @param int $id id of field.
@@ -237,7 +228,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
 
         $query .= " ORDER BY $priceSetTable.title, $priceFieldTable.weight, $priceFieldTable.label";
      
-        $crmDAO =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $crmDAO =& CRM_Core_DAO::executeQuery( $query );
         $result = $crmDAO->getDatabaseResult();
     
         $fields = array( );
@@ -274,49 +265,56 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             /* FIXME: failure! */
             return null;
         }
-        
+        $config =& CRM_Core_Config::singleton();
+        $qf->assign('currencySymbol', CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Currency',$config->defaultCurrency,'symbol','name') );
         if (!isset($label)) {
             $label = $field->label;
         }
+	if ( isset($qf->_online) ) {
+	  $useRequired = false;
+	}
 
         switch($field->html_type) {
         case 'Text':
+            $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
+            
+            // text fields only have one option
+            $optionKey = key($customOption);
+            
             if ($field->is_display_amounts) {
-                $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
-                
-                // text fields only have one option
-                $optionKey = key($customOption);
                 $label .= '&nbsp;-&nbsp;';
-                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('value', $customOption[$optionKey]) );
+                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('name', $customOption[$optionKey]) );
             }
-            $qf->add(
-                'text', $elementName, $label, 'size="4"',
-                ( $useRequired || ( $useRequired && $field->is_required ) )
-            );
 
+            $element =& $qf->add(
+                                 'text', $elementName, $label, array_merge( array('size' =>"4"), 
+                                                                            array( 'price' => $optionKey."_".$customOption[$optionKey]['name'] )),
+                                 $useRequired && $field->is_required
+                                 );
+            
             // integers will have numeric rule applied to them.
-            $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'integer');
+            $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'positiveInteger');
             break;
-
+            
         case 'Radio':
             $choice = array();
             $customOption = CRM_Core_BAO_PriceField::getOptions($field->id, $inactiveNeeded);
-            
             if ( !$field->is_required ) {
                 // add "none" option
-                $choice[] = $qf->createElement('radio', null, '', '-none-', '0' );
+                $choice[] = $qf->createElement('radio', null, '', '-none-', '0', array('price' => $elementName."-0" ));
             }
-
+            
             foreach ($customOption as $opt) {
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['value'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
-                $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'] );
+                $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'],
+                                               array('price' => $elementName."-".$opt['name'] ) );
             }
-            $qf->addGroup($choice, $elementName, $label);
+            $element =& $qf->addGroup($choice, $elementName, $label);
 
-            if ( ( $useRequired || ( $useRequired && $field->is_required) ) ) {
+            if ( $useRequired && $field->is_required ) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
@@ -324,34 +322,42 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         case 'Select':
             $customOption = CRM_Core_BAO_PriceField::getOptions($field->id, $inactiveNeeded);
             $selectOption = array();
+            $amount = '[{';
             foreach ($customOption as $opt) {
+                $amount .= $opt['id'].':"'. $opt['name'] .'",';
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['value'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
                 $selectOption[$opt['id']] = $opt['label'];
             }
-            $qf->add('select', $elementName, $label,
-                     array( '' => ts('- select -')) + $selectOption,
-                     ( ( $useRequired || ($useRequired && $field->is_required) ) ) );
+            $amount .= '}]';
+            $element =& $qf->add('select', $elementName, $label,
+                                 array( '' => ts('- select -')) + $selectOption,
+                                 $useRequired && $field->is_required, 
+                                 array( 'price' => $amount ) );
             break;
-
+            
         case 'CheckBox':
             $customOption = CRM_Core_BAO_PriceField::getOptions($field->id, $inactiveNeeded);
             $check = array();
             foreach ($customOption as $opt) {
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['value'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
-                $check[] =& $qf->createElement('checkbox', $opt['id'], null, $opt['label']); 
+                $check[] =& $qf->createElement('checkbox', $opt['id'], null, $opt['label'], 
+                                               array('price' => $opt['id']."_".$opt['name'] ) );
             }
-            $qf->addGroup($check, $elementName, $label);
-            if ( ( $useRequired ||( $useRequired && $field->is_required) ) ) {
+            $element =& $qf->addGroup($check, $elementName, $label);
+            if ( $useRequired && $field->is_required ) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
             
+        }
+        if ( isset($qf->_online) ) {
+            $element->freeze();
         }
     }
 
@@ -393,9 +399,7 @@ WHERE
     AND option_group.id    = option_value.option_group_id
     AND option_value.label = '" . $optionLabel . "'";
         
-        $params = array( );
-        
-        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+        $dao    =& CRM_Core_DAO::executeQuery( $query );
         
         while ( $dao->fetch( ) ) {
             return $dao->id;
@@ -436,5 +440,17 @@ WHERE
         return null;
     }
 
+    static function &htmlTypes( ) {
+        static $htmlTypes = null;
+        if ( ! $htmlTypes ) {
+            $htmlTypes = array(
+                               'Text'     => ts('Text / Numeric Quantity'),
+                               'Select'   => ts('Select'),
+                               'Radio'    => ts('Radio'),
+                               'CheckBox' => ts('CheckBox'),
+                               );
+        }
+        return $htmlTypes;
+    }
 }
-?>
+

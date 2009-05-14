@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -40,22 +40,27 @@ require_once 'HTML/QuickForm/Rule/Email.php';
 class CRM_Utils_Rule 
 {
 
-    static function title( $str ) 
+    static function title( $str, $maxLength = 127 ) 
     {
     
         // check length etc
-        if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 127 ) {
+        if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > $maxLength ) {
             return false;
         }
     
         // Make sure it include valid characters, alpha numeric and underscores
-        if ( ! preg_match('/^[a-z][\w\s\'\&\,\$\#\-\.\"\?]+$/i', $str ) ) {
+        if ( ! preg_match('/^\w[\w\s\'\&\,\$\#\-\.\"\?\!]+$/i', $str ) ) {
             return false;
         }
 
         return true;
     }
 
+    static function longTitle( $str ) 
+    {
+        return self::title( $str, 255 );
+    }
+    
     static function variable( $str ) 
     {
         // check length etc
@@ -164,9 +169,15 @@ class CRM_Utils_Rule
      */
     static function qfDate($date) 
     {
+        $config =& CRM_Core_Config::singleton( );
+
         $d = CRM_Utils_Array::value( 'd', $date );
-        $m = CRM_Utils_Array::value( 'M', $date );
+        $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
         $y = CRM_Utils_Array::value( 'Y', $date );
+        if( isset( $date['h'] ) ||
+            isset( $date['g'] ) ){
+            $m = CRM_Utils_Array::value( $config->datetimeformatMonthVar, $date );
+        }
 
         if ( ! $d && ! $m && ! $y ) {
             return true; 
@@ -198,21 +209,24 @@ class CRM_Utils_Rule
      * specified has to be beyond today. (i.e today or later)
      * 
      * @param array $date 
-     * 
+     * @param bool  $monthRequired check whether month is mandatory
+     *
      * @return bool true if valid date 
      * @static 
      * @access public 
      */
-    static function currentDate( $date ) 
+    static function currentDate( $date, $monthRequired = true ) 
     {
+        $config =& CRM_Core_Config::singleton( );
+        
         $d = CRM_Utils_Array::value( 'd', $date );
-        $m = CRM_Utils_Array::value( 'M', $date );
+        $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
         $y = CRM_Utils_Array::value( 'Y', $date );
 
         if ( ! $d && ! $m && ! $y ) {
             return true; 
         } 
- 
+
         $day = $mon = 1; 
         $year = 0; 
         if ( $d ) $day  = $d;
@@ -232,6 +246,11 @@ class CRM_Utils_Rule
         }
 
         if ( ! $result ) {
+            return false;
+        }
+
+        // ensure we have month if required
+        if ( $monthRequired && ! $m ) {
             return false;
         }
 
@@ -262,6 +281,30 @@ class CRM_Utils_Rule
         return true;
     }
 
+    /**
+     * check the validity of a date or datetime (timestamp)
+     * value which is in YYYYMMDD or YYYYMMDDHHMMSS format
+     *
+     * Uses PHP checkdate() - params are ( int $month, int $day, int $year )
+     * @param string $date
+     *
+     * @return bool true if valid date
+     * @static
+     * @access public
+     */
+    static function mysqlDate($date) {
+        // allow date to be null
+        if ( $date == null ) {
+            return true;
+        }
+
+        if (checkdate( substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4) )) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     static function integer($value) 
     {
         if ( is_int($value)) {
@@ -313,14 +356,17 @@ class CRM_Utils_Rule
         setlocale( LC_ALL, $config->lcMessages );
         $localeInfo = localeconv( );
 
-        $mon_thousands_sep = $localeInfo['mon_thousands_sep'];
-        if ( ! $mon_thousands_sep ) {
+        if ( array_key_exists( 'mon_thousands_sep', $localeInfo ) ) {
+            $mon_thousands_sep = $localeInfo['mon_thousands_sep'];
+        } else {
             $mon_thousands_sep = ',';
         }
+
         $value = str_replace( $mon_thousands_sep, '', $value );
 
-        $mon_decimal_point = $localeInfo['mon_decimal_point'];
-        if ( ! $mon_decimal_point ) {
+        if ( array_key_exists( 'mon_decimal_point', $localeInfo ) ) {
+            $mon_decimal_point = $localeInfo['mon_decimal_point'];
+        } else {
             $mon_decimal_point = '.';
         }
         $value = str_replace( $mon_decimal_point, '.', $value );
@@ -465,6 +511,7 @@ class CRM_Utils_Rule
         if ( isset($options[2]) ) {
             $name = $options[2];
         }
+        
         return CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, $name ) );
     }
     
@@ -477,7 +524,6 @@ class CRM_Utils_Rule
     static function creditCardNumber( $value, $type ) 
     {
         require_once 'Validate/Finance/CreditCard.php';
-
         return Validate_Finance_CreditCard::number( $value, $type );
     }
 
@@ -501,9 +547,18 @@ class CRM_Utils_Rule
     }
 
     static function xssString( $value ) {
-        return preg_match( '!<(vb)?script[^>]*>.*</(vb)?script.*>!ims',
-                           $value ) ? false : true;
+        if ( is_string( $value ) ) {
+            return preg_match( '!<(vb)?script[^>]*>.*</(vb)?script.*>!ims',
+                               $value ) ? false : true;
+        } else {
+            return true;
+        }
     }
+
+    static function fileExists( $path ) {
+        return file_exists( $path );
+    }
+
 }
 
-?>
+

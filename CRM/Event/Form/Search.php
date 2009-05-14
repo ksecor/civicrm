@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing   
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -160,14 +160,13 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean', CRM_Core_DAO::$_nullObject ); 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',  $this, false ); 
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-        $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID', 'Positive',  $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this, false, 'search' );
+
+        $this->assign( "context", $this->_context );
         
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
-          
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
-        if ( ! empty( $_POST ) ) { 
+        if ( ! empty( $_POST ) && !$this->controller->isModal( ) ) { 
             $this->_formValues = $this->controller->exportValues( $this->_name );  
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
@@ -199,9 +198,12 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                     $this->_limit,
                                                     $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' || $this->_context == 'user' ) {
+        if ( $this->_context == 'user' ) {
             $prefix = $this->_prefix;
         }
+
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
         
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
@@ -224,7 +226,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      */
     function buildQuickForm( ) 
     {
-        $this->addElement('text', 'sort_name', ts('Participant'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'sort_name', ts('Participant Name or Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         
         require_once 'CRM/Event/BAO/Query.php';
         CRM_Event_BAO_Query::buildSearchForm( $this );
@@ -233,35 +235,37 @@ class CRM_Event_Form_Search extends CRM_Core_Form
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
          * of all elements being declared in builQuickForm 
          */ 
-        $rows = $this->get( 'rows' ); 
+        $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             $lineItems = array( );
-            //require_once 'CRM/Event/BAO/Participant.php';
-            if ($this->_context == 'search') {
-                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            require_once 'CRM/Event/BAO/Event.php';
+            
+            if ( !$this->_single ) {
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+
                 foreach ($rows as $row) { 
                     $this->addElement( 'checkbox', $row['checkbox'], 
                                        null, null, 
-                                       array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                       array( 'onclick' => "toggleTaskAction( true ); return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                        ); 
-
-                    // add line item details if applicable
-                    $participant_id = $row['participant_id'];
-                    $lineItems[$participant_id] = CRM_Event_BAO_Participant::getLineItems( $participant_id );
+                    
+                    if ( CRM_Event_BAO_Event::usesPriceSet( $row['event_id'] ) ) {
+                        // add line item details if applicable
+                        $participant_id = $row['participant_id'];
+                        $lineItems[$participant_id] = CRM_Event_BAO_Participant::getLineItems( $participant_id );
+                    }
                 }
             }
-
             $this->assign( 'lineItems', $lineItems );
 
             $total = $cancel = 0;
-            $this->assign( "{$this->_prefix}single", $this->_single );
+
+            require_once "CRM/Core/Permission.php";
+            $permission = CRM_Core_Permission::getPermission( );
             
-            // also add the action and radio boxes
             require_once 'CRM/Event/Task.php';
-            $tasks = array( '' => ts('- more actions -') ) + CRM_Event_Task::tasks( );
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Event_Task::permissionedTaskTitles( $permission );
             if ( isset( $this->_ssID ) ) {
-                require_once "CRM/Core/Permission.php";
-                $permission = CRM_Core_Permission::getPermission( );
                 if ( $permission == CRM_Core_Permission::EDIT ) {
                     require_once "CRM/Contact/Task.php";
                     $tasks = $tasks + CRM_Event_Task::optionalTaskTitle();
@@ -275,17 +279,17 @@ class CRM_Event_Form_Search extends CRM_Core_Form
 
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
-                       array( 'class' => 'form-submit', 
+                       array( 'class'   => 'form-submit', 
+                              'id'      => 'Go',
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
             
             $this->add('submit', $this->_printButtonName, ts('Print'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
             
-            
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') ); 
-            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); toggleTaskAction( true );" ) );
         }
         
         // add buttons 
@@ -322,8 +326,19 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_done = true;
         
         $this->_formValues = $this->controller->exportValues($this->_name);
-        $this->fixFormValues( );
 
+        $eventSearchIds = array( 
+                                'event_id'              => 'event_name_id',
+                                'event_type'            => 'event_type_id',
+                                'participant_fee_level' => 'participant_fee_id'
+                                );
+        foreach( $eventSearchIds as $key => $value ) {
+            $this->_formValues[$key]   = ( empty($this->_formValues[$key]) ) ? '' : $this->_formValues[$value];
+            $this->_formValues[$value] = '';
+        }
+
+        $this->fixFormValues( );
+        
         if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
@@ -335,7 +350,10 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                        $this->_formValues ) ) {
             $this->_formValues["participant_test"] = 0;
         }
-        
+       
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
+
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
         
@@ -369,10 +387,13 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                     $this->_limit,
                                                     $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' || $this->_context == 'user') {
+        if ( $this->_context == 'user') {
             $prefix = $this->_prefix;
         }
         
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
+
         $controller =& new CRM_Core_Selector_Controller($selector , 
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ), 
                                                         $sortID, 
@@ -390,6 +411,46 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         
     }
     
+    /**
+     * This function is used to add the rules (mainly global rules) for form.
+     * All local rules are added near the element
+     *
+     * @return None
+     * @access public
+     * @see valid_date
+     */
+    function addRules( )
+    {
+        $this->addFormRule( array( 'CRM_Event_Form_Search', 'formRule' ) );
+    }
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     * @param array $errors list of errors to be posted back to the form
+     *
+     * @return void
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields )
+    {
+        $errors = array( );
+       
+        if ( $fields['event_id'] && !is_numeric( $fields['event_name_id'] ) ) {
+            $errors['event_id'] = ts('Please select valid event.');
+        }
+        
+        if ( $fields['event_type'] && !is_numeric( $fields['event_type_id'] ) ) {
+            $errors['event_type'] = ts('Please select valid event type.');
+        }
+        if ( !empty($errors) ) {
+            return $errors;
+        } 
+        
+        return true;
+    }
 
     /**
      * Set the default form values
@@ -397,7 +458,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      * @access protected
      * @return array the default array reference
      */
-    function &setDefaultValues() {
+    function &setDefaultValues() 
+    {
         $defaults = array();
         $defaults = $this->_formValues;
         return $defaults;
@@ -409,16 +471,41 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
-        
         $event = CRM_Utils_Request::retrieve( 'event', 'Positive',
                                               CRM_Core_DAO::$_nullObject );
         if ( $event ) {
-            $this->_formValues['event_title'] = CRM_Event_PseudoConstant::event( $event );
-            $this->assign( 'event_title_value', $this->_formValues['event_title'] );
+            $this->_formValues['event_id'] = $event;
+            $this->assign( 'event_id_value', $event );
+        }
+        
+        $status = CRM_Utils_Request::retrieve( 'status', 'String',
+                                               CRM_Core_DAO::$_nullObject );
+        
+        if ( isset ( $status ) ) {
+            require_once 'CRM/Event/PseudoConstant.php';
+            if ( $status === 'true' ) {
+                $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "is_counted = 1" );
+            } elseif ( $status === 'false' ) {
+                $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "is_counted = 0" );
+            } elseif (is_numeric($status)) {
+                $status = (int) $status;
+                $statusTypes = array($status => CRM_Event_PseudoConstant::participantStatus($status));
+            }
+            $status = array( );
+            foreach ( $statusTypes as $key => $value) {
+                $status[$key] = 1;
+            }
+            $this->_formValues['participant_status_id'] = $status;    
+        }
+        
+        $type = CRM_Utils_Request::retrieve( 'type', 'Positive',
+                                             CRM_Core_DAO::$_nullObject );
+        if ( $type ) {
+            $this->_formValues['event_type'] = $type;
         }
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-
+        
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {
@@ -430,9 +517,21 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         }
     }
 
-    function getFormValues( ) {
+    function getFormValues( ) 
+    {
         return null;
     }
 
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle( ) 
+    {
+        return ts('Find Participants');
+    }
+
 }
-?>
+

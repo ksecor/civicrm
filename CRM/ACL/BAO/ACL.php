@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -142,7 +142,6 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                     FROM        {$t['ACL']}
                     
                     WHERE       {$t['ACL']}.entity_table    = '{$t['Domain']}'
-                            AND {$t['ACL']}.entity_id       = $domainId
                             AND ($where)";
 
         /* Query for permissions granted to all contacts through an ACL group */
@@ -161,7 +160,6 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                     WHERE       {$t['ACLEntityRole']}.entity_table =
                                     '{$t['Domain']}'
                             AND {$t['ACLRole']}.is_active      = 1
-                            AND {$t['ACLEntityRole']}.entity_id  = $domainId
                             AND ($where)";
         
         /* Query for permissions granted directly to the contact */
@@ -620,8 +618,6 @@ SELECT $acl.*
     static function create( &$params ) {
         $dao =& new CRM_ACL_DAO_ACL( );
         $dao->copyValues( $params );
-        $dao->domain_id = CRM_Core_Config::domainID( );
-
         $dao->save( );
     }
 
@@ -676,14 +672,14 @@ SELECT count( a.id )
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
         //CRM_Core_Error::debug( "a: $contactID", $acls );
 
-        if ( empty( $acls ) ) {
-            return ' ( 0 ) ';
-        }
-        
-        $aclKeys = array_keys( $acls );
-        $aclKeys = implode( ',', $aclKeys );
+        $whereClause = null;
+        $clauses = array( );
 
-        $query = "
+        if ( ! empty( $acls ) ) {
+            $aclKeys = array_keys( $acls );
+            $aclKeys = implode( ',', $aclKeys );
+
+            $query = "
 SELECT   a.operation, a.object_id
   FROM   civicrm_acl_cache c, civicrm_acl a
  WHERE   c.acl_id       =  a.id
@@ -692,57 +688,65 @@ SELECT   a.operation, a.object_id
    AND   a.id        IN ( $aclKeys )
 ORDER BY a.object_id
 ";
-        //CRM_Core_Error::debug( 'q', $query );
-
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            
+            $dao =& CRM_Core_DAO::executeQuery( $query,
+                                                CRM_Core_DAO::$_nullArray );
         
-        // do an or of all the where clauses u see
-        $ids = array( );
-        while ( $dao->fetch( ) ) {
-            if ( ! $dao->object_id ) {
-                return ' ( 1 ) ';
-            }
+            // do an or of all the where clauses u see
+            $ids = array( );
+            while ( $dao->fetch( ) ) {
+                if ( ! $dao->object_id ) {
+                    $ids = array( );
+                    $whereClause = ' ( 1 ) ';
+                    break;
+                }
 
-            // make sure operation matches the type TODO
-            if ( $type == CRM_ACL_API::VIEW ||
-                 ( $type == CRM_ACL_API::EDIT &&
-                   $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
-                $ids[] = $dao->object_id;
+                // make sure operation matches the type TODO
+                if ( $type == CRM_ACL_API::VIEW ||
+                     ( $type == CRM_ACL_API::EDIT &&
+                       $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                    $ids[] = $dao->object_id;
+                }
             }
-        }
-        
-        if ( empty( $ids ) ) {
-            return ' ( 0 ) ';
-        }
-
-        $ids = implode( ',', $ids );
-        $query = "
+            
+            if ( ! empty( $ids ) ) {
+                $ids = implode( ',', $ids );
+                $query = "
 SELECT g.where_clause, g.select_tables, g.where_tables
   FROM civicrm_group g
  WHERE g.id IN ( $ids )
 ";
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        $clauses = array( );
-        while ( $dao->fetch( ) ) {
-            // currently operation is restrcited to VIEW/EDIT
-            if ( $dao->where_clause ) {
-                $clauses[] = $dao->where_clause;
-                if ( $dao->select_tables ) {
-                    $tables = array_merge( $tables,
-                                           unserialize( $dao->select_tables ) );
-                }
-                if ( $dao->where_tables ) {
-                    $whereTables = array_merge( $whereTables,
-                                                unserialize( $dao->where_tables ) );
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                while ( $dao->fetch( ) ) {
+                    // currently operation is restrcited to VIEW/EDIT
+                    if ( $dao->where_clause ) {
+                        $clauses[] = $dao->where_clause;
+                        if ( $dao->select_tables ) {
+                            $tables = array_merge( $tables,
+                                                   unserialize( $dao->select_tables ) );
+                        }
+                        if ( $dao->where_tables ) {
+                            $whereTables = array_merge( $whereTables,
+                                                        unserialize( $dao->where_tables ) );
+                        }
+                    }
                 }
             }
         }
 
         if ( ! empty( $clauses ) ) {
-            return ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
-        } else {
-            return ' ( 0 ) ';
+            $whereClause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
         }
+
+        // call the hook to get additional whereClauses
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::aclWhereClause( $type, $tables, $whereTables, $contactID, $whereClause );
+
+        if ( empty( $whereClause ) ) {
+            $whereClause = ' ( 0 ) ';
+        }
+
+        return $whereClause;
     }
 
     public static function group( $type,
@@ -754,14 +758,11 @@ SELECT g.where_clause, g.select_tables, g.where_tables
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
 
         $ids  = array( );
-        if ( empty( $acls ) ) {
-            return $ids;
-        }
-        
-        $aclKeys = array_keys( $acls );
-        $aclKeys = implode( ',', $aclKeys );
+        if ( ! empty( $acls ) ) {
+            $aclKeys = array_keys( $acls );
+            $aclKeys = implode( ',', $aclKeys );
 
-        $query = "
+            $query = "
 SELECT   a.operation, a.object_id
   FROM   civicrm_acl_cache c, civicrm_acl a
  WHERE   c.acl_id       =  a.id
@@ -770,32 +771,35 @@ SELECT   a.operation, a.object_id
    AND   a.id        IN ( $aclKeys )
 ORDER BY a.object_id
 ";
-        $params = array( 1 => array( $tableName, 'String' ) );
-
-        // CRM_Core_Error::debug( $query, $params );
-
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-
-
-        while ( $dao->fetch( ) ) {
-            if ( $dao->object_id ) {
-                if ( $type == CRM_ACL_API::VIEW ||
-                     ( $type == CRM_ACL_API::EDIT &&
-                       $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
-                    $ids[] = $dao->object_id;
-                }
-            } else {
-                // this user has got the permission for all objects of this type
-                if ( $type == CRM_ACL_API::VIEW ||
-                     ( $type == CRM_ACL_API::EDIT &&
-                       $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
-                    return array_keys( $allGroups );
+            $params = array( 1 => array( $tableName, 'String' ) );
+            $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+            while ( $dao->fetch( ) ) {
+                if ( $dao->object_id ) {
+                    if ( $type == CRM_ACL_API::VIEW ||
+                         ( $type == CRM_ACL_API::EDIT &&
+                           $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                        $ids[] = $dao->object_id;
+                    }
+                } else {
+                    // this user has got the permission for all objects of this type
+                    if ( $type == CRM_ACL_API::VIEW ||
+                         ( $type == CRM_ACL_API::EDIT &&
+                           $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                        foreach ( $allGroups as $id => $dontCare ) {
+                            $ids[] = $id;
+                        }
+                        break;
+                    }
                 }
             }
         }
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::aclGroup( $type, $contactID, $tableName, $allGroups, $ids );
         
         return $ids;
     }
+
     /**
     * Function to delete ACL records 
      * 
@@ -817,4 +821,4 @@ ORDER BY a.object_id
         
 }
 
-?>
+

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -102,7 +102,7 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
      */
     static function &getDefault() {
         if (self::$_defaultLocationType == null) {
-            $params = array('is_default' => 1, 'domain_id' => CRM_Core_Config::domainID( ));
+            $params = array( 'is_default' => 1 );
             $defaults = array();
             self::$_defaultLocationType = self::retrieve($params, $defaults);
         }
@@ -119,41 +119,23 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
      */
     static function del($locationTypeId) 
     {
-        require_once 'CRM/Core/DAO/Location.php';
-        require_once 'CRM/Core/DAO/Address.php';
-        require_once 'CRM/Core/DAO/IM.php';
-        require_once 'CRM/Core/DAO/Phone.php';
-        require_once 'CRM/Core/DAO/Email.php';
-        require_once 'CRM/Core/DAO/Location.php';
-
+        $entity = array( 'address', 'phone', 'email', 'im' );
         //check dependencies
-        $location = & new CRM_Core_DAO_Location();
-        $location->location_type_id = $locationTypeId;
-        $location->find();
-        while($location->fetch()){
-            //delete address
-            $address  = & new CRM_Core_DAO_Address();
-            $address->location_id = $location->id;
-            $address->delete();
-            //delete Im
-            $im = & new CRM_Core_DAO_IM();
-            $im->location_id = $location->id;
-            $im->delete();
-            //delete Phone 
-            $phone = & new CRM_Core_DAO_Phone();
-            $phone->location_id = $location->id;
-            $phone->delete();
-            //delete Email
-            $email = & new CRM_Core_DAO_Email();
-            $email->location_id = $location->id;
-            $email->delete();
+        foreach ( $entity  as $key ) {
+            if ( $key == 'im' ) {
+                $name = strtoupper($key);
+            } else {
+                $name = ucfirst($key);
+            }
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $name) . ".php");
+            eval( '$object =& new CRM_Core_DAO_' . $name . '( );' );     
+            $object->location_type_id = $locationTypeId;
+            $object->delete();
         }
-        $location = & new CRM_Core_DAO_Location();
-        $location->location_type_id = $locationTypeId;
-        $location->delete();
+
         $locationType = & new CRM_Core_DAO_LocationType();
         $locationType->id = $locationTypeId;
         $locationType->delete();
     }
 }
-?>
+

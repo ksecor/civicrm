@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -38,7 +38,7 @@
  * for other useful tips and suggestions
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -93,7 +93,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      * @var boolean
      */
-    protected $_print = 0;
+    public $_print = 0;
 
     /**
      * cache the smarty template for efficiency reasons
@@ -117,6 +117,13 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     protected $_parent = null;
 
     /**
+     * The destination if set will override the destination the code wants to send it to
+     *
+     * @var string;
+     */
+    public $_destination = null;
+
+    /**
      * All CRM single or multi page pages should inherit from this class. 
      *
      * @param string  title        descriptive title of the controller
@@ -130,7 +137,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * @return void
      *
      */
-    function __construct( $title = null, $modal = true, $scope = null, $addSequence = false, $ignoreKey = false ) {
+    function __construct( $title = null, $modal = true,
+                          $mode = null, $scope = null,
+                          $addSequence = false, $ignoreKey = false ) {
         // add a unique validable key to the name
         $name = CRM_Utils_System::getClassName($this);
         $name = $name . '_' . $this->key( $name, $addSequence, $ignoreKey );
@@ -143,14 +152,25 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         }
         $this->_scope = $this->_scope . '_' . $this->_key;
 
-        if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
-            $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
-        }
-
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {
             self::$_template =& CRM_Core_Smarty::singleton( );
             self::$_session  =& CRM_Core_Session::singleton( );
+        }
+
+        $snippet = CRM_Utils_Array::value( 'snippet', $_REQUEST );
+        
+        if ( $snippet ) {
+            if ( $snippet == 3 ) {
+                $this->_print = CRM_Core_Smarty::PRINT_PDF;
+            } else if ( $snippet == 4 ) {
+                $this->_print = CRM_Core_Smarty::PRINT_NOFORM;
+                self::$_template->assign( 'suppressForm', true );
+            } else if ( $snippet == 5 ) {
+                $this->_print = CRM_Core_Smarty::PRINT_NOFORM;
+            } else {
+                $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
+            }
         }
 
         // if the request has a reset value, initialize the controller session
@@ -162,6 +182,12 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         // do this at the end so we have initialized the object
         // and created the scope etc
         $this->set( 'qfKey', $this->_key );
+
+        require_once 'CRM/Utils/Request.php';
+
+        // also retrieve and store destination in session
+        $this->_destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this,
+                                                           false, null, $_REQUEST );
     }
 
     function key( $name, $addSequence = false, $ignoreKey = false ) {
@@ -221,8 +247,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         // to the appropriate place
         $this->wizardHeader( $pageName );
         $this->_pages[$pageName]->handle($action);
-
-        return $pageName;
+        return;
     }
 
     function validate( ) {
@@ -273,16 +298,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
             $action =& new $classPath( $this->_stateMachine );
             $this->addAction( $name, $action );
         }
-    
-        if ( ! empty( $uploadDirectory ) ) {
-            require_once 'CRM/Core/QuickForm/Action/Upload.php';
-            $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
-                                                              $uploadDirectory,
-                                                              $uploadNames );
-
-            $this->addAction('upload' , $action );
-        }
-    
+        
+        $this->addUploadAction( $uploadDirectory, $uploadNames );
     }
 
     /**
@@ -524,25 +541,39 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
     function getTemplateFile( ) {
         if ( $this->_print ) {
-            if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ) {
-                return 'CRM/common/snippet.tpl';
-            } else {
+            if ( $this->_print == CRM_Core_Smarty::PRINT_PAGE ) {
                 return 'CRM/common/print.tpl';
+            } else {
+                return 'CRM/common/snippet.tpl';
             }
         } else {
-            return 'CRM/index.tpl';
+            $config =& CRM_Core_Config::singleton();
+            return 'CRM/common/'. strtolower($config->userFramework) .'.tpl';
         }
     }
 
-    public function fixUploadAction( $uploadDirectory, $uploadNames ) {
-        if ( ! empty( $uploadNames ) ) {
-            require_once 'CRM/Core/QuickForm/Action/Upload.php';
-            $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
-                                                              $uploadDirectory,
-                                                              $uploadNames );
-
-            $this->addAction('upload' , $action );
+    public function addUploadAction( $uploadDir, $uploadNames ) {
+        if ( empty( $uploadDir ) ) {
+            $config  =& CRM_Core_Config::singleton( );
+            $uploadDir = $config->uploadDir;
         }
+
+        require_once 'CRM/Core/BAO/File.php';
+        if ( empty( $uploadNames ) ) {
+            $uploadNames = $this->get( 'uploadNames' );
+            if ( ! empty( $uploadNames ) ) {
+                $uploadNames = array_merge( $uploadNames,
+                                            CRM_Core_BAO_File::uploadNames( ) );
+            } else {
+                $uploadNames = CRM_Core_BAO_File::uploadNames( );
+            }
+        }
+
+        require_once 'CRM/Core/QuickForm/Action/Upload.php';
+        $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
+                                                          $uploadDir,
+                                                          $uploadNames );
+        $this->addAction('upload' , $action );
     }
 
     public function setParent( $parent ) {
@@ -553,6 +584,25 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         return $this->_parent;
     }
 
+    public function getDestination( ) {
+        return $this->_destination;
+    }
+
+    public function setDestination( $url = null, $setToReferer = false ) {
+        if ( empty( $url ) ) {
+            if ( $setToReferer ) {
+                $url = $_SERVER['HTTP_REFERER'];
+            } else {
+                $config =& CRM_Core_Config::singleton( );
+                $url = $config->userFrameworkBaseURL;
+            }
+        }
+        
+        $this->_destination = $url;
+        $this->set( 'destination', $this->_destination );
+    }
+
+
 }
 
-?>
+

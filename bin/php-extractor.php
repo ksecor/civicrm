@@ -107,6 +107,10 @@ function tsCallType($tokens)
                 return TS_CALL_TYPE_INVALID;
             }
 
+        // Drupal uses bang-prepended placeholders, so accept them
+        } elseif (preg_match('/^[\'"]!\d+[\'"]$/', $key[1])) {
+            // no-op
+
         // no non-number keys (except count and plural, above)
         } elseif ($key[0] != T_LNUMBER) {
             return TS_CALL_TYPE_INVALID;
@@ -210,7 +214,7 @@ function findTsCalls($tokens, $file)
 
         // check whether we're at ts(
         list($type, $string, $line) = $ctok;
-        if (($type == T_STRING) && ($string == 'ts') && ($par == '(')) {
+        if (($type == T_STRING) && ($string == 'ts' or $string == 't') && ($par == '(')) {
 
             switch (tsCallType($tokens)) {
 
@@ -318,37 +322,6 @@ function markerError($file, $line, $marker, $tokens)
 
 
 /**
- * returns the POT file header
- *
- * @param string $file  the string containing the file name
- *
- * @return string  the string containing the POT header
- */
-function writeHeader($file)
-{
-    $output = array();
-    $output[] = '# Copyright CiviCRM LLC (c) 2004-2007';
-    $output[] = '# This file is distributed under the same license as the CiviCRM package.';
-    $output[] = '# If you contribute heavily to a translation and deem your work copyrightable,';
-    $output[] = '# make sure you license it to CiviCRM LLC under Academic Free License 3.0.';
-    $output[] = 'msgid ""';
-    $output[] = 'msgstr ""';
-    $output[] = '"Project-Id-Version: CiviCRM 1.9\n"';
-    $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
-    $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
-    $output[] = '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"';
-    $output[] = '"MIME-Version: 1.0\n"';
-    $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
-    $output[] = '"Content-Transfer-Encoding: 8bit\n"';
-    $output[] = '"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"';
-    $output[] = '';
-    $output[] = '';
-    return implode("\n", $output);
-}
-
-
-
-/**
  * stores the string information
  *
  * @param string  $file      the string containing the filename the string's in
@@ -368,7 +341,7 @@ function store($file = 0, $input = 0, $filelist = array(), $get = false)
             $storage[$file][] = $input;
         } else {
             $storage[$file] = array();
-            $storage[$file][0] = writeHeader($file);
+            $storage[$file][0] = '';
             $storage[$file][1] = $filelist;
             $storage[$file][2] = $input;
         }
@@ -498,7 +471,7 @@ foreach ($strings as $str => $fileinfo) {
 
     foreach ($fileinfo as $file => $lines) {
 //      $occured[] = "$file:" . join(";", $lines);
-        $occured[] = "$file";
+        $occured[] = $file;
         if (isset($file_versions[$file])) {
             $filelist[] = $file_versions[$file];
         }
@@ -554,4 +527,4 @@ $s2 = ts('%3 – a plural test, %count frog', array('count' => 7, "plural" => 'a
 //$s4 = ts('a test – no plural', array('count' => 42));
 $s5 = ts('a test for multitoken element value', array(1 => $c . $d));
 
-?>
+

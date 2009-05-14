@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -51,20 +51,19 @@ class CRM_Core_Standalone {
     static function sidebarLeft( ) {
         $config =& CRM_Core_Config::singleton( );
 
-        // intialize the menu and set the default title
-        CRM_Core_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
-	// Not sure we want this for the standalone version
-	/*
-        if ( $config->userFrameworkFrontend ) {
-            return;
-        }
-	*/
-
-        $blockIds = array( 1, 2, 4, 8 );
+        require_once 'CRM/Core/Block.php';
+        $blockIds = array( 
+            CRM_Core_Block::CREATE_NEW,
+            CRM_Core_Block::RECENTLY_VIEWED,
+            CRM_Core_Block::DASHBOARD,
+            CRM_Core_Block::ADD,
+            CRM_Core_Block::LANGSWITCH,
+            CRM_Core_Block::EVENT,
+            CRM_Core_Block::FULLTEXT_SEARCH
+        );
 
         $blocks = array( );
         foreach ( $blockIds as $id ) {
-            require_once 'CRM/Core/Block.php';
             $blocks[] = CRM_Core_Block::getContent( $id );
         }
 
@@ -73,14 +72,8 @@ class CRM_Core_Standalone {
         $template->assign_by_ref( 'blocks', $blocks );
         $sidebarLeft = $template->fetch( 'CRM/Block/blocks.tpl' );
         $template->assign_by_ref( 'sidebarLeft', $sidebarLeft );
-
-        $args = explode( '/', trim( $_GET[CIVICRM_UF_URLVAR] ) );
-        require_once 'CRM/Core/Menu.php';
-        $breadcrumb =& CRM_Core_Menu::breadcrumb( $args );
-
-        $template->assign_by_ref( 'breadcrumb', $breadcrumb );
     }
 
 }
 
-?>
+

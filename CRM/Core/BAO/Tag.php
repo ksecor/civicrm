@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -66,6 +66,54 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
             return $tag;
         }
         return null;
+    }
+
+    function getTree () {
+        if (!isset ($this->tree)) {
+            $this->buildTree();
+        }
+        return $this->tree;
+    }
+	
+    function buildTree() {
+        $sql = "SELECT civicrm_tag.id, civicrm_tag.parent_id,civicrm_tag.name FROM civicrm_tag order by parent_id,name;";
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
+
+        $orphan = array();
+        while ( $dao->fetch( ) ) {
+            if (!$dao->parent_id) {
+                $this->tree[$dao->id]['name'] = $dao->name;
+            } else {
+                if (array_key_exists($dao->parent_id,$this->tree)) {
+                    $parent =& $this->tree[$dao->parent_id];
+                    if (!isset ($this->tree[$dao->parent_id]['children']) ) {
+                        $this->tree[$dao->parent_id]['children'] = array();
+                    }
+                }
+                else {
+                    //3rd level tag
+                    if (!array_key_exists($dao->parent_id,$orphan)) {
+                        $orphan[$dao->parent_id]=array('children'=> array());
+                    }
+                    $parent=& $orphan[$dao->parent_id];
+                }
+                $parent['children'][$dao->id] = array ('name'=>$dao->name);
+            }
+        }
+        if (sizeof($orphan)) {
+            //hang the 3rd level lists at the right place
+            foreach ($this->tree as &$level1) {
+                if ( ! isset ( $level1['children'] ) ) {
+                    continue;
+                }
+
+                foreach ( $level1['children'] as $key => &$level2 ) {
+                    if ( array_key_exists( $key,$orphan ) ) {
+                        $level2['children']= $orphan[$key]['children'];
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -119,15 +167,12 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
         }
 
         $tag               =& new CRM_Core_DAO_Tag( );
-        $tag->domain_id    = CRM_Core_Config::domainID( );
-
         $tag->copyValues( $params );
-
         $tag->id = CRM_Utils_Array::value( 'tag', $ids );
 
         $tag->save( );
         
-        CRM_Core_Session::setStatus( ts('The tag "%1" has been saved.', array(1 => $tag->name)) );
+        CRM_Core_Session::setStatus( ts('The tag \'%1\' has been saved.', array(1 => $tag->name)) );
         
         return $tag;
     }
@@ -151,4 +196,4 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
     }
 }
 
-?>
+

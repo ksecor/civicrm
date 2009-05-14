@@ -1,95 +1,55 @@
-if(!dojo._hasResource["dojox.validate.creditCard"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojox.validate.creditCard"] = true;
-dojo.provide("dojox.validate.creditCard");
-
-dojo.require("dojox.validate._base");
-
 /*
-	Validates Credit Cards using account number rules in conjunction with the Luhn algorigthm
-	
- */
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
-dojox.validate.isValidCreditCard = function(/*String|Int*/value, /*String*/ccType){
-	//Summary:
-	//  checks if type matches the # scheme, and if Luhn checksum is accurate (unless its an Enroute card, the checkSum is skipped)
-	
-	//Value: Boolean
-	if(value&&ccType&&((ccType.toLowerCase()=='er'||dojox.validate.isValidLuhn(value))&&(dojox.validate.isValidCreditCardNumber(value,ccType.toLowerCase())))){
-			return true; //Boolean
-	}
-	return false; //Boolean
-}
-dojox.validate.isValidCreditCardNumber = function(/*String|Int*/value,/*String?*/ccType) {
-	//Summary:
-	//  checks if the # matches the pattern for that card or any card types if none is specified
-	//  value == CC #, white spaces and dashes are ignored
-	//  ccType is of the values in cardinfo -- if Omitted it it returns a | delimited string of matching card types, or false if no matches found
-	
-	//Value: Boolean
-	
-	if(typeof value!='string'){
-		value = String(value);
-	}
-	value = value.replace(/[- ]/g,''); //ignore dashes and whitespaces
-	/* 	FIXME: not sure on all the abbreviations for credit cards,below is what each stands for atleast to my knowledge
-		mc: Mastercard
-		ec: Eurocard
-		vi: Visa
-		ax: American Express
-		dc: Diners Club
-		bl: Carte Blanch
-		di: Discover
-		jcb: JCB
-		er: Enroute
-	 */
-	var results=[];
-	var cardinfo = {
-		'mc':'5[1-5][0-9]{14}','ec':'5[1-5][0-9]{14}','vi':'4([0-9]{12}|[0-9]{15})',
-		'ax':'3[47][0-9]{13}', 'dc':'3(0[0-5][0-9]{11}|[68][0-9]{12})',
-		'bl':'3(0[0-5][0-9]{11}|[68][0-9]{12})','di':'6011[0-9]{12}',
-		'jcb':'(3[0-9]{15}|(2131|1800)[0-9]{11})','er':'2(014|149)[0-9]{11}'
-	};
-	if(ccType&&dojo.indexOf(cardinfo,ccType.toLowerCase())){
-		return Boolean(value.match(cardinfo[ccType.toLowerCase()])); // boolean
-	}else{
-		for(var p in cardinfo){
-			if(value.match('^'+cardinfo[p]+'$')!=null){
-				results.push(p);
-			}
-		}
-		return (results.length)?results.join('|'):false; // string | boolean
-	}	
-}
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
 
-dojox.validate.isValidCvv = function(/*String|Int*/value, /*String*/ccType) {
-	//Summary:
-	//  returns true if the security code (CCV) matches the correct format for supplied ccType
-	
-	//Value: Boolean
-	
-	if(typeof value!='string'){
-		value=String(value);
-	}
-	var format;
-	switch (ccType.toLowerCase()){
-		case 'mc':
-		case 'ec':
-		case 'vi':
-		case 'di':
-			format = '###';
-			break;
-		case 'ax':
-			format = '####';
-			break;
-		default:
-			return false; //Boolean
-	}
-	var flags = {format:format};
-	//FIXME? Why does isNumberFormat take an object for flags when its only parameter is either a string or an array inside the object?
-	if ((value.length == format.length)&&(dojox.validate.isNumberFormat(value, flags))){
-		return true; //Boolean
-	}
-	return false; //Boolean
-}
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
 
+
+if(!dojo._hasResource["dojox.validate.creditCard"]){
+dojo._hasResource["dojox.validate.creditCard"]=true;
+dojo.provide("dojox.validate.creditCard");
+dojo.require("dojox.validate._base");
+dojox.validate.isValidCreditCard=function(_1,_2){
+return ((_2.toLowerCase()=="er"||dojox.validate.isValidLuhn(_1))&&dojox.validate.isValidCreditCardNumber(_1,_2.toLowerCase()));
+};
+dojox.validate.isValidCreditCardNumber=function(_3,_4){
+_3=String(_3).replace(/[- ]/g,"");
+var _5={"mc":"5[1-5][0-9]{14}","ec":"5[1-5][0-9]{14}","vi":"4(?:[0-9]{12}|[0-9]{15})","ax":"3[47][0-9]{13}","dc":"3(?:0[0-5][0-9]{11}|[68][0-9]{12})","bl":"3(?:0[0-5][0-9]{11}|[68][0-9]{12})","di":"6011[0-9]{12}","jcb":"(?:3[0-9]{15}|(2131|1800)[0-9]{11})","er":"2(?:014|149)[0-9]{11}"};
+if(_4){
+var _6=_5[_4.toLowerCase()];
+return _6?!!(_3.match(_5[_4.toLowerCase()])):false;
+}
+var _7=[];
+for(var p in _5){
+if(_3.match("^"+_5[p]+"$")){
+_7.push(p);
+}
+}
+return _7.length?_7.join("|"):false;
+};
+dojox.validate.isValidCvv=function(_9,_a){
+if(typeof _9!="string"){
+_9=String(_9);
+}
+var _b;
+switch(_a.toLowerCase()){
+case "mc":
+case "ec":
+case "vi":
+case "di":
+_b="###";
+break;
+case "ax":
+_b="####";
+break;
+default:
+return false;
+}
+var _c={format:_b};
+return (_9.length==_b.length&&dojox.validate.isNumberFormat(_9,_c));
+};
 }

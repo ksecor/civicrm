@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -92,8 +92,8 @@ class CRM_Contact_Task {
                                                   'class'  => 'CRM_Contact_Form_Task_RemoveFromTag',
                                                   'result' => true ),
                                   5     => array( 'title'  => ts( 'Export Contacts'               ),
-                                                  'class'  => array( 'CRM_Contact_Form_Task_Export_Select',
-                                                                     'CRM_Contact_Form_Task_Export_Map' ),
+                                                  'class'  => array( 'CRM_Export_Form_Select',
+                                                                     'CRM_Export_Form_Map' ),
                                                   'result' => false ),
                                   6     => array( 'title'  => ts( 'Send Email to Contacts'        ),
                                                   'class'  => 'CRM_Contact_Form_Task_Email',
@@ -111,7 +111,7 @@ class CRM_Contact_Task {
                                                   'class'  => 'CRM_Contact_Form_Task_AddToOrganization',
                                                   'result' => true ),
                                   11    => array( 'title'  => ts( 'Record Activity for Contacts'  ),
-                                                  'class'  => 'CRM_Contact_Form_Task_Record',
+                                                  'class'  => 'CRM_Activity_Form_Activity',
                                                   'result' => true ),
                                   13    => array( 'title'  => ts( 'New Smart Group'               ),
                                                   'class'  => 'CRM_Contact_Form_Task_SaveSearch',
@@ -127,7 +127,7 @@ class CRM_Contact_Task {
                                                   'result' => true ),
                                   17    => array( 'title'  => ts( 'Batch Update via Profile'       ),
                                                   'class'  => array( 'CRM_Contact_Form_Task_PickProfile',
-                                                                     'CRM_Contact_Form_Task_BatchUpdateProfile' ),
+                                                                     'CRM_Contact_Form_Task_Batch' ),
                                                   'result' => true ),
                                   );
            
@@ -146,8 +146,24 @@ class CRM_Contact_Task {
                                            'class'  => 'CRM_Event_Form_Participant',
                                            'result' => true );
             }
-
+            
+            if ( CRM_Core_Permission::access( 'CiviMail' ) ) { 
+                self::$_tasks[20] = array( 'title'  => ts( 'Schedule/Send a Mass Mailing' ),
+                                           'class'  => array( 'CRM_Mailing_Form_Group',
+                                                              'CRM_Mailing_Form_Settings',
+                                                              'CRM_Mailing_Form_Upload',
+                                                              'CRM_Mailing_Form_Test',
+                                                              'CRM_Mailing_Form_Schedule'
+                                                              ),
+                                           'result' => false
+                                           );
+            }
+            
             self::$_tasks += CRM_Core_Component::taskList( );
+
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::searchTasks( 'contact', self::$_tasks );
+
             asort(self::$_tasks);
         }
     }
@@ -175,9 +191,8 @@ class CRM_Contact_Task {
 
         $config =& CRM_Core_Config::singleton( );
 
-        if ( ! isset( $config->smtpServer ) ||
-             $config->smtpServer == '' ||
-             $config->smtpServer == 'YOUR SMTP SERVER' ) {
+        require_once 'CRM/Utils/Mail.php';
+        if ( !CRM_Utils_Mail::validOutBoundMail() ) { 
             unset( $titles[6] );
         }
         
@@ -199,7 +214,7 @@ class CRM_Contact_Task {
      */
     static function &permissionedTaskTitles( $permission ) {
         if ( $permission == CRM_Core_Permission::EDIT ) {
-            return self::taskTitles( );
+            $tasks = self::taskTitles( );
         } else {
             $tasks = array( 
                            5  => self::$_tasks[ 5]['title'],
@@ -207,8 +222,14 @@ class CRM_Contact_Task {
                            12 => self::$_tasks[12]['title'],
                            16 => self::$_tasks[16]['title'],
                            );
-            return $tasks;
+            if ( ! self::$_tasks[12]['title'] ) {
+                //usset it, No edit permission and Map provider info
+                //absent, drop down shows blank space
+                unset( $tasks[12] );
+            } 
         }
+
+        return $tasks;
     }
 
     /**
@@ -238,4 +259,4 @@ class CRM_Contact_Task {
 
 }
 
-?>
+

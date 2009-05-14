@@ -18,9 +18,9 @@
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_default.html} {$form.is_default.label}</dd>
-
+  </dl>
 <fieldset>
-<legend>Processor Details for Live Payments</legend>
+<legend>{ts}Processor Details for Live Payments{/ts}</legend>
     <dt>{$form.user_name.label}</dt><dd>{$form.user_name.html} {help id=$ppType|cat:'-live-user-name'}</dd>
 {if $form.password}
     <dt>{$form.password.label}</dt><dd>{$form.password.html} {help id=$ppType|cat:'-live-password'}</dd>
@@ -32,7 +32,9 @@
     <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 {/if}
     <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-site'}</dd>
-    <dt>{$form.url_api.label}</dt><dd>{$form.url_api.html|crmReplace:class:huge}</dd>
+{if $form.url_api}
+    <dt>{$form.url_api.label}</dt><dd>{$form.url_api.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-api'}</dd>
+{/if}
 {if $is_recur}
     <dt>{$form.url_recur.label}</dt><dd>{$form.url_recur.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-recur'}</dd>
 {/if}
@@ -42,7 +44,7 @@
 </fieldset>
 
 <fieldset>
-<legend>Processor Details for Test Payments</legend>
+<legend>{ts}Processor Details for Test Payments{/ts}</legend>
     <dt>{$form.test_user_name.label}</dt><dd>{$form.test_user_name.html} {help id=$ppType|cat:'-test-user-name'}</dd>
 {if $form.test_password}
     <dt>{$form.test_password.label}</dt><dd>{$form.test_password.html} {help id=$ppType|cat:'-test-password'}</dd>
@@ -54,7 +56,9 @@
     <dt>{$form.test_subject.label}</dt><dd>{$form.test_subject.html}</dd>
 {/if}
     <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-site'}</dd>
-    <dt>{$form.test_url_api.label}</dt><dd>{$form.test_url_api.html|crmReplace:class:huge}</dd>
+{if $form.test_url_api}
+    <dt>{$form.test_url_api.label}</dt><dd>{$form.test_url_api.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-api'}</dd>
+{/if}
 {if $is_recur}
     <dt>{$form.test_url_recur.label}</dt><dd>{$form.test_url_recur.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-recur'}</dd>
 {/if}
@@ -63,7 +67,6 @@
 {/if}
 </fieldset>
 
-</dl>
 {/if}
   <dl> 
     <dt></dt><dd>{$form.buttons.html}</dd>

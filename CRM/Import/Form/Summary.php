@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,13 +28,12 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Import/Parser.php';
 
 /**
  * This class summarizes the import results
@@ -48,20 +47,18 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
      * @access public
      */
     public function preProcess( ) {
-
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
         
-        $totalRowCount = $this->get('totalRowCount');
-        $relatedCount = $this->get('relatedCount');
-        $totalRowCount += $relatedCount;
-        $this->set('totalRowCount', $totalRowCount);
-
-        $invalidRowCount = $this->get('invalidRowCount');
-        $conflictRowCount = $this->get('conflictRowCount');
+        $totalRowCount     = $this->get('totalRowCount');
+        $relatedCount      = $this->get('relatedCount');
+        $totalRowCount    += $relatedCount;
+        
+        $invalidRowCount   = $this->get('invalidRowCount');
+        $conflictRowCount  = $this->get('conflictRowCount');
         $duplicateRowCount = $this->get('duplicateRowCount');
-        $onDuplicate = $this->get('onDuplicate');
-        $mismatchCount      = $this->get('unMatchCount');
+        $onDuplicate       = $this->get('onDuplicate');
+        $mismatchCount     = $this->get('unMatchCount');
         if ($duplicateRowCount > 0) {
             $this->set('downloadDuplicateRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=3'));
         }else if($mismatchCount) {
@@ -88,17 +85,20 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
                 ts('These records have not been imported.');
 
             $this->assign('dupeError', true);
-        
-            /* only subtract dupes from succesful import if we're skipping */
-            $this->set('validRowCount', $totalRowCount - $invalidRowCount -
-                    $conflictRowCount - $duplicateRowCount - $mismatchCount);
         }
+        //now we also create relative contact in update and fill mode
+        $this->set('validRowCount', $totalRowCount - $invalidRowCount -
+                   $conflictRowCount - $duplicateRowCount - $mismatchCount);
+        
         $this->assign('dupeActionString', $dupeActionString);
         
         $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'tagAdditions', 'unMatchCount');
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
+
+        $session =& CRM_Core_Session::singleton( );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/import/contact', 'reset=1') );
     }
 
     /**
@@ -115,6 +115,24 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
                                  )
                            );
     }
+    
+    /**
+    * Clean up the import table we used
+    *
+    * @return None
+    * @access public
+    */
+    public function postProcess( ) {
+        $dao = new CRM_Core_DAO( );
+        $db = $dao->getDatabaseConnection( );
+        
+        $importTableName = $this->get( 'importTableName' );
+        // do a basic sanity check here
+        if (strpos( $importTableName, 'civicrm_import_job_' ) === 0) {
+            $query = "DROP TABLE IF EXISTS $importTableName";
+            $db->query( $query );
+        }
+    }
 
     /**
      * Return a descriptive name for the page, used in wizard header
@@ -127,5 +145,3 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
     }
 
 }
-
-?>

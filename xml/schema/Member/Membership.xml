@@ -8,10 +8,12 @@
   <add>1.5</add>
   <field>
       <name>id</name>
+      <uniqueName>membership_id</uniqueName>
       <type>int unsigned</type>
       <required>true</required>
       <import>true</import> 
-      <title>Membership ID (match to membership)</title>
+      <title>Membership ID</title>
+      <headerPattern>/^(m(embership\s)?id)$/i</headerPattern>
       <comment>Membership Id</comment>
       <add>1.5</add>
   </field>
@@ -25,7 +27,7 @@
       <uniqueName>membership_contact_id</uniqueName>
       <type>int unsigned</type>
       <required>true</required>
-      <title>Contact ID (match to contact)</title>
+      <title>Contact ID</title>
       <headerPattern>/contact(.?id)?/i</headerPattern>
       <dataPattern>/^\d+$/</dataPattern>
       <import>true</import>
@@ -44,7 +46,7 @@
       <type>int unsigned</type>
       <title>Membership Type</title>
       <import>true</import>
-      <headerPattern>/^membership|(m(embership\s)?type)$/i</headerPattern>
+      <headerPattern>/^(m(embership\s)?type)$/i</headerPattern>
       <required>true</required>
       <comment>FK to Membership Type</comment>
       <add>1.5</add>
@@ -61,7 +63,7 @@
       <title>Member Since</title>
       <type>date</type>
       <import>true</import>
-      <headerPattern>/^member|(m(ember\s)?since)$/i</headerPattern>
+      <headerPattern>/^join|(j(oin\s)?date)$/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Beginning of initial membership period (member since...).</comment>  
       <add>1.5</add>  
@@ -72,7 +74,7 @@
       <title>Membership Start Date</title>
       <type>date</type>
       <import>true</import>
-       <headerPattern>/^start|(s(tart\s)?date)$/i</headerPattern>
+      <headerPattern>/(member(ship)?.)?start(s)?(.date$)?/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Beginning of current uninterrupted membership period.</comment>
       <add>1.5</add>  
@@ -83,7 +85,7 @@
       <title>Membership Expiration Date</title>
       <type>date</type>
       <import>true</import>
-      <headerPattern>/^end|(e(nd\s)?date)$/i</headerPattern>
+      <headerPattern>/(member(ship)?.)?end(s)?(.date$)?/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>
       <comment>Current membership period expire date.</comment>  
       <add>1.5</add>  
@@ -93,7 +95,7 @@
       <uniqueName>membership_source</uniqueName>
       <title>Source</title>
       <import>true</import>
-       <headerPattern>/^source$/i</headerPattern>
+       <headerPattern>/^(member(ship?))?source$/i</headerPattern>
       <type>varchar</type>
       <length>128</length>
       <add>1.5</add>  
@@ -102,7 +104,7 @@
       <name>status_id</name>
       <title>Membership Status</title>
       <import>true</import>
-      <headerPattern>/^status$/i</headerPattern>
+      <headerPattern>/(member(ship|).)?(status)$/i</headerPattern>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Membership Status</comment>
@@ -119,6 +121,7 @@
       <name>is_override</name>     
       <title>Status Override</title>
       <import>true</import>
+      <headerPattern>/override$/i</headerPattern>
       <type>boolean</type>
       <comment>Admin users may set a manual status which overrides the calculated status. When this flag is true, automated status update scripts should NOT modify status for the record.</comment>
       <add>1.5</add>  
@@ -154,5 +157,16 @@
       <type>boolean</type>
       <default>0</default>
       <import>true</import>
+      <headerPattern>/(is.)?test(.member(ship)?)?/i</headerPattern>
+  </field>
+  <field>     
+      <name>is_pay_later</name>  
+      <uniqueName>member_is_pay_later</uniqueName> 
+      <title>Is Pay Later</title>
+      <type>boolean</type>
+      <default>0</default>
+      <import>true</import>
+      <headerPattern>/(is.)?(pay(.)?later)$/i</headerPattern>
+      <add>2.1</add> 
   </field>
 </table>

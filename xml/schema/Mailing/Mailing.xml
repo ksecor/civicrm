@@ -15,17 +15,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this mailing</comment>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-  </foreignKey>
-  <field>
       <name>header_id</name>
       <type>int unsigned</type>
       <comment>FK to the header component.</comment>
@@ -122,12 +111,12 @@
   </field>
   <field>
        <name>body_text</name>
-       <type>text</type>
+       <type>longtext</type>
        <comment>Body of the mailing in text format.</comment>
   </field>
   <field>
        <name>body_html</name>
-       <type>text</type>
+       <type>longtext</type>
        <comment>Body of the mailing in html format.</comment>
   </field>
   <field>
@@ -166,4 +155,40 @@
        <key>id</key>
        <onDelete>SET NULL</onDelete>
   </foreignKey>
+  <field>
+      <name>override_verp</name>
+      <type>boolean</type>
+      <default>0</default>
+      <add>2.2</add>    
+      <comment>Should we overrite VERP address in Reply-To</comment>
+  </field>
+  <field>
+      <name>created_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Contact ID who first created this mailing</comment>
+  </field>
+  <foreignKey>
+       <name>created_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
+      <name>scheduled_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Contact ID who scheduled this mailing</comment>
+  </field>
+  <foreignKey>
+       <name>scheduled_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
+       <name>is_archived</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this mailing archived?</comment>
+       <add>2.2</add>
+  </field>
 </table>

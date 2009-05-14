@@ -14,7 +14,7 @@
         {ts count=$unMatchCount plural='CiviCRM has detected mismatched membership IDs. These records have not been Updated.'}CiviCRM has detected mismatched membership ID. This record have not been updated.{/ts}
         </p>
         <p class="error">
-        {ts 1=$downloadMismatchRecordsUrl}You can <a href="%1">Download Mismatched Memberships</a>. You may then correct them, and import the new file with the corrected data.{/ts}
+        {ts 1=$downloadMismatchRecordsUrl}You can <a href='%1'>Download Mismatched Memberships</a>. You may then correct them, and import the new file with the corrected data.{/ts}
         </p>
     {/if} 
    
@@ -58,7 +58,7 @@
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data in one or more fields. These rows will be skipped (not imported).{/ts}
             {if $invalidRowCount}
-                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+                <div class="action-link"><a href="{$downloadErrorRecordsUrl}">&raquo; {ts}Download Errors{/ts}</a></div>
             {/if}
         </td>
     </tr>

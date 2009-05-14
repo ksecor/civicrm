@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -37,9 +37,6 @@ require_once 'CRM/Core/DAO/OptionGroup.php';
 
 class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup 
 {
-
-    
-
     /**
      * class constructor
      */
@@ -99,19 +96,16 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
      */
     static function add(&$params, &$ids) 
     {
-        
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['is_active' ] =  CRM_Utils_Array::value( 'is_active', $params, false );
         $params['is_default'] =  CRM_Utils_Array::value( 'is_default', $params, false );
         
         // action is taken depending upon the mode
         $optionGroup               =& new CRM_Core_DAO_OptionGroup( );
-        $optionGroup->domain_id    = CRM_Core_Config::domainID( );
-        
         $optionGroup->copyValues( $params );;
         
         if ($params['is_default']) {
-            $query = "UPDATE civicrm_option_group SET is_default = 0 WHERE domain_id = {$optionGroup->domain_id}";
-            CRM_Core_DAO::executeQuery( $query, $p );
+            $query = "UPDATE civicrm_option_group SET is_default = 0";
+            CRM_Core_DAO::executeQuery( $query );
         }
         
         $optionGroup->id = CRM_Utils_Array::value( 'optionGroup', $ids );
@@ -152,15 +146,92 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
      * @access public
      * @static
      */
-
     static function getTitle( $optionGroupId ) {
         $optionGroup               =& new CRM_Core_DAO_OptionGroup( );
         $optionGroup->id = $optionGroupId;
         $optionGroup->find(true);
         return $optionGroup->name;
-        
     }
-      
+
+    /**
+     * Function to copy the option group and values
+     * 
+     * @param  String $component      - component page for which custom 
+     *                                  option group and values need to be copied 
+     * @param  int    $fromId         - component page id on which
+     *                                  basis copy is to be made 
+     * @param  int    $toId           - component page id to be copied onto 
+     * @param  int    $defaultId      - default custom value id on the 
+     *                                  component page 
+     * @param  String $discountSuffix - discount suffix for the discounted
+     *                                  option group
+     * 
+     * @return int   $id              - default custom value id for the 
+     *                                 copied component page 
+     * 
+     * @access public
+     * @static
+     */
+    static function copyValue( $component, $fromId, $toId, $defaultId = false,  $discountSuffix = null ) 
+    {
+        $page = '_page';
+        if ( $component == 'event' ) {
+            //fix for CRM-3391.
+            //as for event we remove 'page' from group name.
+            $page = null;
+        }
+
+        $fromGroupName = 'civicrm_' . $component . $page .'.amount.' . $fromId . $discountSuffix;
+        $toGroupName   = 'civicrm_' . $component . $page .'.amount.' . $toId   . $discountSuffix;
+        
+        $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
+                                                      $fromGroupName, 
+                                                      'id', 
+                                                      'name' );
+        if ( $optionGroupId ) {
+            $copyOptionGroup =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionGroup', 
+                                                           array( 'name' => $fromGroupName ),
+                                                           array( 'name' => $toGroupName ) 
+                                                           );
+            
+            $copyOptionValue =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionValue', 
+                                                           array( 'option_group_id' => $optionGroupId ),
+                                                           array( 'option_group_id' => $copyOptionGroup->id ) 
+                                                           );
+            
+            if ( $discountSuffix ) {
+                $copyDiscount =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_Discount',
+                                                            array( 'entity_id'       => $fromId,
+                                                                   'entity_table'    => 'civicrm_' . $component,
+                                                                   'option_group_id' => $optionGroupId ),
+                                                            array( 'entity_id'       => $toId,
+                                                                   'option_group_id' => $copyOptionGroup->id ) 
+                                                            );
+            }
+            
+            if ( $defaultId ) {
+                $query = "
+SELECT second.id default_id 
+FROM civicrm_option_value first, civicrm_option_value second
+WHERE second.option_group_id =%1
+AND first.option_group_id =%2
+AND first.weight = second.weight
+AND first.id =%3
+";
+                $params = array( 1 => array( $copyOptionGroup->id, 'Int' ), 
+                                 2 => array( $optionGroupId, 'Int' ), 
+                                 3 => array( $defaultId, 'Int' ) );
+                
+                $dao = CRM_Core_DAO::executeQuery( $query, $params );
+                
+                while ( $dao->fetch( ) ) {
+                    $id = $dao->default_id;
+                }        
+                return $id;
+            }
+            return false;
+        }
+    }
 }
 
-?>
+

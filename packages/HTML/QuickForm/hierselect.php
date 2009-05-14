@@ -273,8 +273,19 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      */
     function _createElements()
     {
+        //hack to add id attribute for hier select
+        $attributes = $this->getAttributes();
+        $id = null;
+        if ( isset( $attributes['id'] ) ) {
+            $id = "{$attributes['id']}";
+        }
+
         for ($i = 0; $i < $this->_nbElements; $i++) {
-            $this->_elements[] =& new HTML_QuickForm_select($i, null, array(), $this->getAttributes());
+            if ( isset( $id ) ) {
+                $attributes['id'] = "{$id}_{$i}";
+            }
+
+            $this->_elements[] =& new HTML_QuickForm_select($i, null, array(), $attributes);
         }
     } // end func _createElements
 
@@ -289,10 +300,17 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      */
     function _setJS()
     {
+        static $jsArrayName = null;
+
         $this->_js = $js = '';
-        $this->_jsArrayName = 'hs_' . preg_replace('/\[|\]/', '_', $this->getName());
-        for ($i = 1; $i < $this->_nbElements; $i++) {
-            $this->_setJSArray($this->_jsArrayName, $this->_options[$i], $js);
+        if ( ! $jsArrayName ) {
+            $this->_jsArrayName = 'hs_' . preg_replace('/\[|\]/', '_', $this->getName());
+            for ($i = 1; $i < $this->_nbElements; $i++) {
+                $this->_setJSArray($this->_jsArrayName, $this->_options[$i], $js);
+            }
+            $jsArrayName = $this->_jsArrayName;
+        } else {
+            $this->_jsArrayName = $jsArrayName;
         }
     } // end func _setJS
     
@@ -313,6 +331,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      */
     function _setJSArray($grpName, $options, &$js, $optValue = '')
     {
+        static $jsNameCache = array( );
         if (is_array($options)) {
             $js = '';
             // For a hierselect containing 3 elements:
@@ -326,7 +345,17 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
             }
             
             // if $js !== '' add it to the JavaScript
-            $this->_js .= ($js !== '') ? $name." = {\n".$js."\n}\n" : '';
+
+            if ( $js !== '' ) {
+                // check if we have already this js in cache, if so reuse it
+                $cacheKey = md5( $js );
+                if ( array_key_exists( $cacheKey, $jsNameCache ) ) {
+                    $this->_js .= "$name = {$jsNameCache[$cacheKey]}\n";
+                } else {
+                    $this->_js .= $name." = {\n".$js."\n}\n";
+                    $jsNameCache[$cacheKey] = $name;
+                }
+            }
             $js = '';
         } else {
             // $js empty means that we are adding the first element to the JavaScript.
@@ -414,7 +443,11 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         $renderer =& new HTML_QuickForm_Renderer_Default();
         $renderer->setElementTemplate('{element}');
         parent::accept($renderer);
-        return "<script type=\"text/javascript\">\n//<![CDATA[\n" . $this->_js . "//]]>\n</script>" .
+        $result = null;
+        if ( ! empty( $this->_js ) ) {
+            $result .= "<script type=\"text/javascript\">\n//<![CDATA[\n" . $this->_js . "//]]>\n</script>";
+        }
+        return $result .
                $renderer->toHtml();
     } // end func toHtml
 

@@ -2,15 +2,14 @@
 
 {include file="CRM/common/pagerAToZ.tpl"}
 
-<table summary="{ts}Search results listings.{/ts}">
-  <tr class="columnheader">
+<table summary="{ts}Search results listings.{/ts}" class="selector">
+  <thead class="sticky">
   <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
   {if $context eq 'smog'}
       <th scope="col">
         {ts}Status{/ts}
       </th>
   {/if}
-  <th></th>
   {foreach from=$columnHeaders item=header}
     <th scope="col">
     {if $header.sort}
@@ -21,7 +20,7 @@
     {/if}
     </th>
   {/foreach}
-  </tr>
+  </thead>
 
   {counter start=0 skip=1 print=false}
 
@@ -39,7 +38,7 @@
             <td>{$row.contact_type}</td>
             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
             {foreach from=$row item=value key=key} 
-               {if ($key neq "checkbox") and ($key neq "action") and ($key neq "contact_type") and ($key neq "status") and ($key neq "sort_name") and ($key neq "contact_id")}
+               {if ($key neq "checkbox") and ($key neq "action") and ($key neq "contact_type") and ($key neq "status") and ($key neq "sort_name") and ($key neq "contact_id") and ($key neq "contact_sub_type")}
                 <td>
                 {if $key EQ "household_income_total" }
                     {$value|crmMoney}
@@ -52,7 +51,7 @@
                  </td>
                {/if}
             {/foreach}
-            <td>{$row.action}</td>
+            <td>{$row.action|replace:'xx':$row.contact_id}</td>
         </tr>
      {/foreach}
   {else}
@@ -75,25 +74,63 @@
               <td>{$row.postal_code}</td>
               <td>{$row.country}</td>
               <td {if $row.on_hold}class="status-hold"{/if}>{$row.email|mb_truncate:17:"...":true}{if $row.on_hold}&nbsp;(On Hold){/if}</td>
-              <td>{$row.phone}</td>
-	      <td>{$row.subgroups}</td>
-            {else}
+              <td>{$row.phone}</td> 
+           {else}
               {foreach from=$row item=value key=key}
                 {if ($key neq "checkbox") and ($key neq "action") and ($key neq "contact_type") and ($key neq "contact_sub_type") and ($key neq "status") and ($key neq "sort_name") and ($key neq "contact_id")}
                  <td>{$value}&nbsp;</td>
                 {/if}   
               {/foreach}
             {/if}
-            <td>{$row.action}</td>
+            <td>{$row.action|replace:'xx':$row.contact_id}</td>
          </tr>
     {/foreach}
   {/if}
 </table>
 
- <script type="text/javascript">
+<!-- Context Menu -->
+<ul id="contactMenu" class="contextMenu">
+   <li><a href="#view">{ts}View Contact{/ts}</a></li>
+   <li><a href="#add">{ts}Edit Contact{/ts}</a></li>
+   <li><a href="#contribution">{ts}Record Contribution{/ts}</a></li>
+   <li><a href="#participant">{ts}Register for Event{/ts}</a></li>
+   <li><a href="#activity">{ts}Record Activity{/ts}</a></li>
+   <li><a href="#pledge">{ts}Add Pledge{/ts}</a></li>
+   <li><a href="#membership">{ts}Enter Membership{/ts}</a></li>
+   <li><a href="#email">{ts}Send an Email{/ts}</a></li>
+</ul>
+<script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}
     var fname = "{$form.formName}";	
     on_load_init_checkboxes(fname);
- </script>
+ {literal}
+cj(document).ready( function() {
+var url= "{/literal}{crmURL p='civicrm/contact/view/changeaction q="reset=1&action=add&cid=changeid&context=changeaction" h=0}{literal}";
+var activityUrl = "{/literal}{crmURL p='civicrm/contact/view/activity q="reset=1&snippet=1&cid=changeid" h=0}{literal}";
+var contactUrl = "{/literal}{crmURL p='civicrm/contact/changeaction q="reset=1&cid=changeid" h=0}{literal}";
+// Show menu when contact row is right clicked
+cj(".selector tr").contextMenu({
+		menu: 'contactMenu'
+    }, function( action ){ 
+         cj(".selector tr").mouseover(function() {
+             var contactId = cj(this).attr('id').substr(5);
+             if ( action == 'activity' || action == 'email' ) {
+                 if ( action == 'email' ) {
+                  activityUrl = activityUrl.replace( /&snippet=1/, '&atype=3&action=add' );
+                 }
+               url = activityUrl.replace( /changeid/, contactId );
+             } else if ( action == 'view' || action == 'add' ) {
+               url = ( action == 'add') ? contactUrl.replace( /changeid/, contactId+'&action=update' ) 
+                                        : contactUrl.replace( /changeid/, contactId ); 
+               url =  url.replace( /changeaction/, action);
+             }else {
+               url =  url.replace( /changeaction/g, action ); url = url.replace( /changeid/, contactId );
+             }
+           window.location = url;
+        });
+	});
+});
 
+{/literal}
+</script>
 {include file="CRM/common/pager.tpl" location="bottom"}

@@ -8,7 +8,7 @@
         {foreach from=$orClauses name=criteria item=item}
             {$item}
             {if !$smarty.foreach.criteria.last}
-                &nbsp; ... AND ...
+                <span class="font-italic">...{ts}AND{/ts}...</span>
             {/if}
         {/foreach}
         </li>
@@ -25,14 +25,13 @@
         {/if}
 
     {else}
-        <ul>
         {foreach from=$orClauses name=criteria item=item}
-            <li>{$item}
+            <div class="qill">
+            {$item}
             {if !$smarty.foreach.criteria.last}
-                &nbsp; ... AND ...
+                <span class="font-italic">{ts}...AND...{/ts}</span>
             {/if}
-            </li>
+            </div>
         {/foreach}
-        </ul>
     {/if}
 {/foreach}

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -33,7 +33,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -277,20 +277,22 @@ function crm_create_uf_field( $UFGroup , $params ) {
     
     $params['field_name'] =  array( $field_type, $field_name, $location_type_id, $phone_type);
    
-    if(! is_array( $params ) || $params['field_name'][1] == null || $params['weight'] == null) {
+    if(! is_array( $params ) || $params['field_name'][1] == null || $params['weight'] == null ) {
         return _crm_error("missing required fields ");
-    }   
+    }
+   
+    if ( !( CRM_Utils_Array::value('group_id', $params) ) ) {
+        $params['group_id'] =  $UFGroup->id;
+    }
     
     $ids = array();
     $ids['uf_group'] = $UFGroup->id;
-
+    
     require_once 'CRM/Core/BAO/UFField.php';
     if (CRM_Core_BAO_UFField::duplicateField($params, $ids) ) {
         return _crm_error("The field was not added. It already exists in this profile.");
     }
     return CRM_Core_BAO_UFField::add( $params , $ids );
-    
-
 } 
 
 /**
@@ -329,9 +331,14 @@ function crm_update_uf_field( $params , $ufField) {
     $UFField = &new CRM_core_BAO_UFField();
     $UFField->id = $fieldId;
     
+    if ( !( CRM_Utils_Array::value('group_id', $params) ) && $UFField->find(true) ) {
+        $params['group_id'] =  $UFField->uf_group_id;
+    }
+
     $ids = array();
-    if ( $UFField->find(true) ){ 
-        $ids['uf_group'] = $UFField->uf_group_id;
+
+    if ( $UFField->find(true) ) { 
+        $ids['uf_group'] =  $UFField->uf_group_id;
     } else {
         return _crm_error("there is no field for this fieldId");
     }
@@ -410,4 +417,4 @@ function crm_validate_profile_html($userID, $title, $action = null, $register = 
     return CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register, $action );
 }
 
-?>
+

@@ -1,6 +1,5 @@
 {if $showTask}
-    <div id="task_block">
-    <fieldset class="collapsible">
+    <div id="task_block" class="form-item">
     <table class="form-layout">
          <tr>
             <td class="label">
@@ -17,6 +16,5 @@
             </td>    
         </tr>
       </table>         
-    </fieldset>
     </div>
 {/if}

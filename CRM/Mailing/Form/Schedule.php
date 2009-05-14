@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -47,8 +47,11 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
+        $defaults = array( );
         $count = $this->get('count');
         $this->assign('count',$count);
+        $defaults['now'] = 1;
+        return $defaults;
     }
     
     /**
@@ -64,18 +67,29 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             CRM_Core_SelectValues::date('mailing'));
         $this->addElement('checkbox', 'now', ts('Send Immediately'));
         
-        $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'));
+        $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'), $this );
         
-        $this->addButtons(  array(
-                                array(  'type'  => 'back',
-                                        'name'  => ts('<< Previous')),
-                                array(  'type'  => 'next',
-                                        'name'  => ts('Done'),
-                                        'isDefault' => true),
-                                array(  'type'  => 'cancel',
-                                        'name'  => ts('Cancel')),
-                            )
-                        );
+        //FIXME : currently we are hiding save an continue later when
+        //search base mailing, we should handle it when we fix CRM-3876
+        $buttons = array( array(  'type'  => 'back',
+                                  'name'  => ts('<< Previous')),
+                          array(  'type'  => 'next',
+                                  'name'  => ts('Submit Mailing'),
+                                  'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                  'isDefault' => true),
+                          array(  'type'  => 'cancel',
+                                  'name'  => ts('Continue Later')),
+                          );
+        if ( $this->get( 'context' ) == 'search' && $this->get( 'ssID' ) ) {
+            $buttons = array( array(  'type'  => 'back',
+                                      'name'  => ts('<< Previous')),
+                              array(  'type'  => 'next',
+                                      'name'  => ts('Submit Mailing'),
+                                      'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                      'isDefault' => true),
+                              );
+        }
+        $this->addButtons( $buttons );
     }
     
     /**
@@ -90,8 +104,37 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      *                          date is properly set.
      * @static
      */
-    public static function formRule(&$params) 
+    public static function formRule(&$params, &$files, &$self) 
     {
+        if ( $params['_qf_Schedule_submit'] ) {
+            //when user perform mailing from search context 
+            //redirect it to search result CRM-3711.
+            $ssID    = $self->get( 'ssID' );
+            $context = $self->get( 'context' );
+            if ( $ssID && $context == 'search' ) {
+                if ( $self->_action == CRM_Core_Action::BASIC ) {
+                    $fragment = 'search';
+                } else if ( $self->_action == CRM_Core_Action::PROFILE ) {
+                    $fragment = 'search/builder';
+                } else if ( $self->_action == CRM_Core_Action::ADVANCED ) {
+                    $fragment = 'search/advanced';
+                } else {
+                    $fragment = 'search/custom';
+                }
+                
+                $draftURL = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                $status = ts("Your mailing has been saved. You can continue later by clicking the 'Continue' action to resume working on it.<br /> From <a href='%1'>Draft and Unscheduled Mailings</a>.", array( 1 => $draftURL ) );
+                CRM_Core_Session::setStatus( $status );
+                
+                //replace user context to search.
+                $url = CRM_Utils_System::url( "civicrm/contact/" . $fragment, "force=1&reset=1&ssID={$ssID}" );
+                CRM_Utils_System::redirect( $url );
+            } else {
+                CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
+                $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                CRM_Utils_System::redirect($url);
+            }
+        }
         if ( isset($params['now']) || $params['_qf_Schedule_back'] == '<< Previous' ) {
             return true;
         }
@@ -140,6 +183,30 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
                 }
                 $job->save();
             } 
+
+            // also set the scheduled_id 
+            $session =& CRM_Core_Session::singleton( );
+            $mailing->scheduled_id = $session->get( 'userID' );
+            $mailing->save( );
+            
+        }
+        
+        //when user perform mailing from search context 
+        //redirect it to search result CRM-3711.
+        $ssID    = $this->get( 'ssID' );
+        $context = $this->get( 'context' );
+        if ( $ssID && $context == 'search' ) {
+            if ( $this->_action == CRM_Core_Action::BASIC ) {
+                $fragment = 'search';
+            } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+                $fragment = 'search/builder';
+            } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
+                $fragment = 'search/advanced';
+            } else {
+                $fragment = 'search/custom';
+            }
+            $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, "force=1&reset=1&ssID={$ssID}" );
+            CRM_Utils_System::redirect( $url );
         }
     }
     
@@ -156,4 +223,4 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
 
 }
 
-?>
+

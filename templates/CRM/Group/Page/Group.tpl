@@ -5,32 +5,28 @@
 </div>
 {if $action ne 1 and $action ne 2 and $action ne 8 and $groupPermission eq 1}
     <div class="action-link">
-        <a href="{crmURL p='civicrm/group/add' q='reset=1'}" id="newGroup">&raquo; {ts}New Group{/ts}</a>
-    </div>
+        <a accesskey="N" href="{crmURL p='civicrm/group/add' q='reset=1'}" id="newGroup" class="button"><span>&raquo; {ts}New Group{/ts}</span></a><br/>
+    </div><br />
 {/if} {* action ne add or edit *}
+{/if}
+{if $action ne 2 AND $action ne 8}	
 {include file="CRM/Group/Form/Search.tpl"}
 {/if}
- 
 {if $rows}
 <div id="group">
 {if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
 {include file="CRM/common/pager.tpl" location="top"}
 {include file="CRM/common/pagerAToZ.tpl}
    {strip}
-   <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-	<thead>  
-     <tr class="columnheader">
-      <th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>
-      <th field="ID" dataType="Integer" scope="col">{ts}ID{/ts}</th>
-      <th field="Description" dataType="String" scope="col">{ts}Description{/ts}</th>
-      <th field="GroupType" dataType="String" scope="col">{ts}Group Type{/ts}</th>
-      <th field="Visibility" dataType="String" scope="col">{ts}Visibility{/ts}</th>
-<th field = "ChildGroups" dataType = "String" scope ="col">{ts}Child Groups{/ts}</th>
-<th datatype="html"></th>
+   <table cellpadding="0" cellspacing="0" border="0">
+      <tr class="columnheader">
+      <th>{ts}Name{/ts}</th>
+      <th>{ts}ID{/ts}</th>
+      <th>{ts}Description{/ts}</th>
+      <th>{ts}Group Type{/ts}</th>
+      <th>{ts}Visibility{/ts}</th>
+      <th></th>
      </tr>
-	</thead>
-
-	<tbody>  
    {foreach from=$rows item=row}
      <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active} disabled{/if}">
         <td>{$row.title}</td>	
@@ -40,12 +36,9 @@
         </td>
         <td>{$row.group_type}</td>	
         <td>{$row.visibility}</td>	
-<td>{$row.children}</td>
-        <td>{$row.action}</td>
-
+        <td>{$row.action|replace:'xx':$row.id}</td>
      </tr>
    {/foreach}
-	</tbody>
    </table>
    {/strip}
 {include file="CRM/common/pager.tpl" location="bottom"}
@@ -60,18 +53,18 @@
 
 {if $action ne 1 and $action ne 2 and $action ne 8 and $groupPermission eq 1}
     <div class="action-link">
-        <a href="{crmURL p='civicrm/group/add' q='reset=1'}" id="newGroup">&raquo; {ts}New Group{/ts}</a>
+        <a accesskey="N" href="{crmURL p='civicrm/group/add' q='reset=1'}" id="newGroup" class="button"><span>&raquo; {ts}New Group{/ts}</span></a><br/>
     </div>
 {/if} {* action ne add or edit *}
 </div>
 {* No groups to list. Check isSearch flag to see if we're in a search or not. Display 'add group' prompt if user has 'edit groups' permission. *}
-{elseif $isSearch eq 1}
+{elseif $isSearch eq 1 OR $groupExists}
     <div class="status messages">
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=browseURL}{crmURL p='civicrm/group' q="reset=1"}{/capture}
             <dd>
-                {ts}No available Groups match your search criteria. Suggestions:{/ts}
+                {ts}No matching Groups found for your search criteria. Suggestions:{/ts}
                 <div class="spacer"></div>
                 <ul>
                 <li>{ts}Check your spelling.{/ts}</li>
@@ -87,9 +80,9 @@
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=crmURL}{crmURL p='civicrm/group/add' q="reset=1"}{/capture}
-            <dd>{ts}No Groups have been created for this site.{/ts}
+             <dd>{ts}No Groups have been created for this site.{/ts}
                 {if $groupPermission eq 1}
-                    {ts 1=$crmURL}You can <a href="%1">add one</a> now.{/ts}
+                    {ts 1=$crmURL}You can <a href='%1'>add one</a> now.{/ts}
                 {/if}
             </dd>
         </dl>

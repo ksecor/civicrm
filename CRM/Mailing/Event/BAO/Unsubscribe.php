@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,12 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Mail.php';
 
 require_once 'CRM/Mailing/Event/DAO/Unsubscribe.php';
 require_once 'CRM/Mailing/BAO/Job.php'; 
@@ -41,6 +42,7 @@ require_once 'CRM/Mailing/BAO/Mailing.php';
 require_once 'CRM/Mailing/DAO/Group.php';
 require_once 'CRM/Contact/BAO/Group.php';
 require_once 'CRM/Contact/BAO/GroupContact.php';
+require_once 'CRM/Core/BAO/Domain.php';
 
 class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscribe {
 
@@ -99,11 +101,12 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
      * @param int $job_id       The job ID
      * @param int $queue_id     The Queue Event ID of the recipient
      * @param string $hash      The hash
+     * @param boolean $return   If true return the list of groups.
      * @return array|null $groups    Array of all groups from which the contact was removed, or null if the queue event could not be found.
      * @access public
      * @static
      */
-    public static function &unsub_from_mailing($job_id, $queue_id, $hash) {
+    public static function &unsub_from_mailing($job_id, $queue_id, $hash, $return = false) {
         /* First make sure there's a matching queue event */
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
         if (! $q) {
@@ -171,7 +174,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
          * those except smart groups and those that the contact belongs to */
         $do->query("
             SELECT      $group.id as group_id,
-                        $group.title as title
+                        $group.title as title,
+                        $group.description as description
             FROM        $group
             LEFT JOIN   $gc
                 ON      $gc.group_id = $group.id
@@ -181,12 +185,20 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                                 AND $gc.status = 'Added')
                         )");
                         
-        while ($do->fetch()) {
-            $groups[$do->group_id] = $do->title;
+        if ($return) {
+            while ($do->fetch()) {
+                $groups[$do->group_id] = array( 'title'       => $do->title,
+                                                'description' => $do->description);
+            }
+            return $groups;
+        } else {
+            while ($do->fetch()) {
+                $groups[$do->group_id] = $do->title;
+            }
         }
-        
         $contacts = array($contact_id);
         foreach ($groups as $group_id => $group_name) {
+            $notremoved = false;
             if ($group_name) {
                 list($total, $removed, $notremoved) = CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email');
             }
@@ -219,14 +231,17 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
      */
     public static function send_unsub_response($queue_id, $groups, $is_domain = false, $job) {
         $config =& CRM_Core_Config::singleton();
-        $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
-
+        $domain =& CRM_Core_BAO_Domain::getDomain( );
+        
         $jobTable = CRM_Mailing_BAO_Job::getTableName();
         $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
         $contacts = CRM_Contact_DAO_Contact::getTableName();
         $email = CRM_Core_DAO_Email::getTableName();
         $queue = CRM_Mailing_Event_BAO_Queue::getTableName();
         
+        //get the default domain email address.
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+
         $dao =& new CRM_Mailing_BAO_Mailing();
         $dao->query("   SELECT * FROM $mailingTable 
                         INNER JOIN $jobTable ON
@@ -262,10 +277,12 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         WHERE       $queue.id = " 
         . CRM_Utils_Type::escape($queue_id, 'Integer'));
         $eq->fetch();
-        
-        foreach ( $groups as $key => $value ) {
-            if (!$value) {
-                unset($groups[$key]);
+
+        if ( $groups ) {
+            foreach ( $groups as $key => $value ) {
+                if (!$value) {
+                    unset($groups[$key]);
+                }
             }
         }
         
@@ -294,24 +311,29 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $text = CRM_Utils_Token::replaceMailingTokens($text, $dao, null, $tokens['text']);
             $message->setTxtBody($text);
         }
+
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         $headers = array(
-            'Subject'       => $component->subject,
-            'From'          => ts('"%1" <do-not-reply@%2>',
-                                   array(  1 => $domain->email_name,
-                                           2 => $domain->email_domain) ),
-            'To'            => $eq->email,
-            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
-            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
-        );
+                         'Subject'       => $component->subject,
+                         'From'          => "\"$domainEmailName\" <do-not-reply@$emailDomain>",
+                         'To'            => $eq->email,
+                         'Reply-To'      => "do-not-reply@$emailDomain",
+                         'Return-Path'   => "do-not-reply@$emailDomain",
+                         );
+        
+        $b =& CRM_Utils_Mail::setMimeParams( $message );
+        $h =& $message->headers($headers);
 
-        $b = $message->get();
-        $h = $message->headers($headers);
         $mailer =& $config->getMailer();
-
+        
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
-        $mailer->send($eq->email, $h, $b);
-        CRM_Core_Error::setCallback();
+                                array('CRM_Core_Error', 'nullHandler' ) );
+        if ( is_object( $mailer ) ) {
+            $mailer->send($eq->email, $h, $b);
+            CRM_Core_Error::setCallback();
+        }
     }
 
 
@@ -473,4 +495,4 @@ SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id,
     }
 }
 
-?>
+

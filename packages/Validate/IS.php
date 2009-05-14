@@ -154,7 +154,7 @@ class Validate_IS
             return false;
         }
 
-        $dataDir = !empty($dataDir) ? $dataDir : './data/Validate_IS';
+        $dataDir = !empty($dataDir) ? $dataDir : '/home/shot/work/CiviCRM/svn/trunk/packages/data/Validate_IS';
         $dataFile = $dataDir . "/IS_postcodes.txt";
         /* Same configuration as last time? No need to go further then */
         if (count($postCodes) && $dataFile == $lastFile &&
@@ -195,7 +195,7 @@ class Validate_IS
     }
 // }}}
 
-// {{{ mixed Validate_IS::address(string $address [, int $postcode = null [, $dataDir = ./data/Validate_IS/]]
+// {{{ mixed Validate_IS::address(string $address [, int $postcode = null [, $dataDir = /home/shot/work/CiviCRM/svn/trunk/packages/data/Validate_IS/]]
     /**
      * Checks if given address exists
      * If postcode is provided, check if address exists in that area.
@@ -231,7 +231,7 @@ class Validate_IS
             }
         }
         
-        $file = $dataDir ? $dataDir. '/IS_gotuskra.txt' : './data/Validate_IS/IS_gotuskra.txt';
+        $file = $dataDir ? $dataDir. '/IS_gotuskra.txt' : '/home/shot/work/CiviCRM/svn/trunk/packages/data/Validate_IS/IS_gotuskra.txt';
         
         if ($file != $lastFile) {
             /* Reset cache */

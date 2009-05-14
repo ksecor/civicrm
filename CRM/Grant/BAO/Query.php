@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -53,15 +53,17 @@ class CRM_Grant_BAO_Query
     {
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_GRANT ) {
 
-            $query->_select['grant_type_id'] = "civicrm_grant.grant_type_id as grant_type_id";
-            $query->_select['grant_status_id' ]  = "civicrm_grant.status_id as grant_status_id";
-            $query->_select['grant_amount_requested']  = "civicrm_grant.amount_requested as grant_amount_requested";
-            $query->_select['grant_amount_granted']  = "civicrm_grant.amount_granted as grant_amount_granted";
-            $query->_select['grant_amount_total']  = "civicrm_grant.amount_total as grant_amount_total";
+            $query->_select['grant_type_id']          = "civicrm_grant.grant_type_id as grant_type_id";
+            $query->_select['grant_status_id' ]       = "civicrm_grant.status_id as grant_status_id";
+            $query->_select['grant_amount_requested'] = "civicrm_grant.amount_requested as grant_amount_requested";
+            $query->_select['grant_amount_granted']   = "civicrm_grant.amount_granted as grant_amount_granted";
+            $query->_select['grant_amount_total']     = "civicrm_grant.amount_total as grant_amount_total";
             $query->_select['grant_application_received_date']  = "civicrm_grant.application_received_date as grant_application_received_date ";
-            $query->_element['grant_type_id'] = 1;
-            $query->_element['grant_status_id'] = 1;
-            $query->_tables['civicrm_grant'] = 1;
+            $query->_select['grant_report_received']  = "civicrm_grant.grant_report_received as grant_report_received";
+            $query->_select['grant_money_transfer_date']  = "civicrm_grant.money_transfer_date as grant_money_transfer_date ";
+            $query->_element['grant_type_id']     = 1;
+            $query->_element['grant_status_id']   = 1;
+            $query->_tables['civicrm_grant']      = 1;
             $query->_whereTables['civicrm_grant'] = 1;
         }
     }
@@ -226,7 +228,9 @@ class CRM_Grant_BAO_Query
                                 'grant_type_id'                   => 1, 
                                 'grant_status_id'                 => 1, 
                                 'grant_amount_requested'          => 1,
-                                'grant_application_received_date' => 1
+                                'grant_application_received_date' => 1,
+                                'grant_report_received'           => 1,
+                                'grant_money_transfer_date'       => 1,
                                 );
        
  
@@ -244,18 +248,16 @@ class CRM_Grant_BAO_Query
      */   
     static function buildSearchForm( &$form ) 
     {
-        $config =& CRM_Core_Config::singleton( );
-        $domainID = CRM_Core_Config::domainID( );
         require_once 'CRM/Core/OptionGroup.php'; 
         $grantType = CRM_Core_OptionGroup::values( 'grant_type' );
         $form->add('select', 'grant_type_id',  ts( 'Grant Type' ),
-                   array( '' => ts( '-select-' ) ) + $grantType );
+                   array( '' => ts( '- select -' ) ) + $grantType );
 
         $grantStatus = CRM_Core_OptionGroup::values( 'grant_status' );
         $form->add('select', 'grant_status_id',  ts( 'Grant Status' ),
-                   array( '' => ts( '-select-' ) ) + $grantStatus );
+                   array( '' => ts( '- select -' ) ) + $grantStatus );
         
-        $form->addElement('date', 'grant_application_received_date_low', ts('App. Recieved Date - From'), 
+        $form->addElement('date', 'grant_application_received_date_low', ts('App. Received Date - From'), 
                           CRM_Core_SelectValues::date('relative')); 
         $form->addRule('grant_application_received_date_low', ts('Select a valid date.'), 'qfDate'); 
         
@@ -302,9 +304,28 @@ class CRM_Grant_BAO_Query
         $form->add('text', 'grant_amount_high', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'grant_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
         
-        $form->assign( 'validGrant', true );
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $grant = array( 'Grant' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $grant );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('grantGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
         
+        $form->assign( 'validGrant', true );
     }
+    
     static function addShowHide( &$showHide ) 
     {
         $showHide->addHide( 'grantForm' );
@@ -320,4 +341,4 @@ class CRM_Grant_BAO_Query
     }  
 }
 
-?>
+

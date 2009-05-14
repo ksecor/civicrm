@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -41,7 +41,6 @@ require_once 'CRM/Core/DAO.php';
 
 /**
  * structure, similar to what is used in GenCode.php
- *
  *
  * $table = array( 'name'       => TABLE_NAME,
  *                'attributes' => ATTRIBUTES,
@@ -58,8 +57,7 @@ require_once 'CRM/Core/DAO.php';
  *                                             'default'       => DEFAULT, )
  *                                      ...
  *                                      ) );
- *                '
- */                                       
+ */
 
 class CRM_Core_BAO_SchemaHandler
 {
@@ -77,11 +75,14 @@ class CRM_Core_BAO_SchemaHandler
     static function createTable( &$params )
     {
         $sql =  self::buildTableSQL( $params );
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, array(), true, null, false, false ); // do not i18n-rewrite
+        $dao->free();
+
         return true;
     }
 
-    static function buildTableSQL( &$params ) {
+    static function buildTableSQL( &$params ) 
+    {
         $sql = "CREATE TABLE {$params['name']} (";
         if ( isset( $params['fields'] ) &&
              is_array( $params['fields'] ) ) {
@@ -97,8 +98,10 @@ class CRM_Core_BAO_SchemaHandler
             foreach ( $params['fields'] as $field ) {
                 $sql       .= self::buildSearchIndexSQL( $field, $separator, $prefix );
             }
-            foreach ( $params['indexes'] as $index ) {
-                $sql       .= self::buildIndexSQL      ( $index, $separator, $prefix );
+            if ( isset( $params['indexes'] ) ) {
+                foreach ( $params['indexes'] as $index ) {
+                    $sql       .= self::buildIndexSQL      ( $index, $separator, $prefix );
+                }
             }
             foreach ( $params['fields'] as $field ) {
                 $sql       .= self::buildForeignKeySQL ( $field, $separator, $prefix, $params['name'] );
@@ -108,11 +111,13 @@ class CRM_Core_BAO_SchemaHandler
         return $sql;
     }
 
-    static function buildFieldSQL( &$params, $separator, $prefix ) {
+    static function buildFieldSQL( &$params, $separator, $prefix ) 
+    {
+        $sql = '';
         $sql .= $separator;
         $sql .= str_repeat( ' ', 8 );
         $sql .= $prefix;
-        $sql .= "{$params['name']} {$params['type']}";
+        $sql .= "`{$params['name']}` {$params['type']}";
 
         if ( CRM_Utils_Array::value( 'required', $params ) ) {
             $sql .= " NOT NULL";
@@ -130,11 +135,12 @@ class CRM_Core_BAO_SchemaHandler
         if ( CRM_Utils_Array::value( 'comment', $params ) ) {
             $sql .= " COMMENT '{$params['comment']}'";
         }
-
+        
         return $sql;
     }
 
-    static function buildPrimaryKeySQL( &$params, $separator, $prefix ) {
+    static function buildPrimaryKeySQL( &$params, $separator, $prefix ) 
+    {
         $sql = null;
         if ( CRM_Utils_Array::value( 'primary', $params ) ) {
             $sql .= $separator;
@@ -145,41 +151,41 @@ class CRM_Core_BAO_SchemaHandler
         return $sql;
     }
 
-    static function buildSearchIndexSQL( &$params, $separator, $prefix, $dropIndex = false ) {
+    static function buildSearchIndexSQL( &$params, $separator, $prefix, $indexExist = false ) 
+    {
         $sql     = null;
-
+        
         // dont index blob
         if ( $params['type'] == 'text' ) {
             return $sql;
         }
-
-        if ( $dropIndex ) {
-            $sql .= $separator;
-            $sql .= str_repeat( ' ', 8 );
-            $sql .= "DROP INDEX INDEX_{$params['name']}";
-        }
-
-        if ( CRM_Utils_Array::value( 'searchable', $params ) ) {
-            // optimize this, we dont need to drop and recreate the index
-            if ( $dropIndex ) {
-                return null;
-            }
+        
+        //create index only for searchable fields during ADD,
+        //create index only if field is become searchable during MODIFY,
+        //drop index only if field is no more searchable and index was exist. 
+        if ( CRM_Utils_Array::value( 'searchable', $params ) && !$indexExist ) {
             $sql .= $separator;
             $sql .= str_repeat( ' ', 8 );
             $sql .= $prefix;
             $sql .= "INDEX_{$params['name']} ( {$params['name']} )";
+        } else if ( !CRM_Utils_Array::value( 'searchable', $params ) && $indexExist ) {
+            $sql .= $separator;
+            $sql .= str_repeat( ' ', 8 );
+            $sql .= "DROP INDEX INDEX_{$params['name']}";
         }
         return $sql;
     }
 
-    static function buildIndexSQL( &$params, $separator, $prefix ) {
+    static function buildIndexSQL( &$params, $separator, $prefix ) 
+    {
+        $sql = '';
         $sql .= $separator;
         $sql .= str_repeat( ' ', 8 );
         if ( $params['unique'] ) {
             $sql       .= 'UNIQUE INDEX';
             $indexName  = 'unique';
         } else {
-            $sql       .= 'UNIQUE INDEX';
+            $sql       .= 'INDEX';
             $indexName  = 'index';
         }
         $indexFields = null;
@@ -196,26 +202,28 @@ class CRM_Core_BAO_SchemaHandler
         return $sql;
     }
 
-    static function buildForeignKeySQL( &$params, $separator, $prefix, $tableName ) {
+    static function buildForeignKeySQL( &$params, $separator, $prefix, $tableName ) 
+    {
         $sql = null;
         if ( CRM_Utils_Array::value( 'fk_table_name', $params ) &&
              CRM_Utils_Array::value( 'fk_field_name', $params ) ) {
             $sql .= $separator;
             $sql .= str_repeat( ' ', 8 );
             $sql .= $prefix;
-            $sql .= "CONSTRAINT FK_{$tableName}_{$params['name']} FOREIGN KEY ( {$params['name']} ) REFERENCES {$params['fk_table_name']} ( {$params['fk_field_name']} ) ";
+            $sql .= "CONSTRAINT FK_{$tableName}_{$params['name']} FOREIGN KEY ( `{$params['name']}` ) REFERENCES {$params['fk_table_name']} ( {$params['fk_field_name']} ) ";
             $sql .= CRM_Utils_Array::value( 'fk_attributes', $params );
         }
         return $sql;
     }
 
-    static function alterFieldSQL( &$params, $dropIndex = false ) {
+    static function alterFieldSQL( &$params, $indexExist = false ) 
+    {
         $sql  = str_repeat( ' ', 8 );
         $sql .= "ALTER TABLE {$params['table_name']}";
-
+        
         // lets suppress the required flag, since that can cause sql issue
         $params['required'] = false;
-
+        
         switch ( $params['operation'] ) {
         case 'add':
             $separator = "\n";
@@ -232,25 +240,24 @@ class CRM_Core_BAO_SchemaHandler
             $prefix    = "MODIFY ";
             $sql      .= self::buildFieldSQL      ( $params, $separator, $prefix );
             $separator = ",\n";
-            $sql      .= self::buildSearchIndexSQL( $params, $separator, "ADD INDEX ", $dropIndex );
+            $sql      .= self::buildSearchIndexSQL( $params, $separator, "ADD INDEX ", $indexExist );
             break;
-
+            
         case 'delete':
-            $sql  .= " DROP COLUMN {$params['name']}";
+            $sql  .= " DROP COLUMN `{$params['name']}`";
             if ( CRM_Utils_Array::value( 'primary', $params ) ) {
                 $sql .= ", DROP PRIMARY KEY";
-            }
-            if ( CRM_Utils_Array::value( 'searchable', $params ) ) {
-                $sql .= ", DROP INDEX INDEX_{$params['name']}";
             }
             if ( CRM_Utils_Array::value( 'fk_table_name', $params ) ) {
                 $sql .= ", DROP FOREIGN KEY FK_{$params['table_name']}_{$params['name']}";
             }
             break;
-
+            
         }
-
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
+        $dao->free();
+        
         return true;
     }
 
@@ -267,14 +274,79 @@ class CRM_Core_BAO_SchemaHandler
     static function dropTable( $tableName ) 
     {
         $sql = "DROP TABLE $tableName";
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
 
     static function dropColumn( $tableName, $columnName ) 
     {
         $sql = "ALTER TABLE $tableName DROP COLUMN $columnName";
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
+
+    static function changeUniqueToIndex( $tableName ) 
+    {
+        $sql = "ALTER TABLE $tableName 
+DROP INDEX `unique_entity_id` ,
+ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
+
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
+    }
+
+    static function createIndexes(&$tables, $createIndexPrefix = 'index')
+    {
+        $queries = array();
+
+        $domain = new CRM_Core_DAO_Domain;
+        $domain->find(true);
+        $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+
+        // if we're multilingual, cache the information on internationalised fields
+        static $columns = null;
+        if ($locales and $columns === null) {
+            require_once 'CRM/Core/I18n/SchemaStructure.php';
+            $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        }
+
+        foreach ( $tables as $table => $fields ) {
+            $query = "SHOW INDEX FROM $table";
+            $dao = CRM_Core_DAO::executeQuery( $query );
+
+            $currentIndexes = array( );
+            while ( $dao->fetch( ) ) {
+                $currentIndexes[] = $dao->Key_name;
+            }
+
+            // now check for all fields if the index exists
+            foreach ( $fields as $field ) {
+                $names = array("index_{$field}", "FK_{$table}_{$field}", "UI_{$field}", "{$createIndexPrefix}_{$field}");
+
+                // skip to the next $field if one of the above $names exists; handle multilingual for CRM-4126
+                foreach ($names as $name) {
+                    $regex = '/^' . preg_quote($name) . '(_[a-z][a-z]_[A-Z][A-Z])?$/';
+                    if (preg_grep($regex, $currentIndexes)) {
+                        continue 2;
+                    }
+                }
+
+                // the index doesn't exist, so create it
+                // if we're multilingual and the field is internationalised, do it for every locale
+                if ($locales and isset($columns[$table][$field])) {
+                    foreach ($locales as $locale) {
+                        $queries[] = "CREATE INDEX {$createIndexPrefix}_{$field}_{$locale} ON {$table} ({$field}_{$locale})";
+                    }
+                } else {
+                    $queries[] = "CREATE INDEX {$createIndexPrefix}_{$field} ON {$table} ({$field})";
+                }
+            }
+        }
+
+        // run the queries without i18n-rewriting
+        $dao = new CRM_Core_DAO;
+        foreach ($queries as $query) {
+            $dao->query($query, false);
+        }
+    }
+
 }
 
-?>
+

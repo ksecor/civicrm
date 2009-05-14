@@ -92,7 +92,7 @@ class CRM_GCD {
     const ORGANIZATION_PERCENT = 10;
     const NUM_INDIVIDUAL_PER_HOUSEHOLD = 4;
 
-    const NUM_ACTIVITY_HISTORY = 150;
+    const NUM_ACTIVITY = 150;
 
     // relationship types from the table crm_relationship_type
     const CHILD_OF            = 1;
@@ -119,16 +119,16 @@ class CRM_GCD {
     
     // enum's from database
     private $preferredCommunicationMethod = array('1', '2', '3','4','5');
-    private $greetingType = array('Formal', 'Informal', 'Honorific', 'Custom', 'Other');
     private $contactType = array('Individual', 'Household', 'Organization');
-    private $phoneType = array('Phone', 'Mobile', 'Fax', 'Pager');    
+    private $phoneType = array( '1', '2', '3', '4' );    
 
     // customizable enums (foreign keys)
     private $prefix = array(1 => 'Mrs', 2 => 'Ms', 3 => 'Mr', 4 => 'Dr');
     private $suffix = array(1 => 'Jr', 2 => 'Sr');
     private $gender = array(1 => 'Female', 2 =>'Male');    
-
-    // store domain id's
+    private $greetingType = array(1 => 'Dear [first]', 2 => 'Dear [prefix] [first] [last]', 3 => 'Dear [prefix] [last]');
+    
+// store domain id's
     private $domain = array();
 
     // store contact id's
@@ -317,7 +317,8 @@ class CRM_GCD {
     {
         if (self::ADD_TO_DB) {
             if (!$dao->insert()) {
-                echo mysql_error() . "\n";
+                echo "ERROR INSERT: " . mysql_error() . "\n";
+                print_r( $dao );
                 exit(1);
             }
         }
@@ -328,7 +329,8 @@ class CRM_GCD {
     {
         if (self::ADD_TO_DB) {
             if (!$dao->update()) {
-                echo mysql_error() . "\n";
+                echo "ERROR UPDATE: " . mysql_error() . "\n";
+                print_r( $dao );
                 exit(1);
             }
         }
@@ -551,10 +553,9 @@ class CRM_GCD {
         $this->strictIndividual = array_slice($this->individual, 0, $this->numStrictIndividual);
         
         // get the household to individual mapping array
-        require_once 'CRM/Utils/Array.php';
         $this->householdIndividual = array_diff($this->individual, $this->strictIndividual);
         $this->householdIndividual = array_chunk($this->householdIndividual, self::NUM_INDIVIDUAL_PER_HOUSEHOLD);
-        $this->householdIndividual = CRM_Utils_Array::combine($this->household, $this->householdIndividual);
+        $this->householdIndividual = array_combine($this->household, $this->householdIndividual);
     }
 
 
@@ -579,8 +580,6 @@ class CRM_GCD {
             $domain->name = "Domain $id";
             $domain->description = "Description $id";
             $domain->contact_name = $this->randomName();
-            $domain->email_domain = 
-                $this->_getRandomElement($this->emailDomain) . ".fixme";
 
             // insert domain
             $this->_insert($domain);
@@ -605,7 +604,6 @@ class CRM_GCD {
      * This method adds data to the contact table
      *
      * id - from $contact
-     * domain_id (fkey into domain) (always 1)
      * contact_type 'Individual' 'Household' 'Organization'
      * preferred_communication (random 1 to 3)
      *
@@ -617,7 +615,6 @@ class CRM_GCD {
         $contact =& new CRM_Contact_DAO_Contact();
 
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
-            $contact->domain_id = 1;
             $contact->contact_type = $this->getContactType($id+1);
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
@@ -633,7 +630,7 @@ class CRM_GCD {
      *
      * addIndividual()
      *
-     * This method adds data to the contact_individual table
+     * This method adds individual's data to the contact table
      *
      * The following fields are generated and added.
      *
@@ -658,7 +655,7 @@ class CRM_GCD {
             $contact->last_name = ucfirst($this->_getRandomElement($this->lastName));
             $contact->prefix_id = $this->_getRandomIndex($this->prefix);
             $contact->suffix_id = $this->_getRandomIndex($this->suffix);
-            $contact->greeting_type = $this->_getRandomElement($this->greetingType);
+            $contact->greeting_type_id = $this->_getRandomIndex($this->greetingType);
             $contact->gender_id = $this->_getRandomIndex($this->gender);
             $contact->birth_date = date("Ymd", mt_rand(0, time()));
             $contact->is_deceased = mt_rand(0, 1);
@@ -670,55 +667,6 @@ class CRM_GCD {
             $contact->sort_name = $contact->last_name . ', ' . $contact->first_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
-            
-            // FIXME when we redo custom data
-            // $this->addCustomDataValue($contact->id);
-        }
-    }
-
-
-    /******************************************************
-     * addCustomDataValue()
-     *
-     * This method adds custom data for individuals
-     *
-     ******************************************************/
-    private function addCustomDataValue($contact_id) {
-                
-        $randLength = mt_rand(0, 2);
-        $done = array( );
-
-        for($cnt = 0; $cnt <= $randLength; $cnt++) {
-
-            $item = mt_rand(0, 2);
-            if ( CRM_Utils_Array::value( $item, $done ) ) {
-                continue;
-            }
-            $done[$item] = true;
-
-            switch($item) {
-            case 0:
-                //do nothing
-                break;
-
-            case 1: 
-                $customData =& new CRM_Core_DAO_CustomValue(); 
-                $customData->entity_table = 'civicrm_contact'; 
-                $customData->entity_id = $contact_id; 
-                $customData->custom_field_id = 1; 
-                $customData->char_data = $this->_getRandomElement($this->issue); 
-                $this->_insert($customData); 
-                break; 
-
-            case 2: 
-                $customData =& new CRM_Core_DAO_CustomValue(); 
-                $customData->entity_table = 'civicrm_contact'; 
-                $customData->entity_id = $contact_id; 
-                $customData->custom_field_id = 2; 
-                $customData->char_data = $this->_getRandomElement($this->marital_status); 
-                $this->_insert($customData); 
-                break; 
-            }
         }
     }
 
@@ -727,7 +675,7 @@ class CRM_GCD {
      *
      * addHousehold()
      *
-     * This method adds data to the contact_household table
+     * This method adds household's data to the contact table
      *
      * The following fields are generated and added.
      *
@@ -771,7 +719,7 @@ class CRM_GCD {
      *
      * addOrganization()
      *
-     * This method adds data to the contact_organization table
+     * This method adds organization data to the contact table
      *
      * The following fields are generated and added.
      *
@@ -894,7 +842,7 @@ class CRM_GCD {
         $someIndividual = array_diff($this->individual, $this->strictIndividual);
         $someIndividual = array_slice($someIndividual, 0, (int)(75*($this->numIndividual-$this->numStrictIndividual)/100));
         foreach ($someIndividual as $contactId) {
-            $this->_addLocation(self::HOME, $contactId, false, false);
+            $this->_addLocation(self::HOME, $contactId, false, true);
         }
 
     }
@@ -904,8 +852,8 @@ class CRM_GCD {
         $this->_addAddress( $locationTypeId, $contactId, $isPrimary );
 
         // add two phones for each location
-        $this->_addPhone($locationTypeId, $contactId, 'Phone', $isPrimary);
-        $this->_addPhone($locationTypeId, $contactId, 'Mobile', false);
+        $this->_addPhone($locationTypeId, $contactId, '1', $isPrimary);
+        $this->_addPhone($locationTypeId, $contactId, '2', false);
 
         // need to get sort name to generate email id
         $contact =& new CRM_Contact_DAO_Contact();
@@ -965,7 +913,7 @@ class CRM_GCD {
             $phone->contact_id       = $contactId;
             $phone->is_primary = $isPrimary;
             $phone->phone = mt_rand(11111111, 99999999);
-            $phone->phone_type = $phoneType;
+            $phone->phone_type_id = $phoneType;
             $this->_insert($phone);
         }
     }
@@ -981,7 +929,7 @@ class CRM_GCD {
             $emailName = $this->_sortNameToEmail($sortName);
             $emailDomain = $this->_getRandomElement($this->emailDomain);
             $tld = $this->_getRandomElement($this->emailTLD);
-            $email->email = $emailName . "@" . $emailDomain . "." . $tld;
+            $email->email = strtolower( $emailName . "@" . $emailDomain . "." . $tld );
             $this->_insert($email);
         }
 
@@ -1034,17 +982,15 @@ class CRM_GCD {
      *******************************************************/
     public function addGroup()
     {
-
         // add the 3 groups first
         $numGroup = count($this->group);
         require_once 'CRM/Contact/BAO/Group.php';
         for ($i=0; $i<$numGroup; $i++) {
             $group =& new CRM_Contact_BAO_Group();   
-            $group->domain_id  = 1;
             $group->name       = $this->group[$i];
             $group->title      = $this->group[$i];
             $group->group_type = "12";
-            $group->visibility = 'Public User Pages and Listings';
+            $group->visibility = 'Public Pages';
             $group->is_active  = 1;
             $group->save( );
             $group->buildClause( );
@@ -1111,6 +1057,12 @@ class CRM_GCD {
             }
             $this->_insert($subscriptionHistory);
         }
+        
+        //In this function when we add groups that time we are cache the contact fields
+        //But at the end of setup we are appending sample custom data, so for consistency
+        //reset the cache.
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
     }
 
 
@@ -1143,12 +1095,12 @@ class CRM_GCD {
 
     /*******************************************************
      *
-     * addActivityHistory()
+     * addActivity()
      *
      * This method populates the crm_activity_history table
      *
      *******************************************************/
-    public function addActivityHistory()
+    public function addActivity( )
     {
         $contactDAO =& new CRM_Contact_DAO_Contact();
         $contactDAO->contact_type = 'Individual';
@@ -1163,28 +1115,29 @@ class CRM_GCD {
             if ($count++ > 2) {      
                 break;
             }
-            for ($i=0; $i<self::NUM_ACTIVITY_HISTORY; $i++) {
+            for ($i=0; $i<self::NUM_ACTIVITY; $i++) {
                 require_once 'CRM/Activity/DAO/Activity.php';
                 $activityDAO =& new CRM_Activity_DAO_Activity();
                 $activityDAO->source_contact_id     = $contactDAO->id;
-                $activityTypeID = mt_rand(1, 10);
+                $activityTypeID = mt_rand(7, 10);
                 require_once 'CRM/Core/PseudoConstant.php';
                 $activity = CRM_Core_PseudoConstant::activityType( ); 
                 $activityDAO->activity_type_id = $activityTypeID;
-                $activityDAO->subject = "subject for $activity[$activityTypeID]";
+                $activityDAO->subject = "Subject for $activity[$activityTypeID]";
                 $activityDAO->activity_date_time = $this->_getRandomDate();
                 $activityDAO->duration = mt_rand(1,6);
-                $activityDAO->status_id = mt_rand(1,3);
+                $activityDAO->status_id = 2;
                 $this->_insert($activityDAO);
                 
-                if($activityTypeID <4) { 
+                if ( in_array( $activityTypeID, array( 6, 9 ) ) ) { 
                     require_once 'CRM/Activity/DAO/ActivityTarget.php';
                     $activityTargetDAO =& new CRM_Activity_DAO_ActivityTarget();
                     $activityTargetDAO->activity_id = $activityDAO->id ;
                     $activityTargetDAO->target_contact_id = mt_rand(1,101);
                     $this->_insert($activityTargetDAO);
                 }
-                if($activityTypeID <3) { 
+
+                if ( $activityTypeID == 7 ) { 
                     require_once 'CRM/Activity/DAO/ActivityAssignment.php';
                     $activityAssignmentDAO =& new CRM_Activity_DAO_ActivityAssignment();
                     $activityAssignmentDAO->activity_id = $activityDAO->id ;
@@ -1260,11 +1213,11 @@ class CRM_GCD {
         $contact_id = $organizationDAO->contact_id;
         
         $membershipType = "INSERT INTO civicrm_membership_type
-        (domain_id, name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, relationship_direction, visibility, weight, is_active)
+        (name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, relationship_direction, visibility, weight, is_active)
         VALUES
-        (1, 'General', 'Regular annual membership.', ". $contact_id .", 3, 100, 'year', 1, 'rolling',null, null, 7, 'b_a', 'Public', 1, 1),
-        (1, 'Student', 'Discount membership for full-time students.', ". $contact_id .", 1, 50, 'year', 1, 'rolling', null, null, 7, 'b_a', 'Public', 2, 1),
-        (1, 'Lifetime', 'Lifetime membership.', ". $contact_id .", 2, 1200, 'lifetime', 1, 'rolling', null, null, 7, 'b_a', 'Admin', 3, 1);
+        ('General', 'Regular annual membership.', ". $contact_id .", 3, 100, 'year', 1, 'rolling',null, null, 7, 'b_a', 'Public', 1, 1),
+        ('Student', 'Discount membership for full-time students.', ". $contact_id .", 1, 50, 'year', 1, 'rolling', null, null, 7, 'b_a', 'Public', 2, 1),
+        ('Lifetime', 'Lifetime membership.', ". $contact_id .", 2, 1200, 'lifetime', 1, 'rolling', null, null, 7, 'b_a', 'Admin', 3, 1);
         ";
         CRM_Core_DAO::executeQuery( $membershipType, CRM_Core_DAO::$_nullArray );      
     }
@@ -1277,52 +1230,72 @@ class CRM_GCD {
             $contacts[] = $contact->id;
         }
         shuffle($contacts);
-        $randomContacts = array_slice($contacts, 20, 25);
         
-        $membership = "
+        $randomContacts      = array_slice($contacts, 20, 30);
+        
+        $sources             = array( 'Payment', 'Donation', 'Check' );
+        $membershipTypes     = array( 2, 1 );
+        $membershipTypeNames = array( 'Student', 'General' );
+        $statuses            = array( 3, 4 );
+                
+        $membership = " 
 INSERT INTO civicrm_membership
         (contact_id, membership_type_id, join_date, start_date, end_date, source, status_id)
-VALUES
-        ( ". $randomContacts[0]  .", 1, '2006-01-21', '2006-01-21', '2006-12-21', 'Payment', 1),
-        ( ". $randomContacts[1]  .", 2, '2007-05-07', '2007-05-07', '2006-05-07', 'Donation', 1),
-        ( ". $randomContacts[2]  .", 1, '2007-05-05', '2007-05-05', '2006-05-10', 'Check', 1) ,
-        ( ". $randomContacts[3]  .", 1, '2007-10-21', '2007-10-21', '2006-10-22', 'Payment', 1),
-        ( ". $randomContacts[4]  .", 2, '2007-01-10', '2007-01-10', '2006-07-09', 'Donation', 1),
-        ( ". $randomContacts[5]  .", 2, '2007-03-05', '2007-03-05', '2007-12-04', 'Check', 1),
-        ( ". $randomContacts[6]  .", 1, '2006-07-21', '2006-07-21', '2007-01-20', 'Payment', 1),
-        ( ". $randomContacts[7]  .", 2, '2006-03-07', '2006-03-07', '2006-12-31', 'Donation', 1),
-        ( ". $randomContacts[8]  .", 3, '2007-02-05', '2007-02-05', '2006-02-10', 'Check', 1),
-        ( ". $randomContacts[9]  .", 1, '2007-02-01', '2007-02-01', '2006-02-10', 'Payment', 1),
-        ( ". $randomContacts[10]  .", 2, '2006-01-10','2006-01-10', '2007-12-09', 'Donation', 1),
-        ( ". $randomContacts[11]  .", 3, '2006-03-06','2006-03-06', '2007-01-04', 'Check', 1),
-        ( ". $randomContacts[12]  .", 1, '2007-06-04', '2007-06-04', '2006-06-07', 'Payment', 1),
-        ( ". $randomContacts[13]  .", 2, '2004-01-10', '2004-01-10', '2007-02-09', 'Donation', 1),
-        ( ". $randomContacts[14]  .", 2, '2007-07-04', '2007-07-04', '2006-07-04', 'Check', 1),
-        ( ". $randomContacts[15]  .", 1, '2006-01-21', '2006-01-21', '2007-01-20', 'Payment', 1),
-        ( ". $randomContacts[16]  .", 2, '2007-01-10', '2007-01-10', '2007-12-09', 'Donation', 1),
-        ( ". $randomContacts[17]  .", 3, '2006-03-05', '2006-03-05', '2007-11-04', 'Check', 1),
-        ( ". $randomContacts[18]  .", 1, '2007-10-21', '2007-10-21', '2006-01-20', 'Payment', 1),
-        ( ". $randomContacts[19]  .", 2, '2006-01-10', '2006-01-10', '2006-12-09', 'Donation', 1),
-        ( ". $randomContacts[20]  .", 2, '2007-03-25', '2007-03-25', '2006-03-26', 'Check', 1),
-        ( ". $randomContacts[21]  .", 1, '2006-10-21', '2006-10-21', '2006-11-20', 'Payment', 1),
-        ( ". $randomContacts[22]  .", 2, '2007-01-10', '2007-01-10', '2007-12-09', 'Donation', 1),
-        ( ". $randomContacts[23]  .", 2, '2007-03-11', '2007-03-11', '2006-01-04', 'Check', 1),
-        ( ". $randomContacts[24]  .", 3, '2007-04-05', '2007-04-05', '2006-01-04', 'Check', 1);
+VALUES 
 ";
-        $result = CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
-        require_once 'CRM/Member/DAO/Membership.php';
-        require_once 'api/crm.php';
-        $membership = new CRM_Member_DAO_Membership();
-        $membership->query("SELECT id FROM civicrm_membership");
-        while ($membership->fetch()) {
-            $ids[]=$membership->id;
-            //update the status ids
-            $status = crm_calc_membership_status($membership->id);
-            /*if ($status) {
-                crm_update_contact_membership( array('id'        => $membership->id,
-                                                     'status_id' => $status['id']) );
-            }*/
+        $activity = "
+INSERT INTO civicrm_activity
+        (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
+VALUES
+";
+
+        foreach( $randomContacts as $count => $dontCare ) {
+            $source          = self::_getRandomElement($sources);
+            $acititySourceId = $count +1;
+            if (  ( ($count+1) % 11 == 0 ) ) {
+                // lifetime membership, status can be anything
+                $startDate = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), date('Y') ) );
+                $membership .= "( {$randomContacts[$count]}, 3, '{$startDate}', '{$startDate}', null, '{$source}', 1)";
+                $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, 'Lifetime', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
+            } else if ( ($count+1) % 5 == 0 ) {
+                // Grace or expired, memberhsip type is random of 1 & 2
+                $randId         = array_rand( $membershipTypes );
+                $membershipType = self::_getRandomElement($membershipTypes);
+                $startDate      = date( 'Y-m-d', mktime( 0, 0, 0, 
+                                                         date('m'), 
+                                                         ( date('d') - ($count*($randId+1)*($randId+1)*($randId+1) ) ), 
+                                                         ( date('Y') - ($randId+1) ) ) );
+                $partOfDate     = explode( '-', $startDate );
+                $endDate        = date( 'Y-m-d', mktime( 0, 0, 0, 
+                                                         $partOfDate[1], 
+                                                         ( $partOfDate[2] - 1 ),
+                                                         ( $partOfDate[0] + ($randId + 1) ) )  );
+                $membership .= "( {$randomContacts[$count]}, {$membershipType}, '{$startDate}', '{$startDate}', '{$endDate}', '{$source}', {$statuses[$randId]})";
+                $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, '{$membershipTypeNames[$randId]}', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
+            } else if ( ($count+1) % 2 == 0 ) {
+                // membership type 2
+                $startDate = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), date('Y') ) );
+                $endDate   = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), ( date('Y') + 1) ) );
+                $membership .= "( {$randomContacts[$count]}, 2, '{$startDate}', '{$startDate}', '{$endDate}', '{$source}', 1)";
+                $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, 'Student', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
+            } else {
+                // membership type 1
+                $startDate = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), date('Y') ) );
+                $endDate   = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), ( date('Y') + 2) ) );
+                $membership .= "( {$randomContacts[$count]}, 1, '{$startDate}', '{$startDate}', '{$endDate}', '{$source}', 1)";
+                $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, 'General', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
+            }
+            
+            if ( $count != 29 ) {
+                $membership .= ",";
+                $activity   .= ",";
+            }
+            
         }
+            
+        CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
+
+        CRM_Core_DAO::executeQuery( $activity,   CRM_Core_DAO::$_nullArray );
     }
 
     static function repairDate($date) {
@@ -1357,103 +1330,123 @@ VALUES
         
     }
 
-    function addEvent()
+
+    function createEvent( )
     {
-        $event = "INSERT INTO civicrm_event
-        (id, domain_id, title, summary, description, event_type_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active, fee_label, is_show_location, loc_block_id)
-        VALUES
-        (1, 1, 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'This event benefits our teen programs. Admission includes a full 3 course meal and wine or soft drinks. Grab your dancing shoes, bring the kids and come join the party!', 3, 1, '2007-09-21 17:00:00', '2007-09-21 23:00:00', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner is full. Please call Jane at 204 222-1000 ext 33 if you want to be added to the waiting list.', 1, 4, 1, 1, 'Dinner Contribution', 1 ,1),
-        (2, 1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, '2007-11-17 12:00:00', '2007-11-17 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee', 1, 2),
-        (3, 1, 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, '2007-12-27 07:00:00', '2007-12-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees',1, 3)
-         ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-    
-
-
-
-
-    function addEventPage()
-    {
-        $event = "INSERT INTO civicrm_event_page
-        (id, event_id, intro_text, footer_text, confirm_title, confirm_text, confirm_footer_text, is_email_confirm, confirm_email_text, confirm_from_name, confirm_from_email, cc_confirm, bcc_confirm, default_fee_id, thankyou_title, thankyou_text, thankyou_footer_text)
-      VALUES 
-        (1, 1, 'Fill in the information below to join as at this wonderful dinner event.', NULL, 'Confirm Your Registration Information', 'Review the information below carefully.', NULL, 1, 'Contact the Development Department if you need to make any changes to your registration.', 'Fundraising Dept.', 'development@example.org', NULL, NULL, 22, 'Thanks for Registering!', '<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about this wonderful event.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>'),
-        (2, 2, 'Complete the form below and click Continue to register online for the festival. Or you can register by calling us at 204 222-1000 ext 22.', '', 'Confirm Your Registration Information', '', '', 1, 'This email confirms your registration. If you have questions or need to change your registration - please do not hesitate to call us.', 'Event Dept.', 'events@example.org', '', NULL, 25, 'Thanks for Your Joining In!', '<p>Thank you for your support. Your participation will help build new parks.</p><p>Please tell your friends and colleagues about the concert.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>'),
-        (3, 3, 'Complete the form below to register your team for this year''s tournament.', '<em>A Soccer Youth Event</em>', 'Review and Confirm Your Registration Information', '', '<em>A Soccer Youth Event</em>', 1, 'Contact our Tournament Director for eligibility details.', 'Tournament Director', 'tournament@example.org', '', NULL, 31, 'Thanks for Your Support!', '<p>Thank you for your support. Your participation will help save thousands of acres of rainforest.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>')
-      ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-
-
-    function addEventLocation()
-    {
-        $event = "INSERT INTO civicrm_loc_block (id, address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
+        $event = "INSERT INTO civicrm_address ( contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_code_1, geo_code_2, timezone)
       VALUES
-      (1, 86, 1, 1, 1, 1, 1, 1, 1),
-      (2, 87, 1, 1, NULL,NULL,NULL,NULL,NULL),
-      (3, 88, 1, 1, 1, 1, 1, 1, 1)
-      ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-
-    function addEventLocationAddress()
-    {
-        $event = "INSERT INTO civicrm_address (id, contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_code_1, geo_code_2, timezone)
-      VALUES
-      (86, 87, 1, 1, 1, 'S 14S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 41.8328, -72.9253, NULL),
-      (87, 88, 1, 1, 1, 'E 11B Woodbridge Path SW', 11, 'B', NULL, 'Woodbridge', 'Path', NULL, NULL, NULL, NULL, NULL, 'Dayton', NULL, 1034, NULL, '45417', NULL, 1228, 39.7531, -84.2471, NULL),
-      (88, 89, 1, 1, 1, 'E 581O Lincoln Dr SW', 581, 'O', NULL, 'Lincoln', 'Dr', NULL, NULL, NULL, NULL, NULL, 'Santa Fe', NULL, 1030, NULL, '87594', NULL, 1228, 35.5212, -105.982, NULL)
+      ( NULL, 1, 1, 1, 'S 14S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 41.8328, -72.9253, NULL),
+      ( NULL, 1, 1, 1, 'E 11B Woodbridge Path SW', 11, 'B', NULL, 'Woodbridge', 'Path', NULL, NULL, NULL, NULL, NULL, 'Dayton', NULL, 1034, NULL, '45417', NULL, 1228, 39.7531, -84.2471, NULL),
+      ( NULL, 1, 1, 1, 'E 581O Lincoln Dr SW', 581, 'O', NULL, 'Lincoln', 'Dr', NULL, NULL, NULL, NULL, NULL, 'Santa Fe', NULL, 1030, NULL, '87594', NULL, 1228, 35.5212, -105.982, NULL)
       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
-    }
-
-    function addEventPhone()
-    {
-        $event = "INSERT INTO civicrm_phone (id, contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
-      VALUES
-      (121, 87, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
-      (122, 88, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
-      (123, 89, 1, 0, 0, NULL,'303 323-1000', 'Phone')
-      ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-
-    function addEventemail()
-    {
+        
+        $sql = "SELECT id from civicrm_address where street_address = 'S 14S El Camino Way E'";
+        $eventAdd1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_address where street_address = 'E 11B Woodbridge Path SW'";
+        $eventAdd2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_address where street_address = 'E 581O Lincoln Dr SW'";
+        $eventAdd3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        
         $event = "INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
-      VALUES
-      (87, 1, 'development@example.org', 0, 0, 0, NULL, NULL),
-      (89, 1, 'tournaments@example.org', 0, 0, 0, NULL, NULL)
-      ";
+       VALUES
+       (NULL, 1, 'development@example.org', 0, 0, 0, NULL, NULL),
+       (NULL, 1, 'tournaments@example.org', 0, 0, 0, NULL, NULL),
+       (NULL, 1, 'celebration@example.org', 0, 0, 0, NULL, NULL)
+       ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
+        
+        $sql = "SELECT id from civicrm_email where email = 'development@example.org'";
+        $eventEmail1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_email where email = 'tournaments@example.org'";
+        $eventEmail2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_email where email = 'celebration@example.org'";
+        $eventEmail3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        
+        $event = "INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type_id)
+       VALUES
+       (NULL, 1, 0, 0, NULL,'204 222-1000', '1'),
+       (NULL, 1, 0, 0, NULL,'204 223-1000', '1'),
+       (NULL, 1, 0, 0, NULL,'303 323-1000', '1')
+       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
+        
+        $sql = "SELECT id from civicrm_phone where phone = '204 222-1000'";
+        $eventPhone1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_phone where phone = '204 223-1000'";
+        $eventPhone2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_phone where phone = '303 323-1000'";
+        $eventPhone3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        
+        $event = "INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, email_2_id, phone_2_id)
+       VALUES
+      ( $eventAdd1, $eventEmail1, $eventPhone1, NULL,NULL,NULL),
+      ( $eventAdd2, $eventEmail2, $eventPhone2, NULL,NULL,NULL),
+      ( $eventAdd3, $eventEmail3, $eventPhone3, NULL,NULL,NULL)
+       ";
 
-    function addEventFeeLabel()
-    {
-        $optionGroup = "INSERT INTO civicrm_option_group (id, domain_id, name, is_reserved, is_active)
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
+        
+        $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone1 AND email_id = $eventEmail1 AND address_id = $eventAdd1";
+        $eventLok1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone2 AND email_id = $eventEmail2 AND address_id = $eventAdd2";
+        $eventLok2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone3 AND email_id = $eventEmail3 AND address_id = $eventAdd3";
+        $eventLok3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        
+        //create event fees
+        $optionGroup = "INSERT INTO civicrm_option_group ( name, is_reserved, is_active)
       VALUES
-      (27, 1, 'civicrm_event_page.amount.1', 0, 1),
-      (28, 1, 'civicrm_event_page.amount.2', 0, 1),
-      (29, 1, 'civicrm_event_page.amount.3', 0, 1)
+      ( 'civicrm_event.amount.1', 0, 1),
+      ( 'civicrm_event.amount.2', 0, 1),
+      ( 'civicrm_event.amount.3', 0, 1)
 ";
         CRM_Core_DAO::executeQuery( $optionGroup, CRM_Core_DAO::$_nullArray );
+        
+        
+        $sql = "SELECT max(id) from civicrm_option_group where name = 'civicrm_event.amount.1'";
+        $page1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+
+        $sql = "SELECT max(id) from civicrm_option_group where name = 'civicrm_event.amount.2'";
+        $page2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+
+        $sql = "SELECT max(id) from civicrm_option_group where name = 'civicrm_event.amount.3'";
+        $page3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+
 
         $optionValue = "INSERT INTO civicrm_option_value (option_group_id, label, value, is_default, weight, is_optgroup, is_reserved, is_active)
       VALUES
-      (27, 'Single', '50', 0, 1, 0, 0, 1),
-      (27, 'Couple', '100', 0, 2, 0, 0, 1),
-      (27, 'Family', '200', 0, 3, 0, 0, 1),
-      (28, 'Bass', '25', 0, 1, 0, 0, 1),
-      (28, 'Tenor', '40', 0, 2, 0, 0, 1),
-      (28, 'Soprano', '50', 0, 3, 0, 0, 1),
-      (29, 'Tiny-tots (ages 5-8)', '800', 0, 1, 0, 0, 1),
-      (29, 'Junior Stars (ages 9-12)', '1000', 0, 2, 0, 0, 1),
-      (29, 'Super Stars (ages 13-18)', '1500', 0, 3, 0, 0, 1)
-      ";
-        CRM_Core_DAO::executeQuery( $optionValue, CRM_Core_DAO::$_nullArray );
-    }
+      ($page1, 'Single', '50', 0, 1, 0, 0, 1),
+      ($page1, 'Couple', '100', 0, 2, 0, 0, 1),
+      ($page1, 'Family', '200', 0, 3, 0, 0, 1),
+      ($page2, 'Bass', '25', 0, 1, 0, 0, 1),
+      ($page2, 'Tenor', '40', 0, 2, 0, 0, 1),
+      ($page2, 'Soprano', '50', 0, 3, 0, 0, 1),
+      ($page3, 'Tiny-tots (ages 5-8)', '800', 0, 1, 0, 0, 1),
+      ($page3, 'Junior Stars (ages 9-12)', '1000', 0, 2, 0, 0, 1),
+      ($page3, 'Super Stars (ages 13-18)', '1500', 0, 3, 0, 0, 1)";
 
+        CRM_Core_DAO::executeQuery( $optionValue, CRM_Core_DAO::$_nullArray );
+        
+        $sql = "SELECT max(id) FROM civicrm_option_value WHERE civicrm_option_value.option_group_id = $page1 AND civicrm_option_value.weight=2";
+        $defaultFee1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+
+        $sql = "SELECT max(id) FROM civicrm_option_value WHERE civicrm_option_value.option_group_id = $page2 AND civicrm_option_value.weight=2";
+        $defaultFee2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+
+        $sql = "SELECT max(id) FROM civicrm_option_value WHERE civicrm_option_value.option_group_id = $page3 AND civicrm_option_value.weight=2";
+        $defaultFee3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+
+        $event = "INSERT INTO civicrm_event
+        ( title, summary, description, event_type_id, participant_listing_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active, fee_label, is_show_location, loc_block_id,intro_text, footer_text, confirm_title, confirm_text, confirm_footer_text, is_email_confirm, confirm_email_text, confirm_from_name, confirm_from_email, cc_confirm, bcc_confirm, default_fee_id, thankyou_title, thankyou_text, thankyou_footer_text, is_pay_later, pay_later_text, pay_later_receipt, is_multiple_registrations, allow_same_participant_emails )
+        VALUES
+        ( 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'This event benefits our teen programs. Admission includes a full 3 course meal and wine or soft drinks. Grab your dancing shoes, bring the kids and come join the party!', 3, 1, 1, '2009-11-21 17:00:00', '2009-11-21 23:00:00', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner is full. Please call Jane at 204 222-1000 ext 33 if you want to be added to the waiting list.', 1, 4, 1, 1, 'Dinner Contribution', 1 ,$eventLok1,'Fill in the information below to join as at this wonderful dinner event.', NULL, 'Confirm Your Registration Information', 'Review the information below carefully.', NULL, 1, 'Contact the Development Department if you need to make any changes to your registration.', 'Fundraising Dept.', 'development@example.org', NULL, NULL, {$defaultFee1}, 'Thanks for Registering!', '<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about this wonderful event.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>', 1, 'I will send payment by check', 'Send a check payable to Our Organization within 3 business days to hold your reservation. Checks should be sent to: 100 Main St., Suite 3, San Francisco CA 94110', 0, 0 ),
+        ( 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, 1, '2009-01-01 12:00:00', '2009-01-01 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee', 1, $eventLok2, 'Complete the form below and click Continue to register online for the festival. Or you can register by calling us at 204 222-1000 ext 22.', '', 'Confirm Your Registration Information', '', '', 1, 'This email confirms your registration. If you have questions or need to change your registration - please do not hesitate to call us.', 'Event Dept.', 'events@example.org', '', NULL, {$defaultFee2}, 'Thanks for Your Joining In!', '<p>Thank you for your support. Your participation will help build new parks.</p><p>Please tell your friends and colleagues about the concert.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>', 0, NULL, NULL, 1, 0 ),
+        ( 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, 1, '2009-12-27 07:00:00', '2009-12-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees',1, $eventLok3, 'Complete the form below to register your team for this year''s tournament.', '<em>A Soccer Youth Event</em>', 'Review and Confirm Your Registration Information', '', '<em>A Soccer Youth Event</em>', 1, 'Contact our Tournament Director for eligibility details.', 'Tournament Director', 'tournament@example.org', '', NULL, {$defaultFee3}, 'Thanks for Your Support!', '<p>Thank you for your support. Your participation will help save thousands of acres of rainforest.</p>', '<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>', 0, NULL, NULL, 0, 0 )
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+        
+    }
 
     function addParticipant()
     {
@@ -1463,69 +1456,227 @@ VALUES
             $contacts[] = $contact->id;
         }
         shuffle($contacts);
-        $randomContacts = array_slice($contacts, 20, 25);
+        $randomContacts = array_slice($contacts, 20, 50);
         
         $participant = "
 INSERT INTO civicrm_participant
-        (contact_id, event_id, status_id, role_id, register_date, source, event_level, is_test)
+        (contact_id, event_id, status_id, role_id, register_date, source, fee_level, is_test, fee_amount)
 VALUES
-        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', '', 'Single', 0),
-        ( ". $randomContacts[1]  .", 2, 2, 2,'2005-05-07', '', 'Soprano', 0),
-        ( ". $randomContacts[2]  .", 3, 3, 3,'2005-05-05', '', 'Tiny-tots (ages 5-8)', 0) ,
-        ( ". $randomContacts[3]  .", 1, 4, 4,'2005-10-21', '', 'Single', 0),
-        ( ". $randomContacts[4]  .", 1, 1, 1,'2005-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[5]  .", 2, 2, 2,'2005-03-05', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[6]  .", 3, 3, 3,'2006-07-21', '', 'Single', 0),
-        ( ". $randomContacts[7]  .", 1, 4, 4,'2006-03-07', '', 'Soprano', 0),
-        ( ". $randomContacts[8]  .", 3, 1, 1, '2005-02-05', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[9]  .", 1, 2, 2, '2005-02-01', '', 'Single', 0),
-        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10','', 'Soprano', 0),
-        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06','', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[12]  .", 1, 1, 2,'2005-06-04', '', 'Single', 0),
-        ( ". $randomContacts[13]  .", 2, 2, 3,'2004-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[14]  .", 2, 4, 1,'2005-07-04', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', '', 'Single', 0),
-        ( ". $randomContacts[16]  .", 2, 2, 3, '2005-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[17]  .", 3, 3, 1,'2006-03-05', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[18]  .", 1, 2, 1, '2005-10-21', '', 'Single', 0),
-        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[20]  .", 2, 1, 4, '2005-03-25', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', '', 'Single', 0),
-        ( ". $randomContacts[22]  .", 2, 4, 1, '2005-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[23]  .", 2, 3, 1,'2005-03-11', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[24]  .", 3, 2, 2, '2005-04-05', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', '', 'Single', 0),
-        ( ". $randomContacts[1]  .", 2, 2, 2,'2007-05-07', '', 'Soprano', 0),
-        ( ". $randomContacts[2]  .", 3, 3, 3,'2007-05-05', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[3]  .", 1, 4, 4,'2007-10-21', '', 'Single', 0),
-        ( ". $randomContacts[4]  .", 1, 1, 1,'2007-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[5]  .", 2, 2, 2,'2007-03-05', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[6]  .", 3, 3, 3,'2006-07-21', '', 'Single', 0),
-        ( ". $randomContacts[7]  .", 1, 4, 4,'2006-03-07', '', 'Soprano', 0),
-        ( ". $randomContacts[8]  .", 3, 1, 1, '2007-02-05', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[9]  .", 1, 2, 2, '2007-02-01', '', 'Single', 0),
-        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10','', 'Soprano', 0),
-        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06','', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[12]  .", 1, 1, 2,'2007-06-04', '', 'Single', 0),
-        ( ". $randomContacts[13]  .", 2, 2, 3,'2004-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[14]  .", 2, 4, 1,'2007-07-04', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', '', 'Single', 0),
-        ( ". $randomContacts[16]  .", 2, 2, 3, '2007-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[17]  .", 3, 3, 1,'2006-03-05', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[18]  .", 1, 2, 1, '2007-10-21', '', 'Single', 0),
-        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[20]  .", 2, 1, 4, '2007-03-25', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', '', 'Single', 0),
-        ( ". $randomContacts[22]  .", 2, 4, 1, '2007-01-10', '', 'Soprano', 0),
-        ( ". $randomContacts[23]  .", 2, 3, 1,'2007-03-11', '', 'Tiny-tots (ages 5-8)', 0),
-        ( ". $randomContacts[24]  .", 3, 2, 2, '2007-04-05', '', 'Tiny-tots (ages 5-8)', 0);
+        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', 'Check', 'Single', 0, 50),
+        ( ". $randomContacts[1]  .", 2, 2, 2, '2005-05-07', 'Credit Card', 'Soprano', 0, 50),
+        ( ". $randomContacts[2]  .", 3, 3, 3, '2005-05-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800) ,
+        ( ". $randomContacts[3]  .", 1, 4, 4, '2005-10-21', 'Direct Transfer', 'Single', 0, 50),
+        ( ". $randomContacts[4]  .", 2, 1, 1, '2005-01-10', 'Check', 'Soprano', 0, 50),
+        ( ". $randomContacts[5]  .", 3, 2, 2, '2005-03-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[6]  .", 1, 3, 3, '2006-07-21', 'Direct Transfer', 'Single', 0, 50),
+        ( ". $randomContacts[7]  .", 2, 4, 4, '2006-03-07', 'Credit Card', 'Soprano', 0, 50),
+        ( ". $randomContacts[8]  .", 3, 1, 1, '2005-02-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[9]  .", 1, 2, 2, '2005-02-01', 'Check', 'Single', 0, 50),
+        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[12]  .", 1, 1, 2, '2005-06-04', 'Credit Card', 'Single', 0, 50),
+        ( ". $randomContacts[13]  .", 2, 2, 3, '2004-01-10', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[14]  .", 3, 4, 1, '2005-07-04', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', 'Credit Card', 'Single', 0, 50),
+        ( ". $randomContacts[16]  .", 2, 2, 3, '2005-01-10', 'Credit Card', 'Soprano', 0, 50),
+        ( ". $randomContacts[17]  .", 3, 3, 1, '2006-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[18]  .", 1, 2, 1, '2005-10-21', 'Direct Transfer', 'Single', 0, 50),
+        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', 'Credit Card', 'Soprano', 0, 50),
+        ( ". $randomContacts[20]  .", 3, 1, 4, '2005-03-25', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', 'Direct Transfer', 'Single', 0, 50),
+        ( ". $randomContacts[22]  .", 2, 4, 1, '2005-01-10', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[23]  .", 3, 3, 1, '2005-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[24]  .", 3, 2, 2, '2005-04-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[25]  .", 1, 1, 1, '2006-01-21', 'Check', 'Single', 0, 50),
+        ( ". $randomContacts[26]  .", 2, 2, 2, '2007-05-07', 'Credit Card', 'Soprano', 0, 50),
+        ( ". $randomContacts[27]  .", 3, 3, 3, '2007-05-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[28]  .", 1, 4, 4, '2007-10-21', 'Credit Card', 'Single', 0, 50),
+        ( ". $randomContacts[29]  .", 2, 1, 1, '2007-01-10', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[30]  .", 3, 2, 2, '2007-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[31]  .", 1, 3, 3, '2006-07-21', 'Check', 'Single', 0, 50),
+        ( ". $randomContacts[32]  .", 2, 4, 4, '2006-03-07', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[33]  .", 3, 1, 1, '2007-02-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[34]  .", 1, 2, 2, '2007-02-01', 'Direct Transfer', 'Single', 0, 50),
+        ( ". $randomContacts[35]  .", 2, 3, 3, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[36]  .", 3, 4, 4, '2006-03-06', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[37]  .", 1, 1, 2, '2007-06-04', 'Direct Transfer', 'Single', 0, 50),
+        ( ". $randomContacts[38]  .", 2, 2, 3, '2004-01-10', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[39]  .", 3, 4, 1, '2007-07-04', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[40]  .", 1, 4, 2, '2006-01-21', 'Credit Card', 'Single', 0, 50),
+        ( ". $randomContacts[41]  .", 2, 2, 3, '2007-01-10', 'Credit Card', 'Soprano', 0, 50),
+        ( ". $randomContacts[42]  .", 3, 3, 1, '2006-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[43]  .", 1, 2, 1, '2007-10-21', 'Direct Transfer', 'Single', 0, 50),
+        ( ". $randomContacts[44]  .", 2, 4, 1, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[45]  .", 3, 1, 4, '2007-03-25', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[46]  .", 1, 2, 3, '2006-10-21', 'Credit Card', 'Single', 0, 50),
+        ( ". $randomContacts[47]  .", 2, 4, 1, '2007-01-10', 'Credit Card', 'Soprano', 0, 50),
+        ( ". $randomContacts[48]  .", 3, 3, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[49]  .", 3, 2, 2, '2007-04-05', 'Check', 'Tiny-tots (ages 5-8)', 0, 800);
 ";
         CRM_Core_DAO::executeQuery( $participant, CRM_Core_DAO::$_nullArray );
+   
+        $query = "
+INSERT INTO civicrm_activity
+    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
+VALUES
+    ($randomContacts[0], 01, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[1], 02, 5, 'NULL', '2005-05-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[2], 03, 5, 'NULL', '2005-05-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[3], 04, 5, 'NULL', '2005-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[4], 05, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[5], 06, 5, 'NULL', '2005-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[6], 07, 5, 'NULL', '2006-07-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[7], 08, 5, 'NULL', '2006-03-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[8], 09, 5, 'NULL', '2005-02-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[9], 10, 5, 'NULL', '2005-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[10], 11, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[11], 12, 5, 'NULL', '2006-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[12], 13, 5, 'NULL', '2005-06-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[13], 14, 5, 'NULL', '2004-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[14], 15, 5, 'NULL', '2005-07-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[15], 16, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[16], 17, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[17], 18, 5, 'NULL', '2006-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[18], 19, 5, 'NULL', '2005-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[19], 20, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[20], 21, 5, 'NULL', '2005-03-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[21], 22, 5, 'NULL', '2006-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[22], 23, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[23], 24, 5, 'NULL', '2005-03-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[24], 25, 5, 'NULL', '2005-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[25], 26, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[26], 27, 5, 'NULL', '2007-05-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[27], 28, 5, 'NULL', '2005-05-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[28], 29, 5, 'NULL', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[29], 30, 5, 'NULL', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[30], 31, 5, 'NULL', '2007-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[31], 32, 5, 'NULL', '2006-07-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[32], 33, 5, 'NULL', '2006-03-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[33], 34, 5, 'NULL', '2007-02-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[34], 35, 5, 'NULL', '2007-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[35], 36, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[36], 37, 5, 'NULL', '2006-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[37], 38, 5, 'NULL', '2007-06-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[38], 39, 5, 'NULL', '2004-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[39], 40, 5, 'NULL', '2007-07-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[40], 41, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[41], 42, 5, 'NULL', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[42], 43, 5, 'NULL', '2006-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[43], 44, 5, 'NULL', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[44], 45, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[45], 46, 5, 'NULL', '2007-03-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[46], 47, 5, 'NULL', '2006-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[47], 48, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[48], 49, 5, 'NULL', '2007-03-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[49], 50, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
+    ";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+ 
+    }
+    
+    function addPCP( )
+    {
+        $query = "
+INSERT INTO `civicrm_pcp`
+    (contact_id, status_id, title, intro_text, page_text, donate_link_text, contribution_page_id, is_thermometer, is_honor_roll, goal_amount, referer, is_active)
+VALUES
+    ({$this->individual[3]}, 2, 'My Personal Civi Fundraiser', 'I''m on a mission to get all my friends and family to help support my favorite open-source civic sector CRM.', '<p>Friends and family - please help build much needed infrastructure for the civic sector by supporting my personal campaign!</p>\r\n<p><a href=\"http://civicrm.org\">You can learn more about CiviCRM here</a>.</p>\r\n<p>Then click the <strong>Contribute Now</strong> button to go to our easy-to-use online contribution form.</p>', 'Contribute Now', 1, 1, 1, 5000.00, NULL, 1);
+";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+    
+    function addContribution( ) 
+    {
+        $query = "
+INSERT INTO civicrm_contribution
+    (contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source )
+VALUES
+    (2, 1, 4, '2007-04-11 00:00:00', 0.00, 125.00, 'check #1041', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1' ),
+    (4, 1, 1, '2007-03-21 00:00:00', 0.00, 50.00, 'P20901X1', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins' ),
+    (6, 1, 4, '2007-04-29 00:00:00', 0.00, 25.00, 'check #2095', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1' ),
+    (8, 1, 4, '2007-04-11 00:00:00', 0.00, 50.00, 'check #10552', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1' ),
+    (16, 1, 4, '2007-04-15 00:00:00', 0.00, 500.00, 'check #509', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1' ),
+    (19, 1, 4, '2007-04-11 00:00:00', 0.00, 175.00, 'check #102', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1' ),
+    (82, 1, 1, '2007-03-27 00:00:00', 0.00, 50.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins' ),
+    (92, 1, 1, '2007-03-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Help CiviCRM' ),
+    (34, 1, 1, '2007-04-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Help CiviCRM' ),
+    (71, 1, 1, '2008-07-03 11:53:50', 0.00, 500.00, 'PL71', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (43, 1, 1, '2008-07-02 12:55:41', 0.00, 200.00, 'PL43II', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-06-02 11:53:50', 0.00, 200.00, 'PL32I', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-07-01 12:55:41', 0.00, 200.00, 'PL32II', 'USD', NULL, NULL, NULL, NULL, NULL );
+";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
+        $query = "
+INSERT INTO civicrm_activity
+    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
+VALUES
+    (2, 1, 6, '$ 125.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (4, 2, 6, '$ 50.00-Online: Save the Penguins', '2007-03-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (6, 3, 6, '$ 25.00-Apr 2007 Mailer 1', '2007-04-29 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (8, 4, 6, '$ 50.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (16, 5, 6, '$ 500.00-Apr 2007 Mailer 1', '2007-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (19, 6, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (82, 7, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (92, 8, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (34, 9, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (71, 10, 6, NULL, '2008-07-17 11:53:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (43, 11, 6, NULL, '2008-07-02 12:55:41', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (32, 12, 6, NULL, '2008-06-21 11:53:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (32, 13, 6, NULL, '2008-07-28 12:55:41', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 );
+    ";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+
+    function addSoftContribution( )
+    {
+
+        $sql = "SELECT id from civicrm_contribution where contact_id = 92";
+        $contriId1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray );
+        
+        $sql = "SELECT id from civicrm_contribution where contact_id = 34";
+        $contriId2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray );
+        
+        $query = "
+INSERT INTO `civicrm_contribution_soft`
+      ( contribution_id, contact_id ,amount ,pcp_id , pcp_display_in_roll ,pcp_roll_nickname,pcp_personal_note )
+VALUES
+    ( $contriId1, {$this->individual[3]}, 10.00, 1, 1, 'Jones Family', 'Helping Hands'),
+    ( $contriId2, {$this->individual[3]}, 250.00, 1, 1, 'Annie and the kids', 'Annie Helps');
+ ";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+
+    function addPledge( )
+    {
+        $pledge = "INSERT INTO civicrm_pledge
+        (contact_id, contribution_type_id, contribution_page_id, amount, frequency_unit, frequency_interval, frequency_day, installments, start_date, create_date, acknowledge_date, modified_date, cancel_date, end_date, honor_contact_id, honor_type_id, status_id, is_test) 
+        VALUES 
+       (71, 1, 1, 500.00, 'month', 1, 1, 1, '2008-07-01 21:19:02', '2008-06-26 00:00:00', NULL, NULL, NULL,'2008-07-01 00:00:00', NULL, NULL, 1, 0),
+       (43, 1, 1, 800.00, 'month', 3, 1, 4, '2008-07-01 10:11:09', '2008-06-23 10:11:14', '2008-06-23 10:11:18', NULL, NULL, '2009-04-01 10:11:40', NULL, NULL, 5, 0),
+       (32, 1, 1, 600.00, 'month', 1, 1, 3, '2008-06-01 10:12:35', '2008-05-14 10:12:44', '2008-05-14 10:12:52', NULL, NULL, '2008-08-01 10:13:11', NULL, NULL, 5, 0);
+";
+        CRM_Core_DAO::executeQuery( $pledge, CRM_Core_DAO::$_nullArray );      
+    }
+
+    function addPledgePayment( )
+    {
+        $pledgePayment = "INSERT INTO civicrm_pledge_payment 
+        ( pledge_id, contribution_id, scheduled_amount, scheduled_date, reminder_date, reminder_count, status_id) 
+       VALUES 
+         (1, 10, 500.00, '2008-07-01 13:03:45', null, 0, 1),
+         (2, 11, 200.00, '2008-07-01 10:59:35', null, 0, 1),
+         (2, null, 200.00, '2008-10-01 10:59:35',null, 0, 2),
+         (2, null, 200.00, '2009-01-01 10:59:35',null, 0, 2),
+         (2, null, 200.00, '2009-04-01 10:59:35',null, 0, 2),
+         (3, 12, 200.00, '2008-06-01 11:00:12', null, 0, 1),
+         (3, 13, 200.00, '2008-07-01 10:59:35', '2008-06-28 10:59:41', 1, 1),
+         (3, null, 200.00, '2008-08-01 11:00:12', null, 0, 2);
+        ";
+        CRM_Core_DAO::executeQuery( $pledgePayment, CRM_Core_DAO::$_nullArray );
     }
     
 }
-
 function user_access( $str = null ) {
     return true;
 }
@@ -1534,40 +1685,6 @@ function module_list( ) {
     return array( );
 }
 
-function add_contributions( ) {
-    
-    $query = "
-INSERT INTO civicrm_contribution
-    (domain_id, contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source)
-VALUES
-    (1, 2, 1, 4, '2007-04-11 00:00:00', 0.00, 125.00, 'check #1041', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (1, 4, 1, 1, '2007-03-21 00:00:00', 0.00, 50.00, 'P20901X1', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (1, 6, 1, 4, '2007-04-29 00:00:00', 0.00, 25.00, 'check #2095', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (1, 8, 1, 4, '2007-04-11 00:00:00', 0.00, 50.00, 'check #10552', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (1, 16, 1, 4, '2007-04-15 00:00:00', 0.00, 500.00, 'check #509', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (1, 19, 1, 4, '2007-04-11 00:00:00', 0.00, 175.00, 'check #102', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (1, 82, 1, 1, '2007-03-27 00:00:00', 0.00, 50.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (1, 92, 1, 1, '2007-03-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (1, 34, 1, 1, '2007-04-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins');
-";
-    CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-
-    $query = "
-INSERT INTO civicrm_activity
-    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, status_id, priority_id,parent_id, is_test)
-VALUES
-    (2, 1, 6, '$ 125.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
-    (4, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-    (6, 1, 6, '$ 25.00-Apr 2007 Mailer 1', '2007-04-29 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
-    (8, 1, 6, '$ 50.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
-    (16, 1, 6, '$ 500.00-Apr 2007 Mailer 1', '2007-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-    (19, 1, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
-    (82, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-    (92, 1, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-    (34, 1, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,0)
-    ";
-    CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-}
 
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
 $obj1 =& new CRM_GCD();
@@ -1584,18 +1701,16 @@ $obj1->addLocation();
 $obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
-$obj1->addActivityHistory();
+$obj1->addActivity();
 $obj1->addMembership();
 $obj1->addMembershipLog();
-$obj1->addEventLocationAddress();
-$obj1->addEventPhone();
-$obj1->addEventemail();
-$obj1->addEventFeeLabel();
-$obj1->addEventLocation();
-$obj1->addEvent();
-$obj1->addEventPage();
+$obj1->createEvent( );
 $obj1->addParticipant();
-add_contributions();
+$obj1->addContribution();
+$obj1->addPCP();
+$obj1->addSoftContribution();
+$obj1->addPledge();
+$obj1->addPledgePayment();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
-?>
+

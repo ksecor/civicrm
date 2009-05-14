@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -57,6 +57,20 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     public $_contactIds;
 
     /**
+     * The additional clause that we restrict the search with
+     *
+     * @var string
+     */
+    protected $_componentClause = null;
+
+    /**
+     * The array that holds all the component ids
+     *
+     * @var array
+     */
+    protected $_componentIds;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @param
@@ -66,27 +80,36 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     function preProcess( ) 
     {
         $this->_contactIds = array( );
-
+      
         // get the submitted values of the search form
         // we'll need to get fv from either search or adv search in the future
+        $fragment = 'search';
         if ( $this->_action == CRM_Core_Action::ADVANCED ) {
             $values = $this->controller->exportValues( 'Advanced' );
+            $fragment .= '/advanced';
         } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
             $values = $this->controller->exportValues( 'Builder' );
+            $fragment .= '/builder';
         } else if ( $this->_action == CRM_Core_Action::COPY ) {
             $values = $this->controller->exportValues( 'Custom' );
+            $fragment .= '/custom';
         } else {
             $values = $this->controller->exportValues( 'Basic' );
         }
-
+        
+        //set the user context for redirection of task actions
+        $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, 'force=1' );
+        $session =& CRM_Core_Session::singleton( );
+        $session->replaceUserContext( $url );
+        
         require_once 'CRM/Contact/Task.php';
-
-        $this->_task = $values['task'];
+        $this->_task         = $values['task'];
         $crmContactTaskTasks = CRM_Contact_Task::taskTitles();
         $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] );
 
         // all contacts or action = save a search
-        if ( ( $values['radio_ts'] == 'ts_all' ) || ( $this->_task == CRM_Contact_Task::SAVE_SEARCH ) ) {
+        if ( ( CRM_Utils_Array::value('radio_ts', $values ) == 'ts_all' ) ||
+             ( $this->_task == CRM_Contact_Task::SAVE_SEARCH ) ) {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             $sortID = null;
@@ -100,10 +123,12 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
 
             $fv          = $this->get( 'formValues' );
             $customClass = $this->get( 'customSearchClass' );
+            require_once "CRM/Core/BAO/Mapping.php";
+            $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $values);
 
             eval( '$selector   =& new ' .
                   $selectorName . 
-                  '( $customClass, $fv ); '
+                  '( $customClass, $fv, null, $returnProperties ); '
                   );
 
             $params    =  $this->get( 'queryParams' );
@@ -112,7 +137,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             while ( $dao->fetch( ) ) {
                 $this->_contactIds[] = $dao->contact_id;
             }
-        } else if ( $values['radio_ts'] == 'ts_sel') {
+        } else if ( CRM_Utils_Array::value( 'radio_ts' , $values ) == 'ts_sel') {
             // selected contacts only
             // need to perform action on only selected contacts
             foreach ( $values as $name => $value ) {
@@ -122,7 +147,14 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             }
         }
 
-        $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) );
+        if ( ! empty( $this->_contactIds ) ) {
+            $this->_componentClause =
+                ' contact_a.id IN ( ' .
+                implode( ',', $this->_contactIds ) . ' ) ';
+            $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) );             
+
+            $this->_componentIds = $this->_contactIds;
+        }
     }
 
     /**
@@ -194,4 +226,4 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
 
 }
 
-?>
+

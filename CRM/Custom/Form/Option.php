@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,8 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the field aspect of Custom
  */
-class CRM_Custom_Form_Option extends CRM_Core_Form {
+class CRM_Custom_Form_Option extends CRM_Core_Form 
+{
     /**
      * the custom group id saved to the session for an update
      *
@@ -104,13 +105,15 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $paramsField = array('id' => $this->_fid);            
             CRM_Core_BAO_CustomField::retrieve($paramsField, $fieldDefaults);
 
-            if ( $fieldDefaults['html_type'] == 'CheckBox' || $fieldDefaults['html_type'] == 'Multi-Select' ) {
+            if ( $fieldDefaults['html_type'] == 'CheckBox' 
+                 || $fieldDefaults['html_type'] == 'Multi-Select' 
+                 || $fieldDefaults['html_type'] == 'AdvMulti-Select' ) {
                 $defaultCheckValues = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                                               substr( $fieldDefaults['default_value'], 1, -1 ) );
                 if ( in_array($defaults['value'], $defaultCheckValues ) ) 
                     $defaults['default_value'] = 1;
             } else {
-                if( $fieldDefaults['default_value'] == $defaults['value'] ) {
+                if( CRM_Utils_Array::value( 'default_value', $fieldDefaults ) == CRM_Utils_Array::value( 'value', $defaults ) ) {
                     $defaults['default_value'] = 1;
                 }               
             }
@@ -154,8 +157,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $this->add('hidden', 'optionId', $this->_id);
             
             //hidden field ID for validation use
-            $this->add('hidden', 'fieldId', $this->_fid); 
-        
+            $this->add('hidden', 'fieldId', $this->_fid);         
             
             // label
             $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'), true);
@@ -168,7 +170,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
             // weight
             $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
-            $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+            $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
             // is active ?
             $this->add('checkbox', 'is_active', ts('Active?'));
@@ -184,6 +186,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                                     array ('type'      => 'next',
                                            'name'      => ts('Save'),
                                            'isDefault' => true),
+                                    array ('type'      => 'next',
+                                           'name'      => ts('Save and New'),
+                                           'subName'   => 'new' ),
                                     array ('type'      => 'cancel',
                                            'name'      => ts('Cancel')),
                                     )
@@ -207,8 +212,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields, &$files, &$form ) {
-
+    static function formRule( &$fields, &$files, &$form ) 
+    {
         $optionLabel   = CRM_Utils_Type::escape( $fields['label'], 'String' );
         $optionValue   = CRM_Utils_Type::escape( $fields['value'], 'String' );
         $fieldId       = $form->_fid;
@@ -351,6 +356,7 @@ SELECT data_type
         $params = $this->controller->exportValues('Option');
 
         // set values for custom field properties and save
+        require_once 'CRM/Core/DAO/OptionValue.php';
         $customOption                =& new CRM_Core_DAO_OptionValue();
         $customOption->label         = $params['label'];
         $customOption->weight        = $params['weight'];
@@ -383,6 +389,7 @@ SELECT data_type
         $customField->id = $this->_fid;
         if ( $customField->find( true ) &&
              ( $customField->html_type == 'CheckBox' ||
+               $customField->html_type == 'AdvMulti-Select' ||
                $customField->html_type == 'Multi-Select' ) ) {
             $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                               substr( $customField->default_value, 1, -1 ) );
@@ -414,6 +421,11 @@ SELECT data_type
                 $customField->save(); 
             }           
         } else {            
+            if ( $customField->data_type == 'Money' ) {  
+                require_once 'CRM/Utils/Rule.php';
+                $customOption->value = CRM_Utils_Rule::cleanMoney( $customOption->value );
+            }
+
             if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
                 $customField->default_value = $customOption->value;
                 $customField->save();
@@ -425,9 +437,14 @@ SELECT data_type
         }
 
         $customOption->save();
-        
-        
-        CRM_Core_Session::setStatus(ts('Your multiple choice option "%1" has been saved', array(1 => $customOption->label)));
+             
+        CRM_Core_Session::setStatus(ts('Your multiple choice option \'%1\' has been saved', array(1 => $customOption->label)));
+        $buttonName = $this->controller->getButtonName( );
+        $session =& CRM_Core_Session::singleton( );
+        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+            CRM_Core_Session::setStatus( ts(' You can add another option.') );
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', 'reset=1&action=add&fid=' . $this->_fid . '&gid=' . $this->_gid));
+        }
     }
 }
-?>
+

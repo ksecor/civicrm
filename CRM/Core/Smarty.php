@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -51,7 +51,9 @@ class CRM_Core_Smarty extends Smarty {
 
     const
         PRINT_PAGE    = 1,
-        PRINT_SNIPPET = 2;
+        PRINT_SNIPPET = 2,
+        PRINT_PDF     = 3,
+        PRINT_NOFORM  = 4;
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -92,14 +94,28 @@ class CRM_Core_Smarty extends Smarty {
         // add the session and the config here
         $config  =& CRM_Core_Config::singleton ();
         $session =& CRM_Core_Session::singleton();
-        $recent  =& CRM_Utils_Recent::get( );
 
         $this->assign_by_ref( 'config'        , $config  );
         $this->assign_by_ref( 'session'       , $session );
-        $this->assign_by_ref( 'recentlyViewed', $recent  );
-        $this->assign       ( 'displayRecent' , true );
-
-        $this->assign( 'metaTpl', strtolower( $config->userFramework ) );
+        
+        // check default editor and assign to template, store it in session to reduce db calls
+        $defaultWysiwygEditor = $session->get( 'defaultWysiwygEditor');
+        if ( !$defaultWysiwygEditor ) {
+            require_once 'CRM/Core/BAO/Preferences.php';
+            $defaultWysiwygEditor = CRM_Core_BAO_Preferences::value( 'editor_id' );            
+            $session->set( 'defaultWysiwygEditor', $defaultWysiwygEditor );
+        }
+        
+        $this->assign( 'defaultWysiwygEditor', $defaultWysiwygEditor );
+ 
+        global $tsLocale;
+        $this->assign('langSwitch', CRM_Core_I18n::languages(true));
+        $this->assign('tsLocale',   $tsLocale);
+        
+        //check if logged in use has access CiviCRM permission and build menu
+        require_once 'CRM/Core/Permission.php';
+        $buildNavigation = CRM_Core_Permission::check( 'administer CiviCRM' );
+        $this->assign('buildNavigation', $buildNavigation );
 
         $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
 
@@ -132,14 +148,6 @@ class CRM_Core_Smarty extends Smarty {
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         require_once 'CRM/Core/Menu.php';
-
-        // hack for now, we need to execute this at the end to allow the modules to
-        // add new menu items etc, this CANNOT go in the smarty constructor
-        $config  =& CRM_Core_Config::singleton ();
-        if( isset($_GET[$config->userFrameworkURLVar]) ) {
-            CRM_Core_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
-        }
-
         return parent::fetch( $resource_name, $cache_id, $compile_id, $display );
     }
 
@@ -154,6 +162,15 @@ class CRM_Core_Smarty extends Smarty {
         }
     }
 
+    function clearTemplateVars( ) {
+        foreach ( array_keys( $this->_tpl_vars ) as $key ) {
+            if ( $key == 'config' || $key == 'session' ) {
+                continue;
+            }
+            unset( $this->_tpl_vars[$key] );
+        }
+    }
+
 }
 
-?>
+

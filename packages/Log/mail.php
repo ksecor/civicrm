@@ -1,8 +1,8 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/mail.php,v 1.24 2006/01/30 05:37:18 jon Exp $
+ * $Header: /repository/pear/Log/Log/mail.php,v 1.27 2008/02/10 00:15:04 jon Exp $
  *
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.27 $
  * @package Log
  */
 
@@ -28,11 +28,12 @@
 class Log_mail extends Log
 {
     /**
-     * String holding the recipient's email address.
+     * String holding the recipients' email addresses.  Multiple addresses
+     * should be separated with commas.
      * @var string
      * @access private
      */
-    var $_recipient = '';
+    var $_recipients = '';
 
     /**
      * String holding the sender's email address.
@@ -78,15 +79,38 @@ class Log_mail extends Log
      */
     var $_message = '';
 
+    /**
+     * Flag used to indicated that log lines have been written to the message
+     * body and the message should be sent on close().
+     * @var boolean
+     * @access private
+     */
+    var $_shouldSend = false;
+
+    /**
+     * String holding the backend name of PEAR::Mail
+     * @var string
+     * @access private
+     */
+    var $_mailBackend = '';
+
+    /**
+     * Array holding the params for PEAR::Mail
+     * @var array
+     * @access private
+     */
+    var $_mailParams = array();
 
     /**
      * Constructs a new Log_mail object.
      *
      * Here is how you can customize the mail driver with the conf[] hash :
-     *   $conf['from']    : the mail's "From" header line,
-     *   $conf['subject'] : the mail's "Subject" line.
+     *   $conf['from']:        the mail's "From" header line,
+     *   $conf['subject']:     the mail's "Subject" line.
+     *   $conf['mailBackend']: backend name of PEAR::Mail
+     *   $conf['mailParams']:  parameters for the PEAR::Mail backend
      *
-     * @param string $name      The filename of the logfile.
+     * @param string $name      The message's recipients.
      * @param string $ident     The identity string.
      * @param array  $conf      The configuration array.
      * @param int    $level     Log messages up to and including this level.
@@ -96,7 +120,7 @@ class Log_mail extends Log
                       $level = PEAR_LOG_DEBUG)
     {
         $this->_id = md5(microtime());
-        $this->_recipient = $name;
+        $this->_recipients = $name;
         $this->_ident = $ident;
         $this->_mask = Log::UPTO($level);
 
@@ -122,6 +146,14 @@ class Log_mail extends Log
 
         if (!empty($conf['timeFormat'])) {
             $this->_timeFormat = $conf['timeFormat'];
+        }
+
+        if (!empty($conf['mailBackend'])) {
+            $this->_mailBackend = $conf['mailBackend'];
+        }
+
+        if (!empty($conf['mailParams'])) {
+            $this->_mailParams = $conf['mailParams'];
         }
 
         /* register the destructor */
@@ -151,6 +183,7 @@ class Log_mail extends Log
                 $this->_message = $this->_preamble . "\r\n\r\n";
             }
             $this->_opened = true;
+            $_shouldSend = false;
         }
 
         return $this->_opened;
@@ -165,18 +198,32 @@ class Log_mail extends Log
     function close()
     {
         if ($this->_opened) {
-            if (!empty($this->_message)) {
-                $headers = "From: $this->_from\r\n";
-                $headers .= "User-Agent: Log_mail";
-
-                if (mail($this->_recipient, $this->_subject, $this->_message,
-                         $headers) == false) {
-                    error_log("Log_mail: Failure executing mail()", 0);
-                    return false;
+            if ($this->_shouldSend && !empty($this->_message)) {
+                if ($this->_mailBackend === '') {  // use mail()
+                    $headers = "From: $this->_from\r\n";
+                    $headers .= "User-Agent: Log_mail";
+                    if (mail($this->_recipients, $this->_subject,
+                             $this->_message, $headers) == false) {
+                        return false;
+                    }
+                } else {  // use PEAR::Mail
+                    include_once 'Mail.php';
+                    $headers = array('From' => $this->_from,
+                                     'To' => $this->_recipients,
+                                     'User-Agent' => 'Log_mail',
+                                     'Subject' => $this->_subject);
+                    $mailer = &Mail::factory($this->_mailBackend,
+                                             $this->_mailParams);
+                    $res = $mailer->send($this->_recipients, $headers,
+                                         $this->_message);
+                    if (PEAR::isError($res)) {
+                        return false;
+                    }
                 }
 
                 /* Clear the message string now that the email has been sent. */
                 $this->_message = '';
+                $this->_shouldSend = false;
             }
             $this->_opened = false;
         }
@@ -233,10 +280,11 @@ class Log_mail extends Log
         /* Extract the string representation of the message. */
         $message = $this->_extractMessage($message);
 
-        /* Build the string containing the complete log line. */
+        /* Append the string containing the complete log line. */
         $this->_message .= $this->_format($this->_lineFormat,
                                           strftime($this->_timeFormat),
                                           $priority, $message) . "\r\n";
+        $this->_shouldSend = true;
 
         /* Notify observers about this log message. */
         $this->_announce(array('priority' => $priority, 'message' => $message));

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -33,7 +33,7 @@
  * run method as explained below.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -67,16 +67,50 @@ class CRM_Utils_Wrapper
      * @return none.
      * @access public
      */
-    function run($formName, $formLabel, $mode, $addSequence = false, $ignoreKey = false ) {
-        $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel,
-                                                              $mode,
-                                                              false,
-                                                              $addSequence,
-                                                              $ignoreKey );
+    function run( $formName, $formLabel, $arguments = null ) {
+        if ( is_array($arguments) ) {
+            $mode         = CRM_Utils_Array::value( 'mode',        $arguments );
+            $imageUpload  = (bool) CRM_Utils_Array::value( 'imageUpload' , $arguments, false );
+            $addSequence  = (bool) CRM_Utils_Array::value( 'addSequence' , $arguments, false );
+            $attachUpload = (bool) CRM_Utils_Array::value( 'attachUpload',   $arguments, false );
+            $ignoreKey    = (bool) CRM_Utils_Array::value( 'ignoreKey'   ,   $arguments, false );
+        } else {
+            $arguments   = array( );
+            $mode        = null;
+            $addSequence = $ignoreKey = $imageUpload = $attachUpload = false;
+        }
+
+        $this->_controller =& new CRM_Core_Controller_Simple( $formName    ,
+                                                              $formLabel   ,
+                                                              $mode        ,
+                                                              $imageUpload ,
+                                                              $addSequence ,
+                                                              $ignoreKey   ,
+                                                              $attachUpload );
+
+        if ( array_key_exists('urlToSession', $arguments) ) {
+            if ( is_array($arguments['urlToSession']) ) {
+                foreach ( $arguments['urlToSession'] as $params ) {
+                    $urlVar     = CRM_Utils_Array::value( 'urlVar',     $params );
+                    $sessionVar = CRM_Utils_Array::value( 'sessionVar', $params );
+                    $type       = CRM_Utils_Array::value( 'type',       $params );
+                    $default    = CRM_Utils_Array::value( 'default',    $params );
+                    
+                    $value = null; 
+                    $value = CRM_Utils_Request::retrieve( $urlVar, 
+                                                          $type,
+                                                          $this->_controller,
+                                                          $default );
+                    $this->_controller->set( $sessionVar, $value );
+                }
+            }
+        }
+        
+        if ( array_key_exists('setEmbedded', $arguments) ) {
+            $this->_controller->setEmbedded( true );
+        }
+
         $this->_controller->process();
         $this->_controller->run();
     }
-
 }
-
-?>

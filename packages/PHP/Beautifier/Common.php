@@ -32,7 +32,7 @@
 * @link     http://pear.php.net/package/PHP_Beautifier
 * @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 0.1.11
+* @version    Release: 0.1.13
 */
 class PHP_Beautifier_Common {
     /**
@@ -158,6 +158,8 @@ class PHP_Beautifier_Common {
             return glob($sPath);
         } else {
             $sDir = (dirname($sPath)) ? realpath(dirname($sPath)) : realpath('./');
+            $sDir = PHP_Beautifier_Common::normalizeDir($sDir);
+			$sDir = substr($sDir, 0, -1); // strip last slash
             $sGlob = basename($sPath);
             $dh = @opendir($sDir);
             if (!$dh) {
@@ -190,7 +192,7 @@ class PHP_Beautifier_Common {
     * @param string
     * @return string
     */
-    function wsToString($sText) 
+    public static function wsToString($sText) 
     {
         // ArrayNested->off();
         return str_replace(array("\r", "\n", "\t"), array('\r', '\n', '\t'), $sText);
@@ -211,7 +213,7 @@ class PHP_Beautifier_Common {
 * @link     http://pear.php.net/package/PHP_Beautifier
 * @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 0.1.11
+* @version    Release: 0.1.13
 */
 interface PHP_Beautifier_Interface {
     /**

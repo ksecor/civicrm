@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -152,25 +152,35 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
         $dao->orderBy('weight');
         $dao->find();
 
+        require_once 'CRM/Utils/Money.php';
+
         while ($dao->fetch()) {
             $membershipType[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $membershipType[$dao->id]);
+            
+            // fix the display of the monetary value, CRM-4038
+            if ( CRM_Utils_Array::value( 'minimum_fee', $membershipType[$dao->id] ) ) {
+                $membershipType[$dao->id]['minimum_fee'] = CRM_Utils_Money::format($membershipType[$dao->id]['minimum_fee'], null, '%a');
+            }
+            //adding column for relationship type. CRM-4178.
+            if ( $dao->relationship_type_id ) {
+                $relationshipName = 'name_'.$dao->relationship_direction;
+                $membershipType[$dao->id]['relationshipTypeName'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_RelationshipType', 
+                                                                                                $dao->relationship_type_id, $relationshipName );
+            }
             // form all action links
             $action = array_sum(array_keys($this->links()));
 
             // update enable/disable links depending on if it is is_reserved or is_active
-            if ( isset($dao->is_reserved) ) {
-                continue;
-            } else {
+            if ( ! isset( $dao->is_reserved ) ) {
                 if ($dao->is_active) {
                     $action -= CRM_Core_Action::ENABLE;
                 } else {
                     $action -= CRM_Core_Action::DISABLE;
                 }
-            }
-            
-            $membershipType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                            array('id' => $dao->id));
+                $membershipType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
+                                                                                array('id' => $dao->id));
+            }            
         }
 
         $returnURL = CRM_Utils_System::url( 'civicrm/admin/member/membershipType', "reset=1&action=browse" );
@@ -213,4 +223,4 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
     }
 }
 
-?>
+

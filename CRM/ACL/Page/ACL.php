@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@ require_once 'CRM/Core/Page/Basic.php';
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -127,20 +127,32 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
                                           $this, false, 0);
         
         // set breadcrumb to append to admin/access
-        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/access', 'reset=1' );
-        CRM_Utils_System::appendBreadCrumb( ts('Access Control'), $breadCrumbPath );
-
+        $breadCrumb = array( array('title' => ts('Access Control'),
+                                   'url'   => CRM_Utils_System::url( 'civicrm/admin/access', 
+                                                                     'reset=1' )) );
+        CRM_Utils_System::appendBreadCrumb( $breadCrumb );
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
+        if ( $action & (CRM_Core_Action::ADD | CRM_Core_Action::DELETE) ) {
             $this->edit($action, $id) ;
-        } 
+        }
+
+        if ( $action & (CRM_Core_Action::UPDATE) ) {
+            $this->edit($action, $id) ;
+
+            if ( isset( $id ) ) {
+                $aclName = CRM_Core_DAO::getFieldValue( 'CRM_ACL_DAO_ACL', $id );
+                CRM_Utils_System::setTitle( ts('Edit ACL -  %1', array( 1 => $aclName) ) );
+            }
+        }
+        
+        
         // finally browse the acl's
-         $this->browse();
+        $this->browse();
         
         // parent run 
         parent::run();
     }
-
+    
     /**
      * Browse all acls
      * 
@@ -157,36 +169,49 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
         $query = "
   SELECT *
     FROM civicrm_acl
-   WHERE domain_id = %1
-     AND ( object_table IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
+   WHERE ( object_table IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group', 'civicrm_event' ) )
 ORDER BY entity_id
 ";
-        $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
-        $dao    = CRM_Core_DAO::executeQuery( $query, $params );
+        $dao    = CRM_Core_DAO::executeQuery( $query,
+                                              CRM_Core_DAO::$_nullArray );
 
         require_once 'CRM/Core/OptionGroup.php';
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );
 
-        $group       = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Groups' ) )        + CRM_Core_PseudoConstant::group( )      ;
-        $customGroup = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Custom Groups' ) ) + CRM_Core_PseudoConstant::customGroup( );
-        $ufGroup     = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Profiles' ) )      + CRM_Core_PseudoConstant::ufGroup( )    ;
+        $group       =
+            array( '-1' => ts( '- select -' ),
+                   '0'  => ts( 'All Groups' ) ) +
+            CRM_Core_PseudoConstant::group( )      ;
+        $customGroup =
+            array( '-1' => ts( '- select -' ),
+                   '0'  => ts( 'All Custom Groups' ) ) +
+            CRM_Core_PseudoConstant::customGroup( );
+        $ufGroup     =
+            array( '-1' => ts( '- select -' ),
+                   '0'  => ts( 'All Profiles' ) )      +
+            CRM_Core_PseudoConstant::ufGroup( )    ;
+
+        require_once 'CRM/Event/PseudoConstant.php';
+        $event       =
+            array( '-1' => ts( '- select -' ),
+                   '0'  => ts( 'All Events' ) ) +
+            CRM_Event_PseudoConstant::event( );
 
         while ( $dao->fetch( ) ) {
-
             $acl[$dao->id] = array();
             $acl[$dao->id]['name']         = $dao->name;
             $acl[$dao->id]['operation']    = $dao->operation;
             $acl[$dao->id]['entity_id']    = $dao->entity_id;
             $acl[$dao->id]['entity_table'] = $dao->entity_table;
             $acl[$dao->id]['object_table'] = $dao->object_table;
-            $acl[$dao->id]['object_id'] = $dao->object_bid;
+            $acl[$dao->id]['object_id']    = $dao->object_id;
             $acl[$dao->id]['is_active']    = $dao->is_active;
 
 
             if ( $acl[$dao->id]['entity_id'] ) {
                 $acl[$dao->id]['entity'] = $roles [$acl[$dao->id]['entity_id']];
             } else {
-                $acl[$dao->id]['entity'] = ts( 'Any Role' );
+                $acl[$dao->id]['entity'] = ts( 'Everyone' );
             }
 
             switch ( $acl[$dao->id]['object_table'] ) {
@@ -203,6 +228,11 @@ ORDER BY entity_id
             case 'civicrm_custom_group':
                 $acl[$dao->id]['object'     ] = $customGroup[$acl[$dao->id]['object_id']];
                 $acl[$dao->id]['object_name'] = ts( 'Custom Group' );
+                break;
+
+            case 'civicrm_event':
+                $acl[$dao->id]['object'     ] = $event[$acl[$dao->id]['object_id']];
+                $acl[$dao->id]['object_name'] = ts( 'Event' );
                 break;
             }
 
@@ -252,4 +282,4 @@ ORDER BY entity_id
     }
 }
 
-?>
+

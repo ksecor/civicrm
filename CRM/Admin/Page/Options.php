@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -103,11 +103,26 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         if ( self::$_gName == 'acl_role' ) {
             CRM_Utils_System::setTitle(ts('Manage ACL Roles'));
             // set breadcrumb to append to admin/access
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/access', 'reset=1' );
-            CRM_Utils_System::appendBreadCrumb( ts('Access Control'), $breadCrumbPath ); 
+            $breadCrumb = array( array('title' => ts('Access Control'),
+                                       'url'   => CRM_Utils_System::url( 'civicrm/admin/access', 
+                                                                         'reset=1' )) );
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb ); 
        } else {
             CRM_Utils_System::setTitle(ts('%1 Options', array(1 => self::$_GName)));
         }
+        if ( self::$_gName == 'from_email_address' || self::$_gName == 'greeting_type' ) {
+            $this->assign( 'showIsDefault', true );
+        }
+        if ( self::$_gName == 'participant_status' ) {
+            $this->assign( 'showCounted', true );
+            $this->assign( 'showVisibility', true );
+        }
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array("CiviCase", $config->enableComponents) && self::$_gName == 'activity_type' ) {
+            $this->assign( 'showComponent', true );
+        }
+            
     }
 
     /**
@@ -134,30 +149,40 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/options',
+                                                                    'url'   => 'civicrm/admin/options/' . self::$_gName,
                                                                     'qs'    => 'group=' . self::$_gName . '&action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/options',
+                                                                    'url'   => 'civicrm/admin/options/' . self::$_gName,
                                                                     'qs'    => 'group=' . self::$_gName . '&action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/options',
+                                                                    'url'   => 'civicrm/admin/options/' . self::$_gName,
                                                                     'qs'    => 'group=' . self::$_gName . '&action=enable&id=%%id%%',
                                                                     'title' => ts('Enable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/options',
+                                                                    'url'   => 'civicrm/admin/options/' . self::$_gName,
                                                                     'qs'    => 'group=' . self::$_gName . '&action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete %1 Type', array(1 => self::$_gName))
-                                                                   )
-                                 );
+                                                                    'title' => ts('Delete %1 Type', array(1 => self::$_gName) ),
+                                                                    ),
+                                  );
+
+            if ( self::$_gName == 'custom_search' ) {
+                $runLink = array( CRM_Core_Action::FOLLOWUP => array(
+                                                                     'name'  => ts('Run'),
+                                                                     'url'   => 'civicrm/contact/search/custom',
+                                                                     'qs'    => 'reset=1&csid=%%value%%',
+                                                                     'title' => ts('Run %1', array(1 => self::$_gName) ),
+                                                                     ) );
+                self::$_links = $runLink + self::$_links;
+            }
         }
         return self::$_links;
     }
@@ -186,14 +211,14 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         require_once 'CRM/Core/OptionValue.php';
         
         $groupParams = array( 'name' => self::$_gName );
-        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'weight');
-        
-        $returnURL = CRM_Utils_System::url( 'civicrm/admin/options', "reset=1&group=" . self::$_gName );
+        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'component_id,weight');
+        $gName = self::$_gName;
+        $returnURL = CRM_Utils_System::url( "civicrm/admin/options/$gName",
+                                            "reset=1&group=$gName" );
         $filter    = "option_group_id = " . self::$_gId;
         require_once 'CRM/Utils/Weight.php';
         CRM_Utils_Weight::addOrder( $optionValue, 'CRM_Core_DAO_OptionValue',
                                     'id', $returnURL, $filter );
-        
         $this->assign('rows', $optionValue);
     }
     
@@ -224,7 +249,7 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/options';
+        return 'civicrm/admin/options/'.self::$_gName;
     }
 
     /**
@@ -241,4 +266,4 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
 
 }
 
-?>
+

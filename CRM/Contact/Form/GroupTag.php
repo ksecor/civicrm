@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -77,90 +77,53 @@ class CRM_Contact_Form_GroupTag
             if ($fieldName) {
                 $fName = $fieldName; 
             }
-
+            
             $elements = array( );
-            if ( $visibility ) {
-                $group  =& CRM_Core_PseudoConstant::allGroup( );
+            $groupID  = isset( $form->_grid ) ? $form->_grid : null ;
+            if ( $groupID && $visibility ) {
+                $ids = '= '.$groupID;
             } else {
-                $group  =& CRM_Core_PseudoConstant::group( );
+                if ( $visibility ) {
+                    $group  =& CRM_Core_PseudoConstant::allGroup( );
+                } else {
+                    $group  =& CRM_Core_PseudoConstant::group( );
+                }
+                $ids = implode( ',', array_keys( $group ) );
+                $ids = 'IN ('.$ids.')';
             }
             
-            $orgId = null;
-            $excludeGroupIds = array( );
-	        if ( $contactId > 0 ) {
-	            require_once 'CRM/Contact/DAO/GroupOrganization.php';
-	            require_once 'CRM/Contact/DAO/Group.php';
-                
-                //will revist this code once done with other fixes
-	            $dao = new CRM_Contact_DAO_Contact( );
-	            $query = "SELECT id FROM civicrm_contact WHERE id = $contactId";
-	            $dao->query($query);
-	    
-	            if ( $dao->fetch() ) {
-	                $orgId = $dao->id;
-	            }
-            }
-	    
-	        if ( $orgId != null ) {
-	            $excludeGroupIds = array ( );
-	            $dao = new CRM_Contact_DAO_GroupOrganization();
-		        $query = "SELECT group_id FROM civicrm_group_organization WHERE organization_id = $orgId";
-		        $dao->query($query);
-		        while ( $dao->fetch() ) {
-		            $excludeGroupIds[] = $dao->group_id;
-		        }
-	        }
-	        /*
-    	    if ( $groupFetchId != null ) {
-    	        $dao = new CRM_Contact_DAO_Group();
-    		$query = "SELECT title FROM civicrm_group WHERE id = $groupFetchId";
-    		$dao->query($query);
-    		if ( $dao->fetch() ) {
-    		    $excludeGroupTitle = $dao->title;
-    		}
-    		else {
-    		    $excludeGroupTitle = null;
-    		}
+            if ( $groupID || !empty( $group ) ) {
+                $sql = "
+    SELECT id, title, description, visibility
+    FROM   civicrm_group
+    WHERE  id $ids
+    ";
+                $dao = CRM_Core_DAO::executeQuery( $sql );
+                $attributes['skiplabel'] = true;
+                while ( $dao->fetch( ) ) {
+                    // make sure that this group has public visibility
+    		        if ( $visibility &&
+                         $dao->visibility == 'User and User Admin Only' ) {
+                        continue;
+                    }
+                    $title  = '</td><td><strong>'.$dao->title.'</strong></td>';
+                    if ( ! empty( $dao->description ) ) {
+                        // CRM-3448
+                        $title .= '<td>'.$dao->description.'</td></tr>';
+                    } else {
+                        $title .= '<td></td></tr>';
+                    }
 
-
-    	    }
-    	    */
-            foreach ($group as $id => $name) {
-		  
-	        if ( $visibility ) {
-		    // make sure that this group has public visibility. not very efficient
-		    $dao =& new CRM_Contact_DAO_Group( );
-                    $dao->id = $id;
-		    
-		            if ( $dao->find( true ) ) {
-		                if ( $dao->visibility == 'User and User Admin Only' ) {
-			                continue;
-			            }
-		            } else {
-		                continue;
-		            }
-		        }
-		        $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name );
-		    }
-		    
-		}
-		$disableBox = false;
-		foreach ( $excludeGroupIds as $excludeGroupId ) {
-		  if ( $excludeGroupId == $id ) {
-		      $disableBox = true;
-		  }
-		}		
-		if ( ! $disableBox ) {
-                    $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
-		}
-		else {
-		  $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name, array ('disabled' => 'disabled', 'checked' => 'checked'));
-		}
-	    }
-	    if ( ! empty( $elements ) ) {
-                $form->addGroup( $elements, $fName, $groupName, '<br />' );
-                if ( $isRequired ) {
-                    $form->addRule( $fName , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   
+                    //$elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, $title, $attributes );
+                    $elements[] =& $form->addElement('advcheckbox', $dao->id, null, $title, $attributes );
+                }
+            
+    	        if ( ! empty( $elements ) ) {
+                    $form->addGroup( $elements, $fName, $groupName, '<tr><td>' );
+                    $form->assign('groupCount', count($elements));
+                    if ( $isRequired ) {
+                        $form->addRule( $fName , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   
+                    }
                 }
             }
         }
@@ -178,6 +141,7 @@ class CRM_Contact_Form_GroupTag
             }
             if ( ! empty( $elements ) ) { 
                 $form->addGroup( $elements, $fName, $tagName, '<br />' );
+                $form->assign('tagCount', count($elements));
             }
             
             if ( $isRequired ) {
@@ -236,4 +200,4 @@ class CRM_Contact_Form_GroupTag
 }
 
 
-?>
+

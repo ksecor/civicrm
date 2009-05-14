@@ -1,11 +1,16 @@
 <?php
 
 ini_set( 'include_path', '.' . PATH_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR . '..' );
-ini_set( 'memory_limit', '32M'              );
+ini_set( 'memory_limit', '256M' );
 
 $versionFile = "version.xml";
-$versionXML = & parseInput( $versionFile );
-$build_version = $versionXML->version_no;
+$versionXML  =& parseInput( $versionFile );
+$db_version  = $versionXML->version_no;
+$build_version = preg_replace('/^(\d{1,2}\.\d{1,2})\.(\d{1,2}|\w{4,7})$/i', '$1', $db_version);
+if ( isset($argv[2]) ) {
+    // change the version to that explicitly passed, if any 
+    $db_version = $argv[2];
+}
 if ($build_version < 1.1) {
     echo "The Database is not compatible for this version";
     exit();
@@ -88,170 +93,12 @@ $tables = orderTables( $tables );
 // print_r($tables);
 // exit(1);
 
-$tree1 = array();
-foreach ($tables as $k => $v) {
-    $tableName = $k;
-    $tree1[$tableName] = array();
-    
-    if(!isset($v['foreignKey'])) {
-        continue;
-    }
-    foreach ($v['foreignKey'] as $k1 => $v1) {
-        if ( !in_array($v1['table'], $tree1[$tableName]) ) {
-            $tree1[$tableName][] = $v1['table'];
-        }
-    }
-}
-//create a foreign key link table
-$frTable = array();
-
-foreach ($tables as $key => $value) {
-    if(!isset($value['foreignKey'])) {
-        continue;
-    }
-    
-    foreach ($value['foreignKey'] as $k1 => $v1) {
-        if(@!array_key_exists($v1['table'], $frTable[$value['name']])) {
-            $frTable[$value['name']][$v1['table']] = $v1['name'];        
-        }
-    }
-}
-$tree2 = array();
-//print_r($tree1);
-foreach ($tree1 as $k => $v) {
-    foreach ($v as $k1 => $v1) {
-        if (!isset($tree2[$v1])) {
-            $tree2[$v1] = array();
-        }
-        if ( !array_key_exists($k, $tree2[$v1]) ) {
-            if ( $v1 != $k)
-                $tree2[$v1][] = $k;
-        }
-    }
-}
-//create the domain tree
-$domainTree =& new CRM_Utils_Tree('civicrm_domain');
-$temp = '';
-foreach($tree2 as $key => $val) {
-    foreach($val as $k => $v) {
-        $node =& $domainTree->findNode($v, $temp);
-        if(!$node) {
-            $node =& $domainTree->createNode($v);
-        }
-        $domainTree->addNode($key, $node);               
-    }
-}
-
-foreach($frTable as $key => $val) {
-    foreach($val as $k => $v ) {
-        $fKey = $frTable[$key];
-        $domainTree->addData($k, $key, $fKey);
-    }
-}
-
-//$domainTree->display();
-//exit();
-$tempTree = $domainTree->getTree();
-
-//need to process that tables which are not related to perticuler domain
-$nofrTables = array();
-$temp1 = "";
-foreach($tree1 as $key => $value) {
-    
-    $node =& $domainTree->findNode($key, $temp1);
-    if( !$node ) {
-        $nofrTables[] = $key;
-    }
-}
-$nofrArray =array();
-     
-foreach($nofrTables as $value) {
-    $query = "SELECT ".$value.".id FROM ".$value;
-    $nofrArray[$value] = array($query);
-}
-
-getDomainDump($tempTree['rootNode'], null, $frTable);
-global $UNION_ARRAY;
-
-$unionArray = $UNION_ARRAY;
-
-$unionArray = array_merge( $unionArray,$nofrArray );
-$dd = fopen($sqlCodePath . "civicrm_backup.mysql", "w");
-foreach ( $unionArray as $key => $val) {
-    
-    if (is_array($val)) {        
-        $sql = implode(" UNION ", $val);
-    }
-    $write = $key."|".$sql."\n";
-    fwrite($dd, $write);
-}
-
-fclose($dd);
-
-function getDomainDump( &$tree, $nameArray, $frTable )
-{
-    if ( !isset($nameArray) ) {
-        $nameArray = array();
-    }
-    
-    //bad hack 
-    if ( !isset($UNION_ARRAY) ) {
-        global $UNION_ARRAY;
-    }
-    
-    $config =& CRM_Core_Config::singleton( 'crm', false );
-    
-    //global $DOMAIN_ID;
-    
-    $node = $tree;
-    
-    $nameArray[] = $node['name'];
-    $tempNameArray = array_reverse($nameArray);
-    
-    $table = array();
-    for ($idx = 0; $idx<count($nameArray); $idx++) {
-        $table[] = $nameArray[$idx];
-    }
-    
-    if ( $tempNameArray[0] != 'civicrm_activity_history' ) { 
-        $tables = implode(",", $table);
-        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
-            $foreignKey = $tempNameArray[$idx+1];
-            $whereCondition[] = "". $tempNameArray[$idx] .".". $frTable[$tempNameArray[$idx]][$foreignKey] ." = ".$tempNameArray[$idx+1].".id";
-        } 
-        $whereCondition[] = "civicrm_domain.id = ".$config->domainID();    
-    } else {
-        $tables = ' civicrm_domain, civicrm_contact, civicrm_activity_history';
-        $whereCondition[] = "". $tempNameArray[0] .".entity_id = civicrm_contact.id AND civicrm_contact.domain_id = civicrm_domain.id AND civicrm_domain.id = 1 ";
-    }
-    
-    $whereClause = implode(" AND ", $whereCondition);
-    
-    //store the queries traversed thru different path
-    $sql = 'SELECT '. $tempNameArray[0] .'.id FROM '. $tables .' WHERE '. $whereClause ;       
-    
-    $UNION_ARRAY[$tempNameArray[0]][] = $sql;
-    //$unionArray[$tempNameArray[0]][] = $sql;    
-    
-    
-    if ( !empty($node['children']) ) {
-        foreach($node['children'] as $key => $childNode) {
-            $cNode =& $node['children'][$key];                
-            getDomainDump($cNode, $nameArray, $frTable);      
-        }    
-    } 
-}
-//echo "\n\n***********************************************\n\n";
-
-
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
 $tmpArray = array_keys( $tables );
 $tmpArray = array_reverse( $tmpArray );
 $smarty->assign_by_ref( 'dropOrder', $tmpArray );
 $smarty->assign( 'mysql', 'modern' );
-
-
 
 echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
@@ -261,22 +108,36 @@ $fd = fopen( $sqlCodePath . "civicrm.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
-// write the civicrm data file fixing the domain
-// id variable and translate the {ts}-tagged strings
+echo "Generating sql drop tables file\n";
+$sql = $smarty->fetch( 'drop.tpl' );
+
+createDir( $sqlCodePath );
+$fd = fopen( $sqlCodePath . "civicrm_drop.mysql", "w" );
+fputs( $fd, $sql );
+fclose($fd);
+
+// write the civicrm data file
+// and translate the {ts}-tagged strings
 $smarty->clear_all_assign();
-$smarty->assign('civicrmDomainId', 1);
 $smarty->assign('build_version',$build_version);
 
-$config =& CRM_Core_Config::singleton( 'crm', false );
+$config =& CRM_Core_Config::singleton(false);
 $locales = array( );
-if ( file_exists( $config->gettextResourceDir ) ) {
-  $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+if (substr($config->gettextResourceDir, 0, 1) === '/') {
+    $localeDir = $config->gettextResourceDir;
+} else {
+    $localeDir = '../' . $config->gettextResourceDir;
+}
+if (file_exists($localeDir)) {
+    $config->gettextResourceDir = $localeDir;
+    $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($localeDir));
 }
 if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 
+global $tsLocale;
 foreach ($locales as $locale) {
     echo "Generating data files for $locale\n";
-    $config->lcMessages = $locale;
+    $tsLocale = $locale;
     $smarty->assign('locale', $locale);
 
     $data = '';
@@ -284,6 +145,8 @@ foreach ($locales as $locale) {
     $data .= $smarty->fetch('civicrm_state_province.tpl');
     $data .= $smarty->fetch('civicrm_currency.tpl');
     $data .= $smarty->fetch('civicrm_data.tpl');
+
+    $data .= " UPDATE civicrm_domain SET version = '$db_version';";
 
     // write the initialize base-data sql script
     $filename = 'civicrm_data';
@@ -293,51 +156,26 @@ foreach ($locales as $locale) {
     fputs( $fd, $data );
     fclose( $fd );
 
-    $data = '';
-    $data .= $smarty->fetch('civicrm_add_domain.tpl');
+    // write the acl sql script
+    $data = $smarty->fetch('civicrm_acl.tpl');
 
-    // write the add_domain mysql script
-    $filename = 'civicrm_add_domain';
+    $filename = 'civicrm_acl';
     if ($locale != 'en_US') $filename .= ".$locale";
     $filename .= '.mysql';
     $fd = fopen( $sqlCodePath . $filename, "w" );
     fputs( $fd, $data );
     fclose( $fd );
 }
+echo "\ncivicrm_domain.version := $db_version\n\n";
 
-$sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
-$sample = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $sample );
+$tsLocale = 'en_US';
+
+$sample  = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
+$sample .= file_get_contents( $smarty->template_dir . '/civicrm_acl.tpl' );
 $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
 fputs( $fd, $sample );
 fclose( $fd );
 
-$params = array(
-                'cms' => 'Drupal',
-                'cmsVersion' => '5.1',
-                'cmsURLVar'  => 'q',
-                'usersTable' => 'users',
-                'crmRoot' => '',
-                'templateCompileDir' => '',
-                'baseURL' => '',
-                'frontEnd' => 0,
-                'dbUser' => 'DBUSER',
-                'dbPass' => 'PASSWORD',
-                'dbHost' => 'HOSTNAME',
-                'dbName' => 'DATABASE',
-                'CMSdbUser' => 'DBUSER',
-                'CMSdbPass' => 'PASSWORD',
-                'CMSdbHost' => 'HOSTNAME',
-                'CMSdbName' => 'DATABASE',
-                );
-
-$data = file_get_contents( '../templates/CRM/common/civicrm.settings.php.sample.tpl' );
-foreach ( $params as $key => $value ) {
-    $data = str_replace( '%%' . $key . '%%', $value, $data );
-}
-$filename = 'civicrm.settings.php.sample';
-$fd = fopen( '../' . $filename, "w" ); 
-fputs( $fd, $data ); 
-fclose( $fd );
 
 $beautifier =& new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
@@ -370,6 +208,37 @@ foreach ( array_keys( $tables ) as $name ) {
     $beautifier->save( );
 }
 
+echo "Generating CRM_Core_I18n_SchemaStructure...\n";
+$columns = array();
+$indices = array();
+foreach ($tables as $table) {
+    if ($table['localizable']) {
+        $columns[$table['name']] = array();
+    } else {
+        continue;
+    }
+    foreach ($table['fields'] as $field) {
+        if ($field['localizable']) $columns[$table['name']][$field['name']] = $field['sqlType'];
+    }
+    if (isset($table['index'])) {
+        foreach ($table['index'] as $index) {
+            if ($index['localizable']) $indices[$table['name']][$index['name']] = $index;
+        }
+    }
+}
+$columns = serialize($columns);
+$indices = serialize($indices);
+$beautifier->setInputString(
+    file_get_contents("$phpCodePath/header.txt") . "
+    class CRM_Core_I18n_SchemaStructure {
+        static function &columns() { static \$result = null; if (!\$result) \$result = unserialize('$columns');     return \$result; }
+        static function &indices() { static \$result = null; if (!\$result) \$result = unserialize('$indices');     return \$result; }
+        static function &tables()  { static \$result = null; if (!\$result) \$result = array_keys(self::columns()); return \$result; }
+    }");
+$beautifier->setOutputFile("$phpCodePath/CRM/Core/I18n/SchemaStructure.php");
+$beautifier->process();
+$beautifier->save();
+
 // add the Subversion revision to templates
 // use svnversion if the version was not specified explicitely on the commandline
 if (isset($argv[2]) and $argv[2] != '') {
@@ -380,7 +249,10 @@ if (isset($argv[2]) and $argv[2] != '') {
 file_put_contents("$tplCodePath/CRM/common/version.tpl", $svnversion);
 
 // unlink the templates_c directory
-system( "rm -rf {$tempDir}/templates_c" );
+foreach(glob($tempDir . '/templates_c/*') as $tempFile) {
+  unlink($tempFile);
+}
+rmdir($tempDir . '/templates_c');
 
 function &parseInput( $file ) {
     $dom = DomDocument::load( $file );
@@ -488,6 +360,14 @@ function getTable( $tableXML, &$database, &$tables ) {
     $pre   = str_replace( '/', '_', $base );
     $classNames[$name]  = $pre . $klass;
 
+    $localizable = false;
+    foreach ($tableXML->field as $fieldXML) {
+        if ($fieldXML->localizable) {
+            $localizable = true;
+            break;
+        }
+    }
+
     $table = array( 'name'       => $name,
                     'base'       => $base,
                     'fileName'   => $klass . '.php',
@@ -497,11 +377,19 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'attributes_simple' => trim($database['tableAttributes_simple']),
                     'attributes_modern' => trim($database['tableAttributes_modern']),
                     'comment'    => value( 'comment', $tableXML ),
+                    'localizable'=> $localizable,
                     'log'        => value( 'log', $tableXML, 'false' ) );
     
+    $config  =& CRM_Core_Config::singleton(false);
     $fields  = array( );
     foreach ( $tableXML->field as $fieldXML ) {
         if ( value( 'drop', $fieldXML, 0 ) > 0 and value( 'drop', $fieldXML, 0 ) <= $build_version) {
+            continue;
+        }
+        
+        // check if hrd field and hrd is enabled to include
+        if ( value( 'hrd', $fieldXML, 0 ) == 1 &&
+             ! $config->civiHRD ) {
             continue;
         }
         if ( value( 'add', $fieldXML, 0 ) <= $build_version) {
@@ -524,12 +412,19 @@ function getTable( $tableXML, &$database, &$tables ) {
         getPrimaryKey( $tableXML->primaryKey, $fields, $table );
     }
 
+    $config  =& CRM_Core_Config::singleton(false);
     if ( value( 'index', $tableXML ) ) {
         $index   = array( );
         foreach ( $tableXML->index as $indexXML ) {
             if ( value( 'drop', $indexXML, 0 ) > 0 and value( 'drop', $indexXML, 0 ) <= $build_version) { 
                 continue; 
             } 
+
+            // check if hrd field and hrd is enabled to include
+            if ( value( 'hrd', $fieldXML, 0 ) == 1 &&
+                 ! $config->civiHRD ) {
+                continue;
+            }
 
             getIndex( $indexXML, $fields, $index );
         }
@@ -558,7 +453,7 @@ function getTable( $tableXML, &$database, &$tables ) {
 
 function getField( &$fieldXML, &$fields ) {
     $name  = trim( (string ) $fieldXML->name );
-    $field = array( 'name' => $name );
+    $field = array( 'name' => $name, 'localizable' => $fieldXML->localizable );
     $type = (string ) $fieldXML->type;
     switch ( $type ) {
     case 'varchar':
@@ -719,6 +614,14 @@ function getIndex(&$indexXML, &$fields, &$indices)
         $index['field'][] = $fieldName;
     }
 
+    $index['localizable'] = false;
+    foreach ($index['field'] as $fieldName) {
+        if (isset($fields[$fieldName]) and $fields[$fieldName]['localizable']) {
+            $index['localizable'] = true;
+            break;
+        }
+    }
+
     // check for unique index
     if (value('unique', $indexXML)) {
         $index['unique'] = true;
@@ -852,5 +755,5 @@ function getSize( $maxLength ) {
     return 'CRM_Utils_Type::HUGE';
 }
 
-?>
+
 

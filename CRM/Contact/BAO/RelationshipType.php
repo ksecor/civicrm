@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -93,7 +93,28 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
      * @static
      *
      */
-    static function add( &$params, &$ids) {
+    static function add( &$params, &$ids ) 
+    {
+        //to change name, CRM-3336
+        if ( !CRM_Utils_Array::value( 'label_a_b', $params ) && CRM_Utils_Array::value( 'name_a_b', $params ) ) {
+            $params['label_a_b'] = $params['name_a_b'];
+        }
+        
+        if ( !CRM_Utils_Array::value( 'label_b_a', $params ) && CRM_Utils_Array::value( 'name_b_a', $params ) ) {
+            $params['label_b_a'] = $params['name_b_a'];  
+        }
+        
+        // set label to name if it's not set - but *only* for 
+        // ADD action. CRM-3336 as part from (CRM-3522)
+        if ( !CRM_Utils_Array::value( 'relationshipType', $ids ) ) {
+            if ( !CRM_Utils_Array::value( 'name_a_b', $params ) && CRM_Utils_Array::value( 'label_a_b', $params ) ) {
+                $params['name_a_b'] = $params['label_a_b'];
+            }
+            if ( !CRM_Utils_Array::value( 'name_b_a', $params ) && CRM_Utils_Array::value( 'label_b_a', $params ) ) {
+                $params['name_b_a'] = $params['label_b_a'];
+            }
+        }
+        
         // action is taken depending upon the mode
         $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
         
@@ -104,8 +125,6 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
             $relationshipType->name_b_a = CRM_Utils_Array::value( 'name_a_b', $params);
         }
         
-        $relationshipType->domain_id = CRM_Core_Config::domainID( );
-
         $relationshipType->id = CRM_Utils_Array::value( 'relationshipType', $ids );
 
         return $relationshipType->save( );
@@ -143,13 +162,22 @@ UPDATE civicrm_membership_type
 ";
         $params = array( 1 => array( $relationshipTypeId, 'Integer' ) );
         CRM_Core_DAO::executeQuery( $query, $params );
-                         
+
+        //fixed for CRM-3323
+        require_once "CRM/Core/DAO/MappingField.php";
+        $mappingField =& new CRM_Core_DAO_MappingField( );            
+        $mappingField->relationship_type_id = $relationshipTypeId;
+        $mappingField->find();
+        while ( $mappingField->fetch() ) {
+            $mappingField->delete();
+        }
+
         $relationshipType = & new CRM_Contact_DAO_RelationshipType();
         $relationshipType->id = $relationshipTypeId;
-        $relationshipType->delete();
+        return $relationshipType->delete();
 
 
     }
 }
 
-?>
+

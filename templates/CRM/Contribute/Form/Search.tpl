@@ -1,8 +1,4 @@
 {* Search form and results for Contributions *}
-<div id="help">
-    {ts}Use this form to find contributions by contributor name, contribution date or amount ranges, type of contribution, payment method and / or status.{/ts}
-</div>
-
 {assign var="showBlock" value="'searchForm'"}
 {assign var="hideBlock" value="'searchForm_show'"}
 
@@ -13,26 +9,19 @@
   </label>
 </div>
 
-<div id="searchForm">
+<div id="searchForm" class="form-item">
 
-<fieldset><legend>{ts}Find Contributions{/ts}</legend>
+<fieldset><legend>{ts}Search Criteria{/ts}</legend>
     {strip} 
         <table class="form-layout">
-		<tr>
-            <td class="font-size12pt label">{$form.sort_name.label}</td>
-            <td>{$form.sort_name.html|crmReplace:class:'twenty'}
-                <div class="description font-italic">
-                    {ts}Complete OR partial name OR email.{/ts}
-                </div>
-            </td>
-            <td>{$form.buttons.html}</td>       
-        </tr>
-
-        {include file="CRM/Contribute/Form/Search/Common.tpl"}
-
         <tr>
-            <td colspan="2">&nbsp;</td>
-            <td>{$form.buttons.html}</td>
+            <td class="font-size12pt" colspan="2">
+                {$form.sort_name.label}&nbsp;&nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}&nbsp;&nbsp;&nbsp;{$form.buttons.html}
+            </td>       
+        </tr>
+        {include file="CRM/Contribute/Form/Search/Common.tpl"}
+        <tr>
+           <td colspan="2">{$form.buttons.html}</td>
         </tr>
         </table>
     {/strip}
@@ -53,7 +42,7 @@
     <fieldset>
     
        {* This section handles form elements for action task select and submit *}
-       {include file="CRM/Contribute/Form/Search/ResultTasks.tpl"}
+       {include file="CRM/common/searchResultTasks.tpl" context="Contribution"}
 
        {* This section displays the rows along and includes the paging controls *}
        <p></p>

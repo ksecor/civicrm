@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -245,6 +245,11 @@ abstract class CRM_Event_Import_Parser
                   $contactType = self::CONTACT_INDIVIDUAL,
                   $onDuplicate = self::DUPLICATE_SKIP )
     {
+        if ( ! is_array( $fileName ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        $fileName = $fileName['name'];
+
         switch ($contactType) {
         case self::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';
@@ -398,21 +403,21 @@ abstract class CRM_Event_Import_Parser
             
             if ($this->_invalidRowCount) {
                 // removed view url for invlaid contacts
-                $headers = array_merge( array(  ts('Record Number'),
+                $headers = array_merge( array(  ts('Line Number'),
                                                 ts('Reason')), 
                                         $customHeaders);
                 $this->_errorFileName = $fileName . '.errors';
                 self::exportCSV($this->_errorFileName, $headers, $this->_errors);
             }
             if ($this->_conflictCount) {
-                $headers = array_merge( array(  ts('Record Number'),
+                $headers = array_merge( array(  ts('Line Number'),
                                                 ts('Reason')), 
                                         $customHeaders);
                 $this->_conflictFileName = $fileName . '.conflicts';
                 self::exportCSV($this->_conflictFileName, $headers, $this->_conflicts);
             }
             if ($this->_duplicateCount) {
-                $headers = array_merge( array(  ts('Record Number'), 
+                $headers = array_merge( array(  ts('Line Number'), 
                                                 ts('View Participant URL')),
                                         $customHeaders);
                 
@@ -543,7 +548,9 @@ abstract class CRM_Event_Import_Parser
     {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
-            $values[$name] = $field->_hasLocationType;
+            if ( isset( $field->_hasLocationType ) ) {
+                $values[$name] = $field->_hasLocationType;
+            }
         }
         return $values;
     }
@@ -552,7 +559,9 @@ abstract class CRM_Event_Import_Parser
     {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
-            $values[$name] = $field->_headerPattern;
+            if ( isset( $field->_headerPattern ) ) {
+                $values[$name] = $field->_headerPattern;
+            }
         }
         return $values;
     }
@@ -577,7 +586,8 @@ abstract class CRM_Event_Import_Parser
                 $this->_fields[$name] =& new CRM_Event_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
             } else {
                 require_once 'CRM/Import/Field.php';
-                $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern,$tempField[$name]['hasLocationType']);
+                $this->_fields[$name] =& new CRM_Import_Field( $name, $title, $type, $headerPattern, $dataPattern, 
+                                                               CRM_Utils_Array::value( 'hasLocationType', $tempField[$name] ) );
             }
         }
     }
@@ -666,7 +676,8 @@ abstract class CRM_Event_Import_Parser
         foreach ($header as $key => $value) {
             $header[$key] = "\"$value\"";
         }
-        $output[] = implode(',', $header);
+        $config =& CRM_Core_Config::singleton( );
+        $output[] = implode($config->fieldSeparator, $header);
         
         foreach ($data as $datum) {
             foreach ($datum as $key => $value) {
@@ -681,7 +692,7 @@ abstract class CRM_Event_Import_Parser
                     $datum[$key] = "\"$value\"";
                 }
             }
-            $output[] = implode(',', $datum);
+            $output[] = implode($config->fieldSeparator, $datum);
         }
         fwrite($fd, implode("\n", $output));
         fclose($fd);
@@ -706,4 +717,4 @@ abstract class CRM_Event_Import_Parser
         }
     }
 }
-?>
+

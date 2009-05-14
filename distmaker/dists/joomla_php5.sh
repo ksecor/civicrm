@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the rest of the stuff
-for CODE in css i js l10n packages PEAR templates bin joomla CRM api drupal extern Reports; do
+for CODE in css i install js l10n packages PEAR templates bin joomla CRM api drupal extern Reports; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
@@ -45,39 +45,72 @@ for F in $SRC/sql/civicrm*.mysql; do
 	cp $F $TRG/sql
 done
 
-# delete any setup.sh or setup.php4.sh if present
-if [ -d $TRG/bin ] ; then
-  rm -f $TRG/bin/setup.sh
-  rm -f $TRG/bin/setup.php4.sh
-fi
-
 # remove Quest
 find $TRG -depth -name 'Quest' -exec rm -r {} \;
 
+# delete SimpleTest
+if [ -d $TRG/packages/SimpleTest ] ; then
+  rm -rf $TRG/packages/SimpleTest
+fi
+if [ -d $TRG/packages/drupal ] ; then
+  rm -rf $TRG/packages/drupal
+fi
+
+# delete UFPDF's stuff not required on installations
+if [ -d $TRG/packages/ufpdf/ttf2ufm-src ] ; then
+  rm -rf $TRG/packages/ufpdf/ttf2ufm-src
+fi
+
 # copy docs
-cp $SRC/affero_gpl.txt $TRG
+cp $SRC/agpl-3.0.txt $TRG
 cp $SRC/gpl.txt $TRG
 cp $SRC/README.txt $TRG
 cp $SRC/civicrm.config.php $TRG
-cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
-echo "$DM_VERSION Joomla PHP5" > $TRG/civicrm-version.txt
-
+echo "$DM_VERSION Joomla PHP5 $DM_REVISION" > $TRG/civicrm-version.txt
 
 # gen zip file
 cd $DM_TMPDIR;
 
 mkdir com_civicrm
-mkdir com_civicrm/civicrm
+mkdir com_civicrm/admin
+mkdir com_civicrm/site
+mkdir com_civicrm/admin/civicrm
 
-cp -r -p civicrm/* com_civicrm/civicrm
+# copying back end code to admin folder
+cp civicrm/joomla/admin/admin.civicrm.php        com_civicrm/admin
+cp civicrm/joomla/admin/configure.php            com_civicrm/admin
+cp civicrm/joomla/admin/toolbar.civicrm.php      com_civicrm/admin
+cp civicrm/joomla/admin/toolbar.civicrm.html.php com_civicrm/admin
 
-$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
+cp civicrm/joomla/admin/install.civicrm.php      com_civicrm/
+cp civicrm/joomla/admin/uninstall.civicrm.php    com_civicrm/
 
-cp -r com_civicrm/civicrm/joomla/* com_civicrm
+# copying front end code
+cp civicrm/joomla/site/civicrm.html.php      com_civicrm/site
+cp civicrm/joomla/site/civicrm.php           com_civicrm/site
+cp -r civicrm/joomla/site/views              com_civicrm/site
 
-$DM_ZIP -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla-php5.zip com_civicrm -x '*/l10n/*'
+# copy civicrm code
+cp -r -p civicrm/* com_civicrm/admin/civicrm
+
+# generate alt version of civicrm.xml
+$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php $DM_SOURCEDIR com_civicrm $DM_VERSION alt
+
+# generate alt version of package
+$DM_ZIP -q -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla-alt.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
+
+# delete the civicrm directory
+rm -rf com_civicrm/admin/civicrm
+
+# generate zip version of civicrm.xml
+$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php $DM_SOURCEDIR com_civicrm $DM_VERSION zip
+
+$DM_ZIP -q -r -9 com_civicrm/admin/civicrm.zip civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql'
+
+# generate zip within zip file
+$DM_ZIP -q -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_*.??_??.mysql' -x 'com_civicrm/admin/civicrm'
 
 # clean up
 rm -rf com_civicrm

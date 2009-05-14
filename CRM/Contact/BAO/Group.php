@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -147,7 +147,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @return int count of members in the group with above status
      * @access public
      */
-    static function memberCount( $id, $status = 'Added', $countChildGroups = true ) {
+    static function memberCount( $id, $status = 'Added', $countChildGroups = false ) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
 	    $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupIds = array( $id );
@@ -193,30 +193,23 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      * @static
      */
-    static function getMember ($lngGroupId, $includeChildGroups = true) {
-        require_once 'CRM/Contact/DAO/GroupContact.php';
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
-        
-        $groupIds = array( $lngGroupId );
-        if ( $includeChildGroups ) {
-            require_once 'CRM/Contact/BAO/GroupNesting.php';
-            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
-        }
-        
-        $strSql = "SELECT civicrm_contact.id as contact_id, civicrm_contact.sort_name as name  
-                   FROM civicrm_contact, civicrm_group_contact
-                   WHERE civicrm_contact.id = civicrm_group_contact.contact_id 
-                     AND civicrm_group_contact.group_id IN (" 
-                . implode( $groupIds, "," ) . ")";
+    static function &getMember( $groupID, $useCache = true ) {
+        $params['group'] = array( $groupID => 1 );
+        $params['return.contact_id'] = 1;
+        $params['offset']            = 0;
+        $params['rowCount']          = 0;
+        $params['sort']              = null;
+        $params['smartGroupCache']   = $useCache;
 
-        $groupContact->query($strSql);
+        require_once 'api/v2/Contact.php';
+        $contacts = civicrm_contact_search( $params );
 
-        $aMembers = array();
-        while ($groupContact->fetch()) {
-            $aMembers[$groupContact->contact_id] = $groupContact->name;
+        $aMembers = array( );
+        foreach ( $contacts as $contact ) {
+            $aMembers[$contact['contact_id']] = 1;
         }
 
-       return $aMembers;
+        return $aMembers;
     }
 
     /**
@@ -239,10 +232,17 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             foreach ( $params as $k => $v ) {
                 if ( $k == 'name' || $k == 'title' ) {
                     $dao->whereAdd( $k . ' LIKE "' . addslashes( $v ) . '"' );
+                } else if ( is_array( $v ) ) {
+                    $dao->whereAdd( $k . ' IN (' . implode(',', $v ) . ')' );
                 } else {
                     $dao->$k = $v;
                 }
             }
+        }
+        // return only specific fields if returnproperties are sent
+        if ( !empty($returnProperties  ) ) {
+            $dao->selectAdd( );
+            $dao->selectAdd( implode( ',' , $returnProperties ) );
         }
         $dao->find( );
 
@@ -252,7 +252,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         while ( $dao->fetch( ) ) { 
             $group =& new CRM_Contact_DAO_Group();
             if ( $flag ) {
-	      print "Calling memberCount";
                 $dao->member_count = CRM_Contact_BAO_Group::memberCount( $dao->id );
             }
             $groups[] = clone( $dao );
@@ -274,13 +273,17 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         require_once 'CRM/ACL/API.php';
         require_once 'CRM/Core/Permission.php';
 
+        $allGroups = CRM_Core_PseudoConstant::allGroup( );
+
         if ( CRM_Core_Permission::check( 'edit all contacts' ) ||
-             CRM_ACL_API::groupPermission( CRM_ACL_API::EDIT, $id ) ) {
+             CRM_ACL_API::groupPermission( CRM_ACL_API::EDIT, $id, null,
+                                           'civicrm_saved_search', $allGroups ) ) {
             return CRM_Core_Permission::EDIT;
         }
 
         if ( CRM_Core_Permission::check( 'view all contacts' ) ||
-             CRM_ACL_API::groupPermission( CRM_ACL_API::VIEW, $id ) ) {
+             CRM_ACL_API::groupPermission( CRM_ACL_API::VIEW, $id, null,
+                                           'civicrm_saved_search', $allGroups ) ) {
             return CRM_Core_Permission::VIEW;
         }
 
@@ -299,20 +302,33 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     {
         require_once 'CRM/Utils/Hook.php';
        
-        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+        if ( CRM_Utils_Array::value( 'id', $params ) ) { 
             CRM_Utils_Hook::pre( 'edit', 'Group', $params['id'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', 'Group', null, $params ); 
         }
 
         // form the name only if missing: CRM-627
-        if( ! CRM_Utils_Array::value( 'name', $params ) ) {
+        if( !( CRM_Utils_Array::value( 'id', $params ) ) && ! CRM_Utils_Array::value( 'name', $params ) ) {
+            require_once 'CRM/Utils/String.php';
             $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
         }
 
+        // convert params if array type
+        if ( isset( $params['group_type'] ) ) {
+            if ( is_array( $params['group_type'] ) ) {
+                $params['group_type'] =
+                    CRM_Core_DAO::VALUE_SEPARATOR . 
+                    implode( CRM_Core_DAO::VALUE_SEPARATOR,
+                             array_keys( $params['group_type'] ) ) .
+                    CRM_Core_DAO::VALUE_SEPARATOR;
+            }
+        } else {
+            $params['group_type'] = '';
+        }
+        
         $group =& new CRM_Contact_BAO_Group();
         $group->copyValues($params);
-        $group->domain_id = CRM_Core_Config::domainID( ); 
         $group->save( );
 
         if ( ! $group->id ) {
@@ -324,23 +340,13 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         // add custom field values
         if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_group',
-                                  'entity_id'       => $group->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                require_once 'CRM/Core/BAO/CustomValue.php';
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_group', $group->id );
         }
+
+
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::add( $group->id );
 
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             CRM_Utils_Hook::post( 'edit', 'Group', $group->id, $group );
@@ -356,8 +362,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * and store it for future use
      */
     function buildClause( ) {
-        $params = array( array( 'group', '=', array( $this->id => 1 ), 0, 0 ) );
-    
+        $params = array( array( 'group', 'IN', array( $this->id => 1 ), 0, 0 ) );
+
         if ( ! empty( $params ) ) {
             $tables = $whereTables = array( );
             require_once 'CRM/Contact/BAO/Query.php';
@@ -385,8 +391,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     public static function createGroup(&$params) {
          
         if ( CRM_Utils_Array::value( 'saved_search_id', $params ) ) {
-            $savedSearch =& new CRM_Contact_DAO_SavedSearch();
-            $savedSearch->domain_id   = CRM_Core_Config::domainID( );
+            $savedSearch =& new CRM_Contact_BAO_SavedSearch();
             $savedSearch->form_values = CRM_Utils_Array::value( 'formValues', $params );
             $savedSearch->is_active = 1;
             $savedSearch->id = $params['saved_search_id'];
@@ -396,7 +401,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return self::create( $params );
     }
     
-     /**
+    /**
      * update the is_active flag in the db
      *
      * @param int      $id        id of the database record
@@ -409,25 +414,113 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group', $id, 'is_active', $is_active );
     }
 
-    static function groupTypeCondition( $groupType = null ) {
+    /**
+     * build the condition to retrieve groups.
+     *
+     * @param string  $groupType     type of group(Access/Mailing) 
+     * @param boolen  $excludeHidden exclude hidden groups.
+     *
+     * @return string $condition 
+     * @static
+     */
+    static function groupTypeCondition( $groupType = null, $excludeHidden = true ) {
         $value = null;
         if ( $groupType == 'Mailing' ) {
             $value = CRM_Core_DAO::VALUE_SEPARATOR . '2' . CRM_Core_DAO::VALUE_SEPARATOR;
         } else if ( $groupType == 'Access' ) {
             $value = CRM_Core_DAO::VALUE_SEPARATOR . '1' . CRM_Core_DAO::VALUE_SEPARATOR;
         }
-        if ( $value ) {
-            $condition = "group_type LIKE '%$value%'";
-        } else {
-            $condition = null;
+        
+        $condition = null;
+        if ( $excludeHidden ) {
+            $condition = "is_hidden = 0";
         }
+        
+        if ( $value ) {
+            if ( $condition ) {
+                $condition .= " AND group_type LIKE '%$value%'";
+            } else {
+                $condition = "group_type LIKE '%$value%'";
+            }
+        }
+        
         return $condition;
     }
 
-    public function __tostring( ) {
+    public function __toString( ) {
         return $this->title;
+    }
+    
+    /**
+     * This function create the hidden smart group when user perform
+     * contact seach and want to send mailing to search contacts.
+     *
+     * @param  array $params ( reference ) an assoc array of name/value pairs
+     * @return array ( smartGroupId, ssId ) smart group id and saved search id
+     * @access public
+     * @static
+     */
+    static function createHiddenSmartGroup( $params ) 
+    {
+        $ssId = CRM_Utils_Array::value( 'saved_search_id',  $params );
+        
+        //add mapping record only for search builder saved search
+        $mappingId = null;
+        if ( $params['is_advanced'] == '2' && $params['is_searchBuilder'] == '1' ) {
+            //save the mapping for search builder
+            require_once "CRM/Core/BAO/Mapping.php";
+            if ( !$ssId ) {
+                //save record in mapping table
+                $temp          = array( );
+                $mappingParams = array('mapping_type' => 'Search Builder');
+                $mapping       = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+                $mappingId     = $mapping->id;                 
+            } else {
+                //get the mapping id from saved search
+                require_once "CRM/Contact/BAO/SavedSearch.php";
+                $savedSearch     =& new CRM_Contact_BAO_SavedSearch();
+                $savedSearch->id = $ssId;
+                $savedSearch->find(true);
+                $mappingId = $savedSearch->mapping_id; 
+            }
+            
+            //save mapping fields
+            CRM_Core_BAO_Mapping::saveMappingFields( $params['form_values'], $mappingId );
+        }
+        
+        //create/update saved search record.
+        $savedSearch                   =& new CRM_Contact_BAO_SavedSearch();
+        $savedSearch->id               =  $ssId;
+        $savedSearch->form_values      =  serialize( $params['form_values'] );
+        $savedSearch->mapping_id       =  $mappingId;
+        $savedSearch->search_custom_id =  CRM_Utils_Array::value( 'search_custom_id', $params );
+        $savedSearch->save( );
+        
+        $ssId = $savedSearch->id;
+        if ( !$ssId ) {
+            return null;
+        }
+        
+        $smartGroupId = null;
+        if ( CRM_Utils_Array::value( 'saved_search_id', $params ) ) {
+            $smartGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $ssId, 'id', 'saved_search_id' );
+        } else {
+            //create group only when new saved search. 
+            $groupParams = array( 'title'           => "Hidden Smart Group {$ssId}",
+                                  'is_active'       => CRM_Utils_Array::value( 'is_active',  $params, 1 ),
+                                  'is_hidden'       => CRM_Utils_Array::value( 'is_hidden',  $params, 1 ), 
+                                  'group_type'      => CRM_Utils_Array::value( 'group_type', $params    ),
+                                  'visibility'      => CRM_Utils_Array::value( 'visibility', $params    ),
+                                  'saved_search_id' => $ssId );
+            
+            require_once 'CRM/Contact/BAO/Group.php';
+            $smartGroup = self::create( $groupParams );
+            $smartGroupId = $smartGroup->id;
+        }
+        
+        return array( $smartGroupId, $ssId );
     }
     
 }
 
-?>
+

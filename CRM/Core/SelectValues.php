@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -31,31 +31,13 @@
  * smart caching scheme on a per domain basis
  * 
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 class CRM_Core_SelectValues 
 {
-
-    /**
-     * greetings
-     * @static
-     */
-    static function &greeting()
-    {
-        static $greeting = null;
-        if (!$greeting) {
-            $greeting = array(
-                'Formal'    => ts('default - Dear [prefix] [first] [last]'),
-                'Informal'  => ts('Dear [first]'),
-                'Honorific' => ts('Dear [prefix] [last]'),
-                'Custom'    => ts('Customized')
-            );
-        }
-        return $greeting;
-    }
-    
+   
     /**CRM/Core/SelectValues.php
      * different types of phones
      * @static
@@ -120,10 +102,10 @@ class CRM_Core_SelectValues
         static $contactType = null;
         if (!$contactType) {
             $contactType = array(
-                ''             => ts('- all contacts -'),
-                'Individual'   => ts('Individuals'),
-                'Household'    => ts('Households'),
-                'Organization' => ts('Organizations')
+                ''             => ts('- any contact type -'),
+                'Individual'   => ts('Individual'),
+                'Household'    => ts('Household'),
+                'Organization' => ts('Organization')
             );
         }
         return $contactType;
@@ -145,7 +127,7 @@ class CRM_Core_SelectValues
                               );
             if ( $unitType == 'duration' ) {
                 $unitAdd = array(
-                                 'lifetime'      => ts('life time')
+                                 'lifetime'      => ts('lifetime')
                                  );
                 $unitList = array_merge( $unitList, $unitAdd);
             }
@@ -213,7 +195,7 @@ class CRM_Core_SelectValues
         static $customDataType = null;
         if (!$customDataType) {
             $customDataType = array(
-                ''        => ts('-select-'),
+                ''        => ts('- select -'),
                 'String'  => ts('Text'),
                 'Int'     => ts('Integer'),
                 'Float'   => ts('Decimal Number'),
@@ -222,7 +204,7 @@ class CRM_Core_SelectValues
                 'Date'    => ts('Date'),
                 'File'    => ts('File'),
                 'Boolean' => ts('Yes/No'),
-                'Link'    => ts('Link')
+                'Link'    => ts('Link')              
             );
         }
         return $customDataType;
@@ -237,7 +219,7 @@ class CRM_Core_SelectValues
         static $customHtmlType = null;
         if (!$customHtmlType) {
             $customHtmlType = array(
-                ''                        => ts('-select-'),
+                ''                        => ts('- select -'),
                 'Text'                    => ts('Single-line input field (text or numeric)'),
                 'TextArea'                => ts('Multi-line text box (textarea)'),
                 'Select'                  => ts('Drop-down (select list)'),
@@ -246,7 +228,8 @@ class CRM_Core_SelectValues
                 'Select Date'             => ts('Date selector'),
                 'File'                    => ts('File'),
                 'Select State / Province' => ts('State / Province selector'),
-                'Select Country'          => ts('Country selector')
+                'Select Country'          => ts('Country selector'),
+                'RichTextEditor' => ts('Rich Text Editor')
                 );
         }
         return $customHtmlType;
@@ -273,6 +256,10 @@ class CRM_Core_SelectValues
                 'Membership'   => ts('Memberships'),
                 'Event'        => ts('Events'),
                 'Participant'  => ts('Participants'),
+                'ParticipantRole'      => ts('Participants (Role)'),
+                'ParticipantEventName' => ts('Participants (Event Name)'),
+                //'ParticipantEventType' => ts('Participants (Event Type)'),
+                'Pledge'       => ts('Pledges'),
                 'Grant'        => ts('Grants'),
             );
         }
@@ -305,17 +292,16 @@ class CRM_Core_SelectValues
     {
         static $ufGroupType = null;
         if (!$ufGroupType) {
-            $ufGroupType = array( );
+            $ufGroupType = array(
+                                  'Profile'           => ts('Profile'),
+                                  'Search Profile'    => ts('Search Results'),
+                                  );
             $config =& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Drupal' ) {
                 $ufGroupType += array(
                                       'User Registration' => ts('User Registration'),
                                       'User Account'      => ts('View/Edit User Account') );
             }
-            $ufGroupType += array(
-                                  'Profile'           => ts('Profile'),
-                                  'Search Profile'    => ts('Search Results'),
-                                  );
         }
         return $ufGroupType;
     }
@@ -378,7 +364,7 @@ class CRM_Core_SelectValues
             $_date = array(
                 'format'           => CRM_Utils_Date::posixToPhp( $config->dateformatQfDate ),
                 'addEmptyOption'   => true,
-                'emptyOptionText'  => ts('-select-'),
+                'emptyOptionText'  => ts('- select -'),
                 'emptyOptionValue' => ''
             );
         }
@@ -403,10 +389,36 @@ class CRM_Core_SelectValues
             $maxOffset = $max; 
             if( $dateParts ) {
                 require_once 'CRM/Core/BAO/CustomOption.php';
-                $format = explode( CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
-                $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
-                                                                 $format );
+                $filter = explode( CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
+                $format = $config->dateformatQfDate;
+
+                foreach ( $filter as $val ) {
+                    switch ( $val ) {
+                        case 'M':
+                            $filter[] = 'F';
+                            $filter[] = 'm';
+                            break;
+
+                    case 'd':
+                        $filter[] = 'j';
+                        break;
+
+                    case 'h':
+                        $filter[] = 'H';
+                        $filter[] = 'G';
+                        $filter[] = 'g';
+
+                    case 'i':
+                        $format = $config->dateformatQfDatetime;
+                        break;
+                    }
+                }
+
+                $newDate['format'] = CRM_Utils_Date::posixToPhp( $format, $filter );
             }
+        } elseif ($type == 'activityDate') {
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ($type == 'fixed') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
@@ -417,16 +429,25 @@ class CRM_Core_SelectValues
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
             $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
-                                                             array( 'M', 'Y' ) );
+                                                             array( $config->dateformatMonthVar, 'Y' ) );
         } elseif ($type == 'mailing') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
             $format = explode( ' ', trim( $dao->format ) );
-            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDatetime,
                                                              $format );
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
+        } elseif ($type == 'activityDatetime') {
+            require_once 'CRM/Utils/Date.php';
+            //for datetime use datetime format from config
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDatetime );
+            $newDate['optionIncrement']['i'] = $dao->minute_increment;
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ($type == 'datetime') {
             require_once 'CRM/Utils/Date.php';
+            //for datetime use datetime format from config
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDatetime );
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
@@ -449,14 +470,17 @@ class CRM_Core_SelectValues
      *
      * @static
      */
-    static function ufVisibility( ) {
+    static function ufVisibility( $isGroup = false ) {
         static $_visibility = null;
         if ( ! $_visibility ) {
             $_visibility = array(
-                                 'User and User Admin Only'       => ts('User and User Admin Only'),
-                                 'Public User Pages'              => ts('Public User Pages'),
-                                 'Public User Pages and Listings' => ts('Public User Pages and Listings'),
+                                 'User and User Admin Only'  => ts('User and User Admin Only'),
+                                 'Public Pages'              => ts('Public Pages'),
+                                 'Public Pages and Listings' => ts('Public Pages and Listings'),
                                  );
+            if ( $isGroup ) {
+                unset( $_visibility['Public Pages and Listings'] );
+            } 
         }
         return $_visibility;
     }
@@ -514,29 +538,6 @@ class CRM_Core_SelectValues
 
 
     /**
-     * Function to get the Payment Processor 
-     * 
-     * @return array $processor array of payment processor
-     * @static
-     */
-    static function &paymentProcessor()
-    {
-        static $processor = null;
-        if (!$processor) {
-            $processor = array(
-                               'PayPal'           => ts('PayPal - Website Payments Pro'),
-                               'PayPal_Express'   => ts('PayPal - Express'),
-                               'PayPal_Standard'  => ts('PayPal - Website Payments Standard'),
-                               'AuthNet_AIM'      => ts('Authorize.Net - AIM'),
-                               'Google_Checkout'  => ts('Google Checkout'),
-                               'Moneris'          => ts('Moneris'),
-                               'Dummy'            => ts('Test Payment Processor'),
-                               );
-        }
-        return $processor;
-    }
-
-    /**
      * Function to get the Map Provider 
      * 
      * @return array $map array of map providers
@@ -553,6 +554,87 @@ class CRM_Core_SelectValues
         }
         return $map;
     }
+
+    /**
+     * different type of Mailing Tokens
+     *
+     * @static
+     * return array
+     */
+    static function &mailingTokens( ) 
+    {
+        static $tokens = null;
+
+        if (! $tokens ) {
+            $tokens = array( '{action.unsubscribe}',
+                             '{action.unsubscribeUrl}',
+                             '{action.resubscribe}',
+                             '{action.resubscribeUrl}',
+                             '{action.optOut}',
+                             '{action.optOutUrl}',
+                             '{action.forward}',
+                             '{action.reply}',
+                             '{action.subscribeUrl}',
+                             '{domain.name}',
+                             '{domain.address}',
+                             '{domain.phone}',
+                             '{domain.email}',
+                             '{mailing.name}',
+                             '{mailing.group}'
+                             
+                          );
+        }
+        return $tokens;
+    }
+    
+    /**
+     * different type of Contact Tokens
+     *
+     * @static
+     * return array
+     */
+    static function &contactTokens( ) 
+    {
+        static $tokens = null;
+        if ( ! $tokens ) {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $values= array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
+                                  array( 'display_name', 'checksum', 'contact_id' ) );
+            unset($values[0]); 
+            
+            //FIXME:skipping some tokens for time being.
+            $skipTokens = array( 'greeting_type', 'is_bulkmail', 'group', 'tag', 'contact_sub_type', 'note', 
+                                 'is_deceased','deceased_date','legal_identifier','contact_sub_type', 'user_unique_id'
+                                 );
+            $customFields = array();
+            $customFields = CRM_Core_BAO_CustomField::getFields('Individual');
+            
+            foreach($values as $key => $val) {
+                if ( in_array($val, $skipTokens) ) {
+                    continue;
+                } 
+                //keys for $tokens should be constant. $token Values are changed for Custom Fields. CRM-3734
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $val ) ) {
+                    $tokens["{contact.$val}"] = "{contact.".$customFields[$customFieldId]['groupTitle'].": ".$customFields[$customFieldId]['label']."}";
+                } else {
+                    $tokens["{contact.$val}"] = "{contact.$val}";
+                }
+            }
+
+            // might as well get all the hook tokens to
+            require_once 'CRM/Utils/Hook.php';
+            $hookTokens = array( );
+            CRM_Utils_Hook::tokens( $hookTokens );
+            foreach ( $hookTokens as $category => $tokenValues ) {
+                foreach ( $tokenValues as $value ) {
+                    $tokens[] = '{' . $value . '}';
+                }
+            }
+        }
+        
+        return $tokens;
+    }
 }
 
-?>
+

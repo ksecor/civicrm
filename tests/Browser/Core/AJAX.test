@@ -1,0 +1,281 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+
+/**
+ * Test cases for ajax calls
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Core_AJAX extends CiviTestCase 
+{
+
+  var $webUser;
+  
+  function get_info() 
+  {
+      return array(
+                   'name' => 'AJAX Calls',
+                   'description' => 'Test AJAX calls.',
+                   'group' => 'CiviCRM Browser Tests',
+                   );
+  }
+  
+  function setUp() 
+  {
+      parent::setUp();
+      
+      $this->drupalModuleEnable('civicrm');
+      $this->webUser = $this->drupalCreateUserRolePerm(
+                                                       array ( 0 => 'access CiviCRM' )
+                                                       );
+      $this->drupalLoginUser($this->webUser);
+  }
+
+  /**
+   * Test case for search()
+   */
+  function testSearch( )
+  {
+      $params = array(
+                      'first_name'     => 'Sarah',
+                      'last_name'      => 'Jones'
+                      );
+      
+      $contactId = Contact::createIndividual( $params );
+
+      $this->civiGet('civicrm/ajax/search', '?name=Sarah*&start=0&count=10');
+      $this->assertWantedRaw( 'Jones, Sarah', 'Returns json object.' );
+
+      Contact::delete( $contactId );
+  }
+  
+  /**
+   * Test case for contact()
+   */
+  function testContact( )
+  {
+      //create contact
+      $params = array(
+                      'first_name'     => 'Sarah',
+                      'last_name'      => 'Jones'
+                      );
+      
+      $contactId = Contact::createIndividual( $params );
+      
+      $this->civiGet('civicrm/ajax/contact', '?name=Sarah');
+      $this->assertWantedRaw( "{$contactId}", 'Returns json object.' );
+      
+      Contact::delete( $contactId );
+  }
+  
+  /**
+   * Test case for customField( )
+   */
+  function testCustomField( )
+  {   
+      //get the custom group
+      require_once "CRM/Core/BAO/CustomGroup.php";
+      $customGroup = CRM_Core_BAO_CustomGroup::retrieve( $groupParams = array( ), 
+                                                         $defaults= array( ) );
+      $customGroupID = $customGroup->id;
+      if ( $customGroupID ) {
+          //create custom field
+          $params = array( 
+                          'label'     => 'Test Custom Field',
+                          'data_type' => 'String',
+                          'html_type' => 'Text',
+                          'help_post' => 'Test Custom Field help',
+                          'custom_group_id' => $customGroupID
+                          );
+          
+          require_once 'CRM/Core/BAO/CustomField.php';
+          $customField = CRM_Core_BAO_CustomField::create( $params );
+          $customFieldID = $customField->id;
+          
+          $this->civiGet('civicrm/ajax/custom', "?id={$customFieldID}");
+          $this->assertWantedRaw( "{$customField->help_post}", 'Returns json object.' );
+          
+          //cleanup DB by deleting Custom Field.
+          $customField->delete( );
+      }
+  }
+  
+  /**
+   * Test case for event()
+   */
+  function testEvent( )
+  {
+      //create test event
+      $eventId = Event::create( );
+      
+      $this->civiGet('civicrm/ajax/event', '?name=Test Event*&start=0&count=10');
+      $this->assertWantedRaw( 'Test Event', 'Returns json object.' );
+      
+      //cleanup DB by deleting Event.
+      Event::delete( $eventId );
+  }
+  
+  /**
+   * Test case for eventType()
+   */
+  function testEventType( )
+  {
+      //create test event Type.
+      $groupParams = array( 'name' => 'event_type' ); 
+      $params = array( 'label'     => 'Test Event Type',
+                       'weight'    => 10,
+                       'is_active' => 1 );
+      
+      require_once 'CRM/Core/OptionValue.php';
+      $optionValue = CRM_Core_OptionValue::addOptionValue( $params, $groupParams, $action = 1, $id = null );
+      
+      $this->civiGet('civicrm/ajax/eventType', '?name=Test Event Type*&start=0&count=10');
+      $this->assertWantedRaw( 'Test Event Type', 'Returns json object.' );
+      
+      //cleanup DB by deleting EventType.
+      CRM_Core_BAO_OptionValue::del( $optionValue->id );
+  }
+  
+  /**
+   * Test case for states()
+   */
+  function testStates( )
+  {
+      //country.id of 'South Africa' is 1196
+      $this->civiGet('civicrm/ajax/jqState', '?_value=1196&start=0&count=10');
+      $this->assertWantedRaw( 'Free State',    'Returns json object.' );
+      $this->assertWantedRaw( 'Gauteng',       'Returns json object.' );
+      $this->assertWantedRaw( 'Western Cape',  'Returns json object.' );
+      $this->assertWantedRaw( 'Northern Cape', 'Returns json object.' );
+  } 
+  
+  /**
+   * Test case for message Template()
+   */
+  function testTemplate( )
+  {
+      //create message template.
+      $params = array(
+                      'msg_title'   => 'Test Message',
+                      'msg_subject' => 'Test Message Subject',
+                      'msg_text'    => 'Text Message',
+                      'msg_html'    => 'HTML Message',
+                      'is_active'   => 1,
+                      );
+      require_once 'CRM/Core/BAO/MessageTemplates.php';
+      $messageTemplate = CRM_Core_BAO_MessageTemplates::add( $params );
+      $this->civiGet('civicrm/ajax/template', "?tid={$messageTemplate->id}");
+      $this->assertWantedRaw( 'Text Message^AHTML Message^ATest Message Subject', 'Returns json object.' );
+      //Now cleanup The DB.
+      CRM_Core_BAO_MessageTemplates::del( $messageTemplate->id );
+  }
+
+  /**
+   * Test case for employer( )
+   */
+  function testEmployer( )
+  {
+      //create individual.
+      $indParams = array(
+                         'first_name'     => 'Sarah',
+                         'last_name'      => 'Jones',
+                         );
+      $individualId = Contact::createIndividual( $indParams );
+      
+      //create organization.
+      $orgParams = array( 'organization_name' => 'Test Organization', 
+                          'contact_type'      => 'Organization' );
+      $orgId = Contact::createOrganisation( $orgParams ); 
+      
+      //create relationship.
+      $relParams = array( 'relationship_type_id' => '4_a_b',
+                          'is_active'            => 1,
+                          'is_permission_a_b'    => 1,
+                          'is_permission_b_a'    => 1,
+                          'contact_check'        => array ( $orgId => 1 )
+                          );
+      $ids = array( 'contact' => $individualId );
+      require_once 'CRM/Contact/BAO/Relationship.php';
+      list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) =
+          CRM_Contact_BAO_Relationship::create( $relParams, $ids );
+      $relId = $relationshipIds[0];
+      
+      $this->civiGet('civicrm/ajax/employer', "?cid={$individualId}");
+      $this->assertWantedRaw( 'Test Organization', 'Returns json object.' );
+      
+      //cleanup DB by deleting records.
+      Contact::delete( $orgId );
+      Contact::delete( $individualId );
+  }
+  
+  /**
+   * Test case for permlocation( )
+   */
+  function testPermLocation( )
+  {
+      //create organization.
+      $orgParams = array( 'organization_name' => 'Test Organization',
+                          'contact_type'      => 'Organization');
+      $orgParams['location'][1] = array('location_type_id' => 1,
+                                        'is_primary'       => 1,
+                                        'email'            => array(
+                                                                    '1' => array( 'email' => 'testorg@civicrm.org' ),
+                                                                    ),
+                                        );
+      $orgId = Contact::createOrganisation( $orgParams ); 
+      
+      $this->civiGet('civicrm/ajax/permlocation', "?cid={$orgId}");
+      $this->assertWantedRaw( 'testorg@civicrm.org', 'Returns json object.' );
+      
+      //cleanup DB by deleting records.
+      Contact::delete( $orgId );
+  }
+  
+  /**
+   * Test case for groupTree( )
+   */
+  function testGroupTree( )
+  {
+      $this->civiGet( 'civicrm/ajax/groupTree','reset=1' );
+      //Now check the group Tree
+      $this->assertText( "identifier:'id', label:'name', items:", 'Returns json object.' );
+      //$this->assertText( "id:'1', name:'Administrators', children:[{_reference:'5'}], type:'rootGroup'", 'Returns json object.' );
+  }
+  
+}
+
+?>

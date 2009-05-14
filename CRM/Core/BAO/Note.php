@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -100,14 +100,17 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         
         $note->copyValues( $params );
         if ( ! $params['contact_id'] ) {
-            if( $params['entity_table'] =='civicrm_contact' ) {
+            if ( $params['entity_table'] =='civicrm_contact' ) {
                 $note->contact_id = $params['entity_id'];   
-            }else {
+            } else {
                 CRM_Core_Error::statusBounce(ts('We could not find your logged in user ID'));
             }
         }
-
-        $note->id = CRM_Utils_Array::value( 'id', $ids );
+        
+        if ( CRM_Utils_Array::value( 'id', $ids ) ) {
+            $note->id = CRM_Utils_Array::value( 'id', $ids );
+        }
+        
         $note->save( );
 
         if ( $note->entity_table == 'civicrm_contact' ) {
@@ -115,6 +118,15 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
             CRM_Core_BAO_Log::register( $note->entity_id,
                                         'civicrm_note',
                                         $note->id );
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $displayName = CRM_Contact_BAO_Contact::displayName( $note->entity_id );
+            require_once 'CRM/Utils/Recent.php';
+            CRM_Utils_Recent::add( $displayName . ' - ' . $note->subject,
+                                   CRM_Utils_System::url( 'civicrm/contact/view/note', "reset=1&action=view&cid={$note->entity_id}&id={$note->id}" ),
+                                   $note->entity_id,
+                                   'Note',
+                                   $note->entity_id,
+                                   $displayName );
         }
 
         return $note;
@@ -187,20 +199,21 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
 
     /**
      * Function to delete the notes
-     *
-     * @param int $id note id
-     *
-     * @return null
+     * 
+     * @param int $id    note id
+     * 
+     * @return $return   no of deleted notes on success, false otherwise
      * @access public
      * @static
-     *
+     * 
      */
     static function del ( $id ) {
-        // delete from relationship table
-        $note =& new CRM_Core_DAO_Note( );
+        $return   = null;
+        $note     =& new CRM_Core_DAO_Note( );
         $note->id = $id;
-        $note->delete();
-        CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );        
+        $return   = $note->delete();
+        CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );
+        return $return;
     }
 
     /**
@@ -245,6 +258,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
 SELECT   id, note FROM civicrm_note
 WHERE    entity_table=\"{$entityTable}\"
   AND    entity_id = %1
+  AND    note is not null
 ORDER BY modified_date desc";
         $params = array( 1 => array( $id, 'Integer' ) );
 
@@ -256,4 +270,4 @@ ORDER BY modified_date desc";
         return $viewNote;
     }
 }
-?>
+

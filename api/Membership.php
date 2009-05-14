@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -33,7 +33,7 @@
  * here}
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -60,14 +60,10 @@ function crm_create_membership_type($params)
         return _crm_error('Params is not an array.');
     }
     
-    if (!$params["name"] && ! $params['duration_unit'] && ! $params['duration_interval']) {
+    if ( ! isset( $params['name'] ) ||
+         ! isset( $params['duration_unit'] ) ||
+         ! isset( $params['duration_interval'] ) ) {
         return _crm_error('Missing require fileds ( name, duration unit,duration interval)');
-    }
-    
-    if ( !$params['domain_id'] ) {
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $params['domain_id'] = $config->domainID();
     }
     
     $error = _crm_check_required_fields( $params, 'CRM_Member_DAO_MembershipType');
@@ -75,9 +71,9 @@ function crm_create_membership_type($params)
         return $error;
     }
     
-    $ids['membershipType']   = $params['id'];
-    $ids['memberOfContact']  = $params['member_of_contact_id'];
-    $ids['contributionType'] = $params['contribution_type_id'];
+    $ids['membershipType']   = CRM_Utils_Array::value( 'id', $params );
+    $ids['memberOfContact']  = CRM_Utils_Array::value( 'member_of_contact_id', $params );
+    $ids['contributionType'] = CRM_Utils_Array::value( 'contribution_type_id', $params );
     
     require_once 'CRM/Member/BAO/MembershipType.php';
     $membershipTypeBAO = CRM_Member_BAO_MembershipType::add($params, $ids);
@@ -212,12 +208,6 @@ function crm_create_membership_status($params)
     
     if (! $params["name"] ) {
         return _crm_error('Missing require fileds');
-    }
-    
-    if ( !$params['domain_id'] ) {
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $params['domain_id'] = $config->domainID();
     }
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
@@ -377,7 +367,7 @@ function crm_create_contact_membership($params, $contactID)
                                                             );
     }
     
-    foreach ( $relatedContacts as $contactId ) {
+    foreach ( $relatedContacts as $contactId => $status ) {
         $params['contact_id'         ] = $contactId;
         $params['owner_membership_id'] = $membershipBAO->id;
         unset( $params['id'] );
@@ -430,6 +420,8 @@ function crm_update_contact_membership($params)
     $membershipBAO->id = $params['id'];
     $membershipBAO->find(true);
 
+    $oldStatusID = $membershipBAO->status_id;
+
     $membershipBAO->copyValues($params);
     
     $datefields = array( 'start_date', 'end_date', 'join_date', 'reminder_date' );
@@ -445,7 +437,7 @@ function crm_update_contact_membership($params)
     }
     
     $membershipBAO->save();
-    
+    require_once "CRM/Core/Action.php";
     // Check and add membership for related contacts
     $relatedContacts =
         CRM_Member_BAO_Membership::checkMembershipRelationship( 
@@ -496,29 +488,23 @@ function crm_update_contact_membership($params)
         
     }
     
-    require_once 'CRM/Member/DAO/MembershipStatus.php';
-    $activityType = "Membership - " . CRM_Core_DAO::getFieldValue(
-                                                                  'CRM_Member_DAO_MembershipStatus',
-                                                                  $membershipBAO->status_id
-                                                                  );
-    
-    $historyParams = array(
-                           'entity_table'     => 'civicrm_contact',
-                           'entity_id'        => $membershipBAO->contact_id,
-                           'activity_type'    => $activityType,
-                           'module'           => 'CiviMember',
-                           'callback'         => 'CRM_Member_Page_Membership::details',
-                           'activity_id'      => $membershipBAO->id,
-                           'activity_summary' => $activitySummary,
-                           'activity_date'    => $params['join_date'],
-                           );
-    require_once "api/History.php";
-    $error = crm_create_activity_history( $historyParams );
-    if ( is_a( $error, 'CRM_Core_Error' ) ) {
-        return $error;
-    }    
-    
-    
+    // create activity record only if there is change in the statusID (CRM-2521).
+    if ( $oldStatusID != $membershipBAO->status_id ) {
+        $activityParams = array( 'source_contact_id'  => $membershipBAO->contact_id,
+                                 'source_record_id'   => $membershipBAO->id,
+                                 'activity_type_id'   => array_search('Membership Signup', CRM_Core_PseudoConstant::activityType()),
+                                 'subject'            => $activitySummary,
+                                 'activity_date_time' => $params['join_date'],
+                                 'is_test'            => $membershipBAO->is_test,
+                                 'status_id'          => 2
+                                 );
+        
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
+            return false;
+        }
+    }
+
     $membership = array();
     _crm_object_to_array( $membershipBAO, $membership );
     $membershipBAO->free( );
@@ -547,8 +533,8 @@ function crm_get_contact_memberships($contactID)
     // get the membership for the given contact ID
     require_once 'CRM/Member/BAO/Membership.php';
     $membership = array('contact_id' => $contactID);
-    $membershipValues = $ids = array();
-    CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $ids);
+    $membershipValues = array();
+    CRM_Member_BAO_Membership::getValues($membership, $membershipValues);
     
     if ( empty( $membershipValues ) ) {
         return _crm_error('No memberships for this contact.');
@@ -660,4 +646,4 @@ SELECT start_date, end_date, join_date
     return $result;
 }
 
-?>
+

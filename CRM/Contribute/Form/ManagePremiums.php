@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -160,16 +160,16 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
         $this->add('textarea', 'options', ts('Options'), 'rows=3, cols=60' );
 
-        $this->add('select', 'period_type', ts('Period Type'),array(''=>'-select-','rolling'=> 'Rolling','fixed'=>'Fixed'));
+        $this->add('select', 'period_type', ts('Period Type'),array(''=>'- select -','rolling'=> 'Rolling','fixed'=>'Fixed'));
                
         $this->add('text', 'fixed_period_start_day', ts('Fixed Period Start Day'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'fixed_period_start_day' ));    
 
         
-        $this->add('Select', 'duration_unit', ts('Duration Unit'),array(''=>'-select period-','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
+        $this->add('Select', 'duration_unit', ts('Duration Unit'),array(''=>'- select period -','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
     
         $this->add('text', 'duration_interval', ts('Duration'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'duration_interval' ));
         
-        $this->add('Select', 'frequency_unit', ts('Frequency Unit'),array(''=>'-select period-','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
+        $this->add('Select', 'frequency_unit', ts('Frequency Unit'),array(''=>'- select period -','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
 
         $this->add('text', 'frequency_interval', ts('Frequency'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'frequency_interval' ));
        
@@ -269,15 +269,15 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             CRM_Contribute_BAO_ManagePremiums::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected Premium Product type has been deleted.') );
         } else { 
-            $imageFile = $this->controller->exportValue( $this->_name, 'uploadFile' );
-           
+            $params = $this->controller->exportValues( $this->_name );
+            $imageFile = CRM_Utils_Array::value( 'uploadFile', $params );
+            $imageFile = $imageFile['name'];
+
             $config = & CRM_Core_Config::singleton();
            
-            $params = $ids = array( );
-
+            $ids   = array( );
+            $error = false; 
             // store the submitted values in an array
-            $params = $this->exportValues();
-            $params['domain_id'] = CRM_Core_Config::domainID( );
 
             // FIX ME 
             if(CRM_Utils_Array::value( 'imageOption',$params, false )) {
@@ -366,10 +366,10 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             if ( $error ) {
                 CRM_Core_Session::setStatus(ts('NOTICE: No thumbnail of your image was created because the GD image library is not currently compiled in your PHP installation. Product is currently configured to use default thumbnail image. If you have a local thumbnail image you can upload it separately and input the thumbnail URL by editing this premium.'));
             } else {
-                CRM_Core_Session::setStatus( ts('The Premium "%1" has been saved.', array( 1 => $premium->name )) );
+                CRM_Core_Session::setStatus( ts('The Premium \'%1\' has been saved.', array( 1 => $premium->name )) );
             }
         }
     }
 }
 
-?>
+

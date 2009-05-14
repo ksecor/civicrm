@@ -3,25 +3,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,7 +29,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -69,15 +69,16 @@ class CRM_Utils_Geocode_Google {
         CRM_Utils_System::checkPHPVersion( 5, true );
 
         require_once 'CRM/Utils/Array.php';
-        // we need a valid state and country, else we ignore
-        if ( ! CRM_Utils_Array::value( 'state_province' , $values  ) &&
-             ! CRM_Utils_Array::value( 'country'        , $values  ) ) {
+        // we need a valid country, else we ignore
+        if ( ! CRM_Utils_Array::value( 'country'        , $values  ) ) {
             return false;
         }
         
         $config =& CRM_Core_Config::singleton( );
         
-        $arg = "&output=xml&key=" . urlencode( $config->mapAPIKey );
+        // CRM-1439: Google (sometimes?) returns data in ISO-8859-1
+        // hence we use oe to ensure we get utf-8
+        $arg = "&oe=utf8&output=xml&key=" . urlencode( $config->mapAPIKey );
         
         $add = '';
 
@@ -86,8 +87,9 @@ class CRM_Utils_Geocode_Google {
             $add .= ',+';
         }
         
-        if (  CRM_Utils_Array::value( 'city', $values ) ) { 
-            $add .= '+' . urlencode( str_replace('', '+', $values['city']) );
+        $city = CRM_Utils_Array::value( 'city', $values );
+        if ( $city ) {
+            $add .= '+' . urlencode( str_replace('', '+', $city ) );
             $add .= ',+';
         }
         
@@ -101,8 +103,12 @@ class CRM_Utils_Geocode_Google {
                     $stateProvince = $values['state_province'];
                 }
             }
-            $add .= '+' . urlencode( str_replace('', '+', $stateProvince) );
-            $add .= ',+';
+
+            // dont add state twice if replicated in city (happens in NZ and other countries, CRM-2632)
+            if ( $stateProvince != $city ) {
+                $add .= '+' . urlencode( str_replace('', '+', $stateProvince) );
+                $add .= ',+';
+            }
         }
         
         if (  CRM_Utils_Array::value( 'postal_code', $values ) ) { 
@@ -114,25 +120,13 @@ class CRM_Utils_Geocode_Google {
             $add .= '+' . urlencode( str_replace('', '+', $values['country']) );
         }
         
-        $query = 'http://' . self::$_server . self::$_uri . '?' . $add . $arg;
+        $query = 'http://' . self::$_server . self::$_uri . $add . $arg;
         
         require_once 'HTTP/Request.php';
         $request =& new HTTP_Request( $query );
         $request->sendRequest( );
         $string = $request->getResponseBody( );
 
-        // CRM-1439: Google (sometimes?) returns data in ISO-8859-1
-        // if so, use iconv to convert or (if iconv not available)
-        //substitute the non-ASCII characters with question marks
-        require_once 'CRM/Utils/String.php';
-        if (!CRM_Utils_String::isUtf8($string)) {
-            if (function_exists('iconv')) {
-                $string = iconv('ISO-8859-1', 'UTF-8', $string);
-            } else {
-                $string = preg_replace('/[^\x20-\x7E]/', '?', $string);
-            }
-        }
-        
         $xml = simplexml_load_string( $string );
         $ret = array( );
         $val = array( );
@@ -142,9 +136,12 @@ class CRM_Utils_Geocode_Google {
             if ( $val[0] && $val[1] ) {
                 $values['geo_code_1'] = $val[1];
                 $values['geo_code_2'] = $val[0];
+                return true;
             }
         }
-        return true;
+        // reset the geo code values if we did not get any good values
+        $values['geo_code_1'] = $values['geo_code_2'] = 'null';
+        return false;
     }
 }
-?>
+

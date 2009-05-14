@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -42,8 +42,8 @@ function run( ) {
     $config =& CRM_Core_Config::singleton(); 
 
     require_once 'Console/Getopt.php';
-    $shortOptions = "n:p:s:e:";
-    $longOptions  = array( 'name=', 'pass=', 'start=', 'end=' );
+    $shortOptions = "n:p:s:e:k:";
+    $longOptions  = array( 'name=', 'pass=', 'key=', 'start=', 'end=' );
 
     $getopt  = new Console_Getopt( );
     $args = $getopt->readPHPArgv( );
@@ -54,7 +54,8 @@ function run( ) {
                   'start' => 's',
                   'end'   => 'e',
                   'name'  => 'n',
-                  'pass'  => 'p' );
+                  'pass'  => 'p',
+                  'key'   => 'k' );
 
     foreach ( $vars as $var => $short ) {
         $$var = null;
@@ -67,6 +68,7 @@ function run( ) {
         if ( ! $$var ) {
             $$var = CRM_Utils_Array::value( $var, $_REQUEST );
         }
+        $_REQUEST[$var] = $$var;
     }
 
     // this does not return on failure
@@ -102,33 +104,29 @@ function processContacts( &$config, $start = null, $end = null ) {
         $contactClause = null;
     }
 
-    $domainID = $config->domainID( );
     $query = "
-SELECT   c.id,
-         a.id as address_id,
-         a.street_address,
-         a.city,
-         a.postal_code,
-         s.name as state,
-         o.name as country
-  FROM   civicrm_contact  c,
-         civicrm_location l,
-         civicrm_address  a,
-         civicrm_state_province s,
-         civicrm_country o
- WHERE   c.domain_id    = $domainID
-   AND   c.id           = l.entity_id
-   AND   l.entity_table = 'civicrm_contact'
-   AND   a.location_id  = l.id
-   AND   a.geo_code_1 is null
-   AND   a.country_id is not null
-   AND   a.state_province_id is not null
-   AND   a.state_province_id = s.id
-   AND   a.country_id = o.id
-   $contactClause
+SELECT     c.id,
+           a.id as address_id,
+           a.street_address,
+           a.city,
+           a.postal_code,
+           s.name as state,
+           o.name as country
+FROM       civicrm_contact  c
+INNER JOIN civicrm_address        a ON a.contact_id = c.id
+INNER JOIN civicrm_country        o ON a.country_id = o.id
+LEFT  JOIN civicrm_state_province s ON a.state_province_id = s.id
+WHERE      c.id           = a.contact_id
+  AND      ( a.geo_code_1 is null OR a.geo_code_1 = 0 )
+  AND      ( a.geo_code_2 is null OR a.geo_code_2 = 0 )
+  AND      a.country_id is not null
+  AND      a.state_province_id is not null
+  AND      a.state_province_id = s.id
+  AND      a.country_id = o.id
+  $contactClause
 ORDER BY a.id
 ";
-
+    
     $totalGeocoded = $totalAddresses = 0;
 
     $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
@@ -138,11 +136,23 @@ ORDER BY a.id
     while ( $dao->fetch( ) ) {
         $totalAddresses++;
         $params = array( 'street_address'    => $dao->street_address,
+                         'postal_code'       => $dao->postal_code,
                          'city'              => $dao->city,
                          'state_province'    => $dao->state,
-                         'postal_code'       => $dao->postal_code,
                          'country'           => $dao->country );
-        eval( $config->geocodeMethod . '::format( $params, true );' );
+
+        // loop through the address removing more information
+        // so we can get some geocode for a partial address
+        // i.e. city -> state -> country
+
+        $maxTries = 5;
+        do {
+            eval( $config->geocodeMethod . '::format( $params, true );' );
+            array_shift( $params );
+            $maxTries--;
+        } while ( ( ! isset( $params['geo_code_1'] ) ) &&
+                  ( $maxTries > 1 ) );
+            
         if ( isset( $params['geo_code_1'] ) ) {
             $address = new CRM_Core_DAO_Address( );
             $address->id = $dao->address_id;
@@ -160,4 +170,4 @@ ORDER BY a.id
 
 run( );
 
-?>
+

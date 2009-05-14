@@ -7,11 +7,9 @@
 
         if (html_type_name == "Text") {
             document.getElementById("price").style.display="block";
-            //document.getElementById("is_enter_qty").style.display="none";
             document.getElementById("showoption").style.display="none";
         } else {
             document.getElementById("price").style.display="none";
-            //document.getElementById("is_enter_qty").style.display="block";
             document.getElementById("showoption").style.display="block";
         }
 
@@ -28,7 +26,7 @@
         for (var i=1; i<=11; i++) {
             radioOption = 'radio'+i;
             checkBoxOption = 'checkbox'+i	
-            if (html_type_name == 'Radio' || html_type_name == 'CheckBox') {
+            if (html_type_name == 'Radio' || html_type_name == 'CheckBox' || html_type_name == 'Select') {
                 if (html_type_name == "CheckBox") {
                     document.getElementById(checkBoxOption).style.display="block";
                     document.getElementById(radioOption).style.display="none";
@@ -70,20 +68,9 @@
 	    <dt id="optionsPerLine" {if $action eq 2 && ($form.html_type.value.0 eq 'CheckBox' || $form.html_type.value.0 eq 'Radio')}class="show-block"{else} class="hide-block" {/if}>{$form.options_per_line.label}</dt>	
 	    <dd id="optionsPerLineDef" {if $action eq 2 && ($form.html_type.value.0 eq 'CheckBox' || $form.html_type.value.0 eq 'Radio')}class="show-block"{else} class="hide-block"{/if}>{$form.options_per_line.html|crmReplace:class:two}</dd>
 
-
-<!--
-        <div id="is_enter_qty" {if $action eq 2 && $form.html_type.value.0 eq 'Text'} class="hide-block" {else} class="show-block" {/if}>
-        <dt>{$form.is_enter_qty.label}</dt><dd>{$form.is_enter_qty.html}</dd>
-        {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">{ts}If the user should enter a quantity in addition to choosing an option.{/ts}
-        {/if}
-        </div>
--->
-
-
         <dt>{$form.is_display_amounts.label}</dt><dd>{$form.is_display_amounts.html}</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">{ts}Display amount next to each option?  If no, then the amount should be in the option description.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Display amount next to each option? If no, then the amount should be in the option description.{/ts}</dd>
         {/if}
 
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>

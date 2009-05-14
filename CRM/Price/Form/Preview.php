@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -72,25 +72,14 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
         $fieldId  = $this->get('fieldId');
         
         if ($fieldId) {
-            // field preview
-            $defaults = array();
-            $params = array('id' => $fieldId);
-            
-            require_once 'CRM/Core/DAO/PriceField.php';
-            $fieldDAO =& new CRM_Core_DAO_PriceField();                    
-
-            CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_PriceField', $params, $defaults);
-            
-            $this->_groupTree = array();
-            $this->_groupTree[0]['id'] = 0;
-            $this->_groupTree[0]['fields'] = array();
-            $this->_groupTree[0]['fields'][$fieldId] = $defaults;
-            
+            require_once 'CRM/Core/BAO/PriceSet.php';
+            $groupTree = CRM_Core_BAO_PriceSet::getSetDetail($groupId);
+            $this->_groupTree[$groupId]['fields'][$fieldId] = $groupTree[$groupId]['fields'][$fieldId];
             $this->assign('preview_type', 'field');
         } else {
             // group preview
             require_once 'CRM/Core/BAO/PriceSet.php';
-            $this->_groupTree  = CRM_Core_BAO_PriceSet::getSetDetail($groupId);       
+            $this->_groupTree  = CRM_Core_BAO_PriceSet::getSetDetail($groupId);
             $this->assign('preview_type', 'group');
         }
     }
@@ -106,10 +95,21 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-        
-        //require_once 'CRM/Core/BAO/PriceSet.php';
-        //CRM_Core_BAO_PriceSet::setDefaults( $this->_groupTree, $defaults, false, false );
-        
+        $groupId  = $this->get('groupId');
+        $fieldId  = $this->get('fieldId');
+        if ( $this->_groupTree[$groupId] ) {
+            foreach( $this->_groupTree[$groupId]['fields'] as $key => $val ) {
+                foreach ( $val['options'] as $keys => $values ) {
+                    if ( $values['is_default'] ) {
+                        if ( $val['html_type'] == 'CheckBox') {
+                            $defaults["price_{$key}"][$keys] = 1;
+                        } else {
+                            $defaults["price_{$key}"] = $keys;
+                        }
+                    }
+                }
+            }
+        }
         return $defaults;
     }
     
@@ -129,10 +129,12 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
         require_once 'CRM/Core/BAO/PriceField.php';
         
         foreach ($this->_groupTree as $group) {
-            foreach ($group['fields'] as $field) {
-                $fieldId = $field['id'];                
-                $elementName = 'price_' . $fieldId;
-                CRM_Core_BAO_PriceField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
+            if ( is_array( $group['fields'] ) && !empty( $group['fields'] ) ) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'price_' . $fieldId;
+                    CRM_Core_BAO_PriceField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
+                }
             }
         }
         
@@ -144,4 +146,4 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
                           );
     }
 }
-?>
+

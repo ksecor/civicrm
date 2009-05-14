@@ -8,26 +8,29 @@ if( isset( $GLOBALS['_SERVER']['DM_SOURCEDIR'] ) ) {
 $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
 
 if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
-    $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm/civicrm';
+    $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm';
 } else {
     $targetDir = $argv[2];
 }
 $targetDirLength = strlen( $targetDir );
 
+if( isset( $GLOBALS['_SERVER']['DM_VERSION'] ) ) {
+    $version = $GLOBALS['_SERVER']['DM_VERSION'];
+} else {
+    $version = $argv[3];
+}
+
+if( isset( $GLOBALS['_SERVER']['DM_PKGTYPE'] ) ) {
+    $pkgType = $GLOBALS['_SERVER']['DM_PKGTYPE'];
+} else {
+    $pkgType = $argv[4];
+}
+
 ini_set('include_path', ini_get('include_path') . ":$sourceCheckoutDir/packages");
 require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'Smarty/Smarty.class.php';
 
-$path = array( 'CRM', 'api', 'bin', 'css', 'i', 'js', 'sql', 'templates', 'joomla', 'packages', 'extern' );
-$files = array( 'affero_gpl.txt' => 1,
-                'civicrm-version.txt' => 1, 
-                'gpl.txt' => 1, 
-                'README.txt' => 1 );
-foreach ( $path as $v ) {
-    $rootDir = "$targetDir/$v";
-    walkDirectory( new DirectoryIterator( $rootDir ), $files, $targetDirLength );
-}
-generateJoomlaConfig( $files );
+generateJoomlaConfig( $version );
 
 /**
  * This function creates destination directory
@@ -43,42 +46,23 @@ function createDir( $dir, $perm = 0755 ) {
     }
 }
 
-function generateJoomlaConfig( &$files ) {
-    global $targetDir, $sourceCheckoutDir;
+function generateJoomlaConfig( $version ) {
+    global $targetDir, $sourceCheckoutDir, $pkgType;
 
     $smarty =& new Smarty( );
     $smarty->template_dir = $sourceCheckoutDir . '/xml/templates';
     $smarty->compile_dir  = '/tmp/templates_c';
     createDir( $smarty->compile_dir );
 
-    $smarty->assign( 'files', array_keys( $files ) );
+    $smarty->assign( 'CiviCRMVersion', $version );
+    $smarty->assign( 'creationDate'  , date('F d Y') );
+    $smarty->assign( 'pkgType'       , $pkgType );
+
     $xml = $smarty->fetch( 'joomla.tpl' );
     
-    $output = $targetDir . '/joomla/civicrm.xml';
+    $output = $targetDir . '/civicrm.xml';
     $fd = fopen( $output, "w" );
     fputs( $fd, $xml );
     fclose( $fd );
     
 }
-
-function walkDirectory( $iter, &$files, $length ) {
-    while ($iter->valid()) {
-        $node = $iter->current();
-        
-        $path = $node->getPathname( );
-        $name = $node->getFilename( );
-        if ( $node->isDir( )      && 
-             $node->isReadable( ) &&
-             ! $node->isDot( )    &&
-             $name != '.svn' ) {
-            walkDirectory(new DirectoryIterator( $path ), $files, $length);
-        } else if ( $node->isFile( ) ) {
-            if ( substr( $name, -1, 1 ) != '~' && substr( $name, 0, 1 ) != '#' ) {
-                $files[ substr( $path, $length + 1 ) ] = 1;
-            }
-        }
-        
-        $iter->next( );
-    }
-}
-?>

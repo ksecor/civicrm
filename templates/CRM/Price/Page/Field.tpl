@@ -13,7 +13,7 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the "%1" Price Field - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' Price Field - it is currently in use by one or more active events.{/ts}
        	{/if}
         {ts}If you no longer want to use this Price Field, click the event title below, and modify the fees for that event.{/ts}<br />
         
@@ -47,25 +47,21 @@
     
     <div id="field_page">
      <p></p>
-        <div class="form-item">
         {strip}
-         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-         <thead> 
-        <tr class="columnheader">
-            <th field="Field Label" dataType="String">{ts}Field Label{/ts}</th>
-            <th field="Field Type"  dataType="String">{ts}Field Type{/ts}</th>
-            <th field="Order      " dataType="Number" sort="asc">{ts}Order{/ts}</th>
-            <th field="Req"         dataType="String">{ts}Req?{/ts}</th>
-            <th field="Status"      dataType="String">{ts}Status?{/ts}</th>
+         <table class="selector">
+         <tr class="columnheader">
+            <th>{ts}Field Label{/ts}</th>
+            <th>{ts}Field Type{/ts}</th>
+            <th>{ts}Order{/ts}</th>
+            <th>{ts}Req?{/ts}</th>
+            <th>{ts}Status?{/ts}</th>
 {*
-            <th field="Active On"   dataType="String">{ts}Active On{/ts}</th>
-            <th field="Expire On"   dataType="String">{ts}Expire On{/ts}</th>
+            <th>{ts}Active On{/ts}</th>
+            <th>{ts}Expire On{/ts}</th>
 *}
-            <th field="Price"       dataType="html">{ts}Price{/ts}</th>
-            <th datatype="html">&nbsp;</th>
+            <th>{ts}Price{/ts}</th>
+            <th>&nbsp;</th>
         </tr>
-        </thead>
-        <tbody>
         {foreach from=$priceField key=fid item=row}
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
@@ -78,18 +74,17 @@
             <td>{if $row.expire_on}{$row.expire_on|date_format:"%Y-%m-%d"}{/if}</td>
 *}
             <td>{if $row.html_type eq "Text"}{$row.price|crmMoney}{else}<a href="{crmURL p="civicrm/admin/price/field/option" q="action=browse&reset=1&sid=$sid&fid=$fid"}">{ts}Edit Price Options{/ts}</a>{/if}</td>
-            <td>{$row.action}</td>
+            <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
-        </tbody>
         </table>
         {/strip}
-        
-        <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&sid=$sid"}" id="newPriceField">&raquo; {ts}New Price Field{/ts}</a>
-        </div>
-
-        </div>
+        <table class="form-layout-compressed">
+            <tr>
+                <td><a href="{crmURL q="reset=1&action=add&sid=$sid"}" id="newPriceField" class="button"><span>&raquo; {ts}New Price Field{/ts}</span></a></td>
+                <td style="vertical-align: top"><a href="{crmURL p="civicrm/admin/price" q="action=preview&sid=`$sid`&reset=1&context=field"}">&raquo; {ts}Preview this Price Set (all fields){/ts}</a></td>
+            </tr>
+        </table>
      </div>
 
     {else}
@@ -98,7 +93,7 @@
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/price/field q="action=add&reset=1&sid=$sid"}{/capture}
-        <dd>{ts 1=$groupTitle 2=$crmURL}There are no fields for price set "%1", <a href="%2">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$groupTitle 2=$crmURL}There are no fields for price set '%1', <a href='%2'>add one</a>.{/ts}</dd>
         </dl>
         </div>
         {/if}

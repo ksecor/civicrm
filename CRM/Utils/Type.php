@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -45,6 +45,7 @@ class CRM_Utils_Type
         T_BOOL      =    16,
         T_BOOLEAN   =    16,
         T_TEXT      =    32,
+        T_LONGTEXT  =    32,
         T_BLOB      =    64,
         T_TIMESTAMP =   256,
         T_FLOAT     =   512,
@@ -147,13 +148,15 @@ class CRM_Utils_Type
             break;
             
         case 'Date':
-            if (preg_match('/^\d{8}$/', $data)) {
-                return $data;
-            }
-            break;
-            
         case 'Timestamp':
-            if (preg_match('/^\d{14}$/', $data)) {
+            // a null date or timestamp is valid
+            if ( strlen( trim( $data ) ) == 0 ) {
+                return trim( $data );
+            }
+                
+            if ( ( preg_match('/^\d{8}$/', $data) ||
+                   preg_match('/^\d{14}$/', $data) ) &&
+                 CRM_Utils_Rule::mysqlDate($data) ) {
                 return $data;
             }
             break;
@@ -162,6 +165,7 @@ class CRM_Utils_Type
             CRM_Core_Error::fatal( "Cannot recognize $type for $data" );
             break;
         }
+
 
         if ( $abort ) {
             CRM_Core_Error::fatal( "$data is not of the type $type" );
@@ -175,11 +179,12 @@ class CRM_Utils_Type
      * @param mixed   $data         The variable
      * @param string  $type         The type
      * @param boolean $abort        Should we abort if invalid
+     * @name string   $name	    The name of the attribute
      * @return mixed                The data, escaped if necessary
      * @access public
      * @static
      */
-    public static function validate($data, $type, $abort = true) 
+    public static function validate($data, $type, $abort = true, $name = 'One of parameters ') 
     {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
@@ -221,13 +226,21 @@ class CRM_Utils_Type
                 return trim( $data );
             }
 
-            if (preg_match('/^\d{8}$/', $data)) {
+            if ( preg_match('/^\d{8}$/', $data) &&
+                 CRM_Utils_Rule::mysqlDate( $data ) ) {
                 return $data;
             }
             break;
             
         case 'Timestamp':
-            if (preg_match('/^\d{14}$/', $data)) {
+            // a null timestamp is valid
+            if ( strlen( trim( $data ) ) == 0 ) {
+                return trim( $data );
+            }
+            
+            if ( ( preg_match('/^\d{14}$/', $data) ||
+                   preg_match('/^\d{8}$/', $data) ) &&
+                 CRM_Utils_Rule::mysqlDate($data) ) {
                 return $data;
             }
             break;
@@ -238,11 +251,11 @@ class CRM_Utils_Type
         }
 
         if ( $abort ) {
-            CRM_Core_Error::fatal( "$data is not of the type $type" );
+            CRM_Core_Error::fatal( "$name (value: $data) is not of the type $type" );
         }
 
         return null;
     }
 }
 
-?>
+

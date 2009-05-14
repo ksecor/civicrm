@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -65,7 +65,7 @@ class CRM_Utils_Money {
             return '';
         }
 
-        $config = CRM_Core_Config::singleton( );
+        $config =& CRM_Core_Config::singleton();
 
         if ( !self::$_currencySymbols ) {
             require_once "CRM/Core/PseudoConstant.php";
@@ -73,7 +73,7 @@ class CRM_Utils_Money {
             $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
             
             self::$_currencySymbols =
-                CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
+                array_combine( $currencySymbolName, $currencySymbol );
         }
 
         if (!$currency) {
@@ -84,14 +84,13 @@ class CRM_Utils_Money {
             $format = $config->moneyformat;
         }
 
-        $money = $amount;
-        // this function exists only in certain php install (CRM-650)
-        if ( function_exists( 'money_format' ) ) {
-            $money = money_format('%!i', $amount);
+        // money_format() exists only in certain PHP install (CRM-650)
+        if (is_numeric($amount) and function_exists('money_format')) {
+            $amount = money_format($config->moneyvalueformat, $amount);
         }
 
         $replacements = array(
-                              '%a' => $money,
+                              '%a' => $amount,
                               '%C' => $currency,
                               '%c' => CRM_Utils_Array::value($currency, self::$_currencySymbols, $currency),
                               );
@@ -101,4 +100,4 @@ class CRM_Utils_Money {
 
 }
 
-?>
+

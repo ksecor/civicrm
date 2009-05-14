@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -78,11 +78,10 @@ class CRM_Core_Session {
      * This constructor is invoked whenever any module requests an instance of
      * the session and one is not available.
      *
-     * @param  string   Index for session variables
      * @return void
      */
-    function __construct( $key = 'CiviCRM' ) { 
-        $this->_key     = $key;
+    function __construct()
+    {
         $this->_session =& $_SESSION;
 
         $this->create();
@@ -91,15 +90,13 @@ class CRM_Core_Session {
     /**
      * singleton function used to manage this object
      *
-     * @param string the key to permit session scope's
-     *
      * @return object
      * @static
-     *
      */
-    static function &singleton($key = 'CiviCRM') {
+    static function &singleton()
+    {
         if (self::$_singleton === null ) {
-            self::$_singleton =& new CRM_Core_Session($key);
+            self::$_singleton = new CRM_Core_Session;
         }
         return self::$_singleton;
     }
@@ -388,13 +385,28 @@ class CRM_Core_Session {
      * stores the status message in the session
      *
      * @param $status string the status message
-     *
+     * @param $append boolean if you want to append or set new status 
+	 *
      * @static
      * @return void
      */
-    static function setStatus( $status ) {
+    static function setStatus( $status, $append = true ) {
         if ( isset( self::$_singleton->_session[self::$_singleton->_key]['status'] ) ) {
-            self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
+            if ( $append ) {
+                if ( is_array( $status ) ) {
+                    if ( is_array( self::$_singleton->_session[self::$_singleton->_key]['status'] ) ) {
+                        self::$_singleton->_session[self::$_singleton->_key]['status'] += $status;
+                    } else {
+                        $currentStatus = self::$_singleton->_session[self::$_singleton->_key]['status'];
+                        // add an empty element to the beginning which will go in the <h3>
+                        self::$_singleton->_session[self::$_singleton->_key]['status'] = array( '', $currentStatus ) + $status;
+                    }
+                } else {
+                    self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
+                }
+            } else {
+                self::$_singleton->_session[self::$_singleton->_key]['status'] = " $status";
+            }  
         } else {
             self::$_singleton->_session[self::$_singleton->_key]['status'] = $status;
         }
@@ -402,4 +414,4 @@ class CRM_Core_Session {
 
 }
 
-?>
+

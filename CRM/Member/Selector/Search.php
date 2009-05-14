@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -73,11 +73,11 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
     static $_properties = array( 'contact_id', 'membership_id',
                                  'contact_type',
                                  'sort_name',
-                                 'membership_type',
+                                 'membership_type_id',
                                  'join_date',
-                                 'start_date',
-                                 'end_date',
-                                 'source',
+                                 'membership_start_date',
+                                 'membership_end_date',
+                                 'membership_source',
                                  'status_id',
                                  'member_is_test'
                                  );
@@ -186,7 +186,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      * @access public
      *
      */
-    static function &links( $status = 'all' )
+    static function &links( $status = 'all', $isPaymentProcessor = null, $accessContribution = null )
     {
         
         if ( !self::$_links['view'] ) {
@@ -220,7 +220,19 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                                 'qs'    => 'reset=1&action=renew&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                 'title' => ts('Renew Membership')
                                                                 ),
+                                CRM_Core_Action::FOLLOWUP => array(
+                                                                   'name'  => ts('Renew-Credit Card'),
+                                                                   'url'   => 'civicrm/contact/view/membership',
+                                                                   'qs'    => 'action=renew&reset=1&cid=%%cid%%&id=%%id%%&context=%%cxt%%&mode=live',
+                                                                   'title' => ts('Renew Membership Using Credit Card')
+                                                                   ),
                                 );
+            if( ! $isPaymentProcessor || ! $accessContribution ) {
+                //unset the renew with credit card when payment
+                //processor is not available or user not permitted to make contributions
+                unset( $extraLinks[CRM_Core_Action::FOLLOWUP] );
+            }
+            
             self::$_links['all'] = self::$_links['view'] + $extraLinks;
         }
         
@@ -278,6 +290,23 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      */
      function &getRows($action, $offset, $rowCount, $sort, $output = null) 
      {
+         // check if we can process credit card registration
+         require_once 'CRM/Core/PseudoConstant.php';
+         $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                 "billing_mode IN ( 1, 3 )" );
+         if ( count( $processors ) > 0 ) {
+             $this->_isPaymentProcessor = true;
+         } else {
+             $this->_isPaymentProcessor = false;
+         }
+
+         // Only show credit card membership signup and renewal if user has CiviContribute permission
+         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+             $this->_accessContribution = true;
+         } else {
+             $this->_accessContribution = false;
+         }
+         
          $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
                                                false, false, 
                                                false, false, 
@@ -292,8 +321,6 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
          if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
-         require_once 'CRM/Member/PseudoConstant.php';
-         $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
          
          $mask = CRM_Core_Action::mask( $permission );
          while ($result->fetch()) {
@@ -302,19 +329,22 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
              foreach (self::$_properties as $property) {
                  $row[$property] = $result->$property;
              }
-             //fix status display
-             $row['status']   = $statusTypes[$row['status_id']];
+
+             if ( $result->member_is_pay_later && $row["status_id"] == 5 ) {
+                 $row["status"] .= " (Pay Later)";
+                 
+             } else if ( $row["status_id"] == 5 ) {
+                 $row["status"] .= " (Incomplete Transaction)";
+             }
              
              if ( $row['member_is_test'] ) {
                  $row['membership_type'] = $row['membership_type'] . " (test)";
              }
 
-             if ($this->_context == 'search') {
-                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
-             }
-             
-             if ( ! $result->owner_membership_id ) {
-                 $row['action']   = CRM_Core_Action::formLink( self::links( 'all' ), $mask,
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
+            
+             if ( ! isset( $result->owner_membership_id ) ) {
+                 $row['action']   = CRM_Core_Action::formLink( self::links( 'all', $this->_isPaymentProcessor, $this->_accessContribution ), $mask,
                                                                array( 'id'  => $result->membership_id,
                                                                       'cid' => $result->contact_id,
                                                                       'cxt' => $this->_context ) );
@@ -325,20 +355,9 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                                       'cxt' => $this->_context ) );
              }
              
-             $config =& CRM_Core_Config::singleton( );
-             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-             switch ($result->contact_type) {
-             case 'Individual' :
-                 $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                 break;
-             case 'Household' :
-                 $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                 break;
-             case 'Organization' :
-                 $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                 break;
-             }
-             $row['contact_type'] = $contact_type;
+
+             require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+             $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
              
              $rows[] = $row;
          }
@@ -374,7 +393,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
             self::$_columnHeaders = array(
                                           array(
                                                 'name'      => ts('Type'),
-                                                'sort'      => 'membership_type',
+                                                'sort'      => 'membership_type_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('name'      => ts('Member Since'),
@@ -383,17 +402,17 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                 ),
                                           array(
                                                 'name'      => ts('Start Date'),
-                                                'sort'      => 'start_date',
+                                                'sort'      => 'membership_start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('End Date'),
-                                                'sort'      => 'end_date',
+                                                'sort'      => 'membership_end_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Source'),
-                                                'sort'      => 'source',
+                                                'sort'      => 'membership_source',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
@@ -436,4 +455,4 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
 
 }//end of class
 
-?>
+

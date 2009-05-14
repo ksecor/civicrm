@@ -1,16 +1,16 @@
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+{capture assign=docLink}{docURL page="Global Settings" text="Administration Documentation"}{/capture}
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/OSk" 2=$docURLTitle}Use the links below to configure or modify the global settings for CiviCRM for this site. Refer to the <a href="%1" target="_blank" title="%2">Administration Documentation</a> for details on settings and options.{/ts}
+    {ts 1=$docLink}Use the links below to configure or modify the global settings for CiviCRM for this site. Refer to the %1 for details on settings and options.{/ts}
 </div>
 <table class="report"> 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/component' q='reset=1'}" id="idComponents">&raquo; {ts}Enable Components{/ts}</a></td>
-    <td>{ts}Enable CiviContribute, CiviEvent, CiviMember, CiviGrant and/or CiviMail components.{/ts}</td>
+    <td>{ts}Enable CiviContribute, CiviPledge, CiviEvent, CiviMember, CiviMail, CiviCase and/or CiviGrant components.{/ts}</td>
 </tr>
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/display' q='reset=1'}" id="idPreferences">&raquo; {ts}Site Preferences{/ts}</a></td>
-    <td>{ts}Configure screen and form elements for Viewing Contacts, Editing Contacts, Advanced Search and the Contact Dashboard.{/ts}</td>
+    <td>{ts}Configure screen and form elements for Viewing Contacts, Editing Contacts, Advanced Search, Contact Dashboard and WYSIWYG Editor.{/ts}</td>
 </tr>
 
 <tr>
@@ -24,13 +24,13 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/smtp' q='reset=1'}" id="idSMTP">&raquo; {ts}Outbound Email (SMTP){/ts}</a></td>
-    <td>{ts}SMTP server, port and authentication settings for outbound email.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/smtp' q='reset=1'}" id="idSMTP">&raquo; {ts}Outbound Email (SMTP/Sendmail){/ts}</a></td>
+    <td>{ts}Settings for outbound email - either SMTP server, port and authentication or Sendmail path and argument.{/ts}</td>
 </tr>
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/mapping' q='reset=1'}" id="idMapping">&raquo; {ts}Mapping and Geocoding{/ts}</a></td>
-    <td>{ts}Configure a mapping provider (e.g. Google or Yahoo) to display maps for contact addresses.{/ts}</td>
+    <td>{ts}Configure a mapping provider (e.g. Google or Yahoo) to display maps for contact addresses and event locations.{/ts}</td>
 </tr>
 
 <tr>
@@ -44,7 +44,7 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/address}" id="idAddress">&raquo; {ts}Address Settings{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/address' q='reset=1'}" id="idAddress">&raquo; {ts}Address Settings{/ts}</a></td>
     <td>{ts}Format addresses in mailing labels, input forms and screen display. Configure optional Address Standardization provider.{/ts}</td>
 </tr>
 
@@ -53,14 +53,16 @@
     <td>{ts}Configure input and display formats for Date fields.{/ts}</td>
 </tr>
 
+{if $config->userFramework != 'Standalone'}
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/uf' q='reset=1'}" id="idUF">&raquo; {ts 1=$config->userFramework}%1 Integration Settings{/ts}</a></td>
     <td>{ts 1=$config->userFramework}%1 version and user table name.{/ts}</td>
 </tr>
+{/if}
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/misc' q='reset=1'}" id="idMisc">&raquo; {ts}Miscellaneous Settings{/ts}</a></td>
-    <td>{ts}Enable version checking and configure optional CAPTCHA feature for Profile forms.{/ts}</td>
+    <td>{ts}Enable Version Checking, configure Contact Search behavior, and configure optional reCAPTCHA feature to prevent automated abuse of public forms.{/ts}</td>
 </tr>
 
 <tr>

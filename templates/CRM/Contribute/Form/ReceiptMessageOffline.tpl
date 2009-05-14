@@ -1,5 +1,5 @@
-{if $module eq 'Membership'}{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
-{/if}
+{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}{/if}
+{if $module eq 'Membership'}
 {if $formValues.receipt_text_signup}
 {$formValues.receipt_text_signup}
 {elseif $formValues.receipt_text_renewal}
@@ -15,7 +15,7 @@
 {ts}Membership Type{/ts}: {$membership_name}
 {ts}Membership Start Date{/ts}: {$mem_start_date}
 {ts}Membership End Date{/ts}: {$mem_end_date}
-
+{if $formValues.total_amount}
 ===========================================================
 {ts}Membership Fee{/ts}
 
@@ -26,14 +26,17 @@
 {/if}
 {if $formValues.paidBy}
 {ts}Paid By{/ts}: {$formValues.paidBy}
+{if $formValues.check_number}
+{ts}Check Number{/ts}: {$formValues.check_number} 
 {/if}
-
-{else if $module eq 'Participation'}
+{/if}
+{/if}
+{else if $module eq 'Event Registration'}
 {if $receipt_text}
 {$receipt_text}
-{else}{ts}Thanks for your support.{/ts}{/if}
+{/if}
 
-{ts}Please print this receipt for your records.{/ts}
+{ts}Please print this confirmation for your records.{/ts}
 
 ===========================================================
 {ts}Event Information{/ts}
@@ -42,7 +45,7 @@
 {ts}Event{/ts}: {$event}
 {if $role neq 'Attendee'}{ts}Role{/ts}: {$role}
 {/if}
-{ts}Registration Date{/ts}: {$register_date}
+{ts}Registration Date{/ts}: {$register_date|crmDate}
 {ts}Participant Status{/ts}: {$status}
 
 {if $paid}
@@ -60,12 +63,34 @@
 {/if}
 {/if}
 
-{if $customValues}
-===========================================================
-{$module}{ts} Options{/ts}
+{if $isPrimary }
+{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
 
 ===========================================================
-{foreach from=$customValues item=value key=name}
- {$name} : {$value}
+{ts}Billing Name and Address{/ts}
+
+===========================================================
+{$billingName}
+{$address}
+{/if}
+
+{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later}
+===========================================================
+{ts}Credit Card Information{/ts}
+
+===========================================================
+{$credit_card_type}
+{$credit_card_number}
+{ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
+{/if}
+{/if}
+
+{if $customValues}
+===========================================================
+{$module} {ts}Options{/ts}
+
+===========================================================
+{foreach from=$customValues item=value key=customName}
+ {$customName} : {$value}
 {/foreach}
 {/if}

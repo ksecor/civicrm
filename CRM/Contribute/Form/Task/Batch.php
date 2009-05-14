@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -104,6 +104,12 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                 $fileFieldExists = true;
                 unset($this->_fields[$name]);
             }
+            
+            //fix to reduce size as we are using this field in grid
+            if ( is_array( $field['attributes'] ) && $this->_fields[$name]['attributes']['size'] > 19 ) {
+                //shrink class to "form-text-medium"
+                $this->_fields[$name]['attributes']['size'] = 19;
+            }
         }
 
         $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
@@ -119,17 +125,30 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         
         
         $this->assign( 'profileTitle', $this->_title );
-        $this->assign( 'contributionIds', $this->_contributionIds );
-       
+        $this->assign( 'componentIds', $this->_contributionIds );
         $fileFieldExists = false;
-        foreach ($this->_contributionIds as $contributionId) {
-            foreach ($this->_fields as $name => $field ) {
-                CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contributionId );
+        
+        //fix for CRM-2752
+        require_once "CRM/Core/BAO/CustomField.php";
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
+        foreach ( $this->_contributionIds as $contributionId ) {
+            $typeId = CRM_Core_DAO::getFieldValue( "CRM_Contribute_DAO_Contribution", $contributionId, 'contribution_type_id' ); 
+            foreach ( $this->_fields as $name => $field ) {
+                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
+                    $customValue = CRM_Utils_Array::value( $customFieldID, $customFields );
+                    if ( ( $typeId == $customValue['extends_entity_column_value'] ) ||
+                         CRM_Utils_System::isNull( $customValue['extends_entity_column_value'] ) ) {
+                        CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $contributionId );
+                    }
+                } else {
+                    // handle non custom fields
+                    CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $contributionId );
+                }
             }
         }
-       
-        $this->assign( 'fields', $this->_fields     );
-
+        
+        $this->assign( 'fields', $this->_fields );
+        
         // don't set the status message when form is submitted.
         $buttonName = $this->controller->getButtonName('submit');
 
@@ -152,6 +171,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             return;
         }
         
+        $defaults = array( );
         foreach ($this->_contributionIds as $contributionId) {
             $details[$contributionId] = array( );
             //build sortname
@@ -159,7 +179,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             $sortName[$contributionId] = CRM_Contribute_BAO_Contribution::sortName($contributionId);
             CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $contributionId, 'Contribute' );
         }
-
+        
         $this->assign('sortName', $sortName);
         return $defaults;
     }
@@ -179,49 +199,52 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                         'thankyou_date',
                         'cancel_date'
                         );
-        $customData = array( );
-        foreach ( $params['field'] as $key => $value ) {
-            foreach ( $dates as $d ) {
-                if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
-                    $value[$d]['H'] = '00';
-                    $value[$d]['i'] = '00';
-                    $value[$d]['s'] = '00';
-                    $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
-                }   
-            }
-            
-            //check for custom data
-            foreach ( $value as $name => $data ) {                
-                if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
-                                                                 $data, 'Contribution',
-                                                                 null, $key );
-                    $value['custom'] = $customData;                    
-                } 
-            }
-          
-            $ids['contribution'] = $key;
-            if ($value['contribution_type']) {
-                $value['contribution_type_id'] = $value['contribution_type'];
-            }
+        if ( isset( $params['field'] ) ) {
+            foreach ( $params['field'] as $key => $value ) {
+                foreach ( $dates as $d ) {
+                    if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
+                        $value[$d]['H'] = '00';
+                        $value[$d]['i'] = '00';
+                        $value[$d]['s'] = '00';
+                        $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
+                    } else {
+                        unset( $value[$d] );
+                    }   
+                }
+                
+                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $value,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          $key,
+                                                                          'Contribution' );
+                
+                $ids['contribution'] = $key;
+                if ($value['contribution_type']) {
+                    $value['contribution_type_id'] = $value['contribution_type'];
+                }
 
-            if ($value['contribution_source']) {
-                $value['source'] = $value['contribution_source'];
+                if ($value['payment_instrument']) {
+                    $value['payment_instrument_id'] = $value['payment_instrument'];
+                }
+                
+                if ($value['contribution_source']) {
+                    $value['source'] = $value['contribution_source'];
+                }
+                
+                unset($value['contribution_type']);
+                unset($value['contribution_source']);
+                $contribution = CRM_Contribute_BAO_Contribution::add( $value ,$ids ); 
+                
+                // add custom field values           
+                if ( CRM_Utils_Array::value( 'custom', $value ) &&
+                     is_array( $value['custom'] ) ) {
+                    require_once 'CRM/Core/BAO/CustomValueTable.php';
+                    CRM_Core_BAO_CustomValueTable::store( $value['custom'], 'civicrm_contribution', $contribution->id );
+                }            
             }
-           
-            unset($value['contribution_type']);
-            unset($value['contribution_source']);
-            $contribution = CRM_Contribute_BAO_Contribution::add( $value ,$ids ); 
-
-            // add custom field values           
-            if ( CRM_Utils_Array::value( 'custom', $value ) &&
-                 is_array( $value['custom'] ) ) {
-                require_once 'CRM/Core/BAO/CustomValueTable.php';
-                CRM_Core_BAO_CustomValueTable::store( $value['custom'], 'civicrm_contribution', $contribution->id );
-            }            
+            CRM_Core_Session::setStatus("Your updates have been saved."); 
+        } else {
+            CRM_Core_Session::setStatus("No updates have been saved.");
         }
-               
-        CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 } 
-?>
+

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,8 +48,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     /**
      * Location block element array
      */
-    //static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
-    static $blocks = array( 'phone', 'email', 'im', 'address' );
+    static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
     
     /**
      * Function to create various elements of location block
@@ -67,13 +66,13 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-
+        
         //format the params accord to new format. ie. we create all
         //email at one time, then move to another block element.
-
+        
         $formattedBlocks = array( );
         self::formatParams( $params, $formattedBlocks, $entity );
-       
+              
         //create location block elements
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
@@ -117,12 +116,19 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         $locBlock['address_id']   = $location['address'][0]->id;
         $locBlock['address_2_id'] = $location['address'][1]->id;
        
+        $countNull = 0;
         foreach( $locBlock as $key => $block) {
             if ( empty($locBlock[$key] ) ) {
                 $locBlock[$key] = 'null';
+                $countNull++;
             }
         }
         
+        if ( count($locBlock) == $countNull ) {
+            // implies nothing is set.
+            return null;
+        }
+
         $locBlockInfo = self::addLocBlock( $locBlock );
         return $locBlockInfo->id;
       
@@ -168,7 +174,53 @@ WHERE e.id = %1";
 
         return $locBlock->save( );
     }
-
+     /**
+     *  This function deletes the Location Block
+     *
+     * @param  int  $locBlockId    id of the Location Block
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    
+    public static function deleteLocBlock( $locBlockId )
+    {
+        if ( !$locBlockId ) {
+            return;
+        }
+        
+        require_once 'CRM/Core/DAO/LocBlock.php';
+        $locBlock     = new CRM_Core_DAO_LocBlock( );
+        $locBlock->id = $locBlockId;
+        
+        $locBlock->find( true );
+        
+        //resolve conflict of having same ids for multiple blocks
+        $store = array(
+                       'IM_1'      => $locBlock->im_id,
+                       'IM_2'      => $locBlock->im_2_id,
+                       'Email_1'   => $locBlock->email_id,
+                       'Email_2'   => $locBlock->email_2_id,
+                       'Phone_1'   => $locBlock->phone_id,
+                       'Phone_2'   => $locBlock->phone_2_id,
+                       'Address_1' => $locBlock->address_id,
+                       'Address_2' => $locBlock->address_2_id
+                       );
+        $locBlock->delete( );
+        foreach ( $store as $daoName => $id ) {
+            if ( $id ) {
+                $daoName = substr( $daoName, 0, -2 );
+                eval( '$dao = new CRM_Core_DAO_' . $daoName . '( );' );
+                $dao->id = $id;
+                $dao->find( true );
+                $dao->delete( );
+                $dao->free( );
+            }
+        }
+        
+    }
+    
     /**
      * Check if there is data to create the object
      *
@@ -200,101 +252,33 @@ WHERE e.id = %1";
     static function formatParams( &$params, &$formattedBlocks, $entity = null ) 
     {
         foreach ( $params['location'] as $key => $value ) {
-            foreach ( self::$blocks as $block ) { 
-                $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,
-                                                                                            $value );
-                $formattedBlocks[$block][$key]['location_type_id'] = CRM_Utils_Array::value( 'location_type_id',
-                                                                                            $value );
-                $formattedBlocks[$block][$key]['is_primary'      ] = CRM_Utils_Array::value( 'is_primary',
-                                                                                             $value );
-                $formattedBlocks[$block][$key]['is_billing'      ] = CRM_Utils_Array::value( 'is_billing',
-                                                                                             $value );
-                if ( !$entity ) {
-                    $formattedBlocks[$block]['contact_id'        ] = $params['contact_id'     ];
-                } else {
-                    $formattedBlocks['entity_table']       = $params['entity_table'   ];
-                    $formattedBlocks['entity_id']          = $params['entity_id'   ];
+            // fix location type id if set to Primary
+            // this enables us to skip resolving this during block rendering time
+            if ( isset( $params['location'][$key]['location_type_id'] ) &&
+                 strtolower( $params['location'][$key]['location_type_id'] ) == 'primary' ) {
+                $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
+                $params['location'][$key]['location_type_id'] = $defaultLocation->id;
+            }
+            
+            foreach ( self::$blocks as $block ) {
+                if ( CRM_Utils_Array::value( $block, $value ) ) {
+                    $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,
+                                                                                                 $value );
+                    $formattedBlocks[$block][$key]['location_type_id'] = CRM_Utils_Array::value( 'location_type_id',
+                                                                                                 $value );
+                    $formattedBlocks[$block][$key]['is_primary'      ] = CRM_Utils_Array::value( 'is_primary',
+                                                                                                 $value );
+                    $formattedBlocks[$block][$key]['is_billing'      ] = CRM_Utils_Array::value( 'is_billing',
+                                                                                                 $value );
+                    if ( !$entity ) {
+                        $formattedBlocks[$block]['contact_id'        ] = $params['contact_id'     ];
+                    } else {
+                        $formattedBlocks['entity_table']       = $params['entity_table'   ];
+                        $formattedBlocks['entity_id']          = $params['entity_id'   ];
+                    }
                 }
             }
         }
-    }
-    
-    /**
-     * Check if location Empty
-     *
-     * Check if the location is empty Location
-     *
-     * @params int     $lid       location id
-     *
-     * @return boolean  true if location is empty, false otherwise
-     * 
-     * @static
-     * @access public
-     */
-    static function isLocationEmpty( $lid )
-    {
-        // if no valid lid, abort
-        if ( ! $lid ) {
-            CRM_Core_Error::fatal( ts( 'Please contact CiviCRM support for help' ) );
-        }
-
-        // get the location values
-        $location =& new CRM_Core_BAO_Location( );
-        $location->id = $lid;
-        
-        $location->find( true );
-        $values = array( );
-        if ( !empty($location->name) || !empty($location->location_name)  ) {
-            $values[$lid]['location'] = array( $location->name, (isset($location->location_name)) ? $location->location_name : "" );
-        }
-        
-        //get the phone values
-        $phone =& new CRM_Core_BAO_Phone( );
-        $phone->location_id = $lid;
-        
-        $phone->find( );
-        while( $phone->fetch( ) ) {
-            $values[$lid]['phone'][] = $phone->phone;
-        }
-        
-        // get the email values
-        $email =& new CRM_Core_BAO_Email( );
-        $email->location_id = $lid;
-        
-        $email->find( );
-        while( $email->fetch( ) ) {
-            $values[$lid]['email'][] = $email->email;
-        }
-        
-        // get the IM values
-        $im =& new CRM_Core_BAO_IM( );
-        $im->location_id = $lid;
-        
-        $im->find( );
-        while( $im->fetch( ) ) {
-            $values[$lid]['im'][] = $im->name;
-        }
-        
-        // get the OpenID values
-        $openId =& new CRM_Core_BAO_OpenID( );
-        $openId->location_id = $lid;
-        
-        $openId->find( );
-        while( $openId->fetch( ) ) {
-            $values[$lid]['openid'][] = $openId->openid;
-        }
-        
-        // get the address values
-        $address =& new CRM_Core_BAO_Address( );
-        $address->location_id = $lid;
-        
-        if ( $address->find( true ) ) {
-            $address->storeValues( $address, $values[$lid]['address'] );
-            unset( $values[$lid]['address'][0]['id'] );
-            unset( $values[$lid]['address'][0]['location_id'] );
-        }
-        
-        return empty($values) ? true : false;
     }
     
     /**
@@ -303,8 +287,6 @@ WHERE e.id = %1";
      *
      * @param array $params        input parameters to find object
      * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $locationCount number of locations to fetch
      *
      * @return array   array of objects(CRM_Core_BAO_Location)
      * @access public
@@ -323,6 +305,7 @@ WHERE e.id = %1";
         //format locations blocks for setting defaults
         $locationCount = 1;
         $locationTypes = array( );
+        $primary_location_type = null;
         foreach ( $location as $key => $value ) {
             
             if ( ! is_array( $value ) || empty( $value) ) {
@@ -343,48 +326,34 @@ WHERE e.id = %1";
                     $locationTypes[ $locationCount ]  = $locationTypeId;
                     $locationNo = $locationCount;
                 }
-
+                
                 $locations[ $locationNo ]['location_type_id'] = $locationTypeId;
                 $locations[ $locationNo ][$key] = $val;
+                
+                if ( CRM_Utils_Array::value( 'is_primary' , $val ) ) { 
+                    $primary_location_type = $locationTypeId;
+                }
             }
         }
         
         $values['location'] = $allLocations['location'] = $locations;
-       
+        
+        foreach($values['location'] as $key => $val) {
+            if($val['location_type_id'] == $primary_location_type) {
+                $primary_loc_val = $values['location'][$key];
+                $values['location'][$key] = $values['location'][1];
+                $values['location'][1] = $primary_loc_val;
+            }
+        }
         if ( empty( $values['location'] ) ) {
             // mark the first location as primary if none exists
             $values['location'][1] = array( );
             $values['location'][1]['is_primary'] = 1;
         }
-       
+        
         return $values['location'];
     }
 
-
-    /**
-     * Delete the object records that are associated with this contact
-     *
-     * @param  int  $contactId id of the contact to delete
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function deleteContact( $contactId, $entityTable = 'civicrm_contact', $locationTypeId = null ) {
-        $location =& new CRM_Core_DAO_Location( );
-        $location->entity_id = $contactId;
-        require_once 'CRM/Contact/DAO/Contact.php';
-        $location->entity_table = $entityTable;
-        if($locationTypeId) {
-            $location->location_type_id = $locationTypeId;
-        }
-        $location->find( );
-        while ( $location->fetch( ) ) {
-            self::deleteLocationBlocks( $location->id );
-            $location->delete( );
-        }
-    }
-    
     /**
      * Delete all the block associated with the location
      *
@@ -395,77 +364,120 @@ WHERE e.id = %1";
      * @access public
      * @static
      */
-    static function deleteLocationBlocks( $contactId, $locationTypeId ) {
-        static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID' );
+    static function deleteLocationBlocks( $contactId, $locationTypeId ) 
+    {
+        // ensure that contactId has a value
+        if ( empty( $contactId ) ||
+             ! CRM_Utils_Rule::positiveInteger( $contactId ) ) {
+            CRM_Core_Error::fatal( );
+        }
+             
+        if ( empty( $locationTypeId ) ||
+             ! CRM_Utils_Rule::positiveInteger( $locationTypeId ) ) {
+            // so we only delete the blocks which DO NOT have a location type Id
+            // CRM-3581
+            $locationTypeId = 'null';
+        }
+
+        static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID', 'Email' );
+        
         require_once "CRM/Core/BAO/Block.php";
-        $params = array ( 'contact_id' => $contactId, 'location_type_id' => $locationTypeId);
+        $params = array ( 'contact_id' => $contactId, 'location_type_id' => $locationTypeId );
         foreach ($blocks as $name) {
             CRM_Core_BAO_Block::blockDelete( $name, $params );
         }
-        
-        CRM_Core_BAO_Email::deleteLocation( $params );
     }
 
-    static function primaryLocationValue( $entityID, $entityTable = 'civicrm_contact', $locationID = null ) {
-        $sql = "
-SELECT count( civicrm_location.id )
-  FROM civicrm_location
- WHERE entity_table = %1
-   AND entity_id    = %2
-   AND is_primary   = 1";
-        
-        if ( $locationID ) {
-            $sql .= " AND id != $locationID";
-        }
-
-        $sqlParams = array( 1 => array( $entityTable, 'String'  ),
-                            2 => array( $entityID   , 'Integer' ) );
-        $count = CRM_Core_DAO::singleValueQuery( $sql, $sqlParams );
-        return ( $count == 0 ) ? true : false;
-    }
     /**
-     * get default values for the location block
-     *
+     * Function to cleanup Contact locations
+     * Basically we need to delete unwanted location types for a contact in Edit mode
+     * create() is also called by createProfileContact(), in that case we should preserve other location type's,
+     * This is a special case where we need to delete location types that are not submitted.
+     * 
+     * @param array $params associated array of formatted params
+     * @return void
+     * @static
      */
-    static function getLocationDefaultValues( $action, $maxLocationBlock, &$ids, &$defaults, $contactID = null )
+    static function cleanupContactLocations( $params )
     {
-        if ( $action & CRM_Core_Action::ADD ) {
-            if ( $maxLocationBlocks >= 1 ) {
-                // set the is_primary location for the first location
-                $defaults['location']    = array( );
-                
-                $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
-                sort( $locationTypeKeys );
-                
-                // also set the location types for each location block
-                for ( $i = 0; $i < $maxLocationBlocks; $i++ ) {
-                    $defaults['location'][$i+1] = array( );
-                    if ( $i == 0 ) {
-                        require_once 'CRM/Core/BAO/LocationType.php';
-                        $defaultLocation =& new CRM_Core_BAO_LocationType();
-                        $locationType = $defaultLocation->getDefault();
-                        $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
-                        
-                    } else {
-                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
-                    }
-                    $defaults['location'][$i+1]['address'] = array( );
-                    $config =& CRM_Core_Config::singleton( );
-                    if( $config->defaultContactCountry ) {
-                        $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
-                    }
-                }
-                $defaults['location'][1]['is_primary'] = true;
-                return true;
+        //get the contact id from params
+        $contactId = CRM_Utils_Array::value( 'contact_id', $params );
+
+        // build submitted location types
+        if ( isset( $params['location'] ) ) {
+            $submittedLocationTypes = array( );
+            foreach ( $params['location'] as $key => $value ) {
+                $submittedLocationTypes[ $value['location_type_id'] ] = $value['location_type_id'];
             }
-        } else {
-            $params   = array( );
-            $params['id'] = $params['contact_id'] = $contactID;
-            require_once "CRM/Contact/BAO/Contact.php";
-            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-            return $contact;
         }
+
+        // get existing locations
+        $entityBlock = array( 'contact_id' => $contactId );
+        $locations    = self::getValues( $entityBlock, $defaults );
+
+        if ( !empty( $locations ) ) {
+            $existingLocationTypes = array( );
+            foreach ( $locations as $key => $value ) {
+                if ( CRM_Utils_Array::value( 'location_type_id', $value ) ) {
+                    $existingLocationTypes[ $value['location_type_id'] ] = $value['location_type_id'];
+                }
+            }
+        }
+        
+        // deleted existing locations that are not submitted
+        if ( !empty( $existingLocationTypes ) ) {
+            foreach ( $existingLocationTypes as $lType ) {
+                if ( !in_array( $lType, $submittedLocationTypes ) ) {
+                    self::deleteLocationBlocks( $contactId, $lType );
+                }
+            }
+        }
+    }
+    
+    /* Function to copy or update location block. 
+     *
+     * @param  int  $locBlockId  location block id.
+     * @param  int  $updateLocBlockId update location block id
+     * @return int  newly created/updated location block id.
+     */
+    static function copyLocBlock( $locBlockId, $updateLocBlockId = null ) 
+    {
+        //get the location info.
+        $defaults = $updateValues = array( );
+        $locBlock = array( 'id' => $locBlockId );
+        CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $locBlock, $defaults );
+        
+        if ( $updateLocBlockId ) {
+            //get the location info for update.
+            $copyLocationParams = array( 'id' => $updateLocBlockId );
+            CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $copyLocationParams, $updateValues );
+            foreach ( $updateValues as $key => $value) {
+                if ( $key != 'id' ) {
+                    $copyLocationParams[$key] = 'null';
+                }
+            }
+        }
+        
+        //copy all location blocks (email, phone, address, etc)
+        foreach ( $defaults as $key => $value ) {
+            if ( $key != 'id') {
+                $tbl  = explode("_", $key);
+                $name = ucfirst( $tbl[0] );
+                $updateParams = null;
+                if ( $updateId = CRM_Utils_Array::value( $key, $updateValues ) ) {
+                    $updateParams = array( 'id' => $updateId );
+                }
+                
+                $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_' . $name, array( 'id' => $value ), $updateParams );
+                $copyLocationParams[$key] = $copy->id;
+            }
+        }
+        
+        $copyLocation =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_LocBlock', 
+                                                    array( 'id' => $locBlock['id'] ), 
+                                                    $copyLocationParams );
+        return $copyLocation->id;
     }
 }
 
-?>
+

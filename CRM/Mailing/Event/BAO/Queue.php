@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -77,7 +77,8 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         $emailId    = $params['email_id'];
         $contactId  = $params['contact_id'];
 
-        return sha1("{$jobId}:{$emailId}:{$contactId}:" . time());
+        return substr( sha1( "{$jobId}:{$emailId}:{$contactId}:" . time( ) ),
+                       0, 16 );
     }
 
 
@@ -236,40 +237,6 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
     }
 
     /**
-     * Get a domain object given a queue event
-     * 
-     * @param int $queue_id     The ID of the queue event
-     * @return object $domain   The domain owning the event
-     * @access public
-     * @static
-     */
-    public static function &getDomain($queue_id) {
-        $dao =& new CRM_Core_Dao();
-        
-        $queue      = self::getTableName();
-        $job        = CRM_Mailing_BAO_Job::getTableName();
-        $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
-        
-        $dao->query("SELECT         $mailing.domain_id as domain_id
-                        FROM        $mailing
-                        INNER JOIN  $job 
-                                ON  $job.mailing_id = $mailing.id
-                        INNER JOIN  $queue
-                                ON  $queue.job_id = $job.id
-                        WHERE       $queue.id = " 
-                                . CRM_Utils_Type::escape($queue_id, 'Integer'));
-
-        $dao->fetch();
-        if (empty($dao->domain_id)) {
-            return null;
-        }
-        
-        require_once 'CRM/Core/BAO/Domain.php';
-        return CRM_Core_BAO_Domain::getDomainById($dao->domain_id);
-    }
-
-
-    /**
      * Get the mailing object for this queue event instance
      * 
      * @param
@@ -320,4 +287,4 @@ SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id,
 
 }
 
-?>
+

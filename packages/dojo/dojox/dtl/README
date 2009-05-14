@@ -15,8 +15,8 @@ The Django Template language uses a system of templates that can be compiled
 once and rendered indefinitely afterwards. It uses a simple system of tags
 and filters.
 
-This aims to be a 1:1 match with the Django Template Language as outlined in
-http://www.djangoproject.com/documentation/templates/. Many common tags and
+This is a 1:1 match with the Django Template Language as outlined in
+http://www.djangoproject.com/documentation/templates/. All applicable tags and
 filters have been implemented (see below), along with new filters and tags as
 necessary (see below).
 
@@ -58,6 +58,10 @@ Install into the following directory structure:
 -------------------------------------------------------------------------------
 What's Been Done
 
+Note: HTML Unit Tests should only be around for the oddities of HTML, tag/filter
+code is the same for each environment with minor exceptions. Cloning of all tags
+should be tested inside a for loop.
+
 | Implemented |     Tag     | Text Unit Test | HTML Unit Test |
 |      X      | block       |       X        |                |
 |      X      | comment     |       X        |                |
@@ -65,22 +69,22 @@ What's Been Done
 |      X      | debug       |       X        |                |
 |      X      | extends     |       X        |                |
 |      X      | filter      |       X        |                |
-|             | firstof     |                |                |
-|      X      | for         |                |                |
-|      X      | if          |                |                |
-|             | ifchanged   |                |                |
-|             | ifequal     |                |                |
-|             | ifnotequal  |                |                |
-|             | include     |                |                |
-|             | load        |                |                |
-|             | now         |                |                |
-|             | regroup     |                |                |
-|             | spaceless   |                |                |
-|             | ssi         |                |                |
-|             | templatetag |                |                |
-|             | url         |                |                |
-|             | widthratio  |                |                |
-|             | with        |                |                |
+|      X      | firstof     |       X        |                |
+|      X      | for         |       X        |                |
+|      X      | if          |       X        |                |
+|      X      | ifchanged   |       X        |       X        |
+|      X      | ifequal     |       X        |                |
+|      X      | ifnotequal  |       X        |                |
+|      X      | include     |       X        |       X        |
+|      X      | load        |       X        |                |
+|      X      | now         |       X        |                |
+|      X      | regroup     |       X        |                |
+|      X      | spaceless   |       X        |       X        |
+|      X      | ssi         |       X        |       X        |
+|      X      | templatetag |       X        |                |
+|     N/A     | url         |                |                |
+|      X      | widthratio  |       X        |                |
+|      X      | with        |       X        |                |
 
 | Implemented | Filter             | Text Unit Test | HTML Unit Test |
 |      X      | add                |       X        |                |

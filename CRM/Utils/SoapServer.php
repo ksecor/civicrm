@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,13 +38,12 @@
  * This class handles all SOAP client requests.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'api/utils.php';
-require_once 'api/Contact.php';
 require_once 'api/Mailer.php';
 
 class CRM_Utils_SoapServer
@@ -170,9 +169,9 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_confirm($contact, $subscribe, $hash);
     }
 
-    public function mailer_event_reply($key, $job, $queue, $hash, $body, $rt) {
+    public function mailer_event_reply($key, $job, $queue, $hash, $bodyTxt, $rt, $bodyHTML = null, $fullEmail = null) {
         $this->verify($key);
-        return crm_mailer_event_reply($job, $queue, $hash, $body, $rt);
+        return crm_mailer_event_reply($job, $queue, $hash, $bodyTxt, $rt, $bodyHTML, $fullEmail);
     }
 
     public function mailer_event_forward($key, $job, $queue, $hash, $email) {
@@ -180,11 +179,12 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_forward($job, $queue, $hash, $email);
     }
 
-    public function get_contact($key, $params, $returnProperties) { 
+    public function get_contact($key, $params) { 
         $this->verify($key); 
-        return crm_get_contact( $params, $returnProperties );
+        require_once 'api/v2/Contact.php';
+        return civicrm_contact_get( $params );
     }
 
 }
 
-?>
+

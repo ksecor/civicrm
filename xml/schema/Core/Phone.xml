@@ -94,5 +94,12 @@
        <dataPattern>/phone|mobile|fax|pager/i</dataPattern>
        <comment>What type of telecom device is this.</comment>
        <add>1.1</add>
+       <drop>2.2</drop>
   </field>
+  <field>
+      <name>phone_type_id</name>
+      <type>int unsigned</type>
+      <comment>Which type of phone does this number belongs.</comment>
+      <add>2.2</add>
+  </field> 
 </table>

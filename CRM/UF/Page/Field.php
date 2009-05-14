@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -163,6 +163,12 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
+
+            if ($ufFieldBAO->is_reserved) {
+                $action -= CRM_Core_Action::UPDATE;
+                $action -= CRM_Core_Action::DISABLE;
+                $action -= CRM_Core_Action::DELETE;
+            }
             
             $ufField[$ufFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                             array('id'  => $ufFieldBAO->id,
@@ -173,10 +179,16 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                                             "reset=1&action=browse&gid={$this->_gid}" );
         $filter    = "uf_group_id = {$this->_gid}";
         require_once 'CRM/Utils/Weight.php';
-        CRM_Utils_Weight::addOrder( $ufField, 'CRM_Core_DAO_UFField',
-                                    'id', $returnURL, $filter );
+       //  CRM_Utils_Weight::addOrder( $ufField, 'CRM_Core_DAO_UFField',
+//                                     'id', $returnURL, $filter );
         
         $this->assign('ufField', $ufField);
+        
+        // retrieve showBestResult from session
+        $session =& CRM_Core_Session::singleton( );
+        $showBestResult = $session->get( 'showBestResult');
+        $this->assign( 'showBestResult', $showBestResult );
+        $session->set( 'showBestResult', false );
     }
 
 
@@ -186,7 +198,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
      * editing would involved modifying existing fields + adding data to new fields.
      *
      * @param string $action the action to be invoked
-
+     *
      * @return void
      * @access public
      */
@@ -278,4 +290,4 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
 
 }
 
-?>
+

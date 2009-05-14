@@ -18,6 +18,16 @@ hr {
 img {
   border: 0;
 }
+/* Added in CiviCRM 2.0 to alleviate tiny font issues. */
+#crm-container #content tr, #crm-container #content tr td {
+  font-size: 1em;
+}
+
+/* Added in CiviCRM 2.1 to overwrite tiny font in TinyMCE editor. */
+#crm-container #content table.mceLayout td {
+  font-size: 0em;
+}
+
 th {
   text-align: left;
   padding-right: 1em;
@@ -152,9 +162,6 @@ br.clear {
 .container-inline .form-submit {
   margin: 0;
 }
-.error {
-  color: red;
-}
 .item-list .icon {
   color: #555;
   float: right;
@@ -193,8 +200,9 @@ tr.light .form-item, tr.dark .form-item {
 .form-item input.error, .form-item textarea.error {
   border: 2px solid red;
 }
-.form-item .description {
-  font-size: 0.85em;
+/* Override .9em field help size from civicrm.css - CiviCRM 2.0 */
+#crm-container div.description, #crm-container span.description, #crm-container dd.description {
+  font-size: 1em;
 }
 .form-item label {
   font-weight: bold;
@@ -360,7 +368,7 @@ table {
   padding: 10px;
 }
 #help {
-  font-size: 0.9em;
+  font-size: 1em;
   margin-bottom: 1em;
 }
 .breadcrumb {
@@ -374,6 +382,7 @@ table {
 }
 .error {
   border-color: red;
+  color: red;
 }
 #sidebar-left, #sidebar-right {
   background-color: #ddd;

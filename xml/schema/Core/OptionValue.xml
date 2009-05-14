@@ -35,7 +35,8 @@
        <title>Option Label</title>
        <type>varchar</type>
        <required>true</required>
-       <length>64</length>
+       <length>255</length>
+       <localizable>true</localizable>
        <comment>Option string as displayed to users - e.g. the label in an HTML OPTION tag.</comment>
        <add>1.5</add>
   </field>
@@ -89,6 +90,7 @@
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
+       <localizable>true</localizable>
        <comment>Optional description.</comment>
        <add>1.5</add>
   </field>
@@ -113,10 +115,34 @@
        <comment>Is this option active?</comment>
        <add>1.5</add>
   </field>
+  <field>
+      <name>component_id</name>
+      <type>int unsigned</type>
+      <comment>Component that this option value belongs/caters to.</comment>
+       <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>component_id</name>
+       <table>civicrm_component</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>  
+  <field>
+       <name>visibility_id</name>
+       <type>int unsigned</type>
+       <default>NULL</default>
+       <add>2.2</add>
+  </field>
   <index>
        <name>index_option_group_id_value</name>
        <fieldName>value</fieldName>
        <fieldName>option_group_id</fieldName>
        <add>1.5</add>
+  </index>
+  <index>
+    <name>index_option_group_id_name</name>
+    <fieldName>option_group_id</fieldName>
+    <fieldName>name</fieldName>
+    <add>2.2</add>
   </index>
 </table>

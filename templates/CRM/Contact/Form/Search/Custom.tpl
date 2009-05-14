@@ -1,7 +1,4 @@
-{* Master tpl for Advanced Search *}
-
-{include file="CRM/Contact/Form/Search/Intro.tpl"}
-
+{* Base template for custom search components. This template is used unless an alternate template is specified by the component. *}
 {assign var="showBlock" value="'searchForm'"}
 {assign var="hideBlock" value="'searchForm_show','searchForm_hide'"}
 
@@ -10,7 +7,7 @@
   <label>{ts}Edit Search Criteria{/ts}</label>
 </div>
 
-<div id="searchForm">
+<div id="searchForm" class="form-item">
 <fieldset>
     <legend><span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{ts}Search Criteria{/ts}</legend>
 
@@ -60,6 +57,7 @@
     {/if}
     </th>
   {/foreach}
+  <th>&nbsp;</th>
   </tr>
 
   {counter start=0 skip=1 print=false}

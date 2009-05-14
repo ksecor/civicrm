@@ -17,19 +17,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this contribution type.</comment>
-       <add>1.3</add>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-       <add>1.3</add>
-  </foreignKey>
-  <field>
        <name>name</name>
        <uniqueName>contribution_type</uniqueName> 
        <title>Contribution Type</title>
@@ -77,10 +64,9 @@
        <add>1.3</add>
   </field>
   <index>
-    <name>UI_name_domain_id</name>
+    <name>UI_name</name>
     <fieldName>name</fieldName>
-    <fieldName>domain_id</fieldName>
     <unique>true</unique>
-    <add>1.3</add>
+    <add>2.1</add>
   </index>
 </table>

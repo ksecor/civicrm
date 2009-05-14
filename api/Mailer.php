@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -30,7 +30,7 @@
  * API functions for registering/processing mailer events.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -41,9 +41,6 @@
 
 
 require_once 'api/utils.php';
-
-require_once 'api/Contact.php';
-require_once 'api/Group.php';
 
 require_once 'CRM/Contact/BAO/Group.php';
 
@@ -91,7 +88,7 @@ function crm_mailer_event_bounce($job, $queue, $hash, $body) {
  */
 function crm_mailer_event_unsubscribe($job, $queue, $hash) {
     $groups =& CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job, 
-                                                                $queue, $hash);
+                                                                     $queue, $hash);
     
     if (count($groups)) {
         CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($queue, $groups, false, $job);
@@ -101,7 +98,7 @@ function crm_mailer_event_unsubscribe($job, $queue, $hash) {
 }
 
 /**
- * Handle a domain-level unsubscribe event
+ * Handle a site-level unsubscribe event
  *
  * @param int $job          ID of the job that caused this unsub
  * @param int $queue        ID of the queue event
@@ -141,13 +138,12 @@ function crm_mailer_event_resubscribe($job, $queue, $hash) {
  * Handle a subscription event
  *
  * @param string $email     The email address to subscribe
- * @param int $domain_id    The domain of the subscription
  * @param int $group_id     The group of the subscription
  * @return boolean
  */
-function crm_mailer_event_subscribe($email, $domain_id, $group_id) {
+function crm_mailer_event_subscribe($email, $group_id) {
     $se =&
-        CRM_Mailing_Event_BAO_Subscribe::subscribe($domain_id, $group_id, $email);
+        CRM_Mailing_Event_BAO_Subscribe::subscribe($group_id, $email);
 
     if ($se !== null) {
         /* Ask the contact for confirmation */
@@ -177,11 +173,14 @@ function crm_mailer_event_confirm($contact_id, $subscribe_id, $hash) {
  * @param int $job_id           The job ID
  * @param int $queue_id         The queue event ID
  * @param string $hash          Security hash
- * @param string $body          Body of the reply message
+ * @param string $bodyTxt       text part of the body (ignored if $fullEmail supplied)
  * @param string $replyto       Reply-to of the incoming message
+ * @param string $bodyHTML      HTML part of the body (ignored if $fullEmail supplied)
+ * @param string $fullEmail     whole email to forward in one string
  * @return boolean              True on success
  */
-function crm_mailer_event_reply($job_id, $queue_id, $hash, $body, $replyto) {
+function crm_mailer_event_reply($job_id, $queue_id, $hash, $bodyTxt, $replyto, $bodyHTML = null, $fullEmail = null)
+{
     $mailing =& CRM_Mailing_Event_BAO_Reply::reply($job_id, $queue_id, 
                                                     $hash, $replyto);
 
@@ -189,7 +188,7 @@ function crm_mailer_event_reply($job_id, $queue_id, $hash, $body, $replyto) {
         return false;
     }
 
-    CRM_Mailing_Event_BAO_Reply::send($queue_id, $mailing, $body, $replyto);
+    CRM_Mailing_Event_BAO_Reply::send($queue_id, $mailing, $bodyTxt, $replyto, $bodyHTML, $fullEmail);
 
     return true;
 }
@@ -203,9 +202,9 @@ function crm_mailer_event_reply($job_id, $queue_id, $hash, $body, $replyto) {
  * @param string $email         Forward destination address
  * @return boolean              True on success
  */
-function crm_mailer_event_forward($job_id, $queue_id, $hash, $email) {
+function crm_mailer_event_forward($job_id, $queue_id, $hash, $email, $fromEmail = null, $params = null ) {
     return CRM_Mailing_Event_BAO_Forward::forward($job_id, $queue_id, $hash,
-                                                    $email);
+                                                  $email, $fromEmail, $params );
 }
 
-?>
+

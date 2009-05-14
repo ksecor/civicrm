@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,15 +29,15 @@
  * This file contains the various menus of the CiviCRM module
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/I18n.php';
 
-class CRM_Core_Menu {
-
+class CRM_Core_Menu 
+{
     /**
      * the list of menu items
      * 
@@ -54,1065 +54,820 @@ class CRM_Core_Menu {
      */
     static $_permissionedItems = null;
 
-    /**
-     * the list of root local tasks
-     *
-     * @var array
-     * @static
-     */
-    static $_rootLocalTasks = null;
+    static $_serializedElements = array( 'access_arguments',
+                                         'access_callback' ,
+                                         'page_arguments'  ,
+                                         'page_callback'   ,
+                                         'breadcrumb'      );
 
-    /**
-     * the list of local tasks
-     *
-     * @var array
-     * @static
-     */
-    static $_localTasks = null;
-
-    /**
-     * The list of dynamic params
-     *
-     * @var array
-     * @static
-     */
-    static $_params = null;
-
-    /**
-     * This is a super super gross hack, please fix sometime soon
-     *
-     * using constants from DRUPAL/includes/menu.inc, so that we can reuse 
-     * the same code in both drupal and joomla
-     */
-    const
-        CALLBACK           =    4,
-        NORMAL_ITEM        =   22,
-        LOCAL_TASK         =  128,
-        DEFAULT_LOCAL_TASK =  640,
-        ROOT_LOCAL_TASK    = 1152;
+    static $_menuCache = null;
     
-    /**
-     * This function defines information for various menu items
-     *
-     * @static
-     * @access public
-     */
-    static function &items( ) {
-        if ( ! self::$_items ) {
-            require_once 'CRM/Core/Permission.php';
+    static $_navigationCache = null;
 
-            // This is the minimum information you can provide for a menu item.
-            self::$_items = self::permissionedItems( );
+    const
+        MENU_ITEM  = 1;
+
+    static function &xmlItems( ) {
+        if ( ! self::$_items ) {
             $config =& CRM_Core_Config::singleton( );
 
-            $args     = explode( '/', $_GET[$config->userFrameworkURLVar] );
-            $firstArg = CRM_Utils_Array::value( 1, $args );
-            
-            switch ( $firstArg ) {
-            case 'admin':
-                $items =& self::adminItems( );
-                break;
-                
-            case 'contact':
-                // unset the search item
-                unset( self::$_items[3] );
-                $items =& self::contactItems( );
-                break;
+            // We needs this until Core becomes a component
+            $coreMenuFilesNamespace = 'CRM_Core_xml_Menu';
+            $coreMenuFilesPath = str_replace('_', DIRECTORY_SEPARATOR, $coreMenuFilesNamespace );
+            global $civicrm_root;
+            $files = CRM_Utils_File::getFilesByExtension( $civicrm_root . DIRECTORY_SEPARATOR . $coreMenuFilesPath, 'xml' );
 
-            case 'group':
-                $items =& self::groupItems( );
-                break;
-            case 'history':
-                $items =& self::historyItems( );
-                break;
+            // Grab component menu files
+            $files = array_merge( $files,
+                                  CRM_Core_Component::xmlMenu( ) );
+                                  
+            // lets call a hook and get any additional files if needed
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::xmlMenu( $files );
 
-            case 'import':
-                $items =& self::importItems( );
-                break;
-
-            case 'profile':
-                $items =& self::profileItems( );
-                break;
-
-            default:
-                $items =& self::miscItems( );
-                break;
+            self::$_items = array( );
+            foreach ( $files as $file ) {
+                self::read( $file, self::$_items );
             }
-
-            self::$_items = array_merge( self::$_items, $items );
-
-            if ( $firstArg ) {
-                require_once 'CRM/Core/Component.php';
-                $items =& CRM_Core_Component::menu( false, $args[1] );
-                self::$_items = array_merge( self::$_items, $items );
-            }
-            
-            self::initialize( );
-
-            // CRM_Core_Error::debug( 'i', self::$_items );
         }
-        
+
         return self::$_items;
+    }
+    
+    static function read( $name, &$menu ) {
+
+        $config =& CRM_Core_Config::singleton( );
+
+        $xml = simplexml_load_file( $name );
+        foreach ( $xml->item as $item ) {
+            
+            //do not expose 'Access Control' link for Joomla, CRM-3550
+            if ( $item->path == 'civicrm/admin/access' &&
+                 $config->userFramework == 'Joomla' ) {
+                continue;
+            }
+            
+            if ( ! (string ) $item->path ) {
+                CRM_Core_Error::debug( 'i', $item );
+                CRM_Core_Error::fatal( );
+            }
+            $path = (string ) $item->path;
+            $menu[$path] = array( );
+            unset( $item->path );
+            foreach ( $item as $key => $value ) {
+                $key   = (string ) $key;
+                $value = (string ) $value;
+                if ( strpos( $key, '_callback' ) &&
+                     strpos( $value, '::' ) ) {
+                    $value = explode( '::', $value );
+                } else if ( $key == 'access_arguments' ) {
+                    if ( strpos( $value, ',' ) ||
+                         strpos( $value, ';' ) ) {
+                        if ( strpos( $value, ',' ) ) {
+                            $elements = explode( ',', $value );
+                            $op = 'and';
+                        } else {
+                            $elements = explode( ';', $element );
+                            $op = 'or';
+                        }
+                        $items = array( );
+                        foreach ( $elements as $element ) {
+                            $items[] = $element;
+                        }
+                        $value = array( $items, $op );
+                    } else {
+                        $value = array( array( $value ), 'and' );
+                    }
+                } else if ( $key == 'is_public' || $key == 'is_ssl' ) {
+                    $value = ( $value == 'true' || $value == 1 ) ? 1 : 0;
+                }
+                $menu[$path][$key] = $value;
+            }
+        }
     }
 
     /**
      * This function defines information for various menu items
-     * that are permissioned and part of the CMS permissioning system
-     * Most permission have now been moved to invoke
      *
      * @static
      * @access public
      */
-    static function &permissionedItems( ) {
-        if ( ! self::$_permissionedItems ) {
-            require_once 'CRM/Core/Permission.php';
+    static function &items( ) 
+    {
+        return self::xmlItems( );
+    }
 
-            self::$_permissionedItems =
-                array(
-                      array(
-                            'path'     => 'civicrm',
-                            'title'    => ts('CiviCRM'),
-                            'access'   => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'callback' => 'civicrm_invoke',
-                            'type'     => self::NORMAL_ITEM,
-                            'crmType'  => self::CALLBACK,
-                            'weight'   => 0,
-                            ),
-
-                      array(
-                            'path'   => 'civicrm/dashboard',
-                            'title'  => ts('CiviCRM Home'),
-                            'query'  => 'reset=1',
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::NORMAL_ITEM,
-                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight' => 0,
-                            ),
-
-                      array(
-                            'path'   => 'civicrm/ajax',
-                            'title'  => null,
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
-                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight' => 0,
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/contact/search/basic',
-                            'title'   => ts('Find Contacts'),
-                            'query'   => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                            'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight'  => 1
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/contact/map/event',
-                            'title'   => ts('Map Event Location'),
-                            'query'   => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::CALLBACK,
-                            'access'  => 1,
-                            'weight'  => 1
-                            ),
-
-                      array(
-                            'path'   => 'civicrm/group',
-                            'title'  => ts('Manage Groups'),
-                            'query'  => 'reset=1',
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::NORMAL_ITEM,
-                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight' => 30,
-                            ),
-
-                      array(
-                            'path'   => 'civicrm/import',
-                            'title'  => ts( 'Import' ),
-                            'query'  => 'reset=1',
-                            'access' => CRM_Core_Permission::check( 'import contacts' ) &&
-                            CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'type'   =>  CRM_Core_Menu::CALLBACK,
-                            'crmType'=>  CRM_Core_Menu::NORMAL_ITEM,
-                            'weight' =>  400,
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/admin',
-                            'title'   => ts('Administer CiviCRM'),
-                            'query'   => 'reset=1',
-                            'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                            CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::NORMAL_ITEM,
-                            'weight'  => 9000,
-                            ),
-                      array( 
-                            'path'    => 'civicrm/file', 
-                            'title'   => ts( 'Browse Uploaded files' ), 
-                            'access'  => CRM_Core_Permission::check( 'access uploaded files' ),
-                            'type'    => self::CALLBACK,  
-                            'crmType' => self::CALLBACK,  
-                            'weight'  => 0,  
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/profile',
-                            'title'   => ts( 'Contact Information' ),
-                            'access'  => 1,
-                            'type'    => self::CALLBACK, 
-                            'crmType' => self::CALLBACK, 
-                            'weight'  => 0, 
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/user',
-                            'title'   => ts( 'Contact Dashboard' ),
-                            'access'  => CRM_Core_Permission::check( 'access Contact Dashboard' ),
-                            'type'    => self::CALLBACK, 
-                            'crmType' => self::CALLBACK, 
-                            'weight'  => 0, 
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/friend',
-                            'title'   => ts( 'Tell a Friend' ),
-                            'access'  =>
-                            CRM_Core_Permission::check( 'make online contributions' ) ||
-                            CRM_Core_Permission::check( 'register for events' ),
-                            'type'    => self::CALLBACK, 
-                            'crmType' => self::CALLBACK, 
-                            'weight'  => 0, 
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/logout',
-                            'title'   => ts('Log out'),
-                            'query'   => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                            'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight'  => 9999,
-                            )
-		      
-                      );                     
-            
-            require_once 'CRM/Core/Component.php';
-            $permissionedItems =& CRM_Core_Component::menu( true );
-            self::$_permissionedItems = array_merge( self::$_permissionedItems, $permissionedItems );
-            
+    static function isArrayTrue( &$values ) {
+        foreach ( $values as $name => $value ) {
+            if ( ! $value ) {
+                return false;
+            }
         }
-        return self::$_permissionedItems;
+        return true;
+    }
+
+    static function fillMenuValues( &$menu, $path ) {
+        $fieldsToPropagate = array( 'access_callback',
+                                    'access_arguments',
+                                    'page_callback',
+                                    'page_arguments',
+                                    'is_ssl' );
+        $fieldsPresent = array( );
+        foreach ( $fieldsToPropagate as $field ) {
+            $fieldsPresent[$field] = CRM_Utils_Array::value( $field, $menu[$path] ) !== null ?
+                true : false;
+        }
+
+        $args = explode( '/', $path );
+        while ( ! self::isArrayTrue( $fieldsPresent ) &&
+                ! empty( $args ) ) {
+
+            array_pop( $args );
+            $parentPath = implode( '/', $args );
+
+            foreach ( $fieldsToPropagate as $field ) {
+                if ( ! $fieldsPresent[$field] ) {
+                    if ( CRM_Utils_Array::value( $field, $menu[$parentPath] ) !== null ) {
+                        $fieldsPresent[$field] = true;
+                        $menu[$path][$field] = $menu[$parentPath][$field];
+                    }
+                }
+            }
+        }
+
+        if ( self::isArrayTrue( $fieldsPresent ) ) {
+            return;
+        }
+
+        $messages = array( );
+        foreach ( $fieldsToPropagate as $field ) {
+            if ( ! $fieldsPresent[$field] ) {
+                $messages[] = ts( "Could not find %1 in path tree",
+                                  array( 1 => $field ) );
+            }
+        }
+        CRM_Core_Error::fatal( "'$path': " . implode( ', ', $messages ) );
     }
 
     /**
-     * create the local tasks array based on current url
-     *
-     * @param string $path current url path
+     * We use this function to
      * 
-     * @return void
-     * @access static
+     * 1. Compute the breadcrumb
+     * 2. Compute local tasks value if any
+     * 3. Propagate access argument, access callback, page callback to the menu item
+     * 4. Build the global navigation block
+     * 
      */
-    static function createLocalTasks( $path ) {
-        if ( $path == 'civicrm/contact/view/tabbed' ) {
-            return;
+    static function build( &$menu ) {
+        foreach ( $menu as $path => $menuItems ) {
+            self::buildBreadcrumb ( $menu, $path );
+            self::fillMenuValues  ( $menu, $path );
+            self::fillComponentIds( $menu, $path );
+            self::buildReturnUrl  ( $menu, $path );
+
+            // add add page_type if not present
+            if ( ! isset( $menu[$path]['page_type'] ) ) {
+                $menu[$path]['page_type'] = 0;
+            }
+
         }
 
-        if ( self::$_localTasks ) {
-            return;
+        self::buildNavigation( $menu );
+
+        self::buildAdminLinks( $menu );
+    }
+
+    static function store( ) {
+        // first clean up the db
+        $query = 'TRUNCATE civicrm_menu';
+        CRM_Core_DAO::executeQuery( $query );
+
+        $menu =& self::items( );
+
+        self::build( $menu );
+
+        require_once "CRM/Core/DAO/Menu.php";
+
+        foreach ( $menu as $path => $item ) {
+            $menu  =& new CRM_Core_DAO_Menu( );
+            $menu->path      = $path;
+
+            $menu->find( true );
+            
+            $menu->copyValues( $item );
+
+            foreach ( self::$_serializedElements as $element ) {
+                if ( ! isset( $item[$element] ) ||
+                     $item[$element] == 'null' ) {
+                    $menu->$element = null;
+                } else {
+                    $menu->$element = serialize( $item[$element] );
+                }
+            }
+
+            $menu->save( );
+        }
+    }
+
+    static function buildNavigation( &$menu ) {
+
+        $compNames = CRM_Core_Component::getNames( true );
+        foreach( $compNames as $donCare => $name ) {
+            $elements[$name] = 1;
+        }
+        // supplement the list with additional non-component positions
+        $elements[ts('Logout')] = 1;
+        $elements[ts('Import')] = 1;
+
+        $values = array( );
+        foreach ( $menu as $path => $item ) {
+            if ( ! CRM_Utils_Array::value( 'page_type', $item ) ) {
+                continue;
+            }
+
+            if ( $item['page_type'] ==  CRM_Core_Menu::MENU_ITEM ) {
+                $query = CRM_Utils_Array::value( 'path_arguments', $item ) 
+                    ? str_replace(',', '&', $item['path_arguments']) . '&reset=1' : 'reset=1';
+                
+                $value = array( );
+                $value['url'  ]  = CRM_Utils_System::url( $path, $query, false );
+                $value['title']  = $item['title'];
+                $value['path']   = $path;
+                $value['access_callback' ] = $item['access_callback' ];
+                $value['access_arguments'] = $item['access_arguments'];
+                $value['component_id'    ] = $item['component_id'    ];
+                
+                if ( array_key_exists( $item['title'], $elements ) ) {
+                    $value['class']  = 'collapsed';
+                } else {
+                    $value['class']  = 'leaf';
+                }
+                $value['parent'] = null;
+                $value['start']  = $value['end'] = null;
+                $value['active'] = '';
+
+                // check if there is a parent
+                foreach ( $values as $weight => $v ) {
+                    if ( strpos( $path, $v['path'] ) !== false) {
+                        $value['parent'] = $weight;
+
+                        // only reset if still a leaf
+                        if ( $values[$weight]['class'] == 'leaf' ) {
+                            $values[$weight]['class'] = 'collapsed';
+                        }
+                    }
+                }
+                
+                $values[$item['weight'] . '.' . $item['title']] = $value;
+            }
         }
 
-        self::items( );
+        $menu['navigation'] = array( 'breadcrumb' => $values );
+    }
 
+    static function buildAdminLinks( &$menu ) {
+        $values = array( );
+
+        foreach ( $menu as $path => $item ) {
+            if ( ! CRM_Utils_Array::value( 'adminGroup', $item ) ) {
+                continue;
+            }
+
+            $query = CRM_Utils_Array::value( 'path_arguments', $item ) 
+                ? str_replace(',', '&', $item['path_arguments']) . '&reset=1' : 'reset=1';
+            
+            $value = array( 'title' => $item['title'],
+                            'desc'  => $item['desc'],
+                            'id'    => strtr($item['title'], array('('=>'_', ')'=>'', ' '=>'',
+                                                                   ','=>'_', '/'=>'_' 
+                                                                   )
+                                             ),
+                            'url'   => CRM_Utils_System::url( $path, $query, false ), 
+                            'icon'  => $item['icon'],
+                            'extra' => CRM_Utils_Array::value( 'extra', $item ) );
+            if ( ! array_key_exists( $item['adminGroup'], $values ) ) {
+                $values[$item['adminGroup']] = array( );
+                $values[$item['adminGroup']]['fields'] = array( );
+            }
+            $values[$item['adminGroup']]['fields'][$item['weight'] . '.' . $item['title']] = $value;
+            $values[$item['adminGroup']]['component_id'] = $item['component_id'];
+        }
+
+        foreach( $values as $group => $dontCare ) {
+            $values[$group]['perColumn'] = round( count( $values[$group]['fields'] ) / 2 );
+            ksort( $values[$group] );
+        }
+
+        $menu['admin'] = array( 'breadcrumb' => $values );
+    }
+
+    static function &getNavigation( $all = false ) {
+        if ( ! self::$_menuCache ) {
+            self::get( 'navigation' );
+        }
+        
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Joomla' ) {
-            static $processed = false;
-            if ( ! $processed ) {                
-                $processed = true;
-                foreach ( self::$_items as $key => $item ) {
-                    if ( $item['path'] == $path && isset( $item['title']) ) {
-                        CRM_Utils_System::setTitle( $item['title'] );
-                        break;
-                    }
+        if ( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_GET ) == 'civicrm/upgrade' ) {
+            return array( );
+        }
+        
+        if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
+            // problem could be due to menu table empty. Just do a
+            // menu store and try again
+            self::store( );            
+
+	        // here we goo 
+            self::get( 'navigation' );
+	        if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
+	            CRM_Core_Error::fatal( );
+	        }
+        }
+        $nav =& self::$_menuCache['navigation'];
+
+        if ( ! $nav ||
+             ! isset( $nav['breadcrumb'] ) ) {
+            return null;
+        }
+
+        $values =& $nav['breadcrumb'];
+        $config =& CRM_Core_Config::singleton( );
+        foreach ( $values as $index => $item ) {
+            if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),
+                         $item['path'] ) === 0 ) {
+                $values[$index]['active'] = 'class="active"';
+            } else {
+                $values[$index]['active'] = '';
+            }
+
+            if ( $values[$index]['parent'] ) {
+                $parent = $values[$index]['parent'];
+
+                // only reset if still a leaf
+                if ( $values[$parent]['class'] == 'leaf' ) {
+                    $values[$parent]['class'] = 'collapsed';
+                }
+
+                // if a child or the parent is active, expand the menu
+                if ( $values[$index ]['active'] ||
+                     $values[$parent]['active'] ) {
+                    $values[$parent]['class'] = 'expanded';
+                }
+                    
+                // make the parent inactive if the child is active
+                if ( $values[$index ]['active'] &&
+                     $values[$parent]['active'] ) { 
+                    $values[$parent]['active'] = '';
                 }
             }
         }
 
-        foreach ( self::$_rootLocalTasks as $root => $dontCare ) {
-            if ( strpos( $path, self::$_items[$root]['path'] ) !== false ) {
-                self::$_localTasks = array( );
-                foreach ( self::$_rootLocalTasks[$root]['children'] as $dontCare => $item ) {
-                    $index = $item['index'];
-                    $klass = '';
-                    if ( strpos( $path, self::$_items[$index]['path'] ) !== false ||
-                         ( self::$_items[$root ]['path'] == $path && CRM_Utils_Array::value( 'isDefault', $item ) ) ) {
-                        $extra = CRM_Utils_Array::value( 'extra', self::$_items[$index] );
-                        if ( $extra ) {
-                            foreach ( $extra as $k => $v ) {
-                                if ( CRM_Utils_Array::value( $k, $_GET ) == $v ) {
-                                    $klass = 'active';
-                                }
-                            }
-                        } else {
-                            $klass = 'active';
-                        }
-                    }
-                    $qs  = CRM_Utils_Array::value( 'query', self::$_items[$index] );
-                    if ( self::$_params ) {
-                        foreach ( self::$_params as $n => $v ) {
-                            $qs = str_replace( "%%$n%%", $v, $qs );
-                        }
-                    }
-                    $url = CRM_Utils_System::url( self::$_items[$index]['path'], $qs );
-                    self::$_localTasks[self::$_items[$index]['weight']] =
-                        array(
-                              'url'    => $url, 
-                              'title'  => self::$_items[$index]['title'],
-                              'class'  => $klass
-                              );
-                }
-                ksort( self::$_localTasks );
-                $template =& CRM_Core_Smarty::singleton( );
-                $template->assign_by_ref( 'localTasks', self::$_localTasks );
-                return;
-            }
-        }
-    }
 
-    /**
-     * Add an item to the menu array
-     *
-     * @param array $item a menu item with the appropriate menu properties
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function add( &$item ) {
-        // make sure the menu system is initialized before we add stuff to it
-        self::items( );
-
-        self::$_items[] = $item;
-        self::initialize( );
-    }
-
-    /**
-     * Add a key, value pair to the params array
-     *
-     * @param string $key  
-     * @param string $value
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function addParam( $key, $value ) {
-        if ( ! self::$_params ) {
-            self::$_params = array( );
-        }
-        self::$_params[$key] = $value;
-    }
-
-    /**
-     * intialize various objects in the meny array to make further processing simpler
-     *
-     * @return void
-     * @static
-     * @access private
-     */
-    static function initialize( ) {
-        self::$_rootLocalTasks = array( );
-
-        for ( $i = 0; $i < count( self::$_items ); $i++ ) {
-            // this item is a root_local_task and potentially more
-            if ( ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) & self::ROOT_LOCAL_TASK ) &&
-                 ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) >= self::ROOT_LOCAL_TASK ) ) {
-                self::$_rootLocalTasks[$i] = array(
-                                                   'root'     => $i,
-                                                   'children' => array( )
-                                                   );
-            } else if ( ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) &  self::LOCAL_TASK ) &&
-                        ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) >= self::LOCAL_TASK ) ) {
-                // find parent of the local task
-                foreach ( self::$_rootLocalTasks as $root => $dontCare ) {
-                    if ( strpos( self::$_items[$i]['path'], self::$_items[$root]['path'] ) !== false &&
-                         CRM_Utils_Array::value( 'access', self::$_items[$i], true ) ) {
-                        $isDefault =
-                            ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) == self::DEFAULT_LOCAL_TASK ) ? true : false;
-                        self::$_rootLocalTasks[$root]['children'][] = array( 'index'     => $i,
-                                                                             'isDefault' => $isDefault );
-                    }
+        if ( ! $all ) {
+            // remove all collapsed menu items from the array
+            foreach ( $values as $weight => $v ) {
+                if ( $v['parent'] &&
+                     $values[$v['parent']]['class'] == 'collapsed' ) {
+                    unset( $values[$weight] );
                 }
             }
         }
+
+        // check permissions for the rest
+        require_once 'CRM/Core/Permission.php';
+        $activeChildren = array( );
+            
+        foreach ( $values as $weight => $v ) {
+            if ( CRM_Core_Permission::checkMenuItem( $v ) ) {
+                if ( $v['parent'] ) {
+                    $activeChildren[] = $weight;
+                }
+            } else {
+                unset( $values[$weight] );
+            }
+        }
+
+        // add the start / end tags
+        $len = count($activeChildren) - 1;
+        if ( $len >= 0 ) {
+            $values[$activeChildren[0   ]]['start'] = true;
+            $values[$activeChildren[$len]]['end'  ] = true;
+        }
+
+        ksort($values, SORT_NUMERIC );
+        $i18n =& CRM_Core_I18n::singleton();
+        $i18n->localizeTitles($values);
+        
+        return $values;
+    }
+
+    static function &getAdminLinks( ) {
+        $links =& self::get( 'admin' );
+
+        if ( ! $links ||
+             ! isset( $links['breadcrumb'] ) ) {
+            return null;
+        }
+
+        $values =& $links['breadcrumb'];
+        return $values;
     }
 
     /**
-     * Get the breadcrumb for a give menu task
+     * Get the breadcrumb for a given path.
      *
-     * @param string $path the current path for which we need the bread crumb
+     * @param  array   $menu   An array of all the menu items.
+     * @param  string  $path   Path for which breadcrumb is to be build.
      *
-     * @return string       the breadcrumb for this path
+     * @return array  The breadcrumb for this path
      *
      * @static
      * @access public
      */
-    public static function &breadcrumb( $args ) {
+    static function buildBreadcrumb( &$menu, $path ) {
+        $crumbs       = array( );
 
-        // we dont care about the current menu item
-        array_pop( $args );
+        $pathElements = explode('/', $path);
+        array_pop( $pathElements );
 
-        $menus =& self::items( );
-
-        $crumbs      = array( );
         $currentPath = null;
-        foreach ( $args as $arg ) {
-            $currentPath = $currentPath ? "{$currentPath}/{$arg}" : $arg;
-
-            foreach ( $menus as $menu ) {
-                if ( $menu['path'] == $currentPath ) {
-                    $crumbs[] = array('title' => $menu['title'], 
-                                      'url'   => CRM_Utils_System::url( $menu['path'] ) );
-                }
+        while ( $newPath = array_shift($pathElements) ) {
+            $currentPath = $currentPath ? ($currentPath . '/' . $newPath) : $newPath;
+            
+            // when we come accross breadcrumb which involves ids,
+            // we should skip now and later on append dynamically.
+            if ( isset( $menu[$currentPath]['skipBreadcrumb'] ) ) {
+                continue;
+            }
+            
+            // add to crumb, if current-path exists in params.
+            if ( array_key_exists( $currentPath, $menu ) &&
+                 isset( $menu[$currentPath]['title'] ) ) {
+                $urlVar = CRM_Utils_Array::value('path_arguments', $menu[$currentPath]) ? 
+                    '&' . $menu[$currentPath]['path_arguments'] : '';
+                $crumbs[] = array('title' => $menu[$currentPath]['title'], 
+                                  'url'   => CRM_Utils_System::url( $currentPath, 
+                                                                    'reset=1' . $urlVar, false ));
             }
         }
+        $menu[$path]['breadcrumb'] = $crumbs;
 
         return $crumbs;
-        // CRM_Core_Error::debug( 'bc', $crumbs );
     }
 
-    /**
-     * Get children for a particular menu path sorted by ascending weight
-     *
-     * @param  string        $path  parent menu path
-     * @param  int|array     $type  menu types
-     *
-     * @return array         $menus
-     *
-     * @static
-     * @access public
-     */
-    public static function getChildren($path, $type)
-    {
-
-        $childMenu = array();
-
-        $path = trim($path, '/');
-
-        // since we need children only
-        $path .= '/';
-        
-        foreach (self::items() as $menu) {
-            if (strpos($menu['path'], $path) === 0) {
-                // need to add logic for menu types
-                $childMenu[] = $menu;
-            }
+    static function buildReturnUrl( &$menu, $path ) {
+        if ( ! isset($menu[$path]['return_url']) ) {
+            list( $menu[$path]['return_url'], $menu[$path]['return_url_args'] ) = 
+                self::getReturnUrl( $menu, $path );
         }
-        return $childMenu;
+    }
+    
+    static function getReturnUrl( &$menu, $path ) {
+        if ( ! isset($menu[$path]['return_url']) ) {
+            $pathElements   = explode('/', $path);
+            array_pop( $pathElements );
+            
+            if ( empty($pathElements) ) {
+                return array( null, null );
+            }
+            $newPath = implode( '/', $pathElements );
+
+            return self::getReturnUrl( $menu, $newPath );
+        } else {
+            return array( CRM_Utils_Array::value( 'return_url',
+                                                  $menu[$path] ),
+                          CRM_Utils_Array::value( 'return_url_args',
+                                                  $menu[$path] ) );
+        }
     }
 
+    static function fillComponentIds( &$menu, $path ) {
+        static $cache = array( );
 
-    /**
-     * Get max weight for a path
-     *
-     * @param  string $path  parent menu path
-     *
-     * @return int    max weight for the path           
-     *
-     * @static
-     * @access public
-     */
-    public static function getMaxWeight($path)
+        if (array_key_exists('component_id', $menu[$path])) {
+            return;
+        }
+        
+        $args = explode('/', $path);
+
+        if ( count($args) > 1 ) {
+            $compPath  = $args[0] . '/' . $args[1];
+        } else {
+            $compPath  = $args[0];
+        }    
+        
+        $componentId = null;
+
+        if ( array_key_exists($compPath, $cache) ) {
+            $menu[$path]['component_id'] = $cache[$compPath];
+        } else {
+            if ( CRM_Utils_Array::value( 'component', $menu[$compPath] ) ) {
+                $componentId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component', 
+                                                            $menu[$compPath]['component'], 
+                                                            'id', 'name' );
+            }
+            $menu[$path]['component_id'] = $componentId ? $componentId : null;
+            $cache[$compPath] = $menu[$path]['component_id'];
+        }
+    }
+
+    static function get( $path )
     {
+        // return null if menu rebuild
+        $config =& CRM_Core_Config::singleton( );
 
-        $path = trim($path, '/');
+        $params = array( );
 
-        // since we need children only
-        $path .= '/';
+        $args = explode( '/', $path );
 
-        $maxWeight  = -1024;   // weights can have -ve numbers hence cant initialize it to 0
-        $firstChild = true;
+        $elements = array( );
+        while ( ! empty( $args ) ) {
+            $elements[] = "'" . implode( '/', $args ) . "'";
+            array_pop( $args );
+        }
 
-        foreach (self::items() as $menu) {
-            if (strpos($menu['path'], $path) === 0) {
-                if ($firstChild) {
-                    // maxWeight is initialized to the weight of the first child
-                    $maxWeight = $menu['weight'];
-                    $firstChild = false;
-                } else {
-                    $maxWeight = ($menu['weight'] > $maxWeight) ? $menu['weight'] : $maxWeight;
+        $queryString = implode( ', ', $elements );
+        
+        $query = "
+( 
+  SELECT * 
+  FROM     civicrm_menu 
+  WHERE    path in ( $queryString )
+  ORDER BY length(path) DESC
+  LIMIT    1 
+)
+";
+
+        if ( $path != 'navigation' ) {
+            $query .= "
+UNION ( 
+  SELECT *
+  FROM   civicrm_menu 
+  WHERE   path IN ( 'navigation' )
+)
+";
+        }
+        
+        require_once "CRM/Core/DAO/Menu.php";
+        $menu  =& new CRM_Core_DAO_Menu( );
+        $menu->query( $query );
+
+        self::$_menuCache = array( );
+        $menuPath = null;
+        while ( $menu->fetch( ) ) {
+            self::$_menuCache[$menu->path] = array( );
+            CRM_Core_DAO::storeValues( $menu, self::$_menuCache[$menu->path] );
+
+            foreach ( self::$_serializedElements as $element ) {
+                self::$_menuCache[$menu->path][$element] = unserialize( $menu->$element );
+                
+                if ( strpos( $path, $menu->path ) !== false ) {
+                    $menuPath =& self::$_menuCache[$menu->path];
                 }
             }
         }
+        
+        // *FIXME* : hack for 2.1 -> 2.2 upgrades. The below block of code 
+        // can be safely removed for v2.3.
+        if ( $path == 'civicrm/upgrade' ) {
+            $menuPath['page_callback']         = 'CRM_Upgrade_Page_Upgrade';
+            $menuPath['access_arguments'][0][] = 'administer CiviCRM';
+            $menuPath['access_callback']       = array('CRM_Core_Permission', 'checkMenu');
+        }
 
-        return $maxWeight;
+        $i18n =& CRM_Core_I18n::singleton();
+        $i18n->localizeTitles($menuPath);
+        return $menuPath;
     }
 
-   
-    static function &adminItems( ) {
-        // helper variable for nicer formatting
-        $drupalSyncExtra = ts('Synchronize Users to Contacts:') . ' ' . ts('CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist.') . '\n\n' . ts('Do you want to continue?');
-        $backupDataExtra = ts('Backup Your Data:') . ' ' . ts('CiviCRM will create an SQL dump file with all of your existing data, and allow you to download it to your local computer. This process may take a long time and generate a very large file if you have a large number of records.') . '\n\n' . ts('Do you want to continue?');
-        $items = array(
-                       array(
-                             'path'    => 'civicrm/admin/custom/group',
-                             'title'   => ts('Custom Data'),
-                             'desc'    => ts('Configure custom fields to collect and store custom data which is not included in the standard CiviCRM forms.'), 
-                             'query'   => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Customize'),
-                             'icon'    => 'admin/small/custm_data.png',
-                             'weight'  => 10
-                             ),
-                       
-                       array(
-                             'path'   => 'civicrm/admin/custom/group/field',
-                             'title'  => ts('Custom Data Fields'),
-                             'query'  => 'reset=1',
-                             'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'weight' => 11
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/uf/group',
-                             'title'   => ts('CiviCRM Profile'),
-                             'desc'    => ts('Profiles allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.'), 
-                             'query'   => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Customize'),
-                             'icon'    => 'admin/small/Profile.png',
-                             'weight'  => 20
-                             ),
-                       
-                       array(
-                             'path'   => 'civicrm/admin/uf/group/field',
-                             'title'  => ts('CiviCRM Profile Fields'),
-                             'query'  => 'reset=1',
-                             'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'weight' => 21
-                             ),
-                       
-                       array(
-                           'path'    => 'civicrm/admin/backup',
-                           'title'   => ts('Backup Data'),
-                           'desc'    => ts('Create a backup file containing your CiviCRM data.'),
-                           'type'    => self::CALLBACK,
-                           'extra' => 'onclick = "return confirm(\'' . $backupDataExtra . '\');"',
-                           'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/small/14.png',
-                           'weight'  => 120
-                           ),
-                      
-                     array(
-                           'path'       => 'civicrm/admin/dedupefind',
-                           'title'      => ts('Find Duplicate Contacts'),
-                           'desc'    => ts('Use configured duplicate matching rules to identify suspected duplicate contact records in your database.'),
-                           'query'      => 'reset=1',
-                           'type'       => self::CALLBACK,
-                           'crmType'    => self::LOCAL_TASK,
-                           'adminGroup' => ts('Manage'),
-                           'icon'       => 'admin/small/duplicate_matching.png',
-                           'weight'     => 130
-                           ),
+    static function getArrayForPathArgs( $pathArgs )
+    {
+        if (! is_string($pathArgs)) {
+            return;
+        }
+        $args = array();
 
-                       array(
-                             'path'    => 'civicrm/admin/synchUser',
-                             'title'   => ts('Synchronize Users to Contacts'),
-                             'desc'    => ts('Automatically create a CiviCRM contact record for each CMS user record.'),
-                             'type'    => self::CALLBACK,
-                             'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
-                             'adminGroup' => ts('Manage'),
-                             'icon'    => 'admin/small/Synch_user.png',
-                             'weight'  => 140
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/setting',
-                             'title'   => ts('Global Settings'),
-                             'desc'    => ts('Configure Global Settings for your site, including: Enabled Components, Site Preferences for screens and forms, Directory Paths and Resource URLs, Address formats, Localization, Payment Processor, Outbound Email, Mapping, and Debugging.'), 
-                             'query'  => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/small/36.png',
-                             'weight'  => 200
-                             ),
-                       
-                     array(
-                           'path'    => 'civicrm/admin/dupematch',
-                           'title'   => ts('Contact Matching'),
-                           'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
-                           'query'  => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/small/duplicate_matching.png',
-                           'weight'  => 240
-                           ),
+        $elements = explode( ',', $pathArgs );
+        //CRM_Core_Error::debug( 'e', $elements );
+        foreach ( $elements as $keyVal ) {
+            list($key, $val) = explode( '=', $keyVal );
+            $arr[$key] = $val;
+        }
 
-                     array(
-                           'path'    => 'civicrm/admin/deduperules',
-                           'title'   => ts('Duplicate Contact Rules'),
-                           'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
-                           'query'  => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/small/duplicate_matching.png',
-                           'weight'  => 245
-                           ),
+        if (array_key_exists('urlToSession', $arr)) {
+            $urlToSession = array( );
 
-                       array(
-                             'path'       => 'civicrm/admin/mapping',
-                             'title'      => ts('Import/Export Mappings'),
-                             'desc'    => ts('Import and Export mappings allow you to easily run the same job multiple times. This option allows you to rename or delete existing mappings.'), 
-                             'query'      => 'reset=1',
-                             'type'       => self::CALLBACK,
-                             'crmType'    => self::LOCAL_TASK,
-                             'adminGroup' => ts('Configure'),
-                             'icon'       => 'admin/small/import_export_map.png',
-                             'weight'     => 250
-                             ),
-                       
-                       array(
-                             'path'       => 'civicrm/admin/messageTemplates',
-                             'title'      => ts('Message Templates'),
-                             'desc'    => ts('Message templates allow you to save and re-use messages with layouts which you can use when sending email to one or more contacts.'), 
-                             'query'      => 'reset=1',
-                             'type'       => self::CALLBACK,
-                             'crmType'    => self::LOCAL_TASK,
-                             'adminGroup' => ts('Configure'),
-                             'icon'       => 'admin/small/template.png',
-                             'weight'     => 260
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/options',
-                             'title'   => ts('Activity Types'),
-                             'desc'    => ts('CiviCRM has several built-in activity types (meetings, phone calls, emails sent). Track other types of interactions by creating custom activity types here.'), 
-                             'query'   => 'group=activity_type&reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/small/05.png',
-                             'weight'  => 310
-                             ),
-                       
-                       array(
-                           'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Gender Options'),
-                           'desc'    => ts('Options for assigning gender to individual contacts (e.g. Male, Female, Transgender).'), 
-                           'query'  => 'group=gender&reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Option Lists'),
-                           'icon'    => 'admin/small/01.png',
-                           'weight'  => 320
-                           ),
-                      
-                       array(
-                             'path'    => 'civicrm/admin/options',
-                             'title'   => ts('Individual Prefixes (Ms, Mr...)'),
-                             'desc'    => ts('Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.).'), 
-                             'query'  => 'group=individual_prefix&reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/small/title.png',
-                             'weight'  => 330
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/options',
-                             'title'   => ts('Individual Suffixes (Jr, Sr...)'),
-                             'desc'    => ts('Options for individual contact suffixes (e.g. Jr., Sr. etc.).'), 
-                             'query'  => 'group=individual_suffix&reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/small/10.png',
-                             'weight'  => 340
-                             ),
-                       
-                       
-                       array(
-                           'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Instant Messenger Services'),
-                           'desc'    => ts('List of IM services which can be used when recording screen-names for contacts.'), 
-                           'query'  => 'group=instant_messenger_service&reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Option Lists'),
-                           'icon'    => 'admin/small/07.png',
-                           'weight'  => 350
-                           ),
-
-                       array(
-                             'path'    => 'civicrm/admin/locationType',
-                             'title'   => ts('Location Types (Home, Work...)'),
-                             'desc'    => ts('Options for categorizing contact addresses and phone numbers (e.g. Home, Work, Billing, etc.).'), 
-                             'query'  => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/small/13.png',
-                             'weight'  => 360
-                             ),
-                       
-                       array(
-                           'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Mobile Phone Providers'),
-                           'desc'    => ts('List of mobile phone providers which can be assigned when recording contact phone numbers.'), 
-                           'query'  => 'group=mobile_provider&reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Option Lists'),
-                           'icon'    => 'admin/small/08.png',
-                           'weight'  => 365
-                           ),
+            $params = explode( ';', $arr['urlToSession'] );
+            $count  = 0;
+            foreach ( $params as $keyVal ) {
+                list($urlToSession[$count]['urlVar'], 
+                     $urlToSession[$count]['sessionVar'], 
+                     $urlToSession[$count]['type'], 
+                     $urlToSession[$count]['default'] ) = explode( ':', $keyVal );
+                $count++;
+            }
+            $arr['urlToSession'] = $urlToSession; 
+        }
+        return $arr;
+    }
     
-                     array(
-                           'path'    => 'civicrm/admin/options',
-                           'title'   => ts('Preferred Communication Methods'),
-                           'desc'    => ts('One or more preferred methods of communication can be assigned to each contact. Customize the available options here.'), 
-                           'query'  => 'group=preferred_communication_method&reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Option Lists'),
-                           'icon'    => 'admin/small/communication.png',
-                           'weight'  => 370
-                           ),
+    /**
+     * Function to get existing / build navigation for CiviCRM Admin Menu
+     */
+    static function retrieveNavigation(  ) {
+        $navigationArray = self::parseNavigation( true );
+        $titleClause = implode( ',', array_keys($navigationArray) );
+    
+        $query = "
+          SELECT * 
+          FROM     civicrm_menu 
+          WHERE    title in ( $titleClause )";
 
-                       array(
-                             'path'    => 'civicrm/admin/reltype',
-                             'title'   => ts('Relationship Types'),
-                             'desc'    => ts('Contacts can be linked to each other through Relationships (e.g. Spouse, Employer, etc.). Define the types of relationships you want to record here.'), 
-                             'query'  => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/small/rela_type.png',
-                             'weight'  => 375
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/tag',
-                             'title'   => ts('Tags (Categories)'),
-                             'desc'    => ts('Tags are useful for segmenting the contacts in your database into categories (e.g. Staff Member, Donor, Volunteer, etc.). Create and edit available tags here.'), 
-                             'query'  => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Option Lists'),
-                             'icon'    => 'admin/small/11.png',
-                             'weight'  => 380
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/paymentProcessor',
-                             'title'   => ts('Payment Processor'),
-                             'desc'    => ts('Payment Processor setup for CiviCRM transactions'),
-                             'query'  => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'adminGroup' => null,
-                             'weight'  => 390
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/paymentProcessorType',
-                             'title'   => ts('Payment Processor Type'),
-                             'desc'    => ts('Payment Processor type information'),
-                             'query'  => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'adminGroup' => null,
-                             'weight'  => 390
-                             ),
-                       
-                       );
-        $config = CRM_Core_Config::singleton( );
-        if ( $config->userFramework != 'Joomla' ) {
-            $items[] = array(
-                             'path'    => 'civicrm/admin/access',
-                             'title'   => ts('Access Control'),
-                             'desc'    => ts('Grant or deny access to actions (view, edit...), features and components.'), 
-                             'query'   => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Manage'),
-                             'icon'    => 'admin/small/03.png',
-                             'weight'  => 110
-                             );
+        require_once "CRM/Core/DAO/Menu.php";
+        $menu  =& new CRM_Core_DAO_Menu( );
+        $menu->query( $query );
+
+        $validMenus = array();
+        while ( $menu->fetch() ) {
+            $path = $menu->path;
+            $query = $menu->path_arguments 
+                 ? str_replace(',', '&', $menu->path_arguments) . '&reset=1' : 'reset=1';
+        
+            $value = array( );
+            $value['url'  ]  = CRM_Utils_System::url( $path, $query, false );
+            $value['title']  = $menu->title;
+            $value['path']   = $path;
+            $value['access_callback' ] = unserialize($menu->access_callback);
+            $value['access_arguments'] = unserialize($menu->access_arguments);
+            $value['component_id'    ] = $menu->component_id;
+           
+            // check permission
+            if ( CRM_Core_Permission::checkMenuItem( $value ) ) {
+                $validMenus[$value['title']] = $value;
+            }
+        }    
+        return $validMenus;        
+    }
+    
+    /**
+     * Function to create navigation for CiviCRM Admin Menu
+     */
+    static function createNavigation(  ) {
+        $session=& CRM_Core_Session::singleton( );
+        $contactID = $session->get('userID');
+        
+        self::$_navigationCache = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
+        if ( ! self::$_navigationCache ) {
+            //retrieve navigation if it's not cached.       
+            self::$_navigationCache = self::parseNavigation( );
+            require_once 'CRM/Core/DAO/Preferences.php';
+            $preference =& new CRM_Core_DAO_Preferences();
+            $preference->contact_id = $contactID;
+            $preference->find(true);
+            $preference->navigation = self::$_navigationCache;
+            $preference->save();
+        }
+        return self::$_navigationCache;
+    }
+    
+    static function parseNavigation( $flatList = false ) {
+        $config =& CRM_Core_Config::singleton( );
+        $navigationXML = "{$config->userFrameworkResourceURL}/templates/CRM/xml/Navigation.xml";
+        $dom = DomDocument::load( $navigationXML );
+        $dom->xinclude( );
+        $menuXML = simplexml_import_dom( $dom );
+        
+        $object = null;
+        foreach($menuXML->children() as $children) {
+            if ( !$flatList ) {
+                $name = self::getMenuName( $children );
+                if ( $name ) { 
+                    $object .= '<li>' . $name;
+                    self::recurseNavigation( $children, $object  );
+                }
+            } else {
+                if ( !isset( $children['group'] ) ) {
+                    $object["'{$children['key']}'"] = 1;
+                }
+                self::recurseNavigation( $children, $object, true );
+            }
         }
         
-        return $items;
+        return $object;
     }
 
-    static function &miscItems( ) {
-        $items = array(
-                     array( 
-                           'path'    => 'civicrm/quickreg', 
-                           'title'   => ts( 'Quick Registration' ), 
-                           'access'  => 1,
-                           'type'    => self::CALLBACK,  
-                           'crmType' => self::CALLBACK,  
-                           'weight'  => 0,  
-                           ),
+    /**
+     * Recursively check child menus
+     */
+    function recurseNavigation(&$child, &$object, $flatList = false ) {
+        if ( !$flatList ) {
+            if ( count( $child->children() ) > 0 ) {
+                $object .= '<ul>';  
+            } else {
+                $object .= '</li>'; 
+            }
 
-                     array(
-                           'path'   => 'civicrm/dashboard',
-                           'title'  => ts('CiviCRM Home'),
-                           'query'  => 'reset=1',
-                           'type'   => self::CALLBACK,
-                           'crmType'=> self::NORMAL_ITEM,
-                           'weight' => 0,
-                           ),
+            foreach($child->children() as $children) {
+                $name = self::getMenuName( $children );
+                if ( $name ) { 
+                    $object .= '<li>' . $name;
+                    self::recurseNavigation($children, $object );
+                } else if ( isset( $children['separator'] ) ) {
+                    $object .= '<li class="menu-separator"></li>';
+                }
+            }
 
-                     array(
-                           'path'   => 'civicrm/export/contact',
-                           'title'  => ts('Export Contacts'),
-                           'type'   => self::CALLBACK,
-                           'crmType' => self::CALLBACK,
-                           'weight'  => 0,
-                           ),
+            if ( count( $child->children() ) > 0 ) {
+                $object .= '</ul></li>';
+            }
+        } else {
+            foreach($child->children() as $children) {
+                if ( !isset( $children['group'] ) ) {
+                    $object["'{$children['key']}'"] = 1;
+                }
+                self::recurseNavigation( $children, $object, true );
+            }
+        }
+        return $object;
+     }
+     
+     /**
+      *  Get Menu name
+      */
+     function getMenuName( &$children ) {
+         if ( isset( $children['separator'] ) ) {
+             return false;
+         }
+         
+         $name = $children['key'];
+         
+         //localize the label     
+         $i18n =& CRM_Core_I18n::singleton();
+         $menuTitleArray = array( 'title' => $name );
+         $i18n->localizeTitles($menuTitleArray);
+         $name = $menuTitleArray['title'];
+         
+         if ( isset( $children['label'] ) ) {
+             $name = $children['label'];
+         }
 
-                     array(
-                           'path'    => 'civicrm/acl',
-                           'title'   => ts( 'Manage ACLs' ),
-                           'type'    => self::CALLBACK, 
-                           'crmType' => self::CALLBACK, 
-                           'weight'  => 0,
-                           ),
-                     );
-        return $items;
-    }
+         if ( !isset( $children['group'] ) ) {
+             if ( isset( $children['url'] ) ) {
+                if ( substr( $children['url'], 0, 4 ) === 'http' ) {
+                    $url = $children['url'];
+                } else {
+                    $url = CRM_Utils_System::url( $children['url'] );
+                }
+             } else {
+                 // get url from civicrm based on permission                
+                 $validMenus = self::retrieveNavigation( );
+                 
+                 // get the url for menus
+                 $urlFound = false;
+                 foreach ( $validMenus as $key => $values ) {
+                     if ( $values['title'] == $children['key'] ) {
+                         $url  = $values['url'];
+                         $urlFound = true;
+                         break;
+                     }
+                 }
+                 
+                 if ( !$urlFound ) {
+                     return false;
+                 }
+             }
+            
+             return $name = '<a href=' . $url . '>'. $name .'</a>';
+         } else {
+             require_once 'CRM/Core/Permission.php';
 
-    static function &contactItems( ) {
-        $items = array(
-                       array(
-                             'path'    => 'civicrm/contact/search',
-                             'title'   => ts('Contacts'),
-                             'query'   => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::ROOT_LOCAL_TASK,
-                             'weight'  => 10,
-                             ),
-
-                       /* Repeat this here for local nav bar, remove it when we switch *
-                        * to using Tab Container                                       */
-                       array(
-                             'path'    => 'civicrm/contact/search/basic',
-                             'title'   => ts('Find Contacts'),
-                             'query'   => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                             'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
-                             'weight'  => 1
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/contact/search/advanced',
-                             'query'   => 'reset=1',
-                             'title'   => ts('Advanced Search'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'weight'  => 2
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/contact/search/builder',
-                             'title'   => ts('Search Builder'),
-                             'query'  => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'weight'  => 3
-                             ),
-
-
-                       array(
-                             'path'   => 'civicrm/contact/add',
-                             'title'  => ts('New Contact'),
-                             'query'  => 'reset=1',
-                             'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'weight' => 1
-                             ),
-                
-                       array(
-                             'path'    => 'civicrm/contact/view/basic',
-                             'query'   => 'reset=1&cid=%%cid%%',
-                             'title'   => ts('Contact Summary'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/contact/view/activity',
-                             'query'   => 'show=1&reset=1&cid=%%cid%%',
-                             'title'   => ts('Activities'),
-                             'type'    => self::CALLBACK, 
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 3
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/contact/view/rel',
-                             'query'   => 'reset=1&cid=%%cid%%',
-                             'title'   => ts('Relationships'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 4
-                             ),
-        
-                       array(
-                             'path'    => 'civicrm/contact/view/group',
-                             'query'   => 'reset=1&cid=%%cid%%',
-                             'title'   => ts('Groups'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 5
-                             ),
-                      
-                       array(
-                             'path'    => 'civicrm/contact/view/note',
-                             'query'   => 'reset=1&cid=%%cid%%',
-                             'title'   => ts('Notes'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 6
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/contact/view/tag',
-                             'query'   => 'reset=1&cid=%%cid%%',
-                             'title'   => ts('Tags'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 7
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/contact/view/case',
-                             'query'   => 'reset=1&cid=%%cid%%',
-                             'title'   => ts('Case'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 8
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/contact/view/cd',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0,
-                             ),
-                       );                     
-        return $items;
-    }
-
-    static function &groupItems( ) {
-        $items = array(
-                       array(
-                             'path'   => 'civicrm/group/search',
-                             'title'  => ts('Group Members'),
-                             'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             ),
-        
-                       array(
-                             'path'    => 'civicrm/group/add',
-                             'title'   => ts('Create New Group'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0,
-                             ),
-                       );
-        return $items;
-    }
-
-    static function &importItems( ) {
-        $items = array(
-                       array( 
-                             'path'    => 'civicrm/import/contact',
-                             'query'   => 'reset=1',
-                             'title'   => ts( 'Contacts' ), 
-                             'access'  => CRM_Core_Permission::check( 'import contacts' ) &&
-                             CRM_Core_Permission::check( 'access CiviCRM' ), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'weight'  => 410,
-                             ),
-                       array( 
-                             'path'    => 'civicrm/import/activityHistory', 
-                             'query'   => 'reset=1',
-                             'title'   => ts( 'Activity History' ), 
-                             'access'  => CRM_Core_Permission::check( 'import contacts' ) &&
-                             CRM_Core_Permission::check( 'access CiviCRM' ), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'weight'  => 420,  
-                             ),
-                       );                     
-        return $items;
-    }
-
-    static function &historyItems( ) {
-        $items = array(
-                       array(
-                             'path'    => 'civicrm/history/activity/detail',
-                             'title'   => ts('Activity Detail'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0,
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/history/activity/delete',
-                             'title'   => ts('Delete Activity'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0,
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/history/email',
-                             'title'   => ts('Sent Email Message'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0,
-                             ),
-                       );
-        return $items;
-    }
-
-    static function &profileItems( ) {
-        $items = array(
-                       array(
-                             'path'    => 'civicrm/profile/create',
-                             'title'   => ts( 'Add Contact Information' ),
-                             'type'    => self::CALLBACK, 
-                             'crmType' => self::CALLBACK, 
-                             'weight'  => 0,
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/profile/note',
-                             'title'   => ts( 'Notes about the Person' ),
-                             'type'    => self::CALLBACK, 
-                             'crmType' => self::CALLBACK, 
-                             'weight'  => 0,
-                             ),
-                       );
-        return $items;
-    }
-
+             if ( isset( $children['component'] ) ) {
+                 $config  =& CRM_Core_Config::singleton( );
+                 $components = explode( ',', $children['component'] );
+                 
+                 $showItem = false;
+                 foreach ( $components as $key ) {
+                     $permission = "access {$key}";
+                     if ( CRM_Core_Permission::check( $permission ) && in_array( $key, $config->enableComponents ) ) {
+                          $showItem = true;
+                     }
+                 }
+                 
+                 if ( !$showItem ) {
+                     return false;
+                 }   
+             } 
+         }
+         
+         return $name;
+     }
+     
+     /**
+      * Reset navigation for all contacts
+      */
+      static function resetNavigation( ) {
+          $query = "UPDATE civicrm_preferences SET navigation = NULL WHERE contact_id IS NOT NULL";
+          CRM_Core_DAO::executeQuery( $query );
+      }
 }
 
-?>
+

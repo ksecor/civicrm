@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -37,9 +37,6 @@ require_once 'CRM/Core/DAO/OptionValue.php';
 
 class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue 
 {
-
-    
-
     /**
      * class constructor
      */
@@ -88,7 +85,7 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
     }
 
     /**
-     * function to add the Option Group
+     * Function to add an Option Value
      *
      * @param array $params reference array contains the values submitted by the form
      * @param array $ids    reference array contains the id
@@ -106,8 +103,6 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
 
         // action is taken depending upon the mode
         $optionValue               =& new CRM_Core_DAO_OptionValue( );
-        $optionValue->domain_id    = CRM_Core_Config::domainID( );
-        
         $optionValue->copyValues( $params );;
         
         if ( $params['is_default'] ) {
@@ -142,8 +137,6 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
         return false;
     }
 
-
-
     /**
      * Function to retrieve activity type label and decription
      *
@@ -162,7 +155,7 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
    WHERE civicrm_option_group.name = 'activity_type'
          AND civicrm_option_value.value =  {$activityTypeId} ";
 
-        $dao   =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao   =& CRM_Core_DAO::executeQuery( $query );
         
         $dao->fetch( );
 
@@ -213,9 +206,7 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
                                   'individual_suffix'   => 'suffix_id');
         $contributions    = array('payment_instrument'  => 'payment_instrument_id');
         $activities       = array('activity_type'       => 'activity_type_id');
-        $participant      = array('participant_role'    => 'role_id',
-                                  'participant_status'  => 'status_id'
-                                  );
+        $participant      = array('participant_role'    => 'role_id');
         $eventType        = array('event_type'          => 'event_type_id');
         $aclRole          = array('acl_role'            => 'acl_role_id');
 
@@ -230,24 +221,26 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
         if ($fieldName == '') return true;
         
         if (array_key_exists($gName, $individuals)) {
-            // query for the affected individuals
-            require_once 'CRM/Contact/BAO/Individual.php';
-            $individual =& new CRM_Contact_BAO_Individual();
-            $individual->$fieldName = $value;
-            $individual->find();
-            
-            // iterate through the affected individuals and rebuild their display_names
             require_once 'CRM/Contact/BAO/Contact.php';
-            while ($individual->fetch()) {
-                $contact =& new CRM_Contact_BAO_Contact();
-                $contact->id = $individual->contact_id;
+            $contactDAO =& new CRM_Contact_DAO_Contact();
+            
+            $contactDAO->$fieldName = $value;
+            $contactDAO->find();
+            
+            while ($contactDAO->fetch()) {
                 if ($action == CRM_Core_Action::DELETE) {
-                    $individual->$fieldName = 'NULL';
-                    $individual->save();
+                    $contact = new CRM_Contact_DAO_Contact();
+                    $contact->id = $contactDAO->id;
+                    $contact->find(true);
+                    
+                    // make sure dates doesn't get reset
+                    $contact->birth_date    = CRM_Utils_Date::isoToMysql($contact->birth_date); 
+                    $contact->deceased_date = CRM_Utils_Date::isoToMysql($contact->deceased_date); 
+                    $contact->$fieldName = 'NULL';
+                    $contact->save();
                 }
-                $contact->display_name = $individual->displayName();
-                $contact->save();
             }
+
             return true;
         }
         
@@ -298,7 +291,7 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
             return true;
         }
 
-        //delete event type option value
+        //delete acl_role option value
         if (array_key_exists( $gName, $aclRole )) {
             require_once 'CRM/ACL/DAO/EntityRole.php';
             require_once 'CRM/ACL/DAO/ACL.php';
@@ -315,4 +308,4 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
     }
 }
 
-?>
+

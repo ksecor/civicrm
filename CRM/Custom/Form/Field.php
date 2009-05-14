@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -39,7 +39,8 @@ require_once 'CRM/Core/ShowHideBlocks.php';
 /**
  * form to process actions on the field aspect of Custom
  */
-class CRM_Custom_Form_Field extends CRM_Core_Form {
+class CRM_Custom_Form_Field extends CRM_Core_Form 
+{
 
     /**
      * Constants for number of options for data types of multiple option.
@@ -63,7 +64,19 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     protected $_id;
 
+    /**
+     * The default custom data/input types, when editing the field
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_defaultDataType;
 
+    /**
+     * array of custom field values if update mode
+     */
+    protected $_values;
+    
     /**
      * Array for valid combinations of data_type & html_type
      *
@@ -73,24 +86,27 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     private static $_dataTypeValues = null;
     private static $_dataTypeKeys = null;
     
-    private static $_dataToHTML = array(
-            array(  'Text' => 'Text', 'Select' => 'Select', 
-                    'Radio' => 'Radio', 'CheckBox' => 'CheckBox', 'Multi-Select' => 'Multi-Select'),
-            array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
-            array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
-            array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
-            array('TextArea' => 'TextArea'),
-            array('Date' => 'Select Date'),
-            array('Radio' => 'Radio'),
-            array('StateProvince' => 'Select State/Province'),
-            array('Country' => 'Select Country'),
-            array('File' => 'File'),
-            array('Link' => 'Link')
-    );
+    private static $_dataToHTML = 
+        array(
+              array( 'Text' => 'Text', 'Select' => 'Select', 
+                     'Radio' => 'Radio', 'CheckBox' => 'CheckBox', 
+                     'Multi-Select' => 'Multi-Select', 
+                     'AdvMulti-Select' => 'AdvMulti-Select' ),
+              array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
+              array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
+              array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
+              array('TextArea' => 'TextArea', 'RichTextEditor' => 'RichTextEditor'),
+              array('Date'  => 'Select Date'),
+              array('Radio' => 'Radio'),
+              array('StateProvince' => 'Select State/Province' , 'Multi-Select' => 'Multi-Select State/Province'),
+              array('Country' => 'Select Country', 'Multi-Select' => 'Multi-Select Country'),
+              array('File' => 'File'),
+              array('Link' => 'Link')
+              );
     
     private static $_dataToLabels = null;
     
-
+    
     /**
      * Function to set variables up before form is built
      * 
@@ -106,33 +122,43 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             self::$_dataTypeKeys   = array_keys  (CRM_Core_BAO_CustomField::dataType());
             self::$_dataTypeValues = array_values(CRM_Core_BAO_CustomField::dataType());
         }
-
-        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
-                                                  $this);
-        $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
-                                                  $this);
-        if (self::$_dataToLabels == null) {
-            self::$_dataToLabels = array(
-                array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select')),
-                array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio')),
-                array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio')),
-                array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio')),
-                array('TextArea' => ts('TextArea')),
-                array('Date' => ts('Select Date')),
-                array('Radio' => ts('Radio')),
-                array('StateProvince' => ts('Select State/Province')),
-                array('Country' => ts('Select Country')),
-                array('File' => ts('Select File')),
-                array('Link' => ts ('Link'))
-            );
+        
+        //custom group id
+        $this->_gid = CRM_Utils_Request::retrieve( 'gid', 'Positive', $this ); 
+        
+        //custom field id
+        $this->_id  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        
+        //get the values form db if update.
+        $this->_values = array( );
+        if ( $this->_id ) {
+            $params = array( 'id' => $this->_id );
+            CRM_Core_BAO_CustomField::retrieve( $params, $this->_values );
         }
-
+        
+        if (self::$_dataToLabels == null) {
+            self::$_dataToLabels 
+                = array(
+                        array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                              'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select'),
+                              'AdvMulti-Select' => ts('AdvMulti-Select')),
+                        array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                              'Radio' => ts('Radio')),
+                        array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                              'Radio' => ts('Radio')),
+                        array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                              'Radio' => ts('Radio')),
+                        array('TextArea' => ts('TextArea'), 'RichTextEditor' => 'RichTextEditor'),
+                        array('Date' => ts('Select Date')),
+                        array('Radio' => ts('Radio')),
+                        array('StateProvince' => ts('Select State/Province'),'Multi-Select' => ts('Multi-Select State/Province')),
+                        array('Country' => ts('Select Country'),'Multi-Select' => ts('Multi-Select Country ')),
+                        array('File' => ts('Select File')),
+                        array('Link' => ts ('Link'))
+                        );
+        }
     }
-
+    
     /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
@@ -144,73 +170,83 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     function setDefaultValues()
     {
-        $defaults = array();
-       
-        // is it an edit operation ?
-        if ( isset( $this->_id ) ) {
-            $params = array('id' => $this->_id);
-            $this->assign('id',$this->_id);
-            CRM_Core_BAO_CustomField::retrieve($params, $defaults);
+        $defaults = $this->_values;
         
+        if ( $this->_id ) {
+            $this->assign('id', $this->_id );
             $this->_gid = $defaults['custom_group_id'];
-	   
-            if ( $defaults['data_type'] == 'StateProvince' ) {
-                require_once 'CRM/Core/DAO/StateProvince.php';
-                $daoState =& new CRM_Core_DAO_StateProvince();
-                $stateId = $defaults['default_value'];
-                $daoState->id = $stateId;
-                if ( $daoState->find( true ) ) {
-                    $defaults['default_value'] = $daoState->name;
-                }
-            } else if ( $defaults['data_type'] == 'Country' ) {
-                require_once 'CRM/Core/DAO/Country.php';
-                $daoCountry =& new CRM_Core_DAO_Country();
-                $countryId = $defaults['default_value'];
-                $daoCountry->id = $countryId;
-                if ( $daoCountry->find( true ) ) {
-                    $defaults['default_value'] = $daoCountry->name;
-                }
+            
+            //get the value for state or country
+            if ( $defaults['data_type'] == 'StateProvince' && 
+                 $stateId = CRM_Utils_Array::value( 'default_value', $defaults ) ) {
+                $defaults['default_value'] = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_StateProvince', $stateId );
+            } else if ( $defaults['data_type'] == 'Country' && 
+                        $countryId = CRM_Utils_Array::value( 'default_value', $defaults ) ) {
+                $defaults['default_value'] = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Country', $countryId );
             }
             
             if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
-                $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'],
-                                                                     self::$_dataTypeKeys ), 
-                                                '1' => $defaults['html_type'] );
-              }
+                $defaultDataType = array_search( $defaults['data_type'],
+                                                 self::$_dataTypeKeys );
+                $defaultHTMLType = array_search( $defaults['html_type'],
+                                                 self::$_dataToHTML[$defaultDataType] );
+                $defaults['data_type'] = array( '0' => $defaultDataType,
+                                                '1' => $defaultHTMLType );
+                $this->_defaultDataType = $defaults['data_type'];
+            }
             
-            $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                   $defaults['date_parts'] );
-            $temp_date_parts = array();
-            if (is_array( $date_parts )) {
-                foreach($date_parts as $v  ) {
-                    if ( $v == 'H') {
-                        $temp_date_parts['h'] = 1;
-                    } else {
-                        $temp_date_parts[$v] = 1;
+            if ( CRM_Utils_Array::value( 'date_parts', $defaults  ) ) {
+                $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                       $defaults['date_parts'] );
+                
+                $temp_date_parts = array( );
+                if (is_array( $date_parts )) {
+                    foreach($date_parts as $v  ) {
+                        if ( $v == 'H') {
+                            $temp_date_parts['h'] = 1;
+                        } else {
+                            $temp_date_parts[$v] = 1;
+                        }
                     }
+                    $defaults['date_parts'] = $temp_date_parts;
                 }
-                $defaults['date_parts'] = $temp_date_parts;
             }
+            $defaults['option_type'] = 2;
         } else {
-            $defaults['is_active'] = 1;
-            for($i=1; $i<=self::NUM_OPTION; $i++) {
-                $defaults['option_status['.$i.']'] = 1;
-                $defaults['option_weight['.$i.']'] = $i;
-            }
+            $defaults['is_active']   = 1;
+            $defaults['option_type'] = 1;
         }
-
+        
+        // set defaults for weight.
+        for ( $i=1; $i<=self::NUM_OPTION; $i++ ) {
+            $defaults['option_status['.$i.']'] = 1;
+            $defaults['option_weight['.$i.']'] = $i;
+        }
+        
         if ($this->_action & CRM_Core_Action::ADD) {
             $fieldValues              = array('custom_group_id' => $this->_gid);
             $defaults['weight']       = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomField', $fieldValues);
-
+            
+            $defaults['text_length']  = 255;
             $defaults['date_parts']   = array('d' => 1,'M' => 1,'Y' => 1); 
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
+            
+            $defaults['is_view'] = 0;
         }
-
+        
+        if ( CRM_Utils_Array::value( 'html_type', $defaults ) ) {
+            $dontShowLink = substr($defaults['html_type'], -14) == 'State/Province' || 
+                            substr($defaults['html_type'], -7)  == 'Country'         ? 1 : 0;
+        }
+        
+        if ( isset( $dontShowLink ) ) {
+            $this->assign( 'dontShowLink', $dontShowLink );
+        }
         return $defaults;
-    }
 
+    }
+    
     /**
      * Function to actually build the form
      *
@@ -223,12 +259,16 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     {
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
-
+        
+        $attributes =& CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomField' );
+        
         // label
-        $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
-        $this->addRule( 'label', ts('Name already exists in Database.'), 
-                        'objectExists', array( 'CRM_Core_DAO_CustomField', $this->_id, 'label' ) );
-
+        $this->add( 'text',
+                    'label',
+                    ts('Field Label'),
+                    $attributes['label'],
+                    true );
+        
         $dt =& self::$_dataTypeValues;
         $it = array();
         foreach ($dt as $key => $value) {
@@ -237,14 +277,38 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $sel =& $this->addElement('hierselect',
                                   'data_type',
                                   ts('Data and Input Field Type'), 
-                                  'onclick="custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', 
+                                  'onclick="clearSearchBoxes();custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', 
                                   '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
-
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('data_type');
         }
-      
+        
+        $optionGroups = CRM_Core_BAO_CustomField::customOptionGroup( );
+        $emptyOptGroup = false;
+        if ( empty( $optionGroups ) ) {
+            $emptyOptGroup = true;
+            $optionTypes = array( '1' => ts( 'Create a new set of options' ) );
+        } else {
+            $optionTypes = array( '1' => ts( 'Create a new set of options' ),
+                                  '2' => ts( 'Reuse an existing set' ) );
+            
+            $this->add( 'select', 
+                        'option_group_id', 
+                        ts( 'Multiple Choice Option Sets' ),
+                        array( '' => ts( '- select -' ) ) + $optionGroups );
+        }
+        
+        $element =& $this->addRadio( 'option_type', 
+                                     ts('Option Type'), 
+                                     $optionTypes,
+                                     array( 'onclick' => "showOptionSelect();"), '<br/>' );
+        
+        //if empty option group freeze the option type.
+        if ( $emptyOptGroup ) {
+            $element->freeze( );
+        }
+        
         // form fields of Custom Option rows
         $defaultOption = array();
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
@@ -259,17 +323,21 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             } else {
                 $_showHide->addShow($showBlocks);
             }
+            
+            $optionAttributes =& CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue' );
             // label
-            $this->add('text','option_label['.$i.']', ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'));
+            $this->add('text','option_label['.$i.']', ts('Label'),
+                       $optionAttributes['label']);
 
             // value
-            $this->add('text', 'option_value['.$i.']', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value'));
+            $this->add('text', 'option_value['.$i.']', ts('Value'),
+                       $optionAttributes['value'] );
 
             // Below rule is uncommented for CRM-1313
             $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
-            
             // weight
-            $this->add('text', "option_weight[$i]", ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'));
+            $this->add('text', "option_weight[$i]", ts('Order'),
+                       $optionAttributes['weight']);
 
             // is active ?
             $this->add('checkbox', "option_status[$i]", ts('Active?'));
@@ -283,18 +351,25 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         //default option selection
         $this->addGroup($defaultOption, 'default_option');
         
-        
         $_showHide->addToTemplate();                
 
+        // text length for alpha numeric data types
+        $this->add('text',
+                   'text_length',
+                   ts('Database field length'),
+                   $attributes['text_length'],
+                   false );
+        $this->addRule('text_length', ts('Value should be a positive number') , 'integer');
+                   
         $this->add('text', 
                    'start_date_years',
                    ts('Dates may be up to'),
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'start_date_years'),
+                   $attributes['start_date_years'],
                    false);
         $this->add('text',
                    'end_date_years',
                    ts('Dates may be up to'),
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'end_date_years'),
+                   $attributes['end_date_years'],
                    false);
         
         $this->addRule('start_date_years', ts('Value should be a positive number') , 'integer');
@@ -313,43 +388,56 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->add('text',
                    'note_columns',
                    ts('Width (columns)') . ' ',
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_columns'),
+                   $attributes['note_columns'],
                    false);
         $this->add('text',
                    'note_rows',
                    ts('Height (rows)') . ' ',
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_rows'),
+                   $attributes['note_rows'],
                    false);
         
         $this->addRule('note_columns', ts('Value should be a positive number') , 'positiveInteger');
         $this->addRule('note_rows', ts('Value should be a positive number') , 'positiveInteger');
 
         // weight
-        $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);
-        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        $this->add('text', 'weight', ts('Order'),
+                   $attributes['weight'],
+                   true);
+        $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
         // is required ?
         $this->add('checkbox', 'is_required', ts('Required?') );
 
         // checkbox / radio options per line
         $this->add('text', 'options_per_line', ts('Options Per Line'));
-        $this->addRule('options_per_line', ts(' must be a numeric value') , 'numeric');
+        $this->addRule('options_per_line', ts('must be a numeric value') , 'numeric');
 
         // default value, help pre, help post, mask, attributes, javascript ?
-        $this->add('text', 'default_value', ts('Default Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));
-        $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
-        $this->add('text', 'mask', ts('Mask'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
+        $this->add('text', 'default_value', ts('Default Value'),
+                    $attributes['default_value']);
+	$this->add('textarea', 'help_pre', ts('Field Pre Help'), 
+                   $attributes['help_pre']);
+        $this->add('textarea', 'help_post', ts('Field Post Help'), 
+                   $attributes['help_post']);        
+        $this->add('text', 'mask', ts('Mask'),
+                   $attributes['mask']);        
 
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
 
+        // is active ?
+        $this->add('checkbox', 'is_view', ts('View Only?'));
+
         // is searchable ?
-        $this->addElement('checkbox', 'is_searchable', ts('Is this Field Searchable?'), null, array('onclick' =>"showSearchRange(this)"));
+        $this->addElement('checkbox', 
+                          'is_searchable', 
+                          ts('Is this Field Searchable?'), 
+                          null, array('onclick' =>"showSearchRange(this)"));
 
         // is searchable by range?
         $searchRange = array( );
-        $searchRange[] = $this->createElement( 'radio', null, null, ts( 'Yes' )    , '1'     );
-        $searchRange[] = $this->createElement( 'radio', null, null, ts( 'No' ), '0' );
+        $searchRange[] = $this->createElement( 'radio', null, null, ts( 'Yes' ), '1' );
+        $searchRange[] = $this->createElement( 'radio', null, null, ts( 'No' ),  '0' );
         
         $this->addGroup( $searchRange, 'is_search_range', ts( 'Search by Range?' ));
         
@@ -358,6 +446,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
                                        'isDefault' => true),
+                                array ('type'      => 'next',
+                                       'name'      => ts('Save and New'),
+                                       'subName'   => 'new' ),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),
                                 )
@@ -387,9 +478,35 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields, &$files, &$self ) {
+    static function formRule( &$fields, &$files, &$self ) 
+    {
         $default = CRM_Utils_Array::value( 'default_value', $fields );
+        
         $errors  = array( );
+
+        // ensure that the label is not 'id'
+        if ( strtolower($fields['label']) == 'id' ) {
+            $errors['label'] = ts( "You cannot use 'id' as a field label." );
+        }
+        
+        $customField = new CRM_Core_DAO_CustomField( );
+        $customField->custom_group_id = $self->_gid;
+        $customField->label           = $fields['label'];
+        
+        $dupeLabel = false;
+        if ( $customField->find( true ) &&
+             $self->_id != $customField->id ) {
+            $dupeLabel = true;
+        }
+        
+        if ( $dupeLabel ) {
+            $errors['label'] = ts('Name already exists in Database.');
+        }
+
+        if ( ! isset($fields['data_type'][0]) || !isset($fields['data_type'][1]) ) {
+            $errors['_qf_default'] = ts('Please enter valid - Data and Input Field Type.');
+        }
+
         if ( $default ) {
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {
@@ -405,13 +522,19 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $errors['default_value'] = ts( 'Please enter a valid number as default value.' );
                 }
                 break;
-
+                
             case 'Money':
                 if ( ! CRM_Utils_Rule::money( $default ) ) {
                     $errors['default_value'] = ts( 'Please enter a valid number value.' );
                 }
                 break;
                 
+            case 'Link':
+                if ( ! CRM_Utils_Rule::url( $default ) ) {
+                    $errors['default_value'] = ts( 'Please enter a valid link.' );
+                }
+                break;
+
             case 'Date':
                 if ( ! CRM_Utils_Rule::date( $default ) ) {
                     $errors['default_value'] = ts ( 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.' );
@@ -419,9 +542,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 break;
                 
             case 'Boolean':
-                if ( ! CRM_Utils_Rule::integer( $default ) &&
-                     ( $default != '1' || $default != '0' ) ) {
-                    $errors['default_value'] = ts( 'Please enter 1 or 0 as default value.' );
+                if ( $default != '1' && $default != '0' ) {
+                    $errors['default_value'] = ts( 'Please enter 1 (for Yes) or 0 (for No) if you want to set a default value.' );
                 }
                 break;
                 
@@ -481,23 +603,26 @@ SELECT count(*)
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
          */
-        if ( $self->_action & CRM_Core_Action::ADD ) {
-            
-            $_flagOption = $_rowError = 0;
-            $_showHide =& new CRM_Core_ShowHideBlocks('','');
-            $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
-            
+        $_flagOption = $_rowError = 0;
+        $_showHide =& new CRM_Core_ShowHideBlocks('','');
+        $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
+        if ( isset( $fields['data_type'][1] ) ) {
+            $dataField = $fields['data_type'][1];
+        }
+        $optionFields = array('Select', 'Multi-Select', 'CheckBox', 'Radio', 'AdvMulti-Select');
+        
+        if ( $fields['option_type'] == 1 ) {
             //capture duplicate Custom option values
-            if ( !empty($fields['option_value']) ) {
+            if ( ! empty($fields['option_value']) ) {
                 $countValue = count($fields['option_value']);
                 $uniqueCount = count(array_unique($fields['option_value']));
-                
-                if ( $countValue > $uniqueCount) {
                     
+                if ( $countValue > $uniqueCount) {
+                        
                     $start=1;
                     while ($start < self::NUM_OPTION) { 
                         $nextIndex = $start + 1;
-                        
+                            
                         while ($nextIndex <= self::NUM_OPTION) {
                             
                             if ( $fields['option_value'][$start] == $fields['option_value'][$nextIndex] &&
@@ -515,7 +640,7 @@ SELECT count(*)
             }
             
             //capture duplicate Custom Option label
-            if ( !empty($fields['option_label']) ) {
+            if ( ! empty( $fields['option_label'] ) ) {
                 $countValue = count($fields['option_label']);
                 $uniqueCount = count(array_unique($fields['option_label']));
                 
@@ -583,7 +708,7 @@ SELECT count(*)
                     $_rowError = 1;
                 } 
                 
-                if ($_emptyRow) {
+                if (!empty($_emptyRow)) {
                     $_showHide->addHide($showBlocks);
                 } else {
                     $_showHide->addShow($showBlocks);
@@ -595,22 +720,44 @@ SELECT count(*)
                 
                 $_flagOption = $_emptyRow = 0;
             }
-            
-            if ($_rowError) {
-                $_showHide->addToTemplate();
-                CRM_Core_Page::assign('optionRowError', $_rowError);
+        } elseif ( isset( $dataField ) && 
+                   in_array( $dataField, $optionFields ) &&
+                   !in_array( $dataType, array( 'Boolean', 'Country', 'StateProvince' ) ) ) {
+            if ( ! $fields['option_group_id'] ) {
+                $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse an existing set.' );
             } else {
+                $query = "
+SELECT count(*)
+FROM   civicrm_custom_field
+WHERE  data_type != %1
+AND    option_group_id = %2";
+                $params = array( 1 => array( self::$_dataTypeKeys[$fields['data_type'][0]],
+                                             'String' ),
+                                 2 => array( $fields['option_group_id'], 'Integer' ) );
+                $count = CRM_Core_DAO::singleValueQuery( $query, $params );
+                if ( $count > 0 ) {
+                    $errors['option_group_id'] = ts( 'The data type of the multiple choice option set you\'ve selected does not match the data type assigned to this field.' );
+                }
+
+            }
+        }
+            
+        if ($_rowError) {
+            $_showHide->addToTemplate();
+            CRM_Core_Page::assign('optionRowError', $_rowError);
+        } else {
+            if ( isset( $fields['data_type'][1] ) ) {
                 switch (self::$_dataToHTML[$fields['data_type'][0]][$fields['data_type'][1]]) {
                 case 'Radio':
                     $_fieldError = 1;
                     CRM_Core_Page::assign('fieldError', $_fieldError);
                     break; 
-                
+                    
                 case 'Checkbox':
                     $_fieldError = 1;
                     CRM_Core_Page::assign('fieldError', $_fieldError);
                     break; 
-
+                    
                 case 'Select':
                     $_fieldError = 1;
                     CRM_Core_Page::assign('fieldError', $_fieldError);
@@ -619,18 +766,34 @@ SELECT count(*)
                     $_fieldError = 0;
                     CRM_Core_Page::assign('fieldError', $_fieldError);
                 }
-                
-                for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
-                    $showBlocks = 'optionField_'.$idx;
-                    if (!empty($fields['option_label'][$idx])) {
-                        $_showHide->addShow($showBlocks);
-                    } else {
-                        $_showHide->addHide($showBlocks);
-                    }
-                }
-                $_showHide->addToTemplate();
             }
-        }      
+
+            for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
+                $showBlocks = 'optionField_'.$idx;
+                if (!empty($fields['option_label'][$idx])) {
+                    $_showHide->addShow($showBlocks);
+                } else {
+                    $_showHide->addHide($showBlocks);
+                }
+            }
+            $_showHide->addToTemplate();
+        }
+        
+        //checks the given custom field name doesnot start with digit
+        $title = $fields['label']; 
+        if ( ! empty( $title ) ) {
+            $asciiValue = ord($title{0});//gives the ascii value
+            if($asciiValue>=48 && $asciiValue<=57) {
+                $errors['label'] = ts("Field's Name should not start with digit");
+            } 
+        }
+        
+        // we can not set require and view at the same time.
+        if ( CRM_Utils_Array::value( 'is_required', $fields ) &&
+             CRM_Utils_Array::value( 'is_view', $fields ) ) {
+            $errors['is_view'] = ts( 'Can not set this field Required and View Only at the same time.' );
+        }
+        
         return empty($errors) ? true : $errors;
     }
     
@@ -645,195 +808,100 @@ SELECT count(*)
     public function postProcess()
     {
         // store the submitted values in an array
-        $params = $this->controller->exportValues('Field');
+        $params = $this->controller->exportValues( $this->_name );
 
-        // set values for custom field properties and save
-        $customField                =& new CRM_Core_DAO_CustomField();
-        $customField->label         = $params['label'];
-        $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
-        
-        $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
-        
-        // fix for CRM-316
-        if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $fieldValues = array( 'custom_group_id' => $this->_gid );
-            if ( $this->_id ) {
-                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $this->_id, 'weight', 'id' );
-            }
-            $params['weight'] = 
-                CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomField', $oldWeight, $params['weight'], $fieldValues );
+        if ($this->_action == CRM_Core_Action::UPDATE) {
+            $dataTypeKey         = $this->_defaultDataType[0];
+            $params['data_type'] = self::$_dataTypeKeys[$this->_defaultDataType[0]];
+            $params['html_type'] = self::$_dataToHTML[$this->_defaultDataType[0]][$this->_defaultDataType[1]];
+        } else {
+            $dataTypeKey         = $params['data_type'][0];
+            $params['html_type'] = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
+            $params['data_type'] = self::$_dataTypeKeys[$params['data_type'][0]];
             
-            $customField->weight  = $params['weight'];
         }
-
-        //$customField->default_value = $params['default_value'];
-        //store the primary key for State/Province or Country as default value.
-        if ( strlen(trim($params['default_value']))) {
-            switch (self::$_dataTypeKeys[$params['data_type'][0]]) {
-            case 'StateProvince':
-                $fieldStateProvince = $params['default_value'];
-                $query = "
-SELECT id
-  FROM civicrm_state_province 
- WHERE name = '$fieldStateProvince' 
-    OR abbreviation = '$fieldStateProvince'";
-                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-                if ( $dao->find( true ) ) {
-                    $customField->default_value = $dao->id;
-                }
-                break;
-                
-            case 'Country':                
-                $fieldCountry = $params['default_value'];
-                $query = "
-SELECT id
-  FROM civicrm_country
- WHERE name = '$fieldCountry' 
-    OR iso_code = '$fieldCountry'";
-                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-                if ( $dao->find( true ) ) {
-                    $customField->default_value = $dao->id;
-                }
-                break;
-
-            default:
-                $customField->default_value = $params['default_value'];              
-            }            
-        }    
-
-        // special for checkbox options
-        if ($this->_action & CRM_Core_Action::ADD) {
-            if ( ( $customField->html_type == 'CheckBox' ||
-                   $customField->html_type == 'Multi-Select' ) &&
-                 isset($params['default_checkbox_option'] ) ) {
-                $tempArray = array_keys($params['default_checkbox_option']);
-                $defaultArray = array();
-                foreach ($tempArray as $k => $v) {
-                    if ( $params['option_value'][$v] ) {
-                        $defaultArray[] = $params['option_value'][$v];
-                    }
-                }
-
-                if ( ! empty( $defaultArray ) ) {
-                    // also add the seperator before and after the value per new conventio (CRM-1604)
-                    $customField->default_value =
-                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray) .
-                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                }
-            } else {
-                if ( isset($params['option_value'][$params['default_option']]) ) {
-                    $customField->default_value = $params['option_value'][$params['default_option']];
-                } else {
-                    $customField->default_value = $params['default_value'];
-                }
-            }
-        }
-
-        // for 'is_search_range' field.   
-        if ( in_array( $params['data_type'][0], array( 1, 2, 3, 5 ) ) ) {
-            if ( ! $params['is_searchable'] ) {
+        
+        //fix for 'is_search_range' field. 
+        if ( in_array( $dataTypeKey, array( 1, 2, 3, 5 ) ) ) {
+            if ( ! CRM_Utils_Array::value( 'is_searchable', $params ) ) {
                 $params['is_search_range'] = 0;
             }
         } else {
             $params['is_search_range'] = 0;
         }
-
-        $customField->help_post        = $params['help_post'];
-        $customField->mask             = $params['mask'];
-        $customField->is_required      = CRM_Utils_Array::value( 'is_required', $params, false );
-        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable', $params, false );
-        $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
-        $customField->is_active        = CRM_Utils_Array::value( 'is_active', $params, false );
-        $customField->options_per_line = $params['options_per_line'];
-        $customField->start_date_years = $params['start_date_years'];
-        $customField->end_date_years   = $params['end_date_years'];
-        $customField->note_columns     = $params['note_columns'];
-        $customField->note_rows        = $params['note_rows'];
+        
+        // fix for CRM-316
+        $oldWeight = null;
+        if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+            $fieldValues = array( 'custom_group_id' => $this->_gid );
+            if ( $this->_id ) {
+                $oldWeight = $this->_values['weight'];
+            }
+            $params['weight'] = 
+                CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomField', $oldWeight, $params['weight'], $fieldValues );
+        }
+        
+        //store the primary key for State/Province or Country as default value.
+        if ( strlen(trim($params['default_value']))) {
+            switch ( $params['data_type'] ) {
+                
+            case 'StateProvince':
+                $fieldStateProvince = strtolower($params['default_value']);
+                $query = "
+SELECT id
+  FROM civicrm_state_province 
+ WHERE LOWER(name) = '$fieldStateProvince' 
+    OR abbreviation = '$fieldStateProvince'";
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                if ( $dao->fetch() ) {
+                    $params['default_value'] = $dao->id;
+                }
+                break;
+                
+            case 'Country':                
+                $fieldCountry = strtolower($params['default_value']);
+                $query = "
+SELECT id
+  FROM civicrm_country
+ WHERE LOWER(name) = '$fieldCountry' 
+    OR iso_code = '$fieldCountry'";
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                if ( $dao->fetch() ) {
+                    $params['default_value'] = $dao->id;
+                }
+                break;
+            }
+        }
         
         if ( !isset ( $params['date_parts']['A'] ) && isset ( $params['date_parts']['h'] ) ) {
             unset( $params['date_parts']['h'] );
             unset( $params['date_parts']['i'] );
-            $params['date_parts']['H'] = 1;
+            $params['date_parts']['h'] = 1;
             $params['date_parts']['i'] = 1;
         }
         
-        if ( is_array($params['date_parts']) ) {
-            $customField->date_parts = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
-        } else {
-            $customField->date_parts = "";
-        }
-
-        if ( strtolower( $customField->html_type ) == 'textarea' ) {
-            $customField->attributes = 'rows=4, cols=60';
-        }
-
         // need the FKEY - custom group id
-        $customField->custom_group_id = $this->_gid;
+        $params['custom_group_id'] = $this->_gid;
         
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            $customField->id = $this->_id;
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $params['id'] = $this->_id;
         }
 
-        //Start Storing the values of Option field if the selected option is Multi Select
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            $customField->column_name = strtolower( CRM_Utils_String::munge( $customField->label, '_', 32 ) );
-            CRM_Core_BAO_CustomField::createField( $customField, 'add' );
+        $customField = CRM_Core_BAO_CustomField::create( $params );
+        
+        // reset the cache
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
 
-            if ( $customField->html_type != 'Text' &&
-                 in_array( $customField->data_type,
-                           array( 'String', 'Int', 'Float', 'Money' ) ) &&
-                 ! empty( $params['option_value'] ) ) {
+        CRM_Core_Session::setStatus(ts('Your custom field \'%1\' has been saved.', array(1 => $customField->label)));
 
-                $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                          $this->_gid,
-                                                          'table_name' );
-
-                // first create an option group for this custom group
-                require_once 'CRM/Core/BAO/OptionGroup.php';
-                $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
-                $optionGroup->domain_id =  CRM_Core_Config::domainID( );
-                $optionGroup->name      =  "{$tableName}: {$customField->column_name}";
-                $optionGroup->label     =  $customField->label;
-                $optionGroup->is_active = 1;
-                $optionGroup->save( );
-
-                $customField->option_group_id = $optionGroup->id;
-
-                foreach ($params['option_value'] as $k => $v) {
-                    if (strlen(trim($v))) {
-                        $optionValue                  =& new CRM_Core_DAO_OptionValue( );
-                        $optionValue->option_group_id =  $optionGroup->id;
-                        $optionValue->label           =  $params['option_label'][$k];
-                        $optionValue->value           =  $v;
-                        $optionValue->weight          =  $params['option_weight'][$k];
-                        $optionValue->is_active       =  $params['option_status'][$k];
-                        $optionValue->save( );
-                    }
-                }                                                       
-            }
-        } else { // action is update
-            $customField->column_name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                                     $customField->id,
-                                                                     'column_name' );
-
-            $dropIndex = false;
-
-            // drop the index if it existed (not the most efficient, but the logic is easy)
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                              $customField->id,
-                                              'is_searchable' ) ) {
-                $dropIndex = true;
-            }
-
-            CRM_Core_BAO_CustomField::createField( $customField, 'modify', $dropIndex );
+        $buttonName = $this->controller->getButtonName( );
+        $session =& CRM_Core_Session::singleton( );
+        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+            CRM_Core_Session::setStatus(ts(' You can add another custom field.'));
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $this->_gid));
         }
-
-        // since we need to save option group id :)
-        $customField->save();
-
-        CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
     }
 }
 
-?>
+

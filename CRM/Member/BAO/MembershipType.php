@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -107,7 +107,6 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         
         // action is taken depending upon the mode
         $membershipType               =& new CRM_Member_DAO_MembershipType( );
-        $membershipType->domain_id    = CRM_Core_Config::domainID( );
         
         $membershipType->copyValues( $params );
         
@@ -152,13 +151,13 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             $message = ts('This membership type cannot be deleted due to following reason(s):' ); 
             if ( in_array( 'Membership', $status) ) {
                 $deleteURL = CRM_Utils_System::url('civicrm/member/search', 'reset=1');
-                $message .= ts('<br>%2. There are some contacts who have this membership type assigned to them. Search for contacts with this membership type on the <a href="%1">CiviMember >> Find Members</a> page. If you delete all memberships of this type, you will then be able to delete the membership type on this page. To delete the membership type, all memberships of this type should be deleted.', array(1 => $deleteURL, 2 => $cnt));
+                $message .= '<br/>' . ts('%2. There are some contacts who have this membership type assigned to them. Search for contacts with this membership type on the <a href=\'%1\'>CiviMember >> Find Members</a> page. If you delete all memberships of this type, you will then be able to delete the membership type on this page. To delete the membership type, all memberships of this type should be deleted.', array(1 => $deleteURL, 2 => $cnt));
                 $cnt++;
             }
             
             if ( in_array( 'MembershipBlock', $status) ) {
                 $deleteURL = CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1');
-                $message .= ts('<br>%2. This Membership Type is being link to <a href="%1">Online Contribution page</a>. Please change/delete it in order to delete this Membership Type.', array(1 => $deleteURL, 2 => $cnt));
+                $message .= '<br/>' . ts('%2. This Membership Type is being link to <a href=\'%1\'>Online Contribution page</a>. Please change/delete it in order to delete this Membership Type.', array(1 => $deleteURL, 2 => $cnt));
             }
             CRM_Core_Session::setStatus($message);
 
@@ -169,11 +168,15 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         require_once 'CRM/Member/DAO/MembershipType.php';
         $membershipType =& new CRM_Member_DAO_MembershipType( );
         $membershipType->id = $membershipTypeId;
+        
         //fix for membership type delete api
-        if (! $membershipType->find(true )) {
-            return new CRM_Core_Error("Unable to find the membership type");
+        $result = false;
+        if ( $membershipType->find (true ) ) { 
+            $membershipType->delete( );
+            $result =  true;
         }
-        $membershipType->delete();
+        
+        return $result;
     }
     
     /**
@@ -282,7 +285,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
 
         $fixed_period_rollover = false;
         if ( $membershipTypeDetails['period_type'] == 'rolling' ) {
-            $startDate = $actualStartDate = $joinDate;
+            if ( !$startDate ) {
+                $startDate = $joinDate;
+            }
+            $actualStartDate = $startDate;
         } else if ( $membershipTypeDetails['period_type'] == 'fixed' ) {
             //calculate start date
 
@@ -440,7 +446,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $membership->id = $membershipId;
         $membership->find(true);
         
-        $membershipDetails = CRM_Member_BAO_Membership::getValues( $params, $values ,$ids );
+        $membershipDetails = CRM_Member_BAO_Membership::getValues( $params, $values );
         $statusID          = $membershipDetails[$membershipId]->status_id;
         $membershipTypeDetails = self::getMembershipTypeDetails( $membershipDetails[$membershipId]->membership_type_id );
         $statusDetails  = CRM_Member_BAO_MembershipStatus::getMembershipStatus($statusID);
@@ -448,7 +454,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         if ( $statusDetails['is_current_member'] == 1 ) {
             $startDate    = $membershipDetails[$membershipId]->start_date;
             $date         = explode('-', $membershipDetails[$membershipId]->end_date);
-            $logStartDate = date('Y-m-d', mktime( $hour, $minute, $second, $date[1], $date[2]+1, $date[0] ) );
+            $logStartDate = date('Y-m-d', mktime( 0, 0, 0,
+                                                  (double) $date[1],
+                                                  (double) ($date[2] + 1),
+                                                  (double) $date[0] ) );
             $date         = explode('-', $logStartDate );
             
             $year  = $date[0];
@@ -469,7 +478,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             if ( $membershipTypeDetails['duration_unit'] =='lifetime') {
                 $endDate = null;
             } else {
-                $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+                $endDate = date('Y-m-d',mktime(0, 0, 0,
+                                               $month,
+                                               $day - 1,
+                                               $year));
             }
             $today = date( 'Y-m-d' );
         } else {
@@ -486,8 +498,12 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 
                 // 1.
                 $date = explode( '-', $membershipDetails[$membershipId]->start_date );
-                
-                $startDate = $logStartDate = date( 'Y-m-d', mktime( 0, 0, 0, $date[1], $date[2], date("Y") ) );
+
+                $yearValue = date( 'Y' );
+                $startDate = $logStartDate = date( 'Y-m-d', mktime( 0, 0, 0,
+                                                                    (double) $date[1],
+                                                                    (double) $date[2],
+                                                                    $yearValue ) );
                 // before moving to the step 2, check if TODAY is in
                 // rollover window.
                 $rolloverDay   = substr( $membershipTypeDetails['fixed_period_rollover_day'], -2 );
@@ -497,16 +513,16 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 
                 if ( ( $rolloverMonth - $fixedStartMonth ) < 0 ) { 
                     $rolloverDate = date( 'Ymd', 
-                                         mktime( 0, 0, 0, 
-                                               $rolloverMonth,
-                                               $rolloverDay, 
-                                               date('Y')+1 ) );
+                                          mktime( 0, 0, 0, 
+                                                  (double) $rolloverMonth,
+                                                  (double) $rolloverDay, 
+                                                  $yearValue + 1 ) );
                 } else {
                     $rolloverDate = date( 'Ymd', 
-                                         mktime( 0, 0, 0, 
-                                               $rolloverMonth,
-                                               $rolloverDay, 
-                                               date("Y") ) );
+                                          mktime( 0, 0, 0, 
+                                                  (double) $rolloverMonth,
+                                                  (double) $rolloverDay, 
+                                                  $yearValue ) );
                 }
                 
                 if ( CRM_Utils_Date::isoToMysql( $today ) > $rolloverDate ) {
@@ -517,9 +533,9 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             // 2.
             $date         = explode('-', $startDate);
             
-            $year  = $date[0];
-            $month = $date[1];
-            $day   = $date[2];
+            $year  = (double) $date[0];
+            $month = (double) $date[1];
+            $day   = (double) $date[2];
             
             switch ( $membershipTypeDetails['duration_unit'] ) {
             case 'year' :
@@ -551,25 +567,32 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             if ($membershipTypeDetails['duration_unit'] =='lifetime') {
                 $endDate = null;
             } else {
-                $endDate = date( 'Y-m-d', mktime( 0, 0, 0, $month, $day-1, $year));
+                $endDate = date( 'Y-m-d',
+                                 mktime( 0, 0, 0,
+                                         $month,
+                                         $day - 1,
+                                         $year ) );
             }
         }
         
         $membershipDates = array();
-        $membershipDates['today']      = CRM_Utils_Date::customFormat($today,'%Y%m%d');
-        $membershipDates['start_date'] = CRM_Utils_Date::customFormat($startDate,'%Y%m%d');
-        $membershipDates['end_date'  ] = CRM_Utils_Date::customFormat($endDate,'%Y%m%d');
+        $membershipDates['today']      = CRM_Utils_Date::customFormat($today    ,'%Y%m%d' );
+        $membershipDates['start_date'] = CRM_Utils_Date::customFormat($startDate,'%Y%m%d' );
+        $membershipDates['end_date'  ] = CRM_Utils_Date::customFormat($endDate  ,'%Y%m%d' );
         
-        if ( $membershipTypeDetails["renewal_reminder_day"] ) {
+        if ( CRM_Utils_Array::value( "renewal_reminder_day", $membershipTypeDetails ) ) {
             $date = explode('-', $endDate );
             $year  = $date[0];
             $month = $date[1];
             $day   = $date[2];
             $day = $day - $membershipTypeDetails["renewal_reminder_day"];
-            $reminderDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+            $reminderDate = date('Y-m-d',mktime( 0, 0, 0,
+                                                 $month,
+                                                 $day - 1,
+                                                 $year ) );
+            $membershipDates['reminder_date']   = CRM_Utils_Date::customFormat($reminderDate,'%Y%m%d');
         }
         
-        $membershipDates['reminder_date']   = CRM_Utils_Date::customFormat($reminderDate,'%Y%m%d');
         $membershipDates['log_start_date' ] = CRM_Utils_Date::customFormat($logStartDate,'%Y%m%d');
         
         return $membershipDates;
@@ -598,4 +621,4 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
     }
 }
 
-?>
+

@@ -2,7 +2,7 @@
    {include file="CRM/Contribute/Form/PaymentInstrument.tpl"}
 {else}
     <div id="help">
-        <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and can not be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
+        <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and cannot be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
     </div>
 {/if}
 
@@ -25,7 +25,7 @@
 	        <td>{$row.description}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        <td>{$row.action}</td>
+	        <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>
@@ -43,7 +43,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/paymentInstrument' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no custom Payment Instruments entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no custom Payment Instruments entered. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -72,22 +72,50 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', ts('Find...'), CRM_Core_SelectValues::contactType());
+        // text for sort_name or email criteria
+        $this->add('text', 'sort_name', ts('Name or Email'));
 
-        // add select for groups
-        $group               = array('' => ts('- any group -')) + $this->_group;
-        $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
+        
+        if ( CRM_Utils_Array::value( 'contactType', $searchOptions ) ) {
+            $this->add('select', 'contact_type', ts('is...'), CRM_Core_SelectValues::contactType());
+        }
 
-	    // add checkbox for searching subgroups
-	    $subgroups = $this->addElement( 'checkbox', "subgroups", null, ts( 'Search Subgroups' ) );
-	    $subgroups_dummy = $this->addElement( 'hidden', 'subgroups_dummy', '666' );
-
-        // add select for categories
-        $tag = array('' => ts('- any tag -')) + $this->_tag;
-        $this->_tagElement =& $this->addElement('select', 'tag', ts('Tagged'), $tag);
-
-        // text for sort_name
-        $this->add('text', 'sort_name', ts('Name'));
+        if ( CRM_Utils_Array::value( 'groups', $searchOptions ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->groupTree ) {
+                $this->add('hidden', 'group', null, array('id' => 'group' ));
+                
+                $group = CRM_Utils_Array::value( 'group', $this->_formValues );
+                $selectedGroups = explode( ',', $group );
+                
+                if ( is_array( $selectedGroups ) ) {
+                    $groupNames = null;
+                    $groupIds = array( );
+                    foreach( $selectedGroups as $groupId ) {
+                        if ( $groupNames ) {
+                            $groupNames .= '<br/>';
+                        }
+                        $groupNames .= $this->_group[$groupId];
+                    }
+                    $groupIds[] = $groupId;
+                }
+                
+                $this->assign('groupIds', implode( ',', $groupIds ) );
+                $this->assign('groupNames', $groupNames );
+            } else {
+                // add select for groups
+                $group               = array('' => ts('- any group -')) + $this->_group;
+                $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
+            }
+        }
+        
+        if ( CRM_Utils_Array::value( 'tags', $searchOptions ) ) {
+            // tag criteria
+            $tag = array('' => ts('- any tag -')) + $this->_tag;
+            $this->_tagElement =& $this->addElement('select', 'tag', ts('with'), $tag);
+        }
 
         parent::buildQuickForm( );
     }
@@ -217,10 +245,14 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
             $this->_formValues['contact_type'][$contactType] = 1;
         }
 
-        $group = CRM_Utils_Array::value( 'group', $this->_formValues );
-        if ( $group && ! is_array( $group ) ) {
-            unset( $this->_formValues['group'] );
-            $this->_formValues['group'][$group] = 1;
+        $config =& CRM_Core_Config::singleton( );
+        
+        if ( !$config->groupTree ) {
+            $group = CRM_Utils_Array::value( 'group', $this->_formValues );
+            if ( $group && ! is_array( $group ) ) {
+                unset( $this->_formValues['group'] );
+                $this->_formValues['group'][$group] = 1;
+            }
         }
 
         $tag = CRM_Utils_Array::value( 'tag', $this->_formValues );
@@ -269,4 +301,4 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
 
 }
 
-?>
+

@@ -1,265 +1,180 @@
-if(!dojo._hasResource["dijit.form._FormWidget"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit.form._FormWidget"] = true;
-dojo.provide("dijit.form._FormWidget");
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit.form._FormWidget"]){
+dojo._hasResource["dijit.form._FormWidget"]=true;
+dojo.provide("dijit.form._FormWidget");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
-
-dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
-{
-	/*
-	Summary:
-		FormElement widgets correspond to native HTML elements such as <input> or <button> or <select>.
-		Each FormElement represents a single input value, and has a (possibly hidden) <input> element,
-		to which it serializes its input value, so that form submission (either normal submission or via FormBind?)
-		works as expected.
-
-		All these widgets should have these attributes just like native HTML input elements.
-		You can set them during widget construction, but after that they are read only.
-
-		They also share some common methods.
-	*/
-
-	// baseClass: String
-	//		Root CSS class of the widget (ex: dijitTextBox), used to add CSS classes of widget
-	//		(ex: "dijitTextBox dijitTextBoxInvalid dijitTextBoxFocused dijitTextBoxInvalidFocused")
-	//		See _setStateClass().
-	baseClass: "",
-
-	// value: String
-	//		Corresponds to the native HTML <input> element's attribute.
-	value: "",
-
-	// name: String
-	//		Name used when submitting form; same as "name" attribute or plain HTML elements
-	name: "",
-
-	// id: String
-	//		Corresponds to the native HTML <input> element's attribute.
-	//		Also becomes the id for the widget.
-	id: "",
-
-	// alt: String
-	//		Corresponds to the native HTML <input> element's attribute.
-	alt: "",
-
-	// type: String
-	//		Corresponds to the native HTML <input> element's attribute.
-	type: "text",
-
-	// tabIndex: Integer
-	//		Order fields are traversed when user hits the tab key
-	tabIndex: "0",
-
-	// disabled: Boolean
-	//		Should this widget respond to user input?
-	//		In markup, this is specified as "disabled='disabled'", or just "disabled".
-	disabled: false,
-
-	// intermediateChanges: Boolean
-	//		Fires onChange for each value change or only on demand
-	intermediateChanges: false,
-
-	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.
-	// Don't attempt to mixin the 'type', 'name' attributes here programatically -- they must be declared
-	// directly in the template as read by the parser in order to function. IE is known to specifically 
-	// require the 'name' attribute at element creation time.
-	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-		{id:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
-
-	setDisabled: function(/*Boolean*/ disabled){
-		// summary:
-		//		Set disabled state of widget.
-
-		this.domNode.disabled = this.disabled = disabled;
-		if(this.focusNode){
-			this.focusNode.disabled = disabled;
-		}
-		if(disabled){
-			//reset those, because after the domNode is disabled, we can no longer receive
-			//mouse related events, see #4200
-			this._hovering = false;
-			this._active = false;
-		}
-		dijit.setWaiState(this.focusNode || this.domNode, "disabled", disabled);
-		this._setStateClass();
-	},
-
-
-	_onMouse : function(/*Event*/ event){
-		// summary:
-		//	Sets _hovering, _active, and stateModifier properties depending on mouse state,
-		//	then calls setStateClass() to set appropriate CSS classes for this.domNode.
-		//
-		//	To get a different CSS class for hover, send onmouseover and onmouseout events to this method.
-		//	To get a different CSS class while mouse button is depressed, send onmousedown to this method.
-
-		var mouseNode = event.target;
-		if(mouseNode && mouseNode.getAttribute){
-			this.stateModifier = mouseNode.getAttribute("stateModifier") || "";
-		}
-
-		if(!this.disabled){
-			switch(event.type){
-				case "mouseenter" :	
-				case "mouseover" :
-					this._hovering = true;
-					break;
-
-				case "mouseout" :	
-				case "mouseleave" :	
-					this._hovering = false;
-					break;
-
-				case "mousedown" :
-					this._active = true;
-					// set a global event to handle mouseup, so it fires properly
-					//	even if the cursor leaves the button
-					var self = this;
-					// #2685: use this.connect and disconnect so destroy works properly
-					var mouseUpConnector = this.connect(dojo.body(), "onmouseup", function(){
-						self._active = false;
-						self._setStateClass();
-						self.disconnect(mouseUpConnector);
-					});
-					break;
-			}
-			this._setStateClass();
-		}
-	},
-
-	isFocusable: function(){
-		return !this.disabled && (dojo.style(this.domNode, "display") != "none");
-	},
-
-	focus: function(){
-		dijit.focus(this.focusNode);
-	},
-
-	_setStateClass: function(){
-		// summary
-		//	Update the visual state of the widget by setting the css classes on this.domNode
-		//  (or this.stateNode if defined) by combining this.baseClass with
-		//	various suffixes that represent the current widget state(s).
-		//
-		//	In the case where a widget has multiple
-		//	states, it sets the class based on all possible
-		//  combinations.  For example, an invalid form widget that is being hovered
-		//	will be "dijitInput dijitInputInvalid dijitInputHover dijitInputInvalidHover".
-		//
-		//	For complex widgets with multiple regions, there can be various hover/active states,
-		//	such as "Hover" or "CloseButtonHover" (for tab buttons).
-		//	This is controlled by a stateModifier="CloseButton" attribute on the close button node.
-		//
-		//	The widget may have one or more of the following states, determined
-		//	by this.state, this.checked, this.valid, and this.selected:
-		//		Error - ValidationTextBox sets this.state to "Error" if the current input value is invalid
-		//		Checked - ex: a checkmark or a ToggleButton in a checked state, will have this.checked==true
-		//		Selected - ex: currently selected tab will have this.selected==true
-		//
-		//	In addition, it may have at most one of the following states,
-		//	based on this.disabled and flags set in _onMouse (this._active, this._hovering, this._focused):
-		//		Disabled	- if the widget is disabled
-		//		Active		- if the mouse (or space/enter key?) is being pressed down
-		//		Focused		- if the widget has focus
-		//		Hover		- if the mouse is over the widget
-		//
-		//	(even if multiple af the above conditions are true we only pick the first matching one)
-
-
-		// Get original (non state related, non baseClass related) class specified in template
-		if(!("staticClass" in this)){
-			this.staticClass = (this.stateNode||this.domNode).className;
-		}
-
-		// Compute new set of classes
-		var classes = [ this.baseClass ];
-
-		function multiply(modifier){
-			classes=classes.concat(dojo.map(classes, function(c){ return c+modifier; }));
-		}
-
-		if(this.checked){
-			multiply("Checked");
-		}
-		if(this.state){
-			multiply(this.state);
-		}
-		if(this.selected){
-			multiply("Selected");
-		}
-
-		// Only one of these four can be applied.
-		// Active trumps Focused, Focused trumps Hover, and Disabled trumps all.
-		if(this.disabled){
-			multiply("Disabled");
-		}else if(this._active){
-			multiply(this.stateModifier+"Active");
-		}else if(this._focused){
-			multiply("Focused");
-		}else if(this._hovering){
-			multiply(this.stateModifier+"Hover");
-		}
-
-		(this.stateNode || this.domNode).className = this.staticClass + " " + classes.join(" ");
-	},
-
-	onChange: function(newValue){
-		// summary: callback when value is changed
-	},
-
-	postCreate: function(){
-		this.setValue(this.value, null); // null reserved for initial value
-		this.setDisabled(this.disabled);
-		this._setStateClass();
-	},
-
-	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
-		// summary: set the value of the widget.
-		this._lastValue = newValue;
-		dijit.setWaiState(this.focusNode || this.domNode, "valuenow", this.forWaiValuenow());
-		if(this._lastValueReported == undefined && priorityChange === null){ // don't report the initial value
-			this._lastValueReported = newValue;
-		}
-		if((this.intermediateChanges || priorityChange) && newValue !== this._lastValueReported){
-			this._lastValueReported = newValue;
-			this.onChange(newValue);
-		}
-	},
-
-	getValue: function(){
-		// summary: get the value of the widget.
-		return this._lastValue;
-	},
-
-	undo: function(){
-		// summary: restore the value to the last value passed to onChange
-		this.setValue(this._lastValueReported, false);
-	},
-
-	_onKeyPress: function(e){
-		if(e.keyCode == dojo.keys.ESCAPE && !e.shiftKey && !e.ctrlKey && !e.altKey){
-			var v = this.getValue();
-			var lv = this._lastValueReported;
-			// Equality comparison of objects such as dates are done by reference so
-			// two distinct objects are != even if they have the same data. So use
-			// toStrings in case the values are objects.
-			if((typeof lv != "undefined") && ((v!==null && v.toString)?v.toString():null) !== lv.toString()){	
-				this.undo();
-				dojo.stopEvent(e);
-				return false;
-			}
-		}
-		return true;
-	},
-
-	forWaiValuenow: function(){
-		// summary: returns a value, reflecting the current state of the widget,
-		//		to be used for the ARIA valuenow.
-		// 		This method may be overridden by subclasses that want
-		// 		to use something other than this.getValue() for valuenow
-		return this.getValue();
-	}
+dojo.declare("dijit.form._FormWidget",[dijit._Widget,dijit._Templated],{baseClass:"",name:"",alt:"",value:"",type:"text",tabIndex:"0",disabled:false,readOnly:false,intermediateChanges:false,attributeMap:dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),{value:"focusNode",disabled:"focusNode",readOnly:"focusNode",id:"focusNode",tabIndex:"focusNode",alt:"focusNode"}),setAttribute:function(_1,_2){
+this.inherited(arguments);
+switch(_1){
+case "disabled":
+var _3=this[this.attributeMap["tabIndex"]||"domNode"];
+if(_2){
+this._hovering=false;
+this._active=false;
+_3.removeAttribute("tabIndex");
+}else{
+_3.setAttribute("tabIndex",this.tabIndex);
+}
+dijit.setWaiState(this[this.attributeMap["disabled"]||"domNode"],"disabled",_2);
+this._setStateClass();
+}
+},setDisabled:function(_4){
+dojo.deprecated("setDisabled("+_4+") is deprecated. Use setAttribute('disabled',"+_4+") instead.","","2.0");
+this.setAttribute("disabled",_4);
+},_onMouse:function(_5){
+var _6=_5.currentTarget;
+if(_6&&_6.getAttribute){
+this.stateModifier=_6.getAttribute("stateModifier")||"";
+}
+if(!this.disabled){
+switch(_5.type){
+case "mouseenter":
+case "mouseover":
+this._hovering=true;
+this._active=this._mouseDown;
+break;
+case "mouseout":
+case "mouseleave":
+this._hovering=false;
+this._active=false;
+break;
+case "mousedown":
+this._active=true;
+this._mouseDown=true;
+var _7=this.connect(dojo.body(),"onmouseup",function(){
+this._active=false;
+this._mouseDown=false;
+this._setStateClass();
+this.disconnect(_7);
 });
-
+if(this.isFocusable()){
+this.focus();
+}
+break;
+}
+this._setStateClass();
+}
+},isFocusable:function(){
+return !this.disabled&&!this.readOnly&&this.focusNode&&(dojo.style(this.domNode,"display")!="none");
+},focus:function(){
+setTimeout(dojo.hitch(this,dijit.focus,this.focusNode),0);
+},_setStateClass:function(){
+if(!("staticClass" in this)){
+this.staticClass=(this.stateNode||this.domNode).className;
+}
+var _8=[this.baseClass];
+function multiply(_9){
+_8=_8.concat(dojo.map(_8,function(c){
+return c+_9;
+}),"dijit"+_9);
+};
+if(this.checked){
+multiply("Checked");
+}
+if(this.state){
+multiply(this.state);
+}
+if(this.selected){
+multiply("Selected");
+}
+if(this.disabled){
+multiply("Disabled");
+}else{
+if(this.readOnly){
+multiply("ReadOnly");
+}else{
+if(this._active){
+multiply(this.stateModifier+"Active");
+}else{
+if(this._focused){
+multiply("Focused");
+}
+if(this._hovering){
+multiply(this.stateModifier+"Hover");
+}
+}
+}
+}
+(this.stateNode||this.domNode).className=this.staticClass+" "+_8.join(" ");
+},onChange:function(_b){
+},_onChangeMonitor:"value",_onChangeActive:false,_handleOnChange:function(_c,_d){
+this._lastValue=_c;
+if(this._lastValueReported==undefined&&(_d===null||!this._onChangeActive)){
+this._resetValue=this._lastValueReported=_c;
+}
+if((this.intermediateChanges||_d||_d===undefined)&&((_c&&_c.toString)?_c.toString():_c)!==((this._lastValueReported&&this._lastValueReported.toString)?this._lastValueReported.toString():this._lastValueReported)){
+this._lastValueReported=_c;
+if(this._onChangeActive){
+this.onChange(_c);
+}
+}
+},reset:function(){
+this._hasBeenBlurred=false;
+if(this.setValue&&!this._getValueDeprecated){
+this.setValue(this._resetValue,true);
+}else{
+if(this._onChangeMonitor){
+this.setAttribute(this._onChangeMonitor,(this._resetValue!==undefined&&this._resetValue!==null)?this._resetValue:"");
+}
+}
+},create:function(){
+this.inherited(arguments);
+this._onChangeActive=true;
+this._setStateClass();
+},destroy:function(){
+if(this._layoutHackHandle){
+clearTimeout(this._layoutHackHandle);
+}
+this.inherited(arguments);
+},setValue:function(_e){
+dojo.deprecated("dijit.form._FormWidget:setValue("+_e+") is deprecated.  Use setAttribute('value',"+_e+") instead.","","2.0");
+this.setAttribute("value",_e);
+},_getValueDeprecated:true,getValue:function(){
+dojo.deprecated("dijit.form._FormWidget:getValue() is deprecated.  Use widget.value instead.","","2.0");
+return this.value;
+},_layoutHack:function(){
+if(dojo.isFF==2){
+var _f=this.domNode;
+var old=_f.style.opacity;
+_f.style.opacity="0.999";
+this._layoutHackHandle=setTimeout(dojo.hitch(this,function(){
+this._layoutHackHandle=null;
+_f.style.opacity=old;
+}),0);
+}
+}});
+dojo.declare("dijit.form._FormValueWidget",dijit.form._FormWidget,{attributeMap:dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),{value:""}),postCreate:function(){
+this.setValue(this.value,null);
+},setValue:function(_11,_12){
+this.value=_11;
+this._handleOnChange(_11,_12);
+},_getValueDeprecated:false,getValue:function(){
+return this._lastValue;
+},undo:function(){
+this.setValue(this._lastValueReported,false);
+},_valueChanged:function(){
+var v=this.getValue();
+var lv=this._lastValueReported;
+return ((v!==null&&(v!==undefined)&&v.toString)?v.toString():"")!==((lv!==null&&(lv!==undefined)&&lv.toString)?lv.toString():"");
+},_onKeyPress:function(e){
+if(e.keyCode==dojo.keys.ESCAPE&&!e.shiftKey&&!e.ctrlKey&&!e.altKey){
+if(this._valueChanged()){
+this.undo();
+dojo.stopEvent(e);
+return false;
+}
+}
+return true;
+}});
 }

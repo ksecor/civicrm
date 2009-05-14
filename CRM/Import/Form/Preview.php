@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -50,14 +50,16 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-       
         //get the data from the session             
         $dataValues         = $this->get('dataValues');
         $mapper             = $this->get('mapper');
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $mismatchCount      = $this->get('unMatchCount');
+        $columnNames        = $this->get('columnNames');
+        
+        //assign column names
+        $this->assign( 'columnNames', $columnNames );
         
         //get the mapping name displayed if the mappingId is set
         $mappingId = $this->get('loadMappingId');
@@ -69,13 +71,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->assign('savedName', $mapDAO->name);
         }
 
-
-        if ( $skipColumnHeader ) {
-            $this->assign( 'skipColumnHeader' , $skipColumnHeader );
-            $this->assign( 'rowDisplayCount', 3 );
-        } else {
-            $this->assign( 'rowDisplayCount', 2 );
-        }
+        $this->assign( 'rowDisplayCount', 2 );
         
         $groups =& CRM_Core_PseudoConstant::group();
         $this->set('groups', $groups);
@@ -98,7 +94,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
 
         
-        $properties = array( 'mapper', 'locations', 'phones',
+        $properties = array( 'mapper', 'locations', 'phones', 'ims',
                              'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
@@ -106,19 +102,26 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                              'downloadConflictRecordsUrl',
                              'downloadMismatchRecordsUrl',
                              'related', 'relatedContactDetails', 'relatedContactLocType',
-                             'relatedContactPhoneType'
-                    );
+                             'relatedContactPhoneType', 'relatedContactImProvider'
+                             );
                              
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
-
+        
         $statusID = $this->get( 'statusID' );
         if ( ! $statusID ) {
             $statusID = md5(uniqid(rand(), true));
             $this->set( 'statusID', $statusID );
         }
         $this->assign('statusID', $statusID );
+        
+        $showColNames = true;
+        if ( 'CRM_Import_DataSource_CSV' == $this->get( 'dataSource' ) && 
+             !$this->get( 'skipColumnHeader' ) ) {
+            $showColNames = false;
+        }
+        $this->assign( 'showColNames', $showColNames );
     }
 
     /**
@@ -138,7 +141,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $groups =& $this->get('groups');
         
         if ( ! empty( $groups ) ) {
-            $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => "multiple", 'size' => 5));
+            $this->addElement( 'select', 'groups', ts('Add imported records to existing group(s)'), $groups, array('multiple' => "multiple", 'size' => 5));
         }
 
         //display new tag
@@ -152,24 +155,27 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
             }
         }
+        
         $previousURL = CRM_Utils_System::url('civicrm/import/contact', '_qf_MapField_display=true');
-        $cancelURL = CRM_Utils_System::url('civicrm/import', 'reset=1');
-        $this->addButtons( array(
-                                 array ( 'type'      => 'back',
-                                         'name'      => ts('<< Previous'),
-                                         'js'        => array( 'onclick' => "location.href='{$previousURL}'; return false;" ) ),
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Import Now >>'),
-                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                         'isDefault' => true,
-                                         // 'js'        => array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" )
-                                         ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel'),
-                                         'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
-                                 )
-                           );
+        $cancelURL   = CRM_Utils_System::url('civicrm/import/contact', 'reset=1');
+        
+        $buttons = array(
+                         array ( 'type'      => 'back',
+                                 'name'      => ts('<< Previous'),
+                                 'js'        => array( 'onclick' => "location.href='{$previousURL}'; return false;" ) ),
+                         array ( 'type'      => 'next',
+                                 'name'      => ts('Import Now >>'),
+                                 'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                 'isDefault' => true,
+                                 'js'        => array( 'onclick' => "return verify( );" )
 
+                                 ),
+                         array ( 'type'      => 'cancel',
+                                 'name'      => ts('Cancel'),
+                                 'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
+                         );
+        
+        $this->addButtons( $buttons );
     }
 
     /**
@@ -190,24 +196,92 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
+
+       $importJobParams = array(
+            'doGeocodeAddress'  => $this->controller->exportValue( 'DataSource', 'doGeocodeAddress' ),
+            'invalidRowCount'   => $this->get('invalidRowCount'),
+            'conflictRowCount'  => $this->get('conflictRowCount'),
+            'onDuplicate'       => $this->get('onDuplicate'),
+            'newGroupName'      => $this->controller->exportValue( $this->_name, 'newGroupName'),
+            'newGroupDesc'      => $this->controller->exportValue( $this->_name, 'newGroupDesc'),
+            'groups'            => $this->controller->exportValue( $this->_name, 'groups'),
+            'allGroups'         => $this->get('groups'),
+            'newTagName'        => $this->controller->exportValue( $this->_name, 'newTagName'),
+            'newTagDesc'        => $this->controller->exportValue( $this->_name, 'newTagDesc'),
+            'tag'               => $this->controller->exportValue( $this->_name, 'tag'),
+            'allTags'           => $this->get('tag'),
+            'mapper'            => $this->controller->exportValue( 'MapField', 'mapper' ),
+            'mapFields'         => $this->get('fields'),
+            'contactType'       => $this->get('contactType'),
+            'primaryKeyName'    => $this->get('primaryKeyName'),
+            'statusFieldName'   => $this->get('statusFieldName'),
+            'statusID'          => $this->get('statusID'),
+            'totalRowCount'     => $this->get('totalRowCount')
+        );
+        
+        $tableName = $this->get( 'importTableName' );
+        require_once 'CRM/Import/ImportJob.php';
+        $importJob = new CRM_Import_ImportJob( $tableName );
+        $importJob->setJobParams( $importJobParams );
+               
+        // run the import
+        $importJob->runImport($this);
+               
+        // add all the necessary variables to the form
+        $importJob->setFormVariables( $this );
+        
+        // check if there is any error occured
+        $errorStack =& CRM_Core_Error::singleton();
+        $errors     = $errorStack->getErrors();
+        
+        $errorMessage = array();
        
-        $fileName           = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
-        $skipColumnHeader   = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-        $doGeocodeAddress   = $this->controller->exportValue( 'UploadFile', 'doGeocodeAddress' );
+        if( is_array( $errors ) ) {
+            foreach($errors as $key => $value) {
+                $errorMessage[] = $value['message'];
+            }
+    
+            // there is no fileName since this is a sql import
+            // so fudge it
+            $config =& CRM_Core_Config::singleton( );
+            $errorFile =$config->uploadDir . "sqlImport.error.log"; 
+            if ( $fd = fopen( $errorFile, 'w' ) ) {
+                fwrite($fd, implode('\n', $errorMessage));
+            }
+            fclose($fd);
+            
+            $this->set('errorFile', $errorFile);
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
+        }
+        
+        //hack to clean db
+        //if job complete drop table.
+        $importJob->isComplete( true );
+    }
+
+    /**
+     * Process the mapped fields and map it into the uploaded file
+     * preview the file and extract some summary statistics
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcessOld( ) {
+       
+        $doGeocodeAddress   = $this->controller->exportValue( 'DataSource', 'doGeocodeAddress' );
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $onDuplicate        = $this->get('onDuplicate');
-        $newGroup           = $this->controller->exportValue( $this->_name, 'newGroup');
         $newGroupName       = $this->controller->exportValue( $this->_name, 'newGroupName');
         $newGroupDesc       = $this->controller->exportValue( $this->_name, 'newGroupDesc');
         $groups             = $this->controller->exportValue( $this->_name, 'groups');
         $allGroups          = $this->get('groups');
-        $newTag             = $this->controller->exportValue( $this->_name, 'newTag');
         $newTagName         = $this->controller->exportValue( $this->_name, 'newTagName');
         $newTagDesc         = $this->controller->exportValue( $this->_name, 'newTagDesc');
         $tag                = $this->controller->exportValue( $this->_name, 'tag');
         $allTags            = $this->get('tag');
-        $seperator = ',';
         
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
         
@@ -228,7 +302,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $mapperLocTypes[$key] = null;
             }
             
-            if (!is_numeric($mapper[$key][2])) {
+            if ( CRM_Utils_Array::value($key,$mapperKeys) == 'phone' ) {
                 $mapperPhoneTypes[$key] = $mapper[$key][2];
             } else {
                 $mapperPhoneTypes[$key] = null;
@@ -261,7 +335,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $mapFields = $this->get('fields');
       
         $locationTypes  = CRM_Core_PseudoConstant::locationType();
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
         
         foreach ($mapper as $key => $value) {
             $header = array();
@@ -295,11 +369,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $mapperFields[] = implode(' - ', $header);
         }
         
-        $parser->run( $fileName, $seperator, 
-                      $mapperFields,
-                      $skipColumnHeader,
+        $tableName = $this->get( 'importTableName' );
+        //print "Running parser on table: $tableName<br/>";
+        $parser->run( $tableName, $mapperFields,
                       CRM_Import_Parser::MODE_IMPORT,
                       $this->get('contactType'),
+                      $this->get('primaryKeyName'),
+                      $this->get('statusFieldName'),
                       $onDuplicate,
                       $this->get( 'statusID' ),
                       $this->get( 'totalRowCount' ),
@@ -318,7 +394,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ($newGroupName) {
             /* Create a new group */
             $gParams = array(
-                             'domain_id'     => CRM_Core_Config::domainID(),
                              'name'          => $newGroupName,
                              'title'         => $newGroupName,
                              'description'   => $newGroupDesc,
@@ -348,7 +423,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                                                                'reset=1&force=1&context=smog&gid=' . $groupId ),
                                           'name'     => $name,
                                           'added'    => $totalCount,
-                                          'notAdded' => $addCount[2],
+                                          'notAdded' => $addCount[2] + $addRelCount[2],
                                           'new'      => $new
                                           );
             }
@@ -359,7 +434,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ($newTagName) {
             /* Create a new Tag */
             $tagParams = array(
-                               'domain_id'     => CRM_Core_Config::domainID(),
                                'name'          => $newTagName,
                                'title'         => $newTagName,
                                'description'   => $newTagDesc,
@@ -368,7 +442,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             require_once 'CRM/Core/BAO/Tag.php';
             $id = array();
             $addedTag =& CRM_Core_BAO_Tag::add($tagParams,$id);
-            $tag = array($addedTag->id => 1) ;            
+            $tag[$addedTag->id] = 1;            
         }
         //add Tag to Import   
         
@@ -379,7 +453,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             foreach ($tag as $tagId =>$val) {
                 $addTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
                 if ( !empty($relatedContactIds) ) {
-                    $addRelTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
+                    $addRelTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $relatedContactIds, $tagId );
                 }
                 $totalTagCount = $addTagCount[1] + $addRelTagCount[1];
                 if ($tagId == $addedTag->id) {
@@ -394,7 +468,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                                                              'reset=1&force=1&context=smog&id=' . $tagId ),
                                         'name'     => $tagName,
                                         'added'    => $totalTagCount,
-                                        'notAdded' => $addTagCount[2],
+                                        'notAdded' => $addTagCount[2] + $addRelTagCount[2],
                                         'new'      => $new
                                         );
             }
@@ -411,15 +485,16 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         $errorMessage = array();
         
-        $config =& CRM_Core_Config::singleton( );
-        
+       
         if( is_array( $errors ) ) {
             foreach($errors as $key => $value) {
                 $errorMessage[] = $value['message'];
             }
-            
-            $errorFile = $fileName . '.error.log';
-            
+    
+            // there is no fileName since this is a sql import
+            // so fudge it
+            $config =& CRM_Core_Config::singleton( );
+            $errorFile =$config->uploadDir . "sqlImport.error.log"; 
             if ( $fd = fopen( $errorFile, 'w' ) ) {
                 fwrite($fd, implode('\n', $errorMessage));
             }
@@ -457,7 +532,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ( $params['newGroupName'] &&
              ( ! CRM_Utils_Rule::objectExists( trim( $params['newGroupName'] ),
                                                array( 'CRM_Contact_DAO_Group') ) ) ) {
-            $errors['newGroupName'] = ts( 'Group "%1" already exists.',
+            $errors['newGroupName'] = ts( 'Group \'%1\' already exists.',
                                           array( 1 => $params['newGroupName']));
         }
         return empty($errors) ? true : $errors;
@@ -487,12 +562,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ($params['newTagName']) {
             if (!CRM_Utils_Rule::objectExists(trim($params['newTagName']),array('CRM_Core_DAO_Tag')))
             {
-                $errors['newTagName'] = ts( 'Tag "%1" already exists.',
+                $errors['newTagName'] = ts( 'Tag \'%1\' already exists.',
                         array( 1 => $params['newTagName']));
             }
         }
         return empty($errors) ? true : $errors;
     }
 }
-
-?>

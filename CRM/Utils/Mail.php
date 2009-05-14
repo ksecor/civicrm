@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -116,22 +116,25 @@ class CRM_Utils_Mail {
         }
     }
 
-    static function send( $from, $toDisplayName, $toEmail, $subject, $message, $cc = null, $bcc = null, $replyTo = null  ) {
-        require_once 'CRM/Core/DAO/Domain.php';
-        $dao = new CRM_Core_DAO_Domain();
-        $dao->id = 1;
-        $dao->find(true);
-        $returnPath = $dao->email_return_path;
-
-        if (!$returnPath) {
-            $returnPath = self::_pluckEmailFromHeader($from);
+    static function send( $from,
+                          $toDisplayName,
+                          $toEmail,
+                          $subject,
+                          $text_message = null,
+                          $cc = null,
+                          $bcc = null,
+                          $replyTo = null,
+                          $html_message = null,
+                          $attachments = null ) {
+        $returnPath = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_MailSettings', 1, 'return_path', 'is_default');
+        if ( ! $returnPath ) {
+            $returnPath = self::pluckEmailFromHeader($from);
         }
 
         $headers = array( );  
         $headers['From']                      = $from;
         $headers['To']                        = self::encodeAddressHeader($toDisplayName, $toEmail);  
         $headers['Cc']                        = $cc;
-        $headers['Bcc']                       = $bcc;
         $headers['Subject']                   = self::encodeSubjectHeader($subject);  
         $headers['Content-Type']              = 'text/plain; charset=utf-8';  
         $headers['Content-Disposition']       = 'inline';  
@@ -144,19 +147,69 @@ class CRM_Utils_Mail {
         if ( $cc ) {
             $to[] = $cc;
         }
+
         if ( $bcc ) {
             $to[] = $bcc;
         }
+        require_once 'Mail/mime.php';
+        $msg = & new Mail_Mime("\n");
+        $msg->setTxtBody( $text_message );
+        $msg->setHTMLBody( $html_message );
 
-        // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
-        $mailer =& CRM_Core_Config::getMailer( );  
-        if ($mailer->send($to, $headers, $message) !== true) {  
-            return false;                                                    
-        } 
+        if ( ! empty( $attachments ) ) {
+            foreach ( $attachments as $fileID => $attach ) {
+                $msg->addAttachment( $attach['fullPath'],
+                                     $attach['mime_type'],
+                                     $attach['cleanName'] );
+            }
+        }
+        
+        $message =  self::setMimeParams( $msg );
+        $headers =& $msg->headers($headers);
 
+        $result = null;
+        $mailer =& CRM_Core_Config::getMailer( );
+        CRM_Core_Error::ignoreException( );
+        if ( is_object( $mailer ) ) {
+            $result = $mailer->send($to, $headers, $message);
+            CRM_Core_Error::setCallback();
+            if ( is_a( $result, 'PEAR_Error' ) ) {
+                $message = self::errorMessage ($mailer, $result );
+                CRM_Core_Session::setStatus( $message, false );
+                return false;
+            }
+        }
         return true;
     }
 
+    static function errorMessage( $mailer, $result ) {
+        $message =
+        '<p>'  . ts('An error occurred when CiviCRM attempted to send an email (via %1). If you received this error after submitting on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.', array(1 => 'SMTP')) . '</p>' .
+        '<p>'  . ts('The mail library returned the following error message:') . '<br /><span class="font-red"><strong>' . $result->getMessage() . '</strong></span></p>' .
+        '<p>'  . ts('This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email), OR the FROM email address specifically configured for your contribution page or event. Possible causes are:') . '</p>';
+
+        if ( is_a( $mailer , 'Mail_smtp' ) ) {
+            $message .=
+            '<ul>' .
+            '<li>' . ts('Your SMTP Username or Password are incorrect.')                                                                            . '</li>' .
+            '<li>' . ts('Your SMTP Server (machine) name is incorrect.')                                                                            . '</li>' .
+            '<li>' . ts('You need to use a Port other than the default port 25 in your environment.')                                               . '</li>' .
+            '<li>' . ts('Your SMTP server is just not responding right now (it is down for some reason).')                                          . '</li>';
+        } else {
+            $message .=
+            '<ul>' .
+            '<li>' . ts('Your Sendmail path is incorrect.')     . '</li>' .
+            '<li>' . ts('Your Sendmail argument is incorrect.') . '</li>';
+        }
+        
+        $message .=
+            '<li>' . ts('The FROM Email Address configured for this feature may not be a valid sender based on your email service provider rules.') . '</li>' .
+            '</ul>' .
+            '<p>' . ts('Check <a href="%1">this page</a> for more information.', array(1 => CRM_Utils_System::docURL2('Outbound Email (SMTP)', true))) . '</p>';
+        
+        return $message;
+    }
+    
     function logger( &$to, &$headers, &$message ) {
         if ( is_array( $to ) ) {
             $toString = implode( ', ', $to ); 
@@ -192,10 +245,53 @@ class CRM_Utils_Mail {
      * @param  string $header  the full name + email address string
      * @return string          the plucked email address
      */
-    private function _pluckEmailFromHeader($header) {
+    function pluckEmailFromHeader($header) {
         preg_match('/<([^<]*)>$/', $header, $matches);
         return $matches[1];
     }
+    
+    /**
+     * Get the Active outBound email 
+     * @return boolean true if valid outBound email configuration found, false otherwise
+     * @access public
+     * @static
+     */
+    static function validOutBoundMail() {
+        require_once "CRM/Core/BAO/Preferences.php";
+        $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
+        if ( $mailingInfo['outBound_option'] == 0 ) {
+            if ( !isset( $mailingInfo['smtpServer'] ) || $mailingInfo['smtpServer'] == '' || 
+                 $mailingInfo['smtpServer'] == 'YOUR SMTP SERVER'|| 
+                 ( $mailingInfo['smtpAuth'] && ( $mailingInfo['smtpUsername'] == '' || $mailingInfo['smtpPassword'] == '' ) ) ) {
+                return false;
+            }
+            return true;
+        } else if ( $mailingInfo['outBound_option'] == 1 ) {
+            if ( ! $mailingInfo['sendmail_path'] || ! $mailingInfo['sendmail_args'] ) {
+                return false;
+            }
+            return true;
+        }
+        return false;        
+    }
+
+    static function &setMimeParams( &$message, $params = null ) {
+        static $mimeParams = null;
+        if ( ! $params ) {
+            if ( ! $mimeParams ) {
+                $mimeParams = array(
+                                    'text_encoding' => '8bit',
+                                    'html_encoding' => '8bit',
+                                    'head_charset'  => 'utf-8',
+                                    'text_charset'  => 'utf-8',
+                                    'html_charset'  => 'utf-8',
+                                    );
+            }
+            $params = $mimeParams;
+        }
+        return $message->get( $params );
+    }
+
 }
 
-?>
+

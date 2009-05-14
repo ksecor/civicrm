@@ -13,7 +13,7 @@
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
-    {foreach from=$fields item=field key=name}
+    {foreach from=$fields item=field key=fieldName}
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
            </table> 
@@ -32,7 +32,7 @@
         {if $field.groupHelpPre}
             <div class="messages help">{$field.groupHelpPre}</div>
         {/if}
-        <table class="form-layout-compressed">
+        <table class="form-layout-compressed" id="table-1">
     {/if}
     {assign var=n value=$field.name}
     {if $field.options_per_line }
@@ -43,23 +43,26 @@
         {strip}
         <table class="form-layout-compressed">
        
+         <tr>
           {* sort by fails for option per line. Added a variable to iterate through the element array*}
           {assign var="index" value="1"}
           {foreach name=outer key=key item=item from=$form.$n}
           {if $index < 10}
             {assign var="index" value=`$index+1`}
           {else}
-            <tr><td class="labels font-light">{$form.$n.$key.html}</td></tr>
+            <td class="labels font-light">{$form.$n.$key.html}</td>
               {if $count == $field.options_per_line}
-                  
+         </tr>         
                    {assign var="count" value="1"}
               {else}
           	       {assign var="count" value=`$count+1`}
               {/if}
           {/if}
           {/foreach}
-        
         </table>
+	{if $field.html_type eq 'Radio' and $form.formName eq 'Preview'}
+            &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
+	{/if}
         {/strip}
         </td>
     </tr>
@@ -70,7 +73,33 @@
              {assign var="provider" value=$n|cat:"-provider_id"}
              {$form.$provider.html}&nbsp;
            {/if}
-           {$form.$n.html}
+	{if $n eq 'group' && $form.group}
+		<table id="selector" class="selector" style="width:auto;">
+		<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
+		</table>
+    {elseif $n eq 'greeting_type'}
+          <table class="form-layout-compressed">
+             <tr>
+                <td>{$form.$n.html}</td>
+                <td id='customGreeting'>
+                   {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;
+                   {$form.custom_greeting.html|crmReplace:class:big}
+                </td>
+             </tr>
+          </table>
+	{else}
+	   {$form.$n.html}
+	   {if $field.is_view eq 0}
+	       {if ( $field.html_type eq 'Radio' or  $n eq 'gender') and $form.formName eq 'Preview'}
+               	   &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
+	       {elseif $field.data_type eq 'Date' AND $element.skip_calendar NEQ true } 
+                   <span>
+			{include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
+		    	{include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
+		   </span>
+	       {/if}
+	   {/if}
+	{/if}
         </td>
 	{/if}
         {* Show explanatory text for field if not in 'view' mode *}
@@ -80,16 +109,7 @@
     {/foreach}  
      
     {if $addCAPTCHA }
-              <tr>
-               <td></td>
-               <td>{$form.captcha_image.html}</td>
-             </tr>
-             <tr> 
-               <td></td>   
-               <td>{$form.captcha_phrase.html}
-                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
-                </td>
-             </tr>
+        {include file='CRM/common/ReCAPTCHA.tpl'}
     {/if}   
     </table></fieldset>
     {if $field.groupHelpPost}
@@ -107,5 +127,38 @@
 <div class=" horizontal-center "> 
 	{$form.buttons.html}
 </div>
+{if $form.greeting_type}
+  {literal}
+    <script type="text/javascript">
+      window.onload = function() {
+        showGreeting();
+      }
+    </script>
+  {/literal}
+{/if}
+{literal}
+<script type="text/javascript">
+  function showGreeting() {
+      if( document.getElementById("greeting_type").value == 4 ) {
+           show('customGreeting');                   
+      } else {
+           hide('customGreeting');      
+      }     
+  }
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
 
+    // Initialise the table
+    cj("#table-1").tableDnD();
+    
+    cj("#table-5 tr").hover(function() {
+        cj(this.cells[0]).addClass('showDragHandle');
+    }, function() {
+        cj(this.cells[0]).removeClass('showDragHandle');
+    });
+    
+});
+</script>
+{/literal}
 

@@ -110,7 +110,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             $ids['participant'] = self::retrieve( 'participantID', 'Integer', $privateData, true );
             $ids['membership']  = null;
         } else {
-            $ids['membership'] = self::retrieve( 'membershipID'  , 'Integer', $privateData, false );
+            $ids['membership']          = self::retrieve( 'membershipID'  , 'Integer', $privateData, false );
+            $ids['related_contact']     = self::retrieve( 'relatedContactID'  , 'Integer', $privateData, false );
+            $ids['onbehalf_dupe_alert'] = self::retrieve( 'onBehalfDupeAlert'  , 'Integer', $privateData, false );
         }
         $ids['contributionRecur'] = $ids['contributionPage'] = null;
 
@@ -146,10 +148,11 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
-        if ( ! $this->createContact( $input, $ids, $objects ) ) {
-            return false;
-        }
+        
+        // fix for CRM-2842
+        // if ( ! $this->createContact( $input, $ids, $objects ) ) {
+        //     return false;
+        // }
 
         // check if contribution is already completed, if so we ignore this ipn
         if ( $contribution->contribution_status_id == 1 ) {
@@ -164,7 +167,10 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                     $ids['event']       . CRM_Core_DAO::VALUE_SEPARATOR .
                     $ids['participant'] ;
             } else {
-                $contribution->trxn_id = $ids['membership'];
+                $contribution->trxn_id = 
+                    $ids['membership'] . CRM_Core_DAO::VALUE_SEPARATOR .
+                    $ids['related_contact'] . CRM_Core_DAO::VALUE_SEPARATOR .
+                    $ids['onbehalf_dupe_alert'];
             }
         }
 
@@ -220,15 +226,21 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                          $contribution->trxn_id );
             
         } else {
-            $ids['membership'] = $contribution->trxn_id;
+            list( $ids['membership'], $ids['related_contact'], $ids['onbehalf_dupe_alert'] ) = 
+                explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                         $contribution->trxn_id );
+
+            foreach ( array('membership', 'related_contact', 'onbehalf_dupe_alert') as $fld ) {
+                if ( ! is_numeric( $ids[$fld] ) ) {
+                    unset( $ids[$fld] );
+                }
+            }
         }
 
         $this->loadObjects( $input, $ids, $objects );
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
-        $contribution->trxn_id = $orderNo;
 
         // CRM_Core_Error::debug_var( 'c', $contribution );        
         if ( $status == 'PAYMENT_DECLINED' || 
@@ -306,9 +318,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                 echo "Failure: Could not find contribution record for $contributionID<p>";
                 exit( );
             }
-            if (stristr($contribution->source, 'Online Contribution')) {
+            if (stristr($contribution->source, ts('Online Contribution'))) {
                 $module = 'Contribute';
-            } elseif (stristr($contribution->source, 'Online Event Registration')) {
+            } elseif (stristr($contribution->source, ts('Online Event Registration'))) {
                 $module = 'Event';
             }
             $isTest = $contribution->is_test;
@@ -320,9 +332,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                 echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
                 exit( );
             }
-            if (stristr($contribution->source, 'Online Contribution')) {
+            if (stristr($contribution->source, ts('Online Contribution'))) {
                 $module = 'Contribute';
-            } elseif (stristr($contribution->source, 'Online Event Registration')) {
+            } elseif (stristr($contribution->source, ts('Online Event Registration'))) {
                 $module = 'Event';
             }
             $isTest = $contribution->is_test;
@@ -399,7 +411,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         
         //Setup the log file
         if (!$message_log = fopen(RESPONSE_HANDLER_LOG_FILE, "a")) {
-            error_func("Cannot open " . RESPONSE_HANDLER_LOG_FILE . " file.\n", 0);
+            echo "Cannot open " . RESPONSE_HANDLER_LOG_FILE . " file.\n";
             exit(1);
         }
         
@@ -546,4 +558,4 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
 
 }
 
-?>
+

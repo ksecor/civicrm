@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -112,7 +112,7 @@ class CRM_Utils_File {
 
         CRM_Utils_File::createDir( dirname( $path ) );
         if ( mkdir( $path, 0777 ) == false ) {
-            echo "Error: Could not create directory: $path. <p>";
+            echo "Error: Could not create directory: $path.<p>If you have moved your database from a development install to a production install and the directory paths are different, please set the column config_backend in the civicrm_domain table to NULL. You will need to reinitialize your settings in the production install.<p>";
             exit( );
         }
 
@@ -204,49 +204,94 @@ class CRM_Utils_File {
     }
 
 
-    /** 
-     * Function is php 4 version of php5 function  file_put_contents()
-     * 
-     * @param string  $fileName      name of the file
-     * @param mix     $data          it can be array or string
-     * @param boolean $respectLock   check if file is locked before we write
-     *
-     * @return        $bytes         
-     * @static
-     */
-    static function filePutContents ($fileName, $data, $respectLock = true) {
-        if ( ! function_exists( 'file_put_contents' ) ) {
-            
-            // Open the file for writing
-            $fh = @fopen($fileName, 'w');
-            if ($fh === false) {
-                return false;
-            }
-            
-            // Check to see if we want to make sure the file is locked before we write to it
-            if ($respect_lock === true && !flock($fh, LOCK_EX)) {
-                fclose($fh);
-                return false;
-            }
-            
-            // Convert the data to an acceptable string format
-            if (is_array($data)) {
-                $data = implode('', $data);
-            } else {
-                $data = (string) $data;
-            }
-            
-            // Write the data to the file and close it
-            $bytes = fwrite($fh, $data);
-            
-            // This will implicitly unlock the file if it's locked
-            fclose($fh);
-            
-            return $bytes;
+    function sourceSQLFile( $dsn, $fileName, $prefix = null, $isQueryString = false ) {
+        require_once 'DB.php';
+
+        $db  =& DB::connect( $dsn );
+        if ( PEAR::isError( $db ) ) {
+            die( "Cannot open $dsn: " . $db->getMessage( ) );
+        }
+
+        if ( ! $isQueryString ) {
+            $string = $prefix . file_get_contents( $fileName );
         } else {
-            return file_put_contents( $fileName, $data );
+            // use filename as query string
+            $string = $prefix . $fileName;
+        }
+
+        //get rid of comments starting with # and --
+        $string = preg_replace("/^#[^\n]*$/m", "\n", $string );
+        $string = preg_replace("/^\-\-[^\n]*$/m", "\n", $string );
+        
+        $queries  = explode( ';', $string );
+        foreach ( $queries as $query ) {
+            $query = trim( $query );
+            if ( ! empty( $query ) ) {
+                $res =& $db->query( $query );
+                if ( PEAR::isError( $res ) ) {
+                    die( "Cannot execute $query: " . $res->getMessage( ) );
+                }
+            }
         }
     }
+
+    static function isExtensionSafe( $ext ) {
+        static $extensions = null;
+        if ( ! $extensions ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            $extensions = CRM_Core_OptionGroup::values( 'safe_file_extension', true );
+            
+            // allow html/htm extension ONLY if the user is admin 
+            // and/or has access CiviMail
+            require_once 'CRM/Core/Permission.php';
+            if ( ! CRM_Core_Permission::check( 'access CiviMail' ) &&
+                 ! CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+                unset( $extensions['html'] );
+                unset( $extensions['htm' ] );
+            }
+        }
+        return isset( $extensions[$ext] ) ? true : false;
+    }
+
+    /**
+     * remove the 32 bit md5 we add to the fileName
+     * also remove the unknown tag if we added it
+     */
+    static function cleanFileName( $name ) {
+        // replace the last 33 character before the '.' with null
+        $name = preg_replace( '/(_[\w]{32})\./', '.', $name );
+        return $name;
+    }
+
+    static function makeFileName( $name ) {
+        $uniqID = md5( uniqid( rand( ), true ) );
+        $info   = pathinfo( $name );
+        $basename = substr($info['basename'],
+                           0,
+                           -( strlen( $info['extension'] ) + ( $info['extension'] == '' ? 0 : 1 ) ) );
+        if ( ! self::isExtensionSafe( $info['extension'] ) ) {
+            // munge extension so it cannot have an embbeded dot in it
+            // The maximum length of a filename for most filesystems is 255 chars.  
+            // We'll truncate at 240 to give some room for the extension.
+            return CRM_Utils_String::munge( "{$basename}_{$info['extension']}_{$uniqID}", '_',  240 ) . ".unknown";
+        } else {
+            return CRM_Utils_String::munge( "{$basename}_{$uniqID}", '_',  240 ) . ".{$info['extension']}";
+        }
+    }
+
+    static function getFilesByExtension( $path, $ext ) {
+        $path = self::addTrailingSlash( $path );
+        $dh = opendir( $path );
+        $files = array();
+        while( false !== ( $elem = readdir( $dh ) ) ) {
+            if( substr( $elem, -(strlen( $ext ) + 1 ) ) == '.' . $ext ) {
+                $files[] .= $path . $elem;
+            }
+        }
+        closedir( $dh );
+        return $files;
+    }
+
 }
 
-?>
+

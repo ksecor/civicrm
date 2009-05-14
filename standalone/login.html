@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+  <title>CiviCRM User Authentication</title>
+  <link media="screen" title="Default" type="text/css" href="../packages/jquery/css/openid-selector.css" rel="stylesheet">
+  <script type="text/javascript" src="../packages/jquery/jquery.js"></script>
+  <script type="text/javascript" src="../packages/jquery/plugins/openid-selector.js"></script>
+</head>
+
+<body id="all_form">
+<div id="home">
+        <div id="crmimg">
+	<h1>CiviCRM Login</h1>
+	</div>
+        <form id="openid_form" method="get" action="try_auth.php">
+	<div>
+		<input type="hidden" value="verify" name="action"/>
+		<label for="OpenID">OpenID provider:</label>
+		<input id="OpenID" type="text" name="openid_identifier" autocomplete="off"/>
+		<input id="button" type="submit" value="Sign In"/>
+	</div>	
+	 <p><i>If you don't have an OpenID yet, go to <a href="http://www.myopenid.com/">MyOpenID to get one</a>.</i></p>
+	</form>
+</div>
+</body>
+
+</html>

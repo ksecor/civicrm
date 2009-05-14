@@ -2,17 +2,23 @@
 {if $action eq 2}
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
-
-<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 1600px;" >
-
-<div id="summary" dojoType="dijit.layout.ContentPane" title="Summary" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
-
+<div id="mainTabContainer" >
+    <ul>
+        <li id="tab_summary"><a href="#summary" title="{ts}Summary{/ts}" >{ts}Summary{/ts}</a></li>
+        {foreach from=$allTabs key=tabName item=tabValue}
+            <li id="tab_{$tabValue.id}"><a href="{$tabValue.url}" title="{$tabValue.title}">{$tabValue.title}</a></li>
+        {/foreach}
+    </ul>
+    
+<div id="summary" title="{ts}Summary{/ts}" >
 {* View Contact Summary *}
 <div id="contact-name" class="section-hidden section-hidden-border">
    <div>
-    <label><span class="font-size12pt">{$displayName}</span></label>{if $nick_name}&nbsp;&nbsp;({$nick_name}){/if}
+    <label><span class="font-size12pt">{$displayName}</span></label>
+      {if $nick_name}&nbsp;&nbsp;({$nick_name}){/if}
+      {if $legal_name}&nbsp;&nbsp;({$legal_name}){/if}
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
+        &nbsp; &nbsp; <input type="button" accesskey="E" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
     {/if}
     &nbsp; &nbsp; <input type="button" value="{ts}vCard{/ts}" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
     &nbsp; &nbsp; <input type="button" value="{ts}Print{/ts}" name="contact_print" onclick="window.location='{crmURL p='civicrm/contact/view/print' q="reset=1&print=1&cid=$contactId"}';"/>
@@ -21,17 +27,18 @@
     {/if}
     {if $dashboardURL } &nbsp; &nbsp; <a href="{$dashboardURL}">&raquo; {ts}View Contact Dashboard{/ts}</a> {/if}
     {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
+
     <table class="form-layout-compressed">
     <tr>
         {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
-        {if $contactTag}<td><label>{ts}Tags{/ts}:</label></td><td>{$contactTag}</td>{/if}
-        {if !$source}<td colspan="2"></td>{/if}
-        {if !$contactTag}<td colspan="2"></td>{/if}
+        {if $sic_code}<td><label>{ts}SIC Code{/ts}:</label></td><td>{$sic_code}</td>{/if}
+        <td id='tagLink'><label><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a>:</label></td><td id="tags">{$contactTag}</td>
     </tr>
     <tr>
         {if $job_title}<td><label>{ts}Job Title{/ts}:</label></td><td>{$job_title}</td>{/if}
+        {if $current_employer_id}<td><label>{ts}Current Employer{/ts}:</label></td><td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$current_employer_id`"}" title="{ts}view current employer{/ts}">{$current_employer}</a></td>{/if}
         {if $home_URL}<td><label>{ts}Website{/ts}</label></td><td><a href="{$home_URL}" target="_blank">{$home_URL}</a></td>{/if}
-        {if !$job_title}<td colspan="2"></td>{/if}
+        {if !$current_employer_id}<td colspan="2"></td>{/if}
         {if !$home_URL}<td colspan="2"></td>{/if}
     </tr>
     </table>
@@ -49,8 +56,8 @@
 
 <div id="location_{$locationIndex}_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('location_{$locationIndex}_show'); show('location_{$locationIndex}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$loc.location_type}{if $loc.name} - {$loc.name}{/if}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}</label>
-  {if $preferred_communication_method_display eq 'Email'}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Email:{/ts}</label> {$loc.email.1.email}
-  {elseif $preferred_communication_method_display eq 'Phone'}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Phone:{/ts}</label> {$loc.phone.1.phone}{/if}
+  {if $preferred_communication_method_display eq 'Email' AND $loc.email.1.email}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Email:{/ts}</label> {$loc.email.1.email}
+  {elseif $preferred_communication_method_display eq 'Phone' AND $loc.phone.1.phone}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Phone:{/ts}</label> {$loc.phone.1.phone}{/if}
 </div>
 
 <div id="location_{$locationIndex}" class="section-shown">
@@ -63,7 +70,7 @@
    {foreach from=$loc.phone item=phone}
      {if $phone.phone}
         {if $phone.is_primary eq 1}<strong>{/if}
-        {if $phone.phone_type}{$phone.phone_type_display}:{/if} {$phone.phone}
+        {if $phone.phone}{if $phone.phone_type}{$phone.phone_type}{else}{ts}Phone{/ts}{/if}:{/if} {$phone.phone}
         {if $phone.is_primary eq 1}</strong>{/if}
         <br />
      {/if}
@@ -101,14 +108,27 @@
      </br>
     {/if}
   {/foreach}
+{foreach from=$loc.openid item=openid}
+     {if $openid.openid}
+        {ts}OpenID:{/ts} <a href="{$openid.openid}">{$openid.openid|mb_truncate:40}</a>
+        {*if $email.is_primary eq 1}</strong>{/if*}
+     {/if}
+     {if $config->userFramework eq "Standalone" }
+	{if $openid.allowed_to_login eq 1}		
+	{ts}(Allowed to login){/ts}
+	{/if}
+     {/if} 	
+     <br />
+{/foreach}
    </div>
-
    <div class="col2">
-
     {*if $config->mapAPIKey AND $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2*}
     {if $config->mapAPIKey AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
-        <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=$contactId&lid=`$loc.address.location_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
+        <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$loc.location_type_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
     {/if}
+    {if $HouseholdName and $locationIndex eq 1}
+    <strong>Household Address:</strong><br />
+    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$mail_to_household_id`"}">{$HouseholdName}</a>{/if}
     {$loc.address.display|nl2br}
   </div>
   <div class="spacer"></div>
@@ -116,6 +136,7 @@
 </div>
 {/foreach}
 
+{if $showCommBlock}
 <div id="commPrefs_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('commPrefs_show'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Communications Preferences{/ts}</label><br />
  </div>
@@ -130,7 +151,7 @@
       {if $privacy_val eq 1}{$privacy_values.$privacy_label} &nbsp; {/if}
     {/foreach}
     {if $is_opt_out}
-      {ts}DO NOT SEND BULK EMAIL{/ts}
+      {ts}No Bulk Emails (User Opt Out){/ts}
     {/if}
     </span>
   </div>
@@ -143,9 +164,9 @@
   <div class="spacer"></div>
  </fieldset>
 </div>
+{/if}
 
-
-{if $contact_type eq 'Individual'}
+{if $contact_type eq 'Individual' AND $showDemographics}
 <div id="demographics_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('demographics_show'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics{/ts}</label><br />
  </div>
@@ -164,29 +185,35 @@
    </div>
    <div class="col2">
     <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
-    {if $age.y}  
-    <label>{ts}Age :{/ts}</label> {$age.y} Year{if $age.y gt 1}s{/if}. <br />
+    {* Show calculated age unless contact is deceased. *}
+    {if $is_deceased neq 1}
+        {if $age.y}  
+        <label>{ts}Age{/ts}:</label> {ts count=$age.y plural='%count years'}%count year{/ts}<br />
+        {/if}
+        {if $age.m} 
+        <label>{ts}Age{/ts}:</label> {ts count=$age.m plural='%count months'}%count month{/ts}<br />
+        {/if}
     {/if}
-    {if $age.m} 
-    <label>{ts}Age :{/ts}</label> {$age.m} Month{if $age.m gt 1}s{/if}. <br />                              
-    {/if}       
     </div>
    <div class="spacer"></div>
   </fieldset>
  </div>
  {/if}
 
- {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+ {include file="CRM/Custom/Page/CustomDataView.tpl"}
+</div>
 </div>
 
-{foreach from=$allTabs key=tabName item=tabValue}
-  <div id="{$tabValue.id}" dojoType="dijit.layout.ContentPane" href="{$tabValue.url}" title="{$tabValue.title}" 
-class ="tundra" {if $tabValue.id eq $selectedChild} selected="true"{/if} ></div>
-{/foreach}
-</div>
 
+ <script type="text/javascript"> 
+   {if !$contactTag}cj("#tagLink").hide( );{/if}
+   var selectedTab = 'summary';
+   {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
 {literal}
- <script type="text/javascript">
+    cj( function() {
+        var tabIndex = $('#tab_' + selectedTab).prevAll().length
+        cj("#mainTabContainer").tabs( {selected: tabIndex} );        
+    });
 
    init_blocks = function( ) {
 {/literal}
@@ -195,9 +222,8 @@ class ="tundra" {if $tabValue.id eq $selectedChild} selected="true"{/if} ></div>
 {literal}
       on_load_init_blocks( showBlocks, hideBlocks );
   }
-
   dojo.addOnLoad( init_blocks );
- </script>
 {/literal}
+ </script>
 
 {/if}

@@ -17640,7 +17640,7 @@ sub process($$) {
     }
     
     if (defined($hash)) {
-        if ($dest eq 'bounce') {
+        if ($dest eq 'bounce' || $dest eq 'b') {
             # bounce
             my $body = substr(join('', @{$msginfo->mime_entity->body}), 0, 4096);
 
@@ -17663,17 +17663,47 @@ sub process($$) {
             } else {
                 do_log(1, "CiviCRM: failed bounce event: $verpInfo");
             }
-        } elsif ($dest eq 'reply') {
+        } elsif ($dest eq 'reply' || $dest eq 'r') {
+	    my @body;
+	    if ($msginfo->mime_entity->parts > 0) # Is this a multipart
+	    {
+		for (my $i=0;$i<$msginfo->mime_entity->parts;$i++)
+		{
+		    my $subEntity = $msginfo->mime_entity->parts($i);
+		    if (($subEntity->mime_type eq 'text/html')
+			||
+			($subEntity->mime_type eq 'text/plain'))
+		    {
+			my @msgArray;
+			my $t =0;
+			if (my $io = $subEntity->open("r"))
+			{
+			    while (defined($_=$io->getline))
+			    {
+				$msgArray[$t] = $_;
+				$t++;
+			    }
+			    $io->close;
+			}
+			$body[$i] = join('', @msgArray );
+		    }
+		}
+	    }
+	    else
+	    {
+		$body[0] = substr(join('', @{$msginfo->mime_entity->body}), 0, 4096);
+	    }
+	    print "text/plain",$body[0];
+	    print "text/html",$body[1];
             # reply
-            my $body = substr(join('', @{$msginfo->mime_entity->body}), 0, 4096);
             my $replyto = 
                 (MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('Reply-to')) or '');
-           
+	    
             while (1) {
                 $result = 
                     $soapClient->mailer_event_reply($soapKey,  
-                                                        $jobId, $qId, $hash,
-                                                        $body, $replyto);
+						    $jobId, $qId, $hash,
+						    $body[0], $replyto, $body[1]);
                 
                 last unless $result->fault;
                 
@@ -17684,13 +17714,13 @@ sub process($$) {
                 } 
                 soapError($result->faultstring);
             }
-
+	    
             if ($result->result == 1) {
                 do_log(2, "CiviCRM: succesful reply event: $verpInfo");
             } else {
                 do_log(1, "CiviCRM: failed reply event: $verpInfo");
             }
-        } elsif ($dest eq 'unsubscribe') {
+        } elsif ($dest eq 'unsubscribe' || $dest eq 'u') {
             # unsubscription
             while (1) {
                 $result = 
@@ -17712,7 +17742,7 @@ sub process($$) {
             } else {
                 do_log(1, "CiviCRM: failed unsubscribe event: $verpInfo");
             }
-        } elsif ($dest eq 'resubscribe') {
+        } elsif ($dest eq 'resubscribe' || $dest eq 're' ) {
             # resubscription
             while (1) {
                 $result = 
@@ -17734,7 +17764,7 @@ sub process($$) {
             } else {
                 do_log(1, "CiviCRM: failed resubscribe event: $verpInfo");
             }
-        } elsif ($dest eq 'confirm') {
+        } elsif ($dest eq 'confirm' || $dest eq 'c') {
             # opt-in
             while (1) {
                 $result = 
@@ -17756,7 +17786,7 @@ sub process($$) {
             } else {
                 do_log(1, "CiviCRM: failed confirm event: $verpInfo");
             }
-        } elsif ($dest eq 'optOut') {
+        } elsif ($dest eq 'optOut' || $dest eq 'o') {
             # opt-out
             while (1) {
                 $result = 
@@ -17790,7 +17820,7 @@ sub process($$) {
         while (1) {
             $result = 
                 $soapClient->mailer_event_subscribe( 
-                                        $soapKey, $from, $dId, $gId);
+                                        $soapKey, $from, $gId);
 
             last unless $result->fault;
             if ($attempt < 1) {

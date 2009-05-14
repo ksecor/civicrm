@@ -1,27 +1,25 @@
 <?php
-
-
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,6 +53,33 @@ class CRM_Utils_Array {
             return array_key_exists( $key, $list ) ? $list[$key] : $default;
         }
         return $default;
+    }
+
+    /**
+     * Given a parameter array and a key to search for, 
+     * search recursively for that key's value.
+     *
+     * @param array $values     The parameter array
+     * @param string $key       The key to search for
+     * @return mixed            The value of the key, or null.
+     * @access public
+     * @static
+     */
+    static function retrieveValueRecursive(&$params, $key) 
+    {
+        if (! is_array($params)) {
+            return null;
+        } else if ($value = CRM_Utils_Array::value($key, $params)) {
+            return $value;
+        } else {
+            foreach ($params as $subParam) {
+                if ( is_array( $subParam ) &&
+                     $value = self::retrieveValueRecursive( $subParam, $key ) ) {
+                    return $value;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -112,8 +137,8 @@ class CRM_Utils_Array {
 
         return str_replace( $src, $dst, $value );
     }
-
-    static function &flatten( &$list, &$flat, $prefix = '', $seperator = "." ) {
+    
+    static function flatten( &$list, &$flat, $prefix = '', $seperator = "." ) {
         foreach( $list as $name => $value ) {
             $newPrefix = ( $prefix ) ? $prefix . $seperator . $name : $name;
             if ( is_array( $value ) ) {
@@ -183,34 +208,6 @@ class CRM_Utils_Array {
     }
     
     /**
-     * emulated version of array_combine
-     *
-     * As array_combine is PHP5 only method, need to have emulated
-     * version for PHP4.
-     * 
-     * @params  array  $keyList
-     * @params  array  $valueList
-     * 
-     * @return  array  combined array.
-     * 
-     * @static
-     * @access public
-     */
-    static function combine( &$keyList, &$valueList ) 
-    {
-        $keys = array_values( (array) $keyList );
-        $vals = array_values( (array) $valueList );
-        
-        $n = max( count( $keys ), count( $vals ) );
-        $r = array();
-        for( $i=0; $i<$n; $i++ ) {
-            $r[ $keys[ $i ] ] = $vals[ $i ];
-        }
-        return $r;
-    }
-
-
-    /**
      * Array deep copy
      *
      * @params  array  $array
@@ -238,8 +235,119 @@ class CRM_Utils_Array {
         return $copy;
     }
 
+    /**
+     * Array splice function that preserves associative keys
+     * defauly php array_splice function doesnot preserve keys
+     * So specify start and end of the array that you want to remove
+     *
+     * @param  array    $params  array to slice
+     * @param  Integer  $start   
+     * @param  Integer  $end
+     *
+     * @return  void
+     * @static
+     */
+    static function crmArraySplice( &$params, $start, $end ) 
+    {
+        // verify start and end date
+        if ( $start < 0 ) $start = 0;
+        if ( $end > count( $params ) ) $end = count( $params );
 
+        $i = 0;
+        
+        // procees unset operation
+        foreach ( $params as $key => $value ) {
+            if ( $i >= $start && $i < $end ) {
+                unset( $params[$key] );
+            }
+            $i++;
+        }
+    }
 
+    /**
+     * Function for case insensitive in_array search
+     *
+     * @param $value             value or search string
+     * @param $params            array that need to be searched
+     * @param $caseInsensitive   boolean true or false
+     *
+     * @static
+     */
+    static function crmInArray( $value, $params, $caseInsensitive = true )
+    {
+        foreach ( $params as $item) {
+            if ( is_array($item) ) {
+                $ret = crmInArray( $value, $item, $caseInsensitive );
+            } else {
+                $ret = ($caseInsensitive) ? strtolower($item) == strtolower($value) : $item == $value;
+                if ( $ret ) {
+                    return $ret; 
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * This function is used to convert associative array names to values
+     * and vice-versa.
+     *
+     * This function is used by both the web form layer and the api. Note that
+     * the api needs the name => value conversion, also the view layer typically
+     * requires value => name conversion
+     */
+    static function lookupValue( &$defaults, $property, $lookup, $reverse ) 
+    {
+        $id = $property . '_id';
+
+        $src = $reverse ? $property : $id;
+        $dst = $reverse ? $id       : $property;
+        
+        if ( ! array_key_exists( strtolower($src), array_change_key_case( $defaults, CASE_LOWER )) ) {
+            return false;
+        }
+
+        $look = $reverse ? array_flip( $lookup ) : $lookup;
+        
+        //trim lookup array, ignore . ( fix for CRM-1514 ), eg for prefix/suffix make sure Dr. and Dr both are valid
+        $newLook = array( );
+        foreach( $look as $k => $v) {
+            $newLook[trim($k, ".")] = $v;
+        }
+
+        $look = $newLook;
+
+        if(is_array($look)) {
+            if ( ! array_key_exists( trim(strtolower( $defaults[strtolower($src)] ),'.'),  array_change_key_case( $look, CASE_LOWER )) ) {
+                return false;
+            }
+        }
+        
+        $tempLook = array_change_key_case( $look ,CASE_LOWER);
+
+        $defaults[$dst] = $tempLook[trim(strtolower( $defaults[strtolower($src)] ),'.')];
+        return true;
+    }
+
+    /**
+     *  Function to check if give array is empty
+     *  @param array $array array that needs to be check for empty condition
+     * 
+     *  @return boolean true is array is empty else false
+     *  @static
+     */
+    static function crmIsEmptyArray( $array = array( ) ) {
+        foreach ( $array as $element ) {
+            if ( is_array( $element ) ) {
+                if ( !self::crmIsEmptyArray($element) ) {
+                    return false;
+                }
+            } elseif ( !empty( $element ) ) {
+                return false;
+            }
+        }
+        return true;
+    }    
 }
 
-?>
+

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -37,7 +37,7 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/BAO/CustomField.php';
 
 /**
- * This class is to build the form for Deleting Group
+ * This class is to build the form for deleting a field
  */
 class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
 
@@ -71,7 +71,7 @@ class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
         CRM_Core_BAO_CustomField::retrieve( $params, $defaults );
         
         $this->_title = $defaults['label'];
-        $this->assign( 'name' , $this->_title );
+        $this->assign( 'title' , $this->_title );
         
         CRM_Utils_System::setTitle( ts('Confirm Custom Field Delete') );
     }
@@ -114,9 +114,9 @@ class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
         // also delete any profiles associted with this custom field
         require_once "CRM/Core/BAO/UFField.php";
         CRM_Core_BAO_UFField::delUFField($this->_id);
-        CRM_Core_Session::setStatus( ts('The custom field "%1" has been deleted.', array(1 => $field->label)) );        
+        CRM_Core_Session::setStatus( ts('The custom field \'%1\' has been deleted.', array(1 => $field->label)) );        
 
         CRM_Utils_Weight::correctDuplicateWeights('CRM_Core_DAO_CustomField');  
     }
 }
-?>
+

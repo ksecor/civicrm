@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,8 +55,15 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         //Custom Groups Inline
         $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId);
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId);
+
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
+
+        // also create the form element for the activity links box
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
+                                                       ts('Activity Links'), null );
+        $controller->setEmbedded( true );
+        $controller->run( );
     }
 
     /**
@@ -107,6 +114,10 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      */
     function view( ) 
     {
+        $session =& CRM_Core_Session::singleton();
+        $url     = CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $this->_contactId );
+        $session->pushUserContext( $url );
+
         $params   = array( );
         $defaults = array( );
         $ids      = array( );
@@ -115,7 +126,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids, true );
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
-
+        
         // unset locations if empty
         if ( ( count( $defaults['location'] ) == 1 ) &&
              ( count( $defaults['location'][1] ) == 1 ) ) {
@@ -145,8 +156,30 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
         
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
-     
-	    $this->assign( $defaults );
+        
+        //Show blocks only if they are visible in edit form
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
+        $configItems = array( 'CommBlock'     => 'Communication Preferences',
+                              'Demographics'  => 'Demographics',
+                              'TagsAndGroups' => 'Tags and Groups',
+                              'Notes'         => 'Notes' );
+
+        foreach ( $configItems as $c => $t ) {
+            $varName = '_show' . $c;
+            $this->$varName = $this->_editOptions[$c];
+            $this->assign( substr( $varName, 1 ), $this->$varName );
+        }
+
+        //get the current employer name
+        if ( $defaults['contact_type'] == 'Individual' ) {
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
+            $defaults['current_employer'] = $currentEmployer[ $this->_contactId ]['org_name'];
+            $defaults['current_employer_id'] = $currentEmployer[ $this->_contactId ]['org_id'];
+        }
+
+        $this->assign( $defaults );
         $this->setShowHide( $defaults );        
         
         // also assign the last modifed details
@@ -157,58 +190,45 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $allTabs  = array( );
         $weight = 10;
         
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
         
-        // get the contributions, new style of doing stuff
-        // do the below only if the person has access to contributions
-        $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) &&
-             $this->_viewOptions[ts('Contributions')] ) {
-            $allTabs[] = array ( 'id'     => 'contribute',
-                                 'url'    =>  CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                                                     "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
-                                 'title'  => ts('Contributions'),
-                                 'weight' => $weight );
-            $weight += 10;
-        }
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true );
+        $changeLog = $this->_viewOptions['log'];
+        $this->assign_by_ref( 'changeLog' , $changeLog );
+        require_once 'CRM/Core/Component.php';
+        $components = CRM_Core_Component::getEnabledComponents();
 
-        // get the memberships, new style of doing stuff
-        // do the below only if the person has access to memberships
-        if ( CRM_Core_Permission::access( 'CiviMember' ) &&
-             $this->_viewOptions[ts('Memberships')] ) {
-            $allTabs[] = array ( 'id'  => 'member',
-                                 'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/membership',
-                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
-                                 'title'  => ts('Memberships'),
-                                 'weight' => $weight );
-            $weight += 10;
-        }
+        foreach ( $components as $name => $component ) {
+            if ( CRM_Utils_Array::value( $name, $this->_viewOptions ) &&
+                 CRM_Core_Permission::access( $component->name ) ) {
+                $elem = $component->registerTab();
 
-        // get the events, new style of doing stuff
-        // do the below only if the person has access to events
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) &&
-             $this->_viewOptions[ts('Events')] ) {
-            $allTabs[] = array ( 'id'  => 'participant',
-                                 'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/participant',
-                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
-                                 'title'  => ts('Events'),
-                                 'weight' => $weight );
-            $weight += 10;
+                // FIXME: not very elegant, probably needs better approach
+                // allow explicit id, if not defined, use keyword instead
+                if( array_key_exists( 'id', $elem ) ) {
+                    $i = $elem['id'];
+                } else {
+                    $i = $component->getKeyword();
+                }
+                $u = $elem['url'];
+               
+                //appending isTest to url for test soft credit CRM-3891. 
+                //FIXME: hack dojo url.
+                $q = "reset=1&snippet=1&force=1&cid={$this->_contactId}"; 
+                if ( CRM_Utils_Request::retrieve('isTest', 'Positive', $this) ) {
+                    $q = $q."&isTest=1";
+                }                
+                $allTabs[] = array( 'id'     =>  $i,
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u", $q ),
+                                    'title'  => $elem['title'],
+                                    'weight' => $elem['weight'] );
+                // make sure to get maximum weight, rest of tabs go after
+                // FIXME: not very elegant again
+                if( $weight < $elem['weight'] ) {
+                    $weight = $elem['weight'];
+                }
+            }
         }
-
-        // get the grants, new style of doing stuff
-        // do the below only if the person has access to grants
-        if ( CRM_Core_Permission::access( 'CiviGrant' ) ) {
-        // FIXME! FIXME! FIXME! && $this->_viewOptions[ts('Grants')] ) {
-            $allTabs[] = array ( 'id'  => 'grant',
-                                 'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/grant',
-                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
-                                 'title'  => ts('Grants'),
-                                 'weight' => $weight );
-            $weight += 10;
-        }
-
+        
         $rest = array( 'activity'      => ts('Activities')    ,
                        'case'          => ts('Cases')         ,
                        'rel'           => ts('Relationships') ,
@@ -217,25 +237,26 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                        'tag'           => ts('Tags')          ,
                        'log'           => ts('Change Log')    ,
                        );
-        
-        if ( $config->sunlight ) {
+
+        $config =& CRM_Core_Config::singleton( );
+        if ( isset( $config->sunlight ) &&
+             $config->sunlight ) {
             $title = ts('Elected Officials');
             $rest['sunlight'] = $title;
             $this->_viewOptions[$title] = true;
         }
 
         foreach ( $rest as $k => $v ) {
-            if ( ! $this->_viewOptions[$v] ) {
-                continue;
+            if ( CRM_Utils_Array::value($k, $this->_viewOptions) ) {
+                  $allTabs[] = array( 'id'     =>  $k,
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
+                                                                       "reset=1&snippet=1&cid={$this->_contactId}" ),
+                                    'title'  => $v,
+                                    'weight' => $weight );
+                $weight += 10;
             }
-            $allTabs[] = array( 'id'     =>  $k,
-                                'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
-                                                                   "reset=1&snippet=1&cid={$this->_contactId}" ),
-                                'title'  => $v,
-                                'weight' => $weight );
-            $weight += 10;
         }
-        
+
         // now add all the custom tabs
         $activeGroups =&
             CRM_Core_BAO_CustomGroup::getActiveGroups( CRM_Contact_BAO_Contact::getContactType($this->_contactId),
@@ -253,26 +274,39 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         // see if any other modules want to add any tabs
         require_once 'CRM/Utils/Hook.php';
-        $hookTabs = CRM_Utils_Hook::links( 'tabs.contact.activity', 'Contact', $this->_contactId );
-        if ( $hookTabs ) {
-            $allTabs = array_merge( $allTabs, $hookTabs );
+        CRM_Utils_Hook::tabs( $allTabs, $this->_contactId );
+
+        if( $config->civiHRD ) {
+            $hrdOrder = array(
+                       'rel'           => 1,
+                       'case'          => 2,
+                       'activity'      => 3,
+                       'participant'   => 4,
+                       'grant'         => 5,
+                       'contribute'    => 6,
+                       'group'         => 7,
+                       'note'          => 8,
+                       'tag'           => 9,
+                       'log'           => 10
+                       );
+
+            foreach( $allTabs as $i => $tab ) {
+                if( array_key_exists( $tab['id'],  $hrdOrder ) ) {
+                    $allTabs[$i]['weight'] = $hrdOrder[$tab['id']];
+                }
+            }
         }
 
         // now sort the tabs based on weight
-        usort( $allTabs, array( 'CRM_Contact_Page_View_Tabbed', 'cmpFunc' ) );
-
-        $this->assign( 'dojoIncludes', "dojo.require('dijit.layout.TabContainer');dojo.require('dijit.layout.ContentPane');dojo.require('dijit.layout.LinkPane'); dojo.require('dojo.parser');");
+        require_once 'CRM/Utils/Sort.php';
+        usort( $allTabs, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
 
         $this->assign( 'allTabs'     , $allTabs     );
      
         $selectedChild = CRM_Utils_Request::retrieve( 'selectedChild', 'String', $this, false, 'summary' );
         $this->assign( 'selectedChild', $selectedChild );
-        
     }
 
-    static function cmpFunc( $a, $b ) {
-        return ( $a['weight'] <= $b['weight'] ) ? -1 : 1;
-    }
 
     /**
      * Show hide blocks based on default values.
@@ -282,14 +316,26 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      * @access public
      */
     function setShowHide( &$defaults ) {
+        
+        $config =& CRM_Core_Config::singleton( );
+        
+        if ( isset($defaults['mail_to_household_id']) ) {
+            $HouseholdName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                          $defaults['mail_to_household_id'], 
+                                                          'display_name', 
+                                                          'id' );
+            $this->assign( 'HouseholdName',$HouseholdName );
+        }
+        
         require_once 'CRM/Core/ShowHideBlocks.php';
-
-        $showHide =& new CRM_Core_ShowHideBlocks( array( 'commPrefs'      => 1 ),
-                                                  array( 'commPrefs_show' => 1 ) );
-
-        $config =& CRM_Core_Config::singleton( ); 
-
-        if ( $defaults['contact_type'] == 'Individual' ) {
+        $showHide =& new CRM_Core_ShowHideBlocks();
+        
+        if ( $this->_showCommBlock ) {
+            $showHide->addShow( 'commPrefs' );
+            $showHide->addHide( 'commPrefs_show' );
+        }
+        
+        if ( $this->_showDemographics && $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?
             if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
                  CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
@@ -320,4 +366,4 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
 }
 
-?>
+

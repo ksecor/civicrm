@@ -13,3 +13,7 @@
 {if $smarty.get.directoryCleanup} 
 {$config->cleanup($smarty.get.directoryCleanup)}
 {/if}
+
+{if $smarty.get.configReset} 
+{$config->reset()}
+{/if}

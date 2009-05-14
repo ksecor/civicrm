@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -91,19 +91,29 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
                 $recur->$name = CRM_Utils_Date::isoToMysql( $recur->$name );
             }
         }
-
+        $sendNotification = false;
+        //set transaction type
+        $txnType = $_POST['txn_type'];
         switch ( $txnType ) {
 
         case 'subscr_signup':
             $recur->create_date            = $now;
-            $recur->contribution_status_id = 2;
+            //some times subscr_signup response come after the
+            //subscr_payment and set to pending mode.
+            $statusID                      = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionRecur',
+                                                                          $recur->id, 'contribution_status_id' );
+            if ($statusID != 5 ) {
+                $recur->contribution_status_id = 2;
+            }
             $recur->processor_id           = $_POST['subscr_id'];
             $recur->trxn_id                = $recur->processor_id;
+            $sendNotification              = true;
             break;
             
         case 'subscr_eot':
             $recur->contribution_status_id = 1;
             $recur->end_date               = $now;
+            $sendNotification              = true;
             break;
 
         case 'subscr_cancel':
@@ -137,7 +147,13 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         }
 
         $recur->save( );
-        
+
+        if ( $sendNotification ) {
+            //send recurring Notification email for user
+            require_once 'CRM/Contribute/BAO/ContributionPage.php';
+            CRM_Contribute_BAO_ContributionPage::recurringNofify( $txnType, $ids['contact'], $ids['contributionPage'], $recur );
+        }
+
         if ( $txnType != 'subscr_payment' ) {
             return;
         }
@@ -145,12 +161,14 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         if ( ! $first ) {
             // create a contribution and then get it processed
             $contribution =& new CRM_Contribute_DAO_Contribution( );
-            $contribution->domain_id = CRM_Core_Config::domainID( );
-            $contribution->contact_id = $contactID;
-            $contribution->contribution_type_id  = $contributionType->id;
+            $contribution->contact_id = $ids['contact'];
+            $contribution->contribution_type_id  = $objects['contributionType']->id;
             $contribution->contribution_page_id  = $ids['contributionPage'];
             $contribution->contribution_recur_id = $ids['contributionRecur'];
             $contribution->receive_date          = $now;
+            $contribution->currency              = $objects['contribution']->currency;
+            $contribution->payment_instrument_id = $objects['contribution']->payment_instrument_id;
+            $contribution->amount_level          = $objects['contribution']->amount_level;
 
             $objects['contribution'] =& $contribution;
         }
@@ -189,9 +207,10 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        if ( ! $this->createContact( $input, $ids, $objects ) ) {
-            return false;
-        }
+        // fix for CRM-2842
+        //  if ( ! $this->createContact( $input, $ids, $objects ) ) {
+        //       return false;
+        //  }
 
         $participant =& $objects['participant'];
         $membership  =& $objects['membership' ];
@@ -228,7 +247,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         $objects = $ids = $input = array( );
         $input['component'] = $component;
 
-        // get the contribution, contact and contributionType ids from the GET params
+        // get the contribution and contact ids from the GET params
         $ids['contact']           = self::retrieve( 'contactID'         , 'Integer', 'GET' , true  );
         $ids['contribution']      = self::retrieve( 'contributionID'    , 'Integer', 'GET' , true  );
         
@@ -239,9 +258,11 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
             $ids['participant'] = self::retrieve( 'participantID', 'Integer', 'GET', true );
         } else {
             // get the optional ids
-            $ids['membership']        = self::retrieve( 'membershipID'       , 'Integer', 'GET', false );
-            $ids['contributionRecur'] = self::retrieve( 'contributionRecurID', 'Integer', 'GET', false );
-            $ids['contributionPage']  = self::retrieve( 'contributionPageID' , 'Integer', 'GET', false );
+            $ids['membership']          = self::retrieve( 'membershipID'       , 'Integer', 'GET', false );
+            $ids['contributionRecur']   = self::retrieve( 'contributionRecurID', 'Integer', 'GET', false );
+            $ids['contributionPage']    = self::retrieve( 'contributionPageID' , 'Integer', 'GET', false );
+            $ids['related_contact']     = self::retrieve( 'relatedContactID'   , 'Integer', 'GET', false );
+            $ids['onbehalf_dupe_alert'] = self::retrieve( 'onBehalfDupeAlert'  , 'Integer', 'GET', false );
         }
 
         if ( ! $this->validateData( $input, $ids, $objects ) ) {
@@ -258,7 +279,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
                 }
                 return $this->recur( $input, $ids, $objects, $first );
             } else {
-                return $this->single( $input, $ids, $objects, true, false );
+                return $this->single( $input, $ids, $objects, false, false );
             }
         } else {
             return $this->single( $input, $ids, $objects, false, false );
@@ -271,9 +292,9 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         }
 
         $input['txnType']       = self::retrieve( 'txn_type'          , 'String' , 'POST', false );
-        $input['paymentStatus'] = self::retrieve( 'payment_status'    , 'String' , 'POST', true  );
+        $input['paymentStatus'] = self::retrieve( 'payment_status'    , 'String' , 'POST', false  );
         $input['invoice']       = self::retrieve( 'invoice'           , 'String' , 'POST', true  );
-        $input['amount']        = self::retrieve( 'mc_gross'          , 'Money'  , 'POST', true  );
+        $input['amount']        = self::retrieve( 'mc_gross'          , 'Money'  , 'POST', false  );
         $input['reasonCode']    = self::retrieve( 'ReasonCode'        , 'String' , 'POST', false );
 
         $billingID = $ids['billing'];
@@ -297,4 +318,4 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
     }
 }
 
-?>
+

@@ -1,478 +1,240 @@
-if(!dojo._hasResource["dojox.layout.ContentPane"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojox.layout.ContentPane"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojox.layout.ContentPane"]){
+dojo._hasResource["dojox.layout.ContentPane"]=true;
 dojo.provide("dojox.layout.ContentPane");
-
 dojo.require("dijit.layout.ContentPane");
-
-(function(){ // private scope, sort of a namespace
-
-	// TODO: should these methods be moved to dojox.html.cssPathAdjust or something?
-
-	// css at-rules must be set before any css declarations according to CSS spec
-	// match:
-	// @import 'http://dojotoolkit.org/dojo.css';
-	// @import 'you/never/thought/' print;
-	// @import url("it/would/work") tv, screen;
-	// @import url(/did/you/now.css);
-	// but not:
-	// @namespace dojo "http://dojotoolkit.org/dojo.css"; /* namespace URL should always be a absolute URI */
-	// @charset 'utf-8';
-	// @media print{ #menuRoot {display:none;} }
-
-		
-	// we adjust all paths that dont start on '/' or contains ':'
-	//(?![a-z]+:|\/)
-
-	if(dojo.isIE){
-		var alphaImageLoader = /(AlphaImageLoader\([^)]*?src=(['"]))(?![a-z]+:|\/)([^\r\n;}]+?)(\2[^)]*\)\s*[;}]?)/g;
-	}
-
-	var cssPaths = /(?:(?:@import\s*(['"])(?![a-z]+:|\/)([^\r\n;{]+?)\1)|url\(\s*(['"]?)(?![a-z]+:|\/)([^\r\n;]+?)\3\s*\))([a-z, \s]*[;}]?)/g;
-
-	function adjustCssPaths(cssUrl, cssText){
-		//	summary:
-		//		adjusts relative paths in cssText to be relative to cssUrl
-		//		a path is considered relative if it doesn't start with '/' and not contains ':'
-		//	description:
-		//		Say we fetch a HTML page from level1/page.html
-		//		It has some inline CSS:
-		//			@import "css/page.css" tv, screen;
-		//			...
-		//			background-image: url(images/aplhaimage.png);
-		//
-		//		as we fetched this HTML and therefore this CSS
-		//		from level1/page.html, these paths needs to be adjusted to:
-		//			@import 'level1/css/page.css' tv, screen;
-		//			...
-		//			background-image: url(level1/images/alphaimage.png);
-		//		
-		//		In IE it will also adjust relative paths in AlphaImageLoader()
-		//			filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/alphaimage.png');
-		//		will be adjusted to:
-		//			filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='level1/images/alphaimage.png');
-		//
-		//		Please note that any relative paths in AlphaImageLoader in external css files wont work, as
-		//		the paths in AlphaImageLoader is MUST be declared relative to the HTML page,
-		//		not relative to the CSS file that declares it
-
-		if(!cssText || !cssUrl){ return; }
-
-		// support the ImageAlphaFilter if it exists, most people use it in IE 6 for transparent PNGs
-		// We are NOT going to kill it in IE 7 just because the PNGs work there. Somebody might have
-		// other uses for it.
-		// If user want to disable css filter in IE6  he/she should
-		// unset filter in a declaration that just IE 6 doesn't understands
-		// like * > .myselector { filter:none; }
-		if(alphaImageLoader){
-			cssText = cssText.replace(alphaImageLoader, function(ignore, pre, delim, url, post){
-				return pre + (new dojo._Url(cssUrl, './'+url).toString()) + post;
-			});
-		}
-
-		return cssText.replace(cssPaths, function(ignore, delimStr, strUrl, delimUrl, urlUrl, media){
-			if(strUrl){
-				return '@import "' + (new dojo._Url(cssUrl, './'+strUrl).toString()) + '"' + media;
-			}else{
-				return 'url(' + (new dojo._Url(cssUrl, './'+urlUrl).toString()) + ')' + media;
-			}
-		});
-	}
-
-	// attributepaths one tag can have multiple paths, example:
-	// <input src="..." style="url(..)"/> or <a style="url(..)" href="..">
-	// <img style='filter:progid...AlphaImageLoader(src="noticeTheSrcHereRunsThroughHtmlSrc")' src="img">
-	var htmlAttrPaths = /(<[a-z][a-z0-9]*\s[^>]*)(?:(href|src)=(['"]?)([^>]*?)\3|style=(['"]?)([^>]*?)\5)([^>]*>)/gi;
-
-	function adjustHtmlPaths(htmlUrl, cont){
-		var url = htmlUrl || "./";
-
-		return cont.replace(htmlAttrPaths,
-			function(tag, start, name, delim, relUrl, delim2, cssText, end){
-				return start + (name ?
-							(name + '=' + delim + (new dojo._Url(url, relUrl).toString()) + delim)
-						: ('style=' + delim2 + adjustCssPaths(url, cssText) + delim2)
-				) + end;
-			}
-		);
-	}
-
-	function secureForInnerHtml(cont){
-		/********* remove <!DOCTYPE.. and <title>..</title> tag **********/
-		// khtml is picky about dom faults, you can't attach a <style> or <title> node as child of body
-		// must go into head, so we need to cut out those tags
-		return cont.replace(/(?:\s*<!DOCTYPE\s[^>]+>|<title[^>]*>[\s\S]*?<\/title>)/ig, "");
-	}
-
-	function snarfStyles(/*String*/cssUrl, /*String*/cont, /*Array*/styles){
-		/****************  cut out all <style> and <link rel="stylesheet" href=".."> **************/
-		// also return any attributes from this tag (might be a media attribute)
-		// if cssUrl is set it will adjust paths accordingly
-		styles.attributes = [];
-
-		return cont.replace(/(?:<style([^>]*)>([\s\S]*?)<\/style>|<link\s+(?=[^>]*rel=['"]?stylesheet)([^>]*?href=(['"])([^>]*?)\4[^>\/]*)\/?>)/gi,
-			function(ignore, styleAttr, cssText, linkAttr, delim, href){
-				// trim attribute
-				var i, attr = (styleAttr||linkAttr||"").replace(/^\s*([\s\S]*?)\s*$/i, "$1"); 
-				if(cssText){
-					i = styles.push(cssUrl ? adjustCssPaths(cssUrl, cssText) : cssText);
-				}else{
-					i = styles.push('@import "' + href + '";')
-					attr = attr.replace(/\s*(?:rel|href)=(['"])?[^\s]*\1\s*/gi, ""); // remove rel=... and href=...
-				}
-				if(attr){
-					attr = attr.split(/\s+/);// split on both "\n", "\t", " " etc
-					var atObj = {}, tmp;
-					for(var j = 0, e = attr.length; j < e; j++){
-						tmp = attr[j].split('=')// split name='value'
-						atObj[tmp[0]] = tmp[1].replace(/^\s*['"]?([\s\S]*?)['"]?\s*$/, "$1"); // trim and remove ''
-					}
-					styles.attributes[i - 1] = atObj;
-				}
-				return ""; // squelsh the <style> or <link>
-			}
-		);
-	}
-
-	function snarfScripts(cont, byRef){
-		// summary
-		//		strips out script tags from cont
-		// invoke with 
-		//	byRef = {errBack:function(){/*add your download error code here*/, downloadRemote: true(default false)}}
-		//	byRef will have {code: 'jscode'} when this scope leaves
-		byRef.code = "";
-
-		function download(src){
-			if(byRef.downloadRemote){
-				// console.debug('downloading',src);
-				dojo.xhrGet({
-					url: src,
-					sync: true,
-					load: function(code){
-						byRef.code += code+";";
-					},
-					error: byRef.errBack
-				});
-			}
-		}
-		
-		// match <script>, <script type="text/..., but not <script type="dojo(/method)...
-		return cont.replace(/<script\s*(?![^>]*type=['"]?dojo)(?:[^>]*?(?:src=(['"]?)([^>]*?)\1[^>]*)?)*>([\s\S]*?)<\/script>/gi,
-			function(ignore, delim, src, code){
-				if(src){
-					download(src);
-				}else{
-					byRef.code += code;
-				}
-				return "";
-			}
-		);
-	}
-
-	function evalInGlobal(code, appendNode){
-		// we do our own eval here as dojo.eval doesn't eval in global crossbrowser
-		// This work X browser but but it relies on a DOM
-		// plus it doesn't return anything, thats unrelevant here but not for dojo core
-		appendNode = appendNode || dojo.doc.body;
-		var n = appendNode.ownerDocument.createElement('script');
-		n.type = "text/javascript";
-		appendNode.appendChild(n);
-		n.text = code; // DOM 1 says this should work
-	}
-
-	/*=====
-	dojox.layout.ContentPane.DeferredHandle = {
-		// cancel: Function
-		cancel: function(){
-			// summary: cancel a in flight download
-		},
-
-		addOnLoad: function(func){
-			// summary: add a callback to the onLoad chain
-			// func: Function
-		},
-
-		addOnUnload: function(func){
-			// summary: add a callback to the onUnload chain
-			// func: Function
-		}
-	}
-	=====*/
-
-
-dojo.declare("dojox.layout.ContentPane", dijit.layout.ContentPane, {
-	// summary:
-	//		An extended version of dijit.layout.ContentPane
-	//		Supports infile scrips and external ones declared by <script src=''
-	//		relative path adjustments (content fetched from a different folder)
-	//		<style> and <link rel='stylesheet' href='..'> tags,
-	//		css paths inside cssText is adjusted (if you set adjustPaths = true)
-	//
-	//		NOTE that dojo.require in script in the fetched file isn't recommended
-	//		Many widgets need to be required at page load to work properly
-
-	// adjustPaths: Boolean
-	//		Adjust relative paths in html string content to point to this page
-	//		Only usefull if you grab content from a another folder then the current one
-	adjustPaths: false,
-
-	// cleanContent: Boolean
-	//	summary:
-	//		cleans content to make it less likly to generate DOM/JS errors.
-	//	description:
-	//		usefull if you send contentpane a complete page, instead of a html fragment
-	//		scans for 
-	//			style nodes, inserts in Document head
-	//			title Node, remove
-	//			DOCTYPE tag, remove
-	//			<!-- *JS code here* -->
-	//			<![CDATA[ *JS code here* ]]>
-	cleanContent: false,
-
-	// renderStyles: Boolean
-	//		trigger/load styles in the content
-	renderStyles: false,
-
-	// executeScripts: Boolean
-	//		Execute (eval) scripts that is found in the content
-	executeScripts: true,
-
-	// scriptHasHooks: Boolean
-	//		replace keyword '_container_' in scripts with 'dijit.byId(this.id)'
-	// NOTE this name might change in the near future
-	scriptHasHooks: false,
-
-	/*======
-	// ioMethod: dojo.xhrGet|dojo.xhrPost
-	//		reference to the method that should grab the content
-	ioMethod: dojo.xhrGet,
-	
-	// ioArgs: Object
-	//		makes it possible to add custom args to xhrGet, like ioArgs.headers['X-myHeader'] = 'true'
-	ioArgs: {},
-
-	// onLoadDeferred: dojo.Deferred
-	//		callbackchain will start when onLoad occurs
-	onLoadDeferred: new dojo.Deferred(),
-
-	// onUnloadDeferred: dojo.Deferred
-	//		callbackchain will start when onUnload occurs
-	onUnloadDeferred: new dojo.Deferred(),
-
-	setHref: function(url){
-		// summary: replace current content with url's content
-		return ;// dojox.layout.ContentPane.DeferredHandle
-	},
-
-	refresh: function(){
-		summary: force a re-download of content
-		return ;// dojox.layout.ContentPane.DeferredHandle 
-	},
-
-	======*/
-
-	constructor: function(){
-		// init per instance properties, initializer doesn't work here because how things is hooked up in dijit._Widget
-		this.ioArgs = {};
-		this.ioMethod = dojo.xhrGet;
-		this.onLoadDeferred = new dojo.Deferred();
-		this.onUnloadDeferred = new dojo.Deferred();
-	},
-
-	postCreate: function(){
-		// override to support loadDeferred
-		this._setUpDeferreds();
-
-		dijit.layout.ContentPane.prototype.postCreate.apply(this, arguments);
-	},
-
-	onExecError: function(e){
-		// summary
-		//		event callback, called on script error or on java handler error
-		//		overide and return your own html string if you want a some text 
-		//		displayed within the ContentPane
-	},
-
-	setContent: function(data){
-		// summary: set data as new content, sort of like innerHTML
-		// data: String|DomNode|NodeList|dojo.NodeList
-		if(!this._isDownloaded){
-			var defObj = this._setUpDeferreds();
-		}
-
-		dijit.layout.ContentPane.prototype.setContent.apply(this, arguments);
-		return defObj; // dojox.layout.ContentPane.DeferredHandle
-	},
-
-	cancel: function(){
-		// summary: cancels a inflight download
-		if(this._xhrDfd && this._xhrDfd.fired == -1){
-			// we are still in flight, which means we should reset our DeferredHandle
-			// otherwise we will trigger onUnLoad chain of the canceled content,
-			// the canceled content have never gotten onLoad so it shouldn't get onUnload
-			this.onUnloadDeferred = null;
-		}
-		dijit.layout.ContentPane.prototype.cancel.apply(this, arguments);
-	},
-
-	_setUpDeferreds: function(){
-		var _t = this, cancel = function(){ _t.cancel();	}
-		var onLoad = (_t.onLoadDeferred = new dojo.Deferred());
-		var onUnload = (_t._nextUnloadDeferred = new dojo.Deferred());
-		return {
-			cancel: cancel,
-			addOnLoad: function(func){onLoad.addCallback(func);},
-			addOnUnload: function(func){onUnload.addCallback(func);}
-		};
-	},
-
-	_onLoadHandler: function(){
-		dijit.layout.ContentPane.prototype._onLoadHandler.apply(this, arguments);
-		if(this.onLoadDeferred){
-			this.onLoadDeferred.callback(true);
-		}
-	},
-
-	_onUnloadHandler: function(){
-		this.isLoaded = false;
-		this.cancel();// need to cancel so we don't get any inflight suprises
-		if(this.onUnloadDeferred){
-			this.onUnloadDeferred.callback(true);
-		}
-
-		dijit.layout.ContentPane.prototype._onUnloadHandler.apply(this, arguments);
-
-		if(this._nextUnloadDeferred){
-			this.onUnloadDeferred = this._nextUnloadDeferred;
-		}
-	},
-
-	_onError: function(type, err){
-		dijit.layout.ContentPane.prototype._onError.apply(this, arguments);
-		if(this.onLoadDeferred){
-			this.onLoadDeferred.errback(err);
-		}
-	},
-
-	_prepareLoad: function(forceLoad){
-		// sets up for a xhrLoad, load is deferred until widget is showing
-		var defObj = this._setUpDeferreds();
-
-		dijit.layout.ContentPane.prototype._prepareLoad.apply(this, arguments);
-
-		return defObj;
-	},
-
-	_setContent: function(cont){
-		// override dijit.layout.ContentPane._setContent, to enable path adjustments
-		var styles = [];// init vars
-		if(dojo.isString(cont)){
-			if(this.adjustPaths && this.href){
-				cont = adjustHtmlPaths(this.href, cont);
-			}
-			if(this.cleanContent){
-				cont = secureForInnerHtml(cont);
-			}
-			if(this.renderStyles || this.cleanContent){
-				cont = snarfStyles(this.href, cont, styles);
-			}
-
-			// because of a bug in IE, script tags that is first in html hierarchy doesnt make it into the DOM 
-			//	when content is innerHTML'ed, so we can't use dojo.query to retrieve scripts from DOM
-			if(this.executeScripts){
-				var _t = this, code, byRef = {
-					downloadRemote: true,
-					errBack:function(e){
-						_t._onError.call(_t, 'Exec', 'Error downloading remote script in "'+_t.id+'"', e);
-					}
-				};
-				cont = snarfScripts(cont, byRef);
-				code = byRef.code;
-			}
-
-			// rationale for this block:
-			// if containerNode/domNode is a table derivate tag, some browsers dont allow innerHTML on those
-			var node = (this.containerNode || this.domNode), pre = post = '', walk = 0;
-			switch(name = node.nodeName.toLowerCase()){
-				case 'tr':
-					pre = '<tr>'; post = '</tr>';
-					walk += 1;//fallthrough
-				case 'tbody': case 'thead':// children of THEAD is of same type as TBODY
-					pre = '<tbody>' + pre; post += '</tbody>';
-					walk += 1;// falltrough
-				case 'table':
-					pre = '<table>' + pre; post += '</table>';
-					walk += 1;
-					break;
-			}
-			if(walk){
-				var n = node.ownerDocument.createElement('div');
-				n.innerHTML = pre + cont + post;
-				do{
-					n = n.firstChild;
-				}while(--walk);
-				cont = n.childNodes;
-			}
-		}
-
-		// render the content
-		dijit.layout.ContentPane.prototype._setContent.call(this, cont);
-
-		// clear old stylenodes from the DOM
-		if(this._styleNodes && this._styleNodes.length){
-			while(this._styleNodes.length){
-				dojo._destroyElement(this._styleNodes.pop());
-			}
-		}
-		// render new style nodes
-		if(this.renderStyles && styles && styles.length){
-			this._renderStyles(styles);
-		}
-
-		if(this.executeScripts && code){
-			if(this.cleanContent){
-				// clean JS from html comments and other crap that browser
-				// parser takes care of in a normal page load
-				code = code.replace(/(<!--|(?:\/\/)?-->|<!\[CDATA\[|\]\]>)/g, '');
-			}
-			if(this.scriptHasHooks){
-				// replace _container_ with dijit.byId(this.id)
-				code = code.replace(/_container_(?!\s*=[^=])/g, "dijit.byId('"+this.id+"')");
-			}
-			try{
-				evalInGlobal(code, (this.containerNode || this.domNode));
-			}catch(e){
-				this._onError('Exec', 'Error eval script in '+this.id+', '+e.message, e);
-			}
-		}
-	},
-
-	_renderStyles: function(styles){
-		// insert css from content into document head
-		this._styleNodes = [];
-		var st, att, cssText, doc = this.domNode.ownerDocument;
-		var head = doc.getElementsByTagName('head')[0];
-
-		for(var i = 0, e = styles.length; i < e; i++){
-			cssText = styles[i]; att = styles.attributes[i];
-			st = doc.createElement('style');
-			st.setAttribute("type", "text/css"); // this is required in CSS spec!
-
-			for(var x in att){
-				st.setAttribute(x, att[x])
-			}
-			
-			this._styleNodes.push(st);
-			head.appendChild(st); // must insert into DOM before setting cssText
-
-			if(st.styleSheet){ // IE
-				st.styleSheet.cssText = cssText;
-			}else{ // w3c
-				st.appendChild(doc.createTextNode(cssText));
-			}
-		}
-	}
+(function(){
+if(dojo.isIE){
+var _1=/(AlphaImageLoader\([^)]*?src=(['"]))(?![a-z]+:|\/)([^\r\n;}]+?)(\2[^)]*\)\s*[;}]?)/g;
+}
+var _2=/(?:(?:@import\s*(['"])(?![a-z]+:|\/)([^\r\n;{]+?)\1)|url\(\s*(['"]?)(?![a-z]+:|\/)([^\r\n;]+?)\3\s*\))([a-z, \s]*[;}]?)/g;
+function adjustCssPaths(_3,_4){
+if(!_4||!_3){
+return;
+}
+if(_1){
+_4=_4.replace(_1,function(_5,_6,_7,_8,_9){
+return _6+(new dojo._Url(_3,"./"+_8).toString())+_9;
 });
-
+}
+return _4.replace(_2,function(_a,_b,_c,_d,_e,_f){
+if(_c){
+return "@import \""+(new dojo._Url(_3,"./"+_c).toString())+"\""+_f;
+}else{
+return "url("+(new dojo._Url(_3,"./"+_e).toString())+")"+_f;
+}
+});
+};
+var _10=/(<[a-z][a-z0-9]*\s[^>]*)(?:(href|src)=(['"]?)([^>]*?)\3|style=(['"]?)([^>]*?)\5)([^>]*>)/gi;
+function adjustHtmlPaths(_11,_12){
+var url=_11||"./";
+return _12.replace(_10,function(tag,_15,_16,_17,_18,_19,_1a,end){
+return _15+(_16?(_16+"="+_17+(new dojo._Url(url,_18).toString())+_17):("style="+_19+adjustCssPaths(url,_1a)+_19))+end;
+});
+};
+function secureForInnerHtml(_1c){
+return _1c.replace(/(?:\s*<!DOCTYPE\s[^>]+>|<title[^>]*>[\s\S]*?<\/title>)/ig,"");
+};
+function snarfStyles(_1d,_1e,_1f){
+_1f.attributes=[];
+return _1e.replace(/(?:<style([^>]*)>([\s\S]*?)<\/style>|<link\s+(?=[^>]*rel=['"]?stylesheet)([^>]*?href=(['"])([^>]*?)\4[^>\/]*)\/?>)/gi,function(_20,_21,_22,_23,_24,_25){
+var i,_27=(_21||_23||"").replace(/^\s*([\s\S]*?)\s*$/i,"$1");
+if(_22){
+i=_1f.push(_1d?adjustCssPaths(_1d,_22):_22);
+}else{
+i=_1f.push("@import \""+_25+"\";");
+_27=_27.replace(/\s*(?:rel|href)=(['"])?[^\s]*\1\s*/gi,"");
+}
+if(_27){
+_27=_27.split(/\s+/);
+var _28={},tmp;
+for(var j=0,e=_27.length;j<e;j++){
+tmp=_27[j].split("=");
+_28[tmp[0]]=tmp[1].replace(/^\s*['"]?([\s\S]*?)['"]?\s*$/,"$1");
+}
+_1f.attributes[i-1]=_28;
+}
+return "";
+});
+};
+function snarfScripts(_2c,_2d){
+_2d.code="";
+function download(src){
+if(_2d.downloadRemote){
+dojo.xhrGet({url:src,sync:true,load:function(_2f){
+_2d.code+=_2f+";";
+},error:_2d.errBack});
+}
+};
+return _2c.replace(/<script\s*(?![^>]*type=['"]?dojo)(?:[^>]*?(?:src=(['"]?)([^>]*?)\1[^>]*)?)*>([\s\S]*?)<\/script>/gi,function(_30,_31,src,_33){
+if(src){
+download(src);
+}else{
+_2d.code+=_33;
+}
+return "";
+});
+};
+function evalInGlobal(_34,_35){
+_35=_35||dojo.doc.body;
+var n=_35.ownerDocument.createElement("script");
+n.type="text/javascript";
+_35.appendChild(n);
+n.text=_34;
+};
+dojo.declare("dojox.layout.ContentPane",dijit.layout.ContentPane,{adjustPaths:false,cleanContent:false,renderStyles:false,executeScripts:true,scriptHasHooks:false,constructor:function(){
+this.ioArgs={};
+this.ioMethod=dojo.xhrGet;
+this.onLoadDeferred=new dojo.Deferred();
+this.onUnloadDeferred=new dojo.Deferred();
+},postCreate:function(){
+this._setUpDeferreds();
+dijit.layout.ContentPane.prototype.postCreate.apply(this,arguments);
+},onExecError:function(e){
+},setContent:function(_38){
+if(!this._isDownloaded){
+var _39=this._setUpDeferreds();
+}
+dijit.layout.ContentPane.prototype.setContent.apply(this,arguments);
+return _39;
+},cancel:function(){
+if(this._xhrDfd&&this._xhrDfd.fired==-1){
+this.onUnloadDeferred=null;
+}
+dijit.layout.ContentPane.prototype.cancel.apply(this,arguments);
+},_setUpDeferreds:function(){
+var _t=this,_3b=function(){
+_t.cancel();
+};
+var _3c=(_t.onLoadDeferred=new dojo.Deferred());
+var _3d=(_t._nextUnloadDeferred=new dojo.Deferred());
+return {cancel:_3b,addOnLoad:function(_3e){
+_3c.addCallback(_3e);
+},addOnUnload:function(_3f){
+_3d.addCallback(_3f);
+}};
+},_onLoadHandler:function(){
+dijit.layout.ContentPane.prototype._onLoadHandler.apply(this,arguments);
+if(this.onLoadDeferred){
+this.onLoadDeferred.callback(true);
+}
+},_onUnloadHandler:function(){
+this.isLoaded=false;
+this.cancel();
+if(this.onUnloadDeferred){
+this.onUnloadDeferred.callback(true);
+}
+dijit.layout.ContentPane.prototype._onUnloadHandler.apply(this,arguments);
+if(this._nextUnloadDeferred){
+this.onUnloadDeferred=this._nextUnloadDeferred;
+}
+},_onError:function(_40,err){
+dijit.layout.ContentPane.prototype._onError.apply(this,arguments);
+if(this.onLoadDeferred){
+this.onLoadDeferred.errback(err);
+}
+},_prepareLoad:function(_42){
+var _43=this._setUpDeferreds();
+dijit.layout.ContentPane.prototype._prepareLoad.apply(this,arguments);
+return _43;
+},_setContent:function(_44){
+var _45=[];
+if(dojo.isString(_44)){
+if(this.adjustPaths&&this.href){
+_44=adjustHtmlPaths(this.href,_44);
+}
+if(this.cleanContent){
+_44=secureForInnerHtml(_44);
+}
+if(this.renderStyles||this.cleanContent){
+_44=snarfStyles(this.href,_44,_45);
+}
+if(this.executeScripts){
+var _t=this,_47,_48={downloadRemote:true,errBack:function(e){
+_t._onError.call(_t,"Exec","Error downloading remote script in \""+_t.id+"\"",e);
+}};
+_44=snarfScripts(_44,_48);
+_47=_48.code;
+}
+var _4a=(this.containerNode||this.domNode),pre=post="",_4c=0;
+switch(_4a.nodeName.toLowerCase()){
+case "tr":
+pre="<tr>";
+post="</tr>";
+_4c+=1;
+case "tbody":
+case "thead":
+pre="<tbody>"+pre;
+post+="</tbody>";
+_4c+=1;
+case "table":
+pre="<table>"+pre;
+post+="</table>";
+_4c+=1;
+break;
+}
+if(_4c){
+var n=_4a.ownerDocument.createElement("div");
+n.innerHTML=pre+_44+post;
+do{
+n=n.firstChild;
+}while(--_4c);
+_44=n.childNodes;
+}
+}
+dijit.layout.ContentPane.prototype._setContent.call(this,_44);
+if(this._styleNodes&&this._styleNodes.length){
+while(this._styleNodes.length){
+dojo._destroyElement(this._styleNodes.pop());
+}
+}
+if(this.renderStyles&&_45&&_45.length){
+this._renderStyles(_45);
+}
+if(this.executeScripts&&_47){
+if(this.cleanContent){
+_47=_47.replace(/(<!--|(?:\/\/)?-->|<!\[CDATA\[|\]\]>)/g,"");
+}
+if(this.scriptHasHooks){
+_47=_47.replace(/_container_(?!\s*=[^=])/g,dijit._scopeName+".byId('"+this.id+"')");
+}
+try{
+evalInGlobal(_47,(this.containerNode||this.domNode));
+}
+catch(e){
+this._onError("Exec","Error eval script in "+this.id+", "+e.message,e);
+}
+}
+},_renderStyles:function(_4e){
+this._styleNodes=[];
+var st,att,_51,doc=this.domNode.ownerDocument;
+var _53=doc.getElementsByTagName("head")[0];
+for(var i=0,e=_4e.length;i<e;i++){
+_51=_4e[i];
+att=_4e.attributes[i];
+st=doc.createElement("style");
+st.setAttribute("type","text/css");
+for(var x in att){
+st.setAttribute(x,att[x]);
+}
+this._styleNodes.push(st);
+_53.appendChild(st);
+if(st.styleSheet){
+st.styleSheet.cssText=_51;
+}else{
+st.appendChild(doc.createTextNode(_51));
+}
+}
+}});
 })();
-
 }

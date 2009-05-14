@@ -1,0 +1,316 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Contact_NewIndividual extends CiviTestCase 
+{
+    
+    var $webUser;
+    
+    function get_info() 
+    {
+        return array(
+                     'name' => 'Create Individual',
+                     'description' => 'Creates a simple Individual (First Name, Last Name only)',
+                     'group' => 'CiviCRM Browser Tests',
+                     );
+    }
+    
+    function setUp() 
+    {
+        parent::setUp();
+        $this->drupalModuleEnable('civicrm');
+        
+        $this->webUser = $this->drupalCreateUserRolePerm(
+                                                         array ( 0 => 'access CiviCRM',
+                                                                 1 => 'edit all contacts',
+                                                                 2 => 'add contacts' ) );
+        $this->drupalLoginUser($this->webUser);
+        
+    }
+  
+    /**
+     * Test to create individual with 
+     * valid parameters
+     */
+    function testCreateIndividual( ) 
+    {
+        $first_name  = 'Jane';
+        $last_name   = 'Doe';
+
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+
+        $params = array( 'first_name' => $first_name,     
+                         'last_name'  => $last_name );
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
+        $this->assertText('Your Individual contact record has been saved.');
+
+        // webuser email should be a link on the page - as the contact name of "Last changed by" link
+        $this->assertLink( $this->webUser->mail );
+
+        // Now check DB for contact and cleanup by deleting the contact
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }  
+    
+    /**
+     * Test to create individual without required fields (first + last OR email are required)
+     */
+    function testCreateIndividualWithMissingParams( ) 
+    {
+        $first_name  = 'Peter';
+        $last_name   = '';
+
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        $params = array( 'first_name' => $first_name,     
+                         'last_name'  => $last_name );
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
+        $this->assertWantedRaw( 'First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.',
+                                'New Individual, validations.' );
+        $this->assertText('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.');
+        $this->assertDBNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Database check, Individual created successfully.' );
+    }  
+    
+    /**
+     * Test to create individual with address data (primary location)
+     * 
+     */
+    function testCreateIndividualWithAddress( ) 
+    {
+        $first_name  = 'John';
+        $last_name   = 'Smith';
+
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+
+        $params = array ( 'first_name'                                   => $first_name,     
+                          'last_name'                                    => $last_name, 
+                          'location[1][location_type_id]'                => 1,
+                          'location[1][is_primary]'                      => 1,
+                          'location[1][email][1][email]'                 => 'john.smith@example.org',
+                          'location[1][address][street_address]'         => 'Saint Helier St',
+                          'location[1][address][supplemental_address_1]' => 'Hallmark Ct',
+                          'location[1][address][supplemental_address_2]' => 'Jersey Village',
+                          'location[1][address][city]'                   => 'Newark',
+                          'location[1][address][country_id]'             => 1228,
+                          'location[1][address][state_province_id]'      => 1029,
+                          );
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
+        $this->assertText('Your Individual contact record has been saved.');
+
+        // webuser email should be a link on the page - as the contact name of "Last changed by" link
+        $this->assertLink( $this->webUser->mail );
+
+        // Now check DB for contact and cleanup by deleting the contact
+        $contactId = $this->assertDBNotNull( 'CRM_Core_DAO_Address',
+                                             'Saint Helier St',
+                                             'contact_id', 
+                                             'street_address',
+                                             'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }  
+    
+    /**
+     * Test to create individual with phone params
+     * 
+     */
+    function testCreateIndividualWithPhone( ) 
+    {
+        $first_name  = 'Johny';
+        $last_name   = 'Smith';
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $params = array ( 'first_name'                                   => $first_name,     
+                          'last_name'                                    => $last_name, 
+                          'location[1][location_type_id]'                => 1,
+                          'location[1][is_primary]'                      => 1,
+                          'location[1][phone][1][phone_type_id]'         => 1,
+                          'location[1][phone][1][phone]'                 => '303443689',
+                          'location[1][phone][2][phone_type_id]'         => 2,
+                          'location[1][phone][2][phone]'                 => '9833910234',
+                          'location[1][phone][3][phone_type_id]'         => 3,
+                          'location[1][phone][3][phone]'                 => '674563788',
+                          'location[1][phone][4][phone_type_id]'         => 4,
+                          'location[1][phone][4][phone]'                 => '785443785',
+                          );
+
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
+        
+        $this->assertText('Your Individual contact record has been saved.');
+        
+        // webuser email should be a link on the page - as the contact name of "Last changed by" link
+        $this->assertLink( $this->webUser->mail );
+        
+        // Now check DB for contact and cleanup by deleting the contact
+        $contactId = $this->assertDBNotNull( 'CRM_Core_DAO_Phone',
+                                             '303443689',
+                                             'contact_id',
+                                             'phone',
+                                             'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }  
+    
+    /**
+     * Test to create contact with email
+     * 
+     */
+    function testCreateIndividualWithEmail( ) 
+    { 
+        $first_name  = 'Roger';
+        $last_name   = 'Fedrer';
+        
+        $params = array ( 'first_name'                                   => $first_name,     
+                          'last_name'                                    => $last_name, 
+                          'location[1][location_type_id]'                => 1,
+                          'location[1][is_primary]'                      => 1,
+                          'location[1][email][1][email]'                 => 'fedrer@example.org'
+                          );
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
+        
+        $this->assertText('Your Individual contact record has been saved.');
+        $this->assertLink( $this->webUser->mail );
+        
+        $contactId = $this->assertDBNotNull( 'CRM_Core_DAO_Email', 
+                                             'fedrer@example.org' ,
+                                             'contact_id',
+                                             'email', 
+                                             'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * Test to check invalid email for contact
+     * 
+     */
+    function testCreateIndividualWithInvalidEmail( ) 
+    { 
+        $first_name  = 'Roger';
+        $last_name   = 'Fedrer';
+        
+        $params = array ( 'first_name'                                   => $first_name,     
+                          'last_name'                                    => $last_name, 
+                          'location[1][location_type_id]'                => 1,
+                          'location[1][is_primary]'                      => 1,
+                          'location[1][email][1][email]'                 => 'xyz'
+                          );
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
+        
+        $this->assertText('Email is not valid.');
+        $this->assertLink( $this->webUser->mail );
+        
+        $this->assertDBNull( 'CRM_Core_DAO_Email', 
+                             'xyz',
+                             'id',
+                             'email',
+                             'Checking database for the empty row.' );
+    }
+
+    /**
+     * Test to create contact with openid
+     * 
+     */
+    function testCreateIndividualWithOpenId( ) 
+    { 
+        $first_name  = 'Alaan';
+        $last_name   = 'Maxwel';
+        $openid      = 'http://civicrm.org';
+
+        $params = array ( 'first_name'                     => $first_name,     
+                          'last_name'                      => $last_name, 
+                          'location[1][location_type_id]'  => 1,
+                          'location[1][is_primary]'        => 1,
+                          'location[1][openid][1][openid]' => $openid
+                          );
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
+        
+        $this->assertText('Your Individual contact record has been saved.');
+        $this->assertLink( $this->webUser->mail );
+        
+        $contactId = $this->assertDBNotNull( 'CRM_Core_DAO_OpenID',
+                                             $openid,
+                                             'contact_id',
+                                             'openid', 
+                                             'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }
+
+    /**
+     * Test to create contact with invalid openid
+     * 
+     */
+    function testCreateIndividualWithInvalidOpenId( ) 
+    { 
+        $first_name  = 'Peter';
+        $last_name   = 'Parker';
+        $openid      = 'civicrm';
+
+        $params = array ( 'first_name'                     => $first_name,     
+                          'last_name'                      => $last_name, 
+                          'location[1][location_type_id]'  => 1,
+                          'location[1][is_primary]'        => 1,
+                          'location[1][openid][1][openid]' => $openid
+                          );
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
+        $this->assertText('OpenID is not a valid URL.');
+        $this->assertLink( $this->webUser->mail );
+        
+        $this->assertDBNull( 'CRM_Core_DAO_OpenID',
+                             $openid,
+                             'id',
+                             'openid',
+                             'Checking database for the empty row.' );
+       
+    }
+
+
+}

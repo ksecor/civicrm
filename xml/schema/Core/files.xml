@@ -2,13 +2,13 @@
 
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="Address.xml"              parse="xml" />
+<xi:include href="Cache.xml"                parse="xml" />
 <xi:include href="Country.xml"              parse="xml" />
 <xi:include href="County.xml"               parse="xml" />
 <xi:include href="Currency.xml"             parse="xml" />
 <xi:include href="CustomGroup.xml"          parse="xml" />
 <xi:include href="CustomField.xml"          parse="xml" />
 <xi:include href="Domain.xml"               parse="xml" />
-<xi:include href="DupeMatch.xml"            parse="xml" />
 <xi:include href="Email.xml"                parse="xml" />
 <xi:include href="EntityFile.xml"           parse="xml" />
 <xi:include href="EntityTag.xml"            parse="xml" />
@@ -18,8 +18,10 @@
 <xi:include href="LocBlock.xml"             parse="xml" />
 <xi:include href="LocationType.xml"         parse="xml" />
 <xi:include href="Log.xml"                  parse="xml" />
+<xi:include href="MailSettings.xml"         parse="xml" />
 <xi:include href="Mapping.xml"              parse="xml" />
 <xi:include href="MappingField.xml"         parse="xml" />
+<xi:include href="Menu.xml"                 parse="xml" />
 <xi:include href="MessageTemplate.xml"      parse="xml" />
 <xi:include href="Note.xml"                 parse="xml" />
 <xi:include href="OptionGroup.xml"          parse="xml" />
@@ -42,4 +44,5 @@
 <xi:include href="Worldregion.xml"          parse="xml" />
 <xi:include href="OpenID.xml"               parse="xml" />
 <xi:include href="Component.xml"            parse="xml" />
+<xi:include href="Discount.xml"             parse="xml" />
 </tables>

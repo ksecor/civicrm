@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -139,58 +139,101 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $errorMsg = array ();
         foreach ($fld as $k => $v) {   
             if ( !$v[1] ) {
-                $errorMsg["operator[$v[3]][$v[4]]"] = "Please enter the operator.";  
+                $errorMsg["operator[$v[3]][$v[4]]"] = ts("Please enter the operator.");  
             } else {
-                if ( $v[0] == 'group' || $v[0] == 'tag' ) {
+                if ( in_array( $v[1], array( 'IS NULL', 'IS NOT NULL' ) ) && $v[2] ) {
+                    $errorMsg["value[$v[3]][$v[4]]"] = ts('Please clear your value if you want to use %1 operator.', array( 1 => $v[1] ));  
+                } else if ( $v[0] == 'group' || $v[0] == 'tag' ) {
                     $grpId = array_keys($v[2]);
                     if( ! key($v[2]) ) {
-                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the value.";  
+                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");  
                     }
                   
                     if ( count($grpId) > 1) { 
                         if ( $v[1] !='IN' && $v[1] != 'NOT IN' ) {
-                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the valid value.";  
+                            $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the valid value.");  
                         }
                         foreach ($grpId as $val) {
                             $error = CRM_Utils_Type::validate( $val, 'Integer', false );
                             if ( $error != $val  ) { 
-                                $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");
                                 break;
                             }
                         }
                     } else {
                         $error = CRM_Utils_Type::validate( $grpId[0], 'Integer', false );
                         if ( $error != $grpId[0] ) {
-                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid $v[0] id.";
+                            $errorMsg["value[$v[3]][$v[4]]"] = ts('Please enter valid %1 id.', array(1 => $v[0]));
                         }
                     }
                 } else if ( substr($v[0], 0, 7) === 'do_not_' or substr($v[0], 0, 3) === 'is_' ) { 
                     $v2 = array($v[2]);
                     if( !isset($v[2]) ) {
-                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the value.";  
+                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");  
                     }
 
                     $error = CRM_Utils_Type::validate($v2[0] , 'Integer', false );
                     if ( $error != $v2[0] ) {
-                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";  
+                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");  
                     }
                 } else {
                     if ( substr($v[0], 0, 7) == 'custom_' ) {
                         $type = $fields[$v[0]]['data_type'];
+                        
+                        // hack to handle custom data of type state and country
+                        if ( in_array( $type, array( 'Country', 'StateProvince' )) ) {
+                            $type = "Integer";
+                        }
                     } else {
                         $fldName = $v[0];
+                        // FIXME: no idea at this point what to do with this,
+                        // FIXME: but definitely needs fixing.
                         if ( substr( $v[0], 0, 13 ) == 'contribution_' ) {
                             $fldName = substr($v[0], 13 );
                         }
                         
                         $fldType = CRM_Utils_Array::value('type',$fields[$fldName]);
                         $type  = CRM_Utils_Type::typeToString( $fldType );
+                        // Check Empty values for Integer Or Boolean Or Date type For operators other than IS NULL and IS NOT NULL. 
+                        if ( !in_array( $v[1], array( 'IS NULL', 'IS NOT NULL' ) ) ) {
+                            if ( ( ( $type == 'Int' || $type == 'Boolean' ) && !trim( $v[2] ) ) && $v[2] != '0' ) {
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");
+                            } else if ( $type == 'Date'  && !trim( $v[2] ) ) {
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");
+                            }
+                        }
                     }
                     
-                    if ( trim($v[2]) && $type ) {
-                        $error = CRM_Utils_Type::validate( $v[2], $type, false );
-                        if ( $error != $v[2]  ) {
-                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";;
+                    if ( $type && empty( $errorMsg ) ) {
+                        // check for valid format while using IN Operator
+                        if ( $v[1] == 'IN' ) {
+                            $inVal = trim( $v[2] );
+                            //checking for format to avoid db errors
+                            if(!preg_match( '/^[(]([A-Za-z0-9\'\,]+)[)]$/', $inVal) ) {
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter correct Data ( in valid format ).");
+                            }
+                            // Validate each value in parenthesis to avoid db errors
+                            if( empty( $errorMsg ) ) {
+                                $parenValues = array();
+                                $parenValues = explode ( ',', trim( $inVal, "(..)" ) );
+                                foreach ( $parenValues as $val ) {
+                                    if ( !$val && $val !='0' ) {
+                                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the values correctly.");
+                                    }
+                                    if ( empty( $errorMsg ) ) {
+                                        $error = CRM_Utils_Type::validate( $val, $type, false );
+                                        if ( $error != $val ) {
+                                            $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");
+                                        } 
+                                    }
+                                }
+                            }
+                        } else if ( trim($v[2]) ) {
+                            //else check value for rest of the Operators
+                            $error = CRM_Utils_Type::validate( $v[2], $type, false );
+                            if ( $error != $v[2]  ) {
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");
+                            }
                         }
                     }
                 }
@@ -228,7 +271,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $session->set('isSearchBuilder', '1');
 
         $params = $this->controller->exportValues( $this->_name );
-        
+
         if (!empty($params)) {
             if ( CRM_Utils_Array::value('addBlock',$params) )  { 
                 $this->_blockCount = $this->_blockCount + 1;
@@ -295,4 +338,4 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     
 }
 
-?>
+

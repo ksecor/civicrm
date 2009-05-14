@@ -9,7 +9,7 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the "%1" Price Field Option - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' Price Field Option - it is currently in use by one or more active events.{/ts}
        	{/if}
         {ts}If you no longer want to use this Price Option Field, click the event title below, and modify the fees for that event.{/ts}<br />
         
@@ -43,23 +43,21 @@
     
     <div id="field_page">
      <p></p>
-        <div class="form-item">
         {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-    	<thead>
-        <tr class="columnheader">
-        <th field="Option Label" dataType="String">{ts}Option Label{/ts}</th>
-        <th field="Option Value" dataType="String">{ts}Option Value{/ts}</th>
-        <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
-	    <th field="Status" dataType="String" >{ts}Status?{/ts}</th>
-        <th datatype="html">&nbsp;</th>
-        </tr>
-        </thead>
-        <tbody>
+        <table class="selector">
+         <tr class="columnheader">
+            <th>{ts}Option Label{/ts}</th>
+            <th>{ts}Option Amount{/ts}</th>
+	    <th>{ts}Default{/ts}</th>
+            <th>{ts}Weight{/ts}</th>
+	    <th>{ts}Status?{/ts}</th>
+            <th>&nbsp;</th>
+         </tr>
         {foreach from=$customOption item=row}
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
-            <td>{$row.value|crmMoney}</td>
+            <td>{$row.name|crmMoney}</td>
+	    <td>{$row.is_default}</td>
             <td class="nowrap">{$row.weight}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{$row.action}</td>
@@ -68,20 +66,19 @@
         </tbody>
         </table>
         {/strip}
-        
+        {if $addMoreFields}
         <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts 1=$fieldTitle}New Option for "%1"{/ts}</a>
+            <a href="{crmURL q="reset=1&action=add&fid=$fid"}" class="button"><span>&raquo; {ts 1=$fieldTitle}New Option for '%1'{/ts}</span></a>
         </div>
-
-        </div>
-     </div>
+	{/if}
+    </div>
 
 {else}
     {if $action eq 16}
         <div class="messages status">
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{capture assign=crmURL}{crmURL p='civicrm/admin/price/field/option' q="action=add&fid=$fid"}{/capture}{ts 1=$fieldTitle 2=$crmURL}There are no options for the price field "%1", <a href="%2">add one</a>.{/ts}</dd>
+        <dd>{capture assign=crmURL}{crmURL p='civicrm/admin/price/field/option' q="action=add&fid=$fid"}{/capture}{ts 1=$fieldTitle 2=$crmURL}There are no options for the price field '%1', <a href='%2'>add one</a>.{/ts}</dd>
         </dl>
         </div>
     {/if}

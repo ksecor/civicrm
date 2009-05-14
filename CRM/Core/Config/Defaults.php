@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -42,6 +42,68 @@
  */
 class CRM_Core_Config_Defaults
 {
+    function setCoreVariables( ) {
+        global $civicrm_root;
+
+        // set of base directories relying on $civicrm_root
+        $this->smartyDir  =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'packages'    . DIRECTORY_SEPARATOR .
+            'Smarty'      . DIRECTORY_SEPARATOR ;
+
+        $this->pluginsDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'CRM'         . DIRECTORY_SEPARATOR . 
+            'Core'        . DIRECTORY_SEPARATOR .
+            'Smarty'      . DIRECTORY_SEPARATOR .
+            'plugins'     . DIRECTORY_SEPARATOR ;
+
+        $this->templateDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'templates'   . DIRECTORY_SEPARATOR ;
+            
+        $this->importDataSourceDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'CRM'         . DIRECTORY_SEPARATOR .
+            'Import'      . DIRECTORY_SEPARATOR .
+            'DataSource'  . DIRECTORY_SEPARATOR ;
+
+        $this->gettextResourceDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'l10n'        . DIRECTORY_SEPARATOR ;
+
+        // This should be moved to database config.
+        $this->sunlight = defined( 'CIVICRM_SUNLIGHT' ) ? true : false;
+
+        // show tree widget
+        $this->groupTree = defined( 'CIVICRM_GROUPTREE' ) ? true : false;
+
+        // in hrd mode?
+        $this->civiHRD   = defined( 'CIVICRM_HRD' ) ? true : false;
+        
+        // add UI revamp pages
+        $this->revampPages = array( 'CRM/Admin/Form/Setting/Url.tpl', 'CRM/Admin/Form/Preferences/Address.tpl' );
+        
+        //profile double opt-in 
+        $this->profileDoubleOptIn = defined( 'CIVICRM_PROFILE_DOUBLE_OPTIN' ) ? false : true;
+
+        // 
+        $size = trim( ini_get( 'upload_max_filesize' ) );
+        if ( $size ) {
+            $last = strtolower($size{strlen($size)-1});
+            switch($last) {
+                // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $size *= 1024;
+            case 'm':
+                $size *= 1024;
+            case 'k':
+                $size *= 1024;
+            }
+            $this->maxImportFileSize = $size;
+        }
+    }
+
 
     /**
      * Function to set the default values
@@ -81,19 +143,39 @@ class CRM_Core_Config_Defaults
                 if ( CRM_Utils_System::checkURL( "{$baseURL}components/com_civicrm/civicrm/{$testIMG}" ) ) {
                     $defaults['userFrameworkResourceURL'] = $baseURL . "components/com_civicrm/civicrm/";
                 }
-            } else if ( $config->userFramework == 'Drupal' ) {
+            } else if ( $config->userFramework == 'Standalone' ) {
+                // potentially sane default for standalone;
+                // could probably be smarter about this, but this
+                // should work in many cases
+                $defaults['userFrameworkResourceURL'] = str_replace( 'standalone/', '', $baseURL );
+            } else {
+                // Drupal setting
                 // check and see if we are installed in sites/all (for D5 and above)
                 // we dont use checkURL since drupal generates an error page and throws
                 // the system for a loop on lobo's macosx box
                 // or in modules
                 global $civicrm_root;
+                $civicrmDirName = trim(basename($civicrm_root));
+                $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/$civicrmDirName/";
+
                 if ( strpos( $civicrm_root,
                              DIRECTORY_SEPARATOR . 'sites' .
                              DIRECTORY_SEPARATOR . 'all'   .
-                             DIRECTORY_SEPARATOR . 'modules' ) !== false ) {
-                    $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/"; 
-                } else {
-                    $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
+                             DIRECTORY_SEPARATOR . 'modules' ) === false ) {
+                    $startPos = strpos( $civicrm_root,
+                                        DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR );
+                    $endPos   = strpos( $civicrm_root,
+                                        DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR );
+                    if ( $startPos && $endPos ) {
+                        // if component is in sites/SITENAME/modules
+                        $siteName = substr( $civicrm_root,
+                                            $startPos + 7,
+                                            $endPos - $startPos - 7 );
+                        $defaults['userFrameworkResourceURL'] = $baseURL . "sites/$siteName/modules/$civicrmDirName/";
+                        if ( ! isset( $defaults['imageUploadURL'] ) ) {
+                            $defaults['imageUploadURL'] = $baseURL . "sites/$siteName/files/civicrm/persist/contribute/";
+                        }
+                    }
                 }
             }
         }
@@ -104,8 +186,11 @@ class CRM_Core_Config_Defaults
                 // we need to remove the administrator/ from the end
                 $tempURL = str_replace( "/administrator/", "/", $baseURL );
                 $defaults['imageUploadURL'] = $tempURL . "media/civicrm/persist/contribute/";
-            } else {
+            } else if ( $config->userFramework == 'Standalone' ) {
+                //for standalone no need of sites/defaults directory
                 $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
+            } else {
+                $defaults['imageUploadURL'] = $baseURL . "sites/default/files/civicrm/persist/contribute/";
             }
         }
 
@@ -130,120 +215,22 @@ class CRM_Core_Config_Defaults
             $defaults['customFileUploadDir'] = $customDir;
         }
 
-        if ( ! isset( $defaults['smtpPort'] ) ) {
-            $defaults['smtpPort'] = 25;
-        }
+        /* FIXME: hack to bypass the step for generating defaults for components, 
+                  while running upgrade, to avoid any serious non-recoverable error 
+                  which might hinder the upgrade process. */
 
-        if ( ! isset( $defaults['smtpAuth'] ) ) {
-            $defaults['smtpAuth'] = 0;
+        $args = array( );
+        if ( isset( $_GET[$config->userFrameworkURLVar] ) ) {
+            $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
         }
-
-        if ( ! isset( $defaults['countryLimit'][0] ) && !$formMode ) {
-            $defaults['countryLimit'] = 1228;
-        }
-
-        if ( ! isset( $defaults['provinceLimit'][0] ) && !$formMode ) {
-            $defaults['provinceLimit'] = 1228;
-        }
-
-        if ( ! isset( $defaults['defaultContactCountry'] ) ) {
-            $defaults['defaultContactCountry'] = 1228;
-        }
-
-        if ( ! isset( $defaults['defaultCurrency'] ) ) {
-            $defaults['defaultCurrency'] = 'USD';
-        }
-
-        if ( ! isset( $defaults['lcMonetary'] ) ) {
-            $defaults['lcMonetary'] = 'en_US';
-        }
-
-        if ( ! isset( $defaults['mapGeoCoding'] ) ) {
-            $defaults['mapGeoCoding'] = 1;
-        }
-
-        if ( ! isset( $defaults['versionCheck'] ) ) {
-            $defaults['versionCheck'] = 1;
-        }
-
-        if ( ! isset( $defaults['enableSSL'] ) ) {
-            $defaults['enableSSL'] = 0;
-        }
-        if ( empty( $defaults['fiscalYearStart']) ) {
-            $defaults['fiscalYearStart'] = array(
-                                                 'M' => 01,
-                                                 'd' => 01
-                                                 );
-        }
-
-        if ( ! isset( $defaults['paymentExpressButton'] ) ) {
-            $defaults['paymentExpressButton'] = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif';
-        }
-
-        if ( ! isset( $defaults['paymentPayPalExpressTestUrl'] ) ) {
-            $defaults['paymentPayPalExpressTestUrl'] = 'www.sandbox.paypal.com';
-        }
-
-        if ( ! isset( $defaults['paymentPayPalExpressUrl'] ) ) {
-            $defaults['paymentPayPalExpressUrl'] = 'www.paypal.com';
-        }
-
-        if ( ! isset( $defaults['googleCheckoutButton_test'] ) ) {
-            $defaults['googleCheckoutButton_test'] = 'http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=[MerchantID]&w=180&h=46&style=white&variant=text&loc=en_US';
-        }
-
-        if ( ! isset( $defaults['googleCheckoutButton_live'] ) ) {
-            $defaults['googleCheckoutButton_live'] = 'http://checkout.google.com/buttons/checkout.gif?merchant_id=[MerchantID]&w=180&h=46&style=white&variant=text&loc=en_US';
-        }
-
-        if ( ! isset( $defaults['googleCheckoutTestUrl'] ) ) {
-            $defaults['googleCheckoutTestUrl'] = 'sandbox.google.com/checkout';
-        }
-
-        if ( ! isset( $defaults['googleCheckoutUrl'] ) ) {
-            $defaults['googleCheckoutUrl'] = 'checkout.google.com';
-        }
-
-        if ( ! isset( $defaults['maxLocationBlocks'] ) ) {
-            $defaults['maxLocationBlocks'] = 2;
-        }
-
-        if ( ! isset( $defaults['captchaFontPath'] ) ) {
-            $defaults['captchaFontPath'] = '/usr/X11R6/lib/X11/fonts/';
-        }
-
-        if ( ! isset( $defaults['captchaFont'] ) ) {
-            $defaults['captchaFont'] = 'HelveticaBold.ttf';
-        }
-
-        if ( ! isset( $defaults['debug'] ) ) {
-            $defaults['debug'] = 0;
-        }
-
-        if ( ! isset( $defaults['backtrace'] ) ) {
-            $defaults['backtrace'] = 0;
-        }
-
-        if ( ! isset( $defaults['fatalErrorTemplate'] ) ) {
-            $defaults['fatalErrorTemplate'] = 'CRM/error.tpl';
-        }
-
-        if ( ! isset( $defaults['legacyEncoding'] ) ) {
-            $defaults['legacyEncoding'] = 'Windows-1252';
-        }
-        
-        if ( empty ( $defaults['enableComponents'] ) && !$formMode ) {
-            $defaults['enableComponents'] = array('CiviContribute','CiviMember','CiviEvent', 'CiviMail');
-        }
-
-        // populate defaults for components
+    
         foreach( $defaults['enableComponents'] as $key => $name ) {
             $comp = $config->componentRegistry->get( $name );
-            $co = $comp->getConfigObject();
-            $co->setDefaults( $defaults );
+            if ( $comp ) {
+                $co = $comp->getConfigObject();
+                $co->setDefaults( $defaults );
+            }
         }
-
     }
-    
 }
-?>
+

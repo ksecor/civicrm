@@ -1,65 +1,152 @@
 {* Search criteria form elements *}
-{capture assign=advSearchURL}{crmURL p='civicrm/contact/search/advanced' q="reset=1"}{/capture}
 <fieldset>
-    <legend>{if $context EQ 'smog'}<span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{/if}
-        {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
-        {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
-        {else}{ts}Search Criteria{/ts}{/if}
-    </legend>
- <div class="form-item">
-    {strip}
-	<table class="form-layout">
-		<tr>
-            <td class="font-size12pt">{$form.contact_type.label}</td><td>{$form.contact_type.html}</td>
-           {if $context EQ 'smog'}
-               <td>  
-                 {$form.subgroups.html}
-                 {$form.subgroups_dummy.html}
-              </td>
-           {/if}
+    <div class="form-item">
+    {if $rows}
+        {if $context EQ 'smog'}
+            <h3>{ts}Find Members within this Group{/ts}</h3>
+        {/if}
+    {else}
+        {if $context EQ 'smog'}
+            <h3>{ts}Find Members within this Group{/ts}</h3>
+        {elseif $context EQ 'amtg'}
+            <h3>{ts}Find Contacts to Add to this Group{/ts}</h3>
+        {/if}
+    {/if}
+
+{ if $config->groupTree }
+{literal}
+<script type="text/javascript">
+dojo.require("dojo.parser");
+dojo.require("dijit.Dialog");
+dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("civicrm.CheckboxTree");
+dojo.require("dijit.form.CheckBox"); 
+
+function displayGroupTree( ) {
+    // do not recreate if tree is already created
+    if ( dijit.byId('checkboxtree') ) {
+	return;
+    }
+
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
     
+    {/literal}
+    {if $groupIds}
+        dataUrl = dataUrl + '?gids=' + '{$groupIds}'
+    {/if}
+    {literal}
+
+    var treeStore = new dojo.data.ItemFileWriteStore({url:dataUrl});
+    
+    var treeModel = new civicrm.tree.CheckboxTreeStoreModel({
+	    store: treeStore,
+	    query: {type:'rootGroup'},
+	    rootId: 'allGroups',
+	    rootLabel: 'All Groups',
+	    childrenAttrs: ["children"]
+	});
+    var tree = new civicrm.CheckboxTree({
+	    id : "checkboxtree",
+	    model: treeModel,
+        showRoot: false
+	});
+    
+    var dd = dijit.byId('id-groupPicker');
+
+    var button1 = new dijit.form.Button({label: "Done", type: "submit"});                                                                   
+    dd.containerNode.appendChild(button1.domNode);      
+    
+    dd.containerNode.appendChild(tree.domNode);
+
+    var button2 = new dijit.form.Button({label: "Done", type: "submit"});                                                                   
+    dd.containerNode.appendChild(button2.domNode);      
+
+    tree.startup();
+
+};
+
+function getCheckedNodes( ) 
+{
+    var treeStore = dijit.byId("checkboxtree").model.store ;
+    treeStore.fetch({query: {checked:true},queryOptions: {deep:true}, onComplete: setCheckBoxValues});
+};         
+
+function setCheckBox( ) 
+{
+    var groupNames = {/literal}"{$groupNames}"{literal};
+    if ( groupNames ) {
+	var grp  = document.getElementById('id-group-names');
+	grp.innerHTML = groupNames;
+    }
+};
+
+function setCheckBoxValues(items,request) 
+{
+    var groupLabel = "" ;
+    var groupIds   = "";
+
+    var myTreeStore = dijit.byId("checkboxtree").model.store;
+
+    for (var i = 0; i < items.length; i++){
+	var item = items[i];
+	groupLabel = groupLabel + myTreeStore.getLabel(item) + "<BR/>" ;
+	if ( groupIds != '' ) {
+	    groupIds = groupIds + ',';
+	}
+	groupIds = groupIds + item['id'];
+    }
+
+    var grp  = document.getElementById('id-group-names');    
+    grp.innerHTML = groupLabel;
+    
+    var groupId   = document.getElementById('group');
+    groupId.value = groupIds;
+};                     
+
+
+dojo.addOnLoad( function( ) {
+     setCheckBox( );
+});
+</script>
+{/literal}
+{/if}
+
+    {strip}
+	<table class="no-border">
+        <tr>
+            <td class="label">{$form.sort_name.label} {$form.sort_name.html}</td>
+{if $form.contact_type}
+            <td class="label">{$form.contact_type.label} {$form.contact_type.html}</td>
+{/if}
+{if $form.group}
             <td class="label">
                 {if $context EQ 'smog'}
-                    {$form.group_contact_status.label}<br/>{ts 1=$form.group.html}(for %1){/ts}
+                    {$form.group_contact_status.label}<br />
                 {else}
-                    {$form.group.label}
+                    {ts}in{/ts} &nbsp;
                 {/if}
-            </td>
-
-<td> {if $context EQ 'smog'}
+                {if $context EQ 'smog'}
                     {$form.group_contact_status.html}
                 {else}
-                    {$form.group.html}
-                    {$form.subgroups.html}	
-                    {$form.subgroups_dummy.html}
-	       </td>
+                    { if $config->groupTree }
+                        <a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
+			    <div class="tundra" style="background-color: #f4eeee;" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="getCheckedNodes();">
+                        </div><br />
+                        <span id="id-group-names"></span>
+                    {else}
+                        {$form.group.html}
+                    {/if}
                 {/if}
-            <td class="label">{$form.tag.label}</td><td>{$form.tag.html}</td>
-        </tr>
-        <tr>
-            <td class="label">{$form.sort_name.label}</td>
-            <td colspan={if $context EQ 'smog'}"7"{else}"5"{/if}>{$form.sort_name.html}</td>
-        </tr>
-        <tr><td>&nbsp;</td>
-            <td colspan={if $context EQ 'smog'}"6"{else}"4" class="report"{/if}>
-                <div class="description font-italic">
-                {ts 1=$advSearchURL}To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins with any combination of letters'). To search by email address, use <a href="%1">Advanced Search</a>.{/ts}
-                </div></td>
-            <td class="label">{$form.buttons.html}</td>
-        </tr>
-        <tr>
-            <td class="label" colspan={if $context EQ 'smog'}"8"{else}"6"{/if}>
-                {if $context EQ 'smog'}
-                     <a href="{crmURL p='civicrm/group/search/advanced' q="gid=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
-                {elseif $context EQ 'amtg'}
-                     <a href="{crmURL p='civicrm/contact/search/advanced' q="context=amtg&amtgID=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
-                {else}
-                     <a href="{$advSearchURL}">&raquo; {ts}Advanced Search{/ts}</a>
-                {/if}
+            </td>
+{/if}
+{if $form.tag}
+            <td class="label">{$form.tag.label} {$form.tag.html}</td>
+{/if}
+            <td style="vertical-align: bottom;">
+                {$form.buttons.html}
             </td>
         </tr>
     </table>
     {/strip}
-
- </div>
+    </div>
 </fieldset>

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,25 +28,39 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contact/Form/Task.php';
 
 /**
  * Choose include / exclude groups and mailings
  *
  */
-class CRM_Mailing_Form_Group extends CRM_Core_Form 
+class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
 {
-
-    /**
-     * The number of groups / mailings we will process
-     */
-    const NUMBER_OF_ELEMENTS = 5;
-
+    
+    /** 
+     * Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    public function preProcess()  
+    {
+        //when user come from search context. 
+        $context = $this->get( 'context' );
+        if ( $context == 'search' ) {
+            $searchParams = $this->controller->exportValues( );
+            if ( CRM_Utils_Array::value( 'task', $searchParams ) == 20 ) {
+                parent::preProcess( );
+            }
+        }
+    }
+    
     /**
      * This function sets the default values for the form.
      * the default values are retrieved from the database
@@ -56,16 +70,27 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $mailingID = $this->get("mid");
-
+        $mailingID = CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null );
+        $continue = CRM_Utils_Request::retrieve('continue', 'String', $this, false, null );
+        
         // check that the user has permission to access mailing id
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::checkPermission( $mailingID );
-
+        
         $defaults = array( );
-        if ( $mailingID ) {
-            $defaults["name"] = ts('Copy of %1', array(1 => CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing', $mailingID, 'name', 'id')));
-
+        
+        if ( $mailingID && $continue ) {
+            $defaults["name"] = CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing', $mailingID, 'name', 'id');
+            $this->set('mailing_id', $mailingID);
+        } elseif ( $mailingID && !$continue ) {
+            $defaults["name"] = ts('Copy of %1',
+                                   array(1 => CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing',
+                                                                          $mailingID,
+                                                                          'name', 
+                                                                          'id')));
+        }
+        
+        if ( $mailingID ) { 
             require_once "CRM/Mailing/DAO/Group.php";
             $dao =&new  CRM_Mailing_DAO_Group();
             
@@ -82,7 +107,33 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             $defaults['includeMailings'] = CRM_Utils_Array::value('Include',$mailingGroups['civicrm_mailing']);
             $defaults['excludeMailings'] = $mailingGroups['civicrm_mailing']['Exclude'];
         }
-
+        
+        //when the context is search hide the mailing recipients.
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
+        $context  = $this->get( 'context' );
+        $showGroupSelector = true;
+        if ( $context == 'search' ) {
+            $showGroupSelector = false;
+            $formElements = array( 'includeGroups', 'excludeGroups', 'includeMailings', 'excludeMailings' );
+            $formValues = $this->controller->exportValues( $this->_name );
+            foreach ( $formElements as $element ) {
+                if ( !empty( $formValues[$element] ) ) {
+                    $showGroupSelector = true;
+                    break;
+                }
+            }
+        }
+        
+        if ( $showGroupSelector ) {
+            $showHide->addShow( "id-additional" );
+            $showHide->addHide( "id-additional-show" ); 
+        } else {
+            $showHide->addShow( "id-additional-show" );
+            $showHide->addHide( "id-additional" ); 
+        }
+        $showHide->addToTemplate( );
+        
         return $defaults;
     }
 
@@ -95,69 +146,113 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         require_once 'CRM/Mailing/PseudoConstant.php';
-
+        
+        //get the context
+        $context = $this->get( 'context' );
+        $this->assign( 'context', $context );
+        
         $this->add( 'text', 'name', ts('Name Your Mailing'),
                     CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
                     true );
-
-        $groups         =& CRM_Core_PseudoConstant::group('Mailing');
-
-        $groupIterator  =& CRM_Core_PseudoConstant::groupIterator( true );
-        require_once 'CRM/Core/QuickForm/GroupMultiSelect.php';
-        $inGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'includeGroups',
-                                                                    ts('Include Group(s)') . ' ', $groupIterator,
-        array( 'size'  => 5,
-               'style' => 'width:240px',
-               'class' => 'advmultiselect' )
-        );
-        $inG =& $this->addElement( $inGroupsSelect );
-        $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
         
-        $outGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'excludeGroups',
-        ts('Exclude Group(s)') . ' ', $groupIterator,
-        array( 'size'  => 5,
-               'style' => 'width:240px',
-               'class' => 'advmultiselect' )
-        );
-        $outG =& $this->addElement($outGroupsSelect);
+        //get the mailing groups.
+        $groups =& CRM_Core_PseudoConstant::group('Mailing');
 
-        $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
-        $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
-        $inG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-        $outG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-        
         $mailings =& CRM_Mailing_PseudoConstant::completed();
         if (! $mailings) {
             $mailings = array();
         }
+
+        // run the groups through a hook so users can trim it if needed
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::mailingGroups( $this, $groups, $mailings );
+        
+        //when the context is search add base group's.
+        if ( $context == 'search' ) {
+            //get the static groups
+            $staticGroups = CRM_Core_PseudoConstant::staticGroup( false, 'Mailing' );
+            $this->add( 'select', 'baseGroup',
+                        ts( 'Base Group' ), 
+                        array(''=>ts( '- select -' )) + $staticGroups,
+                        true );
+        }
+        
+        $inG =& $this->addElement('advmultiselect', 'includeGroups', 
+                                  ts('Include Group(s)') . ' ', 
+                                  $groups,
+                                  array('size' => 5,
+                                        'style' => 'width:240px',
+                                        'class' => 'advmultiselect')
+                                  );
+        
+        //as we are having hidden smart group so no need.
+        if ( $context != 'search' ) {
+            $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
+        }
+        
+        $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
+                                   ts('Exclude Group(s)') . ' ',
+                                   $groups,
+                                   array('size' => 5,
+                                         'style' => 'width:240px',
+                                         'class' => 'advmultiselect')
+                                   );
+
+        $inG->setButtonAttributes ('add'   , array('value' => ts('Add >>'   )));
+        $outG->setButtonAttributes('add'   , array('value' => ts('Add >>'   )));
+        $inG->setButtonAttributes ('remove', array('value' => ts('<< Remove')));
+        $outG->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+        
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
-                                  ts('INCLUDE Recipients of These Mailing(s)') . ' ', $mailings,
+                                  ts('INCLUDE Recipients of These Mailing(s)') . ' ',
+                                  $mailings,
                                   array('size' => 5,
                                         'style' => 'width:240px',
                                         'class' => 'advmultiselect')
                                   );
         $outM =& $this->addElement('advmultiselect', 'excludeMailings', 
-                                   ts('EXCLUDE Recipients of These Mailing(s)') . ' ', $mailings,
+                                   ts('EXCLUDE Recipients of These Mailing(s)') . ' ',
+                                   $mailings,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
                                    );
         
-        $inM->setButtonAttributes('add', array('value' => ts('Add >>')));;
-        $outM->setButtonAttributes('add', array('value' => ts('Add >>')));;
-        $inM->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-        $outM->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-        
+        $inM->setButtonAttributes ('add'   , array('value' => ts('Add >>'   )));
+        $outM->setButtonAttributes('add'   , array('value' => ts('Add >>'   )));
+        $inM->setButtonAttributes ('remove', array('value' => ts('<< Remove')));
+        $outM->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+
+        require_once 'CRM/Contact/Page/CustomSearch.php';
+        $urls = 
+            array( '' => ts('- select -'),
+                   -1 => ts( 'CiviCRM Search' ) ) +
+            CRM_Contact_Page_CustomSearch::info( );
+            
         $this->addFormRule( array( 'CRM_Mailing_Form_Group', 'formRule' ));
         
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Next >>'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
+        //FIXME : currently we are hiding save an continue later when
+        //search base mailing, we should handle it when we fix CRM-3876
+        $buttons = array( array ( 'type'      => 'next',
+                                  'name'      => ts('Next >>'),
+                                  'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                  'isDefault' => true   ),
+                          array ( 'type'      => 'submit',
+                                  'name'      => ts('Save & Continue Later') ),
+                          array ( 'type'      => 'cancel',
+                                  'name'      => ts('Cancel') ),
+                          );
+        
+        if ( $context == 'search' ) {
+            $buttons = array( array ( 'type'      => 'next',
+                                      'name'      => ts('Next >>'),
+                                      'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                      'isDefault' => true   ),
+                              array ( 'type'      => 'cancel',
+                                      'name'      => ts('Cancel') ),
+                              );
+        }
+        $this->addButtons( $buttons );
         
         $this->assign('groupCount', count($groups));
         $this->assign('mailingCount', count($mailings));
@@ -165,14 +260,54 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
 
     public function postProcess() 
     {
-        $params['name'] = $this->controller->exportValue($this->_name, 'name');
+        $values = $this->controller->exportValues( $this->_name );
+        
+        //build hidden smart group. when user want to send  mailing
+        //through search contact-> more action -> send Mailing. CRM-3711
+        $groups = array( );
+        $context = $this->get( 'context' );
+        if ( $context == 'search' && $this->_contactIds ) {
+            //get the hidden smart group id.
+            $ssId = $this->get( 'ssID' );
+            $session =& CRM_Core_Session::singleton( );
+            $hiddenSmartParams = array( 'group_type'       => array( '2' => 1),
+                                        'form_values'      => $this->get( 'formValues' ),
+                                        'saved_search_id'  => $ssId, 
+                                        'search_custom_id' => $this->get( 'customSearchID' ),
+                                        'is_advanced'      => $session->get('isAdvanced'),
+                                        'is_searchBuilder' => $session->get('isSearchBuilder'));
+            
+            require_once 'CRM/Contact/BAO/Group.php';
+            list( $smartGroupId, $savedSearchId ) = CRM_Contact_BAO_Group::createHiddenSmartGroup( $hiddenSmartParams );
+            
+            //set the saved search id.
+            if ( !$ssId ) {
+                if ( $savedSearchId ) {
+                    $this->set( 'ssID', $savedSearchId );
+                } else {
+                    CRM_Core_Error::fatal( );
+                }
+            }
+            
+            //get the base group for this mailing, CRM-3711
+            $groups['base'] = array( $values['baseGroup'] );
+            $values['includeGroups'][] = $smartGroupId;
+        }
+        
+        foreach ( array( 'name', 'group_id', 'search_id', 'search_args' ) as $n ) {
+            if ( CRM_Utils_Array::value( $n, $values ) ) {
+                $params[$n] = $values[$n];
+            }
+        }
+        
+        $qf_Group_submit = $this->controller->exportValue($this->_name, '_qf_Group_submit');
         $this->set('name', $params['name']);
 
-        $inGroups    = $this->controller->exportValue($this->_name, 'includeGroups');
-        $outGroups   = $this->controller->exportValue($this->_name, 'excludeGroups');
-        $inMailings  = $this->controller->exportValue($this->_name, 'includeMailings');
-        $outMailings = $this->controller->exportValue($this->_name, 'excludeMailings');
-        $groups = array();
+        $inGroups    = $values['includeGroups'  ];
+        $outGroups   = $values['excludeGroups'  ];
+        $inMailings  = $values['includeMailings'];
+        $outMailings = $values['excludeMailings'];
+        
         if (is_array($inGroups)) {
             foreach($inGroups as $key => $id) {
                 if ($id) {
@@ -204,29 +339,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             }
         }
         
-        $daoComponent =& new CRM_Mailing_DAO_Component();
-        $components = array('Reply', 'OptOut', 'Unsubscribe', 'Resubscribe');
-        
-        foreach ($components as $value) {
-            $findDefaultComponent =
-                "SELECT id
-                FROM    civicrm_mailing_component
-                WHERE   component_type = '$value'
-                ORDER BY is_default desc";
-            
-            $daoComponent->query($findDefaultComponent);
-            
-            if ( $daoComponent->fetch( ) ) {
-                $$value = $daoComponent->id;
-            }
-        }
-        
-        $params['reply_id']       = $Reply;
-        $params['optout_id']      = $OptOut;
-        $params['unsubscribe_id'] = $Unsubscribe;
-        $params['resubscribe_id'] = $Resubscribe;
         $session =& CRM_Core_Session::singleton();
-        $params['domain_id']      = $session->get('domainID');
         $params['groups']         = $groups;
         $params['mailings']       = $mailings;
         
@@ -235,19 +348,27 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             // don't create a new mailing if already exists
             $ids['mailing_id']    = $this->get('mailing_id');
             
+            $groupTableName   = CRM_Contact_BAO_Group::getTableName( );
+            $mailingTableName = CRM_Mailing_BAO_Mailing::getTableName( ); 
+
             // delete previous includes/excludes, if mailing already existed
             require_once 'CRM/Contact/DAO/Group.php';
             foreach( array( 'groups', 'mailings' ) as $entity ) {
                 $mg =& new CRM_Mailing_DAO_Group();
                 $mg->mailing_id     = $ids['mailing_id'];                        
-                $mg->entity_table   = ( $entity == 'groups' ) 
-                    ? CRM_Contact_BAO_Group::getTableName( )
-                    : CRM_Mailing_BAO_Mailing::getTableName( );
+                $mg->entity_table   =
+                    ( $entity == 'groups' )
+                    ? $groupTableName
+                    : $mailingTableName;
                 $mg->find();
                 while ( $mg->fetch() ) {
                     $mg->delete( );
                 }
             }
+        } else {
+            // new mailing, so lets set the created_id
+            $session =& CRM_Core_Session::singleton( );
+            $params['created_id'] = $session->get( 'userID' );
         }
 
         require_once 'CRM/Mailing/BAO/Mailing.php';
@@ -256,10 +377,41 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         
         require_once "CRM/Mailing/BAO/Mailing.php";
         $count = CRM_Mailing_BAO_Mailing::getRecipientsCount(true, false, $mailing->id);
-        $this->set('count',$count );
-        $this->assign('count',$count );
-        $this->set('groups', $groups);
-        $this->set('mailings', $mailings);
+        $this->set   ('count'   , $count   );
+        $this->assign('count'   , $count   );
+        $this->set   ('groups'  , $groups  );
+        $this->set   ('mailings', $mailings);
+
+        if ( $qf_Group_submit ) {
+            //when user perform mailing from search context 
+            //redirect it to search result CRM-3711.
+            $ssID    = $this->get( 'ssID' );
+            $context = $this->get( 'context' );
+            if ( $ssID && $context == 'search' ) {
+                if ( $this->_action == CRM_Core_Action::BASIC ) {
+                    $fragment = 'search';
+                } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+                    $fragment = 'search/builder';
+                } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
+                    $fragment = 'search/advanced';
+                } else {
+                    $fragment = 'search/custom';
+                }
+                
+                $draftURL = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                $status = ts("Your mailing has been saved. You can continue later by clicking the 'Continue' action to resume working on it.<br /> From <a href='%1'>Draft and Unscheduled Mailings</a>.", array( 1 => $draftURL ) );
+                CRM_Core_Session::setStatus( $status );
+                
+                //replace user context to search.
+                $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, "force=1&reset=1&ssID={$ssID}" );
+                CRM_Utils_System::redirect( $url );
+            } else { 
+                $status = ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.");
+                CRM_Core_Session::setStatus( $status );
+                $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                CRM_Utils_System::redirect($url);
+            }
+        }
     }
     
     /**
@@ -306,10 +458,19 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
                 $errors['excludeMailings'] = ts('Cannot have same mail in Include mailing(s) and Exclude mailing(s).');
             }
         }
-        
+
+        if ( ! empty ( $fields['search_id'] ) &&
+             empty( $fields['group_id'] ) ) {
+            $errors['group_id'] = ts('You must select a group to filter on');
+        }
+
+        if ( empty( $fields['search_id'] ) &&
+             ! empty( $fields['group_id'] ) ) {
+            $errors['search_id'] = ts('You must select a search to filter');
+        }
+
         return empty($errors) ? true : $errors;
     }
-
 }
 
-?>
+

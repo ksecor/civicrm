@@ -1,0 +1,477 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Import_ImportContact extends CiviTestCase
+{
+
+    function get_info()
+    {
+        return array('name'        => 'Import Contact',
+                     'description' => 'Test Import Contacts',
+                     'group'       => 'CiviCRM Browser Tests');
+    }
+
+    function setUp()
+    {
+        parent::setUp();
+        $this->webUser = $this->drupalCreateUserRolePerm(array(0 => 'access CiviCRM',
+                                                               1 => 'add contacts',
+                                                               2 => 'view all contacts',
+                                                               3 => 'edit all contacts',
+                                                               4 => 'import contacts',
+                                                               ));
+        $this->drupalLoginUser($this->webUser);
+        $this->civiGet('civicrm/dashboard', 'reset=1');
+        $ret = $this->clickLink('Import');
+    }
+
+    function testImportWithMissingParams()
+    { 
+        $this->assertText('Upload Data (step 1 of 4)');
+        $this->drupalPost( NULL, array() , '_qf_DataSource_upload' );
+        $this->assertText('Import Data File is a required field.');
+        
+    }
+
+    function testImportIndividuals()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("First Name","Last Name","Email");
+        $list   = array ( 0 => array( 0 => 'Joe'  , 1 => 'Morgan', 2 =>'joe.morgan@testcase.com'),
+                          1 => array( 0 => 'Janet', 1 => 'Morgan', 2 =>'janet.morgan@testcase.com')
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '1';
+        $params['contactType']     = '1';
+        $params['dateFormats']     = '8';
+        
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        
+        $this->assertText('Summary (step 4 of 4)');
+        $this->individualID1 = $this->assertDBNotNull('CRM_Core_DAO_Email', 'joe.morgan@testcase.com', 'contact_id', 'email', 'Checking db for the created Contact Email.');
+        $this->individualID2 = $this->assertDBNotNull('CRM_Core_DAO_Email', 'janet.morgan@testcase.com', 'contact_id', 'email', 'Checking db for the created Contact Email.');
+      
+        $expected = array('id'          => $this->individualID1,
+                          'first_name'  => 'Joe',
+                          'last_name'   => 'Morgan',
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->individualID1), $expected);
+        $expected = array('id'          => $this->individualID2,
+                          'first_name'  => 'Janet',
+                          'last_name'   => 'Morgan',
+                          );
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->individualID2), $expected);
+    }
+
+    function testImportHouseHold()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("HouseHold Name", "Email");
+        $list   = array ( 0 => array( 0 => 'TestImportHome', 1=>'ImportHome@testcase.com' )
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '1';
+        $params['contactType']     = '2';
+        $params['dateFormats']     = '8';
+
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        
+        $this->assertText('Summary (step 4 of 4)');
+        
+        $this->householdID = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportHome@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
+        
+        $expected = array('id'            => $this->householdID,
+                          'display_name' => 'TestImportHome'
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->householdID), $expected);
+    }
+    
+    function testImportOrganization()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("Organization Name", "Email");
+        $list   = array ( 0 => array( 0 => 'TestImportOrg', 1=>'ImportOrg@testcase.com' )
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '1';
+        $params['contactType']     = '4';
+        $params['dateFormats']     = '8';
+
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        
+        $this->assertText('Summary (step 4 of 4)');
+        
+        $this->orgID = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportOrg@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
+        
+        $expected = array('id'            => $this->orgID,
+                          'display_name'  => 'TestImportOrg'
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->orgID), $expected);
+    }
+    
+    function testImportIndividualSkipDuplicate()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("First Name","Last Name","Email");
+        $list   = array ( 0 => array( 0 => 'Joe'  , 1 => 'Morgan', 2 =>'joe.morgan@testcase.com'),
+                          1 => array( 0 => 'Janet', 1 => 'Morgan', 2 =>'janet.morgan@testcase.com')
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '1';
+        $params['contactType']     = '1';
+        $params['dateFormats']     = '8';
+
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        
+        $this->assertText('Summary (step 4 of 4)');
+        $this->assertText('Download Duplicates');
+        $this->assertDBNull('CRM_Contact_DAO_Contact', $this->webUser->contact_id, 'first_name', 'id', 'Making sure the Individual records were not created in the database.');
+    }
+    
+    function testImportHouseHoldSkipDuplicate()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("HouseHold Name", "Email");
+        $list   = array ( 0 => array( 0 => 'TestImportHome', 1=>'ImportHome@testcase.com' )
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '1';
+        $params['contactType']     = '2';
+        $params['dateFormats']     = '8';
+
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        
+        $this->assertText('Summary (step 4 of 4)');
+        $this->assertText('Download Duplicates');
+    }
+    
+    function testImportOrganizationSkipDuplicate()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("Organization Name", "Email");
+        $list   = array ( 0 => array( 0 => 'TestImportOrg', 1=>'ImportOrg@testcase.com' )
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '1';
+        $params['contactType']     = '4';
+        $params['dateFormats']     = '8';
+
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        
+        $this->assertText('Summary (step 4 of 4)');
+        $this->assertText('Download Duplicates');
+    }
+
+    function testImportIndividualUpdate()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("Internal Contact ID","First Name","Last Name","Email");
+        $list   = array ( 0 => array( 0 => $this->individualID1, 1 => 'Mathew', 2 => 'Morgan', 3 =>'joe.morgan@testcase.com'));
+                
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+        
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '4';
+        $params['contactType']     = '1';
+        $params['dateFormats']     = '8';
+        
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        $this->assertText('Summary (step 4 of 4)');
+        
+        $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'joe.morgan@testcase.com', 'contact_id', 'email', 'Checking db for the created Contact Email.');
+        $expected = array('id'          => $contact_id,
+                          'first_name'  => 'Mathew',
+                          'last_name'   => 'Morgan',
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+    }
+    
+    function testImportHouseHoldUpdate()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("HouseHold Name", "Email");
+        $list   = array ( 0 => array( 0 => 'TestUpdateImportHome', 1=>'ImportHome@testcase.com' )
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+        
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '4';
+        $params['contactType']     = '2';
+        $params['dateFormats']     = '8';
+        
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        $this->assertText('Summary (step 4 of 4)');
+        
+        $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportHome@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
+        
+        $expected = array('id'            => $contact_id,
+                          'display_name' => 'TestUpdateImportHome'
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+    }
+    
+    function testImportOrganizationUpdate()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("Organization Name", "Email");
+        $list   = array ( 0 => array( 0 => 'TestUpdateImportOrg', 1=>'ImportOrg@testcase.com' )
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+        
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '4';
+        $params['contactType']     = '4';
+        $params['dateFormats']     = '8';
+        
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        $this->assertText('Summary (step 4 of 4)');
+        
+        $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportOrg@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
+        
+        $expected = array('id'            => $contact_id,
+                          'display_name'  => 'TestUpdateImportOrg'
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+    }
+    
+    function testImportIndividualFill()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("Internal Contact ID","First Name","Last Name","Email","External Identifier");
+        $list   = array ( 0 => array( 0 => $this->individualID1, 1 => 'Mathew', 2 => 'Morgan', 3 => 'joe.morgan@testcase.com', 4 => 'test'));
+                
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+        
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '8';
+        $params['contactType']     = '1';
+        $params['dateFormats']     = '8';
+        
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        $this->assertText('Summary (step 4 of 4)');
+        
+        $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'joe.morgan@testcase.com', 'contact_id', 'email', 'Checking db for the created Contact Email.');
+        $expected = array('id'                 => $contact_id,
+                          'first_name'         => 'Mathew',
+                          'last_name'          => 'Morgan'
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+    }
+    
+    function testImportHouseHoldFill()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("HouseHold Name", "Email", "External Identifier");
+        $list   = array ( 0 => array( 0 => 'TestUpdateImportHome', 1=>'ImportHome@testcase.com', 2=>'testHousehold' )
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+        
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '8';
+        $params['contactType']     = '2';
+        $params['dateFormats']     = '8';
+        
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        $this->assertText('Summary (step 4 of 4)');
+        
+        $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportHome@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
+        
+        $expected = array('id'                 => $contact_id,
+                          'display_name'       => 'TestUpdateImportHome'
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+    }
+    
+    function testImportOrganizationFill()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("Organization Name", "Email", "External Identifier");
+        $list   = array ( 0 => array( 0 => 'TestUpdateImportOrg', 1=>'ImportOrg@testcase.com', 2=>'testOrganization' )
+                          );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+        
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '8';
+        $params['contactType']     = '4';
+        $params['dateFormats']     = '8';
+        
+        $this->drupalPost( NULL, $params, '_qf_DataSource_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, array(), '_qf_Preview_next' );
+        $this->assertText('Summary (step 4 of 4)');
+        
+        $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportOrg@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
+         
+        $expected = array('id'                 => $contact_id,
+                          'display_name'       => 'TestUpdateImportOrg'                          
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+    }
+
+    function testDeleteContacts()
+    {
+         Contact::delete( $this->individualID1 );
+         Contact::delete( $this->individualID2 );
+         Contact::delete( $this->householdID );
+         Contact::delete( $this->orgID );
+    }
+}

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -116,7 +116,6 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
         require_once 'CRM/Contribute/DAO/Premium.php';
         $dao =& new CRM_Contribute_DAO_Premium();
         $dao->entity_table = 'civicrm_contribution_page';
-        $dao->domain_id  = CRM_Core_Config::domainID( );
         $dao->entity_id = $pageID; 
         $dao->premiums_active = 1;
         
@@ -136,7 +135,6 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
             while ($dao->fetch()) {
                 require_once 'CRM/Contribute/DAO/Product.php';
                 $productDAO =& new CRM_Contribute_DAO_Product();
-                $productDAO->domain_id  = CRM_Core_Config::domainID( );
                 $productDAO->id = $dao->product_id;
                 $productDAO->is_active = 1;
                 if ($productDAO->find(true) ) {
@@ -192,13 +190,11 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
             require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
             $dao =& new CRM_Contribute_DAO_PremiumsProduct();
             $dao->id = $premiumProductID;
-            $dao->domain_id  = CRM_Core_Config::domainID( );
             $dao->find(true);
             $productID = $dao->product_id;
         }
         $productDAO =& new CRM_Contribute_DAO_Product();
         $productDAO->id = $productID;
-        $productDAO->domain_id  = CRM_Core_Config::domainID( );
         $productDAO->is_active = 1;
         if ($productDAO->find(true) ) {
             CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
@@ -223,4 +219,4 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
         $form->assign( 'preview' , true);
     }
 }
-?>
+

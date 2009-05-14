@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,7 +29,7 @@
  * Redefine the upload action.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -78,29 +78,32 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
      * @access private
      */
     function upload( &$page, &$data, $pageName, $uploadName ) {
-       
-        if ( empty( $uploadName ) ) {
+        // make sure uploadName exists in the QF array
+        // else we skip, CRM-3427
+        if ( empty( $uploadName ) ||
+             ! isset( $page->_elementIndex[$uploadName] ) ) {
             return;
         }
+
         // get the element containing the upload
         $element =& $page->getElement( $uploadName );
         if ( 'file' == $element->getType( ) ) {
             if ($element->isUploadedFile()) {
                 // rename the uploaded file with a unique number at the end
                 $value = $element->getValue();
-                $uniqID = md5(uniqid(rand(), true));
-                $info   = pathinfo($value['name']);
-                $basename = substr($info['basename'], 0, -(strlen($info['extension']) + ($info['extension'] == '' ? 0 : 1)));
-                $newName = $basename . "_{$uniqID}." . $info['extension'];
+
+                require_once 'CRM/Utils/File.php';
+                $newName = CRM_Utils_File::makeFileName( $value['name'] );
                 $status = $element->moveUploadedFile( $this->_uploadDir, $newName );
                 if ( ! $status ) {
-                    CRM_Core_Error::statusBounce( ts( 'We could not move the uploaded file %1 to the upload directory %2. Please verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which is writable by your web server.', array( 1 => $value['name'], 2 => $this->_uploadDir ) ) );
+                    CRM_Core_Error::statusBounce( ts( 'We could not move the uploaded file %1 to the upload directory %2. Please verify that the \'Temporary Files\' setting points to a valid path which is writable by your web server.', array( 1 => $value['name'], 2 => $this->_uploadDir ) ) );
                 }
-                if (!empty($data['values'][$pageName][$uploadName])) {
+                if (!empty($data['values'][$pageName][$uploadName]['name'])) {
                     @unlink($this->_uploadDir . $data['values'][$pageName][$uploadName]);
                 }
                 
-                $data['values'][$pageName][$uploadName] = $this->_uploadDir . $newName;
+                $data['values'][$pageName][$uploadName] = array( 'name' => $this->_uploadDir . $newName,
+                                                                 'type' => $value['type'] );
             }
         }
     }
@@ -146,11 +149,11 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
         }
         
         // the page is valid, process it before we jump to the next state
-        $page->postProcess( );
+        $page->mainProcess( );
 
         $state->handleNextState( $page );
     }
 
 }
 
-?>
+

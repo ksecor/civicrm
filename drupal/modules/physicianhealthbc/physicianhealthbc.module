@@ -1,0 +1,292 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+
+function physicianhealthbc_initialize( ) {
+    static $_initialized = false;
+
+    if ( ! $_initialized ) {
+        civicrm_initialize( );
+    }
+
+}
+
+function physicianhealthbc_civicrm_dashboard( $contactID, &$placement ) {
+    physicianhealthbc_initialize( );
+
+    $placement = CRM_Utils_Hook::DASHBOARD_REPLACE;
+
+	$mine = CRM_Utils_Request::retrieve('mine', 'Integer', CRM_Core_DAO::$_nullObject);
+
+	
+	/*************************************************************
+	 * TABLE 1
+	 * Activities with SCHEDULED status that have a SCHEDULED DATE between the beginning of time and 2 weeks from now.
+	 * Sorted date descending. Exclude case-related activities.
+	 *
+	 * activity_target is the "with contact" field on the form, activity_assignment is the "assigned to" field
+	 * I'm not sure if non-case activities can have a due_date_time since the field doesn't seem present on the form, but leaving in anyway.
+	 *************************************************************/
+		    
+    $sql = "SELECT act.*, ov2.label AS activity_type_label, csource.display_name as source_contact_display_name, targ.target_contact_id, ctarg.display_name AS targ_display_name, ass.assignee_contact_id, cass.display_name AS ass_display_name
+FROM civicrm_option_group og INNER JOIN civicrm_option_value ov
+ON og.id = ov.option_group_id AND og.name='activity_status' AND (ov.name='Scheduled' OR ov.name='Proposed')
+INNER JOIN civicrm_activity act ON act.status_id=ov.value
+INNER JOIN civicrm_option_group og2 ON og2.name='activity_type' INNER JOIN civicrm_option_value ov2 ON og2.id = ov2.option_group_id AND act.activity_type_id=ov2.value
+LEFT OUTER JOIN civicrm_contact csource ON csource.id = act.source_contact_id
+LEFT OUTER JOIN civicrm_activity_target targ ON targ.activity_id=act.id
+LEFT OUTER JOIN civicrm_contact ctarg ON ctarg.id = targ.target_contact_id
+LEFT OUTER JOIN civicrm_activity_assignment ass ON ass.activity_id=act.id
+LEFT OUTER JOIN civicrm_contact cass ON cass.id = ass.assignee_contact_id
+LEFT OUTER JOIN civicrm_case_activity ca ON ca.activity_id=act.id 
+WHERE ca.id Is Null AND
+act.is_test = 0 AND act.is_current_revision = 1
+AND ( (act.due_date_time Is Null AND act.activity_date_time < TIMESTAMPADD(WEEK, 2, CURRENT_TIMESTAMP))
+  OR (act.due_date_time < TIMESTAMPADD(WEEK, 2, CURRENT_TIMESTAMP)) )
+";
+$sql .= empty($mine) ? "" : "AND (act.source_contact_id = {$contactID} OR targ.target_contact_id = {$contactID} OR ass.assignee_contact_id = {$contactID})\n";    
+$sql .= "ORDER BY act.activity_date_time, act.due_date_time";
+
+ 
+    $dao = CRM_Core_DAO::executeQuery( $sql );
+    $values = array( );
+
+    while ( $dao->fetch( ) ) {
+			
+        $value['date' ] = $dao->due_date_time ? $dao->due_date_time : $dao->activity_date_time;
+
+        $subject = $dao->subject ? $dao->subject : ts('(No subject)');
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
+                                      "atype={$dao->activity_type_id}&action=update&reset=1&context=home&cid={$dao->source_contact_id}&id={$dao->id}" );
+        $value['subject'] = "<a href=\"$url\">$subject</a>";
+
+        $value['type' ] = $dao->activity_type_label;
+
+		// Take assignee name if present, otherwise creator.
+		$value['contact'] = "";
+		if ($dao->assignee_contact_id) {
+        	$url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                      "reset=1&cid={$dao->assignee_contact_id}" );
+        	$value['contact'] = "<a href=\"$url\">" . ($dao->ass_display_name ? $dao->ass_display_name : ts('Unknown Contact')) . "</a>";
+		} elseif ($dao->source_contact_id) {
+        	$url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                      "reset=1&cid={$dao->source_contact_id}" );
+        	$value['contact'] = "<a href=\"$url\">" . ($dao->source_contact_display_name ? $dao->source_contact_display_name : ts('Unknown Contact')) . "</a>";
+		}
+
+		$value['with'] = "";
+		if ($dao->target_contact_id) {
+        	$url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                      "reset=1&cid={$dao->target_contact_id}" );
+        	$value['with'] = "<a href=\"$url\">" . ($dao->targ_display_name ? $dao->targ_display_name: ts('Unknown Contact')) . "</a>";
+		}
+		
+		if (empty($values[$dao->id])) {
+	        $values[$dao->id] = $value;
+		} else {
+			// This is a "duplicate" because there's either multiple contacts or assignees for this activity, so concatenate just those fields
+			if (! empty($value['contact'])) {
+				if (empty($values[$dao->id]['contact'])) {
+					$values[$dao->id]['contact'] = $value['contact'];
+				} elseif (strpos($values[$dao->id]['contact'], $value['contact']) === FALSE) {
+					$values[$dao->id]['contact'] .= ", " . $value['contact'];
+				}
+			}
+			if (! empty($value['with'])) {
+				if (empty($values[$dao->id]['with'])) {
+					$values[$dao->id]['with'] = $value['with'];
+				} elseif (strpos($values[$dao->id]['with'], $value['with']) === FALSE) {
+					$values[$dao->id]['with'] .= ", " . $value['with'];
+				}
+			}
+		}
+    }
+    
+    if (empty($values)) {
+    	$html = ts("No Scheduled Activities in the next two weeks.");
+    } else {
+    $html = "
+<table>
+<tr>
+<th>". ts("Date") . "</th>
+<th>". ts("Subject") . "</th>
+<th>". ts("Contact") . "</th>
+<th>". ts("With") . "</th>
+<th>". ts("Type") . "</th>
+</tr>
+";
+
+		foreach($values as $value) {
+        $html .= "
+<tr>
+<td>{$value['date']}</td>
+<td>{$value['subject']}</td>
+<td>{$value['contact']}</td>
+<td>{$value['with']}</td>
+<td>{$value['type']}</td>
+</tr>
+";
+		}
+		
+    	$html .= "</table>";
+    }
+
+	/*************************************************************
+	 * TABLE 2
+	 * Activities with ANYTHING OTHER THAN SCHEDULED status that have an ACTIVITY DATE within the last 2 weeks, or if the Activity Date is null, then the scheduled date within the last 2 weeks.
+	 * Sorted date descending.
+	 *************************************************************/
+	 
+    $sql = "SELECT act.*, ov.label AS activity_status_label, ov2.label AS activity_type_label, csource.display_name as source_contact_display_name, targ.target_contact_id, ctarg.display_name AS targ_display_name, ass.assignee_contact_id, cass.display_name AS ass_display_name
+FROM civicrm_option_group og INNER JOIN civicrm_option_value ov
+ON og.id = ov.option_group_id AND og.name='activity_status' AND (ov.name<>'Scheduled' AND ov.name<>'Proposed')
+INNER JOIN civicrm_activity act ON act.status_id=ov.value
+INNER JOIN civicrm_option_group og2 ON og2.name='activity_type' INNER JOIN civicrm_option_value ov2 ON og2.id = ov2.option_group_id AND act.activity_type_id=ov2.value
+LEFT OUTER JOIN civicrm_contact csource ON csource.id = act.source_contact_id
+LEFT OUTER JOIN civicrm_activity_target targ ON targ.activity_id=act.id
+LEFT OUTER JOIN civicrm_contact ctarg ON ctarg.id = targ.target_contact_id
+LEFT OUTER JOIN civicrm_activity_assignment ass ON ass.activity_id=act.id
+LEFT OUTER JOIN civicrm_contact cass ON cass.id = ass.assignee_contact_id
+LEFT OUTER JOIN civicrm_case_activity ca ON ca.activity_id=act.id 
+WHERE ca.id Is Null AND
+act.is_test = 0 AND act.is_current_revision = 1
+AND ( (act.due_date_time Is Null AND act.activity_date_time > TIMESTAMPADD(WEEK, -2, CURRENT_TIMESTAMP))
+  OR (act.due_date_time > TIMESTAMPADD(WEEK, -2, CURRENT_TIMESTAMP)) )
+";
+$sql .= empty($mine) ? "" : "AND (act.source_contact_id = {$contactID} OR targ.target_contact_id = {$contactID} OR ass.assignee_contact_id = {$contactID})\n";    
+$sql .= "ORDER BY act.activity_date_time DESC, act.due_date_time DESC";
+
+
+    $dao = CRM_Core_DAO::executeQuery( $sql );
+    $values = array( );
+
+    while ( $dao->fetch( ) ) {
+
+        $value['date' ] = $dao->activity_date_time ? $dao->activity_date_time : $dao->due_date_time;
+
+        $subject = $dao->subject ? $dao->subject : ts('(No subject)');
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
+                                      "atype={$dao->activity_type_id}&action=update&reset=1&context=home&cid={$dao->source_contact_id}&id={$dao->id}" );
+/*
+        $url = CRM_Utils_System::url( 'civicrm/activity/view',
+                                      "reset=1&action=view&cid={$dao->source_contact_id}&id={$dao->id}" );
+ */
+        $value['subject'] = "<a href=\"$url\">$subject</a>";
+
+        $value['type' ] = $dao->activity_type_label;
+		$value['status' ] = $dao->activity_status_label;
+
+		// Take assignee name if present, otherwise creator.
+		$value['contact'] = "";
+		if ($dao->assignee_contact_id) {
+        	$url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                      "reset=1&cid={$dao->assignee_contact_id}" );
+        	$value['contact'] = "<a href=\"$url\">" . ($dao->ass_display_name ? $dao->ass_display_name : ts('Unknown Contact')) . "</a>";
+		} elseif ($dao->source_contact_id) {
+        	$url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                      "reset=1&cid={$dao->source_contact_id}" );
+        	$value['contact'] = "<a href=\"$url\">" . ($dao->source_contact_display_name ? $dao->source_contact_display_name : ts('Unknown Contact')) . "</a>";
+        	
+		}
+
+		$value['with'] = "";
+		if ($dao->target_contact_id) {
+        	$url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                      "reset=1&cid={$dao->target_contact_id}" );
+        	$value['with'] = "<a href=\"$url\">" . ($dao->targ_display_name ? $dao->targ_display_name: ts('Unknown Contact')) . "</a>";
+		}
+
+		if (empty($values[$dao->id])) {
+	        $values[$dao->id] = $value;
+		} else {
+			// This is a "duplicate" because there's either multiple contacts or assignees for this activity, so concatenate just those fields
+			if (! empty($value['contact'])) {
+				if (empty($values[$dao->id]['contact'])) {
+					$values[$dao->id]['contact'] = $value['contact'];
+				} elseif (strpos($values[$dao->id]['contact'], $value['contact']) === FALSE) {
+					$values[$dao->id]['contact'] .= ", " . $value['contact'];
+				}
+			}
+			if (! empty($value['with'])) {
+				if (empty($values[$dao->id]['with'])) {
+					$values[$dao->id]['with'] = $value['with'];
+				} elseif (strpos($values[$dao->id]['with'], $value['with']) === FALSE) {
+					$values[$dao->id]['with'] .= ", " . $value['with'];
+				}
+			}
+		}
+    }
+    
+    if (empty($values)) {
+    	$html2 = ts("No Activities in the last two weeks.");
+    } else {
+    $html2 = "
+<table>
+<tr>
+<th>". ts("Date") . "</th>
+<th>". ts("Subject") . "</th>
+<th>". ts("Contact") . "</th>
+<th>". ts("With") . "</th>
+<th>". ts("Status") . "</th>
+<th>". ts("Type") . "</th>
+</tr>
+";
+
+		foreach($values as $value) {
+        $html2 .= "
+<tr>
+<td>{$value['date']}</td>
+<td>{$value['subject']}</td>
+<td>{$value['contact']}</td>
+<td>{$value['with']}</td>
+<td>{$value['status']}</td>
+<td>{$value['type']}</td>
+</tr>
+";
+		}
+		
+    	$html2 .= "</table>";
+    }
+
+$url = CRM_Utils_System::url( 'civicrm/dashboard',
+                              "reset=1" );
+$urlMine = CRM_Utils_System::url( 'civicrm/dashboard',
+                              "reset=1&mine=1" );
+$html0 = empty($mine) ? "<a href=\"$urlMine\">" . ts("Show only my activities") . "</a>" : "<a href=\"$url\">" . ts("Show everyone's activities") . "</a>";
+ 
+    return array( '' => $html0, ts( 'Scheduled Activities' ) => $html,
+     			  ts( 'Recent Activities' ) => $html2,
+      			);
+}
+

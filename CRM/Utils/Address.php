@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -48,18 +48,26 @@ class CRM_Utils_Address
      *
      * @static
      */
-    static function format($fields, $format = null, $microformat = false, $mailing = false, $individualFormat = false )
+    static function format($fields,
+                           $format = null,
+                           $microformat = false,
+                           $mailing = false,
+                           $individualFormat = false,
+                           $tokenFields = null )
     {
         static $config = null;
         require_once 'CRM/Core/BAO/Preferences.php';
         
         if ( ! $format ) {
             $format = CRM_Core_BAO_Preferences::value( 'address_format' );
+            $format = str_replace('contact.',"",$format);
         }
 
         if ( $mailing ) {
             $format = CRM_Core_BAO_Preferences::value( 'mailing_format' );
+            $format = str_replace('contact.',"",$format);
         }
+
         $formatted = $format;
 
         $fullPostalCode = CRM_Utils_Array::value( 'postal_code', $fields );
@@ -78,8 +86,8 @@ class CRM_Utils_Address
             }
         }
 
-        $contactName = null;
-        if ( !$individualFormat ) {  
+        $contactName = CRM_Utils_Array::value( 'display_name', $fields );
+        if ( ! $individualFormat ) {  
             require_once "CRM/Contact/BAO/Contact.php"; 
             if ( isset( $fields['id'] ) ) {
                 $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
@@ -89,9 +97,8 @@ class CRM_Utils_Address
 
             if ( $type == 'Individual' ) {
                 $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
+                $format = str_replace('contact.',"",$format);
                 $contactName = self::format($fields, $format, null, null, true);
-            } else {
-                $contactName = CRM_Utils_Array::value( 'display_name', $fields );
             }
         }
 
@@ -99,11 +106,13 @@ class CRM_Utils_Address
             $replacements =
                 array( // replacements in case of Individual Name Format
                       'contact_name'           => $contactName,
+                      'display_name'           => CRM_Utils_Array::value( 'display_name', $fields ),
                       'individual_prefix'      => CRM_Utils_Array::value( 'individual_prefix', $fields ),
                       'first_name'             => CRM_Utils_Array::value( 'first_name', $fields ),
                       'middle_name'            => CRM_Utils_Array::value( 'middle_name', $fields ),
                       'last_name'              => CRM_Utils_Array::value( 'last_name', $fields ),
                       'individual_suffix'      => CRM_Utils_Array::value( 'individual_suffix', $fields ),
+                      'address_name'           => CRM_Utils_Array::value( 'address_name', $fields ),
                       'street_address'         => CRM_Utils_Array::value( 'street_address', $fields ),
                       'supplemental_address_1' => CRM_Utils_Array::value( 'supplemental_address_1', $fields ),
                       'supplemental_address_2' => CRM_Utils_Array::value( 'supplemental_address_2', $fields ),
@@ -113,12 +122,35 @@ class CRM_Utils_Address
                       'state_province'         => CRM_Utils_Array::value( 'state_province', $fields ),
                       'postal_code'            => $fullPostalCode,
                       'country'                => CRM_Utils_Array::value( 'country', $fields ),
-                      'world_region'           => CRM_Utils_Array::value( 'world_region', $fields )
-                      );
+                      'world_region'           => CRM_Utils_Array::value( 'world_region', $fields ),
+                      'geo_code_1'             => CRM_Utils_Array::value( 'geo_code_1', $fields ),
+                      'geo_code_2'             => CRM_Utils_Array::value( 'geo_code_2', $fields ),
+                      'current_employer'       => CRM_Utils_Array::value( 'current_employer', $fields ),
+                      'nick_name'              => CRM_Utils_Array::value( 'nick_name', $fields ),
+                      'email'                  => CRM_Utils_Array::value( 'email', $fields ),
+                      'im'                     => CRM_Utils_Array::value( 'im', $fields ),
+                      'do_not_email'           => CRM_Utils_Array::value( 'do_not_email', $fields ),
+                      'do_not_phone'           => CRM_Utils_Array::value( 'do_not_phone', $fields ),
+                      'do_not_mail'            => CRM_Utils_Array::value( 'do_not_mail', $fields ),
+                      'do_not_trade'           => CRM_Utils_Array::value( 'do_not_trade', $fields ),
+                      'job_title'              => CRM_Utils_Array::value( 'job_title', $fields ),
+                      'birth_date'             => CRM_Utils_Array::value( 'birth_date', $fields ),
+                      'gender'                 => CRM_Utils_Array::value( 'gender', $fields ),
+                      'is_opt_out'             => CRM_Utils_Array::value( 'is_opt_out', $fields ),
+                      'home_URL'               => CRM_Utils_Array::value( 'home_URL', $fields ),
+                      'preferred_mail_format'  => CRM_Utils_Array::value( 'preferred_mail_format', $fields ),
+                      'phone'                  => CRM_Utils_Array::value( 'phone', $fields ),
+                      'home_URL'               => CRM_Utils_Array::value( 'home_URL', $fields ),
+                      'contact_source'         => CRM_Utils_Array::value( 'contact_source', $fields ),
+                      'external_identifier'    => CRM_Utils_Array::value( 'external_identifier', $fields ),
+                      'contact_id'             => CRM_Utils_Array::value( 'id', $fields ),
+                      'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields )
+                       );
         } else {
             $replacements =
                 array(
-                      'street_address'         => "<span class=\"street-address\">" . $fields['street_address'] . "</span>",
+                      'address_name'           => "<span class=\"address-name\">" .     $fields['address_name'] . "</span>",
+                      'street_address'         => "<span class=\"street-address\">" .   $fields['street_address'] . "</span>",
                       'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
                       'supplemental_address_2' => $fields['supplemental_address_2'],
                       'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
@@ -129,7 +161,7 @@ class CRM_Utils_Address
                       'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>",
                       'world_region'           => "<span class=\"region\">" .           $fields['world_region'] . "</span>"
                       );
-
+            
             // erase all empty ones, so we dont get blank lines
             foreach ( array_keys( $replacements ) as $key ) {
                 if ( $key != 'postal_code' &&
@@ -142,13 +174,30 @@ class CRM_Utils_Address
             }
         }
         
+        // replacements in case of Custom Token
+        if ( stristr( $formatted ,'custom_' ) ) {
+            $customToken = array_keys( $fields );
+            foreach( $customToken as $value ) {
+                if ( substr( $value,0,7 ) == 'custom_' ) {
+                    $replacements["{$value }"] = $fields["{$value}"];  
+                }
+            }
+        }
+
+        // also sub all token fields
+        if ( $tokenFields ) {
+            foreach ( $tokenFields as $token ) {
+                $replacements["{$token}"] = CRM_Utils_Array::value( "{$token}", $fields );
+            }
+        }
+
         // for every token, replace {fooTOKENbar} with fooVALUEbar if
         // the value is not empty, otherwise drop the whole {fooTOKENbar}
         foreach ($replacements as $token => $value) {
             if ($value) {
-                $formatted = preg_replace("/{([^{}]*){$token}([^{}]*)}/u", "\${1}{$value}\${2}", $formatted);
+                $formatted = preg_replace("/{([^{}]*)\b{$token}\b([^{}]*)}/u", "\${1}{$value}\${2}", $formatted);
             } else {
-                $formatted = preg_replace("/{[^{}]*{$token}[^{}]*}/u", '', $formatted);
+                $formatted = preg_replace("/{[^{}]*\b{$token}\b[^{}]*}/u", '', $formatted);
             }
         }
 
@@ -190,4 +239,4 @@ class CRM_Utils_Address
 
 }
 
-?>
+

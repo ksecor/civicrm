@@ -1,12 +1,10 @@
-{if $action eq 1 or $action eq 2 or $action eq 8}
+{if $action eq 1 or $action eq 2}
   {include file="CRM/Admin/Form/DedupeRules.tpl"}
+{elseif $action eq 4}
+{include file="CRM/Admin/Form/DedupeFind.tpl"}
 {else}
-    {capture assign="findURL"}{crmURL p='civicrm/admin/dedupefind' q="reset=1"}{/capture}
-    {capture assign="contactMatchURL"}{crmURL p='civicrm/admin/dupematch' q="reset=1"}{/capture}
-    {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
     <div id="help">
-        <p>{ts 1="http://wiki.civicrm.org/confluence//x/xis" 2=$docURLTitle 3=$findURL}<strong>Duplicate Contact Rules</strong> are used by the <strong><a href='%3'>Find Duplicate Contact</a></strong> feature - which searches through your existing contacts and identifies 'suspected' duplicate contact records. Click <strong>Edit Rule</strong> to review or modify the rules for each type of contact (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}</p>
-        <p>{ts 1=$config->userFramework 2=$contactMatchURL}NOTE: These rules are NOT used for matching and synchronizing %1 users to CiviCRM contacts. This process uses <a href='%2'>Contact Matching Rules</a>.{/ts}</p>
+        {ts}Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.{/ts} {help id="id-dedupe-intro"}
     </div>
     {if $rows}
         <div id="browseValues">
@@ -14,13 +12,23 @@
             {strip}
               <table>
                 <tr class="columnheader">
+                  <th>{ts}Name{/ts}</th>
                   <th>{ts}Contact Type{/ts}</th>
+                  <th>{ts}Level{/ts}</th>
+                  <th>{ts}Default?{/ts}</th>
                   <th></th>
                 </tr>
                 {foreach from=$rows item=row}
-                  <tr class="{cycle values="odd-row,even-row"} {$row.class}">
+                  <tr class="{cycle values="odd-row,even-row"}">
+                    <td>{if isset($row.name)}{$row.name}{/if}</td>
                     <td>{$row.contact_type_display}</td>	
-                    <td>{$row.action}</td>
+                    <td>{$row.level}</td>	
+                    {if $row.is_default}
+                        <td><img src="{$config->resourceBase}/i/check.gif" alt="{ts}Default{/ts}" /></td>    
+                    {else}
+                        <td></td>
+                    {/if}
+                    <td>{$row.action|replace:'xx':$row.id}</td>
                   </tr>
                 {/foreach}
               </table>
@@ -28,4 +36,10 @@
           </div>
         </div>
     {/if}
+	    <div class="action-link">
+    	<a href="{crmURL q="action=add&contact_type=Individual&reset=1"}" class="button"><span>&raquo; {ts}New Dedupe Rule for Individuals{/ts}</span></a><br/><br/>
+    	<a href="{crmURL q="action=add&contact_type=Household&reset=1"}" class="button"><span>&raquo; {ts}New Dedupe Rule for Households{/ts}</span></a><br/><br/>
+    	<a href="{crmURL q="action=add&contact_type=Organization&reset=1"}" class="button"><span>&raquo; {ts}New Dedupe Rule for Organizations{/ts}</span></a>
+        </div>
+
 {/if}

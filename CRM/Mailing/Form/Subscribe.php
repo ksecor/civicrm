@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,12 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
 
 class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
 {
@@ -42,15 +43,36 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
     function preProcess( ) 
     { 
         parent::preProcess( );
-        $this->_groupID = CRM_Utils_Request::retrieve( 'gid', 'Integer', $this );
+        $this->_groupID = CRM_Utils_Request::retrieve( 'gid', 'Integer', $this,
+                                                       false, null, 'REQUEST' );
+
+        // ensure that there is a destination, if not set the destination to the
+        // referrer string
+        if ( ! $this->controller->getDestination( ) ) {
+            $this->controller->setDestination( null, true );
+        }
+
+        require_once 'CRM/Contact/BAO/Group.php';
 
         if ( $this->_groupID ) {
-            $this->assign( 'groupID'  , $this->_groupID );
-            $groupName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
-                                                       $this->_groupID,
-                                                       'title' );
-            $this->assign( 'groupName', $groupName );
-            CRM_Utils_System::setTitle(ts('Subscribe to Mailing List - %1', array(1 => $groupName)));
+            $groupTypeCondition = CRM_Contact_BAO_Group::groupTypeCondition( 'Mailing' );
+            
+            // make sure requested qroup is accessible and exists
+            $query = "
+SELECT   title, description
+  FROM   civicrm_group
+ WHERE   id={$this->_groupID}  
+   AND   visibility != 'User and User Admin Only'
+   AND   $groupTypeCondition";
+            
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            if ( $dao->fetch( ) ) {
+                $this->assign( 'groupName', $dao->title );
+                CRM_Utils_System::setTitle(ts('Subscribe to Mailing List - %1', array(1 => $dao->title)));
+            } else {
+                CRM_Core_Error::statusBounce( "The specified group is not configured for this action OR The group doesn't exist." );
+            }
+
             $this->assign( 'single', true  );
         } else {
             $this->assign( 'single', false );
@@ -78,16 +100,16 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
 
         if ( ! $this->_groupID ) {
             // create a selector box of all public groups
-            require_once 'CRM/Contact/BAO/Group.php';
-
             $groupTypeCondition = CRM_Contact_BAO_Group::groupTypeCondition( 'Mailing' );
+
             $query = "
-SELECT id, title, description
-  FROM civicrm_group
- WHERE ( saved_search_id = 0
-    OR   saved_search_id IS NULL )
-   AND visibility != 'User and User Admin Only'
-   AND $groupTypeCondition";
+SELECT   id, title, description
+  FROM   civicrm_group
+ WHERE   ( saved_search_id = 0
+    OR     saved_search_id IS NULL )
+   AND   visibility != 'User and User Admin Only'
+   AND   $groupTypeCondition
+ORDER BY title";
             $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             $rows   =  array( );
             while ( $dao->fetch( ) ) {
@@ -108,6 +130,30 @@ SELECT id, title, description
             $this->addFormRule( array( 'CRM_Mailing_Form_Subscribe', 'formRule' ) );
         }
 
+        $addCaptcha = true;
+
+        // if recaptcha is not set, then dont add it
+        $config =& CRM_Core_Config::singleton( );
+        if ( empty( $config->recaptchaPublicKey ) ||
+             empty( $config->recaptchaPrivateKey ) ) {
+            $addCaptcha = false;
+        } else {
+            // if this is POST request and came from a block,
+            // lets add recaptcha only if already present
+            // gross hack for now
+            if ( ! empty( $_POST ) &&
+                 ! array_key_exists( 'recaptcha_challenge_field', $_POST ) ) {
+                $addCaptcha = false;
+            }
+        }
+        
+        if ( $addCaptcha ) {
+            // add captcha
+            require_once 'CRM/Utils/ReCAPTCHA.php';
+            $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
+            $captcha->add( $this );
+        }
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Subscribe'),
@@ -120,14 +166,28 @@ SELECT id, title, description
     }
     
     static function formRule( &$fields ) {
+        $groups = CRM_Mailing_Event_BAO_Subscribe::getContactGroups($fields['email']);
         foreach ( $fields as $name => $dontCare ) {
             if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
-                return true;
+                $gid = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
+                if ( array_key_exists( $gid, $groups ) ) {
+                    $errors[$name] = ts('You are already subscribed in %1, your subscription is %2.', array(1 => $groups[$gid]['title'], 2 => $groups[$gid]['status']));
+                }
+            }
+        }
+            
+        if ( $errors ) {
+            return $errors;
+        } else {
+            foreach ( $fields as $name => $dontCare ) {
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    return true;
+                }
             }
         }
         return array( '_qf_default' => 'Please select one or more mailing lists.' );
     }
-
+    
     /**
      *
      * @access public
@@ -147,29 +207,8 @@ SELECT id, title, description
                 }
             }
         }
-
-        require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
-        $domainID = CRM_Core_Config::domainID( );
-        $success = true;
-        foreach ( $groups as $groupID ) {
-            $se = CRM_Mailing_Event_BAO_Subscribe::subscribe( $domainID,
-                                                              $groupID,
-                                                              $params['email'] );
-            if ( $se !== null ) {
-                /* Ask the contact for confirmation */
-                $se->send_confirm_request($params['email']);
-            } else {
-                $success = false;
-            }
-        }
-
-        if ( $success ) {
-            CRM_Utils_System::setUFMessage( ts( "Your subscription request has been submitted. Check your inbox shortly for the confirmation email(s)." ) );
-        } else {
-            CRM_Utils_System::setUFMessage( ts( "We had a problem processing your subscription request. Please contact the site administrator" ) );
-        }
-
-    }//end of function
-
+        
+        CRM_Mailing_Event_BAO_Subscribe::commonSubscribe( $groups, $params );
+    }
 }
-?>
+

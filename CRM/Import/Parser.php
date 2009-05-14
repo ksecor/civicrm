@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -79,7 +79,9 @@ abstract class CRM_Import_Parser {
         CONTACT_HOUSEHOLD      = 2,
         CONTACT_ORGANIZATION   = 4;
 
-    protected $_fileName;
+    const DEFAULT_TIMEOUT = 30;
+
+    protected $_tableName;
 
     /**#@+
      * @access protected
@@ -87,19 +89,9 @@ abstract class CRM_Import_Parser {
      */
 
     /**
-     * imported file size
-     */
-    protected $_fileSize;
-
-    /**
-     * seperator being used
-     */
-    protected $_seperator;
-
-    /**
      * total number of lines in file
      */
-    protected $_lineCount;
+    protected $_rowCount;
 
     /**
      * total number of non empty lines
@@ -238,6 +230,8 @@ abstract class CRM_Import_Parser {
      */
     protected $_misMatchFilemName;
 
+    protected $_primaryKeyName;
+    protected $_statusFieldName;
 
     /**
      * contact type
@@ -246,8 +240,13 @@ abstract class CRM_Import_Parser {
      */
 
     public $_contactType;
+    /**
+     * on duplicate
+     *
+     * @var int
+     */
+    public $_onDuplicate;
     
-
     function __construct() {
         $this->_maxLinesToProcess = 0;
         $this->_maxErrorCount = self::MAX_ERRORS;
@@ -255,16 +254,21 @@ abstract class CRM_Import_Parser {
 
     abstract function init();
 
-    function run( $fileName,
-                  $seperator = ',',
+    function run( $tableName,
                   &$mapper,
-                  $skipColumnHeader = false,
                   $mode = self::MODE_PREVIEW,
                   $contactType = self::CONTACT_INDIVIDUAL,
+                  $primaryKeyName = '_id',
+                  $statusFieldName = '_status',
                   $onDuplicate = self::DUPLICATE_SKIP,
                   $statusID = null,
                   $totalRowCount = null,
-                  $doGeocodeAddress = false ) {
+                  $doGeocodeAddress = false,
+                  $timeout = CRM_Import_Parser::DEFAULT_TIMEOUT ) {
+
+        // TODO: Make the timeout actually work
+        $this->_onDuplicate = $onDuplicate;
+        
         switch ($contactType) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';
@@ -277,15 +281,8 @@ abstract class CRM_Import_Parser {
         }
 
         $this->init();
-      
-        $this->_seperator = $seperator;
 
-        $fd = fopen( $fileName, "r" );
-        if ( ! $fd ) {
-            return false;
-        }
-
-        $this->_lineCount  = $this->_warningCount   = 0;
+        $this->_rowCount  = $this->_warningCount   = 0;
         $this->_invalidRowCount = $this->_validCount     = 0;
         $this->_totalCount = $this->_conflictCount = 0;
     
@@ -293,8 +290,11 @@ abstract class CRM_Import_Parser {
         $this->_warnings = array();
         $this->_conflicts = array();
 
-        $this->_fileSize = number_format( filesize( $fileName ) / 1024.0, 2 );
         $status = '';
+        
+        $this->_tableName       = $tableName;
+        $this->_primaryKeyName  = $primaryKeyName;
+        $this->_statusFieldName = $statusFieldName;
         
         if ( $mode == self::MODE_MAPFIELD ) {
             $this->_rows = array( );
@@ -314,6 +314,7 @@ abstract class CRM_Import_Parser {
 
         if ( $statusID ) {
             $skip = 50;
+            // $skip = 1;
             $config =& CRM_Core_Config::singleton( );
             $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
             $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
@@ -321,8 +322,7 @@ abstract class CRM_Import_Parser {
             $json =& new Services_JSON( ); 
             $contents = $json->encode( array( 0, $status ) );
 
-            require_once "CRM/Utils/File.php";
-            CRM_Utils_File::filePutContents( $statusFile, $contents );
+            file_put_contents( $statusFile, $contents );
 
             $startTimestamp = $currTimestamp = $prevTimestamp = time( );
         
@@ -330,34 +330,24 @@ abstract class CRM_Import_Parser {
 
         // put this outside the while loop
         require_once 'Services/JSON.php';
-        require_once "CRM/Utils/File.php";
+        
+        // get the contents of the temp. import table
+        $query = "SELECT * FROM $tableName";
+        if ( $mode == self::MODE_IMPORT ) {
+            $query .= " WHERE $statusFieldName = 'NEW'";
+        }
+        $dao = new CRM_Core_DAO( );
+        $db = $dao->getDatabaseConnection( );
+        $result = $db->query( $query );
 
-        while ( ! feof( $fd ) ) {
-            // if ( ( $this->_lineCount % 5 ) == 0 ) {
-            // CRM_Utils_System::memory( "{$this->_lineCount}: " );
-            // }
-            
-            $this->_lineCount++;
-            
-            $values = fgetcsv( $fd, 8192, $seperator );
-            if ( ! $values ) {
-                continue;
-            }
-
-            self::encloseScrub($values);
-
-            // skip column header if we're not in mapfield mode
-            if ( $mode != self::MODE_MAPFIELD && $skipColumnHeader ) {
-                    $skipColumnHeader = false;
-                    continue;
-            }
+        while ( $values = $result->fetchRow( DB_FETCHMODE_ORDERED ) ) {
+            $this->_rowCount++;
            
             /* trim whitespace around the values */
             $empty = true;
             foreach ($values as $k => $v) {
                 $values[$k] = trim($v, " \t\r\n");
             }
-            
             if ( CRM_Utils_System::isNull( $values ) ) {
                 continue;
             }
@@ -371,12 +361,13 @@ abstract class CRM_Import_Parser {
             } else if ( $mode == self::MODE_SUMMARY ) {
                 $returnCode = $this->summary( $values );
             } else if ( $mode == self::MODE_IMPORT ) {
+                //print "Running parser in import mode<br/>\n";
                 $returnCode = $this->import( $onDuplicate, $values, $doGeocodeAddress );
-                if ( $statusID && ( ( $this->_lineCount % $skip ) == 0 ) ) {
+                if ( $statusID && ( ( $this->_rowCount % $skip ) == 0 ) ) {
                     $currTimestamp = time( );
                     $totalTime = ( $currTimestamp - $startTimestamp );
                     $time = ( $currTimestamp - $prevTimestamp );
-                    $recordsLeft = $totalRowCount - $this->_lineCount;
+                    $recordsLeft = $totalRowCount - $this->_rowCount;
                     if ( $recordsLeft < 0 ) {
                         $recordsLeft = 0;
                     }
@@ -388,9 +379,9 @@ abstract class CRM_Import_Parser {
                         $estimatedTime = $estimatedTime - ($estMinutes*60);
                     }
                     $timeFormatted .= round($estimatedTime) . ' ' . ts('seconds');
-                    $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
+                    $processedPercent  = (int ) ( ( $this->_rowCount * 100 ) / $totalRowCount );
                     $statusMsg = ts('%1 of %2 records - %3 remaining',
-                                    array(1 => $this->_lineCount, 2 => $totalRowCount, 3 => $timeFormatted) );
+                                    array(1 => $this->_rowCount, 2 => $totalRowCount, 3 => $timeFormatted) );
                     $status = "
 <div class=\"description\">
 &nbsp; <strong>{$statusMsg}</strong>
@@ -400,10 +391,11 @@ abstract class CRM_Import_Parser {
                     $json =& new Services_JSON( ); 
                     $contents = $json->encode( array( $processedPercent, $status ) );
 
-                    CRM_Utils_File::filePutContents( $statusFile, $contents );
+                    file_put_contents( $statusFile, $contents );
 
                     $prevTimestamp = $currTimestamp;
                 }
+                // sleep(1);
             } else {
                 $returnCode = self::ERROR;
             }
@@ -427,20 +419,20 @@ abstract class CRM_Import_Parser {
             if ( $returnCode & self::ERROR ) {
                 $this->_invalidRowCount++;
                 if ( $this->_invalidRowCount < $this->_maxErrorCount ) {
-                    array_unshift($values, $this->_lineCount);
+                    array_unshift($values, $this->_rowCount);
                     $this->_errors[] = $values;
                 }
             } 
 
             if ( $returnCode & self::CONFLICT ) {
                 $this->_conflictCount++;
-                array_unshift($values, $this->_lineCount);
+                array_unshift($values, $this->_rowCount);
                 $this->_conflicts[] = $values;
             } 
 
              if ( $returnCode & self::NO_MATCH ) {
                 $this->_unMatchCount++;
-                array_unshift($values, $this->_lineCount);
+                array_unshift($values, $this->_rowCount);
                 $this->_unMatch[] = $values;
             } 
             
@@ -450,7 +442,7 @@ abstract class CRM_Import_Parser {
                      * on non-skip action */
                 }
                 $this->_duplicateCount++;
-                array_unshift($values, $this->_lineCount);
+                array_unshift($values, $this->_rowCount);
                 $this->_duplicates[] = $values;
                 if ($onDuplicate != self::DUPLICATE_SKIP) {
                     $this->_validCount++;
@@ -470,9 +462,12 @@ abstract class CRM_Import_Parser {
          
             // clean up memory from dao's
             CRM_Core_DAO::freeResult( );
+            
+            // see if we've hit our timeout yet
+            /* if ( $the_thing_with_the_stuff ) {
+                do_something( );
+            } */
         }
-
-        fclose( $fd );
 
         
         if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
@@ -484,23 +479,25 @@ abstract class CRM_Import_Parser {
                     $customHeaders[$key] = $customfields[$id][0];
                 }
             }
+            $config =& CRM_Core_Config::singleton( );
+            $fileName = $config->uploadDir . "sqlImport";
             if ($this->_invalidRowCount) {
                 // removed view url for invlaid contacts
-                $headers = array_merge( array(  ts('Record Number'),
+                $headers = array_merge( array(  ts('Line Number'),
                                                 ts('Reason')), 
                                         $customHeaders);
                 $this->_errorFileName = $fileName . '.errors';
                 self::exportCSV($this->_errorFileName, $headers, $this->_errors);
             }
             if ($this->_conflictCount) {
-                $headers = array_merge( array(  ts('Record Number'),
+                $headers = array_merge( array(  ts('Line Number'),
                                                 ts('Reason')), 
                                         $customHeaders);
                 $this->_conflictFileName = $fileName . '.conflicts';
                 self::exportCSV($this->_conflictFileName, $headers, $this->_conflicts);
             }
             if ($this->_duplicateCount) {
-                $headers = array_merge( array(  ts('Record Number'), 
+                $headers = array_merge( array(  ts('Line Number'), 
                                                 ts('View Contact URL')),
                                         $customHeaders);
 
@@ -508,7 +505,7 @@ abstract class CRM_Import_Parser {
                 self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
             }
             if ($this->_unMatchCount) {
-                $headers = array_merge( array(  ts('Record Number'), 
+                $headers = array_merge( array(  ts('Line Number'), 
                                                 ts('Reason')),
                                         $customHeaders);
 
@@ -583,6 +580,19 @@ abstract class CRM_Import_Parser {
         }
     }
 
+    /**
+     * Function to set IM Service Provider type fields   
+     *
+     * @param array $elements IM service provider type ids
+     * @return void
+     * @access public
+     */
+    function setActiveFieldImProviders( $elements ) {
+        for ($i = 0;$i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_imProvider = $elements[$i];
+        }
+    }
+    
     function setActiveFieldRelated( $elements ) {
         for ($i = 0; $i < count( $elements ); $i++) {
             $this->_activeFields[$i]->_related = $elements[$i];
@@ -615,6 +625,19 @@ abstract class CRM_Import_Parser {
     }
 
     /**
+     * Function to set IM Service Provider type fields for related contacts  
+     *
+     * @param array $elements IM service provider type ids of related contact
+     * @return void
+     * @access public
+     */
+    function setActiveFieldRelatedContactImProvider( $elements ) {
+        for ($i = 0;$i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_relatedContactImProvider = $elements[$i];
+         }        
+    }
+
+    /**
      * function to format the field values for input to the api
      *
      * @return array (reference ) associative array of name/value pairs
@@ -642,8 +665,13 @@ abstract class CRM_Import_Parser {
                                 $this->_activeFields[$i]->_hasLocationType);
                     
                     if (isset( $this->_activeFields[$i]->_phoneType)) {
-                        $value['phone_type'] =
+                        $value['phone_type_id'] =
                             $this->_activeFields[$i]->_phoneType;
+                    }
+                    
+                    // get IM service Provider type id
+                    if ( isset( $this->_activeFields[$i]->_imProvider ) ) {
+                        $value['provider_id'] = $this->_activeFields[$i]->_imProvider;
                     }
                     
                     $params[$this->_activeFields[$i]->_name][] = $value;
@@ -667,15 +695,21 @@ abstract class CRM_Import_Parser {
                     }
                     
                     if ( isset($this->_activeFields[$i]->_relatedContactLocType)  && !empty($this->_activeFields[$i]->_value) )  {
-                        
-                        $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = array();
+                        if( !is_array( $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] )){
+                            $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = array();
+                        }
                         $value = array($this->_activeFields[$i]->_relatedContactDetails => $this->_activeFields[$i]->_value,
                                        'location_type_id' => $this->_activeFields[$i]->_relatedContactLocType);
                         
                         if (isset( $this->_activeFields[$i]->_relatedContactPhoneType)) {
-                            $value['phone_type'] =  $this->_activeFields[$i]->_relatedContactPhoneType;
+                            $value['phone_type_id'] =  $this->_activeFields[$i]->_relatedContactPhoneType;
                         }
-
+                        
+                        // get IM service Provider type id for related contact
+                        if ( isset( $this->_activeFields[$i]->_relatedContactImProvider ) ) {
+                            $value['provider_id'] = $this->_activeFields[$i]->_relatedContactImProvider;
+                        }
+                        
                         $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails][] = $value;
                     } else {
                         $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = 
@@ -704,10 +738,10 @@ abstract class CRM_Import_Parser {
         return $values;
     }
 
-    function getHeaderPatterns() {
+    function getColumnPatterns() {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
-            $values[$name] = $field->_headerPattern;
+            $values[$name] = $field->_columnPattern;
         }
         return $values;
     }
@@ -750,13 +784,11 @@ abstract class CRM_Import_Parser {
      * @access public
      */
     function set( $store, $mode = self::MODE_SUMMARY ) {
-        $store->set( 'fileSize'   , $this->_fileSize          );
-        $store->set( 'lineCount'  , $this->_lineCount         );
-        $store->set( 'seperator'  , $this->_seperator         );
+        $store->set( 'rowCount'  , $this->_rowCount         );
         $store->set( 'fields'     , $this->getSelectValues( ) );
         $store->set( 'fieldTypes' , $this->getSelectTypes( )  );
         
-        $store->set( 'headerPatterns', $this->getHeaderPatterns( ) );
+        $store->set( 'columnPatterns', $this->getColumnPatterns( ) );
         $store->set( 'dataPatterns', $this->getDataPatterns( ) );
         $store->set( 'columnCount', $this->_activeFieldCount  );
         
@@ -811,42 +843,69 @@ abstract class CRM_Import_Parser {
      * @access public
      */
     static function exportCSV($fileName, $header, $data) {
+        
+        //hack to remove '_status', '_statusMsg' and '_id' from error file
+        $errorValues    = array( );
+        $dbRecordStatus = array( 'IMPORTED', 'ERROR', 'DUPLICATE', 'INVALID', 'NEW' );
+        foreach ( $data as $rowCount => $rowValues  ) {
+            $count = 0;
+            foreach ( $rowValues as $key => $val ) {
+                if ( in_array( $val, $dbRecordStatus ) && $count == ( count( $rowValues ) - 3 ) ) {
+                    break;
+                }
+                $errorValues[$rowCount][$key] = $val;
+                $count++;
+            }
+        }
+        $data = $errorValues;
+        
         $output = array();
         $fd = fopen($fileName, 'w');
-
+        
         foreach ($header as $key => $value) {
             $header[$key] = "\"$value\"";
         }
-        $output[] = implode(',', $header);
+        $config =& CRM_Core_Config::singleton( );
+        $output[] = implode($config->fieldSeparator, $header);
 
         foreach ($data as $datum) {
             foreach ($datum as $key => $value) {
                 $datum[$key] = "\"$value\"";
             }
-            $output[] = implode(',', $datum);
+            $output[] = implode($config->fieldSeparator, $datum);
         }
         fwrite($fd, implode("\n", $output));
         fclose($fd);
     }
 
-    /** 
-     * Remove single-quote enclosures from a value array (row)
+    /**
+     * Update the record with PK $id in the import database table
      *
-     * @param array $values
-     * @param string $enclosure
+     * @param int $id
+     * @param array $params
      * @return void
-     * @static
      * @access public
      */
-    static function encloseScrub(&$values, $enclosure = "'") {
-        if (empty($values)) 
-            return;
-
-        foreach ($values as $k => $v) {
-            $values[$k] = preg_replace("/^$enclosure(.*)$enclosure$/", '$1', $v);
+    public function updateImportRecord( $id, &$params ) {
+        $statusFieldName = $this->_statusFieldName;
+        $primaryKeyName  = $this->_primaryKeyName;
+        
+        if ($statusFieldName && $primaryKeyName) {
+            $dao = new CRM_Core_DAO( );
+            $db = $dao->getDatabaseConnection( );
+            
+            $query = "UPDATE $this->_tableName
+                      SET    $statusFieldName      = ?,
+                             ${statusFieldName}Msg = ?
+                      WHERE  $primaryKeyName       = ?";
+            $args = array( $params[$statusFieldName], 
+                           CRM_Utils_Array::value( "${statusFieldName}Msg", $params ), 
+                           $id );
+        
+            //print "Running query: $query<br/>With arguments: ".$params[$statusFieldName].", ".$params["${statusFieldName}Msg"].", $id<br/>";
+        
+            $db->query( $query, $args );
         }
     }
 
 }
-
-?>

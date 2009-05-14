@@ -3,7 +3,7 @@
      *	base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	WebTester
-     *	@version	$Id: url.php,v 1.30 2006/09/26 20:07:28 maugrim_t_r Exp $
+     *	@version	$Id: url.php,v 1.32 2007/07/16 18:13:23 lastcraft Exp $
      */
 
     /**#@+
@@ -41,7 +41,7 @@
          *    @param string $url        Incoming URL.
          *    @access public
          */
-        function SimpleUrl($url) {
+        function SimpleUrl($url = '') {
             list($x, $y) = $this->_chompCoordinates($url);
             $this->setCoordinates($x, $y);
             $this->_scheme = $this->_chompScheme($url);
@@ -81,7 +81,7 @@
          *    @access private
          */
         function _chompScheme(&$url) {
-            if (preg_match('/(.*?):(\/\/)(.*)/', $url, $matches)) {
+            if (preg_match('/^([^\/:]*):(\/\/)(.*)/', $url, $matches)) {
                 $url = $matches[2] . $matches[3];
                 return $matches[1];
             }
@@ -409,7 +409,7 @@
          *    @access public
          */
         function asString() {
-            $scheme = $identity = $host = $path = $encoded = $fragment = '';
+            $scheme = $identity = $host = $path = $encoded = $fragment = $port = '';
             if ($this->_username && $this->_password) {
                 $identity = $this->_username . ':' . $this->_password . '@';
             }
@@ -420,10 +420,13 @@
             if (substr($this->_path, 0, 1) == '/') {
                 $path = $this->normalisePath($this->_path);
             }
+            if ( $this->getPort( ) ) {
+                $port = ':' . $this->getPort( );
+            }
             $encoded = $this->getEncodedRequest();
             $fragment = $this->getFragment() ? '#'. $this->getFragment() : '';
             $coords = $this->getX() === false ? '' : '?' . $this->getX() . ',' . $this->getY();
-            return "$scheme://$identity$host$path$encoded$fragment$coords";
+            return "$scheme://$identity$host$port$path$encoded$fragment$coords";
         }
         
         /**
@@ -437,8 +440,8 @@
             if (! is_object($base)) {
                 $base = new SimpleUrl($base);
             }
-            $scheme = $this->getScheme() ? $this->getScheme() : $base->getScheme();
             if ($this->getHost()) {
+                $scheme = $this->getScheme();
                 $host = $this->getHost();
                 $port = $this->getPort() ? ':' . $this->getPort() : '';
                 $identity = $this->getIdentity() ? $this->getIdentity() . '@' : '';
@@ -446,6 +449,7 @@
                     $identity = $base->getIdentity() ? $base->getIdentity() . '@' : '';
                 }
             } else {
+                $scheme = $base->getScheme();
                 $host = $base->getHost();
                 $port = $base->getPort() ? ':' . $base->getPort() : '';
                 $identity = $base->getIdentity() ? $base->getIdentity() . '@' : '';

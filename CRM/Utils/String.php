@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -65,10 +65,11 @@ class CRM_Utils_String {
      * @return string (or null)
      * @static
      */
-    static function titleToVar( $title ) {
+    static function titleToVar( $title, $maxLength = 31 ) {
         $variable = self::munge( $title );
-
-        if ( CRM_Utils_Rule::variable( $variable ) ) {
+      
+        require_once "CRM/Utils/Rule.php";
+        if ( CRM_Utils_Rule::title( $variable, $maxLength ) ) {
             return $variable;
         }
       
@@ -91,8 +92,12 @@ class CRM_Utils_String {
         // replace all white space and non-alpha numeric with $char
         $name = preg_replace('/\s+|\W+/', $char, trim($name) );
 
-        // lets keep variable names short
-        return substr( $name, 0, $len );
+        if ( $len ) {
+            // lets keep variable names short
+            return substr( $name, 0, $len );
+        } else {
+            return $name;
+        }
     }
 
 
@@ -230,7 +235,7 @@ class CRM_Utils_String {
         $url2Str = parse_url( $url2 );
 
         if ( $url1Str['path'] == $url2Str['path'] && 
-             self::extractURLVarValue( $url1Str['query'] ) == self::extractURLVarValue( $url2Str['query'] ) ) {
+             self::extractURLVarValue( CRM_Utils_Array::value( 'query', $url1Str) ) == self::extractURLVarValue(  CRM_Utils_Array::value( 'query', $url2Str) ) ) {
             return true;
         }
         return false;
@@ -250,9 +255,11 @@ class CRM_Utils_String {
 
         $params = explode( '&', $query );
         foreach ( $params as $p ) {
-            list( $k, $v ) = explode( '=', $p );
-            if ( $k == $urlVar ) {
-                return $v;
+            if ( strpos( $p, '=' ) ) {
+                list( $k, $v ) = explode( '=', $p );
+                if ( $k == $urlVar ) {
+                    return $v;
+                }
             }
         }
         return null;
@@ -267,10 +274,28 @@ class CRM_Utils_String {
      * @static
      */
     static function strtobool($str) {
-        if (preg_match('/^(y(es)?|t(rue)?|1)$/i', $str)) {
+        if ( preg_match('/^(y(es)?|t(rue)?|1)$/i', $str) ) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * returns string '1' for a true/yes/1 string, and '0' for no/false/0 else returns false
+     *
+     * @param string $str  the string to be translated
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function strtoboolstr($str) {
+        if ( preg_match('/^(y(es)?|t(rue)?|1)$/i', $str) ) {
+            return '1';
+        } else if ( preg_match('/^(n(o)?|f(alse)?|0)$/i', $str) ) {
+            return '0';
+        }else {            
+            return false;
+        }
     }
 
     /**
@@ -286,7 +311,39 @@ class CRM_Utils_String {
         $converter = new html2text($html);
         return $converter->get_text();
     }
-    
+
+    static function extractName( $string, &$params ) {
+        $name = trim( $string );
+        if ( empty( $name ) ) {
+            return;
+        }
+
+        $names = explode( ' ', $name );
+        if ( count( $names ) == 1 ) {
+            $params['first_name'] = $names[0];
+        } else if ( count( $names ) == 2 ) {
+            $params['first_name'] = $names[0];
+            $params['last_name' ] = $names[1];
+        } else {
+            $params['first_name' ] = $names[0];
+            $params['middle_name'] = $names[1];
+            $params['last_name'  ] = $names[2];
+        }
+    }
+
+    static function &makeArray( $string ) {
+        $string = trim( $string );
+
+        $values = explode( "\n", $string );
+        $result = array( );
+        foreach ( $values as $value ) {
+            list( $n, $v ) = CRM_Utils_System::explode( '=', $value, 2 );
+            if ( ! empty( $v ) ) {
+                $result[trim($n)] = trim($v);
+            }
+        }
+        return $result;
+    }
+
 }
 
-?>

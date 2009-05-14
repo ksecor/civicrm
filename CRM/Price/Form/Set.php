@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -198,7 +198,6 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
         
         $params['name']      = CRM_Utils_String::titleToVar( $params['title'] );
         $params['is_active'] = CRM_Utils_Array::value('is_active', $params, false);
-        $params['domain_id'] = CRM_Core_Config::domainID( );
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $params['id']    = $this->_sid;
@@ -208,11 +207,13 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
         $set = CRM_Core_BAO_PriceSet::create( $params );
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            CRM_Core_Session::setStatus(ts('Your Set "%1" has been saved.', array(1 => $set->title)));
+            CRM_Core_Session::setStatus(ts('The Set \'%1\' has been saved.', array(1 => $set->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1&action=add&sid=' . $set->id);
-            CRM_Core_Session::setStatus(ts('Your Set "%1" has been added. You can <a href="%2">add fields</a> to this set now.', array(1 => $set->title, 2 => $url)));
+            CRM_Core_Session::setStatus(ts('Your Set \'%1\' has been added. You can add fields to this set now.', array(1 => $set->title)));
+            $session =& CRM_Core_Session::singleton( );
+            $session->replaceUserContext($url);
         }
     }
 }
-?>
+

@@ -24,18 +24,22 @@
         <dt> </dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-            {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Amount").{/ts}
+            {ts}Check this box if the first row of your file consists of field names (Example: 'Contact ID', 'Amount').{/ts}
         </dd>
-        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
+        <dt class="extra-long-fourty">{$form.contactType.label}</dt><dd>{$form.contactType.html}<br />
+            <span class="description">
             {ts}Select 'Individual' if you are importing memberships for individual persons.{/ts}
-        </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing memberships made by contacts of that type.{/ts}
+            {ts}Select 'Organization' or 'Household' if you are importing memberships made by contacts of that type.{/ts}
+            </span>
         </dd> 
-	<dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd>
+        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id="id-onDuplicate"}</dd>
         {include file="CRM/Core/Date.tpl"}  
+{if $savedMapping}
+    <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
+    <dd><span>{$form.savedMapping.html}</span> </dd>
+    <dt>&nbsp;</dt>
+    <dd class="description">{ts}If you want to use a previously saved import field mapping - select it here.{/ts}</dd>
+{/if}
     </dl>
     <div class="spacer"></div>
  </fieldset>

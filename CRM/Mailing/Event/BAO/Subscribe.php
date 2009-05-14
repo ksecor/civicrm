@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,13 +28,14 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 
 require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Mail.php';
 require_once 'CRM/Utils/Verp.php';
 
 require_once 'CRM/Mailing/Event/DAO/Subscribe.php';
@@ -52,14 +53,13 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
      * Register a subscription event.  Create a new contact if one does not
      * already exist.
      *
-     * @param int $domain_id        The domain id of the new subscription
      * @param int $group_id         The group id to subscribe to
      * @param string $email         The email address of the (new) contact
      * @return int|null $se_id      The id of the subscription event, null on failure
      * @access public
      * @static
      */
-    public static function &subscribe($domain_id, $group_id, $email) {
+    public static function &subscribe($group_id, $email) {
         // CRM-1797 - allow subscription only to public groups
         $params = array('id' => (int) $group_id);
         $defaults = array();
@@ -68,12 +68,15 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         if (substr($bao->visibility, 0, 6) != 'Public') {
             return null;
         }
+        
+        $email = strtolower( $email );
+
         /* First, find out if the contact already exists */  
         $query = "
    SELECT DISTINCT contact_a.id as contact_id 
      FROM civicrm_contact contact_a 
 LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
-    WHERE LOWER(civicrm_email.email) = %1";
+    WHERE civicrm_email.email = %1";
 
         $params = array( 1 => array( $email, 'String' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
@@ -88,22 +91,23 @@ LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
         $transaction = new CRM_Core_Transaction( );
 
         if ( ! $contact_id ) {
-            require_once 'api/Contact.php';
+            require_once 'api/v2/Contact.php';
             require_once 'CRM/Core/BAO/LocationType.php';
             /* If the contact does not exist, create one. */
             $formatted = array('contact_type' => 'Individual');
             $locationType = CRM_Core_BAO_LocationType::getDefault( );
             $value = array('email' => $email,
                            'location_type_id' => $locationType->id );
-            _crm_add_formatted_param($value, $formatted);
-            require_once 'api/Contact.php';
+            _civicrm_add_formatted_param($value, $formatted);
+            
             require_once 'CRM/Import/Parser.php';
-            $contact =& crm_create_contact_formatted($formatted,
-                                                     CRM_Import_Parser::DUPLICATE_SKIP);
-            if (is_a($contact, CRM_Core_Error)) {
+            $formatted['onDuplicate'] = CRM_Import_Parser::DUPLICATE_SKIP;
+            $formatted['fixAddress'] = true;
+            $contact =& civicrm_contact_format_create($formatted);
+            if (civicrm_error($contact, CRM_Core_Error)) {
                 return null;
             }
-            $contact_id = $contact->id;
+            $contact_id = $contact['id'];
         } else if ( ! is_numeric( $contact_id ) &&
                     (int ) $contact_id > 0 ) {
             // make sure contact_id is numeric
@@ -120,7 +124,7 @@ LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
         $query = "
 SELECT     civicrm_email.id as email_id
   FROM     civicrm_email
-     WHERE LOWER(civicrm_email.email) = %1
+     WHERE civicrm_email.email = %1
        AND civicrm_email.contact_id = %2";
         $params = array( 1 => array( $email     , 'String'  ),
                          2 => array( $contact_id, 'Integer' ) );
@@ -135,7 +139,8 @@ SELECT     civicrm_email.id as email_id
         $se->group_id = $group_id;
         $se->contact_id = $contact_id;
         $se->time_stamp = date('YmdHis');
-        $se->hash = sha1("{$group_id}:{$contact_id}:{$dao->email_id}");
+        $se->hash = substr( sha1( "{$group_id}:{$contact_id}:{$dao->email_id}:" . time( ) ),
+                            0, 16 );
         $se->save();
         
         $contacts = array($contact_id);
@@ -178,20 +183,24 @@ SELECT     civicrm_email.id as email_id
      */
     public function send_confirm_request($email) {
         $config =& CRM_Core_Config::singleton();
-        $this->domain_id = CRM_Core_Config::domainID();
 
         require_once 'CRM/Core/BAO/Domain.php';
-        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $domain =& CRM_Core_BAO_Domain::getDomain();
         
+        //get the default domain email address.
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+       
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $localpart   = CRM_Core_BAO_MailSettings::defaultLocalpart();
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         require_once 'CRM/Utils/Verp.php';
-        $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
-                                                    array( 'confirm',
-                                                           $this->domain_id,
-                                                           $this->contact_id,
-                                                           $this->id,
-                                                           $this->hash )
-                                                    ) . "@{$domain->email_domain}",
-                                           $email);
+        $confirm = implode($config->verpSeparator,
+                           array($localpart . 'c',
+                                 $this->contact_id,
+                                 $this->id,
+                                 $this->hash)
+                          ) . "@$emailDomain";
         
         require_once 'CRM/Contact/BAO/Group.php';
         $group =& new CRM_Contact_BAO_Group();
@@ -200,24 +209,24 @@ SELECT     civicrm_email.id as email_id
         
         require_once 'CRM/Mailing/BAO/Component.php';
         $component =& new CRM_Mailing_BAO_Component();
-        $component->domain_id = $domain->id;
         $component->is_default = 1;
         $component->is_active = 1;
         $component->component_type = 'Subscribe';
-
+        
         $component->find(true);
-
+        
         $headers = array(
-            'Subject'   => $component->subject,
-            'From'      => "\"{$domain->email_name}\" <{$domain->email_address}>",
-            'To'        => $email,
-            'Reply-To'  => $confirm,
-            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
-        );
-
+                         'Subject'   => $component->subject,
+                         'From'      => "\"{$domainEmailName}\" <{$domainEmailAddress}>",
+                         'To'        => $email,
+                         'Reply-To'  => $confirm,
+                         'Return-Path'   => "do-not-reply@$emailDomain"
+                         );
+        
         $url = CRM_Utils_System::url( 'civicrm/mailing/confirm',
-                                      "reset=1&cid={$this->contact_id}&sid={$this->id}&h={$this->hash}" );
-
+                                      "reset=1&cid={$this->contact_id}&sid={$this->id}&h={$this->hash}",
+                                      true );
+        
         $html = $component->body_html;
 
         if ($component->body_text) {
@@ -248,15 +257,17 @@ SELECT     civicrm_email.id as email_id
         $message =& new Mail_Mime("\n");
         $message->setHTMLBody($html);
         $message->setTxtBody($text);
-        $b = $message->get();
-        $h = $message->headers($headers);
+        $b =& CRM_Utils_Mail::setMimeParams( $message );
+        $h =& $message->headers($headers);
         $mailer =& $config->getMailer();
 
         require_once 'CRM/Mailing/BAO/Mailing.php';
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
-                               array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
-        $mailer->send($email, $h, $b);
-        CRM_Core_Error::setCallback();
+                               array('CRM_Core_Error', 'nullHandler' ) );
+        if ( is_object( $mailer ) ) {
+            $mailer->send($email, $h, $b);
+            CRM_Core_Error::setCallback();
+        }
     }
 
     /**
@@ -268,27 +279,69 @@ SELECT     civicrm_email.id as email_id
      * @static
      */
     public static function &getDomain($subscribe_id) {
-        $dao =& new  CRM_Core_Dao();
-
-        $subscribe  = self::getTableName();
-
-        require_once 'CRM/Contact/BAO/Group.php';
-        $group      = CRM_Contact_BAO_Group::getTableName();
-        
-        $dao->query("SELECT     $group.domain_id as domain_id
-                        FROM    $group
-                    INNER JOIN  $subscribe
-                            ON  $subscribe.group_id = $group.id
-                        WHERE   $subscribe.id = " .
-                        CRM_Utils_Type::escape($subscribe_id, 'Integer'));
-        $dao->fetch();
-        if (empty($dao->domain_id)) {
-            return null;
-        }
-
-        require_once 'CRM/Core/BAO/Domain.php';
-        return CRM_Core_BAO_Domain::getDomainById($dao->domain_id);
+        return CRM_Core_BAO_Domain::getDomain( );
     }
+
+    /**
+     * Get the group details to which given email belongs
+     * 
+     * @param string $email     email of the contact
+     * @return array $groups    array of group ids
+     * @access public
+     */
+    function getContactGroups($email) {
+        $email = strtolower( $email );
+
+        $query = "
+                 SELECT DISTINCT group_a.group_id, group_a.status, civicrm_group.title 
+                 FROM civicrm_group_contact group_a
+                 LEFT JOIN civicrm_group ON civicrm_group.id = group_a.group_id
+                 LEFT JOIN civicrm_contact ON ( group_a.contact_id = civicrm_contact.id )
+                 LEFT JOIN civicrm_email ON civicrm_contact.id = civicrm_email.contact_id
+                 WHERE civicrm_email.email = %1";
+        
+        $params = array( 1 => array( $email, 'String' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $groups = array();
+        while ( $dao->fetch( ) ) {
+            $groups[$dao->group_id] = array(
+                                            'id'      => $dao->group_id,
+                                            'title'   => $dao->title,
+                                            'status'  => $dao->status
+                                            );
+        }
+        
+        $dao->free( );
+        return $groups;
+    }
+
+    /**
+     * Function to send subscribe mail
+     * @params  array  $groups the list of group ids for subscribe
+     * @params  array  $params the list of email
+     * @public
+     * @return void
+     */
+    function commonSubscribe( &$groups, &$params ) 
+    {
+        $success = true;
+        foreach ( $groups as $groupID ) {
+            $se = self::subscribe( $groupID,
+                                   $params['email'] );
+            if ( $se !== null ) {
+                /* Ask the contact for confirmation */
+                $se->send_confirm_request($params['email']);
+            } else {
+                $success = false;
+            }
+        }
+        
+        if ( $success ) {
+            CRM_Utils_System::setUFMessage( ts( "Your subscription request has been submitted. Check your inbox shortly for the confirmation email(s). If you do not see a confirmation email, please check your spam/junk mail folder." ) );
+        } else {
+            CRM_Utils_System::setUFMessage( ts( "We had a problem processing your subscription request. Please contact the site administrator" ) );
+        }
+    }//end of function
 }
 
-?>
+

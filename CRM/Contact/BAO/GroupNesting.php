@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
  | Copyright U.S. PIRG (c) 2007                                       |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -102,16 +102,10 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
             $nestingLevel = $this->getCurrentNestingLevel( );
             $indent = "";
             while ( $nestingLevel-- ) {
-                $indent .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+                $indent .= "&nbsp;--&nbsp;";
             }
             $styledGroup->title = $indent . $styledGroup->title;
-            /* Doesn't work, so comment out for now
-            * require_once 'CRM/Contact/BAO/GroupOrganization.php';
-            * if ( CRM_Contact_BAO_GroupOrganization::exists( $styledGroup->id ) ) {
-            *    // TODO: How can I make these bold?
-            *    // It seems to ignore any tags inside the <option> tag.
-            * }
-            */
+
             $this->_current =& $styledGroup;
             $this->_alreadyStyled = true;
         }
@@ -249,9 +243,9 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      * @access public
      */
     
-    static function addChildGroup( $groupId, $childGroupId ) {
+    static function add( $parentID, $childID ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "REPLACE INTO civicrm_group_nesting (child_group_id, parent_group_id) VALUES ($childGroupId,$groupId)";
+        $query = "REPLACE INTO civicrm_group_nesting (child_group_id, parent_group_id) VALUES ($childID,$parentID);";
         $dao->query( $query );
     }
     
@@ -260,17 +254,17 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      * identified by $groupId; does not delete child group, just the
      * association between the two
      *
-     * @param            $groupId               The id of the group to remove the child from
-     * @param            $childGroupId          The id of the child group being removed
+     * @param            $parentID         The id of the group to remove the child from
+     * @param            $childID          The id of the child group being removed
      *
      * @return           void
      *
      * @access public
      */
     
-    static function removeChildGroup( $groupId, $childGroupId ) {
+    static function remove( $parentID, $childID ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "DELETE FROM civicrm_group_nesting WHERE child_group_id = $childGroupId AND parent_group_id = $groupId";
+        $query = "DELETE FROM civicrm_group_nesting WHERE child_group_id = $childID AND parent_group_id = $parentID";
         $dao->query( $query );
     }
     
@@ -289,7 +283,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id = $groupId LIMIT 1";
 	//print $query . "\n<br><br>";
-	$dao->query( $query );
+        $dao->query( $query );
         if ( $dao->fetch( ) ) {
             return true;
         }
@@ -346,9 +340,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
                 return true;
             }
         }
-	return false;
-
-
+        return false;
     }
 
 
@@ -363,25 +355,25 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      *
      * @access public
      */
-    static function isChildGroup($groupIds, $checkGroupId){
+    static function isChildGroup($groupIds, $checkGroupId) {
 
-      if ( ! is_array( $groupIds ) ) {
-	$groupIds = array( $groupIds );
+        if ( ! is_array( $groupIds ) ) {
+            $groupIds = array( $groupIds );
         }
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (". implode( ',', $groupIds ) . ")";
-	//print $query;
-	$dao->query( $query );
+        //print $query;
+        $dao->query( $query );
         while ( $dao->fetch( ) ) {
             $childGroupId = $dao->child_group_id;
             if ( $childGroupId == $checkGroupId ) {
                 /* print "One of these: <pre>";
-                print_r($groupIds);
-                print "</pre> has groupId $checkGroupId as a descendent.<br/><br/>"; */
+                 print_r($groupIds);
+                 print "</pre> has groupId $checkGroupId as a descendent.<br/><br/>"; */
                 return true;
             }
         }
-	return false;
+        return false;
     }
 
 
@@ -501,6 +493,33 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         return $parentGroupIds;
     }
     
+    /**
+     * Returns array of ancestor groups of the specified group.
+     *
+     * @param             $groupIds     An array of valid group ids (passed by reference)
+     *
+     * @return            $groupArray   List of ancestor groups
+     *
+     * @access public
+     */
+     
+    static function getAncestorGroups( $groupIds, $includeSelf = true ) {
+        $groupIds = self::getAncestorGroupIds( $groupIds, $includeSelf );
+        $params['id'] = $groupIds;
+        require_once 'CRM/Contact/BAO/Group.php';
+        return CRM_Contact_BAO_Group::getGroups( $params );
+    }
+    
+    /**
+     * Returns array of group ids of child groups of the specified group.
+     *
+     * @param             $groupIds     An array of valid group ids (passed by reference)
+     *
+     * @return            $groupIdArray List of groupIds that represent the requested group and its children
+     *
+     * @access public
+     */
+     
     static function getChildGroupIds( $groupIds ) {
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
@@ -516,17 +535,15 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     }
 
     /**
-     * Returns array of group ids of child groups of the specified group.
+     * Returns array of group ids of parent groups of the specified group.
      *
      * @param             $groupIds               An array of valid group ids (passed by reference)
      *
-     * @return            $groupIdArray         List of groupIds that represent the requested group and its children
+     * @return            $groupIdArray         List of groupIds that represent the requested group and its parents
      *
      * @access public
      */
-
-
-  
+     
     static function getParentGroupIds( $groupIds ) {
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
@@ -542,16 +559,15 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     }
 
     /**
-     * Returns array of group ids of parent groups of the specified group.
+     * Returns array of group ids of descendent groups of the specified group.
      *
      * @param             $groupIds               An array of valid group ids (passed by reference)
      *
-     * @return            $groupIdArray         List of groupIds that represent the requested group and its parents
+     * @return            $groupIdArray         List of groupIds that represent the requested group and its descendents
      *
      * @access public
      */
-
-
+     
     static function getDescendentGroupIds( $groupIds, $includeSelf = true ) {
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
@@ -575,6 +591,23 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
             $childGroupIds = array_merge($childGroupIds,$newChildGroupIds);
         }
         return $childGroupIds;
+    }
+    
+    /**
+     * Returns array of descendent groups of the specified group.
+     *
+     * @param             $groupIds     An array of valid group ids (passed by reference)
+     *
+     * @return            $groupArray   List of descendent groups
+     *
+     * @access public
+     */
+     
+    static function getDescendentGroups( $groupIds, $includeSelf = true ) {
+        $groupIds = self::getDescendentGroupIds( $groupIds, $includeSelf );
+        $params['id'] = $groupIds;
+        require_once 'CRM/Contact/BAO/Group.php';
+        return CRM_Contact_BAO_Group::getGroups( $params );
     }
     
     /**
@@ -607,20 +640,18 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     static function getContainingGroups($contactId, $parentGroupId){
       $groups = CRM_Contact_BAO_Group::getGroups( );
       $containingGroups = array( );
-      foreach ($groups as $group){
-	if (self::isDescendentGroup($parentGroupId, $group->id)){
-	  $members = CRM_Contact_BAO_Group::getMember($group->id);
-	  if ($members[$contactId]){
-	    $containingGroups[] = $group->title;
-	  }
-	}
+      foreach ($groups as $group) {
+    	  if (self::isDescendentGroup($parentGroupId, $group->id)) {
+	          $members = CRM_Contact_BAO_Group::getMember($group->id);
+	          if ($members[$contactId]) {
+	              $containingGroups[] = $group->title;
+	          }
+	      }
       }
-      //      print "\n<br>ContGroups is: ";
-      //print_r ($containingGroups);
-      //print "\n<br>";
+      
       return $containingGroups;
     }
         
 }
 
-?>
+

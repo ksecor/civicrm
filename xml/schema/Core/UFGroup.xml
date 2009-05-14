@@ -18,19 +18,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this form.</comment>
-      <add>1.1</add>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-       <add>1.1</add>
-  </foreignKey>
-  <field>
        <name>is_active</name>
        <type>boolean</type>
        <default>1</default>
@@ -38,16 +25,25 @@
        <add>1.1</add>
   </field>
   <field>
+       <name>group_type</name>
+       <type>varchar</type>
+       <length>255</length>
+       <import>true</import>
+       <comment>This column will store a comma separated list of the type(s) of profile fields.</comment>
+       <add>2.1</add>
+  </field>
+  <field>
        <name>form_type</name>
        <type>enum</type>
        <values>CiviCRM Profile</values>
        <comment>Type of form.</comment>
-       <add>1.1</add>
+       <drop>2.1</drop>
   </field>
   <field>
        <name>title</name>
        <type>varchar</type>
        <length>64</length>
+       <localizable>true</localizable>
        <comment>Form title.</comment>
        <add>1.1</add>
   </field>
@@ -56,11 +52,13 @@
      <type>int unsigned</type>
      <default>0</default>
      <comment>Will this group be in collapsed or expanded mode on initial display ?</comment>
-       <add>1.1</add>
+     <add>1.1</add>
+     <drop>2.2</drop>
   </field>
   <field>
      <name>help_pre</name>
      <type>text</type>
+     <localizable>true</localizable>
      <comment>Description and/or help text to display before fields in form.</comment>
      <htmlType>textarea</htmlType>
      <rows>4</rows>
@@ -70,6 +68,7 @@
   <field>
      <name>help_post</name>
      <type>text</type>
+     <localizable>true</localizable>
      <comment>Description and/or help text to display after fields in form.</comment>
      <htmlType>textarea</htmlType>
      <rows>4</rows>
@@ -171,5 +170,17 @@
        <length>255</length>
        <add>1.8</add>
   </field>
-
+  <field>
+    <name>is_reserved</name>
+    <type>boolean</type>
+    <comment>Is this group reserved for use by some other CiviCRM functionality?</comment>
+    <add>2.3</add>
+  </field>
+  <field>
+    <name>name</name>
+    <type>varchar</type>
+    <length>64</length>
+    <comment>Name of the UF group for directly addressing it in the codebase</comment>
+    <add>2.3</add>
+  </field>
 </table>

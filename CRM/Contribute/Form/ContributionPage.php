@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -50,6 +50,14 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
      */
     protected $_id;
 
+    /**
+     * the pledgeBlock id saved to the session for an update
+     *
+     * @var int
+     * @access protected
+     */
+    protected $_pledgeBlockID;
+    
     /** 
      * are we in single form mode or wizard mode?
      * 
@@ -83,9 +91,13 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
             $this->_single = $session->get('singleForm');
         }
  
-        // setting title for html page
+        // setting title and 3rd level breadcrumb for html page if contrib page exists
         if ( $this->_id ) {
             $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+            $breadCrumb = array( array('title' => ts('Configure Contribution Page'), 
+                                       'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
+                                                                         "action=update&reset=1&id={$this->_id}" )) );
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
         }
         if ($this->_action == CRM_Core_Action::UPDATE) {
             CRM_Utils_System::setTitle(ts('Configure Page - %1', array(1 => $title)));
@@ -153,16 +165,70 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $defaults);
+            
+            //set defaults for pledgeBlock values.
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            $pledgeBlockParams = array( 'entity_id'    => $this->_id,
+                                        'entity_table' => ts('civicrm_contribution_page') );
+            $pledgeBlockDefaults = array( );
+            CRM_Pledge_BAO_pledgeBlock::retrieve( $pledgeBlockParams, $pledgeBlockDefaults );
+            if ( $this->_pledgeBlockID = CRM_Utils_Array::value('id', $pledgeBlockDefaults ) ) {
+                $defaults['is_pledge_active'] = true;
+            }
+            $pledgeBlock = array( 'is_pledge_interval', 'max_reminders', 
+                                  'initial_reminder_day', 'additional_reminder_day' );
+            foreach ( $pledgeBlock  as $key ) {
+                $defaults[$key] = CRM_Utils_Array::value( $key, $pledgeBlockDefaults ); 
+            }
+            require_once 'CRM/Core/BAO/CustomOption.php';
+            if ( CRM_Utils_Array::value( 'pledge_frequency_unit', $pledgeBlockDefaults ) ) {
+                $defaults['pledge_frequency_unit'] = 
+                    array_fill_keys( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                              $pledgeBlockDefaults['pledge_frequency_unit'] ), '1' );
+            }
+
+            // fix the display of the monetary value, CRM-4038
+            require_once 'CRM/Utils/Money.php';
+            if (isset($defaults['goal_amount'])) {
+                $defaults['goal_amount'] = CRM_Utils_Money::format($defaults['goal_amount'], null, '%a');
+            }
         } else {
             $defaults['is_active'] = 1;
         }
 
-        if( !isset ( $defaults['start_date'] ) ) {
+        // Set start date to now if this is a new contribution page.
+        if( !isset ( $this->_id) ) {
             $defaultDate = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaultDate );
             $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
             $defaults['start_date'] = $defaultDate;
         }
+
+        if (! isset($defaults['for_organization'])) {
+            $defaults['for_organization'] = ts('I am contributing on behalf of an organization.');
+        }
+
+
+        if ( CRM_Utils_Array::value( 'recur_frequency_unit',$defaults ) ) {
+            require_once 'CRM/Core/BAO/CustomOption.php';
+            $defaults['recur_frequency_unit'] = 
+                array_fill_keys( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                          $defaults['recur_frequency_unit'] ), '1' );
+        } else {
+            require_once 'CRM/Core/OptionGroup.php';
+            $defaults['recur_frequency_unit'] = 
+                array_fill_keys( CRM_Core_OptionGroup::values( 'recur_frequency_units' ), '1' );
+        }
+        if ( !isset( $defaults['is_recur_interval'] ) ) {
+            $defaults['is_recur_interval'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'is_for_organization', $defaults ) ) {
+            $defaults['is_organization'] = 1;
+        } else {
+            $defaults['is_for_organization'] = 1;
+        }
+        
 
         return $defaults;
     }
@@ -178,4 +244,4 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
     }
 }
 
-?>
+

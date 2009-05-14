@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -70,19 +70,11 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
     static function &getValues( $entityBlock ) 
     {
         $getValues =& CRM_Core_BAO_Block::getValues('phone', $entityBlock );
-
-        if ( ! empty( $getValues ) ) {
-            foreach ($getValues as $key => $values ) {
-                foreach ( $values as $k => $v ) {
-                    CRM_Core_DAO_Phone::addDisplayEnums( $getValues[$key][$k] );
-                }
-            }
-        }
         return $getValues;
     }
 
     /**
-     * Get all the mobile numbers for a specified contact_id, with the primary mobile being first
+     * Get all the phone numbers for a specified contact_id, with the primary being first
      *
      * @param int $id the contact id
      *
@@ -95,10 +87,14 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
         if ( ! $id ) {
             return null;
         }
-
+        
         $cond = null;
         if ( $type ) {
-            $cond = " AND civicrm_phone.phone_type = '$type'";
+            require_once 'CRM/Core/PseudoConstant.php';
+            $phoneTypeId = array_search( $type, CRM_Core_PseudoConstant::phoneType( ) );
+            if ( $phoneTypeId ) {
+                $cond = " AND civicrm_phone.phone_type_id = $phoneTypeId";
+            }
         }
 
         $query = "
@@ -123,8 +119,9 @@ ORDER BY civicrm_phone.is_primary DESC, civicrm_phone.location_type_id DESC, pho
         }
         return $numbers;
     }
- /**
-     * Get all the mobile numbers for a specified location_block id, with the primary mobile being first
+    
+    /**
+     * Get all the phone numbers for a specified location_block id, with the primary phone being first
      *
      * @param array $entityElements the array containing entity_id and
      * entity_table name
@@ -138,10 +135,14 @@ ORDER BY civicrm_phone.is_primary DESC, civicrm_phone.location_type_id DESC, pho
         if ( empty($entityElements) ) {
             return null;
         }
-      
+        
         $cond = null;
         if ( $type ) {
-            $cond = " AND civicrm_phone.phone_type = '$type'";
+            require_once 'CRM/Core/PseudoConstant.php';
+            $phoneTypeId = array_search( $type, CRM_Core_PseudoConstant::phoneType( ) );
+            if ( $phoneTypeId ) {
+                $cond = " AND civicrm_phone.phone_type_id = $phoneTypeId";
+            }
         }
         
         $entityId    = $entityElements['entity_id'];
@@ -158,7 +159,7 @@ ORDER BY ph.is_primary DESC, phone_id ASC ";
        
         $params = array( 1 => array( $entityId, 'Integer' ) );
         $numbers = array( );
-         $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
         while ( $dao->fetch( ) ) {
             $numbers[$dao->phone_id] = array( 'locationType'   => $dao->locationType,
                                               'is_primary'     => $dao->is_primary,
@@ -168,6 +169,29 @@ ORDER BY ph.is_primary DESC, phone_id ASC ";
         }
         return $numbers;
     }
-    
+
+    /**
+     * Set NULL to phone, mapping, uffield
+     *
+     * @param $optionId value of option to be deleted
+     * 
+     * return void
+     * @static
+     */
+    static function setOptionToNull( $optionId )
+    {
+        if ( !$optionId ) {
+            return;
+        }
+      
+        $tables = array('civicrm_phone', 'civicrm_mapping_field', 'civicrm_uf_field'); 
+        $params = array( 1 => array( $optionId, 'Integer' ) );
+
+        foreach( $tables as $tableName ) {
+            $query = "UPDATE `{$tableName}` SET `phone_type_id` = NULL WHERE `phone_type_id` = %1";
+            CRM_Core_DAO::executeQuery( $query, $params );
+        }
+
+    } 
 }
-?>
+

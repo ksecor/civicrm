@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,7 +48,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
     /**
      * Create a new forward event, create a new contact if necessary
      */
-    static function &forward($job_id, $queue_id, $hash, $forward_email) {
+    static function &forward($job_id, $queue_id, $hash, $forward_email, $fromEmail = null, $comment = null ) {
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
         if (! $q) {
             return null;
@@ -63,7 +63,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $mailing    =   CRM_Mailing_BAO_Mailing::getTableName();
         $forward    =   self::getTableName();
        
-        $domain     =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
+        $domain     =& CRM_Core_BAO_Domain::getDomain( );
        
         $dao =& new CRM_Core_Dao();
         $dao->query("
@@ -94,27 +94,33 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             return false;
         }
 
-        require_once 'api/Search.php';
-        $contact_params = array('email' => $forward_email);
-        $count = crm_contact_search_count($contact_params);
+        require_once 'api/v2/Contact.php';
         
+        $contact_params = array('email' => $forward_email);
+        $count = civicrm_contact_search_count($contact_params);
+
         if ($count == 0) {
-            /* No contact found, we'll have to create a new one */
-            $contact =& crm_create_contact($contact_params);
-            if (is_a($contact, 'CRM_Core_Error')) {
-                return false;
+            require_once 'CRM/Core/BAO/LocationType.php';
+            /* If the contact does not exist, create one. */
+            $formatted = array('contact_type' => 'Individual');
+            $locationType = CRM_Core_BAO_LocationType::getDefault( );
+            $value = array('email' => $forward_email,
+                           'location_type_id' => $locationType->id );
+            _civicrm_add_formatted_param($value, $formatted);
+            require_once 'CRM/Import/Parser.php';
+            $formatted['onDuplicate'] = CRM_Import_Parser::DUPLICATE_SKIP;
+            $formatted['fixAddress'] = true;
+            $contact =& civicrm_contact_format_create($formatted);
+            if (civicrm_error($contact, CRM_Core_Error)) {
+                return null;
             }
-            /* This is an ugly hack, but the API doesn't really support
-             * overriding the domain ID any other way */
-            $contact->domain_id = $domain->id;
-            $contact->save();
-            $contact_id = $contact->id;
-            $email_id = $contact->location['email'][0]->id;
-        } else {
-            $email =& new CRM_Core_DAO_Email();
-            $email->email = $forward_email;
-            $email->find(true); 
-            $email_id = $email->id;
+            $contact_id = $contact['id'];
+        } 
+        $email =& new CRM_Core_DAO_Email();
+        $email->email = $forward_email;
+        $email->find(true); 
+        $email_id = $email->id;
+        if (!$contact_id) {
             $contact_id = $email->contact_id;
         }
         
@@ -147,16 +153,27 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $mailer =& $config->getMailer();
 
         $recipient = null;
+        $attachments = null;
         $message =& $mailing_obj->compose($job_id, $queue->id, $queue->hash,
-            $queue->contact_id, $forward_email, $recipient);
-
+                                          $queue->contact_id, $forward_email, $recipient, false, null, $attachments, true, $fromEmail );
+        //append comment if added while forwarding.
+        if ( count($comment) ) {
+            $message->_txtbody   = $comment['body_text'].$message->_txtbody;
+            if( CRM_Utils_Array::value('body_html', $comment) ) {
+                $message->_htmlbody  = $comment['body_html'].'<br />---------------Original message---------------------<br />'.$message->_htmlbody;
+            }
+        }
+        
         $body = $message->get();
         $headers = $message->headers();
-
+        
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
-        $result = $mailer->send($recipient, $headers, $body);
-        CRM_Core_Error::setCallback();
+                                array('CRM_Core_Error', 'nullHandler' ) );
+        $result = null;
+        if ( is_object( $mailer ) ) {
+            $result = $mailer->send($recipient, $headers, $body);
+            CRM_Core_Error::setCallback();
+        }
 
         $params = array('event_queue_id' => $queue->id,
                         'job_id'        => $job_id,
@@ -319,4 +336,4 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
     
 }
 
-?>
+

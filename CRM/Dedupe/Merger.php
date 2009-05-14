@@ -1,25 +1,25 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -36,15 +36,14 @@ class CRM_Dedupe_Merger
 {
     // FIXME: this should be auto-generated from the schema
     static $validFields = array(
-        'Household'    => array('household_name'),
-        'Organization' => array('organization_name', 'legal_name', 'sic_code'),
-        'Individual'   => array('prefix_id', 'first_name', 'middle_name',
-                                'last_name', 'suffix_id', 'greeting_type', 'custom_greeting',
-                                'job_title', 'gender_id', 'birth_date', 'is_deceased', 'deceased_date'),
-        'Contact'      => array('nick_name', 'legal_identifier', 'home_URL',
-            'image_URL', 'source', 'external_identifier', 'do_not_phone', 'do_not_email',
-            'do_not_mail', 'do_not_trade', 'preferred_communication_method',
-            'preferred_mail_format', 'is_opt_out'),
+        'birth_date', 'contact_source', 'contact_type', 'custom_greeting', 
+        'deceased_date', 'do_not_email', 'do_not_mail', 'do_not_phone', 
+        'do_not_trade', 'external_identifier', 'first_name', 'gender', 
+        'greeting_type', 'home_URL', 'household_name', 'image_URL', 
+        'individual_prefix', 'individual_suffix', 'is_deceased', 'is_opt_out', 
+        'job_title', 'last_name', 'legal_identifier', 'legal_name', 
+        'middle_name', 'nick_name', 'organization_name', 
+        'preferred_communication_method', 'preferred_mail_format', 'sic_code'
     );
 
     // FIXME: consider creating a common structure with cidRefs() and eidRefs()
@@ -72,7 +71,7 @@ class CRM_Dedupe_Merger
                 ),
                 'rel_table_activities' => array(
                     'title'  => ts('Activities'),
-                    'tables' => array('civicrm_activity' ),
+                    'tables' => array('civicrm_activity', 'civicrm_activity_target', 'civicrm_activity_assignment'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=activity'),
                 ),
                 'rel_table_relationships' => array(
@@ -95,6 +94,13 @@ class CRM_Dedupe_Merger
                     'tables' => array('civicrm_entity_tag'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=tag'),
                 ),
+                'rel_table_cases' => array(
+                    'title'  => ts('Cases'),
+                    'tables' => array('civicrm_case_contact'),
+                    // note civicrm_activity is automatically included
+                    // when cases is checked on
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=case'),
+                )
             );
         }
         return $relTables;
@@ -138,32 +144,34 @@ class CRM_Dedupe_Merger
     /**
      * Return tables and their fields referencing civicrm_contact.contact_id explicitely
      */
-    //
-    // FIXME: this should be generated dynamically from the schema's 
-    // foreign keys referencing civicrm_contact(id)
     static function &cidRefs()
     {
         static $cidRefs;
         if (!$cidRefs) {
+            // FIXME: this should be generated dynamically from the schema's 
+            // foreign keys referencing civicrm_contact(id)
             $cidRefs = array(
                 'civicrm_acl_cache'               => array('contact_id'),
                 'civicrm_activity'                => array('source_contact_id'),
-                'civicrm_contribution'            => array('contact_id', 'solicitor_id', 'honor_contact_id'),
+                'civicrm_activity_assignment'     => array('assignee_contact_id'),
+                'civicrm_activity_target'         => array('target_contact_id'),
+                'civicrm_case_contact'            => array('contact_id'),
+                'civicrm_contact'                 => array('primary_contact_id'),
+                'civicrm_contribution'            => array('contact_id', 'honor_contact_id'),
                 'civicrm_contribution_recur'      => array('contact_id'),
                 'civicrm_entity_tag'              => array('contact_id'),
+                'civicrm_grant'                   => array('contact_id'),
                 'civicrm_group_contact'           => array('contact_id'),
-                'civicrm_household'               => array('primary_contact_id'),
+                'civicrm_group_organization'      => array('organization_id'),
                 'civicrm_log'                     => array('modified_id'),
                 'civicrm_mailing_event_queue'     => array('contact_id'),
                 'civicrm_mailing_event_subscribe' => array('contact_id'),
-                'civicrm_meeting'                 => array('source_contact_id'),
                 'civicrm_membership'              => array('contact_id'),
                 'civicrm_membership_log'          => array('modified_id'),
                 'civicrm_membership_type'         => array('member_of_contact_id'),
                 'civicrm_note'                    => array('contact_id'),
-                'civicrm_organization'            => array('primary_contact_id'),
                 'civicrm_participant'             => array('contact_id'),
-                'civicrm_phonecall'               => array('source_contact_id'),
+                'civicrm_preferences'             => array('contact_id'),
                 'civicrm_relationship'            => array('contact_id_a', 'contact_id_b'),
                 'civicrm_subscription_history'    => array('contact_id'),
                 'civicrm_uf_match'                => array('contact_id'),
@@ -175,21 +183,19 @@ class CRM_Dedupe_Merger
     /**
      * Return tables and their fields referencing civicrm_contact.contact_id with entity_id
      */
-    // FIXME: this should be generated dynamically from the schema
-    // tables that reference contacts with entity_{id,table}
     static function &eidRefs()
     {
         static $eidRefs;
         if (!$eidRefs) {
+            // FIXME: this should be generated dynamically from the schema
+            // tables that reference contacts with entity_{id,table}
             $eidRefs = array(
                 'civicrm_acl'              => array('entity_table'             => 'entity_id'),
                 'civicrm_acl_entity_role'  => array('entity_table'             => 'entity_id'),
-                // 'civicrm_activity'         => array('target_entity_table'      => 'target_entity_id'),
+                'civicrm_entity_file'      => array('entity_table'             => 'entity_id'),
                 'civicrm_log'              => array('entity_table'             => 'entity_id'),
                 'civicrm_mailing_group'    => array('entity_table'             => 'entity_id'),
-                'civicrm_meeting'          => array('target_entity_table'      => 'target_entity_id'),
                 'civicrm_note'             => array('entity_table'             => 'entity_id'),
-                'civicrm_phonecall'        => array('target_entity_table'      => 'target_entity_id'),
                 'civicrm_project'          => array('owner_entity_table'       => 'owner_entity_id'),
                 'civicrm_task'             => array('owner_entity_table'       => 'owner_entity_id'),
                 'civicrm_task_status'      => array('responsible_entity_table' => 'responsible_entity_id', 'target_entity_table' => 'target_entity_id'),
@@ -210,7 +216,7 @@ class CRM_Dedupe_Merger
         if ($tables !== false) {
             // if there are specific tables, sanitize the list
             $affected = array_unique(array_intersect($affected, $tables));
-        } else {
+        } else { 
             // if there aren't any specific tables, don't affect the ones handled by relTables()
             $relTables =& self::relTables();
             $handled = array();
@@ -219,10 +225,10 @@ class CRM_Dedupe_Merger
             }
             $affected = array_diff($affected, $handled);
         }
-
+       
         $mainId  = (int) $mainId;
         $otherId = (int) $otherId;
-
+                
         // use UPDATE IGNORE + DELETE query pair to skip on situations when 
         // there's a UNIQUE restriction on ($field, some_other_field) pair
         foreach ($affected as $table) {
@@ -259,45 +265,36 @@ class CRM_Dedupe_Merger
      */
     function findDifferences($mainId, $otherId)
     {
-        require_once 'api/Contact.php';
-        $main  = crm_get_contact(array('contact_id' => (int) $mainId));
-        $other = crm_get_contact(array('contact_id' => (int) $otherId));
-        if ($main->contact_type != $other->contact_type) {
+        require_once 'api/v2/Contact.php';
+        $mainParams  = array('contact_id' => (int) $mainId);
+        $otherParams = array('contact_id' => (int) $otherId);
+        // API 2 has to have the requested fields spelt-out for it
+        foreach (self::$validFields as $field) {
+            $mainParams["return.$field"] = $otherParams["return.$field"] = 1;
+        }
+        $main  =& civicrm_contact_get($mainParams);
+        $other =& civicrm_contact_get($otherParams);
+        if ($main['contact_type'] != $other['contact_type']) {
             return false;
         }
-        $cType = $main->contact_type;
 
         $diffs = array();
-        foreach (self::$validFields['Contact'] as $validField) {
-            if ($main->$validField != $other->$validField) {
-                $diffs['Contact'][] = $validField;
-            }
-        }
-        foreach (self::$validFields[$cType] as $validField) {
-            if ($main->contact_type_object->$validField != $other->contact_type_object->$validField) {
-                $diffs[$cType][] = $validField;
+        foreach (self::$validFields as $validField) {
+            if ( CRM_Utils_Array::value( $validField, $main ) != CRM_Utils_Array::value( $validField, $other) ) {
+                $diffs['contact'][] = $validField;
             }
         }
 
-        if ( isset( $mail->custom_values ) ) {
-            $customIds = array();
-            foreach ($main->custom_values as $cv) {
-                $customIds[$cv['custom_field_id']] = $cv['value'];
-            }
-            foreach ($other->custom_values as $cv) {
-                if ($customIds[$cv['custom_field_id']] == $cv['value']) {
-                    unset($customIds[$cv['custom_field_id']]);
-                } else {
-                    $customIds[$cv['custom_field_id']] = $cv['value'];
-                }
-            }
-            foreach (array_keys($customIds) as $customId) {
-                $diffs['custom'][] = $customId;
-            }
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        $mainEvs  =& CRM_Core_BAO_CustomValueTable::getEntityValues($mainId);
+        $otherEvs =& CRM_Core_BAO_CustomValueTable::getEntityValues($otherId);
+        $keys = array_keys($mainEvs) + array_keys($otherEvs);
+        foreach ($keys as $key) {
+            if ($mainEvs[$key] != $otherEvs[$key]) $diffs['custom'][] = $key;
         }
 
         return $diffs;
     }
 }
 
-?>
+

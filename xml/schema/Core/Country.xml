@@ -59,7 +59,7 @@
       <name>region_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Country Id</comment>
+      <comment>Foreign key to civicrm_worldregion.id.</comment>
        <add>1.8</add>
   </field>
   <foreignKey>

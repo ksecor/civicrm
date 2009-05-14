@@ -73,7 +73,7 @@ class Validate_ZA
             static $postcodes;
 
             if (!isset($postcodes)) {
-                $file = './data/Validate_ZA/ZA_postcodes.txt';
+                $file = '/home/shot/work/CiviCRM/svn/trunk/packages/data/Validate_ZA/ZA_postcodes.txt';
                 $postcodes = array_map('trim', file($file));
             }
             return in_array((int)$postcode, $postcodes);

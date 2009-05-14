@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -153,10 +153,13 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             } else {
                 $tables = $whereTables = array( $contact => 1 );
                 $where  = CRM_Contact_BAO_SavedSearch::whereClause( $id, $tables, $whereTables );
+                if ( ! $where ) {
+                    $where = '( 1 )' ;
+                }
                 $from   = CRM_Contact_BAO_Query::fromClause( $whereTables );
                 return "
 SELECT contact_a.id
-FROM   $from
+$from
 WHERE  $where";
             }
         } else {
@@ -166,12 +169,13 @@ WHERE  $where";
 
     static function fromWhereEmail( $id ) {
         $params =& self::getSearchParams( $id );
+
         if ( $params ) {
             if ( CRM_Utils_Array::value( 'customSearchID', $params ) ) {
                 require_once 'CRM/Contact/BAO/SearchCustom.php';
                 return CRM_Contact_BAO_SearchCustom::fromWhereEmail( null, $id );
             } else {
-                $tables = $whereTables = array( $contact => 1, $email => 1 );
+                $tables = $whereTables = array( 'civicrm_contact' => 1, 'civicrm_email' => 1 );
                 $where  = CRM_Contact_BAO_SavedSearch::whereClause( $id, $tables, $whereTables );
                 $from   = CRM_Contact_BAO_Query::fromClause( $whereTables );
                 return array( $from, $where );
@@ -213,7 +217,9 @@ WHERE  $where";
     function save( ) {
         // first build the computed fields
         $this->buildClause( );
+
         parent::save( );
+
     }
 
     /**
@@ -230,11 +236,11 @@ WHERE  $where";
         $group                   =& new CRM_Contact_DAO_Group( );
         $group->saved_search_id = $id;
         if ( $group->find( true ) ) {
-            return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $group->id, $value );
+            return $group->$value;
         }
         return null;
     }
 
 }
 
-?>
+

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -66,12 +66,12 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         } else if ( $this->_action == CRM_Core_Action::COPY ) {
             $values = $this->controller->exportValues( 'Custom' );            
         } else {
-            $values = $this->controller->exportValues( 'Search' );
+            $values = $this->controller->exportValues( 'Basic' );
         }
 
-        $this->_task = $values['task'];
+        $this->_task = CRM_Utils_Array::value( 'task', $values );
         $crmContactTaskTasks = CRM_Contact_Task::taskTitles();
-        $this->assign('taskName', $crmContactTaskTasks[$this->_task]);
+        $this->assign( 'taskName', CRM_Utils_Array::value( $this->_task , $crmContactTaskTasks ) );
     }
 
     /**
@@ -94,25 +94,38 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         // the name and description are actually stored with the group and not the saved search
         $this->add('text', 'title', ts('Name'),
                    CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'title'), true);
+            
 
-        $this->addElement('text', 'description', ts('Description'),
+        $this->addElement('textarea', 'description', ts('Description'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'description'));
 
-        // get the group id for the saved search
-        $groupId = null;
-        if ( isset( $this->_id ) ) { 
-            $params = array( 'saved_search_id' => $this->_id );
-            require_once "CRM/Contact/BAO/Group.php";
-            CRM_Contact_BAO_Group::retrieve( $params, $values );
-            $groupId = $values['id'];
+        require_once 'CRM/Core/OptionGroup.php';
+        $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );
+        unset( $groupTypes['Access Control'] );
+        if ( ! CRM_Core_Permission::access( 'CiviMail' ) ) {
+            unset( $groupTypes['Mailing List'] );
+        }
 
+        if ( ! empty( $groupTypes ) ) {
+            $this->addCheckBox( 'group_type',
+                                ts( 'Group Type' ),
+                                $groupTypes,
+                                null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
+        }
+        
+        // get the group id for the saved search
+        $groupID = null;
+        if ( isset( $this->_id ) ) { 
+            $groupID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+                                                    $this->_id,
+                                                    'id',
+                                                    'saved_search_id' );
             $this->addDefaultButtons( ts('Update Smart Group') );
         } else {
             $this->addDefaultButtons( ts('Save Smart Group') );
         }
-
         $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Contact_DAO_Group', $groupId, 'title' ) );
+                        'objectExists', array( 'CRM_Contact_DAO_Group', $groupID, 'title' ) );
 
     }
 
@@ -164,15 +177,23 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $savedSearch->form_values      =  serialize($this->get( 'formValues' ));
         $savedSearch->mapping_id       =  $mappingId;
         $savedSearch->search_custom_id =  $this->get( 'customSearchID' );
-        $savedSearch->save();
+        $savedSearch->save( );
         $this->set('ssID', $savedSearch->id);
-        CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['title'])) );
+        CRM_Core_Session::setStatus( ts('Your smart group has been saved as \'%1\'.', array(1 => $formValues['title'])) );
 
         // also create a group that is associated with this saved search only if new saved search
         $params = array( );
-        $params['domain_id'  ]     = CRM_Core_Config::domainID( );
         $params['title'      ]     = $formValues['title'];
         $params['description']     = $formValues['description'];
+        if ( is_array( $formValues['group_type'] ) ) {
+            $params['group_type'] =
+                CRM_Core_DAO::VALUE_SEPARATOR . 
+                implode( CRM_Core_DAO::VALUE_SEPARATOR,
+                         array_keys( $formValues['group_type'] ) ) .
+                CRM_Core_DAO::VALUE_SEPARATOR;
+        } else {
+            $params['group_type'] = '';
+        }
         $params['visibility' ]     = 'User and User Admin Only';
         $params['saved_search_id'] = $savedSearch->id;
         $params['is_active']       = 1;
@@ -187,4 +208,4 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
     }
 }
 
-?>
+

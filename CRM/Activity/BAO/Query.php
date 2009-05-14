@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -67,10 +67,22 @@ class CRM_Activity_BAO_Query
      */ 
     static function where( &$query ) 
     {
+        $isTest = false;
+        $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 9) == 'activity_' ) {
+                $grouping = $query->_params[$id][3];
                 self::whereClauseSingle( $query->_params[$id], $query );
+                if ( $query->_params[$id][0] == 'activity_test' ) {
+                    $isTest = true;
+                }
             }
+        }
+        
+        if ( $grouping !== null &&
+             !$isTest ) {
+            $values = array( 'activity_test', '=', 0, $grouping, 0 );
+            self::whereClauseSingle( $values, $query );
         }
     }
     
@@ -88,66 +100,75 @@ class CRM_Activity_BAO_Query
             
         case 'activity_activitytag1_id':
             $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag1_id $op {$value} OR civicrm_activity.activity_tag1_id $op {$value} OR civicrm_phonecall.activity_tag1_id $op {$value})";
+            $query->_where[$grouping][] = "civicrm_activity.activity_tag1_id $op {$value}";
 
             require_once 'CRM/Core/OptionGroup.php' ;
             $activityType = CRM_Core_OptionGroup::values('case_activity_type');
             $value = $activityType[$value];
 
             $query->_qill[$grouping ][]          = ts( 'Case Activity %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
 
         case 'activity_activitytag2_id':
             $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag2_id $op {$value} OR civicrm_activity.activity_tag2_id $op {$value} OR civicrm_phonecall.activity_tag2_id $op {$value})";
+            $query->_where[$grouping][] = "civicrm_activity.activity_tag2_id $op {$value}";
 
             require_once 'CRM/Core/OptionGroup.php' ;
             $communicationMedium = CRM_Core_OptionGroup::values('communication_medium');
             $value = $communicationMedium[$value];
 
             $query->_qill[$grouping ][] = ts( 'Communication Medium %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
 
         case 'activity_activitytag3_id':
             require_once 'CRM/Core/OptionGroup.php' ;
             $violation = CRM_Core_OptionGroup::values('f1_case_violation');
-            $actualValue = $violation[$value];
+            $actualValue = array();
+            foreach ( $value as $id => $val ) {
+                 $actualValue[] = $violation[$val];
+            }
             $op = 'LIKE';
             
             require_once 'CRM/Case/BAO/Case.php';
-            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.$value.CRM_Case_BAO_Case::VALUE_SEPERATOR;
-            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag3_id $op '%{$value}%' OR civicrm_activity.activity_tag3_id $op '%{$value}%' OR civicrm_phonecall.activity_tag3_id $op '%{$value}%')";
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+                implode( CRM_Case_BAO_Case::VALUE_SEPERATOR . "%' OR civicrm_activity.activity_tag3_id LIKE '%" .
+                         CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) . 
+                CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "(civicrm_activity.activity_tag3_id $op '%{$value}%')";
 
-            $query->_qill[$grouping ][] = ts( 'Violation Type %2 %1', array( 1 => $actualValue, 2 => $op) );
-            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
+            $query->_qill[$grouping ][] = ts( 'Violation Type %1', array( 1 => $op) ).  ' ' .implode( ' ' . ts('or') . ' ', $actualValue );
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
 
-        case 'activity_subject':
+        case 'activity_details':
             $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "(civicrm_meeting.subject $op '{$value}' OR civicrm_activity.subject $op '{$value}' OR civicrm_phonecall.subject $op '{$value}')";
-            $query->_qill[$grouping ][] = ts( 'Case Activity Subject %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
+            $op = 'LIKE';
+            $query->_where[$grouping][] = "civicrm_activity.details $op '%{$value}%'";
+
+            $query->_qill[$grouping ][] = ts( 'Activity Content %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
 
         case 'activity_start_date_low':
         case 'activity_start_date_high':
             
-             $query->dateQueryBuilder( $values,
+            $query->dateQueryBuilder( $values,
                                       'civicrm_meeting', 'activity_start_date', 'scheduled_date_time', 'Start Date' );
+            return;
+            
+        case 'activity_test':
+            $query->_where[$grouping][] = " civicrm_activity.is_test $op '$value'";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Find Test Activities";
+            }
+            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
+            
             return;
         }
     }
-
+    
     /*
     static function from( $name, $mode, $side ) 
     {
@@ -182,15 +203,15 @@ class CRM_Activity_BAO_Query
         require_once 'CRM/Core/OptionGroup.php';
         $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
         $form->add('select', 'activity_activitytag1_id',  ts( 'Activity Type' ),  
-                   array( '' => ts( '-select-' ) ) + $caseActivityType );
+                   array( '' => ts( '- select -' ) ) + $caseActivityType );
         
         $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
         $form->add('select', 'activity_activitytag2_id',  ts( 'Activity Medium' ),  
-                   array( '' => ts( '-select-' ) ) + $comunicationMedium );
+                   array( '' => ts( '- select -' ) ) + $comunicationMedium );
         
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
         $form->addElement('select', 'activity_activitytag3_id',  ts( 'Violation Type'  ),  
-                          array( '' => ts( '-select-' ) ) + $caseViolation);
+                          array( '' => ts( '- select -' ) ) + $caseViolation);
 
         $form->addElement( 'text', 'activity_subject', ts( 'Subject' ) );
         $form->addElement( 'text', 'activity_details', ts( 'Content' ) );
@@ -212,4 +233,4 @@ class CRM_Activity_BAO_Query
 
 }
 
-?>
+

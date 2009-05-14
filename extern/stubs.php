@@ -8,4 +8,3 @@ function module_list( ) {
     return array( );
 }
 
-?>

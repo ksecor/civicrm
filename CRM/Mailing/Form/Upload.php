@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,6 +38,16 @@
  */
 class CRM_Mailing_Form_Upload extends CRM_Core_Form 
 {
+    public $_mailingID;
+
+    function preProcess( ) {
+        $this->_mailingID = $this->get( 'mailing_id' );
+        require_once 'CRM/Core/Permission.php';
+        if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+            $this->assign( 'isAdmin', 1 );
+        }
+    }
+
     /**
      * This function sets the default values for the form.
      * the default values are retrieved from the database
@@ -47,19 +57,28 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $mailingID = $this->get("mid");
+        $mailingID = CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null );
+        
+        //need to differentiate new/reuse mailing, CRM-2873
+        $reuseMailing = false;
+        if ( $mailingID ) {
+            $reuseMailing = true;
+        } else {
+            $mailingID = $this->_mailingID;
+        }
+        
         $count = $this->get('count');
         $this->assign('count',$count);
         
-        $session =& CRM_Core_Session::singleton();
-        $session->set('skipTextFile', false);
-        $session->set('skipHtmlFile', false);
+        $this->set('skipTextFile', false);
+        $this->set('skipHtmlFile', false);
        
         $defaults = array( );
+        
         $htmlMessage = null;
         if ( $mailingID  ) {
             require_once "CRM/Mailing/DAO/Mailing.php";
-            $dao =&new  CRM_Mailing_DAO_Mailing();
+            $dao =& new  CRM_Mailing_DAO_Mailing();
             $dao->id = $mailingID; 
             $dao->find(true);
             $dao->storeValues($dao, $defaults);
@@ -67,7 +86,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             //we don't want to retrieve template details once it is
             //set in session
             $templateId = $this->get('template');
-            
+            $this->assign('templateSelected', $templateId ? $templateId : 0 );
             if ( isset($defaults['msg_template_id']) && !$templateId ) {
                 $defaults['template'] = $defaults['msg_template_id'];
                 $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
@@ -77,41 +96,79 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $messageTemplate->find( true );
 
                 $defaults['text_message'] = $messageTemplate->msg_text;
-                $htmMessage = $messageTemplate->msg_html;
+                $htmlMessage = $messageTemplate->msg_html;
             }
 
             if ( isset( $defaults['body_text'] ) ) {
                 $defaults['text_message'] = $defaults['body_text'];
                 $this->set('textFile', $defaults['body_text'] );
-                $session->set('skipTextFile', true);
+                $this->set('skipTextFile', true);
             }
 
             if ( isset( $defaults['body_html'] ) ) {
                 $htmlMessage = $defaults['body_html'];
                 $this->set('htmlFile', $defaults['body_html'] );
-                $session->set('skipHtmlFile', true);
+                $this->set('skipHtmlFile', true);
+            }
+
+            //set default from email address.
+            require_once 'CRM/Core/OptionGroup.php';
+            if ( CRM_Utils_Array::value( 'from_name', $defaults ) && CRM_Utils_Array::value( 'from_email', $defaults ) ) {
+                
+                $defaults['from_email_address'] = array_search( '"' . $defaults['from_name'] . '"<' . $defaults['from_email'] . '>', 
+                                                                CRM_Core_OptionGroup::values( 'from_email_address' ) );                
+            } else {
+                //get the default from email address.
+                $defaultAddress = CRM_Core_OptionGroup::values( 'from_email_address', null, null, null, ' AND is_default = 1' );
+                foreach ( $defaultAddress as $id => $value ) {
+                    $defaults['from_email_address'] = $id;
+                }
+            }
+        } 
+        
+        //fix for CRM-2873
+        if ( !$reuseMailing ) {
+            $textFilePath = $this->get( 'textFilePath' );
+            if ( $textFilePath &&
+                 file_exists( $textFilePath ) ) {
+                $defaults['text_message'] = file_get_contents( $textFilePath );
+                if ( strlen( $defaults['text_message'] ) > 0 ) {
+                    $this->set('skipTextFile', true);
+                }
+            }
+            
+            $htmlFilePath = $this->get( 'htmlFilePath' );
+            if ( $htmlFilePath &&
+                 file_exists( $htmlFilePath ) ) {
+                $defaults['html_message'] = file_get_contents( $htmlFilePath );
+                if ( strlen( $defaults['html_message'] ) > 0 ) {
+                    $htmlMessage = $defaults['html_message'];
+                    $this->set('skipHtmlFile', true);
+                }
             }
         }
-        
-        if ( !$htmlMessage ) { 
-            $htmlMessage = $this->getElementValue( "html_message" );
+
+        if ( $this->get('html_message') ) {
+            $htmlMessage = $this->get('html_message');
         }
-        
+
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
-
-        $domain = new CRM_Core_DAO_Domain( );
-        $domain->id = CRM_Core_Config::domainID( );
-        $domain->selectAdd( );
-        $domain->selectAdd( 'id, email_name, email_address' );
-        $domain->find( true );
         
-        $defaults['from_name' ] = $domain->email_name;
-        $defaults['from_email'] = $domain->email_address;
-        $defaults['subject'] = $this->get('name');   
         $defaults['upload_type'] = 1; 
+        if ( isset($defaults['body_html']) ) {
+            $defaults['html_message'] = $defaults['body_html'];
+        }
+        
 
+        $componentFields = array(
+                                 'header_id' => 'Header',
+                                 'footer_id' => 'Footer');
+        foreach ($componentFields as $componentVar => $componentType) {
+            $defaults[$componentVar] = CRM_Mailing_PseudoConstant::defaultComponent($componentType, '');
+        }
+        
         return $defaults;
     }
 
@@ -125,58 +182,61 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         $session =& CRM_Core_Session::singleton();
-        $domainID = CRM_Core_Config::domainID( );
-        $this->add('text', 'from_name', ts('FROM Name'));
-        $this->add('text', 'from_email', ts('FROM'), NULL, true);
-
-        $this->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
+        
+        require_once 'CRM/Core/PseudoConstant.php';
+        $formEmailAddress = CRM_Core_PseudoConstant::fromEmailAddress( "from_email_address" );
+        if ( empty( $formEmailAddress ) ) {
+            //redirect user to enter from email address. 
+            $url = CRM_Utils_System::url( 'civicrm/admin/options/from_email_address', 'group=from_email_address&action=add&reset=1' );
+            $status = ts( "There is no valid from email address present. You can add here <a href='%1'>Add From Email Address.</a>", array( 1 => $url ) );
+            $session->setStatus( $status );
+        } else {
+            foreach ( $formEmailAddress as $key => $email ) {
+                $formEmailAddress[$key] = htmlspecialchars( $formEmailAddress[$key] );
+            }
+        }
+        
+        $this->add( 'select', 'from_email_address', 
+                    ts( 'From Email Address' ), array( '' => '- select -' ) + $formEmailAddress, true );
+        
+        $this->add('text', 'subject', ts('Mailing Subject'), 
+                   CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'subject' ), true);
         
         $attributes = array( 'onclick' => "showHideUpload();" );    
         $options = array( ts('Upload Content'),  ts('Compose On-screen') );
-
+        
         $this->addRadio( 'upload_type', ts('I want to'), $options, $attributes, "&nbsp;&nbsp;");
-
-        require_once 'CRM/Core/BAO/MessageTemplates.php';
-        $this->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-
-        if ( !empty( $this->_templates ) ) {
-            $this->assign('templates', true);
-            $this->add('select', 'template', ts('Select Template'),
-                       array( '' => ts( '-select-' ) ) + $this->_templates, false,
-                       array('onChange' => "selectValue( this.value );") );
-            $this->add('checkbox','updateTemplate',ts('Update Template'), null);
-        } 
         
-        $this->add('text', 'saveTemplateName', ts('Template Title') );
-        $this->addElement('checkbox','saveTemplate',ts('Save As New Template'), null,
-                          array( 'onclick' => "showSaveDetails(this);" ));
-        
-        //insert message Text by selecting "Select Template option"
-        $this->add( 'textarea', 
-                    'text_message', 
-                    ts('Text Message'),
-                    array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
-
-        $this->assign( 'dojoIncludes',"dojo.require('dijit.Editor');", "dojo.require('dojo.parser');");
-                
-        $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
-                                 'height'               => '250 px',
-                                 'id'                   => 'html_message',
-                                 'styleSheets'          => "packages/dojo/dojo/resources/dojo.css",                                
-                                 );
-
-        $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
-       
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        CRM_Mailing_BAO_Mailing::commonCompose( $this );
+              
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'textFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
+        $this->addElement('checkbox', 'override_verp', ts('Override VERP address?'));
         
         $this->addElement( 'file', 'htmlFile', ts('Upload HTML Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
-        $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
+        $this->addRule( 'htmlFile', 
+                        ts( 'File size should be less than %1 MByte(s)',
+                            array( 1 => 1 ) ),
+                        'maxfilesize',
+                        1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
         
+        //fix upload files when context is search. CRM-3711
+        $ssID    = $this->get( 'ssID' );
+        $context = $this->get( 'context' );
+        if ( $context == 'search' && $ssID ) {
+            $this->set( 'uploadNames', array( 'textFile', 'htmlFile' ) );
+        }
+        
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::buildAttachment( $this,
+                                            'civicrm_mailing',
+                                            $this->_mailingID );
+
         require_once 'CRM/Mailing/PseudoConstant.php';
         $this->add( 'select', 'header_id', ts( 'Mailing Header' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Header' ) );
@@ -184,59 +244,71 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
-        $values = array('mailing_id'    => $this->get('mailing_id'));
-
-        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'), $values );
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'formRule'), $this );
         
-        $this->addButtons( array(
-                                 array ( 'type'      => 'back',
-                                         'name'      => ts('<< Previous') ),
-                                 array ( 'type'      => 'upload',
-                                         'name'      => ts('Next >>'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
-        
+        //FIXME : currently we are hiding save an continue later when
+        //search base mailing, we should handle it when we fix CRM-3876
+        $buttons = array( array ( 'type'      => 'back',
+                                  'name'      => ts('<< Previous') ),
+                          array ( 'type'      => 'upload',
+                                  'name'      => ts('Next >>'),
+                                  'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                  'isDefault' => true   ),
+                          array ( 'type'      => 'upload',
+                                  'name'      => ts('Save & Continue Later') ),
+                          array ( 'type'      => 'cancel',
+                                  'name'      => ts('Cancel') ),
+                          );
+        if ( $context == 'search' && $ssID ) {
+            $buttons = array( array ( 'type'      => 'back',
+                                      'name'      => ts('<< Previous') ),
+                              array ( 'type'      => 'upload',
+                                      'name'      => ts('Next >>'),
+                                      'spacing' => '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+                                      'isDefault' => true   ),
+                              array ( 'type'      => 'cancel',
+                                      'name'      => ts('Cancel') ),
+                              );
+        }
+        $this->addButtons( $buttons );
         
     }
     
     public function postProcess() 
     {
-        $params      = $ids  = array( );
-        $uploadParams        = array( 
-                                     'header_id', 'footer_id', 'subject', 'from_name', 'from_email'
-                                     );
-        $fileType            = array( 'textFile', 'htmlFile' );
-        
+        $params = $ids = array( );
+        $uploadParams  = array( 'header_id', 'footer_id', 'subject', 'from_name', 'from_email', 'override_verp' );
+        $fileType      = array( 'textFile', 'htmlFile' );
+
+        $formValues    = $this->controller->exportValues( $this->_name );
+
         foreach ( $uploadParams as $key ) {
-            $params[$key] = $this->controller->exportvalue($this->_name, $key);
-            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+            if ( CRM_Utils_Array::value( $key, $formValues ) ) {
+                $params[$key] = $formValues[$key];
+                $this->set($key, $formValues[$key]);
+            }
         }
         
-        if ( !$this->controller->exportvalue($this->_name, 'upload_type')) {
+        if ( ! $formValues['upload_type']) {
             foreach ( $fileType as $key ) {
-                if( file_get_contents($this->controller->exportvalue($this->_name, $key) ) ) { 
-                    $params['body_'. substr($key,0,4 )] = file_get_contents($this->controller->exportvalue($this->_name, $key) );
+                $contents = null;
+                if ( isset( $formValues[$key] ) &&
+                     ! empty( $formValues[$key] ) ) {
+                    $contents = file_get_contents( $formValues[$key]['name'] );
+                    $this->set($key, $formValues[$key]['name'] );
+                }
+                if ( $contents ) {
+                    $params['body_'. substr($key,0,4 )] = $contents;
                 } else {
                     $params['body_'. substr($key,0,4 )] = 'NULL';
                 }
-                $this->set($key, $this->controller->exportvalue($this->_name, $key));
-            }
-            if ( $this->controller->exportvalue($this->_name, 'textFile') ) {
-                $this->set('textFile', $this->controller->exportvalue($this->_name, 'textFile') );
-            }
-            
-            if ($this->controller->exportvalue($this->_name, 'htmlFile')) {
-                $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
             }
         } else {
-            $text_message = $this->controller->exportvalue($this->_name, 'text_message');
+            $text_message = $formValues['text_message'];
             $params['body_text']     = $text_message;
             $this->set('textFile',     $params['body_text'] );
             $this->set('text_message', $params['body_text'] );
-            $html_message = $this->controller->exportvalue($this->_name, 'html_message');
+            $html_message = $formValues['html_message'];
             
             // dojo editor does some html conversion when tokens are
             // inserted as links. Hence token replacement fails.
@@ -250,52 +322,105 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         }
 
         $params['name'] = $this->get('name');
-        
+
         $session =& CRM_Core_Session::singleton();
-        $params['domain_id']  = $session->get('domainID');
         $params['contact_id'] = $session->get('userID');
         $composeFields        = array ( 'template', 'saveTemplate',
                                         'updateTemplate', 'saveTemplateName' );
-        
+        $msgTemplate = null;
         //mail template is composed 
-        if ( $this->controller->exportvalue($this->_name, 'upload_type') ) {
+        if ( $formValues['upload_type'] ) {
             foreach ( $composeFields as $key ) {
-                $composeParams[$key] = $this->controller->exportvalue($this->_name, $key);
-                $this->set($key, $this->controller->exportvalue($this->_name, $key));
-            }
-            
-            $templateParams = array( 'msg_text'    => $text_message,
-                                     'msg_html'    => $html_message,
-                                     'msg_subject' => $params['subject'],
-                                     'is_active'   => true
-                                     );
-            
-            if ( $composeParams['saveTemplate'] ) {
-                // create a new template
-                $templateIds = array();
-                $templateParams['msg_title'] = $composeParams['saveTemplateName'];
-                $msgTemplate = CRM_Core_BAO_MessageTemplates::add($templateParams, $templateIds);  
+                if ( CRM_Utils_Array::value( $key, $formValues ) ) {
+                    $composeParams[$key] = $formValues[$key];
+                    $this->set($key, $formValues[$key]);
+                }
+            }          
+           
+            if ( CRM_Utils_Array::value( 'updateTemplate', $composeParams ) ) {
+                $templateParams = array( 'msg_text'    => $text_message,
+                                         'msg_html'    => $html_message,
+                                         'msg_subject' => $params['subject'],
+                                         'is_active'   => true
+                                         );
+                
+                $templateParams['id'] = $formValues['template'];
+                
+                $msgTemplate = CRM_Core_BAO_MessageTemplates::add( $templateParams );  
             } 
             
-            if ( $composeParams['updateTemplate'] ) { 
-                //update the existing template
-                $templateIds = array( 'messageTemplate' => $this->controller->exportvalue($this->_name,
-                                                                                          'template') );
-                $msgTemplate = CRM_Core_BAO_MessageTemplates::add($templateParams, $templateIds);  
-            }
+            if ( CRM_Utils_Array::value( 'saveTemplate', $composeParams ) ) {
+                $templateParams = array( 'msg_text'    => $text_message,
+                                         'msg_html'    => $html_message,
+                                         'msg_subject' => $params['subject'],
+                                         'is_active'   => true
+                                         );
+                
+                $templateParams['msg_title'] = $composeParams['saveTemplateName'];
+                
+                $msgTemplate = CRM_Core_BAO_MessageTemplates::add( $templateParams );  
+            } 
             
-            if ( $msgTemplate->id ) {
+            if ( isset($msgTemplate->id ) ) {
                 $params['msg_template_id'] = $msgTemplate->id;
             } else {
-                $params['msg_template_id'] = $this->controller->exportvalue($this->_name, 'template');
+                $params['msg_template_id'] = CRM_Utils_Array::value( 'template', $formValues );
             }
+            $this->set('template', $params['msg_template_id']);
         }
 
-        $ids['mailing_id'] = $this->get('mailing_id');
-
+        CRM_Core_BAO_File::formatAttachment( $formValues,
+                                             $params,
+                                             'civicrm_mailing',
+                                             $this->_mailingID );
+        $ids['mailing_id'] = $this->_mailingID;
+        
+        //handle mailing from name & address.
+        $formEmailAddress = CRM_Utils_Array::value( $formValues['from_email_address'],
+                                                    CRM_Core_PseudoConstant::fromEmailAddress( "from_email_address" ) );
+        
+        //get the from email address
+        require_once 'CRM/Utils/Mail.php';
+        $params['from_email'] = CRM_Utils_Mail::pluckEmailFromHeader( $formEmailAddress );
+        
+        //get the from Name
+        $params['from_name'] = CRM_Utils_Array::value( 1, explode('"', $formEmailAddress ) );
+        
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);
+     
+        if ( $this->_submitValues['_qf_Upload_upload'] == 'Save & Continue Later' ) {
+            //when user perform mailing from search context 
+            //redirect it to search result CRM-3711.
+            $ssID    = $this->get( 'ssID' );
+            $context = $this->get( 'context' );
+            if ( $ssID && $context == 'search' ) {
+                if ( $this->_action == CRM_Core_Action::BASIC ) {
+                    $fragment = 'search';
+                } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+                    $fragment = 'search/builder';
+                } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
+                    $fragment = 'search/advanced';
+                } else {
+                    $fragment = 'search/custom';
+                }
+                
+                $session =& CRM_Core_Session::singleton( );
+                $draftURL = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                $status = ts("Your mailing has been saved. You can continue later by clicking the 'Continue' action to resume working on it.<br /> From <a href='%1'>Draft and Unscheduled Mailings</a>.", array( 1 => $draftURL ) );
+                CRM_Core_Session::setStatus( $status );
+                
+                //replace user context to search.
+                $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, "force=1&reset=1&ssID={$ssID}" );
+                CRM_Utils_System::redirect( $url );
+            } else { 
+                $status = ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.");
+                CRM_Core_Session::setStatus( $status );
+                $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                CRM_Utils_System::redirect($url);
+            }
+        }
     }
     
     /**
@@ -307,53 +432,34 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
      * @access public
      * @static
      */
-    static function dataRule(&$params, &$files, &$options) 
+    static function formRule( &$params, &$files, &$self )
     {
         if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST)) {
             return true;
         }
         $errors = array();
+        $template =& CRM_Core_Smarty::singleton( );
+       
 
+        if (isset($params['html_message'])){
+             $htmlMessage = str_replace( array("\n","\r"), ' ', $params['html_message']);
+             $htmlMessage = str_replace( "'", "\'", $htmlMessage);
+             $template->assign('htmlContent',$htmlMessage );
+        }
         require_once 'CRM/Core/BAO/Domain.php';
 
-        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $domain =& CRM_Core_BAO_Domain::getDomain();
 
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing = & new CRM_Mailing_BAO_Mailing();
-        $mailing->id = $options['mailing_id'];
+        $mailing->id = $self->_mailingID;
         $mailing->find(true);
 
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
-        require_once 'api/Contact.php';
-        //$contact =& crm_fetch_contact( $values );
-        $contact = array (
-                          'contact_id'            => 102,
-                          'contact_type'          => 'Individual',
-                          'sort_name'             => 'pankaj.sharma@webaccess.co.in',
-                          'display_name'          => 'pankaj.sharma@webaccess.co.in',
-                          'location_id'           => 90,
-                          'email_id'              => 152, 
-                          'email'                 => 'pankaj.sharma@webaccess.co.in',
-                          'on_hold'               => 0,
-                          'preferred_mail_format' => 'Both'
-                          );
+        require_once 'api/v2/Contact.php';
+        $contact =& civicrm_contact_get( $values );
 
-        require_once 'CRM/Contact/DAO/GroupOrganization.php';
-        $goDao =& new CRM_Contact_DAO_GroupOrganization( );
-        $query = "SELECT        co.contact_id
-                  FROM          civicrm_group_organization AS cgo
-                  INNER JOIN    civicrm_organization AS co
-                  ON            cgo.organization_id = co.id
-                  ORDER BY      cgo.id ASC
-                  LIMIT 1";
-        $goDao->query( $query );
-        if ( $goDao->fetch( ) ) {
-            $orgContactId = $goDao->contact_id;
-        }
-        $values = array('contact_id' => $orgContactId );
-        $org =& crm_fetch_contact( $values );
-        
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'resubscribe', 'owner'));
         foreach($verp as $key => $value) {
             $verp[$key]++;
@@ -384,9 +490,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         require_once 'CRM/Utils/Token.php';
 
-        $skipTextFile = $session->get('skipTextFile');
-        $skipHtmlFile = $session->get('skipHtmlFile');
-
+        $skipTextFile = $self->get('skipTextFile');
+        $skipHtmlFile = $self->get('skipHtmlFile');
+        
         if( !$params['upload_type'] ) { 
             if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
                  ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
@@ -395,10 +501,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 }
             }
         } else {
-            if ( !($params['text_message']) && !($params['html_message']) ) {
+            if ( ! CRM_Utils_Array::value( 'text_message', $params ) && ! CRM_Utils_Array::value( 'html_message', $params ) ) {
                 $errors['text_message'] = ts('Please provide either a Text or HTML formatted message - or both.');
             }
-            if ( $params['saveTemplate'] &&  ! $params['saveTemplateName'] ) {
+            if ( CRM_Utils_Array::value( 'saveTemplate', $params ) &&  ! CRM_Utils_Array::value( 'saveTemplateName', $params ) ) {
                 $errors['saveTemplateName'] =  ts('Please provide a Template Name.');
             }
         }
@@ -458,10 +564,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $str = CRM_Utils_Token::replaceOrgTokens($str, $org);
             $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens[$file]);
             $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens[$file]);
-            
+
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
 
-            if (! empty($unmatched)) {
+            if (! empty($unmatched) && 0) {
                 foreach ($unmatched as $token) {
                     $dataErrors[]   = '<li>'
                         . ts('Invalid token code')
@@ -470,10 +576,16 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
             if (! empty($dataErrors)) {
                 $errors[$file . 'File'] = 
-                    ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
+                    ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="' . CRM_Utils_System::docURL2( 'Sample CiviMail Messages', true ) . '" target="_blank">' . ts('More information on required tokens...') . '</a>';
             }
         }
         
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        $templateName = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
+        if( CRM_Utils_Array::value( 'saveTemplate', $params ) 
+            && in_array( CRM_Utils_Array::value( 'saveTemplateName', $params ), $templateName ) ) {
+            $errors['saveTemplate'] = ts('Duplicate Template Name.');
+        }
         return empty($errors) ? true : $errors;
     }
 
@@ -489,4 +601,4 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     }
 }
 
-?>
+

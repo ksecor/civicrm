@@ -2,25 +2,25 @@
 
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 2.0                                                |
+   | CiviCRM version 2.2                                                |
    +--------------------------------------------------------------------+
-   | Copyright CiviCRM LLC (c) 2004-2007                                |
+   | Copyright CiviCRM LLC (c) 2004-2009                                |
    +--------------------------------------------------------------------+
    | This file is a part of CiviCRM.                                    |
    |                                                                    |
    | CiviCRM is free software; you can copy, modify, and distribute it  |
-   | under the terms of the Affero General Public License Version 1,    |
-   | March 2002.                                                        |
+   | under the terms of the GNU Affero General Public License           |
+   | Version 3, 19 November 2007.                                       |
    |                                                                    |
    | CiviCRM is distributed in the hope that it will be useful, but     |
    | WITHOUT ANY WARRANTY; without even the implied warranty of         |
    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
-   | See the Affero General Public License for more details.            |
+   | See the GNU Affero General Public License for more details.        |
    |                                                                    |
-   | You should have received a copy of the Affero General Public       |
+   | You should have received a copy of the GNU Affero General Public   |
    | License along with this program; if not, contact CiviCRM LLC       |
-   | at info[AT]civicrm[DOT]org.  If you have questions about the       |
-   | Affero General Public License or the licensing  of CiviCRM,        |
+   | at info[AT]civicrm[DOT]org. If you have questions about the        |
+   | GNU Affero General Public License or the licensing of CiviCRM,     |
    | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
    +--------------------------------------------------------------------+
   */
@@ -29,7 +29,7 @@
    *
    *
    * @package CRM
-   * @copyright CiviCRM LLC (c) 2004-2007
+   * @copyright CiviCRM LLC (c) 2004-2009
    * $Id$
    *
    */
@@ -43,7 +43,11 @@ class CRM_Event_BAO_ParticipantPayment extends CRM_Event_DAO_ParticipantPayment
     { 
         $paymentParticipant =& new CRM_Event_BAO_ParticipantPayment(); 
         $paymentParticipant->copyValues($params);
-        $paymentParticipant->id = CRM_Utils_Array::value( 'id', $ids );
+        if ( isset( $ids['id'] ) ) {
+            $paymentParticipant->id = CRM_Utils_Array::value( 'id', $ids );
+        } else {
+            $paymentParticipant->find( true );
+        }
         $paymentParticipant->save();
 
         return $paymentParticipant;
@@ -61,22 +65,27 @@ class CRM_Event_BAO_ParticipantPayment extends CRM_Event_DAO_ParticipantPayment
     static function deleteParticipantPayment( $params ) 
     {
         require_once 'CRM/Event/DAO/ParticipantPayment.php';
-        $participantPayment = & new CRM_Event_DAO_ParticipantPayment( );
+        $participantPayment =& new CRM_Event_DAO_ParticipantPayment( );
 
+        $valid = false;
         foreach ( $params as $field => $value ) {
-            $participantPayment->$field  = $value;
+            if ( ! empty( $value ) ) {
+                $participantPayment->$field  = $value;
+                $valid = true;
+            }
         }
-        if ( ! $participantPayment->find( ) ) {
-            return false;
+
+        if ( ! $valid ) {
+            CRM_Core_Error::fatal( );
         }
-        
-        while ( $participantPayment->fetch() ) {
-            require_once 'CRM/Event/BAO/Participant.php';
-            CRM_Event_BAO_Participant::deleteParticipantSubobjects( $participantPayment->contribution_id );
+
+        if ( $participantPayment->find( true ) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            CRM_Contribute_BAO_Contribution::deleteContribution( $participantPayment->contribution_id );
             $participantPayment->delete( ); 
+            return $participantPayment;
         }
-        
-        return true;
+        return false;
     }
 }
-?>
+

@@ -26,7 +26,7 @@
 {/if}
 {if ($action eq 8)}
 <fieldset><legend>{ts}Delete Note{/ts}</legend>
-<div class=status>{ts 1=$notes.$id.note}Are you sure you want to delete the note "%1"?{/ts}</div>
+<div class=status>{ts 1=$notes.$id.note}Are you sure you want to delete the note '%1'?{/ts}</div>
 <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>
 </fieldset>
 
@@ -36,10 +36,8 @@
 {if $notes}
     {* show browse table for any action *}
 <div id="notes">
-    <div class="form-item">
-    <br/>
     {strip}
-        <table>
+        <table class="selector">
         <tr class="columnheader">
 	        <th scope="col">{ts}Note{/ts}</th>
 	        <th scope="col">{ts}Subject{/ts}</th>
@@ -68,20 +66,19 @@
         </table>
     {/strip}
 
-       {if $permission EQ 'edit' AND ($action eq 16 or $action eq 4 or $action eq 8)}
+    {if $permission EQ 'edit' AND ($action eq 16 or $action eq 4 or $action eq 8)}
        <div class="action-link">
-    	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">&raquo; {ts}New Note{/ts}</a>
+    	 <a accesskey="N" href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}" class="button"><span>&raquo; {ts}New Note{/ts}</span></a>
        </div>
-       {/if}
-    </div>
+    {/if}
  </div>
 
 {elseif ! ($action eq 1)}
    <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}
-        <dd>{ts 1=$crmURL}There are no Notes for this contact. You can <a href="%1">add one</a>.{/ts}</dd>
+        {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}{/capture}
+        <dd>{ts 1=$crmURL}There are no Notes for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}</dd>
     </dl>
    </div>
 {/if}

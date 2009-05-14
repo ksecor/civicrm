@@ -992,6 +992,62 @@ function SetXY($x,$y)
 	$this->SetX($x);
 }
 
+function WordWrap(&$text, $maxwidth)
+{
+    $text = trim($text);
+    if ($text==='')
+        return 0;
+    $space = $this->GetStringWidth(' ');
+    $lines = explode("\n", $text);
+    $text = '';
+    $count = 0;
+    
+    foreach ($lines as $line)
+        {
+            $words = preg_split('/ +/', $line);
+            $width = 0;
+            
+            foreach ($words as $word)
+                {
+                    $wordwidth = $this->GetStringWidth($word);
+                    if ($wordwidth > $maxwidth)
+                        {
+                            // Word is too long, we cut it
+                            for($i=0; $i<strlen($word); $i++)
+                                {
+                                    $wordwidth = $this->GetStringWidth(substr($word, $i, 1));
+                                    if($width + $wordwidth <= $maxwidth)
+                                        {
+                                            $width += $wordwidth;
+                                            $text .= substr($word, $i, 1);
+                                        }
+                                    else
+                                        {
+                                            $width = $wordwidth;
+                                            $text = rtrim($text)."\n".substr($word, $i, 1);
+                                            $count++;
+                                        }
+                                }
+                        }
+                    elseif($width + $wordwidth <= $maxwidth)
+                        {
+                            $width += $wordwidth + $space;
+                            $text .= $word.' ';
+                        }
+                    else
+                        {
+                            $width = $wordwidth + $space;
+                            $text = rtrim($text)."\n".$word.' ';
+                            $count++;
+                        }
+                }
+            $text = rtrim($text)."\n";
+            $count++;
+        }
+    $text = rtrim($text);
+    return $count;
+}
+
 function Output($name='',$dest='')
 {
 	//Output PDF to some destination
@@ -1036,10 +1092,13 @@ function Output($name='',$dest='')
 			//Download file
 			if(ob_get_contents())
 				$this->Error('Some data has already been output, can\'t send PDF file');
-			if(isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'],'MSIE'))
+			if(isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')){
 				header('Content-Type: application/force-download');
-			else
+                                header('Cache-Control: must-revalidate,post-check=0, pre-check=0');
+                                header('Pragma: public');
+			}else{
 				header('Content-Type: application/octet-stream');
+                        }
 			if(headers_sent())
                 $this->Error('Some data has already been output to browser, can\'t send PDF file');
 			header('Content-Length: '.strlen($this->buffer));

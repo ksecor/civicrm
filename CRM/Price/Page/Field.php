@@ -1,34 +1,34 @@
 <?php
+
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
- | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
- | about the Affero General Public License or the licensing  of       |
- | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | http://www.civicrm.org/licensing/                                  |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -149,7 +149,8 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                 CRM_Core_OptionValue::getValues( $params, $optionValues );
                 
                 foreach( $optionValues as $values ) {
-                    $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value('value',$values);
+                    $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value('name',
+                                                                                      $values);
                 }
             }
             
@@ -168,6 +169,11 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             if ($priceFieldBAO->expire_on == '0000-00-00 00:00:00') {
                 $priceField[$priceFieldBAO->id]['expire_on'] = '';
             }
+
+            // need to translate html types from the db
+            require_once 'CRM/Core/BAO/PriceField.php';
+            $htmlTypes = CRM_Core_BAO_PriceField::htmlTypes( );
+            $priceField[$priceFieldBAO->id]['html_type'] = $htmlTypes[$priceField[$priceFieldBAO->id]['html_type']];
 
             $priceField[$priceFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('fid'  => $priceFieldBAO->id,
@@ -236,7 +242,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             if ( empty( $usedBy ) ) {
                      // prompt to delete
                     $session = & CRM_Core_Session::singleton();
-                    $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $fid));
+                    $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $this->_sid));
                     $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteField',"Delete Price Field",'' );
                     $controller->set('fid', $fid);
                     $controller->setEmbedded( true );
@@ -248,7 +254,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                     // add breadcrumb
                 require_once 'CRM/Core/BAO/PriceField.php';
                     $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1' );
-                    CRM_Utils_System::appendBreadCrumb( ts('Price '),
+                    CRM_Utils_System::appendBreadCrumb( ts('Price'),
                                                         $url );
                     $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_PriceField::getTitle( $fid ) );
                     $this->assign( 'usedBy', $usedBy );
@@ -306,9 +312,10 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $this->_sid));
         $controller->set('fieldId', $fid);
+        $controller->set('groupId', $this->_sid);
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
     }
 }
-?>
+

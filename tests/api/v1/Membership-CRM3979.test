@@ -1,0 +1,494 @@
+<?php
+
+require_once 'api/Membership.php';
+require_once 'CRM/Core/BAO/MessageTemplates.php';
+
+class Tests_API_Membership extends CiviUnitTestCase {
+
+    /**
+     *  Contact ID of test individual contact created
+     */
+    private $testIndividual;
+
+    /**
+     *  Contact ID of test organization contact created
+     */
+    private $testOrganization;
+
+    /**
+     *  Contribution type ID of test contribution type created
+     */
+    private $testContribType;
+
+    /**
+     *  Message template ID of test message template created
+     */
+    private $testMsgTpl;
+
+    /**
+     *  Relationship type ID of test relationship type created
+     */
+    private $testRelType;
+
+    function get_info( ) 
+    {
+        return array(
+                     'name'        => 'API v1 Membership',
+                     'description' => 'Test all API v1 Membership methods.',
+                     'group'       => 'CiviCRM API v1 Tests',
+                     );
+    }
+    
+    /**
+     *  Set up initial conditions for the tests
+     */
+    public function setup( ) 
+    {
+        parent::setUp();
+
+        //  Create a test organization contact
+        $org_params = array( 'organization_name' =>
+                                 $this->randomName( 4, 'simpletest_org_'),
+                             'contact_type' => 'Organization' );
+        $this->testOrganization = $this->organizationCreate( $org_params );
+
+        //  Create a test individual contact
+        $first_name = $this->randomName( 4, 'simpletest_ind_first_');
+        $last_name = $this->randomName( 4, 'simpletest_ind_last_');
+        $params = array( 'first_name'       => $first_name,
+                         'last_name'        => $last_name,
+                         'email'            => "{$last_name}@civicrm.org",
+                         'contact_type'     => 'Individual');
+        $this->testIndividual = $this->individualCreate( $params );
+
+        //  Create a test Individual -> Organization relationship type
+        $rel_params = array( 'name_a_b' =>
+                             $this->randomName( 4, 'simpletest_ind2org_'),
+                             'name_b_a' =>
+                             $this->randomName( 4, 'simpletest_org2ind_'),
+                             'description' =>
+                             'simpletest Individual -> Organization'
+                               . ' relationship type',
+                             'contact_type_a' => 'Individual',
+                             'contact_type_b' => 'Organization'
+                                 );
+        $this->testRelType = $this->relationshipTypeCreate( $rel_params );
+
+        //  Create a test contribution type
+        $ids = null;
+        $params = array( 'name'            =>
+                         $this->randomName( 4, 'simpletest_cntrib_name_'),
+                         'accounting_code' =>
+                         $this->randomName( 4, 'simpletest_cntrib_code_'),
+                         'description'     =>  'simpletest contribution type',
+                         'is_deductible'   => 1,
+                         'is_reserved'     => 0,
+                         'is_active'       => 1
+                         );                         
+        $rc = CRM_Contribute_BAO_ContributionType::add( $params, $ids );
+        $this->testContribType = $rc->id;
+
+        //  Create a test renewal message template
+        $params = array( 'msg_title'   => 'simpletest renewal msg title',
+                         'msg_subject' => 'simpletest renewal msg subject',
+                         'msg_text'    => 'simpletest renewal msg text',
+                         'msg_html'    => 'simpletest renewal msg html',
+                         'is_active'   => true
+                         );                         
+        $rc = CRM_Core_BAO_MessageTemplates::add( $params );
+        $this->testMsgTpl = $rc->id;
+    }
+    
+    /**
+     *  Clean up after test completion
+     */
+    public function tearDown( ) 
+    {
+        parent::tearDown();
+
+        //  Delete the test contribution type
+        $this->contributionTypeDelete( $this->testContribType );
+
+        //  Delete the test relationship type
+        $this->relationshipTypeDelete( $this->testRelType );
+
+        //  Delete the test organization
+        $this->contactDelete( $this->testOrganization );
+
+        //  Delete the test individual
+        $this->contactDelete( $this->testIndividual );
+
+        //  Delete the test message template
+        CRM_Core_BAO_MessageTemplates::del( $this->testMsgTpl );
+    }
+    
+    /**
+     *  Test of crm_create_membership_type(), crm_get_membership_types()
+     */
+    public function testCRMCreateGetMembershipType()
+    {
+        //  Should return CRM_Core_Error, param not an array
+        $rc = crm_create_membership_type( 17 );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, all of 'name', 'duration_unit',
+        //  'duration_interval' params missing
+        $params = array( 'member_of_contact_id' => $this->testOrganization,
+                         'contribution_type_id' => 1);
+        $rc = crm_create_membership_type( $params );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'member_of_contact_id' param missing
+        $params = array( 'name'                 =>
+                             $this->randomName( 4, 'simpletest_memshptyp_'),
+                         'duration_unit'        => 'day',
+                         'duration_interval'    => 17,
+                         'contribution_type_id' => 1);
+        $rc = crm_create_membership_type( $params );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'contribution_type_id' param missing
+        $params = array( 'name'                 =>
+                             $this->randomName( 4, 'simpletest_memshptyp_'),
+                         'duration_unit'        => 'day',
+                         'duration_interval'    => 17,
+                         'member_of_contact_id' => $this->testOrganization);
+        $rc = crm_create_membership_type( $params );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should create a membership type
+        $mem_typ = array( 'name'                      =>
+                          $this->randomName( 4, 'simpletest_memshptyp_'),
+                         'description'               =>
+                          $this->randomName( 4, 'simpletest_memshptyp_desc_'),
+                         'member_of_contact_id'      => $this->testOrganization,
+                         'contribution_type_id'      => $this->testContribType,
+                         'minimum_fee'               => 12345.67,
+                         'duration_unit'             => 'day',
+                         'duration_interval'         => 17,
+                         'period_type'               => 'rolling',
+                         'fixed_period_start_day'    => 0123,
+                         'fixed_period_rollover_day' => 0321,
+                         'relationship_type_id'      => $this->testRelType,
+                         'relationship_direction'    => 'a_b',
+                         'visibility'                => 'simpletest_vis',
+                         'weight'                    => -432,
+                         'renewal_msg_id'            => $this->testMsgTpl,
+                         'renewal_reminder_day'      => 43,
+                         'receipt_text_signup'       =>
+                         'simpletest receipt text signup',
+                         'receipt_text_renewal'      =>
+                         'simpletest receipt text renewal',
+                         'is_active'                 => true);
+        $rc = crm_create_membership_type( $mem_typ );
+        $this->assertIsA( $rc, 'Array' );
+        $testMemType = $rc['id'];
+
+        //  Array returned should match the params
+        foreach ( $mem_typ as $key => $value ) {
+            $this->assertEqual( $rc[$key], $mem_typ[$key] );
+        }
+
+        //  Should return CRM_Core_Error, param not an array
+        $rc = crm_get_membership_types( 17 );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'id' param missing
+        $params = array( 'foo' => 'bar' );
+        $rc = crm_get_membership_types( $params );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return the test membership type
+        $rc = crm_get_membership_types( array( 'id' => $testMemType ) );
+        $this->assertIsA( $rc, 'Array' );
+
+        //  Array returned should match the params that were used
+        //  to create the test membership type
+        foreach ( $mem_typ as $key => $value ) {
+            $this->assertEqual( $rc[$testMemType][$key],
+                                $mem_typ[$key] );
+        }
+
+        //  Delete the membership type
+        $this->membershipTypeDelete( $testMemType );
+    }
+    
+    /**
+     *  Test of crm_create_membership_status() and
+     *          crm_get_membership_statuses()
+     */
+    public function testCRMCreateGetMembershipStatus()
+    {
+        //  Should return CRM_Core_Error, param not an array
+        $rc = crm_create_membership_status( 17 );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'name' param missing
+        $params = array();
+        $rc = crm_create_membership_status( $params );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should create a membership status
+        $mem_status = array( 'name'                        =>
+                          $this->randomName( 4, 'simpletest_memshpstatus_'),
+                             'start_event'                 => 'join_date',
+                             'start_event_adjust_unit'     => 'month',
+                             'start_event_adjust_interval' => 5,
+                             'end_event'                   => 'end_date',
+                             'end_event_adjust_unit'       => 'year',
+                             'end_event_adjust_interval'   => 1,
+                             'is_current_member'           => true,
+                             'is_admin'                    => false,
+                             'weight'                      => 12,
+                             'is_default'                  => false,
+                             'is_active'                   => true,
+                             'is_reserved'                 => false );
+        $rc = crm_create_membership_status( $mem_status );
+        $this->assertIsA( $rc, 'Array' );
+
+        //  Array returned should match the params that were used
+        //  to create the test membership status
+        $testMemStatus = $rc['id'];
+        foreach ( $mem_status as $key => $value ) {
+            $this->assertEqual( $rc[$key], $mem_status[$key] );
+        }
+        //  Should return CRM_Core_Error, param not an array
+        $rc = crm_get_membership_statuses( 17 );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'id' param missing
+        $params = array();
+        $rc = crm_get_membership_statuses( $params );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return the test status just created
+        $params = array( 'id' => $testMemStatus );
+        $rc = crm_get_membership_statuses( $params );
+        $this->assertIsA( $rc, 'Array' );
+
+        //  Array returned should match the params that were used
+        //  to create the test membership status
+        foreach ( $mem_status as $key => $value ) {
+            $this->assertEqual( $rc[$testMemStatus][$key],
+                                $mem_status[$key] );
+        }
+
+        //  Delete the test membership status
+        $this->membershipStatusDelete( $testMemStatus );
+    }
+    
+    /**
+     *  Test of crm_create_contact_membership()
+     */
+    public function testCRMCreateContactMembership()
+    {
+        //  Should return CRM_Core_Error, params not an array
+        $rc = crm_create_contact_membership( 'foo', 46 );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'membership_type_id' param missing
+        $params = array( 'status_id' => 1 );
+        $rc = crm_create_contact_membership( $params, 19 );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'status_id' param missing
+        $params = array( 'membership_type_id' => 1 );
+        $rc = crm_create_contact_membership( $params, 19 );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'contact_id' empty
+        $params = array( 'membership_type_id' => 1,
+                         'status_id' => 1 );
+        $rc = crm_create_contact_membership( $params, NULL );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Create a test membership type
+        $mem_typ = array( 'name'                      =>
+                          $this->randomName( 4, 'simpletest_memshptyp_'),
+                         'description'               =>
+                          $this->randomName( 4, 'simpletest_memshptyp_desc_'),
+                         'member_of_contact_id'      => $this->testOrganization,
+                         'contribution_type_id'      => $this->testContribType,
+                         'minimum_fee'               => 12345.67,
+                         'duration_unit'             => 'day',
+                         'duration_interval'         => 17,
+                         'period_type'               => 'rolling',
+                         'fixed_period_start_day'    => 0123,
+                         'fixed_period_rollover_day' => 0321,
+                         'relationship_type_id'      => $this->testRelType,
+                         'relationship_direction'    => 'a_b',
+                         'visibility'                => 'simpletest_vis',
+                         'weight'                    => -432,
+                         'renewal_msg_id'            => $this->testMsgTpl,
+                         'renewal_reminder_day'      => 43,
+                         'receipt_text_signup'       =>
+                         'simpletest receipt text signup',
+                         'receipt_text_renewal'      =>
+                         'simpletest receipt text renewal',
+                         'is_active'                 => true);
+        $rc = crm_create_membership_type( $mem_typ );
+        $testMemType = $rc['id'];
+
+        //  Create a test membership status
+        //  We are testing (some of) the logic to create a membership
+        //  status, and also guaranteeing that there will be at least
+        //  one match for the membership we will create next
+        $testMemStatusName = $this->randomName( 4, 'simpletest_memshpstatus_');
+        $mem_status = array( 'name'              => $testMemStatusName,
+                             'start_event'       => 'join_date',
+                             'end_event'         => 'end_date',
+                             'is_current_member' => true,
+                             'is_admin'          => false,
+                             'weight'            => 12,
+                             'is_default'        => false,
+                             'is_active'         => true,
+                             'is_reserved'       => false );
+        $rc = crm_create_membership_status( $mem_status );
+        $testMemStatus = $rc['id'];
+
+        //  Should create a contact membership
+        //  The status_id parameter must exist but is never used!  The
+        //  membership status is found in
+        //  CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate() 
+        //  by searching civicrm_membership_status for the best match
+        //  to the dates assigned.
+        //  NB:  If no membership status can be found in
+        //       CRM_Member_BAO_Membership::create(), the default
+        //       action is to send an HTTP Redirect and exit rather
+        //       than returning an error.  There is no obvious way to
+        //       test this with Simpletest.
+        $today = date('Ymd');
+        $yesterday = date('Ymd', time() - 24 * 60 * 60 );
+        $year_from_now = date('Ymd', time() + 365 * 24 * 60 * 60 );
+        $params = array( 'membership_type_id' => $testMemType,
+                         'status_id' => -1,  // unused
+                         'join_date' => $yesterday,
+                         'start_date' => $today,
+                         'end_date' => $year_from_now,
+                         'status_date' => $today );
+        $rc = crm_create_contact_membership( $params, $this->testIndividual );
+        $this->assertIsA( $rc, 'Array' );
+        $membership_id = $rc['id'];
+
+        //  Test crm_calc_membership_status
+        //  Should return CRM_Core_Error, 'id' empty
+        $rc = crm_calc_membership_status( NULL );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return the membership above, or some other
+        //  membership status
+         $rc = crm_calc_membership_status( $membership_id );
+         $this->assertIsA( $rc, 'Array' );
+
+        //  Test crm_delete_membership
+        //  Should return CRM_Core_Error, 'id' empty
+        $rc = crm_delete_membership( NULL );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return null
+         $this->assertNull( crm_delete_membership( $membership_id ) );
+
+        //  Delete the test membership status
+        $this->membershipStatusDelete( $testMemStatus );
+
+        //  Delete the membership type
+        $this->membershipTypeDelete( $testMemType );
+    }
+
+    /**
+     *  Test of crm_update_contact_membership()
+     */
+    public function testCRMUpdateContactMembership()
+    {
+        //  Should return CRM_Core_Error, param not an array
+        $rc = crm_update_contact_membership( 17 );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Should return CRM_Core_Error, 'id' param missing
+        $params = array( );
+        $rc = crm_update_contact_membership( $params );
+        $this->assertIsA( $rc, 'CRM_Core_Error' );
+
+        //  Create a membership type
+        $mem_typ = array( 'name'                      =>
+                          $this->randomName( 4, 'simpletest_memshptyp_'),
+                         'description'               =>
+                          $this->randomName( 4, 'simpletest_memshptyp_desc_'),
+                         'member_of_contact_id'      => $this->testOrganization,
+                         'contribution_type_id'      => $this->testContribType,
+                         'minimum_fee'               => 12345.67,
+                         'duration_unit'             => 'day',
+                         'duration_interval'         => 17,
+                         'period_type'               => 'rolling',
+                         'fixed_period_start_day'    => 0123,
+                         'fixed_period_rollover_day' => 0321,
+                         'relationship_type_id'      => $this->testRelType,
+                         'relationship_direction'    => 'a_b',
+                         'visibility'                => 'simpletest_vis',
+                         'weight'                    => -432,
+                         'renewal_msg_id'            => $this->testMsgTpl,
+                         'renewal_reminder_day'      => 43,
+                         'receipt_text_signup'       =>
+                         'simpletest receipt text signup',
+                         'receipt_text_renewal'      =>
+                         'simpletest receipt text renewal',
+                         'is_active'                 => true);
+        $rc = crm_create_membership_type( $mem_typ );
+        $this->assertIsA( $rc, 'Array' );
+        $testMemType = $rc['id'];
+
+        //  Create a test membership status
+        $mem_status = array( 'name'                        =>
+                          $this->randomName( 4, 'simpletest_memshpstatus_'),
+                             'start_event'                 => 'join_date',
+                             'end_event'                   => 'end_date',
+                             'is_current_member'           => true,
+                             'is_admin'                    => false,
+                             'weight'                      => 12,
+                             'is_default'                  => false,
+                             'is_active'                   => true,
+                             'is_reserved'                 => false );
+        $rc = crm_create_membership_status( $mem_status );
+        $testMemStatus = $rc['id'];
+
+        //  Should create a contact membership
+        //  NB:  If no membership status can be found in
+        //       CRM_Member_BAO_Membership::create(), 
+        //       the default action is to send an HTTP Redirect and
+        //       exit rather than returning an error.  There is no
+        //       obvious way to test this with Simpletest.
+        $params = array( 'membership_type_id' => $testMemType,
+                         'status_id' => $testMemStatus,
+                         'join_date' => date('Ymd'),
+                         'end_date' => date('Ymd'));
+        $rc = crm_create_contact_membership( $params, $this->testIndividual );
+        $this->assertIsA( $rc, 'Array' );
+        $membership_id = $rc['id'];
+
+        // Update this contact membership
+        // FIXME: implement this test
+
+        //  Delete the contact membership
+        $this->membershipDelete($membership_id);
+
+        //  Delete the test membership status
+        $this->membershipStatusDelete( $testMemStatus );
+
+        //  Delete the membership type
+        $this->membershipTypeDelete( $testMemType );
+    }
+    
+    /**
+     *  Test of crm_get_contact_memberships()
+     */
+
+} // class Tests_API_Membership
+
+// -- set Emacs parameters --
+// Local variables:
+// mode: php;
+// tab-width: 4
+// c-basic-offset: 4
+// c-hanging-comment-ender-p: nil
+// indent-tabs-mode: nil
+// End:

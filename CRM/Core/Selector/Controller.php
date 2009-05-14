@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -35,7 +35,7 @@
  * implement the Selector/Api.interface.php class
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -228,7 +228,7 @@ class CRM_Core_Selector_Controller {
         if ( $output == self::TRANSFER ) {
             $params['total'] = $this->_store->get( $this->_prefix . 'rowCount' );
         } else {
-            $params['total'] = $this->_object->getTotalCount($action);
+            $params['total'] = $this->_object->getTotalCount($action, $this->_case );
         }
 
         $this->_total = $params['total'];
@@ -321,7 +321,7 @@ class CRM_Core_Selector_Controller {
             $rows = self::getRows( $this );
             $rowsEmpty = count( $rows ) ? false : true;
             $qill      = $this->getQill( );
-
+            $summary   = $this->getSummary( );
             // if we need to store in session, lets update session
             if ($this->_output & self::SESSION) {
                 $this->_store->set( "{$this->_prefix}columnHeaders", $columnHeaders );
@@ -329,6 +329,7 @@ class CRM_Core_Selector_Controller {
                 $this->_store->set( "{$this->_prefix}rowCount"     , $this->_total  );
                 $this->_store->set( "{$this->_prefix}rowsEmpty"    , $rowsEmpty     );
                 $this->_store->set( "{$this->_prefix}qill"         , $qill          );
+                $this->_store->set( "{$this->_prefix}summary"      , $summary       );
             } else {
                 self::$_template->assign_by_ref( "{$this->_prefix}pager"  , $this->_pager   );
                 self::$_template->assign_by_ref( "{$this->_prefix}sort"   , $this->_sort    );
@@ -337,6 +338,7 @@ class CRM_Core_Selector_Controller {
                 self::$_template->assign_by_ref( "{$this->_prefix}rows"         , $rows          );
                 self::$_template->assign       ( "{$this->_prefix}rowsEmpty"    , $rowsEmpty     );
                 self::$_template->assign       ( "{$this->_prefix}qill"         , $qill          );
+                self::$_template->assign       ( "{$this->_prefix}summary"      , $summary       );
             }
 
 
@@ -380,6 +382,10 @@ class CRM_Core_Selector_Controller {
      */
     public function getQill( ) {
         return $this->_object->getQill( );
+    }
+
+    public function getSummary( ) {
+        return $this->_object->getSummary( );
     }
 
     /**
@@ -426,6 +432,7 @@ class CRM_Core_Selector_Controller {
         self::$_template->assign( "{$this->_prefix}rows"         , $rows                                 );
         self::$_template->assign( "{$this->_prefix}rowsEmpty"    , $this->_store->get( "{$this->_prefix}rowsEmpty" )     );
         self::$_template->assign( "{$this->_prefix}qill"         , $this->_store->get( "{$this->_prefix}qill" )          );
+        self::$_template->assign( "{$this->_prefix}summary"      , $this->_store->get( "{$this->_prefix}summary" )       );
 
         if ( $this->_embedded ) {
             return;
@@ -435,7 +442,8 @@ class CRM_Core_Selector_Controller {
         if ( $this->_print ) {
             $content = self::$_template->fetch( 'CRM/common/print.tpl' );
         } else {
-            $content = self::$_template->fetch( 'CRM/index.tpl' );
+            $config =& CRM_Core_Config::singleton();
+            $content = self::$_template->fetch( 'CRM/common/'. strtolower($config->userFramework) .'.tpl' );
         }
         echo CRM_Utils_System::theme( 'page', $content, true, $this->_print );
 
@@ -491,4 +499,4 @@ class CRM_Core_Selector_Controller {
 
 }
 
-?>
+

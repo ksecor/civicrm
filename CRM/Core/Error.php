@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -30,7 +30,7 @@
  * PEAR_ErrorStack and use that framework
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -74,15 +74,12 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * singleton function used to manage this object. This function is not
      * explicity declared static to be compatible with PEAR_ErrorStack
      *  
-     * @param string the key in which to record session / log information
-     *
      * @return object
-     * @static
-     *
      */
-    function &singleton( $key = 'CRM' ) {
+    function &singleton()
+    {
         if (self::$_singleton === null ) {
-            self::$_singleton =& new CRM_Core_Error( $key );
+            self::$_singleton = new CRM_Core_Error('CiviCRM');
         }
         return self::$_singleton;
     }
@@ -90,8 +87,9 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     /**
      * construcor
      */
-    function __construct( $name = 'CRM' ) {
-        parent::__construct( $name );
+    function __construct()
+    {
+        parent::__construct('CiviCRM');
 
         $log =& CRM_Core_Config::getLog();
         $this->setLogger( $log );
@@ -100,15 +98,23 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $this->setDefaultCallback(array($this, 'handlePES'));
     }
 
-    function displaySessionError( &$error ) {
+    function getMessages( &$error, $separator = '<br />' ) {
         if ( is_a( $error, 'CRM_Core_Error' ) ) { 
             $errors = $error->getErrors( ); 
             $message = array( ); 
             foreach ( $errors as $e ) { 
                 $message[] = $e['code'] . ':' . $e['message']; 
             } 
-            $message = implode( '<br />', $message ); 
-            $status = "Payment Processor Error message:<br/> " . $message; 
+            $message = implode( $separator, $message ); 
+            return $message;
+        }
+        return null;
+    }
+
+    function displaySessionError( &$error, $separator = '<br />' ) {
+        $message = self::getMessages( $error, $separator );
+        if ( $message ) {
+            $status = ts( "Payment Processor Error message" ) . "{$separator}: $message"; 
             $session =& CRM_Core_Session::singleton( ); 
             $session->setStatus( $status ); 
         }
@@ -127,6 +133,11 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     public static function handle( $pearError )
     {
+        // do a hard rollback of any pending transactions
+        // if we've come here, its because of some unexpected PEAR errors
+        require_once 'CRM/Core/Transaction.php';
+        CRM_Core_Transaction::rollback( );
+
         // setup smarty with config, session and template location.
         $template =& CRM_Core_Smarty::singleton( );
         $config   =& CRM_Core_Config::singleton( );
@@ -179,12 +190,12 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         CRM_Core_Error::backtrace( 'backTrace', true );
 
         if ( $config->initialized ) {
-            $content  = $template->fetch( 'CRM/error.tpl' );
+            $content  = $template->fetch( 'CRM/common/fatal.tpl' );
             $content .= CRM_Core_Error::debug( 'Error Details:', $error, false );
             echo CRM_Utils_System::theme( 'page', $content, true );
         } else {
-            $content  = $template->fetch( 'CRM/common/fatal.tpl' );
-            echo $content;
+            echo "Sorry. A non-recoverable error has occurred. The error trace below might help to resolve the issue<p>";
+            CRM_Core_Error::debug( null, $error );
         }
         exit(1);
     }
@@ -250,7 +261,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
         CRM_Core_Error::debug_var( 'Fatal Error Details', $vars );
         CRM_Core_Error::backtrace( 'backTrace', true );
-
         print $template->fetch( $config->fatalErrorTemplate );
         exit( CRM_Core_Error::FATAL_ERROR );
     }
@@ -268,15 +278,27 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @access public
      * @static
      */
-    static function debug( $name, $variable, $log = true, $html = true ) {
+    static function debug( $name, $variable = null, $log = true, $html = true ) {
         $error =& self::singleton( );
 
+        if ( $variable === null ) {
+            $variable = $name;
+            $name = null;
+        }
+        
         $out = print_r( $variable, true );
+        $prefix = null;
         if ($html) {
             $out = htmlspecialchars( $out );
-            $out = "<p>$name</p><p><pre>$out</pre></p><p></p>";
+            if ( $name ) {
+                $prefix = "<p>$name</p>";
+            }
+            $out = "{$prefix}<p><pre>$out</pre></p><p></p>";
         } else {
-            $out = "$name:\n$out\n";
+            if ( $name ) {
+                $prefix = "$name:\n";
+            }
+            $out = "{$prefix}$out\n";
         }
         if ( $log ) {
             echo $out;
@@ -361,8 +383,12 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $backTrace = debug_backtrace( );
         
         $msgs = array( );
+        require_once 'CRM/Utils/Array.php';
         foreach ( $backTrace as $trace ) {
-            $msgs[] = implode( ', ', array( CRM_Utils_Array::value('file',$trace), $trace['function'], $trace['line'] ) );
+            $msgs[] = implode( ', ',
+                               array( CRM_Utils_Array::value('file'    , $trace ),
+                                      CRM_Utils_Array::value('function', $trace ),
+                                      CRM_Utils_Array::value('line'    , $trace ) ) );
         }
 
         $message = implode( "\n", $msgs );
@@ -387,9 +413,11 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @access public
      * @static
      */
-    public static function statusBounce( $status ) {
+    public static function statusBounce( $status, $redirect = null ) {
         $session =& CRM_Core_Session::singleton();
-        $redirect = $session->readUserContext();
+        if ( ! $redirect ) {
+            $redirect = $session->readUserContext();
+        }
         $session->setStatus($status);
         CRM_Utils_System::redirect($redirect);
     }
@@ -407,10 +435,13 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $error->_errorsByLevel = array( ) ;
     }
 
-    public static function ignoreException( ) {
+    public static function ignoreException( $callback = null ) {
+        if ( ! $callback ) {
+            $callback = array( 'CRM_Core_Error', 'nullHandler' );
+        }
+
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array( 'CRM_Core_Error',
-                                       'nullHandler' ) );
+                                $callback );
     }
     
     /**
@@ -432,13 +463,35 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @access public
      * @static
      */
-    public static function setCallback( ) {
+    public static function setCallback( $callback = null ) {
+        if ( ! $callback ) {
+            $callback = array( 'CRM_Core_Error', 'handle' );
+        }
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK, 
-                                array('CRM_Core_Error', 'handle'));
+                                $callback );
+    }
+
+    public static function &createAPIError( $msg, $data = null ) {
+        $values = array( );
+        
+        $values['is_error']      = 1;
+        $values['error_message'] = $msg;
+        if ( $data ) {
+            $values['error_data']    = $data;
+        }
+        return $values;
+    }
+
+    public static function &createAPISuccess( $result = 1 ) {
+        $values = array( );
+        
+        $values['is_error'] = 0;
+        $values['result'  ] = $result;
+        return $values;
     }
 
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
 
-?>
+

@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,13 +28,14 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/BAO/Tag.php';
 require_once 'CRM/Core/BAO/EntityTag.php';
 
 /**
@@ -66,10 +67,10 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
     {
         // get categories for the contact id
         $entityTag =& CRM_Core_BAO_EntityTag::getTag($this->_contactId);
-        
+        $this->assign('tagged', $entityTag);
+    
         // get the list of all the categories
         $allTag =& CRM_Core_PseudoConstant::tag();
-        
         // need to append the array with the " checked " if contact is tagged with the tag
         foreach ($allTag as $tagID => $varValue) {
             if( in_array($tagID, $entityTag)) {
@@ -83,12 +84,15 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
 
         $this->addGroup($tagChk, 'tagList', null, null, true);
         
+        $tags = new CRM_Core_BAO_Tag ();
+        $tree =$tags->getTree();
+        $this->assign       ( 'tree'  , $tags->getTree() );
+      
         $this->assign('tag', $allTag);
 
         if ( $this->_action & CRM_Core_Action::BROWSE ) {
             $this->freeze();
         } else {
-
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
                                              'name'      => ts('Update Tags'),
@@ -121,4 +125,4 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
 
 }
 
-?>
+

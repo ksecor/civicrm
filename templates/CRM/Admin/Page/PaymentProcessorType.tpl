@@ -11,30 +11,25 @@
 <p></p>
     <div class="form-item">
         {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-	<thead> 
+        <table cellpadding="0" cellspacing="0" border="0">
         <tr class="columnheader">
-            <th field="Name" dataType="String" >{ts}Name{/ts}</th>
-            <th field="Title" dataType="String" >{ts}Title{/ts}</th>
-            <th field="Description" dataType="String">{ts}Description{/ts}</th>
-            <th field="Enabled" dataType="String">{ts}Enabled?{/ts}</th>
-	    <th field="Default" dataType="String">{ts}Default?{/ts}</th>
-            <th datatype="html"></th>
+            <th>{ts}Name{/ts}</th>
+            <th>{ts}Title{/ts}</th>
+            <th>{ts}Description{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
+	        <th>{ts}Default?{/ts}</th>
+            <th></th>
         </tr>
-        </thead>  
- 
-	<tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.title}</td>	
                 <td>{$row.description}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-		<td>{if $row.is_default eq 1} [X] {else}  {/if}</td>
+            <td>{if $row.is_default eq 1}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Default{/ts}" />{/if}&nbsp;</td>
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}
-	<tbody>
         </table>
         {/strip}
 
@@ -50,7 +45,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/paymentProcessorType' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Payment Processors entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Payment Processors entered. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

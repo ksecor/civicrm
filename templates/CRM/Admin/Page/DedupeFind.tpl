@@ -1,30 +1,35 @@
-{if $action eq 1 or $action eq 2 or $action eq 8}
-  {include file="CRM/Admin/Form/DedupeFind.tpl"}
+{if $action eq 2 || $action eq 16}
+<div class="form-item">
+  <table>
+    <tr class="columnheader"><th>{ts}Contact{/ts} 1</th><th>{ts}Contact{/ts} 2 ({ts}Duplicate{/ts})</th><th>{ts}Threshold{/ts}</th><th>&nbsp;</th></tr>
+    {foreach from=$main_contacts item=main key=main_id}
+        {capture assign=srcLink}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$main.srcID`"}">{$main.srcName}</a>{/capture}
+        {capture assign=dstLink}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$main.dstID`"}">{$main.dstName}</a>{/capture}
+        {capture assign=merge}<a href="{crmURL p='civicrm/contact/merge' q="reset=1&cid=`$main.srcID`&oid=`$main.dstID`&action=update&rgid=`$rgid`"}">{ts}merge{/ts}</a>{/capture}
+        <tr class="{cycle values="odd-row,even-row"}">
+          <td>{$srcLink}</td>
+          <td>{$dstLink}</td>
+          <td>{$main.weight}</td>
+          <td style="text-align: right;">{$merge}</td>
+        </tr>
+    {/foreach}
+  </table>
+  {if $cid}
+    <table style="width: 45%; float: left; margin: 10px;">
+      <tr class="columnheader"><th colspan="2">{ts 1=$main_contacts[$cid]}Merge %1 with{/ts}</th></tr>
+      {foreach from=$dupe_contacts[$cid] item=dupe_name key=dupe_id}
+        {if $dupe_name}
+          {capture assign=link}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$dupe_id"}">{$dupe_name}</a>{/capture}
+          {capture assign=merge}<a href="{crmURL p='civicrm/contact/merge' q="reset=1&cid=$cid&oid=$dupe_id"}">{ts}merge{/ts}</a>{/capture}
+          <tr class="{cycle values="odd-row,even-row"}"><td>{$link}</td><td style="text-align: right">{$merge}</td></tr>
+        {/if}
+      {/foreach}
+    </table>
+  {/if}
+</div>
+{capture assign=backURL}{crmURL p="civicrm/admin/dedupefind" q="reset=1&rgid=`$rgid`&action=preview" a=1}{/capture}
+<a href="{$backURL}" class="button"><span>&raquo; {ts}Done{/ts}</span></a></td>
+<div style="clear: both;"></div>
 {else}
-    {capture assign="rulesURL"}{crmURL p='civicrm/admin/deduperules' q="reset=1"}{/capture}
-    {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-    <div id="help">
-        <p>{ts 1="http://wiki.civicrm.org/confluence//x/8zo" 2=$docURLTitle 3=$rulesURL}<strong>Find Duplicate Contacts</strong> searches through your existing contacts to identify 'suspected' duplicate records - using the <strong><a href='%3'>Duplicate Contact Rules</a></strong> which you've configured for your site (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</p>
-        <p>{ts}Click <strong>Use Rule</strong> next to the type of contact for which you want to look for duplicates.{/ts}</p>
-    </div>
-    {if $rows}
-        <div id="browseValues">
-          <div class="form-item">
-            {strip}
-              <table>
-                <tr class="columnheader">
-                  <th>{ts}Contact Type{/ts}</th>
-                  <th></th>
-                </tr>
-                {foreach from=$rows item=row}
-                  <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-                    <td>{$row.contact_type_display}</td>	
-                    <td>{$row.action}</td>
-                  </tr>
-                {/foreach}
-              </table>
-            {/strip}
-          </div>
-        </div>
-    {/if}
+{include file="CRM/Admin/Form/DedupeFind.tpl"}
 {/if}

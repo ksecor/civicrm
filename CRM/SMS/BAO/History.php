@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -56,7 +56,8 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
     static function send( &$contactIds, &$message, $smsNumber ) {
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
-        list( $fromDisplayName, $fromSMSNumber ) = CRM_Contact_BAO_Contact::getPhoneDetails( $userID, 'Mobile' );
+        list( $fromDisplayName, 
+              $fromSMSNumber ) = CRM_Contact_BAO_Contact_Location::getPhoneDetails( $userID, 'Mobile' );
         if ( ! $fromSMSNumber ) {
             return array( count($contactIds), 0, count($contactIds) );
         }
@@ -97,7 +98,8 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
      * @static
      */
     static function sendMessage( $from, $toID, &$message, $smsNumber, $activityID ) {
-        list( $toDisplayName  , $toSMS   ) = CRM_Contact_BAO_Contact::getPhoneDetails( $toID, 'Mobile' );
+        list( $toDisplayName, 
+              $toSMS   ) = CRM_Contact_BAO_Contact_Location::getPhoneDetails( $toID, 'Mobile' );
         if ( $toSMS ) {
             $to = trim( $toSMS );
         }
@@ -160,4 +162,4 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
     }
 }
 
-?>
+

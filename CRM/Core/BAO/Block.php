@@ -2,32 +2,32 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  * add static functions to include some common functionality
@@ -40,9 +40,10 @@ class CRM_Core_BAO_Block
     /**
      * Fields that are required for a valid block
      */
-    static $requiredBlockFields = array ( 'email' => array( 'email' ),
-                                          'phone' => array( 'phone' ),
-                                          'im'    => array( 'name' )
+    static $requiredBlockFields = array ( 'email'  => array( 'email' ),
+                                          'phone'  => array( 'phone' ),
+                                          'im'     => array( 'name' ),
+                                          'openid' => array( 'openid' )
                                           );
 
     /**
@@ -64,6 +65,9 @@ class CRM_Core_BAO_Block
         $blocks = array( );
         if ( ! isset( $params['entity_table'] ) ) {
             $block->contact_id = $params['contact_id'];
+            if ( ! $block->contact_id ) {
+                CRM_Core_Error::fatal( );
+            }
             $blocks = self::retrieveBlock( $block, $blockName );
         } else {
             $blockIds = self::getBlockIds( $blockName, null, $params );
@@ -73,16 +77,15 @@ class CRM_Core_BAO_Block
             $count = 1;
             foreach( $blockIds[1] as $blockId ) {
                 eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
-                $block->id = $blockId;
+                $block->id = $blockId['id'];
                 $getBlocks = self::retrieveBlock( $block, $blockName );
-                $blocks[1][$count] =  $getBlocks[1][1];
+                $blocks[$block->location_type_id][$count] =  $getBlocks[$block->location_type_id][1];
                 $count++;
             }
-           
         }
         return $blocks;
     }
-
+    
     /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
@@ -102,6 +105,7 @@ class CRM_Core_BAO_Block
         $block->find( );
         
         $locationTypes = array( );
+        $blocks =array( );
         $count = 1;
         while ( $block->fetch( ) ) {
             $values = array( );
@@ -122,9 +126,12 @@ class CRM_Core_BAO_Block
             }
             
             $blocks[$block->location_type_id][$count] = $values;
+            if ( $block->is_primary ) {
+                $blocks[$block->location_type_id]['is_primary'] = 1;    
+            }
         }
-      
-        return $blocks;
+
+        return $blocks ;
     }
     
    
@@ -185,30 +192,38 @@ class CRM_Core_BAO_Block
         $name = ucfirst( $blockName );
         if ( $contactId ) {
             eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::all' . $name . 's( $contactId );');
-        } else if ( !empty($entityElements) ) {
+        } else if ( !empty($entityElements) && $blockName != 'openid' ) {
             eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::allEntity' . $name . 's( $entityElements );');
         }
-
-        $locationCount = 1;
-        $blockCount    = 1;
-        $locationTypes = array( );
+        
+        $locationCount  = 1;
+        $blockCount     = 1;
+        $locationTypes  = array( );
+        $locationBlocks = array( );
+        
         foreach ( $allBlocks as $blocks ) {
             //logic to check when we should increment counter
             $locationTypeId = $blocks['locationTypeId'];
             if ( !empty( $locationTypes ) ) {
                 if ( in_array ( $locationTypeId, $locationTypes ) ) {
                     $locationCount = array_search( $locationTypeId, $locationTypes );
+                    $blockCount = CRM_Utils_Array::value( $locationTypeId, $locationBlocks, 1 );
+                    $blockCount++;
+                    $locationBlocks[$locationTypeId] = $blockCount;
                 } else {
                     $locationCount++;
                     $locationTypes[ $locationCount ] = $locationTypeId;
+                    $locationBlocks[$locationTypeId] = $blockCount = 1;
                 }
-                } else {
-                    $locationTypes[ $locationCount ]  = $locationTypeId;
-                }
-
-            $contactBlockIds[ $locationCount ][ $blockCount ] = $blocks['id'];
-            $blockCount++;
+            } else {
+                $locationTypes[$locationCount]   = $locationTypeId;
+                $locationBlocks[$locationTypeId] = $blockCount;
+            }
+            
+            $contactBlockIds[ $locationCount ][ $blockCount ] = array( 'id'               => $blocks['id'],
+                                                                       'location_type_id' => $blocks['locationTypeId'] );
         }
+        
         return $contactBlockIds;
     }
 
@@ -232,46 +247,50 @@ class CRM_Core_BAO_Block
         $name = ucfirst( $blockName );
 
         $entityElements = array( );
+        $contactId      = null;
         //get existing block ids if exist for this contact
         if ( !$entity ) {
-            //$contactBlockIds = array( );
             $contactId = $params[$blockName]['contact_id'];
-            // $contactBlockIds = self::getBlockIds( $blockName, $contactId );
         } else {
-            // $entityBlockIds = array();
             $entityElements = array( 'entity_table' => $params['entity_table'],
                                      'entity_id'    => $params['entity_id']);
-                                     
-            // $moduleBlockIds = self::getBlockIds( $blockName, null, $moduleElements );
         }
         
         $blockIds      = array( );
         $blockIds      = self::getBlockIds( $blockName, $contactId, $entityElements );
         $isPrimary     = true;
         $isBilling     = true;
-        $locationCount = 1;
         $blocks        = array( );
-
+        
         foreach ( $params[$blockName] as $value ) {
             if ( !is_array( $value ) ) {
                 continue;
             }
-
+            
             $contactFields = array( );
+            $locBlockCount = 1;
             $contactFields['contact_id'      ] = $contactId;
             $contactFields['location_type_id'] = $value['location_type_id'];
-            
-            foreach ( $value as $val ) {
+
+            foreach ( $value as $k => $val ) {
                 if ( !is_array( $val ) ) {
                     continue;
                 }
                 
-                if ( !empty( $blockIds[ $locationCount ] ) ) {
-                    $val['id'] = array_shift( $blockIds[ $locationCount ] );
+                if ( !empty( $blockIds ) ) {
+                    foreach( $blockIds as $locCount => $locIds ) {
+                        foreach ( $locIds as $locKey => $locVal ) {
+                            if ( $locKey == $locBlockCount && 
+                                 $locVal['location_type_id'] == $value['location_type_id'] ) {
+                                $val['id'] = $locVal['id'];
+                            }
+                        }
+                    }
                 }
                 
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
-                
+
+                $locBlockCount++;
                 if ( isset( $val['id'] ) && !$dataExits ) {
                     //delete the existing record
                     self::blockDelete( $name, array( 'id' => $val['id'] ) );
@@ -286,19 +305,19 @@ class CRM_Core_BAO_Block
                 } else {
                     $contactFields['is_primary'] = false;
                 }
-               
+                
                 if ( $isBilling && $value['is_billing'] ) {
                     $contactFields['is_billing'] = $value['is_billing'];
                     $isBilling = false;
                 } else {
                     $contactFields['is_billing'] = false;
                 }
+
                 $blockFields = array_merge( $val, $contactFields );
                 eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
             }
-            
-            $locationCount++;
         }
+        
         return $blocks;
     }
 
@@ -323,4 +342,4 @@ class CRM_Core_BAO_Block
 
 }
 
-?>
+

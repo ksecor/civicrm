@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -50,10 +50,11 @@ class CRM_Core_Report_Excel {
         if ( $titleHeader ) {
             echo $titleHeader;
         }
-
+        
         $result = '';
 
-        $seperator     = ',';
+        $config =& CRM_Core_Config::singleton( );
+        $seperator     = $config->fieldSeparator;
         $enclosed      = '"';
         $escaped       = $enclosed;
         $add_character = "\015\012";
@@ -86,6 +87,7 @@ class CRM_Core_Report_Excel {
         foreach ( $rows as $row ) {
             $schema_insert = '';
             $colNo = 0;
+            
             foreach ( $row as $j => $value ) {
                 if (!isset($value) || is_null($value)) {
                     $schema_insert .= '';
@@ -95,6 +97,21 @@ class CRM_Core_Report_Excel {
                     if ($enclosed == '') {
                         $schema_insert .= $value;
                     } else {
+                        if ( ( substr( $value, 0, 1 ) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR )&& 
+                             ( substr( $value, -1, 1 ) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
+                            
+                            $strArray = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                            
+                            foreach( $strArray as $key => $val ) {
+                                if ( trim( $val ) == '' ) {
+                                    unset( $strArray[$key] );
+                                }
+                            }
+                            
+                            $str = implode( $seperator, $strArray );
+                            $value = &$str;
+                        }
+                        
                         $schema_insert .=
                               $enclosed
                             . str_replace($enclosed, $escaped . $enclosed, $value)
@@ -120,7 +137,6 @@ class CRM_Core_Report_Excel {
             ++$i;
 
         } // end for
-
         if ( $print ) {
             return;
         } else {
@@ -129,37 +145,18 @@ class CRM_Core_Report_Excel {
     } // end of the 'getTableCsv()' function
 
     function writeCSVFile( $fileName, &$header, &$rows, $titleHeader = null ) {
-        self::dumpCSVHeader( $fileName );
+        
+        require_once 'CRM/Utils/System.php';
+        CRM_Utils_System::download( CRM_Utils_String::munge( $fileName ),
+                                    'text/x-csv',
+                                    CRM_Core_DAO::$_nullObject,
+                                    'csv',
+                                    false );
 
         self::makeCSVTable( $header, $rows, $titleHeader, true );
 
         
     }
-
-    function dumpCSVHeader( $fileName ) {
-        $now       = gmdate('D, d M Y H:i:s') . ' GMT';
-        $mime_type = 'text/x-csv';
-        $ext       = 'csv';
-
-        $fileName = CRM_Utils_String::munge( $fileName );
-
-        $config =& CRM_Core_Config::singleton( );       
-        header('Content-Type: ' . $mime_type); 
-        header('Expires: ' . $now);
-        
-        // lem9 & loic1: IE need specific headers
-        $isIE = strstr( $_SERVER['HTTP_USER_AGENT'], 'MSIE' );
-        if ( $isIE ) {
-            header('Content-Disposition: inline; filename="' . $fileName . '.' . $ext . '"');
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');
-        } else {
-            header('Content-Disposition: attachment; filename="' . $fileName . '.' . $ext . '"');
-            header('Pragma: no-cache');
-        }
-
-    }
-
 }
 
-?>
+

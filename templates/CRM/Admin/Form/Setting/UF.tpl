@@ -14,3 +14,13 @@
 <div class="spacer"></div>
 </fieldset>
 </div>
+
+{if $tablePrefixes}
+<div class="form-item">
+<fieldset>
+    <legend>{ts}Views integration settings{/ts}</legend>
+    <div>{ts}To enable CiviCRM Views integration, add the following to the site <code>settings.php</code> file:{/ts}</div>
+    <pre>{$tablePrefixes}</pre>
+</fieldset>
+</div>
+{/if}

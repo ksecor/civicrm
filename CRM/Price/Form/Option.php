@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -91,6 +91,10 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             
             CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue', 
                                           $params, $defaults );
+
+            // fix the display of the monetary value, CRM-4038
+            require_once 'CRM/Utils/Money.php';
+            $defaults['name'] = CRM_Utils_Money::format($defaults['name'], null, '%a');
         }
        
         require_once 'CRM/Core/DAO.php';
@@ -127,12 +131,13 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                                              'name'      => ts('Cancel') ),
                                      )
                                );
+            return;
         } else {
             // lets trim all the whitespace
             $this->applyFilter('__ALL__', 'trim');
             
             // hidden Option Id for validation use
-            $this->add('hidden', 'optionId', $this->_id);
+            $this->add('hidden', 'optionId', $this->_oid);
             
             //hidden field ID for validation use
             $this->add('hidden', 'fieldId', $this->_fid); 
@@ -143,19 +148,30 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $this->add('text', 'label', ts('Option Label'),null, true);
              
             // value
-            $this->add('text', 'value', ts('Option Value'),null, true);
+            $this->add('text', 'name', ts('Option Amount'),null, true);
                       
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
-            $this->addRule('value', ts('Please enter a monetary value for this field.'), 'money');
+            $this->addRule('name', ts('Please enter a monetary value for this field.'), 'money');
             
             // weight
             $this->add('text', 'weight', ts('Weight'), null, true);
-            $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+            $this->addRule('weight', ts('is a numeric field') , 'numeric');
             
             // is active ?
             $this->add('checkbox', 'is_active', ts('Active?'));
+
+            //is default 
+            $this->add('checkbox', 'is_default', ts('Default'));
             
+            if ( $this->_fid ) {
+                //hide the default checkbox option for text field
+                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $this->_fid, 'html_type' );
+                $this->assign( 'hideDefaultOption', false );
+                if ( $htmlType == 'Text' ) {
+                    $this->assign( 'hideDefaultOption', true );
+                }
+            }
             // add buttons
             $this->addButtons(array(
                                     array ('type'      => 'next',
@@ -178,23 +194,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             }
         }
         
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            $this->addRule( 'label',
-                            ts( "There is an entry with the same label" ),
-                            'objectExists',
-                            array( 'CRM_Core_DAO_OptionValue',
-                                   $optionGroup,
-                                   'label' ) );
-            
-            $this->addRule( 'value',
-                            ts( "There is an entry with the same value" ),
-                            'objectExists',
-                            array( 'CRM_Core_DAO_OptionValue',
-                                   $optionGroup,
-                                   'value' ) );
-        } elseif ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->addFormRule( array( 'CRM_Price_Form_Option', 'formRule' ), $this );
-        }
+        $this->addFormRule( array( 'CRM_Price_Form_Option', 'formRule' ), $this );
     }
     
     /**
@@ -213,12 +213,18 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         $errors       = array( );
         $customOption = array( );
         $groupParams  = array( 'name' => "civicrm_price_field.amount.{$form->_fid}" );
-        
+        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $form->_fid, 'html_type' );
+        if ( $htmlType == 'Text' && $fields['name'] <= 0 ) {
+            $errors['name'] = ts( 'Amount must be greater than zero When Price Field is of Text type' );  
+        } else if ($fields['name'] < 0 ) {
+            $errors['name'] = ts( 'Amount must be greater than zero' ); 
+        }
+
         require_once 'CRM/Core/OptionValue.php';
         CRM_Core_OptionValue::getValues( $groupParams, $customOption );
-        
+                
         foreach( $customOption as $key => $value ) {
-            if( !( $value['id'] == $form->_oid ) && ( $value['value'] == $fields['value'] ) ) {
+            if( !( $value['id'] == $form->_oid ) && ( $value['value'] == $fields['weight'] ) ) {
                 $errors['value'] = ts( 'Duplicate option value' );  
             }
             if( !( $value['id']==$form->_oid ) && ( $value['label'] == $fields['label'] ) ) {
@@ -240,26 +246,35 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
 
     public function postProcess()
     {
-        // store the submitted values in an array
-        $params = $this->controller->exportValues( 'Option' );
-        
-        $params['is_active']       = CRM_Utils_Array::value( 'is_active', $params, false );
-        
-        $params['option_group_id'] = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup",
-                                                                  "civicrm_price_field.amount.{$this->_fid}",
-                                                                  'id', 'name' );
-        
         if ( $this->_action == CRM_Core_Action::DELETE ) {
             $label = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue",
                                                   $this->_oid,
                                                   'label', 'id' );
             require_once 'CRM/Core/BAO/OptionValue.php';
             CRM_Core_BAO_OptionValue::del( $this->_oid );
-            CRM_Core_Session::setStatus( ts( '%1 option has been deleted', 
+            CRM_Core_Session::setStatus( ts( '%1 option has been deleted.', 
                                              array( 1 => $label ) ) );
             return;
         }
         
+        // store the submitted values in an array
+        $params = $this->controller->exportValues( 'Option' );
+        
+        $params['is_active']       = CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['is_default']      = CRM_Utils_Array::value( 'is_default', $params, false );
+        
+        $params['option_group_id'] = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup",
+                                                                  "civicrm_price_field.amount.{$this->_fid}",
+                                                                  'id', 'name' );
+        $groupName                 = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $params['option_group_id'], 'name' );
+        if ( $groupName ) {
+            $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, 27 ), 'label') ;
+            $params['description'] = $fieldName.' - '.$params['label'] ;
+        }  
+        $params['value'] = $params['weight'];
+        // fix the display of the monetary value, CRM-4038
+        $params['name'] = CRM_Utils_Rule::cleanMoney( $params['name'] );
+
         $ids = array( );
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['optionValue'] = $this->_oid;
@@ -267,8 +282,8 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         
         require_once 'CRM/Core/BAO/OptionValue.php';
         $optoinValue = CRM_Core_BAO_OptionValue::add( $params, $ids );
-        CRM_Core_Session::setStatus( ts( 'The option "%1" has been saved', 
+        CRM_Core_Session::setStatus( ts( 'The option \'%1\' has been saved.', 
                                          array( 1 => $optoinValue->label ) ) );
     }
 }
-?>
+

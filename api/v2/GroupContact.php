@@ -1,25 +1,25 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -29,14 +29,25 @@
  * http://civicrm.org/node/131
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
 require_once 'api/v2/utils.php';
 
-function civicrm_group_contact_get( &$params ) {
+/**
+ * This API will give list of the groups for particular contact 
+ * Particualr status can be sent in params array
+ * If no status mentioned in params, by default 'added' will be used
+ * to fetch the records
+ * 
+ * @params  array $params  name value pair of contact information
+ *
+ * @return  array  list of groups, given contact subsribed to
+ */
+function civicrm_group_contact_get( &$params ) 
+{
     if ( ! array_key_exists( 'contact_id', $params ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
     }
@@ -47,15 +58,18 @@ function civicrm_group_contact_get( &$params ) {
     return $values;
 }
 
-function civicrm_group_contact_add( &$params ) {
+function civicrm_group_contact_add( &$params ) 
+{
     return civicrm_group_contact_common( $params, 'add' );
 }
 
-function civicrm_group_contact_remove( &$params ) {
+function civicrm_group_contact_remove( &$params ) 
+{
     return civicrm_group_contact_common( $params, 'remove' );
 }
 
-function civicrm_group_contact_common( &$params, $op = 'add' ) {
+function civicrm_group_contact_common( &$params, $op = 'add' ) 
+{
     $contactIDs = array( );
     $groupIDs = array( );
     foreach ( $params as $n => $v ) {

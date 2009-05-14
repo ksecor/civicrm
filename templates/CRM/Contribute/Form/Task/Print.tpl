@@ -15,7 +15,8 @@
     <th>{ts}Source{/ts}</th>
     <th>{ts}Received{/ts}</th>
     <th>{ts}Thank-you Sent{/ts}</th>
-    <th>{ts}Cancelled{/ts}</th>
+    <th>{ts}Status{/ts}</th>
+    <th>{ts}Premium{/ts}</th>
   </tr>
 {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"}">
@@ -25,7 +26,13 @@
         <td>{$row.contribution_source}</td> 
         <td>{$row.receive_date|truncate:10:''|crmDate}</td>
         <td>{$row.thankyou_date|truncate:10:''|crmDate}</td>
-        <td>{$row.cancel_date|truncate:10:''|crmDate}</td>
+        <td> 
+            {$row.contribution_status_id}<br />
+            {if $row.cancel_date}    
+                {$row.cancel_date|truncate:10:''|crmDate}
+            {/if}
+        </td>
+        <td>{$row.product_name}</td>
     </tr>
 {/foreach}
 </table>

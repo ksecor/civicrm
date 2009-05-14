@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -38,7 +38,7 @@ require_once 'CRM/Admin/Form.php';
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -52,6 +52,10 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
      */
     function setDefaultValues( ) {
         $defaults = parent::setDefaultValues( );
+
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $defaults['object_type'] = 1;
+        }
         
         require_once 'CRM/Core/ShowHideBlocks.php';
         $showHide =& new CRM_Core_ShowHideBlocks( );
@@ -130,7 +134,7 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         $this->add('text', 'name', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL', 'name' ), true );
         
         require_once 'CRM/ACL/BAO/ACL.php';
-        $operations   = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_ACL::operation( );
+        $operations   = array( '' => ts( '- select -' ) ) + CRM_ACL_BAO_ACL::operation( );
         $this->add( 'select',
                     'operation',
                     ts( 'Operation' ),
@@ -156,25 +160,25 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         require_once 'CRM/Core/OptionGroup.php';
 
         $label = ts( 'Role' );
-        $role = array( '-1' => ts(' -select role- '),
+        $role = array( '-1' => ts('- select role -'),
                        '0'  => ts( 'Everyone' ) ) +
             CRM_Core_OptionGroup::values( 'acl_role' );
         $this->add( 'select', 'entity_id', $label, $role, true );
 
-        $group       = array( '-1' => ts( '-select-' ),
+        $group       = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Groups' ) )        +
             CRM_Core_PseudoConstant::group( )      ;
 
-        $customGroup = array( '-1' => ts( '-select-' ),
+        $customGroup = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Custom Groups' ) ) +
             CRM_Core_PseudoConstant::customGroup( );
 
-        $ufGroup     = array( '-1' => ts( '-select-' ),
+        $ufGroup     = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Profiles' ) )      +
             CRM_Core_PseudoConstant::ufGroup( )    ;
 
         require_once 'CRM/Event/PseudoConstant.php';
-        $event       = array( '-1' => ts( '-select-' ),
+        $event       = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Events' ) )        +
             CRM_Event_PseudoConstant::event( );
 
@@ -249,8 +253,8 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
             CRM_Core_Session::setStatus( ts('Selected ACL has been deleted.') );
         } else {
             $params = $this->controller->exportValues( $this->_name );
-
-            $params['deny'] = 0;
+            $params['is_active']    = CRM_Utils_Array::value( 'is_active', $params, false );
+            $params['deny']         = 0;
             $params['entity_table'] = 'civicrm_acl_role';
 
             // Figure out which type of object we're permissioning on and set object_table and object_id.
@@ -267,6 +271,10 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
                     $params['object_table'] = 'civicrm_custom_group';
                     $params['object_id']    = $params['custom_group_id'];
                     break;
+                case 4:
+                    $params['object_table'] = 'civicrm_event';
+                    $params['object_id']    = $params['event_id'];
+                    break;
                     
             }
           
@@ -280,4 +288,4 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
 
 }
 
-?>
+

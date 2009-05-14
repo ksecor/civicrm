@@ -11,20 +11,17 @@
 <p></p>
     <div class="form-item">
         {strip}
-        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead>
-          <tr class="columnheader">
-            <th field="Title" dataType="String" >{ts}Name{/ts}</th>
-            <th field="Description" dataType="String">{ts}Description{/ts}</th>
-            <th field="Acctg Code" dataType="String">{ts}Acctg Code{/ts}</th>
-            <th field="Deductible" dataType="String">{ts}Deductible?{/ts}</th>
-            <th field="Reserved" dataType="String">{ts}Reserved?{/ts}</th>
-            <th field="Enable" dataType="String">{ts}Enabled?{/ts}</th>
-            <th dataType="html"></th>
+        <table cellpadding="0" cellspacing="0" border="0">
+           <tr class="columnheader">
+            <th>{ts}Name{/ts}</th>
+            <th>{ts}Description{/ts}</th>
+            <th>{ts}Acctg Code{/ts}</th>
+            <th>{ts}Deductible?{/ts}</th>
+            <th>{ts}Reserved?{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
+            <th></th>
           </tr>
-        </thead>
-        <tbody>
-        {foreach from=$rows item=row}
+         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.description}</td>
@@ -32,16 +29,15 @@
 	        <td>{if $row.is_deductible eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        <td>{$row.action}</td>
+	        <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
-        </tbody>
-        </table>
+         </table>
         {/strip}
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id="newContributionType">&raquo; {ts}New Contribution Type{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}" id="newContributionType" class="button"><span>&raquo; {ts}New Contribution Type{/ts}</span></a>
         </div>
         {/if}
     </div>
@@ -51,7 +47,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         {capture assign=crmURL}{crmURL q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Contribution Types entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Contribution Types entered. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

@@ -74,12 +74,14 @@
       <name>new_title</name>
       <type>varchar</type>
       <length>255</length>
+      <localizable>true</localizable>
       <comment>Title to display at top of block</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
       <name>new_text</name>
       <type>text</type>
+      <localizable>true</localizable>
       <comment>Text to display below title</comment>  
       <add>1.5</add>     
   </field> 
@@ -87,12 +89,14 @@
       <name>renewal_title</name>
       <type>varchar</type>
       <length>255</length>
+      <localizable>true</localizable>
       <comment>Title for renewal</comment>  
       <add>1.5</add>  
   </field>
 <field>  
       <name>renewal_text</name>
       <type>text</type>
+      <localizable>true</localizable>
       <comment>Text to display for member renewal</comment>  
       <add>1.5</add>  
   </field>  

@@ -1,144 +1,90 @@
-if(!dojo._hasResource["dojo._base.json"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojo._base.json"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojo._base.json"]){
+dojo._hasResource["dojo._base.json"]=true;
 dojo.provide("dojo._base.json");
-
-dojo.fromJson = function(/*String*/ json){
-	// summary:
-	// 		evaluates the passed string-form of a JSON object
-	// json: 
-	//		a string literal of a JSON item, for instance:
-	//			'{ "foo": [ "bar", 1, { "baz": "thud" } ] }'
-	// return:
-	//		An object, the result of the evaluation
-
-	// FIXME: should this accept mozilla's optional second arg?
-	try {
-		return eval("(" + json + ")");
-	}catch(e){
-		console.debug(e);
-		return json;
-	}
+dojo.fromJson=function(_1){
+return eval("("+_1+")");
+};
+dojo._escapeString=function(_2){
+return ("\""+_2.replace(/(["\\])/g,"\\$1")+"\"").replace(/[\f]/g,"\\f").replace(/[\b]/g,"\\b").replace(/[\n]/g,"\\n").replace(/[\t]/g,"\\t").replace(/[\r]/g,"\\r");
+};
+dojo.toJsonIndentStr="\t";
+dojo.toJson=function(it,_4,_5){
+if(it===undefined){
+return "undefined";
 }
-
-dojo._escapeString = function(/*String*/str){
-	//summary:
-	//		Adds escape sequences for non-visual characters, double quote and
-	//		backslash and surrounds with double quotes to form a valid string
-	//		literal.
-	return ('"' + str.replace(/(["\\])/g, '\\$1') + '"'
-		).replace(/[\f]/g, "\\f"
-		).replace(/[\b]/g, "\\b"
-		).replace(/[\n]/g, "\\n"
-		).replace(/[\t]/g, "\\t"
-		).replace(/[\r]/g, "\\r"); // string
+var _6=typeof it;
+if(_6=="number"||_6=="boolean"){
+return it+"";
 }
-
-dojo.toJsonIndentStr = "\t";
-dojo.toJson = function(/*Object*/ it, /*Boolean?*/ prettyPrint, /*String?*/ _indentStr){
-	// summary:
-	//		Create a JSON serialization of an object. 
-	//		Note that this doesn't check for infinite recursion, so don't do that!
-	//
-	// it:
-	//		an object to be serialized. Objects may define their own
-	//		serialization via a special "__json__" or "json" function
-	//		property. If a specialized serializer has been defined, it will
-	//		be used as a fallback.
-	//
-	// prettyPrint:
-	//		if true, we indent objects and arrays to make the output prettier.
-	//		The variable dojo.toJsonIndentStr is used as the indent string 
-	//		-- to use something other than the default (tab), 
-	//		change that variable before calling dojo.toJson().
-	//
-	// _indentStr:
-	//		private variable for recursive calls when pretty printing, do not use.
-	//		
-	// return:
-	//		a String representing the serialized version of the passed object.
-
-	_indentStr = _indentStr || "";
-	var nextIndent = (prettyPrint ? _indentStr + dojo.toJsonIndentStr : "");
-	var newLine = (prettyPrint ? "\n" : "");
-	var objtype = typeof(it);
-	if(objtype == "undefined"){
-		return "undefined";
-	}else if((objtype == "number")||(objtype == "boolean")){
-		return it + "";
-	}else if(it === null){
-		return "null";
-	}
-	if(dojo.isString(it)){ 
-		return dojo._escapeString(it); 
-	}
-	if(it.nodeType && it.cloneNode){ // isNode
-		return ""; // FIXME: would something like outerHTML be better here?
-	}
-	// recurse
-	var recurse = arguments.callee;
-	// short-circuit for objects that support "json" serialization
-	// if they return "self" then just pass-through...
-	var newObj;
-	if(typeof it.__json__ == "function"){
-		newObj = it.__json__();
-		if(it !== newObj){
-			return recurse(newObj, prettyPrint, nextIndent);
-		}
-	}
-	if(typeof it.json == "function"){
-		newObj = it.json();
-		if(it !== newObj){
-			return recurse(newObj, prettyPrint, nextIndent);
-		}
-	}
-	// array
-	if(dojo.isArray(it)){
-		var res = [];
-		for(var i = 0; i < it.length; i++){
-			var val = recurse(it[i], prettyPrint, nextIndent);
-			if(typeof(val) != "string"){
-				val = "undefined";
-			}
-			res.push(newLine + nextIndent + val);
-		}
-		return "[" + res.join(", ") + newLine + _indentStr + "]";
-	}
-	/*
-	// look in the registry
-	try {
-		window.o = it;
-		newObj = dojo.json.jsonRegistry.match(it);
-		return recurse(newObj, prettyPrint, nextIndent);
-	}catch(e){
-		// console.debug(e);
-	}
-	// it's a function with no adapter, skip it
-	*/
-	if(objtype == "function"){
-		return null;
-	}
-	// generic object code path
-	var output = [];
-	for(var key in it){
-		var keyStr;
-		if(typeof(key) == "number"){
-			keyStr = '"' + key + '"';
-		}else if(typeof(key) == "string"){
-			keyStr = dojo._escapeString(key);
-		}else{
-			// skip non-string or number keys
-			continue;
-		}
-		val = recurse(it[key], prettyPrint, nextIndent);
-		if(typeof(val) != "string"){
-			// skip non-serializable values
-			continue;
-		}
-		// FIXME: use += on Moz!!
-		//	 MOW NOTE: using += is a pain because you have to account for the dangling comma...
-		output.push(newLine + nextIndent + keyStr + ": " + val);
-	}
-	return "{" + output.join(", ") + newLine + _indentStr + "}";
+if(it===null){
+return "null";
 }
-
+if(dojo.isString(it)){
+return dojo._escapeString(it);
+}
+if(it.nodeType&&it.cloneNode){
+return "";
+}
+var _7=arguments.callee;
+var _8;
+_5=_5||"";
+var _9=_4?_5+dojo.toJsonIndentStr:"";
+if(typeof it.__json__=="function"){
+_8=it.__json__();
+if(it!==_8){
+return _7(_8,_4,_9);
+}
+}
+if(typeof it.json=="function"){
+_8=it.json();
+if(it!==_8){
+return _7(_8,_4,_9);
+}
+}
+var _a=_4?" ":"";
+var _b=_4?"\n":"";
+if(dojo.isArray(it)){
+var _c=dojo.map(it,function(_d){
+var _e=_7(_d,_4,_9);
+if(typeof _e!="string"){
+_e="undefined";
+}
+return _b+_9+_e;
+});
+return "["+_c.join(","+_a)+_b+_5+"]";
+}
+if(_6=="function"){
+return null;
+}
+var _f=[];
+for(var key in it){
+var _11;
+if(typeof key=="number"){
+_11="\""+key+"\"";
+}else{
+if(typeof key=="string"){
+_11=dojo._escapeString(key);
+}else{
+continue;
+}
+}
+val=_7(it[key],_4,_9);
+if(typeof val!="string"){
+continue;
+}
+_f.push(_b+_9+_11+":"+_a+val);
+}
+return "{"+_f.join(","+_a)+_b+_5+"}";
+};
 }

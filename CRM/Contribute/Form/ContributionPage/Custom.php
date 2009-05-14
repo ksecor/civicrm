@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -48,8 +48,16 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
      */
     public function buildQuickForm()
     {
-        $this->add( 'select', 'custom_pre_id' , ts('Profile Fields') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
-        $this->add( 'select', 'custom_post_id', ts('Profile Fields') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
+        require_once "CRM/Core/BAO/UFGroup.php";
+        $types    = array( 'Contact', 'Individual', 'Contribution', 'Membership' );
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
+
+        if ( empty( $profiles ) ) {
+            $this->assign( 'noProfile', true );
+        }
+
+        $this->add( 'select', 'custom_pre_id' , ts('Include Profile') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + $profiles );
+        $this->add( 'select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + $profiles );
 
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Custom', 'formRule' ) , $this->_id);
         
@@ -69,18 +77,16 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
 
          if ( $this->_id ) {
              $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
-             CRM_Utils_System::setTitle(ts('Custom Elements (%1)', array(1 => $title)));
+             CRM_Utils_System::setTitle(ts('Include Profiles (%1)', array(1 => $title)));
          }
             
         require_once 'CRM/Core/BAO/UFJoin.php';
 
         $ufJoinParams = array( 'entity_table' => 'civicrm_contribution_page',  
-                               'entity_id'    => $this->_id,  
-                               'weight'       => 1 );
-        $defaults['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
-
-        $ufJoinParams['weight'] = 2;
-        $defaults['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+                               'entity_id'    => $this->_id );
+        list( $defaults['custom_pre_id'],
+              $defaults['custom_post_id'] ) = 
+            CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
         
         return $defaults;
     }
@@ -99,8 +105,6 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $params['id'] = $this->_id;
         }
-
-        $params['domain_id'] = CRM_Core_Config::domainID( );
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
@@ -132,7 +136,7 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
      */ 
     public function getTitle( ) 
     {
-        return ts( 'Custom Fields' );
+        return ts( 'Include Profiles' );
     }
 
     /**  
@@ -147,7 +151,7 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
     static function formRule( &$fields, &$files, $contributionPageId ) 
     {  
         $errors = array( );  
-        
+        $preProfileType = $postProfileType = null;
         // for membership profile make sure Membership section is enabled
         // get membership section for this contribution page
         require_once 'CRM/Member/DAO/MembershipBlock.php';
@@ -184,4 +188,4 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
     }
 }
 
-?>
+

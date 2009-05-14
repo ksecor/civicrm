@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -108,40 +108,9 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         } else {
             $allGroups = CRM_Core_PseudoConstant::group( );
         }
-
-        $orgId = null;
-        $excludeGroupIds = array( );
-        if ( $this->_contactId > 0 ) {
-	        // get the group(s) to exclude for the contact, if it exists.
-            require_once 'CRM/Contact/DAO/Organization.php';
-            require_once 'CRM/Contact/DAO/GroupOrganization.php';
-            require_once 'CRM/Contact/BAO/GroupOrganization.php';
-            $dao = new CRM_Contact_DAO_Organization();
-            $query = "SELECT id FROM civicrm_organization WHERE contact_id = " . $this->_contactId;
-            $dao->query( $query );
-            if ( $dao->fetch( ) ) {
-                $orgId = $dao->id;
-            }
-            $excludeGroupIds = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
-        }
-    	$excludeGroups = array( );
-    	foreach ( $excludeGroupIds as $excludeGroupId ) {
-    	    $dao = new CRM_Contact_DAO_Group( );
-    	    $query = "SELECT title FROM civicrm_group WHERE id = $excludeGroupId";
-    	    $dao->query( $query );
-    	    if ( $dao->fetch( ) ) {
-    	        $excludeGroups[] = $dao->title;
-    	    }
-    	}
-	
 	
         // get the list of groups for the contact
         $currentGroups = CRM_Contact_BAO_GroupContact::getGroupList($this->_contactId);
-	    foreach ($excludeGroups as $excludeGroup) {
-	  
-	        $currentGroups[] = $excludeGroup;
-	    }
-	    //CRM_Core_Error::debug('current', $currentGroups);
 	
         if ( is_array( $currentGroups ) ) {
             $groupList = array_diff( $allGroups, $currentGroups );
@@ -156,9 +125,9 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
             $session =& CRM_Core_Session::singleton();
             // user dashboard
             if ( strstr( $session->readUserContext( ) ,'user') ) {
-                $msg = 'Join a Group';            
+                $msg = ts('Join a Group');            
             } else {
-                $msg = 'Add to a group';
+                $msg = ts('Add to a group');
             }
             
             $this->add('select'  , 'group_id', $msg, $groupList,true);
@@ -204,4 +173,4 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
 
 }
 
-?>
+

@@ -1,207 +1,113 @@
-if(!dojo._hasResource["dijit._base.place"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit._base.place"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit._base.place"]){
+dojo._hasResource["dijit._base.place"]=true;
 dojo.provide("dijit._base.place");
-
-// ported from dojo.html.util
-
-dijit.getViewport = function(){
-	//	summary
-	//	Returns the dimensions and scroll position of the viewable area of a browser window
-
-	var _window = dojo.global;
-	var _document = dojo.doc;
-
-	// get viewport size
-	var w = 0, h = 0;
-	if(dojo.isMozilla){
-		// mozilla
-		// _window.innerHeight includes the height taken by the scroll bar
-		// clientHeight is ideal but has DTD issues:
-		// #4539: FF reverses the roles of body.clientHeight/Width and documentElement.clientHeight/Width based on the DTD!
-		// check DTD to see whether body or documentElement returns the viewport dimensions using this algorithm:
-		var minw, minh, maxw, maxh;
-		if(_document.body.clientWidth>_document.documentElement.clientWidth){
-			minw = _document.documentElement.clientWidth;
-			maxw = _document.body.clientWidth;
-		}else{
-			maxw = _document.documentElement.clientWidth;
-			minw = _document.body.clientWidth;
-		}
-		if(_document.body.clientHeight>_document.documentElement.clientHeight){
-			minh = _document.documentElement.clientHeight;
-			maxh = _document.body.clientHeight;
-		}else{
-			maxh = _document.documentElement.clientHeight;
-			minh = _document.body.clientHeight;
-		}
-		w = (maxw > _window.innerWidth) ? minw : maxw;
-		h = (maxh > _window.innerHeight) ? minh : maxh;
-	}else if(!dojo.isOpera && _window.innerWidth){
-		//in opera9, dojo.body().clientWidth should be used, instead
-		//of window.innerWidth/document.documentElement.clientWidth
-		//so we have to check whether it is opera
-		w = _window.innerWidth;
-		h = _window.innerHeight;
-	}else if(dojo.isIE && _document.documentElement && _document.documentElement.clientHeight){
-		w = _document.documentElement.clientWidth;
-		h = _document.documentElement.clientHeight;
-	}else if(dojo.body().clientWidth){
-		// IE5, Opera
-		w = dojo.body().clientWidth;
-		h = dojo.body().clientHeight;
-	}
-
-	// get scroll position
-	var scroll = dojo._docScroll();
-
-	return { w: w, h: h, l: scroll.x, t: scroll.y };	//	object
+dijit.getViewport=function(){
+var _1=dojo.global;
+var _2=dojo.doc;
+var w=0,h=0;
+var de=_2.documentElement;
+var _6=de.clientWidth,_7=de.clientHeight;
+if(dojo.isMozilla){
+var _8,_9,_a,_b;
+var _c=_2.body.clientWidth;
+if(_c>_6){
+_8=_6;
+_a=_c;
+}else{
+_a=_6;
+_8=_c;
+}
+var _d=_2.body.clientHeight;
+if(_d>_7){
+_9=_7;
+_b=_d;
+}else{
+_b=_7;
+_9=_d;
+}
+w=(_a>_1.innerWidth)?_8:_a;
+h=(_b>_1.innerHeight)?_9:_b;
+}else{
+if(!dojo.isOpera&&_1.innerWidth){
+w=_1.innerWidth;
+h=_1.innerHeight;
+}else{
+if(dojo.isIE&&de&&_7){
+w=_6;
+h=_7;
+}else{
+if(dojo.body().clientWidth){
+w=dojo.body().clientWidth;
+h=dojo.body().clientHeight;
+}
+}
+}
+}
+var _e=dojo._docScroll();
+return {w:w,h:h,l:_e.x,t:_e.y};
 };
-
-dijit.placeOnScreen = function(
-	/* DomNode */	node,
-	/* Object */		pos,
-	/* Object */		corners,
-	/* boolean? */		tryOnly){
-	//	summary:
-	//		Keeps 'node' in the visible area of the screen while trying to
-	//		place closest to pos.x, pos.y. The input coordinates are
-	//		expected to be the desired document position.
-	//
-	//		Set which corner(s) you want to bind to, such as
-	//		
-	//			placeOnScreen(node, {x: 10, y: 20}, ["TR", "BL"])
-	//		
-	//		The desired x/y will be treated as the topleft(TL)/topright(TR) or
-	//		BottomLeft(BL)/BottomRight(BR) corner of the node. Each corner is tested
-	//		and if a perfect match is found, it will be used. Otherwise, it goes through
-	//		all of the specified corners, and choose the most appropriate one.
-	//		
-	//		NOTE: node is assumed to be absolutely or relatively positioned.
-
-	var choices = dojo.map(corners, function(corner){ return { corner: corner, pos: pos }; });
-
-	return dijit._place(node, choices);
+dijit.placeOnScreen=function(_f,pos,_11,_12){
+var _13=dojo.map(_11,function(_14){
+return {corner:_14,pos:pos};
+});
+return dijit._place(_f,_13);
+};
+dijit._place=function(_15,_16,_17){
+var _18=dijit.getViewport();
+if(!_15.parentNode||String(_15.parentNode.tagName).toLowerCase()!="body"){
+dojo.body().appendChild(_15);
 }
-
-dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ layoutNode){
-	// summary:
-	//		Given a list of spots to put node, put it at the first spot where it fits,
-	//		of if it doesn't fit anywhere then the place with the least overflow
-	// choices: Array
-	//		Array of elements like: {corner: 'TL', pos: {x: 10, y: 20} }
-	//		Above example says to put the top-left corner of the node at (10,20)
-	//	layoutNode: Function(node, orient)
-	//		for things like tooltip, they are displayed differently (and have different dimensions)
-	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
-
-	// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
-	// viewport over document
-	var view = dijit.getViewport();
-
-	// This won't work if the node is inside a <div style="position: relative">,
-	// so reattach it to document.body.   (Otherwise, the positioning will be wrong
-	// and also it might get cutoff)
-	if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
-		dojo.body().appendChild(node);
-	}
-
-	var best=null;
-	for(var i=0; i<choices.length; i++){
-		var corner = choices[i].corner;
-		var pos = choices[i].pos;
-
-		// configure node to be displayed in given position relative to button
-		// (need to do this in order to get an accurate size for the node, because
-		// a tooltips size changes based on position, due to triangle)
-		if(layoutNode){
-			layoutNode(corner);
-		}
-
-		// get node's size
-		var oldDisplay = node.style.display;
-		var oldVis = node.style.visibility;
-		node.style.visibility = "hidden";
-		node.style.display = "";
-		var mb = dojo.marginBox(node);
-		node.style.display = oldDisplay;
-		node.style.visibility = oldVis;
-
-		// coordinates and size of node with specified corner placed at pos,
-		// and clipped by viewport
-		var startX = (corner.charAt(1)=='L' ? pos.x : Math.max(view.l, pos.x - mb.w)),
-			startY = (corner.charAt(0)=='T' ? pos.y : Math.max(view.t, pos.y -  mb.h)),
-			endX = (corner.charAt(1)=='L' ? Math.min(view.l+view.w, startX+mb.w) : pos.x),
-			endY = (corner.charAt(0)=='T' ? Math.min(view.t+view.h, startY+mb.h) : pos.y),
-			width = endX-startX,
-			height = endY-startY,
-			overflow = (mb.w-width) + (mb.h-height);
-
-		if(best==null || overflow<best.overflow){
-			best = {
-				corner: corner,
-				aroundCorner: choices[i].aroundCorner,
-				x: startX,
-				y: startY,
-				w: width,
-				h: height,
-				overflow: overflow
-			};
-		}
-		if(overflow==0){
-			break;
-		}
-	}
-
-	node.style.left = best.x + "px";
-	node.style.top = best.y + "px";
-	return best;
+var _19=null;
+dojo.some(_16,function(_1a){
+var _1b=_1a.corner;
+var pos=_1a.pos;
+if(_17){
+_17(_15,_1a.aroundCorner,_1b);
 }
-
-dijit.placeOnScreenAroundElement = function(
-	/* DomNode */		node,
-	/* DomNode */		aroundNode,
-	/* Object */		aroundCorners,
-	/* Function */		layoutNode){
-
-	//	summary
-	//	Like placeOnScreen, except it accepts aroundNode instead of x,y
-	//	and attempts to place node around it.  Uses margin box dimensions.
-	//
-	//	aroundCorners
-	//		specify Which corner of aroundNode should be
-	//		used to place the node => which corner(s) of node to use (see the
-	//		corners parameter in dijit.placeOnScreen)
-	//		e.g. {'TL': 'BL', 'BL': 'TL'}
-	//
-	//	layoutNode: Function(node, orient)
-	//		for things like tooltip, they are displayed differently (and have different dimensions)
-	//		based on their orientation relative to the parent.   This adjusts the popup based on orientation.
-
-
-	// get coordinates of aroundNode
-	aroundNode = dojo.byId(aroundNode);
-	var oldDisplay = aroundNode.style.display;
-	aroundNode.style.display="";
-	// #3172: use the slightly tighter border box instead of marginBox
-	var aroundNodeW = aroundNode.offsetWidth; //mb.w;
-	var aroundNodeH = aroundNode.offsetHeight; //mb.h;
-	var aroundNodePos = dojo.coords(aroundNode, true);
-	aroundNode.style.display=oldDisplay;
-
-	// Generate list of possible positions for node
-	var choices = [];
-	for(var nodeCorner in aroundCorners){
-		choices.push( {
-			aroundCorner: nodeCorner,
-			corner: aroundCorners[nodeCorner],
-			pos: {
-				x: aroundNodePos.x + (nodeCorner.charAt(1)=='L' ? 0 : aroundNodeW),
-				y: aroundNodePos.y + (nodeCorner.charAt(0)=='T' ? 0 : aroundNodeH)
-			}
-		});
-	}
-
-	return dijit._place(node, choices, layoutNode);
+var _1d=_15.style;
+var _1e=_1d.display;
+var _1f=_1d.visibility;
+_1d.visibility="hidden";
+_1d.display="";
+var mb=dojo.marginBox(_15);
+_1d.display=_1e;
+_1d.visibility=_1f;
+var _21=(_1b.charAt(1)=="L"?pos.x:Math.max(_18.l,pos.x-mb.w)),_22=(_1b.charAt(0)=="T"?pos.y:Math.max(_18.t,pos.y-mb.h)),_23=(_1b.charAt(1)=="L"?Math.min(_18.l+_18.w,_21+mb.w):pos.x),_24=(_1b.charAt(0)=="T"?Math.min(_18.t+_18.h,_22+mb.h):pos.y),_25=_23-_21,_26=_24-_22,_27=(mb.w-_25)+(mb.h-_26);
+if(_19==null||_27<_19.overflow){
+_19={corner:_1b,aroundCorner:_1a.aroundCorner,x:_21,y:_22,w:_25,h:_26,overflow:_27};
 }
-
+return !_27;
+});
+_15.style.left=_19.x+"px";
+_15.style.top=_19.y+"px";
+if(_19.overflow&&_17){
+_17(_15,_19.aroundCorner,_19.corner);
+}
+return _19;
+};
+dijit.placeOnScreenAroundElement=function(_28,_29,_2a,_2b){
+_29=dojo.byId(_29);
+var _2c=_29.style.display;
+_29.style.display="";
+var _2d=_29.offsetWidth;
+var _2e=_29.offsetHeight;
+var _2f=dojo.coords(_29,true);
+_29.style.display=_2c;
+var _30=[];
+for(var _31 in _2a){
+_30.push({aroundCorner:_31,corner:_2a[_31],pos:{x:_2f.x+(_31.charAt(1)=="L"?0:_2d),y:_2f.y+(_31.charAt(0)=="T"?0:_2e)}});
+}
+return dijit._place(_28,_30,_2b);
+};
 }

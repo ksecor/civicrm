@@ -15,19 +15,19 @@ class CRM_Widget_Widget {
         if ( ! self::$_methodTable ) {
             self::$_methodTable =
                 array(
-                  'getCampaignData' =>
+                  'getContributionPageData' =>
                   array(
                         'description' => 'Gets all campaign related data and returns it as a std class.',
                         'access'      => 'remote',
-                        'arguments'   => array( 'campaignId',
-                                                'widgetId' ),
+                        'arguments'   => array( 'contributionPageID',
+                                                'widgetID' ),
                         ),
                   'getEmbedCode' => 
                   array(
                         'description' => 'Gets embed code.  Perhaps overkill, but we can track dropoffs in this case. by # of people reqeusting emebed code / number of unique instances.',
                         'access'      => 'remote',
-                        'arguments'   => array( 'campaignId',
-                                                'widgetId'  ,
+                        'arguments'   => array( 'contributionPageID',
+                                                'widgetID'  ,
                                                 'format' ),
                         )
                   );
@@ -43,45 +43,57 @@ class CRM_Widget_Widget {
 	/**
 	 * Not implemented - registers an action and unique widget ID.  Useful for stats and debugging
 	 *
-	 * @param int $campaignId
-	 * @param string $widgetId
+	 * @param int $contributionPageID
+	 * @param string $widgetID
 	 * @param string $action
 	 * @return string
 	 */
-	function registerRequest($campaignId,$widgetId,$action) {
-        return "I registered a request to $action on $campaignId from $widgetId";
+	function registerRequest($contributionPageID,$widgetID,$action) {
+        return "I registered a request to $action on $contributionPageID from $widgetID";
 	}
 
 	/**
 	 * Gets all campaign related data and returns it as a std class.
 	 *
-	 * @param int $campaignId
-	 * @param string $widgetId
+	 * @param int $contributionPageID
+	 * @param string $widgetID
 	 * @return stdClass
 	 */
-	public function getCampaignData( $campaignId, $widgetId ) {
+	public function getContributionPageData( $contributionPageID, $widgetID ) {
         $config =& CRM_Core_Config::singleton( );
 
-        $campaignId = 1;
-
-        self::registerRequest( $campaignId, $widgetId, __FUNCTION__ );
+        self::registerRequest( $contributionPageID, $widgetID, __FUNCTION__ );
 
         $data = new stdClass();
 
+        if ( empty( $contributionPageID ) ||
+             CRM_Utils_Type::validate( $contributionPageID, 'Integer' ) == null ) {
+            $data->is_error = true;
+CRM_Core_Error::debug_log_message( "$contributionPageID is not set" );
+            return $data;
+        }
+            
         require_once 'CRM/Contribute/DAO/Widget.php';
         $widget = new CRM_Contribute_DAO_Widget( );
-        $data->is_active = true;
-        if ( ! $widget->find( true ) ||
-             ! $widget->is_active ) {
+        $widget->contribution_page_id = $contributionPageID;
+        if ( ! $widget->find( true ) ) {
+            $data->is_error = true;
+CRM_Core_Error::debug_log_message( "$contributionPageID is not found" );
+            return $data;
+        }
+
+        $data->is_error = false;
+        if ( ! $widget->is_active ) {
             $data->is_active = false;
         }
 
+        $data->is_active = true;
         $data->title = $widget->title;
         $data->logo = $widget->url_logo;
         $data->button_title = $widget->button_title;
         $data->button_url = CRM_Utils_System::url( 'civicrm/contribute/transact',
-                                                   "reset=1&id=$campaignId",
-                                                   true, null, false );
+                                                   "reset=1&id=$contributionPageID",
+                                                   false, null, false, true );
         $data->about = $widget->about;
 
         $query = "
@@ -91,18 +103,20 @@ FROM   civicrm_contribution
 WHERE  is_test = 0
 AND    contribution_status_id = 1
 AND    contribution_page_id = %1";
-        $params = array( 1 => array( $campaignId, 'Integer' ) ) ;
+        $params = array( 1 => array( $contributionPageID, 'Integer' ) ) ;
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
         if ( $dao->fetch( ) ) {
             $data->num_donors   = $dao->count;
             $data->money_raised = $dao->amount;
+        } else {
+            $data->num_donors = $data->money_raised = 0;
         }
 
         $query = "
 SELECT goal_amount, start_date, end_date, is_active
 FROM   civicrm_contribution_page
 WHERE  id = %1";
-        $params = array( 1 => array( $campaignId, 'Integer' ) ) ;
+        $params = array( 1 => array( $contributionPageID, 'Integer' ) ) ;
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
         if ( $dao->fetch( ) ) {
             require_once 'CRM/Utils/Date.php';
@@ -150,9 +164,6 @@ WHERE  id = %1";
         $data->colors["about_link"]    = $widget->color_about_link;
         $data->colors["homepage_link"] = $widget->color_homepage_link;
 
-        // +++ this can be removed at some point
-        // $data->debug = print_r(func_get_args(),1);
-    
         require_once 'CRM/Core/Error.php';
         return $data;
 	}
@@ -161,16 +172,15 @@ WHERE  id = %1";
 	 * Gets embed code.  Perhaps overkill, but we can track dropoffs in this case.
      * by # of people reqeusting emebed code / number of unique instances.
 	 *
-     * @param int $campaignId
-	 * @param string $widgetId
+     * @param int $contributionPageID
+	 * @param string $widgetID
 	 * @param string $format - either myspace or normal
 	 * @return string
 	 */
-	public function getEmbedCode($campaignId, $widgetId, $format = "normal") {
-        self::registerRequest($campaignId,$widgetId,__FUNCTION__);
+	public function getEmbedCode($contributionPageID, $widgetID, $format = "normal") {
+        self::registerRequest($contributionPageID,$widgetID,__FUNCTION__);
         return "<embed>.......................</embed>" . print_r(func_get_args(),1);
 	}
 
 }
 
-?>

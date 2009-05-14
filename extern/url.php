@@ -28,4 +28,4 @@ $url = CRM_Mailing_Event_BAO_TrackableURLOpen::track($queue_id, $url_id);
 
 CRM_Utils_System::redirect($url);
 
-?>
+

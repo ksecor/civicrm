@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -109,69 +109,41 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * pairs
      * 
      * @param array  $params         (reference) an assoc array of name/value pairs
-     * @param array  $ids            (reference) the array that holds all the db ids
      * 
      * @return object    CRM_Core_DAO_Mapper object on success, otherwise null
      * @access public
      * @static
      */
-    static function add( &$params, &$ids ) 
+    static function add( &$params ) 
     {
-        if ( ! self::dataExists( $params ) ) {
-	  //return null;
-        }
-        
         $mapping            =& new CRM_Core_DAO_Mapping( );
-        $mapping->domain_id = CRM_Core_Config::domainID( );        
-        $mapping->id        = CRM_Utils_Array::value( 'mapping', $ids );
         $mapping->copyValues( $params );
         $mapping->save( );
 
-        //CRM_Core_Session::setStatus( ts('The mapping "%1" has been saved.', array(1 => $mapping->name)) );
-        
         return $mapping;
     }
     
     /**
-     * Check if there is data to create the object
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return boolean
-     * @access public
-     * @static
-     */
-    static function dataExists( &$params ) 
-    {
-        if ( !empty( $params['name'] ) ) {
-            return true;
-        }
-        
-        return false;
-    }
-
-    /**
      * function to get the list of mappings
      * 
-     * @params string  $mappingType  mapping type 
+     * @params string  $mappingTypeId  mapping type id 
      *
      * @return array $mapping array of mapping name 
      * @access public
      * @static
      */
-    static function getMappings($mappingType)
+    static function getMappings( $mappingTypeId )
     {
-        $mappingArray = array();
+        $mapping = array( );
         $mappingDAO =&  new CRM_Core_DAO_Mapping();
-        $mappingDAO->domain_id = CRM_Core_Config::domainID( );
-        $mappingDAO->mapping_type = $mappingType;
+        $mappingDAO->mapping_type_id = $mappingTypeId;
         $mappingDAO->find();
         
         while ($mappingDAO->fetch()) {
-            $mappingArray[$mappingDAO->id] = $mappingDAO->name;
+            $mapping[$mappingDAO->id] = $mappingDAO->name;
         }
         
-        return $mappingArray;
+        return $mapping;
     }
 
     /**
@@ -194,7 +166,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $mapping->find();
         
         $mappingName = $mappingLocation = $mappingContactType = $mappingPhoneType = array( );
-        $mappingRelation = $mappingOperator = $mappingValue = array( );
+        $mappingImProvider = $mappingRelation = $mappingOperator = $mappingValue = array( );
         while($mapping->fetch()) {
             $mappingName[$mapping->grouping][$mapping->column_number] = $mapping->name;
             $mappingContactType[$mapping->grouping][$mapping->column_number] = $mapping->contact_type;                
@@ -203,8 +175,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $mappingLocation[$mapping->grouping][$mapping->column_number] = $mapping->location_type_id;
             }
             
-            if ( !empty( $mapping->phone_type ) ) {
-                $mappingPhoneType[$mapping->grouping][$mapping->column_number] = $mapping->phone_type;
+            if ( !empty( $mapping->phone_type_id ) ) {
+                $mappingPhoneType[$mapping->grouping][$mapping->column_number] = $mapping->phone_type_id;
+            }
+
+            // get IM service provider type id from mapping fields
+            if ( !empty( $mapping->im_provider_id ) ) {
+                $mappingImProvider[$mapping->grouping][$mapping->column_number] = $mapping->im_provider_id;
             }
             
             if ( !empty($mapping->relationship_type_id) ) {
@@ -222,7 +199,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         return array ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType,
-                      $mappingRelation, $mappingOperator, $mappingValue);   
+                      $mappingImProvider, $mappingRelation, $mappingOperator, $mappingValue);   
     }
 
     /**
@@ -230,23 +207,22 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      *
      * @params $nameField  string mapping Name
      *
-     * @params $mapType string mapping Type
+     * @params $mapTypeId string mapping Type
      *
      * @return boolean
      * 
      */
-    static function checkMapping($nameField,$mapType)
+    static function checkMapping( $nameField, $mapTypeId )
     {
-         $mappingName =& new CRM_Core_DAO_Mapping();
-         $mappingName->name = $nameField;
-         $mappingName->mapping_type = $mapType;
-         if($mappingName->find(true)){
-             return true;
-         }else{
-             return false;
-         }
+        $mapping =& new CRM_Core_DAO_Mapping();
+        $mapping->name = $nameField;
+        $mapping->mapping_type_id = $mapTypeId;
+        if ( $mapping->find(true) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
 
     /**
      * Function returns associated array of elements, that will be passed for search
@@ -294,7 +270,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * @access public
      * @static
      */
-    static function buildMappingForm(&$form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3 ) 
+    static function buildMappingForm(&$form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3, $exportMode = null ) 
     {
         if ($mappingType == 'Export') {
             $name = "Map";
@@ -310,16 +286,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         require_once 'CRM/Core/BAO/LocationType.php';
 
         if ( $mappingType == 'Export' ) {
-            $mappingArray =array();
-            
-            require_once "CRM/Core/BAO/Mapping.php";
-            $mappingArray = CRM_Core_BAO_Mapping::getMappings($mappingType);
-            
-            if ( !empty($mappingArray) ) {
-                $form->assign('savedMapping',$mappingArray);
-                $form->add('select','savedMapping', ts('Mapping Option'), array('' => '-select-')+$mappingArray);
-                $form->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
-            }
+            $form->applyFilter('saveMappingName', 'trim');
             
             //to save the current mappings
             if ( !isset($mappingId) ) {
@@ -344,7 +311,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             }
             
             $form->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
-            $form->addFormRule( array( 'CRM_Contact_Form_Task_Export_Map', 'formRule' ) );
+            $form->addFormRule( array( 'CRM_Export_Form_Map', 'formRule' ), $form->get( 'mappingTypeId') );
         } else  if ($mappingType == 'Search Builder') { 
             $form->addElement('submit', 'addBlock', ts('Also include contacts where'), 
                               array( 'class' => 'submit-link')
@@ -365,6 +332,11 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household', false, $required);
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization', false, $required);
         
+        //get the current employer for mapping.
+        if ( $required ) {
+            $fields['Individual']['current_employer']['title'] = ts('Current Employer');
+        }
+        
         // add component fields
         $compArray = array();
 
@@ -373,18 +345,80 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $fields['Student'] =& CRM_Quest_BAO_Student::exportableFields();
             $compArray['Student'] = 'Student';
         }
-
-        if ( $mappingType == 'Search Builder' ) {
-            if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-                require_once 'CRM/Contribute/BAO/Contribution.php';
-                $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
-                $compArray['Contribution'] = 'Contribution';
+        
+        //we need to unset groups, tags, notes for component export
+        require_once 'CRM/Export/Form/Select.php';
+        if ( $exportMode != CRM_Export_Form_Select::CONTACT_EXPORT  ) {
+            foreach( array( 'groups', 'tags', 'notes' ) as $value ) {
+                unset( $fields['Individual'][$value] );
+                unset( $fields['Household'][$value] );
+                unset( $fields['Organization'][$value] );
             }
         }
 
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
+                unset($fields['Contribution']['contribution_contact_id']);
+                $compArray['Contribution'] = ts('Contribution');
+            }
+        }
+        
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+                require_once 'CRM/Event/BAO/Participant.php';
+                $fields['Participant'] =& CRM_Event_BAO_Participant::exportableFields( );
+                unset($fields['Participant']['participant_contact_id']);
+                $compArray['Participant'] = ts('Participant');
+            }
+        }
+
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+                require_once 'CRM/Member/BAO/Membership.php';
+                $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
+                unset($fields['Membership']['membership_contact_id']);
+                $compArray['Membership'] = ts('Membership');
+            }
+        }
+
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::PLEDGE_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviPledge' ) ) {
+                require_once 'CRM/Pledge/BAO/Pledge.php';
+                $fields['Pledge'] =& CRM_Pledge_BAO_Pledge::exportableFields( );
+                unset($fields['Pledge']['pledge_contact_id']);
+                $compArray['Pledge'] = ts('Pledge');
+            }
+        }
+
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::CASE_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviCase' ) ) {
+                require_once 'CRM/Case/BAO/Case.php';
+                $fields['Case']    =& CRM_Case_BAO_Case::exportableFields( );
+                $compArray['Case'] = ts('Case');
+                
+                require_once 'CRM/Activity/BAO/Activity.php';
+                $fields['Activity']    =& CRM_Activity_BAO_Activity::exportableFields( );
+                $compArray['Activity'] = ts('Case Activity');
+
+                unset($fields['Case']['case_contact_id']);
+            }
+        }
+       
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
-                $mapperFields[$key][$key1] = $value1['title'];
+                //CRM-2676, replacing the conflict for same custom field name from different custom group.
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key1 ) ) {
+                    $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
+                    $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
+                    if ( strlen( $customGroupName ) > 13 ) {
+                        $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                    }
+                    $mapperFields[$key][$key1] = $customGroupName . ': ' . $value1['title'];
+                } else {
+                    $mapperFields[$key][$key1] = $value1['title'];
+                }
                 if ( isset( $value1['hasLocationType'] ) ) {
                     $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
                 }
@@ -393,7 +427,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $mapperKeys      = array_keys( $mapperFields );
         
         $locationTypes  =& CRM_Core_PseudoConstant::locationType();
-               
+        
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
             
         /* FIXME: dirty hack to make the default option show up first.  This
@@ -409,8 +443,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
-
-        $sel1 = array('' => '-select record type-') + CRM_Core_SelectValues::contactType() + $compArray;
+       
+        $sel1 = array('' => ts('- select record type -')) + CRM_Core_SelectValues::contactType() + $compArray; 
         
         foreach($sel1 as $key=>$sel ) {
             if($key) {
@@ -419,23 +453,25 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         $sel3[''] = null;
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
+        $imProviders = CRM_Core_PseudoConstant::IMProvider();
         asort($phoneTypes);
 
         foreach($sel1 as $k=>$sel ) {
             if($k) {
-                foreach ($locationTypes as $key => $value) {                        
-                    $sel4[$k]['phone'][$key] =& $phoneTypes;
+                foreach ($locationTypes as $key => $value) {
+                    if ( trim( $key ) != '' ) {
+                        $sel4[$k]['phone'][$key] =& $phoneTypes;
+                        $sel4[$k]['im'][$key] =& $imProviders;
+                    }
                 }
             }
         }
-        
+
         foreach($sel1 as $k=>$sel ) {
-            if($k) {
+            if ($k) {
                 foreach ($mapperFields[$k]  as $key=>$value) {
-                    
                     if (isset ( $hasLocationTypes[$k][$key] ) ) {
-                        
                         $sel3[$k][$key] = $locationTypes;
                     } else {
                         $sel3[$key] = null;
@@ -450,7 +486,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         if ( isset($mappingId) ) {
             $colCnt = 0;
             
-            list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation, $mappingOperator, $mappingValue ) = CRM_Core_BAO_Mapping::getMappingFields($mappingId);
+            list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingImProvider, $mappingRelation, $mappingOperator, $mappingValue ) = CRM_Core_BAO_Mapping::getMappingFields($mappingId);
             
             $blkCnt = count($mappingName);
             if ( $blkCnt >= $blockCount ) {
@@ -465,9 +501,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         $defaults = array();
-        $js = "<script type='text/javascript'>\n";
-        $formName = "document.{$name}";
-  
+
+        $noneArray = array( );
+        $nullArray = array( );
+
         //used to warn for mismatch column count or mismatch mapping 
         $warning = 0;
         for ( $x = 1; $x < $blockCount; $x++ ) {
@@ -482,32 +519,41 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     if ( isset($mappingName[$x][$i]) ) {
                         if (is_array($mapperFields[$mappingContactType[$x][$i]])) {
                             $phoneType = isset($mappingPhoneType[$x][$i]) ? $mappingPhoneType[$x][$i] : null;
+                            // get IM service provider type id if present, CRM-3140
+                            $imProvider = isset($mappingImProvider[$x][$i]) ? $mappingImProvider[$x][$i] : null;
                             
                             if ( !$locationId && in_array($mappingName[$x][$i], $specialFields) ) {
                                 $locationId = " ";
                             }
-
-                            $defaults["mapper[$x][$i]"] = array( $mappingContactType[$x][$i], $mappingName[$x][$i],
-                                                             $locationId, $phoneType
-                                                             );
-
+                            
+                            if ( isset($phoneType) ) {
+                                $typeId = $phoneType;
+                            } else if ( isset($imProvider) ) {
+                                $typeId = $imProvider;
+                            }
+                            $defaults["mapper[$x][$i]"] = array( $mappingContactType[$x][$i],
+                                                                 $mappingName[$x][$i],
+                                                                 $locationId,
+                                                                 $typeId
+                                                                 );
+                            
                             if ( ! $mappingName[$x][$i] ) {
-                                $js .= "{$formName}['mapper[$x][$i][1]'].style.display = 'none';\n";
+                                $noneArray[] = array( $x, $i, 1 );
                             }
                             if ( ! $locationId ) {
-                                $js .= "{$formName}['mapper[$x][$i][2]'].style.display = 'none';\n";
+                                $noneArray[] = array( $x, $i, 2 );
                             }
-                            if ( ! $phoneType ) {
-                                $js .= "{$formName}['mapper[$x][$i][3]'].style.display = 'none';\n";
+                            if ( ! $phoneType && ! $imProvider ) {
+                                $noneArray[] = array( $x, $i, 3 );
                             }
                             $jsSet = true;
 
-                            if ($mappingOperator[$x][$i]) {
-                                $defaults["operator[$x][$i]"] = $mappingOperator[$x][$i];
+                            if ( CRM_Utils_Array::value( $i, $mappingOperator[$x] ) ) {
+                                $defaults["operator[$x][$i]"] = CRM_Utils_Array::value( $i, $mappingOperator[$x] );
                             }
                             
-                            if ($mappingValue[$x][$i]) {
-                                $defaults["value[$x][$i]"] = $mappingValue[$x][$i];
+                            if (CRM_Utils_Array::value( $i, $mappingValue[$x] ) ) {
+                                $defaults["value[$x][$i]"] = CRM_Utils_Array::value( $i, $mappingValue[$x] );
                             }
                         }
                     } 
@@ -517,40 +563,35 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 if ( ! $jsSet ) {
                     if ( empty( $formValues ) ) {
                         for ( $k = 1; $k < 4; $k++ ) {
-                            $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
+                            $noneArray[] = array( $x, $i, $k );
                         }
                     } else {
                         if ( !empty($formValues['mapper'][$x]) ) {
                             foreach ( $formValues['mapper'][$x] as $value) {
                                 for ( $k = 1; $k < 4; $k++ ) {
-
-                                    if ( ! isset ($formValues['mapper'][$x][$i][$k] ) ||( ! $formValues['mapper'][$x][$i][$k] ) ) {
-                                        
-                                        $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
+                                    if ( ! isset ($formValues['mapper'][$x][$i][$k] ) ||
+                                         ( ! $formValues['mapper'][$x][$i][$k] ) ) {
+                                        $noneArray[] = array( $x, $i, $k );
                                     } else {
-                                        $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = '';\n"; 
+                                        $nullArray[] = array( $x, $i, $k );
                                     }
                                 }
                             }
                         } else {
                             for ( $k = 1; $k < 4; $k++ ) {
-                                $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
+                                $noneArray[] = array( $x, $i, $k );
                             }
                         }
                     }
                 }
                 
-                //$js .= "{$formName}['mapper[1][0][1]'].style.display = 'none';\n"; 
                 $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
                 
                 if ($mappingType == 'Search Builder') {
-                    //CRM -2292
-//                     $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
-//                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
-//                                             'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
-                    $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
+                    //CRM -2292, restricted array set
+                    $operatorArray = array ('' => ts('-operator-'), '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
-                                            'LIKE' => 'LIKE');
+                                            'LIKE' => 'LIKE', 'IS NULL' => 'IS NULL', 'IS NOT NULL' => 'IS NOT NULL' );
                     
                     $form->add('select',"operator[$x][$i]",'', $operatorArray);
                     $form->add('text',"value[$x][$i]",'');
@@ -567,7 +608,47 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             
         } //end of block for
 
-        $js .= "</script>\n";
+        $js = "<script type='text/javascript'>\n";
+        $formName = "document.{$name}";
+        if ( ! empty( $nullArray ) ) {
+            $js .= "var nullArray = [";
+            $elements = array( );
+            $seen     = array( );
+            foreach ( $nullArray as $element ) {
+                $key = "{$element[0]}, {$element[1]}, {$element[2]}";
+                if ( ! isset( $seen[$key] ) ) {
+                    $elements[] = "[$key]";
+                    $seen[$key] = 1;
+                }
+            }
+            $js .= implode( ', ', $elements );
+            $js .= "]";
+            $js .= "
+for(var i=0;i<nullArray.length;i++) {
+  {$formName}['mapper['+nullArray[i][0]+']['+nullArray[i][1]+']['+nullArray[i][2]+']'].style.display = '';
+}
+";
+        }
+        if ( ! empty( $noneArray ) ) {
+            $js .= "var noneArray = [";
+            $elements = array( );
+            $seen     = array( );
+            foreach ( $noneArray as $element ) {
+                $key = "{$element[0]}, {$element[1]}, {$element[2]}";
+                if ( ! isset( $seen[$key] ) ) {
+                    $elements[] = "[$key]";
+                    $seen[$key] = 1;
+                }
+            }
+            $js .= implode( ', ', $elements );
+            $js .= "]";
+            $js .= "
+for(var i=0;i<noneArray.length;i++) {
+  {$formName}['mapper['+noneArray[i][0]+']['+noneArray[i][1]+']['+noneArray[i][2]+']'].style.display = 'none';  
+}
+";
+        }
+        $js .= "</script>\n"; 
 
         $form->assign('initHideBoxes', $js);
         $form->assign('columnCount', $columnCount);
@@ -575,10 +656,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $form->setDefaults($defaults);
         
-        $form->setDefaultAction( 'refresh' );
-        
-    }
-    
+        $form->setDefaultAction( 'refresh' );       
+    }    
 
     /**
      * Function returns associated array of elements, that will be passed for search
@@ -633,7 +712,9 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     }
 
                     if ( $v[0] == 'Contribution' && substr( $fldName, 0, 7 ) != 'custom_' ) {
-                        $fldName = 'contribution_' . $fldName;
+                        if ( substr( $fldName, 0, 13 ) != 'contribution_' ) {
+                            $fldName = 'contribution_' . $fldName;
+                        }
                     }
 
                     if ( $row ) {
@@ -684,8 +765,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         $locationTypes  =& CRM_Core_PseudoConstant::locationType();
-        foreach ($params['mapper'] as $key => $value) {
-            foreach ($value as $k => $v) {
+        foreach ( $params['mapper'] as $key => $value ) {
+            foreach ( $value as $k => $v ) {
                 if ( isset ($v[1] ) ) {
                     if ( $v[1] == 'groups' || $v[1] == 'tags' ) {
                         continue;
@@ -704,10 +785,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         }
                         
                         if ( $v[1] == 'phone' || $v[1] == 'email' || $v[1] == 'im' ) {
-                            if ( $v[3] ) { // phone type handling
+                            if ( isset( $v[3] ) ) { // phone type handling
                                 $fields['location'][$locationName][$v[1] . "-" . $v[3]] = 1;
                             } else {
-                                $fields['location'][$locationName][$v[1] . "-1"] = 1;
+                                $fields['location'][$locationName][$v[1]] = 1;
                             }
                         } else {
                             $fields['location'][$locationName][$v[1]] = 1;
@@ -749,18 +830,21 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         foreach ($params['mapper'] as $key => $value) {
             $colCnt = 0;
             foreach ($value as $k => $v) {
-                if ($v[1]) {
+                if ( CRM_Utils_Array::value( '1' ,$v ) ) {
                     $saveMappingFields =& new CRM_Core_DAO_MappingField();
                     $saveMappingFields->mapping_id   = $mappingId;
-                    $saveMappingFields->name         = $v[1];
-                    $saveMappingFields->contact_type = $v[0];
+                    $saveMappingFields->name         = CRM_Utils_Array::value( '1' ,$v );
+                    $saveMappingFields->contact_type = CRM_Utils_Array::value( '0' ,$v );
                     
-                    $locationId = $v[2];
+                    $locationId =  CRM_Utils_Array::value( '2' ,$v );
                     $saveMappingFields->location_type_id = is_numeric($locationId) ? $locationId : null;
-                    
-                    $saveMappingFields->phone_type    = $v[3];
-                    $saveMappingFields->operator      = $params['operator'][$key][$k];
-                    $saveMappingFields->value         = $params['value'   ][$key][$k];
+                    if( $v[1] == 'phone' ) {
+                        $saveMappingFields->phone_type_id = CRM_Utils_Array::value( '3' ,$v );
+                    } else if( $v[1] == 'im' ) {
+                        $saveMappingFields->im_provider_id   = CRM_Utils_Array::value( '3' ,$v );
+                    }
+                    $saveMappingFields->operator      = CRM_Utils_Array::value( $k, $params['operator'][$key] );
+                    $saveMappingFields->value         = CRM_Utils_Array::value( $k, $params['value'][$key]    );
                     $saveMappingFields->grouping      = $key;
                     $saveMappingFields->column_number = $colCnt;
 
@@ -772,4 +856,4 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     }
     
 }
-?>
+

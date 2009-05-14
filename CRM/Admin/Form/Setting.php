@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -42,6 +42,8 @@ require_once 'CRM/Core/Form.php';
 class CRM_Admin_Form_Setting extends CRM_Core_Form
 {
 
+    protected $_defaults;
+
     /**
      * This function sets the default values for the form.
      * default values are retrieved from the database
@@ -51,18 +53,21 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $defaults = array( );
-        $formArray = array('Component', 'Localization');
-        $formMode  = false;
-        if ( in_array( $this->_name, $formArray ) ) {
-            $formMode = true;
-        }
+        if ( ! $this->_defaults ) {
+            $this->_defaults = array( );
+            $formArray = array('Component', 'Localization');
+            $formMode  = false;
+            if ( in_array( $this->_name, $formArray ) ) {
+                $formMode = true;
+            }
+            
+            require_once "CRM/Core/BAO/Setting.php";
+            CRM_Core_BAO_Setting::retrieve($this->_defaults);
 
-        require_once "CRM/Core/BAO/Setting.php";
-        CRM_Core_BAO_Setting::retrieve($defaults);
-        require_once "CRM/Core/Config/Defaults.php";
-        CRM_Core_Config_Defaults::setValues($defaults, $formMode);
-        return $defaults;
+            require_once "CRM/Core/Config/Defaults.php";
+            CRM_Core_Config_Defaults::setValues($this->_defaults, $formMode);
+        }
+        return $this->_defaults;
     }
 
     /**
@@ -73,12 +78,6 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
      */
     public function buildQuickForm( $check = false ) 
     {
-        // set breadcrumb to append to 2nd layer pages
-        if ( !$check ) {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
-            CRM_Utils_System::appendBreadCrumb( ts('Global Settings'), $breadCrumbPath );
-        }
-        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
@@ -98,9 +97,12 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
     public function postProcess() 
     {
         // store the submitted values in an array
-        $params = array();
         $params = $this->controller->exportValues($this->_name);
 
+        self::commonProcess( $params );
+    }
+
+    public function commonProcess( &$params ) {
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::add($params);
 
@@ -110,6 +112,20 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
         CRM_Core_Session::setStatus( ts('Your changes have been saved.') );
     }
+
+    public function rebuildMenu( ) {
+        // ensure config is set with new values
+        $config =& CRM_Core_Config::singleton(true, true);
+
+        // rebuild menu items
+        require_once 'CRM/Core/Menu.php';
+        CRM_Core_Menu::store( );
+
+        // also delete the IDS file so we can write a new correct one on next load
+        $configFile = $config->uploadDir . 'Config.IDS.ini';
+        @unlink( $configFile );
+    }
+
 }
 
-?>
+

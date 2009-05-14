@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id: Selector.php 11510 2007-09-18 09:21:34Z lobo $
  *
  */
@@ -75,14 +75,6 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     static $_properties = array( 'contact_id', 'contact_type', 'display_name' );
 
     /**
-     * This caches the content for the display system.
-     *
-     * @var string
-     * @access protected
-     */
-    protected $_contact;
-
-    /**
      * formValues is the array returned by exportValues called on
      * the HTML_QuickForm_Controller for that page.
      *
@@ -122,6 +114,8 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      */
     protected $_search;
 
+    protected $_customSearchClass;
+
     /**
      * Class constructor
      *
@@ -138,9 +132,10 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                           $returnProperties = null,
                           $action = CRM_Core_Action::NONE,
                           $includeContactIds = false,
-                          $searchChildGroups = true ) {
-
-        $this->_formValues = $formValues;
+                          $searchChildGroups = true,
+                          $searchContext = 'search' ) {
+        $this->_customSearchClass = $customSearchClass;
+        $this->_formValues        = $formValues;
         $this->_includeContactIds = $includeContactIds;
 
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $customSearchClass ) . '.php' );
@@ -182,7 +177,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                 self::$_links[CRM_Core_Action::MAP] = array(
                                                             'name'     => ts('Map'),
                                                             'url'      => 'civicrm/contact/map',
-                                                            'qs'       => 'reset=1&cid=%%id%%',
+                                                            'qs'       => 'reset=1&cid=%%id%%&searchType=custom',
                                                             'title'    => ts('Map Contact'),
                                                             );
             }
@@ -224,10 +219,14 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         } else {
             $headers = array( );
             foreach ( $columns as $name => $key ) {
-                $headers[] = array( 'name' => $name,
-                                    'sort' => $key,
-                                    'direction' => CRM_Utils_Sort::ASCENDING );
-            }
+                if( ! empty($name)) {
+                    $headers[] = array( 'name' => $name,
+                                        'sort' => $key,
+                                        'direction' => CRM_Utils_Sort::ASCENDING );
+                } else {
+                    $headers[] = array( );
+                }
+            } 
             return $headers;
         }
     }
@@ -273,7 +272,16 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         $columnNames = array_values( $columns );
         $links       = self::links( );
         $mask        = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
-
+        
+        $alterRow = false;
+        if ( method_exists( $this->_customSearchClass,
+                            'alterRow' ) ) {
+            $alterRow = true;
+        }
+        $image = false;
+        if ( is_a( $this->_search, 'CRM_Contact_Form_Search_Custom_Basic' ) ) {
+            $image= true;
+        }
         // process the result of the query
         $rows = array( );
         while ( $dao->fetch( ) ) {
@@ -288,14 +296,25 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                 }
             }
             if ( ! $empty ) {
-                $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $dao->contact_id;
+                $contactID = isset( $dao->contact_id ) ? $dao->contact_id : NULL ;
+                
+                $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $contactID;
                 $row['action']   = CRM_Core_Action::formLink( $links,
                                                               $mask ,
-                                                              array( 'id' => $dao->contact_id ) );
+                                                              array( 'id' => $contactID) );
+                $row['contact_id'] = $contactID;
+                
+                if ( $alterRow ) {
+                    $this->_search->alterRow( $row );
+                }
+                
+                if ( $image ) {
+                    require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+                    $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $dao->contact_type );
+                }
                 $rows[] = $row;
             }
         }
-
         return $rows;
     }
    
@@ -308,12 +327,13 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      * @return array              $qill         which contains an array of strings
      * @access public
      */
-  
-    // the current internationalisation is bad, but should more or less work
-    // for most of "European" languages
     public function getQILL( )
     {
         return null;
+    }
+
+    public function getSummary( ) {
+        return $this->_search->summary( );
     }
 
     /**
@@ -326,8 +346,8 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         return ts('CiviCRM Custom Search');
     }
 
-    function &alphabetQuery( ) {
-        return $this->_search->alphabet( );
+    function alphabetQuery( ) {
+        return null;
     }
 
     function &contactIDQuery( ) {
@@ -339,4 +359,4 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
 
 }//end of class
 
-?>
+

@@ -1,0 +1,118 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.2                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2009
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Group_ManageGroup extends CiviTestCase {
+
+  var $webUser;
+  
+  function get_info() {
+    return array(
+      'name' => 'Group Settings click-through',
+      'description' => 'Test all links in Group Settings.',
+      'group' => 'CiviCRM Browser Tests',
+    );
+  }
+  
+  function setUp() {
+    parent::setUp();
+
+    $this->drupalModuleEnable('civicrm');
+    $this->webUser = $this->drupalCreateUserRolePerm(
+                       array ( 0 => 'access CiviCRM',
+                               1 => 'administer CiviCRM',
+			       2 => 'edit groups',
+			       3 => 'edit all contacts' ) );
+    $this->drupalLoginUser($this->webUser);
+
+  }
+  
+  /**
+   * Test Manage group, Members functionality
+   */
+  function testManageGroupMembersLink() {
+    $this->civiGet('civicrm/dashboard', 'reset=1' );
+    $this->clickLink('Manage Groups', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
+
+    $this->clickLink('Members', '0');
+    $this->assertWantedRaw( 'Group Members:', 'Group Members.' );
+  }  
+
+  /**
+   * Test Manage group, settings functionality
+   */
+  function testManageGroupNewLink() {
+    $this->civiGet('civicrm/dashboard', 'reset=1' );
+    $this->clickLink('Manage Groups', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
+
+    $this->clickLink('New Group', '0', true);
+    $this->assertWantedRaw( 'Create New Group', 'New Group Link' );
+  }  
+
+  /**
+   * Test Manage group, Disable/Enable functionality
+   */
+  function testManageGroupEnableDisableLink() {
+    $this->civiGet('civicrm/dashboard', 'reset=1' );
+    $this->clickLink('Manage Groups', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
+
+    $this->clickLink('Disable', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group.' );
+
+    $params = array( 'inactive_status' => 1 );     
+    $this->drupalPost( NULL, $params, '_qf_Search_refresh');
+    
+    $this->clickLink('Enable', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group.' );     
+  }  
+
+  /**
+   * Test Manage group, Delete functionality
+   */
+  function testManageGroupDeleteLink() {
+    $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
+    $this->clickLink('Manage Groups', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
+
+    $this->clickLink('Delete', '0');
+    $this->assertWantedRaw( 'Confirm Group Delete', 'Confirm Group Delete.' );
+  }  
+
+
+}

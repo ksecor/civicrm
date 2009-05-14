@@ -2,25 +2,25 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
  | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
  | WITHOUT ANY WARRANTY; without even the implied warranty of         |
  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
+ | See the GNU Affero General Public License for more details.        |
  |                                                                    |
- | You should have received a copy of the Affero General Public       |
+ | You should have received a copy of the GNU Affero General Public   |
  | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org.  If you have questions about the       |
- | Affero General Public License or the licensing  of CiviCRM,        |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -49,14 +49,10 @@ class CRM_Contact_Form_Search_Custom_Base {
         return CRM_Core_DAO::singleValueQuery( $this->sql( 'count(distinct contact_a.id) as total' ),
                                                CRM_Core_DAO::$_nullArray );
     }
-    
-    function alphabet( ) {
-        $sql = $this->sql( 'DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name' );
 
-        return CRM_Core_DAO::executeQuery( $sql,
-                                           CRM_Core_DAO::$_nullArray );
+    function summary( ) {
+        return null;
     }
-
 
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) {
         $sql    = $this->sql( 'contact_a.id as contact_id',
@@ -64,11 +60,13 @@ class CRM_Contact_Form_Search_Custom_Base {
         $this->validateUserSQL( $sql );
 
         $dao = new CRM_Core_DAO( );
-        return CRM_Core_DAO::composeQuery( $sql, $params, true, $dao );
+        return CRM_Core_DAO::composeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray,
+                                           true, $dao );
     }
 
     function sql( $selectClause,
-                  $offset = 0, $rowCount = 0, $sort = null,
+                  $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false,
                   $groupBy = null ) {
 
@@ -76,12 +74,10 @@ class CRM_Contact_Form_Search_Custom_Base {
             "SELECT $selectClause "     .
             $this->from ( )             .
             " WHERE "                   .
-            $this->where( $includeContactIDs ) ;
-
-        $this->addDomainClause( $where );
+            $this->where( )             ;
 
         if ( $includeContactIDs ) {
-            $this->includeContactIDs( $where,
+            $this->includeContactIDs( $sql,
                                       $this->_formValues );
         }
 
@@ -89,7 +85,7 @@ class CRM_Contact_Form_Search_Custom_Base {
             $sql .= " $groupBy ";
         }
         
-        $this->addSortOffset( $sql, $offset, $rowCount, $sort );
+        $this->addSortOffset( $sql, $offset, $rowcount, $sort );
         return $sql;
     }
 
@@ -99,13 +95,6 @@ class CRM_Contact_Form_Search_Custom_Base {
 
     function &columns( ) {
         return $this->_columns;
-    }
-
-
-    function addDomainClause( &$sql ) {
-        $sql .=
-            " AND contact_a.domain_id = " .
-            CRM_Core_Config::domainID( );
     }
 
     static function includeContactIDs( &$sql, &$formValues ) {
@@ -124,7 +113,7 @@ class CRM_Contact_Form_Search_Custom_Base {
     }
 
     function addSortOffset( &$sql,
-                            $offset, $rowCount, $sort ) {
+                            $offset, $rowcount, $sort ) {
         if ( ! empty( $sort ) ) {
             if ( is_string( $sort ) ) {
                 $sql .= " ORDER BY $sort ";
@@ -133,13 +122,13 @@ class CRM_Contact_Form_Search_Custom_Base {
             }
         }
         
-        if ( $row_count > 0 && $offset >= 0 ) {
-            $sql .= " LIMIT $offset, $row_count ";
+        if ( $rowcount > 0 && $offset >= 0 ) {
+            $sql .= " LIMIT $offset, $rowcount ";
         }
     }
 
     function validateUserSQL( &$sql, $onlyWhere = false ) {
-        $includeStrings = array( 'contact_a', 'contact_a.domain_id = ' );
+        $includeStrings = array( 'contact_a' );
         $excludeStrings = array( 'insert', 'delete', 'update' );
 
         if ( ! $onlyWhere ) {
@@ -148,14 +137,14 @@ class CRM_Contact_Form_Search_Custom_Base {
 
         foreach ( $includeStrings as $string ) {
             if ( stripos( $sql, $string ) === false ) {
-                CRM_Core_Error::fatal( ts( 'Could not find "%1" string in SQL clause',
+                CRM_Core_Error::fatal( ts( 'Could not find \'%1\' string in SQL clause.',
                                            array( 1 => $string ) ) );
             }
         }
 
         foreach ( $excludeStrings as $string ) {
             if ( stripos( $sql, $string ) !== false ) {
-                CRM_Core_Error::fatal( ts( 'Found illegal "%1" string in SQL clause',
+                CRM_Core_Error::fatal( ts( 'Found illegal \'%1\' string in SQL clause.',
                                            array( 1 => $string ) ) );
             }
         }
@@ -164,12 +153,10 @@ class CRM_Contact_Form_Search_Custom_Base {
     function whereClause( &$where, &$params ) {
         $dao = new CRM_Core_DAO( );
         $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
-        $this->addDomainClause( $where );
-        $this->validateUserSQL( $where, true );
 
         return $where;
     }
 
 }
 
-?>
+
