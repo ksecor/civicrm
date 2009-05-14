@@ -240,7 +240,13 @@ class CRM_Contact_Form_Individual {
                 }
                 $viewUrl = implode( ', ',  $viewUrls );
                 $url     = implode( ', ',  $urls );
-                $errors['_qf_default'] = ts( 'One matching contact was found.%3If you need to verify if this is the same person, click here - %1 - to VIEW the existing contact in a new tab.%3If you know the record you are creating is a duplicate, click here - %2 - to EDIT the original record instead.%3If you are sure this is not a duplicate, click the Save Matching Contact button below.', array( 1 => $viewUrl, 2 => $url, 3 => '<br />', 'count' => count( $urls ), 'plural' => '%count matching contacts were found.%3If you need to verify whether one of these is the same person, click here - %1 - to VIEW the existing contact in a new tab.%3If you know the record you are creating is a duplicate, click here - %2 - to EDIT the original record instead.%3If you are sure this is not a duplicate, click the Save Matching Contact button below.' ) );
+                $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($urls), 'plural' => '%count matching contacts were found.'));
+                $errors['_qf_default'] .= '<br />';
+                $errors['_qf_default'] .= ts('If you need to verify if this is the same contact, click here - %1 - to VIEW the existing contact in a new tab.', array(1 => $viewUrl, 'count' => count($urls), 'plural' => 'If you need to verify whether one of these is the same household, click here - %1 - to VIEW the existing contact in a new tab.'));
+                $errors['_qf_default'] .= '<br />';
+                $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $url));
+                $errors['_qf_default'] .= '<br />';
+                $errors['_qf_default'] .= ts('If you are sure this is not a duplicate, click the Save Matching Contact button below.');
 
                 // let smarty know that there are duplicates
                 $template =& CRM_Core_Smarty::singleton( );

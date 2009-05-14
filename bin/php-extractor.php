@@ -111,6 +111,10 @@ function tsCallType($tokens)
         } elseif (preg_match('/^[\'"]!\d+[\'"]$/', $key[1])) {
             // no-op
 
+        // Drupal also uses words as placeholders, so accept them
+        } elseif (preg_match('/^[\'"]%[a-z]+[\'"]$/', $key[1])) {
+            // no-op
+
         // no non-number keys (except count and plural, above)
         } elseif ($key[0] != T_LNUMBER) {
             return TS_CALL_TYPE_INVALID;
