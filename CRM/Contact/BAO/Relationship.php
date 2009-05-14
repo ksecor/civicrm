@@ -849,7 +849,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         foreach($allRelationshipType as $key => $type) {
             if($type['contact_type_b'] == $targetContactType) {
-                $relationshipType[ $key . '_a_b' ] = $type[ 'name_a_b' ];
+                $relationshipType[ $key . '_a_b' ] = $type[ 'label_a_b' ];
             }
         }
         
