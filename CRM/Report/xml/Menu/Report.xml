@@ -75,4 +75,11 @@
     <access_callback>1</access_callback>
     <component>CiviReport</component>
   </item>
+  <item>
+    <path>civicrm/report/contribute/summaryCount</path>
+    <title>Contribution Summary Report</title>
+    <page_callback>CRM_Report_Form_Contribute_SummaryCount</page_callback>
+    <access_callback>1</access_callback>
+    <component>CiviReport</component>
+  </item>
 </menu>
