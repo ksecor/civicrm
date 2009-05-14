@@ -752,21 +752,24 @@ WHERE  id = %1";
      * @return array - array reference of all countries.
      *
      */
-    public static function country($id = false) 
+    public static function country($id = false, $applyLimit = true) 
     {
         if ( !self::$country || !$id ) {
 
             $config =& CRM_Core_Config::singleton();
 
-            // limit the country list to the countries specified in CIVICRM_COUNTRY_LIMIT
-            // (ensuring it's a subset of the legal values)
-            // K/P: We need to fix this, i dont think it works with new setting files
-            $limitCodes = $config->countryLimit( );
-            if ( ! is_array( $limitCodes ) ) {
-                $limitCodes = array( $config->countryLimit => 1);
+            if ( $applyLimit ) {
+                // limit the country list to the countries specified in CIVICRM_COUNTRY_LIMIT
+                // (ensuring it's a subset of the legal values)
+                // K/P: We need to fix this, i dont think it works with new setting files
+                $limitCodes = $config->countryLimit( );
+                if ( ! is_array( $limitCodes ) ) {
+                    $limitCodes = array( $config->countryLimit => 1);
+                }
+                
+                $limitCodes = array_intersect(self::countryIsoCode(), $limitCodes);
             }
 
-            $limitCodes = array_intersect(self::countryIsoCode(), $limitCodes);
             if (count($limitCodes)) {
                 $whereClause = "iso_code IN ('" . implode("', '", $limitCodes) . "')";
             } else {

@@ -890,12 +890,11 @@ class CRM_GCD {
         
         // some more random skips
         // hack add lat / long for US based addresses
-        // list( $addressDAO->country_id, $addressDAO->state_province_id, $addressDAO->city, 
-        //       $addressDAO->postal_code, $addressDAO->geo_code_1, $addressDAO->geo_code_2 ) = 
-        //       self::getZipCodeInfo( );
+        list( $addressDAO->country_id, $addressDAO->state_province_id, $addressDAO->city, 
+              $addressDAO->postal_code, $addressDAO->geo_code_1, $addressDAO->geo_code_2 ) = 
+            self::getZipCodeInfo( );
 
-        // $addressDAO->county_id = 1;
-        $addressDAO->country_id = mt_rand(1001, 1070);
+        //$addressDAO->county_id = 1;
         
         $this->_insert($addressDAO);
 
@@ -1150,35 +1149,20 @@ class CRM_GCD {
         }
     }
     
-    /*   static function getZipCodeInfo( ) {
-        static $stateMap;
-        
-        if ( ! isset( $stateMap ) ) {
-            $query = 'SELECT id, abbreviation from civicrm_state_province where country_id = 1228';
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
-            $stateMap = array( );
-            while ( $dao->fetch( ) ) {
-                $stateMap[$dao->abbreviation] = $dao->id;
-            }
-        }
+    static function getZipCodeInfo( ) {
+        $stateID   = mt_rand( 1000, 5132 );
+        $offset    = mt_rand( 1,    4132 );
 
-        $offset = mt_rand( 1, 43000 );
-        $query = "SELECT city, state, zip, latitude, longitude FROM zipcodes LIMIT $offset, 1";
+        $query = "SELECT id, country_id from civicrm_state_province LIMIT $offset, 1";
         $dao =& new CRM_Core_DAO( );
         $dao->query( $query );
         while ( $dao->fetch( ) ) {
-            if ( $stateMap[$dao->state] ) {
-                $stateID = $stateMap[$dao->state];
-            } else {
-                $stateID = 1004;
-            }
-            
-            $zip = str_pad($dao->zip, 5, '0', STR_PAD_LEFT);
-            return array( 1228, $stateID, $dao->city, $zip, $dao->latitude, $dao->longitude );
+            return array( $dao->country_id, $dao->id );
         }
+
+        return array();
     }
-    */
+
     static function getLatLong( $zipCode ) {
         $query     = "http://maps.google.com/maps?q=$zipCode&output=js";
         $userAgent = "Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0";
@@ -1591,15 +1575,15 @@ VALUES
         // add contributions
         $contribution =& new CRM_Contribute_DAO_Contribution();
 
-        for ($id=1; $id<=self::NUM_CONTRIBUTION; $id++) {
+        for ( $id = 1; $id <= self::NUM_CONTRIBUTION; $id++ ) {
             $contribution->contact_id = mt_rand(1, self::NUM_CONTACT);
-            $contribution->contribution_type_id = mt_rand(1, 4);
-            $contribution->contribution_page_id = mt_rand(1, 3);
-            $contribution->payment_instrument_id = mt_rand(1, 5);
-            $contribution->receive_date = $this->_getRandomDate();
-            $contribution->total_amount = mt_rand(10, 500);
+            $contribution->contribution_type_id   = mt_rand(1, 4);
+            $contribution->contribution_page_id   = mt_rand(1, 3);
+            $contribution->payment_instrument_id  = mt_rand(1, 5);
+            $contribution->receive_date           = $this->_getRandomDate();
+            $contribution->total_amount           = mt_rand(10, 99);
             $contribution->contribution_status_id = mt_rand(1, 6);
-            
+            $contribution->trxn_id                = "#" . md5($contribution->receive_date);
             $this->_insert($contribution);
         }
     }
