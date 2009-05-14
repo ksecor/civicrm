@@ -109,7 +109,11 @@
             {/literal}
                 {foreach from=$filters item=table key=tableName}
                     {foreach from=$table item=field key=fieldName}
-                        {literal}showHideMaxMinVal( "{/literal}{$fieldName}{literal}", "dnc" );{/literal}
+			{literal}var val = "dnc";{/literal} 
+                        {if $field.type != 4}
+                            {literal}var val = document.getElementById("{/literal}{$fieldName}_op{literal}").value;{/literal}
+			{/if}
+                        {literal}showHideMaxMinVal( "{/literal}{$fieldName}{literal}", val );{/literal}
                     {/foreach}
                 {/foreach}
                 {literal}

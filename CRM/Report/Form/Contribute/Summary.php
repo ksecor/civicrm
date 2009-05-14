@@ -84,7 +84,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                               'avg'    => ts( 'Average' ), ), ), ),
                           'grouping'              => 'contri-fields',
                           'filters'               =>             
-                          array( 'receive_date'   => null,
+                          array( 'receive_date'   => 
+                                 array( 'type'    => CRM_Utils_Type::T_DATE),
                                  'total_amount'   => 
                                  array( 'title'   => ts( 'Total  Amount Between' ), ), ),
                           'group_bys'           =>

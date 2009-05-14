@@ -70,7 +70,8 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
                                               'avg'    => ts( 'Average' ), ), ), ),
                           'filters'               =>             
                           array( 'receive_date'   => 
-                                 array( 'default' => 'this.month'),
+                                 array( 'default' => 'this.month',
+                                        'type'    => CRM_Utils_Type::T_DATE),
                                  'total_count'   => 
                                  array( 'title'   => ts( 'Total Count' ),
                                         'type'    => CRM_Utils_Type::T_INT ),
