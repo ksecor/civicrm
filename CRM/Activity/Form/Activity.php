@@ -113,44 +113,49 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     function setFields() {
         $this->_fields = 
             array(
-                  'subject'                  =>  array( 'type'        => 'text',
-                                                        'label'       => 'Subject',
-                                                        'attributes'  =>  
-                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                                   'subject' ),
-                                                        'required'    => true,
-                                                        ),
-                  'activity_date_time'      =>  array( 'type'        => 'date',
-                                                       'label'       => 'Date and Time',
-                                                       'attributes'  => 
-                                                       CRM_Core_SelectValues::date('activityDatetime'),
-                                                       'required'    => true,
-                                                       ),
-                  'duration'                 =>  array( 'type'        => 'text',
-                                                        'label'       => 'Duration',
-                                                        'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
-                                                        'required'    => false,
-                                                        ),
+                  'subject'                   =>  array( 'type'        => 'text',
+                                                         'label'       => 'Subject',
+                                                         'attributes'  =>  
+                                                         CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                    'subject' ),
+                                                         'required'    => true,
+                                                         ),
+                  'activity_date_time'        =>  array( 'type'        => 'date',
+                                                         'label'       => 'Date and Time',
+                                                         'attributes'  => 
+                                                         CRM_Core_SelectValues::date('activityDatetime'),
+                                                         'required'    => true,
+                                                         ),
+                  'duration'                  =>  array( 'type'        => 'text',
+                                                         'label'       => 'Duration',
+                                                         'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
+                                                         'required'    => false,
+                                                         ),
                   
-                  'location'                 =>  array( 'type'       => 'text',
-                                                        'label'      => 'Location',
-                                                        'attributes' => 
-                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                                   'location' ),
-                                                        'required'   => false,
-                                                        ),
-                  'details'                  => array(  'type'       => 'textarea',
-                                                        'label'      => 'Details',
-                                                        'attributes' => 
-                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                                   'details' ),
-                                                        'required'   => false, 
-                                                        ),
+                  'location'                  =>  array( 'type'       => 'text',
+                                                         'label'      => 'Location',
+                                                         'attributes' => 
+                                                         CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                    'location' ),
+                                                         'required'   => false,
+                                                         ),
+                  'details'                   => array(  'type'       => 'textarea',
+                                                         'label'      => 'Details',
+                                                         'attributes' => 
+                                                         CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                    'details' ),
+                                                         'required'   => false, 
+                                                         ),
                   'status_id'                 =>  array( 'type'       => 'select',
                                                          'label'      => 'Status',
                                                          'attributes' => 
                                                          CRM_Core_PseudoConstant::activityStatus( ),
                                                          'required'   => true, 
+                                                         ),
+                  'priority_id'               =>  array( 'type'       => 'select',
+                                                         'label'      => 'Priority',
+                                                         'attributes' => array('' => '- select priority -') +
+                                                         CRM_Core_PseudoConstant::priority( ),
                                                          ),
                   'source_contact_id'         =>  array( 'type'       => 'text',
                                                          'label'      => 'Added By',
@@ -429,7 +434,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             // since those are dojo fields, unfortunately we cannot use defaults directly
             $this->_sourceContactId = $this->_currentUserId;
             $this->_targetContactId = $this->_currentlyViewedContactId;
-
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $priority = CRM_Core_PseudoConstant::priority( );
+            $defaults['priority_id']       = array_search( 'Normal', $priority );
             $defaults['source_contact_id'] = $this->_sourceContactId;
             $defaults['target_contact[1]'] = $this->_targetContactId;
             $defaults['source_contact_id'] = $this->_sourceContactId;

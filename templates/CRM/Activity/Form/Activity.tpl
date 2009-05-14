@@ -123,6 +123,9 @@
              <tr>
                 <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
              </tr> 
+	     <tr>
+                <td class="label">{$form.priority_id.label}</td><td class="view-value">{$form.priority_id.html}</td>
+             </tr>
              <tr>
                 <td colspan="2">
 	            {if $action eq 4} 

@@ -256,6 +256,13 @@ class CRM_Core_PseudoConstant
      * @static
      */
     private static $activityStatus = array( );
+     
+    /**
+     * priority
+     * @var array
+     * @static
+     */
+    private static $priority = array( );
 
     /**
      * wysiwyg Editor
@@ -1270,13 +1277,13 @@ WHERE  id = %1";
     }
 
     /**
-     * Get all Activty Statuses.
+     * Get all Activity Statuses.
      *
      * The static array activityStatus is returned
      *
      * @access public
      * @static
-     * @return array - array reference of all activty statuses
+     * @return array - array reference of all activity statuses
      */
     public static function &activityStatus( $column = 'label' )
     {
@@ -1290,8 +1297,27 @@ WHERE  id = %1";
 
         return self::$activityStatus[$column];
     }
+    
+    /**
+     * Get all Priorities
+     *
+     * The static array Priority is returned
+     *
+     * @access public
+     * @static
+     * @return array - array reference of all Priority
+     */
+    public static function &priority(  )
+    {
+        if ( ! self::$priority ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$priority = CRM_Core_OptionGroup::values('priority');
+        }
+        
+        return self::$priority;
+    }
 
-  /**
+    /**
      * Get all WYSIWYG Editors.
      *
      * The static array wysiwygEditor is returned

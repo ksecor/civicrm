@@ -167,6 +167,9 @@
            <tr>
               <td class="label">{$form.status_id.label}</td><td class="view-value">{$form.status_id.html}</td>
            </tr>
+	   <tr>
+              <td class="label">{$form.priority_id.label}</td><td class="view-value">{$form.priority_id.html}</td>
+           </tr>
            {/if}
            <tr>
               <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>
