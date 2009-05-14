@@ -48,6 +48,7 @@ class CRM_Case_Form_Activity_OpenCase
         }
         $form->_createNewButtonName      = $form->getButtonName( 'next'   , 'createNew' );
         $form->_assignExistingButtonName = $form->getButtonName( 'next'   , 'assignExisting' );
+        $form->_dedupeButtonName         = $form->getButtonName( 'refresh', 'dedupeCheck' );
     }
 
    /**
@@ -196,6 +197,11 @@ class CRM_Case_Form_Activity_OpenCase
         $form->addElement('submit', 
                           $form->_assignExistingButtonName,
                           ts( 'Assign Existing Client' ) );
+
+        // add the dedupe button CRM-4479
+        $form->addElement('submit', 
+                          $form->_dedupeButtonName,
+                          ts( 'Check for Duplicate Client(s)' ) );
     }
 
     /**
@@ -209,8 +215,8 @@ class CRM_Case_Form_Activity_OpenCase
         if ( $form->_context == 'caseActivity' ) {
             return;
         }
+       
         // create contact if cid not present
-
         $contactParams = $params;
         if ( !$form->_currentlyViewedContactId ) {
             $contactParams['location'][1]['is_primary'] = 1;
@@ -298,7 +304,10 @@ class CRM_Case_Form_Activity_OpenCase
                 if ( count($ids) == 1 ) {
                     $form->assign( 'onlyOneDupe', 1 );
                 }
-            } 
+            } else if ( CRM_Utils_Array::value( '_qf_Case_refresh_dedupeCheck', $values ) ) {
+                // add a session message for no matching contacts CRM-4479
+                CRM_Core_Session::setStatus( 'No matching contact found.' );
+            }
         }
 
         return $errors;

@@ -232,6 +232,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        // check if dedupe button, if so return.
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->_dedupeButtonName ) {
+            return;
+        }
+
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $statusMsg = null;
             require_once 'CRM/Case/BAO/Case.php';

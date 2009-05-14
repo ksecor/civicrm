@@ -31,14 +31,15 @@
 		{$form.location.1.email.1.email.html}</td>
         <td colspan="2"></td>
 	</tr>
-    {if $isDuplicate}
     <tr>
-        <td colspan="2">&nbsp;&nbsp;{$form._qf_Case_next_createNew.html}</td>
+        <td colspan=2>{$form._qf_Case_refresh_dedupeCheck.html}</td>
+    {if $isDuplicate}
+        <td>&nbsp;{$form._qf_Case_next_createNew.html}</td>
         {if $onlyOneDupe}
-        <td colspan="2">&nbsp;&nbsp;{$form._qf_Case_next_assignExisting.html}</td>
+        <td>&nbsp;{$form._qf_Case_next_assignExisting.html}</td>
         {/if}
-    </tr>
     {/if}
+    </tr>
     </table>
    </fieldset>
 {/if}
