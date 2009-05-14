@@ -259,15 +259,4 @@
      <page_callback>CRM_Contact_Page_AJAX::checkUserName</page_callback>
      <access_callback>1</access_callback>
 </item>
-<item>
-     <path>civicrm/ajax/profilecontact</path>
-     <page_callback>CRM_Contact_Page_AJAX::contactProfile</page_callback>
-     <access_arguments>access CiviCRM</access_arguments>
-</item>
-<item>
-   <path>civicrm/contact/profilecreate</path>
-   <title>New Contact</title>
-   <page_callback>CRM_Contact_Form_ContactProfile</page_callback>
-   <access_arguments>access CiviCRM,add contacts</access_arguments>
-</item>
 </menu>

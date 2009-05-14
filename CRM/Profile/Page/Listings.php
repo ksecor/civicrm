@@ -108,7 +108,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         }
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
-                                                  $this, true, 0, 'GET' );
+                                                  $this, true, 0, 'REQUEST' );
         
         require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_fields =

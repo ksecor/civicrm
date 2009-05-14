@@ -149,9 +149,6 @@
             });
     </script>
     {/literal}
-
-    {*include new contact dialog file*}
-    {include file="CRM/common/newContact.tpl"}
     
 {literal}
 <script type="text/javascript">
@@ -221,6 +218,8 @@ cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
     </dl> 
 </fieldset>
 </div> 
+{*include new contact dialog file*}
+{include file="CRM/common/newContact.tpl"}
 
     {literal}
     <script type="text/javascript">

@@ -158,12 +158,16 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
             self::$_session  =& CRM_Core_Session::singleton( );
         }
 
-        if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
-            if ( $_GET['snippet'] == 3 ) {
+        $snippet = CRM_Utils_Array::value( 'snippet', $_REQUEST );
+        
+        if ( $snippet ) {
+            if ( $snippet == 3 ) {
                 $this->_print = CRM_Core_Smarty::PRINT_PDF;
-            } else if ( $_GET['snippet'] == 4 ) {
+            } else if ( $snippet == 4 ) {
                 $this->_print = CRM_Core_Smarty::PRINT_NOFORM;
                 self::$_template->assign( 'suppressForm', true );
+            } else if ( $snippet == 5 ) {
+                $this->_print = CRM_Core_Smarty::PRINT_NOFORM;
             } else {
                 $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
             }
