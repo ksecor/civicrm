@@ -3,11 +3,10 @@
 {literal}
 function newContact( ) {
     cj("#newContact").toggle( );
-    var dataURL = {/literal}"{crmURL p='civicrm/profile/create?reset=1&gid=1&snippet=5' h=0 }"{literal};
+    var dataURL = {/literal}"{crmURL p='civicrm/profile/create?reset=1&gid=1&snippet=5&context=dialog' h=0 }"{literal};
     cj.ajax({
        url: dataURL,
        success: function( content ){
-           //var profileForm = '<form id="profileContact" action="/civicrm/profile/create" method="POST">' + content + '</form>';
            cj("#contact-dialog").show( ).html( content ).dialog({
        	    	title: "Create New Contact",
            		modal: true,
@@ -63,7 +62,6 @@ function showRequest(formData, jqForm, options) {
        data: queryString + '&snippet=5&gid=1',
        success: function( response ) {
            cj("#contact-dialog").html( response );
-           //alert( "Data Saved: " + msg );
        }
      });
     
