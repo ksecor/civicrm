@@ -35,28 +35,3 @@ SELECT @maxValue  := max(CAST( `value` AS UNSIGNED )) FROM civicrm_option_value 
    	    (option_group_id, label, value, name, description, weight, is_active ) VALUES
    	        (@og_id_cs, 'CRM_Contact_Form_Search_Custom_FullText', @maxValue + 1, 'CRM_Contact_Form_Search_Custom_FullText', 'Full-text Search', @maxValue + 1, 1);
  {/if}
-
--- CRM-4478
-
-INSERT INTO 
-   `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
-VALUES 
-   ('priority', 'Priority', 0, 1);
-
-SELECT @og_id_pr  := id FROM civicrm_option_group WHERE name = 'priority';
-
- {if $multilingual}
-    INSERT INTO civicrm_option_value
-      (option_group_id, {foreach from=$locales item=locale}label_{$locale},{/foreach}  value, name, filter, weight, is_active) 
-    VALUES
-      (@og_id_pr, {foreach from=$locales item=locale}'Urgent',{/foreach} 1, 'Urgent', 0, 1, 1),
-      (@og_id_pr, {foreach from=$locales item=locale}'Normal',{/foreach} 2, 'Normal', 0, 2, 1),
-      (@og_id_pr, {foreach from=$locales item=locale}'Low',{/foreach} 3, 'Low', 0, 3, 1);
- {else}
-    INSERT INTO `civicrm_option_value`  
-      (`option_group_id`, `label`, `value`, `name`, `filter`, `weight`, `is_active`) 
-    VALUES    
-      (@og_id_pr, 'Urgent', 1, 'Urgent', 0, 1, 1),
-      (@og_id_pr, 'Normal', 2, 'Normal', 0, 2, 1),
-      (@og_id_pr, 'Low', 3, 'Low', 0, 3, 1);
- {/if}
