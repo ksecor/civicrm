@@ -6,7 +6,7 @@ repo="$1"
 rev="$2"
 
 # if this is not a tarball tagging commit, exit
-[ "`$svnlook -r $rev dirs-changed $repo`" = $tarball_branch ] || exit 0
+[ "`$svnlook -r $rev dirs-changed $repo | head -1`" = $tarball_branch ] || exit 0
 
 # if this is not a tag add commit (e.g., it's a tag delete one), exit
 [ "`$svnlook -r $rev changed $repo | cut -d' ' -f1`" = A ] || exit 0
