@@ -10,6 +10,7 @@
 
 #crm-container table#content {
   border: 1px solid #aaa;
+  margin-top: 25px;
 }
 
 #crm-container ul.indented {
