@@ -1,6 +1,7 @@
 #crm-container td#sidebar-left {
   background-color: #F6F6F6;
   border-right: 1px solid #aaa;
+  width: 200px;
 }
 
 #crm-container td#main-content {
