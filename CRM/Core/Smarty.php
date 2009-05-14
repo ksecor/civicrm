@@ -97,6 +97,16 @@ class CRM_Core_Smarty extends Smarty {
 
         $this->assign_by_ref( 'config'        , $config  );
         $this->assign_by_ref( 'session'       , $session );
+        
+        // check default editor and assign to template, store it in session to reduce db calls
+        $defaultWysiwygEditor = $session->get( 'defaultWysiwygEditor');
+        if ( !$defaultWysiwygEditor ) {
+            require_once 'CRM/Core/BAO/Preferences.php';
+            $defaultWysiwygEditor = CRM_Core_BAO_Preferences::value( 'editor_id' );            
+            $session->set( 'defaultWysiwygEditor', $defaultWysiwygEditor );
+        }
+        
+        $this->assign( 'defaultWysiwygEditor', $defaultWysiwygEditor );
  
         global $tsLocale;
         $this->assign('langSwitch', CRM_Core_I18n::languages(true));

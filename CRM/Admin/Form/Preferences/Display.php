@@ -72,7 +72,7 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
     public function buildQuickForm( ) 
     {
         $this->addElement( 'select', 'wysiwyg_editor', ts('WYSIWYG Editor'), 
-                           array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::wysiwygEditor( ),null );
+                           array( '' => ts( 'Textarea' ) ) + CRM_Core_PseudoConstant::wysiwygEditor( ),null );
         parent::buildQuickForm( );
     }
 
@@ -92,6 +92,10 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
         $this->_params = $this->controller->exportValues( $this->_name );
         $this->_config->editor_id = $this->_params['wysiwyg_editor'];
 
+        // set default editor to session if changed
+        $session =& CRM_Core_Session::singleton();
+        $session->set( 'defaultWysiwygEditor', $this->_params['wysiwyg_editor'] );
+        
         parent::postProcess( );
     }//end of function
 
