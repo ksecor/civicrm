@@ -1440,3 +1440,8 @@ div.buttons #actions {
 div.buttons #icons {
    width: 10%;   
 }
+
+
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+   font-size: 0.8em;
+}
