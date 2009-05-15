@@ -1,41 +1,42 @@
 <?php
  
-function civicrm_cck_activity_enable() {  
-	 // Get the files content
-	 $filename = drupal_get_path('module','civicrm_cck_activity') . "/civicrm_cck_activity.cck";
-	 $content = implode ('', file ($filename));
-	 // Build form state
-	 $form_state = array(
-	 'values' => array(
-	 'type_name' => '<create>',
-	 'macro' => $content,
- 	 ),
-	 );
-	 
-	 // Put it in there
-	 drupal_execute("content_copy_import_form", $form_state);
+function civicrm_cck_activity_enable() 
+{  
+    // Get the files content
+    $filename = drupal_get_path('module','civicrm_cck_activity') . "/civicrm_cck_activity.cck";
+    $content = implode ('', file ($filename));
+    // Build form state
+    $form_state = array(
+                        'values' => array(
+                                          'type_name' => '<create>',
+                                          'macro' => $content,
+                                          ),
+                        );
+    
+    // Put it in there
+    drupal_execute("content_copy_import_form", $form_state);
 
-	 // Create the taxonmy vocabulary named activities. Check first if it exists.
-	 
-	 if ($vocabulary = taxonomy_vocabulary_load(variable_get('civicrm_cck_activity_nav_vocabulary', 0))) {
-	 // check for taxonomies of CivicrmActivity nodes.
-	 $vocabulary = (array) $vocabulary;
-	 $vocabulary['nodes']['civicrmactivity'] = 1;
-	 taxonomy_save_vocabulary($vocabulary);
-	 }
-	 else {
-	 // Create the Activitites vocabulary if it does not exist.
-	 $vocabulary = array(
-	 'name' => t('Activity'),
-	 'multiple' => 0,
-	 'required' => 0,
-	 'hierarchy' => 1,
-	 'relations' => 0,
-	 'module' => 'civicrm_cck_activity',
-	 'weight' => -9,	
-	 'nodes' => array('civicrmactivity' => 1),
-	 );
-	 taxonomy_save_vocabulary($vocabulary);
-	 variable_set('civicrm_cck_activity_nav_vocabulary', $vocabulary['vid']);
-	 }
-	 }
+    // Create the taxonmy vocabulary named activities. Check first if it exists.
+    
+    if ($vocabulary = taxonomy_vocabulary_load(variable_get('civicrm_cck_activity_nav_vocabulary', 0))) {
+        // check for taxonomies of CivicrmActivity nodes.
+        $vocabulary = (array) $vocabulary;
+        $vocabulary['nodes']['civicrmactivity'] = 1;
+        taxonomy_save_vocabulary($vocabulary);
+    }
+    else {
+        // Create the Activitites vocabulary if it does not exist.
+        $vocabulary = array(
+                            'name' => t('Activity'),
+                            'multiple' => 0,
+                            'required' => 0,
+                            'hierarchy' => 1,
+                            'relations' => 0,
+                            'module' => 'civicrm_cck_activity',
+                            'weight' => -9,	
+                            'nodes' => array('civicrmactivity' => 1),
+                            );
+        taxonomy_save_vocabulary($vocabulary);
+        variable_set('civicrm_cck_activity_nav_vocabulary', $vocabulary['vid']);
+    }
+}
