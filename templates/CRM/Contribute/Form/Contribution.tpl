@@ -45,7 +45,7 @@
             </tr>
         {else}
             <tr>
-                <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;<a href="javascript:newContact( );">{ts}Create New Contact{/ts}</a></td></tr>
+                <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;<a href="javascript:newContact( 1 );">{ts}Create New Contact{/ts}</a></td></tr>
         {/if}
         {if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
