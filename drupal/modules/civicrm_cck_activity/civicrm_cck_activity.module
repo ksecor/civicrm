@@ -114,7 +114,7 @@ function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
             $makeDate= date('Y-m-d H:i:s', mktime( $formValues['activity_date_time']['h'],$formValues['activity_date_time']['i'],0,$formValues['activity_date_time']['M'], $formValues['activity_date_time']['d'], $formValues['activity_date_time']['Y']));
             
             // date and time
-            $form_state['values']['field_date_and_time']=array( 0 => array('value' => $makeDate , 'value2' => $makeDate , 'timezone' => 'UTC' , 'offset' => 0 , 'offset2' => 0 ));
+            //  $form_state['values']['field_date_and_time']=array( 0 => array('value' => $makeDate , 'value2' => $makeDate , 'timezone' => 'UTC' , 'offset' => 0 , 'offset2' => 0 ));
             
             $count=0;
             $fileInfo=array();
