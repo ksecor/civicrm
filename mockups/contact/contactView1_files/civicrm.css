@@ -1445,3 +1445,7 @@ div.buttons #icons {
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
    font-size: 0.8em;
 }
+
+.ui-tabs .ui-tabs-nav li a {
+   padding: 5px !important;
+}
