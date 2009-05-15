@@ -58,7 +58,7 @@ class CRM_ParticipantProcessor
         $statusIds =  '(' . implode( ',', array_merge( array_keys( $pendingStatuses ), array_keys( $waitingStatuses ) ) ) . ')';
         
         $participantDetails = $fullEvents = array( );
-        $expiredParticipantCount = $waitingConfirmCount = 0;
+        $expiredParticipantCount = $waitingConfirmCount = $waitingApprovalCount = 0;
         
         //get all participant who's status in class pending and waiting
         $query = "SELECT * FROM civicrm_participant WHERE status_id IN {$statusIds} ORDER BY register_date";
@@ -71,7 +71,8 @@ class CRM_ParticipantProcessor
            participant.registered_by_id,
            participant.event_id,
            event.title as eventTitle,
-           event.expiration_time
+           event.expiration_time,
+           event.requires_approval
      FROM  civicrm_participant participant
 LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
     WHERE  participant.status_id IN {$statusIds}
@@ -79,6 +80,7 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
 ";
         $dao =& CRM_Core_DAO::executeQuery( $query );
         while ( $dao->fetch( ) ) {
+            
             $participantDetails[$dao->id] = array( 'id'               => $dao->id,
                                                    'event_id'         => $dao->event_id,
                                                    'status_id'        => $dao->status_id,
@@ -86,7 +88,8 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                                                    'register_date'    => $dao->register_date,
                                                    'registered_by_id' => $dao->registered_by_id,
                                                    'eventTitle'       => $dao->eventTitle,
-                                                   'expiration_time'  => $dao->expiration_time
+                                                   'expiration_time'  => $dao->expiration_time,
+                                                   'requires_approval'=> $dao->requires_approval
                                                    );
         }
         
@@ -168,6 +171,11 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                                 require_once 'CRM/Event/BAO/Participant.php';
                                 $ids = array( $participantId );
                                 $updateStatusId = array_search( 'Pending from waitlist', $pendingStatuses );
+                                
+                                //lets take a call to make pending or need approval
+                                if ( $values['requires_approval'] ) {
+                                    $updateStatusId = array_search( 'Awaiting approval', $waitingStatuses );
+                                }
                                 $results = CRM_Event_BAO_Participant::transitionParticipants( $ids, $updateStatusId, 
                                                                                               $values['status_id'], true );
                                 //commit the transaction.
@@ -178,11 +186,17 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
                                     if ( is_array( $results['updatedParticipantIds'] ) && 
                                          !empty( $results['updatedParticipantIds'] ) ) {
                                         foreach ( $results['updatedParticipantIds'] as $processedId ) {
-                                            $waitingConfirmCount += 1;  
-                                            echo "<br /><br />- status updated to: Pending from waitlist";
-                                            if ( is_array( $results['mailedParticipants'] ) && 
-                                                 array_key_exists( $processedId, $results['mailedParticipants']) ) {
-                                                echo "<br />Confirmation Mail sent to: {$results['mailedParticipants'][$processedId]}";
+                                            if ( $values['requires_approval'] ) {
+                                                $waitingApprovalCount += 1;
+                                                echo "<br /><br />- status updated to: Awaiting approval";
+                                                echo "<br />Will send you Confirmation Mail when registration get approved.";
+                                            } else {
+                                                $waitingConfirmCount += 1;  
+                                                echo "<br /><br />- status updated to: Pending from waitlist";
+                                                if ( is_array( $results['mailedParticipants'] ) && 
+                                                     array_key_exists( $processedId, $results['mailedParticipants']) ) {
+                                                    echo "<br />Confirmation Mail sent to: {$results['mailedParticipants'][$processedId]}";
+                                                }
                                             }
                                         }
                                     }
@@ -201,6 +215,7 @@ LEFT JOIN  civicrm_event event ON ( event.id = participant.event_id )
         }
         
         echo "<br /><br />Number of Expired registration(s) = {$expiredParticipantCount}";
+        echo "<br />Number of registration(s) require approval =  {$waitingApprovalCount}";
         echo "<br />Number of registration changed to Pending from waitlist = {$waitingConfirmCount}<br /><br />";
         if ( !empty( $fullEvents ) ) {
             foreach ( $fullEvents as $eventId => $title ) {
