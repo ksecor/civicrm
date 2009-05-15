@@ -68,6 +68,12 @@ class CRM_Report_Form_Instance {
                     ts( 'Report Footer' ),
                     $attributes['footer'] );
         
+        require_once 'CRM/Core/Permission.php';
+        $form->addElement( 'select',
+                           'permission',
+                           ts( 'Permission' ),
+                           CRM_Core_Permission::basicPermissions( ) );
+
         $form->addButtons( array(
                                  array ( 'type'      => 'submit',
                                          'name'      => ts('Save Report'),

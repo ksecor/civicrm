@@ -12,12 +12,10 @@
             <legend>
                 <a href="#" onclick="hide('id_{$formTpl}'); show('id_{$formTpl}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Report Criteria{/ts}
             </legend>
-
             {if $colGroups}
-            <fieldset>
-                <legend>{ts}Display Columns{/ts}</legend>
+                &raquo;&nbsp;{ts}Display Columns{/ts}
                 {foreach from=$colGroups item=grpFields key=dnc}
-                    <br/> 
+                    {if $count}<br/>{/if}
                     {assign  var="count" value="1"}
                     <table class="form-layout">
                         <tr>
@@ -32,12 +30,10 @@
                         </tr>
                     </table>
                 {/foreach}
-            </fieldset>
             {/if}
     
             {if $groupByElements}
-            <fieldset>
-                <legend>{ts}Group by Columns{/ts}</legend>
+                <br/>&raquo;&nbsp;{ts}Group by Columns{/ts}
                 {assign  var="count" value="1"}
                 <table class="form-layout">
                     <tr>
@@ -54,20 +50,16 @@
                         {/foreach}
                     </tr>
                 </table>      
-            </fieldset>
             {/if}
 
             {if $form.options.html}
-            <fieldset>
-                <legend>{ts}Other Options{/ts}</legend>
+                <br/>&raquo;&nbsp;{ts}Other Options{/ts}
                 <table class="form-layout">
                     <tr><td width="25%">{$form.options.html}</td></tr>
                 </table>
-            </fieldset>
             {/if}
   
-            <fieldset>
-                <legend>{ts}Set Filters{/ts}</legend>
+                <br/>&raquo;&nbsp;{ts}Set Filters{/ts}
                 <table class="form-layout">
                     {foreach from=$filters     item=table key=tableName}
                         {foreach from=$table       item=field key=fieldName}
@@ -91,17 +83,14 @@
                         {/foreach}
                     {/foreach}
                 </table>
-            </fieldset>
  
             {if $form.charts.html}
-            <fieldset>
-                <legend>{ts}Chart Options{/ts}</legend>
+                <br/>&raquo;&nbsp;{ts}Chart Options{/ts}
                 <table class="form-layout">
                     <tr>
                         <td>{$form.charts.label}&nbsp;&nbsp;{$form.charts.html}</td>
                     </tr>
                 </table>
-            </fieldset>
             {/if}
 
             {literal}
@@ -131,7 +120,8 @@
                 }
             </script>
             {/literal}
-            <div>{$form.buttons.html}</div>
+
+            <br/><div>{$form.buttons.html}</div>
         </fieldset>
     </div> {* search div section ends *}
 

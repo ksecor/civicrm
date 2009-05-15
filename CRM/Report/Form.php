@@ -151,23 +151,30 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function preProcessCommon( ) {
-        $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
-
-        if ( $this->_id ) {
-            $params = array( 'id', $this->_id );
-            $this->_instanceValues = array( );
-            CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
-                                          $params,
-                                          $this->_instanceValues );
-            $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
-        }
-
         $this->_force = CRM_Utils_Request::retrieve( 'force',
                                                      'Boolean',
                                                      CRM_Core_DAO::$_nullObject );
 
+        $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
+
+        if ( $this->_id ) {
+            $params = array( 'id' => $this->_id );
+            $this->_instanceValues = array( );
+            CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
+                                          $params,
+                                          $this->_instanceValues );
+            if ( empty($this->_instanceValues) ) {
+                CRM_Core_Error::fatal("report criteria could not be loaded.");
+            }
+            $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
+
+            // lets always do a force if a valid id is found in the url.
+            $this->_force      = 1;
+        }
+
+
         // lets display the 
-        $this->_instanceForm = $this->_force || $this->_id || ( ! empty( $_POST ) );
+        $this->_instanceForm       = $this->_force || $this->_id || ( ! empty( $_POST ) );
 
         $this->_instanceButtonName = $this->getButtonName( 'submit', 'save'  );
         $this->_printButtonName    = $this->getButtonName( 'submit', 'print' );
@@ -846,7 +853,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                 CRM_Utils_PDF_Utils::html2pdf( $content, "CiviReport.pdf" );
             }
             exit( );
-        } else {
+        } else if ( $this->_instanceButtonName == $this->controller->getButtonName( ) ) {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::postProcess( $this );
         }
