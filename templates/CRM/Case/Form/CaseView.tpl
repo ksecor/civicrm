@@ -133,7 +133,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 			
 			cj("#rel_contact").focus();
 			cj("#rel_contact").result(function(event, data, formatted) {
-				cj("input[@id=rel_contact_id]").val(data[1]);
+				cj("input[id=rel_contact_id]").val(data[1]);
 			});		    
 		},
 
@@ -329,7 +329,7 @@ function addRole() {
 			
 			cj("#role_contact").focus();
 			cj("#role_contact").result(function(event, data, formatted) {
-				cj("input[@id=role_contact_id]").val(data[1]);
+				cj("input[id=role_contact_id]").val(data[1]);
 			});		    
 		},
 
