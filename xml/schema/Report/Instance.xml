@@ -32,6 +32,12 @@
       <add>1.7</add>
   </field>
   <field>
+       <name>permission</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>permission required to be able to run this instance</comment>
+  </field>
+  <field>
        <name>form_values</name>
        <title>Submitted Form Values</title>
        <type>text</type>

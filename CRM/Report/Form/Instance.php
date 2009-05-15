@@ -69,10 +69,10 @@ class CRM_Report_Form_Instance {
                     $attributes['footer'] );
         
         require_once 'CRM/Core/Permission.php';
-        $form->addElement( 'select',
-                           'permission',
-                           ts( 'Permission' ),
-                           CRM_Core_Permission::basicPermissions( ) );
+        $msEle = $form->addElement( 'select',
+                                    'permission',
+                                    ts( 'Permission' ),
+                                    array( '0' => '- Any One -') + CRM_Core_Permission::basicPermissions( ) );
 
         $form->addButtons( array(
                                  array ( 'type'      => 'submit',
@@ -132,6 +132,14 @@ class CRM_Report_Form_Instance {
         $dao = new CRM_Report_DAO_Instance( );
         $dao->copyValues( $params );
 
+        // remove following IF() block when permission form element is 
+        // decided to be a multi-select 
+        if ( ! is_array( $dao->permission ) ) {
+            $dao->permission = array($dao->permission);
+        }
+
+        $dao->permission = serialize( array($dao->permission, 'and') );
+        
         // unset all the params that we use
         $fields = array( 'title', 'to_emails', 'cc_emails', 'header', 'footer',
                          'qfKey', '_qf_default', 'report_header', 'report_footer' );

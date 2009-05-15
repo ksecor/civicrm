@@ -164,14 +164,24 @@ class CRM_Report_Form extends CRM_Core_Form {
                                           $params,
                                           $this->_instanceValues );
             if ( empty($this->_instanceValues) ) {
-                CRM_Core_Error::fatal("report criteria could not be loaded.");
+                CRM_Core_Error::fatal("instance could not be loaded.");
             }
+
+            $this->_instanceValues['permission'] = 
+                unserialize( $this->_instanceValues['permission'] );
+            if ( $this->_instanceValues['permission'][0][0] && 
+                 (!CRM_Core_Permission::checkMenu( $this->_instanceValues['permission'][0], 
+                                                   $this->_instanceValues['permission'][1] )) ) {
+                CRM_Utils_System::permissionDenied( );
+                exit();
+            }
+            $this->_instanceValues['permission'] = $this->_instanceValues['permission'][0][0];
+
             $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
 
             // lets always do a force if a valid id is found in the url.
             $this->_force      = 1;
         }
-
 
         // lets display the 
         $this->_instanceForm       = $this->_force || $this->_id || ( ! empty( $_POST ) );
