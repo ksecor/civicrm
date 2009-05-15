@@ -56,7 +56,7 @@ class CRM_Report_Page_List extends CRM_Core_Page
                                   CRM_Utils_System::url('civicrm/report/contribute/summary','reset=1') ),
                       
                       '2'=> array('Contribution Details',
-                                  CRM_Utils_System::url('civicrm/report/contribute/details','reset=1') ),
+                                  CRM_Utils_System::url('civicrm/report/contribute/detail','reset=1') ),
                       
                       '3'=> array('Contribution Repeat Summary',
                                   CRM_Utils_System::url('civicrm/report/contribute/repeatSummary','reset=1') ),
@@ -69,6 +69,8 @@ class CRM_Report_Page_List extends CRM_Core_Page
                       
                       '6'=> array('Contact Summary',
                                   CRM_Utils_System::url('civicrm/report/contact/summary','reset=1') ),
+                      '6'=> array('Contact Detail',
+                                  CRM_Utils_System::url('civicrm/report/contact/detail','reset=1') ),
                       
                       '7'=> array('Activity',
                                   CRM_Utils_System::url('civicrm/report/activity','reset=1') ),
