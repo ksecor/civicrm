@@ -377,91 +377,135 @@ function getSearchURLValue( )
    </ul>
     
 <div id="summary" title="Summary">
-<div id="contact-name" class="section-hidden section-hidden-border">
-   <div class="buttons">
-     <span id="actions">
-	<input accesskey="E" value="Edit" name="edit_contact_info" onclick="window.location='/drupal/civicrm/contact/add?reset=1&amp;action=update&amp;cid=102';" type="button">
-    <input value="Delete" name="contact_delete" onclick="window.location='/drupal/civicrm/contact/view/delete?reset=1&amp;delete=1&amp;cid=102';" type="button">
-	<select onchange="if (this.value) window.location='/drupal/civicrm/contact/view/activity?action=add&amp;reset=1&amp;cid=102&amp;selectedChild=activity&amp;atype='+ this.value; else return false" name="other_activity" id="other_activity" class="form-select">
-	<option value="">Register Activity</option>
-	<option value="10"> &nbsp; Meeting</option>
-	<option value="10"> &nbsp; Phonecall</option>
-	<option value="10"> &nbsp; Interview</option>
-</select>	
-	&nbsp;&nbsp; 	<span class="contactLabel">Go to:</span>
-	<input type="button" value="Contact Dashboard">      
-	<input type="button" value="User Record">
-	</span>
-	<span id="icons">
-	<a href="." title="vCard record for this contact."><img src="contactView1_files/vcard-icon.png" alt="vCard record for this contact."></a>
-	<a href="." title="Printer-friendly view of this page."><img src="contactView1_files/print_preview.gif" alt="Printer-friendly view of this page."></a>
-    </span>
-	</div>
-	<div>
-    <div class="contactHead"><span class="contactLabel">Name:</span><strong>Mr John Gerard Notdoe-Longnameactually Jr</strong> <span class="contactLabel">Nickname:</span>Johnny<br/>
-	<span class="contactLabel">Position:</span><strong>trainer</strong><span class="contactLabel">Employer:</span> <a href="." title="view current employer">Compasspoint</a>
-	</div>
+  <div class="buttons">
+	  <span id="actions">
+	    <input accesskey="E" value="Edit" name="edit_contact_info" onclick="window.location='/drupal/civicrm/contact/add?reset=1&amp;action=update&amp;cid=102';" type="button">
+		<input value="Delete" name="contact_delete" onclick="window.location='/drupal/civicrm/contact/view/delete?reset=1&amp;delete=1&amp;cid=102';" type="button">
+		<select onchange="if (this.value) window.location='/drupal/civicrm/contact/view/activity?action=add&amp;reset=1&amp;cid=102&amp;selectedChild=activity&amp;atype='+ this.value; else return false" name="other_activity" id="other_activity" class="form-select">
+		  <option value="">Register Activity</option>
+		  <option value="10"> &nbsp; Meeting</option>
+		  <option value="10"> &nbsp; Phonecall</option>
+		  <option value="10"> &nbsp; Interview</option>
+        </select>	
+	    &nbsp;&nbsp; 	<span class="label">Go to:</span>
+	    <input type="button" value="Contact Dashboard">      
+	    <input type="button" value="User Record">
+	  </span>
 
-	<table class="contactCard">
+	  <span id="icons">
+	    <a href="." title="vCard record for this contact."><img src="contactView1_files/vcard-icon.png" alt="vCard record for this contact."></a>
+	    <a href="." title="Printer-friendly view of this page."><img src="contactView1_files/print_preview.gif" alt="Printer-friendly view of this page."></a>
+      </span>
+
+  </div> <!-- .buttons -->
+
+  <div id="contactName">
+    <span title="Full Name">Mr John Gerard Notdoe-Longnameactually Jr</span><br/>
+    <span class="label">Position:</span><span>trainer</span>
+    <span class="label">Employer:</span><a href="." title="view current employer">Compasspoint</a>
+	<span class="label">Nickname:</span><span>Johnny</span><br/>
+  </div> <!-- #contactName -->
+  <div id="contact_panel">
+      <div id="contactCardLeft">
+	    <table>
+          <tr>
+		    <td width="10%" class="label">Work phone: </td>
+		    <td width="90%" title="Primary phone"><span class="primary">+28371094712</span></td>
+	      </tr>
+          <tr>
+		    <td class="label">Mobile: </td>
+		    <td>+243912620705</td>
+	      </tr>
+	      <tr>
+		    <td colspan="2" class="spacer"></td>
+          </tr>
+	      <tr>
+		    <td width="15%" class="label">Email:</td>
+	        <td width="85%" title="Primary email address"><span class="primary"><a href="mailto:john@longnameactually.org">john@longnameactually.org</a> (B)</span></td>
+	      </tr>
+	      <tr>
+	        <td class="label"></td>
+	        <td class="onHold"><a href="mailto:johndoe@privmail.com">johndoe@privmail.com</a> <img src="contactView1_files/stop-icon.png" title="This email is on hold due to bounces." align="top"> (B)</td>
+	      </tr>
+	      <tr>
+		    <td class="label"></td>
+		    <td><a href="mailto:email@other.net">email@other.net</a></td>
+	      </tr>
+	      <tr>
+		    <td colspan="2" class="spacer"></td>
+          </tr>
+	      <tr>		
+	        <td width="10%" class="label">Tags:</td>
+		    <td width="40%" >Major Donor, Volunteer</td>
+	      </tr>
+	    </table>
+	  </div> <!-- #contactCardLeft -->
+      <div id="contactCardRight">
+        <table>
+          <tr>
+		    <td class="label">Skype:</td>
+		    <td>johnny234</td>
+          </tr>
+		  <tr>	  
+		    <td class="label">MSN:</td>
+		    <td>john@longnameactually.org</td>
+	      </tr>
+		  <tr>
+		    <td class="label">AIM: </td>
+		    <td title="Primary instant messenger"><span class="primary">johnny5423</span></td>
+	      </tr>
+		  <tr>
+		    <td colspan="2" class="spacer"></td>
+          </tr>
+		  <tr>
+	        <td class="label">Website:</td>
+		    <td><a href="http://longnameactually.org/" target="_blank">http://longnameactually.org/</a></td>
+	      </tr>
+		  <tr>
+		    <td colspan="2" class="spacer"></td>
+          </tr>
+		  <tr>	  
+		    <td width="10%" class="label">Source:</td>
+		    <td width="40%">related through friend</td>		  
+	      </tr>
+		</table>
+      </div> <!-- #contactCardRight -->
+  </div> <!-- #contact_panel -->
+
+  <p class="spacer"></p>
+  <div id="contactName"></div>
+  <div id="contactName">
+    <div id="contact_panel">
+	<table>
       <tr>
-		<td width="10%" class="contactLabel">Email(s):</td>
-	    <td width="40%"><a href="mailto:john@longnameactually.org"><strong>john@longnameactually.org</strong></a> (B)</td>
-		<td width="10%" class="contactLabel">Work phone: </td>
-		<td width="40%"><strong>+28371094712</strong></td>
-	  </tr><tr>
-	    <td class="contactLabel"></td>
-	    <td class="onHold"><a href="mailto:johndoe@privmail.com">johndoe@privmail.com</a> <img src="contactView1_files/stop-icon.png" title="This email is on hold due to bounces." align="top"> (B)</td>
-		<td class="contactLabel">Mobile: </td>
-		<td>+243912620705</td>
-	  </tr><tr>
-		<td class="contactLabel"></td>
-		<td><a href="mailto:email@other.net">email@other.net</a></td>
-		<td class="contactLabel">AIM: </td>
-		<td><strong>johnny5423</strong></td>
-	  </tr><tr>
-		<td class="contactLabel"></td>
-		<td></td>	  
-		<td class="contactLabel">MSN:</td>
-		<td>john@longnameactually.org</td>
-	  </tr><tr>
-		<td class="contactLabel" rowspan="4">Primary<br/> Address:</td>
-		<td rowspan="4">
-<span class="adr">
-<span class="street-address">Some Street 2</span><br>
-<span class="extended-address">Building 8</span><br>
-Second Crossing<br>
-<span class="locality">Bangalore</span>, <span class="region">AL</span> <span class="postal-code">38942374</span><br>
-<span class="country-name">United States</span></span>
-		</td>
-		<td class="contactLabel" align="top">Skype:</td>
-		<td>johnny234</td>
-	  </tr><tr>
-	    <td class="contactLabel">Website:</td>
-		<td><a href="http://longnameactually.org/" target="_blank">http://longnameactually.org/</a></td>
-	  </tr>
-
-	</table>
-
-	<table class="contactCard">
-      <tr>
-		<td width="10%" class="contactLabel">Tags:</td>
+		<td width="10%" class="label">Tags:</td>
 		<td width="40%" >Major Donor, Volunteer</td>
-		<td width="10%" class="contactLabel">Source:</td>
+		<td width="10%" class="label">Source:</td>
 		<td width="40%">related through friend</td>	
 	  </tr>
 	</table>
+	</div>
+  </div>
 
-   </div>
-</div>
 
-<div style="display: none;" id="location_1_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('location_1_show'); show('location_1'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Billing (primary location)</label>
+  <div style="display: none;" id="location_1_show" class="section-hidden section-hidden-border">
+    <a href="#" onclick="hide('location_1_show'); show('location_1'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Other addresses</label>
   </div>
 
 <div style="display: block;" id="location_1" class="section-shown">
   <fieldset>
    <legend class="label">
-    <a href="#" onclick="hide('location_1'); show('location_1_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Billing (primary location)   </legend>
+    <a href="#" onclick="hide('location_1'); show('location_1_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Other addresses</legend>
+
+	<table class="contactCard">
+      <tr>
+		<td width="10%" class="label">Tags:</td>
+		<td width="40%" >Major Donor, Volunteer</td>
+		<td width="10%" class="label">Source:</td>
+		<td width="40%">related through friend</td>	
+	  </tr>
+	</table>
+
 
 
    <div class="col2">
