@@ -493,11 +493,12 @@ class CRM_Report_Form extends CRM_Core_Form {
             CRM_Report_Form_Instance::buildForm( $this );
             
             $this->addElement('submit', $this->_instanceButtonName, ts( 'Save Report' ) );
-            $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
-            $this->addElement('submit', $this->_pdfButtonName, ts( 'Print PDF' ) );
-
             $this->assign( 'instanceForm', true );
         }
+
+        $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
+        $this->addElement('submit', $this->_pdfButtonName, ts( 'Print PDF' ) );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'submit',
                                          'name'      => ts('Generate Report'),

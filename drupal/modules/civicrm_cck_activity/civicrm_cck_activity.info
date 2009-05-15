@@ -1,0 +1,13 @@
+;$Id: civicrmActivity.info,v 1.1 Exp $
+name = civicrm_cck_activity
+description = Create node for civicrm Activity.
+version = "6.x-1.0-dev"
+core = "6.x"
+dependencies[] = civicrm
+dependencies[] = content
+dependencies[] = taxonomy
+dependencies[] = date
+package = CiviCRM
+project = "civicrmActivity"
+
+

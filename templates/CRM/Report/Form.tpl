@@ -146,7 +146,6 @@
             </div>
         </fieldset>
     </div>
-
     {/if} {* settings section ends *}
 
 

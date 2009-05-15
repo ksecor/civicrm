@@ -454,7 +454,7 @@ function civicrm_views_data() {
     // contact_type
     $data['civicrm_contact']['contact_type'] = array(
                                                      'title' => t('Contact Type'), // The item it appears as on the UI,
-                                                     'help'  => t('Contact Type.'), // The help that appears on the UI,
+                                                     'help'  => t('Contact Type'), // The help that appears on the UI,
                                                      'field' => array(
                                                                       'handler' => 'views_handler_field',
                                                                       'click sortable' => TRUE,
