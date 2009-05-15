@@ -747,7 +747,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
-                          cc.sort_name as reporter, 
+                          cc.sort_name as reporter,
+                          acc.sort_name AS assignee, 
                           ca.due_date_time as due_date, 
                           ca.activity_date_time actual_date, 
                           ca.status_id as status, 
@@ -755,8 +756,11 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                           ca.is_deleted as deleted ';
 
         $from  = 'FROM civicrm_case_activity cca, 
-                       civicrm_activity ca, 
-                       civicrm_contact cc '; 
+                       civicrm_contact cc,
+                       civicrm_activity ca 
+                  LEFT JOIN civicrm_activity_assignment caa 
+                  ON caa.activity_id = ca.id 
+                  LEFT JOIN civicrm_contact acc ON acc.id = caa.assignee_contact_id '; 
 
         $where = 'WHERE cca.case_id= %1 
                     AND ca.id = cca.activity_id 
@@ -872,7 +876,15 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['actual_date']       = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
-            
+           
+            // add activity assignee to activity selector. CRM-4485.
+            if ( isset($dao->assignee) && CRM_Utils_Array::value('assignee', $values[$dao->id]) ) {
+                $values[$dao->id]['reporter'] .= ts(', (multiple)');
+            } elseif ( isset($dao->assignee) ) {
+                $values[$dao->id]['reporter'] .= ' ,'.$dao->assignee;
+                $values[$dao->id]['assignee']  = $dao->assignee;
+            } 
+
             $additionalUrl = "&id={$dao->id}";
             if ( !$dao->deleted ) {
                 $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
