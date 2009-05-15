@@ -106,6 +106,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     protected $_values;
     
+    /**
+     * casid if it called from case context 
+     */
+    protected $_caseId;
+    
     function preProcess( ) 
     {
         //custom data related code
@@ -127,6 +132,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->_display_name_a = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactId, 'display_name' );
         
         $this->assign('sort_name_a', $this->_display_name_a);
+        
+        $this->_caseId = CRM_Utils_Request::retrieve( 'caseID', 'Integer', $this );
         
         //get the relationship values.
         $this->_values = array( );
@@ -417,6 +424,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        
         $this->set( 'searchDone', 0 );
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             $this->search( $params );
@@ -460,6 +468,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) =
             CRM_Contact_BAO_Relationship::create( $params, $ids );
         
+        // if this is called from case view, 
+        //create an activity for case role removal.CRM-4480
+        if ( $this->_caseId ) {
+            require_once "CRM/Case/BAO/Case.php";
+            CRM_Case_BAO_Case::createCaseRoleActivity( $this->_caseId, $relationshipIds , $params['contact_check']);
+        }
+
         $status = '';
         if ( $valid ) {
             $status .= ' ' . ts('%count new relationship record created.', array('count' => $valid, 'plural' => '%count new relationship records created.'));

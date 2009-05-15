@@ -94,6 +94,9 @@ ORDER BY sort_name ";
 		require_once "CRM/Case/BAO/Case.php";
         $caseRelationship = CRM_Case_BAO_Case::getCaseRoles( $sourceContactID, $caseID, $relationshipID );
 
+        //create an activity for case role assignment.CRM-4480
+        CRM_Case_BAO_Case::createCaseRoleActivity( $caseID, $relationshipID, $relContactID );
+
 		$relation           = $caseRelationship[$relationshipID];
 		$relation['rel_id'] = $relationshipID;
 		echo json_encode( $relation );

@@ -216,7 +216,7 @@ cj(document).ready(function(){
   <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
   
   {if $clientRelationships}
-    <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
+    <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`&caseID=`$caseID`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
 	
     <table class="report">
     	<tr class="columnheader">

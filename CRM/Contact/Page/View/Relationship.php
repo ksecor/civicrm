@@ -121,19 +121,24 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
 
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject ) ) {
-            // delete relationship
-            CRM_Contact_BAO_Relationship::del( $this->_id);
-
+           
             // if this is called from case view, we need to redirect back to same page
             $caseId = CRM_Utils_Request::retrieve( 'caseID', 'Integer', $this );
 
             if ( $caseId ) {
+                //create an activity for case role removal.CRM-4480
+                require_once "CRM/Case/BAO/Case.php";
+                CRM_Case_BAO_Case::createCaseRoleActivity( $caseId, $this->_id );  
+
                 CRM_Core_Session::setStatus( ts('Case Role has been deleted successfuly.'), false );
                 $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer', $this, false );
                 $url = CRM_Utils_System::url('civicrm/contact/view/case', "action=view&reset=1&cid={$cid}&id={$caseId}" );
                 $session->pushUserContext( $url );
-            } 									
-
+            } 	
+								
+            // delete relationship
+            CRM_Contact_BAO_Relationship::del( $this->_id);
+            
             CRM_Utils_System::redirect($url);
         }
 
