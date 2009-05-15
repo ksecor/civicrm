@@ -93,10 +93,12 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             $params['participant_fee_amount'] = CRM_Utils_Rule::cleanMoney( $params['participant_fee_amount'] );
         }
 
-        $participantBAO =& new CRM_Event_BAO_Participant();
-        $participantBAO->id = CRM_Utils_Array::value( 'id', $params );
-        $participantBAO->find(true);
-        $participantBAO->register_date = CRM_Utils_Date::isoToMysql($participantBAO->register_date);
+        $participantBAO = new CRM_Event_BAO_Participant;
+        if (CRM_Utils_Array::value('id', $params)) {
+            $participantBAO->id = CRM_Utils_Array::value('id', $params);
+            $participantBAO->find(true);
+            $participantBAO->register_date = CRM_Utils_Date::isoToMysql($participantBAO->register_date);
+        }
         $participantBAO->copyValues($params);
         $participantBAO->save();
         
