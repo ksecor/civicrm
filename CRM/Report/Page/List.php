@@ -36,13 +36,13 @@
 require_once 'CRM/Core/Page.php';
 
 /**
- * Page for displaying list of Payment-Instrument
+ * Page for displaying list of Reprots available
  */
 class CRM_Report_Page_List extends CRM_Core_Page 
 {
     /** 
      * Heart of the viewing process. The runner gets all the meta data for 
-     * the contact and calls the appropriate type of page to view. 
+     * the reports and calls the appropriate type of page to view. 
      * 
      * @return void 
      * @access public 
@@ -93,8 +93,4 @@ class CRM_Report_Page_List extends CRM_Core_Page
     }
 
 }
-
-
-
-
-
+?>
