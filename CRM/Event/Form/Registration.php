@@ -269,7 +269,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             //check for require requires approval.
             $this->_requireApproval = false;
-            if ( CRM_Utils_Array::value( 'requires_approval', $this->_values['event']) ) {
+            if ( CRM_Utils_Array::value( 'requires_approval', $this->_values['event']) && !$this->_allowConfirmation ) {
                 $this->_requireApproval = true;
             }
             $this->set( 'requireApproval', $this->_requireApproval );
