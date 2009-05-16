@@ -149,7 +149,9 @@ Participant {$priceset+1}
 
 ===========================================================
 {foreach from=$customPre item=value key=customName}
+{if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
 {$customName} : {$value}
+{/if}
 {/foreach}
 {/if}
 
@@ -159,7 +161,9 @@ Participant {$priceset+1}
 
 ===========================================================
 {foreach from=$customPost item=value key=customName}
+{if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
 {$customName} : {$value}
+{/if}
 {/foreach}
 {/if}
 {if $customProfile}
