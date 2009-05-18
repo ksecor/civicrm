@@ -4,8 +4,7 @@
   *
   */
 function civicrm_cck_sync_menu( ) {
-    return array( 'civicrm_cck_sync' => array(
-                                                'title'            => 'CiviCRM CCK Sync',
+    return array( 'civicrm_cck_sync' => array(  'title'            => 'CiviCRM CCK Sync',
                                                 'access callback'  => true,
                                                 'page callback'    => 'civicrm_cck_sync_invoke',
                                                 'type'             => 4,
@@ -14,5 +13,10 @@ function civicrm_cck_sync_menu( ) {
 }
 
 function civicrm_cck_sync_invoke( ) {
-
+    civicrm_initialize( );
+    
+    require_once 'CRM/Utils/Wrapper.php';
+    $wrapper =& new CRM_Utils_Wrapper( );
+    
+    return $wrapper->run( 'CRM_Configure', ts('Configure'), null );
 }
