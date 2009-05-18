@@ -19,7 +19,7 @@ function civicrm_cck_activity_enable()
     // Create the taxonmy vocabulary named activities. Check first if it exists.
     
     if ($vocabulary = taxonomy_vocabulary_load(variable_get('civicrm_cck_activity_nav_vocabulary', 0))) {
-        // check for taxonomies of CivicrmActivity nodes.
+        // check for taxonomies of CiviCRM Activity nodes.
         $vocabulary = (array) $vocabulary;
         $vocabulary['nodes']['civicrmactivity'] = 1;
         taxonomy_save_vocabulary($vocabulary);

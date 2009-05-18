@@ -160,7 +160,7 @@ function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
                     $nodId=db_fetch_array(db_query("select nid from content_type_civicrmactivity where field_activity_id_value=".$act_id));
                     
                     require_once 'api/File.php';
-                    $files=crm_get_files_by_entity(&$form->_activityId, $entity_table = 'civicrm_activity');
+                    $files=crm_get_files_by_entity($form->_activityId, $entity_table = 'civicrm_activity');
                     $node_files=db_query("select fid from upload where nid=".$nodId['nid']);
                     if ($node_files) {
                         while($take_files=db_fetch_array($node_files)) {
@@ -263,7 +263,7 @@ function civicrm_cck_activity_copyfiles ($fileInfo,$entityID,$is_newAct)
     require_once 'api/File.php';
     
     // Take files attached for activity
-    $files=crm_get_files_by_entity(&$entityID, $entity_table = 'civicrm_activity');
+    $files=crm_get_files_by_entity($entityID, $entity_table = 'civicrm_activity');
     
     $i=0;
     foreach($files as $takefile){
@@ -281,7 +281,7 @@ function civicrm_cck_activity_copyfiles ($fileInfo,$entityID,$is_newAct)
             /*
              *  copy files to 'sites/default/files' 
              */
-            $copy=file_copy(&$source, $dest = 0, $replace = FILE_EXISTS_RENAME) ;
+            $copy=file_copy($source, $dest = 0, $replace = FILE_EXISTS_RENAME) ;
             if ($copy==1) {
                 $filepath= file_directory_path().'/'.$takefile['uri'];
                 global $user;

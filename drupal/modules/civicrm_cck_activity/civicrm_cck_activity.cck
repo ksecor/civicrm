@@ -1,7 +1,7 @@
 $content['type']  = array (
-  'name' => 'Civicrm Activity',
+  'name' => 'CiviCRM Activity',
   'type' => 'civicrmactivity',
-  'description' => 'Whenever an civicrm activity is created, a node of this content type is automatically created.',
+  'description' => 'Whenever an CiviCRM activity is created, a node of this content type is automatically created.',
   'title_label' => 'Title',
   'body_label' => 'Body',
   'min_word_count' => '0',
@@ -412,7 +412,7 @@ community meeting',
     'widget_type' => 'number',
     'change' => 'Change basic information',
     'weight' => '4',
-    'description' => 'the Civicrm Activity ID',
+    'description' => 'the CiviCRM Activity ID',
     'default_value' => 
     array (
       0 => 
