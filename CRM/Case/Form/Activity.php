@@ -417,6 +417,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // update existing case record if needed
         $caseParams       = $params;
         $caseParams['id'] = $this->_caseId;
+        require_once 'CRM/Utils/Date.php';        
+        $currentStartDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', 
+                                                                                       $caseParams['id'], 'start_date' ) );
         if ( CRM_Utils_Array::value('case_type_id', $caseParams ) ) {
             $caseParams['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR .
                 $caseParams['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
@@ -424,6 +427,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( CRM_Utils_Array::value('case_status_id', $caseParams) ) {
             $caseParams['status_id'] = $caseParams['case_status_id'];
         }
+        
         // unset params intended for activities only
         unset($caseParams['subject'], $caseParams['details'], 
               $caseParams['status_id'], $caseParams['custom']);
@@ -440,7 +444,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
             $queryParams = array(1 => array($case->id, 'Integer'));
             $caseType = CRM_Core_DAO::singleValueQuery( $query, $queryParams );
-
+            $newStartDate = CRM_Utils_Date::customFormat(CRM_Utils_Date::mysqlToIso($caseParams['start_date']));
+            $subject = 'Change Case Start Date from ' . $currentStartDate . ' to ' . $newStartDate;
+            $activity->subject = $subject;
+            $activity->save();
             // 2. initiate xml processor
             $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
             $xmlProcessorParams = array( 
@@ -450,6 +457,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                                         'dueDateTime'        => $caseParams['start_date'],
                                         'caseID'             => $case->id,
                                         'caseType'           => $caseType,
+                                        'activityTypeName'   => 'Change Case Start Date',
                                         'activitySetName'    => 'standard_timeline',
                                         'is_StartdateChanged'=> 1,           
                                          );
@@ -461,6 +469,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $caseParams = array( 'activity_id' => $activity->id,
                              'case_id'     => $this->_caseId   );
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+        
 
         // create activity assignee records
         $assigneeParams = array( 'activity_id' => $activity->id );

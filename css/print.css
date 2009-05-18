@@ -10,3 +10,10 @@ table.form-layout td, table.form-layout th {
   padding: 4px;
   margin: 0px;
 }
+
+.form-item .element-right{
+  display: none;
+}
+#crm-container {   
+  overflow: visible !important;
+}

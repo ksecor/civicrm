@@ -72,10 +72,11 @@
             {if $activityTypeFile}
                 {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
             {/if}
-
+	    {if $activityTypeFile neq 'ChangeCaseStartDate'}
             <tr>
               <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
             </tr>
+	    {/if}
            <tr>
               <td class="label">{$form.medium_id.label}</td>
               <td class="view-value">{$form.medium_id.html}&nbsp;&nbsp;&nbsp;{$form.location.label} &nbsp;{$form.location.html}</td>

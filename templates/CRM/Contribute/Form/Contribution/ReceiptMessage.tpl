@@ -170,7 +170,9 @@ End Date: {$end_date|crmDate}
 
 ===========================================================
 {foreach from=$customPre item=customValue key=customName}
+{if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
  {$customName} : {$customValue}
+{/if}
 {/foreach}
 {/if}
 
@@ -181,6 +183,8 @@ End Date: {$end_date|crmDate}
 
 ===========================================================
 {foreach from=$customPost item=customValue key=customName}
+{if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
  {$customName} : {$customValue}
+{/if}
 {/foreach}
 {/if}

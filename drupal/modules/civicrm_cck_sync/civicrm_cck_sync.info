@@ -1,0 +1,15 @@
+name = CiviCRM CCK Sync
+description = Create Drupal node for CiviCRM Objects.
+core = 6.x
+version = 2.2
+dependencies[] = civicrm
+dependencies[] = content
+dependencies[] = content_copy
+dependencies[] = taxonomy
+dependencies[] = date
+dependencies[] = number
+dependencies[] = userreference
+package = CiviCRM
+project = "CiviCRM CCK Sync"
+
+

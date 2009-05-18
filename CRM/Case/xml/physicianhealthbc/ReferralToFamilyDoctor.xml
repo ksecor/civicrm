@@ -22,6 +22,9 @@
     <ActivityType>
       <name>Change Case Status</name>
     </ActivityType>
+    <ActivityType>
+      <name>Change Case Start Date</name>
+    </ActivityType>
 	<ActivityType>
       <name>Follow up</name>
     </ActivityType>
@@ -35,18 +38,6 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Completed</status>
-        </ActivityType>
-        <ActivityType>
-          <name>Notify selected referral target</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>1</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-		<ActivityType>
-          <name>Facilitate first appointment</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>2</reference_offset>
-          <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Survey client satisfaction Referral to family doctor</name>

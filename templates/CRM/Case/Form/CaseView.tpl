@@ -13,7 +13,7 @@
                 <label>{ts}Status{/ts}:</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
             </td>
             <td>
-                <label>{ts}Start Date{/ts}:</label>&nbsp;{$caseDetails.case_start_date|crmDate}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStartDateId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
+                <label>{ts}Start Date{/ts}:</label>&nbsp;{$caseDetails.case_start_date|crmDate}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStartDateId`"}" title="Change case start date (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
             </td>
             <td>
                 <label>{ts}Case ID{/ts}:</label>&nbsp;{$caseID}
@@ -549,21 +549,20 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-
+    cj("#activities-selector tbody tr").parent().attr( 'class','status-completed');
     var currentDate = new Date();
     var ct = currentDate.getTime() / 1000;
 
-    cj("#activities-selector tbody tr td:last-child").each( function( ) {
+    cj("#activities-selector tbody tr:contains('Scheduled') td:last-child").each( function( ) {
         var dt = cj(this).text();
  
         if ( ct > dt ) {
             cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
-        } else{
+        } else {
             cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
         }	
     });
-
-    cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
+    
     cj("#activities-selector tbody tr:odd").addClass('erow');
 }
 </script>

@@ -17,22 +17,27 @@
    {if $myCases}
     <tr>
       <td class="right">
-        <a href="{crmURL p="civicrm/case" q="reset=1&all=1"}"><span>&raquo; {ts}Show ALL Cases{/ts}</span></a>
+        <a href="{crmURL p="civicrm/case" q="reset=1&all=1"}"><span>&raquo; {ts}Show ALL Cases with Upcoming Activities{/ts}</span></a>
       </td>
     </tr>
    {else}	
     <tr>
       <td class="right">
-        <a href="{crmURL p="civicrm/case" q="reset=1&all=0"}"><span>&raquo; {ts}Show My Cases{/ts}</span></a>
+        <a href="{crmURL p="civicrm/case" q="reset=1&all=0"}"><span>&raquo; {ts}Show My Cases with Upcoming Activities{/ts}</span></a>
       </td>
     </tr>
    {/if}
+   <tr>
+     <td class="right">
+       <a href="{crmURL p="civicrm/case/search" q="reset=1&case_owner=1&force=1"}"><span>&raquo; {ts}Show My Cases{/ts}</span></a>
+     </td>
+   </tr>
   </table>
 </div>
 
 <h3>{ts}Summary of Case Involvement{/ts}</h3>
 <table class="report">
-  <tr class="columnheader-dark">
+  <tr class="columnheader">
     <th>&nbsp;</th>
     {foreach from=$casesSummary.headers item=header}
     <th scope="col" class="right" style="padding-right: 10px;"><a href="{$header.url}">{$header.status}</a></th>

@@ -173,7 +173,9 @@ Click this link to go to a web page where you can confirm your registration onli
 
 ===========================================================
 {foreach from=$customPre item=value key=customName}
+{if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
 {$customName} : {$value}
+{/if}
 {/foreach}
 {/if}
 
@@ -183,7 +185,9 @@ Click this link to go to a web page where you can confirm your registration onli
 
 ===========================================================
 {foreach from=$customPost item=value key=customName}
+{if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
 {$customName} : {$value}
+{/if}
 {/foreach}
 {/if}
 {if $customProfile}
