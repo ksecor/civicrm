@@ -333,7 +333,11 @@ WHERE      a.id = %1
                                                                                   $activityDAO->status_id ),
                                        'type'  => 'String' );
         
-        
+        $activity['fields'][] = array( 'label' => 'Priority',
+                                       'value' => CRM_Core_OptionGroup::getLabel( 'priority',
+                                                                                  $activityDAO->priority_id ),
+                                       'type'  => 'String' );
+                
         // for now empty custom groups
         $activity['customGroups'] = $this->getCustomData( $clientID,
                                                           $activityDAO,
