@@ -151,6 +151,7 @@ VALUES
    ('phone_type'                    , '{ts escape="sql"}Phone Type{/ts}'                         , 0, 1),
    ('custom_data_type'              , '{ts escape="sql"}Custom Data Type{/ts}'                   , 0, 1),  
    ('visibility'                    , '{ts escape="sql"}Visibility{/ts}'                         , 0, 1),
+   ('report_list'                   , '{ts escape="sql"}Report List{/ts}'                        , 0, 1),
    ('mail_protocol'                 , '{ts escape="sql"}Mail Protocol{/ts}'                      , 0, 1);	  
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -191,6 +192,7 @@ SELECT @option_group_id_pht            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_fma            := max(id) from civicrm_option_group where name = 'from_email_address';
 SELECT @option_group_id_cdt            := max(id) from civicrm_option_group where name = 'custom_data_type';
 SELECT @option_group_id_vis            := max(id) from civicrm_option_group where name = 'visibility';
+SELECT @option_group_id_report         := max(id) from civicrm_option_group where name = 'report_list';
 SELECT @option_group_id_mp             := max(id) from civicrm_option_group where name = 'mail_protocol';
 
 INSERT INTO 
@@ -387,6 +389,16 @@ VALUES
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ContribSYBNT', 13, 'CRM_Contact_Form_Search_Custom_ContribSYBNT', NULL, 0, NULL, 13, '{ts escape="sql"}Contributions made in Year X and not Year Y{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_TagContributions', 14, 'CRM_Contact_Form_Search_Custom_TagContributions', NULL, 0, NULL, 14, '{ts escape="sql"}Find Contribution Amounts by Tag{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_FullText', 15, 'CRM_Contact_Form_Search_Custom_FullText', NULL, 0, NULL, 15, '{ts escape="sql"}Full-text Search{/ts}', 0, 0, 1, NULL, NULL),
+
+  (@option_group_id_report , 'CRM_Report_Form_Contact_Summary', 1, 'CRM_Report_Form_Contact_Summary', NULL, 0, NULL, 1, '{ts escape="sql"}Contact Summary{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contact_Detail',  2, 'CRM_Report_Form_Contact_Detail', NULL, 0, NULL, 2, '{ts escape="sql"}Contact Details{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contribute_Summary'                , 3, 'CRM_Report_Form_Contribute_Summary'       , NULL, 0, NULL, 3, '{ts escape="sql"}Contribution Summary{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contribute_Detail'                ,  4, 'CRM_Report_Form_Contribute_Detail'       , NULL, 0, NULL, 4, '{ts escape="sql"}Contribution Details{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contribute_RepeatSummary'        ,    5, 'CRM_Report_Form_Contribute_RepeatSummary', NULL, 0, NULL, 5, '{ts escape="sql"}Contribution Repeat Summary{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contribute_RepeatDetail'            , 6, 'CRM_Report_Form_Contribute_RepeatDetail', NULL, 0, NULL, 6, '{ts escape="sql"}Contribution Repeat Details{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contribute_SummaryCount', 7, 'CRM_Report_Form_Contribute_SummaryCount', NULL, 0, NULL, 7, '{ts escape="sql"}Contribution Summary Count{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Activity', 8, 'CRM_Report_Form_Activity', NULL, 0, NULL, 8, '{ts escape="sql"}Activity Search{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Walklist', 9, 'CRM_Report_Form_Walklist', NULL, 0, NULL, 9, '{ts escape="sql"}Walk List{/ts}', 0, 0, 1, NULL, NULL),
 
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL, NULL),

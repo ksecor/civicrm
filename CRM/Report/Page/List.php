@@ -40,59 +40,75 @@ require_once 'CRM/Core/Page.php';
  */
 class CRM_Report_Page_List extends CRM_Core_Page 
 {
-    /** 
-     * Heart of the viewing process. The runner gets all the meta data for 
-     * the reports and calls the appropriate type of page to view. 
-     * 
-     * @return void 
-     * @access public 
-     * 
-     */ 
-    function preProcess( ) 
+
+
+    /**
+     * The action links that we need to display for the browse screen
+     *
+     * @var array
+     * @static
+     */
+    static $_links = null;
+
+    public static function &info( ) {
+        $sql = "
+                SELECT v.value, v.description, v.name
+                FROM   civicrm_option_group g,
+                       civicrm_option_value v
+                WHERE  v.option_group_id = g.id AND
+                       g.name = 'report_list'   AND
+                       v.is_active = 1
+                ORDER By  v.weight
+               ";
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray );
+
+        $rows = array();
+        while ( $dao->fetch( ) ) {
+            if ( trim( $dao->description ) ) {
+                $url = 'civicrm/report/';
+                $rows[$dao->value][] = $dao->description;
+                $temp = explode( '_', $dao->name );
+                if ( $val = CRM_Utils_Array::value( 3, $temp ) ) {
+                    $val{0} = strtolower($val{0});
+                    $url   .= $val;
+                }
+                if ( $val = CRM_Utils_Array::value( 4, $temp ) ) {
+                    $val{0} = strtolower($val{0});
+                    $url   .= '/' . $val;
+                }
+                $rows[$dao->value][] = CRM_Utils_System::url( $url, 'reset=1');
+            }
+        }
+        return $rows;
+    }
+
+    /**
+     * Browse all Report List.
+     *
+     * @return content of the parents run method
+     *
+     */
+    function browse()
     {
         CRM_Utils_System::setTitle( ts('Reports') );
-
-        $list = array('1'=> array('Contribution Summary',
-                                  CRM_Utils_System::url('civicrm/report/contribute/summary','reset=1') ),
-                      
-                      '2'=> array('Contribution Details',
-                                  CRM_Utils_System::url('civicrm/report/contribute/detail','reset=1') ),
-                      
-                      '3'=> array('Contribution Repeat Summary',
-                                  CRM_Utils_System::url('civicrm/report/contribute/repeatSummary','reset=1') ),
-                      
-                      '4'=> array('Contribution Repeat Details',
-                                  CRM_Utils_System::url('civicrm/report/contribute/repeatDetail','reset=1') ),
-                      
-                      '5'=> array('Contribution Summary Count',
-                                  CRM_Utils_System::url('civicrm/report/contribute/summaryCount','reset=1') ),
-                      
-                      '6'=> array('Contact Summary',
-                                  CRM_Utils_System::url('civicrm/report/contact/summary','reset=1') ),
-                      '6'=> array('Contact Detail',
-                                  CRM_Utils_System::url('civicrm/report/contact/detail','reset=1') ),
-                      
-                      '7'=> array('Activity',
-                                  CRM_Utils_System::url('civicrm/report/activity','reset=1') ),
-                      
-                      '8'=> array('Walk List',
-                                  CRM_Utils_System::url('civicrm/report/walklist','reset=1') ),
-                      
-                      );
-        $this->assign( 'list', $list );
-    }
-    
-    /** 
-     * This function is the main function that is called when the page loads, 
-     * it decides the which action has to be taken for the page. 
-     *                                                          
-     * return null        
-     * @access public 
-     */                                                          
-    function run( ) { 
-        $this->preProcess( );
-        return parent::run( );
+        $rows =& self::info( );
+        $this->assign('list', $rows);
+        return parent::run();
     }
 
+    /**
+     * run this page (figure out the action needed and perform it).
+     *
+     * @return void
+     */
+    function run() {
+        $action = CRM_Utils_Request::retrieve( 'action',
+                                               'String',
+                                               $this, false, 'browse' );
+
+        $this->assign( 'action', $action );
+        $this->browse( );
+    }
 }
 ?>

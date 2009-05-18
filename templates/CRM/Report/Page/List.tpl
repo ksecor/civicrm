@@ -4,7 +4,7 @@
         {if $list}
             {foreach from=$list item=row}
                 <div class="action-link">
-                    <a href="{$row.1}">{$row.0}</a>
+                    <a href="{$row.1}">&raquo; {$row.0}</a>
                 </div>
             {/foreach}
         {else}
