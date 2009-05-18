@@ -276,7 +276,7 @@ WHERE pledge_id = %1
             
             //update pledge status.
             $pledgeID = $payment->pledge_id;
-            $pledgeStatusID = self::calculatePledgeStatus( $pledgeId );
+            $pledgeStatusID = self::calculatePledgeStatus( $pledgeID );
             CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeID, 'status_id', $pledgeStatusID );
             
             $payment->free( );
