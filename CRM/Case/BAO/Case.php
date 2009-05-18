@@ -745,7 +745,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
     {
         $values = array( );
         
-        $select = 'SELECT ca.id as id, 
+        $select = 'SELECT count(ca.id) as ismultiple, ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter,
                           acc.sort_name AS assignee, 
@@ -824,6 +824,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $sortname  = CRM_Utils_Array::value( 'sortname', $params );
         $sortorder = CRM_Utils_Array::value( 'sortorder', $params );
         
+        $groupBy = " GROUP BY ca.id ";
+        
         // Default sort is status_id ASC, due_date_time ASC (so completed activities drop to bottom)
         if ( !$sortname AND !$sortorder ) {
             $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
@@ -839,7 +841,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
         $start = (($page-1) * $rp);
         
-        $query  = $select . $from . $where . $orderBy;
+        $query  = $select . $from . $where . $groupBy . $orderBy;
 		
         $params = array( 1 => array( $caseID, 'Integer' ) );
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
@@ -849,7 +851,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $limit  = " LIMIT $start, $rp";
         $query .= $limit;
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
-
+       
         $activityTypes  = CRM_Case_PseudoConstant::activityType( false, true );
 
         require_once "CRM/Utils/Date.php";
@@ -878,13 +880,15 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
            
             // add activity assignee to activity selector. CRM-4485.
-            if ( isset($dao->assignee) && CRM_Utils_Array::value('assignee', $values[$dao->id]) ) {
-                $values[$dao->id]['reporter'] .= ts(', (multiple)');
-            } elseif ( isset($dao->assignee) ) {
-                $values[$dao->id]['reporter'] .= ' ,'.$dao->assignee;
-                $values[$dao->id]['assignee']  = $dao->assignee;
-            } 
-
+            if ( isset($dao->assignee) ) {
+                if( $dao->ismultiple == 1 ) {
+                    $values[$dao->id]['reporter'] .= '/ '.$dao->assignee;
+                    $values[$dao->id]['assignee']  = $dao->assignee;
+                } else {
+                    $values[$dao->id]['reporter'] .= ts('/ (multiple)');
+                } 
+            }
+            
             $additionalUrl = "&id={$dao->id}";
             if ( !$dao->deleted ) {
                 $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
