@@ -47,6 +47,16 @@ class CRM_Event_Form_Task_ParticipantStatus extends CRM_Event_Form_Task_Batch
         $dao->find(true);
         $this->set('ufGroupId', $dao->id);
 
+        require_once 'CRM/Event/PseudoConstant.php';
+        $statuses =& CRM_Event_PseudoConstant::participantStatus();
+        $changeText = ts('Change all participant statuses to:');
+        $changeLinks = array();
+        foreach ($statuses as $statusId => $statusName) {
+            $changeLinks[] = "<a href='#' onClick='setStatusesTo($statusId); return false;'>$statusName</a>";
+        }
+        $changeText .= ' ' . implode(', ', $changeLinks) . '.';
+        $this->assign('statusChangeText', $changeText);
+
         parent::buildQuickForm();
     }
 }

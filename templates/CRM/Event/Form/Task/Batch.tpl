@@ -1,7 +1,8 @@
 <div class="form-item">
 <fieldset>
 <div id="help">
-    {ts}Update field values for each participation as needed. Click <strong>Update Participant(s)</strong> below to save all your changes. To set a field to the same value for ALL rows, enter that value for the first participation and then click the <strong>Copy icon</strong> (next to the column title).{/ts}
+    <p>{$statusChangeText}</p>
+    <p>{ts}Update field values for each participation as needed. Click <strong>Update Participant(s)</strong> below to save all your changes. To set a field to the same value for ALL rows, enter that value for the first participation and then click the <strong>Copy icon</strong> (next to the column title).{/ts}</p>
 </div>
     <legend>{$profileTitle}</legend>
          <table>

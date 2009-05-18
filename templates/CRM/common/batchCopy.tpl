@@ -1,5 +1,19 @@
 {literal}
 <script type="text/javascript">
+function setStatusesTo(statusId)
+{
+    var cId = new Array();
+    var i = 0;
+    {/literal}
+    {foreach from=$componentIds item=field}
+    {literal}cId[i++]{/literal} = {$field}
+    {/foreach}
+    {literal}
+    for (k = 0; k < cId.length; k++) {
+        document.getElementById("field_"+cId[k]+"_participant_status_id").value = statusId;
+    }
+}
+
 function copyValues(fieldName, source)
 {
     var cId = new Array();
