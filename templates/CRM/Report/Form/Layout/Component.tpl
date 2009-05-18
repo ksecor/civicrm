@@ -1,7 +1,7 @@
 <table class="form-layout">
-    <tr class="columnheader-dont">
+    <tr>
        	{foreach from=$columnHeadersComponent item=pheader key=component}
-	    <tr class="columnheadersss">
+	    <tr class="columnheader-dont">
 		<th>{$component|upper}</th>
 		{foreach from=$pheader item=header}
                     <th>{$header.title}</th>

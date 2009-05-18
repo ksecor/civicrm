@@ -89,11 +89,13 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                           'fields'    =>
                           array( 'contribution_id'        => 
                                  array( 'title'      => ts( 'Contribution' ),
-                                        'no_repeat'  => true 
+                                        'no_repeat'  => true,
+                                        'default'    => true 
                                         ),
-                                 'total_amount'           => null,
-                                 'contribution_type_id'   => array( 'title' => ts('Contribution Type') ),
-                                 'contribution_status_id' => null,
+                                 'total_amount'           => array( 'default' => true),
+                                 'contribution_type_id'   => array( 'title' => ts('Contribution Type'),
+                                                                    'default'    => true ),
+                                 'contribution_status_id' => array( 'default' => true),
                                  'contribution_source'    => null,
                                  ), 
                           ),
@@ -102,11 +104,14 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                           'fields'    =>
                           array( 'membership_id'      => 
                                  array( 'title'      => ts( 'Membership' ),
-                                        'no_repeat'  => true 
+                                        'no_repeat'  => true,
+                                        'default'    => true 
                                         ),
-                                 'membership_type_id' => null,
-                                 'start_date'         => array( 'title' => ts('Start Date') ),
-                                 'end_date'           => array( 'title' => ts('End Date') ),
+                                 'membership_type_id' => array( 'default' => true ),
+                                 'start_date'         => array( 'title'   => ts('Start Date'),
+                                                                'default' => true ),
+                                 'end_date'           => array( 'title'   => ts('End Date'),
+                                                                'default' => true ),
                                  'status_id'          => null,
                                  ), 
                           ),
@@ -115,14 +120,20 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                           'fields'    =>
                           array( 'participant_id' => 
                                  array( 'title'      => ts( 'Participant' ),
-                                        'no_repeat'  => true 
+                                        'no_repeat'  => true,
+                                        'default'    => true 
                                         ),
-                                 'event_id'       => null,
-                                 'status_id'      => array( 'title' => ts('Status') ),
-                                 'role_id'        => array( 'title' => ts('Role') ),
-                                 'register_date'  => array( 'title' => ts('Registe Date') ),
-                                 'fee_level'      => array( 'title' => ts('Fee Level') ),
-                                 'fee_amount'     => array( 'title' => ts('Fee Amount') ),
+                                 'event_id'       => array( 'default' => true),
+                                 'status_id'      => array( 'title'   => ts('Status'),
+                                                            'default' => true ),
+                                 'role_id'        => array( 'title'   => ts('Role'),
+                                                            'default' => true ),
+                                 'register_date'  => array( 'title'   => ts('Registe Date'),
+                                                            'default' => true ),
+                                 'fee_level'      => array( 'title'   => ts('Fee Level'),
+                                                            'default' => true ),
+                                 'fee_amount'     => array( 'title'   => ts('Fee Amount'),
+                                                            'default' => true ),
                                  ), 
                           ),
                                
@@ -137,10 +148,6 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
 
     }
     
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
-    }
-
     function select( ) {
         $select               = array( );
         $this->_columnHeaders = array( );
@@ -174,7 +181,10 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     }
 
     static function formRule( &$fields, &$files, $self ) {  
-        $errors = $grouping = array( );
+        $errors = array( );
+        if ( !CRM_Utils_Array::value('id_value', $fields ) ) {
+            $errors['id_value'] = ts('Contact ID is requied field');
+        }
         return $errors;
     }
 
@@ -215,15 +225,40 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
 
     function where( ) {
         $clauses = array( );
-        //temporary fix
-        $this->_where = "WHERE contact.id =102";
+
+        foreach ( $this->_columns as $tableName => $table ) {
+            if ( array_key_exists('filters', $table) ) {
+                foreach ( $table['filters'] as $fieldName => $field ) {
+                    $clause = null;
+                    $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                    if ( $op ) {
+                        //temporary fix default op = eq    
+                        $clause = 
+                            $this->whereClause( $field,
+                                                'eq',
+                                                CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
+                                                CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                    }
+                    if ( ! empty( $clause ) ) {
+                        $clauses[] = $clause;
+                    }
+                }
+            }
+        }
+       
+        if ( empty( $clauses ) ) {
+            $this->_where = "WHERE ( 1 ) ";
+        } else {
+            $this->_where = "WHERE " . implode( ' AND ', $clauses );
+        }
     }
     function clauseComponent( ) {
         $contribution = $membership =  $participant = null;
         $final = $rows = array();
         foreach( $this->_component as $val ) {
             if ( CRM_Utils_Array::value( $val, $this->_selectComponent ) ) {
-                $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} WHERE contact.id =102";
+                $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} $this->_where";
                 $dao  = CRM_Core_DAO::executeQuery( $sql );
                 while ( $dao->fetch( ) ) {
                     $row = array( );
@@ -235,8 +270,6 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
             }
         }
         return $rows;
-        //list( $contribution, $membership, $participant ) = 
-        //return array( $contribution, $membership, $participant );
     }
 
     
@@ -304,6 +337,7 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
         $this->altercomponentDisplay( $componentRows);
         $this->assign_by_ref( 'columnHeadersComponent', $this->_columnHeadersComponent );
         $this->assign_by_ref( 'componentRows', $componentRows );
+
         $rows  = $graphRows = array();
         $count = 0;
         while ( $dao->fetch( ) ) {
