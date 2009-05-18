@@ -70,7 +70,10 @@
         {include file=$tplFile}
       {/if}
 
+      {if ! $urlIsPublic}	
       {include file="CRM/common/footer.tpl"}
+      {/if}
+	
     </td>
 
   </tr>
