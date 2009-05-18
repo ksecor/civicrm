@@ -131,28 +131,27 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $this->_formValues ) ) {
                 $allPanes[$name]['open'] = 'true';
-            }
-            
-            if ( CRM_Utils_Array::value( $type, $components ) ) {
-                $c = $components[ $type ];
-                $this->add( 'hidden', "hidden_$type" , 1 );
-                $c->buildAdvancedSearchPaneForm( $this );
-                $this->_paneTemplatePath[$type] = $c->getAdvancedSearchPaneTemplatePath();                
-            } else {
-                eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
-                $template = ucfirst( $type );
-                $this->_paneTemplatePath[$type] = "CRM/Contact/Form/Search/Criteria/{$template}.tpl";
+                
+                if ( CRM_Utils_Array::value( $type, $components ) ) {
+                    $c = $components[ $type ];
+                    $this->add( 'hidden', "hidden_$type" , 1 );
+                    $c->buildAdvancedSearchPaneForm( $this );
+                    $this->_paneTemplatePath[$type] = $c->getAdvancedSearchPaneTemplatePath();                
+                } else {
+                    eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
+                    $template = ucfirst( $type );
+                    $this->_paneTemplatePath[$type] = "CRM/Contact/Form/Search/Criteria/{$template}.tpl";
+                }
             }
         }               
         $this->assign( 'allPanes', $allPanes );
-        
         if ( ! $this->_searchPane ) {
             parent::buildQuickForm();
         } else {
             $this->assign( 'suppressForm', true );
         }
     }
-
+    
     function getTemplateFileName() {
         if ( ! $this->_searchPane ) {
             return parent::getTemplateFileName( );
