@@ -327,7 +327,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                         if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
                             $this->_defaults["{$fieldName}_relative"] = $field['default'];
                         } else {
-                            $this->_defaults[$fieldName] = $field['default'];
+                            $this->_defaults["{$fieldName}_op"] = $field['default'];
                         }
                     }
                 }
