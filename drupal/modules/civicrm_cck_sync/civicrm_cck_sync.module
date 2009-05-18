@@ -1,0 +1,18 @@
+<?php
+ /**
+  * CiviCRM CCK Sync module
+  *
+  */
+function civicrm_cck_sync_menu( ) {
+    return array( 'civicrm_cck_sync' => array(
+                                                'title'            => 'CiviCRM CCK Sync',
+                                                'access callback'  => true,
+                                                'page callback'    => 'civicrm_cck_sync_invoke',
+                                                'type'             => 4,
+                                                'weight'           => 0,
+                                                ) );
+}
+
+function civicrm_cck_sync_invoke( ) {
+
+}
