@@ -29,9 +29,10 @@ function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
         // convert the string data to php content.
         eval($form_values['macro']);
         $activity_type=$form->_activityTypeId;
-        
+        $CiviCRMactivity_type=$content['extra']['civicrm_activity_type'];
+
         // Check The Activity Type
-        if ( $activity_type == 1 ) {
+        if ( $activity_type == $CiviCRMactivity_type ) {
             $formValues=$form->_submitValues;
             global $user;         
             $userId=$formValues['source_contact_id'] ;
@@ -77,11 +78,7 @@ function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
             
             // form submitted
             $form_state['submitted']= 0; 
-            
-            // get the taxanomy custom field value
-            $taxonomy_value=$content['extra']['civicrm_taxanomy_field'];
-            $getCata=db_fetch_array(db_query("select vid from  vocabulary_node_types where type='civicrmactivity'")); 
-            $form_state ['values']['taxonomy']=array( $getCata['vid']=>$formValues[$taxonomy_value]);
+           
             foreach($formValues as $key => $v){
                 $customCheck=substr($key,0,7);
                 if ($customCheck=='custom_') {
@@ -98,6 +95,12 @@ function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
                 $form_state['values'][$t] = array( 0 => array ('value' =>$formValues[$s]));
             }
             
+	     
+            // get the taxonomy custom field value
+            $taxonomy_value=$content['extra']['civicrm_taxonomy_field'];
+            $getCata=db_fetch_array(db_query("select vid from  vocabulary_node_types where type='civicrmactivity'")); 
+            $form_state ['values']['taxonomy']=array( $getCata['vid']=>$formValues[$taxonomy_value]);
+	    
             // Presenter for node
             $form_state['values']['field_presenter']= array( 0 => array ('uid' =>$presenterId_drupal ));
             
@@ -105,10 +108,15 @@ function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
             $form_state['values']['field_activity_id']= array( 0 => array ('value' => $entityID));
             
             $date = $formValues['activity_date_time'];
+	    if( $formValues['activity_date_time']['A']=='PM' && !($formValues['activity_date_time']['h'] == 12) ) {
+	        $formValues['activity_date_time']['h']=$formValues['activity_date_time']['h'] + 12;
+	    }
             $makeDate= date('Y-m-d H:i:s', mktime( $formValues['activity_date_time']['h'],$formValues['activity_date_time']['i'],0,$formValues['activity_date_time']['M'], $formValues['activity_date_time']['d'], $formValues['activity_date_time']['Y']));
-            
+            if( $form->_activityId ==NULL ) { 
+	        $makeDate=array ( 'date' => $makeDate );
+	    }
             // date and time
-            //  $form_state['values']['field_date_and_time']=array( 0 => array('value' => $makeDate , 'value2' => $makeDate , 'timezone' => 'UTC' , 'offset' => 0 , 'offset2' => 0 ));
+	    $form_state['values']['field_date_and_time']=array( 0 => array('value' => $makeDate , 'value2' => $makeDate , 'timezone' => 'UTC' , 'offset' => 0 , 'offset2' => 0 ));
             
             $count=0;
             $fileInfo=array();
@@ -212,10 +220,21 @@ function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
  */
 function civicrm_cck_activity_civicrm_customFieldOptions ($fieldID, &$options)
 { 
+    $filename = drupal_get_path('module','civicrm_cck_activity') . "/civicrm_cck_activity.cck";
+    $content = implode ('', file ($filename));
+    $form_state = array( 'values' => array(
+					   'type_name' => '<create>',
+					   'macro' => $content,
+					   ) );
+    $form_values = $form_state['values'];
+    $content = NULL;
+    eval($form_values['macro']);
+    $taxonomy_fieldID=$content['extra']['civicrm_taxonomy_fid'];
+
     /*
      *  check civicrm custom field which is used for taxonomy term
      */ 
-    if ($fieldID==4) {
+    if ($fieldID==$taxonomy_fieldID) {
         
         /*
          *  get taxonomy catagory id

@@ -583,7 +583,7 @@ $content['extra']  = array (
   'body_field' => '-3',
   'menu' => '-4',
   'attachments' => '-2',
-  'civicrm_taxanomy_field'  =>'custom_4_-1',
-  'civicrm_activity_value' =>'19',
-  'civicrm_taxanomy_fid'   =>'4'
+  'civicrm_taxonomy_field'  =>'custom_4',
+  'civicrm_activity_type' =>'1',
+  'civicrm_taxonomy_fid'   =>'4'
 );
