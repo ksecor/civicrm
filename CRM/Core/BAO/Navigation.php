@@ -108,16 +108,17 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
           require_once "CRM/Core/DAO/Navigation.php";
           $navigation  =& new CRM_Core_DAO_Navigation( );
           if ( !isset( $params['id'] ) ) {
-              $params['name'] = $params['label'];
+              $params['name']   = $params['label'];
+              $params['weight'] = self::calculateWeight( $params['parent_id'] );
           }
-          
+                        
           $params['permission_operator'] = 'AND';
           if ( $params['CiviCRM_OP_OR'] ) {
               $params['permission_operator'] = 'OR';
           }
           
           $params['permission'] = implode( ',', $params['permission'] );
-          
+
           $navigation->copyValues( $params );
           $navigation->save();
           return $navigation;
@@ -146,5 +147,33 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
           }
           return null;
       }
+      
+      /**
+       * Calculate navigation weight
+       *
+       * @param $parentID parent_id of a menu
+       * @param $menuID  menu id
+       *
+       * @return $weight string
+       * @static
+       */
+       static function calculateWeight( $parentID = null, $menuID = null ) {
+           $weight = 1;
+           // new weight calculation, all top level menus will have single digit weights
+           // So weight convention is 1, then its child will be 1.1, if 1.1 has child it will be 1.1.1
+           // and so on...
+           
+           // calculate max weight for top level menus, if parent id is absent
+           if ( !$parentID ) {
+               $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id IS NULL";
+           } else {
+               // if parent is passed, we need to get max weight for that particular parent
+               $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id = {$parentID}";
+           }
+           
+           $dao = CRM_Core_DAO::executeQuery( $query );
+           $dao->fetch();
+           return $weight = $weight + $dao->weight;
+       }
 }
 
