@@ -68,33 +68,33 @@ class CRM_Admin_Page_Navigation extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this location type?') . '\n\n' . ts('Users will no longer be able to select this value when adding or editing contact locations.');
+            $disableExtra = ts('Are you sure you want to disable this menu?');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'url'   => 'civicrm/admin/menu',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                    'title' => ts('Edit Location Type') 
+                                                                    'title' => ts('Edit Menu') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'url'   => 'civicrm/admin/menu',
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                    'title' => ts('Disable Location Type') 
+                                                                    'title' => ts('Disable Menu') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'url'   => 'civicrm/admin/menu',
                                                                     'qs'    => 'action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable Location Type') 
+                                                                    'title' => ts('Enable Menu') 
                                                                     ),
                                    CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'url'   => 'civicrm/admin/menu',
                                                                     'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete Location Type') 
+                                                                    'title' => ts('Delete Menu') 
                                                                    )
                                   );
         }

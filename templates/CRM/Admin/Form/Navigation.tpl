@@ -15,7 +15,7 @@
     <tr><td class="label">{$form.menu_option.label}</td><td>{$form.menu_option.html}</td></tr>
     <tr id="menu-path" style="display:none;"><td class="label">{$form.path.label}</td><td>{$form.path.html}</td></tr>
     <tr><td class="label">{$form.label.label}</td><td>{$form.label.html}</td></tr>
-    <tr id="menu-url"><td class="label">{$form.url.label}</td><td>{$form.url.html}</td></tr>
+    <tr><td class="label">{$form.url.label}</td><td><span id="menu-url">{$form.url.html}</span><span id="menu-url-label">&nbsp;</span></td></tr>
     <tr><td class="label">{$form.permission.label}</td><td>{$form.permission.html}</td></tr>
     <tr><td class="label">{$form.CiviCRM_OP_OR.label}</td><td>{$form.CiviCRM_OP_OR.html}</td></tr>
     <tr><td class="label">{$form.parent_id.label}</td><td>{$form.parent_id.html}</td></tr>
@@ -28,7 +28,7 @@
 </table>   
 </fieldset>
 </div>
-
+{debug}
 <script type="text/javascript">
 {literal}
 cj( function( ) {
@@ -36,14 +36,19 @@ cj( function( ) {
         if ( cj(this).val( ) == 2 ) {
             cj("#menu-path").show( );
             cj("#menu-url").hide( );
+            cj("#menu-url-label").show( );
         } else {
             cj("#menu-path").hide( );
             cj("#menu-url").show( );
+            cj("#menu-url-label").hide( );
+            cj("#label").val('');
         }
     });
     cj("#path").change( function( ) {
         if ( cj("#path").val( ) ) {
             cj("#label").val( cj("#path :selected").text() );
+            var crmUrl = {/literal}"{$config->userFrameworkBaseURL}"{literal} + cj("#path").val( ) + '?reset=1';
+            cj("#menu-url-label").html( crmUrl );
         } else {
             cj("#label").val('');
         }

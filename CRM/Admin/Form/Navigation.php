@@ -49,7 +49,6 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
-       
         parent::buildQuickForm( );
        
         if ($this->_action & CRM_Core_Action::DELETE ) { 
@@ -62,14 +61,12 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
                    ts('Title'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Navigation', 'label' ),
                    true );
-        $this->addRule( 'label',
-                        ts('Name already exists in Database.'),
-                        'objectExists',
-                        array( 'CRM_Core_DAO_Navigation', $this->_id ) );
-        
-        $menuOptions = array( '1' => ts('Create New Menu'),
-                              '2' => ts('Select Existing Menu'));
-        $this->add( 'select', 'menu_option', ts( 'Menu' ),  $menuOptions );
+
+        if ( !$this->_id ) {
+            $menuOptions = array( '1' => ts('Create New Menu'),
+                                  '2' => ts('Select Existing Menu'));
+            $this->add( 'select', 'menu_option', ts( 'Menu' ),  $menuOptions );
+        }
         
         require_once 'CRM/Core/BAO/Navigation.php';
         $existingMenus = CRM_Core_BAO_Navigation::getMenus( );
@@ -79,12 +76,31 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         require_once 'CRM/Core/Permission.php';
         $permissions = CRM_Core_Permission::basicPermissions();
         $this->addElement('select', 'permission', ts('Permission'), $permissions, array( 'size' => 5,'multiple' ) );        
-        $this->addElement('advcheckbox', 'CiviCRM_OP_OR', null, ts( 'Check to match ANY; uncheck to match ALL' ) ); 
+        $this->add('checkbox', 'CiviCRM_OP_OR', null, ts( 'Check to match ANY; uncheck to match ALL' ) ); 
         $parentMenu = CRM_Core_BAO_Navigation::getNavigationList( );
+        
+        if ( isset( $this->_id ) ) {
+            unset( $parentMenu[$this->_id] );
+        }
         $this->add( 'select', 'parent_id', ts( 'Parent' ), array( '' => ts('-- select --') ) + $parentMenu );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }
+    
+    public function setDefaultValues() {
+        $defaults = array( );
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            CRM_Core_BAO_Navigation::retrieve( $params, $defaults );
+            if ( $defaults['permission_operator'] === 'OR' ) {
+                $defaults['permission_operator'] = 1;
+            }                
+        }
+        
+        // its ok if there is no element called is_active
+        $defaults['is_active'] = ( $this->_id ) ? $defaults['is_active'] : 1;
 
+        return $defaults;
+    }
        
     /**
      * Function to process the form
@@ -96,10 +112,18 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
         
+        if ( isset( $this->_id ) ) {
+            $params['id'] = $this->_id;
+        }
+        
+        if ( $params['menu_option'] == 1 ) {
+            unset( $params['path'] );
+        }
+        
         $navigation = CRM_Core_BAO_Navigation::add( $params );
         
         CRM_Core_Session::setStatus( ts('Menu \'%1\' has been saved.',
-                                        array( 1 => $navigation->name )) );
+                                        array( 1 => $navigation->label )) );
     } //end of function
 
 }

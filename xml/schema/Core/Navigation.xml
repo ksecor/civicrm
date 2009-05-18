@@ -52,6 +52,13 @@
        <add>2.3</add>
   </field>
   <field>
+       <name>permission_operator</name>
+       <type>varchar</type>
+       <length>3</length>
+       <comment>Permission Operator</comment>
+       <add>2.3</add>
+  </field>
+  <field>
        <name>parent_id</name>
        <type>int unsigned</type>
        <comment>Parent navigation item, used for grouping</comment>
