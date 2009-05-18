@@ -1403,7 +1403,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
             $caseRelationship                        = $dao->relation;
             $assigneContactIds[$dao->rel_contact_id] = $dao->rel_contact_id;
         }
-        CRM_Core_Error::debug( '$assigneContactIds', $assigneContactIds );              
+     
         $session = & CRM_Core_Session::singleton();
         $activityParams = array('source_contact_id'    => $session->get( 'userID' ),
                                 'activity_type_id'     => $activityTypeID,
