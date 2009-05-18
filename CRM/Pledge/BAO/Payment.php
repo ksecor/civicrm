@@ -249,7 +249,43 @@ WHERE pledge_id = %1
         
         return true;
     }
-
+    
+    /**
+     * On delete contribution record update associated pledge payment and pledge.
+     *
+     * @param int $contributionID  contribution id
+     *
+     * @access public
+     * @static
+     */
+    static function updatePledgePayment( $contributionID )
+    { 
+        //get all status
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        $payment =& new CRM_Pledge_DAO_Payment( );
+        $payment->contribution_id = $contributionID;
+        if ( $payment->find( true ) ) {
+            $payment->contribution_id = 'null'; 
+            $payment->status_id = array_search( 'Pending', $allStatus );
+            $payment->save( );
+            
+            //update pledge status.
+            $pledgeID = $payment->pledge_id;
+            $pledgeStatusID = self::calculatePledgeStatus( $pledgeId );
+            CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeID, 'status_id', $pledgeStatusID );
+            
+            $payment->free( );
+        }
+        
+        $transaction->commit( );
+        return true;
+    }
+    
     /**
      * update Pledge Payment Status
      *

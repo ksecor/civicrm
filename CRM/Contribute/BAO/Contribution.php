@@ -524,6 +524,10 @@ GROUP BY currency
         //delete billing address if exists for this contribution.
         self::deleteAddress( $id ); 
         
+        //update pledge and pledge payment, CRM-3961
+        require_once 'CRM/Pledge/BAO/Payment.php';
+        CRM_Pledge_BAO_Payment::updatePledgePayment( $id );
+        
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
              
