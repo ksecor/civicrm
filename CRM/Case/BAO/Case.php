@@ -1370,7 +1370,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
      *
      * @static
      */
-    static function createCaseRoleActivity( $caseId, $relationshipId, $relContactId = null )
+    static function createCaseRoleActivity( $caseId, $relationshipId, $relContactId = null, $contactId = null )
     {
         if ( !$caseId || !$relationshipId || empty($relationshipId) ) {
             return;    
@@ -1392,8 +1392,8 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         }
 
         $query = "
-                  SELECT civicrm_relationship.contact_id_b as rel_contact_id,
-                  civicrm_relationship_type.label_b_a as relation  
+                  SELECT civicrm_relationship.contact_id_b as rel_contact_id, civicrm_relationship.contact_id_a as assign_contact_id, 
+                  civicrm_relationship_type.label_b_a as relation, civicrm_relationship.case_id as caseId   
                   FROM civicrm_relationship, civicrm_relationship_type  
                   WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id AND {$relationshipClause}";
         
@@ -1401,8 +1401,13 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         $dao = CRM_Core_DAO::executeQuery( $query,$queryParam );
               
         while ( $dao->fetch() ) {
-            $caseRelationship                        = $dao->relation;
-            $assigneContactIds[$dao->rel_contact_id] = $dao->rel_contact_id;
+            $caseRelationship  = $dao->relation;
+            //to get valid assignee contact(s).
+             if ( isset($dao->caseId) || $dao->rel_contact_id != $contactId ) { 
+                 $assigneContactIds[$dao->rel_contact_id] = $dao->rel_contact_id;
+             } else {
+                 $assigneContactIds[$dao->assign_contact_id] = $dao->assign_contact_id; 
+             }
         }
      
         $session = & CRM_Core_Session::singleton();

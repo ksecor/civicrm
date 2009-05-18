@@ -472,7 +472,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         //create an activity for case role removal.CRM-4480
         if ( $this->_caseId ) {
             require_once "CRM/Case/BAO/Case.php";
-            CRM_Case_BAO_Case::createCaseRoleActivity( $this->_caseId, $relationshipIds , $params['contact_check']);
+            CRM_Case_BAO_Case::createCaseRoleActivity( $this->_caseId, $relationshipIds , $params['contact_check'], $this->_contactId );
         }
 
         $status = '';
