@@ -1377,6 +1377,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         }
         
         // add activity record for case role assignment/added.
+        require_once 'CRM/Core/OptionGroup.php';
         $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                           'Assign Case Role',
                                                           'name' );
@@ -1415,9 +1416,9 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         //if $relContactId is passed, role is added or modified.
         if ( !empty($relContactId) ) {
             $activityParams['assignee_contact_id'] = $assigneContactIds;
-            $activityParams['subject']             = $caseRelationship.ts(' :Case Role assigned');
+            $activityParams['subject']             = $caseRelationship.ts(' :Case Role is assigned');
         } else {
-            $activityParams['subject']             = $caseRelationship.ts(' :Case Role is Removed');
+            $activityParams['subject']             = $caseRelationship.ts(' :Case Role is removed');
         }
         
         require_once "CRM/Activity/BAO/Activity.php";
