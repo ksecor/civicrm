@@ -216,14 +216,14 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
     function where( ) {
         $clauses = array( );
         //temporary fix
-        $this->_where = "WHERE contact.id =411";
+        $this->_where = "WHERE contact.id =102";
     }
     function clauseComponent( ) {
         $contribution = $membership =  $participant = null;
         $final = $rows = array();
         foreach( $this->_component as $val ) {
             if ( CRM_Utils_Array::value( $val, $this->_selectComponent ) ) {
-                $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} WHERE contact.id =411";
+                $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} WHERE contact.id =102";
                 $dao  = CRM_Core_DAO::executeQuery( $sql );
                 while ( $dao->fetch( ) ) {
                     $row = array( );
@@ -301,14 +301,9 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
 
         $dao   = CRM_Core_DAO::executeQuery( $sql );
         $componentRows = $this->clauseComponent( );
-        $comRows = array();
-        $i =1;
-        foreach ( $componentRows as  $key => $val ) {
-            foreach ( $val as $v ) {
-                $comRows[$i] = $v;
-                $i++;
-            }
-        }
+        $this->altercomponentDisplay( $componentRows);
+        $this->assign_by_ref( 'columnHeadersComponent', $this->_columnHeadersComponent );
+        $this->assign_by_ref( 'componentRows', $componentRows );
         $rows  = $graphRows = array();
         $count = 0;
         while ( $dao->fetch( ) ) {
@@ -318,7 +313,6 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
             }
             $rows[] = $row;
         }
-        $rows = array_merge( $rows,$comRows );
         $this->formatDisplay( $rows );
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
@@ -363,6 +357,69 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
             // have the column we need
             if ( !$entryFound ) {
                 break;
+            }
+        }
+    }
+    function altercomponentDisplay( &$componentRows ) {
+        // custom code to alter rows
+ 
+        $entryFound = false;
+        foreach( $componentRows as $component => $rows) { 
+        
+            foreach ( $rows as $rowNum => $row ) {
+                // handle contribution
+                if ( $component == 'contribution' ) {
+                    require_once 'CRM/Contribute/PseudoConstant.php';
+                    if ( $val = CRM_Utils_Array::value('civicrm_contribution_contribution_type_id', $row ) ) {
+                        $componentRows[$component][$rowNum]['civicrm_contribution_contribution_type_id'] = 
+                            CRM_Contribute_PseudoConstant::contributionType( $val, false );
+                    }
+
+                    if ( $val = CRM_Utils_Array::value('civicrm_contribution_contribution_status_id', $row ) ) {
+                        $componentRows[$component][$rowNum]['civicrm_contribution_contribution_status_id'] = 
+                            CRM_Contribute_PseudoConstant::contributionStatus( $val, false );
+                    }
+                    $entryFound = true;
+                }
+
+                if ( $component == 'membership' ) {
+                    require_once 'CRM/Member/PseudoConstant.php';
+                    if ( $val = CRM_Utils_Array::value('civicrm_membership_membership_type_id', $row ) ) {
+                        $componentRows[$component][$rowNum]['civicrm_membership_membership_type_id'] = 
+                            CRM_Member_PseudoConstant::membershipType( $val, false );
+                    }
+
+                    if ( $val = CRM_Utils_Array::value('civicrm_membership_status_id', $row ) ) {
+                        $componentRows[$component][$rowNum]['civicrm_membership_status_id'] = 
+                            CRM_Member_PseudoConstant::membershipStatus( $val, false );
+                    }
+                    $entryFound = true;
+                }
+
+                if ( $component == 'participant' ) {
+                    require_once 'CRM/Event/PseudoConstant.php';
+                    if ( $val = CRM_Utils_Array::value('civicrm_participant_event_id', $row ) ) {
+                        $componentRows[$component][$rowNum]['civicrm_participant_event_id'] = 
+                            CRM_Event_PseudoConstant::event( $val, false );
+                    }
+
+                    if ( $val = CRM_Utils_Array::value('civicrm_participant_status_id', $row ) ) {
+                        $componentRows[$component][$rowNum]['civicrm_participant_status_id'] = 
+                            CRM_Event_PseudoConstant::participantStatus( $val, false );
+                    }
+                    if ( $val = CRM_Utils_Array::value('civicrm_participant_role_id', $row ) ) {
+                        $componentRows[$component][$rowNum]['civicrm_participant_role_id'] = 
+                            CRM_Event_PseudoConstant::participantRole( $val, false );
+                    }
+
+                    $entryFound = true;
+                }
+
+                // skip looking further in rows, if first row itself doesn't 
+                // have the column we need
+                if ( !$entryFound ) {
+                    break;
+                }
             }
         }
     }

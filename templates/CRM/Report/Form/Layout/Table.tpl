@@ -40,6 +40,9 @@
                     </td>
                 {/foreach}
             </tr>
+	    {if $columnHeadersComponent}
+		{include file="CRM/Report/Form/Layout/Component.tpl"}
+	    {/if}
         {/foreach}
         
         {if $grandStat}
