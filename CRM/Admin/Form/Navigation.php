@@ -95,14 +95,15 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
             if ( $defaults['permission_operator'] === 'OR' ) {
                 $defaults['permission_operator'] = 1;
             }
+                
             if ( $defaults['parent_id'] ) {
-                $defaults['parent_id'] = "{$defaults['weight']}-{$this->_id}";
+                $parentWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Navigation', $defaults['parent_id'], 'weight' );
+                $defaults['parent_id'] = "{$parentWeight}-{$defaults['parent_id']}";
             }                
         }
         
         // its ok if there is no element called is_active
         $defaults['is_active'] = ( $this->_id ) ? $defaults['is_active'] : 1;
-        
         return $defaults;
     }
        
