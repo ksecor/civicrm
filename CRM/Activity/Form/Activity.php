@@ -178,6 +178,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                                                       false, false, false, 
                                                                                       null, 'name'),
                                                          ),
+                  // Add optional 'Subject' field for the Follow-up Activiity, CRM-4491
+                  'followup_activity_subject' =>  array( 'type'       => 'text',
+                                                         'label'      => 'Subject',
+                                                         'attributes' => CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                                    'subject' ),
+                                                         ),
                   
                   );
         

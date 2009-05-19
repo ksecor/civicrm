@@ -153,6 +153,10 @@
                         <tr><td class="label">{ts}Schedule Follow-up Activity{/ts}</td>
                             <td>{$form.followup_activity_type_id.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}</td>
                         </tr>
+                        <tr>
+                           <td class="label">{$form.followup_activity_subject.label}</td>
+                           <td>{$form.followup_activity_subject.html}</td>
+                        </tr>
                     </table>
                 </fieldset>
                 </div>
