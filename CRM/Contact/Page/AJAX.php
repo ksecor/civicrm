@@ -154,13 +154,14 @@ ORDER BY sort_name ";
         $json = true;
         require_once 'CRM/Utils/Type.php';
         $name = CRM_Utils_Array::value( 'name', $_GET, '' );
-        if ( !$name ) {
+        if ( ! array_key_exists( 'name', $_GET ) ) {
             $name = CRM_Utils_Array::value( 's',$_GET ) .'%';
             $json = false;
         }
         $name      = CRM_Utils_Type::escape( $name, 'String' ); 
         $whereIdClause = '';
         if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
+            $json = true;
             if ( is_numeric( $_GET['id'] ) ) {
                 $id  = CRM_Utils_Type::escape( $_GET['id'], 'Integer' ) ; 
                 $whereIdClause = " AND civicrm_contact.id = {$id}";
