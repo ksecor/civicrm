@@ -248,7 +248,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             }
 
             // Adding Context Menu Links in more action
-            if ( $contexMenu ) {
+            if ( $contextMenu ) {
                 $counter = 7000;
                 foreach( $contextMenu as $key => $value ) {
                     if( $key == 'activity' || $key == 'email' ) {
