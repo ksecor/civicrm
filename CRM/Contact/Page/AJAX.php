@@ -151,8 +151,13 @@ ORDER BY sort_name ";
      */
     function search( &$config ) 
     {
+        $json = true;
         require_once 'CRM/Utils/Type.php';
-        $name      = CRM_Utils_Array::value( 'name', $_GET, '' );
+        $name = CRM_Utils_Array::value( 'name', $_GET, '' );
+        if ( !$name ) {
+            $name = CRM_Utils_Array::value( 's',$_GET ) .'%';
+            $json = false;
+        }
         $name      = CRM_Utils_Type::escape( $name, 'String' ); 
         $whereIdClause = '';
         if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
@@ -167,7 +172,7 @@ ORDER BY sort_name ";
         $elements = array( );
         if ( $name || isset( $id ) ) {
             $name  = str_replace( '*', '%', $name );
-
+            
             //contact's based of relationhip type
             $relType = null; 
             if ( isset($_GET['rel']) ) {
@@ -294,8 +299,12 @@ ORDER BY sort_name ";
                 }
             } else {  
                 while ( $dao->fetch( ) ) {
+                    if( $json ) {
                     $elements[] = array( 'name' => addslashes( $dao->sort_name ),
                                          'id'   => $dao->id );
+                    } else {
+                     echo $elements = "$dao->sort_name|$dao->id\n";
+                    }
                 }
             }
         }
@@ -311,8 +320,10 @@ ORDER BY sort_name ";
                                  'id'   => $name );
         }
 
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements );
+        if( $json ) {
+          require_once "CRM/Utils/JSON.php";
+          echo CRM_Utils_JSON::encode( $elements );
+        } 
         exit();
     }
 

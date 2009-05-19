@@ -296,13 +296,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
                 
         $searchRows = $this->get( 'searchRows' );
-        $attributes = array('onchange' => "setUrl( );");
-        if ( $searchRows ) { 
-            $attributes = array('onchange' => "setUrl( ); buildCustomData( 'Relationship', this.value );");
-        } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $attributes = array('onchange' => "currentEmployer( this.form ); setUrl( );");  
-        }
-        
+                
         $this->addElement('select',
                           'relationship_type_id',
                           ts('Relationship Type'),
@@ -310,23 +304,14 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId,
                                                                                     $this->_rtype,
                                                                                     $this->_relationshipId,
-                                                                                    null, false, 'label', false ),
-                          $attributes
+                                                                                    null, false, 'label', false )
                           );
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
-        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                             'mode'           => 'remote',
-                             'store'          => 'contactStore',
-                             'pageSize'       => 10, 
-                             'id'             => 'contact'
-                             );
 
 		$dataUrl = CRM_Utils_System::url( "civicrm/ajax/search", "reset=1", true, null, false );
 		$this->assign('dataUrl',$dataUrl );
-
-        $this->addElement('text', 'name'      , ts('Find Target Contact'), $attributes );
+        $this->addElement('text', 'name'      , ts('Find Target Contact') );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
