@@ -77,7 +77,7 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         $permissions = CRM_Core_Permission::basicPermissions();
         $this->addElement('select', 'permission', ts('Permission'), $permissions, array( 'size' => 5,'multiple' ) );        
         $this->add('checkbox', 'CiviCRM_OP_OR', null, ts( 'Check to match ANY; uncheck to match ALL' ) ); 
-        
+        $parentMenu = array( );
         CRM_Core_BAO_Navigation::getNavigationList( $parentMenu );            
         
         if ( isset( $this->_id ) ) {

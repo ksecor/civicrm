@@ -130,6 +130,41 @@ class CRM_Admin_Page_Navigation extends CRM_Core_Page_Basic
     {
         return 'civicrm/admin/menu';
     }
+    
+    /**
+     * Browse all menus
+     */
+     function browse( $action = null, $sort ) {
+         $allMenus = array( );
+         CRM_Core_BAO_Navigation::getNavigationList( $allMenus, false );
+         
+         $links =& $this->links();
+         if ($action == null) {
+             if ( ! empty( $links ) ) {
+                 $action = array_sum(array_keys($links));
+             }
+         }
+
+         $permission = CRM_Core_Permission::EDIT;
+         foreach ( $allMenus as $key => $value ) {
+             // populate action links
+             $menuValues[$key] = $value;
+             // form all action links
+             $action = array_sum(array_keys($this->links()));
+
+             if ( $value['is_active'] ) {
+                 $action -= CRM_Core_Action::ENABLE;
+             } else {
+                 $action -= CRM_Core_Action::DISABLE;
+             }
+             
+             $menuValues[$key]['action'] = CRM_Core_Action::formLink ( self::links(), 
+                                                                       $action, 
+                                                                       array('id' => $value['id'] ) );
+         }
+         
+         $this->assign('rows', $menuValues );
+     }
 }
 
 

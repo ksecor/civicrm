@@ -166,7 +166,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
         * @return array returns associated array
         * @static
         */
-        static function getNavigationList( &$navigations, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
+        static function getNavigationList( &$navigations, $flatList = true, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
             $whereClause = " parent_id IS NULL";
             if (  $parentID ) {
                 $whereClause = " parent_id = {$parentID}"; 
@@ -175,18 +175,27 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
                 $separator = '';
             }
             
-            $query = "SELECT id, label, parent_id, weight FROM civicrm_navigation WHERE {$whereClause} ORDER BY parent_id, weight ASC";
+            $query = "SELECT id, label, parent_id, weight, is_active FROM civicrm_navigation WHERE {$whereClause} ORDER BY parent_id, weight ASC";
             $navigation = CRM_Core_DAO::executeQuery( $query );
             
             while ( $navigation->fetch() ) {
                 $index = "{$navigation->weight}-{$navigation->id}";
                 if ( !$navigation->parent_id ) {
-                    $navigations[$index] = "{$navigation->label}";
+                    $label = "{$navigation->label}";
                 } else {
-                    $navigations[$index] = "{$separtor}{$navigation->label}";
+                    $label = "{$separtor}{$navigation->label}";
+                }
+
+                if ( $flatList ) {
+                    $navigations[$index] = $label;
+                } else {
+                    $navigations[$index] = array( 'label'     => $label,
+                                                  'is_active' => $navigation->is_active,
+                                                  'id'        => $navigation->id,
+                                                  'parent_id' => $navigation->parent_id );
                 }
                 
-                self::getNavigationList( $navigations, $navigation->id, $separtor );
+                self::getNavigationList( $navigations, $flatList, $navigation->id, $separtor );
             }
                                  
             return $navigations;           
