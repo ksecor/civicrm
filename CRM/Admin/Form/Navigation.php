@@ -95,11 +95,6 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
             if ( $defaults['permission_operator'] === 'OR' ) {
                 $defaults['permission_operator'] = 1;
             }
-                
-            if ( $defaults['parent_id'] ) {
-                $parentWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Navigation', $defaults['parent_id'], 'weight' );
-                $defaults['parent_id'] = "{$parentWeight}-{$defaults['parent_id']}";
-            }                
         }
         
         // its ok if there is no element called is_active
@@ -124,10 +119,6 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         if ( $params['menu_option'] == 1 ) {
             unset( $params['path'] );
         }
-
-        // fix parent id
-        $parentKey = explode( '-', $params['parent_id'] );
-        $params['parent_id'] = $parentKey[1];
         
         $navigation = CRM_Core_BAO_Navigation::add( $params );
         

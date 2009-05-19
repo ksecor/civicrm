@@ -159,9 +159,10 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
        /**
         * Get formatted menu list
         * 
-        * @param array  $navigations navigation array
-        * @param int    $parentID  parent id
-        * @param string $separtor, separtor to show children
+        * @param array   $navigations navigation array
+        * @param boolean $flatList if result array is flat array or associated array
+        * @param int     $parentID  parent id
+        * @param string  $separtor, separtor to show children
         *
         * @return array returns associated array
         * @static
@@ -179,7 +180,6 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
             $navigation = CRM_Core_DAO::executeQuery( $query );
             
             while ( $navigation->fetch() ) {
-                $index = "{$navigation->weight}-{$navigation->id}";
                 if ( !$navigation->parent_id ) {
                     $label = "{$navigation->label}";
                 } else {
@@ -187,12 +187,11 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
                 }
 
                 if ( $flatList ) {
-                    $navigations[$index] = $label;
+                    $navigations[$navigation->id] = $label;
                 } else {
-                    $navigations[$index] = array( 'label'     => $label,
-                                                  'is_active' => $navigation->is_active,
-                                                  'id'        => $navigation->id,
-                                                  'parent_id' => $navigation->parent_id );
+                    $navigations[$navigation->id] = array( 'label'     => $label,
+                                                           'is_active' => $navigation->is_active,
+                                                           'parent_id' => $navigation->parent_id );
                 }
                 
                 self::getNavigationList( $navigations, $flatList, $navigation->id, $separtor );
