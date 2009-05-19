@@ -258,7 +258,7 @@ WHERE pledge_id = %1
      * @access public
      * @static
      */
-    static function updatePledgePayment( $contributionID )
+    static function resetPledgePayment( $contributionID )
     { 
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';

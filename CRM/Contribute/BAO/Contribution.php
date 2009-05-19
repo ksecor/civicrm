@@ -526,7 +526,7 @@ GROUP BY currency
         
         //update pledge and pledge payment, CRM-3961
         require_once 'CRM/Pledge/BAO/Payment.php';
-        CRM_Pledge_BAO_Payment::updatePledgePayment( $id );
+        CRM_Pledge_BAO_Payment::resetPledgePayment( $id );
         
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
