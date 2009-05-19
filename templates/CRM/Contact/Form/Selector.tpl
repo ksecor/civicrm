@@ -82,22 +82,17 @@
                 {/if}   
               {/foreach}
             {/if}
-            <td>{$row.action|replace:'xx':$row.contact_id}</td>
+            <td style='width:125px;'>{$row.action|replace:'xx':$row.contact_id}</td>
          </tr>
     {/foreach}
   {/if}
 </table>
 
-<!-- Context Menu -->
+<!-- Context Menu populated as per component and permission-->
 <ul id="contactMenu" class="contextMenu">
-   <li><a href="#view">{ts}View Contact{/ts}</a></li>
-   <li><a href="#add">{ts}Edit Contact{/ts}</a></li>
-   <li><a href="#contribution">{ts}Record Contribution{/ts}</a></li>
-   <li><a href="#participant">{ts}Register for Event{/ts}</a></li>
-   <li><a href="#activity">{ts}Record Activity{/ts}</a></li>
-   <li><a href="#pledge">{ts}Add Pledge{/ts}</a></li>
-   <li><a href="#membership">{ts}Enter Membership{/ts}</a></li>
-   <li><a href="#email">{ts}Send an Email{/ts}</a></li>
+{foreach from=$contextMenu item=value key=key}
+  <li><a href="#{$key}">{ts}{$value}{/ts}</a></li>
+{/foreach}
 </ul>
 <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}

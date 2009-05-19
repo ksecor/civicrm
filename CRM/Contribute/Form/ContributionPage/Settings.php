@@ -115,9 +115,32 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
                    CRM_Core_SelectValues::date('datetime') );
         $this->addRule('end_date', ts('Please select a end valid date.'), 'qfDate');
 
+        $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Settings', 'formRule' ) );
+        
         parent::buildQuickForm( );
     }
-
+    
+    /**
+     * global validation rules for the form
+     *
+     * @param array $values posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$values ) 
+    {
+        $errors = array( );
+        
+        //CRM-4286
+        if ( strstr( $values['title'], '/' ) ) {
+            $errors['title'] = ts( "Please do not use '/' in Title" );
+        }
+        
+        return $errors;
+    }
+    
     /**
      * Process the form
      *

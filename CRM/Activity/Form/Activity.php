@@ -110,27 +110,27 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * form fields based on their requirement  
      *
      */
-    function setFields() {
+    function setFields() 
+    {
         $this->_fields = 
             array(
-                  'subject'                   =>  array( 'type'        => 'text',
-                                                         'label'       => 'Subject',
-                                                         'attributes'  =>  
-                                                         CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                                    'subject' ),
-                                                         'required'    => true,
-                                                         ),
-                  'activity_date_time'        =>  array( 'type'        => 'date',
-                                                         'label'       => 'Date and Time',
-                                                         'attributes'  => 
-                                                         CRM_Core_SelectValues::date('activityDatetime'),
-                                                         'required'    => true,
-                                                         ),
-                  'duration'                  =>  array( 'type'        => 'text',
-                                                         'label'       => 'Duration',
-                                                         'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
-                                                         'required'    => false,
-                                                         ),
+                  'subject'                  =>  array( 'type'        => 'text',
+                                                        'label'       => 'Subject',
+                                                        'attributes'  => CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                                    'subject' ),
+                                                        'required'    => ( $this->_caseId )? false : true,
+                                                        ),
+                  'activity_date_time'      =>  array( 'type'        => 'date',
+                                                       'label'       => 'Date and Time',
+                                                       'attributes'  => 
+                                                       CRM_Core_SelectValues::date('activityDatetime'),
+                                                       'required'    => true,
+                                                       ),
+                  'duration'                 =>  array( 'type'        => 'text',
+                                                        'label'       => 'Duration',
+                                                        'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
+                                                        'required'    => false,
+                                                        ),
                   
                   'location'                  =>  array( 'type'       => 'text',
                                                          'label'      => 'Location',
@@ -185,7 +185,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                          ),
                   
                   );
-
+        
         // append (s) for interval_unit attribute list
         foreach ( $this->_fields['interval_unit']['attributes'] as $name => $label ) {
             $this->_fields['interval_unit']['attributes'][$name] = $label . '(s)';
@@ -796,7 +796,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @access protected
      */
-    protected function _getIdByDisplayName( $displayName ) {
+    protected function _getIdByDisplayName( $displayName ) 
+    {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                             $displayName,
                                             'id',
@@ -808,7 +809,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @access protected
      */
-    protected function _getDisplayNameById( $id ) {
+    protected function _getDisplayNameById( $id ) 
+    {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                             $id,
                                             'sort_name',
@@ -820,7 +822,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * needed, before the activity is added/updated
      *
      */
-    function beginPostProcess( &$params ) {
+    function beginPostProcess( &$params ) 
+    {
         if ( $this->_activityTypeFile ) {
             eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}" . 
                  "::beginPostProcess( \$this, \$params );");
@@ -832,7 +835,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * needed, after the activity has been added/updated
      *
      */
-    function endPostProcess( &$params, &$activity ) {
+    function endPostProcess( &$params, &$activity ) 
+    {
         if ( $this->_activityTypeFile ) {
             eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}" . 
                  "::endPostProcess( \$this, \$params, \$activity );");

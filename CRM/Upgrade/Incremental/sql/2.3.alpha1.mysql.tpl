@@ -101,20 +101,26 @@ ALTER TABLE `civicrm_preferences` ADD `navigation` TEXT NULL AFTER `mailing_back
 
 -CRM-3553
 -- Activity Type for bulk email
+-CRM-4480
+-- Activity Type for case role assignment
 
 SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
 SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @option_group_id_activity_type;
+SELECT @caseCompId := id FROM `civicrm_component` where `name` like 'CiviCase';
+SELECT @max_wt  := max(weight) from civicrm_option_value where option_group_id=@option_group_id_activity_type;
 -- FIXME for multilingual
 
 {if $multilingual}
   INSERT INTO civicrm_option_value
     (option_group_id,                {foreach from=$locales item=locale}label_{$locale}, description_{$locale},{/foreach}      value,                            name,           weight,                           filter,          component_id) VALUES
-    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Bulk Email',   'Bulk Email Sent.',    {/foreach}     (SELECT @max_val := @max_val+1),  'Bulk Email',    (SELECT @max_val := @max_val+1),  1,                NULL );
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Bulk Email',   'Bulk Email Sent.',    {/foreach}     (SELECT @max_val := @max_val+1),  'Bulk Email',    (SELECT @max_wt := @max_wt+1),  1,                NULL ),
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Assign Case Role',   '',    {/foreach}     (SELECT @max_val := @max_val+2),       'Assign Case Role',    (SELECT @max_wt := @max_wt+2),  0,            @caseCompId );
 
 {else}
   INSERT INTO civicrm_option_value
     (option_group_id,                label,            description,          value,                           name,           weight,                           filter,                   component_id) VALUES
-    (@option_group_id_activity_type, 'Bulk Email',     'Bulk Email Sent.',   (SELECT @max_val := @max_val+1), 'Bulk Email',   (SELECT @max_val := @max_val+1),  1,                         NULL );
+    (@option_group_id_activity_type, 'Bulk Email',     'Bulk Email Sent.',   (SELECT @max_val := @max_val+1), 'Bulk Email',   (SELECT @max_wt := @max_wt+1),  1,                         NULL ),
+    (@option_group_id_activity_type, 'Assign Case Role',     '',   (SELECT @max_val := @max_val+2), 'Assign Case Role',       (SELECT @max_wt := @max_wt+2),  0,   @caseCompId );
     
 {/if}
 
@@ -126,3 +132,31 @@ SET ca.activity_type_id = @bulkEmailID
 WHERE ca.activity_type_id = 3
      AND ca.source_record_id IS NOT NULL
      AND ca.id NOT IN ( SELECT cca.activity_id FROM civicrm_case_activity cca );
+
+-- CRM-4478
+
+INSERT INTO 
+   `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   ('priority', 'Priority', 0, 1);
+
+SELECT @og_id_pr  := id FROM civicrm_option_group WHERE name = 'priority';
+
+ {if $multilingual}
+    INSERT INTO civicrm_option_value
+      (option_group_id, {foreach from=$locales item=locale}label_{$locale},{/foreach}  value, name, filter, weight, is_active) 
+    VALUES
+      (@og_id_pr, {foreach from=$locales item=locale}'Urgent',{/foreach} 1, 'Urgent', 0, 1, 1),
+      (@og_id_pr, {foreach from=$locales item=locale}'Normal',{/foreach} 2, 'Normal', 0, 2, 1),
+      (@og_id_pr, {foreach from=$locales item=locale}'Low',{/foreach} 3, 'Low', 0, 3, 1);
+ {else}
+    INSERT INTO `civicrm_option_value`  
+      (`option_group_id`, `label`, `value`, `name`, `filter`, `weight`, `is_active`) 
+    VALUES    
+      (@og_id_pr, 'Urgent', 1, 'Urgent', 0, 1, 1),
+      (@og_id_pr, 'Normal', 2, 'Normal', 0, 2, 1),
+      (@og_id_pr, 'Low', 3, 'Low', 0, 3, 1);
+ {/if}
+
+
+

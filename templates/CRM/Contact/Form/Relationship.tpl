@@ -69,25 +69,27 @@
             {else} {* action = add *}
                 </dd>
 		    <dt>{$form.name.label}</dt>
-                <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" doClientPaging="false" url="{$dataUrl}">
                 {literal}
                   <script type="text/javascript">
-					function setUrl( ) {
-						
-						var relType = document.getElementById('relationship_type_id').value; 
-						var widget  = dijit.byId('contact');
-						if ( relType ) {
-							widget.setDisabled( false );
-							dojo.byId('contact').value = "";
-							var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="rel="}'{literal} + relType;
-							var queryStore = new dojox.data.QueryReadStore({url: dataUrl, jsId: 'contactStore', doClientPaging: false } );
-							widget.store = queryStore;
-						} else {
-							widget.setDisabled( true );
-						}
-					}
-					dojo.addOnLoad( function( ) {  setUrl( ); });
-                  </script>
+                    var relType = 0;
+                    cj(document).ready( function() { 
+                    	cj('#relationship_type_id').change( function() { 
+                            cj('#name').val( '' );
+                            createRelation( cj(this).val() ); 
+                        });
+ 
+                    });
+                    function createRelation( relType ) {
+                        if( relType ) {
+                             cj('#name').unbind( 'click' );
+                             var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="rel="}'{literal} + relType;
+                             cj('#name').autocomplete( dataUrl, { width : 180, selectFirst : false });
+                        } else { 
+                            cj('#name').unautocomplete( );
+                            cj('#name').click( function() { alert( 'First Select Relationship Type ...' );});
+                        }
+                    }       
+				  </script>
                 {/literal}
                 <dd  class="tundra">{$form.name.html}</dd></div>
                 <dt> </dt>

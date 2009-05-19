@@ -421,7 +421,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
         }
         
-        $payment = null;
+        $payment = $primaryCurrencyID = null;
         foreach ( $params as $key => $value ) {
             $this->_values['params'] = array( );
             $this->fixLocationFields( $value, $fields );
@@ -554,6 +554,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $value['contactID'] = $contactID;
                 $value['eventID']   = $this->_eventId;
                 $value['item_name'] = $value['description'];
+            }
+            
+            //CRM-4453.
+            if ( CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                $primaryCurrencyID = CRM_Utils_Array::value( 'currencyID', $value );
+            }
+            if ( !CRM_Utils_Array::value( 'currencyID', $value ) ) {
+                $value['currencyID'] = $primaryCurrencyID;
             }
             
             if ( !$pending && CRM_Utils_Array::value( 'is_primary', $value ) ) {

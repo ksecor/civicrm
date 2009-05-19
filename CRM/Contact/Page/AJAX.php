@@ -94,6 +94,9 @@ ORDER BY sort_name ";
 		require_once "CRM/Case/BAO/Case.php";
         $caseRelationship = CRM_Case_BAO_Case::getCaseRoles( $sourceContactID, $caseID, $relationshipID );
 
+        //create an activity for case role assignment.CRM-4480
+        CRM_Case_BAO_Case::createCaseRoleActivity( $caseID, $relationshipID, $relContactID );
+
 		$relation           = $caseRelationship[$relationshipID];
 		$relation['rel_id'] = $relationshipID;
 		echo json_encode( $relation );
@@ -148,11 +151,17 @@ ORDER BY sort_name ";
      */
     function search( &$config ) 
     {
+        $json = true;
         require_once 'CRM/Utils/Type.php';
-        $name      = CRM_Utils_Array::value( 'name', $_GET, '' );
+        $name = CRM_Utils_Array::value( 'name', $_GET, '' );
+        if ( ! array_key_exists( 'name', $_GET ) ) {
+            $name = CRM_Utils_Array::value( 's',$_GET ) .'%';
+            $json = false;
+        }
         $name      = CRM_Utils_Type::escape( $name, 'String' ); 
         $whereIdClause = '';
         if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
+            $json = true;
             if ( is_numeric( $_GET['id'] ) ) {
                 $id  = CRM_Utils_Type::escape( $_GET['id'], 'Integer' ) ; 
                 $whereIdClause = " AND civicrm_contact.id = {$id}";
@@ -164,7 +173,7 @@ ORDER BY sort_name ";
         $elements = array( );
         if ( $name || isset( $id ) ) {
             $name  = str_replace( '*', '%', $name );
-
+            
             //contact's based of relationhip type
             $relType = null; 
             if ( isset($_GET['rel']) ) {
@@ -291,8 +300,12 @@ ORDER BY sort_name ";
                 }
             } else {  
                 while ( $dao->fetch( ) ) {
+                    if( $json ) {
                     $elements[] = array( 'name' => addslashes( $dao->sort_name ),
                                          'id'   => $dao->id );
+                    } else {
+                     echo $elements = "$dao->sort_name|$dao->id\n";
+                    }
                 }
             }
         }
@@ -308,8 +321,10 @@ ORDER BY sort_name ";
                                  'id'   => $name );
         }
 
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements );
+        if( $json ) {
+          require_once "CRM/Utils/JSON.php";
+          echo CRM_Utils_JSON::encode( $elements );
+        } 
         exit();
     }
 
@@ -399,7 +414,9 @@ WHERE sort_name LIKE '%$name%'";
         $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
         $prepandString = "<li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a>";
         
-        if ( module_exists('admin_menu') ) {
+        $config =& CRM_Core_Config::singleton( );
+        
+        if ( ( $config->userFramework == 'Drupal' ) && module_exists('admin_menu') ) {
            $prepandString .= "<ul><li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('CiviCRM Home')."</a></i><li><a href='#' onclick='cj(\".cmDiv\").toggle();' title=". ts('Drupal Menu') .">".ts('Drupal Menu')."</a></li></ul>";
         }
 

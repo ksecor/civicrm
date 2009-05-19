@@ -13,7 +13,7 @@
                 <label>{ts}Status{/ts}:</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
             </td>
             <td>
-                <label>{ts}Start Date{/ts}:</label>&nbsp;{$caseDetails.case_start_date|crmDate}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStartDateId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
+                <label>{ts}Start Date{/ts}:</label>&nbsp;{$caseDetails.case_start_date|crmDate}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStartDateId`"}" title="Change case start date (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
             </td>
             <td>
                 <label>{ts}Case ID{/ts}:</label>&nbsp;{$caseID}
@@ -133,7 +133,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 			
 			cj("#rel_contact").focus();
 			cj("#rel_contact").result(function(event, data, formatted) {
-				cj("input[@id=rel_contact_id]").val(data[1]);
+				cj("input[id=rel_contact_id]").val(data[1]);
 			});		    
 		},
 
@@ -216,7 +216,7 @@ cj(document).ready(function(){
   <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
   
   {if $clientRelationships}
-    <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
+    <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`&caseID=`$caseID`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
 	
     <table class="report">
     	<tr class="columnheader">
@@ -329,7 +329,7 @@ function addRole() {
 			
 			cj("#role_contact").focus();
 			cj("#role_contact").result(function(event, data, formatted) {
-				cj("input[@id=role_contact_id]").val(data[1]);
+				cj("input[id=role_contact_id]").val(data[1]);
 			});		    
 		},
 
@@ -458,7 +458,7 @@ cj(document).ready(function(){
             {display: 'Actual',  name : 'actual_date', width : 70,  sortable : true, align: 'left'},
             {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
             {display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
-            {display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
+            {display: 'Reporter/ Assignee',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
             {display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
             {display: '',        name : 'links',       width : 70,  align: 'left'},
             {name : 'unix_due_date', hide: true, width: 1} // this col is use only for calculation
@@ -549,21 +549,20 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-
+    cj("#activities-selector tbody tr").parent().attr( 'class','status-completed');
     var currentDate = new Date();
     var ct = currentDate.getTime() / 1000;
 
-    cj("#activities-selector tbody tr td:last-child").each( function( ) {
+    cj("#activities-selector tbody tr:contains('Scheduled') td:last-child").each( function( ) {
         var dt = cj(this).text();
  
         if ( ct > dt ) {
             cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
-        } else{
+        } else {
             cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
         }	
     });
-
-    cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
+    
     cj("#activities-selector tbody tr:odd").addClass('erow');
 }
 </script>

@@ -51,7 +51,7 @@
                 <td>{$rel.state}</td>
                 <td>{$rel.email}</td>
                 <td>{$rel.phone}</td> 
-                <td class="nowrap">{$rel.action}</td>
+                <td class="nowrap">{$rel.action|replace:'xx':$rel.id}</td>
             </tr>
         {/foreach}
         </table>

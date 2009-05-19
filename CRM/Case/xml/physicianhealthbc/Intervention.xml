@@ -26,6 +26,9 @@
       <name>Change Case Status</name>
     </ActivityType>
     <ActivityType>
+      <name>Change Case Start Date</name>
+    </ActivityType>
+    <ActivityType>
       <name>Follow up</name>
     </ActivityType>
     <ActivityType>
@@ -44,36 +47,6 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Completed</status>
-        </ActivityType>
-        <ActivityType>
-          <name>Plan intervention</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>4</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Rehearse intervention</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>7</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Conduct intervention</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>8</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Debrief intervention</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>9</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Follow up</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>14</reference_offset>
-          <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>
     </ActivitySet>

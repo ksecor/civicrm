@@ -27,7 +27,9 @@
 		</tr>
 		<tr>
 			<td class="label">{$form.title.label}</td>
-			<td>{$form.title.html}</td>
+			<td>{$form.title.html}<br />
+			<span class="description"> {ts}Please use only alphanumeric, spaces, hyphens and dashes for event names.{/ts} 
+			</span></td>
 		</tr>
 		<tr>
 			<td class="label">{$form.summary.label}</td>

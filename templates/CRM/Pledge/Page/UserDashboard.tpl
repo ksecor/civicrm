@@ -13,7 +13,7 @@
   <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}">
     <td>{$row.pledge_amount|crmMoney}</td>
     <td>{$row.pledge_total_paid|crmMoney}</td>
-    <td>{$row.pledge_balance_amount|crmMoney}</td>
+    <td>{$row.pledge_amount-$row.pledge_total_paid|crmMoney}</td>
     <td>{$row.pledge_create_date|truncate:10:''|crmDate}</td>
     <td>{$row.pledge_next_pay_date|truncate:10:''|crmDate}</td>
     <td>{$row.pledge_next_pay_amount|crmMoney}</td>

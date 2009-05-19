@@ -1,5 +1,7 @@
 {* Profile forms when embedded in CMS account create (mode=1) or edit (mode=8) pages *}
+{if $context neq 'dialog'}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
+{/if}
 {if ! empty( $fields )}
 {* wrap in crm-container div so crm styles are used *}
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
@@ -18,7 +20,7 @@
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=fieldName}
-
+    {assign var="profileID" value=$field.group_id}
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
            </table>
@@ -214,5 +216,55 @@ cj(document).ready(function(){
 	cj('#selector tr:even').addClass('odd-row ');
 	cj('#selector tr:odd ').addClass('even-row');
 });
+{/literal}
+{if $context eq 'dialog'}
+{literal}
+    var options = { 
+        beforeSubmit:  showRequest,  // pre-submit callback  
+    }; 
+    
+   	// bind to the form's submit event 
+    cj('#Edit').submit(function() { 
+        // inside event callbacks 'this' is the DOM element so we first 
+        // wrap it in a jQuery object and then invoke ajaxSubmit 
+        cj(this).ajaxSubmit(options); 
+
+        // !!! Important !!! 
+        // always return false to prevent standard browser submit and page navigation 
+        return false; 
+    }); 
+   	
+   	// pre-submit callback 
+    function showRequest(formData, jqForm, options) { 
+        // formData is an array; here we use $.param to convert it to a string to display it 
+        // but the form plugin does this for you automatically when it submits the data 
+        var queryString = cj.param(formData); 
+        queryString = queryString + '&snippet=5&gid=' + {/literal}"{$profileID}"{literal};
+        var postUrl = {/literal}"{crmURL p='civicrm/profile/create' h=0 }"{literal}; 
+        cj.ajax({
+           type: "POST",
+           url: postUrl,
+           async: false,
+           data: queryString,
+           success: function( response ) {
+               cj("#contact-dialog").html( response );
+               eval("var checkSuccess = " + response )
+               if ( checkSuccess.newContactSuccess ) {
+                   cj("#contact").val( checkSuccess.sortName ).focus( );
+                   cj("input[name=contact_id]").val( checkSuccess.contactID );
+                   cj("#contact-dialog").dialog("close");
+               }
+           }
+         });
+
+        // here we could return false to prevent the form from being submitted; 
+        // returning anything other than false will allow the form submit to continue 
+        return false; 
+    }
+
+{/literal}    
+{/if}
+{literal}
 </script>
 {/literal}
+

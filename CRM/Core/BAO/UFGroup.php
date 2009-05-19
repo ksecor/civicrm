@@ -1227,11 +1227,12 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         $dao =& CRM_Core_DAO::executeQuery($queryString, $p);
 
         $ufGroups = array( );
+        require_once 'CRM/Core/BAO/UFField.php';
         while ($dao->fetch( )) {
             //skip mix profiles in user Registration / User Account
-            if ( ( $moduleName == 'User Registration' || $moduleName == 'User Account' ) && 
+            if ( ( $moduleName == 'User Registration' || $moduleName == 'User Account' ) &&
                  CRM_Core_BAO_UFField::checkProfileType( $dao->id ) ) {
-                continue;
+                 continue;
             }
             $ufGroups[$dao->id]['name'      ] = $dao->title;
             $ufGroups[$dao->id]['title'     ] = $dao->title;

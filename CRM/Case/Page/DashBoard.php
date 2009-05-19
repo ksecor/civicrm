@@ -65,13 +65,8 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
             CRM_Utils_System::setTitle( ts('CiviCase Dashboard - My Cases') );
         }
         $session = & CRM_Core_Session::singleton();
-
-        $userID  = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject );
-        
-        if ( !$userID ) {
-            $userID  = $session->get('userID');
-        }
-        
+        $userID  = $session->get('userID');
+               
         if ( ! $allCases ) {
             $this->assign('myCases', true );
             $allCases = false;

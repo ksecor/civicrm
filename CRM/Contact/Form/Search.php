@@ -68,7 +68,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @access protected
      */
     protected $_context;
-
+    
+    /**
+     * The contextMenu
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_contextMenu;
+    
     /**
      * the groupId retrieved from the GET vars
      *
@@ -471,6 +479,39 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->assign( 'id', CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) );
 
+        require_once 'CRM/Core/Permission.php';
+        $config =& CRM_Core_Config::singleton( );
+        $contextMenu = array( 
+                             'view'         => array( 'title'      => ts('View Contact'), 
+                                                      'permission' => "view all contacts"),
+                             'add'          => array( 'title'      => ts('Edit Contact'), 
+                                                      'permission' => "edit all contacts"),
+                             'contribution' => array( 'title'      => ts('Record Contribution'), 
+                                                      'permission' => "access CiviContribute"),
+                             'event'        => array( 'title'      => ts('Register for Event'),
+                                                      'permission' => "access CiviEvent"),
+                             'activity'     => array( 'title'      => ts('Record Activity'),
+                                                      'permission' => "access CiviCRM"),
+                             'pledge'       => array( 'title'      => ts('Add Pledge'),
+                                                      'permission' => "access CiviPledge"),
+                             'membership'   => array( 'title'      => ts('Enter Membership'),
+                                                      'permission' => "access CiviMember"),
+                             'email'        => array( 'title'      => ts('Send an Email'),
+                                                      'permission' => "access CiviCRM")
+                             );
+        $contextContact = array( );
+        foreach(  $contextMenu as $key => $value ) {
+            $component = substr( $value['permission'], 7 );
+            $component = ( $component != 'CiviCRM' ) ? $component : $value['permission']; 
+            if ( CRM_Core_Permission::check( $value['permission'] ) ) {
+                if ( in_array( $component, $config->enableComponents ) || $component == 'access CiviCRM' ) {
+                    $this->_contextMenu[$key] = $value['title'];
+                } else if ( substr( $value['permission'], 9 ) == 'contacts' ) {
+                    $contextContact[$key] = $value['title'];
+                }
+            }
+        }
+        $this->assign( 'contextMenu', $contextContact + $this->_contextMenu );
         // CRM_Core_Error::debug( 'f', $this->_formValues );
         // CRM_Core_Error::debug( 'p', $this->_params );
         eval( '$selector =& new ' . $this->_selectorName . 
@@ -569,7 +610,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                      $this->_action,
                      false,
                      $searchChildGroups,
-                     $this->_context );' );
+                     $this->_context,
+                     $this->_contextMenu );' );
             
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter

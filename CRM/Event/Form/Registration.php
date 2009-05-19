@@ -269,7 +269,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             //check for require requires approval.
             $this->_requireApproval = false;
-            if ( CRM_Utils_Array::value( 'requires_approval', $this->_values['event']) ) {
+            if ( CRM_Utils_Array::value( 'requires_approval', $this->_values['event']) && !$this->_allowConfirmation ) {
                 $this->_requireApproval = true;
             }
             $this->set( 'requireApproval', $this->_requireApproval );
@@ -775,7 +775,8 @@ WHERE  v.option_group_id = g.id
                                    'is_pay_later'  => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                    'fee_amount'    => CRM_Utils_Array::value( 'fee_amount', $params ),
                                    'registered_by_id' => CRM_Utils_Array::value( 'registered_by_id', $params ),
-                                   'discount_id'    => CRM_Utils_Array::value( 'discount_id', $params )
+                                   'discount_id'      => CRM_Utils_Array::value( 'discount_id', $params ),
+                                   'fee_currency'     => CRM_Utils_Array::value( 'currencyID', $params )
                                    );
        
         if ( $this->_action & CRM_Core_Action::PREVIEW || CRM_Utils_Array::value( 'mode', $params ) == 'test' ) {

@@ -14,7 +14,7 @@
 	<table class="form-layout-compressed">
 
 	<tr><td class="label">{$form.title.label}</td><td>{$form.title.html}<br/>
-            <span class="description">{ts}This title will be displayed at the top of the page.{/ts}</td>
+            <span class="description">{ts}This title will be displayed at the top of the page.<br />Please use only alphanumeric, spaces, hyphens and dashes for Title.{/ts}</td>
 	</tr>
 	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />	
             <span class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</span></td>

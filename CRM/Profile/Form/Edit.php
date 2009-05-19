@@ -215,6 +215,17 @@ SELECT module
     public function postProcess( ) 
     {
         parent::postProcess( );
+        
+        // this is special case when we create contact using Dialog box
+        if ( $this->_context == 'dialog' )  {
+            $sortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_id, 'sort_name' );
+            $returnArray = array( 'contactID'         => $this->_id,
+                                  'sortName'          => $sortName,
+                                  'newContactSuccess' => true );
+                    
+            echo json_encode( $returnArray );
+            exit();
+        }
 
         CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
 
@@ -223,11 +234,6 @@ SELECT module
         if ( ! $this->_postURL  ) {
             $url = CRM_Utils_System::url( 'civicrm/profile/view',
                                           "reset=1&id={$this->_id}&gid={$this->_gid}" );
-        }
-
-        if ( $this->_context == 'dialog' )  {
-            $url = CRM_Utils_System::refererPath( );
-            $url .= "&ncid={$this->_id}";
         }
 
         $session->replaceUserContext( $url );

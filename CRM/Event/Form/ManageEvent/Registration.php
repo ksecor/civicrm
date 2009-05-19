@@ -288,12 +288,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             }
         }
         
-        //don't allow to configure event for waitlist and require approval
-        if ( CRM_Utils_Array::value( 'has_waitlist', $values ) && 
-             CRM_Utils_Array::value( 'requires_approval', $values ) ) {
-            $errorMsg['requires_approval'] = ts( 'You can not enable both waitlist and require approval for same event.' );
-        }
-        
         if ( !empty($errorMsg) ) {
             return $errorMsg;
         }        

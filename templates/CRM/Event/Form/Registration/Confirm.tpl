@@ -1,6 +1,9 @@
 {if $action & 1024}
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
 {/if}
+
+{include file="CRM/common/TrackingFields.tpl"}
+
 <div class="form-item">
     <div id="help">
     {ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes.{/ts}
@@ -20,11 +23,11 @@
 	    <p>{$event.confirm_text}</p>
         </div>
     {/if}
-    {if $isRequireApproval}
-        <div class="bold">{ts}Your Event registration require approval. Once registration get approved, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
+    {if $isOnWaitlist}
+	 <div class="bold">{ts}Your Event registration will be on waiting list. Once event get enough free spaces, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
         </div>
-    {elseif $isOnWaitlist}
-        <div class="bold">{ts}Your Event registration will be on waiting list. Once event get enough free spaces, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
+    {elseif $isRequireApproval}
+	<div class="bold">{ts}Your Event registration require approval. Once registration get approved, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
         </div>
     {elseif $is_pay_later}
         <div class="bold">{$pay_later_receipt}</div>

@@ -257,7 +257,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
     { 
         $first_name  = 'Alaan';
         $last_name   = 'Maxwel';
-        $openid      = 'http://civicrm.org';
+        $openid      = 'http://civicrm.org/';
 
         $params = array ( 'first_name'                     => $first_name,     
                           'last_name'                      => $last_name, 

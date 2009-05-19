@@ -72,6 +72,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         //(we set when spaces < group count and want to allow become part of waiting )
         require_once 'CRM/Event/BAO/Participant.php';
         $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
+        
         $this->_allowWaitlist = false;
         if ( $eventFull && !$this->_allowConfirmation &&
              CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) { 
@@ -83,10 +84,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         $this->set( 'allowWaitlist', $this->_allowWaitlist );
         
-        if ( $this->_requireApproval && !$this->_allowConfirmation ) {
-            require_once "CRM/Core/Session.php";
-            CRM_Core_Session::setStatus( ts( 'Registration for this Event require approval. So If you register and if registration get approved, will send you a mail to confirm your registration. You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.' ) ); 
-        }
         
         //To check if the user is already registered for the event(CRM-2426) 
         self::checkRegistration(null , $this);
@@ -276,11 +273,25 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //hack to allow group to register w/ waiting
             if ( !$this->_allowConfirmation && 
                  is_numeric( $this->_availableRegistrations )              
-                 && CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) &&
-                 !$this->_requireApproval ) {
+                 && CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) {
                 $bypassPayment = true;
-                CRM_Core_Session::setStatus( ts("This event has only %1 spaces left. if you register as a group and register more than %1, the whole group will be put on the waitlist.", array( 1 => $this->_availableRegistrations ) ) );
+                
+                //case might be group become as a part of waitlist.
+                //If not waitlist then they require admin approve.
+                
+                $statusMessage = ts("This event has only %1 spaces left. if you register as a group and register more than %1, the whole group will be put on the waitlist.<br>", array( 1 => $this->_availableRegistrations ) );
+                if ( $this->_requireApproval ) {
+                    $statusMessage .= ts( "OR since registration for this event require approval. So if you register as a group and register less than %1. you become as a part of event and will send you a mail to confirm your registration if registration get approved.", array( 1 => $this->_availableRegistrations ) );
+                }
+                CRM_Core_Session::setStatus( $statusMessage );
             }
+        }
+        
+        //case where only approval needed no waitlist.
+        if ( $this->_requireApproval && 
+             !$this->_allowWaitlist && !$bypassPayment ) {
+            require_once "CRM/Core/Session.php";
+            CRM_Core_Session::setStatus( ts( 'Registration for this event require approval. will send you a mail to confirm your registration if registration get approved, You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.' ) ); 
         }
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
