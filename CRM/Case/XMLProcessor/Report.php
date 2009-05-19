@@ -293,22 +293,24 @@ WHERE      a.id = %1
         }
         
         if ( $activityDAO->assigneeID ) {
+            //allow multiple assignee contacts.CRM-4503.
+            require_once 'CRM/Activity/BAO/ActivityAssignment.php';
+            $assignee_contact_names = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activityDAO->id, true );
+            $assigneeContacts       = implode( ', ', $assignee_contact_names );
+            
             $activity['fields'][] = array( 'label' => 'Assigned To',
-                                          'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                               $activityDAO->assigneeID,
-                                                                                               'display_name' )
-                                                                   ),
-                                          'type'  => 'String' );
+                                           'value' => $this->redact( $assigneeContacts ), 
+                                           'type'  => 'String' );
         }
 
         $activity['fields'][] = array( 'label' => 'Medium',
-                                      'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
-                                                                                $activityDAO->medium_id ),
-                                      'type'  => 'String' );
+                                       'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
+                                                                                  $activityDAO->medium_id ),
+                                       'type'  => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Location',
-                                      'value' => $activityDAO->location,
-                                      'type'  => 'String' );
+                                       'value' => $activityDAO->location,
+                                       'type'  => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Due Date',
                                        'value' => $activityDAO->due_date_time,

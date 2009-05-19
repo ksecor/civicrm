@@ -116,17 +116,18 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
     /**
      * Retrieve assignee names by activity_id
      *
-     * @param int    $id  ID of the activity
+     * @param int      $id             ID of the activity
+     * @param boolean  $isDisplayName  if set returns display names of assignees
      * 
      * @return array
      * 
      * @access public
      * 
      */
-    static function getAssigneeNames( $activity_id ) 
+    static function getAssigneeNames( $activity_id, $isDisplayName = false ) 
     {
         $queryParam = array();
-        $query = "SELECT contact_a.sort_name 
+        $query = "SELECT contact_a.sort_name, contact_a.display_name 
                   FROM civicrm_contact contact_a 
                   LEFT JOIN civicrm_activity_assignment 
                          ON civicrm_activity_assignment.assignee_contact_id = contact_a.id
@@ -134,7 +135,11 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
         $dao = CRM_Core_DAO::executeQuery($query,$queryParam);
         $assigneeNames = array();
         while ( $dao->fetch() ) {
-            $assigneeNames[] =  $dao->sort_name;
+            if ( !$isDisplayName ) {
+                $assigneeNames[] =  $dao->sort_name;
+            } else {
+                $assigneeNames[] =  $dao->display_name;   
+            }
         }
         return $assigneeNames;
     }
