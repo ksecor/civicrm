@@ -399,6 +399,7 @@ VALUES
   (@option_group_id_report , 'CRM_Report_Form_Contribute_SummaryCount', 7, 'CRM_Report_Form_Contribute_SummaryCount', NULL, 0, NULL, 7, '{ts escape="sql"}Contribution Summary Count{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_report , 'CRM_Report_Form_Activity', 8, 'CRM_Report_Form_Activity', NULL, 0, NULL, 8, '{ts escape="sql"}Activity Search{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_report , 'CRM_Report_Form_Walklist', 9, 'CRM_Report_Form_Walklist', NULL, 0, NULL, 9, '{ts escape="sql"}Walk List{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Member_Detail', 10, 'CRM_Report_Form_Member_Detail', NULL, 0, NULL, 9, '{ts escape="sql"}Membership Details{/ts}', 0, 0, 1, NULL, NULL),
 
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL, NULL),

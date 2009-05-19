@@ -1,8 +1,12 @@
 <table class="form-layout">
     <tr>
        	{foreach from=$columnHeadersComponent item=pheader key=component}
-	    <tr class="columnheader-dont">
-		<th>{$component|upper}</th>
+	    {*add space before headers*}
+            <tr>
+		<td></td>
+            </tr>	
+	    <tr class="columnheader">
+		<th style="background-color:#F5F5F5" >{$component|upper}</th>
 		{foreach from=$pheader item=header}
                     <th>{$header.title}</th>
 	        {/foreach}
@@ -10,7 +14,7 @@
 
 	    {foreach from=$componentRows.$component item=row}
             	<tr class="{cycle values="odd-row,even-row"}">
-		    <td></td>
+		    <td style="background-color:#F5F5F5"></td>
 		    {foreach from=$columnHeadersComponent.$component item=header key=field}
 			{assign var=fieldLink value=$field|cat:"_link"}			
 			<td>
