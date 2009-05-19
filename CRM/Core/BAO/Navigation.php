@@ -79,23 +79,6 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
         return $menus;        
     }
     
-    /**
-     * Function get existing Navigation from db
-     *
-     * @static
-     * @return array associated array
-     */ 
-     static function getNavigationList( ) {
-         $navigations = array( ); 
-         require_once "CRM/Core/DAO/Navigation.php";
-         $navigation  =& new CRM_Core_DAO_Navigation( );
-         $navigation->find();
-         while ( $navigation->fetch() ) {
-            $navigations[$navigation->id] = $navigation->label;
-         }    
-         return $navigations;
-     }
-     
      /**
       * Function to add/update navigation record
       *
@@ -159,10 +142,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
        */
        static function calculateWeight( $parentID = null, $menuID = null ) {
            $weight = 1;
-           // new weight calculation, all top level menus will have single digit weights
-           // So weight convention is 1, then its child will be 1.1, if 1.1 has child it will be 1.1.1
-           // and so on...
-           
+           // we reset weight for each parent, i.e we start from 1 to n
            // calculate max weight for top level menus, if parent id is absent
            if ( !$parentID ) {
                $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id IS NULL";
@@ -175,5 +155,41 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
            $dao->fetch();
            return $weight = $weight + $dao->weight;
        }
+       
+       /**
+        * Get formatted menu list
+        * 
+        * @param array  $navigations navigation array
+        * @param int    $parentID  parent id
+        * @param string $separtor, separtor to show children
+        *
+        * @return array returns associated array
+        * @static
+        */
+        static function getNavigationList( &$navigations, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
+            $whereClause = " parent_id IS NULL";
+            if (  $parentID ) {
+                $whereClause = " parent_id = {$parentID}"; 
+                $separtor .= $separtor;
+            } else {
+                $separator = '';
+            }
+            
+            $query = "SELECT id, label, parent_id, weight FROM civicrm_navigation WHERE {$whereClause} ORDER BY parent_id, weight ASC";
+            $navigation = CRM_Core_DAO::executeQuery( $query );
+            
+            while ( $navigation->fetch() ) {
+                $index = "{$navigation->weight}-{$navigation->id}";
+                if ( !$navigation->parent_id ) {
+                    $navigations[$index] = "{$navigation->label}";
+                } else {
+                    $navigations[$index] = "{$separtor}{$navigation->label}";
+                }
+                
+                self::getNavigationList( $navigations, $navigation->id, $separtor );
+            }
+                                 
+            return $navigations;           
+        }
 }
 

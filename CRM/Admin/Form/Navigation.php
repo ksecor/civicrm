@@ -77,7 +77,8 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         $permissions = CRM_Core_Permission::basicPermissions();
         $this->addElement('select', 'permission', ts('Permission'), $permissions, array( 'size' => 5,'multiple' ) );        
         $this->add('checkbox', 'CiviCRM_OP_OR', null, ts( 'Check to match ANY; uncheck to match ALL' ) ); 
-        $parentMenu = CRM_Core_BAO_Navigation::getNavigationList( );
+        
+        CRM_Core_BAO_Navigation::getNavigationList( $parentMenu );            
         
         if ( isset( $this->_id ) ) {
             unset( $parentMenu[$this->_id] );
@@ -93,12 +94,15 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
             CRM_Core_BAO_Navigation::retrieve( $params, $defaults );
             if ( $defaults['permission_operator'] === 'OR' ) {
                 $defaults['permission_operator'] = 1;
+            }
+            if ( $defaults['parent_id'] ) {
+                $defaults['parent_id'] = "{$defaults['weight']}-{$this->_id}";
             }                
         }
         
         // its ok if there is no element called is_active
         $defaults['is_active'] = ( $this->_id ) ? $defaults['is_active'] : 1;
-
+        
         return $defaults;
     }
        
@@ -119,6 +123,10 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         if ( $params['menu_option'] == 1 ) {
             unset( $params['path'] );
         }
+
+        // fix parent id
+        $parentKey = explode( '-', $params['parent_id'] );
+        $params['parent_id'] = $parentKey[1];
         
         $navigation = CRM_Core_BAO_Navigation::add( $params );
         

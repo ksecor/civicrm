@@ -28,7 +28,7 @@
 </table>   
 </fieldset>
 </div>
-{debug}
+
 <script type="text/javascript">
 {literal}
 cj( function( ) {
