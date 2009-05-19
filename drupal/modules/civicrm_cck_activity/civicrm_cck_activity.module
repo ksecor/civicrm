@@ -16,198 +16,191 @@
 function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
 {
     // check Acivity 
-    if ( $formName=='CRM_Activity_Form_Activity' ) {
-        $filename = drupal_get_path('module','civicrm_cck_activity') . "/civicrm_cck_activity.cck";
-        $content = implode ('', file ($filename));
-        $form_state = array( 'values' => array(
-                                              'type_name' => '<create>',
-                                              'macro' => $content,
-                                              ) );
+    if ( $formName  == 'CRM_Activity_Form_Activity' ) {
+        $filename    = drupal_get_path('module','civicrm_cck_activity') . "/civicrm_cck_activity.cck";
+        $content     = implode ('', file ($filename));
+        $form_state  = array( 'values'    => array('type_name' => '<create>',
+                                                   'macro'     => $content ) );
         $form_values = $form_state['values'];
-        $content = NULL;
+        $content     = NULL;
         
         // convert the string data to php content.
-        eval($form_values['macro']);
-        $activity_type=$form->_activityTypeId;
-        $CiviCRMactivity_type=$content['extra']['civicrm_activity_type'];
-
+        eval( $form_values['macro'] );
+        $activity_type        = $form->_activityTypeId;
+        $CiviCRMactivity_type = $content['extra']['civicrm_activity_type'];
+        
         // Check The Activity Type
         if ( $activity_type == $CiviCRMactivity_type ) {
-            $formValues=$form->_submitValues;
+            $formValues     = $form->_submitValues;
             global $user;         
-            $userId=$formValues['source_contact_id'] ;
-            $date = $formValues['activity_date_time'];
+            $userId         = $formValues['source_contact_id'] ;
+            $date           = $formValues['activity_date_time'];
             
             // Presener ID
-            $presenterId_civi= $formValues['source_contact_id'];
+            $presenterId_civi = $formValues['source_contact_id'];
             
             //get drupal user id 
-            require_once 'api/UFGroup.php';
-            $presenterId_drupal = crm_uf_get_uf_id ($presenterId_civi);
+            require_once 'api/v2/UFGroup.php';
+            $presenterId_drupal = civicrm_uf_id_get ( $presenterId_civi );
             
             // Define node type
-            $node=array( 'type' => 'civicrmactivity' );
+            $node = array( 'type' => 'civicrmactivity' );
             
             // Form Id 
-            $form_id='civicrmactivity_node_form'; 
-            $sql = "SELECT max(id) FROM civicrm_activity where activity_type_id = %1";
-            $params = array( 1 => array($activity_type , 'Integer' ) );
-            $maxID = CRM_Core_DAO::executeQuery( $sql, $params );
+            $form_id  = 'civicrmactivity_node_form'; 
+            $sql      = "SELECT max(id) FROM civicrm_activity WHERE activity_type_id = %1";
+            $params   = array( 1 => array($activity_type , 'Integer' ) );
+            $maxID    = CRM_Core_DAO::executeQuery( $sql, $params );
             $maxID->fetch();
-            $arr=(array)$maxID;
-            $entityID=$arr['max(id)'];
+            $activity_ID = (array)$maxID;
+            $entityID = $activity_ID['max(id)'];
             
             /*
              *  mapping of civicrm activity fields with cck
              */
             
             // Define $form_state Values      
-            $form_state=array();
+            $form_state                    = array();
             
             // formOperation
-            $form_state['values']['op']= t('Save');
+            $form_state['values']['op']    = t('Save');
             
             //User name
-            $form_state['values']['name']= $user->name;
+            $form_state['values']['name']  = $user->name;
             
             // title of node
-            $form_state['values']['title']= $formValues['subject'];
+            $form_state['values']['title'] = $formValues['subject'];
             
             // body of node
-            $form_state['values']['body']=  $formValues['details'];
+            $form_state['values']['body']  = $formValues['details'];
             
             // form submitted
-            $form_state['submitted']= 0; 
-           
-            foreach($formValues as $key => $v){
-                $customCheck=substr($key,0,7);
-                if ($customCheck=='custom_') {
-                    $customName=substr($key,0,8);
+            $form_state['submitted']       = 0; 
+            
+            foreach ( $formValues as $key  => $v ) {
+                $customCheck  = substr( $key,0,7 );
+                if ( $customCheck == 'custom_' ) {
+                    $customName   = substr( $key,0,8 );
                     $formValues[$customName]=$v;
-                    unset($formValues[$key]);
-                    
+                    unset( $formValues[$key] );
                 }
             }
             
-            foreach($content['fields'] as $key => $v) {
-                $t = $v['field_name'];
-                $s = $v['civicrm_field'];
-                $form_state['values'][$t] = array( 0 => array ('value' =>$formValues[$s]));
+            foreach ( $content['fields'] as $key  => $value ) {
+                $cck_field                  = $value['field_name'];
+                $civi_value                 = $value['civicrm_field'];
+                $form_state['values'][$cck_field] = array( 0 => array ( 'value' => $formValues[$civi_value] ) );
             }
             
-	     
             // get the taxonomy custom field value
-            $taxonomy_value=$content['extra']['civicrm_taxonomy_field'];
-            $getCata=db_fetch_array(db_query("select vid from  vocabulary_node_types where type='civicrmactivity'")); 
-            $form_state ['values']['taxonomy']=array( $getCata['vid']=>$formValues[$taxonomy_value]);
-	    
+            $taxonomy_value = $content['extra']['civicrm_taxonomy_field'];
+            $getCata = db_fetch_array( db_query("SELECT vid FROM  vocabulary_node_types WHERE type ='civicrmactivity'") ); 
+            $form_state ['values']['taxonomy']         = array( $getCata['vid'] => $formValues[$taxonomy_value] );
+            
             // Presenter for node
-            $form_state['values']['field_presenter']= array( 0 => array ('uid' =>$presenterId_drupal ));
+            $form_state['values']['field_presenter']   = array( 0 => array ( 'uid' => $presenterId_drupal ) );
             
             // Activity Id for node
-            $form_state['values']['field_activity_id']= array( 0 => array ('value' => $entityID));
+            $form_state['values']['field_activity_id'] = array( 0 => array ( 'value' => $entityID ) );
             
             $date = $formValues['activity_date_time'];
-	    if( $formValues['activity_date_time']['A']=='PM' && !($formValues['activity_date_time']['h'] == 12) ) {
-	        $formValues['activity_date_time']['h']=$formValues['activity_date_time']['h'] + 12;
-	    }
-            $makeDate= date('Y-m-d H:i:s', mktime( $formValues['activity_date_time']['h'],$formValues['activity_date_time']['i'],0,$formValues['activity_date_time']['M'], $formValues['activity_date_time']['d'], $formValues['activity_date_time']['Y']));
-            if( $form->_activityId ==NULL ) { 
-	        $makeDate=array ( 'date' => $makeDate );
-	    }
+            if( $formValues['activity_date_time']['A'] == 'PM' && !($formValues['activity_date_time']['h'] == 12) ) {
+                $formValues['activity_date_time']['h'] = $formValues['activity_date_time']['h'] + 12;
+            }
+            $makeDate = date ( 'Y-m-d H:i', mktime( $formValues['activity_date_time']['h'],$formValues['activity_date_time']['i'],0,$formValues['activity_date_time']['M'], $formValues['activity_date_time']['d'], $formValues['activity_date_time']['Y'] ) );
+            if( $form->_activityId == NULL ) { 
+                $makeDate = array ( 'date' => $makeDate );
+            }
             // date and time
-	    $form_state['values']['field_date_and_time']=array( 0 => array('value' => $makeDate , 'value2' => $makeDate , 'timezone' => 'UTC' , 'offset' => 0 , 'offset2' => 0 ));
+            $form_state['values']['field_date_and_time'] = array( 0 => array( 'value' => $makeDate , 'value2' => $makeDate , 'timezone' => 'UTC' , 'offset' => 0 , 'offset2' => 0 ) );
             
-            $count=0;
-            $fileInfo=array();
-            $formFiles=$form->_submitFiles;
+            $count = 0;
+            $fileInfo  = array();
+            $formFiles = $form->_submitFiles;
             
             /*
              *  check attachated files and get information 
              */
-            foreach($formFiles as $isFile) {
-                if ($isFile['name']) {
+            foreach( $formFiles as $isFile ) {
+                if ( $isFile['name'] ) {
                     $count++;
-                    $fileInfo[$count]['name']=$isFile['name'];
-                    $fileInfo[$count]['size']=$isFile['size'];
+                    $fileInfo[$count]['name'] = $isFile['name'];
+                    $fileInfo[$count]['size'] = $isFile['size'];
                 }					
             }
             if ( $count>0 ) {
                 $is_newAct = 0;
-                $node_Id = null;
+                $node_Id   = null;
                 if ( $form->_activityId ) {
                     // if activity exists
-                    $entityID=$form->_activityId;
-                    $is_newAct=1;
-                    $act_id=$form->_activityId;
-                    $nodId=db_fetch_array(db_query("select nid from content_type_civicrmactivity where field_activity_id_value=".$act_id));
-                    $node_Id=$nodId['nid'];
+                    $entityID  = $form->_activityId;
+                    $is_newAct = 1;
+                    $act_id    = $form->_activityId;
+                    $nodId     = db_fetch_array( db_query("SELECT nid FROM content_type_civicrmactivity WHERE field_activity_id_value =".$act_id) );
+                    $node_Id   = $nodId['nid'];
                 }
                 
                 // function to copy the attachment for drupal node
-                civicrm_cck_activity_copyfiles ($fileInfo,$entityID,$is_newAct,$node_Id);
+                civicrm_cck_activity_copyfiles ( $fileInfo,$entityID,$is_newAct,$node_Id );
             }
             
-            if ($form->_activityId) {
-                if ($formValues['_qf_Activity_next']== 'Delete') {
-                    $act_id=$form->_activityId;
-                    $nodId=db_fetch_array(db_query("select nid from content_type_civicrmactivity where field_activity_id_value=".$act_id));
-                    node_delete($nodId);
+            if ( $form->_activityId ) {
+                if ( $formValues['_qf_Activity_next'] == 'Delete' ) {
+                    $act_id = $form->_activityId;
+                    $nodId  = db_fetch_array(db_query("SELECT nid FROM content_type_civicrmactivity WHERE field_activity_id_value =".$act_id));
+                    node_delete( $nodId );
                 } else {
-                    $act_id=$form->_activityId;
-                    $nodId=db_fetch_array(db_query("select nid from content_type_civicrmactivity where field_activity_id_value=".$act_id));
+                    $act_id = $form->_activityId;
+                    $nodId  = db_fetch_array( db_query("SELECT nid FROM content_type_civicrmactivity WHERE field_activity_id_value =".$act_id) );
                     
                     require_once 'api/File.php';
-                    $files=crm_get_files_by_entity($form->_activityId, $entity_table = 'civicrm_activity');
-                    $node_files=db_query("select fid from upload where nid=".$nodId['nid']);
-                    if ($node_files) {
-                        while($take_files=db_fetch_array($node_files)) {
-                            $node_filepath=db_fetch_array(db_query("select filepath from files where fid=".$take_files['fid']));
-                            $rest = substr($node_filepath['filepath'], 20);
+                    $files = crm_get_files_by_entity( $form->_activityId, $entity_table = 'civicrm_activity' );
+                    $node_files = db_query("SELECT fid FROM upload WHERE nid=".$nodId['nid']);
+                    if ( $node_files ) {
+                        while ( $take_files  = db_fetch_array($node_files ) ) {
+                            $node_filepath   = db_fetch_array(db_query("SELECT filepath FROM files WHERE fid =".$take_files['fid']));
+                            $rest            = substr( $node_filepath['filepath'], 20 );
                             
                             // If all files are deleted
-                            if ($files->_errors) {
-                                db_query("delete from files where fid=".$take_files['fid']);
-                                db_query("delete from upload where fid=".$take_files['fid']);
+                            if ( $files->_errors ) {
+                                db_query("DELETE FROM files WHERE fid =".$take_files['fid']);
+                                db_query("DELETE FROM upload WHERE fid =".$take_files['fid']);
                                 file_delete($node_filepath['filepath']);
-                            } else if ($formValues['is_delete_attachment']==1) {
+                            } else if ( $formValues['is_delete_attachment'] == 1 ) {
                                 
                                 // if old attacments are deleted in Edit and new files are attached
-                                $delete=0;
-                                foreach ($files as $civicrm_file) {
-                                    if ( !($rest == $civicrm_file['uri'])) {
-                                        $delete=1;
+                                $delete = 0;
+                                foreach ( $files as $civicrm_file ) {
+                                    if ( ! ( $rest == $civicrm_file['uri'] ) ) {
+                                        $delete = 1;
                                     }
                                     
                                 }
-                                if ($delete==1) {
-                                    db_query("delete from files where fid=".$take_files['fid']);
-                                    db_query("delete from upload where fid=".$take_files['fid']);
-                                    file_delete($node_filepath['filepath']);
+                                if ( $delete == 1 ) {
+                                    db_query("DELETE FROM files WHERE fid =".$take_files['fid']);
+                                    db_query("DELETE FROM upload WHERE fid =".$take_files['fid']);
+                                    file_delete( $node_filepath['filepath'] );
                                 }
                             }
                         }
                     }
-                    $nodId=db_fetch_array(db_query("select nid from content_type_civicrmactivity where field_activity_id_value=".$act_id));
-                    $node = node_load(array('nid' =>$nodId['nid']));
-                    foreach($form_state['values'] as $key => $val) {
-                        if ($key == 'field_activity_id' ) {
-                            $node->$key=$form->_activityId;
+                    $nodId = db_fetch_array ( db_query("SELECT nid FROM content_type_civicrmactivity WHERE field_activity_id_value =".$act_id ) );
+                    $node = node_load( array ( 'nid' => $nodId['nid'] ) );
+                    foreach( $form_state['values'] as $key => $val ) {
+                        if ( $key == 'field_activity_id' ) {
+                            $node->$key = $form->_activityId;
                         }
-                        $node->$key=$val;
-                        node_save($node);
+                        $node->$key = $val;
+                        node_save( $node );
                     }
-                    
                 } 
             } else {
-                
-                module_load_include('inc', 'node', 'node.pages'); 
+                module_load_include( 'inc', 'node', 'node.pages' ); 
                 
                 /*
                  *  drupal hook to create node
                  */
-                drupal_execute($form_id, $form_state, (object)$node);
-                
+                drupal_execute( $form_id, $form_state, (object)$node );   
             }
         }
         
@@ -220,43 +213,32 @@ function civicrm_cck_activity_civicrm_postProcess( $formName, &$form )
  */
 function civicrm_cck_activity_civicrm_customFieldOptions ($fieldID, &$options)
 { 
-    $filename = drupal_get_path('module','civicrm_cck_activity') . "/civicrm_cck_activity.cck";
-    $content = implode ('', file ($filename));
-    $form_state = array( 'values' => array(
-					   'type_name' => '<create>',
-					   'macro' => $content,
-					   ) );
+    $filename    =  drupal_get_path( 'module','civicrm_cck_activity' ) . "/civicrm_cck_activity.cck";
+    $content     = implode ( '', file ( $filename ) );
+    $form_state  = array( 'values' => array( 'type_name' => '<create>',
+                                             'macro'     => $content ) );
     $form_values = $form_state['values'];
     $content = NULL;
-    eval($form_values['macro']);
-    $taxonomy_fieldID=$content['extra']['civicrm_taxonomy_fid'];
-
-    /*
-     *  check civicrm custom field which is used for taxonomy term
-     */ 
-    if ($fieldID==$taxonomy_fieldID) {
+    eval( $form_values['macro'] );
+    $taxonomy_fieldID = $content['extra']['civicrm_taxonomy_fid'];
+    
+    // Check civicrm custom field which is used for taxonomy term 
+    if ( $fieldID == $taxonomy_fieldID ) {
         
-        /*
-         *  get taxonomy catagory id
-         */
-        $taxoID=db_fetch_array(db_query("select vid from  vocabulary_node_types where type='civicrmactivity'"));
-        
-        if ($taxoID) {
+        // Get taxonomy catagory id
+        $taxoID = db_fetch_array(db_query("SELECT vid FROM  vocabulary_node_types WHERE type ='civicrmactivity'"));
+        if ( $taxoID ) {
             
-            /*
-             *  get taxanomy terms
-             */
-            $terms=db_query("select tid ,name from  term_data where vid=$taxoID[vid]");
-            $formoption=array();
-            while($row=db_fetch_array($terms) ) {
-                $formoption[$row['tid']]=$row['name'];
+            // Get taxanomy terms 
+            $terms      = db_query( "SELECT tid, name FROM  term_data WHERE vid =$taxoID[vid]" );
+            $formoption = array();
+            while ( $row  = db_fetch_array( $terms ) ) {
+                $formoption[$row['tid']] = $row['name'];
             }
         }
         
-        /*
-         *  set Taxonomy terms as option for custom data
-         */
-        $options=$formoption; 
+        // Get Taxonomy terms as option for custom data
+        $options = $formoption; 
     }
     
 }
@@ -265,45 +247,38 @@ function civicrm_cck_activity_civicrm_customFieldOptions ($fieldID, &$options)
  *  function to copy files form civicrm to drupal
  */ 
 
-function civicrm_cck_activity_copyfiles ($fileInfo,$entityID,$is_newAct)
+function civicrm_cck_activity_copyfiles ( $fileInfo, $entityID, $is_newAct )
 {
     
     require_once 'api/File.php';
     
     // Take files attached for activity
-    $files=crm_get_files_by_entity($entityID, $entity_table = 'civicrm_activity');
+    $files = crm_get_files_by_entity( $entityID, $entity_table = 'civicrm_activity' );
     
-    $i=0;
-    foreach($files as $takefile){
-        if ($is_newAct==1) {
-            
-            $old_files=db_fetch_array(db_query("select fid from files where filepath like '%".$takefile['uri']."'"));
+    $i = 0;
+    foreach ( $files as $takefile ) {
+        if ( $is_newAct == 1 ) {
+            $old_files   = db_fetch_array( db_query("SELECT fid FROM files WHERE filepath like '%".$takefile['uri']."'") );
         }
         
-        if (!($old_files['fid'])) {
+        if ( !( $old_files['fid'] ) ) {
             $i++;
             
-            // if no old file found , attached current file
-            $source= file_directory_path().'/civicrm/custom/'.$takefile['uri'];
+            // If no old file found , attached current file
+            $source = file_directory_path().'/civicrm/custom/'.$takefile['uri'];
             
-            /*
-             *  copy files to 'sites/default/files' 
-             */
-            $copy=file_copy($source, $dest = 0, $replace = FILE_EXISTS_RENAME) ;
-            if ($copy==1) {
-                $filepath= file_directory_path().'/'.$takefile['uri'];
+            // Copy files to 'sites/default/files' 
+            $copy = file_copy( $source, $dest = 0, $replace = FILE_EXISTS_RENAME ) ;
+            if ( $copy == 1 ) {
+                $filepath = file_directory_path().'/'.$takefile['uri'];
                 global $user;
-                $uid=$user->uid;
+                $uid = $user->uid;
                 
-                /*
-                 *  provide refence of file in file table 
-                 */
-                $updateFile= db_query("insert into files (uid,filename,filepath,filemime,filesize,status,timestamp) values (". $uid.",'".$fileInfo[$i]['name']."','".$filepath."','".$takefile['mime_type']."',".$fileInfo[$i]['size'].",1,".time().") ");  
+                // Provide refence of file in file table 
+                $updateFile = db_query("INSERT into files (uid,filename,filepath,filemime,filesize,status,timestamp) values (". $uid.",'".$fileInfo[$i]['name']."','".$filepath."','".$takefile['mime_type']."',".$fileInfo[$i]['size'].",1,".time().") ");  
                 
-                /*
-                 *  get file id to provide refeence to the node
-                 */
-                $fid=db_last_insert_id('files','fid');                                                  	      		      
+                // Get file id to provide refeence to the node
+                $fid = db_last_insert_id( 'files', 'fid' );                                                  	      		      
                 $fileInfo[$i]['fid'  ] = $fid;
                 $fileInfo[$i]['error'] = 0;
             } else {
@@ -312,12 +287,10 @@ function civicrm_cck_activity_copyfiles ($fileInfo,$entityID,$is_newAct)
         }
         
     }
-    /*
-     *  Make global array to access in  nodeapi
-     */
     
+    //  Make global array to access in  nodeapi
     global $fileGlobal;
-    $fileGlobal=$fileInfo;
+    $fileGlobal = $fileInfo;
     
 }
 
@@ -328,18 +301,15 @@ function civicrm_cck_activity_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL)
 {
     global $fileGlobal;
     
-    /*
-     *  check operation id and node type
-     */
-    if ( ($op=='insert' || $op=='update') && $node->type=='civicrmactivity' && is_array($fileGlobal)) {
-        $nid=$node-> nid;
-        foreach($fileGlobal as $file){
+    // Check operation id and node type
+    if ( ( $op == 'insert' || $op == 'update' ) && $node->type == 'civicrmactivity' && is_array( $fileGlobal ) ) {
+        $nid = $node-> nid;
+        foreach ( $fileGlobal as $file ) {
             
-            /*
-             *  if error not has been set while copies files then provide node attchment
-             */
-            if (isset($file['fid']) && ($file['error']==0) ) {
-                db_query("insert into upload values ( ".$file['fid'].",".$nid.",".$nid.",'".$file['name']."',1,0) ");
+            // If error not has been set while copies files then provide node attchment
+            if ( isset ( $file['fid'] ) && ( $file['error'] == 0 ) ) {
+                db_query("INSERT into upload values ( ".$file['fid'].",".$nid.",".$nid.",'".$file['name']."',1,0) ");
+
             }  
         }           
         
