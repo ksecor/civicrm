@@ -88,6 +88,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     public $_formValues;
 
     /**
+     * The contextMenu
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_contextMenu;
+    
+    /**
      * params is the array in a value used by the search query creator
      *
      * @var array
@@ -147,7 +155,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                           $action = CRM_Core_Action::NONE,
                           $includeContactIds = false,
                           $searchDescendentGroups = true,
-                          $searchContext = 'search' )
+                          $searchContext = 'search',
+                          $contextMenu = null )
     {
         //don't build query constructor, if form is not submitted
         $force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
@@ -160,7 +169,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $this->_formValues       =& $formValues;
         $this->_params           =& $params;
         $this->_returnProperties =& $returnProperties;
-
+        $this->_contextMenu      =& $contextMenu;
 
         // type of selector
         $this->_action = $action;
@@ -206,7 +215,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access public
      *
      */
-    static function &links( $searchType = null )
+    static function &links( $searchType = null, $contextMenu = null )
     {
         if (!(self::$_links)) {
             self::$_links = array(
@@ -239,32 +248,25 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             }
 
             // Adding Context Menu Links in more action
-            $contextMenu = array( 
-                                 'contribution' => ts('Record Contribution'),
-                                 'event'        => ts('Register for Event'),
-                                 'activity'     => ts('Record Activity'),
-                                 'pledge'       => ts('Add Pledge'),
-                                 'membership'   => ts('Enter Membership'),
-                                 'email'        => ts('Send an Email')
-                                 );
-            $counter = 7000;
-
-            foreach( $contextMenu as $key => $value ) {
-                if( $key == 'activity' || $key == 'email' ) {
-                    $qs = ( $key == 'activity') ? '&snippet=1' : '&atype=3&action=add';
-                    self::$_links[$counter++]  = array(
-                                                       'name'     => $value,
-                                                       'url'      => "civicrm/contact/view/activity",
-                                                       'qs'       => "reset=1&cid=%%id%%{$qs}",
-                                                       'title'    => $value,
-                                                       );
-                } else {
-                    self::$_links[$counter++]  = array(
-                                                       'name'     => $value,
-                                                       'url'      => "civicrm/contact/view/{$key}",
-                                                       'qs'       => "reset=1&action=add&cid=%%id%%&context={$key}",
-                                                       'title'    => $value,
-                                                       );
+            if ( $contexMenu ) {
+                $counter = 7000;
+                foreach( $contextMenu as $key => $value ) {
+                    if( $key == 'activity' || $key == 'email' ) {
+                        $qs = ( $key == 'activity') ? '&snippet=1' : '&atype=3&action=add';
+                        self::$_links[$counter++]  = array(
+                                                           'name'     => $value,
+                                                           'url'      => "civicrm/contact/view/activity",
+                                                           'qs'       => "reset=1&cid=%%id%%{$qs}",
+                                                           'title'    => $value,
+                                                           );
+                    } else {
+                        self::$_links[$counter++]  = array(
+                                                           'name'     => $value,
+                                                           'url'      => "civicrm/contact/view/{$key}",
+                                                           'qs'       => "reset=1&action=add&cid=%%id%%&context={$key}",
+                                                           'title'    => $value,
+                                                           );
+                    }
                 }
             }
         }
@@ -538,7 +540,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $searchType = 'advance';
         }
         require_once 'CRM/Core/OptionGroup.php';
-        $links =& self::links( $searchType );
+        $links =& self::links( $searchType, $this->_contextMenu );
 
         //check explicitly added contact to a Smart Group.
         $groupID   = CRM_Utils_Array::key( '1', $this->_formValues['group'] );  
