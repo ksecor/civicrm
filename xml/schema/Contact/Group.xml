@@ -6,6 +6,7 @@
   <name>civicrm_group</name>
   <comment>Provide grouping of related contacts</comment>
   <add>1.1</add>
+  <drop>2.3.multiorg</drop>
   <field>
       <name>id</name>
       <type>int unsigned</type>

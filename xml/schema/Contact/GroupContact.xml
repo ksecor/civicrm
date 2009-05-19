@@ -6,6 +6,7 @@
   <name>civicrm_group_contact</name>
   <comment>Join table sets membership for 'static' groups. Also used to store 'opt-out' entries for 'query' type groups (status = 'OUT')</comment>
   <add>1.1</add>
+  <drop>2.3.multiorg</drop>
   <field>
       <name>id</name>
       <type>int unsigned</type>

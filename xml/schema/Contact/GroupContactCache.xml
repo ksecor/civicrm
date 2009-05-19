@@ -6,6 +6,7 @@
   <name>civicrm_group_contact_cache</name>
   <comment>Join table cache for 'static' groups.</comment>
   <add>2.1</add>
+  <drop>2.3.multiorg</drop>
   <field>
       <name>id</name>
       <type>int unsigned</type>

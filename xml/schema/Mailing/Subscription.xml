@@ -36,6 +36,7 @@
        <name>group_contact_id</name>
        <table>civicrm_group_contact</table>
        <key>id</key>
+       <drop>2.3.multiorg</drop>
        <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>

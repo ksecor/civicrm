@@ -42,6 +42,7 @@
        <table>civicrm_group</table>
        <key>id</key>
        <add>1.1</add>
+       <drop>2.3.multiorg</drop>
        <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>

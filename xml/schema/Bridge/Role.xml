@@ -40,5 +40,6 @@
        <table>civicrm_group</table> 
        <key>id</key> 
        <add>2.0</add> 
+       <drop>2.3.multiorg</drop>
   </foreignKey> 
 </table>

@@ -6,6 +6,7 @@
   <name>civicrm_group_organization</name>
   <comment>Integrate Organization information into Groups</comment>
   <add>2.0</add>
+  <drop>2.3.multiorg</drop>
   <field>
     <name>id</name>
     <type>int unsigned</type>

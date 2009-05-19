@@ -38,11 +38,11 @@ UNLOCK TABLES;
 -- Dumping data for table `civicrm_acl_entity_role`
 --
 
-LOCK TABLES `civicrm_acl_entity_role` WRITE;
-/*!40000 ALTER TABLE `civicrm_acl_entity_role` DISABLE KEYS */;
-INSERT INTO `civicrm_acl_entity_role` (`id`, `acl_role_id`, `entity_table`, `entity_id`, `is_active`) VALUES (1,1,'civicrm_group',1,1);
-/*!40000 ALTER TABLE `civicrm_acl_entity_role` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `civicrm_acl_entity_role` WRITE;
+-- /*!40000 ALTER TABLE `civicrm_acl_entity_role` DISABLE KEYS */;
+-- INSERT INTO `civicrm_acl_entity_role` (`id`, `acl_role_id`, `entity_table`, `entity_id`, `is_active`) VALUES (1,1,'civicrm_group',1,1);
+-- /*!40000 ALTER TABLE `civicrm_acl_entity_role` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Dumping data for table `civicrm_activity`
@@ -391,48 +391,48 @@ UNLOCK TABLES;
 -- Dumping data for table `civicrm_group`
 --
 
-LOCK TABLES `civicrm_group` WRITE;
-/*!40000 ALTER TABLE `civicrm_group` DISABLE KEYS */;
-INSERT INTO `civicrm_group` (`id`, `name`, `title`, `description`, `source`, `saved_search_id`, `is_active`, `visibility`, `where_clause`, `select_tables`, `where_tables`, `group_type`, `cache_date`, `parents`, `children`, `is_hidden`) VALUES (1,'Administrators','Administrators','Contacts in this group are assigned Administrator role permissions.',NULL,NULL,1,'User and User Admin Only',NULL,NULL,NULL,'1',NULL,NULL,NULL,0),(2,'Newsletter Subscribers','Newsletter Subscribers',NULL,NULL,NULL,1,'Public Pages',' ( `civicrm_group_contact-2`.group_id IN ( 2 ) AND `civicrm_group_contact-2`.status IN (\"Added\") ) ','a:10:{s:15:\"civicrm_contact\";i:1;s:15:\"civicrm_address\";i:1;s:22:\"civicrm_state_province\";i:1;s:15:\"civicrm_country\";i:1;s:13:\"civicrm_email\";i:1;s:13:\"civicrm_phone\";i:1;s:10:\"civicrm_im\";i:1;s:19:\"civicrm_worldregion\";i:1;s:25:\"`civicrm_group_contact-2`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-2` ON contact_a.id = `civicrm_group_contact-2`.contact_id \";s:6:\"gender\";i:1;}','a:2:{s:15:\"civicrm_contact\";i:1;s:25:\"`civicrm_group_contact-2`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-2` ON contact_a.id = `civicrm_group_contact-2`.contact_id \";}','12',NULL,NULL,NULL,0),(3,'Summer Program Volunteers','Summer Program Volunteers',NULL,NULL,NULL,1,'Public Pages',' ( `civicrm_group_contact-3`.group_id IN ( 3 ) AND `civicrm_group_contact-3`.status IN (\"Added\") ) ','a:10:{s:15:\"civicrm_contact\";i:1;s:15:\"civicrm_address\";i:1;s:22:\"civicrm_state_province\";i:1;s:15:\"civicrm_country\";i:1;s:13:\"civicrm_email\";i:1;s:13:\"civicrm_phone\";i:1;s:10:\"civicrm_im\";i:1;s:19:\"civicrm_worldregion\";i:1;s:25:\"`civicrm_group_contact-3`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-3` ON contact_a.id = `civicrm_group_contact-3`.contact_id \";s:6:\"gender\";i:1;}','a:2:{s:15:\"civicrm_contact\";i:1;s:25:\"`civicrm_group_contact-3`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-3` ON contact_a.id = `civicrm_group_contact-3`.contact_id \";}','12',NULL,NULL,NULL,0),(4,'Advisory Board','Advisory Board',NULL,NULL,NULL,1,'Public Pages',' ( `civicrm_group_contact-4`.group_id IN ( 4 ) AND `civicrm_group_contact-4`.status IN (\"Added\") ) ','a:10:{s:15:\"civicrm_contact\";i:1;s:15:\"civicrm_address\";i:1;s:22:\"civicrm_state_province\";i:1;s:15:\"civicrm_country\";i:1;s:13:\"civicrm_email\";i:1;s:13:\"civicrm_phone\";i:1;s:10:\"civicrm_im\";i:1;s:19:\"civicrm_worldregion\";i:1;s:25:\"`civicrm_group_contact-4`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-4` ON contact_a.id = `civicrm_group_contact-4`.contact_id \";s:6:\"gender\";i:1;}','a:2:{s:15:\"civicrm_contact\";i:1;s:25:\"`civicrm_group_contact-4`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-4` ON contact_a.id = `civicrm_group_contact-4`.contact_id \";}','12',NULL,NULL,NULL,0);
-/*!40000 ALTER TABLE `civicrm_group` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `civicrm_group` WRITE;
+-- /*!40000 ALTER TABLE `civicrm_group` DISABLE KEYS */;
+-- INSERT INTO `civicrm_group` (`id`, `name`, `title`, `description`, `source`, `saved_search_id`, `is_active`, `visibility`, `where_clause`, `select_tables`, `where_tables`, `group_type`, `cache_date`, `parents`, `children`, `is_hidden`) VALUES (1,'Administrators','Administrators','Contacts in this group are assigned Administrator role permissions.',NULL,NULL,1,'User and User Admin Only',NULL,NULL,NULL,'1',NULL,NULL,NULL,0),(2,'Newsletter Subscribers','Newsletter Subscribers',NULL,NULL,NULL,1,'Public Pages',' ( `civicrm_group_contact-2`.group_id IN ( 2 ) AND `civicrm_group_contact-2`.status IN (\"Added\") ) ','a:10:{s:15:\"civicrm_contact\";i:1;s:15:\"civicrm_address\";i:1;s:22:\"civicrm_state_province\";i:1;s:15:\"civicrm_country\";i:1;s:13:\"civicrm_email\";i:1;s:13:\"civicrm_phone\";i:1;s:10:\"civicrm_im\";i:1;s:19:\"civicrm_worldregion\";i:1;s:25:\"`civicrm_group_contact-2`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-2` ON contact_a.id = `civicrm_group_contact-2`.contact_id \";s:6:\"gender\";i:1;}','a:2:{s:15:\"civicrm_contact\";i:1;s:25:\"`civicrm_group_contact-2`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-2` ON contact_a.id = `civicrm_group_contact-2`.contact_id \";}','12',NULL,NULL,NULL,0),(3,'Summer Program Volunteers','Summer Program Volunteers',NULL,NULL,NULL,1,'Public Pages',' ( `civicrm_group_contact-3`.group_id IN ( 3 ) AND `civicrm_group_contact-3`.status IN (\"Added\") ) ','a:10:{s:15:\"civicrm_contact\";i:1;s:15:\"civicrm_address\";i:1;s:22:\"civicrm_state_province\";i:1;s:15:\"civicrm_country\";i:1;s:13:\"civicrm_email\";i:1;s:13:\"civicrm_phone\";i:1;s:10:\"civicrm_im\";i:1;s:19:\"civicrm_worldregion\";i:1;s:25:\"`civicrm_group_contact-3`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-3` ON contact_a.id = `civicrm_group_contact-3`.contact_id \";s:6:\"gender\";i:1;}','a:2:{s:15:\"civicrm_contact\";i:1;s:25:\"`civicrm_group_contact-3`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-3` ON contact_a.id = `civicrm_group_contact-3`.contact_id \";}','12',NULL,NULL,NULL,0),(4,'Advisory Board','Advisory Board',NULL,NULL,NULL,1,'Public Pages',' ( `civicrm_group_contact-4`.group_id IN ( 4 ) AND `civicrm_group_contact-4`.status IN (\"Added\") ) ','a:10:{s:15:\"civicrm_contact\";i:1;s:15:\"civicrm_address\";i:1;s:22:\"civicrm_state_province\";i:1;s:15:\"civicrm_country\";i:1;s:13:\"civicrm_email\";i:1;s:13:\"civicrm_phone\";i:1;s:10:\"civicrm_im\";i:1;s:19:\"civicrm_worldregion\";i:1;s:25:\"`civicrm_group_contact-4`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-4` ON contact_a.id = `civicrm_group_contact-4`.contact_id \";s:6:\"gender\";i:1;}','a:2:{s:15:\"civicrm_contact\";i:1;s:25:\"`civicrm_group_contact-4`\";s:114:\" LEFT JOIN civicrm_group_contact `civicrm_group_contact-4` ON contact_a.id = `civicrm_group_contact-4`.contact_id \";}','12',NULL,NULL,NULL,0);
+-- /*!40000 ALTER TABLE `civicrm_group` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Dumping data for table `civicrm_group_contact`
 --
 
-LOCK TABLES `civicrm_group_contact` WRITE;
-/*!40000 ALTER TABLE `civicrm_group_contact` DISABLE KEYS */;
-INSERT INTO `civicrm_group_contact` (`id`, `group_id`, `contact_id`, `status`, `location_id`, `email_id`) VALUES (1,2,80,'Removed',NULL,NULL),(2,2,32,'Removed',NULL,NULL),(3,2,17,'Added',NULL,NULL),(4,2,64,'Added',NULL,NULL),(5,2,39,'Added',NULL,NULL),(6,2,49,'Added',NULL,NULL),(7,2,26,'Removed',NULL,NULL),(8,2,98,'Added',NULL,NULL),(9,2,42,'Added',NULL,NULL),(10,2,53,'Added',NULL,NULL),(11,2,23,'Removed',NULL,NULL),(12,2,60,'Added',NULL,NULL),(13,2,56,'Removed',NULL,NULL),(14,2,44,'Removed',NULL,NULL),(15,2,13,'Added',NULL,NULL),(16,2,92,'Removed',NULL,NULL),(17,2,91,'Added',NULL,NULL),(18,2,21,'Removed',NULL,NULL),(19,2,84,'Added',NULL,NULL),(20,2,36,'Removed',NULL,NULL),(21,2,9,'Added',NULL,NULL),(22,2,29,'Removed',NULL,NULL),(23,2,37,'Added',NULL,NULL),(24,2,4,'Added',NULL,NULL),(25,2,15,'Removed',NULL,NULL),(26,2,76,'Removed',NULL,NULL),(27,2,52,'Removed',NULL,NULL),(28,2,5,'Added',NULL,NULL),(29,2,86,'Added',NULL,NULL),(30,2,45,'Removed',NULL,NULL),(31,2,41,'Added',NULL,NULL),(32,2,55,'Removed',NULL,NULL),(33,2,43,'Added',NULL,NULL),(34,2,71,'Removed',NULL,NULL),(35,2,34,'Removed',NULL,NULL),(36,2,38,'Removed',NULL,NULL),(37,3,8,'Removed',NULL,NULL),(38,3,83,'Removed',NULL,NULL),(39,3,87,'Removed',NULL,NULL),(40,3,40,'Removed',NULL,NULL),(41,3,72,'Removed',NULL,NULL),(42,3,79,'Added',NULL,NULL),(43,3,96,'Added',NULL,NULL),(44,3,94,'Added',NULL,NULL),(45,3,97,'Removed',NULL,NULL),(46,3,46,'Removed',NULL,NULL),(47,3,25,'Removed',NULL,NULL),(48,3,62,'Added',NULL,NULL),(49,3,19,'Removed',NULL,NULL),(50,4,59,'Added',NULL,NULL),(51,4,49,'Removed',NULL,NULL),(52,4,90,'Added',NULL,NULL),(53,4,56,'Removed',NULL,NULL),(54,4,16,'Removed',NULL,NULL),(55,4,81,'Removed',NULL,NULL),(56,4,5,'Added',NULL,NULL);
-/*!40000 ALTER TABLE `civicrm_group_contact` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `civicrm_group_contact` WRITE;
+-- /*!40000 ALTER TABLE `civicrm_group_contact` DISABLE KEYS */;
+-- INSERT INTO `civicrm_group_contact` (`id`, `group_id`, `contact_id`, `status`, `location_id`, `email_id`) VALUES (1,2,80,'Removed',NULL,NULL),(2,2,32,'Removed',NULL,NULL),(3,2,17,'Added',NULL,NULL),(4,2,64,'Added',NULL,NULL),(5,2,39,'Added',NULL,NULL),(6,2,49,'Added',NULL,NULL),(7,2,26,'Removed',NULL,NULL),(8,2,98,'Added',NULL,NULL),(9,2,42,'Added',NULL,NULL),(10,2,53,'Added',NULL,NULL),(11,2,23,'Removed',NULL,NULL),(12,2,60,'Added',NULL,NULL),(13,2,56,'Removed',NULL,NULL),(14,2,44,'Removed',NULL,NULL),(15,2,13,'Added',NULL,NULL),(16,2,92,'Removed',NULL,NULL),(17,2,91,'Added',NULL,NULL),(18,2,21,'Removed',NULL,NULL),(19,2,84,'Added',NULL,NULL),(20,2,36,'Removed',NULL,NULL),(21,2,9,'Added',NULL,NULL),(22,2,29,'Removed',NULL,NULL),(23,2,37,'Added',NULL,NULL),(24,2,4,'Added',NULL,NULL),(25,2,15,'Removed',NULL,NULL),(26,2,76,'Removed',NULL,NULL),(27,2,52,'Removed',NULL,NULL),(28,2,5,'Added',NULL,NULL),(29,2,86,'Added',NULL,NULL),(30,2,45,'Removed',NULL,NULL),(31,2,41,'Added',NULL,NULL),(32,2,55,'Removed',NULL,NULL),(33,2,43,'Added',NULL,NULL),(34,2,71,'Removed',NULL,NULL),(35,2,34,'Removed',NULL,NULL),(36,2,38,'Removed',NULL,NULL),(37,3,8,'Removed',NULL,NULL),(38,3,83,'Removed',NULL,NULL),(39,3,87,'Removed',NULL,NULL),(40,3,40,'Removed',NULL,NULL),(41,3,72,'Removed',NULL,NULL),(42,3,79,'Added',NULL,NULL),(43,3,96,'Added',NULL,NULL),(44,3,94,'Added',NULL,NULL),(45,3,97,'Removed',NULL,NULL),(46,3,46,'Removed',NULL,NULL),(47,3,25,'Removed',NULL,NULL),(48,3,62,'Added',NULL,NULL),(49,3,19,'Removed',NULL,NULL),(50,4,59,'Added',NULL,NULL),(51,4,49,'Removed',NULL,NULL),(52,4,90,'Added',NULL,NULL),(53,4,56,'Removed',NULL,NULL),(54,4,16,'Removed',NULL,NULL),(55,4,81,'Removed',NULL,NULL),(56,4,5,'Added',NULL,NULL);
+-- /*!40000 ALTER TABLE `civicrm_group_contact` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Dumping data for table `civicrm_group_contact_cache`
 --
 
-LOCK TABLES `civicrm_group_contact_cache` WRITE;
-/*!40000 ALTER TABLE `civicrm_group_contact_cache` DISABLE KEYS */;
-/*!40000 ALTER TABLE `civicrm_group_contact_cache` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `civicrm_group_contact_cache` WRITE;
+-- /*!40000 ALTER TABLE `civicrm_group_contact_cache` DISABLE KEYS */;
+-- /*!40000 ALTER TABLE `civicrm_group_contact_cache` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Dumping data for table `civicrm_group_nesting`
 --
 
-LOCK TABLES `civicrm_group_nesting` WRITE;
-/*!40000 ALTER TABLE `civicrm_group_nesting` DISABLE KEYS */;
-/*!40000 ALTER TABLE `civicrm_group_nesting` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `civicrm_group_nesting` WRITE;
+-- /*!40000 ALTER TABLE `civicrm_group_nesting` DISABLE KEYS */;
+-- /*!40000 ALTER TABLE `civicrm_group_nesting` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Dumping data for table `civicrm_group_organization`
 --
 
-LOCK TABLES `civicrm_group_organization` WRITE;
-/*!40000 ALTER TABLE `civicrm_group_organization` DISABLE KEYS */;
-/*!40000 ALTER TABLE `civicrm_group_organization` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `civicrm_group_organization` WRITE;
+-- /*!40000 ALTER TABLE `civicrm_group_organization` DISABLE KEYS */;
+-- /*!40000 ALTER TABLE `civicrm_group_organization` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Dumping data for table `civicrm_im`

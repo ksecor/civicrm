@@ -6,6 +6,7 @@
   <name>civicrm_group_nesting</name>
   <comment>Provide parent-child relationships for groups</comment>
   <add>2.0</add>
+  <drop>2.3.multiorg</drop>
   <field>
     <name>id</name>
     <type>int unsigned</type>
