@@ -529,6 +529,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventID ) ) {
             if ( $form->_action & CRM_Core_Action::UPDATE ){
+                require_once 'CRM/Event/BAO/Participant.php';
                 $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
                 $required = false;
             } else {
