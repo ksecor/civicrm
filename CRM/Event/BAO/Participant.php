@@ -100,6 +100,16 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             $participantBAO->register_date = CRM_Utils_Date::isoToMysql($participantBAO->register_date);
         }
         $participantBAO->copyValues($params);
+        
+        //CRM-4453
+        require_once 'CRM/Utils/Rule.php';
+        if ( $participantBAO->fee_amount != 0 && 
+             !CRM_Utils_Rule::currencyCode( $participantBAO->currency ) ) {
+            require_once 'CRM/Core/Config.php';
+            $config =& CRM_Core_Config::singleton();
+            $participantBAO->currency = $config->defaultCurrency;
+        }
+        
         $participantBAO->save();
         
         $session = & CRM_Core_Session::singleton();

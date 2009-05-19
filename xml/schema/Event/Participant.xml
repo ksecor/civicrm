@@ -184,4 +184,15 @@
        <add>2.1</add> 
        <onDelete>SET NULL</onDelete>
   </foreignKey> 
+  <field>      
+      <name>fee_currency</name>
+      <type>varchar</type>
+      <length>64</length>
+      <default>NULL</default>
+      <import>true</import>
+      <headerPattern>/(fee)?.?cur(rency)?/i</headerPattern>
+      <dataPattern>/^[A-Z]{3}$/i</dataPattern>
+      <comment>3 character string, value derived from config setting.</comment>   
+      <add>2.3</add>
+  </field>
 </table>

@@ -707,6 +707,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         if ( $this->_isPaidEvent ) {
+            
+            //lets carry currency, CRM-4453
+            $params['fee_currency'] = $config->defaultCurrency;
+            
             // fix for CRM-3088
             if ( $discountId &&
                  ! empty( $this->_values['discount'][$discountId] ) ) {
