@@ -186,6 +186,7 @@
   </foreignKey> 
   <field>      
       <name>fee_currency</name>
+      <uniqueName>participant_fee_currency</uniqueName>
       <type>varchar</type>
       <length>64</length>
       <default>NULL</default>

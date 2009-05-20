@@ -55,7 +55,7 @@
         {ts}(test){/ts}
         {/if} {help id="id-contribution_type"}
         </td></tr> 
-        <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html|crmMoney} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html|crmMoney:$currency} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html} {help id="id-contrib_source"}</td></tr>
 
         {if $contributionMode}

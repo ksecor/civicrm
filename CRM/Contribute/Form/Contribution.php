@@ -479,9 +479,11 @@ WHERE  contribution_id = {$this->_id}
         }
         $this->assign( 'contribution_status_id', CRM_Utils_Array::value( 'contribution_status_id',$defaults ) );
         $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
+        
+        $this->assign( 'currency', $defaults['currency'] );
+        
         return $defaults;
     }
-    
     
     /** 
      * Function to build the form 

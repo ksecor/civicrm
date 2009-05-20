@@ -43,10 +43,10 @@
         {if ! $smarty.foreach.lineItemsIter.last}<br>{/if}
         {/foreach}
     </td>
-    <td>{$row.participant_fee_amount|crmMoney}</td>
+    <td>{$row.participant_fee_amount|crmMoney:$row.participant_fee_currency}</td>
     {else}
     <td>{if !$row.paid && !$row.participant_fee_level} {ts}(no fee){/ts}{else} {$row.participant_fee_level}{/if}</td>
-    <td>{$row.participant_fee_amount|crmMoney}</td>
+    <td>{$row.participant_fee_amount|crmMoney:$row.participant_fee_currency}</td>
     {/if}
     <td>{$row.event_start_date|truncate:10:''|crmDate}
         {if $row.event_end_date && $row.event_end_date|date_format:"%Y%m%d" NEQ $row.event_start_date|date_format:"%Y%m%d"}
