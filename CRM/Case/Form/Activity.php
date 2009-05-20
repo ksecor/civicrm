@@ -477,6 +477,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $assigneeParams = array( 'activity_id' => $activity->id );
 
         if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact']) ) {
+            $params['assignee_contact'] = array_unique( $params['assignee_contact'] );
             //skip those assignee contacts which are already assigned
             //while sending a copy.CRM-4509.
             $activityAssigned = array_flip( $params['assignee_contact'] );
@@ -511,12 +512,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                 }  
                 //build an associative array with unique email addresses.  
                 foreach( $params[$val] as $id => $dnc ) {
-                    //if email already exists in array then append with ', ' another role only otherwise add it to array.
-                    if ( $contactDetails = CRM_Utils_Array::value($this->_relatedContacts[$id]['email'], $mailToContacts) ) {
-                        $caseRole = CRM_Utils_Array::value( 'role', $this->_relatedContacts[$id] );
-                        $mailToContacts[$this->_relatedContacts[$id]['email']]['role'] = $contactDetails['role'].', '.$caseRole;
-                    } else {
-                        $mailToContacts[$this->_relatedContacts[$id]['email']] = $this->_relatedContacts[$id];
+                    if( !empty($id) ) {
+                        //if email already exists in array then append with ', ' another role only otherwise add it to array.
+                        if ( $contactDetails = CRM_Utils_Array::value($this->_relatedContacts[$id]['email'], $mailToContacts) ) {
+                            $caseRole = CRM_Utils_Array::value( 'role', $this->_relatedContacts[$id] );
+                            $mailToContacts[$this->_relatedContacts[$id]['email']]['role'] = $contactDetails['role'].', '.$caseRole;
+                        } else {
+                            $mailToContacts[$this->_relatedContacts[$id]['email']] = $this->_relatedContacts[$id];
+                        }
                     }
                 }
             }
@@ -529,6 +532,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
             $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
                                                            $activity->id, $mailToContacts, $attachments, $this->_caseId );
+        } else {
+            $mailStatus = '';
         }
         
         // create follow up activity if needed
