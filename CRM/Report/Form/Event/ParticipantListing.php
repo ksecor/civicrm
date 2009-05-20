@@ -54,30 +54,20 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                 ),
                          
                          'filters' =>             
-                         array('sort_name1'    => 
+                         array('sort_name'    => 
                                array( 'title'      => ts( 'Participant Name' ),
-                                      'name'       => 'sort_name',
-                                      'alias'      => 's1',
-                                      'operator'   => 'like' ),
-                               'sort_name2'    => 
-                               array( 'title'      => ts( 'Register by Contact' ),
-                                      'name'       => 'sort_name',
-                                      'alias'      => 's2',
-                                      'operator'   => 'like' )
-                               ),
+                                      'operator'   => 'like' ), ),
                          ),
                   
                   'civicrm_participant' =>
                   array( 'dao'       => 'CRM_Event_DAO_Participant',
                          'fields'    =>
                          array( 'participant_id' =>  array( 'no_display' => true,
-                                                            'required'   => true, ), 
-                                
+                                                            'required'   => true, ),
                                 'event_id'       => null,
                                 'status_id'      => array( 'title' => ts('Status') ),
                                 'role_id'        => array( 'title' => ts('Role') ),
-                                'register_date'  => array( 'title' => ts('Registe Date') ),
-                                'fee_amount'     => array( 'title' => ts('Fee Amount') ),
+                                'fee_amount'     => array( 'title' => ts('Fee Amount') ),                                         
                                 'register_date'  => array( 'title' => ts('Registration Date') ),
                                 ), 
                          'grouping'  => 'event-fields',
@@ -131,14 +121,14 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                          ),
 
                   'civicrm_email' => 
-                  array( 'dao'     => 'CRM_Core_DAO_Email',
-                         
+                  array( 'dao'     => 'CRM_Core_DAO_Email',                         
                          'filters' =>
                          array( 'email' => 
                                 array( 'title'    => ts( 'Participant E-mail' ),
                                        'operator' => 'like' ) ),
                          ),
                   );
+        
         
         parent::__construct( );
     }
@@ -183,8 +173,7 @@ FROM civicrm_participant {$this->_aliases['civicrm_participant']}
 LEFT JOIN civicrm_event {$this->_aliases['civicrm_event']} 
           ON ({$this->_aliases['civicrm_event']}.id = {$this->_aliases['civicrm_participant']}.event_id )
 LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
-          ON ({$this->_aliases['civicrm_participant']}.contact_id  = {$this->_aliases['civicrm_contact']}.id AND
-         {$this->_aliases['civicrm_participant']}.registered_by_id = {$this->_aliases['civicrm_contact']}.id   )
+          ON ({$this->_aliases['civicrm_participant']}.contact_id  = {$this->_aliases['civicrm_contact']}.id  )
 LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']}
           ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
              {$this->_aliases['civicrm_address']}.is_primary = 1 
@@ -327,7 +316,8 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
             // convert display name to links
             if ( array_key_exists('civicrm_participant_event_id', $row) ) {
                 if ( $value = $row['civicrm_participant_event_id'] ) {
-                    $rows[$rowNum]['civicrm_participant_event_id'] = CRM_Event_PseudoConstant::event($value, false );             
+                    $rows[$rowNum]['civicrm_participant_event_id'] = 
+                        CRM_Event_PseudoConstant::event( $value, false );             
                 }
                 $entryFound = true;
             }
@@ -339,9 +329,21 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
                 }
                 $entryFound = true;
             }
+            
+            // handle participant status id
+            if ( array_key_exists('civicrm_participant_status_id', $row) ) {
+                if ( $value = $row['civicrm_participant_status_id'] ) {
+                    $rows[$rowNum]['civicrm_participant_status_id'] = 
+                        CRM_Event_PseudoConstant::participantStatus( $value, false );
+                }
+                $entryFound = true;
+            }
+            
+            // handle participant role id
             if ( array_key_exists('civicrm_participant_role_id', $row) ) {
                 if ( $value = $row['civicrm_participant_role_id'] ) {
-                    $rows[$rowNum]['civicrm_participant_role_id'] =CRM_Event_PseudoConstant::participantRole($value, false );
+                    $rows[$rowNum]['civicrm_participant_role_id'] = 
+                        CRM_Event_PseudoConstant::participantRole( $value, false );
                 }
                 $entryFound = true;
             }
