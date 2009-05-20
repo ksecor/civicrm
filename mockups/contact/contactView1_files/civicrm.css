@@ -99,7 +99,6 @@ div.spacer, .spacer {
 }
   
 #crm-container fieldset {
-  margin: .25em 0em .5em 0em;
 }
 
 #crm-container fieldset.form-layout {
@@ -1361,11 +1360,11 @@ div#toolTip {
 }
 
 div#contactName {
-   margin: 4px 0pt 10px 0pt;
+   margin: 4px 0pt 4px 0pt;
    font-size: 1.1em;
    line-height: 1.4em;
    padding-bottom: 3px;
-   border-bottom: 1px solid blue;   
+   border-bottom: 2px solid blue;   
 }
 
 div#contactName * {
@@ -1377,11 +1376,15 @@ div#contactName .label {
    line-height: 1.4em; 
 }
 
+div#contactName .grouplabel {
+   font-size: .7em;
+   line-height: 1.4em; 
+}
 
 div#contact_panel {
-   display: inline;
+   display: block;
    width: 100%;
-   padding: 0;
+   padding: 4px 0pt 4px 0pt;
 }
 
 /* reset contact_panel contents */
@@ -1395,10 +1398,12 @@ div#contact_panel * {
 div#contactCardLeft {
   width: 49%;
   float: left;
+  display: block;
 }
 
 div#contactCardRight {
   width: 49%;
+  display: block;  
 }
 
 div#contactCardLeft .label, div#contactCardRight .label {
@@ -1407,6 +1412,17 @@ div#contactCardLeft .label, div#contactCardRight .label {
    white-space: nowrap;
    text-align: right;
    padding-right: 7px;
+}
+
+div#contactCardLeft .grouplabel, div#contactCardRight .grouplabel {
+   font-weight: bold;
+   font-size: 1em;
+   white-space: nowrap;
+   padding: 7px;
+   text-align: center;
+   width: 100%;
+   border-bottom: 1px solid blue;
+
 }
 
 div#contact_panel .spacer {
@@ -1419,7 +1435,7 @@ div#contact_panel td {
 
 div.buttons {
    padding-bottom: 3px;
-   border-bottom: 1px solid blue;
+   border-bottom: 2px solid blue;
    width: 100%;
    text-align: right;
 }

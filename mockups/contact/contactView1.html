@@ -394,7 +394,7 @@ function getSearchURLValue( )
 
 	  <span id="icons">
 	    <a href="." title="vCard record for this contact."><img src="contactView1_files/vcard-icon.png" alt="vCard record for this contact."></a>
-	    <a href="." title="Printer-friendly view of this page."><img src="contactView1_files/print_preview.gif" alt="Printer-friendly view of this page."></a>
+	    <a href="." title="Printer-friendly view of this page."><img src="contactView1_files/print-icon.png" alt="Printer-friendly view of this page."></a>
       </span>
 
   </div> <!-- .buttons -->
@@ -405,12 +405,13 @@ function getSearchURLValue( )
     <span class="label">Employer:</span><a href="." title="view current employer">Compasspoint</a>
 	<span class="label">Nickname:</span><span>Johnny</span><br/>
   </div> <!-- #contactName -->
+
   <div id="contact_panel">
       <div id="contactCardLeft">
 	    <table>
           <tr>
-		    <td width="10%" class="label">Work phone: </td>
-		    <td width="90%" title="Primary phone"><span class="primary">+28371094712</span></td>
+		    <td width="28%" class="label">Work phone: </td>
+		    <td width="72%" title="Primary phone"><span class="primary">+28371094712</span></td>
 	      </tr>
           <tr>
 		    <td class="label">Mobile: </td>
@@ -420,8 +421,8 @@ function getSearchURLValue( )
 		    <td colspan="2" class="spacer"></td>
           </tr>
 	      <tr>
-		    <td width="15%" class="label">Email:</td>
-	        <td width="85%" title="Primary email address"><span class="primary"><a href="mailto:john@longnameactually.org">john@longnameactually.org</a> (B)</span></td>
+		    <td class="label">Email:</td>
+	        <td title="Primary email address"><span class="primary"><a href="mailto:john@longnameactually.org">john@longnameactually.org</a> (B)</span></td>
 	      </tr>
 	      <tr>
 	        <td class="label"></td>
@@ -435,16 +436,16 @@ function getSearchURLValue( )
 		    <td colspan="2" class="spacer"></td>
           </tr>
 	      <tr>		
-	        <td width="10%" class="label">Tags:</td>
-		    <td width="40%" >Major Donor, Volunteer</td>
+	        <td class="label">Tags:</td>
+		    <td>Major Donor, Volunteer</td>
 	      </tr>
 	    </table>
 	  </div> <!-- #contactCardLeft -->
       <div id="contactCardRight">
         <table>
           <tr>
-		    <td class="label">Skype:</td>
-		    <td>johnny234</td>
+		    <td width="28%" class="label">Skype:</td>
+		    <td width="72%">johnny234</td>
           </tr>
 		  <tr>	  
 		    <td class="label">MSN:</td>
@@ -465,128 +466,109 @@ function getSearchURLValue( )
 		    <td colspan="2" class="spacer"></td>
           </tr>
 		  <tr>	  
-		    <td width="10%" class="label">Source:</td>
-		    <td width="40%">related through friend</td>		  
+		    <td class="label">Source:</td>
+		    <td>related through friend</td>		  
 	      </tr>
 		</table>
       </div> <!-- #contactCardRight -->
+	  <div style="clear: both"></div>
   </div> <!-- #contact_panel -->
 
-  <p class="spacer"></p>
-  <div id="contactName"></div>
-  <div id="contactName">
-    <div id="contact_panel">
-	<table>
-      <tr>
-		<td width="10%" class="label">Tags:</td>
-		<td width="40%" >Major Donor, Volunteer</td>
-		<td width="10%" class="label">Source:</td>
-		<td width="40%">related through friend</td>	
-	  </tr>
-	</table>
-	</div>
+  <div style="border-bottom: 1px solid blue"></div>
+
+  <div id="contact_panel">
+    <div id="contactCardLeft">
+      <table>
+          <tr>
+		    <td width="28%" class="label">Work:</td>
+		    <td width="72%" >
+              <span class="street-address">Some Street 2</span><br>
+              <span class="extended-address">Building 8</span><br>
+              <span class="extended-address">Second Crossing</span><br>
+              <span class="locality">Bangalore</span>, <span class="region">AL</span> <span class="postal-code">38942374</span><br>
+              <span class="country-name">United States</span>
+			</td>
+  	      </tr>
+      </table>
+    </div>
+    <div id="contactCardRight">
+        <table>
+          <tr>
+		    <td width="28%" class="label">Home:</td>
+		    <td width="72%">
+            <span class="street-address">Another Blvd</span><br>
+            <span class="locality">San Francisco</span>, <span class="region">CA</span> <span class="postal-code">95829-393</span><br>
+            <span class="country-name">United States</span>			
+			</td>
+          </tr>
+
+		</table>
+    </div> <!-- #contactCardRight -->
+	<div style="clear: both"></div>
   </div>
 
 
-  <div style="display: none;" id="location_1_show" class="section-hidden section-hidden-border">
-    <a href="#" onclick="hide('location_1_show'); show('location_1'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Other addresses</label>
+
+  <div id="contact_panel">
+    <div id="contactCardLeft">
+      <table>
+          <tr>
+		    <td></td>
+		    <td class="grouplabel">Communications Preferences</td>
+		  </tr>
+      </table>
+    </div>
+    <div id="contactCardRight">
+        <table>
+          <tr>
+		    <td></td>
+		    <td class="grouplabel">Demographics</td>
+          </tr>
+		</table>
+    </div> <!-- #contactCardRight -->
+	<div style="clear: both"></div>
+  </div>  
+  
+  
+  <div id="contact_panel">
+    <div id="contactCardLeft">
+      <table>
+          <tr>
+		    <td width="28%" class="label">Privacy:</td>
+		    <td width="72%">
+              <span class="font-red upper">Do not phone <br/> Do not email <br/> Do not trade</span>
+			</td>
+		  </tr>
+          <tr>
+		    <td width="28%" class="label">Method:</td>
+		    <td width="72%">Postal Mail, Fax</td>
+          </tr>
+          <tr>
+		    <td width="28%" class="label">Email Format:</td>
+		    <td width="72%">Both</td>
+  	      </tr>
+      </table>
+    </div>
+    <div id="contactCardRight">
+        <table>
+          <tr>
+		    <td width="28%" class="label">Gender:</td>
+		    <td width="72%">Male</td>
+          </tr>
+          <tr>
+		    <td width="28%" class="label">Date of Birth:</td>
+		    <td width="72%"> March 12th, 1977</td>
+          </tr>
+          <tr>
+		    <td width="28%" class="label">Age:</td>
+		    <td width="72%">32 years</td>
+          </tr>
+
+		</table>
+    </div> <!-- #contactCardRight -->
+	<div style="clear: both"></div>
   </div>
 
-<div style="display: block;" id="location_1" class="section-shown">
-  <fieldset>
-   <legend class="label">
-    <a href="#" onclick="hide('location_1'); show('location_1_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Other addresses</legend>
-
-	<table class="contactCard">
-      <tr>
-		<td width="10%" class="label">Tags:</td>
-		<td width="40%" >Major Donor, Volunteer</td>
-		<td width="10%" class="label">Source:</td>
-		<td width="40%">related through friend</td>	
-	  </tr>
-	</table>
-
-
-
-   <div class="col2">
-                <div class="vcard"><span class="adr"><br>
-<span class="street-address">Some Street 2</span><br>
-<span class="extended-address">Building 8</span><br>
-Second Crossing<br>
-<span class="locality">Bangalore</span>, <span class="region">AL</span> <span class="postal-code">38942374</span><br>
-<span class="country-name">United States</span></span></div>
-  </div>
-  <div class="spacer"></div>
-  </fieldset>
-</div>
-
-<div style="display: block;" id="location_2_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('location_2_show'); show('location_2'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Home</label>
-  </div>
-
-<div style="display: none;" id="location_2" class="section-shown">
-  <fieldset>
-   <legend>
-    <a href="#" onclick="hide('location_2'); show('location_2_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Home   </legend>
-
-  <div class="col1">
-                        Phone: +34822847872346
-                <br>
-        
-   
-   
-     </div>
-   <div class="col2">
-                <div class="vcard"><span class="adr"><br>
-<span class="street-address">Another Blvd</span><br>
-<span class="locality">San Francisco</span>, <span class="region">CA</span> <span class="postal-code">95829-393048</span><br>
-<span class="country-name">United States</span></span></div>
-  </div>
-  <div class="spacer"></div>
-  </fieldset>
-</div>
-
-<div style="display: none;" id="commPrefs_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('commPrefs_show'); show('commPrefs'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Communications Preferences</label><br>
- </div>
-
-<div style="display: block;" id="commPrefs" class="section-shown">
- <fieldset>
-  <legend><a href="#" onclick="hide('commPrefs'); show('commPrefs_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Communications Preferences</legend>
-  <div class="col1">
-    <label>Privacy:</label>
-    <span class="font-red upper">
-Do not phone &nbsp; Do not email &nbsp; Do not mail &nbsp; Do not trade
-&nbsp; </span>
-  </div>
-  <div class="col2">
-    <label>Method:</label> Phone, Email, Postal Mail, SMS, Fax
-  </div>
-  <div class="col2">
-    <label>Email Format Preference:</label> Both
-  </div>
-  <div class="spacer"></div>
- </fieldset>
-</div>
-
-<div style="display: none;" id="demographics_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('demographics_show'); show('demographics'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Demographics</label><br>
- </div>
-
-<div style="display: block;" id="demographics" class="section-shown">
-  <fieldset>
-   <legend><a href="#" onclick="hide('demographics'); show('demographics_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Demographics</legend>
-   <div class="col1">
-    <label>Gender:</label> Male<br>
-           </div>
-   <div class="col2">
-    <label>Date of Birth:</label> March 12th, 1977<br>
-                  
-        <label>Age:</label> 32 years<br>
-                        </div>
-   <div class="spacer"></div>
-  </fieldset>
- </div>
  
                  <span id="statusmessg__1" class="success-status" style="display: none;"></span>    
     <div style="display: none;" id="constituent_information_show__1" class="section-hidden section-hidden-border">
@@ -626,8 +608,6 @@ Do not phone &nbsp; Do not email &nbsp; Do not mail &nbsp; Do not trade
 
    init_blocks = function( ) {
 
-      var showBlocks = new Array('commPrefs','demographics','location_1','location_2_show');
-      var hideBlocks = new Array('commPrefs_show','demographics_show','location_1_show','location_2');
 
       on_load_init_blocks( showBlocks, hideBlocks );
   }
