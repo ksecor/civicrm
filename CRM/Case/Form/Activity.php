@@ -487,30 +487,35 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // send copy to selected contacts.        
         $mailStatus = '';
-        if ( array_key_exists('contact_check', $params) ) {
-            //build an associative array with unique email addresses.  
-            $mailToContacts = array( );
-            foreach( $params['contact_check'] as $id => $dnc ) {
-
-                //if email already exists in array then append with ', ' another role only otherwise add it to array.
-                if ( $contactDetails = CRM_Utils_Array::value($this->_relatedContacts[$id]['email'], $mailToContacts) ) {
-                    $caseRole = CRM_Utils_Array::value( 'role', $this->_relatedContacts[$id] );
-                    $mailToContacts[$this->_relatedContacts[$id]['email']]['role'] = $contactDetails['role'].', '.$caseRole;
+        foreach( array( 'contact_check', 'assignee_contact' ) as $val ) {
+            if ( array_key_exists ( $val, $params ) ) {
+                //build an associative array with unique email addresses.  
+                $mailToContacts = array( );
+                foreach( $params[$val] as $id => $dnc ) {
+                    //if email already exists in array then append with ', ' another role only otherwise add it to array.
+                    if ( $contactDetails = CRM_Utils_Array::value($this->_relatedContacts[$id]['email'], $mailToContacts) ) {
+                        $caseRole = CRM_Utils_Array::value( 'role', $this->_relatedContacts[$id] );
+                        $mailToContacts[$this->_relatedContacts[$id]['email']]['role'] = $contactDetails['role'].', '.$caseRole;
+                    } else {
+                        $mailToContacts[$this->_relatedContacts[$id]['email']] = $this->_relatedContacts[$id];
+                    }
                     
+                }
+                
+                //include attachments while sendig a copy of activity.
+                $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity',
+                                                                  $activity->id );
+                
+                $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
+                                                               $activity->id, $mailToContacts, $attachments, $this->_caseId );
+                if ( $val == 'assignee_contact' ) {
+                    $mailStatus = ts("A copy of the activity has also been sent to assignee contacts(s).");
                 } else {
-                    $mailToContacts[$this->_relatedContacts[$id]['email']] = $this->_relatedContacts[$id];
+                    $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");
                 }
 
             }
-          
-            //include attachments while sendig a copy of activity.
-            $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity',
-                                                              $activity->id );
-            
-            $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
-                                                           $activity->id, $mailToContacts, $attachments, $this->_caseId );
-            $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");
-        }
+        }        
 
         // create follow up activity if needed
         $followupStatus = '';
