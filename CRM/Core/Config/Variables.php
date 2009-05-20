@@ -389,6 +389,8 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $includeNickNameInName  = 0;
     public $smartGroupCacheTimeout = 0;
 
+    public $defaultSearchProfileID = null;
+
     /**
      * Optimization related variables
      */
