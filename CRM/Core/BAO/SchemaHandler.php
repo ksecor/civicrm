@@ -302,7 +302,8 @@ ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
 
         // if we're multilingual, cache the information on internationalised fields
         static $columns = null;
-        if ( !empty( $locales ) and $columns === null ) {
+        require_once 'CRM/Utils/System.php';
+        if ( !CRM_Utils_System::isNull( $locales ) and $columns === null ) {
             require_once 'CRM/Core/I18n/SchemaStructure.php';
             $columns =& CRM_Core_I18n_SchemaStructure::columns();
         }
@@ -330,7 +331,7 @@ ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
 
                 // the index doesn't exist, so create it
                 // if we're multilingual and the field is internationalised, do it for every locale
-                if ( !empty( $locales ) and isset( $columns[$table][$field] ) ) {
+                if ( !CRM_Utils_System::isNull( $locales ) and isset( $columns[$table][$field] ) ) {
                     foreach ($locales as $locale) {
                         $queries[] = "CREATE INDEX {$createIndexPrefix}_{$field}_{$locale} ON {$table} ({$field}_{$locale})";
                     }
