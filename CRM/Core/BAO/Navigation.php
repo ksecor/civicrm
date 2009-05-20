@@ -247,7 +247,7 @@ ORDER BY parent_id, weight";
      */
     static function buildNavigation( ) {
         $navigations = array( );
-        self::buildNavigationTree( $navigations );
+        self::buildNavigationTree( $navigations, $parent = NULL );
         $navigationHTML = "";
         foreach( $navigations as $key => $value ) {
             $name = self::getMenuName( $value );
@@ -270,16 +270,17 @@ ORDER BY parent_id, weight";
             $navigationHTML .= '</li>'; 
         }
 
-        foreach($value['child'] as $val ) {
-            $name = self::getMenuName( $val );
-            if ( $name ) { 
-                $navigationHTML .= '<li>' . $name;
-                self::recurseNavigation($val, $navigationHTML );
-            } else if ( isset( $children['separator'] ) ) {
-                $navigationHTML .= '<li class="menu-separator"></li>';
+        if ( !empty( $value['child'] ) ) {
+            foreach($value['child'] as $val ) {
+                $name = self::getMenuName( $val );
+                if ( $name ) { 
+                    $navigationHTML .= '<li>' . $name;
+                    self::recurseNavigation($val, $navigationHTML );
+                } else if ( isset( $children['separator'] ) ) {
+                    $navigationHTML .= '<li class="menu-separator"></li>';
+                }
             }
         }
-
         if ( !empty( $value['child'] ) ) {
             $navigationHTML .= '</ul></li>';
         }
