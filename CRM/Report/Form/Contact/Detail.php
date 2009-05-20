@@ -255,18 +255,25 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
     }
     function clauseComponent( ) {
         $contribution = $membership =  $participant = null;
-        $final = $rows = array();
+        $eligibleResult = $rows = array();
         foreach( $this->_component as $val ) {
             if ( CRM_Utils_Array::value( $val, $this->_selectComponent ) ) {
                 $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} $this->_where";
                 $dao  = CRM_Core_DAO::executeQuery( $sql );
                 while ( $dao->fetch( ) ) {
+                    $eligibleResult[$val] = $val;
                     $row = array( );
                     foreach ( $this->_columnHeadersComponent[$val] as $key => $value ) {
                         $row[$key] = $dao->$key;
                     }
                     $rows[$val][] = $row;
                 }
+            }
+        }
+        //unset the component header if data is not present
+        foreach( $this->_component as $val ) {
+            if ( !in_array( $val, $eligibleResult ) ) {
+                unset($this->_columnHeadersComponent[$val]);
             }
         }
         return $rows;
