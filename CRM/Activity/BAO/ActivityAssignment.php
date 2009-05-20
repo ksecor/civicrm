@@ -118,27 +118,45 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
      *
      * @param int      $id             ID of the activity
      * @param boolean  $isDisplayName  if set returns display names of assignees
-     * 
+     * @param boolean  $skipDetails    if false returns all details of assignee contact.
+     *
      * @return array
      * 
      * @access public
      * 
      */
-    static function getAssigneeNames( $activity_id, $isDisplayName = false ) 
+    static function getAssigneeNames( $activity_id, $isDisplayName = false, $skipDetails = true ) 
     {
-        $queryParam = array();
-        $query = "SELECT contact_a.sort_name, contact_a.display_name 
+        $queryParam  = array();
+        $whereClause = "";
+        if ( !$skipDetails ) {
+            $whereClause = "  AND ce.is_primary= 1";
+        }
+        
+        $query = "SELECT contact_a.id, contact_a.sort_name, contact_a.display_name, ce.email   
                   FROM civicrm_contact contact_a 
                   LEFT JOIN civicrm_activity_assignment 
                          ON civicrm_activity_assignment.assignee_contact_id = contact_a.id
-                  WHERE civicrm_activity_assignment.activity_id = {$activity_id}";
+                  LEFT JOIN civicrm_email ce 
+                         ON ce.contact_id = contact_a.id
+                  WHERE civicrm_activity_assignment.activity_id = {$activity_id} 
+                        {$whereClause}";
+
         $dao = CRM_Core_DAO::executeQuery($query,$queryParam);
         $assigneeNames = array();
         while ( $dao->fetch() ) {
             if ( !$isDisplayName ) {
-                $assigneeNames[] =  $dao->sort_name;
+                $assigneeNames[$dao->id] = $dao->sort_name;
             } else {
-                $assigneeNames[] =  $dao->display_name;   
+                if ( $skipDetails ) {
+                    $assigneeNames[$dao->id] = $dao->display_name;   
+                } else { 
+                    $assigneeNames[$dao->id]['contact_id']   = $dao->id;
+                    $assigneeNames[$dao->id]['display_name'] = $dao->display_name;
+                    $assigneeNames[$dao->id]['sort_name']    = $dao->sort_name;
+                    $assigneeNames[$dao->id]['email']        = $dao->email;
+                    $assigneeNames[$dao->id]['role']         = ts('Activity Assignee');
+                }
             }
         }
         return $assigneeNames;

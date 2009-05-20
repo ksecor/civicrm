@@ -39,6 +39,7 @@ require_once "CRM/Case/BAO/Case.php";
 require_once 'CRM/Case/XMLProcessor/Process.php';
 require_once "CRM/Activity/Form/Activity.php";
 require_once 'CRM/Contact/BAO/Contact.php';
+require_once 'CRM/Activity/BAO/ActivityAssignment.php';
 
 /**
  * This class create activities for a case
@@ -297,6 +298,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        
         //set parent id if its edit mode
         if ( $parentId = CRM_Utils_Array::value( 'parent_id', $this->_defaults ) ) {
             $params['parent_id'] = $parentId;
@@ -473,11 +475,21 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // create activity assignee records
         $assigneeParams = array( 'activity_id' => $activity->id );
-        if (! empty($params['assignee_contact']) ) {
+
+        if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact']) ) {
+            //skip those assignee contacts which are already assigned
+            //while sending a copy.CRM-4509.
+            $activityAssigned = array_flip( $params['assignee_contact'] );
+            $activityId       = isset($this->_activityId) ? $this->_activityId : $activity->id;
+            $assigneeContacts = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activityId );
+            $activityAssigned = array_diff_key( $activityAssigned, $assigneeContacts );
+                              
             foreach ( $params['assignee_contact'] as $key => $id ) {
                 $assigneeParams['assignee_contact_id'] = $id;
                 CRM_Activity_BAO_Activity::createActivityAssignment( $assigneeParams );
             }
+            //modify assigne_contact as per newly assigned contact before sending copy. CRM-4509.
+            $params['assignee_contact'] = $activityAssigned;
         }
 
         // Insert civicrm_log record for the activity (e.g. store the
@@ -487,10 +499,17 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // send copy to selected contacts.        
         $mailStatus = '';
+        $mailToContacts = array( );
+        
         foreach( array( 'contact_check', 'assignee_contact' ) as $val ) {
-            if ( array_key_exists ( $val, $params ) ) {
+            if ( array_key_exists ( $val, $params ) && !CRM_Utils_array::crmIsEmptyArray($params[$val]) ) {
+                if ( $val == 'contact_check' ) {
+                    $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");  
+                } else {
+                    $this->_relatedContacts = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activity->id, true, false ); 
+                    $mailStatus .= ' ' .ts("A copy of the activity has also been sent to assignee contacts(s)."); 
+                }  
                 //build an associative array with unique email addresses.  
-                $mailToContacts = array( );
                 foreach( $params[$val] as $id => $dnc ) {
                     //if email already exists in array then append with ', ' another role only otherwise add it to array.
                     if ( $contactDetails = CRM_Utils_Array::value($this->_relatedContacts[$id]['email'], $mailToContacts) ) {
@@ -499,29 +518,24 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                     } else {
                         $mailToContacts[$this->_relatedContacts[$id]['email']] = $this->_relatedContacts[$id];
                     }
-                    
                 }
-                
-                //include attachments while sendig a copy of activity.
-                $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity',
-                                                                  $activity->id );
-                
-                $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
-                                                               $activity->id, $mailToContacts, $attachments, $this->_caseId );
-                if ( $val == 'assignee_contact' ) {
-                    $mailStatus = ts("A copy of the activity has also been sent to assignee contacts(s).");
-                } else {
-                    $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");
-                }
-
             }
-        }        
-
+        }
+        
+        if ( !empty($mailToContacts) ) {
+            //include attachments while sendig a copy of activity.
+            $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity',
+                                                              $activity->id );
+            
+            $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
+                                                           $activity->id, $mailToContacts, $attachments, $this->_caseId );
+        }
+        
         // create follow up activity if needed
         $followupStatus = '';
         if ( CRM_Utils_Array::value('followup_activity_type_id', $params) ) {
             $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params, true );
-
+            
             if ( $followupActivity ) {
                 $caseParams = array( 'activity_id' => $followupActivity->id,
                                      'case_id'     => $this->_caseId   );
