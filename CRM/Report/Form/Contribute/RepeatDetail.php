@@ -331,9 +331,10 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->from    ( );
         $this->where   ( );
         $this->groupBy ( );
-        $this->orderBy ( );
+        //$this->orderBy ( );
+        $this->limit  ( );
 
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy}";
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
 
         $rows = array( );
         $dao = CRM_Core_DAO::executeQuery( $sql );
@@ -348,9 +349,9 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->from    ( 'c2' );
         $this->where   ( 'c2' );
         $this->groupBy ( 'c2' );
-        $this->orderBy ( 'c2' );
+        //$this->orderBy ( 'c2' );
 
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy}";
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
 
         $dao = CRM_Core_DAO::executeQuery( $sql );
         while ( $dao->fetch( ) ) {
