@@ -474,13 +474,13 @@ function getSearchURLValue( )
 	  <div style="clear: both"></div>
   </div> <!-- #contact_panel -->
 
-  <div style="border-bottom: 1px solid blue"></div>
+  <div style="border-bottom: 1px solid blue; margin: 6px"></div>
 
   <div id="contact_panel">
     <div id="contactCardLeft">
       <table>
           <tr>
-		    <td width="28%" class="label">Work:</td>
+		    <td width="28%" class="label">Work <br/> Address:</td>
 		    <td width="72%" >
               <span class="street-address">Some Street 2</span><br>
               <span class="extended-address">Building 8</span><br>
@@ -494,7 +494,7 @@ function getSearchURLValue( )
     <div id="contactCardRight">
         <table>
           <tr>
-		    <td width="28%" class="label">Home:</td>
+		    <td width="28%" class="label">Home <br/> Address:</td>
 		    <td width="72%">
             <span class="street-address">Another Blvd</span><br>
             <span class="locality">San Francisco</span>, <span class="region">CA</span> <span class="postal-code">95829-393</span><br>
@@ -507,28 +507,7 @@ function getSearchURLValue( )
 	<div style="clear: both"></div>
   </div>
 
-
-
-  <div id="contact_panel">
-    <div id="contactCardLeft">
-      <table>
-          <tr>
-		    <td></td>
-		    <td class="grouplabel">Communications Preferences</td>
-		  </tr>
-      </table>
-    </div>
-    <div id="contactCardRight">
-        <table>
-          <tr>
-		    <td></td>
-		    <td class="grouplabel">Demographics</td>
-          </tr>
-		</table>
-    </div> <!-- #contactCardRight -->
-	<div style="clear: both"></div>
-  </div>  
-  
+  <div style="border-bottom: 1px solid blue; margin: 6px"></div>
   
   <div id="contact_panel">
     <div id="contactCardLeft">
@@ -569,29 +548,39 @@ function getSearchURLValue( )
 	<div style="clear: both"></div>
   </div>
 
- 
-                 <span id="statusmessg__1" class="success-status" style="display: none;"></span>    
-    <div style="display: none;" id="constituent_information_show__1" class="section-hidden section-hidden-border">
-    <a href="#" onclick="hide('constituent_information_show__1'); show('constituent_information__1'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Constituent Information</label><br>
+
+  <div id="contact_panel">
+    <div id="contactCardLeft">
+      <table>
+          <tr>
+		    <td></td>
+		    <td class="grouplabel">Constituent Information</td>
+		  </tr>
+      </table>
     </div>
-
-    <div style="display: block;" id="constituent_information__1" class="section-shown form-item">
-    <fieldset><legend><a href="#" onclick="hide('constituent_information__1'); show('constituent_information_show__1'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Constituent Information</legend>
-
-    <dl>
-                        <dt>Most Important Issue</dt>
-                            <dd class="html-adjust"></dd>
-                                            <dt>Marital Status</dt>
-                            <dd class="html-adjust"></dd>
-                                            <dt>Marriage Date</dt>
-                            <dd class="html-adjust"></dd>
-                            </dl>
-    </fieldset>
+	<div style="clear: both"></div>
+  </div>  
+  
+  
+  <div id="contact_panel">
+    <div id="contactCardLeft">
+      <table>
+          <tr>
+		    <td width="28%" class="label">Most Important Issue:</td>
+		    <td width="72%">Education</td>
+		  </tr>
+          <tr>
+		    <td width="28%" class="label">Marital Status:</td>
+		    <td width="72%">Married</td>
+          </tr>
+          <tr>
+		    <td width="28%" class="label">Marriage Date:</td>
+		    <td width="72%">May 4th, 1998</td>
+  	      </tr>
+      </table>
     </div>
-
-	<script type="text/javascript">
-			hide("constituent_information_show__1"); show("constituent_information__1");
-		</script>
+	<div style="clear: both"></div>
+  </div>
 
 </div><div id="Contributions"></div><div id="Pledges"></div><div id="Memberships"></div><div id="Events"></div><div id="Activities"></div><div id="Cases"></div><div id="Grants"></div><div id="Relationships"></div><div id="Groups"></div><div id="Notes"></div><div id="Tags"></div><div id="Change_Log"></div>
 </div>
