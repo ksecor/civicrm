@@ -90,6 +90,13 @@
     <component>CiviReport</component>
   </item>
   <item>
+    <path>civicrm/report/membership/summary</path>
+    <title>Membership Summary Report</title>
+    <page_callback>CRM_Report_Form_Membership_Summary</page_callback>
+    <access_callback>1</access_callback>
+    <component>CiviReport</component>
+  </item>
+  <item>
     <path>civicrm/report/member/detail</path>
     <title>Membership Detail Report</title>
     <page_callback>CRM_Report_Form_Member_Detail</page_callback>
