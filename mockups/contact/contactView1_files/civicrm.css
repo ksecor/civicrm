@@ -1364,7 +1364,7 @@ div#contactName {
    font-size: 1.1em;
    line-height: 1.4em;
    padding-bottom: 3px;
-   border-bottom: 2px solid blue;   
+   border-bottom: 2px solid grey;   
 }
 
 div#contactName * {
@@ -1409,19 +1409,18 @@ div#contactCardRight {
 div#contactCardLeft .label, div#contactCardRight .label {
    font-weight: bold;
    font-size: 0.8em;
-   white-space: nowrap;
    text-align: right;
    padding-right: 7px;
+   vertical-align: top;   
 }
 
 div#contactCardLeft .grouplabel, div#contactCardRight .grouplabel {
    font-weight: bold;
    font-size: 1em;
-   white-space: nowrap;
    padding: 7px;
    text-align: center;
    width: 100%;
-   border-bottom: 1px solid blue;
+   border-bottom: 1px solid grey;
 
 }
 
@@ -1431,11 +1430,12 @@ div#contact_panel .spacer {
 
 div#contact_panel td {
    padding: 1px;
+   vertical-align: bottom;
 }
 
 div.buttons {
    padding-bottom: 3px;
-   border-bottom: 2px solid blue;
+   border-bottom: 2px solid grey;
    width: 100%;
    text-align: right;
 }
