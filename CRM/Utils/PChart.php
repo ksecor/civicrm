@@ -62,6 +62,7 @@ class CRM_Utils_PChart
         if ( empty( $params ) ) {
             return;
         }
+
         //configure the directory for pChart.
         $config =& CRM_Core_Config::singleton( );
 
@@ -339,6 +340,54 @@ class CRM_Utils_PChart
         
         return $filesValues;
     }
+
+    static function chart( $rows, $chart, $interval ) 
+    {
+        switch ( $interval ) {
+        case 'Month' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph[substr($rows['Month'][$key],0,3) .' '. $year ] = $rows['value'][$key];
+            }
+            
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Monthly Contribution Summary') );
+            break;
+            
+        case 'Quarter' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph['Quarter '. $rows['Quarter'][$key] .' of '. $year ] = $rows['value'][$key];
+            }
+            
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Quarterly Contribution Summary') );
+            break;
+            
+        case 'Week' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph['Week '. $rows['Week'][$key] .' of '. $year ] = $rows['value'][$key];
+            }
+            
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Weekly Contribution Summary') );
+            break;
+            
+        case 'Year' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph[$year] = $rows['value'][$key];
+                
+            }
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Yearly Contribution Summary') );
+            break;
+            
+        }
+        return self::$chart($barChart);
+    }
+    
 }
 
 
