@@ -101,13 +101,13 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         }
         $participantBAO->copyValues($params);
         
-        //CRM-4453
+        //make sure we have currency when amount is not null CRM-4453
         require_once 'CRM/Utils/Rule.php';
-        if ( $participantBAO->fee_amount != 0 && 
-             !CRM_Utils_Rule::currencyCode( $participantBAO->currency ) ) {
+        if ( !CRM_Utils_System::isNull( $participantBAO->fee_amount ) && 
+             !CRM_Utils_Rule::currencyCode( $participantBAO->fee_currency ) ) {
             require_once 'CRM/Core/Config.php';
             $config =& CRM_Core_Config::singleton();
-            $participantBAO->currency = $config->defaultCurrency;
+            $participantBAO->fee_currency = $config->defaultCurrency;
         }
         
         $participantBAO->save();
