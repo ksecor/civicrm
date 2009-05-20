@@ -7,7 +7,20 @@
     <table class="form-layout">
         <tr class="columnheader">
             {foreach from=$columnHeaders item=header key=field}
-                <th>{$header.title}</th>
+                {if !$skip}
+                   {if $header.colspan}
+                      <th colspan={$header.colspan}>{$header.title}</th>
+                      {assign var=skip value=true}
+                      {assign var=skipCount value=`$header.colspan`}
+                      {assign var=skipMade  value=1}
+                   {else}
+                      <th>{$header.title}</th>
+                      {assign var=skip value=false}
+                   {/if}
+                {else} {* for skip case *}
+                   {assign var=skipMade value=`$skipMade+1`}
+                   {if $skipMade >= $skipCount}{assign var=skip value=false}{/if}
+                {/if}
             {/foreach}
         </tr>
         
@@ -16,9 +29,7 @@
                 {foreach from=$columnHeaders item=header key=field}
                     {assign var=fieldLink value=$field|cat:"_link"}
                     <td>
-                        {if $row.$fieldLink}
-                            <a href="{$row.$fieldLink}">
-                        {/if}
+                        {if $row.$fieldLink}<a href="{$row.$fieldLink}">{/if}
                         
                         {if $row.$field eq 'Sub Total'}
                             {$row.$field}
@@ -36,7 +47,7 @@
                             {$row.$field}
                         {/if}
                         
-                        {if $row.$fieldLink}{/if}
+                        {if $row.$fieldLink}</a>{/if}
                     </td>
                 {/foreach}
             </tr>

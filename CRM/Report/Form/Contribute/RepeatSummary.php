@@ -415,17 +415,30 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
             }
         }
 
-        // FIXME: doesn't go with structure
-        $this->_columnHeaders['c1_total_amount_sum'] = array('title' => 'Range One Amount');
-        $this->_columnHeaders['c1_total_amount_count'] = array('title' => 'Range One Count');
-        $this->_columnHeaders['c2_total_amount_sum'] = array('title' => 'Range Two Amount');
-        $this->_columnHeaders['c2_total_amount_count'] = array('title' => 'Range Two Count');
+        // hack to fix title
+        list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ), 
+                                               CRM_Utils_Array::value( "receive_date1_from"    , $this->_params ),
+                                               CRM_Utils_Array::value( "receive_date1_to"      , $this->_params ) );
+        $from1 = CRM_Utils_Date::customFormat( $from1, null, array('d') );
+        $to1   = CRM_Utils_Date::customFormat( $to1,   null, array('d') );
+
+        list($from2, $to2) = $this->getFromTo( CRM_Utils_Array::value( "receive_date2_relative", $this->_params ), 
+                                               CRM_Utils_Array::value( "receive_date2_from"    , $this->_params ),
+                                               CRM_Utils_Array::value( "receive_date2_to"      , $this->_params ) );
+        $from2 = CRM_Utils_Date::customFormat( $from2, null, array('d') );
+        $to2   = CRM_Utils_Date::customFormat( $to2,   null, array('d') );
+
+        $this->_columnHeaders['c1_total_amount_sum']['title']   = "$from1 -<br/> $to1";
+        $this->_columnHeaders['c1_total_amount_sum']['colspan'] = 2;
+        $this->_columnHeaders['c2_total_amount_sum']['title']   = "$from2 -<br/> $to2";
+        $this->_columnHeaders['c2_total_amount_sum']['colspan'] = 2;
 
         $this->formatDisplay( $rows );
         
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
         $this->assign( 'statistics', $this->statistics( $rows ) );
+
         parent::postProcess( );
     }
 
