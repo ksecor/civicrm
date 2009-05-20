@@ -1083,8 +1083,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                $customField->html_type == 'AdvMulti-Select' ) {
                         $defaults[$elementName][$val['value']] = $val['value'];
                     }
-                } else {
-                    $defaults[$elementName][$val['value']] = 0;
                 }        
             }
             break;

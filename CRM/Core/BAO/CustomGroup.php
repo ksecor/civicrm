@@ -912,8 +912,6 @@ SELECT $select
                                         $defaults[$elementName][$val['value']] = $val['value'];
                                     }
                                     
-                                }  else {
-                                    $defaults[$elementName][$val['value']] = 0;
                                 }
                             }                            
                         }
