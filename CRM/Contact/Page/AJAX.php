@@ -408,8 +408,8 @@ WHERE sort_name LIKE '%$name%'";
         $logoutURL       = CRM_Utils_System::url( 'civicrm/logout', 'reset=1');
         $appendSring     = "<li id='menu-logout'><a href={$logoutURL} title=". ts('Logout') .">". ts('Logout')."</a></li>";
                 
-        require_once 'CRM/Core/Menu.php';
-        $object =& CRM_Core_Menu::createNavigation( $contactID );
+        require_once 'CRM/Core/BAO/Navigation.php';
+        $object =& CRM_Core_BAO_Navigation::createNavigation( $contactID );
         
         $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
         $prepandString = "<li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a>";

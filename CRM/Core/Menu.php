@@ -62,8 +62,6 @@ class CRM_Core_Menu
 
     static $_menuCache = null;
     
-    static $_navigationCache = null;
-
     const
         MENU_ITEM  = 1;
 
@@ -707,28 +705,7 @@ UNION (
         }    
         return $validMenus;        
     }
-    
-    /**
-     * Function to create navigation for CiviCRM Admin Menu
-     */
-    static function createNavigation(  ) {
-        $session=& CRM_Core_Session::singleton( );
-        $contactID = $session->get('userID');
         
-        self::$_navigationCache = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
-        if ( ! self::$_navigationCache ) {
-            //retrieve navigation if it's not cached.       
-            self::$_navigationCache = self::parseNavigation( );
-            require_once 'CRM/Core/DAO/Preferences.php';
-            $preference =& new CRM_Core_DAO_Preferences();
-            $preference->contact_id = $contactID;
-            $preference->find(true);
-            $preference->navigation = self::$_navigationCache;
-            $preference->save();
-        }
-        return self::$_navigationCache;
-    }
-    
     static function parseNavigation( $flatList = false ) {
         $config =& CRM_Core_Config::singleton( );
         $navigationXML = "{$config->userFrameworkResourceURL}/templates/CRM/xml/Navigation.xml";
@@ -859,15 +836,7 @@ UNION (
          }
          
          return $name;
-     }
-     
-     /**
-      * Reset navigation for all contacts
-      */
-      static function resetNavigation( ) {
-          $query = "UPDATE civicrm_preferences SET navigation = NULL WHERE contact_id IS NOT NULL";
-          CRM_Core_DAO::executeQuery( $query );
-      }
+     }     
 }
 
 
