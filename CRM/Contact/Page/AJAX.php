@@ -130,10 +130,13 @@ ORDER BY sort_name ";
         $name      = str_replace( '*', '%', $name );
 
         require_once 'CRM/Contact/BAO/Relationship.php';
-        $elements = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name );
+        $elements  = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name );
 
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
+        if( ! empty( $elements ) ) {
+            foreach( $elements as $cid => $name ) {
+                echo $element = $name['name']."|$cid\n";
+            }
+        }
         exit();
     }
 
