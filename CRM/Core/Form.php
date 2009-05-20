@@ -378,7 +378,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                 } else {
                     $buttonName = $this->getButtonName( $button['type'] );
                 }
-                if ( $button['type'] === 'next' && $button['name'] === 'Save' ) {
+                
+                if ( in_array( $button['type'], array( 'next', 'upload' ) ) && $button['name'] === 'Save' ) {
                     $attrs = array_merge( $attrs , ( array ( 'accesskey' => 'S' ) ) );
                 }                
                 $prevnext[] =& $this->createElement( 'submit', $buttonName, $button['name'], $attrs );
