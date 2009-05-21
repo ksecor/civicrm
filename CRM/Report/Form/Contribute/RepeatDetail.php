@@ -125,6 +125,11 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         
+/*         $this->_options = array( 'show_repeat_donors'  */
+/*                                  => array( 'title'  => ts( 'Show repeat donors only' ), */
+/*                                            'type'   => 'checkbox', */
+/*                                            'default'=> true ) ); */
+
         parent::__construct( );
     }
 
@@ -310,10 +315,11 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
     }
 
     function groupBy( $alias = 'c1' ) {
+        $this->_groupBy = " GROUP BY contact.id, {$alias}.id ";
     }
 
     function orderBy( $alias = 'c1' ) {
-        $this->_orderBy = "ORDER BY contact.display_name, {$alias}.total_amount";
+        $this->_orderBy = "ORDER BY contact.display_name";
     }
 
     function postProcess( ) {
@@ -331,8 +337,8 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->from    ( );
         $this->where   ( );
         $this->groupBy ( );
-        //$this->orderBy ( );
-        $this->limit  ( );
+        $this->orderBy ( );
+        $this->limit   ( );
 
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
 
@@ -349,7 +355,7 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->from    ( 'c2' );
         $this->where   ( 'c2' );
         $this->groupBy ( 'c2' );
-        //$this->orderBy ( 'c2' );
+        $this->orderBy ( 'c2' );
 
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
 
@@ -376,10 +382,22 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         }
         $this->_columnHeaders['change'] = array('title' => 'Change');
 
-        // FIXME: doesn't go with structure
+        // hack to fix title
+        list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ),
+                                               CRM_Utils_Array::value( "receive_date1_from"    , $this->_params ),
+                                               CRM_Utils_Array::value( "receive_date1_to"      , $this->_params ) );
+        $from1 = CRM_Utils_Date::customFormat( $from1, null, array('d') );
+        $to1   = CRM_Utils_Date::customFormat( $to1,   null, array('d') );
+
+        list($from2, $to2) = $this->getFromTo( CRM_Utils_Array::value( "receive_date2_relative", $this->_params ),
+                                               CRM_Utils_Array::value( "receive_date2_from"    , $this->_params ),
+                                               CRM_Utils_Array::value( "receive_date2_to"      , $this->_params ) );
+        $from2 = CRM_Utils_Date::customFormat( $from2, null, array('d') );
+        $to2   = CRM_Utils_Date::customFormat( $to2,   null, array('d') );
+
         $this->_noDisplay[] = "contact_id";
-        $this->_columnHeaders['c1_total_amount'] = array('title' => 'Range One Amount');
-        $this->_columnHeaders['c2_total_amount'] = array('title' => 'Range Two Amount');
+        $this->_columnHeaders['c1_total_amount']['title'] = "$from1 -<br/> $to1";
+        $this->_columnHeaders['c2_total_amount']['title'] = "$from2 -<br/> $to2";
 
         $this->formatDisplay( $rows );
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
