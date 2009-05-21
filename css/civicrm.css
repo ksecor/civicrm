@@ -92,6 +92,7 @@ div.spacer, .spacer {
 
 #crm-container input.form-submit, #crm-container select {
   vertical-align: middle;
+  margin: 0.5em 0.5em 0.5em 0;
 }
 
 #crm-container td.compressed select, #crm-container td.compressed input {
