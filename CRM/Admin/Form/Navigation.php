@@ -75,7 +75,16 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         $this->add('text', 'url', ts('Url'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Navigation', 'url' ) );
         require_once 'CRM/Core/Permission.php';
         $permissions = CRM_Core_Permission::basicPermissions();
-        $this->addElement('select', 'permission', ts('Permission'), $permissions, array( 'size' => 5,'multiple' ) );        
+        $include =& $this->addElement('advmultiselect', 'permission', 
+                                      ts('Permission') . ' ', $permissions,
+                                      array('size' => 5, 
+                                            'style' => 'width:150px',
+                                            'class' => 'advmultiselect')
+                                      );
+        
+        $include->setButtonAttributes('add', array('value' => ts('Add >>')));
+        $include->setButtonAttributes('remove', array('value' => ts('<< Remove')));     
+        
         $this->add('checkbox', 'CiviCRM_OP_OR', null, ts( 'Check to match ANY; uncheck to match ALL' ) ); 
         $parentMenu = array( );
         CRM_Core_BAO_Navigation::getNavigationList( $parentMenu );            
