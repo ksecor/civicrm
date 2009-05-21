@@ -99,9 +99,9 @@ COMMIT;
 ALTER TABLE `civicrm_preferences` ADD `navigation` TEXT NULL AFTER `mailing_backend` ;
 
 
--CRM-3553
+--CRM-3553
 -- Activity Type for bulk email
--CRM-4480
+--CRM-4480
 -- Activity Type for case role assignment
 
 SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
@@ -159,4 +159,8 @@ SELECT @og_id_pr  := id FROM civicrm_option_group WHERE name = 'priority';
  {/if}
 
 
+-- CRM-4461
+-- Add a new custom data type advanced multi-select
 
+ALTER TABLE `civicrm_custom_field` 
+   MODIFY `html_type` enum( 'Text', 'TextArea', 'Select', 'Multi-Select', 'AdvMulti-Select', 'Radio', 'CheckBox', 'Select Date', 'Select State/Province', 'Select Country', 'Multi-Select Country', 'Multi-Select State/Province', 'File', 'Link', 'RichTextEditor') NOT NULL COMMENT 'HTML types plus several built-in extended types.';
