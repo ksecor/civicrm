@@ -310,7 +310,7 @@ function civitest_civicrm_validate( $formName, &$fields, &$files, &$form ) {
        if ( ! $externalID ) {
           $errors['external_identifier'] = ts( 'External Identifier is a required field' );
        } else {
-	 require_once "CRM/Utils/Rule.php';
+	 require_once "CRM/Utils/Rule.php";
 	 if ( ! CRM_Utils_Rule::integer( $externalID ) ) {
 	   $errors['external_identifier'] = ts( 'External Identifier is not an integer' );
 	 }
@@ -456,6 +456,23 @@ function civitest_civicrm_mailingGroups( &$form, &$groups, &$mailings ) {
     $mailings[1] = 'This Mailing does not exist';
 }
 
+
+function civitest_civicrm_buildForm( $formName, &$form ) {
+    if ( $formName == 'CRM_Event_Form_Registration_Register' &&
+         $form->getVar( '_eventId' ) == 3 ) { 
+       $form->addElement( 'text', 'discountCode', ts( 'Discount Code' ) );
+
+        // also assign to template
+        $template =& CRM_Core_Smarty::singleton( );
+        $beginHookFormElements = $template->get_template_vars( 'beginHookFormElements' );
+        if ( ! $beginHookFormElements ) {
+            $beginHookFormElements = array( );
+        }
+        $beginHookFormElements[] = 'discountCode';
+        $form->assign( 'beginHookFormElements', $beginHookFormElements );
+    }
+}
+
 /*
  * Give random discounts for event signup.
  *
@@ -464,36 +481,35 @@ function civitest_civicrm_mailingGroups( &$form, &$groups, &$mailings ) {
  *         : the number of times that's allowed to. 
  */
 function civitest_civicrm_buildAmount( $pageType,
-                                      &$form,
-                                      &$amount ) {
+                                       &$form,
+                                       &$amount ) {
 
-    // For now do it only for event with id=3
-    $eventID = 3;
-
-    if ( $pageType != 'event'  ) {
+    $eventID = $form->getVar( '_eventId' );
+    if ( $pageType != 'event' ||
+         $eventID != 3 ) {
         return;
     }
-    $code = CRM_Utils_Request::retrieve( 'code', 'String', $form );
-    if ( !$code ) {
+
+    $discountCode = CRM_Utils_Request::retrieve( 'discountCode', 'String', $form, false, null, $_REQUEST );
+    if ( ! $discountCode ) {
         return;
     }
+
     require_once 'CRM/Core/OptionGroup.php';
     $discountPercent = CRM_Core_OptionGroup::getValue( "event_discount_{$eventID}", 
-                                                       $code, 'name' );
-    if ( !$discountPercent ) {
+                                                       $discountCode, 'name' );
+
+    if ( ! $discountPercent ||
+         ! is_numeric( $discountPercent ) ||
+         $discountPercent <= 0 ) {
         return;
     }
 
     // make sure code is usable
     $weight = CRM_Core_OptionGroup::getValue( "event_discount_{$eventID}", 
-                                              $code, 'name', 'String', 'weight' );
-    if ( (!$weight) || ($weight <= 0) ) {
+                                              $discountCode, 'name', 'String', 'weight' );
+    if ( ! $weight || ( $weight <= 0 ) ) {
         return;
-    }
-
-    // sorry, discount more than 50% not allowed :)
-    if ( $discountPercent > 50 ) {
-        $discountPercent = 50;
     }
 
     foreach ( $amount as $amountId => $amountInfo ) {
@@ -508,27 +524,32 @@ function civitest_civicrm_buildAmount( $pageType,
  * The hook updates the random code used with event signup.
  */
 function civitest_civicrm_postProcess( $class, &$form ) {
-    if ( is_a($form, 'CRM_Event_Form_Registration_Confirm') ) {
-        // For now do it only for event with id=3
-        $eventID = 3;
+    $eventID = $form->getVar( '_eventId' );
+    if ( ! is_a($form, 'CRM_Event_Form_Registration_Confirm') ||
+         $eventID != 3 ) {
+        return;
+    }
+        
+    $discountCode = CRM_Utils_Request::retrieve( 'discountCode', 'String', $form, false, null, $_REQUEST );
+    if ( ! $discountCode ) {
+        return;
+    }
 
-        $code = CRM_Utils_Request::retrieve( 'code', 'String', $form );
-        if ( !$code ) {
-            return;
-        }
+    require_once 'CRM/Core/OptionGroup.php';
+    $discountID = CRM_Core_OptionGroup::getValue( "event_discount_{$eventID}", 
+                                                  $discountCode, 'name', 'String', 'id' );
+    if ( ! $discountID ) {
+        return;
+    }
 
-        require_once 'CRM/Core/OptionGroup.php';
-        $discountID = CRM_Core_OptionGroup::getValue( "event_discount_{$eventID}", 
-                                                      $code, 'name', 'String', 'id' );
-        if ( !$discountID ) {
-            return;
-        }
-
-        $query = "
+    $query = "
 UPDATE civicrm_option_value v
 SET    v.weight = v.weight - 1
-WHERE  v.id = %1";
-        $params = array( 1 => array( $discountID, 'Integer' ) );
-        CRM_Core_DAO::singleValueQuery( $query, $params );
-    }
+WHERE  v.id = %1
+AND    v.weight >= 0
+";
+
+    $params = array( 1 => array( $discountID, 'Integer' ) );
+    CRM_Core_DAO::executeQuery( $query, $params );
 }
+
