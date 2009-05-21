@@ -102,6 +102,12 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
             CRM_Core_BAO_Navigation::retrieve( $params, $defaults );
+            if( CRM_Utils_Array::value( 'permission', $defaults ) ) { 
+                foreach ( explode( ',' , $defaults['permission'] ) as $value ){ 
+                    $components[$value] = $value;
+                }
+                $defaults['permission'] = $components;
+            }
             if ( $defaults['permission_operator'] === 'OR' ) {
                 $defaults['permission_operator'] = 1;
             }
