@@ -455,3 +455,37 @@ function civitest_civicrm_mailingGroups( &$form, &$groups, &$mailings ) {
     unset( $groups[4] );
     $mailings[1] = 'This Mailing does not exist';
 }
+
+function civicrm_civicrm_buildAmount( $pageType,
+                                       &$form,
+                                       &$amount ) {
+
+    // only for event with id=3, for now 
+    $eventID = 3;
+    if ( $pageType != 'event'  ) {
+        return;
+    }
+    $code = CRM_Utils_Request::retrieve( 'code', 'String', 
+                                         CRM_Core_DAO::$_nullArray );
+    if ( !$code ) {
+        return;
+    }
+    require_once 'CRM/Core/OptionGroup.php';
+    $discountPercent = CRM_Core_OptionGroup::getValue( "event_discount_{$eventID}", 
+                                                       $code, 'name' );
+    if ( !$discountPercent ) {
+        return;
+    }
+
+    // sorry, discount more than 50% not allowed :)
+    if ( $discountPercent > 50 ) {
+        $discountPercent = 50;
+    }
+
+    foreach ( $amount as $amountId => $amountInfo ) {
+        $amount[$amountId]['value'] = $amount[$amountId]['value'] -
+            ceil($amount[$amountId]['value'] * $discountPercent / 100);
+        $amount[$amountId]['label'] = $amount[$amountId]['label'] .
+            "\t - with {$discountPercent}% discount";
+    }
+}
