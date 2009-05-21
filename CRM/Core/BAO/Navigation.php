@@ -97,11 +97,6 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
             $params['weight'] = self::calculateWeight( $params['parent_id'] );
         }
                         
-        $params['permission_operator'] = 'AND';
-        if ( $params['CiviCRM_OP_OR'] ) {
-            $params['permission_operator'] = 'OR';
-        }
-          
         $params['permission'] = implode( ',', $params['permission'] );
 
         $navigation->copyValues( $params );

@@ -17,9 +17,9 @@
     <tr><td class="label">{$form.label.label}</td><td>{$form.label.html}</td></tr>
     <tr><td class="label">{$form.url.label}</td><td><span id="menu-url">{$form.url.html}</span><span id="menu-url-label">&nbsp;</span></td></tr>
     <tr><td class="label">{$form.permission.label}</td><td>{$form.permission.html}</td></tr>
-    <tr><td class="label">{$form.CiviCRM_OP_OR.label}</td><td>{$form.CiviCRM_OP_OR.html}</td></tr>
+    <tr><td class="label">&nbsp;</td><td>{$form.permission_operator.html}&nbsp;{$form.permission_operator.label}</td></tr>
     <tr><td class="label">{$form.parent_id.label}</td><td>{$form.parent_id.html}</td></tr>
-    <tr><td class="label">{$form.has_separator.label}</td><td>{$form.has_separator.html}<br/><span class="description">Check this to add separator after this menu item.</span></td></tr>
+    <tr><td class="label">{$form.has_separator.label}</td><td>{$form.has_separator.html}<br/><span class="description">{ts}Check to add separator after this menu item{/ts}</span></td></tr>
     <tr><td class="label">{$form.is_active.label}</td><td>{$form.is_active.html}</td></tr>
 {/if}
   <tr><td></td></tr>    

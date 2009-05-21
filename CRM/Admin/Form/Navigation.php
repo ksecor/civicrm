@@ -85,7 +85,8 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         $include->setButtonAttributes('add', array('value' => ts('Add >>')));
         $include->setButtonAttributes('remove', array('value' => ts('<< Remove')));     
         
-        $this->add('checkbox', 'CiviCRM_OP_OR', null, ts( 'Check to match ANY; uncheck to match ALL' ) ); 
+        $operators = array( 'AND' => 'AND', 'OR' => 'OR' );
+        $this->add('select', 'permission_operator', ts( 'Operator'), $operators ); 
         $parentMenu = array( );
         CRM_Core_BAO_Navigation::getNavigationList( $parentMenu );            
         
@@ -108,9 +109,6 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
                 }
                 $defaults['permission'] = $components;
             }
-            if ( $defaults['permission_operator'] === 'OR' ) {
-                $defaults['permission_operator'] = 1;
-            }
         }
         
         // its ok if there is no element called is_active
@@ -126,7 +124,7 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
      */
     public function postProcess() {
         // get the submitted form values.  
-        $params = $this->controller->exportValues( $this->_name );
+        $params = $this->controller->exportValues( $this->_name );            
         
         if ( isset( $this->_id ) ) {
             $params['id'] = $this->_id;
