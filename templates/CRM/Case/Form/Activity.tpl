@@ -64,7 +64,10 @@
                 <td class="label">{ts}Assigned To {/ts}</td>
                 <td class="tundra">                  
                     <div id="assignee_contact_1"></div>
-                    {edit}<span class="description">{ts}You can optionally assign this activity to someone.{/ts}</span>{/edit}
+                    {edit}<span class="description">
+                           {ts}You can optionally assign this activity to someone.{/ts}<br />
+                           {ts}A copy of this activity will be emailed to each Assignee.{/ts}</span>
+                    {/edit}
                 </td>
             </tr>
 
