@@ -95,6 +95,13 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                  array( 'title'   => ts( 'Country' ),  
                                         'default' => true ), ),
                           'grouping'=> 'contact-fields',
+                          'filters' =>             
+                          array( 'country_id' => 
+                                 array( 'title'   => ts( 'Country ID' ), 
+                                        'type'    => CRM_Utils_Type::T_INT ), 
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province ID' ), 
+                                        'type'    => CRM_Utils_Type::T_INT ), ),
                           ),
 
                    'civicrm_email' => 
@@ -244,8 +251,7 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
 
 
     function groupBy( ) {
-        $this->_rollup  = true; 
-        $this->_groupBy = " GROUP BY contact.id, contribution.id WITH ROLLUP ";
+        $this->_groupBy = " GROUP BY contact.id, contribution.id ";
     }
 
     function statistics( ) {
@@ -317,9 +323,8 @@ SELECT COUNT( contribution.total_amount ) as count,
     function alterDisplay( &$rows ) {
         // custom code to alter rows
 
-        $checkList = $subTotalKeys = array();
+        $checkList = array();
         $entryFound = false;
-        $noOfKeysFixed = 0;
 
         foreach ( $rows as $rowNum => $row ) {
 
@@ -327,23 +332,14 @@ SELECT COUNT( contribution.total_amount ) as count,
                 // not repeat contact display names if it matches with the one 
                 // in previous row
 
-                $repeatFound = false;
                 foreach ( $row as $colName => $colVal ) {
                     if ( is_array($checkList[$colName]) && 
                          in_array($colVal, $checkList[$colName]) ) {
                         $rows[$rowNum][$colName] = "";
-                        $repeatFound = true;
                     }
                     if ( in_array($colName, $this->_noRepeats) ) {
                         $checkList[$colName][] = $colVal;
                     }
-                }
-
-                // make subtotals appear nice
-                if ( !$repeatFound && $lastKey ) {
-                    $noOfKeysFixed++;
-                    $this->fixSubTotalDisplay($rows[$lastKey], array('civicrm_contribution_total_amount_sum'));
-                    $entryFound = true;
                 }
             }
 
@@ -352,6 +348,11 @@ SELECT COUNT( contribution.total_amount ) as count,
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = 
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+
+                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail',
+                                                  "reset=1&force=1&" . 
+                                                  "state_province_id_op=eq&state_province_id_value={$value}" );
+                    $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
                 }
                 $entryFound = true;
             }
@@ -361,7 +362,13 @@ SELECT COUNT( contribution.total_amount ) as count,
                 if ( $value = $row['civicrm_address_country_id'] ) {
                     $rows[$rowNum]['civicrm_address_country_id'] = 
                         CRM_Core_PseudoConstant::country( $value, false );
+
+                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail',
+                                                  "reset=1&force=1&" . 
+                                                  "country_id_op=eq&country_id_value={$value}" );
+                    $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
                 }
+                
                 $entryFound = true;
             }
 
@@ -382,13 +389,6 @@ SELECT COUNT( contribution.total_amount ) as count,
                 break;
             }
             $lastKey = $rowNum;
-        }
-
-        // show grand total only when more than one grouping
-        if ( $noOfKeysFixed > 1 ) {
-            $this->fixSubTotalDisplay($rows[$rowNum], array('civicrm_contribution_total_amount_sum'));
-        } else if ( $noOfKeysFixed == 1 ) {
-            unset($rows[$rowNum]);
         }
     }
 
