@@ -1425,9 +1425,9 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         //if $relContactId is passed, role is added or modified.
         if ( !empty($relContactId) ) {
             $activityParams['assignee_contact_id'] = $assigneContactIds;
-            $activityParams['subject']             = $caseRelationship.ts(' :Case Role is assigned');
+            $activityParams['subject']             = $caseRelationship.': ' .ts('Case Role assigned');
         } else {
-            $activityParams['subject']             = $caseRelationship.ts(' :Case Role is removed');
+            $activityParams['subject']             = $caseRelationship.': ' .ts('Case Role removed');
         }
         
         require_once "CRM/Activity/BAO/Activity.php";
