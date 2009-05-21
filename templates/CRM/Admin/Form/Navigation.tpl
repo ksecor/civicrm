@@ -19,6 +19,7 @@
     <tr><td class="label">{$form.permission.label}</td><td>{$form.permission.html}</td></tr>
     <tr><td class="label">{$form.CiviCRM_OP_OR.label}</td><td>{$form.CiviCRM_OP_OR.html}</td></tr>
     <tr><td class="label">{$form.parent_id.label}</td><td>{$form.parent_id.html}</td></tr>
+    <tr><td class="label">{$form.has_separator.label}</td><td>{$form.has_separator.html}<br/><span class="description">Check this to add separator after this menu item.</span></td></tr>
     <tr><td class="label">{$form.is_active.label}</td><td>{$form.is_active.html}</td></tr>
 {/if}
   <tr><td></td></tr>    

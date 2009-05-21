@@ -77,6 +77,12 @@
        <add>2.3</add>
   </field>
   <field>
+       <name>has_separator</name>
+       <type>boolean</type>
+       <comment>If separator needs to be added after this menu item</comment>
+       <add>2.3</add>
+  </field>
+  <field>
     <name>weight</name>
     <type>varchar</type>
     <length>255</length>

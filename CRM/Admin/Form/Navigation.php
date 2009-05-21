@@ -84,6 +84,7 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
             unset( $parentMenu[$this->_id] );
         }
         $this->add( 'select', 'parent_id', ts( 'Parent' ), array( '' => ts('-- select --') ) + $parentMenu );
+        $this->add('checkbox', 'has_separator', ts('Separator?'));
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }
     

@@ -220,7 +220,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
 
         // get the list of menus
         $query = "
-SELECT id, label, url, path, permission, permission_operator 
+SELECT id, label, url, path, permission, permission_operator, has_separator 
 FROM civicrm_navigation 
 WHERE {$whereClause} 
 ORDER BY parent_id, weight";
@@ -233,7 +233,8 @@ ORDER BY parent_id, weight";
                                                                              'url'        => $navigation->url,
                                                                              'path'       => $navigation->path,
                                                                              'permission' => $navigation->permission,
-                                                                             'operator'   => $navigation->permission_operator ) );
+                                                                             'operator'   => $navigation->permission_operator,
+                                                                             'separator'  => $navigation->has_separator ) );
             self::buildNavigationTree( $navigationTree[$navigation->id]['child'], $navigation->id );
         }
 
@@ -267,7 +268,10 @@ ORDER BY parent_id, weight";
         if ( !empty( $value['child'] ) ) {
             $navigationHTML .= '<ul>';  
         } else {
-            $navigationHTML .= '</li>'; 
+            $navigationHTML .= '</li>';
+            if ( isset( $value['attributes']['separator'] ) ) {
+                $navigationHTML .= '<li class="menu-separator"></li>';
+            } 
         }
 
         if ( !empty( $value['child'] ) ) {
@@ -276,8 +280,6 @@ ORDER BY parent_id, weight";
                 if ( $name ) { 
                     $navigationHTML .= '<li>' . $name;
                     self::recurseNavigation($val, $navigationHTML );
-                } else if ( isset( $children['separator'] ) ) {
-                    $navigationHTML .= '<li class="menu-separator"></li>';
                 }
             }
         }
