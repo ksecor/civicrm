@@ -551,10 +551,9 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     function getCases( $allCases = true, $userID = null, $type = 'upcoming' )
     {
         $condition = null;
-        $all = 1;
+       
         if ( !$allCases ) {
             $condition = " AND case_relationship.contact_id_b = {$userID}";
-            $all = 0;
         }
 
         $condition .= " 
@@ -611,8 +610,7 @@ AND civicrm_case.is_deleted     = 0";
                         = CRM_Core_Action::formLink( $actions, $mask,
                                                      array( 'id'  => $result->case_id,
                                                             'cid' => $result->contact_id,
-                                                            'cxt' => 'dashboard',
-                                                            'all' => $all ) );
+                                                            'cxt' => 'dashboard' ) );
                 }
             }
         }

@@ -49,13 +49,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
      * @static
      */
     static $_links = null;
-    /**
-     * mycase or all 
-     *
-     * @var boolean
-     */
-    public $_all = 0;
-
+    
     function preProcess( )
     {
         // Make sure case types have been configured for the component
@@ -68,8 +62,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         $this->_id        = CRM_Utils_Request::retrieve( 'id' , 'Positive', $this );
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-        $this->_all       = CRM_Utils_Request::retrieve( 'all' , 'Boolean', $this );
-           
+               
         // contact id is not mandatory for case form. If not found, don't call
         // parent's pre-process and proceed further.
         if ( $this->_contactId ) {
@@ -235,11 +228,11 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             break;
             
         case 'dashboard': 
-            $url = CRM_Utils_System::url( 'civicrm/case', "reset=1&all={$this->_all}" );
+            $url = CRM_Utils_System::url( 'civicrm/case', "reset=1" );
             break;
 
         case 'search':        
-            $url = CRM_Utils_System::url( 'civicrm/case/search', "force=1&all={$this->_all}" );
+            $url = CRM_Utils_System::url( 'civicrm/case/search', "force=1" );
             break;
             
         case 'home':
