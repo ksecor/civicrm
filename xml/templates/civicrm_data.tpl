@@ -402,6 +402,8 @@ VALUES
   (@option_group_id_report , 'CRM_Report_Form_Membership_Summary', 10, 'CRM_Report_Form_Membership_Summary', NULL, 0, NULL, 10, '{ts escape="sql"}Membership Summary{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_report , 'CRM_Report_Form_Member_Detail', 11, 'CRM_Report_Form_Member_Detail', NULL, 0, NULL, 10, '{ts escape="sql"}Membership Details{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_report , 'CRM_Report_Form_Event_ParticipantListing', 12, 'CRM_Report_Form_Event_ParticipantListing', NULL, 0, NULL, 12, '{ts escape="sql"}Participant Listing Details{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Event_EventIncome', 13, 'CRM_Report_Form_Event_EventIncome', NULL, 0, NULL, 13, '{ts escape="sql"}Event Income Details{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contribute_OrganizationSummary', 14, 'CRM_Report_Form_Contribute_OrganizationSummary', NULL, 0, NULL, 14, '{ts escape="sql"}Orgnization Contribution Summary{/ts}', 0, 0, 1, NULL, NULL),
 
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL, NULL),
