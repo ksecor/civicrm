@@ -110,4 +110,18 @@
     <access_callback>1</access_callback>
     <component>CiviReport</component>
   </item>
+  <item>
+    <path>civicrm/report/event/eventIncome</path>
+    <title>Event Income Detail Report</title>
+    <page_callback>CRM_Report_Form_Event_EventIncome</page_callback>
+    <access_callback>1</access_callback>
+    <component>CiviReport</component>
+  </item>
+  <item>
+    <path>civicrm/report/contribute/organizationSummary</path>
+    <title>Organization Contribution Summary Report</title>
+    <page_callback>CRM_Report_Form_Contribute_OrganizationSummary</page_callback>
+    <access_callback>1</access_callback>
+    <component>CiviReport</component>
+  </item> 
 </menu>
