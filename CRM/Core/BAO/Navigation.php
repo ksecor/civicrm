@@ -314,8 +314,8 @@ ORDER BY parent_id, weight";
             $url = CRM_Utils_System::url( $path, 'reset=1' );
             $makeLink = true;
         }
-              
-        if ( isset( $permission) ) {
+        
+        if ( isset( $permission) && $permission ) {
             if ( !CRM_Core_Permission::check( $permission ) ) {
                 return false;
             }
