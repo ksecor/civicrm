@@ -456,17 +456,24 @@ function civitest_civicrm_mailingGroups( &$form, &$groups, &$mailings ) {
     $mailings[1] = 'This Mailing does not exist';
 }
 
-function civicrm_civicrm_buildAmount( $pageType,
-                                       &$form,
-                                       &$amount ) {
+/*
+ * Give random discounts for event signup.
+ *
+ * Warning : while implementing this hook, another post process hook 
+ *         : also need implementing to make sure code is only used for 
+ *         : the number of times that's allowed to. 
+ */
+function civitest_civicrm_buildAmount( $pageType,
+                                      &$form,
+                                      &$amount ) {
 
-    // only for event with id=3, for now 
+    // For now do it only for event with id=3
     $eventID = 3;
+
     if ( $pageType != 'event'  ) {
         return;
     }
-    $code = CRM_Utils_Request::retrieve( 'code', 'String', 
-                                         CRM_Core_DAO::$_nullArray );
+    $code = CRM_Utils_Request::retrieve( 'code', 'String', $form );
     if ( !$code ) {
         return;
     }
@@ -474,6 +481,13 @@ function civicrm_civicrm_buildAmount( $pageType,
     $discountPercent = CRM_Core_OptionGroup::getValue( "event_discount_{$eventID}", 
                                                        $code, 'name' );
     if ( !$discountPercent ) {
+        return;
+    }
+
+    // make sure code is usable
+    $weight = CRM_Core_OptionGroup::getValue( "event_discount_{$eventID}", 
+                                              $code, 'name', 'String', 'weight' );
+    if ( (!$weight) || ($weight <= 0) ) {
         return;
     }
 
@@ -487,5 +501,34 @@ function civicrm_civicrm_buildAmount( $pageType,
             ceil($amount[$amountId]['value'] * $discountPercent / 100);
         $amount[$amountId]['label'] = $amount[$amountId]['label'] .
             "\t - with {$discountPercent}% discount";
+    }
+}
+
+/*
+ * The hook updates the random code used with event signup.
+ */
+function civitest_civicrm_postProcess( $class, &$form ) {
+    if ( is_a($form, 'CRM_Event_Form_Registration_Confirm') ) {
+        // For now do it only for event with id=3
+        $eventID = 3;
+
+        $code = CRM_Utils_Request::retrieve( 'code', 'String', $form );
+        if ( !$code ) {
+            return;
+        }
+
+        require_once 'CRM/Core/OptionGroup.php';
+        $discountID = CRM_Core_OptionGroup::getValue( "event_discount_{$eventID}", 
+                                                      $code, 'name', 'String', 'id' );
+        if ( !$discountID ) {
+            return;
+        }
+
+        $query = "
+UPDATE civicrm_option_value v
+SET    v.weight = v.weight - 1
+WHERE  v.id = %1";
+        $params = array( 1 => array( $discountID, 'Integer' ) );
+        CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 }
