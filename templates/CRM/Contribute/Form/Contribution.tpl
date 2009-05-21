@@ -139,7 +139,7 @@
             }).focus();
 
             cj("#contact").result(function(event, data, formatted) {
-            	cj("input[name=contact_id]").val(data[1]);
+            	cj("input[name=contact_select_id]").val(data[1]);
             });
 
             cj("#contact").bind("keypress keyup", function(e) {

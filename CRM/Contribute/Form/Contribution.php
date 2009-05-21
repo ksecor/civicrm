@@ -492,18 +492,11 @@ WHERE  contribution_id = {$this->_id}
      * @access public 
      */ 
     public function buildQuickForm( )  
-    {   
+    {           
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
-        
-        if ( $this->_context == 'standalone' ) {
-            // call to build contact autocomplete
-            $attributes = array( 'width' => '200px' );    
-            $this->addElement('text', "contact", ts('Select Contact'), $attributes );
-            $this->addElement('hidden', "contact_id" );
-        }
-        
+             
         $showAdditionalInfo = false;
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
@@ -623,6 +616,13 @@ WHERE  contribution_id = {$this->_id}
         $this->assign('customDataType', 'Contribution');
         $this->assign('customDataSubType',  $this->_contributionType );
         $this->assign('entityID',  $this->_id );
+        
+        if ( $this->_context == 'standalone' ) {
+            // call to build contact autocomplete
+            $attributes = array( 'width' => '200px' );    
+            $this->addElement('text', "contact", ts('Select Contact'), $attributes );
+            $this->addElement('hidden', "contact_select_id" );
+        }
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
         
@@ -788,8 +788,8 @@ WHERE  contribution_id = {$this->_id}
         }      
 
         // set the contact, when contact is selected
-        if ( CRM_Utils_Array::value('contact_id', $submittedValues ) ) {
-            $this->_contactID = CRM_Utils_Array::value('contact_id', $submittedValues);
+        if ( CRM_Utils_Array::value('contact_select_id', $submittedValues ) ) {
+            $this->_contactID = CRM_Utils_Array::value('contact_select_id', $submittedValues);
         }
         
         $config  =& CRM_Core_Config::singleton( );
