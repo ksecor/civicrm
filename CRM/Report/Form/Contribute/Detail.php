@@ -254,6 +254,10 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->_groupBy = " GROUP BY contact.id, contribution.id ";
     }
 
+    function orderBy( ) {
+        $this->_orderBy = " ORDER BY contact.display_name ";
+    }
+
     function statistics( ) {
         $select = "
 SELECT COUNT( contribution.total_amount ) as count,
@@ -293,9 +297,10 @@ SELECT COUNT( contribution.total_amount ) as count,
         $this->from   ( );
         $this->where  ( );
         $this->groupBy( );
+        $this->orderBy( );
         $this->limit  ( );
 
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
 
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
