@@ -966,7 +966,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
      */
     static function sendActivityCopy( $clientId, $activityId, $contacts, $attachments = null, $caseId )
     {   
-        if ( !$activityId || !$caseId ) {
+        if ( !$activityId ) {
             return;
         }
 
@@ -975,10 +975,17 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $template =& CRM_Core_Smarty::singleton( );
 
         $activityInfo   = array( );
-                
+        //if its a case activity
+        if ( $caseId ) {
+            $anyActivity = false; 
+            $template->assign('isCaseActivity', 1 );
+        } else {
+            $anyActivity = true;
+        }
+        
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
-        $activityInfo = $xmlProcessor->getActivityInfo($clientId, $activityId);
+        $activityInfo = $xmlProcessor->getActivityInfo($clientId, $activityId, $anyActivity );
         $template->assign('activity', $activityInfo );
 
         $activitySubject = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activityId, 'subject' );
@@ -1039,10 +1046,12 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             
             $activity = CRM_Activity_BAO_Activity::create( $activityParams );
 
-            //create case_activity record.
-            $caseParams = array( 'activity_id' => $activity->id,
-                                 'case_id'     => $caseId   );
-            self::processCaseActivity( $caseParams );
+            //create case_activity record if its case activity.
+            if ( $caseId ) {
+                $caseParams = array( 'activity_id' => $activity->id,
+                                     'case_id'     => $caseId   );
+                self::processCaseActivity( $caseParams );
+            }
         }
         return $result;
     }

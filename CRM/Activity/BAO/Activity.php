@@ -398,18 +398,16 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $msgs[] = "source={$params['source_contact_id']}";
         } 
 
-        if ( isset( $params['target_contact_id'] ) ) {
-            if ( is_array( $params['target_contact_id'] ) ) {
-                $msgs[] = "target=" . implode( ',', $params['target_contact_id'] );
-                // take only first target
-                // will be used for recently viewed display
-                $t = array_slice($params['target_contact_id'], 0, 1 );
-                $recentContactId = $t[0];
-            } else {
-                $msgs[] = "target={$params['target_contact_id']}";
-                // will be used for recently viewed display
-                $recentContactId = $params['target_contact_id'];
-            }
+        if ( is_array( $params['target_contact_id'] ) && !CRM_Utils_array::crmIsEmptyArray($params['target_contact_id']) ) {
+            $msgs[] = "target=" . implode( ',', $params['target_contact_id'] );
+            // take only first target
+            // will be used for recently viewed display
+            $t = array_slice($params['target_contact_id'], 0, 1 );
+            $recentContactId = $t[0];
+        } else if ( isset( $params['target_contact_id'] ) ) {
+            $msgs[] = "target={$params['target_contact_id']}";
+            // will be used for recently viewed display
+            $recentContactId = $params['target_contact_id'];
         } else {
             // at worst, take source for recently viewed display
             $recentContactId = $params['source_contact_id'];

@@ -760,9 +760,17 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $params['target_contact_id']   = $this->_contactIds;
         }
 
+        $activityAssigned = array( );
         // format assignee params
-        if ( ! empty($params['assignee_contact']) ) {
+        if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact']) ) {
             $params['assignee_contact_id'] = $params['assignee_contact'];
+            //skip those assignee contacts which are already assigned
+            //while sending a copy.CRM-4509.
+            $activityAssigned = array_flip( $params['assignee_contact'] );
+            if ( $this->_activityId ) {
+                $assigneeContacts = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $this->_activityId );
+                $activityAssigned = array_diff_key( $activityAssigned, $assigneeContacts );
+            }
         }
 
         // call begin post process. Idea is to let injecting file do
@@ -782,10 +790,36 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $followupStatus = "A followup activity has been scheduled.";
         }
 
+        // send copy to assignee contacts.CRM-4509
+        $mailStatus = '';
+        if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact']) ) {
+          
+            $mailToContacts = array( );
+            $assigneeContacts = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activity->id, true, false );
+           
+            //build an associative array with unique email addresses.  
+            foreach( $activityAssigned as $id => $dnc ) {
+                if( !empty($id) ) {
+                    $mailToContacts[$assigneeContacts[$id]['email']] = $assigneeContacts[$id];
+                }
+            }
+            
+            if ( !empty($mailToContacts) ) {
+                //include attachments while sendig a copy of activity.
+                $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity', $activity->id );
+
+                require_once "CRM/Case/BAO/Case.php";
+                $result = CRM_Case_BAO_Case::sendActivityCopy( null, $activity->id, $mailToContacts, $attachments, null );
+                
+                $mailStatus .= ts("A copy of the activity has also been sent to assignee contacts(s)."); 
+            }
+        }
+        
         // set status message
-        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved. %2.', 
+        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved. %2. %3', 
                                         array( 1 => $params['subject'],
-                                               2 => $followupStatus ) ) );
+                                               2 => $followupStatus,
+                                               3 => $mailStatus ) ) );
 
         return array( 'activity' => $activity );
     }

@@ -209,15 +209,27 @@ AND    ac.case_id = %1
 
         require_once 'CRM/Core/OptionGroup.php';
         
-        $index = $clientID . '_' . $activityID . '_' . (int) $anyActivity;
+        $index = $activityID . '_' . (int) $anyActivity;
 
+        if ( $clientID ) {
+            $index = $index . '_' . $clientID;   
+        }
+        
         if ( ! array_key_exists($index, $activityInfos) ) {
             $activityInfos[$index] = array( );
-
+            $selectCaseActivity = "";
+            $joinCaseActivity   = "";
+            
+            if ( $clientID ) {
+                $selectCaseActivity = ", ca.case_id as caseID ";
+                $joinCaseActivity   = " INNER JOIN civicrm_case_activity ca ON a.id = ca.activity_id ";
+            }
+            
             $query = "
-SELECT     a.*, aa.assignee_contact_id as assigneeID, at.target_contact_id as targetID, ca.case_id as caseID
+SELECT     a.*, aa.assignee_contact_id as assigneeID, at.target_contact_id as targetID
+{$selectCaseActivity}
 FROM       civicrm_activity a
-INNER JOIN civicrm_case_activity ca ON a.id = ca.activity_id
+{$joinCaseActivity}
 LEFT JOIN civicrm_activity_target at ON a.id = at.activity_id
 LEFT JOIN civicrm_activity_assignment aa ON a.id = aa.activity_id
 WHERE      a.id = %1 
@@ -248,19 +260,22 @@ WHERE      a.id = %1
                            &$activityTypeInfo ) {
         require_once 'CRM/Core/OptionGroup.php';
 
-        $clientID = CRM_Utils_Type::escape($clientID,   'Integer');
-
         $activity = array( );
-        $activity['editURL'] = CRM_Utils_System::url( 'civicrm/case/activity',
-                                                      "reset=1&cid={$clientID}&caseid={$activityDAO->caseID}&action=update&atype={$activityDAO->activity_type_id}&id={$activityDAO->id}" );
         $activity['fields'] = array( );
-
-        $activity['fields'][] = array( 'label' => 'Client',
-                                       'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                             $clientID,
-                                                                                             'display_name' )
-                                                               ),
-                                       'type'  => 'String' );
+        
+        if ( $clientID ) {
+            $clientID = CRM_Utils_Type::escape($clientID,   'Integer');
+            
+            $activity['editURL'] = CRM_Utils_System::url( 'civicrm/case/activity',
+                                                          "reset=1&cid={$clientID}&caseid={$activityDAO->caseID}&action=update&atype={$activityDAO->activity_type_id}&id={$activityDAO->id}" );
+            
+            $activity['fields'][] = array( 'label' => 'Client',
+                                           'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                                 $clientID,
+                                                                                                 'display_name' )
+                                                                    ),
+                                           'type'  => 'String' );
+        }
 
         // Activity Type info is a special field
         $activity['fields'][] = array( 'label'    => 'Activity Type',
@@ -303,10 +318,12 @@ WHERE      a.id = %1
                                            'type'  => 'String' );
         }
 
-        $activity['fields'][] = array( 'label' => 'Medium',
-                                       'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
-                                                                                  $activityDAO->medium_id ),
-                                       'type'  => 'String' );
+        if ( $activityDAO->medium_id ) {
+            $activity['fields'][] = array( 'label' => 'Medium',
+                                           'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
+                                                                                      $activityDAO->medium_id ),
+                                           'type'  => 'String' );
+        }
         
         $activity['fields'][] = array( 'label' => 'Location',
                                        'value' => $activityDAO->location,
