@@ -316,9 +316,31 @@ ORDER BY parent_id, weight";
         }
         
         if ( isset( $permission) && $permission ) {
-            if ( !CRM_Core_Permission::check( $permission ) ) {
-                return false;
+            $permissions = explode(',', $permission ); 
+            $config  =& CRM_Core_Config::singleton( );
+            
+            $showItem = true;
+            foreach ( $permissions as $key ) {
+                //hack to determine if it's a component related permission
+                if ( $key != 'access CiviCRM' && substr( $key, 0, 6 ) === 'access' ) {
+                    $componentName = trim(substr( $key, 6 ));
+                    if ( !in_array( $componentName, $config->enableComponents ) ) {
+                        $showItem = false;
+                        if ( $operator == 'AND' ) {
+                            return $showItem;
+                        }
+                    }
+               } else if ( !CRM_Core_Permission::check( $key ) ) {
+                     $showItem = false;
+                     if ( $operator == 'AND' ) {
+                         return $showItem;
+                     }
+                }
             }
+            
+            if ( !$showItem ) {
+                return false;
+            }   
         }
               
         if ( $makeLink ) {
