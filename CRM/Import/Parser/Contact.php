@@ -260,7 +260,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         case 'Individual' :
             if ( ( $this->_firstNameIndex < 0 && $this->_lastNameIndex < 0 ) ) {
                 $errorRequired = true;
-                $errorMessage  = ts( "Missing required fields : First Name and Last Name" );
+                $errorMessage  = ts('Missing required fields:') . ' ' . ts('First Name') . ' ' . ts('and') . ' ' . ts('Last Name');
             } else {
                 $errorRequired = 
                     ! CRM_Utils_Array::value( $this->_firstNameIndex, $values ) &&
@@ -271,7 +271,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         case 'Household' :
             if ( $this->_householdNameIndex < 0 ) {
                 $errorRequired = true;
-                $errorMessage  = ts( "Missing required fields : Household Name" );
+                $errorMessage  = ts('Missing required fields:') . ' ' . ts('Household Name');
             } else {
                 $errorRequired = ! CRM_Utils_Array::value($this->_householdNameIndex, $values);
             }
@@ -280,7 +280,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         case 'Organization' :
             if ( $this->_organizationNameIndex < 0 ) {
                 $errorRequired = true;
-                $errorMessage  = ts( "Missing required fields : Organization Name" );
+                $errorMessage  = ts('Missing required fields:') . ' ' . ts('Organization Name');
             } else {
                 $errorRequired = ! CRM_Utils_Array::value($this->_organizationNameIndex, $values);
             }
@@ -295,9 +295,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             if ($this->_contactType == 'Individual' &&! $this->_updateWithId ) {
                 if ($errorRequired && ! CRM_Utils_Array::value($this->_emailIndex, $values)) {
                     if ( $errorMessage ) {
-                        $errorMessage .= ts( ' OR Email Address' ); 
+                        $errorMessage .= ' ' . ts('OR') . ' ' . ts('Email Address');
                     } else {
-                        $errorMessage = ts( 'Missing required field : Email Address' );
+                        $errorMessage = ts('Missing required field:') . ' ' . ts('Email Address');
                     }
                     array_unshift($values, $errorMessage);
                     $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
@@ -324,9 +324,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
         } else if ($errorRequired && ! $this->_updateWithId) {
             if ( $errorMessage ) {
-                $errorMessage .= ts( ' OR Email Address' ); 
+                $errorMessage .= ' ' . ts('OR') . ' ' . ts('Email Address');
             } else {
-                $errorMessage = ts( 'Missing required field : Email Address' );
+                $errorMessage = ts('Missing required field:') . ' ' . ts('Email Address');
             }
             array_unshift($values, $errorMessage);
             $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
