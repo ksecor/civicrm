@@ -296,7 +296,7 @@ ORDER BY parent_id, weight";
         $operator   = $value['attributes']['operator'];
               
         $makeLink = false;
-        if ( isset( $url ) ) {
+        if ( isset( $url ) && $url) {
             if ( substr( $url, 0, 4 ) === 'http' ) {
                 $url = $url;
             } else {
@@ -304,8 +304,8 @@ ORDER BY parent_id, weight";
             }
             $makeLink = true;
         }
-              
-        if ( isset( $path ) ) {
+            
+        if ( isset( $path ) && $path ) {
             $url = CRM_Utils_System::url( $path, 'reset=1' );
             $makeLink = true;
         }
@@ -339,7 +339,7 @@ ORDER BY parent_id, weight";
         }
               
         if ( $makeLink ) {
-            return $name = '<a href=' . $url . '>'. $name .'</a>';
+            return $name = "<a href='{$url}'>{$name}</a>";
         }
  
         return $name;
