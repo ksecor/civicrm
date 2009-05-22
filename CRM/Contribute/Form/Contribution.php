@@ -628,8 +628,8 @@ WHERE  contribution_id = {$this->_id}
             // build select for new contact
             require_once 'CRM/Core/BAO/UFGroup.php';
             $contactProfiles = CRM_Core_BAO_UFGroup::getReservedProfiles( );
-            $this->add( 'select', 'profiles', ts('Create New'),
-                         array( '' => ts('Create Contact') ) + $contactProfiles,
+            $this->add( 'select', 'profiles', ts('Create New Contact'),
+                         array( '' => ts('- create new contact -') ) + $contactProfiles,
                          false, array( 'onChange' => "if (this.value) newContact( this.value );") );
         }
         
