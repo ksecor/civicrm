@@ -754,7 +754,7 @@ function civicrm_admin_menu( ) {
                      'title' => 'CiviCRM',
                      'path' => 'civicrm',
                      'weight' => $weight,
-                     );
+                     'options' => array( 'query' => 'reset=1' ) );
 
     require_once 'CRM/Core/Menu.php';
     $nav = CRM_Core_Menu::getNavigation( true );
@@ -764,7 +764,8 @@ function civicrm_admin_menu( ) {
         $link  = array(
                        'title' => $value['title'],
                        'path' => $value['path'],
-                       'weight' => $weight );
+                       'weight' => $weight,
+                       'options' => array( 'query' => 'reset=1' ) );
         
         if ( empty( $value['parent'] ) ) {
             $link['parent_path'] = 'CiviCRM';
