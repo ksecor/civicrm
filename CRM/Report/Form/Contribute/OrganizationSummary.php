@@ -163,21 +163,29 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
     // Create temperaory table which store organization relatioship
     // data with contribution
     function tempTable ( ) {
-        $sql =  " 
-             CREATE  TEMPORARY TABLE report_org_summay ( id int PRIMARY KEY AUTO_INCREMENT, rel_id int, org_contact_id int, rel_contact_id int, rel_type VARCHAR(255), contribution_id int ) ENGINE=HEAP ";
+
+        //define table name
+        $randomNum = md5( uniqid( ) );
+        $this->_tableName = "temp_report_{$randomNum}";
         
-        CRM_Core_DAO::executeQuery( $sql,CRM_Core_DAO::$_nullArray );
+        $sql =  " 
+        CREATE  TEMPORARY TABLE report_{$this->_tableName} ( id int PRIMARY KEY AUTO_INCREMENT, rel_id int, 
+                                                             org_contact_id int, rel_contact_id int, 
+                                                             rel_type VARCHAR(255), contribution_id int ) ENGINE=HEAP ";
+        
+        CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);
         
         //get contacts and relationship when contact_b is organization
         $query_a=" 
-        SELECT relationship.id as rel_id ,relationship.contact_id_b,relationship.contact_id_a, 
-               relation_types.name_b_a, contribution.id as contribution_id 
+        SELECT relationship.id as rel_id, relationship.contact_id_b, relationship.contact_id_a, 
+               relation_types.name_b_a,   contribution.id as contribution_id 
         FROM   civicrm_relationship relationship, civicrm_contact contact,
                civicrm_contribution contribution, civicrm_relationship_type relation_types 
-        WHERE  contribution.contact_id=relationship.contact_id_a 
-               AND contact.id           = relationship.contact_id_b
-               AND contact.contact_type = 'Organization' AND relationship.is_active=1
-               AND relation_types.id    = relationship.relationship_type_id
+        WHERE  contribution.contact_id    = relationship.contact_id_a 
+               AND contact.id             = relationship.contact_id_b
+               AND contact.contact_type   = 'Organization' 
+               AND relationship.is_active = 1
+               AND relation_types.id      = relationship.relationship_type_id
        ORDER BY relationship.contact_id_b, relationship.contact_id_a, contribution.id ";
         
         $result_a = CRM_Core_DAO::executeQuery( $query_a, CRM_Core_DAO::$_nullArray );
@@ -185,7 +193,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
         while ( $result_a->fetch() ) {
             $count++;
             $distanceQuery = "
-            INSERT INTO report_org_summay values( $count,
+            INSERT INTO report_{$this->_tableName} values( $count,
                                                   $result_a->rel_id,$result_a->contact_id_b,$result_a->contact_id_a,
                                                   '$result_a->name_b_a',$result_a->contribution_id)";
             
@@ -194,11 +202,11 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
         
         //get contacts and relationship when contact_a is organization
         $query_b=" 
-        SELECT relationship.id as rel_id ,relationship.contact_id_a,
-               relationship.contact_id_b, relation_types.name_a_b,contribution.id as contribution_id
+        SELECT relationship.id as rel_id, relationship.contact_id_a,
+               relationship.contact_id_b, relation_types.name_a_b, contribution.id as contribution_id
         FROM  civicrm_relationship relationship, civicrm_contact contact,
               civicrm_contribution contribution, civicrm_relationship_type relation_types 
-        WHERE contribution.contact_id=relationship.contact_id_b 
+        WHERE contribution.contact_id  = relationship.contact_id_b 
             AND contact.id             = relationship.contact_id_a
             AND contact.contact_type   = 'Organization' 
             AND relationship.is_active = 1 
@@ -209,9 +217,9 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
         while ( $result_b->fetch() ) {
             $count++;
             $query_insert="
-            INSERT INTO report_org_summay values( $count,
-                                                  $result_b->rel_id, $result_b->contact_id_a, $result_b->contact_id_b,
-                                                  '$result_b->name_a_b', $result_b->contribution_id ) ";
+            INSERT INTO report_{$this->_tableName} values( $count, $result_b->rel_id, 
+                                                           $result_b->contact_id_a, $result_b->contact_id_b,
+                                                           '$result_b->name_a_b', $result_b->contribution_id ) ";
             CRM_Core_DAO::executeQuery( $query_insert, CRM_Core_DAO::$_nullArray );	
         }
     }
@@ -256,7 +264,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
         $this->_from = null;
       
         $this->_from = "
-        FROM  report_org_summay report  
+        FROM  report_{$this->_tableName} report  
             LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact_organization']} ON 
                       ({$this->_aliases['civicrm_contact_organization']}.id = report.org_contact_id)
             LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} ON 
@@ -264,7 +272,12 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
             LEFT JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
                       ({$this->_aliases['civicrm_contribution']}.id = report.contribution_id )
             LEFT JOIN civicrm_relationship {$this->_aliases['civicrm_relationship']} ON
-                      ({$this->_aliases['civicrm_relationship']}.id = report.rel_id)  ";
+                      ({$this->_aliases['civicrm_relationship']}.id = report.rel_id)  
+            LEFT JOIN civicrm_group_contact group_contact  ON 
+                      report.rel_contact_id = group_contact.contact_id  AND group_contact.status='Added'
+            LEFT JOIN civicrm_group {$this->_aliases['civicrm_group']} ON   
+                      group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
+
         if ( $this->_addressField ) {
             $this->_from .= " 
             LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} ON 
@@ -320,7 +333,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
     
     
     function groupBy( ) {
-        $this->_groupBy = " GROUP BY report.org_contact_id ,report.rel_contact_id,contribution.id,report.rel_type";
+        $this->_groupBy = " GROUP BY report.org_contact_id, report.rel_contact_id, contribution.id, report.rel_type ";
     }
 
     function statistics( &$rows ) {
