@@ -46,10 +46,7 @@
                 <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
             </tr>
         {else}
-            <tr id="contact-success" style="display:none;"><td></td><td><span class="success-status">{ts}New contact has been created.{/ts}</span></td></tr>
-            <tr>
-                <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;{ts}OR{/ts}&nbsp;&nbsp;{$form.profiles.html}</td>
-            </tr>
+            {include file="CRM/Contact/Form/NewContact.tpl"}
         {/if}
         {if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
@@ -123,106 +120,83 @@
       </table>
 
     <div id="customData"></div>
-	{*include custom data js file*}
-	{include file="CRM/common/customData.tpl"}
-	{literal}
-		<script type="text/javascript">
-			cj(document).ready(function() {
-				{/literal}
-				buildCustomData( '{$customDataType}' );
-				{if $customDataSubType}
-					buildCustomData( '{$customDataType}', {$customDataSubType} );
-				{/if}
-				{literal}
-			});
 
-            var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
-
-            cj("#contact").autocomplete( contactUrl, {
-            	selectFirst: false 
-            }).focus();
-
-            cj("#contact").result(function(event, data, formatted) {
-            	cj("input[name=contact_select_id]").val(data[1]);
-            });
-
-            cj("#contact").bind("keypress keyup", function(e) {
-                if ( e.keyCode == 13 ) {
-                    return false;
-                }
-            });
-    </script>
-    {/literal}
-    
+{*include custom data js file*}
+{include file="CRM/common/customData.tpl"}
 {literal}
 <script type="text/javascript">
-var showPane = "";
-cj(function() {
-  cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
-
-  cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
-                             }, function() { cj(this).removeClass( "ui-state-hover");
-               }).bind('click', function() { 
-		                             var checkClass = cj(this).find('span').attr( 'class' );
-					     var len        = checkClass.length;
-					     if( checkClass.substring( len - 1, len ) == 's' ) {
-					       cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
-					     } else {
-					       cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-					     }
-					     cj(this).next().toggle('blind'); return false; }).next().hide();
-  if( showPane.length > 1 ) {
-    eval("showPane =[ '" + showPane.substring( 0,showPane.length - 2 ) +"]");
-    cj.each( showPane, function( index, value ) {
-      cj('span#'+value).removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-      loadPanes( value )  ;
-      cj("div."+value).show();
+    cj( function( ) {
+        {/literal}
+        buildCustomData( '{$customDataType}' );
+        {if $customDataSubType}
+        buildCustomData( '{$customDataType}', {$customDataSubType} );
+        {/if}
+        {literal}
     });
-  }
-});
 
-cj(document).ready( function() {
-    cj('.head').one( 'click', function() { loadPanes( cj(this).children().attr('id') );  });
-});
+    var showPane = "";
+    cj(function() {
+        cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
 
-function loadPanes( id ) {
-    var url = "{/literal}{crmURL p='civicrm/contact/view/contribution' q='snippet=4&formType=' h=0}{literal}" + id;
-    if ( ! cj('div.'+id).html() ) {
-  var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
-    cj('div.'+id).html(loading);
+        cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
+        }, function() { cj(this).removeClass( "ui-state-hover");
+    }).bind('click', function() { 
+        var checkClass = cj(this).find('span').attr( 'class' );
+        var len        = checkClass.length;
+        if ( checkClass.substring( len - 1, len ) == 's' ) {
+            cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
+        } else {
+            cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+        }
+        cj(this).next().toggle('blind'); return false; }).next().hide();
+        if ( showPane.length > 1 ) {
+            eval("showPane =[ '" + showPane.substring( 0,showPane.length - 2 ) +"]");
+            cj.each( showPane, function( index, value ) {
+                cj('span#'+value).removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+                loadPanes( value )  ;
+                cj("div."+value).show();
+            });
+        }
+    
+        cj('.head').one( 'click', function() { loadPanes( cj(this).children().attr('id') );  });    
+    });
+
+
+    function loadPanes( id ) {
+        var url = "{/literal}{crmURL p='civicrm/contact/view/contribution' q='snippet=4&formType=' h=0}{literal}" + id;
+        if ( ! cj('div.'+id).html() ) {
+            var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
+            cj('div.'+id).html(loading);
+        }
+        cj.ajax({
+            url    : url,
+            success: function(data) { 
+                cj('div.'+id).html(data);
+            }
+        });
     }
-    cj.ajax({
-        url    : url,
-        success: function(data) { 
-                    cj('div.'+id).html(data);
-                 }
-         });
-}
-var url = "{/literal}{$dataUrl}{literal}";
+    var url = "{/literal}{$dataUrl}{literal}";
 
-cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
-                            }).result( function(event, data, formatted) { cj( "#soft_contact_id" ).val( data[1] );
-                            });  
+    cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
+        }).result( function(event, data, formatted) { cj( "#soft_contact_id" ).val( data[1] );
+    });  
 </script>
 {/literal}
 <div class="accordion ui-accordion ui-widget ui-helper-reset">
     {* Additional Detail / Honoree Information / Premium Information  Fieldset *}
-{foreach from=$allPanes key=paneName item=paneValue}
-<h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id="{$paneValue.id}"></span><a href="#">{$paneName}</a></h3>
-<div class="{$paneValue.id}"></div>
-{if $paneValue.open eq 'true'}
-{literal}<script type="text/javascript"> showPane += "{/literal}{$paneValue.id}{literal}"+"','";</script>{/literal}
-{/if}
-{/foreach}
+    {foreach from=$allPanes key=paneName item=paneValue}
+        <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id="{$paneValue.id}"></span><a href="#">{$paneName}</a></h3>
+        <div class="{$paneValue.id}"></div>
+        {if $paneValue.open eq 'true'}
+            {literal}<script type="text/javascript"> showPane += "{/literal}{$paneValue.id}{literal}"+"','";</script>{/literal}
+        {/if}
+    {/foreach}
 </div>
 
 {/if}
 
 </fieldset>
 <div class="crm-submit-buttons">{$form.buttons.html}</div>
-{*include new contact dialog file*}
-{include file="CRM/common/newContact.tpl"}
-
     {literal}
     <script type="text/javascript">
      function verify( ) {

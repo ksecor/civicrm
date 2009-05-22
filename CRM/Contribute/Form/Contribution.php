@@ -620,19 +620,9 @@ WHERE  contribution_id = {$this->_id}
         $this->assign('entityID',  $this->_id );
         
         if ( $this->_context == 'standalone' ) {
-            // call to build contact autocomplete
-            $attributes = array( 'width' => '200px' );    
-            $this->add('text', "contact", ts('Select Contact'), $attributes );
-            $this->addElement('hidden', "contact_select_id" );
-        
-            // build select for new contact
-            require_once 'CRM/Core/BAO/UFGroup.php';
-            $contactProfiles = CRM_Core_BAO_UFGroup::getReservedProfiles( );
-            $this->add( 'select', 'profiles', ts('Create New Contact'),
-                         array( '' => ts('- create new contact -') ) + $contactProfiles,
-                         false, array( 'onChange' => "if (this.value) newContact( this.value );") );
-        }
-        
+            require_once 'CRM/Contact/Form/NewContact.php';
+            CRM_Contact_Form_NewContact::buildQuickForm( $this );
+        }        
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
         
