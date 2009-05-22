@@ -1,5 +1,5 @@
 {* this template is used for adding/editing Premium Information *} 
- <div id="id-premium" class="section-shown">
+ <div id="id-premium" class="section-shown form-item">
      
       <fieldset>
            <dl>

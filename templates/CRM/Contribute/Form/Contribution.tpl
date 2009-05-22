@@ -4,7 +4,6 @@
 {elseif $showAdditionalInfo and $formType }
   {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
-<div class="form-item">
 {if $contributionMode == 'test' }
     {assign var=contribMode value="TEST"}
 {else if $contributionMode == 'live'}
@@ -25,10 +24,10 @@
 <div id="help">
     {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
 </div>
-<div class="html-adjust">{$form.buttons.html}</div>
+<div class="crm-submit-buttons">{$form.buttons.html}</div>
 <fieldset>
-{else} 
-<div class="html-adjust">{$form.buttons.html}</div>
+{else}
+<div class="crm-submit-buttons">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
 {/if}
    {if $action eq 8} 
@@ -220,8 +219,7 @@ cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
 {/if}
 
 </fieldset>
-<div class="html-adjust">{$form.buttons.html}</div>
-</div> 
+<div class="crm-submit-buttons">{$form.buttons.html}</div>
 {*include new contact dialog file*}
 {include file="CRM/common/newContact.tpl"}
 
