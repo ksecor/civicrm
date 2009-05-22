@@ -390,7 +390,9 @@ WHERE  contribution_id = {$this->_id}
             $fields["country-{$this->_bltID}"       ] = 1;
             
             require_once "CRM/Core/BAO/UFGroup.php";
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
+            if ( $this->_contactID ) {
+                CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
+            }
             
             foreach ($names as $name) {
                 if ( ! empty( $defaults[$name] ) ) {
