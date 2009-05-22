@@ -44,6 +44,7 @@
                 <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
             </tr>
         {else}
+            <tr id="contact-success" style="display:none;"><td></td><td><span class="success-status">{ts}New contact has been created.{/ts}</span></td></tr>
             <tr>
                 <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;<a href="javascript:newContact( 1 );">{ts}Create New Contact{/ts}</a></td></tr>
         {/if}

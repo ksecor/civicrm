@@ -252,6 +252,7 @@ cj(document).ready(function(){
                if ( checkSuccess.newContactSuccess ) {
                    cj("#contact").val( checkSuccess.sortName ).focus( );
                    cj("input[name=contact_select_id]").val( checkSuccess.contactID );
+                   cj("#contact-success").show( );
                    cj("#contact-dialog").dialog("close");
                }
            }
