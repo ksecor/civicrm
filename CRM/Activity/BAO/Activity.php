@@ -801,7 +801,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             
             $contact = civicrm_contact_get( $params );
             
-            if ( civicrm_error( $contact ) ) {
+            //CRM-4524
+            $contact = reset( $contact );
+            
+            if ( !$contact || civicrm_error( $contact ) ) {
                 $notSent[] = $contactId;
                 continue;
             }

@@ -274,6 +274,11 @@ class CRM_Dedupe_Merger
         }
         $main  =& civicrm_contact_get($mainParams);
         $other =& civicrm_contact_get($otherParams);
+
+        //CRM-4524
+        $main  = reset( $main );
+        $other = reset( $other );
+        
         if ($main['contact_type'] != $other['contact_type']) {
             return false;
         }

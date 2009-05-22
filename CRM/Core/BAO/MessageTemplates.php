@@ -186,8 +186,11 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $params  = array( 'contact_id' => $contactId );
             require_once 'api/v2/Contact.php';
             $contact =& civicrm_contact_get( $params );
+
+            //CRM-4524
+            $contact = reset( $contact );
             
-            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+            if ( !$contact || is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
             
