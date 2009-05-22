@@ -37,21 +37,35 @@ class CRM_Utils_Hook_Joomla {
 
     static function invoke( $numParams,
                             &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
-                            $fnSuffix ) {
+                            $fnSuffix, $hookPrefix = 'joomla' ) {
+        static $included = false;
         $result = array( );
-        $fnName = "joomla_{$fnSuffix}";
-        if ( function_exists( $fnName ) ) {
-            if ( $numParams == 1 ) {
-                $result = $fnName( $arg1 );
-            } else if ( $numParams == 2 ) {
-                $result = $fnName( $arg1, $arg2 );
-            } else if ( $numParams == 3 ) {
-                $result = $fnName( $arg1, $arg2, $arg3 );
-            } else if ( $numParams == 4 ) {
-                $result = $fnName( $arg1, $arg2, $arg3, $arg4 );
-            } else if ( $numParams == 5 ) {
-                $result = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
+        $fnName = "{$hookPrefix}_{$fnSuffix}";
+        if ( ! function_exists( $fnName ) ) {
+            if ( $included ) {
+                return;
             }
+
+            // include external file
+            $included = true;
+
+            // try to include civicrmHooks
+            @include_once( "civicrmHooks.php" );
+            if ( ! function_exists( $fnName ) ) {
+                return;
+            }
+        }
+
+        if ( $numParams == 1 ) {
+            $result = $fnName( $arg1 );
+        } else if ( $numParams == 2 ) {
+            $result = $fnName( $arg1, $arg2 );
+        } else if ( $numParams == 3 ) {
+            $result = $fnName( $arg1, $arg2, $arg3 );
+        } else if ( $numParams == 4 ) {
+            $result = $fnName( $arg1, $arg2, $arg3, $arg4 );
+        } else if ( $numParams == 5 ) {
+            $result = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
         }
         return empty( $result ) ? true : $result;
     }
