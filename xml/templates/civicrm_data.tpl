@@ -404,7 +404,9 @@ VALUES
   (@option_group_id_report , 'CRM_Report_Form_Event_ParticipantListing', 12, 'CRM_Report_Form_Event_ParticipantListing', NULL, 0, NULL, 12, '{ts escape="sql"}Participant Listing Details{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_report , 'CRM_Report_Form_Event_EventIncome', 13, 'CRM_Report_Form_Event_EventIncome', NULL, 0, NULL, 13, '{ts escape="sql"}Event Income Details{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_report , 'CRM_Report_Form_Contribute_OrganizationSummary', 14, 'CRM_Report_Form_Contribute_OrganizationSummary', NULL, 0, NULL, 14, '{ts escape="sql"}Orgnization Contribution Summary{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_report , 'CRM_Report_Form_Contribute_Household_Summary', 15, 'CRM_Report_Form_Contribute_Household_Summary', NULL, 0, NULL, 15, '{ts escape="sql"}Household Contribution Summary{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contribute_HouseholdSummary', 15, 'CRM_Report_Form_Contribute_HouseholdSummary', NULL, 0, NULL, 15, '{ts escape="sql"}Household Contribution Summary{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contribute_TopDonor', 16, 'CRM_Report_Form_Contribute_TopDonor', NULL, 0, NULL, 16, '{ts escape="sql"}Top Donor{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'CRM_Report_Form_Contact_CurrentEmployer', 17, 'CRM_Report_Form_Contact_CurrentEmployer', NULL, 0, NULL, 17, '{ts escape="sql"}Current Employer{/ts}', 0, 0, 1, NULL, NULL),
 
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL, NULL),
