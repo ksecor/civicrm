@@ -85,8 +85,8 @@ class CRM_Core_Block {
         if (!(self::$_properties)) {
             self::$_properties = array(
                                        self::CREATE_NEW   => array( 'template'   => 'CreateNew.tpl',
-                                                                   'info'       => ts('CiviCRM Create New'),
-                                                                   'subject'    => ts('Create New'),
+                                                                   'info'       => ts('CiviCRM Create New Record'),
+                                                                   'subject'    => ts(''),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,

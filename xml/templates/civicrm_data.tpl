@@ -801,9 +801,12 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_uf_group
     (id, name,                 group_type,           title,                                      is_cms_user, is_reserved, help_post) VALUES
-    (1,  NULL,                 'Individual,Contact', '{ts escape="sql"}Name and Address{/ts}',   0,           0,           NULL),
-    (2,  NULL,                 'Individual,Contact', '{ts escape="sql"}Supporter Profile{/ts}',  2,           0,           '<p><strong>{ts escape="sql"}The information you provide will NOT be shared with any third party organisations.{/ts}</strong></p><p>{ts escape="sql"}Thank you for getting involved in our campaign!{/ts}</p>'),
-    (3,  'participant_status', 'Participant',        '{ts escape="sql"}Participant Status{/ts}', 0,           1,           NULL);
+    (1,  NULL,                 'Individual,Contact',  '{ts escape="sql"}Name and Address{/ts}',   0,           0,           NULL),
+    (2,  NULL,                 'Individual,Contact',  '{ts escape="sql"}Supporter Profile{/ts}',  2,           0,           '<p><strong>{ts escape="sql"}The information you provide will NOT be shared with any third party organisations.{/ts}</strong></p><p>{ts escape="sql"}Thank you for getting involved in our campaign!{/ts}</p>'),
+    (3,  'participant_status', 'Participant',         '{ts escape="sql"}Participant Status{/ts}', 0,           1,           NULL),
+    (4,  'new_individual',     'Individual,Contact',  '{ts escape="sql"}New Individual{/ts}'    , 0,           1,           NULL),
+    (5,  'new_organization',   'Organization,Contact','{ts escape="sql"}New Organization{/ts}'  , 0,           1,           NULL),
+    (6,  'new_household',      'Household,Contact',   '{ts escape="sql"}New Household{/ts}'     , 0,           1,           NULL);
 
 INSERT INTO civicrm_uf_join
    (is_active,module,entity_table,entity_id,weight,uf_group_id)
@@ -825,7 +828,14 @@ INSERT INTO civicrm_uf_field
        (8,  2,           'first_name',            1,           0,           1,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}First Name{/ts}',            'Individual',  NULL),
        (9,  2,           'last_name',             1,           0,           2,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Last Name{/ts}',             'Individual',  NULL),
        (10, 2,           'email',                 1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL),
-       (11, 3,           'participant_status_id', 1,           1,           1,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Participant Status{/ts}',    'Participant', NULL);
+       (11, 3,           'participant_status_id', 1,           1,           1,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Participant Status{/ts}',    'Participant', NULL),
+       (12, 4,           'first_name',            1,           0,           1,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}First Name{/ts}',            'Individual',  NULL),
+       (13, 4,           'last_name',             1,           0,           2,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Last Name{/ts}',             'Individual',  NULL),
+       (14, 4,           'email',                 1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL),
+       (15, 5,           'organization_name',     1,           0,           2,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Organization Name{/ts}',     'Organization',NULL),
+       (16, 5,           'email',                 1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL),
+       (17, 6,           'household_name',        1,           0,           2,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Household Name{/ts}',        'Household',   NULL),
+       (18, 7,           'email',                 1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL);
 
 INSERT INTO civicrm_participant_status_type
   (id, name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id) VALUES
