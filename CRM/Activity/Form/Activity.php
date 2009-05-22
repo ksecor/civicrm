@@ -656,6 +656,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $errors['activity_type_id'] = ts('Activity Type is a required field');
         }
         
+        //Activity type is mandatory if creating new activity, CRM-4515
+        if ( array_key_exists( 'activity_type_id', $fields ) && 
+             ! CRM_Utils_Array::value( 'activity_type_id', $fields ) ) {
+            $errors['activity_type_id'] = ts('Activity Type is required field.');
+        }
         //FIX me temp. comment
         // make sure if associated contacts exist
         require_once 'CRM/Contact/BAO/Contact.php';
