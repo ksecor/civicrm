@@ -835,7 +835,7 @@ INSERT INTO civicrm_uf_field
        (15, 5,           'organization_name',     1,           0,           2,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Organization Name{/ts}',     'Organization',NULL),
        (16, 5,           'email',                 1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL),
        (17, 6,           'household_name',        1,           0,           2,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Household Name{/ts}',        'Household',   NULL),
-       (18, 7,           'email',                 1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL);
+       (18, 6,           'email',                 1,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL);
 
 INSERT INTO civicrm_participant_status_type
   (id, name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id) VALUES
