@@ -804,7 +804,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 }
             }
             
-            if ( !empty($mailToContacts) ) {
+            if ( !CRM_Utils_array::crmIsEmptyArray($mailToContacts) ) {
                 //include attachments while sendig a copy of activity.
                 $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity', $activity->id );
 
