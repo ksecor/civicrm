@@ -164,6 +164,29 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } else {
             $activity->is_deleted = 1;
             $result = $activity->save( );
+                      
+            //log activty delete.CRM-4525.
+            $logMsg = "Case Activity deleted for";
+            $msgs = array( );
+            $sourceContactId = CRM_Core_DAO::getfieldValue( 'CRM_Activity_DAO_Activity',
+                                                            $activity->id, 'source_contact_id' );
+            if ( $sourceContactId ) {
+                $msgs[] = " source={$sourceContactId}";
+            }
+            //get target contacts.
+            $targetContactIds = CRM_Activity_BAO_ActivityTarget::getTargetNames( $activity->id );
+            if ( !empty($targetContactIds) ) {
+                $msgs[] = " target =".implode( ',', array_keys($targetContactIds) );   
+            }
+            //get assignee contacts.
+            $assigneeContactIds = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activity->id );
+            if ( !empty($assigneeContactIds) ) {
+                $msgs[] = " assigne =".implode( ',', array_keys($assigneeContactIds) );   
+            }
+            
+            $logMsg .= implode( ', ', $msgs );
+            
+            self::logActivityAction( $activity, $logMsg );
         }
         $transaction->commit( );
         return $result;
