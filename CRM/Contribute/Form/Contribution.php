@@ -719,9 +719,12 @@ WHERE  contribution_id = {$this->_id}
         $this->addButtons(array( 
                                 array ( 'type'      => 'upload',
                                         'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'js'        => $js,
-                                        'isDefault' => true   ), 
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'upload',
+                                        'name'      => ts('Save and New'), 
+                                        'js'        => $js,
+                                        'subName'   => 'new' ), 
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
                                 ) 
@@ -1204,6 +1207,11 @@ WHERE  contribution_id = {$this->_id}
             }
             CRM_Core_Session::setStatus( $statusMsg );
             //Offline Contribution ends.
+        }
+        
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', 'reset=1&action=add&context=standalone') );
         }
     }
     
