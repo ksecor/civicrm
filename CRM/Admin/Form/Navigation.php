@@ -62,16 +62,6 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Navigation', 'label' ),
                    true );
 
-        if ( !$this->_id ) {
-            $menuOptions = array( '1' => ts('Create New Menu'),
-                                  '2' => ts('Select Existing Menu'));
-            $this->add( 'select', 'menu_option', ts( 'Menu' ),  $menuOptions );
-        }
-        
-        require_once 'CRM/Core/BAO/Navigation.php';
-        $existingMenus = CRM_Core_BAO_Navigation::getMenus( );
-        asort( $existingMenus );
-        $this->add( 'select', 'path', ts( 'Existing Menu' ), array( '' => ts('-- select --') ) + $existingMenus );
         $this->add('text', 'url', ts('Url'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Navigation', 'url' ) );
         require_once 'CRM/Core/Permission.php';
         $permissions = CRM_Core_Permission::basicPermissions();
@@ -103,12 +93,14 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
             CRM_Core_BAO_Navigation::retrieve( $params, $defaults );
-            if( CRM_Utils_Array::value( 'permission', $defaults ) ) { 
+            if ( CRM_Utils_Array::value( 'permission', $defaults ) ) { 
                 foreach ( explode( ',' , $defaults['permission'] ) as $value ){ 
                     $components[$value] = $value;
                 }
                 $defaults['permission'] = $components;
             }
+        } else {
+            $defaults['permission'] = "access CiviCRM";
         }
         
         // its ok if there is no element called is_active
@@ -128,10 +120,6 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         
         if ( isset( $this->_id ) ) {
             $params['id'] = $this->_id;
-        }
-        
-        if ( $params['menu_option'] == 1 ) {
-            unset( $params['path'] );
         }
         
         $navigation = CRM_Core_BAO_Navigation::add( $params );
