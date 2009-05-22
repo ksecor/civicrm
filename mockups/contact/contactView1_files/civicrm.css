@@ -1360,11 +1360,11 @@ div#toolTip {
 }
 
 div#contactName {
-   margin: 4px 0pt 4px 0pt;
+   margin: 4px 0pt 0px 0pt;
    font-size: 1.1em;
    line-height: 1.4em;
    padding-bottom: 3px;
-   border-bottom: 2px solid grey;   
+   border-bottom: 1px solid grey;   
 }
 
 div#contactName * {
@@ -1384,7 +1384,6 @@ div#contactName .grouplabel {
 div#contact_panel {
    display: block;
    width: 100%;
-   padding: 4px 0pt 4px 0pt;
 }
 
 /* reset contact_panel contents */
@@ -1429,7 +1428,11 @@ div#contact_panel .spacer {
 div#contact_panel td {
    padding: 4px 4px 4px 4px;
    vertical-align: top;
-   
+   border-bottom: 1px solid lightgray;    
+}
+
+div#contact_panel td.last {
+   border-bottom: 0;    
 }
 
 div#customFields div#contact_panel td {
@@ -1451,8 +1454,7 @@ div.buttons {
 
 div.buttons input, div.buttons select {
    font-size: .9em;
-   background: #EEEEFF;
-   border: 1px solid;
+
    vertical-align: top !important;
 }
 

@@ -6,8 +6,7 @@
     <title> Mr John Gerard Notdoe-Longnameactually Jr | My Drupal website</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">@import url(contactView1_files/theme.css);</style>
-<script type="text/javascript" src="contactView1_files/dojo.js" djconfig="isDebug: false, parseOnLoad: true, usePlainJson: true"></script>
-<script type="text/javascript" src="contactView1_files/commonWidgets.js"></script></head>
+</head>
 <body class="sidebar-left">
 <script type="text/javascript" src="contactView1_files/calendar.js"></script>
 <script type="text/javascript" src="contactView1_files/calendar-lang.js"></script>
@@ -146,7 +145,7 @@
     <input name="ct" value="Individual" type="hidden">
 </div>
 
-<div class="form-item"><input name="_qf_Edit_next" value="Save" class="form-submit" type="submit"></div>
+<div class="form-item"><input name="_qf_Edit_next" value="Save" type="submit"></div>
 
 </form>
 </div></div>
@@ -410,7 +409,28 @@ function getSearchURLValue( )
   <div id="contact_panel">
       <div id="contactCardLeft">
 	    <table>
-          <tr style="background-color: #EEEEEE; border: 1px solid gray">
+	      <tr>		
+	        <td width="28%" class="label last">Tags:</td>
+		    <td class="last">Major Donor, Volunteer</td>
+	      </tr>
+		</table>
+	  </div> <!-- #contactCardLeft -->
+      <div id="contactCardRight">
+        <table>  
+		    <td width="28%" class="label last">Source:</td>
+		    <td class="last">related through friend</td>		  
+	      </tr>
+		</table>
+      </div> <!-- #contactCardRight -->
+	  <div style="clear: both"></div>
+  </div> <!-- #contact_panel -->
+
+  <div style="border-bottom: 2px solid grey;"></div>
+
+  <div id="contact_panel">
+      <div id="contactCardLeft">
+	    <table>
+          <tr style="background-color: #EEEEEE">
 		    <td width="28%" class="label">Work phone: </td>
 		    <td width="72%"title="Primary phone"><span class="primary">+28371094712</span></td>
 	      </tr>
@@ -419,10 +439,6 @@ function getSearchURLValue( )
 		    <td>+243912620705</td>
 	      </tr>
 
-		  <tr>
-		    <td colspan="2" class="spacer"></td>
-          </tr>
-		  		  
           <tr style="background-color: #EEEEEE;">
 		    <td width="28%" class="label">Skype:</td>
 		    <td width="72%">johnny234</td>
@@ -432,62 +448,44 @@ function getSearchURLValue( )
 		    <td>john@longnameactually.org</td>
 	      </tr>
 		  <tr style="background-color: #EEEEEE;">
-		    <td class="label">AIM: </td>
-		    <td title="Primary instant messenger"><span class="primary">johnny5423</span></td>
+		    <td class="label last">AIM: </td>
+		    <td  class="last" title="Primary instant messenger"><span class="primary">johnny5423</span></td>
 	      </tr>
 		  
 		</table>
 	  </div> <!-- #contactCardLeft -->
       <div id="contactCardRight">
         <table>
-
 	      <tr style="background-color: #EEEEEE;">
-		    <td class="label">Email:</td>
-	        <td title="Primary email address"><span class="primary"><a href="mailto:john@longnameactually.org">john@longnameactually.org</a> (B)</span></td>
+		    <td  width="28%" class="label">Email:</td>
+	        <td title="Primary email address"><span class="primary"><a href="mailto:john@longnameactually.org">john@longnameactually.org</a> (Bulk)</span></td>
 	      </tr>
 	      <tr>
-	        <td class="label"></td>
-	        <td class="onHold"><a href="mailto:johndoe@privmail.com">johndoe@privmail.com</a> <img src="contactView1_files/stop-icon.png" title="This email is on hold due to bounces." align="top"> (B)</td>
+	        <td class="label">Email:</td>
+	        <td class="onHold"><a href="mailto:johndoe@privmail.com">johndoe@privmail.com</a> <img src="contactView1_files/stop-icon.png" title="This email is on hold due to bounces." align="top"> (Bulk)</td>
 	      </tr>
 	      <tr style="background-color: #EEEEEE;">
-		    <td class="label"></td>
+		    <td class="label">Email:</td>
 		    <td><a href="mailto:email@other.net">email@other.net</a></td>
 	      </tr>
-
 		  <tr>
-		    <td colspan="2" class="spacer"></td>
-          </tr>
-
-		  <tr style="background-color: #EEEEEE;">
-	        <td class="label">Website:</td>
-		    <td><a href="http://longnameactually.org/" target="_blank">http://longnameactually.org/</a></td>
-	      </tr>
-		  <tr>
-		    <td colspan="2" class="spacer"></td>
-          </tr>
-	      <tr style="background-color: #EEEEEE;">		
-	        <td class="label">Tags:</td>
-		    <td>Major Donor, Volunteer</td>
-	      </tr>
-
-		  <tr>	  
-		    <td class="label">Source:</td>
-		    <td>related through friend</td>		  
+	        <td class="label last">Website:</td>
+		    <td class="last"><a href="http://longnameactually.org/" target="_blank">http://longnameactually.org/</a></td>
 	      </tr>
 		</table>
       </div> <!-- #contactCardRight -->
 	  <div style="clear: both"></div>
   </div> <!-- #contact_panel -->
 
-  <div style="border-bottom: 1px solid grey; margin: 6px"></div>
+  <div style="border-bottom: 2px solid grey"></div>
 
   <div id="contact_panel">
 
     <div id="contactCardLeft">
       <table>
           <tr>
-		    <td width="28%" class="label">Work <br/> Address:</td>
-		    <td width="72%" >
+		    <td width="28%" class="label last">Work <br/> Address:</td>
+		    <td width="72%"  class="last">
               <span class="street-address">Some Street 2</span><br>
               <span class="extended-address">Building 8</span><br>
               <span class="extended-address">Second Crossing</span><br>
@@ -500,25 +498,24 @@ function getSearchURLValue( )
     <div id="contactCardRight">
         <table>
           <tr>
-		    <td width="28%" class="label">Home <br/> Address:</td>
-		    <td width="72%">
+		    <td width="28%" class="label last">Home <br/> Address:</td>
+		    <td width="72%" class="last">
             <span class="street-address">Another Blvd</span><br>
             <span class="locality">San Francisco</span>, <span class="region">CA</span> <span class="postal-code">95829-393</span><br>
             <span class="country-name">United States</span>			
 			</td>
           </tr>
-
 		</table>
     </div> <!-- #contactCardRight -->
 	<div style="clear: both"></div>
   </div>
 
-  <div style="border-bottom: 1px solid grey; margin: 6px"></div>
+  <div style="border-bottom: 2px solid grey"></div>
   
   <div id="contact_panel">
     <div id="contactCardLeft">
       <table>
-          <tr>
+          <tr style="background-color: #EEEEEE;">
 		    <td width="28%" class="label">Privacy:</td>
 		    <td width="72%">
               <span class="font-red upper">Do not phone <br/> Do not email <br/> Do not trade</span>
@@ -528,15 +525,15 @@ function getSearchURLValue( )
 		    <td width="28%" class="label">Method:</td>
 		    <td width="72%">Postal Mail, Fax</td>
           </tr>
-          <tr>
-		    <td width="28%" class="label">Email Format:</td>
-		    <td width="72%">Both</td>
+          <tr style="background-color: #EEEEEE;">
+		    <td width="28%" class="label last">Email Format:</td>
+		    <td width="72%" class="last">Both</td>
   	      </tr>
       </table>
     </div>
     <div id="contactCardRight">
         <table>
-          <tr>
+          <tr style="background-color: #EEEEEE;">
 		    <td width="28%" class="label">Gender:</td>
 		    <td width="72%">Male</td>
           </tr>
@@ -544,16 +541,16 @@ function getSearchURLValue( )
 		    <td width="28%" class="label">Date of Birth:</td>
 		    <td width="72%"> March 12th, 1977</td>
           </tr>
-          <tr>
-		    <td width="28%" class="label">Age:</td>
-		    <td width="72%">32 years</td>
+          <tr style="background-color: #EEEEEE;">
+		    <td width="28%" class="label last">Age:</td>
+		    <td width="72%" class="last">32 years</td>
           </tr>
 		</table>
     </div> <!-- #contactCardRight -->
 	<div style="clear: both"></div>
   </div>
 
-  <div style="border-bottom: 1px solid grey; margin: 6px"></div>
+  <div style="border-bottom: 2px solid grey"></div>
   
   <div id="customFields">
   <div id="contact_panel">
@@ -576,7 +573,7 @@ function getSearchURLValue( )
   	      </tr>
 
           <tr>
-		    <td colspan="2" class="grouplabel" style="padding-top: 30px;">Yet Another Custom Fields Group With Pretty Long Name </td>
+		    <td colspan="2" class="grouplabel" style="padding-top: 20px;">Yet Another Custom Fields Group With Pretty Long Name </td>
 		  </tr>	  
           <tr style="background-color: #EEEEEE;">
 		    <td width="28%" class="label">Most Important Issue:</td>
@@ -658,14 +655,6 @@ function getSearchURLValue( )
         var tabIndex = $('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        
     });
-
-   init_blocks = function( ) {
-
-
-      on_load_init_blocks( showBlocks, hideBlocks );
-  }
-  dojo.addOnLoad( init_blocks );
-
  </script>
 
 
