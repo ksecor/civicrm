@@ -814,7 +814,11 @@ VALUES
    (1, 'User Registration',NULL, NULL,1,1),
    (1, 'User Account', NULL, NULL, 1, 1),
    (1, 'Profile', NULL, NULL, 1, 1),
-   (1, 'Profile', NULL, NULL, 2, 2);
+   (1, 'Profile', NULL, NULL, 2, 2),
+   (1, 'Profile', NULL, NULL, 3, 4),
+   (1, 'Profile', NULL, NULL, 4, 5),
+   (1, 'Profile', NULL, NULL, 5, 6)
+   ;
    
 INSERT INTO civicrm_uf_field
        (id, uf_group_id, field_name,              is_required, is_reserved, weight, visibility,                  in_selector, is_searchable, location_type_id, label,                                         field_type,    help_post) VALUES
@@ -852,10 +856,10 @@ INSERT INTO civicrm_participant_status_type
   (11, 'Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11,     2            );
 
 INSERT INTO civicrm_navigation 
-( path, 							label,					name, 					url,			permission,	permission_operator, parent_id, is_active, has_separator) VALUES
-( NULL,								'{ts escape="sql"}Our Favorites{/ts}', 	'{ts escape="sql"}Our Favorites{/ts}' , '', 			NULL , 		'' ,			NULL,	'1' ,		NULL ),
-( NULL,								'{ts escape="sql"}CiviCRM Blog{/ts}', 	'{ts escape="sql"}CiviCRM Blog{/ts}' , 'http://civicrm.org/blog', NULL, 	'AND', 			'1', 	'1',		NULL ),
-( 'civicrm/profile/create?gid=1&amp;reset=1', 			'{ts escape="sql"}Custom Profile{/ts}',	'{ts escape="sql"}Custom Profile{/ts}',	'',			NULL,		'',			'1',	'1',		NULL ),
+( path, label, name, url, permission, permission_operator, parent_id, is_active, has_separator) VALUES
+( NULL, '{ts escape="sql"}Our Favorites{/ts}', '{ts escape="sql"}Our Favorites{/ts}', '', NULL , '' , NULL, '1', NULL ),
+( NULL,	'{ts escape="sql"}CiviCRM Blog{/ts}', '{ts escape="sql"}CiviCRM Blog{/ts}', 'http://civicrm.org/blog', NULL, 'AND', '1', '1', NULL ),
+( 'civicrm/profile/create?gid=1&amp;reset=1', '{ts escape="sql"}Custom Profile{/ts}', '{ts escape="sql"}Custom Profile{/ts}', '', NULL,	'',	'1', '1', NULL ),
 ( NULL,								'{ts escape="sql"}Search...{/ts}', 	'{ts escape="sql"}Search...{/ts}' ,	'', 			NULL,		'',			NULL,	'1',		NULL ),
 ( 'civicrm/contact/search',					'{ts escape="sql"}Find Contacts (Basic){/ts}','{ts escape="sql"}Find Contacts{/ts}','',			NULL,		'',			'4', 	'1',		NULL ),
 ( 'civicrm/contact/search/advanced',				'{ts escape="sql"}Find Contacts (Advanced){/ts}','{ts escape="sql"}Advanced Search{/ts}','',		NULL,		'',			'4',	'1',		NULL ),

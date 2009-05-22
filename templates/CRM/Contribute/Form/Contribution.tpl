@@ -49,7 +49,7 @@
         {else}
             <tr id="contact-success" style="display:none;"><td></td><td><span class="success-status">{ts}New contact has been created.{/ts}</span></td></tr>
             <tr>
-                <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;<a href="javascript:newContact( 1 );">{ts}Create New Contact{/ts}</a></td></tr>
+                <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;{$form.profiles.html}</td></tr>
         {/if}
         {if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
