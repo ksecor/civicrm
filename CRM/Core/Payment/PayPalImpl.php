@@ -466,7 +466,8 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
 			curl_close($ch);
         }
 
-        if ( strtolower( $result['ack'] ) != 'success' ) {
+        if ( strtolower( $result['ack'] ) != 'success' ||
+             strtolower( $result['ack'] ) != 'successwithwarning' ) {
             $e =& CRM_Core_Error::singleton( );
             $e->push( $result['l_errorcode0'],
                       0, null,
