@@ -8,7 +8,7 @@
 {else if $membershipMode == 'live'}
     {assign var=registerMode value="LIVE"}
 {/if}
-{if !$emailExists and $action neq 8}
+{if !$emailExists and $action neq 8 and $context neq 'standalone'}
 <div class="messages status">
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
@@ -36,8 +36,15 @@
        </dl>
       </div>
     {else}
+    {if $context eq 'standalone'}
+        <table class="form-layout-compressed">
+            {include file="CRM/Contact/Form/NewContact.tpl"}
+        </table>
+    {/if}
     <dl>
-	<dt>{$form.payment_processor_id.label}</dt><dd class="html-adjust">{$form.payment_processor_id.html}</dd><br />
+    {if $membershipMode}
+	    <dt>{$form.payment_processor_id.label}</dt><dd class="html-adjust">{$form.payment_processor_id.html}</dd><br />
+	{/if}
  	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}
     {if $member_is_test} {ts}(test){/ts}{/if}<br />
         <span class="description">{ts}Select Membership Organization and then Membership Type.{/ts}</span></dd> 	

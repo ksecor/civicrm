@@ -69,6 +69,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
         
+        $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
+        $this->assign('context', $this->_context );
+        
         if ( $this->_id ) {
             $this->_memType = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_Membership", $this->_id, 
                                                            "membership_type_id");
@@ -240,8 +243,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $fields["email-{$this->_bltID}"         ] = 1;
             $fields["email-Primary"                 ] = 1;
             
-            require_once "CRM/Core/BAO/UFGroup.php";
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $this->_defaults );
+            if ( $this->_contactID ) {
+                require_once "CRM/Core/BAO/UFGroup.php";
+                CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $this->_defaults );
+            }
                                  
             $defaultAddress = array("street_address-5","city-5", "state_province_id-5", "country_id-5","postal_code-5" );
             foreach ($defaultAddress as $name) {
@@ -292,6 +297,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                               );
             return;
         }
+        
+        if ( $this->_context == 'standalone' ) {
+            require_once 'CRM/Contact/Form/NewContact.php';
+            CRM_Contact_Form_NewContact::buildQuickForm( $this );
+        }        
         
         $selOrgMemType[0][0] = $selMemTypeOrg[0] = ts('- select -');
         
@@ -393,11 +403,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
-        require_once 'CRM/Contact/BAO/Contact/Location.php';
-        list( $this->_contributorDisplayName, 
-              $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+        if ( $this->_contactID ) {
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
+            list( $this->_contributorDisplayName, 
+                  $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         
-        $this->assign( 'emailExists', $this->_contributorEmail );
+            $this->assign( 'emailExists', $this->_contributorEmail );
+        }
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'), $this );
         require_once "CRM/Core/BAO/Preferences.php";
         $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
@@ -531,6 +543,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
               
         $params = array( );
         $ids    = array( );
+
+        // set the contact, when contact is selected
+        if ( CRM_Utils_Array::value('contact_select_id', $formValues ) ) {
+            $this->_contactID = CRM_Utils_Array::value('contact_select_id', $formValues);
+        }
 
         $params['contact_id'] = $this->_contactID;
         

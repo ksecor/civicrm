@@ -347,7 +347,20 @@ class CRM_Core_Block {
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/contribution',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Contribution') ) ));
+            }
             
+            if ( CRM_Core_Permission::check('access CiviEvent') ) {
+                $shortCuts = 
+                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/participant',
+                                                          'query' => "reset=1&action=add&context=standalone",
+                                                          'title' => ts('Event Registration') ) ));
+            }
+
+            if ( CRM_Core_Permission::check('access CiviMember') ) {
+                $shortCuts = 
+                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/membership',
+                                                          'query' => "reset=1&action=add&context=standalone",
+                                                          'title' => ts('Membership') ) ));
             }
 
             if ( empty( $shortCuts ) ) {
