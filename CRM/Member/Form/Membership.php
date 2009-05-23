@@ -892,6 +892,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
         CRM_Core_Session::setStatus($statusMsg);
+        
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/membership', 'reset=1&action=add&context=standalone') );
+        }
     }
 }
 

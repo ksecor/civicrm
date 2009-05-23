@@ -111,12 +111,14 @@ class CRM_Member_Form extends CRM_Core_Form
             $name = ts('Save');
         }
 
-        // make this form an upload since we dont know if the custom data injected dynamically
-        // is of type file etc $uploadNames = $this->get( 'uploadNames' );
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',
                                          'name'      => $name,
                                          'isDefault' => true   ),
+                                 array ( 'type'      => 'upload',
+                                         'name'      => ts('Save and New'), 
+                                         'js'        => $js,
+                                         'subName'   => 'new' ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )

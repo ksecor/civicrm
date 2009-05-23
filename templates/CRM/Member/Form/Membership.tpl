@@ -23,6 +23,7 @@
         {ts 1=$displayName 2=$registerMode}Use this form to submit Membership Record on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
     </div>
 {/if}
+<div class="html-adjust">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1}{ts}New Membership{/ts}{elseif $action eq 2}{ts}Edit Membership{/ts}{else}{ts}Delete Membership{/ts}{/if}</legend> 
     <div class="form-item">
     {if $action eq 8}
@@ -155,13 +156,12 @@
         </fieldset>
 	{/if}
    {/if}
-
-    <dl>
-        <dt>&nbsp;</dt><dd class="html-adjust">{$form.buttons.html}</dd>
+    
     </dl>
     <div class="spacer"></div>
     </div>
 </fieldset>
+<div class="html-adjust">{$form.buttons.html}</div>
 {if $action neq 8} {* Jscript additions not need for Delete action *} 
 {if $accessContribution and ! $membershipMode AND ! ($action eq 2 AND $rows.0.contribution_id) }
 {include file="CRM/common/showHideByFieldValue.tpl" 
