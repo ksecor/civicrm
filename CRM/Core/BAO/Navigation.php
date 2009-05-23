@@ -215,7 +215,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
 
         // get the list of menus
         $query = "
-SELECT id, label, url, path, permission, permission_operator, has_separator 
+SELECT id, label, url, permission, permission_operator, has_separator 
 FROM civicrm_navigation 
 WHERE {$whereClause} 
 ORDER BY parent_id, weight";
@@ -226,7 +226,6 @@ ORDER BY parent_id, weight";
             // for each menu get their children
             $navigationTree[$navigation->id] = array( 'attributes' => array( 'label'      => $navigation->label,
                                                                              'url'        => $navigation->url,
-                                                                             'path'       => $navigation->path,
                                                                              'permission' => $navigation->permission,
                                                                              'operator'   => $navigation->permission_operator,
                                                                              'separator'  => $navigation->has_separator ) );
@@ -291,7 +290,6 @@ ORDER BY parent_id, weight";
     function getMenuName( &$value ) {
         $name       = $value['attributes']['label'];
         $url        = $value['attributes']['url'];
-        $path       = $value['attributes']['path'];
         $permission = $value['attributes']['permission'];
         $operator   = $value['attributes']['operator'];
               
@@ -300,16 +298,11 @@ ORDER BY parent_id, weight";
             if ( substr( $url, 0, 4 ) === 'http' ) {
                 $url = $url;
             } else {
-                $url = CRM_Utils_System::url( $url );
+                $url = CRM_Utils_System::url( $url, 'reset=1' );
             }
             $makeLink = true;
         }
-            
-        if ( isset( $path ) && $path ) {
-            $url = CRM_Utils_System::url( $path, 'reset=1' );
-            $makeLink = true;
-        }
-        
+                    
         if ( isset( $permission) && $permission ) {
             $permissions = explode(',', $permission ); 
             $config  =& CRM_Core_Config::singleton( );
@@ -364,7 +357,7 @@ ORDER BY parent_id, weight";
             $preference->contact_id = $contactID;
             $preference->find(true);
             $preference->navigation = self::$_navigationCache;
-            //$preference->save();
+            $preference->save();
         }
         return self::$_navigationCache;
     }
