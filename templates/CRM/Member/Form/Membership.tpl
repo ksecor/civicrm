@@ -116,7 +116,7 @@
 	{/if}
     {if $emailExists and $outBound_option != 2 }
         <tr>
-        <td class="label">{$form.send_receipt.label}</dt><dd class="html-adjust">{$form.send_receipt.html}<br />
+        <td class="label">{$form.send_receipt.label}</td><td>{$form.send_receipt.html}<br />
             <span class="description">{ts}Automatically email a membership confirmation and receipt to {$emailExists}?{/ts}</span></td>
         </tr>
         <tr id='notice'>

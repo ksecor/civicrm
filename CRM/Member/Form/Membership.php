@@ -901,7 +901,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/membership', 'reset=1&action=add&context=standalone') );
+            if ( $this->_context == 'standalone' ) {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/membership', 'reset=1&action=add&context=standalone') );
+            } else {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/membership', "reset=1&action=add&context=membership&cid={$this->_contactID}") );
+            }            
+            
         }
     }
 }

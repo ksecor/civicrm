@@ -1216,7 +1216,11 @@ WHERE  contribution_id = {$this->_id}
         
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', 'reset=1&action=add&context=standalone') );
+            if ( $this->_context == 'standalone' ) {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', 'reset=1&action=add&context=standalone') );
+            } else {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', "reset=1&action=add&context=contribution&cid={$this->_contactID}") );
+            }            
         }
     }
     
