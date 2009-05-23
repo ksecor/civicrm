@@ -193,7 +193,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
             $this->_action = CRM_Core_Action::ADD;
             $this->assign('action', $this->_action );     
         } else {
-            // we should call contact view, preprocess only for contribution in contact summary
+            // we should call contact view, preprocess only for membership in contact summary
             $this->preProcess( );           
         }        
 

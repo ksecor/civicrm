@@ -1083,7 +1083,6 @@ WHERE  contribution_id = {$this->_id}
             //create contribution.
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
-
             
             //process associated membership / participant
             if ( $this->_action & CRM_Core_Action::UPDATE ) {

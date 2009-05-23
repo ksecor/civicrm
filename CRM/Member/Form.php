@@ -117,7 +117,6 @@ class CRM_Member_Form extends CRM_Core_Form
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'upload',
                                          'name'      => ts('Save and New'), 
-                                         'js'        => $js,
                                          'subName'   => 'new' ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),

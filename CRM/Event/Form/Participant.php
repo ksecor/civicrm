@@ -246,10 +246,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }     
 
+        $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
+        $this->assign('context', $this->_context );
+
         //check the mode when this form is called either single or as
         //search task action
         
-        if ( $this->_participantId || $this->_contactID ) {
+        if ( $this->_participantId || $this->_contactID || $this->_context == 'standalone') {
             $this->_single = true;
             $this->assign( 'urlPath'   , 'civicrm/contact/view/participant' );
         } else {
@@ -285,9 +288,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->assign( 'single', $this->_single );
         
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
-
         $this->assign( 'action'  , $this->_action   ); 
-        
+                
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
@@ -512,6 +514,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
 
         if ( $this->_single ) {
+            if ( $this->_context == 'standalone' ) {
+                require_once 'CRM/Contact/Form/NewContact.php';
+                CRM_Contact_Form_NewContact::buildQuickForm( $this );
+            }        
+            
             $urlParams = "reset=1&cid={$this->_contactID}&context=participant";
             if ( $this->_participantId ) {
                 $urlParams .= "&action=update&id={$this->_participantId}";
@@ -549,7 +556,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         } else {
             $events = CRM_Event_BAO_Event::getEvents( );
         }
-        if( $this->_mode ) {
+        if ( $this->_mode ) {
             //unset the event which are not monetary when credit card
             //event registration is used
             foreach( $events as $key => $val ) {
@@ -598,10 +605,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->add('textarea', 'note', ts('Notes'), $noteAttributes['note']);
 
         $this->addButtons(array( 
-                                array ( 'type'      => $this->buttonType( ),
+                                array ( 'type'      => 'upload',
                                         'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'upload',
+                                        'name'      => ts('Save and New'), 
+                                        'subName'   => 'new' ),         
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
                                 ) 
@@ -696,6 +705,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
+
+        // set the contact, when contact is selected
+        if ( CRM_Utils_Array::value('contact_select_id', $params ) ) {
+            $this->_contactID = CRM_Utils_Array::value('contact_select_id', $params);
+        }
         
         $config =& CRM_Core_Config::singleton();        
         //check if discount is selected
@@ -1198,6 +1212,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         require_once "CRM/Core/Session.php";
         CRM_Core_Session::setStatus( "{$statusMsg}" );
+        
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/participant', 'reset=1&action=add&context=standalone') );
+        }
     }
 }
 
