@@ -124,6 +124,10 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         
         $navigation = CRM_Core_BAO_Navigation::add( $params );
         
+        // also reset navigation
+        require_once 'CRM/Core/BAO/Navigation.php';
+        CRM_Core_BAO_Navigation::resetNavigation( );
+        
         CRM_Core_Session::setStatus( ts('Menu \'%1\' has been saved.',
                                         array( 1 => $navigation->label )) );
     } //end of function

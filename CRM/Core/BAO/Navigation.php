@@ -298,7 +298,7 @@ ORDER BY parent_id, weight";
             if ( substr( $url, 0, 4 ) === 'http' ) {
                 $url = $url;
             } else {
-                $url = CRM_Utils_System::url( $url, 'reset=1' );
+                $url = CRM_Utils_System::url( $url );
             }
             $makeLink = true;
         }
