@@ -429,6 +429,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     public function formRule( &$params, &$files, $self ) 
     {
         $errors = array( );
+        
+        //check if contact is selected in standalone mode
+        if ( isset( $params[contact_select_id] ) && !$params[contact_select_id] ) {
+            $errors['contact'] = ts('Please select a contact or create new contact');
+        }
+        
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = ts('Please select a membership type.');
         }
