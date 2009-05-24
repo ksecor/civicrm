@@ -50,8 +50,16 @@ class CRM_Report_Page_Report extends CRM_Core_Page
         $config =& CRM_Core_Config::singleton( );
         $args   = explode( '/', $_GET[$config->userFrameworkURLVar] );
 
+        // remove 'civicrm/report' from args
+        array_shift($args);
+        array_shift($args);
+
+        // put rest of arguement back in the form of url, which is how value 
+        // is stored in option value table
+        $optionVal = implode( '/', $args );
+
         require_once 'CRM/Core/OptionGroup.php';
-        $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$args[2]}/{$args[3]}", 'value' );
+        $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$optionVal}", 'value' );
 
         if ( strstr($templateInfo['name'], '_Form') ) {
             CRM_Utils_System::setTitle( $templateInfo['label'] );
