@@ -3846,7 +3846,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 
 (5217, 1020, "BRU", "Brussels"), -- missing Belgian province (CRM-3609)
 
-(5218, 1140, "DIF", "Federal District"), -- missing Mexican province (CRM-4534)
+(5218, 1140, "DIF", "Distrito Federal"), -- missing Mexican province (CRM-4534)
 
 (9000, 1196, "NW", "North West"), 
 (9986, 1226, "xTYW", "Tyne and Wear"),

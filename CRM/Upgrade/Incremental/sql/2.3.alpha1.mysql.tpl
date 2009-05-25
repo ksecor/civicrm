@@ -317,7 +317,7 @@ INSERT INTO `civicrm_uf_field`
 
 -- CRM-4534
 
-INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5218, 1140, "DIF", "Federal District");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5218, 1140, "DIF", "Distrito Federal");
 UPDATE civicrm_state_province SET name = "Coahuila"  WHERE id = 3808;
 UPDATE civicrm_state_province SET name = "Colima"    WHERE id = 3809;
 UPDATE civicrm_state_province SET name = "Chihuahua" WHERE id = 3811;
