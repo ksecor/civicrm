@@ -298,7 +298,7 @@ WHERE      a.id = %1
                                       'type'  => 'String' );
 
         // For Emails, include the recipient
-        if ( $activityTypeInfo['name'] == 'Email' ) {
+        if ( $activityTypeInfo['name'] == 'Email' && $activityDAO->targetID ) {
             $activity['fields'][] = array( 'label' => 'Recipient',
                                            'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                                              $activityDAO->targetID,
