@@ -404,7 +404,7 @@ VALUES
   (@option_group_id_report , 'Contribution Summary Count',        'contribute/summaryCount',        'CRM_Report_Form_Contribute_SummaryCount',        NULL, 0, NULL, 7,  '{ts escape="sql"}Contribution Summary Count{/ts}',  0, 0, 1, @contributeCompId, NULL),
   (@option_group_id_report , 'Activity Report',                   'activity',                       'CRM_Report_Form_Activity',                       NULL, 0, NULL, 8,  '{ts escape="sql"}Activity Search{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_report , 'Walklist',                          'walklist',                       'CRM_Report_Form_Walklist',                       NULL, 0, NULL, 9,  '{ts escape="sql"}Walk List{/ts}',       0, 0, 1, NULL, NULL),
-  (@option_group_id_report , 'Membership Summary Report',         'membership/summary',             'CRM_Report_Form_Membership_Summary',             NULL, 0, NULL, 10, '{ts escape="sql"}Membership Summary{/ts}', 0, 0, 1, @memberCompId, NULL),
+  (@option_group_id_report , 'Membership Summary Report',         'member/summary',             'CRM_Report_Form_Member_Summary',             NULL, 0, NULL, 10, '{ts escape="sql"}Membership Summary{/ts}', 0, 0, 1, @memberCompId, NULL),
   (@option_group_id_report , 'Member Detail Report',              'member/detail',                  'CRM_Report_Form_Member_Detail',                  NULL, 0, NULL, 11, '{ts escape="sql"}Membership Details{/ts}', 0, 0, 1, @memberCompId, NULL),
   (@option_group_id_report , 'Event Participant Listing',         'event/participantListing',       'CRM_Report_Form_Event_ParticipantListing',       NULL, 0, NULL, 12, '{ts escape="sql"}Participant Listing Details{/ts}', 0, 0, 1, @eventCompId, NULL),
   (@option_group_id_report , 'Event Income Report',               'event/eventIncome',              'CRM_Report_Form_Event_EventIncome',              NULL, 0, NULL, 13, '{ts escape="sql"}Event Income Details{/ts}',        0, 0, 1, @eventCompId, NULL),
@@ -412,6 +412,7 @@ VALUES
   (@option_group_id_report , 'Household Contribution Summary',    'contribute/householdSummary',    'CRM_Report_Form_Contribute_HouseholdSummary',   NULL, 0, NULL, 15, '{ts escape="sql"}Household Contribution Summary{/ts}',   0, 0, 1, @contributeCompId, NULL),
   (@option_group_id_report , 'Contribution TopDonor Report',      'contribute/topDonor',            'CRM_Report_Form_Contribute_TopDonor',            NULL, 0, NULL, 16, '{ts escape="sql"}Top Donor{/ts}',        0, 0, 1, @contributeCompId, NULL),
   (@option_group_id_report , 'Current Employer Report',           'contact/currentEmployer',        'CRM_Report_Form_Contact_CurrentEmployer',        NULL, 0, NULL, 17, '{ts escape="sql"}Current Employer{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , 'Membership Lapse Summary Report',   'member/lapseSummary',            'CRM_Report_Form_Member_LapseSummary',            NULL, 0, NULL, 18, '{ts escape="sql"}Membership Lapse Summary{/ts}', 0, 0, 1, @memberCompId, NULL),
 
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL, NULL),
