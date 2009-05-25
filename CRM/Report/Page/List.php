@@ -52,7 +52,7 @@ class CRM_Report_Page_List extends CRM_Core_Page
 
     public static function &info( ) {
         $sql = "
-                SELECT v.value, v.description, v.name
+                SELECT v.value, v.description, v.name, v.component_id
                 FROM   civicrm_option_group g,
                        civicrm_option_value v
                 WHERE  v.option_group_id = g.id AND
@@ -63,11 +63,25 @@ class CRM_Report_Page_List extends CRM_Core_Page
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );
 
+        $query        = " SELECT id, name FROM civicrm_component ";
+        $componentDAO = CRM_Core_DAO::executeQuery( $query,
+                                                 CRM_Core_DAO::$_nullArray );
+        $component    = array();
+        while ( $componentDAO->fetch( ) ) {
+            //use component name CiviContribute as Contribute same for
+            //other component
+            $component[$componentDAO->id] = substr($componentDAO->name, 4 ); 
+        }
+                
         $rows = array();
         while ( $dao->fetch( ) ) {
             if ( trim( $dao->description ) ) {
                 $url = 'civicrm/report/';
-                $rows[$dao->value][] = $dao->description;
+                $compName = 'Contact';
+                if ( $dao->component_id ) {
+                    $compName = $component[$dao->component_id];
+                }
+                $rows[$compName][$dao->value][] = $dao->description;               
                 $temp = explode( '_', $dao->name );
                 if ( $val = CRM_Utils_Array::value( 3, $temp ) ) {
                     $val{0} = strtolower($val{0});
@@ -77,7 +91,7 @@ class CRM_Report_Page_List extends CRM_Core_Page
                     $val{0} = strtolower($val{0});
                     $url   .= '/' . $val;
                 }
-                $rows[$dao->value][] = CRM_Utils_System::url( $url, 'reset=1');
+                $rows[$compName][$dao->value][] = CRM_Utils_System::url( $url, 'reset=1');
             }
         }
         return $rows;
