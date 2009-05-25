@@ -799,7 +799,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
            
             //build an associative array with unique email addresses.  
             foreach( $activityAssigned as $id => $dnc ) {
-                if( !empty($id) ) {
+                if( !empty($id) && array_key_exists($id, $assigneeContacts) ) {
                     $mailToContacts[$assigneeContacts[$id]['email']] = $assigneeContacts[$id];
                 }
             }
