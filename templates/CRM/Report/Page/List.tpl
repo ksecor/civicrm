@@ -4,15 +4,23 @@
         {if $list}
             {foreach from=$list item=rows key=report}
 	        <br>
-                <h3 style="color:#0062A0;cursor:pointer;" onclick="toggle_visibility('{$report}');">
-                    <strong>{if $report}{$report}{else}Contact{/if} Reports</strong></h3>
-		    <div id="{$report}" style="display:none;">
+                <div style="cursor:pointer;background-color:#F5F5F5" onclick="toggle_visibility('{$report}');">
+	            <table class="form-layout">
+		        <tr>
+			    <td><strong>{if $report}{$report}{else}Contact{/if} Reports</strong></td>
+			</tr>
+		    </table>
+	        </div>
+		<div id="{$report}" style="display:none;">
+		    <table class="report">
 		        {foreach from=$rows item=row}
-                    	    <div class="action-link">
-                    	        <a href="{$row.1}">&raquo; {$row.0}</a>
-		            </div>
-            		{/foreach}
-		    </div>
+	                    <tr >
+			        <td width="300"><a href="{$row.1}">&raquo; {$row.0}</a></td>
+				<td width="450"><i>Detail description for the <strong>{$row.0}</strong> report</i></td>
+			    </tr>
+	        	{/foreach}
+                    </table>
+                </div>
 	    {/foreach}
         {else}
             <div class="messages status">
