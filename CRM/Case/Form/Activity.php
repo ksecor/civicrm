@@ -315,7 +315,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-            if ( $this->_activityId && $this->_defaults['is_auto'] == 0 ) {
+            if ( $this->_activityId ) {
                 // unset custom fields-id from params since we want custom 
                 // fields to be saved for new activity.
                 foreach ( $params as $key => $value ) {
@@ -339,19 +339,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         }
 
         if ( isset($this->_activityId) ) { 
-            $params['id'] = $this->_activityId;
-
+            
             // activity which hasn't been modified by a user yet
             if ( $this->_defaults['is_auto'] == 1 ) { 
                 $params['is_auto'] = 0;
             }
-
-            // activity which has been created or modified by a user
-            if ( $this->_defaults['is_auto'] == 0 ) {
-                $newActParams = $params;
-                $params = array('id' => $this->_activityId);
-                $params['is_current_revision'] = 0;
-            }
+            
+            // always create a revision of an case activity. CRM-4533
+            $newActParams = $params;
             
             // record status for status msg
             $recordStatus = 'updated';
@@ -374,6 +369,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         } else {
             // since the params we need to set are very few, and we don't want rest of the 
             // work done by bao create method , lets use dao object to make the changes 
+            $params = array('id' => $this->_activityId);
+            $params['is_current_revision'] = 0;
             $activity =& new CRM_Activity_DAO_Activity( );
             $activity->copyValues( $params );
             $activity->save( );        
@@ -382,7 +379,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // create a new version of activity if activity was found to
         // have been modified/created by user
         if ( isset($newActParams) ) {
-            unset($newActParams['id']);
+           
             // set proper original_id
             if ( CRM_Utils_Array::value('original_id', $this->_defaults) ) {
                 $newActParams['original_id'] = $this->_defaults['original_id'];
