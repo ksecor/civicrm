@@ -2432,10 +2432,10 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (3805, 1140, "BCN", "Baja California"),
 (3806, 1140, "BCS", "Baja California Sur"),
 (3807, 1140, "CAM", "Campeche"),
-(3808, 1140, "COA", "Coahu ila"),
-(3809, 1140, "COL", "Col ima"),
+(3808, 1140, "COA", "Coahuila"),
+(3809, 1140, "COL", "Colima"),
 (3810, 1140, "CHP", "Chiapas"),
-(3811, 1140, "CHH", "Chihushua"),
+(3811, 1140, "CHH", "Chihuahua"),
 (3812, 1140, "DUR", "Durango"),
 (3813, 1140, "GUA", "Guanajuato"),
 (3814, 1140, "GRO", "Guerrero"),
@@ -3845,6 +3845,8 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (5216, 1165, "_P", "Rafah"),
 
 (5217, 1020, "BRU", "Brussels"), -- missing Belgian province (CRM-3609)
+
+(5218, 1140, "DIF", "Federal District"), -- missing Mexican province (CRM-4534)
 
 (9000, 1196, "NW", "North West"), 
 (9986, 1226, "xTYW", "Tyne and Wear"),

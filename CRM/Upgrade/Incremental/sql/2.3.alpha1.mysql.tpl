@@ -312,3 +312,15 @@ INSERT INTO `civicrm_uf_field`
 ( 16, @uf_group_id_organization, 'email', 1, 0, 3, 'UserandUserAdminOnly', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}', 'Contact', NULL ), 
 ( 17, @uf_group_id_household, 'household_name', 1, 0, 2, 'UserandUserAdminOnly', 0, 0, NULL, '{ts escape="sql"}HouseholdName{/ts}', 'Household', NULL ), 
 ( 18, @uf_group_id_household, 'email', 1, 0, 3, 'UserandUserAdminOnly', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}', 'Contact', NULL );
+
+
+
+-- CRM-4534
+
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5218, 1140, "DIF", "Federal District");
+UPDATE civicrm_state_province SET name = "Coahuila"  WHERE id = 3808;
+UPDATE civicrm_state_province SET name = "Colima"    WHERE id = 3809;
+UPDATE civicrm_state_province SET name = "Chihuahua" WHERE id = 3811;
+
+
+
