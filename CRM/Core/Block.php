@@ -319,15 +319,7 @@ class CRM_Core_Block {
                                                               'query' => 'action=add&reset=1&context=standalone',
                                                               'key'   => 'A',
                                                               'title' => ts('Activity') ) ));
-            
-            
-            if ( CRM_Core_Permission::check('edit groups')) {
-                $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
-                                                                   'query' => 'reset=1',
-                                                                   'key'   => 'G',
-                                                                   'title' => ts('Group') ) ));
-            }
-
+                    
             if ( CRM_Core_Permission::check('access CiviCase') && 
                  in_array( 'CiviCase', $config->enableComponents ) ) {
                 require_once 'CRM/Core/OptionGroup.php';
@@ -361,6 +353,19 @@ class CRM_Core_Block {
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/membership',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Membership') ) ));
+            }
+
+            if ( CRM_Core_Permission::check('edit groups')) {
+                $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
+                                                                   'query' => 'reset=1',
+                                                                   'key'   => 'G',
+                                                                   'title' => ts('Group') ) ));
+            }
+
+            if ( CRM_Core_Permission::check('administer CiviCRM')) {
+                $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/admin/tag',
+                                                                   'query' => 'reset=1&action=add',
+                                                                   'title' => ts('Tag') ) ));
             }
 
             if ( empty( $shortCuts ) ) {
