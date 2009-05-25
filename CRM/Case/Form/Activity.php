@@ -475,7 +475,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                 }  
                 //build an associative array with unique email addresses.  
                 foreach( $params[$val] as $id => $dnc ) {
-                    if( ( isset($id) && array_key_exists($id, $this->_relatedContacts) ) {
+                    if( isset($id) && array_key_exists($id, $this->_relatedContacts) ) {
                         //if email already exists in array then append with ', ' another role only otherwise add it to array.
                         if ( $contactDetails = CRM_Utils_Array::value($this->_relatedContacts[$id]['email'], $mailToContacts) ) {
                             $caseRole = CRM_Utils_Array::value( 'role', $this->_relatedContacts[$id] );
