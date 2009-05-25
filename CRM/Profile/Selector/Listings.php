@@ -390,8 +390,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         // process the result of the query
         $rows = array( );
 
+        // check if edit is configured in profile settings
+        if ( $this->_gid ) {
+            $editLink = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_edit_link');
+        }
+
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
-        if ( $mask & CRM_Core_Permission::EDIT ) {
+        if ( $editLink && ( $mask & CRM_Core_Permission::EDIT ) ) {
             $this->_editLink = true;
         }
         $links =& self::links( $this->_map, $this->_editLink, $this->_linkToUF );

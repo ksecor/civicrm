@@ -59,8 +59,8 @@ function civicrm_html_head()
 
     if ( $includeCommon ) {
         $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->userFrameworkResourceURL}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->userFrameworkResourceURL}packages/dojo/dojo/commonWidgets.js\"></script>";
         $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
@@ -753,7 +753,7 @@ function civicrm_admin_menu( ) {
                      'title' => 'CiviCRM',
                      'path' => 'civicrm',
                      'weight' => $weight,
-                     );
+                     'options' => array( 'query' => 'reset=1' ) );
 
     // require_once 'CRM/Core/Menu.php';
     // $nav = CRM_Core_Menu::getNavigation( true );
@@ -763,7 +763,8 @@ function civicrm_admin_menu( ) {
     //     $link  = array(
     //                    'title' => $value['title'],
     //                    'path' => $value['path'],
-    //                    'weight' => $weight );
+    //                    'weight' => $weight,
+    //                    'options' => array( 'query' => 'reset=1' ) );
     //     
     //     if ( empty( $value['parent'] ) ) {
     //         $link['parent_path'] = 'CiviCRM';
