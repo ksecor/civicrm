@@ -1355,8 +1355,7 @@ div#toolTip {
 }
 
 .primary {
-   border-bottom: 1px dashed grey;
-   padding-bottom: 2px;
+   font-weight: bold;
 }
 
 div#contactName {
