@@ -116,15 +116,20 @@
 	{/if}
     {if $emailExists and $outBound_option != 2 }
         <tr>
-        <td class="label">{$form.send_receipt.label}</td><td>{$form.send_receipt.html}<br />
+            <td class="label">{$form.send_receipt.label}</td><td>{$form.send_receipt.html}<br />
             <span class="description">{ts}Automatically email a membership confirmation and receipt to {$emailExists}?{/ts}</span></td>
         </tr>
-        <tr id='notice'>
+    {elseif $context eq 'standalone' and $outBound_option != 2 }
+        <tr id="email-receipt" style="display:none;">
+            <td class="label">{$form.send_receipt.label}</td><td>{$form.send_receipt.html}<br />
+            <span class="description">{ts}Automatically email a membership confirmation and receipt to {/ts}<span id="email-address"></span>?</span></td>
+        </tr>
+    {/if}    
+        <tr id='notice' style="display:none;">
             <td class="label">{$form.receipt_text_signup.label}</td>
             <td class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: 'Thanks for supporting our organization with your membership.'{/ts}</span>
                  {$form.receipt_text_signup.html|crmReplace:class:huge}</td>
         </tr>
-    {/if}
     </table>
     
     <div id="customData"></div>
@@ -164,7 +169,7 @@
     invert              = 0
 }
 {/if}
-{if $emailExists and $outBound_option != 2}
+{if $emailExists and $outBound_option != 2 }
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""
@@ -212,7 +217,39 @@ function setPaymentBlock( memType )
         cj("#total_amount").val( data.total_amount );
     }, 'json');    
 }
-</script>
+
 {/literal}
+{if $context eq 'standalone' and $outBound_option != 2 }
+{literal}
+cj( function( ) {
+    cj("#contact").blur( function( ) {
+        checkEmail( );
+    } );
+    checkEmail( );
+});
+function checkEmail( ) {
+    var contactID = cj("input[name=contact_select_id]").val();
+    if ( contactID ) {
+        var postUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail' h=0}{literal}";
+        cj.post( postUrl, {contact_id: contactID},
+            function ( response ) {
+                if ( response ) {
+                    cj("#email-receipt").show( );
+                    if ( cj("#send_receipt").is(':checked') ) {
+                        cj("#notice").show( );
+                    }
+                
+                    cj("#email-address").html( response );
+                } else {
+                    cj("#email-receipt").hide( );
+                    cj("#notice").hide( );
+                }
+            }
+        );
+    }
+}
+{/literal}
+{/if}
+</script>
 {/if} {* closing of delete check if *} 
 {/if}{* closing of custom data if *}

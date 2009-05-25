@@ -185,7 +185,13 @@
     {/literal}
     {if $context eq 'standalone' and $outBound_option != 2 }
     {literal}
-    cj("#contact").blur( function( ) {
+    cj( function( ) {
+        cj("#contact").blur( function( ) {
+            checkEmail( );
+        });
+        checkEmail( );
+    });
+    function checkEmail( ) {
         var contactID = cj("input[name=contact_select_id]").val();
         if ( contactID ) {
             var postUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail' h=0}{literal}";
@@ -200,7 +206,7 @@
                 }
             );
         }
-    });
+    }
     {/literal}
     {/if}
 </script>

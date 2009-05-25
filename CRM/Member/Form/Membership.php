@@ -557,6 +557,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $params['contact_id'] = $this->_contactID;
         
+        // we need to retrieve email address
+        if ( $this->_context == 'standalone' && CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
+            list( $this->_contributorDisplayName, 
+                  $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+        }
+        
         $fields = array( 
                         'status_id',
                         'source',
