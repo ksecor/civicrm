@@ -459,4 +459,22 @@
     <comment>text to show when the event is full, but participants can sign for a waitlist</comment>
     <add>2.3</add>
   </field>
+  <field>
+      <name>is_template</name>
+      <type>boolean</type>
+      <comment>whether the event has template</comment>
+      <add>2.3</add>
+  </field>
+  <field>        
+      <name>template_title</name>     
+      <uniqueName>template_title</uniqueName>
+      <type>varchar</type>     
+      <import>true</import>
+      <title>Event Template Title</title>
+      <headerPattern>/(template.)?title$/i</headerPattern>
+      <length>255</length>  
+      <localizable>true</localizable>
+      <comment>Event Template Title</comment>
+      <add>2.3</add>     
+  </field>
  </table>

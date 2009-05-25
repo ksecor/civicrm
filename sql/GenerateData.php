@@ -1446,8 +1446,50 @@ VALUES
          ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
         
+        //CRM-4464
+        $eventTemplates = "INSERT INTO civicrm_event 
+        ( is_template, template_title, event_type_id, default_role_id, participant_listing_id, is_public, is_monetary, is_online_registration, is_multiple_registrations, allow_same_participant_emails, is_email_confirm, contribution_type_id, fee_label )
+        VALUES
+        ( 1, 'Free Meeting without Online Registration', 4, 1, 1, 1, 0, 0, null, null, null, null,             null  ), 
+        ( 1, 'Free Meeting with Online Registration',    4, 1, 1, 1, 0, 1,    1,    1,    0, null,             null  ),
+        ( 1, 'Paid Conference with Online Registration', 1, 1, 1, 1, 1, 1,    1,    1,    1,     4, 'Conference Fee' )";
+        
+        CRM_Core_DAO::executeQuery( $eventTemplates, CRM_Core_DAO::$_nullArray );
+        
+        $ufJoinValues = $tellFriendValues = array( );
+        $profileID = CRM_Core_DAO::singleValueQuery( "Select id from civicrm_uf_group where name ='new_individual'" ); 
+        
+        $query = "
+SELECT  id
+  FROM  civicrm_event 
+ WHERE  template_title IN ( 'Free Meeting with Online Registration', 'Paid Conference with Online Registration' )";
+        
+        $template = CRM_Core_DAO::executeQuery( $query );
+        while ( $template->fetch( ) ) {
+            if ( $profileID ) {
+                $ufJoinValues[] = "( 1, 'CiviEvent', 'civicrm_event', {$template->id}, 1, {$profileID} )";
+            }
+            $tellFriendValues[] = "( 'civicrm_event', {$template->id}, 'Tell A Friend', '<p>Help us spread the word about this event. Use the space below to personalize your email message - let your friends know why you''re attending. Then fill in the name(s) and email address(es) and click ''Send Your Message''.</p>', 'Thought you might be interested in checking out this event. I''m planning on attending.', NULL, 'Thanks for Spreading the Word', '<p>Thanks for spreading the word about this event to your friends.</p>', 1)";
+        }
+        
+        //insert values in civicrm_uf_join
+        if ( !empty( $ufJoinValues ) ) {
+            $includeProfile = "INSERT INTO civicrm_uf_join
+                               (is_active, module, entity_table, entity_id, weight, uf_group_id )
+                               VALUES " . implode( ',', $ufJoinValues );  
+            CRM_Core_DAO::executeQuery( $includeProfile, CRM_Core_DAO::$_nullArray );
+        }
+        
+        //insert values in civicrm_tell_friend
+        if ( !empty( $tellFriendValues ) ) {
+            $tellFriend = "INSERT INTO civicrm_tell_friend
+                           (entity_table, entity_id, title, intro, suggested_message, 
+                           general_link,  thankyou_title, thankyou_text, is_active)
+                           VALUES " . implode( ',', $tellFriendValues );
+            CRM_Core_DAO::executeQuery( $tellFriend, CRM_Core_DAO::$_nullArray );
+        }
     }
-
+    
     function addParticipant()
     {
         $contact = new CRM_Contact_DAO_Contact();
