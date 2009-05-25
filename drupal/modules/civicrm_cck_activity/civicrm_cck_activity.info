@@ -2,7 +2,7 @@
 name = CiviCRM CCK Activity
 description = Create node for civicrm Activity.
 core = 6.x
-version = 2.2
+version = 2.3
 dependencies[] = civicrm
 dependencies[] = content
 dependencies[] = content_copy
