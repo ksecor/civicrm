@@ -429,4 +429,20 @@ WHERE sort_name LIKE '%$name%'";
         exit();
     }
     
+    /**
+     *  Function to get email address of a contact
+     */
+    static function getContactEmail( ) {
+        require_once 'CRM/Utils/Type.php';
+        $contactID      = CRM_Utils_Type::escape( $_POST['contact_id'], 'Positive' );
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
+        list( $displayName, 
+            $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+        
+        if ( $userEmail ) {
+            echo $userEmail;
+        }
+        
+        exit();    
+    }
 }

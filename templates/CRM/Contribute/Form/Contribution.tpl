@@ -86,6 +86,8 @@
             <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html|crmReplace:class:twelve} {help id="id-trans_id"}</td></tr>
             {if $email and $outBound_option != 2}
                 <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html} <span class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</span></td></tr>
+            {elseif $context eq 'standalone' and $outBound_option != 2 }
+                <tr id="email-receipt" style="display:none;"><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html} <span class="description">{ts}Automatically email a receipt for this contribution to {/ts}<span id="email-address"></span>?</span></td></tr>
             {/if}
             <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
@@ -179,9 +181,30 @@
 
     cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
         }).result( function(event, data, formatted) { cj( "#soft_contact_id" ).val( data[1] );
-    });  
+    });
+    {/literal}
+    {if $context eq 'standalone' and $outBound_option != 2 }
+    {literal}
+    cj("#contact").blur( function( ) {
+        var contactID = cj("input[name=contact_select_id]").val();
+        if ( contactID ) {
+            var postUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail' h=0}{literal}";
+            cj.post( postUrl, {contact_id: contactID},
+                function ( response ) {
+                    if ( response ) {
+                        cj("#email-receipt").show( );
+                        cj("#email-address").html( response );
+                    } else {
+                        cj("#email-receipt").hide( );
+                    }
+                }
+            );
+        }
+    });
+    {/literal}
+    {/if}
 </script>
-{/literal}
+
 <div class="accordion ui-accordion ui-widget ui-helper-reset">
     {* Additional Detail / Honoree Information / Premium Information  Fieldset *}
     {foreach from=$allPanes key=paneName item=paneValue}

@@ -253,4 +253,9 @@
      <page_callback>CRM_Contact_Page_AJAX::checkUserName</page_callback>
      <access_callback>1</access_callback>
 </item>
+<item>
+     <path>civicrm/ajax/checkemail</path>
+     <page_callback>CRM_Contact_Page_AJAX::getContactEmail</page_callback>
+     <access_callback>1</access_callback>
+</item>
 </menu>

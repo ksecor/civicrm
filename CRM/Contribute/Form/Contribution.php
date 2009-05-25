@@ -708,7 +708,7 @@ WHERE  contribution_id = {$this->_id}
         $this->addElement( 'text', 'soft_credit_to', ts('Soft Credit To') );
         $this->addElement( 'hidden', 'soft_contact_id', '', array( 'id' => 'soft_contact_id' ) );
         $js = null;
-        if ( !$this->_mode && $this->userEmail ) {
+        if ( !$this->_mode ) {
             $js = array( 'onclick' => "return verify( );" );    
         }
 
@@ -824,6 +824,14 @@ WHERE  contribution_id = {$this->_id}
             
             $now = date( 'YmdHis' );
             $fields = array( );
+            
+            // we need to retrieve email address
+            if ( $this->_context == 'standalone' && CRM_Utils_Array::value( 'is_email_receipt', $submittedValues ) ) {
+                require_once 'CRM/Contact/BAO/Contact/Location.php';
+                list( $this->userDisplayName, 
+                    $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+                $this->assign( 'displayName', $this->userDisplayName );
+            }
             
             //set email for primary location.
             $fields["email-Primary"] = 1;
