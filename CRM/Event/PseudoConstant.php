@@ -64,6 +64,22 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
     private static $participantRole; 
     
     /**
+     * Participant Listing
+     *
+     * @var array
+     * @static
+     */
+    private static $participantListing; 
+    
+    /**
+     * Event Type.
+     *
+     * @var array
+     * @static
+     */
+    private static $eventType; 
+    
+    /**
      * Get all the n events
      *
      * @access public
@@ -153,5 +169,50 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
         
         return self::$participantRole;
     }
+
+    /**
+     * Get all the participant listings
+     *
+     * @access public
+     * @return array - array reference of all participant listings if any
+     * @static
+     */
+    public static function &participantListing( $id = null )
+    {
+        if ( ! self::$participantListing ) {
+            self::$participantListing = array( );
+            require_once "CRM/Core/OptionGroup.php";
+            self::$participantListing = CRM_Core_OptionGroup::values("participant_listing");
+        }
+        
+        if( $id ) {
+            return self::$participantListing[$id];
+        }
+        
+        return self::$participantListing;
+    }
+    
+    /**
+     * Get all  event types.
+     *
+     * @access public
+     * @return array - array reference of all event types.
+     * @static
+     */
+    public static function &eventType( $id = null )
+    {
+        if ( ! self::$eventType ) {
+            self::$eventType = array( );
+            require_once "CRM/Core/OptionGroup.php";
+            self::$eventType = CRM_Core_OptionGroup::values("event_type");
+        }
+        
+        if( $id ) {
+            return self::$eventType[$id];
+        }
+        
+        return self::$eventType;
+    }
+    
 }
 
