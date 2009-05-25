@@ -125,8 +125,8 @@ class CRM_Report_Form_Instance {
     static function postProcess( &$form ) {
         $params = $form->getVar( '_params' );
 
-        $params['header'] = $params['report_header'];
-        $params['footer'] = $params['report_footer'];
+        $params['header']    = $params['report_header'];
+        $params['footer']    = $params['report_footer'];
 
         require_once 'CRM/Report/DAO/Instance.php';
         $dao = new CRM_Report_DAO_Instance( );
@@ -153,6 +153,8 @@ class CRM_Report_Form_Instance {
             $dao->id = $instanceID;
         }
 
+        require_once 'CRM/Report/Utils/Report.php';
+        $dao->report_id = CRM_Report_Utils_Report::getValueFromUrl( $instanceID );
 
         $dao->save( );
 

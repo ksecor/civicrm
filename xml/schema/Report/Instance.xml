@@ -27,9 +27,11 @@
   </field>
   <field>
       <name>report_id</name>
-      <type>int unsigned</type>
+      <type>varchar</type>
+      <length>64</length>
+      <required>true</required>
       <comment>FK to civicrm_option_value for the report template</comment>
-      <add>1.7</add>
+      <add>2.2</add>
   </field>
   <field>
        <name>permission</name>

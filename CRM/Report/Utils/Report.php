@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 2.3                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -33,34 +33,26 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
-require_once 'CRM/Report/Utils/Report.php';
 
-/**
- * Page for invoking report templates
- */
-class CRM_Report_Page_Report extends CRM_Core_Page 
-{
+class CRM_Report_Utils_Report {
 
-    /**
-     * run this page (figure out the action needed and perform it).
-     *
-     * @return void
-     */
-    function run() {
-        $optionVal    = CRM_Report_Utils_Report::getValueFromUrl( );
+    static function getValueFromUrl( $instanceID = null ) {
+        if ( $instanceID ) {
+            $optionVal = CRM_Core_DAO::getFieldValue( 'CRM_Report_DAO_Instance',
+                                                      $instanceID,
+                                                      'report_id' );
+        } else {
+            $config =& CRM_Core_Config::singleton( );
+            $args   = explode( '/', $_GET[$config->userFrameworkURLVar] );
 
-        require_once 'CRM/Core/OptionGroup.php';
-        $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$optionVal}", 'value' );
+            // remove 'civicrm/report' from args
+            array_shift($args);
+            array_shift($args);
 
-        if ( strstr($templateInfo['name'], '_Form') ) {
-            CRM_Utils_System::setTitle( $templateInfo['label'] );
-
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( $templateInfo['name'], null, null );
+            // put rest of arguement back in the form of url, which is how value 
+            // is stored in option value table
+            $optionVal = implode( '/', $args );
         }
-
-        CRM_Core_Session::setStatus( ts( 'Could not find the report template. Make sure the report template is registered and / or url is correct.' ) );
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/list', "reset=1") );
+        return $optionVal;
     }
 }

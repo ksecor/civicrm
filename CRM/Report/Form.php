@@ -186,6 +186,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         // lets display the 
         $this->_instanceForm       = $this->_force || $this->_id || ( ! empty( $_POST ) );
 
+        // do not display instance form if CiviReport permission is absent
+        if ( !CRM_Core_Permission::access( 'CiviReport' ) ) {
+            $this->_instanceForm   = false;
+        }
+
         $this->_instanceButtonName = $this->getButtonName( 'submit', 'save'  );
         $this->_printButtonName    = $this->getButtonName( 'submit', 'print' );
         $this->_pdfButtonName      = $this->getButtonName( 'submit', 'pdf'   );

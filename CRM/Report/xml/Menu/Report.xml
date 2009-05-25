@@ -13,8 +13,14 @@
      <path>civicrm/report</path>
      <title>Report</title>
      <page_callback>CRM_Report_Page_Report</page_callback>
+     <access_arguments>access CiviReport</access_arguments>
+     <component>CiviReport</component>
+  </item>
+  <item>
+     <path>civicrm/report/instance</path>
+     <title>Report</title>
+     <page_callback>CRM_Report_Page_Instance</page_callback>
      <access_callback>1</access_callback>
-     <weight>1210</weight>
      <component>CiviReport</component>
   </item>
   <item>
