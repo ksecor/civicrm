@@ -52,20 +52,19 @@ class CRM_Report_Page_List extends CRM_Core_Page
 
     public static function &info( ) {
         $sql = "
-                SELECT v.value, v.description, v.name, v.component_id
-                FROM   civicrm_option_group g,
-                       civicrm_option_value v
-                WHERE  v.option_group_id = g.id AND
-                       g.name = 'report_list'   AND
-                       v.is_active = 1
-                ORDER By  v.weight
-               ";
-        $dao = CRM_Core_DAO::executeQuery( $sql,
-                                           CRM_Core_DAO::$_nullArray );
+SELECT v.value, v.description, v.name, v.component_id
+FROM   civicrm_option_group g,
+       civicrm_option_value v
+WHERE  v.option_group_id = g.id AND
+       g.name = 'report_list'   AND
+       v.is_active = 1
+ORDER By  v.weight
+";
+        $dao = CRM_Core_DAO::executeQuery( $sql );
 
-        $query        = " SELECT id, name FROM civicrm_component ";
-        $componentDAO = CRM_Core_DAO::executeQuery( $query,
-                                                 CRM_Core_DAO::$_nullArray );
+        $query        = "SELECT id, name FROM civicrm_component ";
+        $componentDAO = CRM_Core_DAO::executeQuery( $query );
+
         $component    = array();
         while ( $componentDAO->fetch( ) ) {
             //use component name CiviContribute as Contribute same for

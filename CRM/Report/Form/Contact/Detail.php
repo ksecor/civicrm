@@ -341,7 +341,7 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
 
         $dao   = CRM_Core_DAO::executeQuery( $sql );
         $componentRows = $this->clauseComponent( );
-        $this->altercomponentDisplay( $componentRows);
+        $this->alterComponentDisplay( $componentRows);
         $this->assign_by_ref( 'columnHeadersComponent', $this->_columnHeadersComponent );
         $this->assign_by_ref( 'componentRows', $componentRows );
 
@@ -401,7 +401,7 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
             }
         }
     }
-    function altercomponentDisplay( &$componentRows ) {
+    function alterComponentDisplay( &$componentRows ) {
         // custom code to alter rows
  
         $entryFound = false;
