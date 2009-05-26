@@ -1084,7 +1084,9 @@ class CRM_Utils_Date
             switch( $relativeTerm ) {
                 
             case 'this':
-                $quarter   = (int)$now['mon']/4;
+               
+                $quarter   = ceil ( $now['mon'] / 3 );
+                // CRM_Core_Error::debug( '$quarter', $quarter );
                 $from['d'] = 1;
                 $from['M'] = (3 * $quarter ) - 2;
                 $to['M']   = 3 * $quarter;
@@ -1094,7 +1096,7 @@ class CRM_Utils_Date
 
             case 'previous':
                 $difference = 1;
-                $quarter   = (int)$now['mon']/4;
+                $quarter   = ceil ( $now['mon'] / 3 );
                 $quarter = $quarter - $difference;
                 $subtractYear = 0;
                 if ( $quarter <= 0 ) { 
@@ -1110,12 +1112,12 @@ class CRM_Utils_Date
 
             case 'previous_before':
                 $difference = 2;
-                $quarter   = (int)$now['mon']/4;
+                $quarter   = ceil( $now['mon'] / 3 );
                 $quarter = $quarter - $difference;
                 if ( $quarter <= 0 ) { 
                     $subtractYear = 1;
                     $quarter += 4;
-                }
+                    srst;                }
                 $from['d'] = 1;
                 $from['M'] = (3 * $quarter ) - 2;
                 $to['M']   = 3 * $quarter;
@@ -1125,21 +1127,40 @@ class CRM_Utils_Date
 
             case 'previous_2':
                 $difference = 2;
-                $quarter   = (int)$now['mon']/4;
+                $quarter   = ceil( $now['mon'] / 3 );
+                $current_quarter  = $quarter;
                 $quarter = $quarter - $difference;
+                $subtractYear = 0;
                 if ( $quarter <= 0 ) { 
                     $subtractYear = 1;
                     $quarter += 4;
-                }
+                } 
                 $from['d'] = 1;
                 $from['M'] = (3 * $quarter ) - 2;
-                $to['M']   = 4 * $quarter;
+                switch ( $current_quarter ) {
+                case 1:
+                    $to['M'] = ( 4 * $quarter );
+                    break;
+                case 2:
+                    $to['M'] = ( 4 * $quarter ) + 3;
+                    break; 
+                case 3:
+                    $to['M'] = ( 4 * $quarter ) + 2;
+                    break;
+                case 4:
+                    $to['M'] = ( 4 * $quarter ) + 1;
+                break;
+                }
                 $to['Y']   = $from['Y'] = $now['year'] - $subtractYear;
+                if ( $to['M'] > 12 ) {
+                    $to['M']  =  3 * ($quarter - 3);
+                    $to['Y']  =  $now['year'];
+                }
                 $to['d']   = cal_days_in_month(CAL_GREGORIAN, $to['M'], $to['Y'] );
                 break;
 
             case 'earlier':
-                $quarter   = (int)$now['mon']/4 - 1;
+                $quarter   = ceil ( $now['mon'] / 3)  - 1;
                 if ( $quarter <= 0 ) { 
                     $subtractYear = 1;
                     $quarter += 4;
@@ -1151,7 +1172,7 @@ class CRM_Utils_Date
                 break;
                 
             case 'greater':
-                $quarter   = (int)$now['mon']/4;
+                $quarter   = ceil ( $now['mon'] / 3 );
                 $from['d'] = 1;
                 $from['M'] = (3 * $quarter ) - 2;
                 $from['Y'] = $now['year'];
