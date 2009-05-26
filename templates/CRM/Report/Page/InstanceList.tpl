@@ -1,13 +1,13 @@
 {strip}
     <fieldset>
-        <legend>{ts}Report List{/ts}</legend>
+        <legend>{ts}Report Instance List{/ts}</legend>
         {if $list}
             {foreach from=$list item=rows key=report}
 	        <br>
                 <div style="cursor:pointer;background-color:#F5F5F5" onclick="toggle_visibility('{$report}');">
 	            <table class="form-layout">
 		        <tr>
-			    <td><strong>{if $report}{$report}{else}Contact{/if} Reports</strong></td>
+			    <td><strong>{if $report}{$report}{else}Contact{/if} Reports Instance</strong></td>
 			</tr>
 		    </table>
 	        </div>
@@ -15,12 +15,8 @@
 		    <table class="report">
 		        {foreach from=$rows item=row}
 	                    <tr >
-			        <td width="300"><a href="{$row.2}">&raquo; {$row.0}</a>
-				    <div align="right">
-				        <a href="{$row.instance}">{ts}Instance{/ts}</a>
-				    </div>
-			        </td>
-				<td width="450">{$row.1}</td>
+			        <td width="300"><a href="{$row.url}">&raquo; {$row.title}</a></td>
+				<td width="450">Instance of <strong>{$row.label}</strong> report</td>
 			    </tr>
 	        	{/foreach}
                     </table>
@@ -33,7 +29,7 @@
                     <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/>
                 </dt>
                 <dd>
-                    {ts}There are currently no Report.{/ts}
+                    {ts}There are currently no Report Instance.{/ts}
                 </dd>
             </dl>
             </div>
