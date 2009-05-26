@@ -23,6 +23,7 @@
     
     <dl>
     <dt>&nbsp;</dt><dd>{$form.collapse_display.html} {$form.collapse_display.label} {help id="id-collapse"}</dd>
+    <dt>&nbsp;</dt><dd>{$form.collapse_adv_display.html} {$form.collapse_adv_display.label} {help id="id-collapse-adv"}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>{$form.help_pre.label} <!--{if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_custom_group' field='help_pre' id=$gid}{/if}-->{help id="id-help_pre"}</dt><dd>{$form.help_pre.html}</dd>
     <dt>{$form.help_post.label} <!--{if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_custom_group' field='help_post' id=$gid}{/if}-->{help id="id-help_post"}</dt><dd>{$form.help_post.html}</dd>

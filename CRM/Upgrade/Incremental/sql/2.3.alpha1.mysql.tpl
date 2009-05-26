@@ -323,4 +323,7 @@ UPDATE civicrm_state_province SET name = "Colima"    WHERE id = 3809;
 UPDATE civicrm_state_province SET name = "Chihuahua" WHERE id = 3811;
 
 
+-- CRM-4469
+--Add collapse_adv_search column to civicrm_custom_group
 
+ALTER TABLE `civicrm_custom_group` ADD `collapse_adv_display` int(10) unsigned default '0' COMMENT 'Will this group be in collapsed or expanded mode on advanced search display ?' AFTER `max_multiple`;
