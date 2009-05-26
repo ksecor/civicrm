@@ -1086,7 +1086,6 @@ class CRM_Utils_Date
             case 'this':
                
                 $quarter   = ceil ( $now['mon'] / 3 );
-                // CRM_Core_Error::debug( '$quarter', $quarter );
                 $from['d'] = 1;
                 $from['M'] = (3 * $quarter ) - 2;
                 $to['M']   = 3 * $quarter;
