@@ -47,6 +47,27 @@ ALTER TABLE `civicrm_mapping_field`
 
 BEGIN;
 
+-- /*******************************************************
+-- *
+-- * civicrm_participant_status_type
+-- *
+-- * various types of CiviEvent participant statuses
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_participant_status_type (
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'unique participant status type id',
+     name varchar(64)    COMMENT 'non-localized name of the status type',
+     label varchar(255)    COMMENT 'localized label for display of this status type',
+     class enum('Positive', 'Pending', 'Waiting', 'Negative')    COMMENT 'the general group of status type this one belongs to',
+     is_reserved tinyint    COMMENT 'whether this is a status type required by the system',
+     is_active tinyint   DEFAULT 1 COMMENT 'whether this status type is active',
+     is_counted tinyint    COMMENT 'whether this status type is counted against event size limit',
+     weight int unsigned NOT NULL   COMMENT 'controls sort order',
+     visibility_id int unsigned    COMMENT 'whether the status type is visible to the public, an implicit foreign key to option_value.value related to the `visibility` option_group' 
+,
+    PRIMARY KEY ( id )
+ )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
   SELECT @ps_ogid := id FROM civicrm_option_group WHERE name = 'participant_status';
 
   INSERT INTO civicrm_participant_status_type (id,    name, label, is_reserved, is_active, is_counted, weight, visibility_id)
@@ -70,8 +91,9 @@ BEGIN;
 
   DELETE FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
   DELETE FROM civicrm_option_group WHERE              id = @ps_ogid;
+ 
+  ALTER TABLE `civicrm_participant` CHANGE `status_id` `status_id` INT( 10 ) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Participant status ID. FK to civicrm_participant_status_type. Default of 1 should map to status = Registered.';
 
-  ALTER TABLE civicrm_participant MODIFY status_id COMMENT 'Participant status ID. FK to civicrm_participant_status_type. Default of 1 should map to status = Registered.';
   ALTER TABLE civicrm_participant ADD CONSTRAINT FK_civicrm_participant_status_id FOREIGN KEY (status_id) REFERENCES civicrm_participant_status_type (id);
 
 COMMIT;
