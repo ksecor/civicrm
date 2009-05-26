@@ -452,7 +452,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
             
         }
         
-        parent::postProcess( );
+        parent::endPostProcess( );
         
     }   
     

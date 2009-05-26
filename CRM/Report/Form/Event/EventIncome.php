@@ -224,6 +224,6 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
 
         $this->buildEventReport( $this->_params['id_value'] );
 
-        parent::postProcess( );
+        parent::endPostProcess( );
     }   
 }

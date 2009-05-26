@@ -404,7 +404,7 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->assign_by_ref( 'rows', $rows );
         $this->assign( 'statistics', $this->statistics( $rows ) );
 
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

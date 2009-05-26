@@ -830,7 +830,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         // process grand-total row
         $this->grandTotal( $rows );
 
-        // this takes care of formatting rows for display purpose.
+        // use this method for formatting rows for display purpose.
         $this->alterDisplay( $rows );
     }
 
@@ -853,7 +853,72 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     }
 
-    function postProcess( ) {
+    function beginPostProcess( ) {
+        $this->_params = $this->controller->exportValues( $this->_name );
+        if ( empty( $this->_params ) &&
+             $this->_force ) {
+            $this->_params = $this->_formValues;
+        }
+        $this->_formValues = $this->_params ;
+
+        $this->processReportMode( );
+    }
+
+    function buildQuery( ) {
+        $this->select ( );
+        $this->from   ( );
+        $this->where  ( );
+        $this->groupBy( );
+        $this->orderBy( );
+        $this->limit  ( );
+
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
+
+        return $sql;
+    }
+
+    function groupBy( ) {
+        $this->_groupBy = "";
+    }
+
+    function orderBy( ) {
+        $this->_orderBy = "";
+    }
+
+    function buildRows( $sql, &$rows ) {
+        $dao  = CRM_Core_DAO::executeQuery( $sql );
+        if ( ! is_array($rows) ) {
+            $rows = array( );
+        }
+
+        // use this method to modify $this->_columnHeaders
+        $this->modifyColumnHeaders( );
+
+        while ( $dao->fetch( ) ) {
+            $row = array( );
+            foreach ( $this->_columnHeaders as $key => $value ) {
+                $row[$key] = $dao->$key;
+            }
+            $rows[] = $row;
+        }
+
+    }
+
+    function modifyColumnHeaders( ) {
+        // use this method to modify $this->_columnHeaders
+    }
+
+    function doTemplateAssignment( &$rows ) {
+        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
+        $this->assign_by_ref( 'rows', $rows );
+
+        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
+            $this->assign( 'statistics',
+                           $this->statistics( ) );
+        }
+    }
+
+    function endPostProcess( ) {
         if ( $this->_reportMode == 'print' || $this->_reportMode == 'pdf' ) {
             $templateFile = parent::getTemplateFileName( );
 
@@ -873,6 +938,27 @@ class CRM_Report_Form extends CRM_Core_Form {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::postProcess( $this );
         }
+    }
+
+    function postProcess( ) {
+        // get ready with post process params
+        $this->beginPostProcess( );
+
+        // build query
+        $sql = $this->buildQuery( );
+
+        // build array of result based on column headers. This method also allows 
+        // modifying column headers before using it to build result set i.e $rows.
+        $this->buildRows ( $sql, $rows );
+
+        // format result set. 
+        $this->formatDisplay( $rows );
+
+        // assign variables to templates
+        $this->doTemplateAssignment( $rows );
+
+        // do print / pdf / instance stuff if needed
+        $this->endPostProcess( );
     }
 
     function limit( ) {

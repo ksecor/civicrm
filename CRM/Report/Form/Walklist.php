@@ -264,7 +264,7 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
                            $this->statistics( $rows ) );
         }
 
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

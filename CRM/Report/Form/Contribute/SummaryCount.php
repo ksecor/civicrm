@@ -334,7 +334,7 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
 
         }
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

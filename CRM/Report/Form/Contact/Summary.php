@@ -250,7 +250,7 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
         $this->assign( 'statistics', $this->statistics( $rows ) );
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

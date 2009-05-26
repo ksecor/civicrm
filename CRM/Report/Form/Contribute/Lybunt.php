@@ -428,7 +428,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );            
         }
         
-        parent::postProcess( );        
+        parent::endPostProcess( );        
     }   
     
 }

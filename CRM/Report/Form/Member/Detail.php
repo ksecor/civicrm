@@ -273,7 +273,7 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
         
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {

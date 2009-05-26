@@ -386,7 +386,7 @@ INNER JOIN civicrm_contact source ON {$this->_aliases['civicrm_activity']}.sourc
                            $this->statistics( $rows ) );
         }
 
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
 
 }

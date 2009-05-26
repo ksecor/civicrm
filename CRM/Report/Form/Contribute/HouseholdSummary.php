@@ -423,7 +423,7 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
             $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
         }
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {

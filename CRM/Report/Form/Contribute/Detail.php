@@ -322,7 +322,7 @@ SELECT COUNT( contribution.total_amount ) as count,
                            $this->statistics( ) );
         }
 
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

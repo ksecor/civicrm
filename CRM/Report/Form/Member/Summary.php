@@ -329,7 +329,7 @@ LEFT  JOIN civicrm_contribution  {$this->_aliases['civicrm_contribution']}
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
 
         }
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

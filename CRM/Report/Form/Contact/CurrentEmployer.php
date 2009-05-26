@@ -284,7 +284,7 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
       $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
       $this->assign_by_ref( 'rows', $rows );
       $this->assign( 'statistics', $this->statistics( $rows ) );
-      parent::postProcess( );
+      parent::endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {

@@ -305,7 +305,7 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
         $this->assign( 'statistics', $this->statistics( $rows ) );
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
    
     function alterDisplay( &$rows ) {

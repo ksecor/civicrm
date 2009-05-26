@@ -308,7 +308,7 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
         $this->assign_by_ref( 'rows', $rows );
         $this->assign( 'statistics', $this->statistics( $rows ) );
         
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {

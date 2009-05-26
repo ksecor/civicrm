@@ -386,7 +386,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
             $this->assign( 'statistics', $this->statistics($rows ) );
         }
         
-        parent::postProcess( );
+        parent::endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {
