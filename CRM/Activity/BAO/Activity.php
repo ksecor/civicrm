@@ -644,14 +644,21 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
         $values =array();
         $rowCnt = 0;
+
+        //CRM-3553, need to check user has access to target groups.
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailingIDs =& CRM_Mailing_BAO_Mailing::mailingACLIDs( );
+        $accessCiviMail = CRM_Core_Permission::check('access CiviMail');
+        
         while($dao->fetch()) {
             foreach( $selectorFields as $dc => $field ) {
                 if ( isset($dao->$field ) ) {
                     if ( $activityTypeID == $dao->activity_type_id && $field == 'target_contact_name' ) {
                         $values[$rowCnt]['recipients'] = ts('(recipients)');
-                        if ( CRM_Core_Permission::check('access CiviMail') ) {
-                            $values[$rowCnt]['mailingId'] = CRM_Utils_System::url( 'civicrm/mailing/report', 
-                                                                "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" );   
+                        if ( $accessCiviMail && in_array( $dao->source_record_id, $mailingIDs ) ) {
+                            $values[$rowCnt]['mailingId'] = 
+                                CRM_Utils_System::url( 'civicrm/mailing/report', 
+                                                       "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" );   
                         }
                     } else {
                         $values[$rowCnt][$field] = $dao->$field;
@@ -660,7 +667,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
             $rowCnt++;
         }
-
+        
         return $values;
     }
 
