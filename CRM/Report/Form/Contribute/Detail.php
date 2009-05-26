@@ -258,7 +258,7 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->_orderBy = " ORDER BY contact.display_name ";
     }
 
-    function statistics( ) {
+    function statistics( &$rows ) {
         $select = "
 SELECT COUNT( contribution.total_amount ) as count,
        SUM(   contribution.total_amount ) as amount,
@@ -268,61 +268,23 @@ SELECT COUNT( contribution.total_amount ) as count,
         $sql = "{$select} {$this->_from} {$this->_where}";
         $dao = CRM_Core_DAO::executeQuery( $sql );
 
-        $statistics = null;
+        $statistics = array( );
         if ( $dao->fetch( ) ) {
             $statistics = array( 'count'  => array( 'value' => $dao->count,
-                                                    'title' => 'Count' ),
+                                                    'title' => 'Row(s) listed' ),
                                  'amount' => array( 'value' => $dao->amount,
                                                     'title' => 'Total Amount' ),
                                  'avg'    => array( 'value' => $dao->avg,
                                                     'title' => 'Average' ),
                                  );
         }
-        
+        $this->groupByStat( $statistics );
+
         return $statistics;
     }
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-
-        $this->processReportMode( );
-
-        $this->select ( );
-        $this->from   ( );
-        $this->where  ( );
-        $this->groupBy( );
-        $this->orderBy( );
-        $this->limit  ( );
-
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
-
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
-        $rows = array( );
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-            $rows[] = $row;
-        }
-
-        $this->formatDisplay( $rows );
-
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-
-        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
-            $this->assign( 'statistics',
-                           $this->statistics( ) );
-        }
-
-        parent::endPostProcess( );
+        parent::postProcess( );
     }
 
     function alterDisplay( &$rows ) {

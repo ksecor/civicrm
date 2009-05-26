@@ -306,14 +306,6 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         }
     }
 
-    function statistics( &$rows ) {
-        $statistics = array();
-        
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        return $statistics;
-    }
-
     function groupBy( $alias = 'c1' ) {
         $this->_groupBy = " GROUP BY contact.id, {$alias}.id ";
     }
@@ -323,15 +315,7 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
     }
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-
-        $this->processReportMode( );
+        $this->beginPostProcess( );
         
         $this->select  ( );
         $this->from    ( );
@@ -400,11 +384,11 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         $this->_columnHeaders['c2_total_amount']['title'] = "$from2 -<br/> $to2";
 
         $this->formatDisplay( $rows );
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
 
-        parent::endPostProcess( );
+        // assign variables to templates
+        $this->doTemplateAssignment( $rows );
+
+        $this->endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

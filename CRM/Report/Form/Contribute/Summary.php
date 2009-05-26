@@ -381,22 +381,10 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
     }
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
+        $this->beginPostProcess( );
+        $sql = $this->buildQuery( false );
 
-        $this->processReportMode( );
-
-        $this->select  ( );
-        $this->from    ( );
-        $this->where   ( );
-        $this->groupBy ( );
-
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
-
+        require_once 'CRM/Utils/PChart.php';
         $dao   = CRM_Core_DAO::executeQuery( $sql );
         $rows  = $graphRows = array();
         $count = 0;
@@ -406,7 +394,7 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
                 $row[$key] = $dao->$key;
             }
 
-            require_once 'CRM/Utils/PChart.php';
+            // FIXME: need to decide on where to fit pchart in framework.
             if ( CRM_Utils_Array::value('charts', $this->_params ) && 
                  $row['civicrm_contribution_receive_date_subtotal'] ) {
                 $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
@@ -419,9 +407,8 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
         }
         $this->formatDisplay( $rows );
 
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
+        // assign variables to templates
+        $this->doTemplateAssignment( $rows );
         
         require_once 'CRM/Utils/PChart.php';
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
@@ -433,7 +420,8 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
 
         }
-        parent::endPostProcess( );
+
+        $this->endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

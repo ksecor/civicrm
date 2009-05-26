@@ -39,11 +39,6 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
 
     protected $_summary = null;
 
-    protected $_charts = array( ''         => 'Tabular',
-                                'barGraph' => 'Bar Graph',
-                                'pieGraph' => 'Pie Graph'
-                                );
-    
     function __construct( ) {
         $this->_columns = 
             array( 'civicrm_address' =>
@@ -337,40 +332,8 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
         }
     }
 
-    function statistics( &$rows ) {
-        $statistics = array();
-
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        
-        if ( is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            $combinations[] = $field['title'];
-                        }
-                    }
-                }
-            }
-            $statistics[] = array( 'title' => ts('Grouping(s)'),
-                                   'value' => implode( ' & ', $combinations ) );
-        }
-        
-        return $statistics;
-    }
-
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params;
-
-        $this->processReportMode( );
+        $this->beginPostProcess( );
 
         $this->select  ( );
         $this->from    ( );
@@ -435,11 +398,10 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
 
         $this->formatDisplay( $rows );
         
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
+        // assign variables to templates
+        $this->doTemplateAssignment( $rows );
 
-        parent::endPostProcess( );
+        $this->endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {
