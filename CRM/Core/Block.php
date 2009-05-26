@@ -348,6 +348,13 @@ class CRM_Core_Block {
                                                           'title' => ts('Event Registration') ) ));
             }
 
+            if ( CRM_Core_Permission::check('access CiviPledge') ) {
+                $shortCuts = 
+                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/pledge',
+                                                          'query' => "reset=1&action=add&context=standalone",
+                                                          'title' => ts('Pledge') ) ));
+            }
+             
             if ( CRM_Core_Permission::check('access CiviMember') ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/membership',

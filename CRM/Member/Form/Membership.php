@@ -431,7 +431,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $errors = array( );
         
         //check if contact is selected in standalone mode
-        if ( isset( $params[contact_select_id] ) && !$params[contact_select_id] ) {
+        if ( isset( $params['contact_select_id'] ) && !$params['contact_select_id'] ) {
             $errors['contact'] = ts('Please select a contact or create new contact');
         }
         

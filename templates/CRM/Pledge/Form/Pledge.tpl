@@ -4,7 +4,7 @@
 {elseif $showAdditionalInfo and $formType }
   {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
-{if !$email and $action neq 8}
+{if !$email and $action neq 8 and $context neq 'standalone'}
 <div class="messages status">
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
@@ -27,10 +27,15 @@
       </div> 
    {else}
       <table class="form-layout-compressed">
-        <tr>
-            <td class="font-size12pt right"><strong>{ts}Pledge by{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
-        </tr>
-        <tr><td class="font-size12pt right">{$form.amount.label}</td><td class="font-size12pt">{$form.amount.html|crmMoney}</td></tr>
+        {if $context eq 'standalone'}
+            {include file="CRM/Contact/Form/NewContact.tpl"}
+        {else}
+          <tr>
+              <td class="font-size12pt right"><strong>{ts}Pledge by{/ts}</strong></td>
+              <td class="font-size12pt"><strong>{$displayName}</strong></td>
+          </tr>
+        {/if}
+	<tr><td class="font-size12pt right">{$form.amount.label}</td><td class="font-size12pt">{$form.amount.html|crmMoney}</td></tr>
         <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html} {ts}installments of{/ts} {if $action eq 1 or $isPending}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2 and !$isPending}{$eachPaymentAmount|crmMoney}{/if}&nbsp;{ts}every{/ts}&nbsp;{$form.frequency_interval.html}&nbsp;{$form.frequency_unit.html}</td></tr>
         <tr><td class="label nowrap">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
             <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
