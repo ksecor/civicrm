@@ -1292,7 +1292,7 @@ function civicrm_views_data() {
                                                                    ),
 
                                                  'sort' => array(
-                                                                 'handler' => 'views_handler_sort_date',
+                                                                 'handler' => 'civicrm_handler_sort_date',
                                                                  ),
                                                  );
 
@@ -3444,8 +3444,12 @@ function civicrm_views_handlers() {
                        'civicrm_handler_argument_date_api_contact' => array(
                                                                             'parent' => 'date_api_argument_handler',
                                                                             ),
+ 
+                       'civicrm_handler_sort_date' => array(
+                                                            'parent' => 'views_handler_sort_date',
+                                                            ),
+                      ),
 
-                       ),
                  );
                  
 
