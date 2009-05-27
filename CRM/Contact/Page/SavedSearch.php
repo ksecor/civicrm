@@ -61,7 +61,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
     function delete($id)
     {
         // first delete the group associated with this saved search
-        $group =& new CRM_Contact_DAO_Group( );
+        $group =& new CRM_Contact_BAO_Group( );
         $group->saved_search_id =  $id;
         if ( $group->find( true ) ) {
             CRM_Contact_BAO_Group::discard( $group->id );
@@ -94,7 +94,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
         $properties = array('id', 'name', 'description');
         while ($savedSearch->fetch()) {
             // get name and description from group object
-            $group =& new CRM_Contact_DAO_Group( );
+            $group =& new CRM_Contact_BAO_Group( );
             $group->saved_search_id =  $savedSearch->id;
             if ( $group->find( true ) ) {
                 $permission = CRM_Group_Page_Group::checkPermission( $group->id, $group->title );

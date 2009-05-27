@@ -2,15 +2,17 @@
 
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<xi:include href="Contact.xml"              parse="xml" />
-<xi:include href="Group.xml"                parse="xml" />
-<xi:include href="SubscriptionHistory.xml"  parse="xml" />
-<xi:include href="GroupContact.xml"         parse="xml" />
-<xi:include href="GroupContactCache.xml"    parse="xml" />
-<xi:include href="GroupNesting.xml"         parse="xml" />
-<xi:include href="GroupOrganization.xml"    parse="xml" />
-<xi:include href="Relationship.xml"         parse="xml" />
-<xi:include href="RelationshipType.xml"     parse="xml" />
-<xi:include href="SavedSearch.xml"          parse="xml" />
+<xi:include href="Contact.xml"                  parse="xml" />
+<xi:include href="Group.xml"                    parse="xml" />
+<xi:include href="SubscriptionHistory.xml"      parse="xml" />
+<xi:include href="GroupContact.xml"             parse="xml" />
+<xi:include href="GroupContactCache.xml"        parse="xml" />
+<xi:include href="GroupNesting.xml"             parse="xml" />
+<xi:include href="GroupOrganization.xml"        parse="xml" />
+<xi:include href="Relationship.xml"             parse="xml" />
+<xi:include href="RelationshipType.xml"         parse="xml" />
+<xi:include href="RelationshipCache.xml"        parse="xml" />
+<xi:include href="RelationshipTypeNesting.xml"  parse="xml" />
+<xi:include href="SavedSearch.xml"              parse="xml" />
 
 </tables>

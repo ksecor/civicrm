@@ -33,9 +33,9 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/Group.php';
+require_once 'CRM/Contact/DAO/RelationshipType.php';
 
-class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
+class CRM_Contact_BAO_Group extends CRM_Contact_DAO_RelationshipType {
 
     /**
      * class constructor
@@ -60,7 +60,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function retrieve( &$params, &$defaults ) {
         
-        $group =& new CRM_Contact_DAO_Group( );
+        $group =& new CRM_Contact_DAO_RelationshipType( );
         $group->copyValues( $params );
         if ( $group->find( true ) ) {
             CRM_Core_DAO::storeValues( $group, $defaults );
@@ -103,7 +103,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         // delete all crm_group_contact records with the selected group id
         require_once 'CRM/Contact/DAO/GroupContact.php';
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
+        $groupContact =& new CRM_Contact_BAO_GroupContact( );
         $groupContact->group_id = $id;
         $groupContact->delete();
 
@@ -116,7 +116,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         CRM_Core_DAO::executeQuery( $query, $params );
 
         // delete from group table
-        $group =& new CRM_Contact_DAO_Group( );
+        $group =& new CRM_Contact_DAO_RelationshipType( );
         $group->id = $id;
         $group->delete( );
 
@@ -149,7 +149,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function memberCount( $id, $status = 'Added', $countChildGroups = false ) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
-	    $groupContact =& new CRM_Contact_DAO_GroupContact( );
+	$groupContact =& new CRM_Contact_BAO_GroupContact( );
         $groupIds = array( $id );
         if ( $countChildGroups ) {
             require_once 'CRM/Contact/BAO/GroupNesting.php';
@@ -226,7 +226,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
     static function getGroups($params = null, $returnProperties = null) 
     {
-        $dao =& new CRM_Contact_DAO_Group();
+        $dao =& new CRM_Contact_BAO_Group();
         $dao->is_active = 1;
         if ( $params ) {
             foreach ( $params as $k => $v ) {
@@ -250,7 +250,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         $groups =array();
         while ( $dao->fetch( ) ) { 
-            $group =& new CRM_Contact_DAO_Group();
+            $group =& new CRM_Contact_BAO_Group();
             if ( $flag ) {
                 $dao->member_count = CRM_Contact_BAO_Group::memberCount( $dao->id );
             }
@@ -411,7 +411,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contact_BAO_Group', $id, 'is_active', $is_active );
     }
 
     /**
@@ -448,7 +448,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     }
 
     public function __toString( ) {
-        return $this->title;
+        return $this->name_a_b;
     }
     
     /**
@@ -503,7 +503,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         
         $smartGroupId = null;
         if ( CRM_Utils_Array::value( 'saved_search_id', $params ) ) {
-            $smartGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $ssId, 'id', 'saved_search_id' );
+            $smartGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group', $ssId, 'id', 'saved_search_id' );
         } else {
             //create group only when new saved search. 
             $groupParams = array( 'title'           => "Hidden Smart Group {$ssId}",
@@ -520,7 +520,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         
         return array( $smartGroupId, $ssId );
     }
-    
+
 }
 
 

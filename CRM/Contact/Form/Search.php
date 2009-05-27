@@ -271,7 +271,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->assign_by_ref( 'group', $groupValues );
 
             // also set ssID if this is a saved search
-            $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_groupID, 'saved_search_id' );
+            $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group', $this->_groupID, 'saved_search_id' );
             $this->assign( 'ssID', $ssID );
             
             //get the saved search mapping id
@@ -455,7 +455,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( empty( $this->_formValues ) ) {
             //check if group is a smart group (fix for CRM-1255)
             if ($this->_groupID) {
-                if ($ssId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_groupID, 'saved_search_id' ) ) {
+                if ($ssId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group', $this->_groupID, 'saved_search_id' ) ) {
                     $this->_ssID = $ssId;
                 }
             }

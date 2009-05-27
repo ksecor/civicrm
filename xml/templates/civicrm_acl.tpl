@@ -50,11 +50,17 @@ VALUES
 ('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event info', NULL, NULL, NULL, 1);
 
 -- Create default Groups for User Permissioning
--- INSERT INTO civicrm_group (`id`, `name`, `title`, `description`, `source`, `saved_search_id`, `is_active`, `visibility`, `group_type`) VALUES (1, 'Administrators', 'Administrators', 'Contacts in this group are assigned Administrator role permissions.', NULL, NULL, 1, 'User and User Admin Only', '1');
+INSERT INTO `civicrm_relationship_type` (`id`, `name_a_b`, `label_a_b`, `name_b_a`,
+    `label_b_a`, `description`, `contact_type_a`, `contact_type_b`, `is_reserved`,
+    `is_active`, `is_hidden`, `cache_date`, `parents`, `children`, `saved_search_id`,
+    `visibility`)
+VALUES (1,'Administrators','Administrators','Administrated by','Administrated by',
+    'System Administrators','Individual','Organization',1,1,0,NULL,NULL,NULL,NULL,
+    'User and User Admin Only');
 
 -- Assign above Group (entity) to the Administrator Role
--- INSERT INTO civicrm_acl_entity_role
---    (`acl_role_id`, `entity_table`, `entity_id`, `is_active`)
--- VALUES
---    (1, 'civicrm_group', 1, 1);
+INSERT INTO civicrm_acl_entity_role
+    (`acl_role_id`, `entity_table`, `entity_id`, `is_active`)
+VALUES
+    (1, 'civicrm_relationship_type', 1, 1);
 

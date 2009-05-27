@@ -898,7 +898,7 @@ WHERE  id = %1";
         
         if ( ! isset( self::$group[$groupKey] ) ) {
             self::$group[$groupKey] = null;
-            self::populate( self::$group[$groupKey], 'CRM_Contact_DAO_Group', false, 'title',
+            self::populate( self::$group[$groupKey], 'CRM_Contact_DAO_RelationshipType', false, 'name_a_b',
                             'is_active', $condition );
         }
         return self::$group[$groupKey];
@@ -983,7 +983,7 @@ WHERE  id = %1";
                 $condition .= ' AND ' . CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
             }
             
-            self::populate( self::$staticGroup, 'CRM_Contact_DAO_Group', false, 'title', 'is_active', $condition, 'title' );
+            self::populate( self::$staticGroup, 'CRM_Contact_BAO_Group', false, 'title', 'is_active', $condition, 'title' );
         }
         return self::$staticGroup;        
     }

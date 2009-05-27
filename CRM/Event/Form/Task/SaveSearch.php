@@ -82,10 +82,10 @@ class CRM_Event_Form_Task_SaveSearch extends CRM_Event_Form_Task
         
         // the name and description are actually stored with the group and not the saved search
         $this->add('text', 'title', ts('Name'),
-                   CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'title'), true);
+                   CRM_Core_DAO::getAttribute('CRM_Contact_BAO_Group', 'title'), true);
 
         $this->addElement('text', 'description', ts('Description'),
-                          CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'description'));
+                          CRM_Core_DAO::getAttribute('CRM_Contact_BAO_Group', 'description'));
 
         // get the group id for the saved search
         $groupId = null;
@@ -101,7 +101,7 @@ class CRM_Event_Form_Task_SaveSearch extends CRM_Event_Form_Task
         }
 
         $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Contact_DAO_Group', $groupId, 'title' ) );
+                        'objectExists', array( 'CRM_Contact_BAO_Group', $groupId, 'title' ) );
 
     }
 

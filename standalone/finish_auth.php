@@ -40,17 +40,17 @@ function run() {
             // update group clause
             require_once 'CRM/Core/Transaction.php';
             require_once 'CRM/Contact/BAO/Group.php';
-            $groupDAO =& new CRM_Contact_DAO_Group();
-            $groupDAO->find( );
-            while ( $groupDAO->fetch() ) {
+            $group =& new CRM_Contact_BAO_Group();
+            $group->find( );
+            while ( $group->fetch() ) {
                 if ( !isset($transaction) ) {
                     $transaction = new CRM_Core_Transaction( );
                 }
-                $group =& new CRM_Contact_BAO_Group();
-                $group->id = $groupDAO->id;
-                $group->find( true );
-                $group->buildClause( );
-                $group->save( );
+                $thisGroup =& new CRM_Contact_BAO_Group();
+                $thisGroup->id = $group->id;
+                $thisGroup->find( true );
+                $thisGroup->buildClause( );
+                $thisGroup->save( );
             }
             if ( isset($transaction) ) {
                 $transaction->commit( );

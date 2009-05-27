@@ -129,7 +129,7 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
      * $access public
      */
     function del( $groupContactId, $status, $contactID ) {
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
+        $groupContact =& new CRM_Contact_BAO_GroupContact( );
         $groupId = CRM_Contact_BAO_GroupContact::getGroupId($groupContactId);
        
         switch ($status) {

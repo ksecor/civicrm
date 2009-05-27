@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <class>RelationshipCache</class>
+  <name>civicrm_relationship_cache</name>
+  <comment>Join table cache for 'static' relationships.</comment>
+  <add>2.3.multiorg</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>primary key</comment>
+       <add>2.3.multiorg</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>relationship_type_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to civicrm_relationship_type</comment>
+      <add>2.3.multiorg</add>
+  </field>
+  <foreignKey>
+       <name>relationship_type_id</name>
+       <table>civicrm_relationship_type</table>
+       <key>id</key>
+       <add>2.3.multiorg</add>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
+      <name>contact_id_a</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to civicrm_contact</comment>
+       <add>2.3.multiorg</add>
+  </field>
+  <foreignKey>
+       <name>contact_id_a</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>2.3.multiorg</add>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <index>
+    <name>UI_contact_relationship_type</name>
+    <fieldName>contact_id_a</fieldName>
+    <fieldName>relationship_type_id</fieldName>
+    <unique>true</unique>
+    <add>2.3.multiorg</add>
+  </index>
+</table>

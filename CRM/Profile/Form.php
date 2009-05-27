@@ -601,7 +601,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 //array of group id, subscribed by contact
                 $contactGroup = array( );
                 if( $this->_id ) {
-                    $contactGroups = new CRM_Contact_DAO_GroupContact();
+                    $contactGroups = new CRM_Contact_BAO_GroupContact();
                     $contactGroups->contact_id = $this->_id;
                     $contactGroups->status     = 'Added';
                     $contactGroups->find();
@@ -616,7 +616,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                         unset( $params['group'][$key] );
                         continue;
                     }
-                    $groupTypes = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+                    $groupTypes = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group',
                                                                $key, 'group_type', 'id' );
                     $groupType = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                           substr( $groupTypes, 1, -1 ) );

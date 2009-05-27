@@ -33,9 +33,9 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/GroupContactCache.php';
+require_once 'CRM/Contact/DAO/RelationshipCache.php';
 
-class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCache {
+class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_RelationshipCache {
 
     const
         NUM_CONTACTS_TO_INSERT = 200;
@@ -49,7 +49,7 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
      * @return boolean true if we did not regenerate, false if we did
      */
     static function check( $groupID ) {
-        $cacheDate = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+        $cacheDate = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_RelationshipType',
                                                   $groupID,
                                                   'cache_date' );
 
@@ -94,7 +94,7 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
             $processed = true;
             $input = array_splice( $values, 0, self::NUM_CONTACTS_TO_INSERT );
             $str   = implode( ',', $input );
-            $sql = "REPLACE INTO civicrm_group_contact_cache (group_id,contact_id) VALUES $str;";
+            $sql = "REPLACE INTO civicrm_relationship_cache (relationship_type_id,contact_id_a) VALUES $str;";
             CRM_Core_DAO::executeQuery( $sql,
                                         CRM_Core_DAO::$_nullArray );
         }
@@ -109,7 +109,7 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
 
         $groupIDs = implode( ',', $groupID );
         $sql = "
-UPDATE civicrm_group
+UPDATE civicrm_relationship_type
 SET    cache_date = $now
 WHERE  id IN ( $groupIDs )
 ";
@@ -141,30 +141,30 @@ WHERE  id IN ( $groupIDs )
 
         if ( ! isset( $groupID ) ) {
             $query = "
-DELETE     g
-FROM       civicrm_group_contact_cache g
-INNER JOIN civicrm_contact c ON c.id = g.contact_id
-WHERE      g.group_id IN (
+DELETE     r
+FROM       civicrm_relationship_cache r
+INNER JOIN civicrm_contact c ON c.id = r.contact_id_a
+WHERE      r.relationship_type_id IN (
     SELECT id
-    FROM   civicrm_group
+    FROM   civicrm_relationship_type
     WHERE  TIMESTAMPDIFF(MINUTE, cache_date, NOW()) > $smartGroupCacheTimeout   
 )
 ";
 
             $update = "
-UPDATE civicrm_group g
+UPDATE civicrm_relationship_type
 SET    cache_date = null
 WHERE  TIMESTAMPDIFF(MINUTE, cache_date, NOW()) > $smartGroupCacheTimeout
 ";
             $params = array( );
         } else if ( is_array( $groupID ) ) {
             $query = "
-DELETE     g
-FROM       civicrm_group_contact_cache g
-WHERE      g.group_id IN ( %1 )
+DELETE     r
+FROM       civicrm_relationship_cache r
+WHERE      r.relationship_type_id IN ( %1 )
 ";
             $update = "
-UPDATE civicrm_group g
+UPDATE civicrm_relationship_type
 SET    cache_date = null
 WHERE  id IN ( %1 )
 ";
@@ -172,12 +172,12 @@ WHERE  id IN ( %1 )
             $params = array( 1 => array( $groupIDs, 'String' ) );
         } else {
             $query = "
-DELETE     g
-FROM       civicrm_group_contact_cache g
-WHERE      g.group_id = %1
+DELETE     r
+FROM       civicrm_relationship_cache r
+WHERE      r.relationship_type_id = %1
 ";
             $update = "
-UPDATE civicrm_group g
+UPDATE civicrm_relationship_type
 SET    cache_date = null
 WHERE  id = %1
 ";
@@ -234,9 +234,9 @@ WHERE  id = %1
             $groupID = CRM_Utils_Type::escape($groupID, 'Integer');
             $sql = $searchSQL . 
                 " AND contact_a.id NOT IN ( 
-                              SELECT contact_id FROM civicrm_group_contact 
-                              WHERE civicrm_group_contact.status = 'Removed' 
-                              AND   civicrm_group_contact.group_id = $groupID ) ";
+                              SELECT contact_id_a FROM civicrm_relationship
+                              WHERE civicrm_relationship.status = 'Removed'
+                              AND   civicrm_relationship.relationship_type_id = $groupID ) ";
         }
 
         if ( $sql ) {
@@ -247,9 +247,9 @@ WHERE  id = %1
         // this allows us to skip the group contact LEFT JOIN
         $sql .= "
 SELECT contact_id as $idName
-FROM   civicrm_group_contact
-WHERE  civicrm_group_contact.status = 'Added'
-  AND  civicrm_group_contact.group_id = $groupID ";
+FROM   civicrm_relationship
+WHERE  civicrm_relationship.status = 'Added'
+  AND  civicrm_relationship.relationship_type_id = $groupID ";
 
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );

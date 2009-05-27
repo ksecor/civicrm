@@ -136,7 +136,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->addRule( 'newGroupName',
                         ts('Name already exists in Database.'),
                         'objectExists',
-                        array( 'CRM_Contact_DAO_Group', null, 'title' ) );
+                        array( 'CRM_Contact_BAO_Group', null, 'title' ) );
 
         $groups =& $this->get('groups');
         
@@ -531,7 +531,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         if ( $params['newGroupName'] &&
              ( ! CRM_Utils_Rule::objectExists( trim( $params['newGroupName'] ),
-                                               array( 'CRM_Contact_DAO_Group') ) ) ) {
+                                               array( 'CRM_Contact_BAO_Group') ) ) ) {
             $errors['newGroupName'] = ts( 'Group \'%1\' already exists.',
                                           array( 1 => $params['newGroupName']));
         }

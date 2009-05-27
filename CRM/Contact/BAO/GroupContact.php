@@ -33,10 +33,10 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/GroupContact.php';
+require_once 'CRM/Contact/DAO/Relationship.php';
 require_once 'CRM/Contact/BAO/SubscriptionHistory.php';
 
-class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
+class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_Relationship {
     
     /**
      * class constructor
@@ -144,16 +144,16 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $numContactsNotAdded = 0;
         foreach ( $contactIds as $contactId ) {
            
-            $groupContact =& new CRM_Contact_DAO_GroupContact( );
-            $groupContact->group_id   = $groupId;
-            $groupContact->contact_id = $contactId;
+            $groupContact =& new CRM_Contact_DAO_Relationship( );
+            $groupContact->relationship_type_id   = $groupId;
+            $groupContact->contact_id_a = $contactId;
             // check if the selected contact id already a member
             // if not a member add to groupContact else keep the count of contacts that are not added
             if (  ! $groupContact->find( true )) {
                 // add the contact to group
                 $historyParams = array(
-                    'contact_id' => $contactId, 
-                    'group_id' => $groupId, 
+                    'contact_id_a' => $contactId,
+                    'relationship_type_id' => $groupId,
                     'method' => $method,
                     'status' => $status,
                     'date' => $date,
@@ -189,8 +189,13 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         // reset the group contact cache for all group(s)
         // if this group is being used as a smart group
+
+        // TODO: Re-implement this w/ rels
+        /*
         require_once 'CRM/Contact/BAO/GroupContactCache.php';
+
         CRM_Contact_BAO_GroupContactCache::remove( );
+         */
 
         CRM_Utils_Hook::post( 'create', 'GroupContact', $groupId, $contactIds );
 
@@ -228,15 +233,15 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $numContactsRemoved    = 0;
         $numContactsNotRemoved = 0;
         
-        require_once "CRM/Contact/DAO/Group.php";
-        $group =& new CRM_Contact_DAO_Group();
+        require_once "CRM/Contact/DAO/RelationshipType.php";
+        $group =& new CRM_Contact_DAO_RelationshipType();
         $group->id = $groupId;
         $group->find(true);
         
         foreach ( $contactIds as $contactId ) {
-            $groupContact =& new CRM_Contact_DAO_GroupContact( );
-            $groupContact->group_id   = $groupId;
-            $groupContact->contact_id = $contactId;
+            $groupContact =& new CRM_Contact_DAO_Relationship( );
+            $groupContact->relationship_type_id   = $groupId;
+            $groupContact->contact_id_a = $contactId;
             // check if the selected contact id already a member, or if this is
             // an opt-out of a smart group.
             // if not a member remove to groupContact else keep the count of contacts that are not removed
@@ -248,8 +253,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             }
             
             //now we grant the negative membership to contact if not member. CRM-3711
-            $historyParams = array( 'group_id' => $groupId,
-                                    'contact_id' => $contactId,
+            $historyParams = array( 'relationship_type_id' => $groupId,
+                                    'contact_id_a' => $contactId,
                                     'status' => $status,
                                     'method' => $method,
                                     'date' => $date,
@@ -265,8 +270,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         // reset the group contact cache for all group(s)
         // if this group is being used as a smart group
+        // TODO: Re-implement this as rels
+        /*
         require_once 'CRM/Contact/BAO/GroupContactCache.php';
         CRM_Contact_BAO_GroupContactCache::remove( );
+         */
 
         CRM_Utils_Hook::post( $op, 'GroupContact', $groupId, $contactIds );
         
@@ -285,17 +293,17 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function getGroupList( $contactId = 0, $visibility = false ) {
         require_once 'CRM/Contact/DAO/Group.php';
-        $group =& new CRM_Contact_DAO_Group( );
+        $group =& new CRM_Contact_BAO_Group( );
 
         $select = $from = $where = '';
         
-        $select = 'SELECT DISTINCT civicrm_group.id, civicrm_group.title ';
-        $from   = ' FROM civicrm_group ';
-        $where  = " WHERE civicrm_group.is_active = 1 ";
+        $select = 'SELECT DISTINCT civicrm_relationship_type.id, civicrm_relationship_type.name_a_b AS title';
+        $from   = ' FROM civicrm_relationship_type ';
+        $where  = " WHERE civicrm_relationship_type.is_active = 1 ";
         if ( $contactId ) {
-            $from  .= ' , civicrm_group_contact ';
-            $where .= " AND civicrm_group.id = civicrm_group_contact.group_id 
-                        AND civicrm_group_contact.contact_id = " 
+            $from  .= ' , civicrm_relationship ';
+            $where .= " AND civicrm_relationship_type.id = civicrm_relationship.relationship_type_id
+                        AND civicrm_relationship.contact_id_a = "
                     . CRM_Utils_Type::escape($contactId, 'Integer');
         }
 
@@ -303,7 +311,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $where .= " AND civicrm_group.visibility != 'User and User Admin Only'";
         }
 
-        $orderby = " ORDER BY civicrm_group.name";
+        $orderby = " ORDER BY civicrm_relationship_type.name_a_b";
         $sql     = $select . $from . $where . $orderby;
 
         $group->query($sql);
@@ -454,7 +462,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                                      $row_count= null,
                                      $includeChildGroups = false )
     {
-        $groupDAO =& new CRM_Contact_DAO_Group();
+        $groupDAO =& new CRM_Contact_BAO_Group();
         $groupDAO->id = $group->id;
         if ( ! $groupDAO->find( true ) ) {
             return CRM_Core_Error::createError( "Could not locate group with id: $id" );
@@ -607,7 +615,7 @@ AND civicrm_group_contact.group_id = %2";
      * @static
      */
     public static function getGroupId($groupContactID){
-        $dao =& new CRM_Contact_DAO_GroupContact();
+        $dao =& new CRM_Contact_BAO_GroupContact();
         $dao->id = $groupContactID;
         $dao->find(true);
         return $dao->group_id; 

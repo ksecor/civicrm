@@ -93,11 +93,11 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         
         // the name and description are actually stored with the group and not the saved search
         $this->add('text', 'title', ts('Name'),
-                   CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'title'), true);
+                   CRM_Core_DAO::getAttribute('CRM_Contact_BAO_Group', 'title'), true);
             
 
         $this->addElement('textarea', 'description', ts('Description'),
-                          CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'description'));
+                          CRM_Core_DAO::getAttribute('CRM_Contact_BAO_Group', 'description'));
 
         require_once 'CRM/Core/OptionGroup.php';
         $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );
@@ -116,7 +116,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         // get the group id for the saved search
         $groupID = null;
         if ( isset( $this->_id ) ) { 
-            $groupID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+            $groupID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group',
                                                     $this->_id,
                                                     'id',
                                                     'saved_search_id' );
@@ -125,7 +125,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
             $this->addDefaultButtons( ts('Save Smart Group') );
         }
         $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Contact_DAO_Group', $groupID, 'title' ) );
+                        'objectExists', array( 'CRM_Contact_BAO_Group', $groupID, 'title' ) );
 
     }
 

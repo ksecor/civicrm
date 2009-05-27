@@ -33,9 +33,9 @@
  *
  */
  
-require_once 'CRM/Contact/DAO/GroupNesting.php';
+require_once 'CRM/Contact/DAO/RelationshipTypeNesting.php';
 
-class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implements Iterator {
+class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_RelationshipTypeNesting implements Iterator {
     
     static $_sortOrder = 'ASC';
     
@@ -244,8 +244,10 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      */
     
     static function add( $parentID, $childID ) {
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "REPLACE INTO civicrm_group_nesting (child_group_id, parent_group_id) VALUES ($childID,$parentID);";
+        $dao = new CRM_Contact_BAO_GroupNesting( );
+        $query = "REPLACE INTO civicrm_relationship_type_nesting
+            (child_relationship_type_id, parent_relationship_type_id)
+            VALUES ($childID,$parentID);";
         $dao->query( $query );
     }
     
@@ -263,8 +265,10 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      */
     
     static function remove( $parentID, $childID ) {
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "DELETE FROM civicrm_group_nesting WHERE child_group_id = $childID AND parent_group_id = $parentID";
+        $dao = new CRM_Contact_BAO_GroupNesting( );
+        $query = "DELETE FROM civicrm_relationship_type_nesting
+            WHERE child_relationship_type_id = $childID
+            AND parent_relationship_type_id  = $parentID";
         $dao->query( $query );
     }
     
@@ -280,8 +284,10 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      */
     
     static function hasChildGroups( $groupId ) {
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id = $groupId LIMIT 1";
+        $dao = new CRM_Contact_BAO_GroupNesting( );
+        $query = "SELECT child_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE parent_relationship_type_id = $groupId LIMIT 1";
 	//print $query . "\n<br><br>";
         $dao->query( $query );
         if ( $dao->fetch( ) ) {
@@ -302,8 +308,10 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      */
     
     static function hasParentGroups( $groupId ) {
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id = $groupId LIMIT 1";
+        $dao = new CRM_Contact_DAO_RelationshipTypeNesting( );
+        $query = "SELECT parent_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE child_relationship_type_id = $groupId LIMIT 1";
         $dao->query( $query );
         if ( $dao->fetch( ) ) {
             return true;
@@ -328,11 +336,13 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id IN (". implode( ',', $groupIds ) . ")";
+        $dao = new CRM_Contact_BAO_GroupNesting( );
+        $query = "SELECT parent_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE child_relationship_type_id IN (". implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         while ( $dao->fetch( ) ) {
-            $parentGroupId = $dao->parent_group_id;
+            $parentGroupId = $dao->parent_relationship_type_id;
             if ( $parentGroupId == $checkGroupId ) {
                 /* print "One of these: <pre>";
                 print_r($groupIds);
@@ -360,12 +370,14 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (". implode( ',', $groupIds ) . ")";
+        $dao = new CRM_Contact_BAO_GroupNesting( );
+        $query = "SELECT child_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE parent_relationship_type_id IN (". implode( ',', $groupIds ) . ")";
         //print $query;
         $dao->query( $query );
         while ( $dao->fetch( ) ) {
-            $childGroupId = $dao->child_group_id;
+            $childGroupId = $dao->child_relationship_type_id;
             if ( $childGroupId == $checkGroupId ) {
                 /* print "One of these: <pre>";
                  print_r($groupIds);
@@ -394,14 +406,16 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id IN (". implode( ',', $groupIds ) . ")";
+        $dao = new CRM_Contact_DAO_RelationshipTypeNesting( );
+        $query = "SELECT parent_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE child_relationship_type_id IN (". implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $nextGroupIds = array( );
         $gotAtLeastOneResult = false;
         while ( $dao->fetch( ) ) {
             $gotAtLeastOneResult = true;
-            $parentGroupId = $dao->parent_group_id;
+            $parentGroupId = $dao->parent_relationship_id;
             if ( $parentGroupId == $checkGroupId ) {
                 /* print "One of these: <pre>";
                 print_r($groupIds);
@@ -433,14 +447,16 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (". implode( ',', $groupIds ) . ")";
+        $dao = new CRM_Contact_DAO_RelationshipTypeNesting( );
+        $query = "SELECT child_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE parent_relationship_type_id IN (". implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $nextGroupIds = array( );
         $gotAtLeastOneResult = false;
         while ( $dao->fetch( ) ) {
             $gotAtLeastOneResult = true;
-            $childGroupId = $dao->child_group_id;
+            $childGroupId = $dao->child_relationship_type_id;
             if ( $childGroupId == $checkGroupId ) {
                 /* print "One of these: <pre>";
                 print_r($groupIds);
@@ -470,10 +486,10 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT parent_group_id, child_group_id
-                  FROM   civicrm_group_nesting
-                  WHERE  child_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $dao = new CRM_Contact_DAO_RelationshipTypeNesting( );
+        $query = "SELECT parent_relationship_type_id, child_relationship_type_id
+                  FROM   civicrm_relationship_type_nesting
+                  WHERE  child_relationship_type_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $tmpGroupIds = array( );
         $parentGroupIds = array( );
@@ -482,8 +498,8 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         }
         while ( $dao->fetch( ) ) {
             // make sure we're not following any cyclical references
-            if ( ! array_key_exists( $dao->child_group_id, $parentGroupIds ) && $dao->parent_group_id != $groupIds[0] ) {
-                $tmpGroupIds[] = $dao->parent_group_id;
+            if ( ! array_key_exists( $dao->child_relationship_type_id, $parentGroupIds ) && $dao->parent_relationship_type_id != $groupIds[0] ) {
+                $tmpGroupIds[] = $dao->parent_relationship_type_id;
             }
         }
         if ( ! empty( $tmpGroupIds ) ) {
@@ -524,12 +540,14 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT child_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $dao = new CRM_Contact_DAO_RelationshipTypeNesting( );
+        $query = "SELECT child_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE parent_relationship_type_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $childGroupIds = array( );
         while ( $dao->fetch( ) ) {
-            $childGroupIds[] = $dao->child_group_id;
+            $childGroupIds[] = $dao->child_relationship_type_id;
         }
         return $childGroupIds;
     }
@@ -548,12 +566,14 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $dao = new CRM_Contact_DAO_RelationshipTypeNesting( );
+        $query = "SELECT parent_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE child_relationship_type_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $parentGroupIds = array( );
         while ( $dao->fetch( ) ) {
-            $parentGroupIds[] = $dao->parent_group_id;
+            $parentGroupIds[] = $dao->parent_relationship_type_id;
         }
         return $parentGroupIds;
     }
@@ -572,8 +592,10 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
         }
-        $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT child_group_id, parent_group_id FROM civicrm_group_nesting WHERE parent_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $dao = new CRM_Contact_DAO_RelationshipTypeNesting( );
+        $query = "SELECT child_relationship_type_id, parent_relationship_type_id
+            FROM civicrm_relationship_type_nesting
+            WHERE parent_relationship_type_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $tmpGroupIds = array( );
         $childGroupIds = array( );
@@ -582,8 +604,8 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         }
         while ( $dao->fetch( ) ) {
             // make sure we're not following any cyclical references
-            if ( ! array_key_exists( $dao->parent_group_id, $childGroupIds ) && $dao->child_group_id != $groupIds[0] )  {
-                $tmpGroupIds[] = $dao->child_group_id;
+            if ( ! array_key_exists( $dao->parent_relationship_type_id, $childGroupIds ) && $dao->child_relationship_type_id != $groupIds[0] )  {
+                $tmpGroupIds[] = $dao->child_relationship_type_id;
             }
         }
         if ( ! empty( $tmpGroupIds ) ) {
@@ -644,7 +666,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     	  if (self::isDescendentGroup($parentGroupId, $group->id)) {
 	          $members = CRM_Contact_BAO_Group::getMember($group->id);
 	          if ($members[$contactId]) {
-	              $containingGroups[] = $group->title;
+	              $containingGroups[] = $group->name_a_b;
 	          }
 	      }
       }

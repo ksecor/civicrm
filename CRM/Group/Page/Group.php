@@ -246,7 +246,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         
         $query = "
 SELECT COUNT(*)
-  FROM civicrm_group";
+  FROM civicrm_relationship_type";
         $groupExists = CRM_Core_DAO::singleValueQuery( $query );
         $this->assign( 'groupExists',$groupExists );
 
@@ -266,12 +266,12 @@ SELECT COUNT(*)
         
         $query = "
   SELECT *
-    FROM civicrm_group
+    FROM civicrm_relationship_type
    WHERE $whereClause
-ORDER BY title asc
+ORDER BY name_a_b asc
    LIMIT $offset, $rowCount";
         
-        $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
+        $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_BAO_Group' );
        
         $groupPermission =
             CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
@@ -283,7 +283,7 @@ ORDER BY title asc
         $values   = array( );
 
         while ( $object->fetch( ) ) {
-            $permission = $this->checkPermission( $object->id, $object->title );
+            $permission = $this->checkPermission( $object->id, $object->name_a_b );
             if ( $permission ) {
                 $newLinks = $links;
                 $values[$object->id] = array( );
@@ -310,7 +310,7 @@ ORDER BY title asc
                 }
                 $action = $action & CRM_Core_Action::mask( $groupPermission );
                 
-                $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility',
+                $values[$object->id]['visibility'] = CRM_Contact_BAO_Group::tsEnum('visibility',
                                                                                    $values[$object->id]['visibility']);
                 if ( isset( $values[$object->id]['group_type'] ) ) {
                     $groupTypes = explode( CRM_Core_DAO::VALUE_SEPARATOR,
@@ -352,9 +352,9 @@ ORDER BY title asc
         $values =  array( );
 
         $clauses = array( );
-        $title   = $this->get( 'title' );
+        $title   = $this->get( 'name_a_b' );
         if ( $title ) {
-            $clauses[] = "title LIKE %1";
+            $clauses[] = "name_a_b LIKE %1";
             if ( strpos( $title, '%' ) !== false ) {
                 $params[1] = array( $title, 'String', false );
             } else {
@@ -401,7 +401,7 @@ ORDER BY title asc
         
         if ( $sortBy &&
              $this->_sortByCharacter ) {
-            $clauses[] = 'title LIKE %6';
+            $clauses[] = 'name_a_b LIKE %6';
             $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
 
@@ -439,14 +439,14 @@ ORDER BY title asc
         }
 
         $query = "
-SELECT id, title
-  FROM civicrm_group
+SELECT id, name_a_b
+  FROM civicrm_relationship_type
  WHERE $whereClause";
       
         $object = CRM_Core_DAO::executeQuery( $query, $whereParams );
         $total  = 0;
         while ( $object->fetch( ) ) {
-            if ( $this->checkPermission( $object->id, $object->title ) ) {
+            if ( $this->checkPermission( $object->id, $object->name_a_b ) ) {
                 $total++;
             }
         }
@@ -463,10 +463,10 @@ SELECT id, title
         require_once 'CRM/Utils/PagerAToZ.php';
 
         $query = "
-   SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
-     FROM civicrm_group
+   SELECT DISTINCT UPPER(LEFT(name_a_b, 1)) as sort_name
+     FROM civicrm_relationship_type
     WHERE $whereClause
- ORDER BY LEFT(title, 1)
+ ORDER BY LEFT(name_a_b, 1)
 ";
         $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
 

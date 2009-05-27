@@ -138,8 +138,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
         $contact    = CRM_Contact_DAO_Contact::getTableName();
 
         require_once 'CRM/Contact/DAO/Group.php';
-        $group      = CRM_Contact_DAO_Group::getTableName();
-        $g2contact  = CRM_Contact_DAO_GroupContact::getTableName();
+        $group      = CRM_Contact_BAO_Group::getTableName();
+        $g2contact  = CRM_Contact_BAO_GroupContact::getTableName();
       
         /* Create a temp table for contact exclusion */
         $mailingGroup->query(
@@ -424,7 +424,7 @@ AND    $mg.mailing_id = {$mailing_id}
     private function _getMailingGroupIds( $type = 'Include' ) 
     {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
-        $group = CRM_Contact_DAO_Group::getTableName();
+        $group = CRM_Contact_BAO_Group::getTableName();
         if ( ! isset( $this->id ) ) {
             // we're just testing tokens, so return any group
             $query = "SELECT   id AS entity_id
@@ -723,7 +723,7 @@ AND    $mg.mailing_id = {$mailing_id}
     public function getTestRecipients($testParams) 
     {
         if (array_key_exists($testParams['test_group'], CRM_Core_PseudoConstant::group())) {
-            $group =& new CRM_Contact_DAO_Group();
+            $group =& new CRM_Contact_BAO_Group();
             $group->id = $testParams['test_group'];
             $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group);
             foreach ($contacts as $contact) {

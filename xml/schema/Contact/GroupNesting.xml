@@ -2,48 +2,47 @@
 
 <table>
   <base>CRM/Contact</base>
-  <class>GroupNesting</class>
-  <name>civicrm_group_nesting</name>
-  <comment>Provide parent-child relationships for groups</comment>
-  <add>2.0</add>
-  <drop>2.3.multiorg</drop>
+  <class>RelationshipTypeNesting</class>
+  <name>civicrm_relationship_type_nesting</name>
+  <comment>Provide parent-child relationships for relationship types</comment>
+  <add>2.3.multiorg</add>
   <field>
     <name>id</name>
     <type>int unsigned</type>
     <required>true</required>
-    <comment>Relationship ID</comment>
-    <add>2.0</add>
+    <comment>Database Relationship ID</comment>
+    <add>2.3.multiorg</add>
   </field>
   <primaryKey>
     <name>id</name>
     <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-    <name>child_group_id</name>
+    <name>child_relationship_type_id</name>
     <type>int unsigned</type>
     <required>true</required>
-    <comment>ID of the child group</comment>
-    <add>2.0</add>
+    <comment>ID of the child relationship type</comment>
+    <add>2.3.multiorg</add>
   </field>
   <foreignKey>
-    <name>child_group_id</name>
-    <table>civicrm_group</table>
+    <name>child_relationship_type_id</name>
+    <table>civicrm_relationship_type</table>
     <key>id</key>
     <onDelete>CASCADE</onDelete>
-    <add>2.0</add>
+    <add>2.3.multiorg</add>
   </foreignKey>
   <field>
-    <name>parent_group_id</name>
+    <name>parent_relationship_type_id</name>
     <type>int unsigned</type>
     <required>true</required>
-    <comment>ID of the parent group</comment>
-    <add>2.0</add>
+    <comment>ID of the parent relationship type</comment>
+    <add>2.3.multiorg</add>
   </field>
   <foreignKey>
-    <name>parent_group_id</name>
-    <table>civicrm_group</table>
+    <name>parent_relationship_type_id</name>
+    <table>civicrm_relationship_type</table>
     <key>id</key>
     <onDelete>CASCADE</onDelete>
-    <add>2.0</add>
+    <add>2.3.multiorg</add>
   </foreignKey>
 </table>

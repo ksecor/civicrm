@@ -56,7 +56,7 @@ class CRM_Contact_Form_Task_SaveSearch_Update extends CRM_Contact_Form_Task_Save
             // fetch the value from the group id gid
             $gid = $this->get( 'gid' );
             if ( $gid ) {
-                $this->_id = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $gid, 'saved_search_id' );
+                $this->_id = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group', $gid, 'saved_search_id' );
             }
         }
     }

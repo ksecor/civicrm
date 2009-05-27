@@ -615,7 +615,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                           );
 
                         $gcDefaults = array( );
-                        CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_GroupContact', $gcParams, $gcDefaults );
+                        CRM_Core_DAO::commonRetrieve( 'CRM_Contact_BAO_GroupContact', $gcParams, $gcDefaults );
                     
                         if ( empty( $gcDefaults ) ) {
                             $row['status'] = ts('Smart');

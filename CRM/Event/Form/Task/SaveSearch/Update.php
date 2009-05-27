@@ -55,7 +55,7 @@ class CRM_Event_Form_Task_SaveSearch_Update extends CRM_Event_Form_Task_SaveSear
         if ( ! $this->_id ) {
             // fetch the value from the group id gid
             $gid = $this->get( 'gid' );
-            $this->_id = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $gid, 'saved_search_id' );
+            $this->_id = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group', $gid, 'saved_search_id' );
         }
     }
 

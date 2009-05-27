@@ -67,7 +67,7 @@ class CRM_Bridge_OG_CiviCRM {
         node_save( $node );
 
         // also change the source field of the group
-        CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group',
+        CRM_Core_DAO::setFieldValue( 'CRM_Contact_BAO_Group',
                                      $groupID,
                                      'source',
                                      CRM_Bridge_OG_Utils::ogSyncName( $node->nid ) );

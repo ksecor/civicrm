@@ -94,8 +94,8 @@ class CRM_Contact_Form_GroupTag
             
             if ( $groupID || !empty( $group ) ) {
                 $sql = "
-    SELECT id, title, description, visibility
-    FROM   civicrm_group
+    SELECT id, name_a_b, description, visibility
+    FROM   civicrm_relationship_type
     WHERE  id $ids
     ";
                 $dao = CRM_Core_DAO::executeQuery( $sql );

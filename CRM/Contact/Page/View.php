@@ -99,7 +99,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         if ( !$gcid ) {
             $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
         } else {
-            $this->_contactId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_GroupContact', $gcid, 'contact_id' );
+            $this->_contactId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_GroupContact', $gcid, 'contact_id' );
         }
 
         if ( ! $this->_contactId ) {

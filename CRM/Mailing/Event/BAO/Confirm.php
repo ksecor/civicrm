@@ -92,7 +92,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
             CRM_Contact_BAO_Contact_Location::getEmailDetails($se->contact_id);
         
         require_once 'CRM/Contact/DAO/Group.php';
-        $group =& new CRM_Contact_DAO_Group();
+        $group =& new CRM_Contact_BAO_Group();
         $group->id = $se->group_id;
         $group->find(true);
         

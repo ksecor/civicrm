@@ -140,9 +140,9 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
         // add first user to admin group 
         if ( $ufCount == 1 ) {
             require_once 'CRM/Contact/BAO/GroupContact.php';
-            require_once 'CRM/Contact/DAO/Group.php';
-            $group =& new CRM_Contact_DAO_Group( );
-            $group->name       = 'Administrators';
+            require_once 'CRM/Contact/BAO/Group.php';
+            $group =& new CRM_Contact_BAO_Group( );
+            $group->name_a_b   = 'Administrators';
             $group->is_active  = 1;
             if ( $group->find(true) ) {
                 $contactIds = array( $contactId );

@@ -133,7 +133,7 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
         //block for Group search
         $smartGroup = array( );
         require_once 'CRM/Contact/DAO/Group.php';
-        $group = new CRM_Contact_DAO_Group( );
+        $group = new CRM_Contact_BAO_Group( );
         $group->is_active = 1;
         $group->find();
         while( $group->fetch( ) ) {

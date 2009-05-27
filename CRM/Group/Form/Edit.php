@@ -175,12 +175,12 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'title'       , ts('Name') . ' ' ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ),true );
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_BAO_Group', 'title' ),true );
         $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
+                        'objectExists', array( 'CRM_Contact_BAO_Group', $this->_id, 'title' ) );
         
         $this->add('textarea', 'description', ts('Description') . ' ', 
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_BAO_Group', 'description' ) );
 
         require_once 'CRM/Core/OptionGroup.php';
         $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );

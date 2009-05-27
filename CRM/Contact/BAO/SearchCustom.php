@@ -48,7 +48,7 @@ class CRM_Contact_BAO_SearchCustom {
         $formValues     = array( );
         if ( $ssID || $gID ) {
             if ( $gID ) {
-                $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $gID, 'saved_search_id' );
+                $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group', $gID, 'saved_search_id' );
             }
 
             $formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $ssID );

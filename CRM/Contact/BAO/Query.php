@@ -552,9 +552,9 @@ class CRM_Contact_BAO_Query
                     $this->_tables['civicrm_entity_tag'] = 1;
                 } else if ($name === 'groups') {
                     $this->_useGroupBy  = true;
-                    $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_group.title)) AS groups";
+                    $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_relationship_type.name_a_b)) AS groups";
                     $this->_element[$name              ] = 1;
-                    $this->_tables['civicrm_group'     ] = 1;
+                    $this->_tables['civicrm_relationship_type'     ] = 1;
                 } else if ($name === 'notes') {
                     $this->_useGroupBy  = true;
                     $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
@@ -903,13 +903,13 @@ class CRM_Contact_BAO_Query
                     $groups = array_keys($this->_paramLookup['group'][0][2]);
                     $groupId = $groups[0];
 
-                    //check if group is saved search
-                    $group =& new CRM_Contact_BAO_Group(); 
+                    //check if group is saved search -- still need to port to rels
+                    $group =& new CRM_Contact_BAO_Group();
                     $group->id = $groupId;
                     $group->find(true); 
                     
                     if (!isset($group->saved_search_id)) {
-                        $tbName = "`civicrm_group_contact-{$groupId}`";
+                        $tbName = "`civicrm_relationship-{$groupId}`";
                         $this->_select['group_contact_id']      = "$tbName.id as group_contact_id";
                         $this->_element['group_contact_id']     = 1;
                         $this->_select['status']                = "$tbName.status as status";
@@ -1953,10 +1953,10 @@ class CRM_Contact_BAO_Query
 
         $statii    =  array(); 
         $in        =  false; 
-        $gcsValues =& $this->getWhereValues( 'group_contact_status', $grouping );
-        if ( $gcsValues &&
-             is_array( $gcsValues[2] ) ) {
-            foreach ( $gcsValues[2] as $k => $v ) {
+        $rsValues =& $this->getWhereValues( 'relationship_status', $grouping );
+        if ( $rsValues &&
+             is_array( $rsValues[2] ) ) {
+            foreach ( $rsValues[2] as $k => $v ) {
                   if ( $v ) {
                     if ( $k == 'Added' ) {
                         $in = true;
@@ -1976,7 +1976,7 @@ class CRM_Contact_BAO_Query
             // check if smart group, if so we can get rid of that one additional
             // left join
             $groupIDs = array_keys( $value );
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_RelationshipType',
                                               $groupIDs[0],
                                               'saved_search_id' ) ) {
                 $skipGroup = true;
@@ -1985,9 +1985,9 @@ class CRM_Contact_BAO_Query
         }
 
         if ( ! $skipGroup ) {
-            $gcTable = "`civicrm_group_contact-{$groupIds}`";
+            $gcTable = "`civicrm_relationship-{$groupIds}`";
             $this->_tables[$gcTable] = $this->_whereTables[$gcTable] =
-                " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
+                " LEFT JOIN civicrm_relationship {$gcTable} ON contact_a.id = {$gcTable}.contact_id_a ";
         }
        
         $qill = ts( 'Member of Group %1', array( 1 => $op ) );
@@ -1997,7 +1997,7 @@ class CRM_Contact_BAO_Query
         $groupClause = null;
 
         if ( ! $skipGroup ) {
-            $groupClause = "{$gcTable}.group_id $op ( $groupIds )";
+            $groupClause = "{$gcTable}.relationship_type_id $op ( $groupIds )";
             if ( ! empty( $statii ) ) {
                 $groupClause .= " AND {$gcTable}.status IN (" . implode(', ', $statii) . ")";
                 $this->_qill[$grouping][] = ts('Group Status') . ' - ' . implode( ' ' . ts('or') . ' ', $statii );
@@ -2034,7 +2034,7 @@ class CRM_Contact_BAO_Query
         $groupIDs = implode( ',', array_keys( $value ) );
         $sql = "
 SELECT id, cache_date, saved_search_id, children
-FROM   civicrm_group
+FROM   civicrm_relationship_type
 WHERE  id IN ( $groupIDs )
   AND  ( saved_search_id != 0
    OR    saved_search_id IS NOT NULL

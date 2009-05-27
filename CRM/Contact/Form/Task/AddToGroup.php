@@ -93,12 +93,12 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
             $this->addRadio( 'group_option', ts( 'Group Options' ), $options, array('onclick' =>"return showElements();"));
         
             $this->add('text', 'title'       , ts('Group Name:') . ' ' ,
-                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_BAO_Group', 'title' ) );
             $this->addRule( 'title', ts('Name already exists in Database.'),
-                            'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
+                            'objectExists', array( 'CRM_Contact_BAO_Group', $this->_id, 'title' ) );
             
             $this->add('textarea', 'description', ts('Description:') . ' ', 
-                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_BAO_Group', 'description' ) );
 
             require_once 'CRM/Core/OptionGroup.php';
             $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );

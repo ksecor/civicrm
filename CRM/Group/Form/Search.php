@@ -49,7 +49,7 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
 
     public function buildQuickForm( ) {
         $this->add( 'text', 'title', ts( 'Find' ),
-                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
+                    CRM_Core_DAO::getAttribute( 'CRM_Contact_BAO_Group', 'name_a_b' ) );
 
         require_once 'CRM/Core/OptionGroup.php';
         $this->addCheckBox( 'group_type',
@@ -74,7 +74,7 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
         $params = $this->controller->exportValues( $this->_name );
         $parent = $this->controller->getParent( );
         if ( ! empty( $params ) ) {
-            $fields = array( 'title', 'group_type', 'visibility','active_status','inactive_status' );
+            $fields = array( 'name_a_b', 'group_type', 'visibility','active_status','inactive_status' );
             foreach ( $fields as $field ) {
                 if ( isset( $params[$field] ) &&
                      ! CRM_Utils_System::isNull( $params[$field] ) ) {

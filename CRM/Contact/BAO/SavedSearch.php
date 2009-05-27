@@ -233,7 +233,7 @@ WHERE  $where";
      */
     static function getName( $id, $value = 'name' ) {
         require_once 'CRM/Contact/DAO/Group.php';
-        $group                   =& new CRM_Contact_DAO_Group( );
+        $group                   =& new CRM_Contact_BAO_Group( );
         $group->saved_search_id = $id;
         if ( $group->find( true ) ) {
             return $group->$value;

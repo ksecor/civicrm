@@ -29,7 +29,7 @@
      </tr>
    {foreach from=$rows item=row}
      <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active} disabled{/if}">
-        <td>{$row.title}</td>	
+        <td>{$row.name_a_b}</td>
         <td>{$row.id}</td>
         <td>
             {$row.description|mb_truncate:80:"...":true}

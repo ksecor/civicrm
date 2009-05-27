@@ -57,7 +57,7 @@ class CRM_Bridge_OG_Utils {
     }
 
     static function ogID( $groupID, $abort = true ) {
-        $source = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+        $source = CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_Group',
                                                $groupID,
                                                'source' );
 

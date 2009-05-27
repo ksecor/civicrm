@@ -557,7 +557,7 @@ class CRM_Utils_Token
 
                 // FIXME: an ugly hack for CRM-2035, to be dropped once CRM-1799 is implemented
                 require_once 'CRM/Contact/DAO/Group.php';
-                $dao =& new CRM_Contact_DAO_Group();
+                $dao =& new CRM_Contact_BAO_Group();
                 $dao->find();
                 while ($dao->fetch()) {
                     if (substr($dao->visibility, 0, 6) == 'Public') {
