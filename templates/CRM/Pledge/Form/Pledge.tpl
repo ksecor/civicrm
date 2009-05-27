@@ -68,6 +68,8 @@
             <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
             <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
         {/if}
+	{elseif $context eq 'standalone' and $outBound_option != 2 }
+                <tr id="acknowledgment-receipt" style="display:none;"><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html} <span class="description">{ts}Automatically email an acknowledgment of this pledge to {/ts}<span id="email-address"></span>?</span></td></tr>
         {/if}
         <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_3}
@@ -181,9 +183,34 @@ function loadPanes( id ) {
 	   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
      };
 
-    </script>
     {/literal}
-
+    {if $context eq 'standalone' and $outBound_option != 2 }
+    {literal}
+    cj( function( ) {
+        cj("#contact").blur( function( ) {
+            checkEmail( );
+        });
+        checkEmail( );
+    });
+    function checkEmail( ) {
+        var contactID = cj("input[name=contact_select_id]").val();
+        if ( contactID ) {
+            var postUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail' h=0}{literal}";
+            cj.post( postUrl, {contact_id: contactID},
+                function ( response ) {
+                    if ( response ) {
+                        cj("#acknowledgment-receipt").show( );
+                        cj("#email-address").html( response );
+                    } else {
+                        cj("#acknowledgment-receipt").show( );
+                    }
+                }
+            );
+        }
+    }
+    {/literal}
+    {/if}
+</script>
 
 {if $email and $outBound_option != 2}
 {include file="CRM/common/showHideByFieldValue.tpl" 
