@@ -76,6 +76,7 @@ require_once 'CRM/Contact/DAO/GroupContact.php';
 require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Relationship.php';
+require_once 'CRM/Event/DAO/Participant.php';
 
 class CRM_GCD {
 
@@ -87,6 +88,8 @@ class CRM_GCD {
     const NUM_DOMAIN = 1;
     const NUM_CONTACT      = 500;
     const NUM_CONTRIBUTION = 1000;
+    const NUM_MEMBERSHIP   = 1000;
+    const NUM_PARTICIPANT  = 1000;
 
     const INDIVIDUAL_PERCENT = 75;
     const HOUSEHOLD_PERCENT = 15;
@@ -1217,7 +1220,7 @@ class CRM_GCD {
         }
         shuffle($contacts);
         
-        $randomContacts      = array_slice($contacts, 20, 100);
+        $randomContacts      = array_slice($contacts, 0, 350);
         
         $sources             = array( 'Payment', 'Donation', 'Check' );
         $membershipTypes     = array( 2, 1 );
@@ -1272,7 +1275,7 @@ VALUES
                 $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, 'General', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
             }
             
-            if ( $count != 99 ) {
+            if ( $count != 349 ) {
                 $membership .= ",";
                 $activity   .= ",";
             }
@@ -1433,332 +1436,37 @@ VALUES
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
 
-    function addParticipant()
+    function addParticipant( ) 
     {
-        $contact = new CRM_Contact_DAO_Contact();
-        $contact->query("SELECT id FROM civicrm_contact");
-        while ( $contact->fetch() ) {
-            $contacts[] = $contact->id;
-        }
-        shuffle($contacts);
-        $randomContacts = array_slice($contacts, 20, 150);
+        // add participant
+        $participant =& new CRM_Event_DAO_Participant();
         
-        $participant = "
-INSERT INTO civicrm_participant
-        (contact_id, event_id, status_id, role_id, register_date, source, fee_level, is_test, fee_amount)
-VALUES
-        ( ". $randomContacts[0]  .", 1, 1, 1, '2006-01-21', 'Check', 'Single', 0, 50),
-        ( ". $randomContacts[1]  .", 2, 2, 2, '2005-05-07', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[2]  .", 3, 3, 3, '2005-05-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800) ,
-        ( ". $randomContacts[3]  .", 1, 4, 4, '2005-10-21', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[4]  .", 2, 1, 1, '2005-01-10', 'Check', 'Soprano', 0, 50),
-        ( ". $randomContacts[5]  .", 3, 2, 2, '2005-03-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[6]  .", 1, 3, 3, '2006-07-21', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[7]  .", 2, 4, 4, '2006-03-07', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[8]  .", 3, 1, 1, '2005-02-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[9]  .", 1, 2, 2, '2005-02-01', 'Check', 'Single', 0, 50),
-        ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[12]  .", 1, 1, 2, '2005-06-04', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[13]  .", 2, 2, 3, '2004-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[14]  .", 3, 4, 1, '2005-07-04', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[16]  .", 2, 2, 3, '2005-01-10', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[17]  .", 3, 3, 1, '2006-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[18]  .", 1, 2, 1, '2005-10-21', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[20]  .", 3, 1, 4, '2005-03-25', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[22]  .", 2, 4, 1, '2005-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[23]  .", 3, 3, 1, '2005-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[24]  .", 3, 2, 2, '2005-04-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[25]  .", 1, 1, 1, '2006-01-21', 'Check', 'Single', 0, 50),
-        ( ". $randomContacts[26]  .", 2, 2, 2, '2007-05-07', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[27]  .", 3, 3, 3, '2007-05-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[28]  .", 1, 4, 4, '2007-10-21', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[29]  .", 2, 1, 1, '2007-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[30]  .", 3, 2, 2, '2007-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[31]  .", 1, 3, 3, '2006-07-21', 'Check', 'Single', 0, 50),
-        ( ". $randomContacts[32]  .", 2, 4, 4, '2006-03-07', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[33]  .", 3, 1, 1, '2007-02-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[34]  .", 1, 2, 2, '2007-02-01', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[35]  .", 2, 3, 3, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[36]  .", 3, 4, 4, '2006-03-06', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[37]  .", 1, 1, 2, '2007-06-04', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[38]  .", 2, 2, 3, '2004-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[39]  .", 3, 4, 1, '2007-07-04', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[40]  .", 1, 4, 2, '2006-01-21', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[41]  .", 2, 2, 3, '2007-01-10', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[42]  .", 3, 3, 1, '2006-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[43]  .", 1, 2, 1, '2007-10-21', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[44]  .", 2, 4, 1, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[45]  .", 3, 1, 4, '2007-03-25', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[46]  .", 1, 2, 3, '2006-10-21', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[47]  .", 2, 4, 1, '2007-01-10', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[48]  .", 3, 3, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[49]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[50]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[51]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[52]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[53]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[54]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[55]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[56]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[57]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[58]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[59]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[60]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[61]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[62]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[63]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[64]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[65]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[66]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[67]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[68]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[69]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[70]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[71]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[72]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[73]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[74]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[75]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[76]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[77]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[78]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[79]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[80]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[81]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[82]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[83]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[84]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[85]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[86]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[87]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[88]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[89]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[90]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[91]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[92]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[93]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[94]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[95]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[96]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[97]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[98]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[99]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[100]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[101]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[102]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[103]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[104]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[105]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[106]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[107]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[108]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[109]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[110]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[111]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[112]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[113]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[114]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[115]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[116]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[117]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[118]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[119]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[120]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[121]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[122]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[123]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[124]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[125]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[126]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[127]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[128]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[129]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[130]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[131]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[132]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[133]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[134]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[135]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[136]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[137]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[138]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[139]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[140]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[141]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[142]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[143]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[144]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[145]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[146]  .", 2, 1, 1, '2007-03-11', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[147]  .", 3, 1, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[148]  .", 1, 1, 1, '2007-03-11', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[149]  .", 3, 2, 2, '2007-04-05', 'Check', 'Tiny-tots (ages 5-8)', 0, 800);
-";
-        CRM_Core_DAO::executeQuery( $participant, CRM_Core_DAO::$_nullArray );
-   
-        $query = "
-INSERT INTO civicrm_activity
-    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
-VALUES
-    ($randomContacts[0], 01, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[1], 02, 5, 'NULL', '2005-05-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[2], 03, 5, 'NULL', '2005-05-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[3], 04, 5, 'NULL', '2005-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[4], 05, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[5], 06, 5, 'NULL', '2005-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[6], 07, 5, 'NULL', '2006-07-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[7], 08, 5, 'NULL', '2006-03-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[8], 09, 5, 'NULL', '2005-02-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[9], 10, 5, 'NULL', '2005-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[10], 11, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[11], 12, 5, 'NULL', '2006-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[12], 13, 5, 'NULL', '2005-06-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[13], 14, 5, 'NULL', '2004-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[14], 15, 5, 'NULL', '2005-07-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[15], 16, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[16], 17, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[17], 18, 5, 'NULL', '2006-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[18], 19, 5, 'NULL', '2005-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[19], 20, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[20], 21, 5, 'NULL', '2005-03-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[21], 22, 5, 'NULL', '2006-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[22], 23, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[23], 24, 5, 'NULL', '2005-03-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[24], 25, 5, 'NULL', '2005-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[25], 26, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[26], 27, 5, 'NULL', '2007-05-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[27], 28, 5, 'NULL', '2005-05-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[28], 29, 5, 'NULL', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[29], 30, 5, 'NULL', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[30], 31, 5, 'NULL', '2007-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[31], 32, 5, 'NULL', '2006-07-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[32], 33, 5, 'NULL', '2006-03-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[33], 34, 5, 'NULL', '2007-02-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[34], 35, 5, 'NULL', '2007-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[35], 36, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[36], 37, 5, 'NULL', '2006-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[37], 38, 5, 'NULL', '2007-06-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[38], 39, 5, 'NULL', '2004-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[39], 40, 5, 'NULL', '2007-07-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[40], 41, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[41], 42, 5, 'NULL', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[42], 43, 5, 'NULL', '2006-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[43], 44, 5, 'NULL', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[44], 45, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[45], 46, 5, 'NULL', '2007-03-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[46], 47, 5, 'NULL', '2006-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[47], 48, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[48], 49, 5, 'NULL', '2007-03-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[49], 50, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[50], 51, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[51], 52, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[52], 53, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[53], 54, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[54], 55, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[55], 56, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[56], 57, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[57], 58, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[58], 59, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[59], 60, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[60], 61, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[61], 62, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[62], 63, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[63], 64, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[64], 65, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[65], 66, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[66], 67, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[67], 68, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[68], 69, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[69], 70, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[70], 71, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[71], 72, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[72], 73, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[73], 74, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[74], 75, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[75], 76, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[76], 77, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[77], 78, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[78], 79, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[79], 80, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[80], 81, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[81], 82, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[82], 83, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[83], 84, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[84], 85, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[85], 86, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[86], 87, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[87], 88, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[88], 89, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[89], 90, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[90], 91, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[91], 92, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[92], 93, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[93], 94, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[94], 95, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[95], 96, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[96], 97, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[97], 98, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[98], 99, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[99], 100, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[100], 101, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[101], 102, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[102], 103, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[103], 104, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[104], 105, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[105], 106, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[106], 107, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[107], 108, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[108], 109, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[109], 110, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[110], 111, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[111], 112, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[112], 113, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[113], 114, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[114], 115, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[115], 116, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[116], 117, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[117], 118, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[118], 119, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[119], 120, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[120], 121, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[121], 122, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[122], 123, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[123], 124, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[124], 125, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[125], 126, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[126], 127, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[127], 128, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[128], 129, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[129], 130, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[130], 131, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[131], 132, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[132], 133, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[133], 134, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[134], 135, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[135], 136, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[136], 137, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[137], 138, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[138], 139, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[139], 140, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[140], 141, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[141], 142, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[142], 143, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[143], 144, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[144], 145, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[145], 146, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[146], 147, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[147], 148, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[148], 149, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[149], 150, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
-    ";
-        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
- 
+        for ( $id = 1; $id <= self::NUM_PARTICIPANT; $id++ ) {
+            $participant->contact_id    = mt_rand(1, self::NUM_CONTACT);
+            $participant->event_id      = mt_rand(1, 3);
+            $participant->status_id     = mt_rand(1, 5);
+            $participant->role_id       = mt_rand(1, 4);
+            $participant->register_date = $this->_getRandomDate();
+            $participant->source        = "Credit Card";
+            
+            if ( $participant->event_id == 1 ) {
+                $fee_level     = "Single";
+                $fee_amount    = 50;
+            } else if ($participant->event_id == 2) {
+                $fee_level     = "Soprano";
+                $fee_amount    = 50;
+            } else {
+                $fee_level     = "Tiny-tots (ages 5-8)";
+                $fee_amount    = 800;
+            }
+            $participant->fee_level     = $fee_level;
+            $participant->fee_amount    = $fee_amount;
+            $participant->is_test       = 0;
+            
+            $this->_insert($participant);
+        }
     }
-    
+
     function addPCP( )
     {
         $query = "
