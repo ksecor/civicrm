@@ -256,10 +256,9 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         
     }
     
-    function where( ) {
-        
-        $clauses = array( );
-        
+    function where( ) { 
+       
+        $clauses = array( );        
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists( 'filters' , $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
@@ -350,24 +349,12 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     }
     
     function postProcess( ) {
-
-        $this->_params = $this->controller->exportValues( $this->_name );        
-        if ( empty( $this->_params ) && $this->_force ) {
-            
-            $this->_params = $this->_formValues;
-        }
         
-        $this->_formValues = $this->_params ;
+        // get ready with post process params
+        $this->beginPostProcess( );
         
-        $this->processReportMode( );
-        
-        $this->select  ( );
-        $this->from    ( );
-        $this->where   ( );
-        $this->groupBy ( );
-        $this->limit   ( );        
-        
-        $sql          = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit} ";        
+        // build query
+        $sql          = $this->buildQuery( true );
         $sqlLifeTime  = "{$this->_selectLifeTime} {$this->_fromLifeTime} {$this->_groupByLifeTime} ";                    
         $current_year = date( 'Y' );        
         $dao          = CRM_Core_DAO::executeQuery( $sql );
@@ -376,16 +363,14 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         while ( $dao_lifeTime->fetch( ) ) {
             
             $contact_id                = $dao_lifeTime->civicrm_contribution_contact_id;
-            $life_time [ $contact_id ] = $dao_lifeTime->civicrm_contribution_total_amount;
-            
+            $life_time [ $contact_id ] = $dao_lifeTime->civicrm_contribution_total_amount;            
         }       
         
         $rows  = $graphRows = array( );
-        $count = 0;
-        
-        
+        $count = 0;               
+        $this->assign ( 'columnHeaders', $this->_columnHeaders );
         while ( $dao->fetch( ) ) {
-            $row = array( );         
+            $row        = array( );         
             $contact_id = $dao->civicrm_contribution_contact_id;            
             $year       = $dao->civicrm_contribution_receive_date; 
             $display[ $contact_id ][ $year ]                            = $dao->civicrm_contribution_total_amount ;            
@@ -398,37 +383,26 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                 unset( $display[ $contact_id ] ) ;                
             }     
             
-        } 
+        }       
        
-        $this->assign( 'columnHeaders', $this->_columnHeaders );
         foreach( $display as $key => $value ) {
             
-            $row = array( );   
-            
+            $row = array( );  
             foreach ( $this->_columnHeaders as $column_key => $column_value ) {
                 $row[ $column_key ] = $value [ $column_key ];
             } 
             
             $rows [ ]  = $row;
-        }
+        }     
+               
+        // format result set. 
+        $this->formatDisplay( $rows );
         
-        $this->formatDisplay( $rows );        
         $this->assign_by_ref( 'rows', $rows );
         
-        require_once 'CRM/Utils/PChart.php';
-        
-        if ( CRM_Utils_Array::value( 'charts', $this->_params ) ) {
-            
-            foreach ( array ( 'receive_date' , $this->_interval , 'value' ) as $ignore ) {
-                
-                unset( $graphRows[$ignore][$count-1] );                
-            }
-            
-            $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
-            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );            
-        }
-        
-        parent::endPostProcess( );        
+        // do print / pdf / instance stuff if needed
+        $this->endPostProcess( );
+              
     }   
     
 }

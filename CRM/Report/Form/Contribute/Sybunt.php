@@ -73,10 +73,12 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                           'group_bys'     =>
                           array( 'receive_date'  =>  
                                  array('title'      => ts( 'Receive Date' ),
+                                       'no_display' => true,
                                        'required'   => true ), 
                                  
                                  'contact_id'    => 
                                  array( 'title'     => ts( 'Contact ID' ),
+                                        'no_display' => true, 
                                         'required'  => true ), 
                                  ) , 
                           ) ,                  
@@ -245,8 +247,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         return $errors;
     }
     
-    function from( ) {
-        
+    function from( ) {        
         
         $this->_from = "
   FROM  civicrm_contribution  {$this->_aliases['civicrm_contribution']}
@@ -278,7 +279,9 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                         
                         if ( $relative || $from || $to ) {
                             $clause = $this->dateClause( $field['name'], $relative, $from, $to );
+
                         }
+
                     } else {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         if ( $op ) {
@@ -305,43 +308,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         }
     }
     
-    function statistics( &$rows ) {
-        $statistics = array();
-        
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        
-        if ( is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            if ( $fieldName == 'receive_date' && ( $this->_params['receive_date_relative'] == 0 ) ) {
-                                $fromdate = $todate = null;
-                                if ( CRM_Utils_Date::isDate( CRM_Utils_Array::value( "receive_date_from", $this->_params ) ) ) {
-                                    $revDate  = array_reverse( $this->_params['receive_date_from'] );
-                                    $fromdate = ts('From') . " ".CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
-                                }
-                                if ( CRM_Utils_Date::isDate( CRM_Utils_Array::value( "receive_date_to", $this->_params  ) ) ) {
-                                    $revDate  = array_reverse( $this->_params['receive_date_to'] );
-                                    $todate = ts('To') ." ". CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
-                                }
-                                $combinations[] = $field['title']. $fromdate . $todate ;
-                            } else {
-                                $combinations[] = $field['title'];
-                            }
-                        }
-                    }
-                }
-            }
-            $statistics[] = array( 'title' => ts('Grouping(s)'),
-                                   'value' => implode( ' & ', $combinations ) );
-        }
-        
-        return $statistics;
-    }
-    
+      
     function groupBy( ) {
         
         $this->_groupBy = "";
@@ -378,35 +345,18 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     
     function postProcess( ) 
     {
-        $this->_params = $this->controller->exportValues( $this->_name );
-        
-        if ( empty( $this->_params ) && $this->_force ) {
-            
-            $this->_params = $this->_formValues;
-        }
-        
-        $this->_formValues = $this->_params ;
-        
-        $this->processReportMode( );
-        
-        $this->select  ( );
-        $this->from    ( );
-        $this->where   ( );
-        $this->groupBy ( );
-        $this->limit   ( );
-        
-        
-        $sql          = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}{$this->_limit}";
-        
-        $current_year = date('Y');
-        
+        // get ready with post process params
+        $this->beginPostProcess( );
+
+        // build query
+        $sql          = $this->buildQuery( true );      
+        $current_year = date('Y');        
         $dao          = CRM_Core_DAO::executeQuery( $sql );
         $rows         = $graphRows = array();
         $count        = 0;
-        
-        
+                
         while ( $dao->fetch( ) ) {
-            $row = array( );          
+            $row        = array( );          
             $contact_id = $dao->civicrm_contribution_contact_id;            
             $year       = $dao->civicrm_contribution_receive_date;          
             $display[ $contact_id ][ $year ]                            = $dao->civicrm_contribution_total_amount ;            
@@ -422,38 +372,25 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         
         $this->assign( 'columnHeaders', $this->_columnHeaders );
         
-        foreach( $display as $key => $value ) {  
-            
-            $row = array( );            
-            
+        foreach( $display as $key => $value ) {              
+            $row = array( );                        
             foreach ( $this->_columnHeaders as $column_key => $column_value ) {
                 
-                $row[ $column_key ] = $value [ $column_key ];
-                
+                $row[ $column_key ] = $value [ $column_key ];                
             }
             
             $rows [ ]  = $row ;
         }
         
-        $this->formatDisplay( $rows );        
+        // format result set. 
+        $this->formatDisplay( $rows );
+
         $this->assign_by_ref( 'rows', $rows );
+
+        // do print / pdf / instance stuff if needed
+        $this->endPostProcess( );
+
         
-        require_once 'CRM/Utils/PChart.php';
-        
-        if ( CRM_Utils_Array::value( 'charts', $this->_params ) ) {
-            
-            foreach ( array ( 'receive_date' , $this->_interval , 'value' ) as $ignore ) {
-                
-                unset( $graphRows[$ignore][$count-1] );
-            }
-            
-            $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
-            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
-            
-        }
-        
-        parent::endPostProcess( );
-        
-    }   
+     }   
     
 }

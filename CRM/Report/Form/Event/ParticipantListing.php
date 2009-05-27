@@ -58,6 +58,16 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                array( 'title'      => ts( 'Participant Name' ),
                                       'operator'   => 'like' ), ),
                          ),
+
+                  'civicrm_email'   =>
+                   array( 'dao'       => 'CRM_Core_DAO_Email',
+                          'fields'    =>
+                          array( 'email' => 
+                                 array( 'title'      => ts( 'Email' ),
+                                        'no_repeat'  => true 
+                                        ),
+                                 ), 
+                          ),
                   
                   'civicrm_participant' =>
                   array( 'dao'       => 'CRM_Event_DAO_Participant',
@@ -154,6 +164,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                         $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
+
                     }
                 }
             }
@@ -245,6 +256,7 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
         }
         
         return $statistics;
+
     }
 
     function groupBy( ) {
@@ -267,41 +279,27 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
     }
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-        
-        $this->processReportMode( );
 
-        $this->select  ( );
+        // get ready with post process params
+        $this->beginPostProcess( );
 
-        $this->from    ( );
+        // build query
+        $sql = $this->buildQuery( true );
 
-        $this->where   ( );
+        // build array of result based on column headers. This method also allows 
+        // modifying column headers before using it to build result set i.e $rows.
+        $this->buildRows ( $sql, $rows );
 
-        $this->groupBy ( );
-
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
-        
-        $dao   = CRM_Core_DAO::executeQuery( $sql );
-        $rows  = $graphRows = array();
-        $count = 0;
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-            $rows[] = $row;
-        }
+        // format result set. 
         $this->formatDisplay( $rows );
 
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
-        parent::endPostProcess( );
+        // assign variables to templates
+        $this->doTemplateAssignment( $rows );
+
+        // do print / pdf / instance stuff if needed
+        $this->endPostProcess( );
+
+      
     }
     
     function alterDisplay( &$rows ) {
