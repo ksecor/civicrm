@@ -274,24 +274,8 @@ LEFT  JOIN civicrm_contribution  {$this->_aliases['civicrm_contribution']}
     }
     
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-
-        $this->processReportMode( );
-        
-        $this->select  ( );
-
-        $this->from    ( );
-
-        $this->where   ( );
-
-        $this->groupBy ( );
-        
-        $sql   = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
+        $this->beginPostProcess( );
+        $sql = $this->buildQuery( false );
              
         $dao   = CRM_Core_DAO::executeQuery( $sql );
         $rows  = $graphRows = array();
@@ -315,9 +299,8 @@ LEFT  JOIN civicrm_contribution  {$this->_aliases['civicrm_contribution']}
         }
         $this->formatDisplay( $rows );
         
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
+        // assign variables to templates
+        $this->doTemplateAssignment( $rows );
         
         require_once 'CRM/Utils/PChart.php';
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
@@ -329,7 +312,7 @@ LEFT  JOIN civicrm_contribution  {$this->_aliases['civicrm_contribution']}
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
 
         }
-        parent::endPostProcess( );
+        $this->endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

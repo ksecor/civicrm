@@ -102,6 +102,17 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
                                  ),
                           ),
                    
+                   'civicrm_membership_status' =>
+                   array( 'dao'      => 'CRM_Member_DAO_MembershipStatus',
+                          'alias'    => 'mem_status',
+                          'fields'   =>
+                          array( 
+                                'name'      => array ('title' => ts('Status'),
+                                                      'required'  => true),
+                                 ),
+                          'grouping' => 'member-fields',		
+                          ),
+
                    'civicrm_address' =>
                    array( 'dao'      => 'CRM_Core_DAO_Address',
                           'fields'   =>
@@ -130,10 +141,6 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
     function preProcess( ) {
         $this->assign( 'reportTitle', ts('Membership Lapse Summary Report' ) );
         parent::preProcess( );
-    }
-    
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
     }
     
     function select( ) {
@@ -177,6 +184,9 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
               INNER JOIN civicrm_membership {$this->_aliases['civicrm_membership']} 
                          ON {$this->_aliases['civicrm_contact']}.id = 
                             {$this->_aliases['civicrm_membership']}.contact_id
+              LEFT  JOIN civicrm_membership_status {$this->_aliases['civicrm_membership_status']}
+                         ON {$this->_aliases['civicrm_membership_status']}.id = 
+                            {$this->_aliases['civicrm_membership']}.status_id
               LEFT  JOIN civicrm_membership_type {$this->_aliases['civicrm_membership_type']} 
                          ON {$this->_aliases['civicrm_membership']}.membership_type_id =
                             {$this->_aliases['civicrm_membership_type']}.id";        
@@ -229,7 +239,7 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
         }
         
         if ( empty( $clauses ) ) {
-            $this->_where = "WHERE end_date < '" .date('Y-m-d'). "'";
+            $this->_where = "WHERE end_date < '" .date('Y-m-d'). "' AND mem_status.name = 'Expired'";
         } else {
             if ( array_key_exists('gid', $clauses ) &&
                  !array_key_exists('end_date', $clauses) ) {
@@ -272,24 +282,8 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
     }
     
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-        
-        $this->processReportMode( );
-        
-        $this->select  ( );
-        
-        $this->from    ( );
-        
-        $this->where   ( );
-
-        $this->groupBy ( );
-        
-        $sql   = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
+        $this->beginPostProcess( );
+        $sql = $this->buildQuery( true );
         
         $dao   = CRM_Core_DAO::executeQuery( $sql );
         $rows  = $graphRows = array();
@@ -304,11 +298,10 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
         }
         $this->formatDisplay( $rows );
         
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
-        
-        parent::endPostProcess( );
+        // assign variables to templates
+        $this->doTemplateAssignment( $rows );
+
+        $this->endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {
