@@ -166,8 +166,17 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        $this->preProcess( );
+        $contactID  = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullArray );
+        $context    = CRM_Utils_Request::retrieve('context', 'String', $this );
 
+        if ( $context == 'standalone' && !$contactID ) {
+            $this->_action = CRM_Core_Action::ADD;
+            $this->assign('action', $this->_action );     
+        } else {
+            // we need to call parent preprocess only when we are viewing / editing / adding participant record
+            $this->preProcess( );           
+        }        
+        
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) {
