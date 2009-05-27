@@ -69,7 +69,8 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                  array( 'dao'     => 'CRM_Activity_DAO_Activity',
                                         'fields'  =>
                                         array(
-                                              'activity_type_id' => array( 'default' => true ),
+                                              'activity_type_id' => array( 'title'   => ts( 'Activity Type'),
+                                                                           'default' => true ),
                                               'subject' => array( 'default' => true ),
                                               'activity_date_time' => array( 'default' => true ),
                                               ),
@@ -81,7 +82,10 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                                'subject' => 
                                                array( 'title'      => ts( 'Activity Subject' ),
                                                       'operator'   => 'like' ),
-                                               'activity_type_id' => null,
+                                               'activity_type_id' => 
+                                               array( 'title'   => ts( 'Activity Type' ),
+                                                      'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                      'options' => CRM_Core_PseudoConstant::activityType(), ), 
                                                ),
                                         'group_bys'=>             
                                         array( 'activity_date_time' => 
@@ -377,7 +381,7 @@ INNER JOIN civicrm_contact source ON {$this->_aliases['civicrm_activity']}.sourc
         }
 
         $this->removeDuplicates( $rows );
-            
+        $this->formatDisplay( $rows );
         $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
         $this->assign_by_ref( 'rows', $rows );
 
@@ -389,4 +393,23 @@ INNER JOIN civicrm_contact source ON {$this->_aliases['civicrm_activity']}.sourc
         parent::endPostProcess( );
     }
 
+    function alterDisplay( &$rows ) {
+        // custom code to alter rows
+        
+        $entryFound   = false;
+        $activityType = CRM_Core_PseudoConstant::activityType();
+        foreach ( $rows as $rowNum => $row ) {
+            
+            if ( array_key_exists('civicrm_activity_activity_type_id', $row ) ) {
+                if ( $value = $row['civicrm_activity_activity_type_id'] ) {
+                    $rows[$rowNum]['civicrm_activity_activity_type_id'] = $activityType[$value];
+                    $entryFound = true;
+                }
+            }
+            
+            if ( !$entryFound ) {
+                break;
+            }
+        }
+    }
 }

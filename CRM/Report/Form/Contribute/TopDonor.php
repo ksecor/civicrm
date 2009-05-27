@@ -243,15 +243,9 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
     }
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-       
-        $this->processReportMode( );
 
+        $this->beginPostProcess( );
+        
         $this->select  ( );
         $this->from    ( );
         $this->where   ( );
@@ -283,10 +277,8 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
         }
         $this->formatDisplay( $rows );
 
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
-        
+        $this->doTemplateAssignment( $rows );
+   
         require_once 'CRM/Utils/PChart.php';
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
             foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
@@ -296,7 +288,7 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
 
         }
-        parent::endPostProcess( );
+        $this->endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {

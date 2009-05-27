@@ -256,38 +256,16 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
     
     function postProcess( ) {
         
-        $this->_params = $this->controller->exportValues( $this->_name );
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
+        $this->beginPostProcess( );;
         
-        $this->processReportMode( );
+        $sql  = $this->buildQuery( true );
         
-        $this->select  ( );
-        $this->from    ( );
-        $this->where   ( );
-        $this->groupBy ( );
+        $rows = array( );
+        $this-> buildRows( $sql, &$rows );
         
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
-        
-        $dao   = CRM_Core_DAO::executeQuery( $sql );
-        $rows  = $graphRows = array();
-        $count = 0;
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-            $rows[] = $row;
-        }
-        $this->formatDisplay( $rows );
-        
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
-        parent::endPostProcess( );
+        $this->formatDisplay( $rows );        
+        $this->doTemplateAssignment( $rows );
+        $this->endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {

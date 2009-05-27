@@ -240,40 +240,16 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
     
     function postProcess( ) {
         
-        $this->_params = $this->controller->exportValues( $this->_name );
+        $this->beginPostProcess( );
+        $sql  = $this->buildQuery( true );
         
-        if ( empty( $this->_params ) && $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-        
-        $this->processReportMode( );
-        
-        $this->select ( );
-
-        $this->from   ( );
-
-        $this->where  ( );
-
-        $this->groupBy( );
-        
-        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
-        
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-            $rows[] = $row;
-        }
+        $this-> buildRows( $sql, &$rows );
         
-        $this->formatDisplay( $rows );
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
+        $this->formatDisplay( $rows );        
+        $this->doTemplateAssignment( $rows );
+        $this->endPostProcess( );
         
-        parent::endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {
