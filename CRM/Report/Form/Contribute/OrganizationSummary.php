@@ -146,11 +146,6 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                   );
         
-        $this->_options = array( 'include_statistics' => 
-                                 array( 'title'   => ts( 'Include Organization Contribution Statistics' ),
-                                        'type'    => 'checkbox',
-                                        'default' => true ),
-                                 );
         
         parent::__construct( );
     }
@@ -345,27 +340,15 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
     }
 
     function postProcess( ) {
-        $this->tempTable ( );
-        $this->_params = $this->controller->exportValues( $this->_name );
 
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-        
-        $this->processReportMode( );
-        
-        $this->select ( );
-        $this->from   ( );
-        $this->where  ( );
-        $this->groupBy( );
-        $this->limit  ( );
-        
-        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
+        $this->tempTable( );
+	
+        $this->beginPostProcess( );
+        $sql  = $this->buildQuery( false );
+	
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
-
+	
         while ( $dao->fetch( ) ) {
             $row = array( );
             //assign null value to rel_type : refere it in alterDispaly function
@@ -375,28 +358,21 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
             }
             $rows[] = $row;
         }
-
+	
         $this->formatDisplay( $rows );
         unset($this->_columnHeaders['rel_type']);
-
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
         
-        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
-            $this->assign( 'statistics', $this->statistics($rows ) );
-        }
-        
-        parent::endPostProcess( );
+        $this->doTemplateAssignment( $rows );
+        $this->endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
         $entryFound = false;
       	$flag_org   = $flag_contact = 0;
-
         
         foreach ( $rows as $rowNum => $row ) {
-	  
+            
             //replace retionship id by relationship name 
             if ( array_key_exists('rel_type', $row ) ) {
                 if ( $value = $row['rel_type'] ) {
