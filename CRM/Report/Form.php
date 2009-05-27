@@ -37,6 +37,9 @@ require_once 'CRM/Core/Form.php';
 
 class CRM_Report_Form extends CRM_Core_Form {
 
+    const  
+        ROW_COUNT_LIMIT = 50;
+
     /**
      * The id of the report instance
      *
@@ -797,7 +800,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function grandTotal( &$rows ) {
-        if ( !$this->_rollup || ($this->_rollup == '') ) {
+        if ( !$this->_rollup || ($this->_rollup == '') || 
+             ($this->_limit && count($rows) >= self::ROW_COUNT_LIMIT) ) {
             return false;
         }
         $lastRow = array_pop($rows);
@@ -819,6 +823,9 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function formatDisplay( &$rows ) {
+        // set pager based on if any limit was applied in the query. 
+        $this->setPager( );
+
         // unset columns not to be displayed.
         foreach ( $this->_columnHeaders as $key => $value ) {
             if ( is_array($value) && isset($value['no_display']) ) {
@@ -975,7 +982,12 @@ class CRM_Report_Form extends CRM_Core_Form {
     function statistics( &$rows ) {
         $statistics = array();
 
-        $this->countStat  ( $statistics, count($rows) );
+        $count = count($rows);
+        if ( $this->_rollup && ($this->_rollup != '') ) {
+            $count++;
+        }
+
+        $this->countStat  ( $statistics, $count );
 
         $this->groupByStat( $statistics );
 
@@ -985,6 +997,11 @@ class CRM_Report_Form extends CRM_Core_Form {
     function countStat( &$statistics, $count ) {
         $statistics[] = array( 'title' => ts('Row(s) Listed'),
                                'value' => $count );
+
+        if ( $this->_rowsFound && ($this->_rowsFound > $count) ) {
+            $statistics[] = array( 'title' => ts('Total Row(s)'),
+                                   'value' => $this->_rowsFound );
+        }
     }
 
     function groupByStat( &$statistics ) {
@@ -1051,20 +1068,26 @@ class CRM_Report_Form extends CRM_Core_Form {
         // lets do the pager if in html mode
         $this->_limit = null;
         if ( $this->_reportMode == 'html' ) {
-            require_once 'CRM/Utils/Pager.php';
-            $sql    = "SELECT count(*) {$this->_from} {$this->_where}";
-            $count  = CRM_Core_DAO::singleValueQuery( $sql );
-            $params = array( 'total'    => CRM_Core_DAO::singleValueQuery( $sql ),
-                             'rowCount' => 50,
-                             'status'   => ts( 'Contributions %%StatusMessage%%' ) );
-            $pager = new CRM_Utils_Pager( $params );
-            $this->assign_by_ref( 'pager', $pager );
-            
-            list( $offset, $rowCount ) = $pager->getOffsetAndRowCount( );
-            if ( $offset >= 0 && $rowCount >= 0 ) {
-                $this->_limit = " LIMIT $offset, $rowCount ";
-            }
+            $this->_select = str_ireplace( 'SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select );
+
+            $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
+            $pageId = $pageId ? $pageId : 1;
+            $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
+
+            $this->_limit  = " LIMIT $offset, " . self::ROW_COUNT_LIMIT;
         }
     }
 
+    function setPager( ) {
+        if ( $this->_limit && ($this->_limit != '') ) {
+            require_once 'CRM/Utils/Pager.php';
+            $sql    = "SELECT FOUND_ROWS();";
+            $this->_rowsFound = CRM_Core_DAO::singleValueQuery( $sql );
+            $params = array( 'total'    => $this->_rowsFound,
+                             'rowCount' => self::ROW_COUNT_LIMIT,
+                             'status'   => ts( 'Contributions %%StatusMessage%%' ) );
+            $pager = new CRM_Utils_Pager( $params );
+            $this->assign_by_ref( 'pager', $pager );
+        }
+    }
 }

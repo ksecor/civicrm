@@ -37,8 +37,6 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
-    protected $_summary = null;
-
     protected $_charts = array( ''         => 'Tabular',
                                 'barGraph' => 'Bar Graph',
                                 'pieGraph' => 'Pie Graph'
@@ -306,43 +304,6 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
         }
     }
 
-    function statistics( &$rows ) {
-        $statistics = array();
-
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        
-        if ( is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            if ( $fieldName == 'receive_date' && ( $this->_params['receive_date_relative'] == 0 ) ) {
-                                $fromdate = $todate = null;
-                                if ( CRM_Utils_Date::isDate( CRM_Utils_Array::value( "receive_date_from", $this->_params ) ) ) {
-                                    $revDate  = array_reverse( $this->_params['receive_date_from'] );
-                                    $fromdate = ts('From') . " ".CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
-                                }
-                                if ( CRM_Utils_Date::isDate( CRM_Utils_Array::value( "receive_date_to", $this->_params  ) ) ) {
-                                    $revDate  = array_reverse( $this->_params['receive_date_to'] );
-                                    $todate = ts('To') ." ". CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
-                                }
-                                $combinations[] = $field['title']. $fromdate . $todate ;
-                            } else {
-                                $combinations[] = $field['title'];
-                            }
-                        }
-                    }
-                }
-            }
-            $statistics[] = array( 'title' => ts('Grouping(s)'),
-                                   'value' => implode( ' & ', $combinations ) );
-        }
-
-        return $statistics;
-    }
-
     function groupBy( ) {
         $this->_groupBy = "";
         if ( is_array($this->_params['group_bys']) && 
@@ -382,7 +343,7 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
 
     function postProcess( ) {
         $this->beginPostProcess( );
-        $sql = $this->buildQuery( false );
+        $sql = $this->buildQuery( );
 
         require_once 'CRM/Utils/PChart.php';
         $dao   = CRM_Core_DAO::executeQuery( $sql );
