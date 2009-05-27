@@ -35,11 +35,7 @@
 
 require_once 'CRM/Core/DAO/Navigation.php';
 
-
 class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
-
-    static $_navigationCache = null;
-    
     /**
      * class constructor
      */
@@ -345,21 +341,38 @@ ORDER BY parent_id, weight";
         $session=& CRM_Core_Session::singleton( );
         $contactID = $session->get('userID');
 
-        self::$_navigationCache = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
-        if ( ! self::$_navigationCache ) {
+        $navigation = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
+        if ( ! $navigation ) {
             //retrieve navigation if it's not cached.       
             require_once 'CRM/Core/BAO/Navigation.php';
-            self::$_navigationCache = self::buildNavigation( );
+            $navigation = self::buildNavigation( );
+            
+            //add additional navigation items
+            $logoutURL       = CRM_Utils_System::url( 'civicrm/logout', 'reset=1');
+            $appendSring     = "<li id='menu-logout'><a href={$logoutURL} title=". ts('Logout') .">". ts('Logout')."</a></li>";
+
+            $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
+            $prepandString = "<li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a>";
+
+            $config =& CRM_Core_Config::singleton( );
+
+            if ( ( $config->userFramework == 'Drupal' ) && module_exists('admin_menu') ) {
+               $prepandString .= "<ul><li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('CiviCRM Home')."</a></i><li><a href='#' onclick='cj(\".cmDiv\").toggle();' title=". ts('Drupal Menu') .">".ts('Drupal Menu')."</a></li></ul>";
+            }
+
+            $prepandString .= "</li>";
+
+            $navigation = $prepandString.$navigation.$appendSring;
             
             // save in preference table for this particular user
             require_once 'CRM/Core/DAO/Preferences.php';
             $preference =& new CRM_Core_DAO_Preferences();
             $preference->contact_id = $contactID;
             $preference->find(true);
-            $preference->navigation = self::$_navigationCache;
+            $preference->navigation = $navigation;
             $preference->save();
         }
-        return self::$_navigationCache;
+        return $navigation;
     }
 
     /**

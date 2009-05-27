@@ -401,33 +401,6 @@ WHERE sort_name LIKE '%$name%'";
         }
         exit();
     }
-     
-     /**
-     * Function to add CiviCRM Menu
-     *
-     */
-    static function civicrmAdminMenu()
-    {
-        $logoutURL       = CRM_Utils_System::url( 'civicrm/logout', 'reset=1');
-        $appendSring     = "<li id='menu-logout'><a href={$logoutURL} title=". ts('Logout') .">". ts('Logout')."</a></li>";
-                
-        require_once 'CRM/Core/BAO/Navigation.php';
-        $object =& CRM_Core_BAO_Navigation::createNavigation( $contactID );
-        
-        $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
-        $prepandString = "<li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a>";
-        
-        $config =& CRM_Core_Config::singleton( );
-        
-        if ( ( $config->userFramework == 'Drupal' ) && module_exists('admin_menu') ) {
-           $prepandString .= "<ul><li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('CiviCRM Home')."</a></i><li><a href='#' onclick='cj(\".cmDiv\").toggle();' title=". ts('Drupal Menu') .">".ts('Drupal Menu')."</a></li></ul>";
-        }
-
-        $prepandString .= "</li>";
-
-        echo $prepandString.$object.$appendSring;
-        exit();
-    }
     
     /**
      *  Function to get email address of a contact
