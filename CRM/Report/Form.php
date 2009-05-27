@@ -422,6 +422,11 @@ class CRM_Report_Form extends CRM_Core_Form {
                     $select->setMultiple( true );
                     break;
 
+                case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN :
+                    // assume a select field
+                    $this->addElement('select', "{$fieldName}_value", null, $field['options']);
+                    break;
+
                 case CRM_Utils_Type::T_DATE :
                 case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
                     // build datetime fields

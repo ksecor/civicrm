@@ -72,6 +72,11 @@
                                     <td style="vertical-align: top;">{$field.title}</td>
                                     <td colspan=2>{include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}</td>
                                 </tr>
+			    {elseif $field.type == 17}                                
+                                <tr>                                    
+                                    <td style="vertical-align: top;">{$field.title}</td>
+                                    <td id="{$filterVal}_cell">{$form.$filterVal.html}</td>    				    
+                                </tr>
                             {else}
                                 <tr>
                                     <td width="20%">{$field.title}</td>
@@ -98,8 +103,8 @@
             {/literal}
                 {foreach from=$filters item=table key=tableName}
                     {foreach from=$table item=field key=fieldName}
-			{literal}var val = "dnc";{/literal} 
-                        {if $field.type != 4}
+			{literal}var val = "dnc";{/literal}
+			{if !($field.type == 4 OR $field.type == 17)} 
                             {literal}var val = document.getElementById("{/literal}{$fieldName}_op{literal}").value;{/literal}
 			{/if}
                         {literal}showHideMaxMinVal( "{/literal}{$fieldName}{literal}", val );{/literal}

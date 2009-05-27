@@ -51,8 +51,9 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
                   array( 'dao'     => 'CRM_Event_DAO_Event',
                          'filters' => 
                          array( 'id' => 
-                                array( 'title'   => ts( 'Event ID' ),
-                                       'default' => 'eq' ), 
+                                array( 'title'   => ts( 'Event Title' ),
+                                       'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN,
+                                       'options' => CRM_Event_PseudoConstant::event(), ), 
                                 ),
                          ),
                   );
@@ -195,24 +196,6 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
         
         $this->assign_by_ref( 'rows', $rows );
     }
-    static function formRule( &$fields, &$files, $self ) {  
-        $errors = array( );
-
-        //allow only equal operator
-        if ( ! $fields['id_op'] == 'eq' ) {
-            $errors['id_op'] = ts('Please select equal operator');
-        } 
-        
-        if ( $fields['id_value'] <= 0 || !ctype_digit( $fields['id_value'] ) ) {
-            $errors['id_value'] = ts('Please select valid event ID');  
-        } else {
-            if ( !CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
-                                               $fields['id_value'], 'id' ) ) {
-                $errors['id_value'] = ts('Entered Event ID not Exist');  
-            }
-        }
-        return $errors;
-    }
 
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
@@ -220,6 +203,7 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
              $this->_force ) {
             $this->_params = $this->_formValues;
         }
+
         $this->processReportMode( );
 
         $this->buildEventReport( $this->_params['id_value'] );

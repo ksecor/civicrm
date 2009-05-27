@@ -52,15 +52,16 @@ class CRM_Report_Page_List extends CRM_Core_Page
 
     public static function &info( ) {
         $sql = "
-        SELECT  v.id, v.value, v.label, v.description, v.name, v.component_id
+        SELECT  v.id, v.value, v.label, v.description, v.name, v.component_id, inst.id as instanace 
 
-          FROM  civicrm_option_group g,
-                civicrm_option_value v
+          FROM  civicrm_option_group g 
+                LEFT JOIN civicrm_option_value v 
+                       ON (v.option_group_id = g.id AND g.name = 'report_list')
+                LEFT JOIN civicrm_report_instance inst 
+                       ON v.value = inst.report_id
 
-         WHERE  v.option_group_id = g.id AND
-                g.name = 'report_list'   AND
-                v.is_active = 1
-
+         WHERE     v.is_active = 1
+         GROUP BY  v.value
          ORDER BY  v.weight
          ";
 
@@ -96,8 +97,10 @@ class CRM_Report_Page_List extends CRM_Core_Page
                     $url   .= '/' . $val;
                 }
                 $rows[$compName][$dao->value][] = CRM_Utils_System::url( $url, 'reset=1');
-                $rows[$compName][$dao->value]['instance'] = CRM_Utils_System::url( 'civicrm/report/instance/list',
-                                                                                   "reset=1&report={$dao->id}");
+                if ( $dao->instanace ) {
+                    $rows[$compName][$dao->value]['instance'] = CRM_Utils_System::url( 'civicrm/report/instance/list',
+                                                                                       "reset=1&report={$dao->id}");
+                }
             }
         }
         return $rows;

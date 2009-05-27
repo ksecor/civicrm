@@ -16,9 +16,11 @@
 		        {foreach from=$rows item=row}
 	                    <tr >
 			        <td width="300"><a href="{$row.2}">&raquo; {$row.0}</a>
-				    <div align="right">
-				        <a href="{$row.instance}">{ts}Instance{/ts}</a>
-				    </div>
+   				    {if $row.instance}
+					<div align="right">
+					    <a href="{$row.instance}">{ts}Instance{/ts}</a>
+					</div>
+				    {/if}
 			        </td>
 				<td width="450">{$row.1}</td>
 			    </tr>
