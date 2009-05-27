@@ -3,15 +3,6 @@
          2. Each activity type file can include its case fields in its own template, so that they will be included during activity edit.
 *}
 <div class="html-adjust">{$form.buttons.html}</div>
-{if !$clientName and $action eq 1} 
-    <fieldset><legend>{ts}New Client{/ts}</legend>
-    	<table class="form-layout-compressed" border="0">			      
-        {if $context eq 'standalone'}
-            {include file="CRM/Contact/Form/NewContact.tpl"}
-        {/if}
-	</table>
-   </fieldset>
-{/if}
 
 <fieldset><legend>{if $action eq 8}{ts}Delete Case{/ts}{else}{$activityType}{/if}</legend>
 <table class="form-layout">
@@ -31,8 +22,13 @@
 {else}
 {if $clientName}
     <tr><td class="label font-size12pt">{ts}Client{/ts}</td><td class="font-size12pt bold view-value">{$clientName}</td></tr>
+{elseif !$clientName and $action eq 1} 
+    <tr class="form-layout-compressed" border="0">			      
+        {if $context eq 'standalone'}
+            {include file="CRM/Contact/Form/NewContact.tpl"}
+        {/if}
+    </tr>
 {/if}
-
 {* activity fields *}
 {if $form.medium_id.html and $form.activity_location.html}
     <tr>
