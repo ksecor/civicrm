@@ -120,8 +120,10 @@ class CRM_Core_Smarty extends Smarty {
         if ( $buildNavigation ) {
             require_once 'CRM/Core/BAO/Navigation.php';
             $contactID = $session->get('userID');
-            $navigation =& CRM_Core_BAO_Navigation::createNavigation( $contactID );
-            $this->assign('navigation', $navigation );
+            if ( $contactID ) {
+                $navigation =& CRM_Core_BAO_Navigation::createNavigation( $contactID );
+                $this->assign('navigation', $navigation );
+            }
         }
 
         $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
