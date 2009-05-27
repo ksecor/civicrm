@@ -42,9 +42,9 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
             array( 'civicrm_contact'  =>
                    array( 'dao'       => 'CRM_Contact_DAO_Contact',
                           'fields'    =>
-                          array( 'id'           => 
+                          array( 'id'           =>
                                  array( 'no_display' => true,
-                                        'required'  => true, ), 
+                                        'required'  => true, ),
                                  'display_name' => 
                                  array( 'title'      => ts( 'Contact Name' ),
                                         'required'   => true,
@@ -86,11 +86,6 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         
-        $this->_options = array( 'include_grand_total' 
-                                 => array( 'title'  => ts( 'Include Grand Totals' ),
-                                           'type'   => 'checkbox',
-                                           'default'=> true ),
-                                 );
         parent::__construct( );
     }
     
@@ -98,10 +93,6 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
-    }
-
     function select( ) {
         $select = array( );
         $this->_columnHeaders = array( );
@@ -156,7 +147,7 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
 
     function from( ) {
         $this->_from = "
-FROM       civicrm_contact            {$this->_aliases['civicrm_contact']}
+FROM  civicrm_contact                 {$this->_aliases['civicrm_contact']}
 INNER JOIN civicrm_contribution       {$this->_aliases['civicrm_contribution']} 
        ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
 LEFT  JOIN civicrm_group_contact      group_contact 
@@ -171,24 +162,7 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
     }
 
     function postProcess( ) {
-        // get ready with post process params
-        $this->beginPostProcess( );
-
-        // build query
-        $sql = $this->buildQuery( false );
-
-        // build array of result based on column headers. This method also allows 
-        // modifying column headers before using it to build result set i.e $rows.
-        $this->buildRows ( $sql, $rows );
-
-        // format result set. 
-        $this->formatDisplay( $rows );
-
-        // assign variables to templates
-        $this->doTemplateAssignment( $rows );
-
-        // do print / pdf / instance stuff if needed
-        $this->endPostProcess( );
+        parent::postProcess( );
     }
 
     function alterDisplay( &$rows ) {
