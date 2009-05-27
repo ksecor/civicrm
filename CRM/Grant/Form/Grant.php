@@ -58,6 +58,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      */
     protected $_contactID;
 
+    protected $_context;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -68,6 +69,11 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
     {  
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        
+        $this->assign( 'action', $this->_action );
+        $this->assign( 'context', $this->_context );
+        
         $this->_noteId =null;
         if ( $this->_id) {
             require_once 'CRM/Core/BAO/Note.php';
@@ -191,6 +197,11 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
+        
+        if ( $this->_context == 'standalone' ) {
+            require_once 'CRM/Contact/Form/NewContact.php';
+            CRM_Contact_Form_NewContact::buildQuickForm( $this );
+        }
     }
     
     /**  
@@ -206,6 +217,11 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      */  
     static function formRule( &$fields, &$files, $self ) {  
         $errors = array( ); 
+        
+        if ( isset( $fields['contact_select_id'] ) && !$fields['contact_select_id'] ) {
+            $errors['contact'] = ts('Please select a contact or create new contact');
+        }
+        
         return $errors;
     }
     
@@ -229,8 +245,12 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
 
-        if (!$params['grant_report_received']){
+        if (!$params['grant_report_received']) {
             $params['grant_report_received'] = "null";
+        } 
+        // set the contact, when contact is selected
+        if ( CRM_Utils_Array::value('contact_select_id', $params ) ) {
+            $this->_contactID = CRM_Utils_Array::value('contact_select_id', $params);
         }
         
         $params['contact_id'               ] = $this->_contactID;

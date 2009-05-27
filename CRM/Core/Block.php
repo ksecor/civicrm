@@ -354,6 +354,13 @@ class CRM_Core_Block {
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Pledge') ) ));
             }
+
+            if ( CRM_Core_Permission::check('access CiviGrant') ) {
+                $shortCuts = 
+                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/grant',
+                                                          'query' => "reset=1&action=add&context=standalone",
+                                                          'title' => ts('Grant') ) ));
+            }
              
             if ( CRM_Core_Permission::check('access CiviMember') ) {
                 $shortCuts = 

@@ -7,6 +7,9 @@
 	{/if}
 	<div class="form-item">
 		<table class="form-layout-compressed">  
+		    {if $context eq 'standalone'}
+            	    	{include file="CRM/Contact/Form/NewContact.tpl"}
+        	    {/if}
 			<tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
 			<tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status of this grant.{/ts}</td></tr>
 			<tr><td class="label">{$form.grant_type_id.label}</td><td>{$form.grant_type_id.html}</td></tr>   
