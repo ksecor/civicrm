@@ -15,6 +15,7 @@
 </div>
 {/if}
 <div class="form-item">
+<div class="html-adjust">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Pledge{/ts}{elseif $action eq 8}{ts}Delete Pledge{/ts}{else}{ts}Edit Pledge{/ts}{/if}</legend> 
    {if $action eq 8} 
       <div class="messages status"> 
@@ -140,14 +141,11 @@ function loadPanes( id ) {
 {literal}<script type="text/javascript"> showPane += "{/literal}{$paneValue.id}{literal}"+"','";</script>{/literal}
 {/if}
 {/foreach}
-{/if} {* not delete mode if*}      
-    <dl>    
-       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
-    </dl> 
+{/if} {* not delete mode if*}   
 </fieldset>
 </div> 
 
-
+<div class="html-adjust">{$form.buttons.html}</div>
      {literal}
      <script type="text/javascript">
 

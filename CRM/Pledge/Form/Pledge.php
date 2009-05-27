@@ -434,9 +434,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->addButtons(array( 
                                 array ( 'type'      => 'upload', 
                                         'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'js'        => array( 'onclick' => "return verify( );" ),
                                         'isDefault' => true   ), 
+                                array ( 'type'      => 'upload',
+                                        'name'      => ts('Save and New'), 
+                                        'js'        => array( 'onclick' => "return verify( );" ),
+                                        'subName'   => 'new' ), 
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
                                 ) 
@@ -656,6 +659,17 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             }
         }
         CRM_Core_Session::setStatus( $statusMsg );
+        
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            if ( $this->_context == 'standalone' ) {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/pledge', 
+                                                                   'reset=1&action=add&context=standalone') );
+            } else {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/pledge', 
+                                                                   "reset=1&action=add&context=pledge&cid={$this->_contactID}") );
+            }            
+        }
     }
     
   

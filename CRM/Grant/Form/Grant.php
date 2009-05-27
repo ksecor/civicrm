@@ -191,8 +191,11 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->addButtons(array( 
                                 array ( 'type'      => 'upload',
                                         'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'isDefault' => true   ), 
+                                array ( 'type'      => 'upload',
+                                        'name'      => ts('Save and New'), 
+                                        'js'        => array( 'onclick' => "return verify( );" ),
+                                        'subName'   => 'new' ),
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
                                 ) 
@@ -279,6 +282,17 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         require_once 'CRM/Grant/BAO/Grant.php';
         $grant =& CRM_Grant_BAO_Grant::create($params, $ids);
+
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            if ( $this->_context == 'standalone' ) {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/grant', 
+                                                                   'reset=1&action=add&context=standalone') );
+            } else {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/grant', 
+                                                                   "reset=1&action=add&context=grant&cid={$this->_contactID}") );
+            }            
+        }
     }
 }
 

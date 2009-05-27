@@ -1,4 +1,5 @@
-{* this template is used for adding/editing/deleting grant *} 
+{* this template is used for adding/editing/deleting grant *}
+<div class="html-adjust">{$form.buttons.html}</div> 
 <fieldset>
 	{if $action eq 1}
 	<legend>{ts}New Grant{/ts}</legend>
@@ -65,9 +66,7 @@
                             {include file="CRM/Form/attachment.tpl"}
                           </td>
                         </tr>
-			<tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr> 
 		</table>
 	</div>
 </fieldset>
-
-
+<div class="html-adjust">{$form.buttons.html}</div>
