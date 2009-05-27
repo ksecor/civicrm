@@ -55,6 +55,7 @@ class CRM_Report_Page_Report extends CRM_Core_Page
 
         if ( strstr($templateInfo['name'], '_Form') ) {
             CRM_Utils_System::setTitle( $templateInfo['label'] );
+            $this->assign( 'reportTitle', $templateInfo['label'] );
 
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( $templateInfo['name'], null, null );

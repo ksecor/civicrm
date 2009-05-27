@@ -254,8 +254,10 @@ class CRM_Report_Form extends CRM_Core_Form {
                             $this->_columns[$tableName][$fieldGrp][$fieldName]['name'] = $fieldName;
                         }
 
-                        $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = 
-                            $alias . '.' . $this->_columns[$tableName][$fieldGrp][$fieldName]['name'];
+                        if ( !isset($this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias']) ) {
+                            $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = 
+                                $alias . '.' . $this->_columns[$tableName][$fieldGrp][$fieldName]['name'];
+                        }
                     }
                 }
             }
@@ -789,7 +791,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function grandTotal( &$rows ) {
-        if ( !$this->_rollup ) {
+        if ( !$this->_rollup || ($this->_rollup == '') ) {
             return false;
         }
         $lastRow = array_pop($rows);
@@ -832,6 +834,53 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         // use this method for formatting rows for display purpose.
         $this->alterDisplay( $rows );
+    }
+
+    function where( ) {
+        $whereClauses = $havingClauses = array( );
+        foreach ( $this->_columns as $tableName => $table ) {
+            if ( array_key_exists('filters', $table) ) {
+                foreach ( $table['filters'] as $fieldName => $field ) {
+                    $clause = null;
+                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                        $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
+                        $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
+                        $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
+
+                        $clause = $this->dateClause( $field['name'], $relative, $from, $to );
+                    } else {
+                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                        if ( $op ) {
+                            $clause = 
+                                $this->whereClause( $field,
+                                                    $op,
+                                                    CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                        }
+                    }
+                    
+                    if ( ! empty( $clause ) ) {
+                        if ( $field['having'] ) {
+                            $havingClauses[] = $clause;
+                        } else {
+                            $whereClauses[] = $clause;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ( empty( $whereClauses ) ) {
+            $this->_where = "WHERE ( 1 ) ";
+        } else {
+            $this->_where = "WHERE " . implode( ' AND ', $whereClauses );
+        }
+
+        if ( !empty( $havingClauses ) ) {
+            // use this clause to construct group by clause.
+            $this->_having = "HAVING " . implode( ' AND ', $havingClauses );
+        }
     }
 
     function processReportMode( ) {

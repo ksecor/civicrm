@@ -37,13 +37,6 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
 
-    protected $_summary = null;
-
-    protected $_charts = array( ''         => 'Tabular',
-                                'barGraph' => 'Bar Graph',
-                                'pieGraph' => 'Pie Graph'
-                                );
-    
     function __construct( ) {
         $this->_columns = 
             array( 'civicrm_contact'  =>
@@ -55,7 +48,7 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
                                  'display_name' => 
                                  array( 'title'      => ts( 'Contact Name' ),
                                         'required'   => true,
-                                        'no_repeat'  => true ),), 
+                                        'no_repeat'  => true ), ), 
                           ),
                    
                    'civicrm_contribution' =>
@@ -70,11 +63,15 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
                                               'avg'    => ts( 'Average' ), ), ), ),
                           'filters'               =>             
                           array( 'receive_date'   => 
-                                 array( 'default' => 'this.month',
+                                 array( 'default' => 'previous.year',
                                         'type'    => CRM_Utils_Type::T_DATE),
                                  'total_count'   => 
                                  array( 'title'   => ts( 'Total Count' ),
-                                        'type'    => CRM_Utils_Type::T_INT ),
+                                        'type'    => CRM_Utils_Type::T_INT,
+                                        'dbAlias' => 'civicrm_contribution_total_amount_count',
+                                        'having'  => true ),
+                                 // 'having' flag indicates if having clause needs 
+                                 // to be applied with this field
                                  ),
                           ),
                    
@@ -89,16 +86,15 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         
-        $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
-                                                                 'type'   => 'checkbox',
-                                                                 'default'=> true ),
+        $this->_options = array( 'include_grand_total' 
+                                 => array( 'title'  => ts( 'Include Grand Totals' ),
+                                           'type'   => 'checkbox',
+                                           'default'=> true ),
                                  );
         parent::__construct( );
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Contribution Summary Report' ) );
-        
         parent::preProcess( );
     }
     
@@ -154,6 +150,7 @@ class CRM_Report_Form_Contribute_SummaryCount extends CRM_Report_Form {
 
     static function formRule( &$fields, &$files, $self ) {  
         $errors = array( );
+
         return $errors;
     }
 
@@ -169,178 +166,34 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
 ";
     }
 
-    function where( ) {
-        $clauses = array( );
-        $this->_tempClause = '';
-        foreach ( $this->_columns as $tableName => $table ) {
-            if ( array_key_exists('filters', $table) ) {
-                foreach ( $table['filters'] as $fieldName => $field ) {
-                    $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
-                        $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
-                        $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
-                        $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
-                        
-                        if ( $relative || $from || $to ) {
-                            $clause = $this->dateClause( $field['name'], $relative, $from, $to );
-                        }
-                    } else {
-                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
-                        if ( $op ) {
-                            
-                            $clause = 
-                                $this->whereClause( $field,
-                                                    $op,
-                                                    CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
-                        }
-                    }
-                    
-                    if ( ! empty( $clause ) ) {
-                        if ( $fieldName == 'total_count' ) {
-                            //replace string because the
-                            //contribution.total_count column doesn't exist
-                            //and we have to show the result on the
-                            //basis of total count, the replaced string
-                            //is present in temparary table
-                            $this->_tempClause = str_replace("contribution.total_count", "civicrm_contribution_total_amount_count_temp", 
-                                                             $clause);
-                        } else{
-                            $clauses[] = $clause;
-                        }
-                    }
-                }
-            }
-        }
-        if ( empty( $clauses ) ) {
-            $this->_where = "WHERE ( 1 ) ";
-        } else {
-            $this->_where = "WHERE " . implode( ' AND ', $clauses );
-        }
-    }
-
-    function statistics( &$rows ) {
-        $statistics = array();
-
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        return $statistics;
-    }
-
     function groupBy( ) {
-        $this->_rollup = '';    
-        if ( !empty($this->_statFields) && 
-             CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {             
-            $this->_rollup = " WITH ROLLUP";
-        }
-        
-        $this->_groupBy = "GROUP BY contact.id {$this->_rollup}";
-    }
-
-    function tempTable ( ) {
-
-        $temSql = " SELECT contact.id as civicrm_contact_id,
-                    COUNT(contribution.total_amount) as civicrm_contribution_total_amount_count_temp
-                    {$this->_from} {$this->_where} {$this->_groupBy}";
-
-        //define table name
-        $randomNum = md5( uniqid( ) );
-        $this->_tableName = "civicrm_temp_report_{$randomNum}"; 
-
-        //Create the Temporary Table
-        $sql =  " CREATE  TEMPORARY TABLE report_{$this->_tableName} ( id int PRIMARY KEY AUTO_INCREMENT,
-                                                             civicrm_contact_id int,
-                                                             civicrm_contribution_total_amount_count_temp int
-                                                            ) ENGINE=HEAP ";
-
-        CRM_Core_DAO::executeQuery( $sql,CRM_Core_DAO::$_nullArray );
-
-        //insert the data based on the search criteria excluding the Total counts Filter
-        $distanceQuery = 
-            "INSERT INTO report_{$this->_tableName} ( civicrm_contact_id,
-                                                      civicrm_contribution_total_amount_count_temp
-                                                     )
-             {$temSql}" ;
-
-         CRM_Core_DAO::executeQuery( $distanceQuery, CRM_Core_DAO::$_nullArray );
-
-        //select the contact on the Totals Counts Filter criteria
-        $sql = 
-            " {$this->_select}
-              FROM civicrm_contact contact 
-                   INNER JOIN report_{$this->_tableName} temptable ON ( contact.id = temptable.civicrm_contact_id )
-                   LEFT  JOIN civicrm_contribution contribution ON( contribution.contact_id= temptable.civicrm_contact_id )
-              $this->_where AND {$this->_tempClause} {$this->_groupBy}";
-
-        return $sql;
+        $this->_groupBy = "GROUP BY contact.id {$this->_rollup} {$this->_having}";
     }
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-       
-        $this->processReportMode( );
+        // get ready with post process params
+        $this->beginPostProcess( );
 
-        $this->select  ( );
-        $this->from    ( );
-        $this->where   ( );
-        $this->groupBy ( );
+        // build query
+        $sql = $this->buildQuery( false );
 
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
-        //To show contact only in speicfied range
-        //create temp table for all record and then filter the record
-        //based on the specified counting range
-        if ( $this->_tempClause ) {
-            $sql = $this->tempTable( $temSql );
-        }
-        $dao   = CRM_Core_DAO::executeQuery( $sql );
-        
-        $rows  = $graphRows = array();
-        $count = 0;
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
+        // build array of result based on column headers. This method also allows 
+        // modifying column headers before using it to build result set i.e $rows.
+        $this->buildRows ( $sql, $rows );
 
-            require_once 'CRM/Utils/PChart.php';
-            if ( CRM_Utils_Array::value('charts', $this->_params ) && 
-                 $row['civicrm_contribution_receive_date_subtotal'] ) {
-                $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
-                $graphRows[$this->_interval][] = $row['civicrm_contribution_receive_date_interval'];
-                $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
-                $count++;
-            }
-            
-            $rows[] = $row;
-        }
+        // format result set. 
         $this->formatDisplay( $rows );
 
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-        $this->assign( 'statistics', $this->statistics( $rows ) );
-        
-        require_once 'CRM/Utils/PChart.php';
-        if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
-            foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
-                unset( $graphRows[$ignore][$count-1] );
-            }
-            $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
-            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+        // assign variables to templates
+        $this->doTemplateAssignment( $rows );
 
-        }
-        parent::endPostProcess( );
+        // do print / pdf / instance stuff if needed
+        $this->endPostProcess( );
     }
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
- 
-        $entryFound = false;
+         $entryFound = false;
 
         foreach ( $rows as $rowNum => $row ) {
             // convert display name to links
@@ -348,8 +201,8 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $row["civicrm_contact_display_name"] . '</a>';
+                $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
+
                 $entryFound = true;
             }
 
