@@ -417,7 +417,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                 case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
                     // assume a multi-select field
                     $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                    $select = $this->addElement('select', "{$fieldName}_value", null, $field['options']);
+                    $select = $this->addElement('select', "{$fieldName}_value", null, $field['options'], array( 'size' => 4, 
+                                                                                                                'style' => 'width:200px'));
                     $select->setMultiple( true );
                     break;
 

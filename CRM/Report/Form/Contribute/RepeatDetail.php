@@ -72,11 +72,14 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
                                         'default' => true ), ),
                           'filters' =>             
                           array( 'country_id' => 
-                                 array( 'title'   => ts( 'Country ID' ), 
-                                        'type'    => CRM_Utils_Type::T_INT ), 
+                                 array( 'title'   => ts( 'Country' ), 
+                                        'type'    => CRM_Utils_Type::T_INT+ CRM_Utils_Type::T_ENUM,
+                                        'options' => CRM_Core_PseudoConstant::country( ), ), 
                                  'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province ID' ), 
-                                        'type'    => CRM_Utils_Type::T_INT ), ), ),
+                                 array( 'title'   => ts( 'State/Province' ), 
+                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'options' => CRM_Core_PseudoConstant::stateProvince( ),), ), 
+                          ),
 
                    'civicrm_contribution' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
