@@ -121,10 +121,14 @@ class CRM_Profile_Page_View extends CRM_Core_Page
         
         //CRM-4131.
         $sortName    = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_id, 'display_name' );
-        
         if ( $sortName ) {
-            $sortNameUrl = CRM_Utils_System::url('civicrm/contact/view', "action=view&reset=1&cid={$this->_id}", true);
-            $sortName = "<a href=\"$sortNameUrl\">{$sortName}</a>";
+            require_once 'CRM/Core/Permission.php';
+            $session   =& CRM_Core_Session::singleton( );
+            if ( CRM_Core_Permission::check( 'view all contacts' ) ||
+                 $this->_id == $session->get( 'userID' ) ) {
+                $sortNameUrl = CRM_Utils_System::url('civicrm/contact/view', "action=view&reset=1&cid={$this->_id}", true);
+                $sortName = "<a href=\"$sortNameUrl\">{$sortName}</a>";
+            } 
             $title .= ' - ' . $sortName;
         }
         
