@@ -36,24 +36,36 @@
 require_once 'CRM/Core/Form.php';
 
 class CRM_Report_Form_Register extends CRM_Core_Form {
-
+    public $_id;
+    
     public function preProcess()  
     {  
 
+        $this->_action = CRM_Utils_Request::retrieve( 'action',
+                                               'String',
+                                               $this, false, 'add' );
+        $this->_opID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
+                                             'report_list', 'id', 'name' );
 
     }
     function setDefaultValues( ) 
     {
         $defaults = array();
+        $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight( 'CRM_Core_DAO_OptionValue', 
+                                                                  array( 'option_group_id' => $this->_opID) );
         return $defaults;
     }
     public function buildQuickForm( )  
     {
         
-        $this->add( 'text', 'label', ts('Report Title'), array( 'size'=> 40 ), true );
-        $this->add( 'text', 'value', ts('Report URL'),   array( 'size'=> 40 ), true );
-        $this->add( 'text', 'name',  ts('Report Class'), array( 'size'=> 40 ), true );
-        
+        $this->add( 'text', 'label',  ts('Title'), array( 'size'=> 40 ), true );
+        $this->add( 'text', 'value',  ts('URL'),   array( 'size'=> 40 ), true );
+        $this->add( 'text', 'name',   ts('Class'), array( 'size'=> 40 ), true );
+        $element = $this->add( 'text', 'weight', ts('Weight'), array( 'size'=> 4 ), true );
+        $element->freeze( );
+        $this->add( 'text', 'description',  ts('Description'), array( 'size'=> 40 )  , true );
+
+        $this->add('checkbox', 'is_active', ts('Enabled?'));
         require_once 'CRM/Core/Component.php';
         $this->_components = CRM_Core_Component::getComponents();
         //unset the report component
@@ -64,7 +76,7 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
             $components[$object->componentID] = $object->info['translatedName'];
         }
 
-        $this->add( 'select', 'component_id', ts('Component'),   array(''=>ts( '- select -' )) + $components );     
+        $this->add( 'select', 'component_id', ts('Component'),   array(''=>ts( 'Contact' )) + $components );     
         
         $this->addButtons(array( 
                                 array ( 'type'      => 'upload',
@@ -92,8 +104,16 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
      */ 
     public function postProcess( )  
     {   
-        // get the submitted form values.  
+        // get the submitted form values. 
+
         $params = $this->controller->exportValues( $this->_name );
+        
+        $ids    = array( );
+        $groupParams = array( 'name' => ('report_list') );
+        require_once 'CRM/Core/OptionValue.php';
+        $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
+        
+        CRM_Core_Session::setStatus( ts('The %1 \'%2\' has been saved.', array(1 => 'Report List', 2 => $optionValue->label)) );
     }     
 }
 ?>

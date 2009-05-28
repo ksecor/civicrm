@@ -12,17 +12,23 @@
 		    </table>
 	        </div>
 		<div id="{$report}" style="display:none;">
-		    <table class="report">
+		    <table style="border:0;">
 		        {foreach from=$rows item=row}
-	                    <tr >
-			        <td width="300"><a href="{$row.2}">&raquo; {$row.0}</a>
+	                    <tr style="border-bottom:1px solid #E3E9ED;background-color:{cycle values="#FFFFFF;,#F4F6F8;" name="$report"}">
+  		                <td style="color:#2F425C;width:200px;">
+     		                    <a href="{$row.Url}" style="text-decoration:none;display:block;" title="{$row.info}">
+                 		        <img alt="report" src="{$config->resourceBase}i/report.gif"/>&nbsp;&nbsp;
+			            	<strong>{$row.title}</strong>
+				    </a>
    				    {if $row.instance}
 					<div align="right">
 					    <a href="{$row.instance}">{ts}Instance{/ts}</a>
 					</div>
 				    {/if}
 			        </td>
-				<td width="450">{$row.1}</td>
+				<td style="cursor:help;width:350px;">
+				    {$row.info}
+				</td>
 			    </tr>
 	        	{/foreach}
                     </table>

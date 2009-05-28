@@ -85,8 +85,8 @@ class CRM_Report_Page_List extends CRM_Core_Page
                 if ( $dao->component_id ) {
                     $compName = $component[$dao->component_id];
                 }
-                $rows[$compName][$dao->value][] = $dao->label;
-                $rows[$compName][$dao->value][] = $dao->description;               
+                $rows[$compName][$dao->value]['title'] = $dao->label;
+                $rows[$compName][$dao->value]['info']  = $dao->description;               
                 $temp = explode( '_', $dao->name );
                 if ( $val = CRM_Utils_Array::value( 3, $temp ) ) {
                     $val{0} = strtolower($val{0});
@@ -96,7 +96,7 @@ class CRM_Report_Page_List extends CRM_Core_Page
                     $val{0} = strtolower($val{0});
                     $url   .= '/' . $val;
                 }
-                $rows[$compName][$dao->value][] = CRM_Utils_System::url( $url, 'reset=1');
+                $rows[$compName][$dao->value]['Url']   = CRM_Utils_System::url( $url, 'reset=1');
                 if ( $dao->instanace ) {
                     $rows[$compName][$dao->value]['instance'] = CRM_Utils_System::url( 'civicrm/report/instance/list',
                                                                                        "reset=1&ovid={$dao->id}");
