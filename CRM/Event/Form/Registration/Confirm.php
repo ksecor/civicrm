@@ -526,7 +526,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         
         //handle if no additional participant.
-        if ( ! $registerByID ) {
+        if ( isset( $registerByID ) &&
+             ! $registerByID ) {
             $registerByID = $this->get('registerByID');
         }
 

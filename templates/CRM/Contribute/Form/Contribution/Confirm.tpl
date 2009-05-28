@@ -2,6 +2,8 @@
     {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
 {/if}
 
+{include file="CRM/common/TrackingFields.tpl"}
+
 <div class="form-item">
     <div id="help">
         <p>{ts}Please verify the information below carefully. Click <strong>Go Back</strong> if you need to make changes.{/ts}

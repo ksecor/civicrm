@@ -622,8 +622,10 @@ class CRM_Profile_Form extends CRM_Core_Form
             $params['group'] = $groupSubscribed;
         }
 
+        // commenting below code, since we potentially
+        // triggered maximum name field formatting cases during CRM-4430.
         // CRM-4343
-        $params['preserveDBName'] = true;
+        // $params['preserveDBName'] = true;
 
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,

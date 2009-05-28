@@ -118,7 +118,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                         'label'       => 'Subject',
                                                         'attributes'  => CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
                                                                                                     'subject' ),
-                                                        'required'    => ( $this->_caseId )? false : true,
                                                         ),
                   'activity_date_time'      =>  array( 'type'        => 'date',
                                                        'label'       => 'Date and Time',
@@ -177,6 +176,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                          CRM_Core_OptionGroup::values('recur_frequency_units', 
                                                                                       false, false, false, 
                                                                                       null, 'name'),
+                                                         ),
+                  // Add optional 'Subject' field for the Follow-up Activiity, CRM-4491
+                  'followup_activity_subject' =>  array( 'type'       => 'text',
+                                                         'label'      => 'Subject',
+                                                         'attributes' => CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                                    'subject' ),
                                                          ),
                   
                   );
@@ -603,8 +608,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                );
         } else {
             $js = null;
-            if ( $this->_action & CRM_Core_Action::UPDATE && $this->_context == 'caseActivity' ) {
-                $js = array( 'onclick' => "return verify( );" ); 
+            if ( $this->_context == 'caseActivity' ) {
+                $js = array( 'onclick' => "return verify();" ); 
             }
             $this->addButtons( array(
                                      array ( 'type'      => 'upload',
@@ -651,6 +656,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $errors['activity_type_id'] = ts('Activity Type is a required field');
         }
         
+        //Activity type is mandatory if creating new activity, CRM-4515
+        if ( array_key_exists( 'activity_type_id', $fields ) && 
+             ! CRM_Utils_Array::value( 'activity_type_id', $fields ) ) {
+            $errors['activity_type_id'] = ts('Activity Type is required field.');
+        }
         //FIX me temp. comment
         // make sure if associated contacts exist
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -683,6 +693,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         if ( CRM_Utils_Array::value( 'followup_activity_type_id', $fields ) && !CRM_Utils_Array::value( 'interval', $fields ) ) {
             $errors['interval'] = ts('Interval is required field.');
+        }
+        //Activity type is mandatory if subject is specified for an Follow-up activity, CRM-4515
+        if ( CRM_Utils_Array::value( 'followup_activity_subject',$fields ) && 
+             ! CRM_Utils_Array::value( 'followup_activity_type_id', $fields ) ) {
+            $errors['followup_activity_subject'] = ts('Follow-up Activity type is required field.');
         } 
         return $errors;
     }

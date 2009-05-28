@@ -1,6 +1,9 @@
 {if $action & 1024}
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
 {/if}
+
+{include file="CRM/common/TrackingFields.tpl"}
+
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
 <div class="form-item">
 {if $event.intro_text}

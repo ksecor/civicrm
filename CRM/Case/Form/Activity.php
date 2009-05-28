@@ -416,9 +416,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // update existing case record if needed
         $caseParams       = $params;
         $caseParams['id'] = $this->_caseId;
-        require_once 'CRM/Utils/Date.php';        
-        $currentStartDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', 
-                                                                                       $caseParams['id'], 'start_date' ) );
+        
         if ( CRM_Utils_Array::value('case_type_id', $caseParams ) ) {
             $caseParams['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR .
                 $caseParams['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
@@ -431,38 +429,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         unset($caseParams['subject'], $caseParams['details'], 
               $caseParams['status_id'], $caseParams['custom']);
         $case = CRM_Case_BAO_Case::create( $caseParams );
-
-        //if case start date is changed add activityset as per new start date.
-        //CRM-4374.       
-        if ( $caseParams['activity_type_id'] == CRM_Core_OptionGroup::getValue('activity_type', 'Change Case Start Date', 'name') ) {
-            $query = "SELECT  cov_type.label as case_type FROM civicrm_case 
-                      LEFT JOIN  civicrm_option_group cog_type ON cog_type.name = 'case_type'
-                      LEFT JOIN civicrm_option_value cov_type ON 
-                     ( civicrm_case.case_type_id = cov_type.value AND cog_type.id = cov_type.option_group_id ) 
-                     WHERE civicrm_case.id=  %1";
-            
-            $queryParams = array(1 => array($case->id, 'Integer'));
-            $caseType = CRM_Core_DAO::singleValueQuery( $query, $queryParams );
-            $newStartDate = CRM_Utils_Date::customFormat(CRM_Utils_Date::mysqlToIso($caseParams['start_date']));
-            $subject = 'Change Case Start Date from ' . $currentStartDate . ' to ' . $newStartDate;
-            $activity->subject = $subject;
-            $activity->save();
-            // 2. initiate xml processor
-            $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-            $xmlProcessorParams = array( 
-                                        'clientID'           => $this->_currentlyViewedContactId,
-                                        'creatorID'          => $this->_currentUserId,
-                                        'standardTimeline'   => 0,
-                                        'dueDateTime'        => $caseParams['start_date'],
-                                        'caseID'             => $case->id,
-                                        'caseType'           => $caseType,
-                                        'activityTypeName'   => 'Change Case Start Date',
-                                        'activitySetName'    => 'standard_timeline',
-                                        'is_StartdateChanged'=> 1,           
-                                         );
-            
-            $xmlProcessor->run( $caseType, $xmlProcessorParams );
-        }
         
         // create case activity record
         $caseParams = array( 'activity_id' => $activity->id,

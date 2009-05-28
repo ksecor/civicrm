@@ -801,7 +801,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             
             $contact = civicrm_contact_get( $params );
             
-            if ( civicrm_error( $contact ) ) {
+            //CRM-4524
+            $contact = reset( $contact );
+            
+            if ( !$contact || civicrm_error( $contact ) ) {
                 $notSent[] = $contactId;
                 continue;
             }
@@ -1296,6 +1299,8 @@ AND cl.modified_id  = c.id
             CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
         
         $followupParams['activity_type_id']  = $params['followup_activity_type_id'];
+        // Get Subject of Follow-up Activiity, CRM-4491
+        $followupParams['subject']           = CRM_Utils_Array::value('followup_activity_subject', $params);
         
         //create target contact for followup
         if ( CRM_Utils_Array::value('target_contact_id', $params) ) {
