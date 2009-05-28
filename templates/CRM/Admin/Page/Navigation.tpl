@@ -22,7 +22,7 @@
             {/foreach}
         </table>
         *}
-        <div id="navigation-tree" class="navigation-tree" style="height:200px;"></div>
+        <div id="navigation-tree" class="navigation-tree" style="height:auto;"></div>
         {literal}
         <script type="text/javascript">
             cj(function () {

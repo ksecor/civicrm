@@ -415,6 +415,9 @@ div.block-civicrm li {
 #crm-container .tree-default li.open { background:url("../packages/jquery/plugins/themes/default/fminus.gif") 4px 6px no-repeat; }
 #crm-container .tree-default li.closed, #jstree-dragged.tree-default li li.open { background:url("../packages/jquery/plugins/themes/default/fplus.gif") 5px 5px no-repeat; }
 
+/* Needed for icon and text alignment when dragging a node. dgg */
+.tree-default li a:link { padding:0px 3px 0px 22px; background-position:3px 0px;  }
+
 /* DEFAULT, HOVER, CLICKED, LOADING STATES */
 #crm-container .tree-default li a, .tree-default li span { background-color:transparent; background-repeat:no-repeat; background-position:4px 1px; padding:1px 4px 1px 23px; background-image:url("../packages/jquery/plugins/themes/default/f.png"); border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
 #crm-container .tree-default li a:hover, .tree-default li a.hover { background-color: #e7f4f9; border:1px solid #d8f0fa; padding:0px 3px 0px 22px; background-position:3px 0px;  }
@@ -841,9 +844,8 @@ div.crm-pager a {
 
 #crm-container #alpha-filter li {
   display: inline;
-  /*background-color: #eee;*/
+  background-image: none;
   background-color: #EDF2FF;
-  /*border: 1px solid #6e6e6e;*/
   border: 1px solid #4A88DF;
   color: #aaa;
   font-size: .95em;
