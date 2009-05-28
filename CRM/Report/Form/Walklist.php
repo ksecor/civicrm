@@ -49,13 +49,13 @@ class CRM_Report_Form_Walklist extends CRM_Report_Form {
             array( 'civicrm_contact'      =>
                    array( 'dao'     => 'CRM_Contact_DAO_Contact',
                           'fields'  =>
-                          array( 'display_name' => 
+                          array( 'id'           => 
+                                 array( 'title' => ts( 'Contact ID' ),
+                                        'required'  => true, ),  
+                                'display_name' => 
                                  array( 'title' => ts( 'Contact Name' ),
                                         'required'  => true,
                                         'no_repeat' => true ),
-                                 'id'           => 
-                                 array( 'title' => ts( 'Contact ID' ),
-                                        'required'  => true, ), 
                                  ),
                           'filters' =>             
                           array('sort_name'    => 
@@ -95,7 +95,7 @@ class CRM_Report_Form_Walklist extends CRM_Report_Form {
                    'civicrm_email' => 
                    array( 'dao' => 'CRM_Core_DAO_Email',
                           'fields' =>
-                          array( 'email' => null),
+                          array( 'email' => array( 'default'=> true )),
                           'grouping'=> 'location-fields',
                           ),
                    

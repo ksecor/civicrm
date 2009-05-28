@@ -89,10 +89,10 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                                ),
                                         'group_bys'=>             
                                         array( 'activity_date_time' => 
-                                               array( 'default'    => true,
-                                                      'frequency'  => true ),
+                                               array( 'frequency'  => true ),
                                                'activity_type_id'  => null,
-                                               'source_contact_id' => null,
+                                               'source_contact_id' =>
+                                               array( 'default'    => true ),
                                                ),
                                         'grouping'=> 'activity-fields',
                                         'order_bys'=>             

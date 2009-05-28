@@ -49,7 +49,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'fields'    =>
                           array( 'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ),
-                                        'no_repeat'  => true ),
+                                        'no_repeat'  => true,
+                                        'default'    => true ),
                                  'id'           => 
                                  array( 'no_display' => true,
                                         'required'  => true, ), ), 
@@ -88,8 +89,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  array( 'title'   => ts( 'Total  Amount Between' ), ), ),
                           'group_bys'           =>
                           array( 'receive_date' => 
-                                 array( 'default'    => true,
-                                        'frequency'  => true ),
+                                 array( 'frequency'  => true ),
                                  'contribution_source'     => null, ), ),
 
                    'civicrm_group' => 

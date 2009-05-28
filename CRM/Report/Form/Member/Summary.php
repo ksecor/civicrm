@@ -122,7 +122,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                    'civicrm_email' => 
                    array( 'dao'    => 'CRM_Core_DAO_Email',
                           'fields' =>
-                          array( 'email' => null),
+                          array( 'email' => array( 'default'   => true ),),
                           'grouping'=> 'contact-fields',
                           ),
                    
@@ -141,11 +141,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         $this->assign( 'reportTitle', ts('Membership Summary Report' ) );
         parent::preProcess( );
     }
-    
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
-    }
-    
+
     function select( ) {
         $select = array( );
         $this->_columnHeaders = array( );

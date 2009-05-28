@@ -76,8 +76,10 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
                    array( 'dao'       => 'CRM_Core_DAO_Address',
                           'grouping'  => 'contact-fields',
                           'fields'    =>
-                          array( 'street_address'    => null,
-                                 'city'              => null,
+                          array( 'street_address'    => 
+                                 array( 'default' => true ),
+                                 'city'              => 
+                                 array( 'default' => true ),
                                  'postal_code'       => null,
                                  'state_province_id' => 
                                  array( 'title'   => ts( 'State/Province' ), ),

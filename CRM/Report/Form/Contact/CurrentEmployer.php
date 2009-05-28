@@ -67,7 +67,8 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
                                        'required' => true,),
                                 
                                 'job_title'    => 
-                                array( 'title' => ts( 'Job Title'),),
+                                array( 'title'   => ts( 'Job Title'),
+                                       'default' => true ),
                                 
                                 'gender_id'    =>
                                 array( 'title' => ts( 'Gender'),),
@@ -103,8 +104,8 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
                          'grouping'  => 'contact-fields',
                          'fields'    =>
                          array( 'email' => 
-                                array( 'title'     => ts( 'Email' ), ),),
-                         
+                                array( 'title'   => ts( 'Email' ), 
+                                       'default' => true ), ),
                          ),
                   
                   'civicrm_address' =>

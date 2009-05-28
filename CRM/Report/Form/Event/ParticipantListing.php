@@ -74,11 +74,13 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                          'fields'    =>
                          array( 'participant_id' =>  array( 'no_display' => true,
                                                             'required'   => true, ),
-                                'event_id'       => null,
-                                'status_id'      => array( 'title' => ts('Status') ),
-                                'role_id'        => array( 'title' => ts('Role') ),
-                                'fee_amount'     => array( 'title' => ts('Fee Amount') ),                                         
-                                'register_date'  => array( 'title' => ts('Registration Date') ),
+                                'event_id'       => array( 'default' => true ),
+                                'status_id'      => array( 'title'   => ts('Status'),
+                                                           'default' => true ),
+                                'role_id'        => array( 'title'   => ts('Role'),
+                                                           'default' => true ),
+                                'fee_amount'     => array( 'title'   => ts('Fee Amount') ),                                         
+                                'register_date'  => array( 'title'   => ts('Registration Date') ),
                                 ), 
                          'grouping'  => 'event-fields',
                          'filters'   =>             
