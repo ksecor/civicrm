@@ -165,7 +165,7 @@ class CRM_Core_Permission {
 
     public static function event( $type = CRM_Core_Permission::VIEW, $eventID = null ) {
         require_once 'CRM/Event/PseudoConstant.php';
-        $events = CRM_Event_PseudoConstant::event( );
+        $events = CRM_Event_PseudoConstant::event( null, true );
 
         // check if user has all powerful permission
         if ( self::check( 'register for events' ) ) {
