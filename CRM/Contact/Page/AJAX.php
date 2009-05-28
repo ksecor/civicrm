@@ -175,7 +175,7 @@ ORDER BY sort_name ";
 
         $elements = array( );
         if ( $name || isset( $id ) ) {
-            $name  = str_replace( '*', '%', $name );
+            $name  = $name . '%';
             
             //contact's based of relationhip type
             $relType = null; 
@@ -326,7 +326,7 @@ ORDER BY sort_name ";
 
         if( $json ) {
           require_once "CRM/Utils/JSON.php";
-          echo CRM_Utils_JSON::encode( $elements );
+          echo json_encode( $elements );
         } 
         exit();
     }

@@ -3,18 +3,47 @@
    {include file="CRM/Custom/Form/CustomData.tpl"}
 {elseif $atypefile }
    {if $activityTypeFile}{include file="CRM/{$crmDir}/Form/Activity/$activityTypeFile.tpl"}{/if}
-{elseif $addAssigneeContact or $addTargetContact }
-   {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
 
 {* added onload javascript for source contact*}
-{if $source_contact and $admin and $action neq 4}
-   <script type="text/javascript">
-       dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'source_contact_id' ).setValue( "{$source_contact}")
-       {rdelim} );
-   </script>
+{literal}
+<script type="text/javascript">
+var target_contact = assignee_contact = '';
+
+{/literal}
+{foreach from=$target_contact key=id item=name}
+     {literal} target_contact += '{"name":"'+{/literal}"{$name}"{literal}+'","id":"'+{/literal}"{$id}"{literal}+'"},';{/literal}
+{/foreach}
+{literal} eval( 'target_contact = [' + target_contact + ']'); {/literal}
+
+{if $assigneeContactCount}
+{foreach from=$assignee_contact key=id item=name}
+     {literal} assignee_contact += '{"name":"'+{/literal}"{$name}"{literal}+'","id":"'+{/literal}"{$id}"{literal}+'"},';{/literal}
+{/foreach}
+{literal} eval( 'assignee_contact = [' + assignee_contact + ']'); {/literal}
 {/if}
+{literal}
+
+cj(document).ready( function( ) {
+{/literal}
+{if $source_contact and $admin and $action neq 4} 
+{literal} cj( '#source_contact_id' ).val( "{/literal}{$source_contact}{literal}");{/literal}
+{/if}
+{literal}
+
+eval( 'tokenClass = { tokenList: "token-input-list-facebook", token: "token-input-token-facebook", tokenDelete: "token-input-delete-token-facebook", selectedToken: "token-input-selected-token-facebook", highlightedToken: "token-input-highlighted-token-facebook", dropdown: "token-input-dropdown-facebook", dropdownItem: "token-input-dropdown-item-facebook", dropdownItem2: "token-input-dropdown-item2-facebook", selectedDropdownItem: "token-input-selected-dropdown-item-facebook", inputToken: "token-input-input-token-facebook" } ');
+
+var sourceDataUrl = "{/literal}{$dataUrl}{literal}";
+
+cj( "#target_contact_id"  ).tokenInput( sourceDataUrl, { prePopulate: target_contact,   classes: tokenClass });
+cj( "#assignee_contact_id").tokenInput( sourceDataUrl, { prePopulate: assignee_contact, classes: tokenClass });
+
+cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst : false
+                            }).result( function(event, data, formatted) { cj( "#source_contact_qid" ).val( data[1] );
+                            }).bind( 'click', function( ) { cj( "#source_contact_qid" ).val(''); });
+});
+</script>
+{/literal}
 
     <fieldset>
     <legend>
@@ -56,9 +85,7 @@
              <tr>
                 <td class="label">{$form.source_contact_id.label}</td>
                 <td class="view-value">
-                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                       {if $admin and $action neq 4}{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
-                   </div>
+                    {if $admin and $action neq 4}{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
                 </td>
              </tr>
              
@@ -70,9 +97,7 @@
              {elseif $action neq 4}
              <tr>
                 <td class="label">{ts}With Contact{/ts}</td>
-                <td class="tundra">
-                    <div id="target_contact_1"></div>
-                </td>
+                <td>{$form.target_contact_id.html}</td>
              </tr>
 		     {else}
              <tr>
@@ -86,8 +111,7 @@
                 <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">{$assignee_contact_value}</td>
              {else}
                 <td class="label">{ts}Assigned To {/ts}</td>
-                <td class="tundra">                  
-                   <div id="assignee_contact_1"></div>
+                <td>{$form.assignee_contact_id.html}                
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Activities listing at CiviCRM Home.{/ts}<br />{ts}A copy of this activity will be emailed to each Assignee.{/ts}</span>
                    {/edit}
                 </td>
@@ -192,50 +216,5 @@
     </script>
     {/literal}
 {/if}
-
-{* Build add contact *}
-<script type="text/javascript">
-    {literal}
-
-    cj(document).ready(function(){
-        {/literal}
-        {if $action eq 1 or $context eq 'search'}
-            {literal}
-                buildContact( 1, 'assignee_contact' );
-            {/literal}   
-        {/if}
-        {if $action eq 1 }
-            {literal}
-                buildContact( 1, 'target_contact' );
-            {/literal}   
-        {/if}
-
-        {if $action eq 1 or $action eq 2}
-            {literal}
-
-                var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
-                if ( assigneeContactCount ) {
-                    for ( var i = 1; i <= assigneeContactCount; i++ ) {
-                        buildContact( i, 'assignee_contact' );
-                    }
-                }
-
-                var targetContactCount = {/literal}"{$targetContactCount}"{literal}
-                if ( targetContactCount ) {
-                    for ( var i = 1; i <= targetContactCount; i++ ) {
-                        buildContact( i, 'target_contact' );
-                    }
-                }
-
-            {/literal}
-        {/if}
-  {literal}        
-  });
-    
-  {/literal}
-</script>
-
-{*include add contact js file*}
-{include file="CRM/common/addContact.tpl"}
 
 {/if} {* end of snippet if*}	

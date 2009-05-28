@@ -33,4 +33,7 @@
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.progressbar.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.form.js"></script>
 
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tokeninput.js"></script>
+<style type="text/css">@import url({$config->resourceBase}packages/jquery/css/token-input-facebook.css);></style>
+
 <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script>
