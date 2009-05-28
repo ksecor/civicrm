@@ -105,7 +105,6 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
      */
     function browse()
     {
-        CRM_Utils_System::setTitle( ts('Reports Instance') );
         $reportID   = CRM_Utils_Request::retrieve( 'report', 'Positive', $this );
         $rows       =& self::info( $reportID );
         $this->assign('list', $rows);

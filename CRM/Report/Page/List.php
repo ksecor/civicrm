@@ -114,7 +114,6 @@ class CRM_Report_Page_List extends CRM_Core_Page
      */
     function browse()
     {
-        CRM_Utils_System::setTitle( ts('Reports') );
         $rows =& self::info( );
         $this->assign('list', $rows);
         return parent::run();
