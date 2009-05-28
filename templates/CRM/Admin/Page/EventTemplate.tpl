@@ -37,7 +37,7 @@
 
     {if $action ne 1 and $action ne 2}
       <div class="action-link">
-        <a href="{crmURL q="action=add&reset=1"}" id="newEventTemplate" class="button"><span>&raquo; {ts}New Event Template{/ts}</span></a>
+        <a href="{crmURL p="civicrm/event/manage" q="action=add&reset=1"}" id="newEventTemplate" class="button"><span>&raquo; {ts}New Event Template{/ts}</span></a>
       </div>
     {/if}
   </div>
@@ -46,7 +46,7 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/admin/eventTemplate' q="action=add&reset=1"}{/capture}
+        {capture assign=crmURL}{crmURL p='civicrm/event/manage' q="action=add&reset=1"}{/capture}
         <dd>{ts 1=$crmURL}There are no Event Template present. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    

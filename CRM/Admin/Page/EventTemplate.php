@@ -71,13 +71,13 @@ class CRM_Admin_Page_EventTemplate extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/eventTemplate',
+                                                                    'url'   => 'civicrm/event/manage',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Event Template') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/eventTemplate',
+                                                                    'url'   => 'civicrm/event/manage',
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Event Template') 
                                                                     )
