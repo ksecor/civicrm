@@ -1,6 +1,6 @@
 {strip}
     <fieldset>
-        <legend>{ts}Report List{/ts}</legend>
+        <legend>{ts}Template List{/ts}</legend>
         {if $list}
             {foreach from=$list item=rows key=report}
 	        <br>
@@ -16,18 +16,18 @@
 		        {foreach from=$rows item=row}
 	                    <tr style="border-bottom:1px solid #E3E9ED;background-color:{cycle values="#FFFFFF;,#F4F6F8;" name="$report"}">
   		                <td style="color:#2F425C;width:200px;">
-     		                    <a href="{$row.Url}" style="text-decoration:none;display:block;" title="{$row.info}">
+     		                    <a href="{$row.url}" style="text-decoration:none;display:block;" title="{$row.description}">
                  		        <img alt="report" src="{$config->resourceBase}i/report.gif"/>&nbsp;&nbsp;
 			            	<strong>{$row.title}</strong>
 				    </a>
-   				    {if $row.instance}
+   				    {if $row.instanceUrl}
 					<div align="right">
-					    <a href="{$row.instance}">{ts}Instance{/ts}</a>
+					    <a href="{$row.instanceUrl}">{ts}Instance(s){/ts}</a>
 					</div>
 				    {/if}
 			        </td>
 				<td style="cursor:help;width:350px;">
-				    {$row.info}
+				    {$row.description}
 				</td>
 			    </tr>
 	        	{/foreach}
