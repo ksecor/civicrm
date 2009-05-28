@@ -399,37 +399,36 @@ div.spacer, .spacer {
 /*
 ** CSS for links from Drupal Blocks.
 */
-/* For our menu block. Drupal displays an extraneous li bullet without this. */
-.menu li.no-display {
-  list-style-type: none;
-}
 
 /* Following styles are used to remove the white bullets from the Garland Theme */
-#crm-container li { 
-  background-image: none;
-}
-#crm-container ul li,
-div.block-civicrm ul li {
+div.block-civicrm li {
   background-image: none;
 }
 
-/* In the above process, leaf <li> loses the image (this is temporary fix, need to find out the exact cause)*/
-#crm-container ul li.leaf,
-div.block-civicrm ul li.leaf {
-  list-style-image: url(menu-leaf.png);
-}
+/* Styles from jsTree.com menu. Copied here since Drupal styles over-ride otherwise. */
+/* DOTS */
+#crm-container .tree-default ul { background-position:6px 1px; background-repeat:repeat-y; background-image:url("../packages/jquery/plugins/themes/default/dot.gif"); }
+#crm-container .tree-default li { background-position:7px 8px; background-repeat:no-repeat; background-image:url("../packages/jquery/plugins/themes/default/li.gif"); }
+#crm-container .tree-default li.last { background-position:5px top; background-repeat:no-repeat; background-image:url("../packages/jquery/plugins/themes/default/lastli.gif"); }
 
-/* After all the above changes, the menu-leaf and menu-collapsed links are not aligned. Aligning it now */
-#crm-container ul li.leaf, #crm-container ul li.collapsed,
-div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed {
-  padding: 0.2em 0.5em 0 0;
-  margin:  0;
-}
+/* OPEN or CLOSED */
+#crm-container .tree-default li.open { background:url("../packages/jquery/plugins/themes/default/fminus.gif") 4px 6px no-repeat; }
+#crm-container .tree-default li.closed, #jstree-dragged.tree-default li li.open { background:url("../packages/jquery/plugins/themes/default/fplus.gif") 5px 5px no-repeat; }
 
-/* Fix for IE*/
-div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civicrm ul li.expanded{
-  margin: 0 0 0 0.3em;
-}
+/* DEFAULT, HOVER, CLICKED, LOADING STATES */
+#crm-container .tree-default li a, .tree-default li span { background-color:transparent; background-repeat:no-repeat; background-position:4px 1px; padding:1px 4px 1px 23px; background-image:url("../packages/jquery/plugins/themes/default/f.png"); border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
+#crm-container .tree-default li a:hover, .tree-default li a.hover { background-color: #e7f4f9; border:1px solid #d8f0fa; padding:0px 3px 0px 22px; background-position:3px 0px;  }
+#crm-container .tree-default li a.clicked, .tree-default li a.clicked:hover, .tree-default li span.clicked { background-color: #beebff; border:1px solid #99defd; padding:0px 3px 0px 22px; background-position:3px 0px;  }
+#crm-container .tree-default li span.clicked { padding:0px 3px 0px 20px; }
+#crm-container .tree-default li a.loading { background-image:url("../packages/jquery/plugins/themes/default/throbber.gif"); }
+
+/* CONTEXT MENU */
+.tree-default-context { width:160px; background:#F0F0F0 url("../packages/jquery/plugins/themes/default/context.gif") 22px 0 repeat-y; border:1px solid silver; position:absolute; }
+.tree-context a:link, .tree-default-context a, .tree-default-context a.disabled:hover { display:block; text-decoration:none; color:black; line-height:20px; background-repeat: no-repeat; background-position:2px center; padding:1px 0 1px 25px; background-color:transparent; border:1px solid #f0f0f0; border-width:0 1px; margin:0; }
+.tree-default-context a:hover { background-color:#e7f4f9; border:1px solid #d8f0fa; padding:0 0 0 25px; margin:0; }
+.tree-default-context a.disabled, .tree-default-context a.disabled:hover { color:silver; opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); zoom:1; }
+.tree-context span.separator, .tree-default-context .separator { background:#FFFFFF;border-top:1px solid #E0E0E0;font-size:1px;height:1px;line-height:1px;margin:0 2px 0 24px;min-height:1px;display:block; }
+
 /*
 ** Styles for formatting text
 */
