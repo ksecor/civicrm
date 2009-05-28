@@ -147,8 +147,10 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
             $session =& CRM_Core_Session::singleton( ); 
+
+            $isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
             
-            $title = ts('New Event Wizard');
+            $title = $isTemplate ? ts('New Event Template Wizard') : ts('New Event Wizard');
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
             CRM_Utils_System::appendBreadCrumb( $breadCrumb );
             CRM_Utils_System::setTitle( $title );
