@@ -36,87 +36,41 @@
 require_once 'CRM/Core/Page.php';
 
 /**
- * Page for displaying list of Reprots available
+ * Page for displaying list of Reprot templates available
  */
 class CRM_Report_Page_List extends CRM_Core_Page 
 {
 
-
-    /**
-     * The action links that we need to display for the browse screen
-     *
-     * @var array
-     * @static
-     */
-    static $_links = null;
-
     public static function &info( ) {
         $sql = "
-        SELECT  v.id, v.value, v.label, v.description, v.name, v.component_id, inst.id as instanace 
+SELECT  v.id, v.value, v.label, v.description, v.component_id, 
+        inst.id as instance_id, ifnull( SUBSTRING(comp.name, 5), 'Contact' ) as component_name 
+FROM    civicrm_option_value v
+INNER JOIN civicrm_option_group g 
+        ON (v.option_group_id = g.id AND g.name = 'report_list')
+LEFT  JOIN civicrm_report_instance inst 
+        ON v.value = inst.report_id
+LEFT  JOIN civicrm_component comp 
+        ON v.component_id = comp.id
+WHERE     v.is_active = 1
+ORDER BY  v.weight";
 
-          FROM  civicrm_option_group g 
-                LEFT JOIN civicrm_option_value v 
-                       ON (v.option_group_id = g.id AND g.name = 'report_list')
-                LEFT JOIN civicrm_report_instance inst 
-                       ON v.value = inst.report_id
-
-         WHERE     v.is_active = 1
-         GROUP BY  v.value
-         ORDER BY  v.weight
-         ";
-
-        $dao          = CRM_Core_DAO::executeQuery( $sql );
-
-        $query        = "SELECT id, name FROM civicrm_component ";
-        $componentDAO = CRM_Core_DAO::executeQuery( $query );
-
-        $component    = array();
-        while ( $componentDAO->fetch( ) ) {
-            //use component name CiviContribute as Contribute same for
-            //other component
-            $component[$componentDAO->id] = substr($componentDAO->name, 4 ); 
-        }
-                
+        $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array();
         while ( $dao->fetch( ) ) {
-            if ( trim( $dao->description ) ) {
-                $url = 'civicrm/report/';
-                $compName = 'Contact';
-                if ( $dao->component_id ) {
-                    $compName = $component[$dao->component_id];
+            $url = 'civicrm/report/';
+                $rows[$dao->component_name][$dao->value]['title']       = $dao->label;
+                $rows[$dao->component_name][$dao->value]['description'] = $dao->description;               
+                $rows[$dao->component_name][$dao->value]['url']         = 
+                    CRM_Utils_System::url( 'civicrm/report/' . trim($dao->value, '/'), 'reset=1');
+                if ( $dao->instance_id ) {
+                    $rows[$dao->component_name][$dao->value]['instanceUrl'] = 
+                        CRM_Utils_System::url( 'civicrm/report/instance/list',
+                                               "reset=1&ovid={$dao->id}");
                 }
-                $rows[$compName][$dao->value]['title'] = $dao->label;
-                $rows[$compName][$dao->value]['info']  = $dao->description;               
-                $temp = explode( '_', $dao->name );
-                if ( $val = CRM_Utils_Array::value( 3, $temp ) ) {
-                    $val{0} = strtolower($val{0});
-                    $url   .= $val;
-                }
-                if ( $val = CRM_Utils_Array::value( 4, $temp ) ) {
-                    $val{0} = strtolower($val{0});
-                    $url   .= '/' . $val;
-                }
-                $rows[$compName][$dao->value]['Url']   = CRM_Utils_System::url( $url, 'reset=1');
-                if ( $dao->instanace ) {
-                    $rows[$compName][$dao->value]['instance'] = CRM_Utils_System::url( 'civicrm/report/instance/list',
-                                                                                       "reset=1&ovid={$dao->id}");
-                }
-            }
         }
-        return $rows;
-    }
 
-    /**
-     * Browse all Report List.
-     *
-     * @return content of the parents run method
-     *
-     */
-    function browse()
-    {
-        $rows =& self::info( );
-        $this->assign('list', $rows);
-        return parent::run();
+        return $rows;
     }
 
     /**
@@ -125,12 +79,9 @@ class CRM_Report_Page_List extends CRM_Core_Page
      * @return void
      */
     function run() {
-        $action = CRM_Utils_Request::retrieve( 'action',
-                                               'String',
-                                               $this, false, 'browse' );
-
-        $this->assign( 'action', $action );
-        $this->browse( );
+        $rows =& self::info( );
+        $this->assign('list', $rows);
+        
+        return parent::run();
     }
 }
-?>
