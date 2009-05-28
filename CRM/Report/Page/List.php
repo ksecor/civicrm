@@ -99,7 +99,7 @@ class CRM_Report_Page_List extends CRM_Core_Page
                 $rows[$compName][$dao->value][] = CRM_Utils_System::url( $url, 'reset=1');
                 if ( $dao->instanace ) {
                     $rows[$compName][$dao->value]['instance'] = CRM_Utils_System::url( 'civicrm/report/instance/list',
-                                                                                       "reset=1&report={$dao->id}");
+                                                                                       "reset=1&ovid={$dao->id}");
                 }
             }
         }

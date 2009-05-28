@@ -49,11 +49,11 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
      */
     static $_links = null;
 
-    public static function &info( $reportID = null ) {
+    public static function &info( $ovID = null ) {
 
         $report = '';
-        if ( $reportID ) {
-            $report = " AND v.id = {$reportID} ";
+        if ( $ovID ) {
+            $report = " AND v.id = {$ovID} ";
         }
         $sql = "
         SELECT inst.id, inst.title, inst.report_id, v.label, v.component_id
@@ -105,8 +105,9 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
      */
     function browse()
     {
-        $reportID   = CRM_Utils_Request::retrieve( 'report', 'Positive', $this );
-        $rows       =& self::info( $reportID );
+        //option value ID of the Report
+        $ovID = CRM_Utils_Request::retrieve( 'ovid', 'Positive', $this );
+        $rows =& self::info( $ovID );
         $this->assign('list', $rows);
         return parent::run();
     }
