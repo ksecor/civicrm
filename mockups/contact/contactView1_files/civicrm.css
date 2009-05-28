@@ -1391,6 +1391,7 @@ div#contact_panel {
 div#contact_panel * {
   padding: 0px;
   border: 0px;
+  margin: 0px;
 }
 
 div#contactCardLeft {
