@@ -65,6 +65,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      */ 
     protected $_single;
     
+    /**
+     * are we actually managing an event template?
+     * @var boolean
+     */
+    protected $_isTemplate = false;
     
     /** 
      * Function to set variables up before form is built 
@@ -79,6 +84,13 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
 
         $this->_single = $this->get( 'single' );
+
+        // figure out whether we’re handling an event or an event template
+        if ($this->_id) {
+            $this->_isTemplate = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
+        } elseif ($this->_action & CRM_Core_Action::ADD) {
+            $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
+        }
 
         // setting 3rd level breadcrumb for html page if Event exists
         if ( $this->_id ) {
