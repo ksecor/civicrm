@@ -1373,6 +1373,7 @@ div#contactName * {
 div#contactName .label {
    font-size: .7em;
    line-height: 1.4em; 
+   color: gray;
 }
 
 div#contactName .grouplabel {
@@ -1389,7 +1390,6 @@ div#contact_panel {
 
 div#contact_panel * {
   padding: 0px;
-  margin: 0px;
   border: 0px;
 }
 
@@ -1410,6 +1410,7 @@ div#contactCardLeft .label, div#contactCardRight .label {
    font-size: 0.8em;
    vertical-align: top;
    margin-right: 10px;
+   color: gray;
 }
 
 div#contactCardLeft .grouplabel, div#contactCardRight .grouplabel {
