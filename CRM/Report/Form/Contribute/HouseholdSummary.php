@@ -156,10 +156,6 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
-    }
-    
     // Temp table to store contact_ids of household and individuals seperately
     // This is because relationships may keep on changing and table cam handle new household 
     // relationship types created
