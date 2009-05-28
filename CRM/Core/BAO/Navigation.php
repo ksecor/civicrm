@@ -214,6 +214,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
 SELECT id, label, url, permission, permission_operator, has_separator 
 FROM civicrm_navigation 
 WHERE {$whereClause} 
+AND is_active = 1
 ORDER BY parent_id, weight";
 
         $navigation = CRM_Core_DAO::executeQuery( $query );
@@ -232,52 +233,92 @@ ORDER BY parent_id, weight";
     }
         
     /**
-     * Function to build menu html
-     *
+     * Function to build menu 
+     * 
+     * @param boolean $json by default output is html
+     * 
+     * @return returns html or json object
      * @static
      */
-    static function buildNavigation( ) {
+    static function buildNavigation( $json = false ) {
         $navigations = array( );
         self::buildNavigationTree( $navigations, $parent = NULL );
-        $navigationHTML = "";
+        $navigationString = null;
+
         foreach( $navigations as $key => $value ) {
-            $name = self::getMenuName( $value );
-            if ( $name ) { 
-                $navigationHTML .= '<li>' . $name;
-                self::recurseNavigation( $value, $navigationHTML  );
+            if ( $json ) {
+                if ( $navigationString ) {
+                    $navigationString .= '},';
+                }
+                $navigationString .= ' { attributes: { id : "node-'.$key.'" }, data: "'. $value['attributes']['label']. '"';
+            } else {
+                $name = self::getMenuName( $value );
+                if ( $name ) { 
+                    $navigationString .= '<li>' . $name;
+                }
             }
+            
+            self::recurseNavigation( $value, $navigationString, $json );
         }
-             
-        return $navigationHTML;
+        
+        if ( $json ) {
+            $navigationString = '[' .$navigationString . '}]';
+        }
+
+        return $navigationString;
     }
          
     /**
      * Recursively check child menus
      */
-    function recurseNavigation(&$value, &$navigationHTML ) {
-        if ( !empty( $value['child'] ) ) {
-            $navigationHTML .= '<ul>';  
-        } else {
-            $navigationHTML .= '</li>';
-            if ( isset( $value['attributes']['separator'] ) ) {
-                $navigationHTML .= '<li class="menu-separator"></li>';
-            } 
-        }
+    function recurseNavigation(&$value, &$navigationString, $json ) {
+        if ( $json ) {
+            if ( !empty( $value['child'] ) ) {
+                $navigationString .= ', children : [ ';
+            } else {
+                return $navigationString ;
+            }
 
-        if ( !empty( $value['child'] ) ) {
-            foreach($value['child'] as $val ) {
-                $name = self::getMenuName( $val );
-                if ( $name ) { 
-                    $navigationHTML .= '<li>' . $name;
-                    self::recurseNavigation($val, $navigationHTML );
+            if ( !empty( $value['child'] ) ) {
+                $appendComma = false;
+                foreach($value['child'] as $k => $val ) {
+                    $appendComma = true;                        
+                    $navigationString .= ' { attributes: { id : "node-'.$k.'" }, data: "'. $val['attributes']['label'] .'"';
+                    self::recurseNavigation($val, $navigationString, $json );
+                    if ( $appendComma ) {
+                        $navigationString .= ' },';
+                    }
                 }
             }
-        }
-        if ( !empty( $value['child'] ) ) {
-            $navigationHTML .= '</ul></li>';
-        }
 
-        return $navigationHTML;
+            if ( !empty( $value['child'] ) ) {
+                $navigationString .= ' ]';
+            }
+            
+        } else {
+            if ( !empty( $value['child'] ) ) {
+                $navigationString .= '<ul>';  
+            } else {
+                $navigationString .= '</li>';
+                if ( isset( $value['attributes']['separator'] ) ) {
+                    $navigationString .= '<li class="menu-separator"></li>';
+                } 
+            }
+
+            if ( !empty( $value['child'] ) ) {
+                foreach($value['child'] as $val ) {
+                    $name = self::getMenuName( $val );
+                    if ( $name ) { 
+                        $navigationString .= '<li>' . $name;
+                        self::recurseNavigation($val, $navigationString, $json );
+                    }
+                }
+            }
+            if ( !empty( $value['child'] ) ) {
+                $navigationString .= '</ul></li>';
+            }
+        }
+        return $navigationString;
     }
 
     /**
