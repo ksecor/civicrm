@@ -138,8 +138,13 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
-        
-        $this->add('text','title',ts('Event Title'), $attributes['event_title'], true);
+
+        if ($this->_isTemplate) {
+            $this->add('text', 'template_title', ts('Template Title'), $attributes['template_title'], true);
+        }
+
+        // add event title, make required if this is not a template
+        $this->add('text', 'title', ts('Event Title'), $attributes['event_title'], !$this->_isTemplate);
 
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');

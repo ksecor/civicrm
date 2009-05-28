@@ -9,6 +9,10 @@
 	<fieldset><legend>{ts}Event Information{/ts}</legend>
 	<table class="form-layout-compressed">
 		<tr>
+			<td class="label">{$form.template_title.label}</td>
+			<td>{$form.template_title.html}</td>
+		</tr>
+		<tr>
 			<td class="label">{$form.event_type_id.label}</td>
 			<td>{$form.event_type_id.html}<br />
 			<span class="description">{ts}After selecting an Event Type, this page will display any custom event fields for that type.{/ts}</td>
