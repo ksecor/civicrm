@@ -203,12 +203,9 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
     }
 
     /**
-     * Browse all custom data groups.
-     *  
+     * browse all events
      * 
      * @return void
-     * @access public
-     * @static
      */
     function browse()
     {
@@ -239,6 +236,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
         $params      = array( );
         $whereClause = $this->whereClause( $params, true, $this->_force );
+        $whereClause .= ' AND (is_template = 0 OR is_template IS NULL)'; // because is_template != 1 would be to simple
 
         $this->pager( $whereClause, $params );
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
