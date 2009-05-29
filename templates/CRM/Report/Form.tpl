@@ -184,7 +184,9 @@
 {if $form.charts.value.0 eq 'pieGraph' OR $form.charts.value.0 eq 'barGraph'}
     {include file="CRM/Report/Form/Layout/Graph.tpl"}
 {elseif $mixedType}
-   {include file="CRM/Report/Form/Layout/Mixed.tpl"}	
+   {include file="CRM/Report/Form/Layout/Mixed.tpl"}
+{elseif $columnHeadersComponent}
+    {include file="CRM/Report/Form/Layout/TableDetail.tpl"}
 {else}
    {* search result listing *}
    {include file="CRM/Report/Form/Layout/Table.tpl"}
