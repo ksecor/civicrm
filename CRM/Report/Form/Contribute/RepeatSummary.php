@@ -406,7 +406,9 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
-
+        $hoverCountry     = ts("View repeatDetails for this Country.");
+        $hoverState       = ts("View repeatDetails for this state.");
+        $hoverContriType  = ts("View repeatDetails for this Contribution type.");
         list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ), 
                                                CRM_Utils_Array::value( "receive_date1_from"    , $this->_params ),
                                                CRM_Utils_Array::value( "receive_date1_to"      , $this->_params ) );
@@ -432,15 +434,15 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
             // handle country
             if ( array_key_exists('address_country_id', $row) ) {
                 if ( $value = $row['address_country_id'] ) {
-                    $rows[$rowNum]['address_country_id'] = 
-                        CRM_Core_PseudoConstant::country( $value, false );
+                    $contryName = CRM_Core_PseudoConstant::country( $value, false );
                     
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
                                                   "country_id_op=eq&country_id_value={$value}&" .
                                                   "$dateUrl"
                                                   );
-                    $rows[$rowNum]['address_country_id_link'] = $url;
+		                                      
+                    $rows[$rowNum]['address_country_id']="<a title='{$hoverCountry }' href='{$url}'>".$contryName."</a>";
                 }
                 $entryFound = true;
             }
@@ -448,7 +450,7 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
             // handle state province
             if ( array_key_exists('address_state_province_id', $row) ) {
                 if ( $value = $row['address_state_province_id'] ) {
-                    $rows[$rowNum]['address_state_province_id'] = 
+                    $stateName = 
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
 
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
@@ -456,7 +458,7 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
                                                   "state_province_id_op=eq&state_province_id_value={$value}&" .
                                                   "$dateUrl"
                                                   );
-                    $rows[$rowNum]['address_state_province_id_link'] = $url;
+                    $rows[$rowNum]['address_state_province_id'] ="<a title='{$hoverState}' href='{$url}'>".$stateName."</a>";
                 }
                 $entryFound = true;
             }
@@ -469,7 +471,7 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
                                                   "contribution_type_op=has&contribution_type_value={$value}&" .
                                                   "$dateUrl"
                                                   );
-                    $rows[$rowNum]['contribution_type_name_link'] = $url;
+                    $rows[$rowNum]['contribution_type_name'] ="<a title='{$hoverContriType}' href='{$url}' >".$value."</a>";
                 }
                 $entryFound = true;
             }

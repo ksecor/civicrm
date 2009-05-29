@@ -306,7 +306,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
         // custom code to alter rows
         
         $entryFound = false;
-        
+        $hoverEvent = ts("View Event Income Details for this Event");
         $eventType  = CRM_Core_OptionGroup::values('event_type');
         
         foreach ( $rows as $rowNum => $row ) {
@@ -314,8 +314,14 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
             // convert display name to links
             if ( array_key_exists('civicrm_participant_event_id', $row) ) {
                 if ( $value = $row['civicrm_participant_event_id'] ) {
-                    $rows[$rowNum]['civicrm_participant_event_id'] = 
-                        CRM_Event_PseudoConstant::event( $value, false );             
+                    $eventTitle= 
+                        CRM_Event_PseudoConstant::event( $value, false );  
+                    $url = CRM_Utils_System::url( 'civicrm/report/event/eventIncome', 
+                                                  'reset=1&force=1&id_value='.$value );
+                    $rows[$rowNum]['civicrm_participant_event_id'] ="<a title='{$hoverEvent}' href='{$url}'>".$eventTitle."</a>";
+
+
+            
                 }
                 $entryFound = true;
             }

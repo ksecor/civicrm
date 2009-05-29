@@ -62,7 +62,25 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                 array( 'title'      => ts( 'Contact ID' ) ), ),
                           'grouping'=> 'contact-fields',
                           ),
-                   
+ 
+                   'civicrm_email'   =>
+                   array( 'dao'       => 'CRM_Core_DAO_Email',
+                          'fields'    =>
+                          array( 'email' => 
+                                 array( 'title'      => ts( 'Email' ),
+                                       ),  ),
+                          'grouping'      => 'contact-fields',
+                          ),
+
+                   'civicrm_phone'   =>
+                   array( 'dao'       => 'CRM_Core_DAO_Phone',
+                          'fields'    =>
+                          array( 'phone' => 
+                                 array( 'title'      => ts( 'Phone' ),
+                                        ), ),
+                          'grouping'      => 'contact-fields',
+                          ),
+
                    'civicrm_contribution' =>
                    array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
                           'fields'  =>
@@ -78,7 +96,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           array( 'receive_date' => 
                                  array( 'type'       => CRM_Utils_Type::T_DATE ),
                                  'total_amount' => 
-                                 array( 'title'      => ts( 'Amount' ) ),
+                                 array( 'title'      => ts( 'Amount Between' ) ),
                                  ),
                           'grouping'=> 'contri-fields',
                           ),
@@ -106,13 +124,6 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                         'options' => CRM_Core_PseudoConstant::stateProvince( ),), ),
                           ),
 
-                   'civicrm_email' => 
-                   array( 'dao' => 'CRM_Core_DAO_Email',
-                          'fields' =>
-                          array( 'email' => null),
-                          'grouping'=> 'contact-fields',
-                          ),
-
                    'civicrm_group' => 
                    array( 'dao'    => 'CRM_Contact_DAO_Group',
                           'alias'  => 'cgroup',
@@ -133,6 +144,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     }
 
     function preProcess( ) {
+        $this->assign( 'reportTitle', ts('Contribution Detail Report' ) );
         parent::preProcess( );
     }
 
@@ -194,23 +206,35 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
         $this->_from = null;
 
         $this->_from = "
-FROM       civicrm_contact      {$this->_aliases['civicrm_contact']}
-INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} 
-       ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
-LEFT  JOIN civicrm_group_contact group_contact 
-       ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
-LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
-       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
-";
-
+        FROM  civicrm_contact      {$this->_aliases['civicrm_contact']}
+              INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} 
+                      ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
+               LEFT JOIN  civicrm_phone {$this->_aliases['civicrm_phone']} 
+                      ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
+                         {$this->_aliases['civicrm_phone']}.is_primary = 1)
+              LEFT  JOIN civicrm_group_contact group_contact 
+                      ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND 
+                         group_contact.status='Added'
+              LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
+                      ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
+        ";
+        
         if ( $this->_addressField ) {
-            $this->_from .= "LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND {$this->_aliases['civicrm_address']}.is_primary = 1\n";
+            $this->_from .= "
+            LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
+                   ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
+                      {$this->_aliases['civicrm_address']}.is_primary = 1\n";
         }
         
         if ( $this->_emailField ) {
-            $this->_from .= "LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND {$this->_aliases['civicrm_email']}.is_primary = 1\n";
+            $this->_from .= " 
+            LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} 
+                   ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND 
+                      {$this->_aliases['civicrm_email']}.is_primary = 1\n";
         }
+
     }
+
 
     function groupBy( ) {
         $this->_groupBy = " GROUP BY contact.id, contribution.id ";
@@ -221,23 +245,26 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
     }
 
     function statistics( &$rows ) {
-        $statistics = parent::statistics( $rows );
-
-        $select     = "
-SELECT COUNT( contribution.total_amount ) as count,
-       SUM(   contribution.total_amount ) as amount,
-       ROUND(AVG(contribution.total_amount), 2) as avg
-";
+        $select = "
+        SELECT COUNT( contribution.total_amount ) as count,
+               SUM(   contribution.total_amount ) as amount,
+               ROUND(AVG(contribution.total_amount), 2) as avg
+        ";
 
         $sql = "{$select} {$this->_from} {$this->_where}";
         $dao = CRM_Core_DAO::executeQuery( $sql );
 
+        $statistics = array( );
         if ( $dao->fetch( ) ) {
-            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
-                                                     'title' => 'Total Amount' );
-            $statistics['counts']['avg']    = array( 'value' => $dao->avg,
-                                                     'title' => 'Average' );
+            $statistics = array( 'count'  => array( 'value' => $dao->count,
+                                                    'title' => 'Row(s) listed' ),
+                                 'amount' => array( 'value' => $dao->amount,
+                                                    'title' => 'Total Amount' ),
+                                 'avg'    => array( 'value' => $dao->avg,
+                                                    'title' => 'Average' ),
+                                 );
         }
+        $this->groupByStat( $statistics );
 
         return $statistics;
     }
@@ -248,10 +275,10 @@ SELECT COUNT( contribution.total_amount ) as count,
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
-
-        $checkList = array();
+        $hoverText  = ts("View Detail Contribtion(s) for this Contact.");
+        $checkList  = array();
         $entryFound = false;
-
+        
         foreach ( $rows as $rowNum => $row ) {
 
             if ( !empty($this->_noRepeats) ) {
@@ -262,6 +289,13 @@ SELECT COUNT( contribution.total_amount ) as count,
                     if ( is_array($checkList[$colName]) && 
                          in_array($colVal, $checkList[$colName]) ) {
                         $rows[$rowNum][$colName] = "";
+			if(array_key_exists('civicrm_email_email', $row)){
+			  $rows[$rowNum]['civicrm_email_email']="";
+			}
+			if(array_key_exists('civicrm_phone_phone', $row)){
+			  $rows[$rowNum]['civicrm_phone_phone']="";
+			}
+
                     }
                     if ( in_array($colName, $this->_noRepeats) ) {
                         $checkList[$colName][] = $colVal;
@@ -304,7 +338,7 @@ SELECT COUNT( contribution.total_amount ) as count,
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
+                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
                     $rows[$rowNum]["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;
             }

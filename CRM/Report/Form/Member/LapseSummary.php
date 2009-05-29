@@ -307,6 +307,7 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
     function alterDisplay( &$rows ) {
         // custom code to alter rows
         $entryFound = false;
+        $hoverText  = ts("View Membership Detail for this Contact.");
         $checkList  =  array();   
         
         foreach ( $rows as $rowNum => $row ) {
@@ -360,7 +361,7 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/member/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
+                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
                     $row["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;
             }

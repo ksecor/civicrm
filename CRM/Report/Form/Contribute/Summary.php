@@ -50,17 +50,37 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           array( 'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ),
                                         'no_repeat'  => true,
-                                        'default'    => true ),
+                                        'required'   => true ),
                                  'id'           => 
                                  array( 'no_display' => true,
-                                        'required'  => true, ), ), 
+                                        'required'  => true, ), ),
+                          'grouping'      => 'contact-fields',
                           'group_bys' => 
                           array( 'id'                =>
-                                 array( 'title'      => ts( 'Contact ID' ) ),
+                                 array( 'title'      => ts( 'Contact ID' ),
+                                        'default'    => true ),
                                  'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ), ), ),
                           ),
-
+                   
+                   'civicrm_email'   =>
+                   array( 'dao'       => 'CRM_Core_DAO_Email',
+                          'fields'    =>
+                          array( 'email' => 
+                                 array( 'title'      => ts( 'Email' ),
+                                        'no_repeat'  => true ),  ),
+                          'grouping'      => 'contact-fields',
+                          ),
+                   
+                   'civicrm_phone'   =>
+                   array( 'dao'       => 'CRM_Core_DAO_Phone',
+                          'fields'    =>
+                          array( 'phone' => 
+                                 array( 'title'      => ts( 'Phone' ),
+                                        'no_repeat'  => true  ), ),
+                          'grouping'      => 'contact-fields',
+                          ),
+                   
                    'civicrm_contribution_type' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_ContributionType',
                           'fields'        =>
@@ -127,24 +147,21 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
                         switch ( $this->_params['group_bys_freq'][$fieldName] ) {
                         case 'YEARWEEK' :
-                            $select[] = "DATE_SUB({$field['dbAlias']}, 
-INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
+                            $select[] = "DATE_SUB({$field['dbAlias']}, INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
                             $select[] = "YEARWEEK({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
                             $select[] = "WEEKOFYEAR({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Week';
                             break;
                             
                         case 'YEAR' :
-                            $select[] = "MAKEDATE(YEAR({$field['dbAlias']}), 1)  
-AS {$tableName}_{$fieldName}_start";
+                            $select[] = "MAKEDATE(YEAR({$field['dbAlias']}), 1)  AS {$tableName}_{$fieldName}_start";
                             $select[] = "YEAR({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
                             $select[] = "YEAR({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Year';
                             break;
                             
                         case 'MONTH':
-                            $select[] = "DATE_SUB({$field['dbAlias']}, 
-INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_start";
+                            $select[] = "DATE_SUB({$field['dbAlias']}, INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_start";
                             $select[] = "MONTH({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
                             $select[] = "MONTHNAME({$field['dbAlias']}) AS {$tableName}_{$fieldName}_interval";
                             $field['title'] = 'Month';
@@ -250,16 +267,24 @@ INTERVAL (DAYOFMONTH({$field['dbAlias']})-1) DAY) as {$tableName}_{$fieldName}_s
 
     function from( ) {
         $this->_from = "
-FROM       civicrm_contact            {$this->_aliases['civicrm_contact']}
-INNER JOIN civicrm_contribution       {$this->_aliases['civicrm_contribution']} 
-       ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
-LEFT  JOIN civicrm_contribution_type  {$this->_aliases['civicrm_contribution_type']} 
-       ON {$this->_aliases['civicrm_contribution']}.contribution_type_id = {$this->_aliases['civicrm_contribution_type']}.id
-LEFT  JOIN civicrm_group_contact      group_contact 
-       ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
-LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']} 
-       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
-";
+        FROM civicrm_contact  {$this->_aliases['civicrm_contact']}
+             INNER JOIN civicrm_contribution   {$this->_aliases['civicrm_contribution']} 
+                     ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
+             LEFT  JOIN civicrm_contribution_type  {$this->_aliases['civicrm_contribution_type']} 
+                     ON {$this->_aliases['civicrm_contribution']}.contribution_type_id ={$this->_aliases['civicrm_contribution_type']}.id
+              LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} 
+                     ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND 
+                        {$this->_aliases['civicrm_email']}.is_primary = 1) 
+              
+              LEFT JOIN civicrm_phone {$this->_aliases['civicrm_phone']} 
+                     ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
+                        {$this->_aliases['civicrm_phone']}.is_primary = 1)
+              
+             LEFT  JOIN civicrm_group_contact  group_contact 
+                     ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
+             LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
+                     ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
+            ";
     }
 
     function where( ) {
@@ -364,6 +389,7 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
             
             $rows[] = $row;
         }
+	
         $this->formatDisplay( $rows );
 
         // assign variables to templates
@@ -385,7 +411,7 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
- 
+        $hoverText  = ts("Lists detailed contribution(s) for this record.");
         $entryFound = false;
 
         foreach ( $rows as $rowNum => $row ) {
@@ -437,7 +463,7 @@ LEFT  JOIN civicrm_group              {$this->_aliases['civicrm_group']}
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
+                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
                     $row["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;
             }

@@ -238,9 +238,8 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
- 
         $entryFound = false;
-
+        $hoverText  = ts("View Contact details for this contact.");
         foreach ( $rows as $rowNum => $row ) {
             // make count columns point to detail report
             // convert display name to links
@@ -248,7 +247,7 @@ LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']}
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/contact/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
+                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
                     $row["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;
             }
