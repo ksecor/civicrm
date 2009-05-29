@@ -59,9 +59,10 @@
 {/htxt}
 
 {htxt id='id-is_update_dupe'}
-{ts}If you are using this profile as a contact signup and editing form, OR in an online contribution page, OR in an event registration page - this option controls what happens if the data matches an existing contact record. If this option is enabled, the matching contact record is updated.
-Otherwise the user will get a "duplicate record" warning, and their input will not be saved. Contact matching is based on your configured "Strict" rule for matching duplicate contacts. {docURL page="Find and Merge Duplicate Contacts"}
-<p>NOTE: If there are multiple matching contacts, the first matching found record is updated.{/ts}
+<p>{ts}If you are using the profile as a contact signup and editing form - this option controls what happens if the data matches an existing contact record. If this option is enabled, the matching contact record is updated.
+Otherwise the user will get a "duplicate record" warning, and their input will not be saved. Contact matching is based on your configured "Strict" rule for identifying duplicate contacts.{/ts} {docURL page="Find and Merge Duplicate Contacts"}</p>
+<p>{ts}This setting is ignored if the profile is embedded in an online contribution, membership signup or event registration form. In this case a contact match always results in the transaction being linked to the matching contact.</p>{/ts}
+<p>{ts}NOTE: If there are multiple matching contacts, the first matching record is used.{/ts}</p>
 {/htxt}
 
 {htxt id='id-is_map'}
