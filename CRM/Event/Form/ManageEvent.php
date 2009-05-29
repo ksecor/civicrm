@@ -91,6 +91,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         } elseif ($this->_action & CRM_Core_Action::ADD) {
             $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
         }
+        $this->assign('isTemplate', $this->_isTemplate);
 
         // setting 3rd level breadcrumb for html page if Event exists
         if ( $this->_id ) {
@@ -165,6 +166,8 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $this->addButtons( $buttons );
 
         }
+
+        $this->add('hidden', 'is_template', $this->_isTemplate);
     }
 }
 

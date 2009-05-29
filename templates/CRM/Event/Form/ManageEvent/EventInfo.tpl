@@ -43,21 +43,23 @@
 			<td class="label">{$form.description.label}</td>
 			<td>{$form.description.html}</td>
 		</tr>
-		<tr>
-			<td class="label">{$form.start_date.label}</td>
-			<td>{$form.start_date.html}</br>
-			<span class="description">
-			{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1} 
-			{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_event_1 ampm=1}</span><//td>
-		</tr>
-		<tr>
-			<td class="label">{$form.end_date.label}</td>
-			<td>{$form.end_date.html}</br>
-			<span class="description">
-			{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1} 
-			{include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=10 doTime=1 trigger=trigger_event_2 ampm=1}
-			</span></td>
-		</tr>
+		{if !$isTemplate}
+			<tr>
+				<td class="label">{$form.start_date.label}</td>
+				<td>{$form.start_date.html}</br>
+				<span class="description">
+				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1} 
+				{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_event_1 ampm=1}</span><//td>
+			</tr>
+			<tr>
+				<td class="label">{$form.end_date.label}</td>
+				<td>{$form.end_date.html}</br>
+				<span class="description">
+				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1} 
+				{include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=10 doTime=1 trigger=trigger_event_2 ampm=1}
+				</span></td>
+			</tr>
+		{/if}
 		<tr>
 			<td class="label">{$form.max_participants.label}</td>
 			<td>{$form.max_participants.html|crmReplace:class:four}<br />

@@ -211,13 +211,16 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         $errors = array( );
-        if ( CRM_Utils_System::isNull( $values['start_date'] ) ) {
-            $errors['start_date'] = ts( 'Start Date and Time are required fields' );
-        } else {
-            $start = CRM_Utils_Date::format( $values['start_date'] );
-            $end   = CRM_Utils_Date::format( $values['end_date'  ] );
-            if ( ($end < $start) && ($end != 0) ) {
-                $errors['end_date'] = ts( 'End date should be after Start date' );
+
+        if (!$values['is_template']) {
+            if ( CRM_Utils_System::isNull( $values['start_date'] ) ) {
+                $errors['start_date'] = ts( 'Start Date and Time are required fields' );
+            } else {
+                $start = CRM_Utils_Date::format( $values['start_date'] );
+                $end   = CRM_Utils_Date::format( $values['end_date'  ] );
+                if ( ($end < $start) && ($end != 0) ) {
+                    $errors['end_date'] = ts( 'End date should be after Start date' );
+                }
             }
         }
         
