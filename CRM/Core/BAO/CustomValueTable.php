@@ -161,7 +161,8 @@ class CRM_Core_BAO_CustomValueTable
                     case 'Date':
                         $value = CRM_Utils_Date::isoToMysql($value);
                         break;
-
+                        
+                    case 'Auto-complete':
                     case 'RichTextEditor':
                         $type  = 'String';
                         break;
@@ -205,8 +206,8 @@ class CRM_Core_BAO_CustomValueTable
                     }
 
                     $dao = CRM_Core_DAO::executeQuery( $query, $params );
+                    
                     $dao->free( );
-
                     require_once 'CRM/Utils/Hook.php';
                     CRM_Utils_Hook::custom( $hookOP,
                                             $hookID,
@@ -237,6 +238,7 @@ class CRM_Core_BAO_CustomValueTable
 
         switch ($type) {
         case 'String':
+        case 'Auto-complete':
         case 'Link':
             return "varchar($maxLength)";
         case 'Boolean':

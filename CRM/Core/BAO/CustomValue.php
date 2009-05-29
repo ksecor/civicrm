@@ -143,7 +143,9 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
         case 'Date':
             return 'date_data';
         case 'Link':
-            return 'char_data';            
+            return 'char_data'; 
+        case 'Auto-complete':
+            return 'char_data'; 
         default:
             return null;
         }

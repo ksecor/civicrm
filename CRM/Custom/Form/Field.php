@@ -101,7 +101,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
               array('StateProvince' => 'Select State/Province' , 'Multi-Select' => 'Multi-Select State/Province'),
               array('Country' => 'Select Country', 'Multi-Select' => 'Multi-Select Country'),
               array('File' => 'File'),
-              array('Link' => 'Link')
+              array('Link' => 'Link'),
+              array('Auto-complete' => 'Auto-complete')
               );
     
     private static $_dataToLabels = null;
@@ -141,7 +142,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 = array(
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
                               'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select'),
-                              'AdvMulti-Select' => ts('AdvMulti-Select')),
+                              'AdvMulti-Select' => ts('Advanced Multi-Select')),
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
                               'Radio' => ts('Radio')),
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
@@ -154,7 +155,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                         array('StateProvince' => ts('Select State/Province'),'Multi-Select' => ts('Multi-Select State/Province')),
                         array('Country' => ts('Select Country'),'Multi-Select' => ts('Multi-Select Country ')),
                         array('File' => ts('Select File')),
-                        array('Link' => ts ('Link'))
+                        array('Link' => ts ('Link')),
+                        array('ContactReference' => ts ('Contact Reference'))
                         );
         }
     }
@@ -570,7 +572,10 @@ SELECT count(*)
                     }
                 }
                 break;
-                
+
+            case 'ContactReference':
+                //FIX ME
+                break;
             }
         } 
 
@@ -809,7 +814,6 @@ AND    option_group_id = %2";
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $dataTypeKey         = $this->_defaultDataType[0];
             $params['data_type'] = self::$_dataTypeKeys[$this->_defaultDataType[0]];
@@ -886,9 +890,9 @@ SELECT id
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $params['id'] = $this->_id;
         }
-
+       
         $customField = CRM_Core_BAO_CustomField::create( $params );
-        
+
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
         CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );

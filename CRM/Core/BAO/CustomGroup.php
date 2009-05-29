@@ -1470,6 +1470,10 @@ SELECT $select
             $retValue = $values;
             break;
 
+        case 'Auto-complete':
+            $retValue = $values;
+            break;
+            
         case 'Memo': 
             $retValue = $value;
             break;	
