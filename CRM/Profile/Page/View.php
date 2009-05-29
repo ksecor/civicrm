@@ -123,9 +123,10 @@ class CRM_Profile_Page_View extends CRM_Core_Page
         $sortName    = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_id, 'display_name' );
         if ( $sortName ) {
             require_once 'CRM/Core/Permission.php';
+            require_once 'CRM/Contact/BAO/Contact/Permission.php';
             $session   =& CRM_Core_Session::singleton( );
-            if ( CRM_Core_Permission::check( 'view all contacts' ) ||
-                 $this->_id == $session->get( 'userID' ) ) {
+            if ( CRM_Core_Permission::check('access CiviCRM') &&
+                 CRM_Contact_BAO_Contact_Permission::allow( $session->get( 'userID' ), CRM_Core_Permission::VIEW ) ) {
                 $sortNameUrl = CRM_Utils_System::url('civicrm/contact/view', "action=view&reset=1&cid={$this->_id}", true);
                 $sortName = "<a href=\"$sortNameUrl\">{$sortName}</a>";
             } 
