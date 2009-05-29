@@ -163,6 +163,9 @@ class CRM_Core_BAO_CustomValueTable
                         break;
                         
                     case 'Auto-complete':
+                        //Fix me
+                        $type = 'Integer';
+                        break;
                     case 'RichTextEditor':
                         $type  = 'String';
                         break;
@@ -238,7 +241,6 @@ class CRM_Core_BAO_CustomValueTable
 
         switch ($type) {
         case 'String':
-        case 'Auto-complete':
         case 'Link':
             return "varchar($maxLength)";
         case 'Boolean':
@@ -246,6 +248,7 @@ class CRM_Core_BAO_CustomValueTable
         case 'Int':
             return 'int';
             // the below three are FK's, and have constraints added to them
+        case 'Auto-complete':
         case 'StateProvince':
         case 'Country':
         case 'File':

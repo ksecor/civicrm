@@ -102,7 +102,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
               array('Country' => 'Select Country', 'Multi-Select' => 'Multi-Select Country'),
               array('File' => 'File'),
               array('Link' => 'Link'),
-              array('Auto-complete' => 'Auto-complete')
+              array('ContactReference' => 'Contact Reference')
               );
     
     private static $_dataToLabels = null;
@@ -822,7 +822,6 @@ AND    option_group_id = %2";
             $dataTypeKey         = $params['data_type'][0];
             $params['html_type'] = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
             $params['data_type'] = self::$_dataTypeKeys[$params['data_type'][0]];
-            
         }
         
         //fix for 'is_search_range' field. 
