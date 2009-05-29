@@ -42,6 +42,8 @@ class CRM_Report_Page_List extends CRM_Core_Page
 {
 
     public static function &info( ) {
+        $all = CRM_Utils_Request::retrieve( 'all', 'Boolean', CRM_Core_DAO::$_nullObject, 
+                                            false, null, 'GET' );
         $sql = "
 SELECT  v.id, v.value, v.label, v.description, v.component_id, 
         inst.id as instance_id, ifnull( SUBSTRING(comp.name, 5), 'Contact' ) as component_name 
@@ -52,22 +54,25 @@ LEFT  JOIN civicrm_report_instance inst
         ON v.value = inst.report_id
 LEFT  JOIN civicrm_component comp 
         ON v.component_id = comp.id
-WHERE     v.is_active = 1
-ORDER BY  v.weight";
+";
+
+        if ( !$all ) {
+            $sql .= " WHERE v.is_active = 1 ";
+        }
+        $sql .= " ORDER BY  v.weight ";
 
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array();
         while ( $dao->fetch( ) ) {
-            $url = 'civicrm/report/';
-                $rows[$dao->component_name][$dao->value]['title']       = $dao->label;
-                $rows[$dao->component_name][$dao->value]['description'] = $dao->description;               
-                $rows[$dao->component_name][$dao->value]['url']         = 
-                    CRM_Utils_System::url( 'civicrm/report/' . trim($dao->value, '/'), 'reset=1');
-                if ( $dao->instance_id ) {
-                    $rows[$dao->component_name][$dao->value]['instanceUrl'] = 
-                        CRM_Utils_System::url( 'civicrm/report/instance/list',
-                                               "reset=1&ovid={$dao->id}");
-                }
+            $rows[$dao->component_name][$dao->value]['title']       = $dao->label;
+            $rows[$dao->component_name][$dao->value]['description'] = $dao->description;               
+            $rows[$dao->component_name][$dao->value]['url']         = 
+                CRM_Utils_System::url( 'civicrm/report/' . trim($dao->value, '/'), 'reset=1');
+            if ( $dao->instance_id ) {
+                $rows[$dao->component_name][$dao->value]['instanceUrl'] = 
+                    CRM_Utils_System::url( 'civicrm/report/instance/list',
+                                           "reset=1&ovid={$dao->id}");
+            }
         }
 
         return $rows;

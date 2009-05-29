@@ -58,5 +58,10 @@
 	    e.style.display = 'block';
 	}
     }
+
+    toggle_visibility('Contact');
+    toggle_visibility('Contribute');
+    toggle_visibility('Member');
+    toggle_visibility('Event');
 </script>
 {/literal}
