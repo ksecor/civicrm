@@ -54,6 +54,8 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
     protected $_sortByCharacter;
 
+    protected $_isTemplate = false;
+
     /**
      * Get action Links
      *
@@ -138,19 +140,27 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $this->assign('action', $action);
         $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                           $this, false, 0);
+
+        // figure out whether we’re handling an event or an event template
+        if ($id) {
+            $this->_isTemplate = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $id, 'is_template');
+        } elseif ($action & CRM_Core_Action::ADD) {
+            $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
+        }
         
-        // set breadcrumb to append to 2nd layer pages
-        $breadCrumb = array ( array('title' => ts('Manage Events'),
-                                    'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
-                                                                      'reset=1' )) );
+        if ($this->_isTemplate) {
+            $breadCrumb = array(array('title' => ts('Event Templates'),
+                                      'url'   => CRM_Utils_System::url('civicrm/admin/eventTemplate', 'reset=1')));
+        } elseif ($this->_id) {
+            $breadCrumb = array(array('title' => ts('Manage Events'),
+                                      'url'   => CRM_Utils_System::url(CRM_Utils_System::currentPath(), 'reset=1')));
+        }
 
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
             $session =& CRM_Core_Session::singleton( ); 
 
-            $isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
-            
-            $title = $isTemplate ? ts('New Event Template Wizard') : ts('New Event Wizard');
+            $title = $this->_isTemplate ? ts('New Event Template Wizard') : ts('New Event Wizard');
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
             CRM_Utils_System::appendBreadCrumb( $breadCrumb );
             CRM_Utils_System::setTitle( $title );
