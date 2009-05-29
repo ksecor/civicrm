@@ -137,8 +137,6 @@ class CRM_Report_Form_Contribute_RepeatDetail extends CRM_Report_Form {
     }
 
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Repeat Contribution Detail Report' ) );
-        
         parent::preProcess( );
     }
 

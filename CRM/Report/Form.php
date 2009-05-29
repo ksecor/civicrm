@@ -1041,13 +1041,13 @@ class CRM_Report_Form extends CRM_Core_Form {
                                        'value' => "Between {$from} and {$to}" );
                         }
                     } else {
-                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                        $op    = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                        $value = null;
                         if ( $op ) {
                             $pair  = self::getOperationPair( $field['type'] );
                             $min   = CRM_Utils_Array::value( "{$fieldName}_min",  $this->_params );
                             $max   = CRM_Utils_Array::value( "{$fieldName}_max",  $this->_params );
                             $val   = CRM_Utils_Array::value( "{$fieldName}_value",$this->_params );
-                            $value = null;
                             if ( in_array($op, array('bw', 'nbw')) && ($min || $max) ) {
                                 $value = "{$pair[$op]} " . $min . ' and ' . $max;
                             } else if ( is_array($val) && (!empty($val)) ) {
