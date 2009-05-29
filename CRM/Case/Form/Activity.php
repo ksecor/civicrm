@@ -298,6 +298,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        if ( $params['source_contact_id'] ) {
+            $params['source_contact_id'  ] = $params['source_contact_qid'];
+        }
         
         //set parent id if its edit mode
         if ( $parentId = CRM_Utils_Array::value( 'parent_id', $this->_defaults ) ) {
@@ -439,21 +442,21 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // create activity assignee records
         $assigneeParams = array( 'activity_id' => $activity->id );
 
-        if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact']) ) {
-            $params['assignee_contact'] = array_unique( $params['assignee_contact'] );
+        if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact_id']) ) {
+            $params['assignee_contact_id'] = array_unique( $params['assignee_contact_id'] );
             //skip those assignee contacts which are already assigned
             //while sending a copy.CRM-4509.
-            $activityAssigned = array_flip( $params['assignee_contact'] );
+            $activityAssigned = array_flip( $params['assignee_contact_id'] );
             $activityId       = isset($this->_activityId) ? $this->_activityId : $activity->id;
             $assigneeContacts = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activityId );
             $activityAssigned = array_diff_key( $activityAssigned, $assigneeContacts );
                               
-            foreach ( $params['assignee_contact'] as $key => $id ) {
+            foreach ( $params['assignee_contact_id'] as $key => $id ) {
                 $assigneeParams['assignee_contact_id'] = $id;
                 CRM_Activity_BAO_Activity::createActivityAssignment( $assigneeParams );
             }
             //modify assigne_contact as per newly assigned contact before sending copy. CRM-4509.
-            $params['assignee_contact'] = $activityAssigned;
+            $params['assignee_contact_id'] = $activityAssigned;
         }
 
         // Insert civicrm_log record for the activity (e.g. store the

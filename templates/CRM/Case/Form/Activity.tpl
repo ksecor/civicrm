@@ -1,16 +1,44 @@
 {* this template is used for adding/editing activities for a case. *}
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
-{elseif $addAssigneeContact }
-   {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
     {if $action neq 8 and $action  neq 32768 }
-    {* onload javascript for source contact *}
-    <script type="text/javascript">
-        dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'source_contact_id' ).setValue( "{$source_contact}")
-        {rdelim} );
-    </script>
+
+{* added onload javascript for source contact*}
+{literal}
+<script type="text/javascript">
+var assignee_contact = '';
+
+{/literal}
+
+{if $assigneeContactCount}
+{foreach from=$assignee_contact key=id item=name}
+     {literal} assignee_contact += '{"name":"'+{/literal}"{$name}"{literal}+'","id":"'+{/literal}"{$id}"{literal}+'"},';{/literal}
+{/foreach}
+{literal} eval( 'assignee_contact = [' + assignee_contact + ']'); {/literal}
+{/if}
+{literal}
+
+cj(document).ready( function( ) {
+{/literal}
+{if $source_contact and $admin and $action neq 4} 
+{literal} cj( '#source_contact_id' ).val( "{/literal}{$source_contact}{literal}");{/literal}
+{/if}
+{literal}
+
+eval( 'tokenClass = { tokenList: "token-input-list-facebook", token: "token-input-token-facebook", tokenDelete: "token-input-delete-token-facebook", selectedToken: "token-input-selected-token-facebook", highlightedToken: "token-input-highlighted-token-facebook", dropdown: "token-input-dropdown-facebook", dropdownItem: "token-input-dropdown-item-facebook", dropdownItem2: "token-input-dropdown-item2-facebook", selectedDropdownItem: "token-input-selected-dropdown-item-facebook", inputToken: "token-input-input-token-facebook" } ');
+
+var sourceDataUrl = "{/literal}{$dataUrl}{literal}";
+
+cj( "#assignee_contact_id").tokenInput( sourceDataUrl, { prePopulate: assignee_contact, classes: tokenClass });
+
+cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirst : false
+                            }).result( function(event, data, formatted) { cj( "#source_contact_qid" ).val( data[1] );
+                            }).bind( 'click', function( ) { cj( "#source_contact_qid" ).val(''); });
+});
+</script>
+{/literal}
+
     {/if}
 
     <fieldset>
@@ -62,8 +90,7 @@
             </tr>
             <tr>
                 <td class="label">{ts}Assigned To {/ts}</td>
-                <td class="tundra">                  
-                    <div id="assignee_contact_1"></div>
+                <td>{$form.assignee_contact_id.html}                   
                     {edit}<span class="description">
                            {ts}You can optionally assign this activity to someone.{/ts}<br />
                            {ts}A copy of this activity will be emailed to each Assignee.{/ts}</span>
@@ -212,27 +239,7 @@
             hide('follow-up');
             show('follow-up_show');
 
-            {* Build add contact *}
-            {literal}
-
-            cj(document).ready(function() {
-                {/literal}
-                {if $action eq 1 }
-                    buildContact( 1, 'assignee_contact' );
-                {/if}
-                {literal}
-                var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
-                if ( assigneeContactCount ) {
-                    for ( var i = 1; i <= assigneeContactCount; i++ ) {
-                	    buildContact( i, 'assignee_contact' );
-                    }
-                }
-            });
-            {/literal}
         </script>
-
-        {*include add contact js file*}
-        {include file="CRM/common/addContact.tpl"}
     {/if}
 {/if } {* end of main if block*}
 
