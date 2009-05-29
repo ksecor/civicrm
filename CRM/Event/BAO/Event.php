@@ -1220,8 +1220,10 @@ WHERE  id = $cfID
      */ 
     function buildCustomProfile( $participantId, $values, $contactId = null, $isTest = false, $isIdsArray = false ) 
     {
-        $additionalIDs = array();
-        $customProfile = array();
+        $customProfile = $additionalIDs = array();
+        if ( !$participantId ) {
+            return $additionalIDs;
+        }
         
         //set Ids of Primary Participant also.
         if ( $isIdsArray && $contactId ) {
