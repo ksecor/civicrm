@@ -78,7 +78,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           array( 'receive_date' => 
                                  array( 'type'       => CRM_Utils_Type::T_DATE ),
                                  'total_amount' => 
-                                 array( 'title'      => ts( 'Amount Between' ) ),
+                                 array( 'title'      => ts( 'Amount' ) ),
                                  ),
                           'grouping'=> 'contri-fields',
                           ),
@@ -133,7 +133,6 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     }
 
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Contribution Detail Report' ) );
         parent::preProcess( );
     }
 
@@ -213,8 +212,6 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
         }
     }
 
-
-
     function groupBy( ) {
         $this->_groupBy = " GROUP BY contact.id, contribution.id ";
     }
@@ -224,7 +221,9 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
     }
 
     function statistics( &$rows ) {
-        $select = "
+        $statistics = parent::statistics( $rows );
+
+        $select     = "
 SELECT COUNT( contribution.total_amount ) as count,
        SUM(   contribution.total_amount ) as amount,
        ROUND(AVG(contribution.total_amount), 2) as avg
@@ -233,17 +232,12 @@ SELECT COUNT( contribution.total_amount ) as count,
         $sql = "{$select} {$this->_from} {$this->_where}";
         $dao = CRM_Core_DAO::executeQuery( $sql );
 
-        $statistics = array( );
         if ( $dao->fetch( ) ) {
-            $statistics = array( 'count'  => array( 'value' => $dao->count,
-                                                    'title' => 'Row(s) listed' ),
-                                 'amount' => array( 'value' => $dao->amount,
-                                                    'title' => 'Total Amount' ),
-                                 'avg'    => array( 'value' => $dao->avg,
-                                                    'title' => 'Average' ),
-                                 );
+            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
+                                                     'title' => 'Total Amount' );
+            $statistics['counts']['avg']    = array( 'value' => $dao->avg,
+                                                     'title' => 'Average' );
         }
-        $this->groupByStat( $statistics );
 
         return $statistics;
     }

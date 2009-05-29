@@ -86,7 +86,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           array( 'receive_date'   => 
                                  array( 'type'    => CRM_Utils_Type::T_DATE),
                                  'total_amount'   => 
-                                 array( 'title'   => ts( 'Total  Amount Between' ), ), ),
+                                 array( 'title'   => ts( 'Total  Amount' ), ), ),
                           'group_bys'           =>
                           array( 'receive_date' => 
                                  array( 'frequency'  => true ),
@@ -111,8 +111,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
     }
 
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Contribution Summary Report' ) );
-        
         parent::preProcess( );
     }
     

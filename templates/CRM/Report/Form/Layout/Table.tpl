@@ -3,6 +3,21 @@
         <h1>{$reportTitle}</h1>
     {/if}
     <br/>
+    {if $statistics}
+        <table class="form-layout">
+            {foreach from=$statistics.groups item=row}
+                <tr>
+                    <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
+                </tr>
+            {/foreach}
+            {foreach from=$statistics.filters item=row}
+                <tr>
+                    <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
+                </tr>
+            {/foreach}
+        </table>
+        <br/>
+    {/if}
     {include file="CRM/common/pager.tpl" noForm=1}
     <table class="form-layout">
         <tr class="columnheader">
@@ -78,7 +93,7 @@
     {if $statistics}
         <br/>
         <table class="form-layout">
-            {foreach from=$statistics item=row}
+            {foreach from=$statistics.counts item=row}
                 <tr>
                     <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
                 </tr>

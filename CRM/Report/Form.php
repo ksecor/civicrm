@@ -991,16 +991,18 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $this->groupByStat( $statistics );
 
+        $this->filterStat ( $statistics );
+
         return $statistics;
     }
 
     function countStat( &$statistics, $count ) {
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => $count );
+        $statistics['counts']['rowCount'] = array( 'title' => ts('Row(s) Listed'),
+                                                   'value' => $count );
 
         if ( $this->_rowsFound && ($this->_rowsFound > $count) ) {
-            $statistics[] = array( 'title' => ts('Total Row(s)'),
-                                   'value' => $this->_rowsFound );
+            $statistics['counts']['rowsFound'] = array( 'title' => ts('Total Row(s)'),
+                                                        'value' => $this->_rowsFound );
         }
     }
 
@@ -1016,8 +1018,52 @@ class CRM_Report_Form extends CRM_Core_Form {
                     }
                 }
             }
-            $statistics[] = array( 'title' => ts('Grouping(s)'),
-                                   'value' => implode( ' & ', $combinations ) );
+            $statistics['groups'][] = array( 'title' => ts('Grouping(s)'),
+                                             'value' => implode( ' & ', $combinations ) );
+        }
+    }
+
+    function filterStat( &$statistics ) {
+        foreach ( $this->_columns as $tableName => $table ) {
+            if ( array_key_exists('filters', $table) ) {
+                foreach ( $table['filters'] as $fieldName => $field ) {
+                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                        list($from, $to) = 
+                            $this->getFromTo( CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params ), 
+                                              CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params ),
+                                              CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params ) );
+                        $from = CRM_Utils_Date::customFormat( $from, null, array('d') );
+                        $to   = CRM_Utils_Date::customFormat( $to,   null, array('d') );
+                        
+                        if ( $from || $to ) {
+                            $statistics['filters'][] = 
+                                array( 'title' => $field['title'],
+                                       'value' => "Between {$from} and {$to}" );
+                        }
+                    } else {
+                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                        if ( $op ) {
+                            $pair  = self::getOperationPair( $field['type'] );
+                            $min   = CRM_Utils_Array::value( "{$fieldName}_min",  $this->_params );
+                            $max   = CRM_Utils_Array::value( "{$fieldName}_max",  $this->_params );
+                            $val   = CRM_Utils_Array::value( "{$fieldName}_value",$this->_params );
+                            $value = null;
+                            if ( in_array($op, array('bw', 'nbw')) && ($min || $max) ) {
+                                $value = "{$pair[$op]} " . $min . ' and ' . $max;
+                            } else if ( is_array($val) && (!empty($val)) ) {
+                                // FIXME: do something for array
+                            } else if ( is_numeric($val) ) {
+                                $value = "{$pair[$op]} " . $val;
+                            }
+                        }
+                        if ( $value ) {
+                            $statistics['filters'][] = 
+                                array( 'title' => $field['title'],
+                                       'value' => $value );
+                        }
+                    }
+                }
+            }
         }
     }
 
