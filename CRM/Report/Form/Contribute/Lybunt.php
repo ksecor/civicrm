@@ -88,11 +88,11 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                            'group_bys'     =>
                            array( 'receive_date'  =>  
                                   array('title'      => ts( 'Receive Date' ),
-                                        'required'   => true ), 
+                                        'default'   => true ), 
                                   
                                   'contact_id'    => 
                                   array( 'title'     => ts( 'Contact ID' ),
-                                         'required'  => true ), 
+                                         'default'  => true ), 
                                   ) , 
                            ) , 
                    
