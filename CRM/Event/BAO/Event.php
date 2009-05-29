@@ -1222,7 +1222,7 @@ WHERE  id = $cfID
     {
         $customProfile = $additionalIDs = array( );
         if ( !$participantId ) {
-            CRM_Core_Error::fatal(ts('Cannot find partcipant ID'));
+            CRM_Core_Error::fatal(ts('Cannot find participant ID'));
         }
                     
         //set Ids of Primary Participant also.
