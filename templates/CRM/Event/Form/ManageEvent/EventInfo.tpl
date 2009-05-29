@@ -8,10 +8,18 @@
 	<div class="form-item">
 	<fieldset><legend>{ts}Event Information{/ts}</legend>
 	<table class="form-layout-compressed">
-		<tr>
-			<td class="label">{$form.template_title.label}</td>
-			<td>{$form.template_title.html}</td>
-		</tr>
+		{if $form.template_title}
+			<tr>
+				<td class="label">{$form.template_title.label}</td>
+				<td>{$form.template_title.html}</td>
+			</tr>
+		{/if}
+		{if $form.template_id}
+			<tr>
+				<td class="label">{$form.template_id.label}</td>
+				<td>{$form.template_id.html}</td>
+			</tr>
+		{/if}
 		<tr>
 			<td class="label">{$form.event_type_id.label}</td>
 			<td>{$form.event_type_id.html}<br />

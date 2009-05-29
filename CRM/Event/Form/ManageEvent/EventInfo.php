@@ -143,6 +143,13 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             $this->add('text', 'template_title', ts('Template Title'), $attributes['template_title'], true);
         }
 
+        if ($this->_action & CRM_Core_Action::ADD) {
+            require_once 'CRM/Event/PseudoConstant.php';
+            $eventTemplates =& CRM_Event_PseudoConstant::eventTemplates();
+            $this->add('select', 'template_id', ts('From Template'), array('' => ts('- select -')) + $eventTemplates,
+                       false, array('onchange' => "window.location += '&template_id=' + this.value"));
+        }
+
         // add event title, make required if this is not a template
         $this->add('text', 'title', ts('Event Title'), $attributes['event_title'], !$this->_isTemplate);
 

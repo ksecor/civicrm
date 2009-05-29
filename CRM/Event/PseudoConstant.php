@@ -33,6 +33,8 @@
  *
  */
 
+require_once 'CRM/Core/PseudoConstant.php';
+
 /**
  * This class holds all the Pseudo constants that are specific to Event. This avoids
  * polluting the core class and isolates the Event
@@ -80,6 +82,12 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
     private static $eventType; 
     
     /**
+     * event template titles
+     * @var array
+     */
+    private static $eventTemplates;
+
+    /**
      * Get all the n events
      *
      * @access public
@@ -119,7 +127,6 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
         $index = $cond ? $cond : 'No Condition';
         if ( ! CRM_Utils_Array::value( $index, self::$participantStatus ) ) {
             self::$participantStatus[$index] = array( );
-            require_once "CRM/Core/PseudoConstant.php";
             CRM_Core_PseudoConstant::populate( self::$participantStatus[$index],
                                                'CRM_Event_DAO_ParticipantStatusType',
                                                false, 'name', 'is_active', $cond, 'id' );
@@ -212,6 +219,22 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
         }
         
         return self::$eventType;
+    }
+
+    /**
+     * get event template titles
+     *
+     * @return array  of event id → template title pairs
+     */
+    public static function &eventTemplates($id = null)
+    {
+        if (!self::$eventTemplates) {
+            CRM_Core_PseudoConstant::populate(self::$eventTemplates, 'CRM_Event_DAO_Event', false, 'template_title', 'is_template');
+        }
+        if ($id) {
+            return self::$eventTemplates[$id];
+        }
+        return self::$eventTemplates;
     }
     
 }

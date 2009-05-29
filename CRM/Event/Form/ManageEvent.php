@@ -70,6 +70,12 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      * @var boolean
      */
     protected $_isTemplate = false;
+
+    /**
+     * pre-populate fields based on this template event_id
+     * @var integer
+     */
+    protected $_templateId;
     
     /** 
      * Function to set variables up before form is built 
@@ -90,6 +96,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $this->_isTemplate = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
         } elseif ($this->_action & CRM_Core_Action::ADD) {
             $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
+            $this->_templateId = CRM_Utils_Request::retrieve('template_id', 'Integer', $this);
         }
         $this->assign('isTemplate', $this->_isTemplate);
 
@@ -123,6 +130,14 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $defaults['style']     = 'Inline';
         }
         
+        if ($this->_templateId) {
+            $params = array('id' => $this->_templateId);
+            require_once 'CRM/Event/BAO/Event.php';
+            CRM_Event_BAO_Event::retrieve($params, $defaults);
+            $defaults['template_id'] = $defaults['id'];
+            unset($defaults['id']);
+        }
+
         return $defaults;
     }
 
