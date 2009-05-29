@@ -1220,11 +1220,11 @@ WHERE  id = $cfID
      */ 
     function buildCustomProfile( $participantId, $values, $contactId = null, $isTest = false, $isIdsArray = false ) 
     {
-        $customProfile = $additionalIDs = array();
+        $customProfile = $additionalIDs = array( );
         if ( !$participantId ) {
-            return $additionalIDs;
+            CRM_Core_Error::fatal(ts('Cannot find partcipant ID'));
         }
-        
+                    
         //set Ids of Primary Participant also.
         if ( $isIdsArray && $contactId ) {
             $additionalIDs[$participantId] = $contactId; 
@@ -1238,7 +1238,7 @@ WHERE  id = $cfID
             $additionalIDs[$participant->id] = $participant->contact_id;
         } 
         $participant->free( );
-        
+            
         //return if only array is required.
         if ( $isIdsArray && $contactId ) {
             return $additionalIDs;
