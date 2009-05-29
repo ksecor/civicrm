@@ -48,52 +48,57 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                   'civicrm_contact' =>
                   array( 'dao'     => 'CRM_Contact_DAO_Contact',
                          'fields'  =>
-                         array( 'display_name' => array( 'title'     => ts( 'Participant Name' ),
-                                                         'required'  => true,
-                                                         'no_repeat' => true ),
+                         array( 'display_name' => 
+                                array( 'title'     => ts( 'Participant Name' ),
+                                       'required'  => true,
+                                       'no_repeat' => true ),
                                 ),
                          
                          'filters' =>             
-                         array('sort_name'    => 
+                         array('sort_name'     => 
                                array( 'title'      => ts( 'Participant Name' ),
                                       'operator'   => 'like' ), ),
                          ),
 
                   'civicrm_email'   =>
-                   array( 'dao'       => 'CRM_Core_DAO_Email',
-                          'fields'    =>
-                          array( 'email' => 
-                                 array( 'title'      => ts( 'Email' ),
-                                        'no_repeat'  => true 
-                                        ),
-                                 ), 
-                          ),
+                  array( 'dao'     => 'CRM_Core_DAO_Email',
+                         'fields'  =>
+                         array( 'email' => 
+                                array( 'title'     => ts( 'Email' ),
+                                       'no_repeat' => true 
+                                       ),
+                                ), 
+                         ),
                   
                   'civicrm_participant' =>
-                  array( 'dao'       => 'CRM_Event_DAO_Participant',
-                         'fields'    =>
-                         array( 'participant_id' =>  array( 'no_display' => true,
-                                                            'required'   => true, ),
-                                'event_id'       => array( 'default' => true ),
-                                'status_id'      => array( 'title'   => ts('Status'),
-                                                           'default' => true ),
-                                'role_id'        => array( 'title'   => ts('Role'),
-                                                           'default' => true ),
-                                'fee_amount'     => array( 'title'   => ts('Fee Amount') ),                                         
-                                'register_date'  => array( 'title'   => ts('Registration Date') ),
+                  array( 'dao'     => 'CRM_Event_DAO_Participant',
+                         'fields'  =>
+                         array( 'participant_id'   =>  array( 'no_display' => true,
+                                                              'required'   => true, ),
+                                'event_id'         => array( 'default' => true ),
+                                'status_id'        => array( 'title'   => ts('Status'),
+                                                             'default' => true ),
+                                'role_id'          => array( 'title'   => ts('Role'),
+                                                             'default' => true ),
+                                'fee_amount'       => array( 'title'   => ts('Fee Amount') ),                                         
+                                'register_date'    => array( 'title'   => ts('Registration Date') ),
                                 ), 
-                         'grouping'  => 'event-fields',
-                         'filters'   =>             
-                         array( 'sid'           =>  array( 'name'    => 'status_id',
-                                                           'title'   => ts( 'Participant Status' ),
-                                                           'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                                           'options' => CRM_Event_PseudoConstant::participantStatus( ) ), 
-                                'rid'           =>  array( 'name'    => 'role_id',
-                                                           'title'   => ts( 'Participant Role' ),
-                                                           'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                                           'options' => CRM_Event_PseudoConstant::participantRole( ) ),
-                                'register_date' =>  array( 'title'   => ' Registration Date',
-                                                           'type'    => CRM_Utils_Type::T_DATE),
+                         'grouping' => 'event-fields',
+                         'filters'  =>             
+                         array( 'event_id'         =>  array( 'title'   => ts( 'Event' ),
+                                                              'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                              'options' => CRM_Event_PseudoConstant::event(), ), 
+                                
+                                'sid'              =>  array( 'name'    => 'status_id',
+                                                              'title'   => ts( 'Participant Status' ),
+                                                              'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                              'options' => CRM_Event_PseudoConstant::participantStatus( ) ), 
+                                'rid'              =>  array( 'name'    => 'role_id',
+                                                              'title'   => ts( 'Participant Role' ),
+                                                              'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                              'options' => CRM_Event_PseudoConstant::participantRole( ) ),
+                                'register_date'    =>  array( 'title'   => ' Registration Date',
+                                                              'type'    => CRM_Utils_Type::T_DATE),
                                 ),
                          
                          'group_bys' => 
@@ -110,10 +115,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                ),
                          'grouping'  => 'event-fields', 
                          'filters'   =>             
-                         array('title'        => 
-                               array( 'title'      => ts( 'Event' ),
-                                      'operator'   => 'like' ),
-                               
+                         array(                      
                                'eid' =>  array( 'name'    => 'event_type_id',
                                                 'title'   => ts( 'Event Type' ),
                                                 'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
@@ -150,10 +152,6 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
-    }
-
     function select( ) {
         $select = array( );
         $this->_columnHeaders = array( );
@@ -182,17 +180,17 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
     
     function from( ) {
         $this->_from = "
-FROM civicrm_participant {$this->_aliases['civicrm_participant']}
-LEFT JOIN civicrm_event {$this->_aliases['civicrm_event']} 
-          ON ({$this->_aliases['civicrm_event']}.id = {$this->_aliases['civicrm_participant']}.event_id )
-LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
-          ON ({$this->_aliases['civicrm_participant']}.contact_id  = {$this->_aliases['civicrm_contact']}.id  )
-LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']}
-          ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
-             {$this->_aliases['civicrm_address']}.is_primary = 1 
-LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']} 
-          ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND
-              {$this->_aliases['civicrm_email']}.is_primary = 1) ";
+        FROM civicrm_participant {$this->_aliases['civicrm_participant']}
+             LEFT JOIN civicrm_event {$this->_aliases['civicrm_event']} 
+                    ON ({$this->_aliases['civicrm_event']}.id = {$this->_aliases['civicrm_participant']}.event_id )
+             LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
+                    ON ({$this->_aliases['civicrm_participant']}.contact_id  = {$this->_aliases['civicrm_contact']}.id  )
+             LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']}
+                    ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
+                       {$this->_aliases['civicrm_address']}.is_primary = 1 
+             LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']} 
+                    ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND
+                       {$this->_aliases['civicrm_email']}.is_primary = 1) ";
     }
 
     function where( ) {
