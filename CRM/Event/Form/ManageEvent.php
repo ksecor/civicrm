@@ -134,6 +134,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $params = array('id' => $this->_templateId);
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $defaults);
+            $defaults['is_template'] = $this->_isTemplate;
             $defaults['template_id'] = $defaults['id'];
             unset($defaults['id']);
         }
@@ -185,6 +186,9 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         }
 
         $this->add('hidden', 'is_template', $this->_isTemplate);
+        if ($this->_templateId and !isset($this->_elementIndex['template_id'])) {
+            $this->add('hidden', 'template_id', $this->_templateId);
+        }
     }
 }
 
