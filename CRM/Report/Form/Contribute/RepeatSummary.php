@@ -406,18 +406,36 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
         }
 
         // FIXME: move following to alterDisplay()
-        foreach ( $rows as $id => &$row ) {
+        /* -- code to calculate % change given the two date range amounts AND 
+           -- sort the result at the same time. -- */
+        $temp = array( );
+        foreach ( $rows as $uid => $row ) {
             if ( $row['c1_total_amount_sum'] && $row['c2_total_amount_sum'] ) {
-                $row['change'] = 
+                $change = 
                     number_format((($row['c2_total_amount_sum'] - $row['c1_total_amount_sum']) * 100) / 
-                                  ($row['c1_total_amount_sum'] ), 2) . ' %';
+                                  ($row['c1_total_amount_sum'] ), 2);
+                $temp['numeric'][$uid] = $change;
             } else if ( $row['c1_total_amount_sum'] ) {
-                $row['change'] = ts( 'Skipped Donation' );
+                $change = ts( 'Skipped Donation' );
+                $temp['string'][$uid] = $change;
             } else if ( $row['c2_total_amount_sum'] ) {
-                $row['change'] = ts( 'New Donor' );
+                $change = ts( 'New Donor' );
+                $temp['string'][$uid] = $change;
             }
         }
         $this->_columnHeaders['change'] = array('title' => 'Change');
+
+        // order by change DESC
+        arsort( $temp['numeric'] );
+        asort(  $temp['string']  );
+        $temp = $temp['numeric'] + $temp['string'];
+        foreach ( $temp as $uid => $change ) {
+            $rows[$uid]['change'] = is_numeric($change) ? $change . ' %' : $change;
+            $temp[$uid] = $rows[$uid];
+            unset($rows[$uid]);
+        }
+        $rows =& $temp;
+        // -- sorting and calculation of % ends -- //
 
         // hack to fix title
         list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ), 
