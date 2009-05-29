@@ -45,9 +45,19 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                                 );
     
     function __construct( ) {
+        
+        $yearsInPast      = 8;
+        $yearsInFuture    = 1;
+        $date             = CRM_Core_SelectValues::date('custom', $yearsInPast, $yearsInFuture, $dateParts ) ;        
+        $count            = $date['maxYear'];
+        while($date['minYear'] <= $count)  {
+            $optionYear[ $date['minYear'] ] = $date['minYear'];
+            $date['minYear']++;
+        }
+        
         $this->_columns = 
             array( 
-
+                  
                   'civicrm_contribution' =>
                   array(  'dao'           => 'CRM_Contribute_DAO_Contribution',
                           'fields'        =>
@@ -67,19 +77,25 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                                   array( 'title'      => ts( 'Year' ),
                                          'no_display' => true,
                                          'required'   => true,
-                                         'no_repeat'  => true, ) ,                                  
+                                         'no_repeat'  => true, ) , 
                                   ),
+
+                          'filters'        =>             
+                          array(  'yid'         =>  
+                                  array( 'name'    => 'receive_date',
+                                         'title'   => ts( 'Select Year' ),
+                                         'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN,
+                                         'options' => $optionYear ),       
+                                  ),   
+                          
                           
                           'group_bys'     =>
                           array( 'receive_date'  =>  
                                  array('title'      => ts( 'Receive Date' ),
-                                       'no_display' => true,
-                                       'required'   => true ), 
-                                 
+                                       'default' => true ) ,                                   
                                  'contact_id'    => 
                                  array( 'title'     => ts( 'Contact ID' ),
-                                        'no_display' => true, 
-                                        'required'  => true ), 
+                                        'default' => true ) ,
                                  ) , 
                           ) ,                  
                   
@@ -98,6 +114,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                                 array( 'title'      =>  ts( 'Donor Name' ),
                                        'operator'   => 'like', ), ),   
                          ),
+
                   'civicrm_email'    =>
                   array( 'dao'       => 'CRM_Core_DAO_Email',
                          'fields'    =>
@@ -146,8 +163,12 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     function select( ) {
         
         $select = array( );
-        $this->_columnHeaders = array( );
-        
+        $this->_columnHeaders = array( );      
+        $current_year    =  $this->_params['yid_value'] ;
+        $previous_year   = $current_year - 1;        
+        $previous_pyear  = $current_year - 2;        
+        $previous_ppyear = $current_year - 3; 
+       
         foreach ( $this->_columns as $tableName => $table ) {
             
             if ( array_key_exists('fields', $table) ) {
@@ -157,14 +178,6 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
                         
                         if( $fieldName == 'total_amount') {
-                            
-                            $current_year    = date ( 'Y' ) ;
-                            
-                            $previous_year   = $current_year - 1;
-                            
-                            $previous_pyear  = $current_year - 2;
-                            
-                            $previous_ppyear = $current_year - 3;                            
                             
                             $select[ ]       = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}"; 
                             
@@ -249,12 +262,15 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     
     function from( ) {        
         
+       
+         $IN= "( {$this->_params['yid_value']},{$this->_params['yid_value']} - 1,{$this->_params['yid_value']} - 2 ,{$this->_params['yid_value']} - 3  )"   ;
+
         $this->_from = "
   FROM  civicrm_contribution  {$this->_aliases['civicrm_contribution']}
-  LEFT  JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
+  INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
         ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id  AND 
-        YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN (Year(CURDATE()),Year(CURDATE())-1, Year(CURDATE())-2, Year(CURDATE())-3 )
-  LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
+        YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ".$IN.
+" LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
         ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id
         AND {$this->_aliases['civicrm_email']}.is_primary = 1 " ;
         
@@ -279,10 +295,12 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                         
                         if ( $relative || $from || $to ) {
                             $clause = $this->dateClause( $field['name'], $relative, $from, $to );
-
+                            
                         }
-
-                    } else {
+                        
+                    } 
+                    else {
+ 
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         if ( $op ) {
                             $clause = 
@@ -349,13 +367,13 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         $this->beginPostProcess( );
 
         // build query
-        $sql          = $this->buildQuery( true );      
-        $current_year = date('Y');        
+        $sql          = $this->buildQuery( true ); 
+        $current_year = $this->_params['yid_value'] ;   
         $dao          = CRM_Core_DAO::executeQuery( $sql );
-        $rows         = $graphRows = array();
+        $rows         = $graphRows = array( );
         $count        = 0;
-                
-        while ( $dao->fetch( ) ) {
+        
+        while ( $dao->fetch( ) ) { 
             $row        = array( );          
             $contact_id = $dao->civicrm_contribution_contact_id;            
             $year       = $dao->civicrm_contribution_receive_date;          
@@ -369,17 +387,18 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                 
             }
         }
-        
+       
         $this->assign( 'columnHeaders', $this->_columnHeaders );
         
-        foreach( $display as $key => $value ) {              
-            $row = array( );                        
-            foreach ( $this->_columnHeaders as $column_key => $column_value ) {
+        if($display) {
+            foreach( $display as $key => $value ) {              
+                $row = array( );                        
+                foreach ( $this->_columnHeaders as $column_key => $column_value ) {
+                    $row[ $column_key ] = $value [ $column_key ];                
+                }
                 
-                $row[ $column_key ] = $value [ $column_key ];                
+                $rows [ ]  = $row ;
             }
-            
-            $rows [ ]  = $row ;
         }
         
         // format result set. 

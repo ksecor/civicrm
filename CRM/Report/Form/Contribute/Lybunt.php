@@ -45,6 +45,15 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                                 );
     
     function __construct( ) {
+        $yearsInPast      = 8;
+        $yearsInFuture    = 1;
+        $date             = CRM_Core_SelectValues::date('custom', $yearsInPast, $yearsInFuture, $dateParts ) ;        
+        $count            = $date['maxYear'];
+        while($date['minYear'] <= $count)  {
+            $optionYear[ $date['minYear'] ] = $date['minYear'];
+            $date['minYear']++;
+        } 
+
         $this->_columns = 
             array( 'civicrm_contribution' =>
                    array(  'dao'           => 'CRM_Contribute_DAO_Contribution',
@@ -68,6 +77,13 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                                           'no_repeat'  => true, ) ,
                                    
                                    ),
+                           'filters'        =>             
+                           array(  'yid'         =>  
+                                   array( 'name'    => 'receive_date',
+                                          'title'   => ts( 'Select Year' ),
+                                          'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN,
+                                          'options' => $optionYear ), 
+                                   ),                             
                            
                            'group_bys'     =>
                            array( 'receive_date'  =>  
@@ -145,7 +161,12 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         
         $select = array( );
         $this->_columnHeaders = array( );
-        
+
+        $current_year    =  $this->_params['yid_value'] ;
+        $previous_year   = $current_year - 1;        
+        $previous_pyear  = $current_year - 2;        
+        $previous_ppyear = $current_year - 3; 
+                
         foreach ( $this->_columns as $tableName => $table ) {
             
             if ( array_key_exists('fields', $table) ) {
@@ -153,11 +174,6 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                     if ( CRM_Utils_Array::value( 'required', $field ) ||
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {                        
                         if( $fieldName == 'total_amount') {
-                            
-                            $current_year      = date ( 'Y' ) ;                            
-                            $previous_year     = $current_year - 1;                            
-                            $previous_pyear    = $current_year - 2;                            
-                            $previous_ppyear   = $current_year - 3;                            
                             
                             $select[ ]         = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}"; 
                             $selectLifeTime[ ] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}"; 
@@ -186,7 +202,8 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                             $select[ ]          = " Distinct( {$field['dbAlias']} ) as {$tableName }_{$fieldName} "; 
                             $selectLifeTime[ ]  = " Distinct( {$field['dbAlias']} ) as {$tableName }_{$fieldName} "; 
                             
-                        } else { 
+                        }
+                        else { 
                             
                             $select[ ] = "{$field['dbAlias']} as {$tableName }_{$fieldName} ";
                             $this->_columnHeaders[ "{$tableName}_{$fieldName}" ][ 'type'  ] = $field[ 'type'  ];
@@ -200,7 +217,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         }
         
         ksort( $this->_columnHeaders );
-        $this->_select          = "SELECT " . implode( ', ', $select ) . " ";        
+        $this->_select          = "SELECT  " . implode( ', ', $select ) . " ";       
         $this->_selectLifeTime  = "SELECT " . implode( ', ', $selectLifeTime ) . " "; 
         
     }
@@ -242,13 +259,14 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     }
     
     function from( ) {
-                
+
+        $IN= "( {$this->_params['yid_value']},{$this->_params['yid_value']} - 1,{$this->_params['yid_value']} - 2 ,{$this->_params['yid_value']} - 3  )"   ;        
         $this->_from = "
   FROM  civicrm_contribution  {$this->_aliases['civicrm_contribution']}
-  LEFT  JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
+  INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
         ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id  AND 
-        YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN (Year(CURDATE()),Year(CURDATE())-1, Year(CURDATE())-2, Year(CURDATE())-3 )
-  LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
+        YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ".$IN.
+ " LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
         ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id
         AND {$this->_aliases['civicrm_email']}.is_primary = 1 " ;
         
@@ -324,7 +342,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                             if($fieldName=='receive_date') {
                                 
                                 $this->_groupBy[] = " Year(".$field['dbAlias'].")";
-                                $this->_orderBy   = " Order BY Year(".$field['dbAlias'].")";
+                                $this->_orderBy   = " Order BY Year(".$field['dbAlias'].") ";
                                 
                             } else if ($fieldName=='contact_id') {  
                                 
@@ -352,11 +370,11 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         
         // get ready with post process params
         $this->beginPostProcess( );
-        
+
         // build query
         $sql          = $this->buildQuery( true );
         $sqlLifeTime  = "{$this->_selectLifeTime} {$this->_fromLifeTime} {$this->_groupByLifeTime} ";                    
-        $current_year = date( 'Y' );        
+        $current_year = $this->_params['yid_value'] ;  
         $dao          = CRM_Core_DAO::executeQuery( $sql );
         $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );
         
@@ -369,6 +387,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $rows  = $graphRows = array( );
         $count = 0;               
         $this->assign ( 'columnHeaders', $this->_columnHeaders );
+       
         while ( $dao->fetch( ) ) {
             $row        = array( );         
             $contact_id = $dao->civicrm_contribution_contact_id;            
@@ -377,23 +396,25 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
             $display[ $contact_id ]['civicrm_contact_display_name']     = $dao->civicrm_contact_display_name ;             
             $display[ $contact_id ]['civicrm_email_email']              = $dao->civicrm_email_email ;   
             $display[ $contact_id ]['civicrm_life_time_total']          = $life_time [ $contact_id ];
-            
-            if(isset( $display[ $contact_id ][ $current_year ] ) )  {
+                      
+                  if(isset( $display[ $contact_id ][ $current_year ] ) )  {
                 
-                unset( $display[ $contact_id ] ) ;                
+                    unset( $display[ $contact_id ] ) ;                
+                 }     
+            
+        }  
+     
+        if($display) {
+            foreach( $display as $key => $value ) {
+                
+                $row = array( );  
+                foreach ( $this->_columnHeaders as $column_key => $column_value ) {
+                    $row[ $column_key ] = $value [ $column_key ];
+                } 
+                
+                $rows [ ]  = $row;
             }     
-            
-        }       
-       
-        foreach( $display as $key => $value ) {
-            
-            $row = array( );  
-            foreach ( $this->_columnHeaders as $column_key => $column_value ) {
-                $row[ $column_key ] = $value [ $column_key ];
-            } 
-            
-            $rows [ ]  = $row;
-        }     
+        }
                
         // format result set. 
         $this->formatDisplay( $rows );
