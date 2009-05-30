@@ -49,8 +49,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'fields'    =>
                           array( 'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ),
-                                        'no_repeat'  => true,
-                                        'required'   => true ),
+                                        'no_repeat'  => true ),
                                  'id'           => 
                                  array( 'no_display' => true,
                                         'required'  => true, ), ),
@@ -134,8 +133,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
+    function setDefaultValues( $freeze = true ) {
+        return parent::setDefaultValues( $freeze );
     }
 
     function select( ) {

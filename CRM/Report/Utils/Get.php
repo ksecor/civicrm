@@ -84,6 +84,9 @@ class CRM_Report_Utils_Get {
     }
 
     static function intParam( $fieldName, &$field, &$defaults ) {
+        // since this function id for integer values anyway.
+        $type    = 1; // eq Int
+
         $fieldOP = CRM_Utils_Array::value( "{$fieldName}_op", $_GET, 'eq' );
 
         switch ( $fieldOP ) {
@@ -93,7 +96,7 @@ class CRM_Report_Utils_Get {
         case 'lt' :
         case 'gt' :
         case 'neq':
-            $value = self::getTypedValue( "{$fieldName}_value", $field['type'] );
+            $value = self::getTypedValue( "{$fieldName}_value", $type );
             if ( $value !== null ) {
                 $defaults["{$fieldName}_value"] = $value;
                 $defaults["{$fieldName}_op"   ] = $fieldOP;
@@ -102,8 +105,8 @@ class CRM_Report_Utils_Get {
 
         case 'bw' :
         case 'nbw':
-            $minValue = self::getTypedValue( "{$fieldName}_min", $field['type'] );
-            $maxValue = self::getTypedValue( "{$fieldName}_max", $field['type'] );
+            $minValue = self::getTypedValue( "{$fieldName}_min", $type );
+            $maxValue = self::getTypedValue( "{$fieldName}_max", $type );
             if ( $minValue !== null ||
                  $maxValue !== null ) {
                 $defaults["{$fieldName}_min"] = $minValue;
@@ -112,6 +115,13 @@ class CRM_Report_Utils_Get {
             }
             break;
 
+        case 'in' :
+            // assuming only one value for now. A plus symbol could be used 
+            // to diplsay multiple values in url
+            $value    = self::getTypedValue( "{$fieldName}_value", $type );
+            $defaults["{$fieldName}_value"] = array( $value );
+            $defaults["{$fieldName}_op"   ] = $fieldOP;
+            break;
         }
     }
 
@@ -123,6 +133,7 @@ class CRM_Report_Utils_Get {
                     
                 case CRM_Utils_Type::T_INT:
                 case CRM_Utils_Type::T_MONEY:
+                case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM:
                     self::intParam( $fieldName, $field, $defaults );
                     break;
                     

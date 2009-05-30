@@ -144,7 +144,6 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     }
 
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Contribution Detail Report' ) );
         parent::preProcess( );
     }
 
@@ -311,7 +310,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail',
                                                   "reset=1&force=1&" . 
-                                                  "state_province_id_op=eq&state_province_id_value={$value}" );
+                                                  "state_province_id_op=in&state_province_id_value={$value}" );
                     $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
                 }
                 $entryFound = true;
@@ -325,7 +324,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail',
                                                   "reset=1&force=1&" . 
-                                                  "country_id_op=eq&country_id_value={$value}" );
+                                                  "country_id_op=in&country_id_value={$value}" );
                     $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
                 }
                 

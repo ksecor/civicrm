@@ -133,8 +133,8 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
+    function setDefaultValues( $freeze = true ) {
+        return parent::setDefaultValues( $freeze );
     }
 
     function select( $alias = 'c1' ) {
@@ -497,7 +497,7 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
                     
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
-                                                  "country_id_op=eq&country_id_value={$value}&" .
+                                                  "country_id_op=in&country_id_value={$value}&" .
                                                   "$dateUrl"
                                                   );
 		                                      
@@ -514,7 +514,7 @@ LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']}
 
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
-                                                  "state_province_id_op=eq&state_province_id_value={$value}&" .
+                                                  "state_province_id_op=in&state_province_id_value={$value}&" .
                                                   "$dateUrl"
                                                   );
                     $rows[$rowNum]['address_state_province_id'] ="<a title='{$hoverState}' href='{$url}'>".$stateName."</a>";
