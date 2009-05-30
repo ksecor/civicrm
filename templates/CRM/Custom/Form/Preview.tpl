@@ -72,16 +72,7 @@
 		</span>
 		{/if} </dd>
 	    {elseif $element.data_type eq 'Auto-complete'}
-	    {literal}
-	<script type="text/javascript">
- 	    var url = "{/literal}{$dataUrl}{literal}";
- 	    var custom = "{/literal}#{$element_name}{literal}";
- 	    var custom_id = "{/literal}#{$element_name}_id{literal}";
-    	    cj(custom).autocomplete( url, { width : 180, selectFirst : false
-            }).result( function(event, data, formatted) { cj( custom_id ).val( data[1] );
-    	    });
-    	    {/literal}
-	</script>
+	        {include file="CRM/Custom/Form/AutoComplete.tpl"}
             {/if}
          {if $element.help_post}
             <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>

@@ -945,6 +945,11 @@ SELECT $select
                     }
                     break;
 
+                case 'Contact Reference':
+                    require_once 'CRM/Contact/BAO/Contact.php';
+                    $defaults[$elementName] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'sort_name' );
+                    break;
+                    
                 default:
                     if ($field['data_type'] == "Float") {
                         $defaults[$elementName] = (float)$value;
@@ -1471,7 +1476,9 @@ SELECT $select
             break;
 
         case 'Auto-complete':
-            $retValue = $values;
+            if ( $htmlType == 'Contact Reference' ) {
+                $retValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $values['data'], 'sort_name' );
+            }
             break;
             
         case 'Memo': 
