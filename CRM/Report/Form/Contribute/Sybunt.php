@@ -50,7 +50,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         $yearsInFuture    = 1;
         $date             = CRM_Core_SelectValues::date('custom', $yearsInPast, $yearsInFuture, $dateParts ) ;        
         $count            = $date['maxYear'];
-        while($date['minYear'] <= $count)  {
+        while ( $date['minYear'] <= $count )  {
             $optionYear[ $date['minYear'] ] = $date['minYear'];
             $date['minYear']++;
         }
@@ -262,17 +262,23 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     
     function from( ) {        
         
-       
-         $IN= "( {$this->_params['yid_value']},{$this->_params['yid_value']} - 1,{$this->_params['yid_value']} - 2 ,{$this->_params['yid_value']} - 3  )"   ;
+        $IN= "( {$this->_params['yid_value']},{$this->_params['yid_value']} - 1,{$this->_params['yid_value']} - 2 ,{$this->_params['yid_value']} - 3  )" ;
 
         $this->_from = "
-  FROM  civicrm_contribution  {$this->_aliases['civicrm_contribution']}
-  INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
-        ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id  AND 
-        YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ".$IN.
-" LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
-        ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id
-        AND {$this->_aliases['civicrm_email']}.is_primary = 1 " ;
+        FROM  civicrm_contribution  {$this->_aliases['civicrm_contribution']}
+              INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
+                      ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id  AND 
+                          YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ".$IN.
+            " LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
+                      ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id
+                          AND {$this->_aliases['civicrm_email']}.is_primary = 1
+
+              LEFT  JOIN civicrm_group_contact  group_contact 
+                      ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
+              LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
+                      ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
+
+        " ;
         
     }
     
@@ -409,7 +415,5 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         // do print / pdf / instance stuff if needed
         $this->endPostProcess( );
 
-        
      }   
-    
 }
