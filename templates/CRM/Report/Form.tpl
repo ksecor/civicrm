@@ -41,9 +41,11 @@
 
 
     {* build the print pdf buttons *}
-    {assign var=print value="_qf_"|cat:$form.formName|cat:"_submit_print"}
-    {assign var=pdf   value="_qf_"|cat:$form.formName|cat:"_submit_pdf"}
-    <div id="crm-submit-buttons">{$form.$print.html}&nbsp;&nbsp;{$form.$pdf.html}</div>
+    {if $rows}
+       {assign var=print value="_qf_"|cat:$form.formName|cat:"_submit_print"}
+       {assign var=pdf   value="_qf_"|cat:$form.formName|cat:"_submit_pdf"}
+       <div id="crm-submit-buttons">{$form.$print.html}&nbsp;&nbsp;{$form.$pdf.html}{if $hasReports}&nbsp;&nbsp;{/if}</div>
+    {/if}
 
     <script type="text/javascript">
         var showBlocks = [];

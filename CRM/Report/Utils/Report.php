@@ -55,4 +55,29 @@ class CRM_Report_Utils_Report {
         }
         return $optionVal;
     }
+
+    static function getValueIDFromUrl( $instanceID = null ) {
+        $optionVal = self::getValueFromUrl( $instanceID );
+
+        if ( $optionVal ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$optionVal}", 'value' );
+            return $templateInfo['id'];
+        }
+
+        return false;
+    }
+
+    // get instance count for a template 
+    static function getInstanceCount( $optionVal ) {
+        $sql = "
+SELECT count(inst.id)
+FROM   civicrm_report_instance inst
+WHERE  inst.report_id = %1";
+
+        $params = array( 1 => array( $optionVal, 'String' ) );
+        $count  = CRM_Core_DAO::singleValueQuery( $sql, $params );
+        return $count;
+    }
+
 }

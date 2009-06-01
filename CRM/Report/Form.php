@@ -141,7 +141,6 @@ class CRM_Report_Form extends CRM_Core_Form {
      * @var array
      */
     protected $_groupByDateFreq = array( 'MONTH'    => 'Month',
-                                         ''         => '-select-',
                                          'YEARWEEK' => 'Week',
                                          'QUARTER'  => 'Quarter',
                                          'YEAR'     => 'Year'  );
@@ -171,7 +170,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                                           $params,
                                           $this->_instanceValues );
             if ( empty($this->_instanceValues) ) {
-                CRM_Core_Error::fatal("instance could not be loaded.");
+                CRM_Core_Error::fatal("Report could not be loaded.");
             }
 
             $this->_instanceValues['permission'] = 
@@ -512,7 +511,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::buildForm( $this );
             
-            $this->addElement('submit', $this->_instanceButtonName, ts( 'Save Report' ) );
+            $label = $this->_id ? ts( 'Update Report' ) : ts( 'Create Report' );
+
+            $this->addElement( 'submit', $this->_instanceButtonName, $label );
             $this->assign( 'instanceForm', true );
         }
 
@@ -521,7 +522,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'submit',
-                                         'name'      => ts('Generate Report'),
+                                         'name'      => ts('Preview Report'),
                                          'isDefault' => true   ),
                                  )
                            );
