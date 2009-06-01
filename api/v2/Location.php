@@ -148,7 +148,7 @@ function civicrm_location_delete( &$contact ) {
  *
  * @return array  an array of location parameters arrays
  *
- * @acces public
+ * @access public
  */
 function civicrm_location_get( $contact ) {
     _civicrm_initialize( );

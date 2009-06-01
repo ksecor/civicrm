@@ -42,7 +42,7 @@ require_once 'api/v2/utils.php';
  * If no status mentioned in params, by default 'added' will be used
  * to fetch the records
  * 
- * @params  array $params  name value pair of contact information
+ * @param  array $params  name value pair of contact information
  *
  * @return  array  list of groups, given contact subsribed to
  */

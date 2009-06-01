@@ -86,7 +86,7 @@ function civicrm_membership_status_create(&$params)
  * 
  * This api is used for finding an existing membership status.
  * 
- * @params  array $params  an associative array of name/value property values of civicrm_membership_status
+ * @param  array $params  an associative array of name/value property values of civicrm_membership_status
  *
  * @return  Array of all found membership status property values.
  * @access public

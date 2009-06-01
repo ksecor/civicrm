@@ -90,7 +90,7 @@ function crm_create_membership_type($params)
  * This api is used for finding an existing membership type.
  * Required parameters : id of membership type
  * 
- * @params  array $params  an associative array of name/value property values of civicrm_membership_type
+ * @param  array $params  an associative array of name/value property values of civicrm_membership_type
  * 
  * @return  Array of all found membership type property values.
  * @access public
@@ -225,7 +225,7 @@ function crm_create_membership_status($params)
  * This api is used for finding an existing membership status.
  * Required parrmeters : id of a membership status
  * 
- * @params  array $params  an associative array of name/value property values of civicrm_membership_status
+ * @param  array $params  an associative array of name/value property values of civicrm_membership_status
  *
  * @return  Array of all found membership status property values.
  * @access public
@@ -518,7 +518,7 @@ function crm_update_contact_membership($params)
  * This api will also return the mebership records for the contacts
  * having mebership based on the relationship with the direct members.
  * 
- * @params  Int  $contactID  ID of a contact
+ * @param  Int  $contactID  ID of a contact
  *
  * @return  Array of all found membership property values.
  * @access public

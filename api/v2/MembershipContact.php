@@ -116,7 +116,7 @@ function civicrm_membership_contact_create(&$params)
  * This api will also return the mebership records for the contacts
  * having mebership based on the relationship with the direct members.
  * 
- * @params  Array $params key/value pairs for contact_id and some
+ * @param  Array $params key/value pairs for contact_id and some
  *          options affecting the desired results; has legacy support
  *          for just passing the contact_id itself as the argument
  *

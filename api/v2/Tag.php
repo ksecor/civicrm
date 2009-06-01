@@ -108,7 +108,7 @@ function civicrm_tag_delete( &$params )
  * This api is used for finding an existing tag.
  * Either id or name of tag are required parameters for this api.
  * 
- * @params  array $params  an associative array of name/value pairs.
+ * @param  array $params  an associative array of name/value pairs.
  *
  * @return  array details of found tag else error
  * @access public

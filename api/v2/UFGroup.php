@@ -405,7 +405,7 @@ function civicrm_uf_field_delete( $fieldId ) {
  *
  * @param int    $userID    the user id 
  * @param string $title     the title of the group we are interested in
- * @pram  boolean $register is this the registrtion form
+ * @param  boolean $register is this the registrtion form
  * @param int    $action  the action of the form
  *
  * @return error   if data not valid

@@ -25,6 +25,7 @@
  +--------------------------------------------------------------------+
 */
 
+
 /**
  * Definition of the ActivityType part of the CRM API. 
  * More detailed documentation can be found 
@@ -36,6 +37,7 @@
  * $Id$
  *
  */
+
 require_once 'api/v2/utils.php';
 
 /**
@@ -52,7 +54,7 @@ function civicrm_activity_type_get( ) {
 
 /**
  * Function to create activity type
- * @params array   $params  associated array of fields
+ * @param array   $params  associated array of fields
  *                 $params['option_value_id'] is required for updation of activity type
  * @return array $activityType created / updated activity type
  *
@@ -81,7 +83,7 @@ function civicrm_activity_type_create( $params ) {
 
 /**
  * Function to delete activity type
- * @activityTypeId int   activity type id to delete
+ * @param activityTypeId int   activity type id to delete
  * @return boolen
  *
  * @access public

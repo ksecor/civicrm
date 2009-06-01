@@ -139,7 +139,7 @@ function &civicrm_participant_get( &$params ) {
  * 
  * This api is used for finding an existing participant record.
  *
- * @params  array  $params     an associative array of name/value property values of civicrm_participant
+ * @param  array  $params     an associative array of name/value property values of civicrm_participant
  *
  * @return  participant property values.
  * @access public

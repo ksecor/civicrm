@@ -96,7 +96,7 @@ function civicrm_membership_type_create(&$params)
  * 
  * This api is used for finding an existing membership type.
  * 
- * @params  array $params  an associative array of name/value property values of civicrm_membership_type
+ * @param  array $params  an associative array of name/value property values of civicrm_membership_type
  * 
  * @return  Array of all found membership type property values.
  * @access public
