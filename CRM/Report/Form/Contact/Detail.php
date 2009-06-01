@@ -37,8 +37,13 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
 
-    protected $_summary = null;
+    protected $_summary      = null;
 
+    protected $_emailField   = false;
+    
+    protected $_phoneField   = false;
+    
+    protected $_addressField = false;
     
     function __construct( ) {
         $this->_columns = 
@@ -81,7 +86,8 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                  array( 'title'      => ts( 'Email' ),
                                         'no_repeat'  => true 
                                         ),
-                                 ), 
+                                 ),
+                          'grouping'  => 'contact-fields',
                           ),
 
                    'civicrm_contribution'   =>
@@ -162,16 +168,20 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) 
                                         ), 
                                  ), 
-                          )
+                          ),
+
+                   'civicrm_phone' => 
+                   array( 'dao'       => 'CRM_Core_DAO_Phone',
+                          'fields'    =>
+                          array( 'phone'  => null),
+                          'grouping'  => 'contact-fields',
+                          ),
                    );
         parent::__construct( );
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Contact Detail Report' ) );
         parent::preProcess( );
-
-
     }
     
     function select( ) {
@@ -183,7 +193,14 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                 foreach ( $table['fields'] as $fieldName => $field ) {
                     if ( CRM_Utils_Array::value( 'required', $field ) ||
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
-                        
+
+                        if ( $tableName == 'civicrm_address' ) {
+                            $this->_addressField = true;
+                        } else if ( $tableName == 'civicrm_email' ) {
+                            $this->_emailField = true;
+                        } else if ( $tableName == 'civicrm_phone' ) {
+                            $this->_phoneField = true;
+                        }
                         //isolate the select clause compoenent wise
                         if ( in_array( $table['alias'], $this->_component ) ) {
                             $select[$table['alias']][] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
@@ -223,15 +240,28 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
 
         
         $this->_from = "
-        FROM civicrm_contact {$this->_aliases['civicrm_contact']}
-             LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
-                    ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
-                       {$this->_aliases['civicrm_address']}.is_primary = 1 )
-             LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']} 
-                    ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND
-                       {$this->_aliases['civicrm_email']}.is_primary = 1)
-             {$group}
-        ";
+        FROM civicrm_contact {$this->_aliases['civicrm_contact']} ";
+
+        if ( $this->_addressField ) {
+            $this->_from .= "
+            LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
+                   ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
+                      {$this->_aliases['civicrm_address']}.is_primary = 1 ) ";
+        }
+        if ( $this->_emailField ) {
+            $this->_from .= "
+            LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']} 
+                   ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND
+                      {$this->_aliases['civicrm_email']}.is_primary = 1) ";
+        }
+
+        if ( $this->_phoneField ) {
+            $this->_from .= "
+            LEFT JOIN civicrm_phone {$this->_aliases['civicrm_phone']} 
+                   ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
+                      {$this->_aliases['civicrm_phone']}.is_primary = 1 ";
+        }   
+        $this->_from .= "{$group}";
 
         foreach( $this->_component as $val ) {
             if ( CRM_Utils_Array::value( 'contribution', $this->_selectComponent ) ) {
@@ -374,16 +404,6 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
 
         foreach ( $rows as $rowNum => $row ) {
             // make count columns point to detail report
-            // convert display name to links
-            if ( array_key_exists('civicrm_contact_display_name', $row) && 
-                 array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view', 
-                                              "reset=1&cid={$row['civicrm_contact_id']}" );
-
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $row["civicrm_contact_display_name"] . '</a>';
-                $entryFound = true;
-            }
 
             // handle country
             if ( array_key_exists('civicrm_address_country_id', $row) ) {
