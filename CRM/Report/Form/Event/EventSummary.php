@@ -40,7 +40,12 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
     
     protected $_summary = null;
-    
+
+    protected $_charts = array( ''         => 'Tabular',
+                                'barGraph' => 'Bar Graph',
+                                'pieGraph' => 'Pie Graph'
+                                );
+
     function __construct( ) {
         
         $this->_columns = 
@@ -278,7 +283,10 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
         $sql = $this->buildQuery( false );
         
         $dao = CRM_Core_DAO::executeQuery( $sql );
-        
+
+        require_once 'CRM/Utils/PChart.php';
+        $rows  = $graphRows = array();
+        $count = 0;
         while ( $dao->fetch( ) ) {	
             $row = array();
             foreach ( $this->_columnHeaders as $key => $value ) {
@@ -291,27 +299,51 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
             } 
             $rows[] = $row;	  
         }
- 	
-        if( !empty($rows)) {
+        if ( !empty($rows) ) {
             $participant_info= $this->participantInfo();
             foreach ( $rows as $key => $value ) {
                 foreach ($participant_info[$value['civicrm_event_id']] as $k => $v ) {
                     $rows[$key][$k]=$v;
-                }	      
+                    
+                }
             }
-            
+        }
+        foreach ( $rows as $key =>$value ) {
+            if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
+                $graphRows['totalAmount'][]    = ($rows[$key]['totalAmount']);
+                $graphRows[$this->_interval][] = ($rows[$key]['civicrm_event_id']);
+                $graphRows['value'][]          = ($rows[$key]['totalAmount']);
+                $count++;
+            }
         }
         
         $this->formatDisplay( $rows );
         unset($this->_columnHeaders['civicrm_event_id']);
         
         $this->doTemplateAssignment( $rows );
-        $this->endPostProcess( );
+        require_once 'CRM/Utils/PChart.php';
+        if ( ( $rows[$key]['totalAmount']) == 0 ) {
+            $countEvent=count($rows);
+        }
+        if ( CRM_Utils_Array::value('charts', $this->_params ) && (!empty($rows)) && $countEvent != 1 ) {
+            $chartInfo = array( 'legend' => 'Event Summary',
+                                'xname'  => 'Total Amount',
+                                'yname'  => 'Event ID'
+                                );
+            
+            $graphs = CRM_Utils_PChart::reportChart( $graphRows,
+                                                     $this->_params['charts'],
+                                                     $graphRows[$this->_interval],
+                                                     $chartInfo);
+            
+            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+        }
         
+        $this->endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {
-        
+      
         if ( is_array( $rows ) ) {
             $hoverEvent = ts("View Event Income Details for this Event");
             $eventType  = CRM_Core_OptionGroup::values('event_type');
