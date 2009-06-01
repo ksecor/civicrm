@@ -17,7 +17,7 @@
      		                    <a href="{$row.url}" title="{$row.description}">&raquo; <strong>{$row.title}</strong></a>
    				    {if $row.instanceUrl}
 					<div align="right">
-					    <a href="{$row.instanceUrl}">{ts}Instance(s){/ts}</a>
+					    <a href="{$row.instanceUrl}">{ts}Available Report(s){/ts}</a>
 					</div>
 				    {/if}
 			        </td>

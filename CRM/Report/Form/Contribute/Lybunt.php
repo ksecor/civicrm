@@ -425,6 +425,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $this->formatDisplay( $rows );
         
         $this->assign_by_ref( 'rows', $rows );
+        $this->assign( 'statistics',  $this->statistics( $rows ) );
         
         // do print / pdf / instance stuff if needed
         $this->endPostProcess( );

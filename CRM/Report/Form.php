@@ -187,6 +187,20 @@ class CRM_Report_Form extends CRM_Core_Form {
 
             // lets always do a force if a valid id is found in the url.
             $this->_force      = 1;
+
+            // set the mode
+            $this->assign( 'mode', 'instance' );
+        } else {
+            list($optionValueID, $optionValue) = CRM_Report_Utils_Report::getValueIDFromUrl( );
+            $instanceCount = CRM_Report_Utils_Report::getInstanceCount( $optionValue );
+            if ( ($instanceCount > 0) && $optionValueID ) {
+                $this->assign( 'instanceUrl', 
+                               CRM_Utils_System::url( 'civicrm/report/instance/list', 
+                                                      "reset=1&ovid=$optionValueID" ) );
+            }
+
+            // set the mode
+            $this->assign( 'mode', 'template' );
         }
 
         // lets display the 
@@ -422,10 +436,13 @@ class CRM_Report_Form extends CRM_Core_Form {
                 switch ( $field['type'] ) {
                 case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
                     // assume a multi-select field
-                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                    $select = $this->addElement('select', "{$fieldName}_value", null, $field['options'], array( 'size' => 4, 
-                                                                                                                'style' => 'width:200px'));
-                    $select->setMultiple( true );
+                    if ( !empty( $field['options'] ) ) {
+                        $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
+                        $select = $this->addElement('select', "{$fieldName}_value", null, 
+                                                    $field['options'], array( 'size' => 4, 
+                                                                              'style' => 'width:200px'));
+                        $select->setMultiple( true );
+                    }
                     break;
 
                 case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN :
@@ -517,8 +534,11 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->assign( 'instanceForm', true );
         }
 
-        $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
-        $this->addElement('submit', $this->_pdfButtonName, ts( 'Print PDF' ) );
+        $label = $this->_id ? ts( 'Print Report' ) : ts( 'Print Preview' );
+        $this->addElement('submit', $this->_printButtonName, $label );
+
+        $label = $this->_id ? ts( 'Print PDF' ) : ts( 'Preview PDF' );
+        $this->addElement('submit', $this->_pdfButtonName, $label );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'submit',

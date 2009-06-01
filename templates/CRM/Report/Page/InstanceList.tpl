@@ -13,7 +13,7 @@
 		    <table class="report">
 		        {foreach from=$rows item=row}
 	                    <tr >
-			        <td width="300"><a href="{$row.url}">&raquo; {$row.title}</a><br/>{$row.label}</td>
+			        <td width="300"><a href="{$row.url}">&raquo; {$row.title}</a></td>
 				<td width="450">{$row.description}</td>
 	                        <td><a href="{$row.deleteUrl}" onclick="return window.confirm('Are you sure you want Delete this Instance?');">Delete</a></td>
 			    </tr>
