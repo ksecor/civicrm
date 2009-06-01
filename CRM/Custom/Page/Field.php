@@ -183,6 +183,9 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             case "Link":
                 $action -= CRM_Core_Action::BROWSE;
                 break;
+            case "Auto-complete":
+                $action -= CRM_Core_Action::BROWSE;
+                break;
             }
             
             $customFieldDataType = CRM_Core_BAO_CustomField::dataType();

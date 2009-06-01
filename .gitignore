@@ -37,6 +37,7 @@ CRM/Core/DAO/Mapping.php
 CRM/Core/DAO/MappingField.php
 CRM/Core/DAO/Menu.php
 CRM/Core/DAO/MessageTemplates.php
+CRM/Core/DAO/Navigation.php
 CRM/Core/DAO/Note.php
 CRM/Core/DAO/OpenID.php
 CRM/Core/DAO/OptionGroup.php

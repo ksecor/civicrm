@@ -24,8 +24,8 @@
         {/if}
 	{if $element.options_per_line }
         {*assign var="element_name" value=$element.custom_group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
-        {assign var="element_name" value=$element.element_name}
-        <dt>{$form.$element_name.label} </dt>
+        {assign var="element_name" value=$element.element_name}      
+        <dt>{$form.$element_name.label} {$element.data_type}</dt>
         <dd>
             {assign var="count" value="1"}
                 <table class="form-layout-compressed">
@@ -71,6 +71,8 @@
 		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 doTime=1  trigger="$element_name"}
 		</span>
 		{/if} </dd>
+	    {elseif $element.data_type eq 'Auto-complete'}
+	        {include file="CRM/Custom/Form/AutoComplete.tpl"}
             {/if}
          {if $element.help_post}
             <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
@@ -88,3 +90,4 @@
   <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>
 </div>
+

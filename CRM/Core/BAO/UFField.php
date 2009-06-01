@@ -353,6 +353,11 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             $profileTypes = explode( ',',  $ufGroup->group_type );
         }
         
+        //early return if new profile. 
+        if ( empty( $profileTypes ) ) {
+            return false;
+        }
+        
         //we need to unset Contact
         if ( count( $profileTypes ) > 1 ) {
             $index = array_search( 'Contact', $profileTypes );

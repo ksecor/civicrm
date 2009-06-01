@@ -110,8 +110,16 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        // we need to call parent preprocess only when we are viewing / editing / adding participant record
-        $this->preProcess( );
+        $contactID  = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullArray );
+        $context    = CRM_Utils_Request::retrieve('context', 'String', $this );
+        
+        if ( $context == 'standalone' && !$contactID ) {
+            $this->_action = CRM_Core_Action::ADD;
+            $this->assign('action', $this->_action );     
+        } else {
+            // we need to call parent preprocess only when we are viewing / editing / adding participant record
+            $this->preProcess( );           
+        }        
         
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit event participants rights

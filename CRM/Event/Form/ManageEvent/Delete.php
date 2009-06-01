@@ -74,7 +74,7 @@ class CRM_Event_Form_ManageEvent_Delete extends CRM_Event_Form_ManageEvent
         $buttons = array(
                       array(
                             'type'      => 'next',
-                            'name'      => ts('Delete Event'),
+                            'name'      => $this->_isTemplate ? ts('Delete Event Template') : ts('Delete Event'),
                             'isDefault' => true ),
                       array(
                             'type'       => 'cancel',

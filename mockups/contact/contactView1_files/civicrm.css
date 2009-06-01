@@ -99,7 +99,6 @@ div.spacer, .spacer {
 }
   
 #crm-container fieldset {
-  margin: .25em 0em .5em 0em;
 }
 
 #crm-container fieldset.form-layout {
@@ -1356,16 +1355,15 @@ div#toolTip {
 }
 
 .primary {
-   border-bottom: 1px dashed grey;
-   padding-bottom: 2px;
+   font-weight: bold;
 }
 
 div#contactName {
-   margin: 4px 0pt 10px 0pt;
+   margin: 4px 0pt 0px 0pt;
    font-size: 1.1em;
    line-height: 1.4em;
    padding-bottom: 3px;
-   border-bottom: 1px solid blue;   
+   border-bottom: 1px solid grey;   
 }
 
 div#contactName * {
@@ -1375,38 +1373,53 @@ div#contactName * {
 div#contactName .label {
    font-size: .7em;
    line-height: 1.4em; 
+   color: gray;
 }
 
+div#contactName .grouplabel {
+   font-size: .7em;
+   line-height: 1.4em; 
+}
 
 div#contact_panel {
-   display: inline;
+   display: block;
    width: 100%;
-   padding: 0;
 }
 
 /* reset contact_panel contents */
 
 div#contact_panel * {
   padding: 0px;
-  margin: 0px;
   border: 0px;
+  margin: 0px;
 }
 
 div#contactCardLeft {
   width: 49%;
   float: left;
+  display: block;
 }
 
 div#contactCardRight {
   width: 49%;
+  float: right;
+  display: block;  
 }
 
 div#contactCardLeft .label, div#contactCardRight .label {
    font-weight: bold;
    font-size: 0.8em;
-   white-space: nowrap;
-   text-align: right;
-   padding-right: 7px;
+   vertical-align: top;
+   margin-right: 10px;
+   color: gray;
+}
+
+div#contactCardLeft .grouplabel, div#contactCardRight .grouplabel {
+   font-weight: bold;
+   font-size: 1em;
+   text-align: center;
+   width: 100%;
+   border-bottom: 1px solid grey;
 }
 
 div#contact_panel .spacer {
@@ -1414,21 +1427,35 @@ div#contact_panel .spacer {
 }
 
 div#contact_panel td {
-   padding: 1px;
+   padding: 4px 4px 4px 4px;
+   vertical-align: top;
+   border-bottom: 1px solid lightgray;    
 }
 
+div#contact_panel td.last {
+   border-bottom: 0;    
+}
+
+div#customFields div#contact_panel td {
+   padding: 4px 4px 4px 4px;
+   border-bottom: 1px solid lightgray;
+   vertical-align: top;   
+}
+
+div#customFields div#contact_panel td.talabel {
+   border: 0px;
+   padding: 4px 0pt 0pt 4px;
+}
 div.buttons {
    padding-bottom: 3px;
-   border-bottom: 1px solid blue;
+   border-bottom: 2px solid grey;
    width: 100%;
    text-align: right;
 }
 
 div.buttons input, div.buttons select {
    font-size: .9em;
-   background: #EEEEFF;
-   border: 1px solid;
-   vertical-align: top;
+   vertical-align: top !important;
 }
 
 div.buttons #actions {

@@ -107,8 +107,18 @@
      <access_arguments>access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/price_sets.png</icon>
-     <weight>386</weight>
+     <weight>390</weight>
   </item>
+  <item>
+     <path>civicrm/admin/eventTemplate</path>
+     <title>Event Templates</title>
+     <page_callback>CRM_Admin_Page_EventTemplate</page_callback>
+     <desc>Administrators can create Event Templates - which are basically master event records pre-filled with default values</desc>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/template.png</icon>
+     <weight>395</weight>
+  </item>  
   <item>
      <path>civicrm/admin/price/add</path>
      <title>New Price Set</title>
@@ -182,24 +192,24 @@
      <page_callback>CRM_Event_Page_Tab</page_callback>
      <weight>4</weight>
   </item>
-<item>
+  <item>
      <path>civicrm/ajax/event</path>
      <page_callback>CRM_Event_Page_AJAX::event</page_callback>
      <access_arguments>access CiviCRM,access CiviEvent</access_arguments>
-</item>
-<item>
+  </item>
+  <item>
      <path>civicrm/ajax/eventType</path>
      <page_callback>CRM_Event_Page_AJAX::eventType</page_callback>
      <access_arguments>access CiviCRM,access CiviEvent</access_arguments>
-</item>
-<item>
+  </item>
+  <item>
      <path>civicrm/ajax/eventFee</path>
      <page_callback>CRM_Event_Page_AJAX::eventFee</page_callback>
      <access_arguments>access CiviCRM,access CiviEvent</access_arguments>
-</item>
-<item>
+  </item>
+  <item>
      <path>civicrm/ajax/locBlock</path>
      <page_callback>CRM_Core_Page_AJAX_Location::getLocBlock</page_callback>
      <access_arguments>access CiviCRM,access CiviEvent</access_arguments>
-</item>
+  </item>
 </menu>

@@ -62,28 +62,29 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Navigation', 'label' ),
                    true );
 
-        if ( !$this->_id ) {
-            $menuOptions = array( '1' => ts('Create New Menu'),
-                                  '2' => ts('Select Existing Menu'));
-            $this->add( 'select', 'menu_option', ts( 'Menu' ),  $menuOptions );
-        }
-        
-        require_once 'CRM/Core/BAO/Navigation.php';
-        $existingMenus = CRM_Core_BAO_Navigation::getMenus( );
-        asort( $existingMenus );
-        $this->add( 'select', 'path', ts( 'Existing Menu' ), array( '' => ts('-- select --') ) + $existingMenus );
         $this->add('text', 'url', ts('Url'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Navigation', 'url' ) );
         require_once 'CRM/Core/Permission.php';
         $permissions = CRM_Core_Permission::basicPermissions();
-        $this->addElement('select', 'permission', ts('Permission'), $permissions, array( 'size' => 5,'multiple' ) );        
-        $this->add('checkbox', 'CiviCRM_OP_OR', null, ts( 'Check to match ANY; uncheck to match ALL' ) ); 
+        $include =& $this->addElement('advmultiselect', 'permission', 
+                                      ts('Permission') . ' ', $permissions,
+                                      array('size' => 5, 
+                                            'style' => 'width:150px',
+                                            'class' => 'advmultiselect')
+                                      );
         
+        $include->setButtonAttributes('add', array('value' => ts('Add >>')));
+        $include->setButtonAttributes('remove', array('value' => ts('<< Remove')));     
+        
+        $operators = array( 'AND' => 'AND', 'OR' => 'OR' );
+        $this->add('select', 'permission_operator', ts( 'Operator'), $operators ); 
+        $parentMenu = array( );
         CRM_Core_BAO_Navigation::getNavigationList( $parentMenu );            
         
         if ( isset( $this->_id ) ) {
             unset( $parentMenu[$this->_id] );
         }
         $this->add( 'select', 'parent_id', ts( 'Parent' ), array( '' => ts('-- select --') ) + $parentMenu );
+        $this->add('checkbox', 'has_separator', ts('Separator?'));
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }
     
@@ -92,17 +93,18 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
             CRM_Core_BAO_Navigation::retrieve( $params, $defaults );
-            if ( $defaults['permission_operator'] === 'OR' ) {
-                $defaults['permission_operator'] = 1;
+            if ( CRM_Utils_Array::value( 'permission', $defaults ) ) { 
+                foreach ( explode( ',' , $defaults['permission'] ) as $value ){ 
+                    $components[$value] = $value;
+                }
+                $defaults['permission'] = $components;
             }
-            if ( $defaults['parent_id'] ) {
-                $defaults['parent_id'] = "{$defaults['weight']}-{$this->_id}";
-            }                
+        } else {
+            $defaults['permission'] = "access CiviCRM";
         }
         
         // its ok if there is no element called is_active
         $defaults['is_active'] = ( $this->_id ) ? $defaults['is_active'] : 1;
-        
         return $defaults;
     }
        
@@ -114,21 +116,17 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
      */
     public function postProcess() {
         // get the submitted form values.  
-        $params = $this->controller->exportValues( $this->_name );
+        $params = $this->controller->exportValues( $this->_name );            
         
         if ( isset( $this->_id ) ) {
             $params['id'] = $this->_id;
         }
         
-        if ( $params['menu_option'] == 1 ) {
-            unset( $params['path'] );
-        }
-
-        // fix parent id
-        $parentKey = explode( '-', $params['parent_id'] );
-        $params['parent_id'] = $parentKey[1];
-        
         $navigation = CRM_Core_BAO_Navigation::add( $params );
+        
+        // also reset navigation
+        require_once 'CRM/Core/BAO/Navigation.php';
+        CRM_Core_BAO_Navigation::resetNavigation( );
         
         CRM_Core_Session::setStatus( ts('Menu \'%1\' has been saved.',
                                         array( 1 => $navigation->label )) );

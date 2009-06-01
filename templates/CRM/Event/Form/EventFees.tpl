@@ -8,7 +8,7 @@
     	        <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
 	    {else}
                  <tr><td class="label">{ts}Event Level{/ts}</td>
-		     <td>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</td>
+		     <td>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</td>
 		 </tr>
             {/if}
         {else}
@@ -79,7 +79,7 @@
             <dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
         {/if}
 	{if $action EQ 2}
-	    <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</dd>
+	    <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</dd>
         {/if}
         <dt class="label">{$form.amount.label}</dt><dd>{$form.amount.html}
         {if $action EQ 1}

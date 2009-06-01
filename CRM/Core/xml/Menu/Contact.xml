@@ -68,7 +68,7 @@
      <title>New Contact</title>
      <page_callback>CRM_Contact_Form_Edit</page_callback>
      <page_arguments>addSequence=1</page_arguments>
-     <access_arguments>access CiviCRM, add contacts</access_arguments>
+     <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
   <item>
      <path>civicrm/contact/add/individual</path>
@@ -76,7 +76,7 @@
      <page_callback>CRM_Contact_Form_Edit</page_callback>
      <page_arguments>addSequence=1</page_arguments>
      <path_arguments>ct=Individual</path_arguments>
-     <access_arguments>access CiviCRM, add contacts</access_arguments>
+     <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
   <item>
      <path>civicrm/contact/add/household</path>
@@ -84,7 +84,7 @@
      <page_callback>CRM_Contact_Form_Edit</page_callback>
      <page_arguments>addSequence=1</page_arguments>
      <path_arguments>ct=Household</path_arguments>
-     <access_arguments>access CiviCRM, add contacts</access_arguments>
+     <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
   <item>
      <path>civicrm/contact/add/organization</path>
@@ -92,7 +92,7 @@
      <page_callback>CRM_Contact_Form_Edit</page_callback>
      <page_arguments>addSequence=1</page_arguments>
      <path_arguments>ct=Organization</path_arguments>
-     <access_arguments>access CiviCRM, add contacts</access_arguments>
+     <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
   <item>
      <path>civicrm/contact/relatedcontact</path>
@@ -204,12 +204,6 @@
      <weight>0</weight>
   </item>
   <item>
-     <path>civicrm/contact/create</path>
-     <title>New Contact Dialog</title>
-     <page_callback>CRM_Contact_Form_Create</page_callback>
-     <access_arguments>access CiviCRM,add contacts</access_arguments>
-  </item>
-  <item>
     <path>civicrm/ajax/state</path>
     <page_callback>CRM_Core_Page_AJAX_Location::state</page_callback>
     <access_arguments>access CiviCRM</access_arguments>
@@ -257,6 +251,11 @@
 <item>
      <path>civicrm/ajax/cmsuser</path>
      <page_callback>CRM_Contact_Page_AJAX::checkUserName</page_callback>
+     <access_callback>1</access_callback>
+</item>
+<item>
+     <path>civicrm/ajax/checkemail</path>
+     <page_callback>CRM_Contact_Page_AJAX::getContactEmail</page_callback>
      <access_callback>1</access_callback>
 </item>
 </menu>

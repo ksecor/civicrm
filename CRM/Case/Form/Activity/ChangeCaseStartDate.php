@@ -107,13 +107,58 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate
      * @access public
      * @return None
      */
-    public function endPostProcess( &$form, &$params ) 
+    public function endPostProcess( &$form, &$params, $activity ) 
     {
         if ( CRM_Utils_Array::value('start_date', $params ) ) {
             $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
         }
        
-        // status msg
+        $caseType = $form->_caseType;
+
+        if ( !$caseType && $form->_caseId ) {
+
+            $query = "
+SELECT  cov_type.label as case_type FROM civicrm_case 
+LEFT JOIN  civicrm_option_group cog_type ON cog_type.name = 'case_type'
+LEFT JOIN civicrm_option_value cov_type ON 
+( civicrm_case.case_type_id = cov_type.value AND cog_type.id = cov_type.option_group_id ) 
+WHERE civicrm_case.id=  %1";
+            
+            $queryParams = array(1 => array($form->_caseId, 'Integer'));
+            $caseType = CRM_Core_DAO::singleValueQuery( $query, $queryParams );  
+        }
+        
+        if ( ! $form->_currentlyViewedContactId  ||
+             ! $form->_currentUserId             ||
+             ! $form->_caseId                    || 
+             ! $caseType
+             ) {
+            CRM_Core_Error::fatal('Required parameter missing for ChangeCaseType - end post processing');
+        }
+        // 1. save activity subject with new start date
+        $currentStartDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
+                                                                                       $form->_caseId, 'start_date' ) );
+        $newStartDate = CRM_Utils_Date::customFormat(CRM_Utils_Date::mysqlToIso($params['start_date']));
+        $subject = 'Change Case Start Date from ' . $currentStartDate . ' to ' . $newStartDate;
+        $activity->subject = $subject;
+        $activity->save();
+        // 2. initiate xml processor
+        $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+        $xmlProcessorParams = array( 
+                                    'clientID'           => $form->_currentlyViewedContactId,
+                                    'creatorID'          => $form->_currentUserId,
+                                    'standardTimeline'   => 0,
+                                    'dueDateTime'        => $params['start_date'],
+                                    'caseID'             => $form->_caseId,
+                                    'caseType'           => $caseType,
+                                    'activityTypeName'   => 'Change Case Start Date',
+                                    'activitySetName'    => 'standard_timeline',
+                                    'is_StartdateChanged'=> 1,           
+                                     );
+        
+        $xmlProcessor->run( $caseType, $xmlProcessorParams );
+        
+        // 3.status msg
         $params['statusMsg'] = ts('Case Start Date changed successfully.');
     }
 }

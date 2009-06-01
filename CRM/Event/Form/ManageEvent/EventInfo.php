@@ -138,8 +138,20 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
-        
-        $this->add('text','title',ts('Event Title'), $attributes['event_title'], true);
+
+        if ($this->_isTemplate) {
+            $this->add('text', 'template_title', ts('Template Title'), $attributes['template_title'], true);
+        }
+
+        if ($this->_action & CRM_Core_Action::ADD) {
+            require_once 'CRM/Event/PseudoConstant.php';
+            $eventTemplates =& CRM_Event_PseudoConstant::eventTemplates();
+            $this->add('select', 'template_id', ts('From Template'), array('' => ts('- select -')) + $eventTemplates,
+                       false, array('onchange' => "window.location += '&template_id=' + this.value"));
+        }
+
+        // add event title, make required if this is not a template
+        $this->add('text', 'title', ts('Event Title'), $attributes['event_title'], !$this->_isTemplate);
 
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
@@ -206,13 +218,16 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         $errors = array( );
-        if ( CRM_Utils_System::isNull( $values['start_date'] ) ) {
-            $errors['start_date'] = ts( 'Start Date and Time are required fields' );
-        } else {
-            $start = CRM_Utils_Date::format( $values['start_date'] );
-            $end   = CRM_Utils_Date::format( $values['end_date'  ] );
-            if ( ($end < $start) && ($end != 0) ) {
-                $errors['end_date'] = ts( 'End date should be after Start date' );
+
+        if (!$values['is_template']) {
+            if ( CRM_Utils_System::isNull( $values['start_date'] ) ) {
+                $errors['start_date'] = ts( 'Start Date and Time are required fields' );
+            } else {
+                $start = CRM_Utils_Date::format( $values['start_date'] );
+                $end   = CRM_Utils_Date::format( $values['end_date'  ] );
+                if ( ($end < $start) && ($end != 0) ) {
+                    $errors['end_date'] = ts( 'End date should be after Start date' );
+                }
             }
         }
         

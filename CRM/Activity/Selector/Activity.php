@@ -111,7 +111,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      * @access public
      *
      */
-    function actionLinks( $activityTypeId, $sourceRecordId = null ) 
+    function actionLinks( $activityTypeId, $sourceRecordId = null, $accessMailingReport = false ) 
     {
         $activityTypes   = CRM_Core_PseudoConstant::activityType( false );
         $activityTypeIds = array_flip( CRM_Core_PseudoConstant::activityType( ) );
@@ -198,7 +198,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                                        'title'    => ts('Detach Activity') ) );
         }
         
-        if ( $activityTypeId == $activityTypeIds['Bulk Email'] && CRM_Core_Permission::check('access CiviMail') ) {
+        if ( $accessMailingReport ) {
             self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::BROWSE => 
                                                                  array(
                                                                        'name'     => ts('Mailing Report'),
@@ -317,9 +317,17 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
                   
             $row['status'] = $row['status_id']?$activityStatus[$row['status_id']]:null;
-
+            
+            //CRM-3553
+            $accessMailingReport = false;
+            if ( CRM_Utils_Array::value( 'mailingId', $row ) ) {
+                $accessMailingReport = true; 
+            }
+            
             $actionLinks = $this->actionLinks( CRM_Utils_Array::value( 'activity_type_id', $row ),
-                                               CRM_Utils_Array::value( 'source_record_id', $row ) );
+                                               CRM_Utils_Array::value( 'source_record_id', $row ),
+                                               $accessMailingReport );
+            
             $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
             
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {

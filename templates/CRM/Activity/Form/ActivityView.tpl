@@ -70,7 +70,7 @@
             </tr>  
         {else}
              <tr>
-                 <td class="label">{ts}Details{/ts}</td><td class="view-value report">{$values.details}</td>
+                 <td class="label">{ts}Details{/ts}</td><td class="view-value report">{$values.details|nl2br}</td>
              </tr>
         {/if}  
 {if $values.attachment}

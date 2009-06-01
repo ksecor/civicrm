@@ -90,7 +90,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         }
         $main  =& civicrm_contact_get($mainParams);
         $other =& civicrm_contact_get($otherParams);
-
+        
+        //CRM-4524
+        $main  = reset( $main );
+        $other = reset( $other );
+        
         $this->assign('contact_type', $main['contact_type']);
         $this->assign('main_name',    $main['display_name']);
         $this->assign('other_name',   $other['display_name']);

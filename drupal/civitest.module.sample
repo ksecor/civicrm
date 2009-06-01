@@ -406,7 +406,7 @@ function civitest_civicrm_validate( $formName, &$fields, &$files, &$form ) {
        if ( ! $externalID ) {
           $errors['external_identifier'] = ts( 'External Identifier is a required field' );
        } else {
-	 require_once "CRM/Utils/Rule.php';
+	 require_once "CRM/Utils/Rule.php";
 	 if ( ! CRM_Utils_Rule::integer( $externalID ) ) {
 	   $errors['external_identifier'] = ts( 'External Identifier is not an integer' );
 	 }
@@ -550,4 +550,122 @@ function civitest_civicrm_buildForm( $formName, &$form ) {
 function civitest_civicrm_mailingGroups( &$form, &$groups, &$mailings ) {
     unset( $groups[4] );
     $mailings[1] = 'This Mailing does not exist';
+}
+
+function _civitest_discountHelper( $eventID, $discountCode ) {
+    $sql = "
+SELECT v.id as id, v.value as value, v.weight as weight
+FROM   civicrm_option_value v,
+       civicrm_option_group g
+WHERE  v.option_group_id = g.id
+AND    v.name = %1
+AND    g.name = %2
+
+";
+    $params = array( 1 => array( $discountCode              , 'String' ),
+                     2 => array( "event_discount_{$eventID}", 'String' ) );
+    $dao = CRM_Core_DAO::executeQuery( $sql, $params );
+    if ( $dao->fetch( ) ) {
+        // ensure discountPercent is a valid numeric number <= 100
+        if ( $dao->value &&
+             is_numeric( $dao->value ) &&
+             $dao->value >= 0 &&
+             $dao->value <= 100 &&
+             is_numeric( $dao->weight ) ) {
+            return array( $dao->id, $dao->value, $dao->weight );
+        }
+    }
+    return array( null, null, null );
+                     
+}
+
+function civitest_civicrm_buildForm( $formName, &$form ) {
+    if ( $formName == 'CRM_Event_Form_Registration_Register' &&
+         $form->getVar( '_eventId' ) == 3 ) { 
+        $form->addElement( 'text', 'discountCode', ts( 'Discount Code' ) );
+
+        // also assign to template
+        $template =& CRM_Core_Smarty::singleton( );
+        $beginHookFormElements = $template->get_template_vars( 'beginHookFormElements' );
+        if ( ! $beginHookFormElements ) {
+            $beginHookFormElements = array( );
+        }
+        $beginHookFormElements[] = 'discountCode';
+        $form->assign( 'beginHookFormElements', $beginHookFormElements );
+
+        $discountCode = CRM_Utils_Request::retrieve( 'discountCode', 'String', $form, false, null, $_REQUEST );
+        if ( $discountCode ) {
+            $defaults = array( 'discountCode' => $discountCode );
+            $form->setDefaults( $defaults );
+        }
+    }
+}
+
+/*
+ * Give random discounts for event signup.
+ *
+ * Warning : while implementing this hook, another post process hook 
+ *         : also need implementing to make sure code is only used for 
+ *         : the number of times that's allowed to. 
+ */
+function civitest_civicrm_buildAmount( $pageType,
+                                       &$form,
+                                       &$amount ) {
+
+    $eventID = $form->getVar( '_eventId' );
+    if ( $pageType != 'event' ||
+         $eventID != 3 ) {
+        return;
+    }
+
+    $discountCode = CRM_Utils_Request::retrieve( 'discountCode', 'String', $form, false, null, $_REQUEST );
+    if ( ! $discountCode ) {
+        return;
+    }
+
+    list( $discountID, $discountPercent, $discountNumber ) = _civitest_discountHelper( $eventID, $discountCode );
+    if ( $discountNumber <= 0 ) {
+        // no more discount left
+        return;
+    }
+
+    foreach ( $amount as $amountId => $amountInfo ) {
+        $amount[$amountId]['value'] = $amount[$amountId]['value'] -
+            ceil($amount[$amountId]['value'] * $discountPercent / 100);
+        $amount[$amountId]['label'] = $amount[$amountId]['label'] .
+            "\t - with {$discountPercent}% discount";
+    }
+}
+
+/*
+ * The hook updates the random code used with event signup.
+ */
+function civitest_civicrm_postProcess( $class, &$form ) {
+    $eventID = $form->getVar( '_eventId' );
+    if ( ! is_a($form, 'CRM_Event_Form_Registration_Confirm') ||
+         $eventID != 3 ) {
+        return;
+    }
+        
+    $discountCode = CRM_Utils_Request::retrieve( 'discountCode', 'String', $form, false, null, $_REQUEST );
+    if ( ! $discountCode ) {
+        return;
+    }
+
+    list( $discountID, $discountPercent, $discountNumber ) = _civitest_discountHelper( $eventID, $discountCode );
+    if ( ! $discountID ||
+         $discountNumber <= 0 ||
+         $discountNumber == 123456789 ) {
+        return;
+    }
+
+    $query = "
+UPDATE civicrm_option_value v
+SET    v.weight = v.weight - 1
+WHERE  v.id = %1
+AND    v.weight > 0
+";
+    $params = array( 1 => array( $discountID, 'Integer' ) );
+
+    CRM_Core_DAO::executeQuery( $query, $params );
 }

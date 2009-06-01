@@ -1,5 +1,5 @@
 {* this template is used for adding/editing Premium Information *} 
- <div id="id-premium" class="section-shown">
+ <div id="id-premium" class="section-shown form-item">
      
       <fieldset>
            <dl>
@@ -8,7 +8,7 @@
 
            <div id="premium_contri">
             <dl>
-            <dt class="label">{$form.min_amount.label}</dt><dd>{$form.min_amount.html|crmReplace:class:texttolabel}</dd>
+            <dt class="label">{$form.min_amount.label}</dt><dd>{$form.min_amount.html|crmReplace:class:texttolabel|crmMoney:$currency}</dd>
             </dl>
             <div class="spacer"></div>
            </div>
@@ -52,7 +52,7 @@
       {/foreach}
       {literal}
           if(amount[product_id]) {  
-              min_amount.value = '$'+amount[product_id];
+              min_amount.value = amount[product_id];
           } else {
               min_amount.value = "";
           }           

@@ -65,6 +65,17 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
      */ 
     protected $_single;
     
+    /**
+     * are we actually managing an event template?
+     * @var boolean
+     */
+    protected $_isTemplate = false;
+
+    /**
+     * pre-populate fields based on this template event_id
+     * @var integer
+     */
+    protected $_templateId;
     
     /** 
      * Function to set variables up before form is built 
@@ -80,12 +91,23 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         $this->_single = $this->get( 'single' );
 
-        // setting 3rd level breadcrumb for html page if Event exists
-        if ( $this->_id ) {
+        // figure out whether we’re handling an event or an event template
+        if ($this->_id) {
+            $this->_isTemplate = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
+        } elseif ($this->_action & CRM_Core_Action::ADD) {
+            $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
+            $this->_templateId = CRM_Utils_Request::retrieve('template_id', 'Integer', $this);
+        }
+        $this->assign('isTemplate', $this->_isTemplate);
+
+        if ($this->_isTemplate) {
+            $breadCrumb = array(array('title' => ts('Event Templates'),
+                                      'url'   => CRM_Utils_System::url('civicrm/admin/eventTemplate', 'reset=1')));
+        } elseif ($this->_id) {
             $breadCrumb = array( array('title' => ts('Configure Event'),
                                        'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), "action=update&reset=1&id={$this->_id}" )) );
-            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
         }
+        CRM_Utils_System::appendBreadCrumb($breadCrumb);
         
     }
     
@@ -108,6 +130,15 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $defaults['style']     = 'Inline';
         }
         
+        if ($this->_templateId) {
+            $params = array('id' => $this->_templateId);
+            require_once 'CRM/Event/BAO/Event.php';
+            CRM_Event_BAO_Event::retrieve($params, $defaults);
+            $defaults['is_template'] = $this->_isTemplate;
+            $defaults['template_id'] = $defaults['id'];
+            unset($defaults['id']);
+        }
+
         return $defaults;
     }
 
@@ -152,6 +183,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             
             $this->addButtons( $buttons );
 
+        }
+
+        $this->add('hidden', 'is_template', $this->_isTemplate);
+        if ($this->_templateId and !isset($this->_elementIndex['template_id'])) {
+            $this->add('hidden', 'template_id', $this->_templateId);
         }
     }
 }

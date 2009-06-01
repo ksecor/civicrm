@@ -80,6 +80,9 @@
                     {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name ampm=1}
                     {/if} 
 				{/if}
+                                {if $element.data_type eq 'Auto-complete'}
+                    {include file="CRM/Custom/Form/AutoComplete.tpl"}
+				{/if}
 			</dd>                
 			{if $element.help_post}
 			<dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
