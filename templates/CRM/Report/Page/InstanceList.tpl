@@ -1,13 +1,11 @@
 {strip}
-    <fieldset>
-        <legend>{ts}Report Instance List{/ts}</legend>
         {if $list}
             {foreach from=$list item=rows key=report}
 	        <br>
                 <div style="cursor:pointer;background-color:#F5F5F5" onclick="toggle_visibility('{$report}');">
 	            <table class="form-layout">
 		        <tr>
-			    <td><strong>{if $report}{$report}{else}Contact{/if} Reports Instance</strong></td>
+			    <td><strong>{if $report}{$report}{else}Contact{/if} Reports</strong></td>
 			</tr>
 		    </table>
 	        </div>
@@ -35,7 +33,6 @@
             </dl>
             </div>
         {/if}
-    </fieldset>
 {/strip}
 {literal}
 <script type="text/javascript">

@@ -242,13 +242,6 @@ LEFT  JOIN civicrm_contribution  {$this->_aliases['civicrm_contribution']}
         }
     }
     
-    function statistics( &$rows ) {
-        $statistics   = array();
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        return $statistics;
-    }
-    
     function groupBy( ) {
         $this->_groupBy = "";
         if ( is_array($this->_params['group_bys']) && 

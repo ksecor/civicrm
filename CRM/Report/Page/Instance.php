@@ -35,6 +35,7 @@
 
 require_once 'CRM/Core/Page.php';
 require_once 'CRM/Report/Utils/Report.php';
+require_once 'CRM/Report/BAO/Instance.php';
 
 /**
  * Page for invoking report instances
@@ -52,18 +53,24 @@ class CRM_Report_Page_Instance extends CRM_Core_Page
         $action       = CRM_Utils_Request::retrieve( 'action', 'String', $this );
         $optionVal    = CRM_Report_Utils_Report::getValueFromUrl( $instanceId );
 
-        require_once 'CRM/Core/OptionGroup.php';
-        $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$optionVal}", 'value' );
-
         if ( $action & CRM_Core_Action::DELETE ) {
-            require_once 'CRM/Report/BAO/Instance.php';
             CRM_Report_BAO_Instance::delete( $instanceId );
 
             CRM_Core_Session::setStatus( ts( 'Selected Instance has been deleted.' ) );
         } else {
+            require_once 'CRM/Core/OptionGroup.php';
+            $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$optionVal}", 'value' );
+
             if ( strstr($templateInfo['name'], '_Form') ) {
-                CRM_Utils_System::setTitle( $templateInfo['label'] );
+                $instanceInfo = array( );
+                CRM_Report_BAO_Instance::retrieve( array('id' => $instanceId), $instanceInfo );
                 
+                if ( ! empty($instanceInfo['title']) ) {
+                    CRM_Utils_System::setTitle( $instanceInfo['title'] );
+                } else {
+                    CRM_Utils_System::setTitle( $templateInfo['label'] );
+                }
+
                 $wrapper =& new CRM_Utils_Wrapper( );
                 return $wrapper->run( $templateInfo['name'], null, null );
             }

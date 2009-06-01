@@ -168,12 +168,6 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
         $this->_groupBy = " GROUP BY {$this->_aliases['civicrm_event']}.id";
     }
    
-    function statistics( &$rows ) {
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        return $statistics;
-    }    
-    
     //get participants information for events
     function participantInfo( ) {
         

@@ -52,5 +52,18 @@ class CRM_Report_BAO_Instance extends CRM_Report_DAO_Instance
         $dao->id = $id;
         return $dao->delete( );
     }
+
+    static function retrieve( $params, &$defaults ) 
+    {
+        $instance =& new CRM_Report_DAO_Instance( );
+        $instance->copyValues( $params );
+
+        if ( $instance->find( true ) ) {
+            CRM_Core_DAO::storeValues( $instance, $defaults );
+            $instance->free( );
+            return $instance;
+        }
+        return null;
+    }
 }
 ?>

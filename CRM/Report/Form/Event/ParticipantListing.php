@@ -234,31 +234,6 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
         }
     }
 
-    function statistics( &$rows ) {
-        $statistics   = array();
-        
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        
-        if ( is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            $combinations[] = $field['title'];
-                        }
-                    }
-                }
-            }
-            $statistics[] = array( 'title' => ts('Grouping(s)'),
-                                   'value' => implode( ' & ', $combinations ) );
-        }
-        
-        return $statistics;
-
-    }
-
     function groupBy( ) {
         $this->_groupBy = "";
         if ( is_array($this->_params['group_bys']) && 

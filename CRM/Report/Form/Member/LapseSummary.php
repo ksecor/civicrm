@@ -250,13 +250,6 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
         }
     }
     
-    function statistics( &$rows ) {
-        $statistics   = array();
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        return $statistics;
-    }
-    
     function groupBy( ) {
         $this->_groupBy = "";
         if ( is_array($this->_params['group_bys']) && 

@@ -1,6 +1,4 @@
 {strip}
-    <fieldset>
-        <legend>{ts}Template List{/ts}</legend>
         {if $list}
             {foreach from=$list item=rows key=report}
 	        <br>
@@ -43,7 +41,6 @@
             </dl>
             </div>
         {/if}
-    </fieldset>
 {/strip}
 {literal}
 <script type="text/javascript">

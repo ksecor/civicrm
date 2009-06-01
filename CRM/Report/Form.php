@@ -1056,7 +1056,15 @@ class CRM_Report_Form extends CRM_Core_Form {
                             if ( in_array($op, array('bw', 'nbw')) && ($min || $max) ) {
                                 $value = "{$pair[$op]} " . $min . ' and ' . $max;
                             } else if ( is_array($val) && (!empty($val)) ) {
-                                // FIXME: do something for array
+                                $options = $field['options'];
+                                foreach ( $val as $key => $valIds ) {
+                                    if ( isset($options[$valIds]) ) {
+                                        $val[$key] = $options[$valIds];
+                                    }
+                                }
+                                $pair[$op] = (count($val) == 1) ? ts('Is') : $pair[$op];
+                                $val       = implode( ', ', $val );
+                                $value     = "{$pair[$op]} " . $val;
                             } else if ( is_numeric($val) ) {
                                 $value = "{$pair[$op]} " . $val;
                             }
