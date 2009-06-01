@@ -130,6 +130,8 @@ class CRM_Contact_Form_Search_Custom_FullText
                   'activity_id'               => 'int unsigned',
                   'activity_type_id'          => 'int unsigned',
                   'case_id'                   => 'int unsigned',
+                  'case_start_date'           => 'datetime',
+                  'case_end_date'             => 'datetime',
                   'subject'                   => 'varchar(255)',
                   'details'                   => 'varchar(255)',
                   'contribution_id'           => 'int unsigned',
@@ -375,8 +377,8 @@ AND    c.display_name LIKE {$this->_text}
     function fillCase( ) {
         $sql = "
 INSERT INTO {$this->_tableName}
-( table_name, contact_id, display_name, case_id )
-SELECT    'Case', c.id, c.display_name, cc.id
+( table_name, contact_id, display_name, case_id, case_start_date, case_end_date )
+SELECT    'Case', c.id, c.display_name, cc.id, DATE(cc.start_date), DATE(cc.end_date)
 FROM      civicrm_case cc 
 LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
 LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
@@ -388,8 +390,8 @@ WHERE   c.display_name LIKE {$this->_text}
         if ( $this->_textID ) { 
             $sql = "
 INSERT INTO {$this->_tableName}
-  ( table_name, contact_id, display_name, case_id )
-SELECT    'Case', c.id, c.display_name, cc.id
+  ( table_name, contact_id, display_name, case_id, case_start_date, case_end_date )
+SELECT    'Case', c.id, c.display_name, cc.id, DATE(cc.start_date), DATE(cc.end_date)
 FROM      civicrm_case cc 
 LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
 LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
