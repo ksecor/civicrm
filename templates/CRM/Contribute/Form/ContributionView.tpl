@@ -8,7 +8,7 @@
 	<dd>{$contribution_type}&nbsp; {if $is_test} {ts}(test){/ts} {/if}</dd>
 
 	<dt>{ts}Total Amount{/ts}</dt>
-	<dd class="bold">{$total_amount|crmMoney}&nbsp; 
+	<dd class="bold">{$total_amount|crmMoney:$currency}&nbsp; 
 {if $contribution_recur_id}
   <strong>{ts}Recurring Contribution{/ts}</strong> <br/>
   {ts}Installments{/ts}: {$recur_installments}, {ts}Interval{/ts}: {$recur_frequency_interval} {$recur_frequency_unit}(s)
@@ -17,17 +17,17 @@
 
 	{if $non_deductible_amount}
 	<dt>{ts}Non-deductible Amount{/ts}</dt>
-	<dd>{$non_deductible_amount|crmMoney}&nbsp;</dd>
+	<dd>{$non_deductible_amount|crmMoney:$currency}&nbsp;</dd>
 	{/if} 
 
 	{if $fee_amount}
 	<dt>{ts}Fee Amount{/ts}</dt>
-	<dd>{$fee_amount|crmMoney}&nbsp;</dd>
+	<dd>{$fee_amount|crmMoney:$currency}&nbsp;</dd>
 	{/if} 
 
 	{if $net_amount}
 	<dt>{ts}Net Amount{/ts}</dt>
-	<dd>{$net_amount|crmMoney}&nbsp;</dd>
+	<dd>{$net_amount|crmMoney:$currency}&nbsp;</dd>
 	{/if}
 
 	<dt>{ts}Received{/ts}</dt>

@@ -949,10 +949,14 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         } else {
             $params  = array( 'contact_id' => $contactId );
             $contact =& civicrm_contact_get( $params );
-            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+            
+            //CRM-4524
+            $contact = reset( $contact );
+            
+            if ( !$contact || is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
-
+            
             // also call the hook to get contact details
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::tokenValues( $contact, $contactId );

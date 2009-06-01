@@ -22,3 +22,13 @@
    </ul>
    </div>
 {/if}
+
+{* Add all the form elements sent in by the hook *}
+{if $beginHookFormElements}
+  <table class="form-layout-compressed">
+  {foreach from=$beginHookFormElements key=dontCare item=hookFormElement}
+      <tr><td class="label nowrap">{$form.$hookFormElement.label}</td><td>{$form.$hookFormElement.html}</td></tr>    
+  {/foreach}
+  </table>
+{/if}
+

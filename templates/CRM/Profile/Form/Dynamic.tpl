@@ -251,7 +251,8 @@ cj(document).ready(function(){
                eval("var checkSuccess = " + response )
                if ( checkSuccess.newContactSuccess ) {
                    cj("#contact").val( checkSuccess.sortName ).focus( );
-                   cj("input[name=contact_id]").val( checkSuccess.contactID );
+                   cj("input[name=contact_select_id]").val( checkSuccess.contactID );
+                   cj("#contact-success").show( );
                    cj("#contact-dialog").dialog("close");
                }
            }

@@ -51,7 +51,7 @@
   <tr class="columnheader">
   <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
   {foreach from=$columnHeaders item=header}
-   {if ($header.sort eq 'activity_id') or ($header.sort eq 'activity_type_id')}
+   {if ($header.sort eq 'activity_id') or ($header.sort eq 'activity_type_id') or ($header.sort eq 'case_id') }
     {else}
             <th scope="col">
             {if $header.sort}
@@ -77,8 +77,15 @@
             {if $fName eq 'sort_name'}
             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
             {elseif $fName eq 'activity_subject'}
-            <td><a href="{crmURL p='civicrm/contact/view' q="action=browse&selectedChild=activity&reset=1&cid=`$row.contact_id`"}">{$row.activity_subject}</a></td>
-           {elseif ($fName eq 'activity_id') or ($fName eq 'activity_type_id')}   
+            <td>
+                {if $row.case_id }
+                    <a href="{crmURL p='civicrm/case/activity/view' q="reset=1&aid=`$row.activity_id`&cid=`$row.contact_id`&caseID=`$row.case_id`"}">
+                {else}
+                    <a href="{crmURL p='civicrm/contact/view/activity' q="atype=`$row.activity_type_id`&action=view&reset=1&id=`$row.activity_id`&cid=`$row.contact_id`"}">
+                {/if}
+                {$row.activity_subject}</a>
+            </td>
+           {elseif ($fName eq 'activity_id') or ($fName eq 'activity_type_id') or ($fName eq 'case_id')}   
            {else}
             <td>{$row.$fName}</td>
             {/if}

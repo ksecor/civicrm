@@ -37,7 +37,10 @@ require_once 'CRM/Core/Page.php';
 require_once 'CRM/Event/DAO/Event.php';
 
 
-class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
+class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
+{
+
+    protected $_isTemplate = false;
 
     /**
      * Run the page.
@@ -63,6 +66,14 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
 
         $this->_id = CRM_Utils_Request::retrieve('id', 'Positive',
                                                  $this, false, 0);
+
+        // figure out whether we’re handling an event or an event template
+        if ($this->_id) {
+            $this->_isTemplate = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
+        } elseif ($action & CRM_Core_Action::ADD) {
+            $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
+        }
+
         // assign vars to templates
         $this->assign('action', $action);
         $this->assign( 'id', $this->_id );
@@ -72,8 +83,13 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         
         $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title'));
 
-        $title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title');
-        CRM_Utils_System::setTitle(ts('Configure Event - %1', array(1 => $title)));
+        if ($this->_isTemplate) {
+            $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'template_title');
+            CRM_Utils_System::setTitle(ts('Configure Event Template') . " - $title");
+        } else {
+            $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'title');
+            CRM_Utils_System::setTitle(ts('Configure Event') . " - $title");
+        }
 
         require_once 'CRM/Event/PseudoConstant.php';
         $statusTypes        = CRM_Event_PseudoConstant::participantStatus(null, 'is_counted = 1');

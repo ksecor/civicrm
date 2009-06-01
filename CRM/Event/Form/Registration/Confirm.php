@@ -421,7 +421,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
         }
         
-        $payment = null;
+        $payment = $registerByID = $primaryCurrencyID = null;
         foreach ( $params as $key => $value ) {
             $this->_values['params'] = array( );
             $this->fixLocationFields( $value, $fields );
@@ -476,7 +476,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             
             // required only if paid event
             if ( $this->_values['event']['is_monetary'] ) {
-                
                 require_once 'CRM/Core/Payment.php';
                 if ( is_array( $this->_paymentProcessor ) ) {
                     $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
@@ -556,6 +555,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $value['item_name'] = $value['description'];
             }
             
+            //CRM-4453.
+            if ( CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                $primaryCurrencyID = CRM_Utils_Array::value( 'currencyID', $value );
+            }
+            if ( !CRM_Utils_Array::value( 'currencyID', $value ) ) {
+                $value['currencyID'] = $primaryCurrencyID;
+            }
+            
             if ( !$pending && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                 // transactionID & receive date required while building email template
                 $this->assign( 'trxn_id', $value['trxn_id'] );
@@ -595,7 +602,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         
         //handle if no additional participant.
-        if ( ! $registerByID ) {
+        if ( !$registerByID ) {
             $registerByID = $this->get('registerByID');
         }
 

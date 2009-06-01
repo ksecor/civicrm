@@ -34,6 +34,10 @@
     {ts}Check this box if you want only the title for this fieldset to be displayed when the page is initially loaded (fields are hidden).{/ts}
 {/htxt}
 
+{htxt id="id-collapse-adv"}
+    {ts}Check this box if you want only the title for this fieldset to be displayed when the page is initially loaded (fields are hidden) on advanced search.{/ts}
+{/htxt}
+
 {htxt id="id-help_pre"}
    {ts}Explanatory text displayed at the beginning of this group of fields.{/ts}
  {/htxt}

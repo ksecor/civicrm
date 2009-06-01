@@ -824,10 +824,8 @@ class CRM_Utils_System {
              ( ! isset( $_SERVER['HTTPS'] ) ||
                strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
             // ensure that SSL is enabled on a civicrm url (for cookie reasons etc)
-            $baseURL = str_replace( 'http://', 'https://',
-                                    self::url( 'civicrm/dashboard', 'reset=1', true,
-                                               null, false, false ) );
-            if ( ! self::checkURL( $baseURL, true ) ) {
+            $url = "https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+            if ( ! self::checkURL( $url, true ) ) {
                 if ( $abort ) {
                     CRM_Core_Error::fatal( 'HTTPS is not set up on this machine' );
                 } else {
@@ -837,7 +835,6 @@ class CRM_Utils_System {
                     return;
                 }
             }
-            $url = "https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
             CRM_Utils_System::redirect( $url );
         }
     }

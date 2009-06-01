@@ -215,6 +215,17 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                 }
             }
           
+            //assigning event values for autocomplete event selection
+            $eventSearchIds = array( 
+                                    'event_id'              => 'event_name_id',
+                                    'event_type'            => 'event_type_id',
+                                    'participant_fee_level' => 'participant_fee_id'
+                                    );
+            foreach( $eventSearchIds as $key => $value ) {
+                $this->_formValues[$key]   = ( empty($this->_formValues[$key]) ) ? '' : $this->_formValues[$value];
+                $this->_formValues[$value] = '';
+            }
+
             // set the group if group is submitted
             if ($this->_formValues['uf_group_id']) {
                 $this->set( 'id', $this->_formValues['uf_group_id'] );

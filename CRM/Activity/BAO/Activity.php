@@ -164,6 +164,29 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } else {
             $activity->is_deleted = 1;
             $result = $activity->save( );
+                      
+            //log activty delete.CRM-4525.
+            $logMsg = "Case Activity deleted for";
+            $msgs = array( );
+            $sourceContactId = CRM_Core_DAO::getfieldValue( 'CRM_Activity_DAO_Activity',
+                                                            $activity->id, 'source_contact_id' );
+            if ( $sourceContactId ) {
+                $msgs[] = " source={$sourceContactId}";
+            }
+            //get target contacts.
+            $targetContactIds = CRM_Activity_BAO_ActivityTarget::getTargetNames( $activity->id );
+            if ( !empty($targetContactIds) ) {
+                $msgs[] = " target =".implode( ',', array_keys($targetContactIds) );   
+            }
+            //get assignee contacts.
+            $assigneeContactIds = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activity->id );
+            if ( !empty($assigneeContactIds) ) {
+                $msgs[] = " assigne =".implode( ',', array_keys($assigneeContactIds) );   
+            }
+            
+            $logMsg .= implode( ', ', $msgs );
+            
+            self::logActivityAction( $activity, $logMsg );
         }
         $transaction->commit( );
         return $result;
@@ -397,19 +420,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( isset( $params['source_contact_id'] ) ) {
             $msgs[] = "source={$params['source_contact_id']}";
         } 
-
-        if ( isset( $params['target_contact_id'] ) ) {
-            if ( is_array( $params['target_contact_id'] ) ) {
+        
+        if ( CRM_Utils_Array::value('target_contact_id', $params ) ) {
+            if ( is_array( $params['target_contact_id'] ) && !CRM_Utils_array::crmIsEmptyArray($params['target_contact_id']) ) {
                 $msgs[] = "target=" . implode( ',', $params['target_contact_id'] );
                 // take only first target
                 // will be used for recently viewed display
                 $t = array_slice($params['target_contact_id'], 0, 1 );
                 $recentContactId = $t[0];
-            } else {
+            } else if ( isset( $params['target_contact_id'] ) ) {
                 $msgs[] = "target={$params['target_contact_id']}";
                 // will be used for recently viewed display
                 $recentContactId = $params['target_contact_id'];
-            }
+            } 
         } else {
             // at worst, take source for recently viewed display
             $recentContactId = $params['source_contact_id'];
@@ -623,14 +646,21 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
         $values =array();
         $rowCnt = 0;
+
+        //CRM-3553, need to check user has access to target groups.
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailingIDs =& CRM_Mailing_BAO_Mailing::mailingACLIDs( );
+        $accessCiviMail = CRM_Core_Permission::check('access CiviMail');
+        
         while($dao->fetch()) {
             foreach( $selectorFields as $dc => $field ) {
                 if ( isset($dao->$field ) ) {
                     if ( $activityTypeID == $dao->activity_type_id && $field == 'target_contact_name' ) {
                         $values[$rowCnt]['recipients'] = ts('(recipients)');
-                        if ( CRM_Core_Permission::check('access CiviMail') ) {
-                            $values[$rowCnt]['mailingId'] = CRM_Utils_System::url( 'civicrm/mailing/report', 
-                                                                "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" );   
+                        if ( $accessCiviMail && in_array( $dao->source_record_id, $mailingIDs ) ) {
+                            $values[$rowCnt]['mailingId'] = 
+                                CRM_Utils_System::url( 'civicrm/mailing/report', 
+                                                       "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" );   
                         }
                     } else {
                         $values[$rowCnt][$field] = $dao->$field;
@@ -639,7 +669,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
             $rowCnt++;
         }
-
+        
         return $values;
     }
 
@@ -855,7 +885,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             
             $contact = civicrm_contact_get( $params );
             
-            if ( civicrm_error( $contact ) ) {
+            //CRM-4524
+            $contact = reset( $contact );
+            
+            if ( !$contact || civicrm_error( $contact ) ) {
                 $notSent[] = $contactId;
                 continue;
             }
@@ -1351,6 +1384,8 @@ AND cl.modified_id  = c.id
             CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
         
         $followupParams['activity_type_id']  = $params['followup_activity_type_id'];
+        // Get Subject of Follow-up Activiity, CRM-4491
+        $followupParams['subject']           = CRM_Utils_Array::value('followup_activity_subject', $params);
         
         //create target contact for followup
         if ( CRM_Utils_Array::value('target_contact_id', $params) ) {

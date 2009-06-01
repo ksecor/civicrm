@@ -636,7 +636,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         if ( CRM_Utils_Array::value( 'is_for_organization', $fields ) ) {
-            if ( $fields['org_option'] && ! $fields['organization_id'] ) {
+            if ( $fields['org_option'] && ! $fields['onbehalfof_id'] ) {
                 $errors['organization_id'] = ts('Please select an organization or enter a new one.'); 
             }
             if ( ! $fields['org_option'] && ! $fields['organization_name'] ) {
@@ -824,6 +824,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name );
+        if ( CRM_Utils_Array::value( 'onbehalfof_id', $params ) ) {
+            $params['organization_id'] = $params['onbehalfof_id'];
+        }
         
         $params['currencyID']     = $config->defaultCurrency;
 

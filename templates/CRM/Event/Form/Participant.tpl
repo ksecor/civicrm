@@ -15,6 +15,7 @@
 	{ts 1=$displayName 2=$registerMode}Use this form to submit an event registration on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
 </div>
 {else}
+<div class="html-adjust">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend>
 	{/if} 
 	{if $action eq 1 AND $paid}
@@ -44,11 +45,15 @@
 		</tr>
         </table>
     {else} {* If action is other than Delete *}
-        <table class="form-layout">
-        {if $single}
+        <table class="form-layout-compressed">
+        {if $single and $context neq 'standalone'}
 			<tr><td class="right font-size12pt bold">{ts}Participant Name{/ts}&nbsp;&nbsp;</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
+	    {else}
+            {include file="CRM/Contact/Form/NewContact.tpl"}
+        {/if}	
+        {if $participantMode}
+            <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
         {/if}
-        <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td>
         <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
 					{if $action eq 1 && !$past }<br /><a href="{$pastURL}">&raquo; {ts}Include past event(s) in this select list.{/ts}</a>{/if}    
 					{if $is_test}
@@ -96,14 +101,13 @@
             </tr>
         </table>
 	{/if}
-	
-	<div class="form-item"><dl><dt></dt><dd>{$form.buttons.html}</dd></dl></div> 
-
-
+		 
     {if $accessContribution and $action eq 2 and $rows.0.contribution_id}
         {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
     {/if}
 </fieldset> 
+
+<div class="html-adjust">{$form.buttons.html}</div>
 
 {if $action eq 1 or $action eq 2}
 {literal}

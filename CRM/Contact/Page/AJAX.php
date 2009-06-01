@@ -130,10 +130,13 @@ ORDER BY sort_name ";
         $name      = str_replace( '*', '%', $name );
 
         require_once 'CRM/Contact/BAO/Relationship.php';
-        $elements = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name );
+        $elements  = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name );
 
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
+        if( ! empty( $elements ) ) {
+            foreach( $elements as $cid => $name ) {
+                echo $element = $name['name']."|$cid\n";
+            }
+        }
         exit();
     }
 
@@ -154,13 +157,14 @@ ORDER BY sort_name ";
         $json = true;
         require_once 'CRM/Utils/Type.php';
         $name = CRM_Utils_Array::value( 'name', $_GET, '' );
-        if ( !$name ) {
+        if ( ! array_key_exists( 'name', $_GET ) ) {
             $name = CRM_Utils_Array::value( 's',$_GET ) .'%';
             $json = false;
         }
         $name      = CRM_Utils_Type::escape( $name, 'String' ); 
         $whereIdClause = '';
         if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
+            $json = true;
             if ( is_numeric( $_GET['id'] ) ) {
                 $id  = CRM_Utils_Type::escape( $_GET['id'], 'Integer' ) ; 
                 $whereIdClause = " AND civicrm_contact.id = {$id}";
@@ -171,7 +175,7 @@ ORDER BY sort_name ";
 
         $elements = array( );
         if ( $name || isset( $id ) ) {
-            $name  = str_replace( '*', '%', $name );
+            $name  = $name . '%';
             
             //contact's based of relationhip type
             $relType = null; 
@@ -322,7 +326,7 @@ ORDER BY sort_name ";
 
         if( $json ) {
           require_once "CRM/Utils/JSON.php";
-          echo CRM_Utils_JSON::encode( $elements );
+          echo json_encode( $elements );
         } 
         exit();
     }
@@ -397,32 +401,21 @@ WHERE sort_name LIKE '%$name%'";
         }
         exit();
     }
-     
-     /**
-     * Function to add CiviCRM Menu
-     *
-     */
-    static function civicrmAdminMenu()
-    {
-        $logoutURL       = CRM_Utils_System::url( 'civicrm/logout', 'reset=1');
-        $appendSring     = "<li id='menu-logout'><a href={$logoutURL} title=". ts('Logout') .">". ts('Logout')."</a></li>";
-                
-        require_once 'CRM/Core/Menu.php';
-        $object =& CRM_Core_Menu::createNavigation( $contactID );
-        
-        $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
-        $prepandString = "<li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a>";
-        
-        $config =& CRM_Core_Config::singleton( );
-        
-        if ( ( $config->userFramework == 'Drupal' ) && module_exists('admin_menu') ) {
-           $prepandString .= "<ul><li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('CiviCRM Home')."</a></i><li><a href='#' onclick='cj(\".cmDiv\").toggle();' title=". ts('Drupal Menu') .">".ts('Drupal Menu')."</a></li></ul>";
-        }
-
-        $prepandString .= "</li>";
-
-        echo $prepandString.$object.$appendSring;
-        exit();
-    }
     
+    /**
+     *  Function to get email address of a contact
+     */
+    static function getContactEmail( ) {
+        require_once 'CRM/Utils/Type.php';
+        $contactID      = CRM_Utils_Type::escape( $_POST['contact_id'], 'Positive' );
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
+        list( $displayName, 
+            $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+        
+        if ( $userEmail ) {
+            echo $userEmail;
+        }
+        
+        exit();    
+    }
 }

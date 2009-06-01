@@ -6,8 +6,7 @@
     <title> Mr John Gerard Notdoe-Longnameactually Jr | My Drupal website</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">@import url(contactView1_files/theme.css);</style>
-<script type="text/javascript" src="contactView1_files/dojo.js" djconfig="isDebug: false, parseOnLoad: true, usePlainJson: true"></script>
-<script type="text/javascript" src="contactView1_files/commonWidgets.js"></script></head>
+</head>
 <body class="sidebar-left">
 <script type="text/javascript" src="contactView1_files/calendar.js"></script>
 <script type="text/javascript" src="contactView1_files/calendar-lang.js"></script>
@@ -146,7 +145,7 @@
     <input name="ct" value="Individual" type="hidden">
 </div>
 
-<div class="form-item"><input name="_qf_Edit_next" value="Save" class="form-submit" type="submit"></div>
+<div class="form-item"><input name="_qf_Edit_next" value="Save" type="submit"></div>
 
 </form>
 </div></div>
@@ -394,222 +393,241 @@ function getSearchURLValue( )
 
 	  <span id="icons">
 	    <a href="." title="vCard record for this contact."><img src="contactView1_files/vcard-icon.png" alt="vCard record for this contact."></a>
-	    <a href="." title="Printer-friendly view of this page."><img src="contactView1_files/print_preview.gif" alt="Printer-friendly view of this page."></a>
+	    <a href="." title="Printer-friendly view of this page."><img src="contactView1_files/print-icon.png" alt="Printer-friendly view of this page."></a>
       </span>
 
   </div> <!-- .buttons -->
 
   <div id="contactName">
-    <span title="Full Name">Mr John Gerard Notdoe-Longnameactually Jr</span><br/>
+	<!--<a href="javascript:alert('Goes to contact edit screen, opening appropriate section')" title="Edit this group of fields"><img style="float:right;" src="contactView1_files/edit-icon.png" alt="Edit this group of fields"></a> -->
+    <span title="Full Name"><b>Mr John Gerard Notdoe-Longnameactually Jr</b></span><br/>
     <span class="label">Position:</span><span>trainer</span>
     <span class="label">Employer:</span><a href="." title="view current employer">Compasspoint</a>
 	<span class="label">Nickname:</span><span>Johnny</span><br/>
   </div> <!-- #contactName -->
+
   <div id="contact_panel">
       <div id="contactCardLeft">
 	    <table>
-          <tr>
-		    <td width="10%" class="label">Work phone: </td>
-		    <td width="90%" title="Primary phone"><span class="primary">+28371094712</span></td>
+	      <tr>		
+	        <td width="28%" class="label last">Tags:</td>
+		    <td class="last">Major Donor, Volunteer</td>
+	      </tr>
+		</table>
+	  </div> <!-- #contactCardLeft -->
+      <div id="contactCardRight">
+        <table>  
+		    <td width="28%" class="label last">Source:</td>
+		    <td class="last">related through friend</td>		  
+	      </tr>
+		</table>
+      </div> <!-- #contactCardRight -->
+	  <div style="clear: both"></div>
+  </div> <!-- #contact_panel -->
+
+  <div style="border-bottom: 2px solid grey;"></div>
+
+  <div id="contact_panel">
+      <div id="contactCardLeft">
+	    <table>
+          <tr style="background-color: #F4F4F4">
+		    <td width="28%" class="label">Work phone: </td>
+		    <td width="72%"title="Primary phone"><span class="primary">+28371094712</span></td>
 	      </tr>
           <tr>
 		    <td class="label">Mobile: </td>
 		    <td>+243912620705</td>
 	      </tr>
-	      <tr>
-		    <td colspan="2" class="spacer"></td>
+          <tr style="background-color: #F4F4F4;">
+		    <td width="28%" class="label last">Skype:</td>
+		    <td width="72%" class="last primary" title="Primary instant messenger">johnny234</td>
           </tr>
-	      <tr>
-		    <td width="15%" class="label">Email:</td>
-	        <td width="85%" title="Primary email address"><span class="primary"><a href="mailto:john@longnameactually.org">john@longnameactually.org</a> (B)</span></td>
-	      </tr>
-	      <tr>
-	        <td class="label"></td>
-	        <td class="onHold"><a href="mailto:johndoe@privmail.com">johndoe@privmail.com</a> <img src="contactView1_files/stop-icon.png" title="This email is on hold due to bounces." align="top"> (B)</td>
-	      </tr>
-	      <tr>
-		    <td class="label"></td>
-		    <td><a href="mailto:email@other.net">email@other.net</a></td>
-	      </tr>
-	      <tr>
-		    <td colspan="2" class="spacer"></td>
-          </tr>
-	      <tr>		
-	        <td width="10%" class="label">Tags:</td>
-		    <td width="40%" >Major Donor, Volunteer</td>
-	      </tr>
-	    </table>
+		</table>
 	  </div> <!-- #contactCardLeft -->
       <div id="contactCardRight">
         <table>
-          <tr>
-		    <td class="label">Skype:</td>
-		    <td>johnny234</td>
-          </tr>
-		  <tr>	  
-		    <td class="label">MSN:</td>
-		    <td>john@longnameactually.org</td>
+	      <tr style="background-color: #F4F4F4;">
+		    <td  width="28%" class="label">Email:</td>
+	        <td title="Primary email address"><span class="primary"><a href="mailto:john@longnameactually.org">john@longnameactually.org</a></span></td>
 	      </tr>
-		  <tr>
-		    <td class="label">AIM: </td>
-		    <td title="Primary instant messenger"><span class="primary">johnny5423</span></td>
+	      <tr>
+	        <td class="label">Email:</td>
+	        <td class="onHold"><a href="mailto:johndoe@privmail.com">johndoe@privmail.com</a> <img src="contactView1_files/stop-icon.png" title="This email is on hold due to bounces." align="top"> (Bulk)</td>
 	      </tr>
-		  <tr>
-		    <td colspan="2" class="spacer"></td>
-          </tr>
-		  <tr>
-	        <td class="label">Website:</td>
-		    <td><a href="http://longnameactually.org/" target="_blank">http://longnameactually.org/</a></td>
-	      </tr>
-		  <tr>
-		    <td colspan="2" class="spacer"></td>
-          </tr>
-		  <tr>	  
-		    <td width="10%" class="label">Source:</td>
-		    <td width="40%">related through friend</td>		  
+		  <tr style="background-color: #F4F4F4;">
+	        <td class="label last">Website:</td>
+		    <td class="last"><a href="http://longnameactually.org/" target="_blank">http://longnameactually.org/</a></td>
 	      </tr>
 		</table>
       </div> <!-- #contactCardRight -->
+	  <div style="clear: both"></div>
   </div> <!-- #contact_panel -->
 
-  <p class="spacer"></p>
-  <div id="contactName"></div>
-  <div id="contactName">
-    <div id="contact_panel">
-	<table>
-      <tr>
-		<td width="10%" class="label">Tags:</td>
-		<td width="40%" >Major Donor, Volunteer</td>
-		<td width="10%" class="label">Source:</td>
-		<td width="40%">related through friend</td>	
-	  </tr>
-	</table>
+  <div style="border-bottom: 2px solid grey"></div>
+
+  <div id="contact_panel">
+
+    <div id="contactCardLeft">
+      <table>
+          <tr>
+		    <td width="28%" class="label last">Work <br/> Address:</td>
+		    <td width="72%"  class="last">
+              <span class="street-address">Some Street 2</span><br>
+              <span class="extended-address">Building 8</span><br>
+              <span class="extended-address">Second Crossing</span><br>
+              <span class="locality">Bangalore</span>, <span class="region">AL</span> <span class="postal-code">38942374</span><br>
+              <span class="country-name">United States</span>
+			</td>
+  	      </tr>
+      </table>
+    </div>
+    <div id="contactCardRight">
+        <table>
+          <tr>
+		    <td width="28%" class="label last">Home <br/> Address:</td>
+		    <td width="72%" class="last">
+            <span class="street-address">Another Blvd</span><br>
+            <span class="locality">San Francisco</span>, <span class="region">CA</span> <span class="postal-code">95829-393</span><br>
+            <span class="country-name">United States</span>			
+			</td>
+          </tr>
+		</table>
+    </div> <!-- #contactCardRight -->
+	<div style="clear: both"></div>
+  </div>
+
+  <div style="border-bottom: 2px solid grey"></div>
+  
+  <div id="contact_panel">
+    <div id="contactCardLeft">
+      <table>
+          <tr style="background-color: #F4F4F4;">
+		    <td width="28%" class="label">Privacy:</td>
+		    <td width="72%">
+              <span class="font-red upper">Do not phone <br/> Do not trade</span>
+			</td>
+		  </tr>
+          <tr>
+		    <td width="28%" class="label">Method:</td>
+		    <td width="72%">Postal Mail, Fax</td>
+          </tr>
+          <tr style="background-color: #F4F4F4;">
+		    <td width="28%" class="label last">Email Format:</td>
+		    <td width="72%" class="last">Both</td>
+  	      </tr>
+      </table>
+    </div>
+    <div id="contactCardRight">
+        <table>
+          <tr style="background-color: #F4F4F4;">
+		    <td width="28%" class="label">Gender:</td>
+		    <td width="72%">Male</td>
+          </tr>
+          <tr>
+		    <td width="28%" class="label">Date of Birth:</td>
+		    <td width="72%"> March 12th, 1977</td>
+          </tr>
+          <tr style="background-color: #F4F4F4;">
+		    <td width="28%" class="label last">Age:</td>
+		    <td width="72%" class="last">32 years</td>
+          </tr>
+		</table>
+    </div> <!-- #contactCardRight -->
+	<div style="clear: both"></div>
+  </div>
+
+  <div style="border-bottom: 2px solid grey"></div>
+  
+  <div id="customFields">
+  <div id="contact_panel">
+    <div id="contactCardLeft">
+      <table>
+          <tr>
+		    <td colspan="2" class="grouplabel">Constituent Information</td>
+		  </tr>	  
+          <tr style="background-color: #F4F4F4;">
+		    <td width="28%" class="label">Most Important Issue:</td>
+		    <td>Education</td>
+		  </tr>
+          <tr>
+		    <td class="label">Marital Status:</td>
+		    <td>Married</td>
+          </tr>
+          <tr style="background-color: #F4F4F4;">
+		    <td class="label">Marriage Date:</td>
+		    <td>May 4th, 1998</td>
+  	      </tr>
+
+          <tr>
+		    <td colspan="2" class="grouplabel" style="padding-top: 20px;">Yet Another Custom Fields Group With Pretty Long Name </td>
+		  </tr>	  
+          <tr style="background-color: #F4F4F4;">
+		    <td width="28%" class="label">Most Important Issue:</td>
+		    <td>Education</td>
+		  </tr>
+          <tr>
+		    <td class="label">Marital Status:</td>
+		    <td>Married</td>
+          </tr>
+
+
+      </table>
+    </div>
+    <div id="contactCardRight">
+        <table>
+          <tr>
+		    <td colspan="2" class="grouplabel">Other Custom Data Group</td>
+		  </tr>		
+          <tr style="background-color: #F4F4F4;">
+		    <td colspan="2" class="label talabel">First Field:</td>
+		  </tr>
+		  <tr style="background-color: #F4F4F4;">
+		    <td colspan="2">The Very Value of the very first field, being pretty long and elaborate (probably the custom field is of a Note type), so we can see how does it look, when we have really long text stored.</td>
+		  </tr>
+          </tr>
+          <tr>
+		    <td width="28%" class="label">Second Field:</td>
+		    <td>Yes</td>
+          </tr>
+          <tr style="background-color: #F4F4F4;">
+		    <td class="label">Third Field:</td>
+		    <td>42</td>
+          </tr>
+          <tr>
+		    <td class="label">Fourth Field:</td>
+		    <td>Costarica</td>
+          </tr>
+          <tr style="background-color: #F4F4F4;">
+		    <td class="label">Fifth Field:</td>
+		    <td>600 USD</td>
+          </tr>		  
+          <tr>
+		    <td  colspan="2" class="label talabel">First Field Repeated:</td>
+		  </tr>
+		  <tr>
+		    <td colspan="2">The Very Value of the very first field, being pretty long and elaborate, so we can see how does it look, when we have really long text stored.</td>
+		  </tr>
+          <tr style="background-color: #F4F4F4;">
+		    <td class="label">Second Field Repeated:</td>
+		    <td>Yes</td>
+          </tr>
+          <tr>
+		    <td class="label">Third Field Repeated:</td>
+		    <td>42</td>
+          </tr>
+          <tr style="background-color: #F4F4F4;">
+		    <td class="label">And so on:</td>
+		    <td>Costarica</td>
+          </tr>
+          <tr>
+		    <td class="label">Until we have 10:</td>
+		    <td>600 USD</td>
+          </tr>		  		  
+		</table>
 	</div>
+	<div style="clear: both"></div>
   </div>
-
-
-  <div style="display: none;" id="location_1_show" class="section-hidden section-hidden-border">
-    <a href="#" onclick="hide('location_1_show'); show('location_1'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Other addresses</label>
   </div>
-
-<div style="display: block;" id="location_1" class="section-shown">
-  <fieldset>
-   <legend class="label">
-    <a href="#" onclick="hide('location_1'); show('location_1_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Other addresses</legend>
-
-	<table class="contactCard">
-      <tr>
-		<td width="10%" class="label">Tags:</td>
-		<td width="40%" >Major Donor, Volunteer</td>
-		<td width="10%" class="label">Source:</td>
-		<td width="40%">related through friend</td>	
-	  </tr>
-	</table>
-
-
-
-   <div class="col2">
-                <div class="vcard"><span class="adr"><br>
-<span class="street-address">Some Street 2</span><br>
-<span class="extended-address">Building 8</span><br>
-Second Crossing<br>
-<span class="locality">Bangalore</span>, <span class="region">AL</span> <span class="postal-code">38942374</span><br>
-<span class="country-name">United States</span></span></div>
-  </div>
-  <div class="spacer"></div>
-  </fieldset>
-</div>
-
-<div style="display: block;" id="location_2_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('location_2_show'); show('location_2'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Home</label>
-  </div>
-
-<div style="display: none;" id="location_2" class="section-shown">
-  <fieldset>
-   <legend>
-    <a href="#" onclick="hide('location_2'); show('location_2_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Home   </legend>
-
-  <div class="col1">
-                        Phone: +34822847872346
-                <br>
-        
-   
-   
-     </div>
-   <div class="col2">
-                <div class="vcard"><span class="adr"><br>
-<span class="street-address">Another Blvd</span><br>
-<span class="locality">San Francisco</span>, <span class="region">CA</span> <span class="postal-code">95829-393048</span><br>
-<span class="country-name">United States</span></span></div>
-  </div>
-  <div class="spacer"></div>
-  </fieldset>
-</div>
-
-<div style="display: none;" id="commPrefs_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('commPrefs_show'); show('commPrefs'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Communications Preferences</label><br>
- </div>
-
-<div style="display: block;" id="commPrefs" class="section-shown">
- <fieldset>
-  <legend><a href="#" onclick="hide('commPrefs'); show('commPrefs_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Communications Preferences</legend>
-  <div class="col1">
-    <label>Privacy:</label>
-    <span class="font-red upper">
-Do not phone &nbsp; Do not email &nbsp; Do not mail &nbsp; Do not trade
-&nbsp; </span>
-  </div>
-  <div class="col2">
-    <label>Method:</label> Phone, Email, Postal Mail, SMS, Fax
-  </div>
-  <div class="col2">
-    <label>Email Format Preference:</label> Both
-  </div>
-  <div class="spacer"></div>
- </fieldset>
-</div>
-
-<div style="display: none;" id="demographics_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('demographics_show'); show('demographics'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Demographics</label><br>
- </div>
-
-<div style="display: block;" id="demographics" class="section-shown">
-  <fieldset>
-   <legend><a href="#" onclick="hide('demographics'); show('demographics_show'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Demographics</legend>
-   <div class="col1">
-    <label>Gender:</label> Male<br>
-           </div>
-   <div class="col2">
-    <label>Date of Birth:</label> March 12th, 1977<br>
-                  
-        <label>Age:</label> 32 years<br>
-                        </div>
-   <div class="spacer"></div>
-  </fieldset>
- </div>
- 
-                 <span id="statusmessg__1" class="success-status" style="display: none;"></span>    
-    <div style="display: none;" id="constituent_information_show__1" class="section-hidden section-hidden-border">
-    <a href="#" onclick="hide('constituent_information_show__1'); show('constituent_information__1'); return false;"><img src="contactView1_files/TreePlus.gif" class="action-icon" alt="open section"></a><label>Constituent Information</label><br>
-    </div>
-
-    <div style="display: block;" id="constituent_information__1" class="section-shown form-item">
-    <fieldset><legend><a href="#" onclick="hide('constituent_information__1'); show('constituent_information_show__1'); return false;"><img src="contactView1_files/TreeMinus.gif" class="action-icon" alt="close section"></a>Constituent Information</legend>
-
-    <dl>
-                        <dt>Most Important Issue</dt>
-                            <dd class="html-adjust"></dd>
-                                            <dt>Marital Status</dt>
-                            <dd class="html-adjust"></dd>
-                                            <dt>Marriage Date</dt>
-                            <dd class="html-adjust"></dd>
-                            </dl>
-    </fieldset>
-    </div>
-
-	<script type="text/javascript">
-			hide("constituent_information_show__1"); show("constituent_information__1");
-		</script>
 
 </div><div id="Contributions"></div><div id="Pledges"></div><div id="Memberships"></div><div id="Events"></div><div id="Activities"></div><div id="Cases"></div><div id="Grants"></div><div id="Relationships"></div><div id="Groups"></div><div id="Notes"></div><div id="Tags"></div><div id="Change_Log"></div>
 </div>
@@ -623,16 +641,6 @@ Do not phone &nbsp; Do not email &nbsp; Do not mail &nbsp; Do not trade
         var tabIndex = $('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        
     });
-
-   init_blocks = function( ) {
-
-      var showBlocks = new Array('commPrefs','demographics','location_1','location_2_show');
-      var hideBlocks = new Array('commPrefs_show','demographics_show','location_1_show','location_2');
-
-      on_load_init_blocks( showBlocks, hideBlocks );
-  }
-  dojo.addOnLoad( init_blocks );
-
  </script>
 
 

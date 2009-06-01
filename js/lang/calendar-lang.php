@@ -73,6 +73,7 @@ print "Calendar._FD = 0;\n";
 print "Calendar._TT = {};\n";
 foreach ($TT as $key => $value) {
     $value = str_replace("\n", '\n', $value);
+    $value = str_replace('"',  '\"', $value); // fix CRM-4537
     print "Calendar._TT[\"$key\"] = \"$value\";\n";
 }
 

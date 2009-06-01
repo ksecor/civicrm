@@ -551,10 +551,9 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     function getCases( $allCases = true, $userID = null, $type = 'upcoming' )
     {
         $condition = null;
-        $all = 1;
+       
         if ( !$allCases ) {
             $condition = " AND case_relationship.contact_id_b = {$userID}";
-            $all = 0;
         }
 
         $condition .= " 
@@ -611,8 +610,7 @@ AND civicrm_case.is_deleted     = 0";
                         = CRM_Core_Action::formLink( $actions, $mask,
                                                      array( 'id'  => $result->case_id,
                                                             'cid' => $result->contact_id,
-                                                            'cxt' => 'dashboard',
-                                                            'all' => $all ) );
+                                                            'cxt' => 'dashboard' ) );
                 }
             }
         }
@@ -865,7 +863,11 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $deleteUrl   = "{$url}&action=delete";
         $restoreUrl  = "{$url}&action=renew";
         $viewTitle = ts('View this activity.');
-        
+
+        require_once 'CRM/Core/OptionGroup.php';
+        $emailActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                               'Email',
+                                                               'name' );
         require_once 'CRM/Case/BAO/Case.php';
         $caseDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseID, 'is_deleted' );
         
@@ -888,11 +890,15 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                     $values[$dao->id]['reporter'] .= ts('/ (multiple)');
                 } 
             }
-            
+
+            $url = "";
             $additionalUrl = "&id={$dao->id}";
             if ( !$dao->deleted ) {
-                $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
-                $url .= " | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+                //hide edit link of activity type email.CRM-4530.
+                if ( $dao->type != $emailActivityTypeID ) {
+                    $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> |";
+                }
+                $url .= "  <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
             } else if ( !$caseDeleted ) {
                 $url  = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
                 $values[$dao->id]['status']  = $values[$dao->id]['status'].'<br /> (deleted)'; 
@@ -966,7 +972,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
      */
     static function sendActivityCopy( $clientId, $activityId, $contacts, $attachments = null, $caseId )
     {   
-        if ( !$activityId || !$caseId ) {
+        if ( !$activityId ) {
             return;
         }
 
@@ -975,10 +981,17 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $template =& CRM_Core_Smarty::singleton( );
 
         $activityInfo   = array( );
-                
+        //if its a case activity
+        if ( $caseId ) {
+            $anyActivity = false; 
+            $template->assign('isCaseActivity', 1 );
+        } else {
+            $anyActivity = true;
+        }
+        
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
-        $activityInfo = $xmlProcessor->getActivityInfo($clientId, $activityId);
+        $activityInfo = $xmlProcessor->getActivityInfo($clientId, $activityId, $anyActivity );
         $template->assign('activity', $activityInfo );
 
         $activitySubject = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activityId, 'subject' );
@@ -1039,10 +1052,12 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             
             $activity = CRM_Activity_BAO_Activity::create( $activityParams );
 
-            //create case_activity record.
-            $caseParams = array( 'activity_id' => $activity->id,
-                                 'case_id'     => $caseId   );
-            self::processCaseActivity( $caseParams );
+            //create case_activity record if its case activity.
+            if ( $caseId ) {
+                $caseParams = array( 'activity_id' => $activity->id,
+                                     'case_id'     => $caseId   );
+                self::processCaseActivity( $caseParams );
+            }
         }
         return $result;
     }
@@ -1425,9 +1440,9 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         //if $relContactId is passed, role is added or modified.
         if ( !empty($relContactId) ) {
             $activityParams['assignee_contact_id'] = $assigneContactIds;
-            $activityParams['subject']             = $caseRelationship.ts(' :Case Role is assigned');
+            $activityParams['subject']             = $caseRelationship.': ' .ts('Case Role assigned');
         } else {
-            $activityParams['subject']             = $caseRelationship.ts(' :Case Role is removed');
+            $activityParams['subject']             = $caseRelationship.': ' .ts('Case Role removed');
         }
         
         require_once "CRM/Activity/BAO/Activity.php";

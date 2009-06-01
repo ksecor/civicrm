@@ -631,6 +631,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventID ) ) {
             if ( $form->_action & CRM_Core_Action::UPDATE ){
+                require_once 'CRM/Event/BAO/Participant.php';
                 $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
                 $required = false;
             } else {
@@ -775,7 +776,8 @@ WHERE  v.option_group_id = g.id
                                    'is_pay_later'  => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                    'fee_amount'    => CRM_Utils_Array::value( 'fee_amount', $params ),
                                    'registered_by_id' => CRM_Utils_Array::value( 'registered_by_id', $params ),
-                                   'discount_id'    => CRM_Utils_Array::value( 'discount_id', $params )
+                                   'discount_id'      => CRM_Utils_Array::value( 'discount_id', $params ),
+                                   'fee_currency'     => CRM_Utils_Array::value( 'currencyID', $params )
                                    );
        
         if ( $this->_action & CRM_Core_Action::PREVIEW || CRM_Utils_Array::value( 'mode', $params ) == 'test' ) {

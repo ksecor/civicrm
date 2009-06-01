@@ -427,14 +427,7 @@ WHERE id={$contactId}; ";
             }
 
             if ( !$contactEditMode && $contactID && ( count($employers) >= 1 ) ) {
-                $filterAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
-                                           'mode'         => 'remote',
-                                           'store'        => 'employerStore',
-                                           'style'        => 'width:225px; border: 1px solid #cfcfcf;',
-                                           'class'        => 'tundra',
-                                           'pageSize'     => 10,
-                                           'onChange'     => 'loadLocationData(this.getValue())'
-                                           );
+                
                 $locDataURL = CRM_Utils_System::url( 'civicrm/ajax/permlocation', "cid=", 
                                                      false, null, false );
                 $form->assign( 'locDataURL', $locDataURL );
@@ -444,9 +437,8 @@ WHERE id={$contactId}; ";
                                                   false, null, false );
                 $form->assign( 'employerDataURL', $dataURL );
                 
-                $form->add('text', 'organization_id', 
-                           ts('Select an existing related Organization OR Enter a new one'), $filterAttributes);
-                
+                $form->add('text', 'organization_id', ts('Select an existing related Organization OR Enter a new one') );
+                $form->add('hidden', 'onbehalfof_id', '', array( 'id' => 'onbehalfof_id' ) );
                 $orgOptions     = array( '0' => ts('Create new organization'), 
                                          '1' => ts('Select existing organization') );
                 $orgOptionExtra = array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);");

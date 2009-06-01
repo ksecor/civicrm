@@ -81,7 +81,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                      'StateProvince' => ts('State/Province'),
                                      'Country'       => ts('Country'),
                                      'File'          => ts('File'),
-                                     'Link'          => ts('Link')
+                                     'Link'          => ts('Link'),
+                                     'Auto-complete' => ts('Auto-complete')
                                      );
         }
         return self::$_dataType;
@@ -221,7 +222,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         
         // make sure all values are present in the object for further processing
         $customField->find(true);
-        
+
         //create/drop the index when we toggle the is_searchable flag
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             self::createField( $customField, 'modify', $indexExist );
@@ -546,7 +547,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         if (!isset($label)) {
             $label = $field->label;
         }
-
         /**
          * at some point in time we might want to split the below into small functions
          **/
@@ -779,6 +779,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $qf->addRule( $elementName, ts('Enter a valid Website.'),'wikiURL');
                     
             break;
+            
+        case 'Auto-complete':
+            $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
+                                              "reset=1",
+                                              false, null, false );
+            $qf->assign('dataUrl',$dataUrl );                                          
+            $qf->addElement( 'text', $elementName, $label );
+            $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
+            break;
         }
     }
     
@@ -958,8 +967,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 }
             }
             break;
-
+            
         case 'Link':
+        case 'Auto-complete':
             if ( empty( $value ) ) {
                 $display='';
             } else {
@@ -1083,8 +1093,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                $customField->html_type == 'AdvMulti-Select' ) {
                         $defaults[$elementName][$val['value']] = $val['value'];
                     }
-                } else {
-                    $defaults[$elementName][$val['value']] = 0;
                 }        
             }
             break;
@@ -1166,7 +1174,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     {
         //get the custom fields for the entity
         $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend, false, $inline );
-
+       
         if ( ! array_key_exists( $customFieldId, $customFields )) {
             return;
         }
@@ -1211,7 +1219,7 @@ SELECT id
                     }
                 }
             }
-        } 
+        }  
         
         if ( $customFields[$customFieldId]['html_type'] == 'Multi-Select' ||
              $customFields[$customFieldId]['html_type'] == 'AdvMulti-Select' ) {
@@ -1399,7 +1407,7 @@ SELECT $columnName
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
                         );
-         
+        
         if ( $field->data_type == 'Country' && $field->html_type == 'Select Country' ) {
             $params['fk_table_name'] = 'civicrm_country';
             $params['fk_field_name'] = 'id';
@@ -1414,6 +1422,10 @@ SELECT $columnName
             $params['type'] ='varchar(255)';
         } else if ( $field->data_type == 'File' ) {
             $params['fk_table_name'] = 'civicrm_file';
+            $params['fk_field_name'] = 'id';
+            $params['fk_attributes'] = 'ON DELETE SET NULL';
+        } else if ( $field->data_type == 'Auto-complete' && $field->html_type == 'ContactReference' ) {
+            $params['fk_table_name'] = 'civicrm_contact';
             $params['fk_field_name'] = 'id';
             $params['fk_attributes'] = 'ON DELETE SET NULL';
         }
@@ -1566,8 +1578,14 @@ ORDER BY html_type";
                           $customFieldExtends,
                           $inline = false ) {
         $customData = array( );
+
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
+                //handle the transfer of hidden id value
+                if ( substr($key,0,7) == 'custom_'  && isset($value) && isset ( $params[$key. '_id'] ) ) {
+                    $value = $params[$key. '_id'];
+                }
+                
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
                                                              $customData,
                                                              $value,

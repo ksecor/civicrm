@@ -121,8 +121,15 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=rel' );
+        
+        // if this is called from case view, we need to redirect back to same page
+        if ( $this->_caseId ) {
+            $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer', $this, false );
+            $url = CRM_Utils_System::url('civicrm/contact/view/case', "action=view&reset=1&cid={$cid}&id={$this->_caseId}" );
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=rel' );
+        }
+        
         $session->pushUserContext( $url );
 
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
@@ -130,12 +137,8 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
             if ( $this->_caseId ) {
                 //create an activity for case role removal.CRM-4480
                 require_once "CRM/Case/BAO/Case.php";
-                CRM_Case_BAO_Case::createCaseRoleActivity( $caseId, $this->_id );  
-
+                CRM_Case_BAO_Case::createCaseRoleActivity( $this->_caseId, $this->_id );  
                 CRM_Core_Session::setStatus( ts('Case Role has been deleted successfuly.'), false );
-                $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer', $this, false );
-                $url = CRM_Utils_System::url('civicrm/contact/view/case', "action=view&reset=1&cid={$cid}&id={$caseId}" );
-                $session->pushUserContext( $url );
             } 	
 			
             // delete relationship
@@ -162,7 +165,6 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
         
         $this->setContext( );
         
-        // if this is called from case view, we need to redirect back to same page
         $this->_caseId = CRM_Utils_Request::retrieve( 'caseID', 'Integer', $this );
 
         if ( $this->_action & CRM_Core_Action::VIEW ) {
@@ -180,8 +182,9 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
             CRM_Contact_BAO_Relationship::setIsActive( $this->_id, 1 ) ;
             $session =& CRM_Core_Session::singleton();
             CRM_Utils_System::redirect( $session->popUserContext() );
-        } 
-
+        }
+ 
+        // if this is called from case view, suppress browse relationships form
         if ( !$this->_caseId ) {
             $this->browse( );
         }

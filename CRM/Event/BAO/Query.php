@@ -82,7 +82,13 @@ class CRM_Event_BAO_Query
                 $query->_select['participant_fee_amount']  = "civicrm_participant.fee_amount as participant_fee_amount";
                 $query->_element['participant_fee_amount']  = 1;
             }
-        
+            
+            //add fee currency
+            if ( CRM_Utils_Array::value( 'participant_fee_currency', $query->_returnProperties ) ) {
+                $query->_select['participant_fee_currency' ]  = "civicrm_participant.fee_currency as participant_fee_currency";
+                $query->_element['participant_fee_currency']  = 1;
+            }
+            
             //add event title also if event id is select
             if ( CRM_Utils_Array::value( 'event_id'   , $query->_returnProperties ) ||
                  CRM_Utils_Array::value( 'event_title', $query->_returnProperties ) ) {
@@ -472,6 +478,7 @@ class CRM_Event_BAO_Query
                                 'participant_is_pay_later'  => 1,
                                 'participant_fee_amount'    => 1,
                                 'participant_discount_name' => 1,
+                                'participant_fee_currency'  => 1,
                                 'participant_registered_by_id' => 1
                                 );
        

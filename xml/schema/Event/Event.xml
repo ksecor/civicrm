@@ -13,8 +13,8 @@
       <add>1.7</add> 
   </field> 
   <primaryKey> 
-       <name>id</name> 
-       <autoincrement>true</autoincrement> 
+      <name>id</name> 
+      <autoincrement>true</autoincrement> 
   </primaryKey> 
   <field>        
       <name>title</name>     
@@ -61,7 +61,7 @@
       <add>1.7</add> 
   </field> 
   <index>
-    <name>index_event_type_id</name>
+      <name>index_event_type_id</name>
     <fieldName>event_type_id</fieldName>
     <add>1.8</add>
   </index>
@@ -75,9 +75,9 @@
       <add>2.0</add> 
   </field> 
   <index>
-    <name>index_participant_listing_id</name>
-    <fieldName>participant_listing_id</fieldName>
-    <add>2.0</add>
+      <name>index_participant_listing_id</name>
+      <fieldName>participant_listing_id</fieldName>
+      <add>2.0</add>
   </index>
   <field> 
       <name>is_public</name> 
@@ -88,24 +88,24 @@
       <add>1.7</add> 
   </field> 
   <field>
-       <name>start_date</name>
-       <type>datetime</type>
-       <uniqueName>event_start_date</uniqueName>
-       <title>Event Start Date</title>
-       <headerPattern>/^start|(s(tart\s)?date)$/i</headerPattern>
-       <import>true</import>
-       <comment>Date and time that event starts.</comment>
-       <add>1.7</add>
+      <name>start_date</name>
+      <type>datetime</type>
+      <uniqueName>event_start_date</uniqueName>
+      <title>Event Start Date</title>
+      <headerPattern>/^start|(s(tart\s)?date)$/i</headerPattern>
+      <import>true</import>
+      <comment>Date and time that event starts.</comment>
+      <add>1.7</add>
   </field>
   <field>
-       <name>end_date</name>
-       <type>datetime</type>
-       <uniqueName>event_end_date</uniqueName>
-       <title>Event End Date</title>
-       <headerPattern>/^end|(e(nd\s)?date)$/i</headerPattern>
-       <import>true</import>
-       <comment>Date and time that event ends. May be NULL if no defined end date/time</comment>
-       <add>1.7</add>
+      <name>end_date</name>
+      <type>datetime</type>
+      <uniqueName>event_end_date</uniqueName>
+      <title>Event End Date</title>
+      <headerPattern>/^end|(e(nd\s)?date)$/i</headerPattern>
+      <import>true</import>
+      <comment>Date and time that event ends. May be NULL if no defined end date/time</comment>
+      <add>1.7</add>
   </field>
   <field> 
       <name>is_online_registration</name> 
@@ -176,10 +176,10 @@
       <add>1.8</add> 
   </field> 
   <foreignKey> 
-       <name>payment_processor_id</name> 
-       <table>civicrm_payment_processor</table> 
-       <key>id</key> 
-       <onDelete>SET NULL</onDelete>
+      <name>payment_processor_id</name> 
+      <table>civicrm_payment_processor</table> 
+      <key>id</key> 
+      <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field> 
       <name>is_map</name> 
@@ -220,11 +220,11 @@
       <add>2.0</add>
   </field>
   <foreignKey>
-       <name>loc_block_id</name>
-       <table>civicrm_loc_block</table>
-       <key>id</key>
-       <onDelete>SET NULL</onDelete>
-       <add>2.0</add>
+      <name>loc_block_id</name>
+      <table>civicrm_loc_block</table>
+      <key>id</key>
+      <onDelete>SET NULL</onDelete>
+      <add>2.0</add>
   </foreignKey>
   <field>
       <name>receipt_text</name>
@@ -424,39 +424,57 @@
       <add>2.1</add>   
   </field>
   <field> 
-    <name>allow_same_participant_emails</name> 
-    <type>boolean</type> 
-    <title>Does Event allow multiple registrations from same email address?</title>  
-    <default>0</default>                
-    <comment>if true - allows the user to register multiple registrations from same email address.</comment> 
-    <add>2.2</add> 
+      <name>allow_same_participant_emails</name> 
+      <type>boolean</type> 
+      <title>Does Event allow multiple registrations from same email address?</title>  
+      <default>0</default>                
+      <comment>if true - allows the user to register multiple registrations from same email address.</comment> 
+      <add>2.2</add> 
   </field> 
   <field>
-    <name>has_waitlist</name>
-    <type>boolean</type>
-    <comment>whether the event has waitlist support</comment>
-    <add>2.3</add>
+      <name>has_waitlist</name>
+      <type>boolean</type>
+      <comment>whether the event has waitlist support</comment>
+      <add>2.3</add>
   </field>
   <field>
-    <name>requires_approval</name>
-    <type>boolean</type>
-    <comment>whether the event participant require approval before they can finish registering</comment>
-    <add>2.3</add>
+      <name>requires_approval</name>
+      <type>boolean</type>
+      <comment>whether the event participant require approval before they can finish registering</comment>
+      <add>2.3</add>
   </field>
   <field>
-    <name>expiration_time</name>
-    <type>int unsigned</type>
-    <comment>expire pending participants after this many minutes</comment>
-    <add>2.3</add>
+      <name>expiration_time</name>
+      <type>int unsigned</type>
+      <comment>expire pending participants after this many minutes</comment>
+      <add>2.3</add>
   </field>
   <field>
-    <name>waitlist_text</name>
-    <type>text</type>
-    <htmlType>textarea</htmlType>
-    <rows>4</rows>
-    <cols>60</cols>
-    <localizable>true</localizable>
-    <comment>text to show when the event is full, but participants can sign for a waitlist</comment>
-    <add>2.3</add>
+      <name>waitlist_text</name>
+      <type>text</type>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>60</cols>
+      <localizable>true</localizable>
+      <comment>text to show when the event is full, but participants can sign for a waitlist</comment>
+      <add>2.3</add>
+  </field>
+  <field>
+      <name>is_template</name>
+      <type>boolean</type>
+      <comment>whether the event has template</comment>
+      <add>2.3</add>
+  </field>
+  <field>        
+      <name>template_title</name>     
+      <uniqueName>template_title</uniqueName>
+      <type>varchar</type>     
+      <import>true</import>
+      <title>Event Template Title</title>
+      <headerPattern>/(template.)?title$/i</headerPattern>
+      <length>255</length>  
+      <localizable>true</localizable>
+      <comment>Event Template Title</comment>
+      <add>2.3</add>     
   </field>
  </table>

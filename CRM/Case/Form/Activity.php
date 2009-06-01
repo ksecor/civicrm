@@ -39,6 +39,7 @@ require_once "CRM/Case/BAO/Case.php";
 require_once 'CRM/Case/XMLProcessor/Process.php';
 require_once "CRM/Activity/Form/Activity.php";
 require_once 'CRM/Contact/BAO/Contact.php';
+require_once 'CRM/Activity/BAO/ActivityAssignment.php';
 
 /**
  * This class create activities for a case
@@ -297,6 +298,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        if ( $params['source_contact_id'] ) {
+            $params['source_contact_id'  ] = $params['source_contact_qid'];
+        }
+        
         //set parent id if its edit mode
         if ( $parentId = CRM_Utils_Array::value( 'parent_id', $this->_defaults ) ) {
             $params['parent_id'] = $parentId;
@@ -313,7 +318,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-            if ( $this->_activityId && $this->_defaults['is_auto'] == 0 ) {
+            if ( $this->_activityId ) {
                 // unset custom fields-id from params since we want custom 
                 // fields to be saved for new activity.
                 foreach ( $params as $key => $value ) {
@@ -337,19 +342,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         }
 
         if ( isset($this->_activityId) ) { 
-            $params['id'] = $this->_activityId;
-
+            
             // activity which hasn't been modified by a user yet
             if ( $this->_defaults['is_auto'] == 1 ) { 
                 $params['is_auto'] = 0;
             }
-
-            // activity which has been created or modified by a user
-            if ( $this->_defaults['is_auto'] == 0 ) {
-                $newActParams = $params;
-                $params = array('id' => $this->_activityId);
-                $params['is_current_revision'] = 0;
-            }
+            
+            // always create a revision of an case activity. CRM-4533
+            $newActParams = $params;
             
             // record status for status msg
             $recordStatus = 'updated';
@@ -372,6 +372,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         } else {
             // since the params we need to set are very few, and we don't want rest of the 
             // work done by bao create method , lets use dao object to make the changes 
+            $params = array('id' => $this->_activityId);
+            $params['is_current_revision'] = 0;
             $activity =& new CRM_Activity_DAO_Activity( );
             $activity->copyValues( $params );
             $activity->save( );        
@@ -380,7 +382,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // create a new version of activity if activity was found to
         // have been modified/created by user
         if ( isset($newActParams) ) {
-            unset($newActParams['id']);
+           
             // set proper original_id
             if ( CRM_Utils_Array::value('original_id', $this->_defaults) ) {
                 $newActParams['original_id'] = $this->_defaults['original_id'];
@@ -417,9 +419,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // update existing case record if needed
         $caseParams       = $params;
         $caseParams['id'] = $this->_caseId;
-        require_once 'CRM/Utils/Date.php';        
-        $currentStartDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', 
-                                                                                       $caseParams['id'], 'start_date' ) );
+        
         if ( CRM_Utils_Array::value('case_type_id', $caseParams ) ) {
             $caseParams['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR .
                 $caseParams['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
@@ -432,38 +432,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         unset($caseParams['subject'], $caseParams['details'], 
               $caseParams['status_id'], $caseParams['custom']);
         $case = CRM_Case_BAO_Case::create( $caseParams );
-
-        //if case start date is changed add activityset as per new start date.
-        //CRM-4374.       
-        if ( $caseParams['activity_type_id'] == CRM_Core_OptionGroup::getValue('activity_type', 'Change Case Start Date', 'name') ) {
-            $query = "SELECT  cov_type.label as case_type FROM civicrm_case 
-                      LEFT JOIN  civicrm_option_group cog_type ON cog_type.name = 'case_type'
-                      LEFT JOIN civicrm_option_value cov_type ON 
-                     ( civicrm_case.case_type_id = cov_type.value AND cog_type.id = cov_type.option_group_id ) 
-                     WHERE civicrm_case.id=  %1";
-            
-            $queryParams = array(1 => array($case->id, 'Integer'));
-            $caseType = CRM_Core_DAO::singleValueQuery( $query, $queryParams );
-            $newStartDate = CRM_Utils_Date::customFormat(CRM_Utils_Date::mysqlToIso($caseParams['start_date']));
-            $subject = 'Change Case Start Date from ' . $currentStartDate . ' to ' . $newStartDate;
-            $activity->subject = $subject;
-            $activity->save();
-            // 2. initiate xml processor
-            $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-            $xmlProcessorParams = array( 
-                                        'clientID'           => $this->_currentlyViewedContactId,
-                                        'creatorID'          => $this->_currentUserId,
-                                        'standardTimeline'   => 0,
-                                        'dueDateTime'        => $caseParams['start_date'],
-                                        'caseID'             => $case->id,
-                                        'caseType'           => $caseType,
-                                        'activityTypeName'   => 'Change Case Start Date',
-                                        'activitySetName'    => 'standard_timeline',
-                                        'is_StartdateChanged'=> 1,           
-                                         );
-            
-            $xmlProcessor->run( $caseType, $xmlProcessorParams );
-        }
         
         // create case activity record
         $caseParams = array( 'activity_id' => $activity->id,
@@ -473,11 +441,22 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // create activity assignee records
         $assigneeParams = array( 'activity_id' => $activity->id );
-        if (! empty($params['assignee_contact']) ) {
-            foreach ( $params['assignee_contact'] as $key => $id ) {
+
+        if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact_id']) ) {
+            $params['assignee_contact_id'] = array_unique( $params['assignee_contact_id'] );
+            //skip those assignee contacts which are already assigned
+            //while sending a copy.CRM-4509.
+            $activityAssigned = array_flip( $params['assignee_contact_id'] );
+            $activityId       = isset($this->_activityId) ? $this->_activityId : $activity->id;
+            $assigneeContacts = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activityId );
+            $activityAssigned = array_diff_key( $activityAssigned, $assigneeContacts );
+                              
+            foreach ( $params['assignee_contact_id'] as $key => $id ) {
                 $assigneeParams['assignee_contact_id'] = $id;
                 CRM_Activity_BAO_Activity::createActivityAssignment( $assigneeParams );
             }
+            //modify assigne_contact as per newly assigned contact before sending copy. CRM-4509.
+            $params['assignee_contact_id'] = $activityAssigned;
         }
 
         // Insert civicrm_log record for the activity (e.g. store the
@@ -487,36 +466,47 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // send copy to selected contacts.        
         $mailStatus = '';
-        if ( array_key_exists('contact_check', $params) ) {
-            //build an associative array with unique email addresses.  
-            $mailToContacts = array( );
-            foreach( $params['contact_check'] as $id => $dnc ) {
-
-                //if email already exists in array then append with ', ' another role only otherwise add it to array.
-                if ( $contactDetails = CRM_Utils_Array::value($this->_relatedContacts[$id]['email'], $mailToContacts) ) {
-                    $caseRole = CRM_Utils_Array::value( 'role', $this->_relatedContacts[$id] );
-                    $mailToContacts[$this->_relatedContacts[$id]['email']]['role'] = $contactDetails['role'].', '.$caseRole;
-                    
+        $mailToContacts = array( );
+        
+        foreach( array( 'contact_check', 'assignee_contact' ) as $val ) {
+            if ( array_key_exists ( $val, $params ) && !CRM_Utils_array::crmIsEmptyArray($params[$val]) ) {
+                if ( $val == 'contact_check' ) {
+                    $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");  
                 } else {
-                    $mailToContacts[$this->_relatedContacts[$id]['email']] = $this->_relatedContacts[$id];
+                    $this->_relatedContacts = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activity->id, true, false ); 
+                    $mailStatus .= ' ' .ts("A copy of the activity has also been sent to assignee contacts(s)."); 
+                }  
+                //build an associative array with unique email addresses.  
+                foreach( $params[$val] as $id => $dnc ) {
+                    if( isset($id) && array_key_exists($id, $this->_relatedContacts) ) {
+                        //if email already exists in array then append with ', ' another role only otherwise add it to array.
+                        if ( $contactDetails = CRM_Utils_Array::value($this->_relatedContacts[$id]['email'], $mailToContacts) ) {
+                            $caseRole = CRM_Utils_Array::value( 'role', $this->_relatedContacts[$id] );
+                            $mailToContacts[$this->_relatedContacts[$id]['email']]['role'] = $contactDetails['role'].', '.$caseRole;
+                        } else {
+                            $mailToContacts[$this->_relatedContacts[$id]['email']] = $this->_relatedContacts[$id];
+                        }
+                    }
                 }
-
             }
-          
+        }
+        
+        if ( !CRM_Utils_array::crmIsEmptyArray($mailToContacts) ) {
             //include attachments while sendig a copy of activity.
             $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity',
                                                               $activity->id );
             
             $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
                                                            $activity->id, $mailToContacts, $attachments, $this->_caseId );
-            $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");
+        } else {
+            $mailStatus = '';
         }
-
+        
         // create follow up activity if needed
         $followupStatus = '';
         if ( CRM_Utils_Array::value('followup_activity_type_id', $params) ) {
             $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params, true );
-
+            
             if ( $followupActivity ) {
                 $caseParams = array( 'activity_id' => $followupActivity->id,
                                      'case_id'     => $this->_caseId   );

@@ -390,7 +390,9 @@ WHERE  contribution_id = {$this->_id}
             $fields["country-{$this->_bltID}"       ] = 1;
             
             require_once "CRM/Core/BAO/UFGroup.php";
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
+            if ( $this->_contactID ) {
+                CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
+            }
             
             foreach ($names as $name) {
                 if ( ! empty( $defaults[$name] ) ) {
@@ -479,9 +481,11 @@ WHERE  contribution_id = {$this->_id}
         }
         $this->assign( 'contribution_status_id', CRM_Utils_Array::value( 'contribution_status_id',$defaults ) );
         $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
+        
+        $this->assign( 'currency', $defaults['currency'] );
+        
         return $defaults;
     }
-    
     
     /** 
      * Function to build the form 
@@ -490,18 +494,11 @@ WHERE  contribution_id = {$this->_id}
      * @access public 
      */ 
     public function buildQuickForm( )  
-    {   
+    {           
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
-        
-        if ( $this->_context == 'standalone' ) {
-            // call to build contact autocomplete
-            $attributes = array( 'width' => '200px' );    
-            $this->addElement('text', "contact", ts('Select Contact'), $attributes );
-            $this->addElement('hidden', "contact_id" );
-        }
-        
+             
         $showAdditionalInfo = false;
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
@@ -622,6 +619,11 @@ WHERE  contribution_id = {$this->_id}
         $this->assign('customDataSubType',  $this->_contributionType );
         $this->assign('entityID',  $this->_id );
         
+        if ( $this->_context == 'standalone' ) {
+            require_once 'CRM/Contact/Form/NewContact.php';
+            CRM_Contact_Form_NewContact::buildQuickForm( $this );
+        }        
+        
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
         
         $element =& $this->add('select', 'contribution_type_id', 
@@ -706,7 +708,7 @@ WHERE  contribution_id = {$this->_id}
         $this->addElement( 'text', 'soft_credit_to', ts('Soft Credit To') );
         $this->addElement( 'hidden', 'soft_contact_id', '', array( 'id' => 'soft_contact_id' ) );
         $js = null;
-        if ( !$this->_mode && $this->userEmail ) {
+        if ( !$this->_mode ) {
             $js = array( 'onclick' => "return verify( );" );    
         }
 
@@ -717,9 +719,12 @@ WHERE  contribution_id = {$this->_id}
         $this->addButtons(array( 
                                 array ( 'type'      => 'upload',
                                         'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'js'        => $js,
-                                        'isDefault' => true   ), 
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'upload',
+                                        'name'      => ts('Save and New'), 
+                                        'js'        => $js,
+                                        'subName'   => 'new' ), 
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
                                 ) 
@@ -745,7 +750,13 @@ WHERE  contribution_id = {$this->_id}
      */  
     static function formRule( &$fields, &$files, $self ) 
     {  
-        $errors = array( ); 
+        $errors = array( );
+        
+        //check if contact is selected in standalone mode
+        if ( isset( $fields[contact_select_id] ) && !$fields[contact_select_id] ) {
+            $errors['contact'] = ts('Please select a contact or create new contact');
+        }
+         
         if ( isset( $fields["honor_type_id"] ) ) {
             if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
                       CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
@@ -786,8 +797,8 @@ WHERE  contribution_id = {$this->_id}
         }      
 
         // set the contact, when contact is selected
-        if ( CRM_Utils_Array::value('contact_id', $submittedValues ) ) {
-            $this->_contactID = CRM_Utils_Array::value('contact_id', $submittedValues);
+        if ( CRM_Utils_Array::value('contact_select_id', $submittedValues ) ) {
+            $this->_contactID = CRM_Utils_Array::value('contact_select_id', $submittedValues);
         }
         
         $config  =& CRM_Core_Config::singleton( );
@@ -813,6 +824,14 @@ WHERE  contribution_id = {$this->_id}
             
             $now = date( 'YmdHis' );
             $fields = array( );
+            
+            // we need to retrieve email address
+            if ( $this->_context == 'standalone' && CRM_Utils_Array::value( 'is_email_receipt', $submittedValues ) ) {
+                require_once 'CRM/Contact/BAO/Contact/Location.php';
+                list( $this->userDisplayName, 
+                    $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+                $this->assign( 'displayName', $this->userDisplayName );
+            }
             
             //set email for primary location.
             $fields["email-Primary"] = 1;
@@ -1078,7 +1097,6 @@ WHERE  contribution_id = {$this->_id}
             //create contribution.
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
-
             
             //process associated membership / participant
             if ( $this->_action & CRM_Core_Action::UPDATE ) {
@@ -1202,6 +1220,15 @@ WHERE  contribution_id = {$this->_id}
             }
             CRM_Core_Session::setStatus( $statusMsg );
             //Offline Contribution ends.
+        }
+        
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            if ( $this->_context == 'standalone' ) {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', 'reset=1&action=add&context=standalone') );
+            } else {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', "reset=1&action=add&context=contribution&cid={$this->_contactID}") );
+            }            
         }
     }
     

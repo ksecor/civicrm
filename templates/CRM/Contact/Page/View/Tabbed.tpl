@@ -211,7 +211,7 @@
    {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
 {literal}
     cj( function() {
-        var tabIndex = $('#tab_' + selectedTab).prevAll().length
+        var tabIndex = cj('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        
     });
 

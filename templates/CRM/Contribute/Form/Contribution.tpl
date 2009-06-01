@@ -4,7 +4,6 @@
 {elseif $showAdditionalInfo and $formType }
   {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
-<div class="form-item">
 {if $contributionMode == 'test' }
     {assign var=contribMode value="TEST"}
 {else if $contributionMode == 'live'}
@@ -24,8 +23,11 @@
 {if $contributionMode}
 <div id="help">
     {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
-</div><fieldset>
-{else} 
+</div>
+<div class="crm-submit-buttons">{$form.buttons.html}</div>
+<fieldset>
+{else}
+<div class="crm-submit-buttons">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
 {/if}
    {if $action eq 8} 
@@ -44,8 +46,7 @@
                 <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
             </tr>
         {else}
-            <tr>
-                <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;<a href="javascript:newContact( 1 );">{ts}Create New Contact{/ts}</a></td></tr>
+            {include file="CRM/Contact/Form/NewContact.tpl"}
         {/if}
         {if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
@@ -55,7 +56,7 @@
         {ts}(test){/ts}
         {/if} {help id="id-contribution_type"}
         </td></tr> 
-        <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html|crmMoney} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html|crmMoney:$currency} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html} {help id="id-contrib_source"}</td></tr>
 
         {if $contributionMode}
@@ -85,6 +86,8 @@
             <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html|crmReplace:class:twelve} {help id="id-trans_id"}</td></tr>
             {if $email and $outBound_option != 2}
                 <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html} <span class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</span></td></tr>
+            {elseif $context eq 'standalone' and $outBound_option != 2 }
+                <tr id="email-receipt" style="display:none;"><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html} <span class="description">{ts}Automatically email a receipt for this contribution to {/ts}<span id="email-address"></span>?</span></td></tr>
             {/if}
             <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
@@ -119,108 +122,110 @@
       </table>
 
     <div id="customData"></div>
-	{*include custom data js file*}
-	{include file="CRM/common/customData.tpl"}
-	{literal}
-		<script type="text/javascript">
-			cj(document).ready(function() {
-				{/literal}
-				buildCustomData( '{$customDataType}' );
-				{if $customDataSubType}
-					buildCustomData( '{$customDataType}', {$customDataSubType} );
-				{/if}
-				{literal}
-			});
 
-            var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
-
-            cj("#contact").autocomplete( contactUrl, {
-            	selectFirst: false 
-            }).focus();
-
-            cj("#contact").result(function(event, data, formatted) {
-            	cj("input[name=contact_id]").val(data[1]);
-            });
-
-            cj("#contact").bind("keypress keyup", function(e) {
-                if ( e.keyCode == 13 ) {
-                    return false;
-                }
-            });
-    </script>
-    {/literal}
-    
+{*include custom data js file*}
+{include file="CRM/common/customData.tpl"}
 {literal}
 <script type="text/javascript">
-var showPane = "";
-cj(function() {
-  cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
-
-  cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
-                             }, function() { cj(this).removeClass( "ui-state-hover");
-               }).bind('click', function() { 
-		                             var checkClass = cj(this).find('span').attr( 'class' );
-					     var len        = checkClass.length;
-					     if( checkClass.substring( len - 1, len ) == 's' ) {
-					       cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
-					     } else {
-					       cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-					     }
-					     cj(this).next().toggle('blind'); return false; }).next().hide();
-  if( showPane.length > 1 ) {
-    eval("showPane =[ '" + showPane.substring( 0,showPane.length - 2 ) +"]");
-    cj.each( showPane, function( index, value ) {
-      cj('span#'+value).removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-      loadPanes( value )  ;
-      cj("div."+value).show();
+    cj( function( ) {
+        {/literal}
+        buildCustomData( '{$customDataType}' );
+        {if $customDataSubType}
+        buildCustomData( '{$customDataType}', {$customDataSubType} );
+        {/if}
+        {literal}
     });
-  }
-});
 
-cj(document).ready( function() {
-    cj('.head').one( 'click', function() { loadPanes( cj(this).children().attr('id') );  });
-});
+    var showPane = "";
+    cj(function() {
+        cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
 
-function loadPanes( id ) {
-    var url = "{/literal}{crmURL p='civicrm/contact/view/contribution' q='snippet=4&formType=' h=0}{literal}" + id;
-    if ( ! cj('div.'+id).html() ) {
-  var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
-    cj('div.'+id).html(loading);
+        cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
+        }, function() { cj(this).removeClass( "ui-state-hover");
+    }).bind('click', function() { 
+        var checkClass = cj(this).find('span').attr( 'class' );
+        var len        = checkClass.length;
+        if ( checkClass.substring( len - 1, len ) == 's' ) {
+            cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
+        } else {
+            cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+        }
+        cj(this).next().toggle('blind'); return false; }).next().hide();
+        if ( showPane.length > 1 ) {
+            eval("showPane =[ '" + showPane.substring( 0,showPane.length - 2 ) +"]");
+            cj.each( showPane, function( index, value ) {
+                cj('span#'+value).removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+                loadPanes( value )  ;
+                cj("div."+value).show();
+            });
+        }
+    
+        cj('.head').one( 'click', function() { loadPanes( cj(this).children().attr('id') );  });    
+    });
+
+
+    function loadPanes( id ) {
+        var url = "{/literal}{crmURL p='civicrm/contact/view/contribution' q='snippet=4&formType=' h=0}{literal}" + id;
+        if ( ! cj('div.'+id).html() ) {
+            var loading = '<img src="{/literal}{$config->resourceBase}i/loading.gif{literal}" alt="{/literal}{ts}loading{/ts}{literal}" />&nbsp;{/literal}{ts}Loading{/ts}{literal}...';
+            cj('div.'+id).html(loading);
+        }
+        cj.ajax({
+            url    : url,
+            success: function(data) { 
+                cj('div.'+id).html(data);
+            }
+        });
     }
-    cj.ajax({
-        url    : url,
-        success: function(data) { 
-                    cj('div.'+id).html(data);
-                 }
-         });
-}
-var url = "{/literal}{$dataUrl}{literal}";
+    var url = "{/literal}{$dataUrl}{literal}";
 
-cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
-                            }).result( function(event, data, formatted) { cj( "#soft_contact_id" ).val( data[1] );
-                            });  
+    cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
+        }).result( function(event, data, formatted) { cj( "#soft_contact_id" ).val( data[1] );
+    });
+    {/literal}
+    {if $context eq 'standalone' and $outBound_option != 2 }
+    {literal}
+    cj( function( ) {
+        cj("#contact").blur( function( ) {
+            checkEmail( );
+        });
+        checkEmail( );
+    });
+    function checkEmail( ) {
+        var contactID = cj("input[name=contact_select_id]").val();
+        if ( contactID ) {
+            var postUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail' h=0}{literal}";
+            cj.post( postUrl, {contact_id: contactID},
+                function ( response ) {
+                    if ( response ) {
+                        cj("#email-receipt").show( );
+                        cj("#email-address").html( response );
+                    } else {
+                        cj("#email-receipt").hide( );
+                    }
+                }
+            );
+        }
+    }
+    {/literal}
+    {/if}
 </script>
-{/literal}
+
 <div class="accordion ui-accordion ui-widget ui-helper-reset">
     {* Additional Detail / Honoree Information / Premium Information  Fieldset *}
-{foreach from=$allPanes key=paneName item=paneValue}
-<h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id="{$paneValue.id}"></span><a href="#">{$paneName}</a></h3>
-<div class="{$paneValue.id}"></div>
-{if $paneValue.open eq 'true'}
-{literal}<script type="text/javascript"> showPane += "{/literal}{$paneValue.id}{literal}"+"','";</script>{/literal}
-{/if}
-{/foreach}
+    {foreach from=$allPanes key=paneName item=paneValue}
+        <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id="{$paneValue.id}"></span><a href="#">{$paneName}</a></h3>
+        <div class="{$paneValue.id}"></div>
+        {if $paneValue.open eq 'true'}
+            {literal}<script type="text/javascript"> showPane += "{/literal}{$paneValue.id}{literal}"+"','";</script>{/literal}
+        {/if}
+    {/foreach}
 </div>
 
 {/if}
-    <dl>    
-       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
-    </dl> 
-</fieldset>
-</div> 
-{*include new contact dialog file*}
-{include file="CRM/common/newContact.tpl"}
 
+</fieldset>
+<div class="crm-submit-buttons">{$form.buttons.html}</div>
     {literal}
     <script type="text/javascript">
      function verify( ) {

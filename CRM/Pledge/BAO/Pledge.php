@@ -222,9 +222,10 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
                "action=view&reset=1&id={$pledge->id}&cid={$pledge->contact_id}" );
        
         $config =& CRM_Core_Config::singleton();
+        require_once 'CRM/Utils/Money.php';
         $contributionTypes = CRM_Contribute_PseudoConstant::contributionType();
         $title = CRM_Contact_BAO_Contact::displayName( $pledge->contact_id ) . 
-                 ' - (' . $pledge->amount . ' ' . $config->defaultCurrency . 
+                 ' - (' . ts('Pledged') . ' ' . CRM_Utils_Money::format( $pledge->amount ) . 
                  ' - ' . $contributionTypes[$pledge->contribution_type_id] . ')';
 
         // add the recently created Activity
