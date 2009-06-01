@@ -33,43 +33,24 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
-require_once 'CRM/Report/Utils/Report.php';
+require_once 'CRM/Report/DAO/Instance.php';
 
-/**
- * Page for invoking report instances
- */
-class CRM_Report_Page_Instance extends CRM_Core_Page 
+class CRM_Report_BAO_Instance extends CRM_Report_DAO_Instance
 {
 
-    /**
-     * run this page (figure out the action needed and perform it).
-     *
-     * @return void
-     */
-    function run() {
-        $instanceId   = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
-        $action       = CRM_Utils_Request::retrieve( 'action', 'String', $this );
-        $optionVal    = CRM_Report_Utils_Report::getValueFromUrl( $instanceId );
+    /**                                                           
+     * Delete the instance of the Report
+     * 
+     * @return $results no of deleted Instance  on success, false otherwise
+     * @access public 
+     *  
+     */ 
 
-        require_once 'CRM/Core/OptionGroup.php';
-        $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$optionVal}", 'value' );
-
-        if ( $action & CRM_Core_Action::DELETE ) {
-            require_once 'CRM/Report/BAO/Instance.php';
-            CRM_Report_BAO_Instance::delete( $instanceId );
-
-            CRM_Core_Session::setStatus( ts( 'Selected Instance has been deleted.' ) );
-        } else {
-            if ( strstr($templateInfo['name'], '_Form') ) {
-                CRM_Utils_System::setTitle( $templateInfo['label'] );
-                
-                $wrapper =& new CRM_Utils_Wrapper( );
-                return $wrapper->run( $templateInfo['name'], null, null );
-            }
-            
-            CRM_Core_Session::setStatus( ts( 'Could not find template for the instance.' ) );
-        }
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/instance/list', "reset=1") );
+    function delete( $id )
+    {
+        $dao     = new CRM_Report_DAO_Instance( );
+        $dao->id = $id;
+        return $dao->delete( );
     }
 }
+?>

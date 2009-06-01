@@ -93,6 +93,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
                 $rows[$compName][$dao->id]['label'] = $dao->label;
                 $rows[$compName][$dao->id]['description'] = $dao->description;               
                 $rows[$compName][$dao->id]['url'] = CRM_Utils_System::url( $url, "reset=1&id={$dao->id}");
+                $rows[$compName][$dao->id]['deleteUrl'] = CRM_Utils_System::url( $url, "action=delete&reset=1&id={$dao->id}");
             }
         }
         return $rows;
