@@ -44,6 +44,11 @@ class CRM_Report_Form_Instance {
                     $attributes['title'] );
 
         $form->add( 'text',
+                    'description',
+                    ts( 'Report Description' ),
+                    $attributes['description'] );
+
+        $form->add( 'text',
                     'email_subject',
                     ts( 'Subject' ),
                     $attributes['email_subject'] );
@@ -104,11 +109,13 @@ class CRM_Report_Form_Instance {
         $instanceID = $form->getVar( '_id' );
         if ( $instanceID ) {
             // this is already retrieved via Form.php
+            $defaults['description']   = $defaults['description'];
             $defaults['report_header'] = $defaults['header'];
             $defaults['report_footer'] = $defaults['footer'];
         } else {
             require_once 'CRM/Core/Config.php';
-            $config =& CRM_Core_Config::singleton();        
+            $config =& CRM_Core_Config::singleton(); 
+            $defaults['description']   = $form->_description;
             $defaults['report_header'] = "<html>
   <head>
     <title>CiviCRM Report</title>

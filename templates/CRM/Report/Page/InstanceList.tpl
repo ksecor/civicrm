@@ -11,12 +11,12 @@
 			</tr>
 		    </table>
 	        </div>
-		<div id="{$report}" style="display:none;">
+		<div id="{$report}" style="display:block;">
 		    <table class="report">
 		        {foreach from=$rows item=row}
 	                    <tr >
-			        <td width="300"><a href="{$row.url}">&raquo; {$row.title}</a></td>
-				<td width="450">Instance of <strong>{$row.label}</strong> report</td>
+			        <td width="300"><a href="{$row.url}">&raquo; {$row.title}</a><br/>{$row.label}</td>
+				<td width="450">{$row.description}</td>
 			    </tr>
 	        	{/foreach}
                     </table>

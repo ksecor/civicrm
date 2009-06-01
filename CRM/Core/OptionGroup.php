@@ -342,7 +342,7 @@ SELECT v.label
                                   $fieldType  = 'String', $active = true ) 
     {
         $query = "
-SELECT  v.label, v.value, v.name, v.weight 
+SELECT  v.label, v.value, v.name, v.weight, v.description 
 FROM   civicrm_option_value v, 
        civicrm_option_group g 
 WHERE  v.option_group_id = g.id 
@@ -361,7 +361,7 @@ WHERE  v.option_group_id = g.id
         $row = array( );
 
         if ( $dao->fetch( ) ) {
-            foreach ( array('name','value','label','weight') as $fld ) {
+            foreach ( array('name','value','label','weight', 'description') as $fld ) {
                 $row[$fld]  = $dao->$fld;
             }
         }

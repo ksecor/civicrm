@@ -160,6 +160,10 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
 
+        //description of the report
+        $session      =& CRM_Core_Session::singleton( );
+        $this->_description = $session->get( 'reportDescription' );
+
         if ( $this->_id ) {
             $params = array( 'id' => $this->_id );
             $this->_instanceValues = array( );

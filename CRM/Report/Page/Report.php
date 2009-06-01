@@ -58,6 +58,9 @@ class CRM_Report_Page_Report extends CRM_Core_Page
             CRM_Utils_System::setTitle( $templateInfo['label'] );
             $this->assign( 'reportTitle', $templateInfo['label'] );
 
+            $session =& CRM_Core_Session::singleton( );
+            $session->set( 'reportDescription', $templateInfo['description'] );
+
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( $templateInfo['name'], null, null );
         }
@@ -65,6 +68,6 @@ class CRM_Report_Page_Report extends CRM_Core_Page
         if ( $optionVal ) {
             CRM_Core_Session::setStatus( ts( 'Could not find the report template. Make sure the report template is registered and / or url is correct.' ) );
         }
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/list', "reset=1") );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/instance/list', "reset=1") );
     }
 }

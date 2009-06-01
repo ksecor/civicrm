@@ -56,7 +56,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
             $report = " AND v.id = {$ovID} ";
         }
         $sql = "
-        SELECT inst.id, inst.title, inst.report_id, v.label, v.component_id
+        SELECT inst.id, inst.title, inst.report_id, inst.description, v.label, v.component_id
           FROM civicrm_option_group g,
                civicrm_option_value v,
                civicrm_report_instance inst
@@ -90,7 +90,8 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
                     $compName = $component[$dao->component_id];
                 }
                 $rows[$compName][$dao->id]['title'] = $dao->title;               
-                $rows[$compName][$dao->id]['label'] = $dao->label;               
+                $rows[$compName][$dao->id]['label'] = $dao->label;
+                $rows[$compName][$dao->id]['description'] = $dao->description;               
                 $rows[$compName][$dao->id]['url'] = CRM_Utils_System::url( $url, "reset=1&id={$dao->id}");
             }
         }
