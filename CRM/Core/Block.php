@@ -330,7 +330,7 @@ class CRM_Core_Block {
                     $shortCuts = 
                         array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/case',
                                                               'query' => "reset=1&action=add&atype=$atype&context=standalone",
-                                                              'title' => ts('Case for New Client') ) ));
+                                                              'title' => ts('Case') ) ) );
                 }
             }
             
