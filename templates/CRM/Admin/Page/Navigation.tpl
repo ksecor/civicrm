@@ -6,6 +6,7 @@
    {include file="CRM/Admin/Form/Navigation.tpl"}
 {else}
     {if $rows}
+        {*
         <table cellpadding="0" cellspacing="0" border="0">
             <tr class="columnheader">
                 <th>{ts}Menu{/ts}</th>
@@ -20,5 +21,28 @@
             </tr>
             {/foreach}
         </table>
+        *}
+        <div id="navigation-tree" class="navigation-tree" style="height:auto;"></div>
+        {literal}
+        <script type="text/javascript">
+            cj(function () {
+                cj("#navigation-tree").tree({
+                  data  : {
+                    type  : "json",
+                    async : true, 
+                    url : {/literal}"{crmURL p='civicrm/ajax/menu' h=0 }"{literal},
+                  },
+            	  rules : {
+            		droppable : [ "tree-drop" ],
+            		multiple : true,
+            		deletable : "all",
+            		draggable : "all"
+            	  }
+                });
+            });
+            
+        </script>
+        {/literal}
+
     {/if}
 {/if}

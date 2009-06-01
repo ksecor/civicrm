@@ -46,9 +46,7 @@
 		<td>{$form.org_option.html}</td>
       </tr>
       <tr id="select_org">
-        <td><span class="tundra" dojoType= "dojo.data.ItemFileReadStore" jsId="employerStore" url="{$employerDataURL}">
-            {$form.organization_id.html|crmReplace:class:big}</span>
-        </td>
+        <td>{$form.organization_id.html|crmReplace:class:big}</td>
       </tr>
       {/if}  
       <tr id="create_org">
@@ -197,7 +195,7 @@
 {* If mid present in the url, take the required action (poping up related existing contact ..etc) *}
 {if $membershipContactID}
 <script type="text/javascript">
-   dojo.addOnLoad( function( ) {ldelim}
+   dojo.addOnLoad( function( ) {ldelim} 
    dijit.byId( 'organization_id' ).setValue("{$membershipContactID}");
    {rdelim} );
 </script>
@@ -206,27 +204,25 @@
 {* Javascript method to populate the location fields when a different existing related contact is selected *}
 {literal}
 <script type="text/javascript">
-    function loadLocationData( cid ) {
-	var dataUrl = {/literal}"{$locDataURL}"{literal};
-        dataUrl = dataUrl + cid;
-
-        var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "json",
-        timeout: 5000, //Time in milliseconds
-
-        // The LOAD function will be called on a successful response.
-        load: function(response, ioArgs) {
-            for (var i in response) {
-                document.getElementById( i ).value = response[i];
-            }
-        },
-
-        // The ERROR function will be called in an error case.
-        error: function(response, ioArgs) {
-            console.error("HTTP status code: ", ioArgs.xhr.status);
-        }
-     });
-    }
+var dataUrl   = "{/literal}{$employerDataURL}{literal}";
+cj('#organization_id').autocomplete( dataUrl, { width : 180, selectFirst : false
+                            }).result( function(event, data, formatted) {
+                                             cj('#onbehalfof_id').val( data[1]);
+                                             var locationUrl = {/literal}"{$locDataURL}"{literal}+ data[1]; 
+                                             cj.ajax({
+                                                	   url         : locationUrl,
+                                                       data        : "{}",
+                                                       dataType    : "json",
+                                                       timeout     : 5000, //Time in milliseconds
+                                                       success     : function( data, status ) {
+                                                                               for (var ele in data) {
+                                                                                    cj( "#"+ele ).val( data[ele] );
+                                                                               }
+                                                                      },
+                                                       error       : function( XMLHttpRequest, textStatus, errorThrown ) {
+                                                                                console.error("HTTP error status: ", textStatus);
+                                                                      }
+                                                     });
+                           });
 </script>
 {/literal}

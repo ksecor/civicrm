@@ -459,7 +459,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $values = array('contact_id' => $session->get('userID'));
         require_once 'api/v2/Contact.php';
         $contact =& civicrm_contact_get( $values );
-
+        
+        //CRM-4524
+        $contact = reset( $contact );
+        
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'resubscribe', 'owner'));
         foreach($verp as $key => $value) {
             $verp[$key]++;

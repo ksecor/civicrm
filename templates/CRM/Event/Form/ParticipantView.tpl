@@ -16,12 +16,12 @@
 	    {if $line_items}
 	        {include file="CRM/Event/Form/LineItems.tpl"} 
 	    {else}
-                <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney}{/if}</dd>
+                <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</dd>
             {/if}
         {/if}
         {foreach from=$note item="rec"}
 	    {if $rec }
-		<dt>{ts}Note:{/ts}</dt><dd>{$rec}</dd>	
+		<dt>{ts}Note:{/ts}</dt><dd>{$rec}</dd>
 	    {/if}
         {/foreach}
          

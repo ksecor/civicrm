@@ -2173,5 +2173,26 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         
     }
     
+    /**
+     * Function to retrieve reserved profiles
+     * 
+     * @param string $name name if the reserve profile 
+     * 
+     * @return array $reservedProfiles returns associated array 
+     * @static
+     */
+    static function getReservedProfiles( $type = 'Contact' ) {
+        $reservedProfiles = array( );
+        if ( $type == 'Contact' ) {
+            $whereClause = ' IN ( "new_individual", "new_organization", "new_household" )';
+        }
+        
+        $query = "SELECT id, title FROM civicrm_uf_group WHERE name {$whereClause} ";
+        $dao =& CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            $reservedProfiles[$dao->id] = $dao->title;
+        }
+        return $reservedProfiles;
+    }    
 }
 

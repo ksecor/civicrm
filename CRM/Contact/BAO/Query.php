@@ -2950,7 +2950,7 @@ WHERE  id IN ( $groupIDs )
 
         if ( $includeContactIds ) {
             $this->_includeContactIds = true;
-            $this->includeContactIds( );
+            $this->_whereClause       = $this->whereClause( );
         }
 
         // hack for now, add permission only if we are in search

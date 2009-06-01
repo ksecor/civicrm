@@ -62,7 +62,7 @@
 {capture assign=findCasesURL}<a href="{crmURL p="civicrm/case/search" q="reset=1"}">{ts}Find Cases{/ts}</a>{/capture}
 
 <div class="spacer"></div>
-    <h3>{ts}Cases With Upcoming Activities{/ts}</h3>
+    <h3>{if $myCases}{ts}My Cases With Upcoming Activities{/ts}{else}{ts}All Cases With Upcoming Activities{/ts}{/if}</h3>
     {if $upcomingCases}
     <div class="form-item">
         {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="upcoming" rows=$upcomingCases}
@@ -74,7 +74,7 @@
     {/if}
 
 <div class="spacer"></div>
-    <h3>{ts}Cases With Recently Performed Activities{/ts}</h3>
+    <h3>{if $myCases}{ts}My Cases With Recently Performed Activities{/ts}{else}{ts}All Cases With Recently Performed Activities{/ts}{/if}</h3>
     {if $recentCases}
     <div class="form-item">
         {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="recent" rows=$recentCases}

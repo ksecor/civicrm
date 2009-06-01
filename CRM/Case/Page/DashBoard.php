@@ -57,23 +57,19 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
             return;
         }
 
-        $allCases = CRM_Utils_Request::retrieve( 'all', 'Positive',
-                                                   CRM_Core_DAO::$_nullObject );
-        if ( $allCases ) {
-            CRM_Utils_System::setTitle( ts('CiviCase Dashboard - All Cases') );
-        } else {
-            CRM_Utils_System::setTitle( ts('CiviCase Dashboard - My Cases') );
-        }
         $session = & CRM_Core_Session::singleton();
+        $allCases = CRM_Utils_Request::retrieve( 'all', 'Positive', $session );
+        
+        CRM_Utils_System::setTitle( ts('CiviCase Dashboard') );
+        
         $userID  = $session->get('userID');
                
         if ( ! $allCases ) {
             $this->assign('myCases', true );
-            $allCases = false;
         } else {
             $this->assign('myCases', false );
-            $allCases = true;
         }
+        
         $this->assign('newClient', false );
         if ( CRM_Core_Permission::check('add contacts')) {
             $this->assign('newClient', true );

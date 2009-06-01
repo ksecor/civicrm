@@ -184,17 +184,18 @@ SELECT f.id, f.label, f.data_type,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
             $optionGroupID = null;
-            if ( ( $dao->html_type == 'CheckBox' ||
-                   $dao->html_type == 'Radio'    ||
-                   $dao->html_type == 'Select'   ||
-                   $dao->html_type == 'Multi-Select' ) ) {
+            if ( ( $dao->html_type == 'CheckBox'     ||
+                   $dao->html_type == 'Radio'        ||
+                   $dao->html_type == 'Select'       ||
+                   $dao->html_type == 'Multi-Select' ||
+                   $dao->html_type == 'AdvMulti-Select') ) { 
                 if ( $dao->option_group_id ) {
                     $optionGroupID = $dao->option_group_id;
                 } else if ( $dao->data_type != 'Boolean' ) {
                     CRM_Core_Error::fatal( );
                 }
             }
-            
+           
             // build the cache for custom values with options (label => value)
             if ( $optionGroupID != null ) {
                 $query = "

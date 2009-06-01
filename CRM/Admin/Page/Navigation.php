@@ -160,7 +160,7 @@ class CRM_Admin_Page_Navigation extends CRM_Core_Page_Basic
              
              $menuValues[$key]['action'] = CRM_Core_Action::formLink ( self::links(), 
                                                                        $action, 
-                                                                       array('id' => $value['id'] ) );
+                                                                       array('id' => $key ) );
          }
          
          $this->assign('rows', $menuValues );

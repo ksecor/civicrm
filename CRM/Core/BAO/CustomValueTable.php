@@ -161,7 +161,11 @@ class CRM_Core_BAO_CustomValueTable
                     case 'Date':
                         $value = CRM_Utils_Date::isoToMysql($value);
                         break;
-
+                        
+                    case 'Auto-complete':
+                        //Fix me
+                        $type = 'Integer';
+                        break;
                     case 'RichTextEditor':
                         $type  = 'String';
                         break;
@@ -205,8 +209,8 @@ class CRM_Core_BAO_CustomValueTable
                     }
 
                     $dao = CRM_Core_DAO::executeQuery( $query, $params );
+                    
                     $dao->free( );
-
                     require_once 'CRM/Utils/Hook.php';
                     CRM_Utils_Hook::custom( $hookOP,
                                             $hookID,
@@ -244,6 +248,7 @@ class CRM_Core_BAO_CustomValueTable
         case 'Int':
             return 'int';
             // the below three are FK's, and have constraints added to them
+        case 'Auto-complete':
         case 'StateProvince':
         case 'Country':
         case 'File':

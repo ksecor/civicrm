@@ -91,7 +91,6 @@ class CRM_Grant_Page_Tab extends CRM_Contact_Page_View
     function edit( ) 
     { 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', 'Create grant', $this->_action );
-        $controller->reset( ); 
         $controller->setEmbedded( true ); 
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
@@ -108,7 +107,16 @@ class CRM_Grant_Page_Tab extends CRM_Contact_Page_View
      */
     function run( )
     {
-        $this->preProcess( );
+        $contactID  = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullArray );
+        $context = CRM_Utils_Request::retrieve('context', 'String', $this );
+
+        if ( $context == 'standalone' && !$contactID ) {
+            $this->_action = CRM_Core_Action::ADD;
+            $this->assign('action', $this->_action );     
+        } else {
+            // we should call contact view, preprocess only for grant in contact summary
+            $this->preProcess( );           
+        } 
 
         $this->setContext( );
         if ( $this->_action & CRM_Core_Action::VIEW ) { 

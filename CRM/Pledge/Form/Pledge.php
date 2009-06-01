@@ -101,26 +101,30 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
         
-		$this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
+		$this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
                                                          $this, false, 'add' );
-        $this->assign( 'action', $this->_action );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         
+        $this->assign( 'action', $this->_action );
+        $this->assign('context', $this->_context );
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
 
         require_once 'CRM/Contact/BAO/Contact/Location.php';
-        list( $this->userDisplayName, 
-              $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
-        $this->assign( 'displayName', $this->userDisplayName );
-        
-        //set the post url
-        $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
-        $session =& CRM_Core_Session::singleton( ); 
-        $session->pushUserContext( $postURL );
+        if ( $this->_contactID ) {
+            list( $this->userDisplayName, 
+                  $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+            $this->assign( 'displayName', $this->userDisplayName );
+            
+            //set the post url
+            $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->pushUserContext( $postURL );
+        }
         
         //build custom data
         CRM_Custom_Form_Customdata::preProcess( $this, null, null, 1, 'Pledge', $this->_id );
@@ -169,12 +173,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         //get the pledge frequency units.
         require_once 'CRM/Core/OptionGroup.php';
         $this->_freqUnits = CRM_Core_OptionGroup::values("recur_frequency_units");
-        
-        // also set the post url
-        $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
-        $session =& CRM_Core_Session::singleton( ); 
-        $session->pushUserContext( $postURL );
+        if ( $this->_contactID ) {
+            // also set the post url
+            $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->pushUserContext( $postURL );
+        }
     }
     
     /**
@@ -278,6 +283,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                     ) 
                               );
             return;
+        }
+        
+        if ( $this->_context == 'standalone' ) {
+            require_once 'CRM/Contact/Form/NewContact.php';
+            CRM_Contact_Form_NewContact::buildQuickForm( $this );
         }
         
         $showAdditionalInfo = false;
@@ -424,9 +434,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->addButtons(array( 
                                 array ( 'type'      => 'upload', 
                                         'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'js'        => array( 'onclick' => "return verify( );" ),
                                         'isDefault' => true   ), 
+                                array ( 'type'      => 'upload',
+                                        'name'      => ts('Save and New'), 
+                                        'js'        => array( 'onclick' => "return verify( );" ),
+                                        'subName'   => 'new' ), 
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
                                 ) 
@@ -496,7 +509,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         //get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-
+        
+        // set the contact, when contact is selected
+        if ( CRM_Utils_Array::value('contact_select_id', $formValues ) ) {
+            $this->_contactID = CRM_Utils_Array::value('contact_select_id', $formValues);
+        }
+        
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
         
@@ -641,6 +659,17 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             }
         }
         CRM_Core_Session::setStatus( $statusMsg );
+        
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            if ( $this->_context == 'standalone' ) {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/pledge', 
+                                                                   'reset=1&action=add&context=standalone') );
+            } else {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/pledge', 
+                                                                   "reset=1&action=add&context=pledge&cid={$this->_contactID}") );
+            }            
+        }
     }
     
   

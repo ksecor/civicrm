@@ -1,9 +1,9 @@
-<div class="view-content">
 {if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or view *}            
     {include file="CRM/Contribute/Form/Contribution.tpl"}
 {elseif $action eq 4}
     {include file="CRM/Contribute/Form/ContributionView.tpl"}
 {else}
+<div class="view-content">
 <div id="help">
     {ts 1=$displayName}Contributions received from %1 since inception.{/ts} 
     {if $permission EQ 'edit'}
@@ -56,6 +56,6 @@
     </div>
     {include file="CRM/Contribute/Page/ContributionSoft.tpl"}
 {/if}
+</div>
 
 {/if}
-</div>

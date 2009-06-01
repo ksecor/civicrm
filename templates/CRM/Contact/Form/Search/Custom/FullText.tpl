@@ -95,12 +95,18 @@
             <table class="selector" summary="{ts}Case listings.{/ts}">
                 <tr class="columnheader">
                     <th scope="col">{ts}Client Name{/ts}</th>
+                    <th>{ts}Start Date{/ts}</th>
+                    <th>{ts}End Date{/ts}</th>
+                    <th>{ts}Case ID{/ts}</th>
                     <th>&nbsp;</th>
                 </tr>
 
                 {foreach from=$summary.Case item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
+                        <td>{$row.case_start_date|crmDate}</td>
+                        <td>{$row.case_end_date|crmDate}</td>
+                        <td>{$row.case_id}</td>
                         <td><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&id=`$row.case_id`&cid=`$row.contact_id`&action=view"}">{ts}Manage Case{/ts}</a></td>
                     </tr>
                 {/foreach}

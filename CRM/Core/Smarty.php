@@ -116,6 +116,15 @@ class CRM_Core_Smarty extends Smarty {
         require_once 'CRM/Core/Permission.php';
         $buildNavigation = CRM_Core_Permission::check( 'administer CiviCRM' );
         $this->assign('buildNavigation', $buildNavigation );
+        
+        if ( $buildNavigation ) {
+            require_once 'CRM/Core/BAO/Navigation.php';
+            $contactID = $session->get('userID');
+            if ( $contactID ) {
+                $navigation =& CRM_Core_BAO_Navigation::createNavigation( $contactID );
+                $this->assign('navigation', $navigation );
+            }
+        }
 
         $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
 

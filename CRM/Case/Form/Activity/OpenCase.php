@@ -41,14 +41,22 @@ require_once "CRM/Custom/Form/CustomData.php";
  */
 class CRM_Case_Form_Activity_OpenCase
 {
+    /**
+     * the id of the client associated with this case
+     *
+     * @var int
+     * @public
+     */
+    public $_contactID;
+    
     static function preProcess( &$form ) 
     {   
         if ( $form->_context == 'caseActivity' ) {
             return;
         }
-        $form->_createNewButtonName      = $form->getButtonName( 'next'   , 'createNew' );
-        $form->_assignExistingButtonName = $form->getButtonName( 'next'   , 'assignExisting' );
-        $form->_dedupeButtonName         = $form->getButtonName( 'refresh', 'dedupeCheck' );
+        $form->_context   = CRM_Utils_Request::retrieve( 'context', 'String', $form );
+        $form->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form );
+        $form->assign( 'context', $form->_context );
     }
 
    /**
@@ -97,7 +105,10 @@ class CRM_Case_Form_Activity_OpenCase
         if ( $form->_context == 'caseActivity' ) {
             return;
         }
-
+        if ( $form->_context == 'standalone' ) {
+            require_once 'CRM/Contact/Form/NewContact.php';
+            CRM_Contact_Form_NewContact::buildQuickForm( $form );
+        }
         require_once 'CRM/Core/OptionGroup.php';        
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
@@ -114,66 +125,6 @@ class CRM_Case_Form_Activity_OpenCase
         if ( $form->_currentlyViewedContactId ) {
             list( $displayName ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $form->_currentlyViewedContactId );
             $form->assign( 'clientName', $displayName );
-        } else {
-            $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact' );
-            $form->addElement('select', 'prefix_id', ts('Prefix'), 
-                              array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
-            $form->addElement('select', 'suffix_id', ts('Suffix'), 
-                              array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
-            $form->addElement('text',   'first_name',  ts('First Name'),  
-                              $attributes['first_name'] );
-            $form->addElement('text',   'last_name',   ts('Last Name'),   
-                              $attributes['last_name'] );
-            // radio button for gender
-            $genderOptions = array( );
-            $gender =CRM_Core_PseudoConstant::gender();
-            foreach ($gender as $key => $var) {
-                $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
-            }
-            $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
-
-            $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
-            $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');  
-            
-            //Primary Phone 
-            $locType = CRM_Core_PseudoConstant::locationType( );
-            $form->addElement('select',
-                              "location[1][location_type_id]", null,  array( '' => ts( '- location -' ) ) + $locType );
-            
-            $phoneType = CRM_Core_PseudoConstant::phoneType( );
-            
-            $form->addElement('select',
-                              "location[1][phone][1][phone_type_id]",
-                              null,
-                              array('' =>  ts('- type -'))+$phoneType,
-                              null
-                              );
-            $form->addElement('text',
-                              "location[1][phone][1][phone]", 
-                              ts('Primary Phone'),
-                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
-                                                         'phone'));
-            //Additional Phone 
-            $form->addElement('select'  , "location[2][location_type_id]", null,  array( '' => ts( '- location -' ) ) + $locType );
-            $form->addElement('select',
-                              "location[2][phone][1][phone_type_id]",
-                              null,
-                              array('' =>  ts('- type -'))+$phoneType,
-                              null
-                              );
-            $form->addElement('text',
-                              "location[2][phone][1][phone]", 
-                              ts('Additional Phone'),
-                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
-                                                         'phone'));
-            
-            
-            //Primary Email
-            $form->addElement('text', 
-                              "location[1][email][1][email]",
-                              ts('Primary Email'),
-                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
-                                                         'email'));
         }
         
         $form->add( 'date', 'start_date', ts('Case Start Date'),
@@ -190,18 +141,17 @@ class CRM_Case_Form_Activity_OpenCase
         $form->add('textarea', 'activity_details', ts('Details'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
-        $form->addElement('submit', 
-                          $form->_createNewButtonName,
-                          ts( 'Create New Client' ) );
-        
-        $form->addElement('submit', 
-                          $form->_assignExistingButtonName,
-                          ts( 'Assign Existing Client' ) );
-
-        // add the dedupe button CRM-4479
-        $form->addElement('submit', 
-                          $form->_dedupeButtonName,
-                          ts( 'Check for Duplicate Client(s)' ) );
+        $form->addButtons(array( 
+                                array ( 'type'      => 'upload', 
+                                        'name'      => ts('Save'), 
+                                        'isDefault' => true   ), 
+                                array ( 'type'      => 'upload',
+                                        'name'      => ts('Save and New'), 
+                                        'subName'   => 'new' ), 
+                                array ( 'type'      => 'cancel', 
+                                        'name'      => ts('Cancel') ), 
+                                ) 
+                          );
     }
 
     /**
@@ -215,29 +165,18 @@ class CRM_Case_Form_Activity_OpenCase
         if ( $form->_context == 'caseActivity' ) {
             return;
         }
-       
+
+        // set the contact, when contact is selected
+        if ( CRM_Utils_Array::value( 'contact_select_id', $params ) ) {
+            $params['contact_id'] = CRM_Utils_Array::value( 'contact_select_id', $params );
+        }
+        
         // create contact if cid not present
         $contactParams = $params;
         if ( !$form->_currentlyViewedContactId ) {
             $contactParams['location'][1]['is_primary'] = 1;
             $contactParams['contact_type']              = 'Individual';
             $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
-                
-            if ( $form->controller->getButtonName( ) == $form->_assignExistingButtonName ) {
-                //Dedupe couldn't recognize "email-Primary".So modify params temporary.
-                require_once 'CRM/Dedupe/Finder.php';
-                $dedupeParams = CRM_Dedupe_Finder::formatParams( $contactParams, 'Individual' );
-                $ids          = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual', 'Fuzzy' );
-                
-                // if we find more than one contact, use the first one
-                if ( is_array($ids) ) {
-                    $form->_currentlyViewedContactId = $contactParams['contact_id'] = $ids[0];
-
-                }
-                if ( !$form->_currentlyViewedContactId ) {
-                    CRM_Core_Error::fatal('Could not find existing client to link the case with.');
-                }
-            }
             
             require_once 'CRM/Contact/BAO/Contact.php';
             $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
@@ -250,7 +189,6 @@ class CRM_Case_Form_Activity_OpenCase
 
         // for open case start date should be set to current date
         $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
-
         // rename activity_location param to the correct column name for activity DAO
         $params['location'] = $params['activity_location'];
     }
@@ -270,46 +208,7 @@ class CRM_Case_Form_Activity_OpenCase
             return true;
         }
         
-        if ( CRM_Utils_Array::value( '_qf_Case_next_assignExisting', $values ) ) {
-            return true;
-        }
-
         $errors = array( );
-              
-        // if this is a forced save, ignore find duplicate rule
-        if ( ! CRM_Utils_Array::value( '_qf_Case_next_createNew', $values ) && !$form->_currentlyViewedContactId ) {
-            $contactParams = $values;
-            $contactParams['location'][1]['is_primary'] = 1;
-            $contactParams['contact_type']              = 'Individual';
-            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
-
-            require_once 'CRM/Dedupe/Finder.php';
-            $dedupeParams = CRM_Dedupe_Finder::formatParams($contactParams, 'Individual');
-            $ids          = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy');
-
-            if ( $ids ) {
-                $urls = array( );
-                foreach ($ids as $id) {
-                    $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
-                    $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
-                        '">' . $displayName . '</a>';
-                }
-                $url = implode( ', ',  $urls );
-                $errors['_qf_default'] = ts( "One matching client was found. You may choose to link the case with existing client '%1' by clicking 'Assign Existing Client', or click Create New Client button below.", 
-                                             array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can view them here: %1, or click Create New Client button below.' ) );
-                
-                // let smarty know that there are duplicates
-                $form->assign( 'isDuplicate', 1 );
-
-                if ( count($ids) == 1 ) {
-                    $form->assign( 'onlyOneDupe', 1 );
-                }
-            } else if ( CRM_Utils_Array::value( '_qf_Case_refresh_dedupeCheck', $values ) ) {
-                // add a session message for no matching contacts CRM-4479
-                CRM_Core_Session::setStatus( 'No matching contact found.' );
-            }
-        }
-
         return $errors;
     }
 
@@ -366,5 +265,17 @@ class CRM_Case_Form_Activity_OpenCase
 
         // status msg
         $params['statusMsg'] = ts('Case opened successfully.');
+        
+        $buttonName = $this->controller->getButtonName( );
+        $session =& CRM_Core_Session::singleton( ); 
+        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            if ( $this->_context == 'standalone' ) {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/case', 
+                                                                   'reset=1&action=add&context=standalone') );
+            } else {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/case', 
+                                                                   "reset=1&action=add&context=case&cid={$form->_contactID}") );
+            }            
+        }
     }
 }

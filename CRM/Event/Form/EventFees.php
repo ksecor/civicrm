@@ -363,8 +363,11 @@ class CRM_Event_Form_EventFees
             }
             $form->assign("amountId", $defaults[$form->_pId]['amount'] );
         }
-        return $defaults[$form->_pId];
 
+        //CRM-4453
+        $form->assign( 'fee_currency', $defaults[$form->_pId]['participant_fee_currency']);
+        
+        return $defaults[$form->_pId];
     }
     
     /** 

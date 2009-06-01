@@ -398,7 +398,7 @@ class CRM_Contribute_Form_AdditionalInfo
         }
         
         $form->assign_by_ref( 'formValues', $params );
-        require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         require_once 'CRM/Utils/Mail.php';
         list( $contributorDisplayName, 
               $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );

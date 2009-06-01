@@ -1,4 +1,5 @@
-{* this template is used for adding/editing/deleting grant *} 
+{* this template is used for adding/editing/deleting grant *}
+<div class="html-adjust">{$form.buttons.html}</div> 
 <fieldset>
 	{if $action eq 1}
 	<legend>{ts}New Grant{/ts}</legend>
@@ -7,6 +8,9 @@
 	{/if}
 	<div class="form-item">
 		<table class="form-layout-compressed">  
+		    {if $context eq 'standalone'}
+            	    	{include file="CRM/Contact/Form/NewContact.tpl"}
+        	    {/if}
 			<tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
 			<tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status of this grant.{/ts}</td></tr>
 			<tr><td class="label">{$form.grant_type_id.label}</td><td>{$form.grant_type_id.html}</td></tr>   
@@ -62,9 +66,7 @@
                             {include file="CRM/Form/attachment.tpl"}
                           </td>
                         </tr>
-			<tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr> 
 		</table>
 	</div>
 </fieldset>
-
-
+<div class="html-adjust">{$form.buttons.html}</div>
