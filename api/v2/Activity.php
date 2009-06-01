@@ -67,6 +67,7 @@ require_once 'api/v2/ActivityContact.php';
  *                             pairs to insert in new contact.
  * @param string $activity_type Which class of contact is being created.
  *            Valid values = 'SMS', 'Meeting', 'Event', 'PhoneCall'.
+ * {@schema Activity/Activity.xml}
  *                            
  * @return CRM_Activity|CRM_Error Newly created Activity object
  * 

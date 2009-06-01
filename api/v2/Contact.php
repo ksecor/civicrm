@@ -36,6 +36,20 @@
 
 require_once 'api/v2/utils.php';
 
+/**
+ * TODO
+ *
+ * @param  array   $params           (reference ) input parameters
+ *
+ * Allowed @params array keys are:
+ * {@schema Contact/Contact.xml}
+ * {@schema Core/Address.xml}}
+ *
+ * @return array (reference )        contact_id of created or updated contact
+ *
+ * @static void
+ * @access public
+ */
 function civicrm_contact_create( &$params ) {
     // call update and tell it to create a new contact
     $create_new = true;
