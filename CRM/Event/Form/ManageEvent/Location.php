@@ -87,15 +87,20 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */
     function setDefaultValues( ) 
     {
-        $eventId = $this->_id;
-
         $defaults = array( );
-        if ( isset( $eventId ) ) {
-            $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
+
+        if (isset($this->_id) or $this->_templateId) {
+            if ($this->_action & CRM_Core_Action::ADD) {
+                $id = $this->_templateId;
+            } else {
+                $id = $this->_id;
+            }
+
+            $params = array('entity_id' => $id, 'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults);
             
-            $params = array( 'id' => $eventId );
+            $params = array('id' => $id);
             CRM_Event_BAO_Event::retrieve( $params, $defaults );
             if ( CRM_Utils_Array::value( 'loc_block_id', $defaults ) ) {
                 $defaults['loc_event_id'] = $defaults['loc_block_id'];
@@ -103,6 +108,12 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                 if ( $countLocUsed > 1 ) {
                     $this->assign('locUsed', true);
                 }
+            }
+
+            if ($this->_templateId) {
+                $defaults['is_template'] = $this->_isTemplate;
+                $defaults['template_id'] = $defaults['id'];
+                unset($defaults['id']);
             }
         }
        
