@@ -69,24 +69,18 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     function setDefaultValues( ) 
     {
-        if (isset($this->_id) or $this->_templateId) {
-            if ($this->_action & CRM_Core_Action::ADD) {
-                $id = $this->_templateId;
-            } else {
-                $id = $this->_id;
-            }
-        }
+        $eventId = $this->_id;
 
         $defaults = parent::setDefaultValues( );
 
         $this->setShowHide( $defaults );
-        if ( isset( $id ) ) {
-            $params = array( 'id' => $id );
+        if ( isset( $eventId ) ) {
+            $params = array( 'id' => $eventId );
             CRM_Event_BAO_Event::retrieve( $params, $defaults );
             
             require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',
-                                   'entity_id'    => $id );
+                                   'entity_id'    => $eventId );
 
             list( $defaults['custom_pre_id'],
                   $defaults['custom_post_id'] ) = 
@@ -101,12 +95,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $defaults['thankyou_title'] = 'Thank You for Registering';
         }
         
-        if ($this->_templateId) {
-            $defaults['is_template'] = $this->_isTemplate;
-            $defaults['template_id'] = $defaults['id'];
-            $defaults['id'] = $this->_id;
-        }
-
         return $defaults;
     }   
     

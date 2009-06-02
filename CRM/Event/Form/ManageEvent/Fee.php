@@ -85,29 +85,23 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     {  
         $parentDefaults = parent::setDefaultValues( );
         
-        if (isset($this->_id) or $this->_templateId) {
-            if ($this->_action & CRM_Core_Action::ADD) {
-                $id = $this->_templateId;
-            } else {
-                $id = $this->_id;
-            }
-        }
+        $eventId = $this->_id;
         $params   = array( );
         $defaults = array( );
-        if ( isset( $id ) ) {
-            $params = array( 'id' => $id );
+        if ( isset( $eventId ) ) {
+            $params = array( 'id' => $eventId );
         }
         
         CRM_Event_BAO_Event::retrieve( $params, $defaults );
                
-        if ( isset( $id ) ) {
+        if ( isset( $eventId ) ) {
             require_once 'CRM/Core/BAO/PriceSet.php';
-            $price_set_id = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $id );
+            $price_set_id = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventId );
             if ( $price_set_id ) {
                 $defaults['price_set_id'] = $price_set_id;
             } else {
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$id}", $defaults );
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventId}", $defaults );
             }
         }
         
@@ -128,7 +122,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 $defaults["discount_end_date[$i]"] =
                     CRM_Utils_Date::unformat(CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $optionGroupId, 
                                                                           'end_date', 'option_group_id' ));
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$id}.discount.{$name}", $defaultDiscounts[] );
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventId}.discount.{$name}", $defaultDiscounts[] );
                 $i++;
             }
             //avoid moving up value of lable when some labels don't
@@ -179,7 +173,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         }
         
         $defaults = array_merge( $defaults, $parentDefaults );
-        $defaults['id'] = $id;
+        $defaults['id'] = $eventId;
         
         if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
             foreach ( $defaults['value'] as $i => $v ) {
@@ -236,12 +230,6 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $this->_showHide->addToTemplate( );
         $this->assign('inDate', $this->_inDate );
        
-        if ($this->_templateId) {
-            $defaults['is_template'] = $this->_isTemplate;
-            $defaults['template_id'] = $defaults['id'];
-            $defaults['id'] = $this->_id;
-        }
-
         return $defaults;
     }
     

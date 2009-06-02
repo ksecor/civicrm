@@ -64,14 +64,9 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
     {   
         $defaults = array( );         
         
-        if (isset($this->_id) or $this->_templateId) {
-            if ($this->_action & CRM_Core_Action::ADD) {
-                $id = $this->_templateId;
-            } else {
-                $id = $this->_id;
-            }
+        if ( isset($this->_id)  ) {
             $defaults['entity_table'] = 'civicrm_event';            
-            $defaults['entity_id']    = $id;
+            $defaults['entity_id']    = $this->_id; 
             CRM_Friend_BAO_Friend::getValues($defaults);
             $this->_friendId = CRM_Utils_Array::value( 'id', $defaults );
         } 
