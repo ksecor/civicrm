@@ -185,7 +185,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
-    { 
+    {      
         // always cal status if is_override/skipStatusCal is not true.
         // giving respect to is_override during import.  CRM-4012
         
@@ -1035,6 +1035,16 @@ AND civicrm_membership.is_test = %2";
         //get all active statuses of membership.
         require_once 'CRM/Member/PseudoConstant.php';
         $allStatus = CRM_Member_PseudoConstant::membershipStatus( );
+
+        // check is it pending. - CRM-4555
+        $pending = false;
+        if ( ( $form->_contributeMode == 'notify' || $form->_params['is_pay_later'] ) &&
+             ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
+            $pending = true;
+        }
+        
+        //decide status here, if needed.
+        $updateStatusId = null;
         
         if ( $currentMembership = 
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test, $form->_membershipId ) ) {
@@ -1129,18 +1139,16 @@ AND civicrm_membership.is_test = %2";
                     $ids['membership'] = $currentMembership['id'];
                 }
             }
-        } else {
-            $activityType = 'Membership Signup';
-            // NEW Membership
-            $pending = false;
-            if ( ($form->_contributeMode == 'notify' || $form->_params['is_pay_later']) &&
-                 ($form->_values['is_monetary'] && $form->_amount > 0.0) ) {
-                $pending = true;
+            //CRM-4555
+            if ( $pending ) {
+                $updateStatusId = array_search( 'Pending', $allStatus );
             }
-
-            $memParams                       = array( );
-            $memParams['contact_id']         = $contactID;
-            $memParams['membership_type_id'] = $membershipTypeID;
+        } else {
+            // NEW Membership
+            
+            $activityType = 'Membership Signup';
+            $memParams    = array( 'contact_id'         => $contactID, 
+                                   'membership_type_id' => $membershipTypeID );
             
             if ( !$pending ) {
                 require_once 'CRM/Member/BAO/MembershipType.php';  
@@ -1154,17 +1162,7 @@ AND civicrm_membership.is_test = %2";
                     CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
                 $memParams['reminder_date'] = 
                     CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'reminder_date', $dates ), $format );
-            }
-
-            $memParams['is_test']       = $is_test;
-
-            if ( CRM_Utils_Array::value( 'membership_source', $form->_params ) ) {
-                $memParams['source'  ]  = $form->_params['membership_source'];
-            } else {
-                $memParams['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-            }
-            
-            if ( !$pending ) {
+                
                 require_once 'CRM/Member/BAO/MembershipStatus.php';
                 $status =
                     CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat( $dates['start_date'],
@@ -1175,19 +1173,30 @@ AND civicrm_membership.is_test = %2";
                                                                                                               $statusFormat ),
                                                                                 'today', true
                                                                                 );
+                $updateStatusId = CRM_Utils_Array::value( 'id', $status );
             } else {
                 // if IPN/Pay-Later set status to: PENDING
-                $status = array( 'id' => array_search( 'Pending', $allStatus ) );
+                $updateStatusId = array_search( 'Pending', $allStatus ); 
             }
             
-            $memParams['status_id']     = $status['id'];
+            if ( CRM_Utils_Array::value( 'membership_source', $form->_params ) ) {
+                $memParams['source'  ]  = $form->_params['membership_source'];
+            } else {
+                $memParams['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+            }
             
-            //as we are giving status to pending and want to
-            //skip status cal in create(); so need to pass 'skipStatusCal' 
-            $memParams['skipStatusCal'] = true;
+            $memParams['is_test']       = $is_test;
             $memParams['is_pay_later']  = $form->_params['is_pay_later'];
         }
-            
+        
+        //CRM-4555
+        //if we decided status here and want to skip status
+        //calculation in create( ); than need to pass 'skipStatusCal'.
+        if ( $updateStatusId ) {
+            $memParams['status_id']     = $updateStatusId;
+            $memParams['skipStatusCal'] = true;
+        }
+        
         // create / renew membership
         $ids['userId'] = $contactID;
         
