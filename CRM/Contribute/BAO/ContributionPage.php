@@ -103,9 +103,9 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         $params = array( );
         if ( isset( $values['custom_pre_id'] ) ) {
             $preProfileType = CRM_Core_BAO_UFField::getProfileType( $values['custom_pre_id'] );
-            if ( $preProfileType == 'Membership' ) {
+            if ( $preProfileType == 'Membership' && CRM_Utils_Array::value( 'membership_id', $values )  ) {
                 $params['custom_pre_id'] = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
-            } else if ( $preProfileType == 'Contribution' ) {
+            } else if ( $preProfileType == 'Contribution' && CRM_Utils_Array::value( 'contribution_id', $values ) ) {
                 $params['custom_pre_id'] = array( array( 'contribution_id', '=', $values['contribution_id'], 0, 0 ) );
             }
             
@@ -114,12 +114,12 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
         if ( isset( $values['custom_post_id'] ) ) {
             $postProfileType = CRM_Core_BAO_UFField::getProfileType( $values['custom_post_id'] );
-            if ( $postProfileType == 'Membership' ) {
+            if ( $postProfileType == 'Membership' && CRM_Utils_Array::value( 'membership_id', $values ) ) {
                 $params['custom_post_id'] = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
-            } else if ( $postProfileType == 'Contribution' ) {
+            } else if ( $postProfileType == 'Contribution' && CRM_Utils_Array::value( 'contribution_id', $values ) ) {
                 $params['custom_post_id'] = array( array( 'contribution_id', '=', $values['contribution_id'], 0, 0 ) );
             }
-
+            
             $gIds['custom_post_id'] = $values['custom_post_id'];
         }
         
