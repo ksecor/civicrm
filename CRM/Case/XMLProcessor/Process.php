@@ -145,7 +145,7 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         }
     }
 
-    function &caseRoles( $caseRolesXML ) {
+    function &caseRoles( $caseRolesXML, $isCaseManager = false ) {
         $relationshipTypes =& $this->allRelationshipTypes( );
 
         $result = array( );
@@ -158,6 +158,12 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
                     continue;
                 }
                 $result[$relationshipTypeID] = $relationshipTypeName;
+
+                if ( !$isCaseManager ) {    
+                    $result[$relationshipTypeID] = $relationshipTypeName;
+                } else if ( $relationshipTypeXML->manager ) {
+                    return $relationshipTypeID;
+                }
             }
         }
         return $result;
@@ -415,5 +421,10 @@ AND        ca.case_id = %3
 
         $activityInstances = $this->activityTypes( $xml->ActivityTypes, true );
         return $activityTypeName ? $activityInstances[$activityTypeName] : $activityInstances;
+    }
+
+    function getCaseManagerRole( $caseType ) {
+        $xml = $this->retrieve( $caseType );
+        return $this->caseRoles( $xml->CaseRoles, true );
     }
 }

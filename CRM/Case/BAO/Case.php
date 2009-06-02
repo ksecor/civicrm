@@ -599,6 +599,9 @@ AND civicrm_case.is_deleted     = 0";
             $permission = CRM_Core_Permission::EDIT;
         }
         
+        require_once 'CRM/Case/XMLProcessor/Process.php';
+        $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
+        
         $mask = CRM_Core_Action::mask( $permission );
         while ( $result->fetch() ) {
             foreach( $resultFields as $donCare => $field ) {
@@ -611,6 +614,26 @@ AND civicrm_case.is_deleted     = 0";
                                                      array( 'id'  => $result->case_id,
                                                             'cid' => $result->contact_id,
                                                             'cxt' => 'dashboard' ) );
+                }
+            }
+
+            $managerRoleId = $xmlProcessor->getCaseManagerRole( $result->case_type );
+          
+            if ( !empty($managerRoleId) ) {
+                $managerRoleQuery = "
+SELECT civicrm_contact.id as casemanager_id, 
+       civicrm_contact.sort_name as casemanager
+FROM civicrm_contact 
+LEFT JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = civicrm_contact.id AND civicrm_relationship.relationship_type_id = %1)
+LEFT JOIN civicrm_case ON civicrm_case.id = civicrm_relationship.case_id
+WHERE civicrm_case.id = %2";
+
+                $managerRoleParams = array( 1 => array( $managerRoleId  , 'Integer' ),
+                                            2 => array( $result->case_id, 'Integer' ) );
+                $dao = CRM_Core_DAO::executeQuery( $managerRoleQuery, $managerRoleParams );
+                if ( $dao->fetch() ) {
+                    $casesList[$result->case_id]['casemanager_id'] = $dao->casemanager_id;
+                    $casesList[$result->case_id]['casemanager'   ] = $dao->casemanager;
                 }
             }
         }

@@ -9,6 +9,7 @@
     <th>{ts}Status{/ts}</th>
     <th>{ts}Type{/ts}</th>
     <th>{ts}My Role{/ts}</th>
+    <th>{ts}Case Manager{/ts}</th>      
     <th>{if $list EQ 'upcoming'}{ts}Next Scheduled Activity{/ts}{else}{ts}Most Recent Activity{/ts}{/if}</th>
 
     <th></th>
@@ -41,7 +42,7 @@
     <td>{$row.case_status}</td>
     <td>{$row.case_type}</td>
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
-
+    <td>{if $row.casemanager_id}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.casemanager_id`"}">{$row.casemanager}</a>{else}---{/if}</td>
     {if $list eq 'upcoming'}
         <td><a href="javascript:viewActivity({$row.case_scheduled_activity_id}, {$row.contact_id});" title="{ts}View this activity.{/ts}">{$row.case_scheduled_activity_type}</a>&nbsp;&nbsp;<a href="{crmURL p="civicrm/case/activity" q="reset=1&cid=`$row.contact_id`&caseid=`$row.case_id`&action=update&id=`$row.case_scheduled_activity_id`"}" title="{ts}Edit this activity.{/ts}"><img src="{$config->resourceBase}i/edit.png" border="0"></a><br />
             {$row.case_scheduled_activity_date|crmDate}
