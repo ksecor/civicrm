@@ -124,7 +124,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
         $caseRoles     = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
         //adding case manager.CRM-4510.
-        $managerRoleId = $xmlProcessor->getCaseManagerRole( $this->_caseType );
+        $managerRoleId = $xmlProcessor->getCaseManagerRoleId( $this->_caseType );
         if ( !empty($managerRoleId) ) {
             $caseRoles[$managerRoleId] = $caseRoles[$managerRoleId].'<br />'.'('.ts('Case Manager').')';
         } 

@@ -598,10 +598,7 @@ AND civicrm_case.is_deleted     = 0";
         if ( CRM_Core_Permission::check( 'edit cases' ) ) {
             $permission = CRM_Core_Permission::EDIT;
         }
-        
-        require_once 'CRM/Case/XMLProcessor/Process.php';
-        $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
-        
+                
         $mask = CRM_Core_Action::mask( $permission );
         while ( $result->fetch() ) {
             foreach( $resultFields as $donCare => $field ) {
@@ -616,28 +613,14 @@ AND civicrm_case.is_deleted     = 0";
                                                             'cxt' => 'dashboard' ) );
                 }
             }
-
-            $managerRoleId = $xmlProcessor->getCaseManagerRole( $result->case_type );
-          
-            if ( !empty($managerRoleId) ) {
-                $managerRoleQuery = "
-SELECT civicrm_contact.id as casemanager_id, 
-       civicrm_contact.sort_name as casemanager
-FROM civicrm_contact 
-LEFT JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = civicrm_contact.id AND civicrm_relationship.relationship_type_id = %1)
-LEFT JOIN civicrm_case ON civicrm_case.id = civicrm_relationship.case_id
-WHERE civicrm_case.id = %2";
-
-                $managerRoleParams = array( 1 => array( $managerRoleId  , 'Integer' ),
-                                            2 => array( $result->case_id, 'Integer' ) );
-                $dao = CRM_Core_DAO::executeQuery( $managerRoleQuery, $managerRoleParams );
-                if ( $dao->fetch() ) {
-                    $casesList[$result->case_id]['casemanager_id'] = $dao->casemanager_id;
-                    $casesList[$result->case_id]['casemanager'   ] = $dao->casemanager;
-                }
-            }
+            //CRM-4510.
+            $caseManagerContact = self::getCaseManagerContact( $result->case_type, $result->case_id );
+            if ( !empty($caseManagerContact) ) {
+                $casesList[$result->case_id]['casemanager_id'] = CRM_Utils_Array::value('casemanager_id', $caseManagerContact );
+                $casesList[$result->case_id]['casemanager'   ] = CRM_Utils_Array::value('casemanager'   , $caseManagerContact );              
+            } 
         }
-
+        
         return $casesList;        
     }
 
@@ -1477,6 +1460,51 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         
         require_once "CRM/Activity/BAO/Activity.php";
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+    }
+
+    /**
+     * Function to get case manger 
+     * contact which is assigned a case role of case manager. 
+     *
+     * @param int    $caseType case type
+     * @param int    $caseId   case id
+     *
+     * @return array $caseManagerContact array of contact on success otherwise empty 
+     *
+     * @static
+     */
+    static function getCaseManagerContact( $caseType, $caseId )
+    {
+        if ( !$caseType || !$caseId ) {
+            return;
+        }
+        
+        $caseManagerContact = array( );
+        require_once 'CRM/Case/XMLProcessor/Process.php';
+        $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
+        
+        $managerRoleId = $xmlProcessor->getCaseManagerRoleId( $caseType );
+        
+        if ( !empty($managerRoleId) ) {
+            $managerRoleQuery = "
+SELECT civicrm_contact.id as casemanager_id, 
+       civicrm_contact.sort_name as casemanager
+FROM civicrm_contact 
+LEFT JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = civicrm_contact.id AND civicrm_relationship.relationship_type_id = %1)
+LEFT JOIN civicrm_case ON civicrm_case.id = civicrm_relationship.case_id
+WHERE civicrm_case.id = %2";
+            
+            $managerRoleParams = array( 1 => array( $managerRoleId  , 'Integer' ),
+                                        2 => array( $caseId         , 'Integer' ) );
+
+            $dao = CRM_Core_DAO::executeQuery( $managerRoleQuery, $managerRoleParams );
+            if ( $dao->fetch() ) {
+                    $caseManagerContact['casemanager_id'] = $dao->casemanager_id;
+                    $caseManagerContact['casemanager'   ] = $dao->casemanager;
+            }
+        }
+        
+        return $caseManagerContact; 
     }
 }
 

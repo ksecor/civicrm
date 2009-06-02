@@ -70,6 +70,7 @@
     <td>{$row.case_status_id}</td>
     <td>{$row.case_type_id}</td>
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
+    <td>{if $row.casemanager_id}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.casemanager_id`"}">{$row.casemanager}</a>{else}---{/if}</td>
     <td>{if $row.case_recent_activity_type}
 	{$row.case_recent_activity_type}<br />{$row.case_recent_activity_date|crmDate}{else}---{/if}</td>
     <td>{if $row.case_scheduled_activity_type}

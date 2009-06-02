@@ -422,7 +422,7 @@ AND        ca.case_id = %3
         return $activityTypeName ? $activityInstances[$activityTypeName] : $activityInstances;
     }
 
-    function getCaseManagerRole( $caseType ) {
+    function getCaseManagerRoleId( $caseType ) {
         $xml = $this->retrieve( $caseType );
         return $this->caseRoles( $xml->CaseRoles, true );
     }
