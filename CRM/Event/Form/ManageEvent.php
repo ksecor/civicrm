@@ -91,15 +91,10 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         $this->_single = $this->get( 'single' );
 
-        // figure out whether we’re handling an event or an event template
-        if ($this->_id) {
-            $this->_isTemplate = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
-        } elseif ($this->_action & CRM_Core_Action::ADD) {
-            $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
-        }
+        $this->_isTemplate = (bool) CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
         $this->assign('isTemplate', $this->_isTemplate);
 
-        $this->_templateId = CRM_Utils_Request::retrieve('template_id', 'Integer', $this);
+        $this->_templateId = (int) CRM_Utils_Request::retrieve('template_id', 'Integer', $this);
 
         if ($this->_isTemplate) {
             $breadCrumb = array(array('title' => ts('Event Templates'),
