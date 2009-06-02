@@ -89,16 +89,17 @@
                   &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
                {/if}
              {/if}
+             {*CRM-4564*}
+             {if $field.html_type eq 'Radio' && $form.$fieldName.frozen neq true}
+                 <span style="line-height: .75em; margin-top: 1px;">
+                  &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
+                 </span>
+             {/if}  
              {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
              {if $field.help_post && $action neq 4 && $action neq 1028}
                 <br /><span class="description">{$field.help_post}</span> 
              {/if} 
            </td>
-           {if $field.html_type eq 'Radio' && $form.$fieldName.frozen neq true}
-           <td style="line-height: .75em; margin-top: 1px;">
-               &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
-           </td>
-           {/if}
         </tr> 
     {/if}     
     {/foreach} 
