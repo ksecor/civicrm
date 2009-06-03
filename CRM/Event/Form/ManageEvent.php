@@ -183,9 +183,6 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         }
 
         $this->add('hidden', 'is_template', $this->_isTemplate);
-        if ($this->_templateId and !isset($this->_elementIndex['template_id'])) {
-            $this->add('hidden', 'template_id', $this->_templateId);
-        }
     }
 }
 
