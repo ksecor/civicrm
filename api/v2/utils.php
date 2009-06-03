@@ -25,24 +25,40 @@
 */
 
 /**
+ * File for CiviCRM APIv2 utilitity functions
  *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
+/**
+ *
+ */
 function _civicrm_initialize( ) 
 {
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton( );
 }
 
+/**
+ *
+ * @param <type> $msg
+ * @param <type> $data
+ * @return <type>
+ */
 function &civicrm_create_error( $msg, $data = null ) 
 {
     return CRM_Core_Error::createAPIError( $msg, $data );
 }
 
+/**
+ *
+ * @param <type> $result
+ * @return <type>
+ */
 function civicrm_create_success( $result = 1 ) 
 {
     return CRM_Core_Error::createAPISuccess( $result );
@@ -86,6 +102,13 @@ function civicrm_error( $params )
     return false;
 }
 
+/**
+ *
+ * @param <type> $fields
+ * @param <type> $params
+ * @param <type> $values
+ * @return <type>
+ */
 function _civicrm_store_values( &$fields, &$params, &$values ) 
 {
     $valueFound = false;
@@ -456,6 +479,11 @@ function _civicrm_required_formatted_contact(&$params)
     return civicrm_create_error('Missing required fields');
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function _civicrm_duplicate_formatted_contact(&$params) 
 {
     $id = CRM_Utils_Array::value( 'id', $params );
@@ -541,6 +569,13 @@ function _civicrm_validate_formatted_contact(&$params)
     return civicrm_create_success( true );
 }
 
+/**
+ *
+ * @param <type> $params
+ * @param <type> $values
+ * @param <type> $extends
+ * @param <type> $entityId 
+ */
 function _civicrm_custom_format_params( &$params, &$values, $extends, $entityId = null )
 {
     $values['custom'] = array();

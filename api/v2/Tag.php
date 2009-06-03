@@ -25,15 +25,17 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 tag functions
  *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id: Contribute.php 9526 2007-05-12 19:36:28Z deepak $
- *
+ * @version $Id: Contribute.php 9526 2007-05-12 19:36:28Z deepak $
  */
 
+/**
+ * Include utility functions
+ */
 require_once 'api/v2/utils.php';
 
 /**

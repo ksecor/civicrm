@@ -26,15 +26,12 @@
 */
 
 /**
+ * File for the CiviCRM APIv2 membership functions
  *
- * Definition of CRM API for Membership.
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
- *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
@@ -74,21 +71,41 @@ function civicrm_membership_delete(&$membershipID)
     return $result ? civicrm_create_success( ) : civicrm_create_error('Error while deleting Membership');
 }
 
-# Deprecated compatilibility wrappers
+/**
+ *
+ * @param <type> $contactID
+ * @return <type>
+ * @deprecated compatilibility wrappers
+ */
 function civicrm_contact_memberships_get(&$contactID)
 {
     return civicrm_membership_contact_get($contactID);
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function civicrm_contact_membership_create(&$params)
 {
     return civicrm_membership_contact_create($params);
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function civicrm_membership_types_get(&$params) {
     return civicrm_membership_type_get($params);
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type> 
+ */
 function civicrm_membership_statuses_get(&$params) {
     return civicrm_membership_status_get($params);
 }

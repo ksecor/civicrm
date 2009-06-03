@@ -26,13 +26,17 @@
 */
 
 /**
+ * File for the CiviCRM APIv2 location functions
  *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
- *
+ * @version $Id$
  */
 
+/**
+ * Include utility functions
+ */
 require_once 'api/v2/utils.php';
 
 /**
@@ -166,6 +170,12 @@ function civicrm_location_get( $contact ) {
     return $location;
 }
 
+/**
+ *
+ * @param <type> $params
+ * @param <type> $locationTypeId
+ * @return <type>
+ */
 function _civicrm_location_add( &$params ,$locationTypeId) {
     
     // Get all existing locations.
@@ -291,6 +301,12 @@ function _civicrm_location_add( &$params ,$locationTypeId) {
     return civicrm_create_success( $locArray );
 }
 
+/**
+ *
+ * @param <type> $params
+ * @param <type> $locationArray
+ * @return <type>
+ */
 function _civicrm_location_update( $params,$locationArray ) {
     $values = array(
                     'contact_id'    => $params['contact_id'],
@@ -391,6 +407,11 @@ function _civicrm_location_update( $params,$locationArray ) {
     return civicrm_create_success( $locArray );
 }
 
+/**
+ *
+ * @param <type> $contact
+ * @return <type>
+ */
 function _civicrm_location_delete( &$contact ) {
     require_once 'CRM/Core/DAO/LocationType.php';
     $locationTypeDAO     =& new CRM_Core_DAO_LocationType( );
@@ -406,6 +427,12 @@ function _civicrm_location_delete( &$contact ) {
     return null;
 }
 
+/**
+ *
+ * @param <type> $contact
+ * @param <type> $location_types
+ * @return <type>
+ */
 function &_civicrm_location_get( $contact, $location_types ) {
     $params                    = array();
     $params['contact_id']      = $contact['contact_id'];
@@ -448,6 +475,11 @@ function &_civicrm_location_get( $contact, $location_types ) {
     }
 }
 
+/**
+ *
+ * @param <type> $locObject
+ * @return <type> 
+ */
 function &_civicrm_location_object_to_array( $locObject ) {
     
     // building location array

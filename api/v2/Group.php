@@ -25,13 +25,16 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 group functions
  *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id: GroupContact.php 12458 2007-11-30 17:00:08Z shot $
- *
+ * @version $Id: GroupContact.php 12458 2007-11-30 17:00:08Z shot $
+ */
+
+/**
+ * Include utility functions
  */
 require_once 'CRM/Contact/BAO/Group.php';
 require_once 'api/v2/utils.php';

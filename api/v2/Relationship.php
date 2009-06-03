@@ -25,15 +25,18 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 relationship functions
  *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id: Contribute.php 10015 2007-06-17 22:00:12Z lobo $
+ * @version $Id: Contribute.php 10015 2007-06-17 22:00:12Z lobo $
  *
  */
 
+/**
+ * Include utility functions
+ */
 require_once 'api/v2/utils.php';
 require_once 'CRM/Contact/BAO/Relationship.php';
 require_once 'CRM/Contact/BAO/RelationshipType.php';

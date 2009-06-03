@@ -25,12 +25,12 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 user framework group functions
  *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
@@ -38,7 +38,6 @@
 /**
  * Files required for this package
  */
-
 require_once 'api/v2/utils.php'; 
 require_once 'CRM/Core/BAO/UFGroup.php';
 

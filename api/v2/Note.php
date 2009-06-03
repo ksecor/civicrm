@@ -26,15 +26,12 @@
 */
 
 /**
+ * File for the CiviCRM APIv2 note functions
  *
- * Definition of CRM API for Participant.
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
- *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
@@ -43,6 +40,7 @@
  */
 require_once 'api/v2/utils.php';
 require_once 'CRM/Core/BAO/Note.php';
+
 /**
  * Create Note
  *  

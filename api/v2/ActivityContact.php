@@ -26,14 +26,12 @@
 */
 
 /**
- * Definition of the ActivityContact part of the CRM API. 
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
+ * File for the CiviCRM APIv2 activity contact functions
  *
- * @package CRM
+ * @package CiviCRM
+ * @subpackage APIv2
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
  
