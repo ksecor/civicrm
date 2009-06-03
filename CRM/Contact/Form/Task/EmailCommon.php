@@ -186,6 +186,8 @@ class CRM_Contact_Form_Task_EmailCommon
             $selectEmails[$k] = htmlspecialchars( $selectEmails[$k] );
         }
         $form->add( 'select', 'fromEmailAddress', ts('From'), $selectEmails, true );
+        $form->add( 'text', 'cc_id', ts('CC') );
+        $form->add( 'text', 'bcc_id', ts('BCC') );
         require_once "CRM/Mailing/BAO/Mailing.php";
         CRM_Mailing_BAO_Mailing::commonCompose( $form );
         
@@ -258,7 +260,7 @@ class CRM_Contact_Form_Task_EmailCommon
     static function postProcess( &$form ) 
     {
         $formValues = $form->controller->exportValues( $form->getName( ) );
-
+        
         $emailAddress = null;
         if ( $form->_single ) {
             $emailAddress = $formValues['to'];
@@ -267,6 +269,8 @@ class CRM_Contact_Form_Task_EmailCommon
         $from = CRM_Utils_Array::value( $fromEmail, $form->_fromEmails );
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form, false );
+        $cc  = CRM_Utils_Array::value( 'cc_id' , $formValues );
+        $bcc = CRM_Utils_Array::value( 'bcc_id', $formValues );
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         if ( $form->_noEmails ) {
             $emailAddress = $formValues['emailAddress'];
@@ -373,7 +377,9 @@ class CRM_Contact_Form_Task_EmailCommon
                                                   $emailAddress,
                                                   null,
                                                   $from,
-                                                  $attachments );
+                                                  $attachments,
+                                                  $cc,
+                                                  $bcc );
 
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));

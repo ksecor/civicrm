@@ -401,21 +401,38 @@ WHERE sort_name LIKE '%$name%'";
         }
         exit();
     }
-    
-    /**
-     *  Function to get email address of a contact
-     */
+   
+   /**
+    *  Function to get email address of a contact
+    */
     static function getContactEmail( ) {
         require_once 'CRM/Utils/Type.php';
-        $contactID      = CRM_Utils_Type::escape( $_POST['contact_id'], 'Positive' );
-        require_once 'CRM/Contact/BAO/Contact/Location.php';
-        list( $displayName, 
-            $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
-        
-        if ( $userEmail ) {
-            echo $userEmail;
+        if( CRM_Utils_Array::value( 'contact_id', $_POST ) ) {
+            $contactID = CRM_Utils_Type::escape( $_POST['contact_id'], 'Positive' );
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
+            list( $displayName, 
+                  $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+            if ( $userEmail ) {
+                echo $userEmail;
+            }
+        } else {
+            $name  = CRM_Utils_Type::escape( $_GET['name'], 'String' );
+            $query="
+SELECT sort_name name, ce.email, cc.id
+FROM civicrm_email ce LEFT JOIN civicrm_contact cc ON cc.id = ce.contact_id
+WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.sort_name LIKE '%$name%';";
+            
+            $dao = CRM_Core_DAO::executeQuery( $query );
+            
+            while( $dao->fetch( ) ) {
+                $result[]= array( 'name' => '"'.$dao->name.'" < '.$dao->email.' >',
+                                  'id'   => '"'.$dao->name.'" < '.$dao->email.' >' );
+            }
+            if( $result ) {
+                echo json_encode( $result );
+            }
         }
-        
         exit();    
-    }
+    } 
+   
 }

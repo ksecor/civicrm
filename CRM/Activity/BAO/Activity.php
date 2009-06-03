@@ -746,7 +746,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                $emailAddress,
                                $userID = null,
                                $from = null,
-                               $attachments = null ) 
+                               $attachments = null,
+                               $cc = null,
+                               $bcc = null) 
     {        
         if ( $userID == null ) {
             $session =& CRM_Core_Session::singleton( );
@@ -922,7 +924,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                     $tokenHtml,
                                     $emailAddress,
                                     $activity->id,
-                                    $attachments ) ) {
+                                    $attachments,
+                                    $cc,
+                                    $bcc) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;
@@ -946,7 +950,17 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function sendMessage( $from, $fromID, $toID, &$subject, &$text_message, &$html_message, $emailAddress, $activityID, $attachments = null ) 
+    static function sendMessage( $from, 
+                                 $fromID, 
+                                 $toID, 
+                                 &$subject, 
+                                 &$text_message, 
+                                 &$html_message, 
+                                 $emailAddress, 
+                                 $activityID, 
+                                 $attachments = null,
+                                 $cc = null, 
+                                 $bcc = null ) 
     {
         list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toID );
         if ( $emailAddress ) {
@@ -963,11 +977,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         
         if ( ! CRM_Utils_Mail::send( $from,
-                                     $toDisplayName, $toEmail,
+                                     $toDisplayName,
+                                     $toEmail,
                                      $subject,
                                      $text_message,
-                                     null,
-                                     null,
+                                     $cc,
+                                     $bcc,
                                      null,
                                      $html_message,
                                      $attachments ) ) {
