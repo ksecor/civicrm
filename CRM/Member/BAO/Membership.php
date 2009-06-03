@@ -1051,10 +1051,11 @@ AND civicrm_membership.is_test = %2";
             $activityType = 'Membership Renewal';
             $form->set("renewal_mode", true );
             
-            // Do NOT do anything to membership with status : PENDING/CANCELLED (CRM-2395)
-            if ( in_array($currentMembership['status_id'],  array( array_search( 'Pending', $allStatus ),
-                                                                   array_search( 'Cancelled', $allStatus ) ) ) ||
-                 $form->_contributeMode == 'notify' ) {
+            // Do NOT do anything.
+            //1. membership with status : PENDING/CANCELLED (CRM-2395)
+            //2. Paylater/IPN renew. CRM-4556.
+            if ( $pending || in_array($currentMembership['status_id'], array( array_search( 'Pending', $allStatus ),
+                                                                              array_search( 'Cancelled', $allStatus ) ) ) ) {
                 $membership =& new CRM_Member_DAO_Membership();
                 $membership->id = $currentMembership['id'];
                 $membership->find(true);
