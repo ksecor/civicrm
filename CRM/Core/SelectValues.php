@@ -301,8 +301,8 @@ class CRM_Core_SelectValues
             $config =& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Drupal' ) {
                 $ufGroupType += array(
-                                      'User Registration' => ts('User Registration'),
-                                      'User Account'      => ts('View/Edit User Account') );
+                                      'User Registration' => ts('Drupal User Registration'),
+                                      'User Account'      => ts('View/Edit Drupal User Account') );
             }
         }
         return $ufGroupType;
