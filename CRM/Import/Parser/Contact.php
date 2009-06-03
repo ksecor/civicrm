@@ -626,7 +626,17 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                                                           $params[$key]['external_identifier'],'id',
                                                                           'external_identifier' );
                     }                    
-                    
+                    // check for valid related contact id in update/fill mode, CRM-4424
+                    if ( in_array( $onDuplicate, array( CRM_Import_Parser::DUPLICATE_UPDATE, CRM_Import_Parser::DUPLICATE_FILL ) ) && CRM_Utils_Array::value( 'id', $params[$key] ) ) {
+                        $relatedContactType  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                            $params[$key]['id'],
+                                                                            'contact_type' );
+                        if ( ! $relatedContactType ) {
+                            $errorMessage = ts( "No contact found for this related contact ID: %1", array( 1 => $params[$key]['id'] ) );
+                            array_unshift($values, $errorMessage);
+                            return CRM_Import_Parser::NO_MATCH;
+                        } 
+                    } 
                     //fixed for CRM-4148
                     if ( $params[$key]['id'] ) {
                         $contact           = array( 'contact_id' => $params[$key]['id'] );
@@ -642,14 +652,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                     
                     $matchedIDs = array(  );
+                    // To update/fill contact, get the matching contact Ids if duplicate contact found 
+                    // otherwise get contact Id from object of related contact
                     if ( is_array( $relatedNewContact ) && civicrm_error( $relatedNewContact ) ) {
                         if ( civicrm_duplicate($relatedNewContact) ) {
                             $matchedIDs = explode(',',$relatedNewContact['error_message']['params'][0]);
-                            //update the relative contact if dupe 
-                            if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE || 
-                                 $onDuplicate == CRM_Import_Parser::DUPLICATE_FILL ) {
-                                $updatedContact = $this->createContact( $formatting, $contactFields, $onDuplicate, $matchedIDs[0] );
-                            } 
                         } else {
                             $errorMessage = $relatedNewContact['error_message'];
                             array_unshift( $values, $errorMessage );
@@ -660,6 +667,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     } else {
                         $matchedIDs[] = $relatedNewContact->id;
                     }
+                    // update/fill related contact after getting matching Contact Ids, CRM-4424
+                    if ( in_array( $onDuplicate, array( CRM_Import_Parser::DUPLICATE_UPDATE, CRM_Import_Parser::DUPLICATE_FILL ) ) ) {
+                        $updatedContact = $this->createContact( $formatting, $contactFields, $onDuplicate, $matchedIDs[0] );
+                    } 
                     static $relativeContact = array( ) ;
                     if ( civicrm_duplicate( $relatedNewContact ) ) {
                         if ( count( $matchedIDs ) >= 1 ) {
@@ -1305,12 +1316,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         
         if ( $location ) {
-            for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {
-                $getValue = CRM_Utils_Array::retrieveValueRecursive($contact['location'][$loc], 'location_type_id');
-                
-                if ( $modeFill && isset( $getValue ) ) {
-                    unset( $params['location'][$loc] );
-                }
+            for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {               
+                //if location block is already present for the contact 
+                //then do not fill any data for that location type, CRM-4424
+                if ( $modeFill ) {
+                    foreach ( $contact['location'] as $location => $locationDetails ) {
+                        $getValue = CRM_Utils_Array::value( 'location_type_id', $locationDetails );
+                        if ( isset( $getValue ) 
+                             && $getValue == $params['location'][$loc]['location_type_id'] ) {
+                            unset( $params['location'][$loc] );
+                            break;
+                        }
+                    }
+                 }
                 
                 if ( array_key_exists( 'address', $contact['location'][$loc] ) ) {
                     $fields = array( 'street_address', 'city', 'state_province_id', 
