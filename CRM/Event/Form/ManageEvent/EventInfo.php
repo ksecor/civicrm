@@ -280,6 +280,17 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
 
         $event =  CRM_Event_BAO_Event::create( $params );
+
+        // now that we have the event’s id, do some more template-based stuff
+        if ($params['template_id']) {
+            // copy event fees
+            $ogParams = array('name' => "civicrm_event.amount.$event->id");
+            $defaults = array();
+            require_once 'CRM/Core/BAO/OptionGroup.php';
+            if (is_null(CRM_Core_BAO_OptionGroup::retrieve($ogParams, $defaults))) {
+                CRM_Core_BAO_OptionGroup::copyValue('event', $params['template_id'], $event->id);
+            }
+        }
         
         $this->set( 'id', $event->id );
 
