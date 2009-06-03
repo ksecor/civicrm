@@ -331,6 +331,7 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                                                      $chartInfo);
             
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+            $this->_graphPath =  $graphs['0']['file_name'];
         }
         
         $this->endPostProcess( );

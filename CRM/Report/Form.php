@@ -1102,17 +1102,20 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function endPostProcess( ) {
         if ( $this->_reportMode == 'print' || $this->_reportMode == 'pdf' ) {
-            $templateFile = parent::getTemplateFileName( );
-
+            $templateFile = parent::getTemplateFileName( ); 
+                      
+            if( $this->_graphPath ) {                
+                $image="</br><img src='".$this->_graphPath."'>";               
+            }
             $content =
                 $this->_formValues['report_header'] .
-                CRM_Core_Form::$_template->fetch( $templateFile ) .
+                CRM_Core_Form::$_template->fetch( $templateFile ). $image .      
                 $this->_formValues['report_footer'] ;
             
             if ( $this->_reportMode == 'print' ) {
                 echo $content;
             } else {
-                require_once 'CRM/Utils/PDF/Utils.php';
+                require_once 'CRM/Utils/PDF/Utils.php';                                
                 CRM_Utils_PDF_Utils::html2pdf( $content, "CiviReport.pdf" );
             }
             exit( );
