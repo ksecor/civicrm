@@ -299,6 +299,16 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                                           array('entity_id' => $params['template_id'], 'entity_table' => 'civicrm_event'),
                                           array('entity_id' => $event->id));
             }
+
+            // if no Tell-a-Friend defined, check whether there’s one for template and copy if so
+            $tafParams = array('entity_table' => 'civicrm_event', 'entity_id' => $event->id);
+            if (!CRM_Friend_BAO_Friend::getValues($tafParams)) {
+                $tafParams['entity_id'] = $params['template_id'];
+                if (CRM_Friend_BAO_Friend::getValues($tafParams)) {
+                    $tafParams['entity_id'] = $event->id;
+                    CRM_Friend_BAO_Friend::addTellAFriend($tafParams);
+                }
+            }
         }
         
         $this->set( 'id', $event->id );
