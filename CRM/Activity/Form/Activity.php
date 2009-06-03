@@ -435,7 +435,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $defaults['priority_id']       = array_search( 'Normal', $priority );
             $defaults['source_contact_id'] = self::_getDisplayNameById( $this->_sourceContactId );
             $defaults['source_contact_qid'] = $this->_sourceContactId;
-            $target_contact[$this->_targetContactId] = self::_getDisplayNameById( $this->_targetContactId );
+            if ( $this->_context != 'standalone' ) {
+                $target_contact[$this->_targetContactId] = self::_getDisplayNameById( $this->_targetContactId );
+            }
             $this->assign( 'target_contact', $target_contact ); 
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
