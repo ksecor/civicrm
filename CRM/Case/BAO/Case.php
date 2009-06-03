@@ -874,6 +874,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $emailActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                                'Email',
                                                                'name' );
+       
+        $activityCondition = " AND v.name IN ('Open Case', 'Change Case Type', 'Change Case Status', 'Change Case Start Date')";
+        $caseAttributeActivities = CRM_Core_OptionGroup::values( 'activity_type', false, false, false, $activityCondition );
+                   
         require_once 'CRM/Case/BAO/Case.php';
         $caseDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseID, 'is_deleted' );
         
@@ -902,9 +906,17 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             if ( !$dao->deleted ) {
                 //hide edit link of activity type email.CRM-4530.
                 if ( $dao->type != $emailActivityTypeID ) {
-                    $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> |";
+                    $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
                 }
-                $url .= "  <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+                              
+                //block deleting activities which affects
+                //case attributes.CRM-4543
+                if ( !array_key_exists($dao->type, $caseAttributeActivities) ) {
+                    if ( !empty($url) ) {
+                        $url .= " | ";   
+                    }
+                    $url .= "<a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+                }
             } else if ( !$caseDeleted ) {
                 $url  = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
                 $values[$dao->id]['status']  = $values[$dao->id]['status'].'<br /> (deleted)'; 
