@@ -290,6 +290,15 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             if (is_null(CRM_Core_BAO_OptionGroup::retrieve($ogParams, $defaults))) {
                 CRM_Core_BAO_OptionGroup::copyValue('event', $params['template_id'], $event->id);
             }
+
+            // link profiles if none linked
+            $ufParams = array('entity_table' => 'civicrm_event', 'entity_id' => $event->id);
+            require_once 'CRM/Core/BAO/UFJoin.php';
+            if (!CRM_Core_BAO_UFJoin::findUFGroupId($ufParams)) {
+                CRM_Core_DAO::copyGeneric('CRM_Core_DAO_UFJoin',
+                                          array('entity_id' => $params['template_id'], 'entity_table' => 'civicrm_event'),
+                                          array('entity_id' => $event->id));
+            }
         }
         
         $this->set( 'id', $event->id );
