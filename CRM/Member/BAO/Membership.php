@@ -646,6 +646,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $dao->is_test            = $isTest;
         //avoid pending membership as current memebrship: CRM-3027
         $dao->whereAdd( 'status_id != 5' );
+
+        // order by start date to find mos recent membership first, CRM-4545
+        $dao->orderBy('start_date DESC');
+
         if ( $dao->find( true ) ) {
             $membership = array( );
             CRM_Core_DAO::storeValues( $dao, $membership );
