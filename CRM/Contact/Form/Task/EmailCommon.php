@@ -97,8 +97,9 @@ class CRM_Contact_Form_Task_EmailCommon
                 $form->_emails[$email] .= ' ' . ts('(preferred)');
             }
             $form->_emails[$email] = htmlspecialchars( $form->_emails[$email] );
+            $toContact[$cid] = $email;
         }
-
+        $form->assign( 'toContact', $toContact );
         $form->assign( 'single', $form->_single );
     }
     
@@ -140,12 +141,12 @@ class CRM_Contact_Form_Task_EmailCommon
             
         } else {
             if ( $form->_noEmails ) {
-                $to = $form->add( 'select', 'to', ts('To'), $form->_emails );
+                $to = $form->add( 'text', 'to', ts('To') );
                 $form->add('text', 'emailAddress', null, CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
                 $form->addRule('emailAddress', ts('%1 is a required field.', array(1 => 'To')) , 'required');
                 $form->addRule( "emailAddress", ts('Email is not valid.'), 'email' );
             } else {
-                $to =& $form->add( 'select', 'to', ts('To'), $form->_emails, true );
+                $to =& $form->add( 'text', 'to', ts('To') );
             }
             
             if ( count( $form->_emails ) <= 1 ) {
@@ -154,7 +155,6 @@ class CRM_Contact_Form_Task_EmailCommon
                     $form->setDefaults( $defaults );
                 }
                 
-                $to->freeze( );
             }
         }
         
@@ -260,9 +260,18 @@ class CRM_Contact_Form_Task_EmailCommon
     static function postProcess( &$form ) 
     {
         $formValues = $form->controller->exportValues( $form->getName( ) );
+               
+        if ( CRM_Utils_Array::value( 'to', $formValues ) ) {
+            $toContacts        = substr( $formValues['to'], 0, -1 );
+            $form->_contactIds = explode( ',', $toContacts );
+            if ( count($form->_contactIds) == 1 ){
+                list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toContacts );
+                $formValues['to']  = '"'.$toDisplayName.'"< '.$toEmail.' >';
+            }
+        } 
         
         $emailAddress = null;
-        if ( $form->_single ) {
+        if ( $form->_single && count($form->_contactIds) == 1 ) {
             $emailAddress = $formValues['to'];
         }
         $fromEmail = $formValues['fromEmailAddress'];

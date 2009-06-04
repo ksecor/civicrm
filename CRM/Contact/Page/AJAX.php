@@ -426,7 +426,7 @@ WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.sort_name LIKE '%$name%';";
             
             while( $dao->fetch( ) ) {
                 $result[]= array( 'name' => '"'.$dao->name.'" < '.$dao->email.' >',
-                                  'id'   => '"'.$dao->name.'" < '.$dao->email.' >' );
+                                  'id'   => (CRM_Utils_Array::value( 'id', $_GET ) ) ? $dao->id :'"'.$dao->name.'" < '.$dao->email.' >');
             }
             if( $result ) {
                 echo json_encode( $result );
