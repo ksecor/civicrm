@@ -352,6 +352,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 	                                                                   'Activity' );
         }
 
+        if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+            $assineeContacts = explode( ',', substr( $params['assignee_contact_id'], 0, -1 ) );
+            $assineeContacts = array_unique( $assineeContacts );
+            unset( $params['assignee_contact_id'] );
+        } else {
+            $params['assignee_contact_id'] = $assineeContacts = array( );  
+        }
+        
         if ( isset($this->_activityId) ) { 
             
             // activity which hasn't been modified by a user yet
@@ -361,7 +369,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
             // always create a revision of an case activity. CRM-4533
             $newActParams = $params;
-            
+                      
             // record status for status msg
             $recordStatus = 'updated';
         }
@@ -427,6 +435,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             $params = $newActParams;
         }
 
+        $params['assignee_contact_id'] = $assineeContacts;
         // update existing case record if needed
         $caseParams       = $params;
         $caseParams['id'] = $this->_caseId;
@@ -452,11 +461,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // create activity assignee records
         $assigneeParams = array( 'activity_id' => $activity->id );
-
-        if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
-            $params['assignee_contact_id'] = explode( ',', substr( $params['assignee_contact_id'], 0, -1 ) );
-            $params['assignee_contact_id'] = array_unique( $params['assignee_contact_id'] );
-        }
         
         if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact_id']) ) {
             //skip those assignee contacts which are already assigned
