@@ -73,14 +73,15 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                   'civicrm_participant' =>
                   array( 'dao'     => 'CRM_Event_DAO_Participant',
                          'fields'  =>
-                         array( 'participant_id'   =>  array( 'no_display' => true,
-                                                              'required'   => true, ),
+                         array( 'participant_id'   => array( 'no_display' => true,
+                                                             'required'   => true, ),
                                 'event_id'         => array( 'default' => true ),
                                 'status_id'        => array( 'title'   => ts('Status'),
                                                              'default' => true ),
                                 'role_id'          => array( 'title'   => ts('Role'),
                                                              'default' => true ),
-                                'fee_amount'       => array( 'title'   => ts('Fee Amount') ),                                         
+                                'fee_amount'       => array( 'title'   => ts('Fee Amount'),
+                                                             'type'    => CRM_Utils_Type::T_MONEY ),
                                 'register_date'    => array( 'title'   => ts('Registration Date') ),
                                 ), 
                          'grouping' => 'event-fields',

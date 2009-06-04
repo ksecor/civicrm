@@ -1172,4 +1172,21 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->assign_by_ref( 'pager', $pager );
         }
     }
+
+    function buildGraph( $graphRows, $chartInfo ) {
+        
+        if ( CRM_Utils_Array::value('charts', $this->_params ) && !empty($graphRows) ) {
+            require_once 'CRM/Utils/PChart.php';
+            
+            $graphs = CRM_Utils_PChart::reportChart( $graphRows,
+                                                     $this->_params['charts'],
+                                                     $graphRows[$this->_interval],
+                                                     $chartInfo );
+            
+            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+        } else {
+            return false;  
+        }
+    }
+
 }

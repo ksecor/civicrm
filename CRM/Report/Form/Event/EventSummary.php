@@ -301,36 +301,31 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                 }
             }
         }
-        foreach ( $rows as $key =>$value ) {
-            if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
-                $graphRows['totalAmount'][]    = ($rows[$key]['totalAmount']);
-                $graphRows[$this->_interval][] = ($rows[$key]['civicrm_event_id']);
-                $graphRows['value'][]          = ($rows[$key]['totalAmount']);
-                $count++;
-            }
-        }
         
         $this->formatDisplay( $rows );
         unset($this->_columnHeaders['civicrm_event_id']);
         
         $this->doTemplateAssignment( $rows );
-        require_once 'CRM/Utils/PChart.php';
-        if ( ( $rows[$key]['totalAmount']) == 0 ) {
-            $countEvent=count($rows);
-        }
-        if ( CRM_Utils_Array::value('charts', $this->_params ) && (!empty($rows)) && $countEvent != 1 ) {
-            $chartInfo = array( 'legend' => 'Event Summary',
-                                'xname'  => 'Total Amount',
-                                'yname'  => 'Event ID'
-                                );
+
+        if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
+            foreach ( $rows as $key => $value ) {
+                $graphRows['totalAmount'][]    = ($rows[$key]['totalAmount']);
+                $graphRows[$this->_interval][] = ($rows[$key]['civicrm_event_id']);
+                $graphRows['value'][]          = ($rows[$key]['totalAmount']);
+                $count++;
+            }
+
+            if ( ( $rows[$key]['totalAmount']) == 0 ) {
+                $countEvent = count($rows);
+            }
             
-            $graphs = CRM_Utils_PChart::reportChart( $graphRows,
-                                                     $this->_params['charts'],
-                                                     $graphRows[$this->_interval],
-                                                     $chartInfo);
-            
-            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
-            $this->_graphPath =  $graphs['0']['file_name'];
+            if ( (!empty($rows)) && $countEvent != 1 ) {
+                $chartInfo = array( 'legend' => 'Event Summary',
+                                    'xname'  => 'Total Amount',
+                                    'yname'  => 'Event ID'
+                                    );
+                $this->buildGraph( $graphRows, $chartInfo );   
+            }
         }
         
         $this->endPostProcess( );

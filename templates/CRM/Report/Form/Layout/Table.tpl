@@ -43,8 +43,10 @@
             <tr class="{cycle values="odd-row,even-row"}">
                 {foreach from=$columnHeaders item=header key=field}
                     {assign var=fieldLink value=$field|cat:"_link"}
-                    <td>
-                        {if $row.$fieldLink}<a href="{$row.$fieldLink}">{/if}
+                    <td {if $header.type eq 1024 OR $header.type eq 12}class="right"{/if}>
+                        {if $row.$fieldLink}
+			    <a href="{$row.$fieldLink}">
+                        {/if}
                         
                         {if $row.$field eq 'Sub Total'}
                             {$row.$field}
