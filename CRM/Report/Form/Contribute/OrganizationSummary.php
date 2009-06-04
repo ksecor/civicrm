@@ -151,7 +151,6 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Organization Contribution Summery Report' ) );
         parent::preProcess( );
     }
     

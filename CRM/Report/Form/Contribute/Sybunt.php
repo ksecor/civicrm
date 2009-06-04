@@ -150,7 +150,6 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Some Year But Unfortunately not This Year' ) );        
         parent::preProcess( );
         
     }

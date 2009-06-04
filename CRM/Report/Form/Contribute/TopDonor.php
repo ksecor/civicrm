@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.3                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -39,10 +39,10 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
 
     protected $_summary = null;
 
-    protected $_charts = array( ''         => 'Tabular',
-                                'barGraph' => 'Bar Graph',
-                                'pieGraph' => 'Pie Graph'
-                                );
+    protected $_charts  = array( ''         => 'Tabular',
+                                 'barGraph' => 'Bar Graph',
+                                 'pieGraph' => 'Pie Graph'
+                                 );
     
     function __construct( ) {
         $this->_columns = 
@@ -103,8 +103,6 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Contribution Summary Report' ) );
-        
         parent::preProcess( );
     }
     

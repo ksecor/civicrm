@@ -148,7 +148,6 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Participant Listing Summary Report' ) );
         parent::preProcess( );
     }
     

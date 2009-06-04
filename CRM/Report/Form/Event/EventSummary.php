@@ -41,10 +41,10 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
     
     protected $_summary = null;
 
-    protected $_charts = array( ''         => 'Tabular',
-                                'barGraph' => 'Bar Graph',
-                                'pieGraph' => 'Pie Graph'
-                                );
+    protected $_charts  = array( ''         => 'Tabular',
+                                 'barGraph' => 'Bar Graph',
+                                 'pieGraph' => 'Pie Graph'
+                                 );
 
     function __construct( ) {
         
@@ -89,7 +89,6 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Event Summary Report' ) );
         parent::preProcess( );
     }
     

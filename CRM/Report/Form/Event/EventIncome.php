@@ -62,7 +62,6 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Event Income Summary Report' ) );
         parent::preProcess( );
     }
     

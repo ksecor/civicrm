@@ -152,7 +152,6 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Household Contribution Summary Report' ) );
         parent::preProcess( );
     }
     

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.3                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -38,9 +38,9 @@ require_once 'CRM/Report/Form.php';
 class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     protected $_addressField = false;
 
-    protected $_emailField = false;
+    protected $_emailField   = false;
 
-    protected $_summary = null;
+    protected $_summary      = null;
 
     function __construct( ) {
         $this->_columns = 

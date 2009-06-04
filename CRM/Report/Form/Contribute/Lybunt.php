@@ -39,10 +39,10 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     
     protected $_summary = null;
     
-    protected $_charts = array( ''         => 'Tabular',
-                                'barGraph' => 'Bar Graph',
-                                'pieGraph' => 'Pie Graph'
-                                );
+    protected $_charts  = array( ''         => 'Tabular',
+                                 'barGraph' => 'Bar Graph',
+                                 'pieGraph' => 'Pie Graph'
+                                 );
     
     function __construct( ) {
         $yearsInPast      = 8;
@@ -147,7 +147,6 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Some Year But Unfortunately not This Year' ) );        
         parent::preProcess( );
         
     }
