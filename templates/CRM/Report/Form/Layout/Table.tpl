@@ -22,14 +22,18 @@
     <table class="form-layout">
         <tr class="columnheader">
             {foreach from=$columnHeaders item=header key=field}
+                {assign var=class value=""}
+                {if $header.type eq 1024 OR $header.type eq 1}
+		    {assign var=class value="class='right'"}
+		{/if}
                 {if !$skip}
                    {if $header.colspan}
-                      <th colspan={$header.colspan}>{$header.title}</th>
+                      <th {$class}colspan={$header.colspan}>{$header.title}</th>
                       {assign var=skip value=true}
                       {assign var=skipCount value=`$header.colspan`}
                       {assign var=skipMade  value=1}
                    {else}
-                      <th>{$header.title}</th>
+                      <th {$class}>{$header.title}</th>
                       {assign var=skip value=false}
                    {/if}
                 {else} {* for skip case *}
@@ -43,7 +47,7 @@
             <tr class="{cycle values="odd-row,even-row"}">
                 {foreach from=$columnHeaders item=header key=field}
                     {assign var=fieldLink value=$field|cat:"_link"}
-                    <td {if $header.type eq 1024 OR $header.type eq 12}class="right"{/if}>
+                    <td {if $header.type eq 1024 OR $header.type eq 1}class="right"{/if}>
                         {if $row.$fieldLink}
 			    <a href="{$row.$fieldLink}">
                         {/if}
@@ -74,7 +78,7 @@
             {* foreach from=$grandStat item=row*}
             <tr>
                 {foreach from=$columnHeaders item=header key=field}
-                    <td>
+                    <td class="right">
                         <strong>
                         {if $header.type eq 1024}
                             {$grandStat.$field|crmMoney}

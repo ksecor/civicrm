@@ -210,6 +210,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                     break;
                                 case 'count':
                                     $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = CRM_Utils_Type::T_INT;
                                     $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
                                     $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
                                     break;
@@ -396,13 +397,14 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
         
         require_once 'CRM/Utils/PChart.php';
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
-            foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
-                unset( $graphRows[$ignore][$count-1] );
+            if ( CRM_Utils_Array::value( 'receive_date', $this->_params['group_bys'] ) ) {
+                foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
+                    unset( $graphRows[$ignore][$count-1] );
+                }
+                
+                $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
+                $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
             }
-            
-            $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
-            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
-
         }
 
         $this->endPostProcess( );
