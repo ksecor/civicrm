@@ -30,7 +30,7 @@
  * @package CiviCRM_APIv2
  * @subpackage API_Group
  * @copyright CiviCRM LLC (c) 2004-2009
- * @version $Id: GroupContact.php 12458 2007-11-30 17:00:08Z shot $
+ * @version $Id$
  */
 
 /**

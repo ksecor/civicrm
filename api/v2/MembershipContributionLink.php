@@ -33,7 +33,7 @@
  * @subpackage API_Membership
  * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * @version $Id: Contribute.php 14828 2008-05-30 14:23:01Z shot $
+ * @version $Id$
  */
 
 /**

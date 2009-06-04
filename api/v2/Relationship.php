@@ -31,7 +31,7 @@
  * @subpackage API_Relationship
  * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * @version $Id: Contribute.php 10015 2007-06-17 22:00:12Z lobo $
+ * @version $Id$
  *
  */
 
