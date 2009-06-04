@@ -743,8 +743,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             $params['assignee_contact_id'] = explode( ',', substr( $params['assignee_contact_id'], 0, -1 ) );
+        } else {
+            $params['assignee_contact_id'] = array( );
         }
-       
+        
         // get ids for associated contacts
         if ( ! $params['source_contact_id'] ) {
             $params['source_contact_id']   = $this->_currentUserId;
