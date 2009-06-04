@@ -163,8 +163,8 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
 
         $current_year    =  $this->_params['yid_value'] ;
         $previous_year   = $current_year - 1;        
-        $previous_pyear  = $current_year - 2;        
-        $previous_ppyear = $current_year - 3; 
+        // $previous_pyear  = $current_year - 2;        
+        //  $previous_ppyear = $current_year - 3; 
                 
         foreach ( $this->_columns as $tableName => $table ) {
             
@@ -177,11 +177,11 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                             $select[ ]         = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}"; 
                             $selectLifeTime[ ] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}"; 
                             
-                            $this->_columnHeaders[ "{$previous_ppyear}" ][ 'type' ]  = $field[ 'type' ];
-                            $this->_columnHeaders[ "{$previous_ppyear}" ][ 'title']  = $previous_ppyear;
+                           //  $this->_columnHeaders[ "{$previous_ppyear}" ][ 'type' ]  = $field[ 'type' ];
+//                             $this->_columnHeaders[ "{$previous_ppyear}" ][ 'title']  = $previous_ppyear;
                             
-                            $this->_columnHeaders[ "{$previous_pyear}"  ][ 'type' ]  = $field[ 'type' ];
-                            $this->_columnHeaders[ "{$previous_pyear}"  ][ 'title']  = $previous_pyear;
+//                             $this->_columnHeaders[ "{$previous_pyear}"  ][ 'type' ]  = $field[ 'type' ];
+//                             $this->_columnHeaders[ "{$previous_pyear}"  ][ 'title']  = $previous_pyear;
                             
                             $this->_columnHeaders[ "{$previous_year}"   ][ 'type' ]  = $field[ 'type' ];
                             $this->_columnHeaders[ "{$previous_year}"   ][ 'title']  = $previous_year;
@@ -204,7 +204,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                         }
                         else { 
                             
-                            $select[ ] = "{$field['dbAlias']} as {$tableName }_{$fieldName} ";
+                            $select[ ]          = "{$field['dbAlias']} as {$tableName }_{$fieldName} ";
                             $this->_columnHeaders[ "{$tableName}_{$fieldName}" ][ 'type'  ] = $field[ 'type'  ];
                             $this->_columnHeaders[ "{$tableName}_{$fieldName}" ][ 'title' ] = $field[ 'title' ];
                             
@@ -259,7 +259,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     
     function from( ) {
 
-        $IN= "( {$this->_params['yid_value']},{$this->_params['yid_value']} - 1,{$this->_params['yid_value']} - 2 ,{$this->_params['yid_value']} - 3  )"   ;        
+        $IN= "( {$this->_params['yid_value']},{$this->_params['yid_value']} - 1 )"   ;        
         $this->_from = "
         FROM  civicrm_contribution  {$this->_aliases['civicrm_contribution']}
               INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
@@ -378,7 +378,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         // build query
         $sql          = $this->buildQuery( true );
         $sqlLifeTime  = "{$this->_selectLifeTime} {$this->_fromLifeTime} {$this->_groupByLifeTime} ";                    
-        $current_year = $this->_params['yid_value'] ;  
+        $current_year = $this->_params['yid_value'] ; 
         $dao          = CRM_Core_DAO::executeQuery( $sql );
         $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );
         
@@ -414,6 +414,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                 $row = array( );  
                 foreach ( $this->_columnHeaders as $column_key => $column_value ) {
                     $row[ $column_key ] = $value [ $column_key ];
+                   
                 } 
                 
                 $rows [ ]  = $row;
