@@ -27,8 +27,9 @@
 /**
  * File for the CiviCRM APIv2 domain functions
  *
- * @package CiviCRM
- * @subpackage APIv2
+ * @package CiviCRM_APIv2
+ * @subpackage API_Domain
+ *
  * @copyright CiviCRM LLC (c) 2004-2009
  * @version $Id: Domain.php 18662 2008-12-10 11:30:30Z kurund $
  *

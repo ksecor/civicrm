@@ -32,12 +32,17 @@
  * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
  * here}
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Activity
+ *
  * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
+/**
+ * Include common API util functions
+ */   
 require_once 'api/v2/utils.php';
 
 /**

@@ -27,8 +27,9 @@
 /**
  * File for the CiviCRM APIv2 tag functions
  *
- * @package CiviCRM
- * @subpackage APIv2
+ * @package CiviCRM_APIv2
+ * @subpackage API_Tag
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
  * @version $Id: Contribute.php 9526 2007-05-12 19:36:28Z deepak $
  */

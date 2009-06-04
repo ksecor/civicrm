@@ -28,15 +28,15 @@
 /**
  * File for the CiviCRM APIv2 activity functions
  *
- * @package CiviCRM
- * @subpackage APIv2
+ * @package CiviCRM_APIv2
+ * @subpackage API_Activity
  * @copyright CiviCRM LLC (c) 2004-2009
  * @version $Id$
  *
  */
 
 /**
- * Files required for this package
+ * Include common API util functions
  */
 require_once 'api/v2/utils.php';
 

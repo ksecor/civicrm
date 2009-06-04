@@ -27,8 +27,9 @@
 /**
  * File for the CiviCRM APIv2 relationship functions
  *
- * @package CiviCRM
- * @subpackage APIv2
+ * @package CiviCRM_APIv2
+ * @subpackage API_Relationship
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
  * @version $Id: Contribute.php 10015 2007-06-17 22:00:12Z lobo $
  *

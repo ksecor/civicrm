@@ -28,8 +28,9 @@
 /**
  * File for the CiviCRM APIv2 location functions
  *
- * @package CiviCRM
- * @subpackage APIv2
+ * @package CiviCRM_APIv2
+ * @subpackage API_Location
+ *
  * @copyright CiviCRM LLC (c) 2004-2009
  * @version $Id$
  */

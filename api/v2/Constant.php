@@ -27,8 +27,8 @@
 /**
  * File for CiviCRM APIv2 pseudoconstants
  *
- * @package CiviCRM
- * @subpackage APIv2
+ * @package CiviCRM_APIv2
+ * @subpackage API_Constant
  * @copyright CiviCRM LLC (c) 2004-2009
  * @version $Id$
  *

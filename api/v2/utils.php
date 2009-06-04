@@ -27,14 +27,16 @@
 /**
  * File for CiviCRM APIv2 utilitity functions
  *
- * @package CiviCRM
- * @subpackage APIv2
+ * @package CiviCRM_APIv2
+ * @subpackage API_utils
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
  * @version $Id$
  *
  */
 
 /**
+ * @todo Write documentation
  *
  */
 function _civicrm_initialize( ) 
@@ -1116,6 +1118,8 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
 /**
  * take the input parameter list as specified in the data model and 
  * convert it into the same format that we use in QF and BAO object
+ *
+ * @todo shouldn't it be moved to Membership.php?
  *
  * @param array  $params       Associative array of property name/value
  *                             pairs to insert in new contact.

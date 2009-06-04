@@ -27,17 +27,22 @@
 /**
  * new version of civicrm apis. See blog post at
  * http://civicrm.org/node/131
+ * @todo Write sth
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Contact
  * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
 
+/**
+ * Include common API util functions
+ */
 require_once 'api/v2/utils.php';
 
 /**
- * TODO
+ * @todo Write sth
  *
  * @param  array   $params           (reference ) input parameters
  *
@@ -56,6 +61,10 @@ function civicrm_contact_create( &$params ) {
     return civicrm_contact_update( $params, $create_new );
 }
 
+/**
+ * @todo Write sth
+ * @todo Serious FIXMES in the code! File issues.
+ */
 function civicrm_contact_update( &$params, $create_new = false ) {
     _civicrm_initialize( );
 
@@ -77,7 +86,8 @@ function civicrm_contact_update( &$params, $create_new = false ) {
 
         // If we get here, we're ready to create a new contact
 
-        /* FIXME: This code doesn't work right now, but it should probably be
+        /** 
+         * FIXME: This code doesn't work right now, but it should probably be
          * fixed since creating locations when you create contacts is pretty
          * handy.
          * I think the problem currently is that it doesn't put the email
@@ -263,9 +273,9 @@ function _civicrm_contact_get_deprecated( &$params ) {
 }
 
 /**
- * Delete a contact
+ * Delete a contact with given contact id
  *
- * @param  array   $params           (reference ) input parameters
+ * @param  array   	  $params (reference ) input parameters, contact_id element required
  *
  * @return boolean        true if success, else false
  * @static void
@@ -338,10 +348,10 @@ function &civicrm_contact_search( &$params ) {
 }
 
 /**
- * This function ensures that we have the right input parameters
+ * Ensure that we have the right input parameters
  *
- * We also need to make sure we run all the form rules on the params list
- * to ensure that the params are valid
+ * @todo We also need to make sure we run all the form rules on the params list
+ *       to ensure that the params are valid
  *
  * @param array   $params          Associative array of property name/value
  *                                 pairs to insert in new contact.
@@ -433,8 +443,7 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
 }
 
 /**
- * What does this do? If it's still useful, figure out where it should live
- * and what it should be named.
+ * @todo What does this do? If it's still useful, figure out where it should live and what it should be named.
  *
  * @deprecated deprecated since version 2.2.3
  */
@@ -453,7 +462,7 @@ function civicrm_replace_contact_formatted($contactId, &$params, &$fields) {
 
 
 /** 
- * takes an associative array and creates a contact object and all the associated 
+ * Takes an associative array and creates a contact object and all the associated 
  * derived objects (i.e. individual, location, email, phone etc) 
  * 
  * @param array $params (reference ) an assoc array of name/value pairs 
@@ -479,7 +488,9 @@ function _civicrm_contact_update( &$params, $contactID = null )
     return $contact;
 }
 
-/* TODO: Move this to ContactFormat.php */
+/**
+ * @todo Move this to ContactFormat.php 
+ */
 function civicrm_contact_format_create( &$params ) {
     _civicrm_initialize( );
 
