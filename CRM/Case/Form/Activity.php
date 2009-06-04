@@ -453,8 +453,12 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // create activity assignee records
         $assigneeParams = array( 'activity_id' => $activity->id );
 
-        if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact_id']) ) {
+        if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+            $params['assignee_contact_id'] = explode( ',', substr( $params['assignee_contact_id'], 0, -1 ) );
             $params['assignee_contact_id'] = array_unique( $params['assignee_contact_id'] );
+        }
+        
+        if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact_id']) ) {
             //skip those assignee contacts which are already assigned
             //while sending a copy.CRM-4509.
             $activityAssigned = array_flip( $params['assignee_contact_id'] );
@@ -479,7 +483,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $mailStatus = '';
         $mailToContacts = array( );
         
-        foreach( array( 'contact_check', 'assignee_contact' ) as $val ) {
+        foreach( array( 'contact_check', 'assignee_contact_id' ) as $val ) {
             if ( array_key_exists ( $val, $params ) && !CRM_Utils_array::crmIsEmptyArray($params[$val]) ) {
                 if ( $val == 'contact_check' ) {
                     $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");  
