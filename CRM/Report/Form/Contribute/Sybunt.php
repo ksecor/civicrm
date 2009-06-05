@@ -37,8 +37,6 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
 
-    protected $_summary = null;
-
     protected $_charts = array( ''         => 'Tabular',
                                 'barGraph' => 'Bar Graph',
                                 'pieGraph' => 'Pie Graph'
@@ -199,26 +197,17 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
 
                             $this->_columnHeaders[ "civicrm_upto_{$previous_ppyear}"    ][ 'type' ]  = $field[ 'type' ] ;
                             $this->_columnHeaders[ "civicrm_upto_{$previous_ppyear}"    ][ 'title']  = 'Up To '.$upTo_year ;
-                            
-                            
-                            
                         } else if ( $fieldName == 'receive_date' ) {                            
-                            
                             $select[ ] = "Year({$field[ 'dbAlias' ]} ) as {$tableName}_{$fieldName}"; 
-                            
                         } else if ( $fieldName == 'contact_id' ) { 
-                            
-                            $select[ ] = "Distinct( {$field['dbAlias']} ) as {$tableName}_{$fieldName}"; 
-                            $selectLifeTime[ ]  = " Distinct( {$field['dbAlias']} ) as {$tableName }_{$fieldName} ";
-                            
+                            $select[ ] = "{$field['dbAlias']} as {$tableName}_{$fieldName}"; 
+                            $selectLifeTime[ ]  = "{$field['dbAlias']} as {$tableName }_{$fieldName} ";
                         } else { 
-                            
                             $select[ ] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                             $this->_columnHeaders[ "{$tableName}_{$fieldName}" ][ 'type'  ] = $field[ 'type'  ];
                             $this->_columnHeaders[ "{$tableName}_{$fieldName}" ][ 'title' ] = $field[ 'title' ];
                             
                         }                      
-                        
                     }
                 }
             }
@@ -271,13 +260,13 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     
     function from( ) {        
         
-        $IN= "( {$this->_params['yid_value']},{$this->_params['yid_value']} - 1,{$this->_params['yid_value']} - 2 ,{$this->_params['yid_value']} - 3  )" ;
+        $IN = "( {$this->_params['yid_value']} - 1, {$this->_params['yid_value']} - 2, {$this->_params['yid_value']} - 3 )" ;
 
         $this->_from = "
         FROM  civicrm_contribution  {$this->_aliases['civicrm_contribution']}
               INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
                       ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id  AND 
-                          YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ".$IN.
+                          YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ". $IN .
             " LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
                       ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id
                           AND {$this->_aliases['civicrm_email']}.is_primary = 1
@@ -334,14 +323,14 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                 }
             }
         }
-        
-        if ( empty( $clauses ) ) {
-            $this->_where = "WHERE ( 1 ) ";
-        } else {
-            $this->_where = "WHERE " . implode( ' AND ', $clauses );
+
+        $this->_where = "WHERE contribution.contact_id IN (SELECT DISTINCT(cc.contact_id) FROM civicrm_contribution cc WHERE Year(cc.receive_date) NOT IN ({$this->_params['yid_value']}))";
+        if ( ! empty( $clauses ) ) {
+            $this->_where .= " AND " . implode( ' AND ', $clauses );
         }
+
         $previous_three_year = $this->_params['yid_value'] - 3;
-        $this->_whereUpTo="WHERE Year(receive_date) < ".$previous_three_year ;
+        $this->_whereUpTo="{$this->_where} AND Year(receive_date) < ".$previous_three_year ;
     }
     
       
@@ -385,30 +374,16 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         
     }
 
-    // function setPager( ) {
-//         //  if ( $this->_limit && ($this->_limit != '') ) {
-//             require_once 'CRM/Utils/Pager.php';
-//             //     $sql    = "SELECT FOUND_ROWS();";
-//             //   $this->_rowsFound = CRM_Core_DAO::singleValueQuery(
-//             //   $sql );
-           
-//             $params = array( 'total'    => $this->_rowsFound,
-//                              'rowCount' => self::ROW_COUNT_LIMIT,
-//                              'status'   => ts( 'Contributions %%StatusMessage%%' ) );
-//             $pager = new CRM_Utils_Pager( $params );
-//             $this->assign_by_ref( 'pager', $pager );
-//         }
-    
-    
     function postProcess( ) 
     {
         // get ready with post process params
         $this->beginPostProcess( );
 
         // build query
-        $sql                 = $this->buildQuery( true ); 
-        $sqlLifeTime         = "{$this->_selectLifeTime} {$this->_fromLifeTime} {$this->_groupByLifeTime} "; 
-        $sqlUpTo             ="{$this->_selectLifeTime} {$this->_fromLifeTime} {$this->_whereUpTo} {$this->_groupByLifeTime} "; 
+        $sql                 = $this->buildQuery( false );
+        $sqlLifeTime         = "{$this->_selectLifeTime} {$this->_fromLifeTime} {$this->_where} {$this->_groupByLifeTime}";
+        $sqlUpTo             ="{$this->_selectLifeTime} {$this->_fromLifeTime} {$this->_whereUpTo} {$this->_groupByLifeTime} ";
+
         $current_year        = $this->_params['yid_value'] ;
         $previous_three_year = $current_year - 3;
         $dao                 = CRM_Core_DAO::executeQuery( $sql ); 
@@ -417,49 +392,39 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         $dao_upTo            = CRM_Core_DAO::executeQuery( $sqlUpTo );
         
         
-        $rows                = $graphRows = array( );
-        $count               = 0;
+        $rows = array( );
+
         while ( $dao_lifeTime->fetch( ) ) {
-            
-            $contact_id                = $dao_lifeTime->civicrm_contribution_contact_id;
-            $life_time [ $contact_id ] = $dao_lifeTime->civicrm_contribution_total_amount;            
+            $display[$dao_lifeTime->civicrm_contribution_contact_id ]['civicrm_life_time_total'] = 
+                $dao_lifeTime->civicrm_contribution_total_amount;
         } 
-         while ( $dao_upTo->fetch( ) ) {
-            
-            $contact_id                = $dao_upTo->civicrm_contribution_contact_id;
-            $up_to [ $contact_id ]     = $dao_upTo->civicrm_contribution_total_amount;            
+
+        while ( $dao_upTo->fetch( ) ) {
+            $display[$dao_upTo->civicrm_contribution_contact_id]["civicrm_upto_{$previous_three_year}"] =
+                $dao_upTo->civicrm_contribution_total_amount;            
         } 
         
-        $rows  = $graphRows = array( );
-        $count = 0;               
+        $rows = array( );
         $this->assign ( 'columnHeaders', $this->_columnHeaders );
 
         while ( $dao->fetch( ) ) { 
-            $row        = array( );          
             $contact_id = $dao->civicrm_contribution_contact_id;            
-            $year       = $dao->civicrm_contribution_receive_date;          
-            $display[ $contact_id ][ $year ]                                 = $dao->civicrm_contribution_total_amount ;            
-            $display[ $contact_id ]['civicrm_contact_display_name']          = $dao->civicrm_contact_display_name ;             
-            $display[ $contact_id ]['civicrm_email_email']                   = $dao->civicrm_email_email ;    
-            $display[ $contact_id ]['civicrm_life_time_total']               = $life_time [ $contact_id ];
-            $display[ $contact_id ]["civicrm_upto_{$previous_three_year}"]   = $up_to [ $contact_id ];
-            
-            if(isset( $display[ $contact_id ][ $current_year ] ) )  {
-                
-                unset( $display[ $contact_id ] ) ;                
-                
-            }
+
+            $display[ $contact_id ][ $dao->civicrm_contribution_receive_date ] = 
+                $dao->civicrm_contribution_total_amount ;
+            $display[ $contact_id ]['civicrm_contact_display_name'] = $dao->civicrm_contact_display_name ;             
+            $display[ $contact_id ]['civicrm_email_email']          = $dao->civicrm_email_email ;    
         }
-        $this->_rowsFound  = count( $display );      
-        if($display) {
+
+        $this->_rowsFound = count( $display );      
+
+        if( ! empty($display) ) {
             foreach( $display as $key => $value ) {              
                 $row = array( );                        
                 foreach ( $this->_columnHeaders as $column_key => $column_value ) {
                     $row[ $column_key ] = $value [ $column_key ]; 
-                    
                 }
-                
-                $rows [ ]  = $row ;
+                $rows[] = $row;
             }
         }
         
