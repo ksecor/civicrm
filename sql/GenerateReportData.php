@@ -77,6 +77,7 @@ require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Relationship.php';
 require_once 'CRM/Event/DAO/Participant.php';
+require_once 'CRM/Contribute/DAO/ContributionSoft.php';
 
 class CRM_GCD {
 
@@ -1501,21 +1502,26 @@ VALUES
 
     function addSoftContribution( )
     {
+        $pcpRollNickNAme = array('Jones Family', 'Annie and the kids','Anonymous', 'Adam Family');
+        
+        $pcpPersonalNote = array('Helping Hands', 'Annie Helps','Anonymous', 'Adam Helps');
+        
+        $softContribution =& new CRM_Contribute_DAO_ContributionSoft();
 
-        $sql = "SELECT id from civicrm_contribution LIMIT 2, 1";
-        $contriId1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray );
-        
-        $sql = "SELECT id from civicrm_contribution LIMIT 5, 1";
-        $contriId2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray );
-        
-        $query = "
-INSERT INTO `civicrm_contribution_soft`
-      ( contribution_id, contact_id ,amount ,pcp_id , pcp_display_in_roll ,pcp_roll_nickname,pcp_personal_note )
-VALUES
-    ( $contriId1, {$this->individual[3]}, 10.00, 1, 1, 'Jones Family', 'Helping Hands'),
-    ( $contriId2, {$this->individual[3]}, 250.00, 1, 1, 'Annie and the kids', 'Annie Helps');
- ";
-        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $sql = "SELECT id, contact_id, total_amount from civicrm_contribution LIMIT 200";
+
+        $contriInfo = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+
+        while ( $contriInfo->fetch() ) {
+            $softContribution->contribution_id     = $contriInfo->id;
+            $softContribution->contact_id          = $contriInfo->contact_id;
+            $softContribution->amount              = $contriInfo->total_amount;
+            $softContribution->pcp_id              = 1;
+            $softContribution->pcp_display_in_roll = 1;
+            $softContribution->pcp_roll_nickname   = $this->_getRandomElement( $pcpRollNickNAme );
+            $softContribution->pcp_personal_note   = $this->_getRandomElement( $pcpPersonalNote );
+            $this->_insert( $softContribution );
+        }
     }
 
     function addPledge( )
