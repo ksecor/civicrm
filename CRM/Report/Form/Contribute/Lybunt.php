@@ -37,12 +37,8 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     
-    protected $_summary = null;
-    
-    protected $_charts  = array( ''         => 'Tabular',
-                                 'barGraph' => 'Bar Graph',
-                                 'pieGraph' => 'Pie Graph'
-                                 );
+    protected $_summary = null;    
+  
     
     function __construct( ) {
         $yearsInPast      = 8;
@@ -84,16 +80,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                                           'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN,
                                           'options' => $optionYear ), 
                                    ),                             
-                           
-                           'group_bys'     =>
-                           array( 'receive_date'  =>  
-                                  array('title'      => ts( 'Receive Date' ),
-                                        'default'   => true ), 
-                                  
-                                  'contact_id'    => 
-                                  array( 'title'     => ts( 'Contact ID' ),
-                                         'default'  => true ), 
-                                  ) , 
+                          
                            ) , 
                    
                    'civicrm_contact'  =>
@@ -346,7 +333,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
             $contact_id                = $dao_lifeTime->civicrm_contribution_contact_id;
             $life_time [ $contact_id ] = $dao_lifeTime->civicrm_contribution_total_amount;             
         }       
-        crm_core_error::debug('sql',$display); 
+      
         $rows  = array( );
         $count = 0;               
         $this->assign ( 'columnHeaders', $this->_columnHeaders );
