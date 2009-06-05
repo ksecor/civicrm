@@ -119,10 +119,10 @@ class CRM_Report_Form_Instance {
             $defaults['report_header'] = "<html>
   <head>
     <title>CiviCRM Report</title>
-    <style type=\"text/css\" >@import url(/drupal/sites/all/modules/civicrm/css/print.css);</style>
+    <style type=\"text/css\" >@import url({$config->userFrameworkResourceURL}css/civicrm.css);</style>
   </head>
-  <body><div class=\"report\">";
-            $defaults['report_footer'] = "  <p><img src=\"{$config->resourceBase}i/powered_by.png\"></p></div></body>
+  <body><div id=\"crm-container\">";
+            $defaults['report_footer'] = "<p><img src=\"{$config->userFrameworkResourceURL}i/powered_by.png\"></p></div></body>
 </html>
 ";
         }
