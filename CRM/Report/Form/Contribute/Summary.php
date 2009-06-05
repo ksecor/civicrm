@@ -377,38 +377,43 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
             }
-
-            // FIXME: need to decide on where to fit pchart in framework.
-            if ( CRM_Utils_Array::value('charts', $this->_params ) && 
-                 $row['civicrm_contribution_receive_date_subtotal'] ) {
-                $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
-                $graphRows[$this->_interval][] = $row['civicrm_contribution_receive_date_interval'];
-                $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
-                $count++;
-            }
-            
+           
             $rows[] = $row;
         }
-	
+        //build chart
+        $this->buildChart( $rows );
+        
         $this->formatDisplay( $rows );
 
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
         
-        require_once 'CRM/Utils/PChart.php';
+        $this->endPostProcess( );
+    }
+
+    function buildChart( &$rows ) {
+        
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
+            foreach ( $rows as $key => $row ) {
+                if ( $row['civicrm_contribution_receive_date_subtotal'] ) {
+                    $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
+                    $graphRows[$this->_interval][] = $row['civicrm_contribution_receive_date_interval'];
+                    $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
+                    $count++;
+                }
+            }
+            
+            require_once 'CRM/Utils/PChart.php';
             if ( CRM_Utils_Array::value( 'receive_date', $this->_params['group_bys'] ) ) {
                 foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
                     unset( $graphRows[$ignore][$count-1] );
                 }
-                
                 $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
                 $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
             }
         }
-
-        $this->endPostProcess( );
     }
+
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows

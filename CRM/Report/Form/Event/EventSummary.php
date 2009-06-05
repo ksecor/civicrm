@@ -301,12 +301,19 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                 }
             }
         }
+        //build Chart
+        $this->buildChart( $rows );
         
         $this->formatDisplay( $rows );
         unset($this->_columnHeaders['civicrm_event_id']);
         
         $this->doTemplateAssignment( $rows );
+        
+        $this->endPostProcess( );
+    }
 
+    function buildChart( &$rows ) {
+        
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
             foreach ( $rows as $key => $value ) {
                 $graphRows['totalAmount'][]    = ($rows[$key]['totalAmount']);
@@ -314,7 +321,7 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                 $graphRows['value'][]          = ($rows[$key]['totalAmount']);
                 $count++;
             }
-
+            
             if ( ( $rows[$key]['totalAmount']) == 0 ) {
                 $countEvent = count($rows);
             }
@@ -324,11 +331,17 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                                     'xname'  => 'Total Amount',
                                     'yname'  => 'Event ID'
                                     );
-                $this->buildGraph( $graphRows, $chartInfo );   
+                if ( !empty($graphRows) ) {
+                    require_once 'CRM/Utils/PChart.php';
+                    $graphs = CRM_Utils_PChart::reportChart( $graphRows,
+                                                             $this->_params['charts'],
+                                                             $graphRows[$this->_interval],
+                                                             $chartInfo );
+            
+                    $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+                } 
             }
         }
-        
-        $this->endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {
