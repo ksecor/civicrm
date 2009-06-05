@@ -38,7 +38,7 @@ require_once 'CRM/Core/Page.php';
 /**
  * Page for displaying list of Reprot templates available
  */
-class CRM_Report_Page_List extends CRM_Core_Page 
+class CRM_Report_Page_TemplateList extends CRM_Core_Page 
 {
 
     public static function &info( ) {
@@ -70,7 +70,7 @@ LEFT  JOIN civicrm_component comp
                 CRM_Utils_System::url( 'civicrm/report/' . trim($dao->value, '/'), 'reset=1');
             if ( $dao->instance_id ) {
                 $rows[$dao->component_name][$dao->value]['instanceUrl'] = 
-                    CRM_Utils_System::url( 'civicrm/report/instance/list',
+                    CRM_Utils_System::url( 'civicrm/report/list',
                                            "reset=1&ovid={$dao->id}");
             }
         }

@@ -11,12 +11,26 @@
      <component>CiviReport</component>
   </item>
   <item>
-     <path>civicrm/report/instance/list</path>
+     <path>civicrm/report/list</path>
      <title>CiviCRM Reports</title>
      <page_callback>CRM_Report_Page_InstanceList</page_callback>
      <access_callback>1</access_callback>
+  </item>
+  <item>
+     <path>civicrm/report/template/list</path>
+     <title>Report Templates</title>
+     <page_callback>CRM_Report_Page_TemplateList</page_callback>
+     <access_arguments>access CiviReport</access_arguments>
      <page_type>1</page_type>
      <weight>1220</weight>
+  </item>
+  <item>
+     <path>civicrm/report/register</path>
+     <title>Register Report</title>
+     <page_callback>CRM_Report_Form_Register</page_callback>
+     <access_arguments>access CiviReport</access_arguments>
+     <page_type>1</page_type>
+     <weight>1240</weight>
   </item>
   <item>
      <path>civicrm/report/instance</path>
@@ -26,7 +40,7 @@
   </item>
   <item>
      <path>civicrm/admin/report/register</path>
-     <title>Register Reports</title>
+     <title>Register Report</title>
      <page_callback>CRM_Report_Form_Register</page_callback>
      <desc>Register the Report templates.</desc>
      <access_arguments>access CiviReport</access_arguments>
@@ -35,9 +49,9 @@
      <weight>400</weight>
   </item>
   <item>
-     <path>civicrm/admin/report/list</path>
+     <path>civicrm/admin/report/template/list</path>
      <title>Report Templates</title>
-     <page_callback>CRM_Report_Page_List</page_callback>
+     <page_callback>CRM_Report_Page_TemplateList</page_callback>
      <desc>Listing of all available reports according to component type</desc>
      <access_arguments>access CiviReport</access_arguments>
      <adminGroup>CiviReport</adminGroup>

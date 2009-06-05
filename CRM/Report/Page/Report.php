@@ -68,6 +68,6 @@ class CRM_Report_Page_Report extends CRM_Core_Page
         if ( $optionVal ) {
             CRM_Core_Session::setStatus( ts( 'Could not find the report template. Make sure the report template is registered and / or url is correct.' ) );
         }
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/instance/list', "reset=1") );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/list', "reset=1") );
     }
 }
