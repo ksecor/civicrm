@@ -184,10 +184,6 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
-    }
-    
     function select( ) {
         $select = array( );
         $this->_columnHeaders = array( );

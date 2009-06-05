@@ -143,17 +143,17 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                         'no_repeat'  => true,
                                         'default'    => true 
                                         ),
-                                 'event_id'       => array( 'default' => true),
-                                 'status_id'      => array( 'title'   => ts('Status'),
-                                                            'default' => true ),
-                                 'role_id'        => array( 'title'   => ts('Role'),
-                                                            'default' => true ),
-                                 'register_date'  => array( 'title'   => ts('Registe Date'),
-                                                            'default' => true ),
-                                 'fee_level'      => array( 'title'   => ts('Fee Level'),
-                                                            'default' => true ),
-                                 'fee_amount'     => array( 'title'   => ts('Fee Amount'),
-                                                            'default' => true ),
+                                 'event_id'              => array( 'default' => true),
+                                 'participant_status_id' => array( 'title'   => ts('Status'),
+                                                                   'default' => true ),
+                                 'role_id'               => array( 'title'   => ts('Role'),
+                                                                   'default' => true ),
+                                 'register_date'         => array( 'title'   => ts('Registe Date'),
+                                                                   'default' => true ),
+                                 'fee_level'             => array( 'title'   => ts('Fee Level'),
+                                                                   'default' => true ),
+                                 'fee_amount'            => array( 'title'   => ts('Fee Amount'),
+                                                                   'default' => true ),
                                  ), 
                           ),
 
@@ -470,8 +470,8 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                 CRM_Event_PseudoConstant::event( $val, false );
                         }
                         
-                        if ( $val = CRM_Utils_Array::value('civicrm_participant_status_id', $row ) ) {
-                            $componentRows[$contactID][$component][$rowNum]['civicrm_participant_status_id'] = 
+                        if ( $val = CRM_Utils_Array::value('civicrm_participant_participant_status_id', $row ) ) {
+                            $componentRows[$contactID][$component][$rowNum]['civicrm_participant_participant_status_id'] = 
                                 CRM_Event_PseudoConstant::participantStatus( $val, false );
                         }
                         if ( $val = CRM_Utils_Array::value('civicrm_participant_role_id', $row ) ) {
