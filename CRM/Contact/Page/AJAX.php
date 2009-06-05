@@ -55,8 +55,32 @@ ORDER BY sort_name ";
             echo $contactList = "$dao->sort_name|$dao->id\n";
         }
         exit();
+    } 
+    
+    /**
+     * Function to fetch the values 
+     */
+    function autocomplete( &$config ) 
+    {
+        //FIXME: hardcoded for time-being
+        $query = "
+SELECT  v.label as label ,v.value as value, v.id as id
+FROM   civicrm_option_value v,
+       civicrm_option_group g
+WHERE  v.option_group_id = g.id
+  AND  g.id              = 2
+  AND  v.is_active       = 1 
+  AND  g.is_active       = 1 
+  ORDER BY v.weight, v.label; 
+";   
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        $completeList = null;
+        while ( $dao->fetch( ) ) {
+            echo $completeList = "$dao->label|$dao->id\n";
+        }
+        exit();
     }
-
+    
     static function relationship( &$config ) 
     {
         // CRM_Core_Error::debug_var( 'GET' , $_GET , true, true );
