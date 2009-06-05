@@ -15,7 +15,9 @@
 	                    <tr >
 			        <td width="300"><a href="{$row.url}">&raquo; {$row.title}</a></td>
 				<td width="450">{$row.description}</td>
-	                        <td><a href="{$row.deleteUrl}" onclick="return window.confirm('Are you sure you want Delete this Instance?');">Delete</a></td>
+				{if $row.deleteUrl}
+	                            <td><a href="{$row.deleteUrl}" onclick="return window.confirm('Are you sure you want Delete this Instance?');">{ts}Delete{/ts}</a></td>
+				{/if}
 			    </tr>
 	        	{/foreach}
                     </table>
