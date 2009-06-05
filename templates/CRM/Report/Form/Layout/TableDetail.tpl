@@ -82,7 +82,7 @@
 				    <td></td>
 				</tr>	
 				<tr class="columnheader">
-				    <th style="background-color:#F5F5F5" >{$component|upper}</th>
+				    <th style="background-color:#F5F5F5; width:28px; " >{$component|upper}</th>
 				    {foreach from=$pheader item=header}
 					<th>{$header.title}</th>
 				    {/foreach}

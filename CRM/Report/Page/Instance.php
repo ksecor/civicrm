@@ -67,8 +67,10 @@ class CRM_Report_Page_Instance extends CRM_Core_Page
                 
                 if ( ! empty($instanceInfo['title']) ) {
                     CRM_Utils_System::setTitle( $instanceInfo['title'] );
+                    $this->assign( 'reportTitle', $instanceInfo['title'] );
                 } else {
                     CRM_Utils_System::setTitle( $templateInfo['label'] );
+                    $this->assign( 'reportTitle', $templateInfo['label'] );
                 }
 
                 $wrapper =& new CRM_Utils_Wrapper( );

@@ -37,8 +37,11 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
 
+    const  
+        ROW_COUNT_LIMIT = 10;
+    
     protected $_summary      = null;
-
+    
     protected $_emailField   = false;
     
     protected $_phoneField   = false;
@@ -60,7 +63,9 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                           'filters'   =>             
                           array( 'id'           => 
                                  array( 'title'      => ts( 'Contact ID' ),
-                                        'default'    => 'eq' ), ),
+                                        'default'    => 'eq' ),
+                                 'display_name' =>
+                                 array( 'title'      => ts( 'Contact Name' ),),),
                           'grouping'  => 'contact-fields',
                           ),
                    
@@ -78,7 +83,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                         'default' => true ), 
                                  ),
                           ),
-
+                   
                    'civicrm_email'   =>
                    array( 'dao'       => 'CRM_Core_DAO_Email',
                           'fields'    =>
@@ -89,14 +94,14 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                  ),
                           'grouping'  => 'contact-fields',
                           ),
-
+                   
                    'civicrm_contribution'   =>
                    array( 'dao'       => 'CRM_Contribute_DAO_Contribution',
                           'fields'    =>
                           array( 'contact_id'             => 
                                  array( 'no_display' => true,
                                         'required'   => true, ),
-
+                                 
                                  'contribution_id'        => 
                                  array( 'title'      => ts( 'Contribution' ),
                                         'no_repeat'  => true,
@@ -122,7 +127,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                         'no_repeat'  => true,
                                         'default'    => true 
                                         ),
-
+                                 
                                  'membership_type_id' => array( 'default' => true ),
                                  'start_date'         => array( 'title'   => ts('Start Date'),
                                                                 'default' => true ),
@@ -137,7 +142,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                           array( 'contact_id'             => 
                                  array( 'no_display' => true,
                                         'required'   => true, ),
-
+                                 
                                  'participant_id' => 
                                  array( 'title'      => ts( 'Participant' ),
                                         'no_repeat'  => true,
@@ -323,6 +328,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         $this->_where .= " GROUP BY contact.id ";
     }
     function clauseComponent( ) {
+
         $contribution = $membership =  $participant = null;
         $eligibleResult = $rows = $tempArray= array();
         foreach( $this->_component as $val ) {
@@ -330,13 +336,20 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                 $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} $this->_where ,{$val}.id ";
                 $dao  = CRM_Core_DAO::executeQuery( $sql );
                 while ( $dao->fetch( ) ) {
+                    $countRecord = 0;
                     $eligibleResult[$val] = $val;
                     $CC  = "civicrm_{$val}_contact_id";
                     $row = array( );
                     foreach ( $this->_columnHeadersComponent[$val] as $key => $value ) {
+                        $countRecord++;
                         $row[$key] = $dao->$key;
                     }
-                    $rows[$dao->$CC][$val][] = $row;
+                    
+                    //if record exist for component(except contact_id)
+                    //since contact_id is selected for every component
+                    if( $countRecord > 1 ) {
+                        $rows[$dao->$CC][$val][] = $row;
+                      }
                     $tempArray[$dao->$CC]= $dao->$CC;
                 }
             }
@@ -344,45 +357,76 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         //unset the component header if data is not present
         foreach( $this->_component as $val ) {
             if ( !in_array( $val, $eligibleResult ) ) {
+
                 unset($this->_columnHeadersComponent[$val]);
             }
         }
+        
         return $rows;
     }
 
     
     function statistics( &$rows ) {
         $statistics = array();
-
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
         
-        if ( is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            $combinations[] = $field['title'];
-                        }
-                    }
-                }
-            }
-            $statistics[] = array( 'title' => ts('Grouping(s)'),
-                                   'value' => implode( ' & ', $combinations ) );
+        $count = count($rows);
+        if ( $this->_rollup && ($this->_rollup != '') ) {
+            $count++;
         }
+        
+        $this->countStat  ( $statistics, $count );
+        $this->filterStat ( $statistics );
         
         return $statistics;
     }
 
+    //Override to set limit is 10
+    function limit( ) {
+        // lets do the pager if in html mode
+        $this->_limit = null;
+        if ( $this->_reportMode == 'html' ) {
+            $this->_select = str_ireplace( 'SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select );
+            
+            $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
+            $pageId = $pageId ? $pageId : 1;
+            $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
+            
+            $this->_limit  = " LIMIT $offset, " . self::ROW_COUNT_LIMIT;
+        }
+    }
+    
+    //Override to set pager with limit is 10
+    function setPager( ) {
+        if ( $this->_limit && ($this->_limit != '') ) {
+            require_once 'CRM/Utils/Pager.php';
+            $sql    = "SELECT FOUND_ROWS();";
+            $this->_rowsFound = CRM_Core_DAO::singleValueQuery( $sql );
+            $params = array( 'total'    => $this->_rowsFound,
+                             'rowCount' => self::ROW_COUNT_LIMIT,
+                             'status'   => ts( 'Contributions %%StatusMessage%%' ) );
+            $pager = new CRM_Utils_Pager( $params );
+            $this->assign_by_ref( 'pager', $pager );
+        }
+    }
+    
     function postProcess( ) {
 
         $this->beginPostProcess( );
 
-        $sql = $this->buildQuery( false );
+        $sql = $this->buildQuery( true );
 
         $componentRows = $this->clauseComponent( );
         $this->alterComponentDisplay( $componentRows);
+
+        //unset Conmponent id and contact id from display
+        foreach( $this->_columnHeadersComponent as $componentTitle => $headers ) {
+            $id_header      = "civicrm_" . $componentTitle . "_" . $componentTitle. "_id";
+            $contact_header = "civicrm_" . $componentTitle ."_contact_id";
+            
+            unset( $this->_columnHeadersComponent[$componentTitle][$id_header] );
+            unset( $this->_columnHeadersComponent[$componentTitle][$contact_header] );
+        }
+        
         $this->assign_by_ref( 'columnHeadersComponent', $this->_columnHeadersComponent );
         $this->assign_by_ref( 'componentRows', $componentRows );
 
@@ -392,7 +436,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
             $rows[$key]['contactID'] = $val['civicrm_contact_id'];
         }
         $this->formatDisplay( $rows );
-
+        
         $this->doTemplateAssignment( $rows );
         $this->endPostProcess( );
     }
@@ -401,10 +445,21 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         // custom code to alter rows
  
         $entryFound = false;
+        $hoverText  = "View Contact Summary for this Contact";
 
         foreach ( $rows as $rowNum => $row ) {
             // make count columns point to detail report
 
+            // change contact name with link
+            if ( array_key_exists('civicrm_contact_display_name', $row) && 
+                 array_key_exists('civicrm_contact_id', $row) ) {
+                
+                $url = CRM_Utils_System::url( 'civicrm/report/contact/summary', 
+                                              'reset=1&force=1&id_value=' . $row['civicrm_contact_id'] );
+                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url' >" . $row['civicrm_contact_display_name'] . "</a>";
+                $entryFound = true;
+            }
+            
             // handle country
             if ( array_key_exists('civicrm_address_country_id', $row) ) {
                 if ( $value = $row['civicrm_address_country_id'] ) {

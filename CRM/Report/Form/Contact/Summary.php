@@ -251,7 +251,7 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
 
         $this->beginPostProcess( );
 
-        $sql  = $this->buildQuery( false );
+        $sql  = $this->buildQuery( true );
         
         $rows = $graphRows = array();
         $this->buildRows ( $sql, $rows );
