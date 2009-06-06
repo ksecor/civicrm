@@ -116,6 +116,7 @@ esac
 
 cd $DM_SOURCEDIR/xml
 $DM_PHP GenCode.php schema/Schema.xml $DM_VERSION
+exit
 
 cd $ORIGPWD
 
