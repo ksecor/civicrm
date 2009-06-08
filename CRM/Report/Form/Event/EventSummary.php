@@ -301,9 +301,6 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                 }
             }
         }
-        //build Chart
-        $this->buildChart( $rows );
-        
         $this->formatDisplay( $rows );
         unset($this->_columnHeaders['civicrm_event_id']);
         
@@ -332,7 +329,6 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                                     'yname'  => 'Event ID'
                                     );
                 if ( !empty($graphRows) ) {
-                    require_once 'CRM/Utils/PChart.php';
                     $graphs = CRM_Utils_PChart::reportChart( $graphRows,
                                                              $this->_params['charts'],
                                                              $graphRows[$this->_interval],

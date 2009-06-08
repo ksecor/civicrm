@@ -853,6 +853,10 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->setPager( );
         }
 
+        // allow building charts if any
+        require_once 'CRM/Utils/PChart.php';
+        $this->buildChart( $rows );
+
         // unset columns not to be displayed.
         foreach ( $this->_columnHeaders as $key => $value ) {
             if ( is_array($value) && isset($value['no_display']) ) {
@@ -874,6 +878,10 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         // use this method for formatting rows for display purpose.
         $this->alterDisplay( $rows );
+    }
+
+    function buildChart( &$rows ) {
+        // override this method for building charts.
     }
 
     function where( ) {

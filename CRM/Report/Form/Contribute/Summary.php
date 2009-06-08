@@ -50,16 +50,14 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'fields'    =>
                           array( 'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ),
-                                        'no_repeat'  => true,
-                                        'default'    => true ),
+                                        'no_repeat'  => true ),
                                  'id'           => 
                                  array( 'no_display' => true,
                                         'required'  => true, ), ),
                           'grouping'      => 'contact-fields',
                           'group_bys' => 
                           array( 'id'                =>
-                                 array( 'title'      => ts( 'Contact ID' ),
-                                        'default'    => true ),
+                                 array( 'title'      => ts( 'Contact ID' ) ),
                                  'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ), ), ),
                           ),
@@ -69,8 +67,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'fields'    =>
                           array( 'email' => 
                                  array( 'title'      => ts( 'Email' ),
-                                        'no_repeat'  => true,
-                                        'default'    => true ),  ),
+                                        'no_repeat'  => true ),  ),
                           'grouping'      => 'contact-fields',
                           ),
                    
@@ -79,8 +76,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'fields'    =>
                           array( 'phone' => 
                                  array( 'title'      => ts( 'Phone' ),
-                                        'no_repeat'  => true,
-                                        'default'    => true ), ),
+                                        'no_repeat'  => true ), ),
                           'grouping'      => 'contact-fields',
                           ),
                    
@@ -107,12 +103,13 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'grouping'              => 'contri-fields',
                           'filters'               =>             
                           array( 'receive_date'   => 
-                                 array( 'type'    => CRM_Utils_Type::T_DATE),
+                                 array( 'type'    => CRM_Utils_Type::T_DATE ),
                                  'total_amount'   => 
                                  array( 'title'   => ts( 'Total  Amount' ), ), ),
                           'group_bys'           =>
                           array( 'receive_date' => 
-                                 array( 'frequency'  => true ),
+                                 array( 'frequency'  => true,
+                                        'default'    => true ),
                                  'contribution_source'     => null, ), ),
 
                    'civicrm_address' =>
@@ -124,8 +121,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  'state_province_id' => 
                                  array( 'title'   => ts( 'State/Province' ), ),
                                  'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ),  
-                                        'default' => true ), ),
+                                 array( 'title'   => ts( 'Country' ) ), ),
                           'group_bys' =>
                           array( 'street_address'    => null,
                                  'city'              => null,
@@ -446,34 +442,13 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
     }
 
     function postProcess( ) {
-        $this->beginPostProcess( );
-        $sql = $this->buildQuery( );
-
-        require_once 'CRM/Utils/PChart.php';
-        $dao   = CRM_Core_DAO::executeQuery( $sql );
-        $rows  = $graphRows = array();
-        $count = 0;
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-           
-            $rows[] = $row;
-        }
-        //build chart
-        $this->buildChart( $rows );
-        
-        $this->formatDisplay( $rows );
-
-        // assign variables to templates
-        $this->doTemplateAssignment( $rows );
-        
-        $this->endPostProcess( );
+        parent::postProcess( );
     }
 
     function buildChart( &$rows ) {
-        
+        $graphRows = array();
+        $count = 0;
+
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
             foreach ( $rows as $key => $row ) {
                 if ( $row['civicrm_contribution_receive_date_subtotal'] ) {
@@ -484,7 +459,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                 }
             }
             
-            require_once 'CRM/Utils/PChart.php';
             if ( CRM_Utils_Array::value( 'receive_date', $this->_params['group_bys'] ) ) {
                 foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
                     unset( $graphRows[$ignore][$count-1] );
