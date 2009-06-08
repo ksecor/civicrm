@@ -211,13 +211,11 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     }
     
     function from( $year = null, $yearColumn = false ) {        
-        if ( ! $year ) {
-            $year = $this->_params['yid_value'];
-        }
-
         $yearClause = $yearColumn ? "AND YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ( {$this->_params['yid_value']} - 1, {$this->_params['yid_value']} - 2, {$this->_params['yid_value']} - 3 )" : '';
 
-        $yearClause .= " AND YEAR({$this->_aliases['civicrm_contribution']}.receive_date) < $year";
+        if ( $year ) {
+            $yearClause .= " AND YEAR({$this->_aliases['civicrm_contribution']}.receive_date) < $year";
+        }
 
         $this->_from = "
 FROM       civicrm_contribution  {$this->_aliases['civicrm_contribution']}
@@ -274,7 +272,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
         
         $clauses[] = "contribution.contact_id NOT IN
 (SELECT distinct cont.id FROM civicrm_contact cont, civicrm_contribution contri
- WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) = {$this->_params['yid_value']})";
+ WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) >= {$this->_params['yid_value']})";
 
         if ( $min > 0 || $max > 0 ) {
             $clauses[] = "contribution.contact_id BETWEEN $min AND $max";
