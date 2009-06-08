@@ -37,10 +37,10 @@ class CRM_Utils_Mail_Incoming {
 
     function formatMail( $mail, &$attachments ) {
         $t = '';
-        $t .= "From:      ". formatAddress( $mail->from ). "\n";
-        $t .= "To:        ". formatAddresses( $mail->to ). "\n";
-        $t .= "Cc:        ". formatAddresses( $mail->cc ). "\n";
-        $t .= "Bcc:       ". formatAddresses( $mail->bcc ). "\n";
+        $t .= "From:      ". self::formatAddress( $mail->from ). "\n";
+        $t .= "To:        ". self::formatAddresses( $mail->to ). "\n";
+        $t .= "Cc:        ". self::formatAddresses( $mail->cc ). "\n";
+        $t .= "Bcc:       ". self::formatAddresses( $mail->bcc ). "\n";
         $t .= 'Date:      '. date( DATE_RFC822, $mail->timestamp ). "\n";
         $t .= 'Subject:   '. $mail->subject . "\n";
         $t .= "MessageId: ". $mail->messageId . "\n";
@@ -129,7 +129,7 @@ class CRM_Utils_Mail_Incoming {
 
     function formatMailRfc822Digest( $part, &$attachments ) {
         $t = '';
-        $t .= "-DIGEST-ITEM-$key-\n";
+        $t .= "-DIGEST-ITEM-\n";
         $t .= "Item:\n\n";
         $t .= self::formatMailpart( $part->mail, $attachments );
         $t .= "-DIGEST ITEM END-\n";

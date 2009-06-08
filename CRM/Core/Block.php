@@ -261,6 +261,7 @@ class CRM_Core_Block {
                                $values );
             break;
 
+
         case self::FULLTEXT_SEARCH:
             $urlArray = array( 'fullTextSearchID'  => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',
                                                     'CRM_Contact_Form_Search_Custom_FullText', 'value', 'name' ) );
