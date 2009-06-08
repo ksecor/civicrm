@@ -384,7 +384,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     function limit( ) {
         // lets do the pager if in html mode
         $this->_limit = null;
-        if ( $this->_reportMode == 'html' ) {
+        if ( $this->_outputMode == 'html' ) {
             $this->_select = str_ireplace( 'SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select );
             
             $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );

@@ -931,17 +931,20 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $this->_absoluteUrl = false;
         $this->assign( 'printOnly', false );
+
         if ( $this->_printButtonName == $buttonName || $output == 'print' ) {
             $this->assign( 'printOnly', true );
-            $this->_reportMode = 'print';
+            $this->assign( 'outputMode', 'print' );
+            $this->_outputMode = 'print';
         } else if ( $this->_pdfButtonName   == $buttonName || $output == 'pdf' ) {
             $this->assign( 'printOnly', true );
-            $this->_reportMode = 'pdf';
+            $this->assign( 'outputMode', 'pdf' );
+            $this->_outputMode = 'pdf';
             $this->_absoluteUrl = true;
         } else {
-            $this->_reportMode = 'html';
+            $this->assign( 'outputMode', 'html' );
+            $this->_outputMode = 'html';
         }
-
     }
 
     function beginPostProcess( ) {
@@ -1105,7 +1108,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function endPostProcess( ) {
-        if ( $this->_reportMode == 'print' || $this->_reportMode == 'pdf' ) {
+        if ( $this->_outputMode == 'print' || $this->_outputMode == 'pdf' ) {
             $templateFile = parent::getTemplateFileName( ); 
                       
             if( $this->_graphPath ) {                
@@ -1116,7 +1119,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                 CRM_Core_Form::$_template->fetch( $templateFile ). $image .      
                 $this->_formValues['report_footer'] ;
             
-            if ( $this->_reportMode == 'print' ) {
+            if ( $this->_outputMode == 'print' ) {
                 echo $content;
             } else {
                 require_once 'CRM/Utils/PDF/Utils.php';                                
@@ -1153,7 +1156,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     function limit( ) {
         // lets do the pager if in html mode
         $this->_limit = null;
-        if ( $this->_reportMode == 'html' ) {
+        if ( $this->_outputMode == 'html' ) {
             $this->_select = str_ireplace( 'SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select );
 
             $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );

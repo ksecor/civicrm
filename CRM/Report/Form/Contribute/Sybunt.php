@@ -272,6 +272,10 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
             }
         }
         
+        $clauses[] = "contribution.contact_id NOT IN
+(SELECT distinct cont.id FROM civicrm_contact cont, civicrm_contribution contri
+ WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) = {$this->_params['yid_value']})";
+
         if ( $min > 0 || $max > 0 ) {
             $clauses[] = "contribution.contact_id BETWEEN $min AND $max";
         }
