@@ -147,13 +147,13 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                    );
         
         // Add contribution custom fields
-        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE extends = "Contribution"';
+        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
         $dao = CRM_Core_DAO::executeQuery( $query );
         while ( $dao->fetch( ) ) {
         
           // Assemble the fields for this custom data group
           $fields = array();
-          $query = 'SELECT column_name, label FROM civicrm_custom_field WHERE custom_group_id = ' . $dao->id;
+          $query = 'SELECT column_name, label FROM civicrm_custom_field WHERE is_active = 1 AND custom_group_id = ' . $dao->id;
           $dao_column = CRM_Core_DAO::executeQuery( $query );
           while ( $dao_column->fetch( ) ) {
             $fields[$dao_column->column_name] = array(
@@ -254,7 +254,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
         ";
         
         // LEFT JOIN on contribution custom data fields
-        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE extends = "Contribution"';
+        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
         $dao = CRM_Core_DAO::executeQuery( $query );
         while ( $dao->fetch( ) ) {
           $alias = $this->_aliases[$dao->table_name];
