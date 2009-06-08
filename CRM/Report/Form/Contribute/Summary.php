@@ -36,6 +36,7 @@
 require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
+    protected $_addressField = false;
 
     protected $_charts = array( ''         => 'Tabular',
                                 'barGraph' => 'Bar Graph',
@@ -114,6 +115,37 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  array( 'frequency'  => true ),
                                  'contribution_source'     => null, ), ),
 
+                   'civicrm_address' =>
+                   array( 'dao' => 'CRM_Core_DAO_Address',
+                          'fields' =>
+                          array( 'street_address'    => null,
+                                 'city'              => null,
+                                 'postal_code'       => null,
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ), ),
+                                 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ),  
+                                        'default' => true ), ),
+                          'group_bys' =>
+                          array( 'street_address'    => null,
+                                 'city'              => null,
+                                 'postal_code'       => null,
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ), ),
+                                 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ), ), ),
+                          'grouping'=> 'contact-fields',
+                          'filters' =>             
+                          array( 'country_id' => 
+                                 array( 'title'   => ts( 'Country' ), 
+                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'options' => CRM_Core_PseudoConstant::country( ),), 
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ), 
+                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'options' => CRM_Core_PseudoConstant::stateProvince( ),), ),
+                          ),
+
                    'civicrm_group' => 
                    array( 'dao'    => 'CRM_Contact_DAO_Group',
                           'alias'  => 'cgroup',
@@ -170,6 +202,9 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
+                    if ( $tableName == 'civicrm_address' ) {
+                        $this->_addressField = true;
+                    }
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
                         switch ( $this->_params['group_bys_freq'][$fieldName] ) {
                         case 'YEARWEEK' :
@@ -222,6 +257,9 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
             if ( array_key_exists('fields', $table) ) {
                 foreach ( $table['fields'] as $fieldName => $field ) {
+                    if ( $tableName == 'civicrm_address' ) {
+                        $this->_addressField = true;
+                    }
                     if ( CRM_Utils_Array::value( 'required', $field ) ||
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
                         
@@ -322,6 +360,12 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
           $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
         }
 
+        if ( $this->_addressField ) {
+            $this->_from .= "
+            LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
+                   ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
+                      {$this->_aliases['civicrm_address']}.is_primary = 1\n";
+        }
     }
 
     function where( ) {
@@ -501,6 +545,35 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                 $entryFound = true;
             }
 
+            // handle state province
+            if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
+                if ( $value = $row['civicrm_address_state_province_id'] ) {
+                    $rows[$rowNum]['civicrm_address_state_province_id'] = 
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+
+                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/summary',
+                                                  "reset=1&force=1&" . 
+                                                  "state_province_id_op=in&state_province_id_value={$value}" );
+                    $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
+                }
+                $entryFound = true;
+            }
+
+            // handle country
+            if ( array_key_exists('civicrm_address_country_id', $row) ) {
+                if ( $value = $row['civicrm_address_country_id'] ) {
+                    $rows[$rowNum]['civicrm_address_country_id'] = 
+                        CRM_Core_PseudoConstant::country( $value, false );
+
+                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/summary',
+                                                  "reset=1&force=1&" . 
+                                                  "country_id_op=in&country_id_value={$value}" );
+                    $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
+                }
+                
+                $entryFound = true;
+            }
+            
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
