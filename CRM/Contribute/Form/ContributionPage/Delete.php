@@ -142,7 +142,11 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
         $dao->entity_table = 'civicrm_contribution_page';
         $dao->entity_id    = $this->_id;
         $dao->delete( );
-
+        
+        // need to delete premiums. CRM-4586
+        require_once 'CRM/Contribute/BAO/Premium.php';
+        CRM_Contribute_BAO_Premium::deletePremium( $this->_id );
+        
         // finally delete the contribution page
         require_once 'CRM/Contribute/DAO/ContributionPage.php';
         $dao =& new CRM_Contribute_DAO_ContributionPage( );
