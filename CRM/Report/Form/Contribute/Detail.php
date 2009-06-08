@@ -135,6 +135,15 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                         'title'   => ts( 'Group' ),
                                         'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+
+                   'civicrm_contribution_ordinality' => 
+                   array( 'dao'    => 'CRM_Contribute_DAO_Contribution',
+                          'alias'  => 'cordinality',
+                          'filters' =>             
+                          array( 'ordinality' => 
+                                 array( 'title'   => ts( 'Contribution Ordinality' ),
+                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'options' => array(0 => 'First by Contributor', 1 => 'Second or Later by Contributor') ), ), ),
                    );
         
         $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Contribution Statistics' ),
@@ -210,6 +219,8 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
         FROM  civicrm_contact      {$this->_aliases['civicrm_contact']}
               INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} 
                       ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
+              INNER JOIN (SELECT c.id, IF(COUNT(oc.id) = 0, 0, 1) AS ordinality FROM civicrm_contribution c LEFT JOIN civicrm_contribution oc ON c.contact_id = oc.contact_id AND oc.receive_date < c.receive_date GROUP BY c.id) {$this->_aliases['civicrm_contribution_ordinality']} 
+                      ON {$this->_aliases['civicrm_contribution_ordinality']}.id = {$this->_aliases['civicrm_contribution']}.id
                LEFT JOIN  civicrm_phone {$this->_aliases['civicrm_phone']} 
                       ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
                          {$this->_aliases['civicrm_phone']}.is_primary = 1)
