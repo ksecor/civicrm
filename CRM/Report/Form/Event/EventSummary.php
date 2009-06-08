@@ -92,10 +92,7 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) { 
-        return parent::setDefaultValues( );
-    }
-    
+       
     function select( ) {
         $select = array( );
         foreach ( $this->_columns as $tableName => $table ) {

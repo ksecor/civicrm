@@ -42,7 +42,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     
     function __construct( ) {
         $yearsInPast      = 8;
-        $yearsInFuture    = 1;
+        $yearsInFuture    = 2;
         $date             = CRM_Core_SelectValues::date('custom', $yearsInPast, $yearsInFuture, $dateParts ) ;        
         $count            = $date['maxYear'];
         while ( $date['minYear'] <= $count )  {
@@ -261,7 +261,8 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                 
     }
     
-     function where( ) {
+     function where( $min = 0, $max = 0 ) {
+         $this->_where = "";  
         $clauses = array( );
 
         foreach ( $this->_columns as $tableName => $table ) {
@@ -294,6 +295,13 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                 }
             }
         }
+        $clauses[] = "contribution.contact_id NOT IN
+(SELECT distinct cont.id FROM civicrm_contact cont, civicrm_contribution contri
+ WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) >= {$this->_params['yid_value']})";
+               
+        if ( $min > 0 || $max > 0 ) {
+            $clauses[] = "contribution.contact_id BETWEEN $min AND $max";
+        }
 
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
@@ -313,27 +321,37 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         // get ready with post process params
         $this->beginPostProcess( );
 
-
         $this->select ( );
-        $this->from   ( null, true );
-        $this->groupBy( true );
-
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
-
         $this->from   ( );
+        $this->where  ( );
         $this->groupBy( false );
+        $this->limit( );   
 
-        $sqlLifeTime = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";             
+        $sqlLifeTime  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";             
         $current_year = $this->_params['yid_value'] ; 
-        $dao          = CRM_Core_DAO::executeQuery( $sql );
+       
         $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );
+        $this->setPager( );
+        $min = $max = 0;
         
         while ( $dao_lifeTime->fetch( ) ) {
             
             $contact_id                = $dao_lifeTime->civicrm_contribution_contact_id;
-            $life_time [ $contact_id ] = $dao_lifeTime->civicrm_contribution_total_amount;             
-        }       
-      
+            $life_time [ $contact_id ] = $dao_lifeTime->civicrm_contribution_total_amount;
+          
+            $min = ($contact_id < $min) ? $contact_id : ($max > 0) ? $min : $contact_id;
+            $max = ($contact_id > $max) ? $contact_id : $max;
+        }
+   
+        $dao_lifeTime->free( );
+         
+        $this->from   ( null, true );
+        $this->where  ( $min, $max ); 
+        $this->groupBy( true );        
+             
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
+        $dao          = CRM_Core_DAO::executeQuery( $sql );
+            
         $rows  = array( );
         $count = 0;               
         $this->assign ( 'columnHeaders', $this->_columnHeaders );
@@ -342,12 +360,13 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
             $row        = array( );         
             $contact_id = $dao->civicrm_contribution_contact_id;            
             $year       = $dao->civicrm_contribution_receive_date; 
-            $display[ $contact_id ][ $year ]                            = $dao->civicrm_contribution_total_amount ;            
-            $display[ $contact_id ]['civicrm_contact_display_name']     = $dao->civicrm_contact_display_name ;             
-            $display[ $contact_id ]['civicrm_email_email']              = $dao->civicrm_email_email ;   
-            $display[$contact_id ]['civicrm_life_time_total']          =  $life_time [ $contact_id ];
+            $display[ $contact_id ][ $year ]                            =  $dao->civicrm_contribution_total_amount ;            
+            $display[ $contact_id ]['civicrm_contact_display_name']     =  $dao->civicrm_contact_display_name ;             
+            $display[ $contact_id ]['civicrm_email_email']              =  $dao->civicrm_email_email ;   
+            $display[ $contact_id ]['civicrm_life_time_total']          =  $life_time [ $contact_id ];
                        
         }  
+        
      
         if( ! empty($display) ) {
             foreach( $display as $key => $value ) {
