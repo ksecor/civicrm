@@ -1,6 +1,10 @@
 {* Report form criteria section *}
     {if $colGroups}
-        &raquo;&nbsp;{ts}Display Columns{/ts}
+        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+            <tr>
+	        <td><strong>{ts}Display Columns{/ts}</strong></td>
+	    </tr>
+	</table>
         {foreach from=$colGroups item=grpFields key=dnc}
             {assign  var="count" value="1"}
             <table class="form-layout">
@@ -19,7 +23,12 @@
     {/if}
     
     {if $groupByElements}
-        <br/>&raquo;&nbsp;{ts}Group by Columns{/ts}
+        <br/>
+        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+            <tr>
+	        <td><strong>{ts}Group by Columns{/ts}</strong></td>
+	    </tr>
+	</table>
         {assign  var="count" value="1"}
         <table class="form-layout">
             <tr>
@@ -39,13 +48,24 @@
     {/if}
 
     {if $form.options.html}
-        <br/>&raquo;&nbsp;{ts}Other Options{/ts}
+        <br/>
+        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+            <tr>
+	        <td><strong>{ts}Other Options{/ts}</strong></td>
+	    </tr>
+	</table>
+
         <table class="form-layout">
             <tr><td width="25%">{$form.options.html}</td></tr>
         </table>
     {/if}
   
-        <br/>&raquo;&nbsp;{ts}Set Filters{/ts}
+        <br/>
+        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+            <tr>
+	        <td><strong>{ts}Set Filters{/ts}</strong></td>
+	    </tr>
+	</table>
         <table class="form-layout">
             {foreach from=$filters     item=table key=tableName}
                 {foreach from=$table       item=field key=fieldName}
@@ -55,17 +75,17 @@
                     {assign var=filterMax   value=$fieldName|cat:"_max"}
                     {if $field.type & 4}
                         <tr>
-                            <td style="vertical-align: top;">{$field.title}</td>
+                            <td style="vertical-align: top;"><strong>{$field.title}</strong></td>
                             <td colspan=2>{include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}</td>
                         </tr>
 	            {elseif $field.type == 17}                                
                         <tr>                                    
-                            <td style="vertical-align: top;">{$field.title}</td>
+                            <td style="vertical-align: top;"><strong>{$field.title}</strong></td>
                             <td id="{$filterVal}_cell">{$form.$filterVal.html}</td>    				    
                         </tr>
                     {else}
                         <tr>
-                            <td width="20%">{$field.title}</td>
+                            <td width="20%"><strong>{$field.title}</strong></td>
                             <td width="20%">{$form.$fieldOp.html}</td>
                             <td id="{$filterVal}_cell">{$form.$filterVal.label}&nbsp;{$form.$filterVal.html}</td>
                             <td id="{$filterMin}_max_cell">&nbsp;&nbsp;&nbsp;{$form.$filterMin.label}&nbsp;{$form.$filterMin.html}&nbsp;&nbsp;{$form.$filterMax.label}&nbsp;{$form.$filterMax.html}</td>
@@ -76,7 +96,12 @@
         </table>
  
     {if $form.charts.html}
-        <br/>&raquo;&nbsp;{ts}Chart Options{/ts}
+        <br/>
+        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+            <tr>
+	        <td><strong>{ts}Chart Options{/ts}</strong></td>
+	    </tr>
+	</table>
         <table class="form-layout">
             <tr>
                 <td>{$form.charts.label}&nbsp;&nbsp;{$form.charts.html}</td>
