@@ -62,7 +62,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
                civicrm_report_instance inst
             
          WHERE v.option_group_id = g.id AND
-               g.name      = 'report_list'   AND
+               g.name      = 'report_template'   AND
                v.value     = inst.report_id  AND
                v.is_active = 1
                {$report}

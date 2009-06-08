@@ -51,7 +51,7 @@ class CRM_Report_Page_Report extends CRM_Core_Page
         $optionVal    = CRM_Report_Utils_Report::getValueFromUrl( );
 
         require_once 'CRM/Core/OptionGroup.php';
-        $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$optionVal}", 'value',
+        $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_template', "{$optionVal}", 'value',
                                                             'String', false );
 
         if ( strstr($templateInfo['name'], '_Form') ) {

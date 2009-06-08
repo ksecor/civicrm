@@ -45,7 +45,7 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
                                                'String',
                                                $this, false, 'add' );
         $this->_opID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
-                                             'report_list', 'id', 'name' );
+                                             'report_template', 'id', 'name' );
 
     }
     function setDefaultValues( ) 
@@ -109,12 +109,12 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
         $params = $this->controller->exportValues( $this->_name );
         
         $ids    = array( );
-        $groupParams = array( 'name' => ('report_list') );
+        $groupParams = array( 'name' => ('report_template') );
         require_once 'CRM/Core/OptionValue.php';
         $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
         
-        CRM_Core_Session::setStatus( ts('The %1 \'%2\' has been saved.', array(1 => 'Report List', 2 => $optionValue->label)) );
-        CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin/report/list', "reset=1") );
+        CRM_Core_Session::setStatus( ts('The %1 \'%2\' has been saved.', array(1 => 'Report Template', 2 => $optionValue->label)) );
+        CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/template/list', "reset=1") );
     }     
 }
 ?>

@@ -59,7 +59,7 @@ class CRM_Report_Page_Instance extends CRM_Core_Page
             CRM_Core_Session::setStatus( ts( 'Selected Instance has been deleted.' ) );
         } else {
             require_once 'CRM/Core/OptionGroup.php';
-            $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_list', "{$optionVal}", 'value' );
+            $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_template', "{$optionVal}", 'value' );
 
             if ( strstr($templateInfo['name'], '_Form') ) {
                 $instanceInfo = array( );
