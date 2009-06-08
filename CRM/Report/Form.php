@@ -354,7 +354,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                         if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
                             $this->_defaults["{$fieldName}_relative"] = $field['default'];
                         } else {
-                            $this->_defaults["{$fieldName}_op"] = $field['default'];
+                            $this->_defaults["{$fieldName}_value"]    = $field['default'];
                         }
                     }
                 }
@@ -847,9 +847,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         return true;
     }
 
-    function formatDisplay( &$rows ) {
+    function formatDisplay( &$rows, $pager = true ) {
         // set pager based on if any limit was applied in the query. 
-        $this->setPager( );
+        if ( $pager ) {
+            $this->setPager( );
+        }
 
         // unset columns not to be displayed.
         foreach ( $this->_columnHeaders as $key => $value ) {
@@ -1085,7 +1087,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                                 $pair[$op] = (count($val) == 1) ? ts('Is') : $pair[$op];
                                 $val       = implode( ', ', $val );
                                 $value     = "{$pair[$op]} " . $val;
-                            } else if ( is_numeric($val) ) {
+                            } else if ( $val ) {
                                 $value = "{$pair[$op]} " . $val;
                             }
                         }

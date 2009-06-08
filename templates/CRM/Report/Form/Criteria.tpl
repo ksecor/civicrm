@@ -67,8 +67,8 @@
                         <tr>
                             <td width="20%">{$field.title}</td>
                             <td width="20%">{$form.$fieldOp.html}</td>
-                            <td id="{$filterVal}_cell">{$form.$filterVal.label}:&nbsp;{$form.$filterVal.html}</td>
-                            <td id="{$filterMin}_max_cell">&nbsp;&nbsp;&nbsp;{$form.$filterMin.label}:&nbsp;{$form.$filterMin.html}&nbsp;&nbsp;{$form.$filterMax.label}:&nbsp;{$form.$filterMax.html}</td>
+                            <td id="{$filterVal}_cell">{$form.$filterVal.label}&nbsp;{$form.$filterVal.html}</td>
+                            <td id="{$filterMin}_max_cell">&nbsp;&nbsp;&nbsp;{$form.$filterMin.label}&nbsp;{$form.$filterMin.html}&nbsp;&nbsp;{$form.$filterMax.label}&nbsp;{$form.$filterMax.html}</td>
                         </tr>
                     {/if}
                 {/foreach}

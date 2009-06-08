@@ -94,19 +94,12 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                           'filters'       =>             
                           array(  'yid'          =>  
                                   array( 'name'    => 'receive_date',
-                                         'title'   => ts( 'Select Year' ),
+                                         'title'   => ts( 'This Year' ),
                                          'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN,
-                                         'options' => $optionYear ),       
+                                         'options' => $optionYear,
+                                         'default' => date('Y')  ),       
                                   ), ),   
                           
-                  'civicrm_contribution_type' =>
-                  array( 'dao'                => 'CRM_Contribute_DAO_ContributionType',
-                         'filters'            =>             
-                         array( 'name'   => 
-                                array( 'title'      =>  ts( 'Contribution Type' ),
-                                       'operator'   => 'like' ), ),                                       
-                         ),                  
-                  
                   'civicrm_group' => 
                   array( 'dao'    => 'CRM_Contact_DAO_Group',
                          'alias'  => 'cgroup',
@@ -244,7 +237,8 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
 " ;
     }
     
-    function where( ) {
+    function where( $min = 0, $max = 0 ) {
+        $this->_where = "";
         $clauses = array( );
 
         foreach ( $this->_columns as $tableName => $table ) {
@@ -277,6 +271,10 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
                 }
             }
         }
+        
+        if ( $min > 0 || $max > 0 ) {
+            $clauses[] = "contribution.contact_id BETWEEN $min AND $max";
+        }
 
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
@@ -296,32 +294,40 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
         $this->beginPostProcess( );
 
         $this->select ( );
-        $this->from   ( null, true );
-        $this->groupBy( true );
-
-        $sqlYear = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
-
         $this->from   ( );
+        $this->where  ( );
         $this->groupBy( false );
+        $this->limit( );
 
-        $sqlLifeTime = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
+        $sqlLifeTime = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
+        $daoLifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );
+        $this->setPager( );
+        $min = $max = 0;
 
-        $this->from   ( $this->_params['yid_value'] - 3, false );
-        $this->groupBy( false );
-        $sqlUpTo = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} ";
-
-        $daoYear             = CRM_Core_DAO::executeQuery( $sqlYear ); 
-        $daoLifeTime         = CRM_Core_DAO::executeQuery( $sqlLifeTime );
-        $daoUpTo             = CRM_Core_DAO::executeQuery( $sqlUpTo );
-        
         while ( $daoLifeTime->fetch( ) ) {
             $contact_id = $daoLifeTime->civicrm_contribution_contact_id;
 
             $display[ $contact_id ]['civicrm_life_time_total'] = 
                 $daoLifeTime->civicrm_contribution_total_amount;
-            $display[ $contact_id ]['civicrm_contact_display_name'] = $daoYear->civicrm_contact_display_name;
-            $display[ $contact_id ]['civicrm_email_email']          = $daoYear->civicrm_email_email ;    
-        } 
+            $display[ $contact_id ]['civicrm_contact_display_name'] = $daoLifeTime->civicrm_contact_display_name;
+            $display[ $contact_id ]['civicrm_email_email']          = $daoLifeTime->civicrm_email_email ;    
+            
+            $min = ($contact_id < $min) ? $contact_id : ($max > 0) ? $min : $contact_id;
+            $max = ($contact_id > $max) ? $contact_id : $max;
+        }
+        $daoLifeTime->free( );
+
+        $this->from   ( null, true );
+        $this->where  ( $min, $max );
+        $this->groupBy( true );
+        $sqlYear = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
+
+        $this->from   ( $this->_params['yid_value'] - 3, false );
+        $this->groupBy( false );
+        $sqlUpTo = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}";
+
+        $daoYear = CRM_Core_DAO::executeQuery( $sqlYear ); 
+        $daoUpTo = CRM_Core_DAO::executeQuery( $sqlUpTo );
 
         $previous_three_year = $this->_params['yid_value'] - 3;
         while ( $daoUpTo->fetch( ) ) {
@@ -329,10 +335,11 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
 
             $display[ $contact_id ]["civicrm_upto_{$previous_three_year}"] =
                 $daoUpTo->civicrm_contribution_total_amount;            
-            $display[ $contact_id ]['civicrm_contact_display_name'] = $daoYear->civicrm_contact_display_name;
-            $display[ $contact_id ]['civicrm_email_email']          = $daoYear->civicrm_email_email ;    
+            $display[ $contact_id ]['civicrm_contact_display_name'] = $daoUpTo->civicrm_contact_display_name;
+            $display[ $contact_id ]['civicrm_email_email']          = $daoUpTo->civicrm_email_email ;    
         } 
-        
+        $daoUpTo->free( );
+
         while ( $daoYear->fetch( ) ) { 
             $contact_id = $daoYear->civicrm_contribution_contact_id;            
 
@@ -341,6 +348,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
             $display[ $contact_id ]['civicrm_contact_display_name'] = $daoYear->civicrm_contact_display_name;
             $display[ $contact_id ]['civicrm_email_email']          = $daoYear->civicrm_email_email ;    
         }
+        $daoYear->free( );
 
         $rows = array( );
         if( ! empty($display) ) {
@@ -354,7 +362,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
         }
 
         // format result set. 
-        $this->formatDisplay( $rows );
+        $this->formatDisplay( $rows, false );
 
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
