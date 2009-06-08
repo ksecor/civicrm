@@ -68,6 +68,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'fields'    =>
                           array( 'email' => 
                                  array( 'title'      => ts( 'Email' ),
+                                        'default'    => true
                                        ),  ),
                           'grouping'      => 'contact-fields',
                           ),
@@ -77,6 +78,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'fields'    =>
                           array( 'phone' => 
                                  array( 'title'      => ts( 'Phone' ),
+                                        'default'    => true
                                         ), ),
                           'grouping'      => 'contact-fields',
                           ),
