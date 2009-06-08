@@ -125,6 +125,30 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
 
+        // Add contribution custom fields
+        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE extends = "Contribution"';
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+        
+          // Assemble the fields for this custom data group
+          $fields = array();
+          $query = 'SELECT column_name, label FROM civicrm_custom_field WHERE custom_group_id = ' . $dao->id;
+          $dao_column = CRM_Core_DAO::executeQuery( $query );
+          while ( $dao_column->fetch( ) ) {
+            $fields[$dao_column->column_name] = array(
+              'title' => $dao_column->label,
+            );
+          }
+          
+          // Add the custom data table and fields to the report column options
+          $this->_columns[$dao->table_name] = array(
+            'dao' => 'CRM_Contribute_DAO_Contribution',
+            'fields' => $fields,
+            'group_bys' => $fields,
+          );
+        }
+
+
         $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
                                                                  'type'   => 'checkbox',
                                                                  'default'=> true ),
@@ -288,6 +312,16 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
              LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
                      ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
             ";
+
+        // LEFT JOIN on contribution custom data fields
+        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE extends = "Contribution"';
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+          $alias = $this->_aliases[$dao->table_name];
+          $this->_from .= "\n" . 'LEFT JOIN ' . $dao->table_name . ' ' . $alias;
+          $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
+        }
+
     }
 
     function where( ) {
