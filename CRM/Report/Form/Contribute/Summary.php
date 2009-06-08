@@ -337,11 +337,11 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                      ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
              LEFT  JOIN civicrm_contribution_type  {$this->_aliases['civicrm_contribution_type']} 
                      ON {$this->_aliases['civicrm_contribution']}.contribution_type_id ={$this->_aliases['civicrm_contribution_type']}.id
-              LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} 
+             LEFT  JOIN civicrm_email {$this->_aliases['civicrm_email']} 
                      ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND 
                         {$this->_aliases['civicrm_email']}.is_primary = 1) 
               
-              LEFT JOIN civicrm_phone {$this->_aliases['civicrm_phone']} 
+             LEFT  JOIN civicrm_phone {$this->_aliases['civicrm_phone']} 
                      ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
                         {$this->_aliases['civicrm_phone']}.is_primary = 1)
               

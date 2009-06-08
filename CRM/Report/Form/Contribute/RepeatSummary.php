@@ -45,7 +45,8 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                           'fields'    =>
                           array( 'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ),
-                                        'no_repeat'  => true ),
+                                        'no_repeat'  => true,
+                                        'default'    => true,),
                                  'id'           => 
                                  array( 'no_display' => true,
                                         'required'   => true, ), ), 
@@ -56,6 +57,26 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                                  array( 'title'      => ts( 'Contact Name' ), ), ),
                           ),
 
+                   'civicrm_email'   =>
+                   array( 'dao'       => 'CRM_Core_DAO_Email',
+                          'fields'    =>
+                          array( 'email' => 
+                                 array( 'title'      => ts( 'Email' ),
+                                        'no_repeat'  => true,
+                                        'default'    => true ),  ),
+                          'grouping'      => 'contact-fields',
+                          ),
+                   
+                   'civicrm_phone'   =>
+                   array( 'dao'       => 'CRM_Core_DAO_Phone',
+                          'fields'    =>
+                          array( 'phone' => 
+                                 array( 'title'      => ts( 'Phone' ),
+                                        'no_repeat'  => true,
+                                        'default'    => true ), ),
+                          'grouping'      => 'contact-fields',
+                          ),
+                   
                    'civicrm_address' =>
                    array( 'dao'       => 'CRM_Core_DAO_Address',
                           'grouping'  => 'contact-fields',
@@ -152,22 +173,19 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
 
                         switch ( $this->_params['group_bys_freq'][$fieldName] ) {
                         case 'YEARWEEK' :
-                            $select[] = "DATE_SUB({$field['alias']}.{$field['name']}, 
-INTERVAL WEEKDAY({$field['alias']}.{$field['name']}) DAY) AS start";
+                            $select[] = "DATE_SUB({$field['alias']}.{$field['name']}, INTERVAL WEEKDAY({$field['alias']}.{$field['name']}) DAY) AS start";
                             $uni[] = "YEAR({$field['alias']}.{$field['name']}), YEARWEEK({$field['alias']}.{$field['name']})";
                             $field['title'] = 'Week';
                             break;
                             
                         case 'YEAR' :
-                            $select[] = "MAKEDATE(YEAR({$field['alias']}.{$field['name']}), 1)  
-AS start";
+                            $select[] = "MAKEDATE(YEAR({$field['alias']}.{$field['name']}), 1)  AS start";
                             $uni[] = "YEAR({$field['alias']}.{$field['name']})";
                             $field['title'] = 'Year';
                             break;
                             
                         case 'MONTH':
-                            $select[] = "DATE_SUB({$field['alias']}.{$field['name']}, 
-INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
+                            $select[] = "DATE_SUB({$field['alias']}.{$field['name']}, INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
                             $uni[] = "YEAR({$field['alias']}.{$field['name']}), MONTH({$field['alias']}.{$field['name']})";
                             $field['title'] = 'Month';
                             break;
@@ -221,11 +239,11 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
                                     break;
                                 }
                                 if ( $hits ) {
-                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['title']= 
-                                        $label;
+                                    $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['title'] = $label;
                                     if ( strtolower($stat) == 'sum' ) {
-                                        $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['type'] = 
-                                            $field['type'];
+                                        $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['type'] = $field['type'];
+                                    } else if ( strtolower($stat) == 'count' ) {
+                                        $this->_columnHeaders["{$field['alias']}_{$field['name']}_{$stat}"]['type'] = CRM_Utils_Type::T_INT;
                                     }
                                     $this->_statFields[] = "{$field['alias']}_{$field['name']}_{$stat}";
                                     if ( $field['no_display'] ) {
@@ -300,23 +318,31 @@ INTERVAL (DAYOFMONTH({$field['alias']}.{$field['name']})-1) DAY) as start";
 
     function from( $alias = 'c1' ) {
         $this->_from = "
-FROM civicrm_contribution        $alias 
+        FROM civicrm_contribution        $alias 
 
-INNER JOIN civicrm_contact       {$this->_aliases['civicrm_contact']}
-        ON {$alias}.contact_id = {$this->_aliases['civicrm_contact']}.id
+             INNER JOIN civicrm_contact       {$this->_aliases['civicrm_contact']}
+                     ON {$alias}.contact_id = {$this->_aliases['civicrm_contact']}.id
 
-LEFT  JOIN civicrm_address       {$this->_aliases['civicrm_address']} 
-        ON {$this->_aliases['civicrm_address']}.contact_id = {$alias}.contact_id
+             LEFT  JOIN civicrm_address       {$this->_aliases['civicrm_address']} 
+                     ON {$this->_aliases['civicrm_address']}.contact_id = {$alias}.contact_id
 
-LEFT  JOIN civicrm_contribution_type  contribution_type 
-        ON contribution_type.id = {$alias}.contribution_type_id
+             LEFT  JOIN civicrm_email         {$this->_aliases['civicrm_email']} 
+                     ON ({$this->_aliases['civicrm_email']}.contact_id = {$alias}.contact_id AND 
+                        {$this->_aliases['civicrm_email']}.is_primary = 1) 
+              
+             LEFT  JOIN civicrm_phone {$this->_aliases['civicrm_phone']} 
+                     ON ({$this->_aliases['civicrm_phone']}.contact_id = {$alias}.contact_id  AND 
+                        {$this->_aliases['civicrm_phone']}.is_primary = 1)
 
-LEFT  JOIN civicrm_group_contact     group_contact 
-        ON {$alias}.contact_id = group_contact.contact_id  AND group_contact.status='Added'
+             LEFT  JOIN civicrm_contribution_type  contribution_type 
+                     ON contribution_type.id = {$alias}.contribution_type_id
 
-LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']} 
-        ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
-";
+             LEFT  JOIN civicrm_group_contact     group_contact 
+                     ON {$alias}.contact_id = group_contact.contact_id  AND group_contact.status='Added'
+
+             LEFT  JOIN civicrm_group             {$this->_aliases['civicrm_group']} 
+                     ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
+             ";
     }
 
     function where( $alias = 'c1' ) {

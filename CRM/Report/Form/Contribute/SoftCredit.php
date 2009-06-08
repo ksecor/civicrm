@@ -93,7 +93,6 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                  array( 'title'      => ts('Constituent\'s Email'), 
                                         'name'       => 'email',
                                         'alias'      => 'emailconst',
-                                        'default'    => true,
                                         ),
                                  ),
                           'grouping'=> 'contact-fields',
@@ -106,6 +105,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                  array( 'title'      => ts('Creditors\'s Phone'), 
                                         'name'       => 'phone',
                                         'alias'      => 'pcredit',
+                                        'default'    => true,
                                         ),
                                  'phone_constituent' => 
                                  array( 'title'      => ts('Constituent\'s Phone'), 
@@ -221,6 +221,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                     break;
                                 case 'count':
                                     $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type']  = CRM_Utils_Type::T_INT;
                                     $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
                                     $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
                                     break;
