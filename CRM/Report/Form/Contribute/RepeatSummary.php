@@ -524,7 +524,8 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
                                                   "country_id_op=in&country_id_value={$value}&" .
-                                                  "$dateUrl"
+                                                  "$dateUrl",
+                                                  $this->_absoluteUrl
                                                   );
 		                                      
                     $rows[$rowNum]['address_country_id']="<a title='{$hoverCountry }' href='{$url}'>".$contryName."</a>";
@@ -541,7 +542,8 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
                                                   "state_province_id_op=in&state_province_id_value={$value}&" .
-                                                  "$dateUrl"
+                                                  "$dateUrl",
+                                                  $this->_absoluteUrl
                                                   );
                     $rows[$rowNum]['address_state_province_id'] ="<a title='{$hoverState}' href='{$url}'>".$stateName."</a>";
                 }
@@ -554,7 +556,8 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
                                                   "contribution_type_op=has&contribution_type_value={$value}&" .
-                                                  "$dateUrl"
+                                                  "$dateUrl",
+                                                  $this->_absoluteUrl
                                                   );
                     $rows[$rowNum]['contribution_type_name'] ="<a title='{$hoverContriType}' href='{$url}' >".$value."</a>";
                 }
@@ -565,7 +568,8 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
             if ( array_key_exists('contact_display_name', $row) && 
                  array_key_exists('contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['contact_id'] );
+                                              'reset=1&force=1&id_op=eq&id_value=' . $row['contact_id'],
+                                              $this->_absoluteUrl );
                 $rows[$rowNum]['contact_display_name'] = "<a href='$url'>" . 
                     $row["contact_display_name"] . '</a>';
                 $entryFound = true;

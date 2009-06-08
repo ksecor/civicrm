@@ -355,7 +355,8 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                     if ( $value = $row['civicrm_event_id'] ) {
                         CRM_Event_PseudoConstant::event( $value, false );  
                         $url = CRM_Utils_System::url( 'civicrm/report/event/eventIncome', 
-                                                      'reset=1&force=1&id_value='.$value );
+                                                      'reset=1&force=1&id_value='.$value,
+                                                      $this->_absoluteUrl );
                         $rows[$rowNum]['civicrm_event_title'] = 
                             "<a title='{$hoverEvent}' href='{$url}' >". $rows[$rowNum]['civicrm_event_title']."</a>";
                         

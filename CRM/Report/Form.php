@@ -929,6 +929,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $output = CRM_Utils_Request::retrieve( 'output',
                                                'String', CRM_Core_DAO::$_nullObject );
 
+        $this->_absoluteUrl = false;
         $this->assign( 'printOnly', false );
         if ( $this->_printButtonName == $buttonName || $output == 'print' ) {
             $this->assign( 'printOnly', true );
@@ -936,6 +937,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         } else if ( $this->_pdfButtonName   == $buttonName || $output == 'pdf' ) {
             $this->assign( 'printOnly', true );
             $this->_reportMode = 'pdf';
+            $this->_absoluteUrl = true;
         } else {
             $this->_reportMode = 'html';
         }

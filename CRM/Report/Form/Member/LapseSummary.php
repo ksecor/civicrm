@@ -353,7 +353,8 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/member/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
+                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                              $this->_absoluteUrl );
                 $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
                     $row["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;

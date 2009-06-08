@@ -532,7 +532,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                 }
                 $url =
                     CRM_Utils_System::url( 'civicrm/report/contribute/detail',
-                                           "reset=1&force=1&receive_date_from={$dateStart}&receive_date_to={$dateEnd}"
+                                           "reset=1&force=1&receive_date_from={$dateStart}&receive_date_to={$dateEnd}",
+                                           $this->_absoluteUrl
                                            );
                 $rows[$rowNum]['civicrm_contribution_receive_date_start_link'] = $url;
                 $entryFound = true;
@@ -553,7 +554,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/summary',
                                                   "reset=1&force=1&" . 
-                                                  "state_province_id_op=in&state_province_id_value={$value}" );
+                                                  "state_province_id_op=in&state_province_id_value={$value}", 
+                                                  $this->_absoluteUrl );
                     $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
                 }
                 $entryFound = true;
@@ -567,7 +569,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/summary',
                                                   "reset=1&force=1&" . 
-                                                  "country_id_op=in&country_id_value={$value}" );
+                                                  "country_id_op=in&country_id_value={$value}",
+                                                  $this->_absoluteUrl );
                     $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
                 }
                 
@@ -578,7 +581,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
+                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                              $this->_absoluteUrl );
                 $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
                     $row["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;

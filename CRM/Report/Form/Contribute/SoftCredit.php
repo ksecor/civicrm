@@ -499,7 +499,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name_constituent', $row) && 
                  array_key_exists('civicrm_contact_id_constituent', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id_constituent'] );
+                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id_constituent'],
+                                              $this->_absoluteUrl );
                 $rows[$rowNum]['civicrm_contact_display_name_constituent'] = "<a href='$url'>" . 
                     $row["civicrm_contact_display_name_constituent"] . '</a>';
                 $entryFound = true;

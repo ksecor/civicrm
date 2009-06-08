@@ -292,7 +292,8 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                     $eventTitle= 
                         CRM_Event_PseudoConstant::event( $value, false );  
                     $url = CRM_Utils_System::url( 'civicrm/report/event/eventIncome', 
-                                                  'reset=1&force=1&id_value='.$value );
+                                                  'reset=1&force=1&id_value='.$value,
+                                                  $this->_absoluteUrl );
                     $rows[$rowNum]['civicrm_participant_event_id'] ="<a title='{$hoverEvent}' href='{$url}'>".$eventTitle."</a>";
 
 

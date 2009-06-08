@@ -354,7 +354,8 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail',
                                                   "reset=1&force=1&" . 
-                                                  "state_province_id_op=in&state_province_id_value={$value}" );
+                                                  "state_province_id_op=in&state_province_id_value={$value}",
+                                                  $this->_absoluteUrl );
                     $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
                 }
                 $entryFound = true;
@@ -368,7 +369,8 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail',
                                                   "reset=1&force=1&" . 
-                                                  "country_id_op=in&country_id_value={$value}" );
+                                                  "country_id_op=in&country_id_value={$value}",
+                                                  $this->_absoluteUrl );
                     $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
                 }
                 
@@ -380,7 +382,8 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
+                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                              $this->_absoluteUrl );
                 $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
                     $rows[$rowNum]["civicrm_contact_display_name"] . '</a>';
                 $entryFound = true;
