@@ -91,7 +91,7 @@ function crm_create_file($params)
  * This api is used for finding an existing file.
  * Required parameters : id OR file_type_id of a file
  * 
- * @params  array $params  an associative array of name/value property values of civicrm_file
+ * @param  array $params  an associative array of name/value property values of civicrm_file
  *
  * @return  Array of all found file object property values.
  * @access public

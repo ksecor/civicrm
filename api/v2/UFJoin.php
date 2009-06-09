@@ -26,15 +26,13 @@
 */
 
 /**
+ * File for the CiviCRM APIv2 user framework join functions
  *
- * Definition of the User Profile Group of the CRM API. 
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
- *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_UF
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 

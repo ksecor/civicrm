@@ -156,6 +156,14 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
         }
         
+        //check for delete activities CRM-4418
+        static $deleteActivities;
+        if ( !isset( $deleteActivities ) ) {
+            require_once 'CRM/Core/Permission.php';   
+            $deleteActivities = CRM_Core_Permission::check( 'delete activities' );
+        }
+        $showDelete = ($deleteActivities) ? $showDelete : false;
+        
         self::$_actionLinks = array(
                                     CRM_Core_Action::VIEW => 
                                     array(

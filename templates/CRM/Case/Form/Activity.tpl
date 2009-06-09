@@ -82,11 +82,7 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
            </tr>
            <tr>
               <td class="label">{$form.source_contact_id.label}</td>
-              <td class="view-value">
-                  <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                      {if $admin}{$form.source_contact_id.html}{/if}
-                  </div>
-              </td>
+              <td class="view-value"> {if $admin}{$form.source_contact_id.html}{/if}</td>
             </tr>
             <tr>
                 <td class="label">{ts}Assigned To {/ts}</td>

@@ -60,7 +60,8 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
     {
         return array( 'access CiviContribute',
                       'edit contributions',
-                      'make online contributions' );
+                      'make online contributions',
+                      'delete in CiviContribute' );
     }
 
 

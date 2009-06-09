@@ -1161,8 +1161,22 @@ WHERE  contribution_id = {$this->_id}
                 } elseif ( $contribution->contribution_status_id == 1 ) {
                     if ( $membership ) {
                         $format       = '%Y%m%d';
+                        require_once 'CRM/Member/BAO/Membership.php';
                         require_once 'CRM/Member/BAO/MembershipType.php';  
-                        $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                        
+                        //CRM-4523
+                        $currentMembership =  CRM_Member_BAO_Membership::getContactMembership( $membership->contact_id,
+                                                                                               $membership->membership_type_id, 
+                                                                                               $membership->is_test, $membership->id );
+                        if ( $currentMembership ) {
+                            CRM_Member_BAO_Membership::fixMembershipStatusBeforeRenew( $currentMembership, 
+                                                                                       $changeToday = null  );
+                            $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id, 
+                                                                                                      $changeToday = null );
+                            $dates['join_date'] =  CRM_Utils_Date::customFormat($currentMembership['join_date'], $format );
+                        } else {
+                            $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                        }
                         
                         $membership->join_date     = 
                             CRM_Utils_Date::customFormat( $dates['join_date'],     $format );

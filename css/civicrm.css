@@ -790,6 +790,7 @@ div.crm-pager a {
   padding: .5em 1em .5em;
   text-decoration: none;
   font-size: .95em;
+  background-image: none;
 }
 #crm-container ul.wizard-bar li.current-step {
   background-color: #FAFAFA;
@@ -1199,7 +1200,7 @@ commented since it is overwiting simple td
   color: green;
 }
 
-/* Styles for  Action Link */
+/* Styles for  Action Link pop-up */
 
 #panel, .panel {
   display  : none;
@@ -1218,6 +1219,7 @@ commented since it is overwiting simple td
   padding : 5px 15px 0px 5px;
   margin  : 0px;
   list-style : none;
+  background-image: none;
 }
 
 .btn-slide {
@@ -1251,6 +1253,7 @@ commented since it is overwiting simple td
 }
 
 #crm-container .contextMenu li {
+  background-image: none;
   list-style : none;
   padding    : 0px;
   margin     : 0px;

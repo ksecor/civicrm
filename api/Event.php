@@ -88,7 +88,7 @@ function crm_create_event( $params )
  * This api is used to retrieve all data for an existing Event.
  * Required parameters : id of event
  * 
- * @params  array $params  an associative array of title/value property values of civicrm_event
+ * @param  array $params  an associative array of title/value property values of civicrm_event
  * 
  * @return  If successful array of event data; otherwise object of CRM_Core_Error.
  * @access public

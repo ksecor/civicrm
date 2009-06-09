@@ -26,6 +26,7 @@
             <dt>{ts}Search Title{/ts}</dt><dd>{$form.description.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This title is displayed to users in the Custom Search listings.{/ts}</dd>
         {else}
+	    <dt>{$form.value.label}</dt><dd>{$form.value.html}</dd>
             <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
             {if $gName eq 'activity_type'}
                 <dt>&nbsp;</dt><dd class="description">{ts}Description is included at the top of the activity edit and view pages for this type of activity.{/ts}</dd>

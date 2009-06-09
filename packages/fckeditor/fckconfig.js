@@ -99,19 +99,16 @@ FCKConfig.TemplateReplaceCheckbox = true ;
 FCKConfig.ToolbarLocation = 'In' ;
 
 FCKConfig.ToolbarSets["Default"] = [
-	['Source','DocProps','-','Preview','-'],
-	['Cut','Copy','Paste','PasteText','PasteWord','-','SpellCheck'],
-	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-	'/',
-	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
-	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
-	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['Link','Unlink','Anchor'],
-	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'],
-	'/',
-	['Style','FontFormat','FontName','FontSize'],
-	['TextColor','BGColor'],
-	['FitWindow','ShowBlocks','-','About']		// No comma for the last row.
+    ['Bold','Italic','Underline'],
+    ['FontName','FontSize'],['TextColor','BGColor'],
+    ['Link','Unlink'],
+    ['Image','Rule','Smiley'],
+    '/',
+    ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
+    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
+    ['PasteText','PasteWord','-','SpellCheck'],
+	['RemoveFormat'],
+	['Source','-','FitWindow','About']		// No comma for the last row.
 ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [

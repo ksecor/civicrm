@@ -218,5 +218,40 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
         $form->assign( 'products' , $products );
         $form->assign( 'preview' , true);
     }
+    
+    /**
+     * Function to delete premium associated w/ contribution page.
+     * 
+     * @param int $contribution page id
+     * @static
+     */
+    static function deletePremium( $contributionPageID ) 
+    {
+        if ( !$contributionPageID ) {
+            return;
+        }
+        
+        //need to delete entries from civicrm_premiums 
+        //as well as from civicrm_premiums_product, CRM-4586
+        require_once 'CRM/Contribute/DAO/Premium.php';
+        require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+        
+        $params = array( 'entity_id'    => $contributionPageID,
+                         'entity_table' => 'civicrm_contribution_page' );
+        
+        $premium =& new CRM_Contribute_DAO_Premium( ); 
+        $premium->copyValues( $params );
+        $premium->find( );
+        while ( $premium->fetch( ) ) {
+            //lets delete from civicrm_premiums_product
+            $premiumsProduct =& new CRM_Contribute_DAO_PremiumsProduct( );
+            $premiumsProduct->premiums_id = $premium->id;
+            $premiumsProduct->delete( );
+            
+            //now delete premium
+            $premium->delete( );
+        }
+    }
+    
 }
 

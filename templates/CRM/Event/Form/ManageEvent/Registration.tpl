@@ -15,14 +15,16 @@
      <div id="register_show">
         <dl>
             <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html} {help id="id-link_text"}</dd>
-            <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html} 
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
-            {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
-            </dd>
-            <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
-            {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
-            </dd>
+            {if !$isTemplate}
+              <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html} 
+              {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
+              {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
+              </dd>
+              <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}
+              {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
+              {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
+              </dd>
+            {/if}
             <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html} {help id="id-allow_multiple"}</dd>
             <dt>{$form.allow_same_participant_emails.label}</dt><dd>{$form.allow_same_participant_emails.html} {help id="id-allow_same_email"}</dd> 
             <dt>{$form.has_waitlist.label}</dt><dd>{$form.has_waitlist.html} {help id="id-has_waitlist"}</dd> 

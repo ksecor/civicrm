@@ -147,6 +147,7 @@ VALUES
    ('mail_protocol'                 , '{ts escape="sql"}Mail Protocol{/ts}'                      , 0, 1),
    ('auction_item_type'             , '{ts escape="sql"}Auction Item Type{/ts}'                  , 0, 1),
    ('priority'                      , '{ts escape="sql"}Priority{/ts}'                           , 0, 1),
+   ('redaction_rule'                , '{ts escape="sql"}Redaction Rule{/ts}'                     , 0, 1),	
    ('report_template'               , '{ts escape="sql"}Report Template{/ts}'                    , 0, 1);
   
    
@@ -191,6 +192,7 @@ SELECT @option_group_id_mp             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_aitype         := max(id) from civicrm_option_group where name = 'auction_item_type';
 SELECT @option_group_id_rt             := max(id) from civicrm_option_group where name = 'report_template';
 SELECT @option_group_id_priority       := max(id) from civicrm_option_group where name = 'priority';
+SELECT @option_group_id_rr             := max(id) from civicrm_option_group where name = 'redaction_rule';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
@@ -471,6 +473,10 @@ VALUES
   (@option_group_id_priority, '{ts escape="sql"}Normal{/ts}', 2, 'Normal', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_priority, '{ts escape="sql"}Low{/ts}',    3, 'Low',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
 
+-- redaction rule
+  (@option_group_id_rr, 'Vancouver', 'city_', NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_rr, '/\d{4}-?\d{2}-?\d{2}/', 'date_', NULL, NULL, 1, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
+ 
 -- report templates
   (@option_group_id_rt , 'CRM_Report_Form_Contribution_Detail' , 1, 'CRM_Report_Form_Contribution_Detail', NULL, 0, NULL, 1, '{ts escape="sql"}Contribution Detail Report{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_rt , 'CRM_Report_Form_Contribution_Summary', 2, 'CRM_Report_Form_Contribution_Summary', NULL, 0, NULL, 2, '{ts escape="sql"}Contribution Summary Report{/ts}', 0, 0, 1, NULL, NULL);

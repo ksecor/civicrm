@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--  $Id  -->
+<!--  Truncate all tables that will be used in the tests  -->
+<dataset>
+  <civicrm_activity />
+  <civicrm_contact />
+  <civicrm_option_group />
+  <civicrm_option_value />
+</dataset>

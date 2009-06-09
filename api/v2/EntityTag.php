@@ -25,17 +25,25 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 entity tag functions
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_EntityTag
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
- *
+ * @version $Id$
  */
 
+/**
+ * Include utility functions
+ */
 require_once 'api/v2/utils.php';
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function civicrm_entity_tag_get( &$params ) {
     if ( ! array_key_exists( 'contact_id', $params ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
@@ -50,6 +58,11 @@ function civicrm_entity_tag_get( &$params ) {
     return $result;
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function civicrm_entity_tag_display( &$params ) {
     if ( ! array_key_exists( 'contact_id', $params ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
@@ -81,14 +94,30 @@ function civicrm_tag_entities_get( &$params )
     return $entities;   
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function civicrm_entity_tag_add( &$params ) {
     return civicrm_entity_tag_common( $params, 'add' );
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function civicrm_entity_tag_remove( &$params ) {
     return civicrm_entity_tag_common( $params, 'remove' );
 }
 
+/**
+ *
+ * @param <type> $params
+ * @param <type> $op
+ * @return <type> 
+ */
 function civicrm_entity_tag_common( &$params, $op = 'add' ) {
     $contactIDs = array( );
     $tagsIDs    = array( );

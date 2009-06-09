@@ -158,17 +158,19 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
    
         $this->add('text','registration_link_text',ts('Registration Link Text'));
 
-        $this->add( 'date',
-                    'registration_start_date',
-                    ts( 'Registration Start Date'  ),
-                    CRM_Core_SelectValues::date('datetime') );
-        $this->addRule('registration_start_date', ts('Please select a valid start date.'), 'qfDate');
+        if (!$this->_isTemplate) {
+            $this->add( 'date',
+                        'registration_start_date',
+                        ts( 'Registration Start Date'  ),
+                        CRM_Core_SelectValues::date('datetime') );
+            $this->addRule('registration_start_date', ts('Please select a valid start date.'), 'qfDate');
 
-        $this->add( 'date',
-                    'registration_end_date',
-                    ts( 'Registration End Date'  ),
-                    CRM_Core_SelectValues::date('datetime') );
-        $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
+            $this->add( 'date',
+                        'registration_end_date',
+                        ts( 'Registration End Date'  ),
+                        CRM_Core_SelectValues::date('datetime') );
+            $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
+        }
      
         $this->addElement('checkbox', 'is_multiple_registrations', ts('Register multiple participants?')); 
         $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations from the same email address?'));
@@ -320,8 +322,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $params['is_email_confirm'] = false;
         }
         
-        $params['registration_start_date'] = CRM_Utils_Date::format( $params['registration_start_date'] );
-        $params['registration_end_date'] = CRM_Utils_Date::format( $params['registration_end_date'] );
+        if (!$this->_isTemplate) {
+            $params['registration_start_date'] = CRM_Utils_Date::format( $params['registration_start_date'] );
+            $params['registration_end_date'] = CRM_Utils_Date::format( $params['registration_end_date'] );
+        }
         
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add( $params );
