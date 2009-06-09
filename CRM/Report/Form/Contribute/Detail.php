@@ -97,7 +97,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                  ),
                           'filters' =>             
                           array( 'receive_date' => 
-                                 array( 'type'       => CRM_Utils_Type::T_DATE ),
+                                 array( 'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'total_amount' => 
                                  array( 'title'      => ts( 'Amount Between' ) ),
                                  ),
@@ -118,13 +118,13 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'grouping'=> 'contact-fields',
                           'filters' =>             
                           array( 'country_id' => 
-                                 array( 'title'   => ts( 'Country' ), 
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::country( ),), 
+                                 array( 'title'        => ts( 'Country' ), 
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Core_PseudoConstant::country( ),), 
                                  'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ), 
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::stateProvince( ),), ),
+                                 array( 'title'        => ts( 'State/Province' ), 
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Core_PseudoConstant::stateProvince( ),), ),
                           ),
 
                    'civicrm_group' => 
@@ -134,8 +134,8 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           array( 'gid' => 
                                  array( 'name'    => 'id',
                                         'title'   => ts( 'Group' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
 
                    'civicrm_contribution_ordinality' => 
                    array( 'dao'    => 'CRM_Contribute_DAO_Contribution',
@@ -143,8 +143,9 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'filters' =>             
                           array( 'ordinality' => 
                                  array( 'title'   => ts( 'Contribution Ordinality' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => array(0 => 'First by Contributor', 1 => 'Second or Later by Contributor') ), ), ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => array( 0 => 'First by Contributor', 
+                                                                 1 => 'Second or Later by Contributor') ), ), ),
                    );
         
         // Add contribution custom fields
@@ -289,6 +290,8 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     }
 
     function statistics( &$rows ) {
+        $statistics = parent::statistics( $rows );
+
         $select = "
         SELECT COUNT( contribution.total_amount ) as count,
                SUM(   contribution.total_amount ) as amount,
@@ -298,17 +301,12 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
         $sql = "{$select} {$this->_from} {$this->_where}";
         $dao = CRM_Core_DAO::executeQuery( $sql );
 
-        $statistics = array( );
         if ( $dao->fetch( ) ) {
-            $statistics = array( 'count'  => array( 'value' => $dao->count,
-                                                    'title' => 'Row(s) listed' ),
-                                 'amount' => array( 'value' => $dao->amount,
-                                                    'title' => 'Total Amount' ),
-                                 'avg'    => array( 'value' => $dao->avg,
-                                                    'title' => 'Average' ),
-                                 );
+            $statistics['counts']['amount']    = array( 'value' => $dao->amount,
+                                                        'title' => 'Total Amount' );
+            $statistics['counts']['avg']       = array( 'value' => $dao->avg,
+                                                        'title' => 'Average' );
         }
-        $this->groupByStat( $statistics );
 
         return $statistics;
     }

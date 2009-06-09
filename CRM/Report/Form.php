@@ -40,6 +40,16 @@ class CRM_Report_Form extends CRM_Core_Form {
     const  
         ROW_COUNT_LIMIT = 50;
 
+    /** 
+     * Operator types - used for displaying filter elements
+     */
+    const
+        OP_INT         =  1,
+        OP_STRING      =  2,
+        OP_DATE        =  4,
+        OP_SELECT      =  8,
+        OP_MULTISELECT =  16;
+
     /**
      * The id of the report instance
      *
@@ -273,18 +283,27 @@ class CRM_Report_Form extends CRM_Core_Form {
                             }
                         }
 
+                        // set alias = table-name, unless already set
                         $alias = isset($field['alias']) ? $field['alias'] : 
                             ( isset($this->_columns[$tableName]['alias']) ? 
                               $this->_columns[$tableName]['alias'] : $tableName );
                         $this->_columns[$tableName][$fieldGrp][$fieldName]['alias'] = $alias;
 
+                        // set name = fieldName, unless already set
                         if ( !isset($this->_columns[$tableName][$fieldGrp][$fieldName]['name']) ) {
                             $this->_columns[$tableName][$fieldGrp][$fieldName]['name'] = $fieldName;
                         }
 
+                        // set dbAlias = alias.name, unless already set
                         if ( !isset($this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias']) ) {
                             $this->_columns[$tableName][$fieldGrp][$fieldName]['dbAlias'] = 
                                 $alias . '.' . $this->_columns[$tableName][$fieldGrp][$fieldName]['name'];
+                        }
+
+                        if ( in_array($this->_columns[$tableName][$fieldGrp][$fieldName]['type'],
+                                      array(CRM_Utils_Type::T_MONEY, CRM_Utils_Type::T_INT)) ) {
+                            $this->_columns[$tableName][$fieldGrp][$fieldName]['operatorType'] = 
+                                CRM_Report_Form::OP_INT;
                         }
                     }
                 }
@@ -440,12 +459,12 @@ class CRM_Report_Form extends CRM_Core_Form {
             foreach ( $attributes as $fieldName => $field ) {
                 if ( !array_key_exists('no_display', $field ) ) {
                     // get ready with option value pair
-                    $operations = self::getOperationPair( $field['type'] );
+                    $operations = self::getOperationPair( $field['operatorType'] );
                     
                     $filters[$table][$fieldName] = $field;
                     
-                    switch ( $field['type'] ) {
-                    case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
+                    switch ( $field['operatorType'] ) {
+                    case CRM_Report_FORM::OP_MULTISELECT :
                         // assume a multi-select field
                         if ( !empty( $field['options'] ) ) {
                             $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
@@ -455,22 +474,20 @@ class CRM_Report_Form extends CRM_Core_Form {
                             $select->setMultiple( true );
                         }
                         break;
-                        
-                    case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN :
+
+                    case CRM_Report_FORM::OP_SELECT :
                         // assume a select field
                         $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
                         $this->addElement('select', "{$fieldName}_value", null, $field['options']);
                         break;
-                        
-                    case CRM_Utils_Type::T_DATE :
-                    case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
+
+                    case CRM_Report_FORM::OP_DATE :
                         // build datetime fields
                         CRM_Core_Form_Date::buildDateRange( $this, $fieldName, $count );
                         $count++;
                         break;
-                        
-                    case CRM_Utils_Type::T_INT:
-                    case CRM_Utils_Type::T_MONEY:
+
+                    case CRM_Report_FORM::OP_INT:
                         // and a min value input box
                         $this->add( 'text', "{$fieldName}_min", ts('Min') );
                         // and a max value input box
@@ -585,8 +602,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         // to option_group and option_value table.
 
         switch ( $type ) {
-        case CRM_Utils_Type::T_INT :
-        case CRM_Utils_Type::T_MONEY :
+        case CRM_Report_FORM::OP_INT :
             return array( 'lte' => 'Is less than or equal to', 
                           'gte' => 'Is greater than or equal to',
                           'bw'  => 'Is between',
@@ -597,10 +613,10 @@ class CRM_Report_Form extends CRM_Core_Form {
                           'nbw' => 'Is not between',
                           );
             break;
-        case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN :
+        case CRM_Report_FORM::OP_SELECT :
             return array( 'eq'  => 'Is equal to' );
             break;
-        case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
+        case CRM_Report_FORM::OP_MULTISELECT :
             return array( 'in'  => 'Is one of' );
             break;
         default:
@@ -1106,7 +1122,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                         $op    = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         $value = null;
                         if ( $op ) {
-                            $pair  = self::getOperationPair( $field['type'] );
+                            $pair  = self::getOperationPair( $field['operatorType'] );
                             $min   = CRM_Utils_Array::value( "{$fieldName}_min",  $this->_params );
                             $max   = CRM_Utils_Array::value( "{$fieldName}_max",  $this->_params );
                             $val   = CRM_Utils_Array::value( "{$fieldName}_value",$this->_params );

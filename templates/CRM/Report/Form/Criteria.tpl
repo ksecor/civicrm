@@ -73,23 +73,19 @@
                     {assign var=filterVal   value=$fieldName|cat:"_value"}
                     {assign var=filterMin   value=$fieldName|cat:"_min"}
                     {assign var=filterMax   value=$fieldName|cat:"_max"}
-                    {if $field.type & 4}
+                    {if $field.operatorType & 4}
                         <tr>
                             <td style="vertical-align: top;"><strong>{$field.title}</strong></td>
                             <td colspan=2>{include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}</td>
-                        </tr>
-	            {elseif $field.type == 17}                                
-                        <tr>                                    
-                            <td style="vertical-align: top;"><strong>{$field.title}</strong></td>
-                            <td >{$form.$fieldOp.html}</td>
-                            <td id="{$filterVal}_cell">&nbsp;{$form.$filterVal.html}</td>    				    
                         </tr>
                     {else}
                         <tr>
                             <td width="20%"><strong>{$field.title}</strong></td>
                             <td width="20%">{$form.$fieldOp.html}</td>
-                            <td id="{$filterVal}_cell">{$form.$filterVal.label}&nbsp;{$form.$filterVal.html}</td>
-                            <td id="{$filterMin}_max_cell">&nbsp;&nbsp;&nbsp;{$form.$filterMin.label}&nbsp;{$form.$filterMin.html}&nbsp;&nbsp;{$form.$filterMax.label}&nbsp;{$form.$filterMax.html}</td>
+                            <td>
+                               <span id="{$filterVal}_cell">{$form.$filterVal.label}&nbsp;{$form.$filterVal.html}</span>
+                               <span id="{$filterMin}_max_cell">{$form.$filterMin.label}&nbsp;{$form.$filterMin.html}&nbsp;&nbsp;{$form.$filterMax.label}&nbsp;{$form.$filterMax.html}</span>
+                            </td>
                         </tr>
                     {/if}
                 {/foreach}
@@ -116,7 +112,7 @@
         {foreach from=$filters item=table key=tableName}
             {foreach from=$table item=field key=fieldName}
 		{literal}var val = "dnc";{/literal}
-		{if !($field.type == 4 OR $field.type == 17)} 
+		{if !($field.operatorType == 4)} 
                     {literal}var val = document.getElementById("{/literal}{$fieldName}_op{literal}").value;{/literal}
 		{/if}
                 {literal}showHideMaxMinVal( "{/literal}{$fieldName}{literal}", val );{/literal}

@@ -273,7 +273,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
             }
         }
         
-        if ( $min > 0 || $max > 0 ) {
+        if ( ($min > 0 || $max > 0) && !empty($this->_limit) ) {
             $clauses[] = "contribution.contact_id BETWEEN $min AND $max";
         }
 

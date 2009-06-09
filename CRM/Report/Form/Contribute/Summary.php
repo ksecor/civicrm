@@ -54,7 +54,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  'id'           => 
                                  array( 'no_display' => true,
                                         'required'  => true, ), ),
-                          'grouping'      => 'contact-fields',
+                          'grouping'  => 'contact-fields',
                           'group_bys' => 
                           array( 'id'                =>
                                  array( 'title'      => ts( 'Contact ID' ) ),
@@ -80,6 +80,36 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'grouping'      => 'contact-fields',
                           ),
                    
+                   'civicrm_address' =>
+                   array( 'dao' => 'CRM_Core_DAO_Address',
+                          'fields' =>
+                          array( 'street_address'    => null,
+                                 'city'              => null,
+                                 'postal_code'       => null,
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ), ),
+                                 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ) ), ),
+                          'group_bys' =>
+                          array( 'street_address'    => null,
+                                 'city'              => null,
+                                 'postal_code'       => null,
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ), ),
+                                 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ), ), ),
+                          'grouping'=> 'contact-fields',
+                          'filters' =>             
+                          array( 'country_id' => 
+                                 array( 'title'         => ts( 'Country' ), 
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'       => CRM_Core_PseudoConstant::country( ),), 
+                                 'state_province_id' => 
+                                 array( 'title'          => ts( 'State/Province' ), 
+                                        'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'        => CRM_Core_PseudoConstant::stateProvince( ),), ),
+                          ),
+
                    'civicrm_contribution_type' =>
                    array( 'dao'           => 'CRM_Contribute_DAO_ContributionType',
                           'fields'        =>
@@ -103,7 +133,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'grouping'              => 'contri-fields',
                           'filters'               =>             
                           array( 'receive_date'   => 
-                                 array( 'type'    => CRM_Utils_Type::T_DATE ),
+                                 array( 'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'total_amount'   => 
                                  array( 'title'   => ts( 'Total  Amount' ), ), ),
                           'group_bys'           =>
@@ -112,45 +142,15 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                         'default'    => true ),
                                  'contribution_source'     => null, ), ),
 
-                   'civicrm_address' =>
-                   array( 'dao' => 'CRM_Core_DAO_Address',
-                          'fields' =>
-                          array( 'street_address'    => null,
-                                 'city'              => null,
-                                 'postal_code'       => null,
-                                 'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ), ),
-                                 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ) ), ),
-                          'group_bys' =>
-                          array( 'street_address'    => null,
-                                 'city'              => null,
-                                 'postal_code'       => null,
-                                 'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ), ),
-                                 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ), ), ),
-                          'grouping'=> 'contact-fields',
-                          'filters' =>             
-                          array( 'country_id' => 
-                                 array( 'title'   => ts( 'Country' ), 
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::country( ),), 
-                                 'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ), 
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::stateProvince( ),), ),
-                          ),
-
                    'civicrm_group' => 
                    array( 'dao'    => 'CRM_Contact_DAO_Group',
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'    => 'id',
-                                        'title'   => ts( 'Group' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                 array( 'name'          => 'id',
+                                        'title'         => ts( 'Group' ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'       => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
 
         // Add contribution custom fields
