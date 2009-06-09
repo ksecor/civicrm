@@ -97,7 +97,10 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                                          'title'   => ts( 'This Year' ),
                                          'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN,
                                          'options' => $optionYear,
-                                         'default' => date('Y')  ),       
+                                         'default' => date('Y'),
+                                         'clause'  => "contribution.contact_id NOT IN
+(SELECT distinct cont.id FROM civicrm_contact cont, civicrm_contribution contri
+ WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) >= \$value)" ),       
                                   ), ),   
                           
                   'civicrm_group' => 
@@ -270,10 +273,6 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
             }
         }
         
-        $clauses[] = "contribution.contact_id NOT IN
-(SELECT distinct cont.id FROM civicrm_contact cont, civicrm_contribution contri
- WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) >= {$this->_params['yid_value']})";
-
         if ( $min > 0 || $max > 0 ) {
             $clauses[] = "contribution.contact_id BETWEEN $min AND $max";
         }

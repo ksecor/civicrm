@@ -708,12 +708,18 @@ class CRM_Report_Form extends CRM_Core_Form {
                 
         default:
             if ( $value !== null && strlen( $value ) > 0 ) {
-                $value  = CRM_Utils_Type::escape( $value, $type );
-                $sqlOP  = self::getSQLOperator( $op );
-                if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
-                    $value = "'{$value}'";
+                if ( isset($field['clause']) ) {
+                    // FIXME: we not doing escape here. Better solution is to use two 
+                    // different types - data-type and filter-type 
+                    eval("\$clause = \"{$field['clause']}\";"); 
+                } else {
+                    $value  = CRM_Utils_Type::escape( $value, $type );
+                    $sqlOP  = self::getSQLOperator( $op );
+                    if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
+                        $value = "'{$value}'";
+                    }
+                    $clause = "( {$field['dbAlias']} $sqlOP $value )";
                 }
-                $clause = "( {$field['dbAlias']} $sqlOP $value )";
             }
             break;
         }
