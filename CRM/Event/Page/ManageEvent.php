@@ -243,6 +243,13 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
         // get all custom groups sorted by weight
         $manageEvent = array();
+
+        //check for delete CRM-4418
+        require_once 'CRM/Core/Permission.php'; 
+        $allowDelete = false;
+        if ( CRM_Core_Permission::check( 'delete in CiviEvent' ) ) {
+            $allowDelete = true;
+        }
              
         $query = "
   SELECT *
@@ -264,6 +271,10 @@ ORDER BY start_date
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
+            }
+            //CRM-4418
+            if ( !$allowDelete ) {
+                $action -= CRM_Core_Action::DELETE; 
             }
             
             $manageEvent[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 

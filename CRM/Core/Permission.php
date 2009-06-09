@@ -53,9 +53,10 @@ class CRM_Core_Permission {
      * @var int
      */
     const
-        EDIT = 1,
-        VIEW = 2;
-
+        EDIT   = 1,
+        VIEW   = 2,
+        DELETE = 3; 
+    
     /**
      * get the current permission of this user
      *

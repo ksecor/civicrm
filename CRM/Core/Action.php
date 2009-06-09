@@ -66,10 +66,11 @@ class CRM_Core_Action {
         PROFILE       =   8192,
         COPY          =  16384,
         RENEW         =  32768,
-        DETACH        =  32768,
-        MAX_ACTION    =  65535;
-   
-  
+        DETACH        =  65536,
+        MAX_ACTION    =  131071;
+    
+    //make sure MAX_ACTION = 2^n - 1 ( n = total number of actions )
+    
     /**
      * map the action names to the relevant constant. We perform
      * bit manipulation operations so we can perform multiple
@@ -261,16 +262,27 @@ class CRM_Core_Action {
      * @static
      * @access public
      */
-    static function mask( $permission ) {
-        if ( $permission == CRM_Core_Permission::VIEW ) {
-            return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP | self::PROFILE;
-        } else if ( $permission == CRM_Core_Permission::EDIT ) {
-            return self::MAX_ACTION;  // make sure we make this 2^(n+1) -1 if we add more actions;
-        } else {
-            return null;
+    static function mask( $permissions ) {
+        $mask = null;
+        if ( !is_array( $permissions ) || empty( $permissions ) ) {
+            return $mask;
         }
+        //changed structure since we are handling delete separately - CRM-4418
+        if ( in_array( CRM_Core_Permission::VIEW,  $permissions ) ) {
+            $mask |= self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP | self::PROFILE;
+        } 
+        if ( in_array( CRM_Core_Permission::DELETE, $permissions ) ) {
+            $mask |= self::DELETE;
+        }
+        if ( in_array( CRM_Core_Permission::EDIT, $permissions ) ) { 
+            //make sure we make self::MAX_ACTION = 2^n - 1 
+            //if we add more actions; ( n = total number of actions )
+            $mask |= (self::MAX_ACTION & ~self::DELETE); 
+        }
+        
+        return $mask;
     }
-
+    
 }
 
 
