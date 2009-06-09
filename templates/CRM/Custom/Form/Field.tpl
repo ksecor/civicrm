@@ -5,11 +5,11 @@
         var html_type_name = document.getElementsByName("data_type[1]")[0].value;
         var data_type_id   = document.getElementsByName("data_type[0]")[0].value;
 
-        if (!html_type_name && !data_type_id) {
+        if ( !html_type_name && !data_type_id ) {
             return;
         }
-        if ( data_type_id < 4) {
-            if (html_type_name != "Text") {
+        if ( data_type_id < 4 || data_type_id == 11 ) {
+            if ( html_type_name != "Text" && html_type_name != "ContactReference" ) {
 	    	document.getElementById("showoption").style.display="block";		
                 document.getElementById("hideDefaultValTxt").style.display="none";
                 document.getElementById("hideDefaultValDef").style.display="none";
@@ -68,7 +68,7 @@
 		}
 	}
 
-    	if ( data_type_id < 4) {	
+    	if ( data_type_id < 4 ) {	
 	    if (html_type_name == "CheckBox" || html_type_name == "Radio") {
 		document.getElementById("optionsPerLine").style.display="block";
 		document.getElementById("optionsPerLineDef").style.display="block";

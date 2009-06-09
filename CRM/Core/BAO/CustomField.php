@@ -146,7 +146,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $transaction = new CRM_Core_Transaction( );
         // create any option group & values if required
         if ( $params['html_type'] != 'Text' &&
-             in_array( $params['data_type'], array('String', 'Int', 'Float', 'Money') ) &&
+             in_array( $params['data_type'], array('String', 'Int', 'Float', 'Money', 'Auto-complete') ) &&
              ! empty($params['option_value']) && is_array($params['option_value']) ) {
 
             $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
@@ -636,7 +636,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         case 'Select':
             if ( $field->data_type == 'Auto-complete' ) {
                 $dataUrl = CRM_Utils_System::url( "civicrm/ajax/auto",
-                                                  "reset=1",
+                                                  "reset=1&id={$field->option_group_id}",
                                                   false, null, false );
                 $qf->assign('dataUrl',$dataUrl );                                          
                 $qf->addElement( 'text', $elementName, $label );
