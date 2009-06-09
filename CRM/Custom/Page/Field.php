@@ -43,7 +43,8 @@ require_once 'CRM/Core/Page.php';
  * page.
  *
  */
-class CRM_Custom_Page_Field extends CRM_Core_Page {
+class CRM_Custom_Page_Field extends CRM_Core_Page 
+{
     
     /**
      * The group id of the field
@@ -143,7 +144,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         while ($customFieldBAO->fetch()) {
             $customField[$customFieldBAO->id] = array();
             CRM_Core_DAO::storeValues( $customFieldBAO, $customField[$customFieldBAO->id]);
-
             $action = array_sum(array_keys($this->actionLinks()));
             if ($customFieldBAO->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
@@ -151,39 +151,26 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                 $action -= CRM_Core_Action::DISABLE;
             }
 
-	    // if Multi Select field is selected in custom field
-            if($customFieldBAO->data_type == 'String' || $customFieldBAO->data_type == 'Int' || $customFieldBAO->data_type == 'Float' || $customFieldBAO->data_type == 'Money') {
-                if( $customFieldBAO->html_type == 'Text' ) {
+            switch($customFieldBAO->data_type) {
+                
+            case "String":
+            case "Int":
+            case "Float":
+            case "Money":
+            case "Auto-complete":
+                // if Multi Select field is selected in custom field
+                if( $customFieldBAO->html_type == 'Text' || $customFieldBAO->html_type == 'Contact Reference' ) {
                     $action -= CRM_Core_Action::BROWSE;
                 } 
-            }
-
-            switch($customFieldBAO->data_type) {
+                break;
+                
             case "Memo":
-                $action -= CRM_Core_Action::BROWSE;
-                break;
-
             case "Date":
-                $action -= CRM_Core_Action::BROWSE;
-                break;
-
             case "Boolean":
-                $action -= CRM_Core_Action::BROWSE;
-                break;
-            
             case "StateProvince":
-                $action -= CRM_Core_Action::BROWSE;
-                break;
             case "Country":
-                $action -= CRM_Core_Action::BROWSE;
-                break;
             case "File":
-                $action -= CRM_Core_Action::BROWSE;
-                break;
             case "Link":
-                $action -= CRM_Core_Action::BROWSE;
-                break;
-            case "Auto-complete":
                 $action -= CRM_Core_Action::BROWSE;
                 break;
             }
