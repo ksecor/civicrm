@@ -36,6 +36,7 @@
 require_once 'CRM/Activity/DAO/Activity.php';
 require_once 'CRM/Activity/BAO/ActivityTarget.php';
 require_once 'CRM/Activity/BAO/ActivityAssignment.php';
+require_once 'CRM/Utils/Hook.php';
 
 /**
  * This class is for activity functions
