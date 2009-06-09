@@ -125,7 +125,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                           array( 'id' => 
                                  array( 'name'    => 'id',
                                         'title'   => ts( 'Contribution Type' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Contribute_PseudoConstant::contributionType( ) ),),
                           'grouping'  => 'softcredit-fields',
                           ),
@@ -144,7 +144,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                           'grouping'  => 'softcredit-fields',
                           'filters'   =>             
                           array( 'receive_date'   => 
-                                 array( 'type'    => CRM_Utils_Type::T_DATE),
+                                 array( 'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'total_amount'   => 
                                  array( 'title'   => ts( 'Total  Amount Between' ), ), ),
                           ),
@@ -169,7 +169,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                           array( 'gid' => 
                                  array( 'name'    => 'id',
                                         'title'   => ts( 'Creditor\'s Group' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         

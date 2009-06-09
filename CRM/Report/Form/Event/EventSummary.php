@@ -70,18 +70,19 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
                          array( 			 			   
                                'eid'        => array( 'name'    => 'title',
                                                       'title'   => ts( 'Event Title' ),
-                                                      'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                      'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
                                                       'options' => CRM_Event_PseudoConstant::event() ), 
                                
                                'tid'        => array( 'name'    => 'event_type_id',
                                                       'title'   => ts( 'Event Type' ),
-                                                      'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                      'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
                                                       'options' => CRM_Core_OptionGroup::values('event_type') ),
                                'start_date' => array( 'title'   => 'Event Start Date',
-                                                      'type'    => CRM_Utils_Type::T_DATE ),
-                              
+                                                      'operatorType' => CRM_Report_Form::OP_DATE ),
+                                                
                                'end_date'   => array( 'title'   => 'Event End Date',
-                                                      'type'    => CRM_Utils_Type::T_DATE ), ), 	 
+                                                      'operatorType' => CRM_Report_Form::OP_DATE ), ),
+                                                      
                          ),
                   );
      

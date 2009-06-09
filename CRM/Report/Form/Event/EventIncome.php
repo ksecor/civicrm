@@ -55,7 +55,7 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
                          'filters' => 
                          array( 'id' => 
                                 array( 'title'   => ts( 'Event Title' ),
-                                       'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                       'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
                                        'options' => CRM_Event_PseudoConstant::event(), ), 
                                 ),
                          ),

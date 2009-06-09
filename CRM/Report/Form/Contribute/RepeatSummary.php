@@ -114,13 +114,13 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                                 'receive_date1'  => 
                                 array( 'title'   => ts( 'Date Range One' ),
                                        'default' => 'previous.year',
-                                       'type'    => CRM_Utils_Type::T_DATE,
+                                       'operatorType' => CRM_Report_Form::OP_DATE,
                                        'name'    => 'receive_date',
                                        'alias'   => 'c1' ),
                                 'receive_date2'  => 
                                 array( 'title'   => ts( 'Date Range Two' ),
                                        'default' => 'this.year',
-                                       'type'    => CRM_Utils_Type::T_DATE,
+                                       'operatorType' => CRM_Report_Form::OP_DATE,
                                        'name'    => 'receive_date',
                                        'alias'   => 'c2' ), ),
                           'group_bys'           =>
@@ -143,7 +143,7 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                           array( 'gid' => 
                                  array( 'name'    => 'id',
                                         'title'   => ts( 'Group' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
 

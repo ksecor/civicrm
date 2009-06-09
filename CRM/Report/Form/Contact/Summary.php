@@ -97,13 +97,13 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
                                  ),
                           'filters'   =>             
                           array( 'country_id' => 
-                                 array( 'title'   => ts( 'Country' ), 
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                 array( 'title'   => ts( 'Country' ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Core_PseudoConstant::country(null,false),
                                         ), 
                                  'state_province_id' =>  
                                  array( 'title'   => ts( 'State / Province' ), 
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Core_PseudoConstant::stateProvince( ), ), 
                                  ), 
                           ),
@@ -121,7 +121,7 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
                           array( 'gid' => 
                                  array( 'name'    => 'id',
                                         'title'   => ts( 'Group' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) 
                                         ), 
                                  ), 

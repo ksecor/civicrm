@@ -86,20 +86,21 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                 ), 
                          'grouping' => 'event-fields',
                          'filters'  =>             
-                         array( 'event_id'         =>  array( 'title'   => ts( 'Event' ),
-                                                              'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                                              'options' => CRM_Event_PseudoConstant::event(), ), 
+                         array( 'event_id'         =>  array( 'name'    => 'event_id',
+                                                             'title'   => ts( 'Event' ),
+                                                              'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
+                                                              'options' => CRM_Event_PseudoConstant::event( ) ), 
                                 
                                 'sid'              =>  array( 'name'    => 'status_id',
                                                               'title'   => ts( 'Participant Status' ),
-                                                              'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                              'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
                                                               'options' => CRM_Event_PseudoConstant::participantStatus( ) ), 
                                 'rid'              =>  array( 'name'    => 'role_id',
                                                               'title'   => ts( 'Participant Role' ),
-                                                              'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                              'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
                                                               'options' => CRM_Event_PseudoConstant::participantRole( ) ),
                                 'register_date'    =>  array( 'title'   => ' Registration Date',
-                                                              'type'    => CRM_Utils_Type::T_DATE),
+                                                              'operatorType' => CRM_Report_Form::OP_DATE ),
                                 ),
                          
                          'group_bys' => 
@@ -119,7 +120,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                          array(                      
                                'eid' =>  array( 'name'    => 'event_type_id',
                                                 'title'   => ts( 'Event Type' ),
-                                                'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
                                                 'options' => CRM_Core_OptionGroup::values('event_type') ), 
                                ),
                          'group_bys' => 
