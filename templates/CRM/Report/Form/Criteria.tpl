@@ -81,7 +81,8 @@
 	            {elseif $field.type == 17}                                
                         <tr>                                    
                             <td style="vertical-align: top;"><strong>{$field.title}</strong></td>
-                            <td id="{$filterVal}_cell">{$form.$filterVal.html}</td>    				    
+                            <td >{$form.$fieldOp.html}</td>
+                            <td id="{$filterVal}_cell">&nbsp;{$form.$filterVal.html}</td>    				    
                         </tr>
                     {else}
                         <tr>

@@ -447,6 +447,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
                 case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN :
                     // assume a select field
+                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
                     $this->addElement('select', "{$fieldName}_value", null, $field['options']);
                     break;
 
@@ -583,6 +584,9 @@ class CRM_Report_Form extends CRM_Core_Form {
                           'neq' => 'Is not equal to', 
                           'nbw' => 'Is not between',
                           );
+            break;
+        case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN :
+            return array( 'eq'  => 'Is equal to' );
             break;
         case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
             return array( 'in'  => 'Is one of' );
