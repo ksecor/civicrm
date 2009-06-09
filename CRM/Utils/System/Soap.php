@@ -177,6 +177,15 @@ class CRM_Utils_System_Soap {
         self::$ufClass  = $config->userFrameworkClass;
         $config->userFrameworkClass = 'CRM_Utils_System_Soap';
     }
+
+    /**
+     * Get the locale set in the hosting CMS
+     * @return null  as the language is set elsewhere
+     */
+    static function getUFLocale()
+    {
+        return null;
+    }
 }
 
 

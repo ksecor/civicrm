@@ -943,6 +943,17 @@ class CRM_Utils_System {
 
     }
 
+    /**
+     * Get the locale set in the hosting CMS
+     * @return string  the used locale or null for none
+     */
+    static function getUFLocale()
+    {
+        $config =& CRM_Core_Config::singleton();
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $config->userFrameworkClass) . '.php');
+        return eval("return {$config->userFrameworkClass}::getUFLocale();");
+    }
+
 }
 
 

@@ -271,6 +271,15 @@ class CRM_Utils_System_Drupal {
         menu_rebuild();
     }
 
+    /**
+     * Get the locale set in the hosting CMS
+     * @return string  with the locale or null for none
+     */
+    static function getUFLocale()
+    {
+        # FIXME: actally fetch the locale from Drupal
+        return null;
+    }
 }
 
 
