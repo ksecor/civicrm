@@ -52,7 +52,8 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                                         'required'   => true, ), ), 
                           'group_bys' => 
                           array( 'id'                =>
-                                 array( 'title'      => ts( 'Contact ID' ) ),
+                                 array( 'title'      => ts( 'Contact ID' ),
+                                        'default'    => true ),
                                  'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ), ), ),
                           ),
@@ -82,14 +83,12 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                           'grouping'  => 'contact-fields',
                           'fields' =>
                           array( 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ),
-                                        'default' => true  ), 
+                                 array( 'title'   => ts( 'Country' ) ), 
                                  'state_province_id' => 
                                  array( 'title'   => ts( 'State/Province' ) ), ),
                           'group_bys' =>
                           array( 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ),
-                                        'default' => true ), 
+                                 array( 'title'   => ts( 'Country' ) ), 
                                  'state_province_id' => 
                                  array( 'title'   => ts( 'State/Province' ), ),
                                  ),
@@ -114,12 +113,14 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
                                 'receive_date1'  => 
                                 array( 'title'   => ts( 'Date Range One' ),
                                        'default' => 'previous.year',
+                                       'type'    => CRM_Utils_Type::T_DATE,
                                        'operatorType' => CRM_Report_Form::OP_DATE,
                                        'name'    => 'receive_date',
                                        'alias'   => 'c1' ),
                                 'receive_date2'  => 
                                 array( 'title'   => ts( 'Date Range Two' ),
                                        'default' => 'this.year',
+                                       'type'    => CRM_Utils_Type::T_DATE,
                                        'operatorType' => CRM_Report_Form::OP_DATE,
                                        'name'    => 'receive_date',
                                        'alias'   => 'c2' ), ),
@@ -451,7 +452,7 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
         // FIXME: move following to alterDisplay()
         /* -- code to calculate % change given the two date range amounts AND 
            -- sort the result at the same time. -- */
-        $temp = array( );
+        $temp = array( 'numeric' => array(), 'string' => array() );
         foreach ( $rows as $uid => $row ) {
             if ( $row['c1_total_amount_sum'] && $row['c2_total_amount_sum'] ) {
                 $change = 
@@ -470,8 +471,9 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
 
         // order by change DESC
         arsort( $temp['numeric'] );
-        asort(  $temp['string']  );
+        asort ( $temp['string']  );
         $temp = $temp['numeric'] + $temp['string'];
+
         foreach ( $temp as $uid => $change ) {
             $rows[$uid]['change'] = is_numeric($change) ? $change . ' %' : $change;
             $temp[$uid] = $rows[$uid];
