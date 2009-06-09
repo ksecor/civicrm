@@ -39,9 +39,9 @@ require_once "CRM/Member/BAO/MembershipType.php";
 require_once "CRM/Member/BAO/Membership.php";
 
 class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
-
+    
     protected $_summary = null;
-
+    
     protected $_charts  = array( ''         => 'Tabular',
                                  'barGraph' => 'Bar Graph',
                                  'pieGraph' => 'Pie Graph'
@@ -62,33 +62,49 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         $this->_columns = 
             array( 
                   'civicrm_membership' =>
-                  array( 'dao'        => 'CRM_Member_DAO_MembershipType',
-                         'grouping'   => 'member-fields',
-                         'fields'     =>
+                  array( 'dao'         => 'CRM_Member_DAO_MembershipType',
+                         'grouping'    => 'member-fields',
+                         'fields'      =>
                          array( 'membership_type_year' =>
                                 array( 'title'    => 'Membership Type',
                                        'required' => true,),
                                 
                                 ),
-                         'filters'        =>             
-                         array(  'join_date'         =>  
-                                 array( 'name'    => 'join_date',
-                                        'title'   => ts( 'Select Year' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN,
-                                        'options' => array('-- select --')+$optionYear,
+                         'filters'     =>             
+                         array(  'join_date'           =>  
+                                 array( 'name'         => 'join_date',
+                                        'title'        => ts( 'Select Year' ),
+                                        'operatorType' => CRM_Report_Form::OP_SELECT,
+                                        'options'      => array('-- select --')+$optionYear,
                                         ), 
-                                 'membership_type_id' =>
-                                 array('title'    => ts('Membership Type'),
-                                       'type'     => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                       'options'  => CRM_Member_PseudoConstant::membershipType(),
+                                 'membership_type_id'  =>
+                                 array('title'         => ts('Membership Type'),
+                                       'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
+                                       'options'       => CRM_Member_PseudoConstant::membershipType(),
                                        ),
                                  ),  
-                         'group_bys'           =>
+                         'group_bys'        =>
                          array( 'join_date' => 
                                 array('title'      => ts('Join Date'),
+                                      'default'    => true,
                                       'frequency'  => true,
                                       'type'       => 12),
-                                 ),
+                                ),
+                         ),
+                  
+                  'civicrm_contribution' =>
+                  array( 'dao'           => 'CRM_Contribute_DAO_Contribution',
+                         'fields'        =>
+                         array( 'total_amount'        => 
+                                array( 'title'        => ts( 'Amount Statistics' ),
+                                       'default'      => true,
+                                       'statistics'   => 
+                                       array('sum'    => ts( 'Total Payment Made' ), 
+                                             'count'  => ts( 'Contribution Count' ), 
+                                             'avg'    => ts( 'Average' ), ), 
+                                       ),
+                                ),
+                         'grouping'   => 'member-fields',
                          ),
                    );
         parent::__construct( );
@@ -99,7 +115,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         $preMonth     = CRM_Utils_Date::customFormat(date( "Y-m-d", mktime(0, 0, 0, date("m")-1,01,$params['join_date_value'])) , '%Y%m%d');
         $preMonthEnd  = CRM_Utils_Date::customFormat(date( "Y-m-t", mktime(0, 0, 0, date("m")-1,01,$params['join_date_value'])) , '%Y%m%d');
         $preMonthYear =  mktime(0, 0, 0, substr($preMonth, 4, 2), 1, substr($preMonth, 0, 4));
-            
+        
         $today = getdate();
         $date  = CRM_Utils_Date::getToday();
         $isCurrentMonth = 0;
@@ -116,7 +132,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         
         $membershipTypes = CRM_Member_BAO_MembershipType::getMembershipTypes(false);
         $membership = new CRM_Member_BAO_Membership;//added
-                
+        
         foreach ( $membershipTypes as $key => $value ) {
             $membershipSummary[$key]['premonth'] = array(
                                                          'count'=>self::buildMemberData($key ,
@@ -229,7 +245,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         $this->doTemplateAssignment( $rows );
     }
     
-    function buildMemberData( $membershipTypeId, $startDate, $endDate, $isTest = 0) {
+    function buildMemberData( $membershipTypeId, $startDate, $endDate, $isTest = 0 ) {
         $query = "
         SELECT count(civicrm_membership.id) as member_count
         FROM   civicrm_membership 
@@ -271,7 +287,6 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         return (int)$memberCount;
     }  
     
-    
     function buildMemberCountExpired( $membershipTypeId, $date = null, $isTest = 0 ) {
         if ( !is_null($date) && ! preg_match('/^\d{8}$/', $date) ) {
             CRM_Core_Error::fatal(ts('Invalid date "%1" (must have form yyyymmdd).', array(1 => $date)));
@@ -301,7 +316,10 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
     function select( ) {
         $select = array( );
         $this->_columnHeaders = array( ); 
-        $select[] = "count(membership.id ) as civicrm_membership_member_count";
+        $select[] = "membership.membership_type_id as civicrm_membership_membership_type_id,
+                     COUNT( DISTINCT membership.id ) as civicrm_membership_member_count";
+        $this->_columnHeaders["civicrm_membership_membership_type_id"] = array('title' => ts('Membership Type'), 
+                                                                               'type'  => null);
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
@@ -356,9 +374,44 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                     }
                 }
             }// end of select
+            
+            $this->_columnHeaders["civicrm_membership_member_count"] = array('title' => ts('Member Count'),
+                                                                             'type'  => null);   
+            if ( array_key_exists('fields', $table) ){
+                foreach ( $table['fields'] as $fieldName => $field ) {
+                    if ( CRM_Utils_Array::value( 'required', $field ) ||
+                         CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
+                        
+                        // only include statistics columns if set
+                        if ( CRM_Utils_Array::value('statistics', $field) ) {
+                            foreach ( $field['statistics'] as $stat => $label ) {
+                                switch (strtolower($stat)) {
+                                case 'sum':
+                                    $select[] = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = $field['type'];
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
+                                case 'count':
+                                    $select[] = "COUNT({$field['dbAlias']}) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] = CRM_Utils_Type::T_INT;
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
+                                case 'avg':
+                                    $select[] = "ROUND(AVG({$field['dbAlias']}),2) as {$tableName}_{$fieldName}_{$stat}";
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['type'] =  $field['type'];
+                                    $this->_columnHeaders["{$tableName}_{$fieldName}_{$stat}"]['title'] = $label;
+                                    $this->_statFields[] = "{$tableName}_{$fieldName}_{$stat}";
+                                    break;
+                                }
+                            }   
+                        }
+                    }
+                }
+            }
         }
-        $this->_columnHeaders["civicrm_membership_member_count"] = array('title' => ts('Member Count'),
-                                                                         'type'  => null);
+        
         $this->_select = "SELECT " . implode( ', ', $select ) . " ";
     }
     
@@ -367,16 +420,15 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         
         //check for searching combination of dispaly columns and
         //grouping criteria
-        if ( ($fields['group_bys']['join_date']   && !$fields['membership_type_id_value'] ) || 
-             ($fields['membership_type_id_value'] && !$fields['group_bys']['join_date'] ) ) {
-            $errors['membership_type_id_value'] = ts("Please use combination of Membership Type Filter along with Join Date Grouping only ");      
-            
+        if ( $fields['fields']['total_amount'] && !$fields['group_bys']['join_date'] ) {
+            $errors['fields'] = ts("Please use combination of Total Amount and Join Date Together "); 
         } 
         
-        if ( $fields['join_date_value'] != 0 && $fields['group_bys']['join_date'] ) {
-            $errors['join_date_value'] = ts("Please do not use combination of Year Filter along with Join Date Grouping");
+        if ( $fields['join_date_value'] != 0 && ($fields['group_bys']['join_date'] ||
+                                                 $fields['fields']['total_amount']) ) {
+            $errors['join_date_value'] = ts("Please do not use combination of Year Filter along with Join Date Grouping OR Total Amount Field");
         }
-       
+        
         return $errors;
     }
     
@@ -385,6 +437,15 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         FROM  civicrm_membership membership
               LEFT JOIN civicrm_membership_status 
                         ON ( membership.status_id = civicrm_membership_status.id  )";
+
+        // Display Amount Stats Only if Amount is Selected
+        if ( $this->_params['fields']['total_amount'] ){
+            $this->_from .= "
+               LEFT JOIN civicrm_membership_payment payment
+                         ON ( membership.id = payment.membership_id )
+               INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} 
+                          ON payment.contribution_id = {$this->_aliases['civicrm_contribution']}.id";
+        }
     }// end of from
     
     function where( ) {
@@ -394,13 +455,15 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
                     $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
-                    if ( $op ) {
+                    $val = CRM_Utils_Array::value( "{$fieldName}_value", $this->_params );
+                    if ( $op && $val != 0) {
                         $clause = 
                             $this->whereClause( $field,
                                                 $op,
                                                 CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
                                                 CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                                                CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) 
+);
                     }
                     if ( ! empty( $clause ) ) {
                         $clauses[$fieldName] = $clause;
@@ -408,16 +471,16 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                 }
             }
         }
-        
-        if ( array_key_exists('gid', $clauses ) &&
-             !array_key_exists('end_date', $clauses) ) {
+   
+        if ( array_key_exists('membership_type_id', $clauses ) ) {
             $this->_where = "WHERE  membership.is_test = 0 AND
-                  civicrm_membership_status.is_current_member = 1 AND" . implode( ' AND ', $clauses );
+                  civicrm_membership_status.is_current_member = 1 AND " . implode( ' AND ', $clauses );
+        
+         
         } else {
             $this->_where = "WHERE membership.is_test = 0 AND
-                  civicrm_membership_status.is_current_member = 1 AND" . implode( ' AND ', $clauses );
+                  civicrm_membership_status.is_current_member = 1 ";
         }
-        
     }
     
     function groupBy( ) {
@@ -451,12 +514,12 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                  (( $append && count($this->_groupBy) <= 1 ) || (!$append)) ) {
                 $this->_rollup = " WITH ROLLUP";
             }
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " {$this->_rollup} ";
+            $this->_groupBy = "GROUP BY membership.membership_type_id," . implode( ', ', $this->_groupBy ) . " {$this->_rollup} ";
         } else {
             $this->_groupBy = "GROUP BY membership.join_date";
         }
     }
-         
+    
     function postProcess( ) {
         $this->beginPostProcess();
         if ( is_array($this->_params['group_bys']) && 
@@ -482,7 +545,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         
         // To Display Reports based on Year filter only
         if ( $this->_params['join_date_value'] != 0 ){ 
-            $this->memberSummary($this->_params);
+             $this->memberSummary($this->_params);
         }
         $this->endPostProcess( );
     }
@@ -505,7 +568,6 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                 case 'month': 
                     $dateEnd   = date("Ymd", mktime(0, 0, 0, $dateEnd['M']+1, 
                                                     $dateEnd['d']-1, $dateEnd['Y']));
-                    
                     break;
                 case 'year': 
                     $dateEnd   = date("Ymd", mktime(0, 0, 0, $dateEnd['M'], 
@@ -529,6 +591,15 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                 $rows[$rowNum]['civicrm_membership_join_date_start_link'] = $url;
                 $entryFound = true;
             }
+            
+            // handle Membership Types
+            if ( array_key_exists('civicrm_membership_membership_type_id', $row) ) {
+                if ( $value = $row['civicrm_membership_membership_type_id'] ) {
+                    $rows[$rowNum]['civicrm_membership_membership_type_id'] = 
+                        CRM_Member_PseudoConstant::membershipType( $value, false );
+                }
+                $entryFound = true;
+            }       
             
             // make subtotals look nicer
             if ( array_key_exists('civicrm_membership_join_date_subtotal', $row) && 
