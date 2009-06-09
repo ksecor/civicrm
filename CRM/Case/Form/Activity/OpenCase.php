@@ -245,6 +245,13 @@ class CRM_Case_Form_Activity_OpenCase
         // for open case start date should be set to current date
         $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
 
+        require_once 'CRM/Case/PseudoConstant.php';
+        $caseStatus = CRM_Case_PseudoConstant::caseStatus( );
+        // for resolved case the end date should set to now    
+        if ( $params['status_id'] == array_search( 'Resolved', $caseStatus ) ) {
+            $params['end_date']   = $params['now'];
+        }
+        
         // rename activity_location param to the correct column name for activity DAO
         $params['location'] = $params['activity_location'];
     }
